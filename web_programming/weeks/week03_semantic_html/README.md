@@ -16,7 +16,7 @@
 
 ## 수업 흐름
 
-| 수업 | 설명·시연 30분 | 문제 해결 실습 60분 | 산출물 |
+| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 | 산출물 |
 |---|---|---|---|
 | 1일차 | 문서 구조, landmark, heading, link/button | 프로젝트 목록·상세 화면의 HTML 골격 | 두 페이지와 키보드 이동 기록 |
 | 2일차 | form, label, input type, native validation, table, alt | 작성 화면과 상태별 입력 검증 | form과 정상·경계·실패 테스트표 |

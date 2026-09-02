@@ -21,12 +21,12 @@
 
 ## 2일 수업 흐름
 
-| 일차 | 설명·시연 30분 | 실습 60분 | 산출물 |
+| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 | 산출물 |
 |---|---|---|---|
 | 1일차 | Fragment/View lifecycle, NavHost, graph, argument, Back stack | 목록·제어 Fragment 골격과 lifecycle 추적 | 화면 전환도와 로그 관찰표 |
 | 2일차 | RecyclerView 파이프라인, ListAdapter, item click, 입력 검증 | mock 목록과 제어 입력 완성 | 장치 목록·제어 화면과 검증표 |
 
-각 일차는 정확히 `30분 설명·live demo + 60분 개인 실습`이다.
+각 일차는 정확히 `설명·시연 30분 + 직접 해결 실습 60분`이다.
 
 ## 선수 지식과 준비
 

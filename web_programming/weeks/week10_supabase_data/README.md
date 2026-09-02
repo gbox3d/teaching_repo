@@ -13,7 +13,7 @@
 
 ## 수업 흐름
 
-| 일차 | 30분 설명·시연 | 60분 직접 해결 |
+| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 |
 |---|---|---|
 | 1일차 | Data API, API key, grant, RLS와 policy | SQL 실행·재실행·정책 교차 검증 |
 | 2일차 | client/query, 상태 UI, Network 진단 | data source 교체·Pages·오류 복구 |

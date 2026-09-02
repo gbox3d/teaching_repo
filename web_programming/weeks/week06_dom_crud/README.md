@@ -14,7 +14,7 @@
 
 ## 수업 흐름
 
-| 일차 | 30분 설명·시연 | 60분 직접 해결 |
+| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 |
 |---|---|---|
 | 1일차 | DOM, event, form 제출, 상태 → render | 할 일 Create·Read·Delete |
 | 2일차 | id 기반 Update, event delegation, 저장·복구 | 수정·완료·영속화와 오류 상태 |

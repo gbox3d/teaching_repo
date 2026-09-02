@@ -16,7 +16,7 @@
 
 ## 수업 흐름
 
-| 수업 | 설명·시연 30분 | 문제 해결 실습 60분 | 산출물 |
+| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 | 산출물 |
 |---|---|---|---|
 | 1일차 | cascade, specificity, inheritance, box model, tokens | 3주차 HTML에 모바일 기본 style 적용 | token 표와 Computed 근거 |
 | 2일차 | Flex/Grid, media query, focus, contrast, motion | 375px 1열→1280px 다열 전환과 오류 수정 | 두 viewport 캡처와 접근성 점검표 |

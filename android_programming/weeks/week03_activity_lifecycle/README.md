@@ -21,12 +21,12 @@
 
 ## 2일 수업 흐름
 
-| 일차 | 설명·시연 30분 | 실습 60분 | 산출물 |
+| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 | 산출물 |
 |---|---|---|---|
 | 1일차 | Activity 상태와 여섯 callback, configuration change, saved state | 사용자 행동별 lifecycle 로그 수집, 상태 소실 재현·복원 | callback 관찰표와 복원 증거 |
 | 2일차 | 명시적 Intent, extra 계약, Activity Result API, Back stack | 상세 화면 이동, 별칭 저장/취소/누락 처리 | 두 Activity 흐름과 결과 매트릭스 |
 
-두 날 모두 `30분 설명·live demo + 60분 개인 실습`이다.
+두 날 모두 `설명·시연 30분 + 직접 해결 실습 60분`이다.
 
 ## 선수 지식과 준비
 

@@ -16,7 +16,7 @@ context-registered/manifest-declared receiver의 수명과 노출 경계를 비�
 
 ## 2일 × 90분 흐름
 
-| 일차 | 30분 설명·live demo | 60분 직접 실습 |
+| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 |
 |---|---|---|
 | 1일차 | broadcast 모델, 등록 수명, exported 보안, 짧은 처리 | app-private/system event receiver와 상태 대시보드 |
 | 2일차 | runtime permission workflow, BLE 버전 matrix, 거절 UX | target/device별 권한 계산과 grant/deny/rationale 복구 |

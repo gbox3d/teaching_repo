@@ -15,7 +15,7 @@
 
 ## 수업 흐름
 
-| 수업 | 설명·시연 30분 | 문제 해결 실습 60분 | 결과물 |
+| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 | 결과물 |
 |---|---|---|---|
 | 1일차 | remote, tracking branch, branch·merge·conflict | 두 branch를 만들고 충돌을 해결한 뒤 push | branch 이력과 merge/conflict commit |
 | 2일차 | Pages source, project URL, 경로 진단 | 랜딩 페이지를 배포하고 의도적 오류를 수정 | 공개 URL과 오류 해결표 |

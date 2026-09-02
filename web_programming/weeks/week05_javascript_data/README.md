@@ -16,7 +16,7 @@
 
 ## 수업 흐름
 
-| 수업 | 설명·시연 30분 | 문제 해결 실습 60분 | 산출물 |
+| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 | 산출물 |
 |---|---|---|---|
 | 1일차 | binding, type/reference, function/scope, collection 선택 | 객체 8개와 검색·필터·조회·unique 함수 | 데이터 모듈과 사례 검증 |
 | 2일차 | destructuring/spread, map/filter/find/sort/reduce | 복사 정렬·view model·요약과 테스트 | 변환 함수 4개 이상과 테스트표 |

@@ -16,7 +16,7 @@
 
 ## 2일 × 90분 흐름
 
-| 일차 | 30분 설명·live demo | 60분 직접 실습 |
+| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 |
 |---|---|---|
 | 1일차 | suspend, scope, dispatcher, structured concurrency | fake 연결 작업을 UI를 멈추지 않게 실행하고 소유자에 따라 취소 |
 | 2일차 | cancellation, timeout, exception propagation, cleanup | 최신 요청만 유지하고 정상·경계·실패 상태 및 재시도 구현 |
