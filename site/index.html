@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="강의별 교재와 주차별 슬라이드를 한곳에서 찾아보는 GBOX3 교재 도서관"
+    />
+    <meta name="theme-color" content="#183b38" />
+    <title>교재 도서관 · GBOX3 Teaching</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./assets/library.css" />
+    <script src="./assets/library.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#library">교재 목록으로 바로가기</a>
+
+    <header class="site-header">
+      <div class="topbar page-width">
+        <a class="brand" href="./" aria-label="교재 도서관 홈">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 36 36" focusable="false">
+              <path d="M7.5 8.5c4.7 0 8.2 1.2 10.5 3.6v17c-2.3-2.4-5.8-3.6-10.5-3.6v-17Z" />
+              <path d="M28.5 8.5c-4.7 0-8.2 1.2-10.5 3.6v17c2.3-2.4 5.8-3.6 10.5-3.6v-17Z" />
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <span>GBOX3 TEACHING</span>
+            <strong>교재 도서관</strong>
+          </span>
+        </a>
+
+        <nav class="topnav" aria-label="주요 메뉴">
+          <a class="topnav-link" href="#library">교재 찾기</a>
+          <a class="topnav-link topnav-link--source" id="repository-link" href="./">
+            원본 저장소
+            <span aria-hidden="true">↗</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="hero page-width">
+        <div class="hero-copy">
+          <p class="eyebrow"><span aria-hidden="true"></span> Curated course archive</p>
+          <h1 id="hero-title">
+            <span>수업의 흐름을,</span>
+            <span class="hero-title-accent">한눈에 꺼내 보는 서가</span>
+          </h1>
+          <p class="hero-description" id="hero-description">
+            강의별 교재와 주차별 슬라이드를 한곳에 모았습니다. 필요한 수업을 찾아 바로 열람해 보세요.
+          </p>
+          <div class="hero-actions">
+            <a class="button button--primary" href="#library">
+              교재 둘러보기
+              <span aria-hidden="true">↓</span>
+            </a>
+            <a class="button button--quiet" id="hero-source-link" href="./">
+              GitHub에서 보기
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-library" aria-hidden="true">
+          <div class="hero-card">
+            <div class="hero-card-topline">
+              <span>LECTURE NOTES</span>
+              <span>01—</span>
+            </div>
+            <div class="hero-bookmark"></div>
+            <div class="hero-card-title">배움이<br />쌓이는<br />공간</div>
+            <div class="hero-card-footer">
+              <span>GBOX3</span>
+              <span class="hero-card-seal">VIEW</span>
+            </div>
+          </div>
+          <div class="hero-books">
+            <span class="hero-book hero-book--one"></span>
+            <span class="hero-book hero-book--two"></span>
+            <span class="hero-book hero-book--three"></span>
+            <span class="hero-book hero-book--four"></span>
+          </div>
+          <div class="hero-shelf"></div>
+        </div>
+      </div>
+
+      <div class="stats-wrap">
+        <dl class="stats page-width" aria-label="교재 도서관 현황">
+          <div class="stat">
+            <dt>공개 교재</dt>
+            <dd><strong id="stat-courses">—</strong><span>권</span></dd>
+          </div>
+          <div class="stat">
+            <dt>학습 단원</dt>
+            <dd><strong id="stat-chapters">—</strong><span>개</span></dd>
+          </div>
+          <div class="stat">
+            <dt>전체 슬라이드</dt>
+            <dd><strong id="stat-slides">—</strong><span>장</span></dd>
+          </div>
+          <div class="stat stat--note">
+            <dt>이용 안내</dt>
+            <dd>웹에서 바로 읽고<br />원본 자료도 확인하세요.</dd>
+          </div>
+        </dl>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="library page-width" id="library" aria-labelledby="library-title" tabindex="-1">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Library collection</p>
+            <h2 id="library-title">교재 서가</h2>
+          </div>
+          <p>
+            과목을 선택하거나 제목과 주제로 검색하세요.<br />각 단원을 누르면 슬라이드가 새 페이지에서 열립니다.
+          </p>
+        </div>
+
+        <div class="catalog-tools" aria-label="교재 검색 및 필터">
+          <form class="search" id="search-form" role="search">
+            <label for="catalog-search">교재와 단원 검색</label>
+            <div class="search-control">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="11" cy="11" r="6.5"></circle>
+                <path d="m16 16 4.2 4.2"></path>
+              </svg>
+              <input
+                id="catalog-search"
+                name="query"
+                type="search"
+                placeholder="예: Supabase, Android, 3주차"
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button class="clear-search" id="clear-search" type="button" hidden>
+                <span class="visually-hidden">검색어 지우기</span>
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+          </form>
+
+          <div class="course-filters-wrap">
+            <span class="filter-label" id="filter-label">과목</span>
+            <div class="course-filters" id="course-filters" role="group" aria-labelledby="filter-label">
+              <span class="filter-skeleton"></span>
+              <span class="filter-skeleton"></span>
+              <span class="filter-skeleton"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-bar">
+          <p id="result-status" role="status" aria-live="polite">교재 목록을 불러오는 중입니다.</p>
+          <button class="reset-filters" id="reset-filters" type="button" hidden>전체 보기</button>
+        </div>
+
+        <div class="shelf-list" id="shelf-list" aria-busy="true">
+          <div class="loading-shelf" aria-hidden="true">
+            <div class="loading-cover"></div>
+            <div class="loading-content">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="loading-shelf" aria-hidden="true">
+            <div class="loading-cover"></div>
+            <div class="loading-content">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+
+        <noscript>
+          <div class="notice">
+            이 도서관은 교재 목록을 표시하기 위해 JavaScript를 사용합니다. 브라우저에서 JavaScript를 켜 주세요.
+          </div>
+        </noscript>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner page-width">
+        <div>
+          <a class="footer-brand" href="./">GBOX3 <span>교재 도서관</span></a>
+          <p>수업 수강·개인 학습용 자료입니다. 무단 재배포·상업적 이용을 금지합니다.</p>
+        </div>
+        <div class="footer-meta">
+          <p>마지막 갱신 <time id="updated-date">—</time></p>
+          <nav aria-label="관련 링크">
+            <a id="footer-repository-link" href="./">GitHub 저장소 <span aria-hidden="true">↗</span></a>
+            <a id="license-link" href="./">라이선스 <span aria-hidden="true">↗</span></a>
+          </nav>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,263 @@
+{
+  "site": {
+    "title": "GBOX3 교재 도서관",
+    "description": "모바일·웹·오픈소스 AI 수업 자료를 주차별 HTML 슬라이드로 열람하는 공개 교재관입니다.",
+    "repositoryUrl": "https://github.com/gbox3d/teaching_repo",
+    "licenseUrl": "https://github.com/gbox3d/teaching_repo/blob/main/LICENSE",
+    "updated": "2026-09-02"
+  },
+  "courses": [
+    {
+      "id": "android",
+      "title": "모바일프로그래밍(Android)",
+      "eyebrow": "ANDROID PROGRAMMING",
+      "description": "Kotlin과 Android 프레임워크의 실행 구조에서 BLE 기반 Smart I/O 통합 프로젝트까지 이어지는 15주 과정입니다.",
+      "status": "published",
+      "accent": "#3ddc84",
+      "summary": "15개 주차 · 228장",
+      "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/android_programming",
+      "chapters": [
+        {
+          "id": "week01_android_kotlin",
+          "label": "1주차",
+          "title": "Android 실행 구조와 Kotlin 진단",
+          "description": "앱 시작점과 화면, 로그를 하나의 실행 흐름으로 추적합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week02_views_layout",
+          "label": "2주차",
+          "title": "XML View와 적응형 장치 제어판",
+          "description": "View tree와 resource를 사용해 적응형 제어 화면을 구성합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week03_activity_lifecycle",
+          "label": "3주차",
+          "title": "Activity 생명주기와 상태 보존",
+          "description": "Activity callback과 사용자 상태의 서로 다른 수명을 관찰합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week04_fragments_navigation",
+          "label": "4주차",
+          "title": "Fragment, Navigation, RecyclerView",
+          "description": "화면 책임과 View 수명을 분리하고 목록 탐색 구조를 만듭니다.",
+          "type": "week"
+        },
+        {
+          "id": "week05_threading_anr",
+          "label": "5주차",
+          "title": "메인 스레드, ANR 위험, 경쟁 상태",
+          "description": "응답성을 해치는 블로킹과 공유 상태의 경쟁 조건을 진단합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week06_coroutines",
+          "label": "6주차",
+          "title": "Kotlin Coroutine과 취소 가능한 작업",
+          "description": "구조화된 동시성과 화면 수명에 맞는 작업 취소를 다룹니다.",
+          "type": "week"
+        },
+        {
+          "id": "week07_flow_ui_state",
+          "label": "7주차",
+          "title": "Flow 기반 단방향 UI 상태",
+          "description": "시간에 따라 변하는 상태를 Flow와 단방향 데이터 흐름으로 표현합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week08_midterm",
+          "label": "8주차",
+          "title": "중간 개인 실기",
+          "description": "읽기, 예측, 구현, 검증 과정을 개인 실기로 점검합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week09_services_project",
+          "label": "9주차",
+          "title": "Service와 1차 과제",
+          "description": "화면 밖 작업의 수명과 실행 맥락을 분리해 설계합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week10_receivers_permissions",
+          "label": "10주차",
+          "title": "BroadcastReceiver와 런타임 권한",
+          "description": "짧은 이벤트 진입점과 사용자 권한 요청 흐름을 구현합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week11_content_provider",
+          "label": "11주차",
+          "title": "ContentProvider와 센서 이력 경계",
+          "description": "센서 이력에 대한 URI 기반 접근 계약과 데이터 경계를 설계합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week12_ble_gatt",
+          "label": "12주차",
+          "title": "BLE GATT와 연결 상태",
+          "description": "BLE 역할과 GATT 연결을 관찰 가능한 상태 기계로 구성합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week13_ble_output",
+          "label": "13주차",
+          "title": "BLE 출력 제어와 명령 확인",
+          "description": "출력 요청, 전송, 장치 반영을 구분하고 명령 결과를 확인합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week14_ble_input_project",
+          "label": "14주차",
+          "title": "BLE 입력 알림과 Smart I/O 통합 프로젝트",
+          "description": "BLE 입력 알림을 수신해 Smart I/O 앱의 상태와 화면을 통합합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week15_final_exam",
+          "label": "15주차",
+          "title": "기말 개인 실기",
+          "description": "통합 앱을 읽고 수정하고 검증하며 설계 판단을 설명합니다.",
+          "type": "week"
+        }
+      ]
+    },
+    {
+      "id": "web",
+      "title": "웹프로그래밍",
+      "eyebrow": "WEB PROGRAMMING",
+      "description": "브라우저와 Git의 기초부터 Supabase 기반 영속 서비스, 보안 점검과 프로젝트 발표까지 연결합니다.",
+      "status": "published",
+      "accent": "#62a8ff",
+      "summary": "15개 주차 + 1개 특강 · 288장",
+      "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
+      "chapters": [
+        {
+          "id": "week01_web_git",
+          "label": "1주차",
+          "title": "웹 실행 구조와 Git 상태",
+          "description": "브라우저 요청 흐름과 Git 작업 트리의 상태를 함께 추적합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week02_github_pages",
+          "label": "2주차",
+          "title": "GitHub와 GitHub Pages",
+          "description": "로컬 커밋을 원격 저장소와 공개 웹 주소로 연결합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week03_semantic_html",
+          "label": "3주차",
+          "title": "시맨틱 HTML과 form",
+          "description": "문서 의미와 입력 순서가 드러나는 HTML 구조를 작성합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week04_responsive_css",
+          "label": "4주차",
+          "title": "CSS와 반응형 UI",
+          "description": "의미 구조를 유지하면서 다양한 화면에 적응하는 표현 규칙을 만듭니다.",
+          "type": "week"
+        },
+        {
+          "id": "week05_javascript_data",
+          "label": "5주차",
+          "title": "JavaScript 데이터와 함수",
+          "description": "DOM과 분리된 데이터 변환 함수를 설계하고 테스트합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week06_dom_crud",
+          "label": "6주차",
+          "title": "DOM·event·브라우저 CRUD",
+          "description": "사용자 이벤트와 상태, DOM 렌더링을 CRUD 흐름으로 연결합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week07_async_modules",
+          "label": "7주차",
+          "title": "ES Module과 비동기 처리",
+          "description": "모듈 책임을 나누고 비동기 데이터의 성공과 실패를 처리합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week08_midterm",
+          "label": "8주차",
+          "title": "중간 개인 실기",
+          "description": "요구사항을 실행 순서로 바꾸어 독립적으로 구현하고 설명합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week09_architecture_project",
+          "label": "9주차",
+          "title": "1차 과제와 풀스택 설계",
+          "description": "정적 페이지를 데이터 경계가 분명한 시스템 구조로 확장합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week10_supabase_data",
+          "label": "10주차",
+          "title": "Supabase 데이터 연결",
+          "description": "브라우저에서 Supabase 공개 데이터를 안전하게 조회합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week11_auth_rls",
+          "label": "11주차",
+          "title": "Auth와 소유자 RLS",
+          "description": "인증 흐름과 행 수준 소유자 권한을 분리해 설계합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week12_persistent_crud",
+          "label": "12주차",
+          "title": "영속 CRUD와 관계 기능",
+          "description": "핵심 엔터티와 관계 기능의 영속 CRUD를 완성합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week13_release_security",
+          "label": "13주차",
+          "title": "보안·접근성·릴리스 점검",
+          "description": "비밀 정보, 권한, 접근성, 배포 회귀를 릴리스 전에 점검합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week14_project_presentation",
+          "label": "14주차",
+          "title": "최종 프로젝트 발표",
+          "description": "기능 나열 대신 설계 결정과 재현 가능한 증거를 발표합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week15_final_exam",
+          "label": "15주차",
+          "title": "기말 개인 실기",
+          "description": "통합 웹 앱의 읽기, 수정, 검증, 설명 능력을 확인합니다.",
+          "type": "week"
+        },
+        {
+          "id": "kakao_aerial_map",
+          "label": "특강",
+          "title": "사람과 AI가 같이 쓰는 Kakao 항공 지도 Canvas",
+          "description": "Kakao SKYVIEW와 Canvas 위에서 사람과 AI의 명시적 공동 작업 흐름을 구현합니다.",
+          "type": "special"
+        }
+      ]
+    },
+    {
+      "id": "open-source-ai",
+      "title": "오픈소스 AI",
+      "eyebrow": "OPEN SOURCE AI",
+      "description": "오픈 웨이트 모델의 탐색, 로컬 실행, 평가와 응용을 다룰 차기 교재입니다.",
+      "status": "planned",
+      "accent": "#bc8cff",
+      "summary": "교재 준비 중",
+      "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/open_source_ai",
+      "chapters": []
+    }
+  ]
+}

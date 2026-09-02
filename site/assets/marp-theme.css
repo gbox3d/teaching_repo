@@ -1,0 +1,141 @@
+/* @theme teaching */
+@import "default";
+
+:root {
+  --teaching-ink: #eaf1ff;
+  --teaching-muted: #a9b7ce;
+  --teaching-accent: #79c7ff;
+  --teaching-accent-2: #88e0b4;
+  --teaching-panel: rgba(18, 32, 53, 0.78);
+  --teaching-line: rgba(157, 190, 228, 0.28);
+  font-family: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Segoe UI", sans-serif;
+  color: var(--teaching-ink);
+  background: #07111f;
+}
+
+section {
+  width: 1280px;
+  height: 720px;
+  padding: 72px 78px 64px;
+  color: var(--teaching-ink);
+  background:
+    radial-gradient(circle at 90% 6%, rgba(58, 142, 209, 0.22), transparent 34%),
+    radial-gradient(circle at 4% 96%, rgba(46, 176, 130, 0.13), transparent 31%),
+    linear-gradient(145deg, #07111f 0%, #0c1b2d 58%, #0a1626 100%);
+  letter-spacing: -0.018em;
+}
+
+section::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 7px;
+  background: linear-gradient(90deg, var(--teaching-accent), var(--teaching-accent-2));
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: #ffffff;
+  font-weight: 750;
+  letter-spacing: -0.035em;
+}
+
+h1 {
+  margin-bottom: 0.42em;
+  font-size: 2.08em;
+}
+
+h2 {
+  margin-bottom: 0.55em;
+  color: #d8e9ff;
+  font-size: 1.45em;
+}
+
+h3 {
+  color: var(--teaching-accent-2);
+}
+
+p,
+li,
+td,
+th {
+  line-height: 1.48;
+}
+
+strong {
+  color: #ffffff;
+}
+
+a {
+  color: #8fd2ff;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.13em;
+}
+
+blockquote {
+  margin-inline: 0;
+  padding: 0.55em 0.82em;
+  color: #d8e9ff;
+  background: var(--teaching-panel);
+  border: 1px solid var(--teaching-line);
+  border-left: 6px solid var(--teaching-accent);
+  border-radius: 0 12px 12px 0;
+}
+
+code {
+  color: #bce6ff;
+  background: rgba(3, 10, 20, 0.66);
+  border: 1px solid rgba(139, 190, 229, 0.2);
+  border-radius: 0.28em;
+}
+
+pre {
+  padding: 0.72em 0.9em;
+  background: rgba(3, 10, 20, 0.78);
+  border: 1px solid var(--teaching-line);
+  border-radius: 12px;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+}
+
+table {
+  width: 100%;
+  overflow: hidden;
+  background: rgba(6, 17, 31, 0.54);
+  border-radius: 10px;
+}
+
+th {
+  color: #ffffff;
+  background: rgba(75, 142, 194, 0.34);
+}
+
+tr:nth-child(even) td {
+  background: rgba(79, 122, 159, 0.12);
+}
+
+header,
+footer {
+  color: var(--teaching-muted);
+  font-size: 0.48em;
+  letter-spacing: 0.015em;
+}
+
+section::after {
+  color: #d5e6f8;
+  font-size: 0.48em;
+}
+
+kbd {
+  padding: 0.08em 0.34em;
+  color: #f8fbff;
+  background: #25364c;
+  border: 1px solid #4b617c;
+  border-bottom-width: 3px;
+  border-radius: 5px;
+}
