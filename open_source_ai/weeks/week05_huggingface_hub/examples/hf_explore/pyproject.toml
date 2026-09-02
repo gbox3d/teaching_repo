@@ -1,0 +1,21 @@
+[project]
+name = "osa-week05-hf-explore"
+version = "0.1.0"
+description = "오픈소스 AI 응용 5주차 예제 — Hugging Face Hub 캐시·pipeline·datasets 탐색"
+requires-python = ">=3.12"
+dependencies = [
+  "torch",
+  "transformers",
+  "datasets",
+  "huggingface_hub",
+  "python-dotenv",
+]
+
+# CUDA 휠 인덱스. 정확한 CUDA 태그(cu128 등)와 버전은 학기별 환경 기준표에서 확정한다.
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cuda", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]

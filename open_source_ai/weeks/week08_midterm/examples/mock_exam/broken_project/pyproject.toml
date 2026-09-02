@@ -1,0 +1,9 @@
+[projct]
+name = "osa-week08-mock-broken"
+version = "0.1.0"
+description = "오픈소스 AI 응용 8주차 모의 실기 A — 복구 대상 프로젝트"
+requires-python = "3.12"
+dependencies = [
+  "httpx"
+  "python-dotenv",
+]

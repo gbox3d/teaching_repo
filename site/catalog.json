@@ -250,14 +250,120 @@
     },
     {
       "id": "open-source-ai",
-      "title": "오픈소스 AI",
+      "title": "오픈소스 AI 응용",
       "eyebrow": "OPEN SOURCE AI",
-      "description": "오픈 웨이트 모델의 탐색, 로컬 실행, 평가와 응용을 다룰 차기 교재입니다.",
-      "status": "planned",
+      "description": "오픈소스 협업과 라이선스, uv 재현 환경, Ollama 로컬 LLM, Hugging Face·PyTorch, RAG, PEFT/LoRA, 서비스화와 릴리스까지 60분 블록 3개로 구성한 15주 과정입니다.",
+      "status": "published",
       "accent": "#bc8cff",
-      "summary": "교재 준비 중",
+      "summary": "15개 주차",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/open_source_ai",
-      "chapters": []
+      "chapters": [
+        {
+          "id": "week01_oss_ai_ecosystem",
+          "label": "1주차",
+          "title": "오리엔테이션과 오픈소스 AI 생태계",
+          "description": "오픈소스 AI 생태계를 읽고 내 PC의 실습 환경을 증거로 점검합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week02_git_github_license",
+          "label": "2주차",
+          "title": "Git/GitHub 협업과 라이선스",
+          "description": "브랜치·PR·리뷰로 협업하고 코드·모델·데이터 라이선스를 판별합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week03_reproducible_python",
+          "label": "3주차",
+          "title": "재현 가능한 Python 오픈소스 프로젝트",
+          "description": "uv 격리환경, CLI 구조, 비밀정보 분리로 재현 가능한 프로젝트를 만듭니다.",
+          "type": "week"
+        },
+        {
+          "id": "week04_ollama_local_llm",
+          "label": "4주차",
+          "title": "Ollama와 로컬 LLM",
+          "description": "로컬 LLM의 실행 구조를 관찰하고 REST API와 Modelfile로 응용합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week05_huggingface_hub",
+          "label": "5주차",
+          "title": "Hugging Face Hub와 공개 자원 분석",
+          "description": "Model Card·Dataset Card와 라이선스를 분석하고 pipeline으로 첫 추론을 합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week06_pytorch_models",
+          "label": "6주차",
+          "title": "PyTorch 모델 활용",
+          "description": "Tensor·자동미분·학습 루프와 사전학습 모델 호출을 직접 다룹니다.",
+          "type": "week"
+        },
+        {
+          "id": "week07_embeddings_rag",
+          "label": "7주차",
+          "title": "임베딩·검색·RAG 응용",
+          "description": "문서 분할·임베딩·벡터 검색으로 출처 있는 RAG 답변기를 만들고 평가합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week08_midterm",
+          "label": "8주차",
+          "title": "수시평가와 2차 종합과제",
+          "description": "1~7주 내용을 개인 실기로 점검하고 2차 종합과제를 제출합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week09_project_governance",
+          "label": "9주차",
+          "title": "프로젝트 제안과 오픈소스 거버넌스",
+          "description": "거버넌스 문서를 분석하고 팀 프로젝트의 문제·범위·마일스톤을 제안합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week10_peft_lora",
+          "label": "10주차",
+          "title": "PEFT/LoRA 경량 파인튜닝",
+          "description": "LoRA로 소형 모델을 경량 학습하고 전후 비교와 실험 기록을 남깁니다.",
+          "type": "week"
+        },
+        {
+          "id": "week11_dataset_evaluation",
+          "label": "11주차",
+          "title": "데이터셋 구성과 모델 평가",
+          "description": "데이터를 정제·분할·점검하고 기준선과 비교해 모델을 정량·정성 평가합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week12_ai_service_deploy",
+          "label": "12주차",
+          "title": "AI 서비스화와 배포",
+          "description": "FastAPI·Gradio로 모델을 서비스화하고 오류·스트리밍·패키징을 다룹니다.",
+          "type": "week"
+        },
+        {
+          "id": "week13_test_ci_security",
+          "label": "13주차",
+          "title": "테스트·CI·보안·코드리뷰",
+          "description": "pytest·ruff·GitHub Actions·의존성 감사로 품질과 공급망 보안을 자동화합니다.",
+          "type": "week"
+        },
+        {
+          "id": "week14_release_feedback",
+          "label": "14주차",
+          "title": "릴리스와 커뮤니티 피드백",
+          "description": "README·Model Card·SemVer 릴리스를 만들고 교차 재현과 피드백을 받습니다.",
+          "type": "week"
+        },
+        {
+          "id": "week15_final_presentation",
+          "label": "15주차",
+          "title": "기말평가와 프로젝트 발표",
+          "description": "최종 시연과 교차 재현 검증으로 오픈소스 릴리스를 평가하고 회고합니다.",
+          "type": "week"
+        }
+      ]
     }
   ]
 }

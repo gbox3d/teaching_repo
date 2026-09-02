@@ -2,12 +2,12 @@ import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const EXPECTED_DECKS = 31;
-const EXPECTED_SLIDES = 516;
+const EXPECTED_DECKS = 46;
+const EXPECTED_SLIDES = 923;
 const EXPECTED = {
   android: { decks: 15, slides: 228, status: "published" },
   web: { decks: 16, slides: 288, status: "published" },
-  "open-source-ai": { decks: 0, slides: 0, status: "planned" },
+  "open-source-ai": { decks: 15, slides: 407, status: "published" },
 };
 const BLOB = "https://github.com/gbox3d/teaching_repo/blob/main";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -58,6 +58,9 @@ function sourcePath(course, chapter) {
   }
   if (course.id === "web" && chapter.type === "special") {
     return path.posix.join("web_programming", "specials", chapter.id, "slides.md");
+  }
+  if (course.id === "open-source-ai" && chapter.type === "week") {
+    return path.posix.join("open_source_ai", "weeks", chapter.id, "slides.md");
   }
   return null;
 }
@@ -285,8 +288,8 @@ async function main() {
 
   check(decks === EXPECTED_DECKS, `expected ${EXPECTED_DECKS} decks, got ${decks}`);
   check(slides === EXPECTED_SLIDES, `expected ${EXPECTED_SLIDES} slides, got ${slides}`);
-  check(catalog.site?.stats?.decks === EXPECTED_DECKS, "site.stats.decks must be 31");
-  check(catalog.site?.stats?.slides === EXPECTED_SLIDES, "site.stats.slides must be 516");
+  check(catalog.site?.stats?.decks === EXPECTED_DECKS, "site.stats.decks must be 46");
+  check(catalog.site?.stats?.slides === EXPECTED_SLIDES, "site.stats.slides must be 923");
 
   const files = await walk(dist);
   const actualHtml = new Set(

@@ -1,0 +1,8 @@
+[project]
+name = "osa-week14-release-check"
+version = "0.1.0"
+description = "오픈소스 AI 응용 14주차 예제 — 릴리스 준비 점검·릴리스 노트 도구"
+requires-python = ">=3.12"
+dependencies = [
+  "python-dotenv",
+]

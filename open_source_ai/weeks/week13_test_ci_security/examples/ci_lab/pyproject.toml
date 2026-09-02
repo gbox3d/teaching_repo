@@ -1,0 +1,38 @@
+[project]
+name = "osa-week13-ci-lab"
+version = "0.1.0"
+description = "오픈소스 AI 응용 13주차 예제 — 테스트·CI·보안 점검"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi",
+  "uvicorn",
+  "httpx",
+  "python-dotenv",
+]
+
+# 개발·검사 도구는 dev 그룹에 둔다. `uv sync`는 기본으로 dev 그룹까지 설치한다.
+[dependency-groups]
+dev = [
+  "pytest",
+  "ruff",
+  "pip-audit",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# tests/ 에서 `import app` 이 되도록 프로젝트 루트를 sys.path 에 넣는다.
+pythonpath = ["."]
+# 실제 Ollama 가 필요한 느린 테스트는 기본 실행에서 제외한다. `uv run pytest -m integration` 으로만 돈다.
+addopts = "-m 'not integration'"
+markers = [
+  "integration: 실제 Ollama 서버가 필요한 느린 테스트 (RUN_INTEGRATION=1 로 실행)",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["outputs"]
+
+[tool.ruff.lint]
+# E: 스타일 오류, F: 정의되지 않은 이름·안 쓰는 import, I: import 정렬, B: 흔한 버그, UP: 최신 문법
+select = ["E", "F", "I", "B", "UP"]

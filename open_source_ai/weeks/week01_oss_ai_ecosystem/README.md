@@ -1,0 +1,89 @@
+# 1주차 — 오리엔테이션과 오픈소스 AI 생태계
+
+## 이번 주 질문
+
+> 오픈소스 AI 프로젝트는 누가, 왜, 어떤 규칙으로 만들고 공개하며, 내 PC는 그것을 돌릴 준비가 되었는가?
+
+## 학습 목표
+
+수업을 마치면 다음을 할 수 있다.
+
+1. 이 수업의 60분 블록 3개 운영 방식과 4개 종합과제의 시점을 설명하고, 매주 개인 저장소에 무엇을 누적해야 하는지 말한다.
+2. `git`, `code`, `uv`, `ollama`, `nvidia-smi`의 버전 문자열을 새 PowerShell 창에서 직접 확인하고, 실패 항목과 조치를 점검표에 기록한다.
+3. 오픈소스, 소스 공개, 오픈 웨이트의 차이를 OSI 오픈소스 정의와 Open Source AI Definition의 항목으로 구분한다.
+4. 공개 AI 프로젝트의 라이선스·활동 지표·기여 규칙을 저장소 화면에서 찾아 근거 URL과 함께 표로 정리한다.
+5. 파라미터 수와 파라미터당 바이트 수로 모델의 메모리 필요량을 어림하고, 12 GB GPU에 들어가는 모델 크기를 판단한다.
+6. uv 프로젝트를 복사해 `uv run`으로 실행하고, 결과를 개인 저장소의 첫 commit으로 남긴다.
+
+## 누적 결과물
+
+이번 주 실습은 4주차 **1차 종합과제**(협업 저장소 + Ollama 로컬 API 클라이언트)의 출발점을 만든다. 실습환경 점검표 `env_check.md`, 공개 프로젝트 탐색표 `oss_survey.md`, 환경 보고서 `week01_sysinfo.json`이 개인 저장소의 첫 commit에 들어간다. 이 저장소는 2주차에 GitHub 원격과 연결되고 3주차에 uv 기반 프로젝트 구조로 확장되어 학기 내내 자란다.
+
+## 수업 흐름
+
+| 블록 | 설명·시연 20분 | 직접 해결 실습 30분 | 핵심 증거 |
+|---|---|---|---|
+| 1교시 | 수업 운영과 재현 가능한 증거: 3블록 구조, 4챕터·4개 종합과제 로드맵, 누적 프로젝트 줄거리, 실습실·데이터·개인정보 안전 수칙 | 실습환경 점검표 만들기: `git`·`code`·`uv`·`ollama`·`nvidia-smi` 확인, GitHub·Hugging Face 계정 확인(비밀번호 기록 금지) | `env_check.md`(도구별 버전 문자열, GPU 이름·VRAM, 실패 항목과 조치) |
+| 2교시 | 오픈소스와 오픈 웨이트는 다르다: OSI 오픈소스 정의 10개 조건, 자유·오픈·소스 공개·오픈 웨이트의 차이, OSI Open Source AI Definition, 생태계 구성원, 기업이 모델을 공개하는 이유 | 공개 AI 프로젝트 탐색표: 지정 저장소 3개의 라이선스·최근 커밋·열린 이슈 수·기여 가이드·릴리스 주기 조사 | `oss_survey.md`(3행 표 + OSAID 판정 문장 3개) |
+| 3교시 | 내 PC에서 모델을 돌린다는 것: 로컬 AI의 이유, 클라우드 API와 비교, 파라미터 수 × 바이트, 12 GB에 들어가는 모델 개략표, 기본 모델과 환경변수 | 첫 uv 실행과 첫 commit: `first_run/` 실행으로 `sysinfo.json` 생성, `.env`로 값 변경, 개인 저장소 `git init`과 첫 commit | `week01_sysinfo.json`, `git log --oneline -1` |
+
+각 블록은 설명·시연 20분, 실습 30분, 휴식 10분으로 운영한다. 분반 시간표에 따라 두 블록과 한 블록이 다른 날에 배치될 수 있으며, 블록 순서는 바꾸지 않는다.
+
+## 준비물
+
+- Git, VS Code, uv, Ollama가 설치된 Windows PC(설치는 조교가 [설치 프로그램 목록](../../ta_setup_guide.md)에 따라 수업 전에 마친다)
+- NVIDIA GPU와 드라이버(`nvidia-smi`가 실행되는 상태). GPU가 없는 PC는 CPU·소형 모델 대체 경로로 진행한다.
+- 새 PowerShell 창을 열어 현재 경로를 확인하는 습관
+- GitHub 계정과 Hugging Face 계정(로그인 가능한 상태. 토큰은 이번 주에 만들지 않는다)
+- 이번 주에는 모델을 내려받지 않는다. 수업용 모델은 4·5주차 전에 조교가 사전 캐시한다.
+- 정확한 도구 버전은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
+- 실명, 학번, 전화번호, 비밀번호, API 토큰은 실습 파일과 저장소에 넣지 않는다. 표시 이름은 `student01` 같은 수업용 값을 사용한다.
+
+## 자료 안내
+
+- [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료
+- [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
+- [실행 예제](examples/README.md): 환경 점검 스크립트, 점검표·탐색표 양식, 첫 uv 프로젝트 `first_run/`
+- [따라하기 절차](walkthrough.md): 시연·실습을 `할 일 → 예상 결과 → 확인` 순으로 재현하는 절차서
+- 강의 대본: 강의자 별도 관리(비공개)
+
+## 권장 진행 방식
+
+1. 각 교시의 실습 완료 조건을 먼저 읽고, 실행 전에 결과를 예상해 적는다.
+2. 명령은 새 PowerShell 창에서 현재 폴더를 확인한 뒤 실행한다. 수업 자료 원본은 수정하지 않고 개인 폴더의 복사본을 쓴다.
+3. 실패 항목은 오류 첫 줄을 읽고 "어느 도구의, 어느 단계의" 문제인지 한 문장으로 적는다.
+4. 화면 캡처 대신 명령과 출력, 확인한 URL을 문장으로 남긴다.
+5. 기본 문제를 끝낸 뒤에만 확장 문제를 수행한다.
+
+## 완료 기준
+
+- [ ] 다섯 도구의 버전 문자열(또는 실패 사유와 조치)을 `env_check.md`에 기록했다.
+- [ ] GPU 이름과 VRAM(또는 "GPU 없음"과 대체 경로)을 기록했다.
+- [ ] GitHub·Hugging Face 로그인 여부를 비밀번호 없이 "확인함/미확인"으로 기록했다.
+- [ ] 지정 저장소 3개의 라이선스(SPDX ID)·최근 커밋·열린 이슈 수·기여 가이드·릴리스 주기를 URL과 함께 `oss_survey.md`에 정리했다.
+- [ ] 저장소마다 OSAID의 어느 항목을 만족하는지 한 문장씩 적었다.
+- [ ] `uv run python sysinfo.py`로 `outputs/sysinfo.json`을 만들고, `.env`만으로 `OLLAMA_MODEL` 값이 바뀌는 것을 확인했다.
+- [ ] 개인 저장소에 `Add environment report` commit이 있고 `.venv`·`outputs/`·`.env`는 추적되지 않는다.
+- [ ] 제출 파일 어디에도 비밀번호·토큰·실명·홈 경로가 없다.
+
+## 제출 증거
+
+이번 주는 별도 제출물이 없다. 아래 증거를 개인 저장소에 누적한다.
+
+1. `reports/env_check.md`: 도구 5개 상태, GPU, 계정 확인 여부, 실패 항목과 조치
+2. `reports/oss_survey.md`: 저장소 3행 표, 근거 URL, OSAID 판정 문장 3개
+3. `reports/week01_sysinfo.json`: `sysinfo.py` 보고서(개인정보·홈 경로 없음)
+4. `git log --oneline -1` 결과와 `git status`가 clean인 것을 적은 한 줄
+
+## 다음 주 연결
+
+2주차(`week02_git_github_license`)에서는 오늘 만든 개인 저장소를 GitHub 원격과 연결하고, 브랜치에서 충돌을 재현·해결한 뒤 짝과 Issue·PR·리뷰를 주고받는다. 이어서 오늘 조사한 라이선스 이름들을 permissive·copyleft·모델 라이선스로 나누어 판별하고 개인 저장소에 `LICENSE`를 추가한다. 다음 수업 전 GitHub 공개 프로필에 불필요한 개인정보가 없는지 다시 점검한다.
+
+## 참고 자료
+
+- [OSI 오픈소스 정의(The Open Source Definition)](https://opensource.org/osd)
+- [OSI Open Source AI Definition](https://opensource.org/ai)
+- [OSI 승인 라이선스 목록](https://opensource.org/licenses)
+- [GitHub Docs](https://docs.github.com/)
+- [uv 문서](https://docs.astral.sh/uv/)
+- [Ollama 문서](https://docs.ollama.com/)

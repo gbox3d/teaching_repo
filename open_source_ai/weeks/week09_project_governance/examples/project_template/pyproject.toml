@@ -1,0 +1,21 @@
+[project]
+# 팀 이름에 맞게 name 을 바꾼다. src/team_project 폴더 이름과 [project.scripts]·[tool.hatch...] 경로도 함께 바꾼다.
+name = "team-project"
+version = "0.0.1"
+description = "오픈소스 AI 응용 팀 프로젝트 골격 (9주차 템플릿)"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "httpx",
+  "python-dotenv",
+]
+
+[project.scripts]
+team-project = "team_project.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/team_project"]

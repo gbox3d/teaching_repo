@@ -51,7 +51,7 @@ npm test
 |---|---|---|
 | 모바일프로그래밍 | [`android_programming/README.md`](android_programming/README.md) | Android·Kotlin·XML View·BLE·ESP32-C3, 15주 자료 |
 | 웹프로그래밍 | [`web_programming/README.md`](web_programming/README.md) | Git·HTML·CSS·JavaScript·GitHub Pages·Supabase, 15주 자료와 특강 |
-| 오픈소스 AI 응용 | [`open_source_ai/README.md`](open_source_ai/README.md) | Python 격리환경·Ollama·Hugging Face·RAG·PEFT/LoRA 교재 제작 계획 |
+| 오픈소스 AI 응용 | [`open_source_ai/README.md`](open_source_ai/README.md) | 오픈소스 협업·uv·Ollama·Hugging Face·RAG·PEFT/LoRA·서비스화·릴리스, 15주 자료(60분 블록 × 3) |
 | 과목 공통 자산 | [`_shared/README.md`](_shared/README.md) | 공통 템플릿과 재사용 모듈의 승격 기준 |
 
 Java, 프로그래밍기초, AR/VR, Unreal 과목은 아직 공용 교재가 없다. 실제 교재 원고가 생길 때 이 색인에 추가한다.

@@ -1,0 +1,14 @@
+[project]
+name = "osa-week12-ai-service"
+version = "0.1.0"
+description = "오픈소스 AI 응용 12주차 예제 — FastAPI 앱 서버 + Ollama 모델 서버 + Gradio UI"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi",
+  "uvicorn",
+  "httpx",
+  "python-dotenv",
+  "gradio",
+]
+
+# uv.lock 은 이 저장소에 두지 않는다. 학기별 환경 기준표 확정 후 기준 PC에서 `uv lock` 을 생성해 커밋한다.

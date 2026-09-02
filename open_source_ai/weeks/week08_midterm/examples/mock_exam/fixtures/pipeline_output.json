@@ -1,0 +1,43 @@
+{
+  "note": "5주차 pipeline 실행 결과를 정리한 형식의 자체 작성 샘플이다. 실제 모델 실행 결과가 아니며 해석 연습용이다. 모델 ID·양자화는 학기별 환경 기준표에서 확정한다.",
+  "text_classification": {
+    "task": "text-classification",
+    "model": "환경 기준표에서 확정한 다국어 감성 분류 소형 모델",
+    "device": "cuda:0",
+    "torch_dtype": "float32",
+    "elapsed_sec": 0.041,
+    "inputs": [
+      "이 강의 자료는 따라 하기 쉽다.",
+      "설치가 자꾸 실패해서 답답하다.",
+      "모델을 바꿔도 결과는 비슷하다."
+    ],
+    "outputs": [
+      {"label": "positive", "score": 0.9412},
+      {"label": "negative", "score": 0.8873},
+      {"label": "neutral", "score": 0.5137}
+    ]
+  },
+  "text_generation": {
+    "task": "text-generation",
+    "model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "device": "cpu",
+    "torch_dtype": "float32",
+    "elapsed_sec": 6.82,
+    "generation_kwargs": {
+      "max_new_tokens": 48,
+      "do_sample": true,
+      "temperature": 0.7,
+      "repetition_penalty": 1.0
+    },
+    "prompt": "uv sync --frozen 이 하는 일을 한 문장으로 설명하라.",
+    "outputs": [
+      {
+        "generated_text": "uv sync --frozen은 lock 파일을 갱신하지 않고 그대로 사용해 환경을 맞춘다. uv sync --frozen은 lock 파일을 갱신하지 않고 그대로 사용해 환경을 맞춘다. uv sync --frozen은 lock"
+      }
+    ],
+    "stderr": [
+      "Device set to use cpu",
+      "Setting `pad_token_id` to `eos_token_id`:151645 for open-end generation."
+    ]
+  }
+}

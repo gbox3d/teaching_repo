@@ -24,7 +24,8 @@
 | Python | 담당 교수가 정확한 버전과 uv 설치 방식을 확정한 뒤 |
 | NVIDIA 드라이버 | 기존 드라이버가 승인 기준과 다르고 전산실이 변경을 승인한 경우 |
 | Python 패키지 | 승인된 `pyproject.toml`과 lock 파일이 제공된 뒤 `uv sync`로 설치 |
-| Ollama·Hugging Face 모델 | 정확한 모델 ID·revision·용량·라이선스가 확정된 뒤 |
+| Ollama·Hugging Face 모델 | 정확한 모델 ID·revision·용량·라이선스가 확정된 뒤. 교재 검증용 기본값은 [`weeks/README.md`](weeks/README.md#교재-검증용-기본값) 참조 |
+| 수업 전 모델 사전 캐시 | 확정된 모델을 기준 PC에서 먼저 받아 검증한 뒤 나머지 PC에 배분. 실습 시간에 내려받지 않는다 |
 
 ## 별도 설치하지 않는 항목
 

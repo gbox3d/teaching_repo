@@ -1,0 +1,18 @@
+# Citation File Format 예시. 필드 뜻은 https://citation-file-format.github.io/ 를 따른다.
+# release_check.py 는 cff-version · title · version · authors 네 필드가 있는지만 본다.
+cff-version: 1.2.0
+message: "이 소프트웨어를 사용하면 아래 정보로 인용한다."
+type: software
+title: "local-ai-helper"
+version: 0.1.0
+date-released: "YYYY-MM-DD"   # 태그를 만든 날로 바꾼다 (형식 YYYY-MM-DD)
+authors:
+  - name: "team-a"           # 개인 이름 대신 팀 이름을 써도 된다. 실제 개인정보는 넣지 않는다.
+license: MIT
+repository-code: "REPO_URL"
+keywords:
+  - ollama
+  - rag
+  - lora
+  - open-source-ai
+abstract: "수업 자료를 근거로 출처를 밝히며 답하는 로컬 AI 도우미."

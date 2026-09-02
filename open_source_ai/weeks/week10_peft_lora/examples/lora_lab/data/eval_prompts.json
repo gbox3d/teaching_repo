@@ -1,0 +1,7 @@
+[
+  {"id": "p1", "prompt": "uv.lock 파일은 왜 저장소에 커밋해야 하나요?"},
+  {"id": "p2", "prompt": "LoRA에서 rank r을 키우면 무엇이 달라지나요?"},
+  {"id": "p3", "prompt": "Ollama API를 호출할 때 think 옵션을 false로 두는 이유가 무엇인가요?"},
+  {"id": "p4", "prompt": "GitHub Actions에서 PR마다 테스트를 자동으로 돌리면 무엇이 좋은가요?"},
+  {"id": "p5", "prompt": "팀 프로젝트 최종 발표 3분을 어떻게 구성하면 좋을까요?"}
+]

@@ -1,0 +1,9 @@
+[project]
+name = "osa-week15-release-verify"
+version = "0.1.0"
+description = "오픈소스 AI 응용 15주차 예제 — 릴리스 패키지 교차 재현 검증 도구"
+requires-python = ">=3.12"
+dependencies = [
+  "httpx",
+  "python-dotenv",
+]
