@@ -1,0 +1,84 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #172033;
+  background: #eff6ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  width: min(52rem, calc(100% - 2rem));
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: white;
+  box-shadow: 0 1rem 2.5rem rgb(15 23 42 / 10%);
+}
+
+.eyebrow {
+  color: #0369a1;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid #cbd5e1;
+}
+
+button {
+  min-height: 2.75rem;
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: #0369a1;
+  color: white;
+  font: inherit;
+}
+
+button:disabled {
+  opacity: 0.55;
+}
+
+button:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+#status {
+  min-height: 1.5rem;
+}
+
+#status[data-kind="setup"] {
+  color: #92400e;
+}
+
+#status[data-kind="error"] {
+  color: #b91c1c;
+}
+
+#post-list {
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+#post-list li {
+  padding: 1rem;
+  border: 1px solid #7dd3fc;
+  border-radius: 0.75rem;
+}
+
+#post-list p {
+  margin-bottom: 0;
+}

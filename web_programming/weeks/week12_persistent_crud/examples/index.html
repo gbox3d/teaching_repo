@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>게시글과 댓글 관계</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main>
+    <h1>게시글과 댓글 관계</h1>
+    <p id="status" role="status">초기화 중…</p>
+
+    <form id="auth-form">
+      <label>이메일 <input id="email" type="email" required></label>
+      <label>비밀번호 <input id="password" type="password" required></label>
+      <button>로그인</button>
+      <button id="logout" type="button">로그아웃</button>
+    </form>
+
+    <section>
+      <h2>게시글</h2>
+      <form id="post-form" hidden>
+        <label>제목 <input id="title" maxlength="80" required></label>
+        <button>작성</button>
+      </form>
+      <ul id="posts"></ul>
+      <p id="post-empty" hidden>게시글이 없습니다.</p>
+    </section>
+
+    <section id="comment-section" hidden>
+      <h2>선택한 게시글의 댓글</h2>
+      <form id="comment-form">
+        <label>댓글 <input id="body" maxlength="200" required></label>
+        <button>댓글 작성</button>
+      </form>
+      <ul id="comments"></ul>
+      <p id="comment-empty" hidden>댓글이 없습니다.</p>
+    </section>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

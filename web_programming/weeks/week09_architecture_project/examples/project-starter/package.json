@@ -1,0 +1,8 @@
+{
+  "name": "week09-project-starter",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "npx serve ."
+  }
+}

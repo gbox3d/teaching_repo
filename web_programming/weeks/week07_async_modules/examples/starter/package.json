@@ -1,0 +1,8 @@
+{
+  "name": "week07-async-modules-starter",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "npx serve ."
+  }
+}

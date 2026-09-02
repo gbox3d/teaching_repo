@@ -1,0 +1,48 @@
+:root {
+  color-scheme: light;
+  --ink: #152238;
+  --accent: #075985;
+  --surface: #f0f9ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: min(44rem, calc(100% - 2rem));
+  margin: 3rem auto;
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0;
+}
+
+button {
+  margin-right: 0.75rem;
+  padding: 0.65rem 0.9rem;
+}
+
+footer {
+  margin-top: 3rem;
+  border-top: 1px solid #bae6fd;
+  padding-top: 1rem;
+}

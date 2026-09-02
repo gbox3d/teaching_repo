@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Final public starter</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main>
+    <h1>캠퍼스 카드</h1>
+    <form id="search-form">
+      <label>검색 <input id="query"></label>
+      <button>적용</button>
+    </form>
+    <label><input id="fail-mode" type="checkbox"> mock network 실패</label>
+    <p id="status" role="status">준비</p>
+    <ul id="cards"></ul>
+    <button id="retry" type="button" hidden>다시 시도</button>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

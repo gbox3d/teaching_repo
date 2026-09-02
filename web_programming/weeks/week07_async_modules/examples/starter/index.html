@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Async Modules Starter</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="./js/main.js"></script>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">WEEK 07</p>
+      <h1>학습 카드 불러오기</h1>
+      <div class="controls">
+        <label for="source">응답 fixture</label>
+        <select id="source">
+          <option value="./data/cards.json">success</option>
+          <option value="./data/empty.json">empty</option>
+          <option value="./data/wrong-shape.json">wrong shape</option>
+          <option value="./data/missing.json">HTTP 404</option>
+        </select>
+        <button id="load-button" type="button">불러오기</button>
+      </div>
+      <section id="result" aria-busy="false" aria-labelledby="result-title">
+        <h2 id="result-title">결과</h2>
+        <p id="status" role="status" aria-live="polite">불러오기를 선택하세요.</p>
+        <ul id="card-list"></ul>
+      </section>
+    </main>
+  </body>
+</html>

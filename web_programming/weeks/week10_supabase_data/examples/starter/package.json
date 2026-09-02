@@ -1,0 +1,8 @@
+{
+  "name": "week10-supabase-public-read-starter",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "npx serve ."
+  }
+}

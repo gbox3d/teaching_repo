@@ -1,0 +1,53 @@
+:root {
+  --accent: #3157d5;
+  --surface: #ffffff;
+  --background: #eef2ff;
+  --text: #17213a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+  background: var(--background);
+}
+
+.card {
+  width: min(36rem, calc(100% - 2rem));
+  padding: 2rem;
+  border-radius: 1rem;
+  background: var(--surface);
+  box-shadow: 0 1rem 2.5rem rgb(30 50 100 / 12%);
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+button {
+  margin-right: 0.75rem;
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 0.5rem;
+  color: white;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+output {
+  font-weight: 700;
+}

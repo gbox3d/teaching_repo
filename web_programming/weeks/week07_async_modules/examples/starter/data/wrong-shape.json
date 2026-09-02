@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "title": "배열로 감싸지 않은 응답",
+      "category": "fixture"
+    }
+  ]
+}

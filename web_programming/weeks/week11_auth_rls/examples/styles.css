@@ -1,0 +1,48 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  width: min(760px, calc(100% - 2rem));
+  margin: 2rem auto;
+}
+
+section {
+  margin-block: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #8886;
+  border-radius: 0.75rem;
+}
+
+label {
+  display: grid;
+  gap: 0.25rem;
+  margin-block: 0.5rem;
+}
+
+.actions,
+li {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+li span {
+  flex: 1;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #0a84ff;
+  outline-offset: 2px;
+}
+
+#status[data-kind="error"] {
+  color: #d33;
+}

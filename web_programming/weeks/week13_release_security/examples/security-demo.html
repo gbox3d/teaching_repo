@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>textContent와 innerHTML 비교</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 2rem auto; }
+    label, section { display: grid; gap: .5rem; margin-block: 1rem; }
+    output { min-height: 2rem; padding: .75rem; border: 1px solid #888; }
+    .warning { color: #b22; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>데이터인가, HTML 코드인가?</h1>
+    <p class="warning">위험 출력은 로컬 보안 수업용이다. 실제 앱에서 사용자 입력에 사용하지 않는다.</p>
+    <label>
+      입력
+      <input id="input" value="<strong>굵게 보일까요?</strong>">
+    </label>
+    <button id="safe">textContent로 안전 출력</button>
+    <button id="unsafe">innerHTML로 위험 출력</button>
+
+    <section>
+      <h2>결과</h2>
+      <output id="output"></output>
+    </section>
+  </main>
+  <script>
+    const input = document.querySelector("#input");
+    const output = document.querySelector("#output");
+
+    document.querySelector("#safe").addEventListener("click", () => {
+      output.textContent = input.value;
+    });
+
+    document.querySelector("#unsafe").addEventListener("click", () => {
+      output.innerHTML = input.value;
+    });
+  </script>
+</body>
+</html>

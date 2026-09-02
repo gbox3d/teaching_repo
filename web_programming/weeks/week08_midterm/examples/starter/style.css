@@ -1,0 +1,68 @@
+:root {
+  --practice-note: "TODO: 40rem 이하 layout과 focus-visible을 완성한다.";
+  font-family: system-ui, sans-serif;
+  color: #18212f;
+  background: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.app {
+  width: min(44rem, calc(100% - 2rem));
+  margin: 3rem auto;
+  padding: 2rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+  background: white;
+}
+
+.eyebrow {
+  color: #0369a1;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+input,
+button {
+  min-height: 2.75rem;
+  border: 1px solid #94a3b8;
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  font: inherit;
+}
+
+input {
+  flex: 1;
+  min-width: 0;
+}
+
+button {
+  background: #075985;
+  color: white;
+}
+
+#status {
+  min-height: 1.5rem;
+}
+
+#item-list {
+  padding-left: 1.25rem;
+}

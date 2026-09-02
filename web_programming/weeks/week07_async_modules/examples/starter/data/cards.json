@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "DOM 상태 흐름",
+    "category": "JavaScript"
+  },
+  {
+    "id": 2,
+    "title": "반응형 레이아웃",
+    "category": "CSS"
+  },
+  {
+    "id": 3,
+    "title": "시맨틱 form",
+    "category": "HTML"
+  }
+]

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>반응형 캠퍼스 활동</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header page-shell">
+      <a class="brand" href="index.html">Campus Together</a>
+      <nav aria-label="주요 메뉴">
+        <ul class="nav-list">
+          <li><a href="index.html" aria-current="page">활동</a></li>
+          <li><a href="#guide">이용 안내</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="page-shell">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Week 04 · Responsive CSS</p>
+        <h1 id="page-title">화면이 달라도 같은 활동을 찾습니다</h1>
+        <p>좁은 화면에서 읽기 순서를 먼저 만들고, 공간이 생기면 카드 배치를 확장합니다.</p>
+      </section>
+      <section aria-labelledby="activity-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">이번 주</p>
+            <h2 id="activity-heading">모집 중인 활동</h2>
+          </div>
+          <button type="button">관심 활동 모아 보기</button>
+        </div>
+        <div class="activity-grid">
+          <article id="photo-walk" class="activity-card">
+            <p class="activity-card__category">취미</p>
+            <h3>사진 산책</h3>
+            <p>저녁빛을 관찰하며 캠퍼스를 한 바퀴 걷습니다.</p>
+            <a href="#photo-walk">사진 산책 자세히 보기</a>
+          </article>
+          <article id="algorithm" class="activity-card">
+            <p class="activity-card__category">학습</p>
+            <h3>알고리즘을 그림과 말로 설명하는 모임</h3>
+            <p>작은 문제의 여러 풀이를 비교하고 복잡도를 설명합니다.</p>
+            <a href="#algorithm">알고리즘 모임 자세히 보기</a>
+          </article>
+          <article id="long-content" class="activity-card">
+            <p class="activity-card__category">검증 데이터</p>
+            <h3>긴 콘텐츠 실험</h3>
+            <p>https://example.invalid/a-very-long-unbroken-practice-address-that-must-wrap-inside-the-card</p>
+            <a href="#long-content">긴 콘텐츠 점검 결과 보기</a>
+          </article>
+        </div>
+      </section>
+      <section id="guide" class="guide" aria-labelledby="guide-heading">
+        <h2 id="guide-heading">이용 안내</h2>
+        <p>Tab으로 link와 button을 이동하고 focus 위치가 보이는지 확인하세요.</p>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="page-shell">수업용 가상 데이터 · 외부 자산 없음</div>
+    </footer>
+  </body>
+</html>

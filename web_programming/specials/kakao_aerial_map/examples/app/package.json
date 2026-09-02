@@ -1,0 +1,10 @@
+{
+  "name": "kakao-aerial-canvas-lab",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check server.mjs && node --check static-map-relay.mjs && node --check js/main.js && node --check js/map.js && node --check js/static-map.js && node --check js/image-loader.js && node --check js/collaboration-bridge.js && node --check js/editor-core.js && node --check js/canvas-editor.js",
+    "test": "node --test"
+  }
+}

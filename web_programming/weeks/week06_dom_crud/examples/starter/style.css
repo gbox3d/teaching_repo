@@ -1,0 +1,91 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, sans-serif;
+  background: #f1f5f9;
+  color: #172033;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.app {
+  width: min(42rem, calc(100% - 2rem));
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: white;
+  box-shadow: 0 1rem 2.5rem rgb(15 23 42 / 10%);
+}
+
+.eyebrow {
+  color: #4f46e5;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+input,
+button {
+  min-height: 2.75rem;
+  border: 1px solid #94a3b8;
+  border-radius: 0.5rem;
+  font: inherit;
+}
+
+input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.6rem 0.75rem;
+}
+
+button {
+  padding: 0.6rem 1rem;
+  background: #4338ca;
+  color: white;
+  cursor: pointer;
+}
+
+input:focus-visible,
+button:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+#status {
+  min-height: 1.5rem;
+  color: #475569;
+}
+
+#todo-list {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 32rem) {
+  .app {
+    margin: 1rem auto;
+    padding: 1.25rem;
+  }
+
+  .input-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

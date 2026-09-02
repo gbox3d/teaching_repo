@@ -1,0 +1,12 @@
+[
+  {
+    "id": "item-1",
+    "title": "핵심 entity로 바꾸기",
+    "summary": "이 mock field를 프로젝트 계약에 맞게 수정합니다."
+  },
+  {
+    "id": "item-2",
+    "title": "empty와 error 확인",
+    "summary": "성공 화면만이 아니라 경계 상태를 재현합니다."
+  }
+]

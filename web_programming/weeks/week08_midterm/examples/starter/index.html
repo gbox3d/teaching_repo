@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Midterm Neutral Starter</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <p class="eyebrow">PUBLIC PRACTICE STARTER</p>
+        <h1>항목 관리 연습</h1>
+        <p>실제 학기 시험 문항이 아닌 중립 골격입니다.</p>
+      </header>
+
+      <form id="item-form">
+        <label for="item-title">제목</label>
+        <div class="form-row">
+          <input id="item-title" name="title" maxlength="60" autocomplete="off">
+          <button type="submit">추가</button>
+        </div>
+      </form>
+
+      <p id="status" role="status" aria-live="polite">구현 전 상태입니다.</p>
+      <p id="empty-message">표시할 항목이 없습니다.</p>
+      <ul id="item-list" aria-label="항목 목록"></ul>
+    </main>
+  </body>
+</html>

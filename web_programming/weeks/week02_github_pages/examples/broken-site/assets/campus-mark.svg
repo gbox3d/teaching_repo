@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title description">
+  <title id="title">캠퍼스 웹 실습 로고</title>
+  <desc id="description">파란 원 안에 흰색 W 글자</desc>
+  <circle cx="32" cy="32" r="30" fill="#075985"/>
+  <path d="M15 20h7l5 23 5-16h6l5 16 5-23h7l-8 30h-7l-5-15-5 15h-7z" fill="#fff"/>
+</svg>

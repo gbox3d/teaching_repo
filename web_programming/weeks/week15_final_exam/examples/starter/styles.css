@@ -1,0 +1,29 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color-scheme: light dark;
+}
+
+main {
+  width: min(720px, calc(100% - 2rem));
+  margin: 2rem auto;
+}
+
+form {
+  display: flex;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+
+li {
+  margin-block: 0.5rem;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #0a84ff;
+  outline-offset: 2px;
+}
+
+[data-kind="error"] {
+  color: #d33;
+}

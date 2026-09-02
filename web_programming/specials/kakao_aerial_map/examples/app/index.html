@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>항공사진 Canvas Lab</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">작업 영역으로 건너뛰기</a>
+
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Kakao Maps Web SDK · Canvas API</p>
+        <h1>항공사진 Canvas Lab</h1>
+        <p class="hero-copy">
+          사람과 AI가 같은 위치·항공뷰·편집 상태를 이해하고, 명시적으로 공유된
+          이미지 안에서 함께 작업합니다.
+        </p>
+      </div>
+      <p class="local-only">화면 읽기 없음 · 명시적 이미지 공유</p>
+    </header>
+
+    <div id="app-status" class="status" role="status" aria-live="polite">
+      앱을 준비하고 있습니다.
+    </div>
+
+    <main id="workspace" class="workspace">
+      <section class="panel map-panel" aria-labelledby="map-title">
+        <div class="panel-heading">
+          <div>
+            <p class="step">STEP 1</p>
+            <h2 id="map-title">위치와 항공사진 찾기</h2>
+          </div>
+          <label class="map-type-control" for="map-type">
+            지도 종류
+            <select id="map-type" disabled>
+              <option value="SKYVIEW">스카이뷰</option>
+              <option value="HYBRID">하이브리드</option>
+              <option value="ROADMAP">일반 지도</option>
+            </select>
+          </label>
+        </div>
+
+        <form id="address-form" class="control-row">
+          <label class="grow" for="address">
+            주소
+            <input
+              id="address"
+              name="address"
+              type="search"
+              maxlength="200"
+              value="서울특별시 중구 세종대로 110"
+              autocomplete="street-address"
+              required
+            />
+          </label>
+          <button id="address-submit" type="submit" disabled>주소 찾기</button>
+        </form>
+
+        <form id="coordinate-form" class="coordinate-grid">
+          <label for="latitude">
+            위도
+            <input id="latitude" name="latitude" inputmode="decimal" value="37.566826" />
+          </label>
+          <label for="longitude">
+            경도
+            <input id="longitude" name="longitude" inputmode="decimal" value="126.978656" />
+          </label>
+          <button id="coordinate-submit" type="submit" disabled>좌표로 이동</button>
+          <button id="gps-button" type="button" class="secondary" disabled>
+            내 GPS 위치
+          </button>
+        </form>
+
+        <p id="location-summary" class="location-summary">
+          지도 초기화를 기다리고 있습니다.
+        </p>
+
+        <div class="map-frame">
+          <div
+            id="map"
+            role="img"
+            aria-label="선택한 위치의 카카오 지도"
+          ></div>
+          <div id="map-setup" class="map-setup">
+            저장소 최상위 config.json에 Kakao JavaScript 키를 설정해 주세요.
+          </div>
+        </div>
+
+        <div class="source-actions">
+          <button id="static-image-button" type="button" disabled>
+            정적 항공뷰를 사람·AI 작업공간에 전달
+          </button>
+          <label class="file-button">
+            항공사진 파일 열기
+            <input
+              id="image-file"
+              class="visually-hidden"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+            />
+          </label>
+        </div>
+        <p class="hint">
+          Kakao SDK가 만든 SKYVIEW 정적 이미지 한 장만 로컬 백엔드를 통해
+          Canvas로 전달합니다. 브라우저 화면이나 다른 탭은 읽지 않습니다.
+        </p>
+      </section>
+
+      <section class="panel editor-panel" aria-labelledby="editor-title">
+        <div class="panel-heading">
+          <div>
+            <p class="step">STEP 2</p>
+            <h2 id="editor-title">Canvas 공동 편집</h2>
+          </div>
+          <p id="image-summary" class="image-summary">이미지를 불러오지 않았습니다.</p>
+        </div>
+
+        <div class="editor-controls" aria-label="Canvas 편집 도구">
+          <label for="rotation">
+            회전 <output id="rotation-output" for="rotation">0°</output>
+            <input id="rotation" type="range" min="-180" max="180" value="0" disabled />
+          </label>
+          <label for="brightness">
+            밝기 <output id="brightness-output" for="brightness">100%</output>
+            <input id="brightness" type="range" min="50" max="150" value="100" disabled />
+          </label>
+          <label for="contrast">
+            대비 <output id="contrast-output" for="contrast">100%</output>
+            <input id="contrast" type="range" min="50" max="150" value="100" disabled />
+          </label>
+          <label for="brush-color">
+            주석 색상
+            <input id="brush-color" type="color" value="#ff3b30" disabled />
+          </label>
+          <label for="brush-size">
+            선 굵기
+            <input id="brush-size" type="range" min="2" max="24" value="6" disabled />
+          </label>
+          <label class="tool-toggle" for="draw-toggle">
+            <input id="draw-toggle" type="checkbox" disabled />
+            자유 그리기
+          </label>
+        </div>
+
+        <div class="annotation-row">
+          <label class="grow" for="annotation-text">
+            가운데 넣을 문구
+            <input
+              id="annotation-text"
+              type="text"
+              maxlength="80"
+              placeholder="예: 현장 조사 지점"
+              disabled
+            />
+          </label>
+          <button id="add-text" type="button" disabled>문구 추가</button>
+          <button id="undo-button" type="button" class="secondary" disabled>
+            실행 취소
+          </button>
+          <button id="reset-button" type="button" class="secondary" disabled>
+            전체 초기화
+          </button>
+        </div>
+
+        <div class="canvas-shell">
+          <canvas
+            id="editor-canvas"
+            width="960"
+            height="640"
+            aria-label="항공사진 편집 Canvas. 자유 그리기를 켜면 포인터로 주석을 그릴 수 있습니다."
+          ></canvas>
+          <p id="canvas-empty">정적 항공뷰를 전달하거나 이미지 파일을 열어 주세요.</p>
+        </div>
+
+        <p id="attribution-note" class="protected-note" hidden>
+          좌측 하단의 Kakao 출처 표지는 최종 합성 단계에서 원본 상태로 보존됩니다.
+        </p>
+
+        <div class="download-actions">
+          <button id="download-png" type="button" disabled>PNG 내려받기</button>
+          <button id="download-jpeg" type="button" class="secondary" disabled>
+            JPEG 내려받기
+          </button>
+        </div>
+        <p class="hint">
+          출처·저작권 표시는 제거하거나 가리지 마세요. 원형 보존에는 PNG를 권장합니다.
+        </p>
+      </section>
+
+      <section class="panel collaboration-panel" aria-labelledby="collaboration-title">
+        <div class="collaboration-intro">
+          <p class="step">SHARED SPACE</p>
+          <h2 id="collaboration-title">사람과 AI의 공감 작업대</h2>
+          <p>
+            사람과 AI는 같은 상태와 허용된 명령을 사용합니다. AI의 요청과 이미지
+            열람은 기록으로 보이며, 민감한 선택은 사람에게 남겨 둡니다.
+          </p>
+          <p class="hint">
+            AI 진입점: <code>window.aerialCanvasLab</code> · <code>getState</code> ·
+            <code>execute</code> · <code>getImageBlob</code> · <code>getImageDataUrl</code>
+          </p>
+          <dl class="collaboration-boundaries">
+            <div>
+              <dt>함께 사용</dt>
+              <dd>위치·정적 항공뷰·회전·밝기·대비·주석</dd>
+            </div>
+            <div>
+              <dt>사람이 결정</dt>
+              <dd>GPS 권한·로컬 파일 선택·최종 저장</dd>
+            </div>
+            <div>
+              <dt>읽지 않음</dt>
+              <dd>브라우저 화면·다른 탭·다른 프로그램</dd>
+            </div>
+          </dl>
+          <p class="hint">
+            이 구분은 공개 협업 API의 계약입니다. AI에 브라우저 전체 제어 권한을
+            위임하는 보안 격리 장치로 사용하지 않습니다.
+          </p>
+        </div>
+        <div class="collaboration-activity">
+          <p id="collaboration-state" class="collaboration-state">
+            공유할 항공뷰를 기다리고 있습니다.
+          </p>
+          <h3>공동 작업 기록</h3>
+          <ol id="collaboration-log" aria-live="polite" aria-relevant="additions">
+            <li data-empty="true">사람 또는 AI의 첫 작업을 기다리고 있습니다.</li>
+          </ol>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Kakao Web SDK는 주소·지도·SKYVIEW 정적 이미지 생성에 사용합니다. 동적
+        타일을 수집하지 않으며 SDK가 만든 정적 이미지 한 장만 처리합니다.
+      </p>
+    </footer>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

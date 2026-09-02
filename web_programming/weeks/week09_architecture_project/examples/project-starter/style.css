@@ -1,0 +1,45 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #1f2937;
+  background: #ecfdf5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  width: min(52rem, calc(100% - 2rem));
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: white;
+}
+
+.eyebrow {
+  color: #047857;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+#item-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+#item-list li {
+  padding: 1rem;
+  border: 1px solid #6ee7b7;
+  border-radius: 0.75rem;
+}
+
+#status[data-kind="error"] {
+  color: #b91c1c;
+}

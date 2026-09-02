@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auth와 소유자 RLS</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main>
+    <h1>Auth와 소유자 RLS</h1>
+    <p id="status" role="status">세션 확인 중…</p>
+
+    <section id="auth-panel" aria-labelledby="auth-title">
+      <h2 id="auth-title">인증</h2>
+      <form id="auth-form">
+        <label>이메일 <input id="email" type="email" required></label>
+        <label>비밀번호 <input id="password" type="password" minlength="6" required></label>
+        <div class="actions">
+          <button type="submit" data-action="signin">로그인</button>
+          <button type="button" data-action="signup">회원가입</button>
+          <button type="button" data-action="signout">로그아웃</button>
+        </div>
+      </form>
+    </section>
+
+    <section aria-labelledby="write-title">
+      <h2 id="write-title">내 글 작성</h2>
+      <form id="post-form" hidden>
+        <label>제목 <input id="title" maxlength="80" required></label>
+        <button>추가</button>
+      </form>
+      <p id="auth-required">로그인하면 글을 작성할 수 있습니다.</p>
+    </section>
+
+    <section aria-labelledby="list-title">
+      <h2 id="list-title">글 목록</h2>
+      <button id="reload" type="button">새로고침</button>
+      <ul id="posts"></ul>
+      <p id="empty" hidden>아직 글이 없습니다.</p>
+    </section>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

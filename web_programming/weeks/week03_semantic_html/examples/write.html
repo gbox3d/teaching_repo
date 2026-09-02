@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>새 활동 제안</title>
+  </head>
+  <body>
+    <header>
+      <p><a href="index.html">Campus Together</a></p>
+      <nav aria-label="주요 메뉴">
+        <a href="index.html">활동 목록</a>
+        <a href="write.html" aria-current="page">새 활동 제안</a>
+      </nav>
+    </header>
+    <main>
+      <h1>새 활동 제안</h1>
+      <p id="form-help">모든 항목은 수업용 가상 정보로 작성합니다. 별표(*) 항목은 필수입니다.</p>
+      <form action="confirmation.html" method="get" aria-describedby="form-help">
+        <p>
+          <label for="activity-title">활동 이름 *</label><br>
+          <input id="activity-title" name="title" required minlength="4" maxlength="30">
+        </p>
+        <p>
+          <label for="contact-email">담당 이메일 *</label><br>
+          <input id="contact-email" name="email" type="email" autocomplete="email" required>
+        </p>
+        <p>
+          <label for="activity-date">활동 날짜 *</label><br>
+          <input id="activity-date" name="date" type="date" required>
+        </p>
+        <p>
+          <label for="capacity">최대 인원 *</label><br>
+          <input id="capacity" name="capacity" type="number" min="1" max="20" required>
+        </p>
+        <p>
+          <label for="category">범주 *</label><br>
+          <select id="category" name="category" required>
+            <option value="">범주를 선택하세요</option>
+            <option value="study">학습</option>
+            <option value="hobby">취미</option>
+            <option value="volunteer">봉사</option>
+          </select>
+        </p>
+        <p>
+          <label for="description">활동 소개 *</label><br>
+          <textarea id="description" name="description" rows="5" required minlength="10" maxlength="200" aria-describedby="description-help"></textarea><br>
+          <small id="description-help">10자 이상 200자 이하로 목적과 진행 방법을 적으세요.</small>
+        </p>
+        <fieldset>
+          <legend>연락 방법 *</legend>
+          <label><input type="radio" name="contact" value="email" required> 이메일</label>
+          <label><input type="radio" name="contact" value="none"> 별도 연락 없음</label>
+        </fieldset>
+        <p>
+          <label><input type="checkbox" name="rules" value="agreed" required> 수업용 운영 규칙을 확인했습니다. *</label>
+        </p>
+        <button type="submit">활동 제안 제출</button>
+      </form>
+      <p><a href="index.html">제출하지 않고 목록으로 돌아가기</a></p>
+    </main>
+    <footer>
+      <p>실제 개인정보를 입력하지 마세요.</p>
+    </footer>
+  </body>
+</html>
