@@ -64,9 +64,11 @@ if ($syncCode -ne 0) {
     Step "sync 실패 (exit $syncCode) — uv.lock 없음/불일치는 릴리스 결함, 네트워크·캐시 문제는 환경 문제로 구분해 기록한다."
 }
 
-Step "3. uv run pytest"
+Step "3. uv run --frozen pytest"
 if (Test-Path "tests") {
-    uv run pytest -q 2>&1 | Tee-Object -FilePath $log -Append
+    # --frozen: lock을 새로 만들지 않는다. lock이 없으면 여기서도 실패하는 것이 맞다(2단계와 같은 릴리스 결함).
+    # 없이 실행하면 uv가 clone 폴더에 새 uv.lock을 만들어 '재현'이 아니라 '새 설치'가 되고, 4단계 검사가 오염된다.
+    uv run --frozen pytest -q 2>&1 | Tee-Object -FilePath $log -Append
     Step "pytest exit code: $LASTEXITCODE"
 }
 else {

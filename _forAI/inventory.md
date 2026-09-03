@@ -62,7 +62,9 @@ npm test          # node scripts/check-site.mjs
 ## Tests
 
 - 자동 테스트는 `npm test`(사이트 검증)뿐이다. 교재 코드 예제의 단위 테스트는 각 주차 `examples/`에 있는 것만 있으며(웹 5·특강, 오픈소스 AI 13주차), 저장소 수준 러너는 없다.
-- 오픈소스 AI 예제는 Python 문법 검사(`uv run --no-project python -m py_compile`)와 `ruff` 치명 오류 검사까지 했고, 모델·GPU 실행은 기준 PC 실측 대기 상태다.
+- 오픈소스 AI 예제는 Python 문법 검사(`uv run --no-project python -m py_compile`, 67개 파일)와 `ruff check --select E9,F63,F7,F82` 치명 오류 검사까지 했고, 모델·GPU 실행은 기준 PC 실측 대기 상태다.
+- `ruff`를 저장소 전체에 돌릴 때는 `--exclude open_source_ai/weeks/week08_midterm/examples/mock_exam/broken_project`를 붙인다. 그 폴더의 `pyproject.toml`은 8주차 모의 실기용으로 **일부러 깨뜨린** 파일이라 TOML 파싱이 실패한다.
+- 문서 검증용 임시 스크립트(링크·앵커 검사, 슬라이드·실습 시간 합계 검사)는 저장소에 두지 않았다. 필요하면 `_forAI/memo.md`의 검증 항목을 보고 다시 만든다.
 
 ## Notes
 

@@ -5,8 +5,6 @@ verify_release.py가 호출한다. 모델·GPU·네트워크 없이 파일과 gi
 status: PASS(통과) · WARN(사람 확인 필요) · FAIL(릴리스 결함) · SKIP(해당 없음)
 """
 
-from __future__ import annotations
-
 import re
 import subprocess
 from dataclasses import dataclass
@@ -71,18 +69,22 @@ def find_file(repo: Path, candidates: tuple[str, ...]) -> Path | None:
     return None
 
 
-def check_required_files(repo: Path) -> list[CheckResult]:
+def check_required_files(repo: Path, tracked: list[str] | None = None) -> list[CheckResult]:
+    """필수·권장 파일 존재 검사. tracked(git ls-files)가 있으면 필수 파일이 git에 추적되는지도 본다(검증 중 생긴 uv.lock 등 미추적 파일은 릴리스에 없다)."""
+    tracked_set = set(tracked or [])
     results: list[CheckResult] = []
     for label, candidates in REQUIRED_FILES.items():
         found = find_file(repo, candidates)
-        status = "PASS" if found else "FAIL"
-        detail = found.name if found else f"없음 (후보: {', '.join(candidates)})"
-        results.append(CheckResult(f"필수 파일 · {label}", status, detail))
+        if found is None:
+            results.append(CheckResult(f"필수 파일 · {label}", "FAIL", f"없음 (후보: {', '.join(candidates)})"))
+        elif tracked_set and found.relative_to(repo).as_posix() not in tracked_set:
+            results.append(CheckResult(f"필수 파일 · {label}", "FAIL", f"{found.name} 존재하지만 git 추적 안 됨 — 릴리스(태그)에 포함되지 않은 파일"))
+        else:
+            results.append(CheckResult(f"필수 파일 · {label}", "PASS", found.name))
     for label, candidates in OPTIONAL_FILES.items():
         found = find_file(repo, candidates)
-        status = "PASS" if found else "WARN"
         detail = str(found.relative_to(repo)) if found else "없음 — 권장 항목, 사람이 판단"
-        results.append(CheckResult(f"권장 파일 · {label}", status, detail))
+        results.append(CheckResult(f"권장 파일 · {label}", "PASS" if found else "WARN", detail))
     return results
 
 

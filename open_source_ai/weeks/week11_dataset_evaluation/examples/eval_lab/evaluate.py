@@ -4,12 +4,9 @@
     uv run python evaluate.py --adapter adapters/run-001
 모드 2(예측): 이미 만들어 둔 예측 JSON만 채점한다. 모델·GPU가 필요 없다.
     uv run python evaluate.py --predictions data/sample_predictions/base.json data/sample_predictions/lora.json
-
 예측 JSON 형식: {"model": "이름", "adapter": null, "predictions": [{"id": "q001", "output": "..."}]}
 결과: outputs/eval-<시각>.json (실행별 요약 + 문항별 출력·지표)
 """
-
-from __future__ import annotations
 
 import argparse
 import json
@@ -27,42 +24,35 @@ DEFAULT_SYSTEM = "당신은 오픈소스 AI 응용 수업의 도우미입니다.
 
 
 def load_jsonl(path: Path) -> list[dict]:
-    with path.open(encoding="utf-8") as f:
+    with path.open(encoding="utf-8-sig") as f:  # utf-8-sig: PowerShell이 붙인 BOM이 있어도 읽는다
         return [json.loads(line) for line in f if line.strip()]
 
 
 def load_predictions(path: Path) -> dict:
-    data = json.loads(path.read_text(encoding="utf-8"))
-    if "predictions" not in data:
-        raise ValueError(f"{path}: 'predictions' 키가 없다")
-    return {
-        "name": data.get("model", path.stem),
-        "model": data.get("model"),
-        "adapter": data.get("adapter"),
-        "outputs": {p["id"]: p["output"] for p in data["predictions"]},
-        "elapsed_sec": None,
-    }
+    """예측 JSON을 실행(run) 구조로 바꾼다. 형식이 틀리면 파일 이름을 담은 ValueError를 낸다."""
+    try:
+        data = json.loads(path.read_text(encoding="utf-8-sig"))
+        outputs = {p["id"]: p["output"] for p in data["predictions"]}
+    except (OSError, json.JSONDecodeError, KeyError, TypeError) as exc:
+        raise ValueError(f"{path}: 'predictions' 목록과 항목별 id·output이 필요하다 ({exc!r})") from exc
+    return {"name": data.get("model", path.stem), "model": data.get("model"), "adapter": data.get("adapter"),
+            "outputs": outputs, "elapsed_sec": None}
 
 
 def pick_device(requested: str) -> str:
     import torch
-
-    if requested == "cpu":
-        return "cpu"
-    if torch.cuda.is_available():
+    if requested != "cpu" and torch.cuda.is_available():
         return "cuda"
     if requested == "cuda":
         print("[경고] CUDA를 쓸 수 없어 CPU로 실행한다. --limit로 문항 수를 줄인다")
     return "cpu"
 
 
-def generate_outputs(
-    model_id: str, adapter: str | None, items: list[dict], system: str, max_new_tokens: int, seed: int, device: str
-) -> tuple[dict[str, str], float]:
+def generate_outputs(model_id: str, adapter: str | None, items: list[dict], system: str,
+                     max_new_tokens: int, seed: int, device: str) -> tuple[dict[str, str], float]:
     """같은 프롬프트·같은 디코딩(greedy)·같은 seed로 문항별 출력을 만든다."""
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
-
     tok = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(model_id)
     model = model.to(device=device, dtype=torch.float16 if device == "cuda" else torch.float32)
@@ -70,7 +60,6 @@ def generate_outputs(
         if not (Path(adapter) / "adapter_config.json").exists():
             raise ValueError(f"어댑터 폴더에 adapter_config.json이 없다: {adapter}")
         from peft import PeftModel
-
         model = PeftModel.from_pretrained(model, adapter)
     model.eval()
 
@@ -84,7 +73,7 @@ def generate_outputs(
         enc = tok(prompt, return_tensors="pt", add_special_tokens=False).to(device)
         with torch.no_grad():
             gen = model.generate(**enc, max_new_tokens=max_new_tokens, do_sample=False, pad_token_id=tok.eos_token_id)
-        text = tok.decode(gen[0][enc["input_ids"].shape[1] :], skip_special_tokens=True).strip()
+        text = tok.decode(gen[0][enc["input_ids"].shape[1]:], skip_special_tokens=True).strip()
         outputs[item["id"]] = text
         print(f"  [{i}/{len(items)}] {item['id']} → {len(text)}자")
     elapsed = round(time.perf_counter() - t0, 1)
@@ -145,8 +134,11 @@ def main() -> None:
     runs: list[dict] = []
     if args.predictions:
         mode = "predictions"
-        for p in args.predictions:
-            runs.append(load_predictions(Path(p)))
+        try:
+            runs = [load_predictions(Path(p)) for p in args.predictions]
+        except ValueError as exc:
+            print(f"[오류] 예측 파일 읽기 실패: {exc}\n  형식: {{\"model\": ..., \"predictions\": [{{\"id\": ..., \"output\": ...}}]}}")
+            sys.exit(1)
     else:
         mode = "model"
         try:
@@ -165,15 +157,18 @@ def main() -> None:
                   "모델 없이 채점만 하려면 --predictions를 쓴다")
             sys.exit(2)
     if not runs:
-        print("[오류] 평가할 실행이 없다")
+        print("[오류] 평가할 실행이 없다 (--skip-base와 어댑터 없음이 겹쳤다)")
         sys.exit(1)
 
     results = [score_run(run, items) for run in runs]
-    stamp = time.strftime("%Y%m%d-%H%M%S")
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / f"eval-{stamp}.json"
-    payload = {"created": stamp, "mode": mode, "test_file": str(test_path), "n_items": len(items),
+    stamp = time.strftime("%Y%m%d-%H%M%S")
+    out_path, n = out_dir / f"eval-{stamp}.json", 1
+    while out_path.exists():  # 같은 초에 두 번 실행해도 앞 결과를 덮어쓰지 않는다
+        n += 1
+        out_path = out_dir / f"eval-{stamp}-{n}.json"
+    payload = {"created": out_path.stem[len("eval-"):], "mode": mode, "test_file": str(test_path), "n_items": len(items),
                "system": args.system if mode == "model" else None, "seed": args.seed, "runs": results}
     out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     print_table(results)

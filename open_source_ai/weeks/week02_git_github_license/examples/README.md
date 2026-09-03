@@ -66,6 +66,7 @@ pwsh -ExecutionPolicy Bypass -File <수업자료>\open_source_ai\weeks\week02_gi
 ## GPU 없을 때·네트워크 없을 때 대체 경로
 
 - GPU: 이번 주는 GPU를 쓰지 않는다. 대체 경로가 필요 없다.
+- Ollama·모델: 이번 주는 Ollama 서버와 모델을 쓰지 않는다. 서버가 꺼져 있거나 모델이 없어도 영향이 없다.
 - GitHub 접속 불가(1교시): 로컬 bare 저장소를 원격으로 삼아 `push`·`fetch`·`pull`까지 진행한다. 접속이 복구되면 `git remote set-url origin <GitHub URL>`로 바꾼다.
 
 ```powershell

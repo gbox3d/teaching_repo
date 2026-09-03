@@ -46,10 +46,12 @@ CI:     push·PR ─▶ .github/workflows/ci.yml ─▶ setup-uv ─▶ uv sync 
 
 ## 실행 방법
 
-원본을 훼손하지 않도록 `ci_lab/`을 개인 실습 폴더에 복사한 뒤 그 안에서 실행한다. 저장 경로는 학기별 환경 기준표를 따른다(아래는 예시).
+원본을 훼손하지 않도록 `ci_lab/`을 개인 실습 폴더에 복사한 뒤 그 안에서 실행한다. `$src`에는 교재 저장소의 이 `examples` 폴더 경로를 넣는다. 저장 경로는 학기별 환경 기준표를 따른다(아래는 예시).
 
 ```powershell
-Copy-Item -Recurse .\ci_lab C:\classwork\week13\ci_lab
+$src = "<교재 저장소>\open_source_ai\weeks\week13_test_ci_security\examples"
+New-Item -ItemType Directory -Force C:\classwork\week13 | Out-Null
+Copy-Item -Recurse "$src\ci_lab" C:\classwork\week13\ci_lab
 Set-Location C:\classwork\week13\ci_lab
 Copy-Item .env.example .env
 uv sync                                   # dev 그룹까지 설치

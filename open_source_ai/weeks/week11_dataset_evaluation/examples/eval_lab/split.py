@@ -20,7 +20,7 @@ from clean import char_bigrams, dedup_key, jaccard
 
 
 def load_jsonl(path: Path) -> list[dict]:
-    with path.open(encoding="utf-8") as f:
+    with path.open(encoding="utf-8-sig") as f:  # BOM이 있어도 읽는다
         return [json.loads(line) for line in f if line.strip()]
 
 

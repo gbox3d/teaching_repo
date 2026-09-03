@@ -47,7 +47,7 @@ ollama list
 2. `ollama show qwen3:4b`를 실행해 `parameters`, `quantization`, `context length` 값을 `model_report.md` 1절에 옮겨 적는다. `ollama list`의 SIZE도 적는다.
 3. `ollama run qwen3:4b`로 들어가 `/set verbose`를 입력한 뒤, 보고서 2절의 질문 3개를 **그대로** 차례로 묻는다. 각 답 뒤에 나오는 `eval rate`(tokens/s)와 첫 답의 `load duration`을 적는다. `/bye`로 나온다.
 4. 나오자마자 `ollama ps`를 실행해 SIZE와 PROCESSOR를 적는다. 5분이 지나면 모델이 메모리에서 내려가므로 비어 있을 수 있다.
-5. `.\ollama_probe.ps1 -Model qwen3:4b`로 `list/show/ps` 출력을 `outputs/`에 저장한다.
+5. `.\ollama_probe.ps1 -Model qwen3:4b`로 `list/show/ps` 출력을 `outputs/`에 저장한다. 스크립트 실행이 차단되면 1주차처럼 `powershell -ExecutionPolicy Bypass -File .\ollama_probe.ps1 -Model qwen3:4b`로 이번 실행만 우회한다.
 
 완료 조건:
 
@@ -284,6 +284,6 @@ ollama show qwen3:4b --modelfile | Select-Object -First 30
 - `evidence/`: `outputs/`에서 고른 `chat-*-first.json`, `stream-*.json`, `chat-*-t0a.json` 등 2~3개
 - `failures.md`: 연결 실패·모델 없음 메시지 원문과 종료 코드
 - `temperature_compare.md`: temperature 0과 1, seed에 대한 비교 문단
-- `Modelfile`: 팀명이 들어간 SYSTEM, 바꾼 한 줄 표시
+- `Modelfile`: 팀명이 들어간 SYSTEM, 바꾼 한 줄 표시. 커스텀 모델이 보이는 `ollama list` 출력을 텍스트로 함께 둔다
 - `assignment_check.md`: 1차 과제 체크리스트 점검 결과와 계획
 - 선택: 확장 문제 결과

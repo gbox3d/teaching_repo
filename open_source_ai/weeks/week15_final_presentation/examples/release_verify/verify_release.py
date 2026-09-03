@@ -117,13 +117,14 @@ def main() -> int:
         print(f"[오류] 저장소 폴더가 없다: {repo}")
         return 2
 
+    tracked = tracked_files(repo)  # git ls-files. 추적되지 않은 파일은 릴리스(태그)에 없으므로 필수 파일 검사와 비밀 검사 모두 이 목록을 기준으로 한다.
     results: list[CheckResult] = []
-    results += check_required_files(repo)
+    results += check_required_files(repo, tracked)
     results.append(check_gitignore(repo))
     git_results, git_meta = check_git_state(repo)
     results += git_results
     results += check_readme(repo)
-    results.append(scan_secrets(repo, tracked_files(repo)))
+    results.append(scan_secrets(repo, tracked))
     if args.health_url:
         results.append(check_health(args.health_url))
     if args.check_ollama:

@@ -61,7 +61,7 @@ uv run python metrics.py --demo                         # 지표 함수 예시 �
 uv run python evaluate.py --predictions data/sample_predictions/base.json data/sample_predictions/lora.json
 uv run python evaluate.py                               # HF_TEXT_MODEL 기준선(+ LORA_ADAPTER_DIR 어댑터) 실제 생성·채점
 uv run python evaluate.py --adapter C:\classwork\week10\lora_lab\adapters\run-001
-uv run python evaluate.py --exclude q023 q005           # 겹침 문항을 빼고 채점
+uv run python evaluate.py --exclude q023 q005 q008      # split.py --against가 보고한 겹침 문항을 빼고 채점
 uv run python evaluate.py --device cpu --limit 5 --max-new-tokens 96   # GPU 없을 때
 ```
 
@@ -102,9 +102,9 @@ uv run python make_sheet.py --eval outputs\eval-<시각>.json   # 특정 파일,
 
 1. `clean.py` 출력: 48 → 44. `q009`(정확 중복 ← q003), `q021`(공백만 다른 정확 중복 ← q014), `q033`(근사 중복 ← q027, 유사도 약 0.94), `q040`(빈 output). `--near-threshold 0.95`에서는 q033이 살아남는다.
 2. `pii_check.py --action report`: 3건 — `q012` output의 PHONE, `q025` instruction의 EMAIL, `q038` output의 RRN. q038은 "이런 패턴을 찾는다"는 설명용 예시다. 정규식은 이 차이를 모른다 — 오탐으로 볼지, 그래도 마스킹할지는 사람이 정해 데이터 카드에 적는다.
-3. `split.py`: train 20 / val 4 / test 20, `leak_count` 0. seed를 바꾸면 test id 목록이 바뀐다. `--against`로 10주차 학습 데이터를 주면 같은 질문(예: `q023` "torch.no_grad는 언제 쓰나요?")이 겹침으로 보고된다.
-4. `evaluate.py --predictions` 표(샘플 기준): base 키워드 일치율 0.400·형식 준수율 0.000, lora 0.800·0.850. 숫자는 가상 출력에서 나온 값이며 실제 모델과 다르다.
-5. `eval-*.json`의 lora `items`: `q043`은 형식 통과·키워드 0(환각), `q024`는 거부, `q038`은 반복, `q035`는 한글 비율 하락(언어 혼합), `q027`·`q031`은 형식 위반. 자동 지표가 무엇을 잡고 무엇을 놓치는지 보여 주는 문항들이다.
+3. `split.py`: train 20 / val 4 / test 20, `leak_count` 0. seed를 바꾸면 test id 목록이 바뀐다(seed 7이면 `q012`, `q044`, … 로 시작). `--against`로 10주차 `sample_sft.jsonl`을 주면 3건이 겹침으로 보고된다: `q023`(유사도 1.0, "torch.no_grad는 언제 쓰나요?"와 같은 질문), `q005`(0.62), `q008`(0.61). `--against-threshold`를 0.7로 올리면 뒤의 두 건은 빠진다. 기준을 어디에 둘지가 곧 판단이다.
+4. `evaluate.py --predictions` 표(샘플 기준): base 키워드 일치율 0.400·형식 준수율 0.000·유사도 평균 0.116, lora 0.825·0.850·0.513. `--exclude q023 q005 q008`로 17문항만 채점하면 lora 0.794·0.824로 내려간다. 숫자는 가상 출력에서 나온 값이며 실제 모델과 다르다.
+5. `eval-*.json`의 lora `items`: `q043`은 형식 통과·키워드 0·유사도 0.19(환각), `q024`는 거부(키워드 0·형식 위반), `q038`은 반복(형식은 통과), `q035`는 한글 비율 0.60으로 평균 0.78보다 낮다(언어 혼합), `q027`·`q031`은 형식 위반(내용은 맞음). 자동 지표가 무엇을 잡고 무엇을 놓치는지 보여 주는 문항들이다.
 6. 모델 모드 첫 줄 `device=…, base=…, adapter=…`와 `eval-*.json`의 `system`: 10주차 `common.py`의 SYSTEM_PROMPT와 같은 문장이어야 공정한 비교다. `elapsed_sec`로 두 실행의 시간을 비교한다.
 7. `make_sheet.py`가 만든 채점표: 점수·오류 유형·메모 열이 비어 있다. 자동 지표 열(키워드·형식)을 가리고 출력만 읽으며 채점하는 것이 3교시의 요점이다.
 
@@ -119,5 +119,5 @@ uv run python make_sheet.py --eval outputs\eval-<시각>.json   # 특정 파일,
 
 - 팀 데이터를 넣을 때는 `raw.jsonl` 형식(`id`, `instruction`, `output`, `keywords`, `source`)으로 바꾼다. `keywords`가 없으면 키워드 일치율은 항상 1.0이 되어 의미가 없다.
 - 답변 형식이 다르면 `metrics.py`의 `FORMAT_HEAD`·`FORMAT_MID`·`FORMAT_TAIL`·`MAX_CHARS`를 바꾼다. 10주차 학습 데이터와 같은 형식이어야 형식 준수율이 "학습이 됐는가"를 잰다.
-- 개인정보 패턴을 추가할 때는 `pii_check.py`의 `PATTERNS`에 넣고 `--action report`로 오탐부터 본다. 숫자 8자리 같은 넓은 패턴은 `num_ctx` 값 같은 숫자도 잡는다.
+- 개인정보 패턴을 추가할 때는 `pii_check.py`의 `PATTERNS`에 넣고 `--action report`로 오탐부터 본다. "4자리 이상 숫자" 같은 넓은 패턴은 포트 번호 `11434` 같은 값도 잡는다.
 - `outputs/`는 Git에 넣지 않는다. 제출 증거로 쓸 JSON·채점표는 `evidence/week11/`로 복사해 커밋한다.

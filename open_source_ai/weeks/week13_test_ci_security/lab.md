@@ -29,10 +29,12 @@
 
 ### 준비
 
-교재 주차 폴더에서 예제를 개인 실습 폴더로 복사한다. 저장 경로는 학기별 환경 기준표를 따른다(아래는 예시).
+교재 주차 폴더의 예제를 개인 실습 폴더로 복사한다. `$src`에는 교재 저장소의 이 주차 `examples` 폴더 경로를 넣는다. 저장 경로는 학기별 환경 기준표를 따른다(아래는 예시).
 
 ```powershell
-Copy-Item -Recurse .\examples\ci_lab C:\classwork\week13\ci_lab
+$src = "<교재 저장소>\open_source_ai\weeks\week13_test_ci_security\examples"
+New-Item -ItemType Directory -Force C:\classwork\week13 | Out-Null
+Copy-Item -Recurse "$src\ci_lab" C:\classwork\week13\ci_lab
 Set-Location C:\classwork\week13\ci_lab
 Copy-Item .env.example .env
 uv sync
@@ -51,7 +53,7 @@ uv run pytest -q
 | system 프롬프트 순서 | `service.py`의 `build_messages` |  |
 | 모델 없음 → 404 | `main.py`의 예외 매핑 |  |
 
-1. `tests/test_schemas.py`에 `test_whitespace_only_prompt_is_rejected`를 추가한다. `ChatRequest(prompt="   ")`가 `ValidationError`를 내야 한다. 먼저 `schemas.py`의 `prompt_must_have_text`를 주석 처리한 채 실행해 **실패**를 보고, 주석을 풀어 통과시킨다.
+1. `tests/test_schemas.py`에 `test_whitespace_only_prompt_is_rejected`를 추가한다. `ChatRequest(prompt="   ")`가 `ValidationError`를 내야 한다. 먼저 `schemas.py`에서 `prompt_must_have_text` 위의 데코레이터 두 줄(`@field_validator("prompt")`, `@classmethod`)을 주석 처리한 채 실행해 **실패**를 본다. 새 테스트는 `DID NOT RAISE`로, 기존 `test_prompt_is_stripped`는 `assert` 줄로 함께 실패한다 — 공백 제거도 같은 validator가 하기 때문이다. 왜 2건인지 한 문장으로 적고, 주석을 풀어 통과시킨다.
 2. `tests/test_service.py`에 `test_system_prompt_goes_first`를 추가한다. `ChatRequest(prompt="안녕", system="너는 수업 도우미다")`로 `service.chat()`을 부른 뒤 `fake_client.calls[-1]["messages"]`가 `system` 역할 → `user` 역할 순서의 두 항목인지 검사한다.
 3. `tests/test_api.py`에 `test_missing_model_becomes_404`를 추가한다. `make_service(fail_with=ModelNotFoundError("모델이 서버에 없다: no-such-model"))`로 만든 서비스를 `api_for`에 넣고 `POST /chat`을 보내 상태 코드 404와 `detail`에 `no-such-model`이 들어 있는지 검사한다. `ModelNotFoundError` import를 잊지 않는다.
 4. `uv run pytest -q`로 `22 passed, 2 deselected`를 확인하고, `-q` 없이 실행해 어느 파일의 어느 테스트가 추가됐는지 읽는다.
@@ -65,7 +67,7 @@ uv run pytest -q
 ### 문제 2 · ruff와 느린 테스트
 
 1. `uv run ruff check .`와 `uv run ruff format --check .`를 실행해 둘 다 통과하는지 확인한다.
-2. `tests/test_api.py` 맨 위에 `import os`를 추가하고 `ruff check .`를 다시 실행한다. 규칙 코드와 메시지를 적은 뒤 `uv run ruff check . --fix`로 고치고 diff가 무엇을 지웠는지 본다.
+2. `tests/test_api.py`의 `from collections.abc import Callable` 바로 위 줄에 `import os`를 추가하고 `ruff check .`를 다시 실행한다. `F401 'os' imported but unused`가 나와야 한다. `from __future__` 줄 바로 아래처럼 다른 자리에 넣으면 `I001`(import 블록 정렬)이 함께 나온다 — 그 경우 두 코드를 모두 적는다. 규칙 코드와 메시지를 적은 뒤 `uv run ruff check . --diff`로 무엇이 지워질지 먼저 보고, `uv run ruff check . --fix`로 고친다.
 3. `tests/test_service.py`의 한 `assert` 앞에 공백을 서너 개 더 넣거나 두 줄을 한 줄로 합친다. `ruff format --check .`의 출력(`Would reformat`)을 적고 `uv run ruff format .`로 되돌린다.
 4. `uv run pytest -m integration -q`를 실행한다. `RUN_INTEGRATION`이 없으므로 `2 skipped`가 나와야 한다. Ollama가 있는 PC라면 아래로 실제 실행하고 `--durations=3`의 시간을 단위 테스트 전체 시간과 비교한다.
 
@@ -113,7 +115,7 @@ git commit -m "Add unit tests, ruff config and CI workflow"
 ### 검증
 
 - 정상: `uv run pytest -q`가 `22 passed, 2 deselected`, `ruff check .`·`ruff format --check .`가 통과한다.
-- 경계 또는 실패: validator를 끄면 공백 prompt 테스트만 실패하고 나머지는 통과한다. `fail_with`를 `OllamaError`로 바꾸면 404 테스트가 502로 실패한다.
+- 경계 또는 실패: validator를 끄면 공백 prompt 테스트(`DID NOT RAISE`)와 `test_prompt_is_stripped`(`assert` 줄) 2건만 실패하고 나머지는 통과한다(테스트 1개만 추가한 시점이면 `2 failed, 18 passed, 2 deselected`). `fail_with`를 `OllamaError`로 바꾸면 404 테스트가 502로 실패한다. `service.py`의 `1_000_000`을 `1_000`으로 바꾸면 `test_chat_converts_fake_response` 1건만 실패한다.
 - 설명: 테스트가 모델 서버 없이 도는데도 "오류 경로를 검사했다"고 말할 수 있는 이유를 한 문장으로 적는다.
 
 ### 확장 문제

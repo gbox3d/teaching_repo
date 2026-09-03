@@ -142,8 +142,8 @@ Get-Content outputs\masked.jsonl | ConvertFrom-Json | Group-Object source | Sele
 
 ### 확장 문제
 
-1. `pii_check.py`의 `PATTERNS`에 8자리 숫자(학번 형태) 패턴을 추가하고 `--action report`로 실행해 오탐이 몇 건 생기는지, 어떤 값(예: 포트 번호, 옵션 값)이 잡히는지 적는다.
-2. `clean.py --min-output-chars 60`으로 짧은 답을 제거해 보고, 이 기준이 옳은지 제거된 id의 output을 읽고 판단한다.
+1. `pii_check.py`의 `PATTERNS`에 4자리 이상 연속 숫자(학번·사번 형태, 예: `r"(?<!\d)\d{4,}(?!\d)"`) 패턴을 추가하고 `--action report`로 실행한다. 어떤 값이 잡히는지(예: 포트 번호 11434, 이미 잡힌 전화번호·주민등록번호의 일부) 적고, 이 패턴을 마스킹에 그대로 써도 되는지 판단한다.
+2. `clean.py --min-output-chars 120 --output outputs/clean_min120.jsonl --report outputs/clean_report_min120.json`으로 짧은 답을 제거해 본다(3건이 사라진다). 제거된 id의 output을 읽고 이 기준이 옳은지 판단하고, 기본값 10자에서는 왜 빈 값만 걸러지는지 적는다.
 3. `split.py --test 5 --val 4`로 8:1:1에 가깝게 나눈 뒤, test 5건으로 2교시 비교를 하면 무엇이 문제인지 두 문장으로 적는다.
 
 ## 2교시 실습 — 기준선 vs LoRA 정량 비교
@@ -217,10 +217,11 @@ uv run python evaluate.py --device cpu --limit 5 --max-new-tokens 96
 ```
 
 2. 첫 줄 `device=…, base=…, adapter=…`와 표를 기록한다. `eval-*.json`의 `system` 값이 10주차 학습 때의 system 프롬프트와 같은 문장인지 확인한다.
-3. 1교시 `split_report.json`의 `contamination` 목록(겹치는 test id)을 `--exclude`에 주고 다시 채점한다. 어댑터가 없으면 `--predictions` 샘플로 같은 절차를 밟는다.
+3. 1교시 `split_report.json`의 `contamination` 목록(겹치는 test id)을 `--exclude`에 주고 다시 채점한다. 교재 데이터와 10주차 `sample_sft.jsonl` 기준으로는 3건(`q023` 유사도 1.0, `q005` 0.62, `q008` 0.61)이다. 어댑터가 없으면 `--predictions` 샘플로 같은 절차를 밟는다.
 
 ```powershell
-uv run python evaluate.py --exclude q023 q005          # id는 자신의 split_report.json 값으로 바꾼다
+uv run python evaluate.py --exclude q023 q005 q008     # id는 자신의 split_report.json의 contamination 값으로 바꾼다
+uv run python evaluate.py --predictions data/sample_predictions/base.json data/sample_predictions/lora.json --exclude q023 q005 q008
 ```
 
 4. 전체 20문항과 겹침 제외 결과를 나란히 적고, LoRA(또는 기준선)의 키워드 일치율·형식 준수율이 얼마나 움직였는지 한 문장으로 적는다.

@@ -194,21 +194,17 @@ New-Item -ItemType Directory -Force C:\classwork\repro | Out-Null
 </details>
 
 <details>
-<summary>힌트 2 — `uv sync --frozen`이 실패한다</summary>
+<summary>힌트 2 — `uv sync --frozen`이 실패하거나 네트워크가 없다</summary>
 
 메시지 첫 줄을 본다. `uv.lock`이 없다거나 `pyproject.toml`과 맞지 않는다는 내용이면 릴리스 결함이다(Issue, `bug`). 패키지 다운로드·프록시·타임아웃이면 환경 문제로 기록만 한다. 우리 저장소도 `git ls-files uv.lock`으로 lock 파일이 커밋되어 있는지 지금 확인한다. 이번 주 가장 흔한 Issue다.
+
+네트워크 자체가 없으면 `-Source`에 짝 팀 저장소의 로컬 경로(USB·공유 폴더)를 준다. GitHub Release는 네트워크가 돌아온 뒤 만들고, 지금은 `git tag -a`와 `outputs/release-notes-v0.1.0.md`까지 한다. Issue는 `docs/issues/<번호>.md`로 적어 두었다가 옮긴다.
 </details>
 
 <details>
 <summary>힌트 3 — 태그를 잘못 만들었다</summary>
 
 push 전이면 `git tag -d v0.1.0`으로 지우고 다시 만든다. push한 뒤라면 지우거나 옮기지 않는다. 고친 commit을 올리고 `v0.1.1`을 낸다. 이미 받아 간 사람이 있을 수 있다.
-</details>
-
-<details>
-<summary>힌트 4 — 네트워크가 없다</summary>
-
-`-Source`에 짝 팀 저장소의 로컬 경로(USB·공유 폴더)를 준다. GitHub Release는 네트워크가 돌아온 뒤 만들고, 지금은 `git tag -a`와 `outputs/release-notes-v0.1.0.md`까지 한다. Issue는 `docs/issues/<번호>.md`로 적어 두었다가 옮긴다.
 </details>
 
 ### 검증

@@ -75,6 +75,8 @@ uv run python smoke_test.py --api http://localhost:8001 --skip-stream
 | `CORS_ORIGINS` | `http://localhost:7860,http://127.0.0.1:7860` | 브라우저 직접 호출을 허용할 출처 |
 | `LOG_DIR` | `outputs` | `requests.jsonl`, `smoke-*.json`, `ui-turns.jsonl` 위치 |
 | `API_BASE_URL` | `http://localhost:8000` | UI·점검 스크립트가 바라보는 앱 서버 |
+| `UI_PORT` | `7860` | Gradio UI 포트. `--port`로 덮어쓴다 |
+| `SERVICE_NAME` | `osa-ai-service` | `/health`의 `service` 값. 팀 프로젝트에서는 팀 서비스 이름으로 바꾼다 |
 
 우선순위는 코드 기본값 → `.env` → 셸 환경변수 → 명령 인자 순으로 뒤가 앞을 덮는다. `--reload`는 파일 변경만 감지하므로 환경변수를 바꾸면 서버를 다시 띄운다.
 

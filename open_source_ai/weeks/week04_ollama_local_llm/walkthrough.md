@@ -88,6 +88,7 @@ ollama list
 
 ```powershell
 Invoke-RestMethod http://localhost:11434/api/tags | Select-Object -ExpandProperty models | Format-Table name, size
+$src = "<교재 저장소>\open_source_ai\weeks\week04_ollama_local_llm\examples"   # 새 창이면 다시 지정
 Copy-Item -Recurse "$src\ollama_client" C:\classwork\week04\ollama_client
 Set-Location C:\classwork\week04\ollama_client
 Copy-Item .env.example .env
@@ -244,6 +245,7 @@ uv run python chat.py --model student01-helper --prompt $q1 --tag helper-1
 | 모델이 목록에 없다 | 1교시 단계 1 (사전 캐시 확인. 실습 중 `pull` 금지, 강의자에게 문의) |
 | `/set verbose`를 쳤는데 속도가 안 나온다 | 1교시 단계 3 (`>>>` 프롬프트에서 슬래시 포함해 입력) |
 | `ollama ps`가 비어 있다 | 1교시 단계 4 (모델이 내려감. `run`으로 다시 올린 뒤 5분 안에 실행) |
+| `ollama_probe.ps1`이 "스크립트를 실행할 수 없으므로"로 멈춘다 | 1교시 단계 4 (`powershell -ExecutionPolicy Bypass -File .\ollama_probe.ps1 -Model qwen3:4b`로 이번 실행만 우회) |
 | `uv sync`가 실패한다 | 2교시 단계 1 (네트워크·uv 캐시 확인. `pip install` 금지) |
 | 연결 실패 대신 시간 초과가 난다 | 2교시 단계 4 (재현용 포트는 비어 있는 것으로. 정상 호출이면 `OLLAMA_TIMEOUT` 증가) |
 | `--seed`가 요청 JSON에 안 보인다 | 2교시 단계 5 (`build_payload()`의 `options`에 넣었는지, `--show-request`로 확인) |

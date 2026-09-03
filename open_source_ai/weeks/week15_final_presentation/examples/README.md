@@ -6,6 +6,7 @@
 |---|---|---|
 | `demo_outline.md` | 시연 3분 + 질의 2분 개요, 예상 질문, 장애 대체(fallback) 계획 | 1교시 |
 | `question_cards.md` | 평가자·청중이 던지는 질문 카드 20개와 답하는 순서 | 1교시 |
+| `presentation_log_template.md` | 청중용 발표 기록표(팀마다 한 행: 문제·실행된 것·한계·재현 절차·질의·장애, 점수 칸 없음)와 2교시 검증 대상 메모 | 1교시 |
 | `peer_feedback_form.md` | 동료 피드백 양식(발표 관찰 → 재현 결과 → 제안) | 1·2·3교시 |
 | `reviewer_checklist.md` | 교차 재현 검증 체크리스트(clone → `uv sync --frozen` → 실행 → 테스트 → 문서·라이선스·출처 → 비밀)와 재현 실패 Issue 양식 | 2교시 |
 | `release_verify/` | 릴리스 패키지 검증 uv 프로젝트: `verify_release.py`, `checks.py`, `cross_review.ps1`, `.env.example` | 2·3교시 |
@@ -33,7 +34,7 @@ uv sync
 .\cross_review.ps1 -RepoUrl https://github.com/<org>/<repo>.git -Team team-b -Tag v0.1.0
 ```
 
-clone → 태그 checkout → `uv sync --frozen` → `uv run pytest -q` → `verify_release.py` 순으로 실행하고 `outputs\cross-review-team-b-<시각>.log`에 남긴다. README 절차대로 핵심 기능을 실제로 실행하는 단계는 자동화하지 않으므로 직접 한다.
+clone → 태그 checkout → `uv sync --frozen` → `uv run --frozen pytest -q` → `verify_release.py` 순으로 실행하고 `outputs\cross-review-team-b-<시각>.log`에 남긴다. pytest에도 `--frozen`을 붙이는 이유는 lock이 없는 저장소에서 uv가 clone 폴더에 새 `uv.lock`을 만들어 "재현"이 "새 설치"로 바뀌는 것을 막기 위해서다. README 절차대로 핵심 기능을 실제로 실행하는 단계는 자동화하지 않으므로 직접 한다.
 
 ### 교차 재현 검증 — 수동
 
@@ -59,7 +60,7 @@ uv run python verify_release.py --repo <팀 저장소 경로> --team team-a --he
 ## 관찰 지점
 
 1. `outputs/verify-<팀>-<시각>.md`의 PASS/WARN/FAIL 분포와 각 근거. WARN은 도구가 판단을 미룬 항목이다.
-2. `uv sync --frozen`이 실패할 때의 메시지: `uv.lock` 불일치·누락(릴리스 결함)인지, 네트워크·캐시(환경 문제)인지.
+2. `uv sync --frozen`이 실패할 때의 메시지: `uv.lock` 불일치·누락(릴리스 결함)인지, 네트워크·캐시(환경 문제)인지. `verify_release.py`가 `uv.lock`을 `존재하지만 git 추적 안 됨`으로 표시하면 검증 중 새로 생긴 파일이며 릴리스에는 없는 것이다.
 3. README 절차대로 실행한 출력이 README의 예시 출력과 같은 형태인지.
 4. 비밀 패턴 FAIL이 자리표시자(`hf_xxxx…`)인지 실제 값인지. 실제 값이면 즉시 대상 팀에 알린다.
 5. `git describe --tags --exact-match`가 가리키는 태그와 제출 commit id가 같은지.

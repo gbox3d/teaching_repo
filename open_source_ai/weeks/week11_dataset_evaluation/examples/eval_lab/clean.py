@@ -43,7 +43,8 @@ def jaccard(a: set[str], b: set[str]) -> float:
 def load_jsonl(path: Path) -> tuple[list[dict], list[dict]]:
     rows: list[dict] = []
     bad: list[dict] = []
-    with path.open(encoding="utf-8") as f:
+    # utf-8-sig: 편집기나 PowerShell이 붙인 BOM이 있어도 첫 줄을 잃지 않는다.
+    with path.open(encoding="utf-8-sig") as f:
         for lineno, line in enumerate(f, 1):
             if not line.strip():
                 continue

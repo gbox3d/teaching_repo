@@ -34,6 +34,7 @@
 - Git, VS Code, uv, Ollama, PowerShell (1주차 `env_check.md`로 확인한 상태)
 - 수업 전에 캐시된 기본 모델 `OLLAMA_MODEL`(교재 검증용 기본값 `qwen3:4b`, GPU 없는 PC는 `qwen3:0.6b`). 실습 시간에 모델을 내려받지 않는다.
 - Docker Desktop은 **선택**이다. 없으면 3교시는 uv 경로로 진행한다. Docker 경로를 쓰려면 수업 전에 uv 공식 베이스 이미지를 한 번 내려받아 둔다.
+- 수업 전에 예제 `examples/ai_service/`를 복사해 `uv sync`를 한 번 실행해 패키지 캐시를 채워 둔다. `gradio` 의존성이 커서 첫 설치는 수 분이 걸리며, 실습 시간의 `uv sync`는 캐시에서 몇 초 안에 끝나야 한다.
 - 10~11주차 산출물(`experiments/run-*.md`, `DATA_CARD.md`, `outputs/eval-*.json`, `FAILURE_ANALYSIS.md`). 어댑터가 없어도 이번 주 서비스는 기본 모델로 동작한다.
 - 정확한 도구 버전은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
 - 실제 이름, 학번, 전화번호, 비밀번호나 API 토큰은 실습 파일과 공개 저장소에 넣지 않는다. `.env`는 커밋하지 않고 `.env.example`만 커밋한다. 표시 이름은 `student01`, 팀명은 `team-a` 같은 수업용 값을 쓴다.
@@ -86,7 +87,7 @@
 
 - [FastAPI 공식 문서](https://fastapi.tiangolo.com/)
 - [Uvicorn 공식 문서](https://www.uvicorn.org/)
-- [Gradio 공식 문서](https://www.gradio.app/docs)
+- [Gradio ChatInterface 문서](https://www.gradio.app/docs/gradio/chatinterface)
 - [uv Docker 가이드](https://docs.astral.sh/uv/guides/integration/docker/)
 - [Docker 공식 문서](https://docs.docker.com/)
-- [Ollama 공식 문서](https://docs.ollama.com/)
+- [Ollama FAQ — 네트워크 노출과 `OLLAMA_HOST`](https://github.com/ollama/ollama/blob/main/docs/faq.md)

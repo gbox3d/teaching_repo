@@ -37,6 +37,7 @@
 New-Item -ItemType Directory week15-practice
 Copy-Item -Recurse <교재 경로>\week15_final_presentation\examples\* .\week15-practice\
 Set-Location week15-practice
+Copy-Item .\presentation_log_template.md .\presentation_log.md   # 청중용 발표 기록표
 ```
 
 발표 PC의 팀 저장소 clone본에서 기준본을 확인한다.
@@ -63,7 +64,7 @@ ollama list                # 시연 모델이 캐시되어 있는지
 
 ### 문제 2 · 발표 기록(청중)
 
-`presentation_log.md`에 팀마다 한 행씩 기록한다. 점수를 적지 않는다.
+`presentation_log_template.md`를 복사한 `presentation_log.md`에 팀마다 한 행씩 기록한다. 점수를 적지 않는다. 표의 열은 다음과 같다.
 
 | 팀 | 문제 한 줄 | 실제로 실행된 것 | 한계로 말한 것 | 재현 절차 언급 | 질문·답변 요약 | 장애·시간 |
 |---|---|---|---|---|---|---|
@@ -129,6 +130,8 @@ ollama list                # 시연 모델이 캐시되어 있는지
 
 ### 준비
 
+1교시와 다른 날이라 새 터미널을 열었다면 `week15-practice`의 상위 폴더에서 시작한다.
+
 ```powershell
 Set-Location .\week15-practice\release_verify
 Copy-Item .env.example .env
@@ -163,6 +166,7 @@ uv sync
 
 완료 조건:
 
+- [ ] 릴리스 결함 Issue 1건을 등록하고 URL을 적었다(결함이 없으면 종합 절에 "결함 없음"과 근거를 적었다).
 - [ ] Issue에 재현 절차와 실제 출력이 있어 대상 팀이 그대로 따라 할 수 있다.
 - [ ] 환경 문제를 릴리스 결함으로 보고하지 않았다.
 

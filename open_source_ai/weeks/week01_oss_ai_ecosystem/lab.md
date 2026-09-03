@@ -111,7 +111,7 @@ PowerShell 7을 쓰고 있으면 `powershell` 대신 `pwsh`를 쓴다.
 
 ### 확장 문제
 
-1. `env_check.ps1`의 `$tools` 목록에 PowerShell 자체 버전(`$PSVersionTable.PSVersion`)을 표시하는 행을 추가하고, 스크립트가 어느 PowerShell에서 실행되었는지 기록한다.
+1. `env_check.ps1`의 결과 표에 PowerShell 자체 버전(`$PSVersionTable.PSVersion`)을 표시하는 행을 추가하고, 스크립트가 어느 PowerShell에서 실행되었는지 기록한다. `$PSVersionTable`은 실행할 명령이 아니라 변수라는 점에 주의한다.
 2. `uv python list`를 실행해 uv가 알고 있는 Python 목록을 읽고, 환경 기준표의 Python이 그 목록에 있는지 한 문장으로 적는다. 다운로드가 시작되면 중단한다.
 
 ## 2교시 실습 — 공개 AI 프로젝트 탐색표
@@ -234,7 +234,7 @@ uv --version
 ### 문제 1 · 첫 uv 실행과 환경 보고서
 
 1. 실행 전에 예상을 적는다. JSON에 GPU 이름이 들어갈지, Python이 어느 폴더의 것일지, `OLLAMA_MODEL` 값은 무엇으로 나올지.
-2. 실행한다. 처음에는 uv가 `.venv`를 만들고 `python-dotenv`를 설치하는 메시지가 지나간다.
+2. 실행한다. 처음에는 uv가 `.venv`를 만들고 `python-dotenv`를 설치하는 메시지가 지나간다. 잠금 파일 `uv.lock`도 함께 생긴다. 잠금 파일의 역할은 3주차에 다루므로 오늘은 지우지 않는다.
 
    ```powershell
    uv run python sysinfo.py
@@ -316,7 +316,7 @@ $env:OLLAMA_MODEL = "qwen3:0.6b"
 uv run --no-project python sysinfo.py
 ```
 
-스크립트가 "python-dotenv가 없어 .env를 읽지 않는다"고 안내하면 정상이다.
+스크립트가 "python-dotenv가 없어 .env를 읽지 않는다"고 안내하면 정상이다. 이 경로에서는 `.venv`가 만들어지지 않으므로 `python.in_project_venv`가 `false`, `venv_location`이 `(프로젝트 폴더 밖)`으로 나오는 것도 정상이며, 그 사실을 비교 문장에 적는다.
 </details>
 
 <details>

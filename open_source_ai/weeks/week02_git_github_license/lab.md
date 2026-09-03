@@ -162,7 +162,7 @@ git push
 <details>
 <summary>힌트 1 — push가 rejected다, 또는 인증 창이 계속 뜬다</summary>
 
-rejected는 원격에 로컬이 모르는 commit이 있다는 뜻이다. 저장소를 만들 때 README나 license를 추가했으면 그렇게 된다. `git fetch origin` 뒤 `git log --oneline --all`로 원격 commit을 확인하고, 강제 push 대신 `git pull --no-rebase origin main`으로 합친다. "unrelated histories" 오류가 나면 같은 명령에 `--allow-unrelated-histories`를 붙인다. 인증 창이 반복되면 credential manager 설정을 강의자에게 확인한다. 토큰을 URL에 넣지 않는다.
+rejected는 원격에 로컬이 모르는 commit이 있다는 뜻이다. 저장소를 만들 때 README나 license를 추가했으면 그렇게 된다. `git fetch origin` 뒤 `git log --oneline --all`로 원격 commit을 확인하고, 강제 push 대신 `git pull --no-rebase origin main`으로 합친다. "unrelated histories" 오류가 나면 같은 명령에 `--allow-unrelated-histories`를 붙인다. 합친 뒤 `git push -u origin main`을 다시 실행해 추적 관계를 만든다. 인증 창이 반복되면 credential manager 설정을 강의자에게 확인한다. 토큰을 URL에 넣지 않는다.
 </details>
 
 <details>
@@ -180,7 +180,7 @@ rejected는 원격에 로컬이 모르는 commit이 있다는 뜻이다. 저장�
 ### 검증
 
 - 정상: `git log --graph --oneline --all`에 `main`과 `feature/readme`가 갈라졌다가 merge commit에서 합쳐지고, `origin/main`과 `main`이 같은 commit에 있다.
-- 경계 또는 실패: `git merge --abort`를 한 번 실행해 merge 전 상태로 돌아가는 것을 확인한 뒤 다시 merge한다. 그리고 권한이 없는 URL(예: 짝의 저장소)로 `git push`를 한 번 시도해 거부 메시지를 읽는다.
+- 경계 또는 실패: `git merge --abort`를 한 번 실행해 merge 전 상태로 돌아가는 것을 확인한 뒤 다시 merge한다. 그리고 권한이 없는 URL로 `git push <URL> main`을 한 번 시도해 거부 메시지를 읽는다. 짝이 이미 정해졌으면 짝 저장소 URL을, 아직이면 1주차에 조사한 남의 공개 저장소(예: `https://github.com/ollama/ollama.git`)를 쓴다. 거부되는 것이 정상이며 우회하지 않는다.
 - 설명: "충돌은 오류가 아니라 ______를 요청하는 상태다"의 빈칸을 채워 한 문장으로 적는다.
 
 ### 확장 문제
@@ -225,7 +225,7 @@ git push
 
 1. 실행 전에 예상을 적는다. fork한 저장소의 URL에는 누구의 계정 이름이 들어가는가? PR을 열면 base와 compare에 각각 무엇이 보이겠는가?
 2. 브라우저에서 **짝 저장소**의 Issues → New issue → "제안(proposal)" 템플릿을 고른다. 제목 `[제안] README에 기여 방법 절 추가`, 본문의 현재 상황·제안·기대 효과를 채워 등록한다. Issue 번호를 적어 둔다.
-3. 짝 저장소 페이지 오른쪽 위 Fork → 본인 계정에 fork를 만든다.
+3. 짝 저장소 페이지 오른쪽 위 Fork → 본인 계정에 fork를 만든다. 본인 계정에 이미 같은 이름(`osa-practice`)의 저장소가 있으면 GitHub이 같은 이름을 허용하지 않으므로 fork 화면의 Repository name을 `osa-practice-partner`처럼 바꾼다. fork 이름이 달라도 PR에는 영향이 없다.
 4. **개인 저장소 폴더 밖의 별도 위치**에서 fork를 clone하고 branch를 만든다.
 
 ```powershell
@@ -260,7 +260,7 @@ git push -u origin feature/contributing
 
 ### 문제 2 · 리뷰 → 수정 → merge (리뷰어·관리자 역할)
 
-1. 짝이 **내 저장소**에 올린 PR을 연다. Files changed 탭에서 추가된 줄에 마우스를 올려 `+`를 누르고 코멘트를 남긴다. 아래 중 하나를 골라 구체적으로 요청한다.
+1. 짝이 **내 저장소**에 올린 PR을 연다. Files changed 탭에서 추가된 줄에 마우스를 올려 `+`를 누르고 코멘트를 쓴 뒤 **Start a review**를 누른다(Add single comment를 누르면 코멘트가 리뷰와 따로 올라간다). 아래 중 하나를 골라 구체적으로 요청한다.
    - "`feature/<주제>`의 예시(`feature/contributing`)를 한 줄 추가해 주세요. 처음 보는 사람은 `<주제>`를 그대로 쓸 수 있습니다."
    - "commit 메시지 규칙(제목은 명령형, 본문에 이유) 한 줄을 추가해 주세요. 리뷰할 때 기준이 됩니다."
 2. Review changes → **Request changes** → Submit review. 코멘트 오른쪽 위 메뉴의 Copy link로 코멘트 URL을 적어 둔다.

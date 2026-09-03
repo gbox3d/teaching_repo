@@ -48,7 +48,7 @@ git ls-files
 2. `uv sync`를 실행하고 **첫 오류 메시지의 첫 줄**을 읽어 원인 한 곳만 고친다. 다시 실행한다. 오류가 사라질 때까지 반복하되, 고칠 때마다 무엇을 왜 바꿨는지 `answers_A.md`에 한 줄씩 적는다.
 3. `uv run python report.py`가 실행되는지 확인한다. `uv sync`가 성공한 것처럼 보여도 `ModuleNotFoundError`가 나면 아직 설정이 덜 고쳐진 것이다.
 4. `.gitignore`를 만들고(`.venv/`, `.env`, `outputs/`, `__pycache__/`), `.env`를 추적에서 뺀 뒤(`git rm --cached .env`), 값을 비운 `.env.example`을 만든다.
-5. 한 commit으로 정리하고 `git ls-files`·`git status`로 확인한다.
+5. 한 commit으로 정리하고 `git ls-files`·`git status`로 확인한다. 복구 뒤 `uv sync`가 만든 `uv.lock`은 3주차 원칙대로 같은 commit에 넣는다(`.gitignore`로 감추면 재현성 위반이다).
 
 완료 조건:
 
@@ -174,13 +174,13 @@ uv run python chat.py --prompt "uv sync 가 하는 일을 한 문장으로 설�
 <details>
 <summary>힌트 3 — 없는 모델인데 연결 실패 메시지가 나온다</summary>
 
-서버가 켜져 있으면 없는 모델은 `httpx.HTTPStatusError`(404)로 온다. `ConnectError`와 `HTTPStatusError`를 따로 잡고, 404일 때는 `ollama list`를 안내하는 문장을 만든다.
+시작 코드는 이미 `ConnectError`(서버 없음)와 404 `HTTPStatusError`(모델 없음)를 따로 잡는다. 연결 실패 문장이 나온다면 요청이 서버에 닿지 못한 것이다. `ollama list`가 되는지, 앞의 실패 경로 재현에서 바꾼 `--host`나 `.env`의 `OLLAMA_HOST`가 원래 값(`http://localhost:11434`)으로 돌아왔는지 확인한다. `chat.py`에 새 `except`를 추가할 필요는 없다.
 </details>
 
 ### 검증
 
 - 정상: `--system` 유무 두 실행의 `outputs/chat-*.json`에 `tokens_per_sec`가 숫자로 있고, 두 `content`가 다르다.
-- 경계 또는 실패: Ollama를 끄고 실행하면 연결 실패 문장이, 켜고 없는 모델로 실행하면 모델 없음 문장이 나온다. 두 문장이 서로 달라야 한다.
+- 경계 또는 실패: Ollama를 끄고 실행하면(공용 서버를 쓰는 실습실은 `--host http://localhost:1`로 대신한다) 연결 실패 문장이, 켜고 없는 모델로 실행하면 모델 없음 문장이 나온다. 두 문장이 서로 달라야 하고 종료 코드는 둘 다 0이 아니다.
 - 설명: "`stream: false`와 `think: false`를 요청에 명시하는 이유"를 각각 한 문장으로 쓴다.
 
 ### 확장 문제
@@ -230,7 +230,7 @@ ollama list
 
 완료 조건:
 
-- [ ] `outputs/env-check.json`이 시작 시각과 함께 있다.
+- [ ] `outputs/env-check.json`이 시작 시각과 함께 있고, 시작 시점의 `git status`가 clean이었다.
 - [ ] 제출 파일·commit id·짧은 설명(무엇을·왜)이 제출 경로에 있다.
 - [ ] 못 끝낸 항목은 증상·관찰·시도 세 줄로 적었다.
 

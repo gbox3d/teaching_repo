@@ -40,6 +40,8 @@ ollama ps                    # run 을 끝낸 직후
 .\ollama_probe.ps1 -Model qwen3:4b
 ```
 
+스크립트 실행이 차단된 PC에서는 `powershell -ExecutionPolicy Bypass -File .\ollama_probe.ps1 -Model qwen3:4b`로 이번 실행만 우회한다(1주차 `env_check.ps1`과 같다).
+
 2교시(REST API):
 
 ```powershell

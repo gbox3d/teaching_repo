@@ -255,7 +255,7 @@
       "description": "오픈소스 협업과 라이선스, uv 재현 환경, Ollama 로컬 LLM, Hugging Face·PyTorch, RAG, PEFT/LoRA, 서비스화와 릴리스까지 60분 블록 3개로 구성한 15주 과정입니다.",
       "status": "published",
       "accent": "#bc8cff",
-      "summary": "15개 주차",
+      "summary": "15개 주차 · 407장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/open_source_ai",
       "chapters": [
         {

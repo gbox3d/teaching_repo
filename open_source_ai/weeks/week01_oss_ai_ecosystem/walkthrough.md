@@ -242,7 +242,7 @@ Python   : 3.x.y @ .venv
 모델 설정: OLLAMA_MODEL=qwen3:4b [기본값]
 ```
 
-폴더에 `.venv`와 `outputs`가 새로 생겼다. `outputs\sysinfo.json`을 열면 `python.in_project_venv`가 `true`, `python.venv_location`이 `.venv`다. 두 번째 실행부터는 설치 메시지 없이 바로 요약이 나온다.
+폴더에 `.venv`, `outputs`, 그리고 잠금 파일 `uv.lock`이 새로 생겼다. `uv.lock`은 지우지 않는다(역할은 3주차에 다룬다). `outputs\sysinfo.json`을 열면 `python.in_project_venv`가 `true`, `python.venv_location`이 `.venv`다. 두 번째 실행부터는 설치 메시지 없이 바로 요약이 나온다.
 
 **확인** — [ ] GPU 줄에 이름과 VRAM(MiB)이 있거나, GPU 없는 PC라면 `GPU 없음: …` 사유가 있다.
 
@@ -324,7 +324,7 @@ git status
 
 `git commit` 전의 `git status`에서 `Changes to be committed` 목록을 읽고 `.venv`·`outputs`·`.env`가 없는지 확인한 뒤 commit한다.
 
-**예상 결과** — `Changes to be committed`에는 `first_run/` 아래 다섯 파일, `reports/` 아래 세 파일, `env_check.ps1`, `env_check_raw.md`, 템플릿 2개만 있다. `git log --oneline -1`에 해시와 `Add environment report`가 한 줄로 보인다. 마지막 `git status`는 `nothing to commit, working tree clean`이다. 이 commit이 학기 내내 자랄 개인 저장소의 첫 기록이며, 2주차에 GitHub 원격과 연결된다.
+**예상 결과** — `Changes to be committed`에는 `first_run/` 아래 여섯 파일(원본 다섯 + 첫 실행이 만든 `uv.lock`), `reports/` 아래 세 파일, `env_check.ps1`, `env_check_raw.md`, 템플릿 2개, 모두 13개만 있다. `git log --oneline -1`에 해시와 `Add environment report`가 한 줄로 보인다. 마지막 `git status`는 `nothing to commit, working tree clean`이다. 이 commit이 학기 내내 자랄 개인 저장소의 첫 기록이며, 2주차에 GitHub 원격과 연결된다.
 
 **확인** — [ ] [`lab.md`의 3교시 완료 조건](lab.md#3교시-실습--첫-uv-실행과-첫-commit)을 모두 체크했다. 실습 30분 뒤 휴식 10분.
 

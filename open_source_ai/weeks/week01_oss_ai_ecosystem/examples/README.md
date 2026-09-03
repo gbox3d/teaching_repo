@@ -58,6 +58,7 @@ uv run python sysinfo.py --print
 | 상황 | 대체 경로 |
 |---|---|
 | NVIDIA GPU 또는 드라이버가 없다 | `env_check.ps1`의 `nvidia-smi` 행은 `실패`가 정상이다. `sysinfo.py`는 `gpu.available: false`와 사유를 기록하고 끝까지 실행된다. 점검표에는 "GPU 없음 → CPU + 소형 모델(`qwen3:0.6b`)"로 적는다 |
+| Ollama 서버가 꺼져 있다 | 이번 주는 서버가 필요 없다. `ollama --version`이 `Warning: could not connect to a running Ollama instance` 경고를 먼저 찍어도 실패가 아니며, `env_check.ps1`은 그 아래 줄의 버전 숫자로 `정상`을 판정한다. 점검표에는 그 줄을 그대로 옮긴다 |
 | 네트워크가 막혀 `python-dotenv` 설치가 안 된다 | `uv run --no-project python sysinfo.py`로 실행한다. `.env`는 읽지 않으므로 `$env:OLLAMA_MODEL = "qwen3:0.6b"`처럼 셸 환경변수로 준다 |
 | 환경 기준표의 Python이 설치되지 않아 uv가 다운로드를 시작한다 | 네트워크가 열려 있으면 기다린다. 막혀 있으면 조교에게 알리고 3교시 문제 2(`git init`)를 먼저 진행한다 |
 | `code` 명령이 없다 | VS Code를 직접 열어 편집한다. 점검표에는 `실패`와 조치(PATH 옵션 확인)를 적는다 |
@@ -66,7 +67,7 @@ uv run python sysinfo.py --print
 
 - 이 예제는 모델을 내려받거나 호출하지 않는다. `OLLAMA_HOST`, `OLLAMA_MODEL` 값을 읽어 보고서에 적기만 한다. 실제 호출은 4주차다.
 - 모델 ID·양자화·용량은 학기별 [환경 기준표](../../../../environment_baseline_template.md)에서 확정하며, `.env.example`의 값은 교재 검증용 기본값이다.
-- `first_run/`에 `uv.lock`은 없다. 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다.
+- `first_run/`에 `uv.lock`은 없다. 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다. 학생 복사본에서는 첫 `uv run`이 `uv.lock`을 자동으로 만들며, 지우지 않고 그대로 commit한다(잠금 파일의 역할은 3주차에 다룬다).
 
 ## 복사 후 변형
 

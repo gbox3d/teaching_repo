@@ -73,7 +73,7 @@ def main() -> None:
     if not src.exists():
         print(f"[오류] 입력 파일이 없다: {src} — 먼저 clean.py를 실행한다")
         sys.exit(1)
-    with src.open(encoding="utf-8") as f:
+    with src.open(encoding="utf-8-sig") as f:  # BOM이 있어도 읽는다
         rows = [json.loads(line) for line in f if line.strip()]
 
     out_rows, findings = process(rows, args.action)
