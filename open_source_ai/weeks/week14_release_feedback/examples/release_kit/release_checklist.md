@@ -12,7 +12,7 @@
 | ★ LICENSE | 파일 첫 줄에 라이선스 이름 | |
 | ★ CONTRIBUTING.md | Issue 양식·브랜치·PR 규칙이 적혀 있는가 | |
 | ★ CHANGELOG.md `[Unreleased]` | 항목이 사용자 관점으로 3개 이상 | |
-| ★ CITATION.cff | `cff-version`·`title`·`version`·`authors` | |
+| ★ CITATION.cff | 필수 `cff-version`·`message`·`title`·`authors` + `version` | |
 | ★ SOURCES.md | 모든 행에 라이선스·URL | |
 | ★ MODEL_CARD.md (어댑터 공개 팀만) | `--require-model-card` 로 점검 | |
 | CODE_OF_CONDUCT.md | 9주차 템플릿이 그대로 있는가 | |

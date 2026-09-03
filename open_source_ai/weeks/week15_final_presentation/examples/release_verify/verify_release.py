@@ -66,8 +66,17 @@ def check_ollama_model(host: str, repo: Path) -> CheckResult:
     names = [m.get("name", "") for m in res.json().get("models", [])]
     if not wanted:
         return CheckResult("Ollama 모델 캐시", "WARN", f".env.example에 OLLAMA_MODEL 없음 (서버 모델 {len(names)}개)")
-    if any(n == wanted or n.split(":")[0] == wanted.split(":")[0] for n in names):
+
+    def tagged(name: str) -> str:
+        """태그를 생략한 이름은 Ollama 기본값 :latest로 본다."""
+        return name if ":" in name else f"{name}:latest"
+
+    if any(tagged(n) == tagged(wanted) for n in names):
         return CheckResult("Ollama 모델 캐시", "PASS", f"{wanted} 사용 가능")
+    # 같은 계열이어도 크기·양자화가 다르면 같은 모델이 아니다. 대체 실행 허용 여부는 대상 README를 읽고 사람이 판단한다.
+    family = [n for n in names if n.split(":")[0] == wanted.split(":")[0]]
+    if family:
+        return CheckResult("Ollama 모델 캐시", "WARN", f"{wanted} 없음 — 같은 계열 {', '.join(family[:3])} 있음, 대상 README의 대체 경로 허용 여부를 확인해 기록")
     return CheckResult("Ollama 모델 캐시", "WARN", f"{wanted} 없음 — 수업 전 사전 캐시 대상, 실습 중 다운로드 금지")
 
 

@@ -48,6 +48,8 @@ def build_payload(args: argparse.Namespace, model: str) -> dict:
         "stream": False,
         # Qwen3 계열은 답 앞에 thinking 텍스트를 먼저 만든다. 수업에서는 답만 보고
         # 토큰 수를 비교하기 위해 기본으로 끈다. --think 를 주면 켠다.
+        # 기본 모델은 하이브리드라 이 값으로 꺼지지만, 생각 전용 빌드(접미사 없는
+        # 4b·30b·235b)는 꺼지지 않는다. 태그 고르는 기준은 weeks/README.md 에 있다.
         "think": bool(args.think),
         "options": {
             "temperature": args.temperature,

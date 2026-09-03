@@ -63,7 +63,7 @@ Ollama를 끈 상태의 연결 실패는 서버를 잠시 멈출 수 있는 PC�
 
 - (a) `pipeline(...)` 호출에서 GPU를 쓰게 하려면 무엇을 지정하는가?
 - (b) 실제로 GPU에서 돌았는지 확인하는 방법 2가지.
-- (c) `torch_dtype`이 `float32`인 것이 VRAM과 속도에 어떤 영향을 주는가?
+- (c) `dtype`이 `float32`인 것이 VRAM과 속도에 어떤 영향을 주는가?
 
 ## `answers_B.md` 양식
 

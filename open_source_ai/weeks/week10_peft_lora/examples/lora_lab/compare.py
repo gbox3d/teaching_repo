@@ -17,10 +17,8 @@ import time
 from pathlib import Path
 from typing import Any
 
-import torch
-from peft import PeftModel
-from transformers import set_seed
-
+# common 이 .env 를 읽는다. HF_HOME·HF_HUB_OFFLINE 은 huggingface 라이브러리가 import 될 때
+# 한 번만 읽히므로, common 을 peft·transformers 보다 먼저 import 해야 .env 값이 적용된다.
 from common import (
     OUTPUTS_DIR,
     build_messages,
@@ -31,6 +29,10 @@ from common import (
     write_json,
     write_text,
 )
+
+import torch
+from peft import PeftModel
+from transformers import set_seed
 
 FORMAT_MARKERS = ("핵심:", "이유:", "다음 할 일:")  # sample_sft.jsonl의 답변 형식
 

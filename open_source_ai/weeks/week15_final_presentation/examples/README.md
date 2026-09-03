@@ -36,6 +36,8 @@ uv sync
 
 clone → 태그 checkout → `uv sync --frozen` → `uv run --frozen pytest -q` → `verify_release.py` 순으로 실행하고 `outputs\cross-review-team-b-<시각>.log`에 남긴다. pytest에도 `--frozen`을 붙이는 이유는 lock이 없는 저장소에서 uv가 clone 폴더에 새 `uv.lock`을 만들어 "재현"이 "새 설치"로 바뀌는 것을 막기 위해서다. README 절차대로 핵심 기능을 실제로 실행하는 단계는 자동화하지 않으므로 직접 한다.
 
+`uv sync --frozen`과 `uv run --frozen pytest`는 대상 저장소의 코드를 이 PC에서 실행한다(빌드 백엔드·`conftest.py`·테스트). 수업에서 서로 공개한 팀 저장소에만 이 스크립트를 쓰고, 출처를 모르는 저장소는 파일과 git 상태만 읽는 `verify_release.py`로만 검사한다.
+
 ### 교차 재현 검증 — 수동
 
 ```powershell

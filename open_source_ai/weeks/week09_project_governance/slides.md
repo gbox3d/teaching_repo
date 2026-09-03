@@ -206,7 +206,7 @@ uv run python repo_health.py --repo huggingface/transformers --repo ollama/ollam
 | 한국어 품질 | 같은 프롬프트 5개로 비교 | 4주차 `model_report.md` 재사용 |
 
 ```powershell
-uv run python vram_estimate.py --candidate "qwen3:4b,4B,4" --candidate "qwen3:0.6b,0.6B,4"
+uv run python vram_estimate.py --candidate "qwen3:8b,8.2B,4" --candidate "qwen3:0.6b,0.6B,4"
 ```
 
 **추정치와 실측치를 나란히 적는다.** 추정만 있으면 근거가 아니다.

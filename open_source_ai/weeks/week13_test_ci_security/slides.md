@@ -195,8 +195,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
         with: { enable-cache: true }
       - run: uv python install          # requires-python 을 읽는다
       - run: uv sync                    # lock 을 커밋했다면 --frozen
@@ -213,9 +213,9 @@ jobs:
 
 - `astral-sh/setup-uv`: uv 설치 + `enable-cache: true`면 내려받은 패키지를 다음 실행에 재사용
 - 첫 실행과 두 번째 실행의 `uv sync` 시간을 비교해 본다
-- `uv sync --frozen`: lock을 갱신하지 않고 그대로 설치. lock과 pyproject가 어긋나면 **실패** → "lock을 안 올린 PR"을 잡는다
+- `uv sync --frozen`: lock을 **검사하지 않고** 그대로 설치 — 어긋나도 통과한다. "lock을 안 올린 PR"은 `uv sync --locked`(또는 `uv lock --check`)가 **실패**로 잡는다
 - 러너는 Linux다 — `C:\` 경로, `.ps1`은 CI에서 돌지 않는다
-- 액션 메이저 버전(`@v4`, `@v6`)은 환경 기준표에서 확정한다
+- 액션 메이저 버전(`@v5`, `@v7`)은 환경 기준표에서 확정한다
 
 **질문:** 캐시가 오래된 취약 버전을 붙들 수 있는가? 설치 버전을 결정하는 것은 무엇인가?
 

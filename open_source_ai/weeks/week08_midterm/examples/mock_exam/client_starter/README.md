@@ -17,5 +17,5 @@ uv run python chat.py --prompt "uv sync 가 하는 일을 한 문장으로 설�
 | `chat.py` | 비스트리밍 `/api/chat` 호출, `outputs/chat-*.json` 기록. `TODO(B-1)` 세 곳 |
 | `check_env.py` | `/api/tags`로 연결·모델 확인, `outputs/env-check.json` 기록. 3교시 시작 전 점검에도 쓴다 |
 
-- `OLLAMA_MODEL` 기본값 `qwen3:4b`, GPU 없는 PC는 `.env`에서 `qwen3:0.6b`. 확정 값은 학기별 환경 기준표.
+- `OLLAMA_MODEL` 기본값 `qwen3:8b`, GPU 없는 PC는 `.env`에서 `qwen3:0.6b`. 확정 값은 학기별 환경 기준표.
 - `uv.lock`은 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다.

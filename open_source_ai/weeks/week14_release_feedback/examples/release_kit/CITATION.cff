@@ -1,5 +1,6 @@
 # Citation File Format 예시. 필드 뜻은 https://citation-file-format.github.io/ 를 따른다.
-# release_check.py 는 cff-version · title · version · authors 네 필드가 있는지만 본다.
+# CFF 1.2.0 이 요구하는 필수 필드는 cff-version · message · title · authors 넷이고 version 은 선택이다.
+# release_check.py 는 그 넷에 version 을 더한 다섯 개가 있는지만 본다(태그·pyproject 와 버전을 맞추기 위해).
 cff-version: 1.2.0
 message: "이 소프트웨어를 사용하면 아래 정보로 인용한다."
 type: software

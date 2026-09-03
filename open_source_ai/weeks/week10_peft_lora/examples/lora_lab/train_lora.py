@@ -15,11 +15,8 @@ import time
 from pathlib import Path
 from typing import Any
 
-import torch
-from datasets import Dataset
-from peft import LoraConfig, get_peft_model
-from transformers import DataCollatorForSeq2Seq, Trainer, TrainingArguments, set_seed
-
+# common 이 .env 를 읽는다. HF_HOME·HF_HUB_OFFLINE 은 huggingface 라이브러리가 import 될 때
+# 한 번만 읽히므로, common 을 datasets·peft·transformers 보다 먼저 import 해야 .env 값이 적용된다.
 from common import (
     DEFAULT_TARGET_MODULES,
     OUTPUTS_DIR,
@@ -35,6 +32,11 @@ from common import (
     split_modules,
     write_json,
 )
+
+import torch
+from datasets import Dataset
+from peft import LoraConfig, get_peft_model
+from transformers import DataCollatorForSeq2Seq, Trainer, TrainingArguments, set_seed
 
 IGNORE_INDEX = -100  # 손실 계산에서 제외할 라벨 값(transformers 관례)
 
@@ -137,7 +139,7 @@ def main() -> None:
         max_steps=args.max_steps,
         learning_rate=args.lr,
         lr_scheduler_type="cosine",
-        warmup_ratio=0.05,
+        warmup_steps=0.05,  # 1 미만이면 전체 step 대비 비율(5%)로 해석된다
         logging_steps=args.logging_steps,
         save_strategy="no",
         report_to="none",

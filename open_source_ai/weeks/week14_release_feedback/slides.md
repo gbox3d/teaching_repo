@@ -86,7 +86,7 @@ footer: "릴리스와 커뮤니티 피드백"
 | MODEL_CARD.md | 어댑터를 받은 사람이 용도·한계를 모른다 | 기반 모델·revision, 데이터·라이선스, 학습 설정, 평가표, 한계 |
 | CODE_OF_CONDUCT.md | 갈등이 생겼을 때 기준이 없다 | 채택 문구와 연락 통로 |
 
-- Model Card의 frontmatter(`license`, `base_model`)는 Hub 메타데이터가 된다
+- Hub 모델 저장소에 `README.md`로 올리면 frontmatter(`license`·`base_model`)가 메타데이터가 된다
 - 어댑터를 공개하지 않는 팀은 Model Card 대신 `SOURCES.md`만 최종화한다
 
 ---
@@ -103,7 +103,7 @@ footer: "릴리스와 커뮤니티 피드백"
 
 - Keep a Changelog: 최신이 위, Added / Changed / Fixed, **사용자 관점 문장**
 - commit 제목 복사 금지. "무엇이 사용자에게 달라졌는가"로 다시 쓴다
-- CITATION.cff: `cff-version`·`title`·`version`·`authors`. version은 `pyproject.toml`과 같게
+- CITATION.cff 필수 4개: `cff-version`·`message`·`title`·`authors`. `version`은 선택이지만 `pyproject.toml`과 같게 적는다
 
 **질문:** "refactor config loader"는 CHANGELOG에 들어가는가?
 
@@ -235,7 +235,7 @@ git show v0.1.0 --stat | Select-Object -First 8
 
 1. `v0.1.0` 주석 태그가 push되고 GitHub Release에 릴리스 노트가 있다.
 2. 짝 팀 릴리스를 새 폴더에서 재현한 `repro-log-*.md`에 단계별 초와 결과가 있다.
-3. 막힌 단계마다 환경·명령·출력이 있는 Issue를 등록했다(막히지 않았으면 총 소요 시간을 전달했다).
+3. 막힌 단계마다 환경·명령·출력·README 위치가 있는 Issue를 등록했다(막히지 않았으면 총 소요 시간을 전달했다).
 
 실습 30분 뒤 휴식 10분, 휴식 후 3교시.
 

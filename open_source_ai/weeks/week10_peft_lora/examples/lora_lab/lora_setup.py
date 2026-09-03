@@ -14,9 +14,8 @@ import argparse
 import sys
 from typing import Any
 
-import torch
-from peft import LoraConfig, get_peft_model
-
+# common 이 .env 를 읽는다. HF_HOME·HF_HUB_OFFLINE 은 huggingface 라이브러리가 import 될 때
+# 한 번만 읽히므로, common 을 peft·transformers 보다 먼저 import 해야 .env 값이 적용된다.
 from common import (
     DEFAULT_TARGET_MODULES,
     OUTPUTS_DIR,
@@ -31,6 +30,9 @@ from common import (
     write_json,
     write_text,
 )
+
+import torch
+from peft import LoraConfig, get_peft_model
 
 MB = 1024 * 1024
 ADAM_BYTES_PER_TRAINABLE = 16  # fp32 가중치 4 + 그래디언트 4 + Adam 1차·2차 상태 8
@@ -90,6 +92,7 @@ def lora_row(model_id: str, rank: int, args: argparse.Namespace, device: torch.d
         "alpha": args.alpha,
         "trainable_params": trainable,
         "total_params": total,
+        "base_params": total_before,  # 어댑터를 뺀 기본 모델 파라미터 수(전체 파인튜닝 비교용)
         "trainable_ratio_pct": round(100.0 * trainable / total, 4),
         "predict_weights_mb": round(weights / MB),
         "predict_trainable_state_mb": round(optimizer / MB),
@@ -150,7 +153,7 @@ def main() -> None:
     print(f"모델: {args.model} · 장치: {device} · dtype: {dtype}")
 
     rows = [lora_row(args.model, rank, args, device, dtype) for rank in ranks]
-    full = full_ft_row(rows[0]["total_params"], rows[0]["predict_activation_mb"])
+    full = full_ft_row(rows[0]["base_params"], rows[0]["predict_activation_mb"])
 
     stamp = timestamp()
     payload = {

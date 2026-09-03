@@ -17,7 +17,7 @@
 | 6. 라이선스·출처 | LICENSE ↔ `SOURCES.md`의 모델·데이터·의존성 라이선스 | 호환되고 SPDX ID·URL이 있음 | | |
 | 7. 비밀·개인정보 | `verify_release.py` 비밀 패턴, `.env` 추적 여부, `git log -p` 검색 | 추적된 비밀·개인정보 없음 | | |
 | 8. 평가·한계 | 평가 결과 파일과 한계·오류 사례 | 수치·실패 사례가 문서와 일치 | | |
-| 9. 협업 근거 | `git shortlog -sn --no-merges`, PR·Issue·Review | 팀원별 commit·PR·리뷰 1개 이상 | | |
+| 9. 협업 근거 | `git shortlog -sn --no-merges HEAD`, PR·Issue·Review | 팀원별 commit·PR·리뷰 1개 이상 | | |
 
 ## 실패 분류
 

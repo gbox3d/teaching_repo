@@ -30,13 +30,14 @@
 ```powershell
 # 교재 저장소 위치는 실습실 안내를 따른다. $src 와 $dst 는 예시다.
 $src = "C:\teaching_repo\open_source_ai\weeks\week05_huggingface_hub\examples"
-$dst = "$HOME\osa-repo\week05"   # 4주차까지 쓴 개인 저장소 안의 폴더로 바꾼다
+$dst = "$HOME\osa-practice\week05"   # 4주차까지 쓴 개인 저장소 안의 폴더로 바꾼다
 New-Item -ItemType Directory -Force $dst | Out-Null
-Copy-Item -Recurse "$src\hf_explore" "$dst\hf_explore"
-Copy-Item "$src\model_cards_template.md" "$dst\model_cards.md"
-Copy-Item "$src\SOURCES_template.md" "$dst\SOURCES.md"
+# 이미 있으면 건너뛴다. 하루가 바뀌어 이 블록을 다시 실행해도 채워 둔 문서가 템플릿으로 되돌아가지 않는다.
+if (-not (Test-Path "$dst\hf_explore"))     { Copy-Item -Recurse "$src\hf_explore" "$dst\hf_explore" }
+if (-not (Test-Path "$dst\model_cards.md")) { Copy-Item "$src\model_cards_template.md" "$dst\model_cards.md" }
+if (-not (Test-Path "$dst\SOURCES.md"))     { Copy-Item "$src\SOURCES_template.md" "$dst\SOURCES.md" }
 Set-Location "$dst\hf_explore"
-Copy-Item .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv run python cache_report.py --help
 ```
 
@@ -122,9 +123,10 @@ uv run python cache_report.py --help
 1교시에 복사한 `hf_explore` 폴더에서 계속한다. 새로 시작하는 날이면 1교시의 준비 명령을 먼저 실행한다.
 
 ```powershell
-Set-Location "$HOME\osa-repo\week05\hf_explore"
+Set-Location "$HOME\osa-practice\week05\hf_explore"
 uv run python pipeline_demo.py --help
-New-Item -ItemType File -Force ..\pipeline_report.md | Out-Null
+# -Force 는 이미 있는 파일을 빈 파일로 덮어쓴다. 없을 때만 만든다.
+if (-not (Test-Path ..\pipeline_report.md)) { New-Item -ItemType File ..\pipeline_report.md | Out-Null }
 ```
 
 ### 문제 1 · 감성 분류를 두 장치에서
@@ -212,7 +214,7 @@ New-Item -ItemType File -Force ..\pipeline_report.md | Out-Null
 ### 준비
 
 ```powershell
-Set-Location "$HOME\osa-repo\week05\hf_explore"
+Set-Location "$HOME\osa-practice\week05\hf_explore"
 uv run python dataset_peek.py --help
 ```
 
@@ -232,7 +234,7 @@ uv run python dataset_peek.py --help
 
 ### 문제 2 · 공개 데이터셋 카드와 SOURCES.md
 
-1. 강의자가 지정한 공개 데이터셋(지정이 없으면 후보: `klue/klue`의 `ynat` 구성, 또는 `HuggingFaceH4/no_robots`) 페이지를 열어 Dataset Card에서 요약·출처, 구조(필드·split·건수), 수집·주석 방법, 개인정보 언급, 라이선스를 찾아 적는다. 라이선스는 카드 본문에서 직접 확인한 값만 적는다.
+1. 강의자가 지정한 공개 데이터셋(지정이 없으면 후보: `klue/klue`의 `ynat` 구성, 또는 `HuggingFaceH4/no_robots`) 페이지를 열어 Dataset Card에서 요약·출처, 구조(필드·split·건수), 수집·주석 방법, 개인정보 언급, 라이선스를 찾아 적는다. 라이선스는 카드에서 직접 확인한 값만 적되, 본문 절과 맨 위 YAML 중 **어디에서 찾았는지**를 함께 적는다. 본문 절이 `[Needs More Information]`이면 그 사실도 적는다.
 2. 네트워크와 강의자의 허용이 있으면 `uv run python dataset_peek.py --hub-id <ID> --config <구성> --split train --streaming --n 5`로 앞 5개를 보고 카드의 필드·건수와 비교한다. 허용이 없으면 카드 기록만으로 진행하고 그 사실을 적는다.
 3. 실패 경로: config가 필요한 데이터셋을 `--config` 없이 실행해 오류 메시지에 나열된 config 이름을 기록한다(오프라인이면 네트워크 오류 메시지를 대신 기록한다).
 4. `SOURCES.md`에 2교시에서 쓴 모델 2개(분류·생성)와 데이터 1개(로컬 샘플 또는 공개 데이터셋)를 적는다. 버전 칸에는 commit hash, 라이선스 칸에는 SPDX 식별자, 용도 칸에는 이번 주의 실제 용도를 쓴다.

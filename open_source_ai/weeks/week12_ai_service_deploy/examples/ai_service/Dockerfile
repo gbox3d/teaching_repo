@@ -1,7 +1,7 @@
 # 앱 서버(FastAPI)만 담는다. 모델 서버(Ollama)는 컨테이너 밖(호스트)에서 돌고,
 # 컨테이너는 OLLAMA_HOST=http://host.docker.internal:11434 로 그것을 찾아간다.
 # 베이스 이미지 태그(Python 버전·OS)는 학기별 환경 기준표에서 확정한다.
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+FROM ghcr.io/astral-sh/uv:python3.12-trixie-slim
 
 WORKDIR /app
 ENV UV_COMPILE_BYTECODE=1 \

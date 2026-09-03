@@ -67,7 +67,7 @@ uv sync
 1. `SOURCES.md`의 행마다 이름·버전(revision 또는 태그)·라이선스·SPDX ID·용도·변경 내용·URL이 있는지 확인한다. 빈 칸은 모델 카드·데이터 카드·`pyproject.toml`에서 찾아 채운다.
 2. 라이선스 호환을 판단한다. copyleft(GPL 계열)·NC·SA 조건이 있는 항목을 표시하고, 우리 릴리스에 적용되는 가장 제한적인 조건을 한 문장으로 README 「제한」과 「라이선스」 절에 적는다. 예: "학습 데이터가 CC-BY-NC-4.0이므로 어댑터는 비상업 용도로만 배포한다."
 3. CHANGELOG `[Unreleased]`를 Keep a Changelog 형식으로 정리한다. `git log --oneline`을 보되 commit 제목을 복사하지 않고 Added / Changed / Fixed 아래에 사용자 관점 문장으로 다시 쓴다. 관련 Issue 번호를 붙인다.
-4. `pyproject.toml`의 `version`이 `0.1.0`인지, CITATION.cff의 `version`이 같은지 확인한다.
+4. `pyproject.toml`의 `version`을 `0.1.0`으로 맞춘다. 9주차 템플릿의 기본값은 `0.0.1`이므로 대부분 바꿔야 한다. `src/<패키지>/__init__.py`에 `__version__`이 있으면 그것과 CITATION.cff의 `version`도 같은 값으로 둔다.
 5. 보완을 commit·push한다. 메시지는 `Prepare release docs for v0.1.0`. `release_kit/release_checklist.md`를 팀 저장소 `docs/release_checklist.md`로 복사해 1·2절의 「결과」를 채우고 같이 commit한다.
 
 완료 조건:
@@ -137,7 +137,7 @@ New-Item -ItemType Directory -Force C:\classwork\repro | Out-Null
 ### 문제 1 · v0.1.0 태그와 GitHub Release
 
 1. 예상을 적는다. 짝 팀이 우리 README에서 가장 먼저 막힐 곳과 그 이유 한 줄.
-2. CHANGELOG를 승격한다. `git diff CHANGELOG.md`로 `[Unreleased]`가 비고 `[0.1.0] - 날짜` 절이 생겼는지 확인하고, 맨 아래 링크 줄의 `REPO_URL`을 팀 저장소 주소로 바꾼다.
+2. CHANGELOG를 승격한다. `git -C C:\classwork\team-a-repo diff CHANGELOG.md`로 `[Unreleased]`가 비고 `[0.1.0] - 날짜` 절이 생겼는지 확인하고, 맨 아래 링크 줄의 `REPO_URL`을 팀 저장소 주소로 바꾼다.
 
    ```powershell
    uv run python tag_notes.py --repo C:\classwork\team-a-repo --version 0.1.0 --promote

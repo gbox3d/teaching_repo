@@ -23,7 +23,7 @@ smoke_test.py ──────────────────────
 | `ai_service/reproduce_check.ps1` | 필수 파일·`.env` 추적 여부·실행 경로(docker/uv) 점검 |
 | `ai_service/README.md` | 프로젝트 안 짧은 안내 |
 
-모델 ID·주소·양자화·용량은 학기별 환경 기준표에서 확정하며, 코드의 기본값(`OLLAMA_HOST=http://localhost:11434`, `OLLAMA_MODEL=qwen3:4b`)은 교재 검증용 기본값이다. `uv.lock`은 이 폴더에 두지 않는다. 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다.
+모델 ID·주소·양자화·용량은 학기별 환경 기준표에서 확정하며, 코드의 기본값(`OLLAMA_HOST=http://localhost:11434`, `OLLAMA_MODEL=qwen3:8b`)은 교재 검증용 기본값이다. `uv.lock`은 이 폴더에 두지 않는다. 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다.
 
 ## 실행 방법
 
@@ -59,7 +59,7 @@ uv run python -m app.ollama_client           # 앱 서버 없이 Ollama 클라�
 
 ```powershell
 docker build -t osa-ai-service:dev .
-docker run --rm -p 8001:8000 -e OLLAMA_HOST=http://host.docker.internal:11434 -e OLLAMA_MODEL=qwen3:4b osa-ai-service:dev
+docker run --rm -p 8001:8000 -e OLLAMA_HOST=http://host.docker.internal:11434 -e OLLAMA_MODEL=qwen3:8b osa-ai-service:dev
 uv run python smoke_test.py --api http://localhost:8001 --skip-stream
 ```
 
@@ -68,7 +68,7 @@ uv run python smoke_test.py --api http://localhost:8001 --skip-stream
 | 변수 | 기본값 | 용도 |
 |---|---|---|
 | `OLLAMA_HOST` | `http://localhost:11434` | 앱 서버가 찾아갈 모델 서버 주소. 컨테이너 안에서는 `http://host.docker.internal:11434` |
-| `OLLAMA_MODEL` | `qwen3:4b` | 기본 생성 모델. CPU 대체 `qwen3:0.6b` |
+| `OLLAMA_MODEL` | `qwen3:8b` | 기본 생성 모델. CPU 대체 `qwen3:0.6b` |
 | `OLLAMA_TIMEOUT` | `60` | 생성 응답 대기 시간(초). `0.5`로 줄이면 504 재현 |
 | `APP_HOST`, `APP_PORT` | `127.0.0.1`, `8000` | `python -m app.main`으로 띄울 때의 주소 |
 | `SYSTEM_PROMPT` | 수업 도우미 문장 | 클라이언트가 system을 보내지 않았을 때 붙이는 기본 프롬프트 |
@@ -84,7 +84,7 @@ uv run python smoke_test.py --api http://localhost:8001 --skip-stream
 
 1. 터미널 A 첫 로그: 모델 서버 주소와 기본 모델 — 설정이 어디서 왔는지(`.env`인지 셸 변수인지) 말할 수 있어야 한다.
 2. `/health`의 `status`·`reachable`·`has_model`: 앱 서버가 **살아 있는 것**(200)과 모델 서버가 **준비된 것**(`ok`)의 차이.
-3. `/chat` 실패 코드: 없는 포트 → 502 `OllamaUnavailable`, 없는 모델 → 503 `OllamaModelMissing`, 짧은 타임아웃 → 504 `OllamaTimeout`, 범위 밖 값 → 422. 본문은 항상 `{"request_id", "error", "detail"}`.
+3. `/chat` 실패 코드: 없는 포트 → 502 `OllamaUnavailable`, 없는 모델 → 503 `OllamaModelMissing`, 짧은 타임아웃 → 504 `OllamaTimeout`, 범위 밖 값 → 422. 5xx 본문은 항상 `{"request_id", "error", "detail"}`이고, 422만 FastAPI 기본 형식 `{"detail": [...]}`이다.
 4. `smoke_test.py --show-events`: SSE 이벤트 원문(`data: {"delta": …}`, 마지막 `{"done": true, …}`)과 `first_chunk_ms` 대 `total_ms`.
 5. UI 두 모드의 `outputs/ui-turns.jsonl`: `first_ms`·`total_ms`·`error`.
 6. `/chat/stream`은 첫 청크를 받은 뒤에야 200을 확정한다. 그 전 실패는 502·503·504, 그 뒤 실패는 `{"error": …}` 이벤트다.

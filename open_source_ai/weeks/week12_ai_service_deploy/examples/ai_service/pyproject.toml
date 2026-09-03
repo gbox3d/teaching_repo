@@ -8,7 +8,8 @@ dependencies = [
   "uvicorn",
   "httpx",
   "python-dotenv",
-  "gradio",
+  # Gradio 6 부터 대화 이력이 role·content 딕셔너리 목록 하나로 통일됐다(ui/gradio_app.py 가 이를 전제한다).
+  "gradio>=6",
 ]
 
 # uv.lock 은 이 저장소에 두지 않는다. 학기별 환경 기준표 확정 후 기준 PC에서 `uv lock` 을 생성해 커밋한다.

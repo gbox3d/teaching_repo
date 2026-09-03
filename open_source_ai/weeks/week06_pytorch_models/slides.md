@@ -374,7 +374,7 @@ run.finish({"infer_ms": 12.3})       # outputs/runs/시각-embed.json
 
 - 생성 시 시작 시각과 GPU 최대 메모리 카운터를 초기화하고, `finish`가 파일을 쓴다
 - `uv run python runlog.py`로 지금까지의 기록을 표로 본다
-- 7주차 `embed.py`, 10주차 `train_lora.py`에도 같은 헬퍼를 붙인다
+- 7주차 `ragcore.py`, 10주차 `common.py`도 같은 항목을 남긴다 — 내 프로젝트엔 이 파일을 복사한다
 
 **핵심: 결과보다 먼저 기록 코드를 넣는다.**
 
@@ -387,8 +387,8 @@ run.finish({"infer_ms": 12.3})       # outputs/runs/시각-embed.json
 완료 조건:
 
 1. 5문장 유사도 행렬을 출력했고 가장 비슷한 쌍이 예상과 맞는지 적었다
-2. 자기 문장 5개 또는 pooling 변경으로 두 번째 실행을 했다
-3. `outputs/runs/`에 기록 2건 이상이 있고 `runlog.py` 표에서 확인했다
+2. 자기 문장 5개와 pooling(또는 접두어) 변경으로 두 번 더 실행했다
+3. `outputs/runs/`에 기록 3건 이상이 있고 `runlog.py` 표에서 확인했다
 
 **실습 30분 뒤 휴식 10분.** 휴식 후에는 다음 주로 이어진다.
 

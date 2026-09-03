@@ -25,7 +25,7 @@ Set-Location $Destination
 $envLines = @(
     "# 모의 실기용 가짜 설정 - 실제 값이 아니다",
     "OLLAMA_HOST=http://localhost:11434",
-    "OLLAMA_MODEL=qwen3:4b",
+    "OLLAMA_MODEL=qwen3:8b",
     "HF_TOKEN=hf_mock_token_for_exam_practice_only"
 )
 $envPath = Join-Path $Destination ".env"

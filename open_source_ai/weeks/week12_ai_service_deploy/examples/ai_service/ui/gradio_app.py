@@ -36,7 +36,7 @@ ERROR_HINTS = {
 
 
 def to_messages(message: str, history: list[dict[str, Any]]) -> list[dict[str, str]]:
-    """Gradio 의 대화 이력(type="messages")을 앱 서버 스키마로 바꾼다."""
+    """Gradio 의 대화 이력(role·content 딕셔너리 목록)을 앱 서버 스키마로 바꾼다."""
     msgs = [{"role": h["role"], "content": h["content"]} for h in history if h.get("role") in ("user", "assistant") and isinstance(h.get("content"), str)]
     msgs.append({"role": "user", "content": message})
     return msgs
@@ -113,9 +113,9 @@ def build(api: str, stream: bool, timeout: float) -> gr.ChatInterface:
             yield last
         record({"mode": mode, "prompt": message, "reply_chars": len(last), "first_ms": first_ms, "total_ms": round((time.perf_counter() - started) * 1000), "error": last.startswith("[")})
 
+    # 대화 이력은 role·content 딕셔너리 목록으로만 오간다(옛 tuples 형식과 type 인자는 없어졌다).
     return gr.ChatInterface(
         fn=respond,
-        type="messages",
         title="오픈소스 AI 응용 · 수업 도우미 (베타)",
         description=f"앱 서버 {api} · 모드 {mode}. 답이 길면 Stop 으로 중단할 수 있다.",
         examples=["uv lock 과 uv sync 의 차이를 한 문장으로.", "MIT 와 Apache-2.0 의 가장 큰 차이는?", "LoRA 의 rank 를 키우면 무엇이 늘어나는가?"],
@@ -130,7 +130,8 @@ def main() -> None:
     parser.add_argument("--no-stream", action="store_true", help="/chat/stream 대신 /chat 을 쓴다")
     args = parser.parse_args()
     demo = build(args.api, stream=not args.no_stream, timeout=args.timeout)
-    demo.launch(server_name="127.0.0.1", server_port=args.port, show_api=False)
+    # footer_links 에서 "api" 를 빼 API 문서 링크를 숨긴다.
+    demo.launch(server_name="127.0.0.1", server_port=args.port, footer_links=["gradio", "settings"])
 
 
 if __name__ == "__main__":

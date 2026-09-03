@@ -63,13 +63,24 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 환경변수 | 기본값 | 용도 |
 |---|---|---|
 | `OLLAMA_HOST` | `http://localhost:11434` | Ollama 서버 주소 |
-| `OLLAMA_MODEL` | `qwen3:4b` | 기본 생성 모델(RTX 4070 기준). CPU 대체는 `qwen3:0.6b` |
+| `OLLAMA_MODEL` | `qwen3:8b` | 기본 생성 모델(RTX 4070 기준). CPU·소형 대체는 `qwen3:0.6b` |
 | `OLLAMA_EMBED_MODEL` | `bge-m3` | Ollama 임베딩 모델 |
 | `HF_TEXT_MODEL` | `Qwen/Qwen2.5-0.5B-Instruct` | Transformers 소형 생성 모델, LoRA 실습 기본 |
 | `HF_EMBED_MODEL` | `intfloat/multilingual-e5-small` | sentence-transformers 임베딩 |
 | `HF_HOME` | (설정 시) | Hugging Face 캐시 위치 |
 
 모델 다운로드는 실습 시간에 하지 않는다. 수업 전 기준 PC에서 사전 캐시하고 여러 PC가 동시에 내려받지 않도록 배분한다.
+
+### 생성 모델 태그를 고를 때
+
+교재는 `think` 옵션으로 생각 과정을 켜고 끄는 것을 4주차에서 다루고, 이후 주차의 예제는 모두 생각 과정을 끈 상태로 답만 받는다.
+따라서 기본 모델은 **생각 모드를 끌 수 있는 하이브리드 모델**이어야 한다.
+
+Qwen3 계열에서 `0.6b`, `1.7b`, `8b`, `14b`, `32b` 태그는 생각 모드를 켜고 끌 수 있다.
+`4b`, `30b`, `235b` 태그는 2507 갱신에서 생각 전용 빌드와 지시 전용 빌드로 나뉘었고, 접미사 없는 태그는 **생각 전용 빌드**를 가리킨다.
+생각 전용 빌드에 `"think": false`를 보내도 생각 과정이 사라지지 않으므로 기본 모델로 쓰지 않는다.
+
+환경 기준표에서 다른 모델을 확정하면 같은 기준으로 검토한다. 모델을 바꾸기 전에 `ollama show <태그>`로 생각 모드 지원 여부를 확인하고, 4주차 예제로 `--think` 있을 때와 없을 때의 출력이 실제로 달라지는지 한 번 확인한다.
 
 ## 자료 작성 원칙
 

@@ -7,7 +7,7 @@
 | `release_kit/README_TEMPLATE.md` | 릴리스용 README 8개 절(소개·왜·설치·실행·예시·제한·라이선스·출처)과 AI 도구 사용 내역 표 양식 | 1교시 |
 | `release_kit/MODEL_CARD_TEMPLATE.md` | 어댑터 공개 팀용 모델 카드(Hub frontmatter 포함) | 1교시 |
 | `release_kit/CHANGELOG_TEMPLATE.md` | Keep a Changelog 형식의 `[Unreleased]` 예시와 링크 줄 | 1·2교시 |
-| `release_kit/CITATION.cff` | Citation File Format 예시(`cff-version`·`title`·`version`·`authors`) | 1교시 |
+| `release_kit/CITATION.cff` | Citation File Format 예시(필수 `cff-version`·`message`·`title`·`authors` + `version`) | 1교시 |
 | `release_kit/release_checklist.md` | 릴리스 전 점검표 6절(문서·라이선스 호환·재현·보안·버전·피드백 통로). ★ 항목은 `release_check.py`가 본다 | 1·2교시 |
 | `release_kit/reproduce_by_stranger.md` | 처음 보는 사람으로 10분 안에 재현하는 규칙·절차·기록 양식 | 2교시 |
 | `release_kit/reproduce_by_stranger.ps1` | clone → 태그 checkout → `uv sync --frozen` → pytest를 단계별 초와 함께 `repro-log-*.md`에 기록하는 PowerShell 스크립트 | 2교시 |

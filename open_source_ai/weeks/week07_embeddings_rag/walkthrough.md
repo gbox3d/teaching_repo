@@ -7,8 +7,8 @@
 ## 시작 전 준비
 
 - uv, Git, VS Code, PowerShell을 사용한다. Ollama 서버가 켜져 있다(`ollama list`가 오류 없이 출력된다).
-- 임베딩 모델(`HF_EMBED_MODEL`)과 생성 모델(`OLLAMA_MODEL`)이 수업 전에 캐시되어 있다. 이 문서의 `intfloat/multilingual-e5-small`·`qwen3:4b`·`qwen3:0.6b`는 교재 검증용 기본값이며 실제 이름은 환경 기준표가 정한다. 실습 중 모델을 내려받지 않는다.
-- [`examples/mini_rag`](examples/README.md)를 개인 저장소 안의 폴더(`$HOME\osa-repo\week07\mini_rag`)에 **복사**해서 사용한다. 수업 자료 원본은 수정하지 않는다. `uv sync`는 수업 전에 한 번 실행해 둔다.
+- 임베딩 모델(`HF_EMBED_MODEL`)과 생성 모델(`OLLAMA_MODEL`)이 수업 전에 캐시되어 있다. 이 문서의 `intfloat/multilingual-e5-small`·`qwen3:8b`·`qwen3:0.6b`는 교재 검증용 기본값이며 실제 이름은 환경 기준표가 정한다. 실습 중 모델을 내려받지 않는다.
+- [`examples/mini_rag`](examples/README.md)를 개인 저장소 안의 폴더(`$HOME\osa-practice\week07\mini_rag`)에 **복사**해서 사용한다. 수업 자료 원본은 수정하지 않는다. `uv sync`는 수업 전에 한 번 실행해 둔다.
 - 터미널 명령은 복사한 `mini_rag` 폴더 안에서 실행한다. 현재 경로를 먼저 확인하는 습관을 들인다.
 
 ---
@@ -21,7 +21,7 @@
 
 ```powershell
 $src = "C:\teaching_repo\open_source_ai\weeks\week07_embeddings_rag\examples"
-$dst = "$HOME\osa-repo\week07"
+$dst = "$HOME\osa-practice\week07"
 New-Item -ItemType Directory -Force $dst | Out-Null
 Copy-Item -Recurse "$src\mini_rag" "$dst\mini_rag"
 Set-Location "$dst\mini_rag"
@@ -75,7 +75,7 @@ uv run python embed.py --chunks outputs/chunks-150.json --out outputs/index-150
 uv run python search.py --index outputs/index-150 --query "uv.lock은 왜 커밋하는가" --query "Apache-2.0 라이선스가 MIT와 다른 점은?" --top-k 3
 ```
 
-**예상 결과** — 청크 수가 300자의 약 2배가 된다. 1위 파일은 대체로 같지만 청크 번호가 바뀌고, 같은 파일의 이웃 청크가 top-3에 함께 들어오거나 답 문장이 두 청크에 나뉘어 1위 본문만으로는 답이 완성되지 않는 경우가 보인다.
+**예상 결과** — 청크 수가 300자의 약 2.5배가 된다(13개 → 33개). 1위 파일은 대체로 같지만 청크 번호가 바뀌고, 같은 파일의 이웃 청크가 top-3에 함께 들어오거나 답 문장이 두 청크에 나뉘어 1위 본문만으로는 답이 완성되지 않는 경우가 보인다.
 
 **확인** — [ ] 두 인덱스의 1위 청크 `text`를 나란히 놓고 "답 문장이 온전히 들어 있는 쪽"을 적었다.
 
@@ -83,7 +83,7 @@ uv run python search.py --index outputs/index-150 --query "uv.lock은 왜 커밋
 
 **할 일** — `uv run python chunk.py --size 300 --overlap 0 --hard`를 실행하고 `outputs/chunks-300-hard.json`에서 문장 중간에서 끊긴 청크를 찾는다.
 
-**예상 결과** — 청크의 `text`가 `…를 실행하면 lock 파일 그` 같은 식으로 문장 중간에서 끝난다. 이런 청크는 임베딩해도 뜻이 흐려져 점수가 낮아진다.
+**예상 결과** — 청크의 `text`가 `…GPL은 수정한 코드를 배포할 때 같은`(`oss_license.md#0`)처럼 정확히 300자에서, 문장 중간에서 끝난다. 이런 청크는 임베딩해도 뜻이 흐려져 점수가 낮아진다.
 
 **확인** — [ ] [`lab.md`](lab.md) 1교시 완료 조건을 모두 표시하고 `search_note.md`에 청크 표·top-3 비교표·비교 문장을 적었다. 실습 30분 뒤 휴식 10분.
 
@@ -98,7 +98,7 @@ uv run python search.py --index outputs/index-150 --query "uv.lock은 왜 커밋
 **할 일**
 
 ```powershell
-Set-Location "$HOME\osa-repo\week07\mini_rag"
+Set-Location "$HOME\osa-practice\week07\mini_rag"
 Invoke-RestMethod http://localhost:11434/api/tags | Select-Object -ExpandProperty models | Format-Table name, size
 Test-Path outputs\index.npy
 ```
@@ -161,7 +161,7 @@ uv run python rag_answer.py --query "LoRA의 rank는 무엇인가" --no-context
 
 **예상 결과** — 문항마다 `q01 hit=True rank=1 top=[…]` 형태의 줄이 나오고 마지막에 `hit rate 0.9`처럼 요약과 `저장 → outputs\eval-<시각>.md`가 나온다. Ollama 없이도 돌아간다. 값은 환경에 따라 0.7~1.0 사이 어딘가다.
 
-**확인** — [ ] `outputs/eval-*.md`의 표를 열어 hit이 X이거나 rank가 2 이상인 문항 id를 적었다.
+**확인** — [ ] `outputs/eval-*.md`의 표를 열어 hit이 X이거나 rank가 2 이상인 문항 id를 적었다. 전부 hit이고 전부 1위이면 "없음"이라고 그대로 적는다.
 
 ### 단계 2. 조건을 바꿔 두 번 더 측정
 
@@ -219,7 +219,7 @@ uv run python eval.py --evalset evalset.json --index outputs/index-150 --top-k 3
 | 자료 밖 질문에 거부하지 않는다 | 2교시 단계 4 (검색된 청크 본문 확인 → 환각으로 분류·기록) |
 | 답 앞에 생각 텍스트가 섞인다 | 2교시 단계 2 (요청 JSON의 `think:false` 확인. `ollama run`은 섞일 수 있음) |
 | "인덱스에 없는 기대 출처" 경고 | 3교시 단계 1 (`evalset.json`의 파일명과 `docs/` 대조, 문서 변경 후 재인덱스) |
-| hit rate가 1.0이라 실패가 없다 | 3교시 단계 2~3 (top-k 1·150자 조건의 실패 문항, 또는 rank 2~3 문항 분석) |
+| hit rate가 1.0이라 실패가 없다 | 3교시 단계 2~3 (top-k 1·150자 조건의 실패 문항 → 그래도 전부 1위면 `--top-k 5`로 1위와 다른 파일 첫 청크의 점수 차가 가장 작은 문항 2개) |
 | `--generate`가 너무 느리다 | 3교시 단계 4 (`--ids`로 2문항, 소형 모델로 전환) |
 
 세부 판정 기준과 힌트는 [`lab.md`](lab.md)에 있다. 정답과 해설은 실습이 끝난 뒤 강의자가 별도로 안내한다.

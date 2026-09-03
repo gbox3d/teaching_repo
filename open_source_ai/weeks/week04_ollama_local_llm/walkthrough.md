@@ -7,7 +7,7 @@
 ## 시작 전 준비
 
 - Ollama가 설치되어 있고 서버가 켜져 있다(`ollama list`가 오류 없이 출력된다).
-- 기본 모델과 소형 모델이 수업 전에 캐시되어 있다. 이 문서의 `qwen3:4b`·`qwen3:0.6b`는 교재 검증용 기본값이며 실제 이름은 환경 기준표가 정한다. 실습 중 `ollama pull`을 하지 않는다.
+- 기본 모델과 소형 모델이 수업 전에 캐시되어 있다. 이 문서의 `qwen3:8b`·`qwen3:0.6b`는 교재 검증용 기본값이며 실제 이름은 환경 기준표가 정한다. 실습 중 `ollama pull`을 하지 않는다.
 - uv, Git, VS Code, PowerShell을 사용한다. `uv sync`는 수업 전에 한 번 실행해 둔다.
 - [`examples/`](examples/README.md) 폴더를 개인 실습 폴더(`C:\classwork\week04`)에 **복사**해서 사용한다. 수업 자료 원본은 수정하지 않는다.
 - 터미널 명령은 복사한 폴더 안에서 실행한다. 현재 경로를 먼저 확인하는 습관을 들인다.
@@ -29,15 +29,15 @@ Set-Location C:\classwork\week04
 ollama list
 ```
 
-**예상 결과** — `NAME`, `ID`, `SIZE`, `MODIFIED` 열이 있는 표에 `qwen3:4b`와 `qwen3:0.6b`가 보인다. SIZE는 파일 크기다(4b는 수 GB, 0.6b는 1 GB 미만).
+**예상 결과** — `NAME`, `ID`, `SIZE`, `MODIFIED` 열이 있는 표에 `qwen3:8b`와 `qwen3:0.6b`가 보인다. SIZE는 파일 크기다(8b는 5 GB 안팎, 0.6b는 1 GB 미만).
 
 **확인** — [ ] 두 모델의 SIZE를 `model_report.md` 1절 "파일 크기" 칸에 옮겨 적었다.
 
 ### 단계 2. `ollama show`로 모델 정보 읽기
 
-**할 일** — `ollama show qwen3:4b`를 실행하고 `parameters`, `quantization`, `context length` 줄을 찾는다.
+**할 일** — `ollama show qwen3:8b`를 실행하고 `parameters`, `quantization`, `context length` 줄을 찾는다.
 
-**예상 결과** — `Model` 항목 아래에 architecture, parameters(예: `4.0B`), context length, embedding length, quantization(예: `Q4_K_M`)이 보인다. `Capabilities`에 `completion`과 함께 `thinking`이 있을 수 있다.
+**예상 결과** — `Model` 항목 아래에 architecture, parameters(예: `8.2B`), context length, embedding length, quantization(예: `Q4_K_M`)이 보인다. `Capabilities`에 `completion`·`tools`와 함께 `thinking`이 보인다. 기본 모델은 하이브리드라 생각 모드를 켜고 끌 수 있다(2교시).
 
 **확인** — [ ] 파라미터 수 × 0.6바이트로 계산한 값이 단계 1의 파일 크기와 대략 맞는지 적었다.
 
@@ -45,7 +45,7 @@ ollama list
 
 **할 일**
 
-1. `ollama run qwen3:4b`를 실행한다. 프롬프트 `>>>`가 나오면 `/set verbose`를 입력한다.
+1. `ollama run qwen3:8b`를 실행한다. 프롬프트 `>>>`가 나오면 `/set verbose`를 입력한다.
 2. `model_report.md` 2절의 질문 3개를 그대로 차례로 입력한다.
 3. 각 답 뒤에 붙는 `eval rate`와 첫 답의 `load duration`을 적는다.
 4. `/bye`로 나온다.
@@ -56,9 +56,9 @@ ollama list
 
 ### 단계 4. `ollama ps`로 메모리 실측
 
-**할 일** — `/bye`로 나온 직후 `ollama ps`를 실행하고, 이어서 `.\ollama_probe.ps1 -Model qwen3:4b`를 실행한다.
+**할 일** — `/bye`로 나온 직후 `ollama ps`를 실행하고, 이어서 `.\ollama_probe.ps1 -Model qwen3:8b`를 실행한다.
 
-**예상 결과** — `ollama ps`에 `qwen3:4b`가 한 줄 보이고 SIZE는 단계 1의 파일 크기보다 크며, PROCESSOR는 GPU PC에서 `100% GPU`다. `outputs/probe-qwen3-4b-<날짜시각>.txt`가 생기고 안에 list/show/ps 출력이 모두 들어 있다.
+**예상 결과** — `ollama ps`에 `qwen3:8b`가 한 줄 보이고 SIZE는 단계 1의 파일 크기보다 크며, PROCESSOR는 GPU PC에서 `100% GPU`다. `outputs/probe-qwen3-8b-<날짜시각>.txt`가 생기고 안에 list/show/ps 출력이 모두 들어 있다.
 
 **확인** — [ ] 파일 크기와 메모리 크기의 차이를 "컨텍스트(KV 캐시)와 실행 버퍼"로 설명했다. 5분이 지나 `ps`가 비어 있었다면 다시 올린 뒤 측정했다.
 
@@ -96,7 +96,7 @@ uv sync
 uv run python config.py
 ```
 
-**예상 결과** — 첫 줄에 캐시된 모델 이름과 바이트 단위 크기가 표로 나온다. `uv sync`가 `.venv`를 만들고, `config.py`가 `host = http://localhost:11434`, `model = qwen3:4b`를 출력한다.
+**예상 결과** — 첫 줄에 캐시된 모델 이름과 바이트 단위 크기가 표로 나온다. `uv sync`가 `.venv`를 만들고, `config.py`가 `host = http://localhost:11434`, `model = qwen3:8b`를 출력한다.
 
 **확인** — [ ] `uv run python config.py --model qwen3:0.6b`로 인자가 환경변수를 이기는 것을 보았다.
 
@@ -174,11 +174,11 @@ uv run python chat.py --prompt $q --temperature 1 --seed 7 --tag t1b
 
 ```powershell
 Set-Location C:\classwork\week04\ollama_client
-ollama show qwen3:4b --modelfile | Select-Object -First 30
+ollama show qwen3:8b --modelfile | Select-Object -First 30
 Get-Content Modelfile
 ```
 
-**예상 결과** — 기준 모델의 Modelfile에는 `FROM`(blob 경로), 긴 `TEMPLATE`, `PARAMETER`, `LICENSE`가 있다. 우리 Modelfile에는 `FROM qwen3:4b`, `SYSTEM """…"""`, `PARAMETER` 두 줄만 있고 `TEMPLATE`은 없다.
+**예상 결과** — 기준 모델의 Modelfile에는 `FROM`(blob 경로), 긴 `TEMPLATE`, `PARAMETER`, `LICENSE`가 있다. 우리 Modelfile에는 `FROM qwen3:8b`, `SYSTEM """…"""`, `PARAMETER` 두 줄만 있고 `TEMPLATE`은 없다.
 
 **확인** — [ ] `TEMPLATE`을 직접 쓰지 않아도 `FROM`에서 물려받는다는 것을 확인했다.
 
@@ -245,7 +245,7 @@ uv run python chat.py --model student01-helper --prompt $q1 --tag helper-1
 | 모델이 목록에 없다 | 1교시 단계 1 (사전 캐시 확인. 실습 중 `pull` 금지, 강의자에게 문의) |
 | `/set verbose`를 쳤는데 속도가 안 나온다 | 1교시 단계 3 (`>>>` 프롬프트에서 슬래시 포함해 입력) |
 | `ollama ps`가 비어 있다 | 1교시 단계 4 (모델이 내려감. `run`으로 다시 올린 뒤 5분 안에 실행) |
-| `ollama_probe.ps1`이 "스크립트를 실행할 수 없으므로"로 멈춘다 | 1교시 단계 4 (`powershell -ExecutionPolicy Bypass -File .\ollama_probe.ps1 -Model qwen3:4b`로 이번 실행만 우회) |
+| `ollama_probe.ps1`이 "스크립트를 실행할 수 없으므로"로 멈춘다 | 1교시 단계 4 (`powershell -ExecutionPolicy Bypass -File .\ollama_probe.ps1 -Model qwen3:8b`로 이번 실행만 우회) |
 | `uv sync`가 실패한다 | 2교시 단계 1 (네트워크·uv 캐시 확인. `pip install` 금지) |
 | 연결 실패 대신 시간 초과가 난다 | 2교시 단계 4 (재현용 포트는 비어 있는 것으로. 정상 호출이면 `OLLAMA_TIMEOUT` 증가) |
 | `--seed`가 요청 JSON에 안 보인다 | 2교시 단계 5 (`build_payload()`의 `options`에 넣었는지, `--show-request`로 확인) |

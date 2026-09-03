@@ -7,7 +7,7 @@
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
 - 캡처보다 원인과 근거를 적은 짧은 문장이 더 중요한 증거다.
 - 기본 문제 완료 후 확장 문제를 수행한다.
-- 실습 시간에 `ollama pull`을 실행하지 않는다. 모델은 수업 전에 캐시되어 있고, 이름은 환경 기준표가 정한다. 이 문서의 `qwen3:4b`·`qwen3:0.6b`는 교재 검증용 기본값이다.
+- 실습 시간에 `ollama pull`을 실행하지 않는다. 모델은 수업 전에 캐시되어 있고, 이름은 환경 기준표가 정한다. 이 문서의 `qwen3:8b`·`qwen3:0.6b`는 교재 검증용 기본값이다.
 - 실제 토큰·비밀번호를 `.env`나 산출물에 쓰지 않는다. `.env`는 커밋하지 않는다.
 
 ## 1교시 실습 — 모델 두 개를 실행하고 측정하기
@@ -44,16 +44,16 @@ ollama list
 ### 문제 1 · 기본 모델 실측
 
 1. 실행 전에 예상표를 적는다. 기본 모델의 파일 크기, `ollama ps`에 보일 메모리 크기, tokens/s, 소형 모델은 각각 몇 배가 될지.
-2. `ollama show qwen3:4b`를 실행해 `parameters`, `quantization`, `context length` 값을 `model_report.md` 1절에 옮겨 적는다. `ollama list`의 SIZE도 적는다.
-3. `ollama run qwen3:4b`로 들어가 `/set verbose`를 입력한 뒤, 보고서 2절의 질문 3개를 **그대로** 차례로 묻는다. 각 답 뒤에 나오는 `eval rate`(tokens/s)와 첫 답의 `load duration`을 적는다. `/bye`로 나온다.
+2. `ollama show qwen3:8b`를 실행해 `parameters`, `quantization`, `context length` 값을 `model_report.md` 1절에 옮겨 적는다. `ollama list`의 SIZE도 적는다.
+3. `ollama run qwen3:8b`로 들어가 `/set verbose`를 입력한 뒤, 보고서 2절의 질문 3개를 **그대로** 차례로 묻는다. 각 답 뒤에 나오는 `eval rate`(tokens/s)와 첫 답의 `load duration`을 적는다. `/bye`로 나온다.
 4. 나오자마자 `ollama ps`를 실행해 SIZE와 PROCESSOR를 적는다. 5분이 지나면 모델이 메모리에서 내려가므로 비어 있을 수 있다.
-5. `.\ollama_probe.ps1 -Model qwen3:4b`로 `list/show/ps` 출력을 `outputs/`에 저장한다. 스크립트 실행이 차단되면 1주차처럼 `powershell -ExecutionPolicy Bypass -File .\ollama_probe.ps1 -Model qwen3:4b`로 이번 실행만 우회한다.
+5. `.\ollama_probe.ps1 -Model qwen3:8b`로 `list/show/ps` 출력을 `outputs/`에 저장한다. 스크립트 실행이 차단되면 1주차처럼 `powershell -ExecutionPolicy Bypass -File .\ollama_probe.ps1 -Model qwen3:8b`로 이번 실행만 우회한다.
 
 완료 조건:
 
 - [ ] 보고서 1절의 모델 A 열이 모두 채워졌다(예상표와 다른 칸에 표시).
 - [ ] 질문 3개의 답이 각각 어떤 형식(문장·표·코드)으로 왔는지 한 줄씩 적었다.
-- [ ] `outputs/probe-qwen3-4b-*.txt`가 생겼다.
+- [ ] `outputs/probe-qwen3-8b-*.txt`가 생겼다.
 
 ### 문제 2 · 소형 모델과 비교
 
@@ -211,7 +211,7 @@ uv run python config.py
 ```powershell
 Set-Location C:\classwork\week04\ollama_client
 Get-Content Modelfile
-ollama show qwen3:4b --modelfile | Select-Object -First 30
+ollama show qwen3:8b --modelfile | Select-Object -First 30
 ```
 
 두 번째 명령으로 기준 모델의 Modelfile(특히 `TEMPLATE`)이 어떻게 생겼는지 훑어본다. 우리 Modelfile에는 `TEMPLATE`을 쓰지 않는다.
@@ -286,4 +286,5 @@ ollama show qwen3:4b --modelfile | Select-Object -First 30
 - `temperature_compare.md`: temperature 0과 1, seed에 대한 비교 문단
 - `Modelfile`: 팀명이 들어간 SYSTEM, 바꾼 한 줄 표시. 커스텀 모델이 보이는 `ollama list` 출력을 텍스트로 함께 둔다
 - `assignment_check.md`: 1차 과제 체크리스트 점검 결과와 계획
+- 개인 저장소(1차 과제 저장소): 위 파일을 `C:\classwork\week04`에서 복사해 commit한다. `outputs/` 전체는 커밋하지 않고 `evidence/`에 고른 JSON만 남긴다. 예제 `ollama_client/`의 `chat`·`stream`을 3주차 `oss-tool` 서브커맨드로 옮기는 것은 [1차 종합과제 안내](assignment_brief.md)의 필수 산출물이며 다음 수업 전까지 끝낸다.
 - 선택: 확장 문제 결과

@@ -1,4 +1,4 @@
-"""FastAPI 앱 — 12주차 `main.py` 의 최소 발췌.
+"""FastAPI 앱 — 12주차 `main.py` 와 같은 구조를 줄여 다시 쓴 최소 버전.
 
 `get_service` 를 의존성 함수로 두었기 때문에 테스트에서는
 `app.dependency_overrides[get_service] = ...` 로 가짜 서비스를 끼워 넣을 수 있다.
@@ -27,7 +27,7 @@ from app.service import ChatService
 load_dotenv()
 
 DEFAULT_HOST = "http://localhost:11434"
-DEFAULT_MODEL = "qwen3:4b"  # CPU 대체: qwen3:0.6b. 실제 값은 환경 기준표에서 확정한다.
+DEFAULT_MODEL = "qwen3:8b"  # CPU 대체: qwen3:0.6b. 실제 값은 환경 기준표에서 확정한다.
 
 app = FastAPI(title="osa-week13 ci_lab", version="0.1.0")
 
@@ -52,6 +52,8 @@ def health(service: ServiceDep) -> HealthResponse:
 @app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest, service: ServiceDep) -> ChatResponse:
     # 서비스 예외를 HTTP 상태 코드로 바꾸는 곳. 이 매핑 자체가 테스트 대상이다.
+    # 이 예제의 매핑(503·404·502)은 12주차의 502·503·504와 다르다.
+    # 팀 코드에 테스트를 옮길 때는 팀이 정한 코드값에 맞춘다.
     try:
         return service.chat(request)
     except OllamaUnavailableError as exc:

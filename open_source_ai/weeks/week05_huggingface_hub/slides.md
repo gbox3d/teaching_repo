@@ -47,7 +47,7 @@ huggingface.co/
 - 저장소 하나 = **Git 저장소**(큰 파일은 LFS). 주소는 `조직/이름`
 - 오늘 쓸 모델은 수업 전에 캐시되어 있다. 실습 중 새로 받지 않는다
 
-**질문:** `ollama pull qwen3:4b`가 받는 GGUF 파일의 원본 가중치는 어디에 있는가?
+**질문:** `ollama pull qwen3:8b`가 받는 GGUF 파일의 원본 가중치는 어디에 있는가?
 
 ---
 
@@ -71,7 +71,6 @@ huggingface.co/
 license: apache-2.0
 language:
   - en
-  - ko
 pipeline_tag: text-generation
 base_model: Qwen/Qwen2.5-0.5B
 ```
@@ -127,6 +126,7 @@ HF_HOME/hub/models--Qwen--Qwen2.5-0.5B-Instruct/
 ```
 
 - `HF_HOME`을 바꾸면 캐시 위치가 바뀐다. 실습실은 공용 위치를 쓸 수 있다
+- Windows는 기본적으로 symlink를 못 써 **blobs 대신 snapshots에 파일을 그대로** 둔다(개발자 모드를 켜면 링크)
 - 용량 감: 파라미터 0.5B × 2바이트(fp16) ≈ 1 GB. 토크나이저·설정 파일은 덤
 - `HF_HUB_OFFLINE=1`이면 네트워크 없이 캐시만 쓴다. 없는 모델은 즉시 실패한다
 - `scan_cache_dir()`가 이 구조를 표로 돌려준다
@@ -215,8 +215,8 @@ model.to(device="cuda:0", dtype=torch.float16)
 
 | dtype | 파라미터당 | 0.5B 모델 | 특징 |
 |---|---|---|---|
-| float32 | 4바이트 | 약 2 GB | CPU 기본값 |
-| float16 | 2바이트 | 약 1 GB | GPU 기본값, 표현 범위 좁음 |
+| float32 | 4바이트 | 약 2 GB | 불러올 때의 기본값 |
+| float16 | 2바이트 | 약 1 GB | GPU 생성에 주로, 표현 범위 좁음 |
 | bfloat16 | 2바이트 | 약 1 GB | 범위 넓음, 최신 GPU |
 
 - `device_map="auto"`(accelerate)는 여러 장치에 나눌 때 쓴다. 12 GB 한 장이면 `device=0`이면 된다
@@ -288,7 +288,7 @@ ds = load_dataset("조직/이름", "구성이름", split="train")
 ds                 # Dataset({features: [...], num_rows: N})
 ds[0]              # 첫 행 dict
 ds.features        # 필드 이름 → 자료형
-ds.info.license    # 카드의 license가 여기로 들어온다
+ds.info.license    # 대개 비어 있다 — 어디에 있는지 확인할 것
 ```
 
 - Hub 데이터셋도 저장소다: 파일(parquet·jsonl·csv) + Dataset Card

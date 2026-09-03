@@ -33,7 +33,7 @@ Set-Location C:\classwork\osa-week01
 Get-ChildItem
 ```
 
-**예상 결과** — `env_check.ps1`, `env_check_template.md`, `oss_survey_template.md`, `first_run` 네 항목이 보인다. `Get-Location`의 결과가 `C:\classwork\osa-week01`이다.
+**예상 결과** — `README.md`(예제 안내), `env_check.ps1`, `env_check_template.md`, `oss_survey_template.md`, `first_run` 다섯 항목이 보인다. `Get-Location`의 결과가 `C:\classwork\osa-week01`이다.
 
 **확인** — [ ] 교재 원본 폴더가 아니라 복사본 안에 있다.
 
@@ -179,7 +179,7 @@ code oss_survey.md
 
 1. 슬라이드의 OSAID 세 공개 항목(데이터 정보·코드·파라미터)을 다시 읽는다.
 2. 저장소마다 한 문장을 채운다: "이 프로젝트는 OSAID의 ___ 항목을 만족하고, ___ 항목은 프로젝트가 아니라 개별 모델의 문제다."
-3. Ollama 라이브러리의 모델 페이지(`https://ollama.com/library/qwen3`)를 열어 모델의 라이선스 표기를 찾는다. 다운로드는 하지 않는다.
+3. Ollama 라이브러리에서 크기 태그 하나를 열고(`https://ollama.com/library/qwen3:8b`) 파일 목록의 `license` 항목에서 라이선스 이름을 읽는다. 모델 첫 화면(`/library/qwen3`)에는 라이선스가 표시되지 않는다. 다운로드는 하지 않는다.
 4. "도구의 라이선스와 그 도구로 실행하는 모델의 라이선스가 같은가"를 한 문장으로 적는다.
 5. 셋 중 "살아 있는 프로젝트"라고 판단하는 근거를 활동 지표 2개로 적는다.
 
@@ -239,7 +239,7 @@ RAM      : NN.N GiB
 디스크   : C:\ 여유 NNN.N / NNN.N GiB
 GPU      : NVIDIA GeForce RTX 4070 (12282 MiB, driver …)
 Python   : 3.x.y @ .venv
-모델 설정: OLLAMA_MODEL=qwen3:4b [기본값]
+모델 설정: OLLAMA_MODEL=qwen3:8b [기본값]
 ```
 
 폴더에 `.venv`, `outputs`, 그리고 잠금 파일 `uv.lock`이 새로 생겼다. `uv.lock`은 지우지 않는다(역할은 3주차에 다룬다). `outputs\sysinfo.json`을 열면 `python.in_project_venv`가 `true`, `python.venv_location`이 `.venv`다. 두 번째 실행부터는 설치 메시지 없이 바로 요약이 나온다.
@@ -258,7 +258,7 @@ Copy-Item .env.example .env
 code .env
 ```
 
-3. `.env`에서 `OLLAMA_MODEL=qwen3:4b`를 `OLLAMA_MODEL=qwen3:0.6b`로 바꾸고 저장한다.
+3. `.env`에서 `OLLAMA_MODEL=qwen3:8b`를 `OLLAMA_MODEL=qwen3:0.6b`로 바꾸고 저장한다.
 4. 다시 실행한다.
 
 ```powershell
@@ -306,7 +306,7 @@ git check-ignore -v first_run\.venv first_run\outputs first_run\.env
 git status
 ```
 
-**예상 결과** — 첫 `git status`는 `On branch main`, `No commits yet`과 untracked 목록이다. `git check-ignore -v`는 세 경로마다 `first_run/.gitignore:N:패턴` 형태로 어느 줄이 무시했는지 한 줄씩 출력한다. 두 번째 `git status`의 untracked 목록에 `reports/`, `env_check.ps1`, `env_check_raw.md`, 템플릿 2개, `first_run/`이 보인다. identity 오류가 나면 강의자 안내에 따라 수업용 `user.name`/`user.email`을 설정한다(공유 PC에서 전역 설정을 임의로 바꾸지 않는다).
+**예상 결과** — 첫 `git status`는 `On branch main`, `No commits yet`과 untracked 목록이다. `git check-ignore -v`는 세 경로마다 `first_run/.gitignore:N:패턴` 형태로 어느 줄이 무시했는지 한 줄씩 출력한다. 두 번째 `git status`의 untracked 목록에 `reports/`, `README.md`, `env_check.ps1`, `env_check_raw.md`, 템플릿 2개, `first_run/`이 보인다. identity 오류가 나면 강의자 안내에 따라 수업용 `user.name`/`user.email`을 설정한다(공유 PC에서 전역 설정을 임의로 바꾸지 않는다).
 
 **확인** — [ ] `reports\week01_sysinfo.json`을 열어 사용자 이름·홈 경로가 없는 것을 확인했다.
 
@@ -324,7 +324,7 @@ git status
 
 `git commit` 전의 `git status`에서 `Changes to be committed` 목록을 읽고 `.venv`·`outputs`·`.env`가 없는지 확인한 뒤 commit한다.
 
-**예상 결과** — `Changes to be committed`에는 `first_run/` 아래 여섯 파일(원본 다섯 + 첫 실행이 만든 `uv.lock`), `reports/` 아래 세 파일, `env_check.ps1`, `env_check_raw.md`, 템플릿 2개, 모두 13개만 있다. `git log --oneline -1`에 해시와 `Add environment report`가 한 줄로 보인다. 마지막 `git status`는 `nothing to commit, working tree clean`이다. 이 commit이 학기 내내 자랄 개인 저장소의 첫 기록이며, 2주차에 GitHub 원격과 연결된다.
+**예상 결과** — `Changes to be committed`에는 `first_run/` 아래 여섯 파일(원본 다섯 + 첫 실행이 만든 `uv.lock`), `reports/` 아래 세 파일, 예제 안내 `README.md`, `env_check.ps1`, `env_check_raw.md`, 템플릿 2개, 모두 14개만 있다. `git log --oneline -1`에 해시와 `Add environment report`가 한 줄로 보인다. 마지막 `git status`는 `nothing to commit, working tree clean`이다. 이 commit이 학기 내내 자랄 개인 저장소의 첫 기록이며, 2주차에 GitHub 원격과 연결된다.
 
 **확인** — [ ] [`lab.md`의 3교시 완료 조건](lab.md#3교시-실습--첫-uv-실행과-첫-commit)을 모두 체크했다. 실습 30분 뒤 휴식 10분.
 

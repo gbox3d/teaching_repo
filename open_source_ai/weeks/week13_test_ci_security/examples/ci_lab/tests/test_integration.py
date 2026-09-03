@@ -30,7 +30,7 @@ def real_service() -> ChatService:
     if os.environ.get("RUN_INTEGRATION") != "1":
         pytest.skip("RUN_INTEGRATION=1 이 아니면 실제 서버 테스트를 건너뛴다")
     host = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
-    model = os.environ.get("OLLAMA_MODEL", "qwen3:4b")  # CPU 대체: qwen3:0.6b
+    model = os.environ.get("OLLAMA_MODEL", "qwen3:8b")  # CPU 대체: qwen3:0.6b
     timeout = float(os.environ.get("OLLAMA_TIMEOUT", "60"))
     return ChatService(client=HttpOllamaClient(host, timeout=timeout), model=model, host=host)
 

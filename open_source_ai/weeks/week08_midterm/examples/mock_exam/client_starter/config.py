@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from dotenv import load_dotenv
 
 DEFAULT_HOST = "http://localhost:11434"
-DEFAULT_MODEL = "qwen3:4b"  # 교재 검증용 기본값. CPU 대체는 qwen3:0.6b. 확정 값은 환경 기준표
+DEFAULT_MODEL = "qwen3:8b"  # 교재 검증용 기본값. CPU 대체는 qwen3:0.6b. 확정 값은 환경 기준표
 DEFAULT_TIMEOUT = 120.0
 
 

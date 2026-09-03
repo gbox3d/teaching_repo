@@ -22,19 +22,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # 액션의 메이저 버전은 학기별 환경 기준표에서 확정한다.
       - name: uv 설치 (패키지 캐시 사용)
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
 
       - name: Python 설치 (pyproject 의 requires-python 기준)
         run: uv python install
 
-      # uv.lock 을 커밋한 저장소(3주차 이후 기본)는 `uv sync --frozen` 으로 바꿔
-      # lock 과 pyproject 가 어긋나면 실패하게 한다. 이 예제는 lock 이 없으므로 plain sync.
+      # uv.lock 을 커밋한 저장소(3주차 이후 기본)는 `uv sync --locked` 로 바꿔
+      # lock 과 pyproject 가 어긋나면 실패하게 한다. `--frozen` 은 검사하지 않고 lock 그대로
+      # 설치하므로 어긋나도 통과한다. 이 예제 폴더에는 lock 을 두지 않으므로 plain sync.
       - name: 의존성 설치 (dev 그룹 포함)
         run: uv sync
 
@@ -53,8 +54,8 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
       - run: uv python install

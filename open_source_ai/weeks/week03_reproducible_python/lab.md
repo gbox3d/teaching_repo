@@ -92,7 +92,7 @@ __pycache__/
 outputs/
 ```
 
-5. 네 파일만 stage하고 stage 목록을 읽은 뒤 commit한다. commit 뒤 `uv lock`을 한 번 더 실행해 `git status`가 clean인지 본다.
+5. 네 파일만 stage하고 stage 목록을 읽은 뒤 commit한다. commit 뒤 `uv lock`을 한 번 더 실행해 tracked 파일이 그대로인지 본다(준비 절에서 복사한 `notes/`는 아직 untracked로 남아 있는 것이 정상이다).
 
 ```powershell
 git add .gitignore .python-version pyproject.toml uv.lock
@@ -105,7 +105,7 @@ git status
 완료 조건:
 
 - [ ] `git log -1 --stat`에 `.gitignore`, `.python-version`, `pyproject.toml`, `uv.lock` 네 파일이 있다.
-- [ ] commit 뒤 `uv lock`을 다시 실행해도 `git status`가 clean이다.
+- [ ] commit 뒤 `uv lock`을 다시 실행해도 tracked 파일에 변경이 없다(`git status --short`에 `?? notes/`만 남는다).
 - [ ] `.venv/`가 `git status`에 보이지 않는 이유를 예상표에 한 문장으로 적었다.
 
 ### 문제 2 · 깨끗한 폴더에서 재현하고, lock을 지워 보기
@@ -368,9 +368,9 @@ git diff --stat
 
 ### 문제 1 · config.py와 config 서브커맨드
 
-1. `notes/week03.md` 3절의 예상표를 채운다. `.env`에 `OLLAMA_MODEL=qwen3:0.6b`, 셸에 `$env:OLLAMA_MODEL="qwen3:1.7b"`, 인자로 `--model qwen3:4b`를 동시에 주면 무엇이 이기는가. `HF_TOKEN` 값은 화면에 그대로 보여야 하는가. `.gitignore`에 `.env`가 없을 때 `git add .`를 하면 `.env`는 어디에 가는가.
+1. `notes/week03.md` 3절의 예상표를 채운다. `.env`에 `OLLAMA_MODEL=qwen3:0.6b`, 셸에 `$env:OLLAMA_MODEL="qwen3:1.7b"`, 인자로 `--model qwen3:14b`를 동시에 주면 무엇이 이기는가. `HF_TOKEN` 값은 화면에 그대로 보여야 하는가. `.gitignore`에 `.env`가 없을 때 `git add .`를 하면 `.env`는 어디에 가는가.
 2. `src/oss_tool/config.py`를 만든다. 예제 `$src\oss_tool\src\oss_tool\config.py`를 읽고 가져와도 되지만, 우선순위 4단계를 자기 말로 설명할 수 있어야 한다.
-   - `DEFAULTS = {"OLLAMA_HOST": "http://localhost:11434", "OLLAMA_MODEL": "qwen3:4b"}`. 교재 검증용 기본값이며 실제 값은 환경 기준표가 정한다.
+   - `DEFAULTS = {"OLLAMA_HOST": "http://localhost:11434", "OLLAMA_MODEL": "qwen3:8b"}`. 교재 검증용 기본값이며 실제 값은 환경 기준표가 정한다.
    - `load_settings(overrides, env_file=".env")`: 키마다 기본값 → `dotenv_values(env_file)` → `os.environ` → `overrides`(명령 인자) 순서로 덮어쓰고, 값과 함께 출처(`default`·`.env`·`env`·`arg`)를 기록한다. `load_dotenv()` 대신 `dotenv_values()`를 쓰는 이유는 `.env` 값과 셸 변수를 구분하기 위해서다.
    - 키 이름에 `TOKEN`·`KEY`·`SECRET`·`PASSWORD`가 들어가면 값을 가려서 표시한다(`(설정됨, 가려짐)`). 파일로 저장할 때도 가린 값만 저장한다.
 3. `cli.py`에 `config` 서브커맨드를 추가한다. `--host`, `--model` 인자를 `overrides`로 넘기고, 키마다 `키 = 값 [출처]` 한 줄을 출력한다. `--json`이 있으면 JSON으로 출력한다.
@@ -393,7 +393,7 @@ uv run oss-tool config
 ```text
 # oss-tool 설정. Copy-Item .env.example .env 로 복사한 뒤 값만 바꾼다. .env 는 커밋하지 않는다.
 OLLAMA_HOST=http://localhost:11434
-OLLAMA_MODEL=qwen3:4b
+OLLAMA_MODEL=qwen3:8b
 HF_TOKEN=
 ```
 
@@ -410,12 +410,12 @@ code .env
 uv run oss-tool config
 ```
 
-3. 셸 환경변수와 명령 인자를 차례로 얹는다. 세 번의 출력에서 `OLLAMA_MODEL`의 값과 출처를 예상표 옆에 적는다. 끝나면 셸 변수를 지운다.
+3. 셸 환경변수와 명령 인자를 차례로 얹는다. 세 번의 출력에서 `OLLAMA_MODEL`의 값과 출처를 예상표 옆에 적는다. 끝나면 셸 변수를 지운다. `config`는 값과 출처만 보여 줄 뿐 모델을 내려받거나 호출하지 않으므로, 내 PC에 없는 태그를 써도 된다.
 
 ```powershell
 $env:OLLAMA_MODEL = "qwen3:1.7b"
 uv run oss-tool config
-uv run oss-tool config --model qwen3:4b
+uv run oss-tool config --model qwen3:14b
 Remove-Item Env:OLLAMA_MODEL
 ```
 

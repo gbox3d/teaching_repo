@@ -25,13 +25,14 @@
 
 ```powershell
 $src = "<교재 저장소>\open_source_ai\weeks\week05_huggingface_hub\examples"
-$dst = "$HOME\osa-repo\week05"
+$dst = "$HOME\osa-practice\week05"
 New-Item -ItemType Directory -Force $dst | Out-Null
-Copy-Item -Recurse "$src\hf_explore" "$dst\hf_explore"
-Copy-Item "$src\model_cards_template.md" "$dst\model_cards.md"
-Copy-Item "$src\SOURCES_template.md" "$dst\SOURCES.md"
+# 이미 있으면 건너뛴다. 이 블록을 다시 실행해도 채워 둔 문서가 템플릿으로 되돌아가지 않는다.
+if (-not (Test-Path "$dst\hf_explore"))     { Copy-Item -Recurse "$src\hf_explore" "$dst\hf_explore" }
+if (-not (Test-Path "$dst\model_cards.md")) { Copy-Item "$src\model_cards_template.md" "$dst\model_cards.md" }
+if (-not (Test-Path "$dst\SOURCES.md"))     { Copy-Item "$src\SOURCES_template.md" "$dst\SOURCES.md" }
 Set-Location "$dst\hf_explore"
-Copy-Item .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv sync                          # 수업 전 한 번. torch 설치로 오래 걸린다
 ```
 

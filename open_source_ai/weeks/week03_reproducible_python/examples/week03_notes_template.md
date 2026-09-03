@@ -75,7 +75,7 @@
 | 아무것도 없음 | `uv run oss-tool config` |  |  |
 | `.env` | `uv run oss-tool config` |  |  |
 | 셸 환경변수 | `$env:OLLAMA_MODEL = "qwen3:1.7b"` 뒤 `uv run oss-tool config` |  |  |
-| 명령 인자 | `uv run oss-tool config --model qwen3:4b` |  |  |
+| 명령 인자 | `uv run oss-tool config --model qwen3:14b` |  |  |
 
 ### 실수 복구 기록
 

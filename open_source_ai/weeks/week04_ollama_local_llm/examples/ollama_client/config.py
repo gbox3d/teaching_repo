@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 
 # 교재 검증용 기본값. 실제 학기의 모델 ID·양자화는 환경 기준표에서 확정한다.
 DEFAULT_HOST = "http://localhost:11434"
-DEFAULT_MODEL = "qwen3:4b"  # RTX 4070 기준. CPU 대체는 qwen3:0.6b
+DEFAULT_MODEL = "qwen3:8b"  # Q4_K_M 약 5.2 GB, RTX 4070 기준. CPU 대체는 qwen3:0.6b
 DEFAULT_TIMEOUT = 180.0  # 초. 첫 호출은 모델 로드 시간이 포함된다.
 
 

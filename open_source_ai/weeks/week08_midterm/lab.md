@@ -239,7 +239,7 @@ ollama list
 실기가 다른 슬롯에 있는 분반은 이 문제를 수행한다. 시간 배분은 위 표를 그대로 쓰되 "문항 해결"을 "재현 점검"으로 읽는다.
 
 1. `examples/assignment_check.ps1 -RepoPath <내 과제 저장소>`를 실행해 파일 존재·`.gitignore`·추적 파일·비밀 흔적을 훑는다.
-2. 새 폴더에 `git clone`하고 README의 명령을 **그대로** 실행한다(`uv sync --frozen` → 실행 → `eval.py`).
+2. 새 폴더에 `git clone`하고 README의 명령을 **그대로** 실행한다(`uv sync --frozen` → 인덱스 생성(`chunk.py`·`embed.py`) → `eval.py`). `outputs/`는 커밋하지 않으므로 인덱스는 clone에 없다.
 3. README에 없는 조작이 필요했던 지점을 README에 추가한다.
 4. [assignment_brief.md](assignment_brief.md)의 제출 전 검사 목록을 순서대로 체크한다.
 5. 보완 commit을 만들고 `git log -1 --oneline`을 기록한다.

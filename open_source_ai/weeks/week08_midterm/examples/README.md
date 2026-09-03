@@ -70,5 +70,5 @@ uv run python chat.py --prompt "uv sync 가 하는 일을 한 문장으로 설�
 
 ## 환경 기준표와 lock 파일
 
-- 모델 ID·양자화·용량은 [학기별 환경 기준표](../../../../environment_baseline_template.md)에서 확정하며, 코드의 `qwen3:4b`·`qwen3:0.6b`는 교재 검증용 기본값이다.
+- 모델 ID·양자화·용량은 [학기별 환경 기준표](../../../../environment_baseline_template.md)에서 확정하며, 코드의 `qwen3:8b`·`qwen3:0.6b`는 교재 검증용 기본값이다.
 - 예제 프로젝트에 `uv.lock`은 포함하지 않는다. 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다.

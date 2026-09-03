@@ -88,7 +88,7 @@ class ChatRequest(BaseModel):
 ```json
 {"status": "degraded", "service": "osa-ai-service", "version": "0.1.0",
  "ollama": {"host": "http://localhost:11434", "reachable": false,
-            "model": "qwen3:4b", "has_model": false,
+            "model": "qwen3:8b", "has_model": false,
             "detail": "... 에 연결할 수 없다. Ollama 가 실행 중인지 ..."}}
 ```
 
@@ -109,7 +109,7 @@ class ChatRequest(BaseModel):
 | 모델 없음 | `OllamaModelMissing` | 503 | `ollama list`, pull |
 | 응답 시간 초과 | `OllamaTimeout` | 504 | 재시도, `max_tokens` 축소 |
 
-본문은 항상 같은 모양 `{"request_id", "error", "detail"}`.
+5xx 본문은 항상 같은 모양 `{"request_id", "error", "detail"}`. 422만 FastAPI 기본 형식 `{"detail": [...]}`.
 **500 하나로 뭉개지 않는다.** 코드가 다르면 조치가 다르다.
 
 ---
@@ -137,7 +137,7 @@ WARNING a875afe1 OllamaModelMissing: 모델 'x' 이(가) ... 에 없다
 완료 조건:
 
 1. `/docs`가 열리고 `smoke_test.py`의 `/health`·`/chat`이 200이다
-2. 502·503·504·422를 **각각 한 번씩** 재현해 `outputs/smoke-*.json`에 남겼다
+2. 502·503·504를 **각각 한 번씩** 재현해 `outputs/smoke-*.json`에, 422는 `outputs/requests.jsonl`에 남겼다
 3. `GET /models`를 추가해 모델 이름 목록이 나온다
 
 실습 30분 뒤 휴식 10분.
@@ -217,7 +217,7 @@ def respond(message, history):
                     text += event["delta"]
                     yield text          # 누적 문자열을 계속 내보낸다
 
-gr.ChatInterface(fn=respond, type="messages").launch()
+gr.ChatInterface(fn=respond).launch()   # 이력은 role·content 딕셔너리 목록
 ```
 
 `yield`가 있으면 Gradio가 **부분 표시와 Stop 버튼**을 알아서 붙인다. UI는 모델을 모르고 HTTP 계약만 안다.
@@ -292,7 +292,7 @@ const reader = resp.body.getReader();   // 청크를 직접 읽는다
 ## 3–7분 · Dockerfile — 레이어와 캐시
 
 ```dockerfile
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+FROM ghcr.io/astral-sh/uv:python3.12-trixie-slim
 WORKDIR /app
 COPY pyproject.toml uv.lock* ./              # 1) 의존성만 먼저
 RUN uv sync --no-dev --no-install-project    #    → 캐시되는 레이어

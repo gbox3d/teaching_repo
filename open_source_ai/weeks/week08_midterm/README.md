@@ -32,8 +32,8 @@
 ## 준비물
 
 - Git, VS Code, uv, Ollama, PowerShell. 1주차 `env_check.md`가 모두 통과한 PC.
-- 사전 캐시된 기본 모델 `OLLAMA_MODEL`(교재 검증용 기본값 `qwen3:4b`, GPU 없는 PC는 `qwen3:0.6b`). 실습 중 모델을 내려받지 않는다.
-- 4주차 `ollama_client/`, 5주차 `model_cards.md`·`SOURCES.md`, 7주차 `mini_rag/`·`evalset.json`이 개인 저장소에 커밋되어 있다.
+- 사전 캐시된 기본 모델 `OLLAMA_MODEL`(교재 검증용 기본값 `qwen3:8b`, GPU 없는 PC는 `qwen3:0.6b`). 실습 중 모델을 내려받지 않는다.
+- 4주차 1차 과제 저장소의 Ollama 클라이언트(예제 `ollama_client/`를 옮겨 넣은 `oss-tool`의 `chat`·`stream` 서브커맨드), 5주차 `model_cards.md`·`SOURCES.md`, 7주차 `mini_rag/`·`evalset.json`이 개인 저장소에 커밋되어 있다.
 - 2주차 `license_matrix.md`와 `LICENSE`.
 - 정확한 도구 버전은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
 - 실제 이름, 학번, 전화번호, 비밀번호, 토큰은 실습 파일·답안·공개 저장소에 넣지 않는다. 표시 이름은 `student01`, 팀명은 `team-a` 같은 수업용 값을 쓴다.

@@ -165,6 +165,9 @@ def check_readme(repo: Path) -> list[CheckResult]:
 
 def scan_secrets(repo: Path, files: list[str]) -> CheckResult:
     """추적 중인 텍스트 파일에서 비밀 패턴을 찾는다. 결과는 사람이 확인한다."""
+    if not files:
+        # git ls-files가 비었다 = git 저장소가 아니거나 git 호출 실패. 한 줄도 읽지 않았으므로 PASS로 적으면 거짓 안심이 된다.
+        return CheckResult("비밀 패턴", "SKIP", "추적 파일 목록이 비어 있음 — git 저장소인지 먼저 확인하고 수동으로 검사한다")
     hits: list[str] = []
     for rel in files:
         path = repo / rel

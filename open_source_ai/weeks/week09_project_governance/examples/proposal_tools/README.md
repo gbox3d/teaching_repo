@@ -5,7 +5,7 @@
 ```powershell
 Copy-Item .env.example .env
 uv run python repo_health.py                                   # 1교시 · 저장소 건강 지표
-uv run python vram_estimate.py --candidate "qwen3:4b,4B,4"     # 2교시 · VRAM 추정
+uv run python vram_estimate.py --candidate "qwen3:8b,8.2B,4"   # 2교시 · VRAM 추정
 uv run python issue_plan_check.py --plan issue_plan.sample.json # 3교시 · 이슈 계획 검사
 uv run python issue_plan_push.py --plan issue_plan.json --repo team-a/repo --dry-run
 ```

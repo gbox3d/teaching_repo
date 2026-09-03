@@ -8,7 +8,7 @@
 - 캡처보다 원인과 근거를 적은 짧은 문장이 더 중요한 증거다.
 - 기본 문제 완료 후 확장 문제를 수행한다.
 - 발표·검증은 릴리스 태그가 가리키는 기준본으로만 한다. 다른 팀이 발표하는 동안 자기 코드를 고치지 않는다.
-- 실습 시간에 모델을 내려받지 않는다. 다른 팀 저장소에는 Issue 외의 쓰기(push)를 하지 않는다.
+- 실습 시간에 모델을 내려받지 않는다. 다른 팀 저장소에는 Issue 외의 쓰기(push)를 하지 않으며, 코드를 실행하는 검증(`uv sync`·`uv run pytest`)은 수업에서 서로 공개한 팀 저장소에만 한다.
 
 ## 1교시 실습 — 최종 발표 라운드
 
@@ -149,7 +149,7 @@ uv sync
 2. 1~2단계: 로그에서 clone과 `uv sync --frozen` 결과를 옮겨 적는다. sync가 실패했으면 메시지 첫 줄로 lock 불일치(릴리스 결함)인지 네트워크·캐시(환경)인지 판단한다.
 3. 3단계: `.\review\team-b`로 이동해 README 재현 절차대로 핵심 기능 1개를 직접 실행한다. README의 예시 출력과 형태가 같은지 적는다. 모델이 없으면 내려받지 않고 "환경"으로 기록한다.
 4. 4~7단계: pytest 결과, `outputs\verify-team-b-<시각>.md`의 FAIL·WARN 항목을 옮겨 적고, WARN은 파일을 직접 열어 통과/실패를 판단한다. LICENSE와 `SOURCES.md`의 모델·데이터 라이선스가 호환되는지 한 문장으로 적는다.
-5. 8~9단계: 평가 결과 파일의 수치가 README·발표와 같은지, `git -C .\review\team-b shortlog -sn --no-merges`에 팀원 전원이 있는지 적는다.
+5. 8~9단계: 평가 결과 파일의 수치가 README·발표와 같은지, `git -C .\review\team-b shortlog -sn --no-merges HEAD`에 팀원 전원이 있는지 적는다(태그를 checkout한 상태라 `HEAD`를 빼면 명령이 입력을 기다린다).
 
 완료 조건:
 
@@ -232,7 +232,7 @@ Copy-Item .\submission_checklist.md .\submission.md
 ```powershell
 git fetch --tags
 git describe --tags --exact-match     # 기준본 태그
-git shortlog -sn --no-merges          # 팀원별 commit 수
+git shortlog -sn --no-merges HEAD     # 팀원별 commit 수(태그 checkout 상태 대비 HEAD 명시)
 ```
 
 ### 문제 1 · 동료 피드백과 개인 회고

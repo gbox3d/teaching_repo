@@ -170,7 +170,7 @@ uv sync
 ## 6–9분 · 진단 2: 스트리밍 파싱과 옵션 효과
 
 ```json
-{"model": "qwen3:4b",
+{"model": "qwen3:8b",
  "messages": [{"role": "user", "content": "..."}],
  "stream": false,
  "think": false,
@@ -308,6 +308,7 @@ Get-Location                   # 지정 저장 경로
 git clone 저장소URL check-clean
 Set-Location check-clean
 uv sync --frozen
+uv run python chunk.py ; uv run python embed.py   # outputs/ 인덱스는 clone 에 없다
 uv run python eval.py --evalset evalset.json
 ```
 

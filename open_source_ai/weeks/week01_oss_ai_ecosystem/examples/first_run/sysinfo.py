@@ -25,7 +25,7 @@ except ImportError:  # uv run --no-project 처럼 의존성 없이 실행하면 
     load_dotenv = None
 
 # 수업 공통 환경변수와 기본값. 모델 ID·서버 주소는 코드에 박지 않고 여기서만 읽는다.
-ENV_DEFAULTS: dict[str, str] = {"OLLAMA_HOST": "http://localhost:11434", "OLLAMA_MODEL": "qwen3:4b"}
+ENV_DEFAULTS: dict[str, str] = {"OLLAMA_HOST": "http://localhost:11434", "OLLAMA_MODEL": "qwen3:8b"}
 GIB = 1024**3
 OUTSIDE = "(프로젝트 폴더 밖)"
 NVSMI_ARGS = ["--query-gpu=name,memory.total,driver_version", "--format=csv,noheader"]

@@ -32,7 +32,7 @@
 ## 준비물
 
 - Ollama가 설치되어 있고 서버가 켜져 있다(`ollama list`가 오류 없이 출력된다).
-- 기본 생성 모델과 CPU 대체 소형 모델이 **수업 전에 캐시**되어 있다. 교재 검증용 기본값은 `qwen3:4b`와 `qwen3:0.6b`이며, 실습 중 `ollama pull`을 실행하지 않는다.
+- 기본 생성 모델과 CPU 대체 소형 모델이 **수업 전에 캐시**되어 있다. 교재 검증용 기본값은 `qwen3:8b`(Q4_K_M, 내려받는 크기 약 5.2 GB)와 `qwen3:0.6b`(약 0.5 GB)이며, 실습 중 `ollama pull`을 실행하지 않는다.
 - uv, Git, VS Code, PowerShell. 예제의 의존성(`httpx`, `python-dotenv`)은 수업 전 `uv sync`로 한 번 받아 둔다.
 - 3주차에서 만든 개인 저장소의 `oss_tool` 프로젝트와 `config.py`(`OLLAMA_HOST`·`OLLAMA_MODEL` 기본값).
 - 1주차 `env_check.md`의 GPU 이름·VRAM 값(보고서에 옮겨 적는다).
@@ -88,6 +88,6 @@
 
 - [Ollama 공식 문서](https://docs.ollama.com/)
 - [Ollama API 레퍼런스](https://github.com/ollama/ollama/blob/main/docs/api.md)
-- [Ollama Modelfile 문서](https://github.com/ollama/ollama/blob/main/docs/modelfile.md)
+- [Ollama Modelfile 문서](https://docs.ollama.com/modelfile)
 - [uv 공식 문서](https://docs.astral.sh/uv/)
 - [GitHub Docs — Pull requests](https://docs.github.com/en/pull-requests)

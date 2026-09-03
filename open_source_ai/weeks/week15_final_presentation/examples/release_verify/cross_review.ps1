@@ -1,6 +1,9 @@
 # 15주차 교차 재현 검증 — clone → 태그 checkout → uv sync --frozen → pytest → verify_release.py 를 한 번에 실행한다.
 # README 절차대로 실제 기능을 실행하는 단계는 자동화하지 않는다. 그 단계는 사람이 직접 하고 체크리스트에 기록한다.
 #
+# 주의: 2·3단계(uv sync · uv run pytest)는 대상 저장소의 코드를 이 PC에서 실행한다(빌드 백엔드·conftest.py·테스트).
+#       수업에서 서로 공개한 팀 저장소에만 쓴다. 출처를 모르는 저장소는 파일과 git 상태만 읽는 verify_release.py 로만 검사한다.
+#
 # 사용 예 (이 스크립트가 있는 폴더에서):
 #   .\cross_review.ps1 -RepoUrl https://github.com/<org>/<repo>.git -Team team-a -Tag v0.1.0
 #   .\cross_review.ps1 -RepoUrl C:\path\to\local-repo -Team team-b

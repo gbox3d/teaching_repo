@@ -55,7 +55,7 @@ uv run python lora_setup.py --ranks 4,8,16
 uv run python lora_setup.py --ranks 8 --target-modules q_proj,v_proj
 ```
 
-**예상 결과** — r=8인데 학습 파라미터가 단계 2의 r=4(네 계층)와 같은 약 54만 개다. 기본 모델은 k·v 계층의 출력 차원이 작아(GQA) q·o 계층이 파라미터 대부분을 차지하기 때문이다.
+**예상 결과** — r=8인데 학습 파라미터가 단계 2의 r=4(네 계층)와 같은 약 54만 개다. `q_proj`와 `o_proj`의 `in + out`이 같고 `k_proj`와 `v_proj`의 `in + out`이 같아, 네 계층에서 `q_proj,v_proj`만 남기면 계층 합이 정확히 절반이 되고 r을 두 배로 올린 것과 상쇄되기 때문이다.
 
 **확인** — [ ] "붙이는 계층을 줄이는 것과 r을 줄이는 것 중 어느 쪽이 파라미터를 더 줄이는가"를 이 모델 기준으로 한 문장 적었다.
 

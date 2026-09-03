@@ -34,13 +34,13 @@ Copy-Item -Recurse "$src\ollama_client" C:\classwork\week04\ollama_client
 ```powershell
 Set-Location C:\classwork\week04
 ollama list
-ollama show qwen3:4b
-ollama run qwen3:4b          # 안에서 /set verbose → 질문 3개 → /bye
+ollama show qwen3:8b
+ollama run qwen3:8b          # 안에서 /set verbose → 질문 3개 → /bye
 ollama ps                    # run 을 끝낸 직후
-.\ollama_probe.ps1 -Model qwen3:4b
+.\ollama_probe.ps1 -Model qwen3:8b
 ```
 
-스크립트 실행이 차단된 PC에서는 `powershell -ExecutionPolicy Bypass -File .\ollama_probe.ps1 -Model qwen3:4b`로 이번 실행만 우회한다(1주차 `env_check.ps1`과 같다).
+스크립트 실행이 차단된 PC에서는 `powershell -ExecutionPolicy Bypass -File .\ollama_probe.ps1 -Model qwen3:8b`로 이번 실행만 우회한다(1주차 `env_check.ps1`과 같다).
 
 2교시(REST API):
 
@@ -100,7 +100,7 @@ uv run python chat.py --model student01-helper --prompt "uv가 무엇인지 두 
 | 환경변수 | 기본값 | 용도 |
 |---|---|---|
 | `OLLAMA_HOST` | `http://localhost:11434` | Ollama 서버 |
-| `OLLAMA_MODEL` | `qwen3:4b` | 기본 생성 모델(RTX 4070 기준). CPU 대체는 `qwen3:0.6b` |
+| `OLLAMA_MODEL` | `qwen3:8b` | 기본 생성 모델. Q4_K_M, 내려받는 크기 약 5.2 GB(RTX 4070 12 GB 기준). CPU 대체는 `qwen3:0.6b`(약 0.5 GB) |
 | `OLLAMA_TIMEOUT` | `180` | HTTP 제한 시간(초) |
 
 모델 ID·양자화·용량은 [학기별 환경 기준표](../../../../environment_baseline_template.md)에서 확정하며 위 값은 교재 검증용 기본값이다. `uv.lock`은 만들지 않았다. 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다.

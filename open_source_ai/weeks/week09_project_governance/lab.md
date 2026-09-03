@@ -47,7 +47,7 @@ Copy-Item .env.example .env
 2. 저장소 1의 GitHub 페이지에서 **Insights → Community Standards**를 열어 CoC·CONTRIBUTING·이슈 템플릿·PR 템플릿·LICENSE 체크 여부를 기록하고, 각 파일을 열어 근거 URL을 적는다.
 3. `.github/ISSUE_TEMPLATE/` 폴더에서 템플릿 종류 수를 세고, `CONTRIBUTING.md`에서 눈에 띄는 규칙 3개(브랜치·PR 크기·리뷰·테스트 요구 등)를 한 줄씩 옮긴다.
 4. **Releases** 탭에서 최근 릴리스 5개의 날짜를 적고 평균 간격(일)을 계산한다.
-5. **Issues** 탭에서 최근 Issue 3개를 열어 첫 코멘트까지 걸린 시간을 표본으로 적는다. **Insights → Contributors**에서 상위 3인의 커밋 비율을 어림한다(버스 팩터 단서).
+5. **Issues** 탭에서 최근 Issue 3개를 열어 첫 코멘트까지 걸린 시간을 표본으로 적는다. **Insights → Contributors**에서 상위 3인의 커밋 비율을 어림한다(버스 팩터 단서). 루트와 `.github/`에 `CODEOWNERS`·`MAINTAINERS`·`GOVERNANCE` 파일이 있는지 보고 메인테이너·코드오너 수를 적는다. 그런 파일이 없으면 "없음"이라 적고, 대신 무엇으로 어림했는지(최근 릴리스 5개의 작성자 수 등)를 "추정"으로 표시한다.
 6. 저장소 2를 같은 순서로 채운다. 수치 항목은 스크립트로 보강한다.
 
 ```powershell
@@ -56,7 +56,7 @@ uv run python repo_health.py
 
 완료 조건:
 
-- [ ] 두 저장소 모두 CoC·CONTRIBUTING·이슈 템플릿 수·PR 템플릿·라이선스가 근거 URL과 함께 있다.
+- [ ] 두 저장소 모두 CoC·CONTRIBUTING·이슈 템플릿 수·PR 템플릿·라이선스·메인테이너 수가 근거 URL과 함께 있다.
 - [ ] 릴리스 평균 간격, 첫 응답 시간 표본 3개, 상위 3인 커밋 비율이 있다.
 - [ ] 예상과 실제가 달랐던 항목 1개를 한 문장으로 적었다.
 
@@ -94,7 +94,7 @@ uv run python repo_health.py
 
 ### 검증
 
-- 정상: `outputs/health-*.json`의 `community_files`에 브라우저에서 확인한 파일이 같은 값으로 들어 있다.
+- 정상: `outputs/health-*.json`의 `community_files`가 브라우저 Community Standards와 같은 값이다. 단 `issue_template`은 API가 `.github/ISSUE_TEMPLATE/` 폴더 안의 양식을 반영하지 못해 `false`로 나올 수 있다. 표에는 브라우저에서 센 값을 적고 스크립트와 다른 이유를 한 줄 덧붙인다.
 - 경계 또는 실패: `.env`의 `SURVEY_REPOS`에 존재하지 않는 저장소를 넣고 실행해 "찾을 수 없음" 메시지가 사람이 읽을 형태로 나오는지 확인한다.
 - 설명: "이 두 프로젝트 중 어느 쪽이 버스 팩터가 낮은가, 그 근거는 무엇인가"를 한 문장으로 쓴다.
 
@@ -153,7 +153,7 @@ Set-Location C:\classwork\week09\proposal_tools
 2. 각 후보의 VRAM을 추정한다. 4주차 실측값(`ollama ps`)이 있으면 나란히 적는다.
 
 ```powershell
-uv run python vram_estimate.py --candidate "qwen3:4b,4B,4" --candidate "qwen3:0.6b,0.6B,4" --ctx 8192
+uv run python vram_estimate.py --candidate "qwen3:8b,8.2B,4" --candidate "qwen3:0.6b,0.6B,4" --ctx 8192
 ```
 
 3. 데이터 후보를 표로 적는다: 이름, 출처(자체 작성·공개·사용자 생성), 라이선스, 용도(학습·평가·RAG 문서), 확보 방법과 담당, 개인정보 점검 방법.
@@ -176,7 +176,7 @@ uv run python vram_estimate.py --candidate "qwen3:4b,4B,4" --candidate "qwen3:0.
 <details>
 <summary>힌트 2 — `vram_estimate.py`의 KV 캐시가 0으로 나온다</summary>
 
-층 수·KV 헤드 수·헤드 차원을 주지 않으면 가중치만 계산한다. 후보 형식을 `"이름,파라미터,비트,층수,KV헤드,헤드차원"`으로 늘리거나 `--layers --kv-heads --head-dim`을 준다. 값은 모델 카드의 `config.json`(`num_hidden_layers`, `num_key_value_heads`, `hidden_size ÷ num_attention_heads`)에서 읽는다.
+층 수·KV 헤드 수·헤드 차원을 주지 않으면 가중치만 계산한다. 후보 형식을 `"이름,파라미터,비트,층수,KV헤드,헤드차원"`으로 늘리거나 `--layers --kv-heads --head-dim`을 준다. 값은 모델 카드의 `config.json`에서 읽는다: `num_hidden_layers`, `num_key_value_heads`, 그리고 헤드 차원은 `head_dim` 키가 있으면 그 값을 쓰고 없을 때만 `hidden_size ÷ num_attention_heads`로 계산한다. Qwen3 계열은 `head_dim`이 따로 적혀 있고 나눗셈 값과 다르므로 키를 먼저 본다.
 </details>
 
 <details>
@@ -188,7 +188,7 @@ SPDX ID(`Apache-2.0`, `MIT`)나 약관 이름(예: 커뮤니티 라이선스, RA
 ### 검증
 
 - 정상: `outputs/vram-*.md`에 후보 2개의 가중치·KV·여유·합계와 12 GB 대비 판정이 있다.
-- 경계 또는 실패: 파라미터를 `70B`, 비트를 `16`으로 넣어 12 GB를 초과하는 후보가 "초과"로 판정되는지 확인하고, 잘못된 형식(`"qwen3:4b,4B"`처럼 비트 누락)에서 사람이 읽을 오류가 나오는지 확인한다.
+- 경계 또는 실패: 파라미터를 `70B`, 비트를 `16`으로 넣어 12 GB를 초과하는 후보가 "초과"로 판정되는지 확인하고, 잘못된 형식(`"qwen3:8b,8.2B"`처럼 비트 누락)에서 사람이 읽을 오류가 나오는지 확인한다.
 - 설명: "두 후보 중 12주차 베타에 먼저 쓸 모델과 그 이유"를 한 문장으로 쓴다.
 
 ### 확장 문제
@@ -238,7 +238,7 @@ git branch -M main
 uv run team-project doctor
 ```
 
-4. `git status`로 `.env`가 추적되지 않는지 확인한 뒤 첫 commit(`Add project skeleton with governance files`)을 만들고 push한다.
+4. `git status`로 `.env`가 추적되지 않는지 확인한 뒤 첫 commit(`Add project skeleton with governance files`)을 만든다. 이어서 2주차에서 쓴 순서로 원격에 연결하고 올린다: `git remote add origin <팀 저장소 HTTPS URL>` → `git push -u origin main`. 저장소를 만들 때 README·LICENSE를 함께 만들었으면 push가 거부되므로 빈 저장소로 만든다.
 5. GitHub에서 Insights → Community Standards를 열어 체크 항목이 채워졌는지 본다.
 
 완료 조건:

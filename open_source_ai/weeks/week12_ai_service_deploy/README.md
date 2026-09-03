@@ -23,7 +23,7 @@
 
 | 블록 | 설명·시연 20분 | 직접 해결 실습 30분 | 핵심 증거 |
 |---|---|---|---|
-| 1교시 | 모델 서버와 앱 서버 분리, 요청·응답 스키마(pydantic), `/health`, 오류 응답(502·503·504), 타임아웃·동시 요청·로깅 | 앱 서버 세우기와 오류 응답 확인 | `outputs/smoke-*.json`(정상 1건 + 502·503·504·422 각 1건), `GET /models` 추가 commit |
+| 1교시 | 모델 서버와 앱 서버 분리, 요청·응답 스키마(pydantic), `/health`, 오류 응답(502·503·504), 타임아웃·동시 요청·로깅 | 앱 서버 세우기와 오류 응답 확인 | `outputs/smoke-*.json`(정상 1건 + 502·503·504 각 1건)과 422가 기록된 `outputs/requests.jsonl`, `GET /models` 추가 commit |
 | 2교시 | 스트리밍(SSE)과 사용자 경험, FastAPI `StreamingResponse`, Gradio 최소 채팅 UI, 정적 HTML+fetch 대안과 CORS | 스트리밍 채팅 UI 연결 | `outputs/ui-turns.jsonl`(두 모드 시간 비교 + 오류 턴), 취소·오류 문구 기록 |
 | 3교시 | 설정 외부화(`.env`), Dockerfile 기초(uv 공식 이미지, 레이어·캐시), 컨테이너와 호스트 Ollama 연결(`host.docker.internal`), README 재현 절차, **3차 종합과제 안내** | Dockerfile과 재현 절차 검증 | `Dockerfile`·`.dockerignore`, README 실행 절, 짝 검증 기록, 3차 과제 점검표 |
 
@@ -32,7 +32,7 @@
 ## 준비물
 
 - Git, VS Code, uv, Ollama, PowerShell (1주차 `env_check.md`로 확인한 상태)
-- 수업 전에 캐시된 기본 모델 `OLLAMA_MODEL`(교재 검증용 기본값 `qwen3:4b`, GPU 없는 PC는 `qwen3:0.6b`). 실습 시간에 모델을 내려받지 않는다.
+- 수업 전에 캐시된 기본 모델 `OLLAMA_MODEL`(교재 검증용 기본값 `qwen3:8b`, 내려받는 크기 약 5.2 GB, GPU 없는 PC는 `qwen3:0.6b` 약 0.5 GB). 실습 시간에 모델을 내려받지 않는다.
 - Docker Desktop은 **선택**이다. 없으면 3교시는 uv 경로로 진행한다. Docker 경로를 쓰려면 수업 전에 uv 공식 베이스 이미지를 한 번 내려받아 둔다.
 - 수업 전에 예제 `examples/ai_service/`를 복사해 `uv sync`를 한 번 실행해 패키지 캐시를 채워 둔다. `gradio` 의존성이 커서 첫 설치는 수 분이 걸리며, 실습 시간의 `uv sync`는 캐시에서 몇 초 안에 끝나야 한다.
 - 10~11주차 산출물(`experiments/run-*.md`, `DATA_CARD.md`, `outputs/eval-*.json`, `FAILURE_ANALYSIS.md`). 어댑터가 없어도 이번 주 서비스는 기본 모델로 동작한다.
@@ -60,7 +60,7 @@
 
 - [ ] `uv run uvicorn app.main:app --port 8000`으로 앱 서버가 뜨고 `/docs`가 열린다.
 - [ ] `/health`가 `ok`이고 `/chat`이 200과 `eval_count`를 돌려준다.
-- [ ] 502·503·504·422를 각각 한 번씩 재현해 `outputs/smoke-*.json`에 남기고 원인을 한 문장씩 적었다.
+- [ ] 502·503·504를 각각 한 번씩 재현해 `outputs/smoke-*.json`에 남기고, 422는 `/docs` 응답 본문과 `outputs/requests.jsonl`로 확인해 원인을 한 문장씩 적었다.
 - [ ] `GET /models`를 추가했고 모델 서버가 꺼졌을 때 502가 자동으로 나온다.
 - [ ] 같은 질문으로 비스트리밍·스트리밍 모드의 첫 글자까지 시간과 전체 시간을 비교했다.
 - [ ] Stop·앱 서버 중단·모델 서버 실패 세 상황의 UI 문구를 기록했다.
@@ -71,7 +71,7 @@
 
 이번 주는 3차 종합과제 제출 주차다. 아래 증거는 팀 저장소의 과제 산출물에 포함하고, 개인 실습 결과는 개인 저장소에도 누적한다.
 
-1. 개인 실습 폴더의 `outputs/smoke-*.json`(정상 1건, 502·503·504·422 각 1건)과 `outputs/requests.jsonl`
+1. 개인 실습 폴더의 `outputs/smoke-*.json`(정상 1건, 502·503·504 각 1건)과 422 요청까지 담긴 `outputs/requests.jsonl`
 2. `GET /models`를 추가한 commit id
 3. `outputs/ui-turns.jsonl`과 두 모드 시간 비교표, 취소·오류 문구 기록
 4. `Dockerfile`, `.dockerignore`, `.env.example`, README 실행 절(두 경로), 짝 검증 기록
@@ -81,7 +81,7 @@
 
 ## 다음 주 연결
 
-13주차 `week13_test_ci_security`에서는 이번 주 앱 서버의 `schemas.py`와 클라이언트 주입 지점(`get_client`)에 pytest를 붙이고, 가짜 Ollama 클라이언트로 오류 경로를 자동 검사한 뒤 GitHub Actions에서 `uv run pytest`·`ruff`가 초록불이 되게 만든다. 이번 주에 만든 502·503·504 재현 절차가 그대로 테스트 케이스가 된다.
+13주차 `week13_test_ci_security`에서는 이번 주와 같은 구조(스키마·클라이언트 주입 지점)에 pytest를 붙이고, 가짜 Ollama 클라이언트로 오류 경로를 자동 검사한 뒤 GitHub Actions에서 `uv run pytest`·`ruff`가 초록불이 되게 만든다. 13주차 예제 `ci_lab/`은 이번 주 앱 서버를 줄여 다시 쓴 것이라 요청 필드와 예외→상태 코드 매핑(503·404·502)이 이번 주(502·503·504)와 다르다. 이번 주에 손으로 재현한 실패 경로가 그 테스트의 원본이며, 테스트를 팀 저장소로 옮길 때는 팀 코드가 정한 코드값에 맞춘다.
 
 ## 참고 자료
 

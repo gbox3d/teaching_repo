@@ -30,7 +30,7 @@ uv sync
 ollama list
 ```
 
-**예상 결과** — `.venv/`가 생기고 `uv sync`가 오류 없이 끝난다. `ollama list`에 `.env`의 `OLLAMA_MODEL`과 같은 이름(교재 기본값 `qwen3:4b`)이 보인다.
+**예상 결과** — `.venv/`가 생기고 `uv sync`가 오류 없이 끝난다. `ollama list`에 `.env`의 `OLLAMA_MODEL`과 같은 이름(교재 기본값 `qwen3:8b`)이 보인다.
 
 **확인** — [ ] `.env`를 열어 `OLLAMA_HOST`·`OLLAMA_MODEL`·`OLLAMA_TIMEOUT` 세 값을 읽었다. 모델 이름이 다르면 `.env`를 고쳤다.
 
@@ -46,7 +46,7 @@ uv run uvicorn app.main:app --port 8000 --reload
 
 2. 브라우저에서 `http://localhost:8000/docs`를 연다.
 
-**예상 결과** — 터미널 A에 `모델 서버 http://localhost:11434, 기본 모델 qwen3:4b`와 `Uvicorn running on http://127.0.0.1:8000`이 보이고 명령이 끝나지 않은 채 대기한다. `/docs`에 `GET /health`, `POST /chat`, `POST /chat/stream` 세 항목이 있다.
+**예상 결과** — 터미널 A에 `모델 서버 http://localhost:11434, 기본 모델 qwen3:8b`와 `Uvicorn running on http://127.0.0.1:8000`이 보이고 명령이 끝나지 않은 채 대기한다. `/docs`에 `GET /health`, `POST /chat`, `POST /chat/stream` 세 항목이 있다.
 
 **확인** — [ ] `/docs`에서 `POST /chat`을 펼쳐 요청 예시(`messages`, `temperature`, `max_tokens`)와 응답 코드 목록(200·422·502·503·504)을 봤다.
 
@@ -90,7 +90,7 @@ uv run uvicorn app.main:app --port 8000
 
 **예상 결과** — 1은 `/health`가 `has_model: false`·`degraded`, `/chat`이 **503** `OllamaModelMissing`. 2는 `/health`가 `ok`(목록 조회는 빠르다)인데 `/chat`이 **504** `OllamaTimeout`. 3은 **422**이며 본문의 `detail`에 `temperature`와 `less than or equal to 2`가 들어 있다.
 
-**확인** — [ ] 네 상황의 `smoke-*.json`이 `outputs/`에 있다. [ ] `Get-ChildItem Env:OLLAMA_*`가 비어 있다.
+**확인** — [ ] 502·503·504 세 상황의 `smoke-*.json`이 `outputs/`에 있고, 422는 `outputs/requests.jsonl`에 한 줄로 남았다(`smoke_test.py`는 늘 올바른 본문을 보내므로 422를 만들지 않는다). [ ] `Get-ChildItem Env:OLLAMA_*`가 비어 있다.
 
 ### 단계 6. `GET /models` 추가
 
@@ -208,7 +208,7 @@ git status --short
 
 ```powershell
 docker build -t osa-ai-service:dev .
-docker run --rm -p 8001:8000 -e OLLAMA_HOST=http://host.docker.internal:11434 -e OLLAMA_MODEL=qwen3:4b osa-ai-service:dev
+docker run --rm -p 8001:8000 -e OLLAMA_HOST=http://host.docker.internal:11434 -e OLLAMA_MODEL=qwen3:8b osa-ai-service:dev
 ```
 
 다른 터미널에서:

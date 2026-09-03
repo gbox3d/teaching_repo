@@ -1,6 +1,6 @@
 # 13주차 예제 — 테스트·CI·보안 점검이 붙은 최소 AI 서비스
 
-12주차 앱 서버에서 테스트 대상(스키마·서비스·HTTP 계층)만 발췌한 uv 프로젝트다. 1교시는 가짜 클라이언트를 주입한 pytest와 ruff, 2교시는 GitHub Actions, 3교시는 의존성 감사·비밀 검색·교차 리뷰에 쓴다. 학생 팀 저장소에는 `tests/`, `.github/workflows/ci.yml`, `audit_report.py`, `security_check.ps1`, `REVIEW_CHECKLIST.md`를 그대로 옮겨 붙이면 된다.
+12주차 앱 서버와 같은 구조(스키마·서비스·HTTP 계층)를 테스트하기 좋게 줄여 다시 쓴 uv 프로젝트다. 12주차 코드를 그대로 복사한 것이 아니다 — 요청 본문이 `messages` 목록이 아니라 `prompt`·`system`이고, 클라이언트가 동기이며, 예외→상태 코드가 12주차의 502·503·504가 아니라 503·404·502다. 1교시는 가짜 클라이언트를 주입한 pytest와 ruff, 2교시는 GitHub Actions, 3교시는 의존성 감사·비밀 검색·교차 리뷰에 쓴다. 학생 팀 저장소에는 `.github/workflows/ci.yml`, `audit_report.py`, `security_check.ps1`, `REVIEW_CHECKLIST.md`를 그대로 옮겨 붙이면 되고, `tests/`는 팀 코드의 스키마 필드·예외 이름·상태 코드에 맞춰 고쳐 쓴다.
 
 ```text
 운영:   app/main.py get_service() ─▶ ChatService(client=HttpOllamaClient) ─HTTP─▶ Ollama(:11434)
@@ -33,14 +33,14 @@ CI:     push·PR ─▶ .github/workflows/ci.yml ─▶ setup-uv ─▶ uv sync 
 | `ci_lab/REVIEW_CHECKLIST.md` | 교차 코드리뷰 항목(CI·코드·보안·출처)과 코멘트 양식(근거→문제→제안), 리뷰 기록 표 |
 | `ci_lab/README.md` | 프로젝트 안 짧은 안내 |
 
-모델 ID·주소·양자화·용량은 학기별 환경 기준표에서 확정하며, 코드의 기본값(`OLLAMA_HOST=http://localhost:11434`, `OLLAMA_MODEL=qwen3:4b`, CPU 대체 `qwen3:0.6b`)은 교재 검증용 기본값이다. `uv.lock`은 이 폴더에 두지 않는다. 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다.
+모델 ID·주소·양자화·용량은 학기별 환경 기준표에서 확정하며, 코드의 기본값(`OLLAMA_HOST=http://localhost:11434`, `OLLAMA_MODEL=qwen3:8b`, CPU 대체 `qwen3:0.6b`)은 교재 검증용 기본값이다. `uv.lock`은 이 폴더에 두지 않는다. 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다.
 
 ### 환경변수
 
 | 변수 | 기본값 | 용도 |
 |---|---|---|
 | `OLLAMA_HOST` | `http://localhost:11434` | 실제 클라이언트가 찾아갈 모델 서버. 단위 테스트는 쓰지 않는다 |
-| `OLLAMA_MODEL` | `qwen3:4b` | 기본 생성 모델. CPU 대체 `qwen3:0.6b` |
+| `OLLAMA_MODEL` | `qwen3:8b` | 기본 생성 모델. CPU 대체 `qwen3:0.6b` |
 | `OLLAMA_TIMEOUT` | `60` | 실제 클라이언트의 응답 대기 시간(초) |
 | `RUN_INTEGRATION` | (비어 있음) | `1`이면 `tests/test_integration.py`가 실제 서버를 호출한다 |
 
@@ -107,6 +107,6 @@ GitHub Actions는 복사본을 **저장소 루트**로 만들어 push해야 돈�
 ## 복사 후 변형
 
 - 팀 프로젝트에 가져갈 때: `app/`은 팀 코드로 바꾸고 `tests/conftest.py`의 `FakeOllamaClient`는 팀 클라이언트의 메서드 모양에 맞춘다. 주입 지점(`get_service` 또는 12주차 `get_client`)은 반드시 유지한다.
-- `ci.yml`은 팀 저장소 루트의 `.github/workflows/`로 옮기고, `uv.lock`을 커밋했다면 `uv sync`를 `uv sync --frozen`으로 바꾼다.
+- `ci.yml`은 팀 저장소 루트의 `.github/workflows/`로 옮기고, `uv.lock`을 커밋했다면 `uv sync`를 `uv sync --locked`로 바꾼다(`--frozen`은 lock을 검사하지 않으므로 어긋나도 통과한다).
 - 실패 재현은 예제 원본이 아니라 복사본에서 한다. `service.py`의 단위 변환, `schemas.py`의 범위 값을 바꿔 어느 테스트가 잡아내는지 본다.
 - `outputs/`는 Git에 넣지 않는다. 제출 증거로 쓸 `audit-*.md`·`security-*.md`는 별도 폴더(예: `evidence/week13/`)로 복사해 커밋한다. 복사 전에 사용자 홈 경로 같은 개인 식별 정보가 없는지 확인한다.

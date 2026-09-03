@@ -102,8 +102,8 @@ dependencies = ["httpx"]
 
 ```text
 # uv.lock — 도구가 만든 "결과". 손으로 고치지 않는다
-httpx <정확한 버전> ← anyio, certifi, h11, httpcore, idna, sniffio
-각 패키지의 정확한 버전 + 파일 해시
+httpx <정확한 버전> ← anyio, certifi, h11, httpcore, idna, ...
+각 패키지의 정확한 버전 + 파일 해시 (개수는 해석 시점마다 다르다)
 ```
 
 - `pyproject.toml`: 이름만 적어도 된다("httpx가 필요하다")
@@ -116,7 +116,7 @@ httpx <정확한 버전> ← anyio, certifi, h11, httpcore, idna, sniffio
 
 | 커밋한다 | 커밋하지 않는다 |
 |---|---|
-| `pyproject.toml` | `.venv/` (수백 MB, PC마다 다름) |
+| `pyproject.toml` | `.venv/` (프로젝트마다 수 MB~수 GB) |
 | `uv.lock` | `__pycache__/`, `*.pyc` |
 | `.python-version` | `.env` (3교시) |
 | `src/`, `README.md`, `.gitignore` | `outputs/` (실행 결과) |
@@ -292,7 +292,7 @@ TOKEN = "hf_(실제 토큰)"              # 내 토큰
 ```text
 .env.example   ← 커밋한다. 키 이름과 예시값·설명만
 OLLAMA_HOST=http://localhost:11434
-OLLAMA_MODEL=qwen3:4b
+OLLAMA_MODEL=qwen3:8b
 HF_TOKEN=
 
 .env           ← 커밋하지 않는다. 내 PC의 실제 값
@@ -316,7 +316,7 @@ os.environ.get("OLLAMA_HOST")        # 셸 변수와 .env 값이 섞여 보인�
 file_values = dotenv_values(".env")  # .env 만 dict 로 읽는다 → 출처 추적 가능
 ```
 
-- 셸에서 `$env:OLLAMA_MODEL = "qwen3:0.6b"`를 주면 `.env`보다 우선한다
+- 셸에서 `$env:OLLAMA_MODEL = "qwen3:1.7b"`를 주면 `.env`보다 우선한다
 - 예제 `config.py`는 `dotenv_values`로 **어디서 온 값인지**까지 기록한다
 
 ---
@@ -324,13 +324,13 @@ file_values = dotenv_values(".env")  # .env 만 dict 로 읽는다 → 출처 �
 ## 9–12분 · 설정 계층: 기본값 < .env < 환경변수 < 인자
 
 ```text
-기본값     DEFAULTS["OLLAMA_MODEL"] = "qwen3:4b"    코드 안, 교재 검증용
+기본값     DEFAULTS["OLLAMA_MODEL"] = "qwen3:8b"    코드 안, 교재 검증용
   ↓ 덮어씀
 .env       OLLAMA_MODEL=qwen3:0.6b                 이 PC 의 상시 설정
   ↓ 덮어씀
 환경변수   $env:OLLAMA_MODEL = "..."                이 셸 창에서만
   ↓ 덮어씀
-인자       --model qwen3:0.6b                      이 실행 한 번만
+인자       --model qwen3:14b                       이 실행 한 번만
 ```
 
 **좁은 범위일수록 우선한다.** `oss-tool config`는 값과 함께 출처를 보여 준다

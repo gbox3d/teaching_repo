@@ -10,7 +10,7 @@ library_name: peft
 ---
 
 <!--
-Hugging Face Hub 에 올리면 위 frontmatter 가 모델 카드 메타데이터가 된다.
+Hub 의 모델 카드는 모델 저장소의 `README.md` 다. 이 파일을 그 이름으로 올려야 카드로 렌더링되고 위 frontmatter 가 메타데이터가 된다.
 값은 SOURCES.md 와 같아야 한다. 기반 모델 ID 는 환경 기준표에서 확정한 값으로 바꾼다.
 어댑터를 공개하지 않는 팀은 이 파일을 만들지 않아도 된다.
 -->

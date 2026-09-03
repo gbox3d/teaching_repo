@@ -6,7 +6,7 @@
 #
 # FROM 은 수업 전에 캐시된 모델 이름으로 맞춘다. 캐시에 없는 이름이면 create 가 다운로드를 시도한다.
 # GPU 가 없으면 FROM qwen3:0.6b 로 바꾼다. 정확한 모델 ID 는 학기별 환경 기준표가 정한다.
-FROM qwen3:4b
+FROM qwen3:8b
 
 # 시스템 프롬프트: 역할 → 제약 → 출력 형식 → 안전 순서로 쓴다.
 # 한 번에 한 줄만 바꾸고 같은 질문 3개로 전후를 비교한다.
@@ -23,4 +23,4 @@ PARAMETER temperature 0.3
 PARAMETER num_ctx 4096
 
 # TEMPLATE 은 쓰지 않는다. 프롬프트 조립 틀은 FROM 모델에서 물려받는다.
-# 물려받은 틀은 `ollama show qwen3:4b --modelfile` 로 볼 수 있다.
+# 물려받은 틀은 `ollama show qwen3:8b --modelfile` 로 볼 수 있다.

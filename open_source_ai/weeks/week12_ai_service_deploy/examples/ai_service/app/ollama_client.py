@@ -53,7 +53,7 @@ class OllamaClient:
         load_dotenv()
         return cls(
             host=os.environ.get("OLLAMA_HOST", "http://localhost:11434"),
-            model=os.environ.get("OLLAMA_MODEL", "qwen3:4b"),
+            model=os.environ.get("OLLAMA_MODEL", "qwen3:8b"),
             timeout=float(os.environ.get("OLLAMA_TIMEOUT", "60")),
         )
 

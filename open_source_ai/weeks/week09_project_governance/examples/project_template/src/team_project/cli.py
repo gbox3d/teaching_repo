@@ -24,7 +24,7 @@ from dotenv import load_dotenv
 from team_project import __version__
 
 DEFAULT_HOST = "http://localhost:11434"
-DEFAULT_MODEL = "qwen3:4b"  # CPU 대체는 qwen3:0.6b
+DEFAULT_MODEL = "qwen3:8b"  # CPU 대체는 qwen3:0.6b
 
 
 def load_settings(args: argparse.Namespace) -> dict[str, str]:
@@ -125,7 +125,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     doctor = sub.add_parser("doctor", help="Ollama 연결·모델 목록 확인")
     doctor.add_argument("--host", help="Ollama 주소 (기본: OLLAMA_HOST 또는 http://localhost:11434)")
-    doctor.add_argument("--model", help="확인할 모델 (기본: OLLAMA_MODEL 또는 qwen3:4b)")
+    doctor.add_argument("--model", help="확인할 모델 (기본: OLLAMA_MODEL 또는 qwen3:8b)")
     doctor.add_argument("--chat-test", action="store_true", help="/api/chat 로 짧은 응답 1회 확인")
     doctor.add_argument("--timeout", type=float, default=30.0, help="초 단위 시간 제한")
     doctor.add_argument("--out-dir", default="outputs", help="결과 JSON 폴더")

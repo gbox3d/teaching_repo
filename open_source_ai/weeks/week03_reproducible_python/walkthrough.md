@@ -68,7 +68,7 @@ uv lock
 git status
 ```
 
-**예상 결과** — stage 목록에 네 파일만 있고 `first_run/`·`reports/`는 바뀌지 않는다. commit 뒤 `uv lock`은 `Resolved N packages`만 출력하고 `git status`는 clean이다(같은 입력이면 lock은 바뀌지 않는다).
+**예상 결과** — stage 목록에 네 파일만 있고 `first_run/`·`reports/`는 바뀌지 않는다. commit 뒤 `uv lock`은 `Resolved N packages`만 출력하고 `git status`에는 tracked 변경 없이 단계 1에서 만든 `notes/`만 untracked로 남는다(같은 입력이면 lock은 바뀌지 않는다).
 
 **확인** — [ ] `git log -1 --stat`에 네 파일이 보인다.
 
@@ -218,7 +218,7 @@ git diff --stat
 uv run oss-tool config
 ```
 
-**예상 결과** — `OLLAMA_HOST = http://localhost:11434 [default]`, `OLLAMA_MODEL = qwen3:4b [default]`처럼 값과 출처가 한 줄씩 나온다. `HF_TOKEN`을 선택 키로 넣었다면 `(비어 있음) [default]`다.
+**예상 결과** — `OLLAMA_HOST = http://localhost:11434 [default]`, `OLLAMA_MODEL = qwen3:8b [default]`처럼 값과 출처가 한 줄씩 나온다. `HF_TOKEN`을 선택 키로 넣었다면 `(비어 있음) [default]`다.
 
 **확인** — [ ] 출처 열이 모두 `default`다.
 
@@ -237,11 +237,11 @@ code .env
 uv run oss-tool config
 $env:OLLAMA_MODEL = "qwen3:1.7b"
 uv run oss-tool config
-uv run oss-tool config --model qwen3:4b
+uv run oss-tool config --model qwen3:14b
 Remove-Item Env:OLLAMA_MODEL
 ```
 
-**예상 결과** — 첫 실행은 `OLLAMA_MODEL = qwen3:0.6b [.env]`와 `HF_TOKEN = (설정됨, 가려짐) [.env]`. 둘째는 `qwen3:1.7b [env]`. 셋째는 `qwen3:4b [arg]`. `OLLAMA_HOST`는 `.env` 값이 기본값과 같아도 출처가 `.env`로 바뀐다.
+**예상 결과** — 첫 실행은 `OLLAMA_MODEL = qwen3:0.6b [.env]`와 `HF_TOKEN = (설정됨, 가려짐) [.env]`. 둘째는 `qwen3:1.7b [env]`. 셋째는 `qwen3:14b [arg]`. `OLLAMA_HOST`는 `.env` 값이 기본값과 같아도 출처가 `.env`로 바뀐다.
 
 **확인** — [ ] `notes\week03.md`의 출처 관찰표 네 행을 채웠다.
 

@@ -29,4 +29,4 @@ uv run python chat.py --model osa-helper --prompt "uv가 무엇인지 두 문장
 
 ## 기본값
 
-`OLLAMA_HOST`(`http://localhost:11434`)·`OLLAMA_MODEL`(`qwen3:4b`, CPU 대체 `qwen3:0.6b`)은 교재 검증용 기본값이다. 모델 ID·양자화·용량은 학기별 환경 기준표에서 확정한다. `uv.lock`은 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다.
+`OLLAMA_HOST`(`http://localhost:11434`)·`OLLAMA_MODEL`(`qwen3:8b` — Q4_K_M, 내려받는 크기 약 5.2 GB. CPU 대체 `qwen3:0.6b`)은 교재 검증용 기본값이다. 모델 ID·양자화·용량은 학기별 환경 기준표에서 확정한다. `uv.lock`은 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다.

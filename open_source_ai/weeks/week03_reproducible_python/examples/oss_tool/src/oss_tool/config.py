@@ -18,7 +18,7 @@ from dotenv import dotenv_values
 # 교재 검증용 기본값. 실제 모델 ID·양자화는 학기별 환경 기준표에서 확정하고 .env 로 바꾼다.
 DEFAULTS: dict[str, str] = {
     "OLLAMA_HOST": "http://localhost:11434",
-    "OLLAMA_MODEL": "qwen3:4b",  # RTX 4070 기준. CPU 만 있는 PC 는 .env 에서 qwen3:0.6b 로 바꾼다.
+    "OLLAMA_MODEL": "qwen3:8b",  # RTX 4070 기준. CPU 만 있는 PC 는 .env 에서 qwen3:0.6b 로 바꾼다.
 }
 # 기본값이 없어도 읽어 두는 선택 키. 5주차 Hugging Face 실습부터 쓴다.
 OPTIONAL_KEYS: tuple[str, ...] = ("HF_TOKEN",)

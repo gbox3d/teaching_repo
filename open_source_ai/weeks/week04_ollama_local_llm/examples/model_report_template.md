@@ -2,7 +2,7 @@
 
 - 작성자: `student01`
 - 측정 PC: GPU 이름 · VRAM (1주차 `env_check.md`에서 복사)
-- 서버 주소·기본 모델: `OLLAMA_HOST` · `OLLAMA_MODEL` 값 (환경변수로 관리하며 실제 값을 여기에 적는다)
+- 서버 주소·기본 모델: `OLLAMA_HOST` · `OLLAMA_MODEL` 값 (환경변수로 관리하며 실제 값을 여기에 적는다. 교재 검증용 기본값은 `qwen3:8b`, CPU 대체는 `qwen3:0.6b`)
 
 ## 1. 측정 대상
 

@@ -82,7 +82,7 @@ raw.jsonl   빈 값·정규화   정확·근사      마스킹/삭제     train/
 
 | 유형 | 정규식이 찾는 모양 | 예제 값(가짜) |
 |---|---|---|
-| PHONE | `010-####-####` 형태의 휴대전화 | q012 output |
+| PHONE | `010`·`011`·`016`~`019` 휴대전화(구분자 생략 가능) | q012 output |
 | EMAIL | `이름@도메인.tld` | q025 instruction |
 | RRN | `######-#######`, 7번째 자리 1~4 | q038 output |
 
@@ -117,7 +117,7 @@ uv run python split.py                      # train 20 / val 4 / test 20, 누수
 
 ```text
   - q009: 정확 중복(instruction) ← q003
-  - q033: 근사 중복(instruction+output) ← q027 (유사도 0.936)
+  - q033: 근사 중복(instruction+output) ← q027 (유사도 0.94)
   - q040: 필수 필드 비어 있음: output
 ```
 
@@ -173,7 +173,7 @@ F1 = 2·P·R/(P+R)
 ```
 
 - "형식 준수 여부"처럼 **예/아니오 판정**을 채점할 때 쓴다
-- 14:6으로 불균형하면 전부 1이라 해도 accuracy 0.7 — F1이 낮은 이유
+- 14:6으로 불균형하면 전부 1이라 해도 accuracy 0.7 — recall 1.0, precision 0.7, 0은 하나도 못 찾는다
 - `metrics.py --demo`: accuracy 0.8, precision 0.857, recall 0.857
 
 ---

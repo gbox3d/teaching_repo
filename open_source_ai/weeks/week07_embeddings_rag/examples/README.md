@@ -26,7 +26,7 @@
 
 ```powershell
 $src = "C:\teaching_repo\open_source_ai\weeks\week07_embeddings_rag\examples"
-$dst = "$HOME\osa-repo\week07"
+$dst = "$HOME\osa-practice\week07"
 New-Item -ItemType Directory -Force $dst | Out-Null
 Copy-Item -Recurse "$src\mini_rag" "$dst\mini_rag"
 Set-Location "$dst\mini_rag"
@@ -72,18 +72,19 @@ uv run python eval.py --evalset evalset.json --ids q05,q10 --generate
 1. `chunk.py`의 청크 경계는 창의 뒤쪽(size의 0.6배 지점 이후)에서 문장·문단 끝을 찾아 자른다. `--hard`를 주면 글자 수로만 잘라 문장이 중간에서 끊긴다.
 2. 청크 id는 `파일명#번호`다. `rag_answer.py`의 출처 표시와 `eval.py`의 출처 일치율이 모두 이 id를 그대로 쓴다.
 3. `embed.py`는 정규화된 float32 벡터를 저장하므로 `search.py`의 코사인 유사도는 행렬곱 한 줄(`vectors @ query`)이다. 벡터 DB 없이 numpy로 충분한 규모다.
-4. e5 계열 모델은 `query:`·`passage:` 접두어를 붙여 인코딩한다(`ragcore.Embedder.encode`). 질의와 청크에 다른 접두어를 쓰는 것이 의도된 동작이다.
-5. `search.py`는 인덱스에 기록된 백엔드·모델과 현재 `.env`가 다르면 실행을 막는다. 같은 모델로 만든 벡터끼리만 비교할 수 있기 때문이다.
-6. `rag_answer.py`의 요청 JSON에는 `stream:false`, `think:false`(Qwen3 계열의 생각 출력이 답에 섞이지 않게), `options.num_ctx`·`temperature`·`num_predict`가 명시된다. `--show-prompt`로 system·user 메시지 전체를 볼 수 있다.
-7. 결과의 `cited`(답이 인용한 id), `cited_in_retrieved`(그중 검색 결과 안에 있는 것), `refused`(고정 거부 문구가 나왔는가)는 답을 읽기 전에 볼 판정 필드다.
-8. `--num-ctx`를 프롬프트보다 작게 주면 `prompt_eval_count`가 그 값을 넘지 않는다. 잘린 부분에 system 규칙이 포함되면 거부·출처 형식이 깨질 수 있다.
-9. `eval.py`의 hit rate는 검색만으로 계산되므로 Ollama 없이 돌아간다. `--generate`를 붙여야 생성 모델을 호출하고 키워드율·출처 일치율이 추가된다.
-10. `evalset.json`의 `expected_source`가 인덱스에 없는 파일명이면 결과에 경고가 붙는다. 평가셋 오타를 잡는 장치다.
-11. `embed.py`가 남기는 `backend`·`model`·`device`·`load_sec`·`encode_sec`는 6주차 실험 기록 습관을 이어받은 항목이다. 인덱스 파일마다 어떤 조건으로 만들었는지 남는다.
+4. 6주차 `pretrained_embed.py`에서 손으로 한 토큰화 → hidden state → mean pooling → 정규화를 `SentenceTransformer.encode(..., normalize_embeddings=True)` 한 줄이 대신한다(`ragcore.Embedder`). 라이브러리가 바뀌었을 뿐 계산 절차는 6주차와 같고, 접두어만 질의·청크로 나뉜다(다음 항목).
+5. e5 계열 모델은 `query:`·`passage:` 접두어를 붙여 인코딩한다(`ragcore.Embedder.encode`). 질의와 청크에 다른 접두어를 쓰는 것이 의도된 동작이다.
+6. `search.py`는 인덱스에 기록된 백엔드·모델과 현재 `.env`가 다르면 실행을 막는다. 같은 모델로 만든 벡터끼리만 비교할 수 있기 때문이다.
+7. `rag_answer.py`의 요청 JSON에는 `stream:false`, `think:false`(Qwen3 계열의 생각 출력이 답에 섞이지 않게), `options.num_ctx`·`temperature`·`num_predict`가 명시된다. `--show-prompt`로 system·user 메시지 전체를 볼 수 있다.
+8. 결과의 `cited`(답이 인용한 id), `cited_in_retrieved`(그중 검색 결과 안에 있는 것), `refused`(고정 거부 문구가 나왔는가)는 답을 읽기 전에 볼 판정 필드다.
+9. `--num-ctx`를 프롬프트보다 작게 주면 `prompt_eval_count`가 그 값을 넘지 않는다. 잘린 부분에 system 규칙이 포함되면 거부·출처 형식이 깨질 수 있다.
+10. `eval.py`의 hit rate는 검색만으로 계산되므로 Ollama 없이 돌아간다. `--generate`를 붙여야 생성 모델을 호출하고 키워드율·출처 일치율이 추가된다.
+11. `evalset.json`의 `expected_source`가 인덱스에 없는 파일명이면 결과에 경고가 붙는다. 평가셋 오타를 잡는 장치다.
+12. `embed.py`가 남기는 `backend`·`model`·`device`·`load_sec`·`encode_sec`는 6주차 실험 기록 습관을 이어받은 항목이다. 인덱스 파일마다 어떤 조건으로 만들었는지 남는다.
 
 ## GPU 없을 때·네트워크 없을 때
 
-- GPU가 없거나 인식되지 않으면 sentence-transformers가 자동으로 CPU를 쓴다. 명시하려면 `embed.py --device cpu`. 청크 30개 안팎이라 CPU에서도 수 초면 끝난다. `index.json`의 `device` 값이 `cpu`인 것 자체가 기록할 관찰이다.
+- GPU가 없거나 인식되지 않으면 sentence-transformers가 자동으로 CPU를 쓴다. 명시하려면 `embed.py --device cpu`. 청크가 300자 13개·150자 33개라 CPU에서도 수 초면 끝난다. `index.json`의 `device` 값이 `cpu`인 것 자체가 기록할 관찰이다.
 - 임베딩 모델 로드가 실패하면(캐시 없음·네트워크 없음) `embed.py --backend ollama`로 Ollama 임베딩 모델(`OLLAMA_EMBED_MODEL`, 기본값 `bge-m3`)을 쓴다. 이후 `search.py`·`rag_answer.py`·`eval.py`는 인덱스에 기록된 백엔드를 자동으로 따른다.
 - 네트워크가 없는 실습실에서는 `.env`의 `HF_HUB_OFFLINE=1` 줄의 주석을 풀어 캐시된 모델만 쓰게 한다. 모델과 `uv sync`가 수업 전에 준비되어 있으면 모든 실습이 오프라인으로 진행된다.
 - 생성 모델은 GPU가 없으면 `.env`의 `OLLAMA_MODEL`을 캐시된 소형 모델(`qwen3:0.6b`)로 바꾼다. 소형 모델은 출처 형식을 덜 지키거나 자료 밖 질문에 거부하지 않을 수 있으며, 그 결과를 그대로 기록하는 것이 이번 주 관찰이다.
@@ -102,7 +103,7 @@ uv run python eval.py --evalset evalset.json --ids q05,q10 --generate
 | 환경변수 | 기본값 | 용도 |
 |---|---|---|
 | `OLLAMA_HOST` | `http://localhost:11434` | Ollama 서버 |
-| `OLLAMA_MODEL` | `qwen3:4b` | 답 생성 모델(RTX 4070 기준). CPU 대체는 `qwen3:0.6b` |
+| `OLLAMA_MODEL` | `qwen3:8b` | 답 생성 모델(RTX 4070 기준). CPU 대체는 `qwen3:0.6b` |
 | `OLLAMA_EMBED_MODEL` | `bge-m3` | `--backend ollama`일 때 임베딩 모델 |
 | `HF_EMBED_MODEL` | `intfloat/multilingual-e5-small` | sentence-transformers 임베딩 모델(6주차와 같음) |
 | `EMBED_BACKEND` | `st` | 기본 임베딩 백엔드(`st` 또는 `ollama`) |

@@ -1,6 +1,7 @@
 """OS·CPU·RAM·GPU 정보를 모아 dict 로 돌려준다.
 
-1주차 `sysinfo.py` 와 같은 항목을 수집한다. 표준 라이브러리만 쓴다.
+1주차 `sysinfo.py` 가 모은 것 중 OS·CPU·RAM·GPU 만 골라 CLI 가 다루기 쉬운
+평평한 키로 다시 정리한 것이다(디스크·환경변수 항목과 중첩 구조는 뺐다). 표준 라이브러리만 쓴다.
 GPU 는 `nvidia-smi --query-gpu=name,memory.total --format=csv,noheader` 로 읽고,
 실행 파일이 없거나 실패하면 "GPU 없음" 으로 기록한다(예외를 밖으로 던지지 않는다).
 """
@@ -76,7 +77,7 @@ def gpu_info() -> dict[str, object]:
 
 
 def collect() -> dict[str, object]:
-    """모든 항목을 한 번에 수집한다. 1주차 sysinfo.json 과 같은 키를 쓴다."""
+    """모든 항목을 한 번에 수집한다. 1주차 sysinfo.json 의 중첩 구조 대신 평평한 키를 쓴다."""
     return {
         "collected_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "os": platform.system(),

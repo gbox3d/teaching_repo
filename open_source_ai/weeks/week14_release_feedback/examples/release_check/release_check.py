@@ -25,7 +25,8 @@ README_SECTIONS: dict[str, tuple[str, ...]] = {
     "출처": ("출처", "source", "credit", "acknowledg"),
 }
 LICENSE_HINTS = ("MIT", "Apache", "BSD", "GPL", "MPL", "Unlicense")
-CITATION_FIELDS = ("cff-version", "title", "version", "authors")
+# CFF 1.2.0 필수 4개(cff-version·message·title·authors)에, 태그와 맞추려고 이 수업이 보는 version 을 더한다.
+CITATION_FIELDS = ("cff-version", "message", "title", "authors", "version")
 # 존재만 확인하는 파일: (이름, 없을 때 수준, 이유)
 REQUIRED_FILES = (
     ("CONTRIBUTING.md", "fail", "기여 방법을 모르면 의견이 오지 않는다"),

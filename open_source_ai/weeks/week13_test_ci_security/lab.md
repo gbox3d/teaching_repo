@@ -43,6 +43,8 @@ uv run pytest -q
 
 마지막 줄이 `19 passed, 2 deselected`로 끝나야 한다. `tests/conftest.py`를 열어 `FakeOllamaClient`의 네 속성(`reply`·`models`·`fail_with`·`calls`)과 fixture 세 개(`service`·`make_service`·`api_for`)를 확인한다.
 
+`ci_lab`은 12주차 서비스를 줄여 다시 쓴 것이라 요청 필드(`prompt`·`system`)와 예외→상태 코드(503·404·502)가 12주차(502·503·504)와 다르다. 아래 문제는 `ci_lab`의 매핑을 기준으로 풀고, 이 테스트를 팀 저장소로 옮길 때는 팀 코드가 정한 코드값으로 바꾼다.
+
 ### 문제 1 · 테스트 3개 추가
 
 실행 전에 예상표를 적는다. "이 테스트가 실패하면 무엇이 잘못된 것인가"를 한 문장으로 쓴다.
@@ -208,7 +210,7 @@ git push -u origin main
 <details>
 <summary>힌트 2 — <code>uv sync</code> step에서 실패한다</summary>
 
-로그의 첫 오류 줄을 본다. `requires-python`을 만족하는 Python이 없다는 메시지면 `uv python install` step이 있는지 확인한다. lock 관련 메시지면 `--frozen`을 붙였는데 `uv.lock`을 커밋하지 않은 경우다.
+로그의 첫 오류 줄을 본다. `requires-python`을 만족하는 Python이 없다는 메시지면 `uv python install` step이 있는지 확인한다. lock 관련 메시지면 `--frozen`·`--locked`를 붙였는데 `uv.lock`을 커밋하지 않았거나, `--locked`인데 lock이 `pyproject.toml`보다 오래된 경우다.
 </details>
 
 <details>
@@ -226,7 +228,7 @@ git push -u origin main
 ### 확장 문제
 
 1. `test` 잡에 `strategy.matrix`로 `ubuntu-latest`와 `windows-latest`를 추가하고, Windows 러너에서 달라지는 것(경로·줄 끝)을 관찰한다.
-2. 기준 PC에서 `uv lock`을 만들어 커밋하고 `uv sync`를 `uv sync --frozen`으로 바꾼다. 그다음 `pyproject.toml`에만 의존성을 추가하고 lock을 올리지 않은 채 push해 어떤 오류로 실패하는지 적는다.
+2. 기준 PC에서 `uv lock`을 만들어 커밋한 뒤, `pyproject.toml`에만 의존성을 추가하고 lock을 올리지 않은 채 push한다. `uv sync --frozen`은 그대로 통과하고 `uv sync --locked`(또는 `uv lock --check` step)만 실패하는 것을 비교해, 두 옵션의 차이와 CI에 어느 쪽을 둘지 적는다.
 3. `audit` 잡의 `continue-on-error`를 지우면 무엇이 달라지는지, 팀 규칙으로 어느 쪽이 맞는지 두 문장으로 적는다.
 
 ## 3교시 실습 — 의존성 감사와 비밀 검색, 교차 리뷰

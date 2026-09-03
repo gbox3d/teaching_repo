@@ -4,7 +4,7 @@
     "task": "text-classification",
     "model": "환경 기준표에서 확정한 다국어 감성 분류 소형 모델",
     "device": "cuda:0",
-    "torch_dtype": "float32",
+    "dtype": "float32",
     "elapsed_sec": 0.041,
     "inputs": [
       "이 강의 자료는 따라 하기 쉽다.",
@@ -19,9 +19,9 @@
   },
   "text_generation": {
     "task": "text-generation",
-    "model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "model": "환경 기준표에서 확정한 소형 생성 모델(0.5B급)",
     "device": "cpu",
-    "torch_dtype": "float32",
+    "dtype": "float32",
     "elapsed_sec": 6.82,
     "generation_kwargs": {
       "max_new_tokens": 48,

@@ -6,9 +6,11 @@
   실행 여유 = (가중치 + KV 캐시) × overhead   (런타임 버퍼·활성화 등)
 
 후보 형식: "이름,파라미터,비트" 또는 "이름,파라미터,비트,층수,KV헤드,헤드차원"
-  예) "qwen3:4b,4B,4"   "my-model,0.5B,16,24,2,64"
-층 수·KV 헤드·헤드 차원은 모델 카드의 config.json(num_hidden_layers,
-num_key_value_heads, hidden_size ÷ num_attention_heads)에서 읽는다.
+  예) "qwen3:8b,8.2B,4"   "my-model,0.5B,16,24,2,64"
+층 수·KV 헤드·헤드 차원은 모델 카드의 config.json 에서 읽는다: num_hidden_layers,
+num_key_value_heads, 그리고 헤드 차원은 head_dim 키가 있으면 그 값을 쓰고
+없을 때만 hidden_size ÷ num_attention_heads 로 계산한다(Qwen3 계열은 head_dim 이
+따로 적혀 있고 나눗셈 값과 다르다).
 """
 
 from __future__ import annotations
@@ -26,6 +28,14 @@ from typing import Any
 from dotenv import load_dotenv
 
 GIB = 1024**3
+
+# 태그별 실제 파라미터 수와 Q4_K_M 내려받기 크기(GB). 태그의 숫자는 반올림값이라 실제
+# 파라미터 수와 다르고, Q4_K_M 은 일부 텐서를 4비트보다 크게 저장하므로 내려받기 크기는
+# 아래 가중치 추정보다 크다. 확정값은 학기별 환경 기준표를 따른다.
+KNOWN_MODELS: dict[str, tuple[float, float]] = {
+    "qwen3:8b": (8.2e9, 5.2),  # 과목 기본 생성 모델
+    "qwen3:0.6b": (0.6e9, 0.5),  # 소형·CPU 대체
+}
 
 
 @dataclass
@@ -64,7 +74,10 @@ def parse_candidate(text: str) -> Candidate:
 
 
 def params_from_tag(tag: str) -> float | None:
-    """'qwen3:4b' 같은 Ollama 태그 끝의 크기 표기에서 파라미터 수를 읽는다."""
+    """Ollama 태그에서 파라미터 수를 읽는다. 표에 있는 태그는 실제 파라미터 수를 쓴다."""
+    known = KNOWN_MODELS.get(tag.lower())
+    if known is not None:
+        return known[0]
     match = re.search(r"(\d+(?:\.\d+)?)b$", tag.lower())
     return float(match.group(1)) * 1e9 if match else None
 
@@ -72,7 +85,7 @@ def params_from_tag(tag: str) -> float | None:
 def default_candidates() -> list[Candidate]:
     """환경변수의 기본 모델 태그로 후보 두 개를 만든다(교재 검증용 기본값)."""
     result: list[Candidate] = []
-    for key, fallback in (("OLLAMA_MODEL", "qwen3:4b"), ("OLLAMA_MODEL_SMALL", "qwen3:0.6b")):
+    for key, fallback in (("OLLAMA_MODEL", "qwen3:8b"), ("OLLAMA_MODEL_SMALL", "qwen3:0.6b")):
         tag = os.environ.get(key, fallback)
         params = params_from_tag(tag)
         if params is None:
@@ -116,6 +129,11 @@ def render_markdown(rows: list[dict[str, Any]], vram_gb: float) -> str:
     lines += ["", "- 판정: 여유(기준의 80% 이하) · 빠듯(80~100%) · 초과(100% 초과)",
               "- KV 미계산 후보는 층 수·KV 헤드·헤드 차원을 주면 다시 계산된다.",
               "- 추정치는 4주차 `ollama ps` 실측값과 나란히 적는다."]
+    sizes = [f"`{row['name']}` {KNOWN_MODELS[row['name'].lower()][1]:g} GB"
+             for row in rows if row["name"].lower() in KNOWN_MODELS]
+    if sizes:
+        lines.append("- 내려받기 크기(Q4_K_M): " + " · ".join(sizes)
+                     + ". 추정 가중치는 모든 텐서를 같은 비트로 가정하므로 실제 파일보다 작다.")
     return "\n".join(lines) + "\n"
 
 

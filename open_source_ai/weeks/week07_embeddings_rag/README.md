@@ -17,7 +17,7 @@
 
 ## 누적 결과물
 
-이번 주 `mini_rag/` 파이프라인(chunk → embed → search → answer → eval)은 **2차 종합과제(8주차)** 의 RAG 미니프로젝트 골격이다. 과제에서는 문서를 자기 문서 10개 이상으로 바꾸고, 평가셋 10문항과 hit rate·실패 분석 2건을 붙여 제출한다. 6주차 임베딩·유사도 계산과 4주차 Ollama 클라이언트 패턴(환경변수 기본값, `think:false`, `outputs/` 기록)이 그대로 이어지며, 12주차 서비스화(3차 종합과제)에서는 이 파이프라인을 FastAPI `/chat` 뒤에 붙인다.
+이번 주 `mini_rag/` 파이프라인(chunk → embed → search → answer → eval)은 **2차 종합과제(8주차)** 의 RAG 미니프로젝트 골격이다. 과제에서는 문서를 자기 문서 10개 이상으로 바꾸고, 평가셋 10문항과 hit rate·실패 분석 2건을 붙여 제출한다. 6주차 임베딩·유사도 계산과 4주차 Ollama 클라이언트 패턴(환경변수 기본값, `think:false`, `outputs/` 기록)이 그대로 이어지며, 12주차 서비스화(3차 종합과제)의 교재 예제는 기본 모델만 호출하므로, 팀 프로젝트가 문서 검색을 쓰기로 했다면 이 파이프라인을 FastAPI `/chat` 뒤에 직접 붙여야 한다.
 
 ## 수업 흐름
 
@@ -32,7 +32,7 @@
 ## 준비물
 
 - Git, VS Code, uv, Ollama, PowerShell. NVIDIA GPU가 있으면 `nvidia-smi`가 동작해야 한다(없어도 CPU 경로로 진행한다).
-- 사전 캐시된 모델: 임베딩용 `HF_EMBED_MODEL`(교재 검증용 기본값 `intfloat/multilingual-e5-small`, 6주차와 같은 모델), 생성용 `OLLAMA_MODEL`(기본값 `qwen3:4b`, GPU 없는 PC는 `qwen3:0.6b`). `--backend ollama` 대체 경로를 쓰려면 `OLLAMA_EMBED_MODEL`(기본값 `bge-m3`)도 캐시한다. 실습 시간에 내려받지 않는다.
+- 사전 캐시된 모델: 임베딩용 `HF_EMBED_MODEL`(교재 검증용 기본값 `intfloat/multilingual-e5-small`, 6주차와 같은 모델), 생성용 `OLLAMA_MODEL`(기본값 `qwen3:8b`, GPU 없는 PC는 `qwen3:0.6b`). `--backend ollama` 대체 경로를 쓰려면 `OLLAMA_EMBED_MODEL`(기본값 `bge-m3`)도 캐시한다. 실습 시간에 내려받지 않는다.
 - `examples/mini_rag`를 개인 저장소에 복사한 폴더에서 `uv sync`를 수업 전에 마쳐 둔다(첫 sync는 torch 설치로 오래 걸린다).
 - 4주차 산출물 `ollama_client/`의 `.env` 패턴, 6주차 `pretrained_embed.py`의 유사도 행렬 결과. 이번 주 파일은 같은 개인 저장소에 누적한다.
 - 정확한 도구 버전, 모델 ID·revision·용량은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.

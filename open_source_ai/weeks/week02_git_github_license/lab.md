@@ -307,7 +307,7 @@ git log --oneline -3
 <details>
 <summary>힌트 3 — Merge 버튼이 비활성이다</summary>
 
-Draft 상태면 Ready for review를 누른다. "This branch has conflicts"가 보이면 base의 README가 그 사이에 바뀐 것이다. 제안자가 `partner-practice` 폴더에서 `git pull <짝 저장소 HTTPS URL> main`을 실행해 1교시 절차대로 충돌을 해결하고 push한다. Request changes가 남아 있으면 리뷰어가 Approve로 바꿔야 한다.
+Draft 상태면 Ready for review를 누른다. "This branch has conflicts"가 보이면 base의 README가 그 사이에 바뀐 것이다. 제안자가 `partner-practice` 폴더에서 `git pull --no-rebase <짝 저장소 HTTPS URL> main`을 실행해 1교시 절차대로 충돌을 해결하고 push한다. Request changes가 남아 있으면 리뷰어가 Approve로 바꿔야 한다.
 </details>
 
 ### 검증
@@ -377,7 +377,7 @@ Get-Content LICENSE -TotalCount 3
 ```
 
 4. `README.md` 끝에 `## 라이선스` 절을 추가하고 선택 이유를 한 문장으로 쓴다. 예: "특허 조항이 필요 없고 가장 짧아 MIT를 골랐다." commit 메시지는 `Explain license choice`, push한다.
-5. `license_matrix.md`를 채운다. 앞으로 이 저장소에서 쓸 후보를 코드·모델·데이터 세 종류 모두 넣어 5행 이상 만든다. 후보 예: `httpx`, `python-dotenv`(3주차에 쓴다), 기본 생성 모델 `qwen3:4b`(환경변수 `OLLAMA_MODEL`의 교재 기본값), 임베딩 모델 `bge-m3`, `Qwen/Qwen2.5-0.5B-Instruct`, `intfloat/multilingual-e5-small`, 사용 제한 조항이 있는 모델 1개(Llama·Gemma 계열), 데이터 1개(CC 계열). 정확한 모델 ID는 환경 기준표에서 확정하므로 표에는 확인한 ID를 그대로 적는다.
+5. `license_matrix.md`를 채운다. 앞으로 이 저장소에서 쓸 후보를 코드·모델·데이터 세 종류 모두 넣어 5행 이상 만든다. 후보 예: `httpx`, `python-dotenv`(3주차에 쓴다), 기본 생성 모델 `qwen3:8b`(환경변수 `OLLAMA_MODEL`의 교재 기본값), 임베딩 모델 `bge-m3`, `Qwen/Qwen2.5-0.5B-Instruct`, `intfloat/multilingual-e5-small`, 사용 제한 조항이 있는 모델 1개(Llama·Gemma 계열), 데이터 1개(CC 계열). 정확한 모델 ID는 환경 기준표에서 확정하므로 표에는 확인한 ID를 그대로 적는다.
 6. 각 행의 라이선스는 패키지의 PyPI 페이지와 저장소 LICENSE 파일, 모델은 Hugging Face 모델 카드와 Ollama 라이브러리 페이지에서 확인해 출처 URL을 적는다. SPDX 목록에 없는 라이선스는 `LicenseRef-` 접두사로 적는다.
 7. commit 메시지 `Add license matrix`, push한다.
 

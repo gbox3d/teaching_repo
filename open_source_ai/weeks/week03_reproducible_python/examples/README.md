@@ -85,7 +85,7 @@ Set-Location C:\classwork\week03
 | 환경변수 | 기본값 | 용도 |
 |---|---|---|
 | `OLLAMA_HOST` | `http://localhost:11434` | Ollama 서버 주소. 4주차부터 실제 호출에 쓴다 |
-| `OLLAMA_MODEL` | `qwen3:4b` | 기본 생성 모델(RTX 4070 기준). CPU 대체는 `qwen3:0.6b` |
+| `OLLAMA_MODEL` | `qwen3:8b` | 기본 생성 모델(RTX 4070 기준). CPU 대체는 `qwen3:0.6b` |
 | `HF_TOKEN` | (비어 있음) | Hugging Face 토큰. 5주차 이후 필요할 때만 `.env`에 채운다 |
 
 모델 ID·양자화·용량은 [학기별 환경 기준표](../../../../environment_baseline_template.md)에서 확정하며 위 값은 교재 검증용 기본값이다. `uv.lock`은 만들지 않았다. 환경 기준표 확정 후 기준 PC에서 `uv lock`을 생성해 커밋한다.

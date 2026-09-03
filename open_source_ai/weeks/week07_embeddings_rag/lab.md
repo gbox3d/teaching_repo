@@ -7,7 +7,7 @@
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
 - 캡처보다 원인과 근거를 적은 짧은 문장이 더 중요한 증거다.
 - 기본 문제 완료 후 확장 문제를 수행한다.
-- 실습 시간에 모델을 내려받지 않는다. 임베딩 모델(`HF_EMBED_MODEL`)과 생성 모델(`OLLAMA_MODEL`)은 수업 전에 캐시되어 있고, 이름은 환경 기준표가 정한다. 이 문서의 `intfloat/multilingual-e5-small`·`qwen3:4b`·`qwen3:0.6b`는 교재 검증용 기본값이다.
+- 실습 시간에 모델을 내려받지 않는다. 임베딩 모델(`HF_EMBED_MODEL`)과 생성 모델(`OLLAMA_MODEL`)은 수업 전에 캐시되어 있고, 이름은 환경 기준표가 정한다. 이 문서의 `intfloat/multilingual-e5-small`·`qwen3:8b`·`qwen3:0.6b`는 교재 검증용 기본값이다.
 - `docs/`·평가셋·기록 파일에 실제 이름·연락처·토큰을 넣지 않는다. `.env`는 커밋하지 않는다.
 
 ## 1교시 실습 — 문서를 나누고 임베딩으로 찾기
@@ -32,7 +32,7 @@
 
 ```powershell
 $src = "C:\teaching_repo\open_source_ai\weeks\week07_embeddings_rag\examples"
-$dst = "$HOME\osa-repo\week07"   # 6주차까지 쓴 개인 저장소 안의 폴더로 바꾼다
+$dst = "$HOME\osa-practice\week07"   # 6주차까지 쓴 개인 저장소 안의 폴더로 바꾼다
 New-Item -ItemType Directory -Force $dst | Out-Null
 Copy-Item -Recurse "$src\mini_rag" "$dst\mini_rag"
 Set-Location "$dst\mini_rag"
@@ -128,7 +128,7 @@ e5 계열은 점수가 전체적으로 높게 나오는 편이다. 절대값이 
 1교시에 복사한 `mini_rag` 폴더에서 계속한다. 새로 시작하는 날이면 1교시의 준비 명령과 `chunk.py` → `embed.py`를 먼저 실행해 `outputs/index.json`을 만든다.
 
 ```powershell
-Set-Location "$HOME\osa-repo\week07\mini_rag"
+Set-Location "$HOME\osa-practice\week07\mini_rag"
 Invoke-RestMethod http://localhost:11434/api/tags | Select-Object -ExpandProperty models | Format-Table name, size
 Test-Path outputs\index.npy
 uv run python rag_answer.py --help
@@ -170,7 +170,7 @@ New-Item -ItemType File -Force ..\rag_note.md | Out-Null
 <details>
 <summary>힌트 1 — "Ollama 서버에 연결할 수 없다" 또는 "모델이 없다"가 나온다</summary>
 
-새 PowerShell 창에서 `ollama list`가 동작하는지 본다. 동작하지 않으면 트레이의 Ollama 아이콘을 확인하거나 `ollama serve`를 실행한 채로 둔다. 모델 이름은 `.env`의 `OLLAMA_MODEL`과 `ollama list`의 이름이 정확히 같아야 한다(`qwen3:4b`와 `qwen3:latest`는 다른 이름이다). 실습 중 `ollama pull`을 하지 않는다.
+새 PowerShell 창에서 `ollama list`가 동작하는지 본다. 동작하지 않으면 트레이의 Ollama 아이콘을 확인하거나 `ollama serve`를 실행한 채로 둔다. 모델 이름은 `.env`의 `OLLAMA_MODEL`과 `ollama list`의 이름이 정확히 같아야 한다(`qwen3:8b`와 `qwen3:latest`는 다른 이름이다). 실습 중 `ollama pull`을 하지 않는다.
 </details>
 
 <details>
@@ -218,7 +218,7 @@ New-Item -ItemType File -Force ..\rag_note.md | Out-Null
 1교시 인덱스 2개(`outputs/index`, `outputs/index-150`)가 있어야 한다. 새로 시작하는 날이면 1교시의 준비 명령과 `chunk.py`·`embed.py`를 300자·150자로 먼저 실행한다.
 
 ```powershell
-Set-Location "$HOME\osa-repo\week07\mini_rag"
+Set-Location "$HOME\osa-practice\week07\mini_rag"
 Test-Path outputs\index.npy
 Test-Path outputs\index-150.npy
 uv run python eval.py --help
@@ -266,6 +266,8 @@ New-Item -ItemType File -Force ..\eval_note.md | Out-Null
 <summary>힌트 2 — hit rate가 1.0이라 실패 문항이 없다</summary>
 
 top-k 1 조건이나 150자 인덱스 조건의 표를 본다. 그래도 전부 hit이면 `rank`가 2~3인 문항을 고르고 "왜 1위가 아니었는가"를 같은 절차로 분석한다. 순위가 밀린 이유도 세 유형으로 나눌 수 있다.
+
+세 조건 모두 전 문항이 1위여서 순위로는 고를 수 없으면 **여유**로 고른다. 문항마다 `search.py --query "<question>" --top-k 5`를 실행해 1위 점수와 기대 출처가 아닌 **다른 파일** 첫 청크의 점수 차를 재고, 그 차가 가장 작은 문항 2개를 고른다. 여유가 작다는 것은 표현이 조금만 달라져도 밀린다는 뜻이므로 같은 세 유형으로 분석할 수 있다. 고른 근거(순위 동률 → 점수 차)를 기록에 남긴다.
 </details>
 
 <details>

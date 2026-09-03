@@ -23,12 +23,14 @@
 | 환경변수 | 기본값 |
 |---|---|
 | `OLLAMA_HOST` | `http://localhost:11434` |
-| `OLLAMA_MODEL` | `qwen3:4b` (CPU 대체 `qwen3:0.6b`) |
+| `OLLAMA_MODEL` | `qwen3:8b` (CPU·소형 대체 `qwen3:0.6b`) |
 | `OLLAMA_EMBED_MODEL` | `bge-m3` |
 | `HF_TEXT_MODEL` | `Qwen/Qwen2.5-0.5B-Instruct` |
 | `HF_EMBED_MODEL` | `intfloat/multilingual-e5-small` |
 
 Qwen3 계열은 thinking 출력이 섞이므로 Ollama API 호출에 `"think": false`를 넣는다.
+
+**생각 모드를 끌 수 있는 태그만 기본값으로 쓴다.** Qwen3에서 `0.6b`·`1.7b`·`8b`·`14b`·`32b`는 하이브리드라 `think`가 실제로 꺼진다. `4b`·`30b`·`235b`는 2507 갱신에서 instruct/thinking으로 갈렸고 **접미사 없는 태그가 생각 전용 빌드**를 가리켜 `"think": false`가 무시된다(2026-09-03 레지스트리 digest로 확인: `qwen3:4b` = `qwen3:4b-thinking-2507-q4_K_M`). 모델을 바꾸기 전에 이 구분을 다시 확인한다. 근거와 확인 절차는 `open_source_ai/weeks/README.md`의 「생성 모델 태그를 고를 때」에 있다.
 
 수업 시간 구조:
 
@@ -75,3 +77,5 @@ Qwen3 계열은 thinking 출력이 섞이므로 Ollama API 호출에 `"think": f
 - 강의 대본을 공개 저장소에 커밋하는 일.
 - `materials_plan.md` 초안의 `materials/` 챕터 구조를 되살리는 일. 주차 폴더 구조로 확정했다.
 - 존재하지 않는 CLI 명령 이름(예: 버전에 따라 바뀐 Hugging Face 캐시 명령)을 본문에 고정하는 일. Python API로 쓰거나 `--help`로 확인하라고 안내한다.
+- 모델 태그가 가리키는 빌드가 그대로일 것이라고 가정하는 일. 제공자가 같은 태그를 다른 빌드로 옮긴다. 태그에 의존하는 동작(생각 모드 on/off, 도구 호출, 컨텍스트 길이)을 가르칠 때는 레지스트리 digest나 `ollama show`로 실제 빌드를 확인한다.
+- 측정하지 않은 실행시간·VRAM·tokens/s를 사실처럼 적는 일. 확인할 수 없으면 자리표시자와 "기준 PC 실측값으로 채운다"로 둔다.

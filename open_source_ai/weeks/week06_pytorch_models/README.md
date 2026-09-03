@@ -61,7 +61,7 @@
 - [ ] `train_loop.py`를 기본 설정과 긴 epoch 설정으로 실행해 val loss 최저 epoch을 찾았다.
 - [ ] 과적합이 시작된 시점을 근거 수치와 함께 한 문장으로 썼다.
 - [ ] `pretrained_embed.py`로 문장 5개의 유사도 행렬을 만들고 예상 순위와 비교했다.
-- [ ] `outputs/runs/`에 실험 기록이 2건 이상 있고 `runlog.py` 표에서 확인했다.
+- [ ] `outputs/runs/`에 실험 기록이 3건 이상 있고 `runlog.py` 표에서 확인했다.
 - [ ] 기록에 토큰·개인정보가 없다.
 
 ## 제출 증거

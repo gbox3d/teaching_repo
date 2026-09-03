@@ -43,7 +43,7 @@ footer: "Ollama와 로컬 LLM"
 ```
 
 - 오늘 쓸 모델은 **수업 전에 이미 캐시**되어 있다. 실습 중 `ollama pull`을 하지 않는다.
-- 기본 모델 이름은 환경변수 `OLLAMA_MODEL`이 정한다(교재 기본값 `qwen3:4b`, CPU 대체 `qwen3:0.6b`).
+- 기본 모델 이름은 환경변수 `OLLAMA_MODEL`이 정한다(교재 기본값 `qwen3:8b`, CPU 대체 `qwen3:0.6b`).
 
 **질문:** "모델을 실행한다"고 할 때 디스크에서 메모리로 올라가는 것은 정확히 무엇인가?
 
@@ -69,16 +69,16 @@ footer: "Ollama와 로컬 LLM"
 
 ## 6–9분 · 양자화: 같은 모델, 다른 바이트
 
-| 표기 | 파라미터당 바이트 | 4B 모델 가중치 |
+| 표기 | 파라미터당 바이트 | 8B 모델 가중치 |
 |---|---:|---:|
-| FP16·BF16 | 2 | 약 8 GB |
-| Q8_0 | 약 1 | 약 4 GB |
-| Q4_K_M | 약 0.6 | 약 2.5 GB |
+| FP16·BF16 | 2 | 약 16 GB |
+| Q8_0 | 약 1 | 약 8 GB |
+| Q4_K_M | 약 0.6 | 약 5 GB |
 
 - GGUF는 llama.cpp 계열이 쓰는 파일 형식이며 Ollama 라이브러리 모델 대부분이 이 형식이다.
 - Q4로 내려가면 용량·속도는 좋아지고 **답의 품질은 조금 떨어진다**. 얼마나 떨어지는지는 모델·작업마다 다르다.
 
-**질문:** 같은 `qwen3:4b`인데 `ollama list`의 SIZE와 `ollama ps`의 SIZE가 다르다면 무엇이 더해진 것인가?
+**질문:** 같은 `qwen3:8b`인데 `ollama list`의 SIZE와 `ollama ps`의 SIZE가 다르다면 무엇이 더해진 것인가?
 
 ---
 
@@ -92,7 +92,7 @@ footer: "Ollama와 로컬 LLM"
 |---|---:|---|
 | 0.6B | 약 0.5 GB | 여유. CPU로도 쓸 만함 |
 | 4B | 약 2.5 GB | 여유 |
-| 8B | 약 5 GB | 가능 |
+| 8B | 약 5.2 GB | 여유. 이번 주 기본 모델 |
 | 14B | 약 9 GB | `num_ctx`를 줄여야 함 |
 | 32B | 약 20 GB | 불가. CPU 분담 → 매우 느림 |
 
@@ -113,7 +113,7 @@ ollama serve (서버, :11434) ◀── ollama run/show/ps/list (CLI = 클라이
 
 - CLI도 서버에 HTTP를 보내는 **클라이언트**다. 서버가 죽으면 CLI도 내 코드도 안 된다.
 - 저장 위치는 `OLLAMA_MODELS`로 옮길 수 있다. 실습실 PC는 환경 기준표가 정한 경로를 쓴다.
-- 라이브러리 이름 규칙은 `이름:태그`(`qwen3:4b`). 태그가 크기·양자화를 뜻한다.
+- 라이브러리 이름 규칙은 `이름:태그`(`qwen3:8b`). 태그가 크기·양자화를 뜻한다.
 
 ---
 
@@ -121,8 +121,8 @@ ollama serve (서버, :11434) ◀── ollama run/show/ps/list (CLI = 클라이
 
 ```powershell
 ollama list              # 캐시된 모델과 파일 크기
-ollama show qwen3:4b     # 파라미터·양자화·컨텍스트 길이
-ollama run qwen3:4b      # 대화. /set verbose 로 속도 표시, /bye 로 종료
+ollama show qwen3:8b     # 파라미터·양자화·컨텍스트 길이
+ollama run qwen3:8b      # 대화. /set verbose 로 속도 표시, /bye 로 종료
 ollama ps                # 메모리에 올라간 모델, SIZE, GPU 비율
 ollama pull qwen3:0.6b   # 다운로드 — 수업 시간에는 쓰지 않는다
 ```
@@ -183,7 +183,7 @@ OpenAI 호환 경로(`/v1/chat/completions`)도 있지만 이번 주는 쓰지 �
 ## 6–9분 · 메시지 역할과 이력
 
 ```json
-{"model": "qwen3:4b",
+{"model": "qwen3:8b",
  "messages": [
    {"role": "system",    "content": "한국어로 세 문장 이내로 답한다."},
    {"role": "user",      "content": "uv가 무엇인가?"},
@@ -232,6 +232,9 @@ OpenAI 호환 경로(`/v1/chat/completions`)도 있지만 이번 주는 쓰지 �
 ```
 
 Qwen3 계열은 답 앞에 **생각 텍스트**를 먼저 만든다. 수업 코드는 답만 보기 위해 끄고, 그 이유를 주석으로 남긴다.
+
+- 기본 모델 `qwen3:8b`는 **하이브리드**라 이 한 줄로 생각 과정이 실제로 꺼진다.
+- 접미사 없는 `qwen3:4b`·`30b`·`235b`는 생각 전용 빌드라 꺼지지 않는다([태그 고르는 기준](../README.md#생성-모델-태그를-고를-때)).
 
 ---
 
@@ -291,14 +294,14 @@ tokens/s = eval_count ÷ (eval_duration ÷ 1e9)      duration 단위는 나노�
 ## 3–6분 · Modelfile 네 지시어
 
 ```text
-FROM qwen3:4b                          # 기준 모델(캐시된 이름 또는 GGUF 경로)
+FROM qwen3:8b                          # 기준 모델(캐시된 이름 또는 GGUF 경로)
 SYSTEM """너는 수업 실습 도우미다. …"""   # 시스템 프롬프트
 PARAMETER temperature 0.3              # 기본 옵션. 요청의 options가 우선한다
 PARAMETER num_ctx 4096
 # TEMPLATE: 프롬프트 조립 틀. FROM에서 물려받으므로 보통 쓰지 않는다
 ```
 
-- `ollama show qwen3:4b --modelfile`로 기준 모델의 Modelfile 전체를 볼 수 있다.
+- `ollama show qwen3:8b --modelfile`로 기준 모델의 Modelfile 전체를 볼 수 있다.
 - 지시어는 대문자, 여러 줄 문자열은 `"""`로 감싼다. `#`은 주석이다.
 
 ---
@@ -315,7 +318,7 @@ ollama rm osa-helper        # 지우기 — 기준 모델은 남는다
 - 가중치 blob은 **기준 모델과 공유**하고 시스템 프롬프트·파라미터 레이어만 새로 만든다.
 - 이름은 소문자·숫자·`-`로 쓴다. 팀명을 앞에 붙이면 겹치지 않는다(`team-a-helper`).
 
-**질문:** `ollama rm qwen3:4b`를 하면 `osa-helper`는 어떻게 되는가?
+**질문:** `ollama rm qwen3:8b`를 하면 `osa-helper`는 어떻게 되는가?
 
 ---
 

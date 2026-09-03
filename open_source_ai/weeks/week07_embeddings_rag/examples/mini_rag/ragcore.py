@@ -18,7 +18,7 @@ load_dotenv()
 # 모델 이름·주소는 코드에 고정하지 않고 환경변수 + 기본값으로 읽는다.
 # 아래 기본값은 교재 검증용이며 실제 값은 학기별 환경 기준표에서 확정한다.
 OLLAMA_HOST: str = os.environ.get("OLLAMA_HOST", "http://localhost:11434").rstrip("/")
-OLLAMA_MODEL: str = os.environ.get("OLLAMA_MODEL", "qwen3:4b")
+OLLAMA_MODEL: str = os.environ.get("OLLAMA_MODEL", "qwen3:8b")
 OLLAMA_EMBED_MODEL: str = os.environ.get("OLLAMA_EMBED_MODEL", "bge-m3")
 HF_EMBED_MODEL: str = os.environ.get("HF_EMBED_MODEL", "intfloat/multilingual-e5-small")
 EMBED_BACKEND: str = os.environ.get("EMBED_BACKEND", "st")

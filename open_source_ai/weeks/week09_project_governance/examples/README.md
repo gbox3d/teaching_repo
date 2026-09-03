@@ -32,7 +32,7 @@ Copy-Item -Recurse examples\proposal_tools C:\classwork\week09\proposal_tools
 Set-Location C:\classwork\week09\proposal_tools
 Copy-Item .env.example .env
 uv run python repo_health.py
-uv run python vram_estimate.py --candidate "qwen3:4b,4B,4" --candidate "qwen3:0.6b,0.6B,4"
+uv run python vram_estimate.py --candidate "qwen3:8b,8.2B,4" --candidate "qwen3:0.6b,0.6B,4"
 uv run python issue_plan_check.py --plan issue_plan.sample.json
 uv run python issue_plan_push.py --plan issue_plan.sample.json --repo team-a/repo --dry-run
 ```
@@ -51,7 +51,7 @@ uv run team-project doctor --chat-test
 
 `doctor`는 `OLLAMA_HOST`의 `/api/tags`를 읽어 캐시된 모델 목록을 `outputs/doctor-*.json`에 남긴다. `--chat-test`는 `/api/chat`에 짧은 비스트리밍 요청을 한 번 보낸다(`think: false`, `num_predict: 32`).
 
-모델 ID·양자화·용량은 환경 기준표에서 확정하며, `.env.example`의 값(`qwen3:4b`, `qwen3:0.6b` 등)은 교재 검증용 기본값이다.
+모델 ID·양자화·용량은 환경 기준표에서 확정하며, `.env.example`의 값(`qwen3:8b`, `qwen3:0.6b` 등)은 교재 검증용 기본값이다.
 
 ## 관찰 지점
 

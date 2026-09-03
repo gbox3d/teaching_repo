@@ -38,7 +38,7 @@ Set-Location C:\classwork\osa-week01
 Get-ChildItem
 ```
 
-`env_check.ps1`, `env_check_template.md`, `oss_survey_template.md`, `first_run` 폴더가 보여야 한다.
+`README.md`(예제 안내), `env_check.ps1`, `env_check_template.md`, `oss_survey_template.md`, `first_run` 폴더가 보여야 한다.
 
 ### 문제 1 · 도구 5개 점검
 
@@ -162,7 +162,7 @@ code oss_survey.md
 세 저장소는 모두 **모델이 아니라 소프트웨어**다. 그래도 OSAID의 세 공개 항목(데이터 정보·코드·파라미터)에 대응시켜 본다.
 
 1. 저장소마다 한 문장을 적는다: "이 프로젝트는 OSAID의 ___ 항목을 만족하고, ___ 항목은 프로젝트가 아니라 개별 모델의 문제다."
-2. `ollama/ollama`에 대해 한 문장을 더 적는다: 도구의 라이선스와 그 도구로 실행하는 모델(예: `qwen3:4b`)의 라이선스가 같은가. 모델 라이선스는 Ollama 라이브러리의 모델 페이지에서 확인한다.
+2. `ollama/ollama`에 대해 한 문장을 더 적는다: 도구의 라이선스와 그 도구로 실행하는 모델(예: `qwen3:8b`)의 라이선스가 같은가. 모델 라이선스는 Ollama 라이브러리에서 크기 태그 하나를 연 페이지(예: `https://ollama.com/library/qwen3:8b`)의 파일 목록 `license` 항목에서 확인한다. 모델 첫 화면(`/library/qwen3`)에는 라이선스가 표시되지 않는다.
 3. 셋 중 "살아 있는 프로젝트"라고 판단하는 근거를 활동 지표 2개로 적는다.
 
 완료 조건:
@@ -249,7 +249,7 @@ uv --version
    uv run python sysinfo.py
    ```
 
-5. 경계 경로: `uv run python sysinfo.py --no-gpu`를 실행해 `gpu.available`이 `false`이고 `reason`이 적혀 있는지 본다. GPU가 없는 PC라면 옵션 없이도 같은 형태가 나온다.
+5. 경계 경로: `uv run python sysinfo.py --no-gpu`를 실행해 `gpu.available`이 `false`이고 `reason`이 적혀 있는지 본다. GPU가 없는 PC라면 옵션 없이도 같은 형태가 나온다. 확인한 뒤 **옵션 없이 한 번 더 실행해** 보고서를 이 PC의 정상 값으로 되돌린다. `outputs/sysinfo.json`은 실행할 때마다 덮어써지고, 문제 2에서 이 파일을 증거로 복사한다.
 
 완료 조건:
 

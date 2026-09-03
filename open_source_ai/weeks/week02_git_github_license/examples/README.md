@@ -53,7 +53,7 @@ pwsh -ExecutionPolicy Bypass -File <수업자료>\open_source_ai\weeks\week02_gi
 pwsh -ExecutionPolicy Bypass -File <수업자료>\open_source_ai\weeks\week02_git_github_license\examples\merge_conflict_demo.ps1 -Name conflict-auto -AutoResolve
 ```
 
-`pwsh`(PowerShell 7)가 없으면 `powershell`로 바꿔 실행한다. 스크립트가 만드는 README 내용은 콘솔 코드페이지와 무관하게 보이도록 영문이다.
+`pwsh`(PowerShell 7)가 없으면 `powershell`로 바꿔 실행한다. 다만 Windows PowerShell 5.1은 BOM 없는 UTF-8 스크립트를 ANSI로 읽으므로 콘솔에 찍히는 한국어 안내 문구가 깨져 보인다. git 단계는 그대로 동작하며 안내 문구는 이 문서와 `lab.md`를 본다. 스크립트가 만드는 README 내용은 콘솔 코드페이지와 무관하게 보이도록 영문이다.
 
 ## 관찰 지점
 

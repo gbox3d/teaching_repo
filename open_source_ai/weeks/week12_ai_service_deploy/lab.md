@@ -95,7 +95,7 @@ uv run uvicorn app.main:app --port 8000
 
 완료 조건:
 
-- [ ] 예상표의 네 행에 실제 코드(502·503·504·422)와 `error` 값이 채워졌고, 각 상황의 `smoke-*.json`이 남았다.
+- [ ] 예상표의 네 행에 실제 코드(502·503·504·422)와 `error` 값이 채워졌고, 502·503·504는 각각 `smoke-*.json`으로, 422는 `/docs` 응답과 `outputs/requests.jsonl`의 한 줄로 남았다.
 - [ ] `GET /models`가 `/docs`에 나타나고 정상일 때 이름 목록을, 모델 서버가 꺼졌을 때 502를 돌려준다.
 - [ ] 환경변수를 모두 원복했다(`Get-ChildItem Env:OLLAMA_*`가 비어 있다).
 
@@ -276,7 +276,7 @@ git status --short
 
 ```powershell
 docker build -t osa-ai-service:dev .
-docker run --rm -p 8001:8000 -e OLLAMA_HOST=http://host.docker.internal:11434 -e OLLAMA_MODEL=qwen3:4b osa-ai-service:dev
+docker run --rm -p 8001:8000 -e OLLAMA_HOST=http://host.docker.internal:11434 -e OLLAMA_MODEL=qwen3:8b osa-ai-service:dev
 uv run python smoke_test.py --api http://localhost:8001 --skip-stream     # 다른 터미널
 ```
 
@@ -339,13 +339,13 @@ Docker Desktop이 실행 중이 아니다. 실습실 정책상 켤 수 없으면
 ### 확장 문제
 
 1. `docker image ls`로 이미지 크기를 적고, `gradio`를 선택 의존성으로 분리해 이미지를 줄이는 방법을 `pyproject.toml` 수준에서 설계한다(실제 적용은 선택).
-2. `docker ps`의 `STATUS` 열에 `(healthy)`가 나타나는 시점을 관찰하고 `HEALTHCHECK`의 `--start-period`를 바꿔 차이를 본다.
+2. `docker ps`의 `STATUS` 열에 `(healthy)`가 나타나는 시점을 관찰하고, `HEALTHCHECK`에 `--start-interval=15s`를 추가해 다시 빌드·실행한 뒤 시점이 어떻게 달라지는지 본다. `--start-period`만 바꾸면 왜 시점이 그대로인지도 적는다.
 3. 기준 PC에서 `uv lock`을 만들었다고 가정하고 Dockerfile의 `uv sync`에 `--frozen`을 붙였을 때 무엇이 달라지는지 두 문장으로 적는다.
 
 ## 제출 체크
 
-- `outputs/smoke-*.json`: 정상 1건 + 502·503·504·422 각 1건(파일명과 상황을 표로)
-- `outputs/requests.jsonl`: 1교시 요청 기록
+- `outputs/smoke-*.json`: 정상 1건 + 502·503·504 각 1건(파일명과 상황을 표로)
+- `outputs/requests.jsonl`: 1교시 요청 기록. 422 두 건(`temperature: 5`, `messages: []`)이 여기에 남는다
 - `GET /models` 추가 commit id
 - `outputs/ui-turns.jsonl`: 두 모드 비교 턴 + 오류 턴 2건 이상, 비교표
 - 취소·앱 서버 중단·모델 서버 실패 세 상황의 UI 문구 기록과 고친 `ERROR_HINTS`

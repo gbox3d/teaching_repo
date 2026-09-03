@@ -33,7 +33,7 @@
 
 ```powershell
 $src = "C:\teaching_repo\open_source_ai\weeks\week06_pytorch_models\examples"
-$dst = "$HOME\osa-repo\week06"   # 5주차까지 쓴 개인 저장소 안의 폴더로 바꾼다
+$dst = "$HOME\osa-practice\week06"   # 5주차까지 쓴 개인 저장소 안의 폴더로 바꾼다
 New-Item -ItemType Directory -Force $dst | Out-Null
 Copy-Item -Recurse "$src\torch_lab" "$dst\torch_lab"
 Set-Location "$dst\torch_lab"
@@ -82,12 +82,12 @@ uv run python tensor_basics.py --help
    ```
 
 3. `no_grad.with_grad.peak_extra_mb`와 `no_grad.no_grad.peak_extra_mb`, `theory_activation_mb`를 표로 적는다. GPU가 없으면 메모리 칸은 "측정 불가(CPU)"로 두고 `grad_fn` 값의 차이로 설명한다.
-4. 실패 경로: `uv run python tensor_basics.py --device cuda:9`를 실행하고 첫 번째 오류 줄과 `$LASTEXITCODE`를 기록한다. GPU가 없는 PC는 사람이 읽을 안내문이, GPU가 있는 PC는 장치 번호 오류가 나온다. 둘 중 무엇이 나왔는지와 그 이유를 한 줄로 적는다.
+4. 실패 경로: `uv run python tensor_basics.py --device cuda:9`를 실행하고 출력의 첫 줄과 마지막 줄, `$LASTEXITCODE`를 기록한다. GPU가 없는 PC는 사람이 읽을 안내문이, GPU가 있는 PC는 장치 번호 오류가 나온다. 둘 중 무엇이 나왔는지와 그 이유를 한 줄로 적는다.
 
 완료 조건:
 
 - [ ] `with_grad`와 `no_grad`의 차이를 메모리 수치 또는 `grad_fn`으로 한 문장 설명했다.
-- [ ] 실패 경로의 첫 줄과 종료 코드를 기록했다.
+- [ ] 실패 경로의 첫 줄·마지막 줄과 종료 코드를 기록했다.
 
 ### 단계별 힌트
 
@@ -112,7 +112,7 @@ uv run python tensor_basics.py --help
 ### 검증
 
 - 정상: `outputs/tensor_report.json`에 `tensor_info`·`matmul`·`dtype`·`linear_model`·`autograd`·`no_grad` 여섯 항목이 있고 `autograd.grad`가 `[2.0, 4.0, 6.0]`이다.
-- 경계 또는 실패: `--size 256`에서는 `speedup`이 1 아래로 내려갈 수 있고, `--device cuda:9`는 첫 줄에서 원인을 알 수 있는 메시지로 끝난다.
+- 경계 또는 실패: `--size 256`에서는 `speedup`이 1 아래로 내려갈 수 있다. `--device cuda:9`는 GPU가 없는 PC에서는 안내문 한 줄로, GPU가 있는 PC에서는 마지막 줄이 `AssertionError: Invalid device id`인 스택 트레이스로 끝난다(둘 다 종료 코드 1).
 - 설명: "`.to("cuda")`가 이동이 아니라 복사인 것이 시간 측정과 메모리에 어떤 영향을 주는가"를 한 문장으로 쓴다.
 
 ### 확장 문제
@@ -142,7 +142,7 @@ uv run python tensor_basics.py --help
 1교시에 복사한 `torch_lab` 폴더에서 계속한다. 새로 시작하는 날이면 1교시의 준비 명령을 먼저 실행한다.
 
 ```powershell
-Set-Location "$HOME\osa-repo\week06\torch_lab"
+Set-Location "$HOME\osa-practice\week06\torch_lab"
 uv run python train_loop.py --help
 New-Item -ItemType File -Force ..\overfit_note.md | Out-Null
 ```
@@ -247,7 +247,7 @@ uv run python -c "import json,sys; r=json.load(open(sys.argv[1],encoding='utf-8'
 ### 준비
 
 ```powershell
-Set-Location "$HOME\osa-repo\week06\torch_lab"
+Set-Location "$HOME\osa-practice\week06\torch_lab"
 Get-Content .env                      # HF_EMBED_MODEL, HF_HOME 값 확인
 uv run python pretrained_embed.py --help
 New-Item -ItemType File -Force ..\experiment_note.md | Out-Null
