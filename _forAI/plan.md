@@ -13,9 +13,9 @@
 
 ## Near-term work
 
-1. `environment_baseline_template.md`의 「오픈소스 AI 응용」 절 값(uv·Python·Ollama·PyTorch·CUDA·모델 ID·양자화·캐시 경로)을 담당 교수가 확정한다.
-2. 기준 PC에서 각 주차 `examples/` uv 프로젝트의 `uv lock`을 생성해 커밋하고, 4·6·7·10·11·12주차 README의 실행시간·VRAM 기록 칸을 실측값으로 채운다.
-3. 8주차 실기평가 비공개 패킷(문항·fixture·정답·채점 testcase)과 15주차 기말 검증 패킷을 `teaching_materials_private/open_source_ai/`에 작성한다.
+1. 실습실 PC에 설치할 프로그램 버전(Python·uv·Ollama·PyTorch)과 수업에 쓸 모델 이름을 `environment_baseline_template.md`의 TBD 칸에 적는다. 교재는 `qwen3:8b` 등 기본값으로 이미 동작하므로, 바꿀 이유가 없으면 기본값을 그대로 적으면 된다.
+2. RTX 4070이 있는 PC에서 각 주차 `examples/`를 한 번씩 실행한다. 그러면 `uv.lock`이 생기고(커밋한다), 학습 시간·VRAM·토큰 속도처럼 교재가 빈칸으로 둔 숫자를 채울 수 있다. Ollama가 없는 PC에서는 순수 Python 예제만 실행해 확인했다.
+3. 8주차 실기평가 패킷(문항·fixture·정답·감독 체크), 15주차 기말·발표 패킷, 챕터 퀴즈 은행은 `teaching_materials_private/open_source_ai/`에 있다. 시행 전에 강의자가 한 번 읽고 값을 바꿀지 정한다.
 4. 강의 대본 15개를 낭독 리허설해 20분 분량을 조정한다(구간을 바꾸면 `slides.md`도 같이).
 5. `npm run build && npm test`가 통과한 상태로 main에 반영해 GitHub Pages에서 오픈소스 AI 덱 15개가 열리는지 확인한다.
 6. `_shared/` 승격 후보 검토: Git 세 영역·PR 흐름(웹 1·2주차 ↔ 오픈소스 AI 2주차), 비밀정보·릴리스 점검(웹 13주차 ↔ 오픈소스 AI 13·14주차).

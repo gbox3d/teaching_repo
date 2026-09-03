@@ -35,3 +35,5 @@
 - 13주차 예제 워크플로의 액션 버전을 올렸다(`actions/checkout@v5`, `astral-sh/setup-uv@v7`).
 - 재검증: Python 67개 파일 문법 오류 0건, ruff 치명 오류 0건, 상대 링크·앵커 180개 문서 통과, 슬라이드 시간 배분과 실습 시간표 전 주차 통과, 루브릭 8종 합계 100점, `npm run build`·`npm test` 46개 덱·923장 통과.
 - 검수 에이전트가 보고한 "저장소 파일이 CRLF"라는 관찰은 사실이 아니었다. `git ls-files --eol` 결과가 index·working tree 모두 `lf`이고 HEAD blob에 CR이 없다.
+- 순수 Python 예제 9개(1·3·4·8·9·13·14·15주차)를 스크래치 복사본에서 `uv sync`부터 실제로 실행했다. 34개 확인 항목이 모두 의도대로 동작했다. Ollama 서버가 없을 때의 실패 경로(4주차 chat.py, 8주차 check_env.py)와 8주차 깨진 프로젝트의 의도된 TOML 오류도 확인했다. torch·gradio·Ollama가 필요한 예제(5·6·7·10·11·12주차)는 이 PC에서 실행하지 않았다.
+- `_forAI/plan.md`의 남은 일을 전문 용어 없이 다시 썼다.
