@@ -24,6 +24,12 @@
 
 과목별 슬라이드는 [GitHub Pages 교재 도서관](https://gbox3d.github.io/teaching_repo/)에서 열람할 수 있다.
 
+| 교재 | 전용 주소 |
+| --- | --- |
+| 모바일프로그래밍(Android) | [/android/](https://gbox3d.github.io/teaching_repo/android/) |
+| 웹프로그래밍 | [/webprg/](https://gbox3d.github.io/teaching_repo/webprg/) |
+| 오픈소스 AI 응용 | [/open_source_ai/](https://gbox3d.github.io/teaching_repo/open_source_ai/) |
+
 ## 로컬 빌드
 
 Node.js 24 환경에서 의존성을 설치하고 정적 사이트를 생성·검사한다.

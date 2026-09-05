@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "GBOX3 교재 도서관",
+    "title": "교재 도서관",
     "description": "모바일·웹·오픈소스 AI 수업 자료를 주차별 HTML 슬라이드로 열람하는 공개 교재관입니다.",
     "repositoryUrl": "https://github.com/gbox3d/teaching_repo",
     "licenseUrl": "https://github.com/gbox3d/teaching_repo/blob/main/LICENSE",
@@ -9,6 +9,7 @@
   "courses": [
     {
       "id": "android",
+      "slug": "android",
       "title": "모바일프로그래밍(Android)",
       "eyebrow": "ANDROID PROGRAMMING",
       "description": "Kotlin과 Android 프레임워크의 실행 구조에서 BLE 기반 Smart I/O 통합 프로젝트까지 이어지는 15주 과정입니다.",
@@ -126,6 +127,7 @@
     },
     {
       "id": "web",
+      "slug": "webprg",
       "title": "웹프로그래밍",
       "eyebrow": "WEB PROGRAMMING",
       "description": "브라우저와 Git의 기초부터 Supabase 기반 영속 서비스, 보안 점검과 프로젝트 발표까지 연결합니다.",
@@ -250,6 +252,7 @@
     },
     {
       "id": "open-source-ai",
+      "slug": "open_source_ai",
       "title": "오픈소스 AI 응용",
       "eyebrow": "OPEN SOURCE AI",
       "description": "오픈소스 협업과 라이선스, uv 재현 환경, Ollama 로컬 LLM, Hugging Face·PyTorch, RAG, PEFT/LoRA, 서비스화와 릴리스까지 60분 블록 3개로 구성한 15주 과정입니다.",

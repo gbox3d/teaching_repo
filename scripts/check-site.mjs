@@ -5,9 +5,9 @@ import { fileURLToPath } from "node:url";
 const EXPECTED_DECKS = 46;
 const EXPECTED_SLIDES = 923;
 const EXPECTED = {
-  android: { decks: 15, slides: 228, status: "published" },
-  web: { decks: 16, slides: 288, status: "published" },
-  "open-source-ai": { decks: 15, slides: 407, status: "published" },
+  android: { slug: "android", decks: 15, slides: 228, status: "published" },
+  web: { slug: "webprg", decks: 16, slides: 288, status: "published" },
+  "open-source-ai": { slug: "open_source_ai", decks: 15, slides: 407, status: "published" },
 };
 const BLOB = "https://github.com/gbox3d/teaching_repo/blob/main";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -216,6 +216,26 @@ async function cssUrls(filename, contents, extension) {
   }
 }
 
+async function checkLibraryPage(relative, course) {
+  const filename = path.join(dist, ...relative.split("/"));
+  check(await exists(filename), `${relative} missing`);
+  if (!(await exists(filename))) return;
+  const html = await readFile(filename, "utf8");
+  const prefix = course ? "../" : "./";
+  for (const asset of ["favicon.svg", "assets/library.css", "assets/library.js"]) {
+    check(html.includes(`="${prefix}${asset}"`), `${relative}: wrong library asset URL: ${asset}`);
+  }
+  check(!/<base\b/i.test(html), `${relative}: base element would change local section links`);
+  check(html.includes('href="#library"'), `${relative}: local library anchor missing`);
+  check(html.includes(`class="brand" href="${prefix}"`), `${relative}: wrong home link`);
+  if (course) {
+    const title = decodeHtml(html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? "");
+    const description = decodeHtml(html.match(/<meta\s+name="description"\s+content="([^"]*)"/)?.[1] ?? "");
+    check(title.includes(course.title), `${relative}: course title missing`);
+    check(description.includes(course.title), `${relative}: course description missing`);
+  }
+}
+
 async function main() {
   check(
     Number(process.versions.node.split(".")[0]) >= 24,
@@ -231,6 +251,7 @@ async function main() {
   const courses = Array.isArray(catalog.courses) ? catalog.courses : [];
   const ids = new Set(courses.map((course) => course.id));
   for (const id of Object.keys(EXPECTED)) check(ids.has(id), `course missing: ${id}`);
+  await checkLibraryPage("index.html");
 
   let decks = 0;
   let slides = 0;
@@ -240,6 +261,8 @@ async function main() {
     check(Boolean(expected), `unexpected course: ${course.id}`);
     check(Array.isArray(course.chapters), `${course.id}.chapters must be an array`);
     if (!expected || !Array.isArray(course.chapters)) continue;
+    check(course.slug === expected.slug, `${course.id}: wrong course slug`);
+    await checkLibraryPage(`${expected.slug}/index.html`, course);
     check(course.status === expected.status, `${course.id}: wrong status`);
     check(
       course.chapters.length === expected.decks,
@@ -275,7 +298,7 @@ async function main() {
         const html = await readFile(deckFile, "utf8");
         check(slideCount(html) === chapter.slides, `${href}: catalog/HTML slide mismatch`);
         check(
-          html.includes('data-library-return href="../../../index.html"'),
+          html.includes(`data-library-return href="../../../${expected.slug}/#library"`),
           `${href}: return link missing`,
         );
       }
@@ -311,6 +334,7 @@ async function main() {
     "decks",
     "favicon.svg",
     "index.html",
+    ...Object.values(EXPECTED).map((course) => course.slug),
   ]);
   for (const entry of await readdir(dist)) {
     check(allowedTop.has(entry), `unexpected dist entry: ${entry}`);

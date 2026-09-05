@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="강의별 교재와 주차별 슬라이드를 한곳에서 찾아보는 GBOX3 교재 도서관"
+      content="강의별 교재와 주차별 슬라이드를 한곳에서 찾아보는 교재 도서관"
     />
-    <meta name="theme-color" content="#183b38" />
-    <title>교재 도서관 · GBOX3 Teaching</title>
+    <meta name="theme-color" content="#050b07" />
+    <title>교재 도서관 · Teaching Archive</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./assets/library.css" />
     <script src="./assets/library.js" defer></script>
@@ -21,12 +21,11 @@
         <a class="brand" href="./" aria-label="교재 도서관 홈">
           <span class="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 36 36" focusable="false">
-              <path d="M7.5 8.5c4.7 0 8.2 1.2 10.5 3.6v17c-2.3-2.4-5.8-3.6-10.5-3.6v-17Z" />
-              <path d="M28.5 8.5c-4.7 0-8.2 1.2-10.5 3.6v17c2.3-2.4 5.8-3.6 10.5-3.6v-17Z" />
+              <path d="m7 10 8 8-8 8M20 26h9" />
             </svg>
           </span>
           <span class="brand-copy">
-            <span>GBOX3 TEACHING</span>
+            <span>TEACHING ARCHIVE</span>
             <strong>교재 도서관</strong>
           </span>
         </a>
@@ -42,10 +41,10 @@
 
       <div class="hero page-width">
         <div class="hero-copy">
-          <p class="eyebrow"><span aria-hidden="true"></span> Curated course archive</p>
+          <p class="eyebrow"><span aria-hidden="true"></span> A place to read &amp; learn</p>
           <h1 id="hero-title">
-            <span>수업의 흐름을,</span>
-            <span class="hero-title-accent">한눈에 꺼내 보는 서가</span>
+            <span>배움의 기록,</span>
+            <span class="hero-title-accent">다음 페이지를 열다<span class="terminal-cursor" aria-hidden="true">_</span></span>
           </h1>
           <p class="hero-description" id="hero-description">
             강의별 교재와 주차별 슬라이드를 한곳에 모았습니다. 필요한 수업을 찾아 바로 열람해 보세요.
@@ -62,26 +61,29 @@
           </div>
         </div>
 
-        <div class="hero-library" aria-hidden="true">
-          <div class="hero-card">
-            <div class="hero-card-topline">
-              <span>LECTURE NOTES</span>
-              <span>01—</span>
+        <div class="hero-terminal" aria-hidden="true">
+          <div class="terminal-bar"><span>LECTURE_ARCHIVE</span><span>[ UTF-8 ]</span></div>
+          <div class="terminal-screen">
+            <div class="terminal-rain">
+              <span>01001 10110 01001 11010</span><span>10110 00101 11001</span>
+              <span>00101 11010 01010 10101</span><span>11001 01001 10110</span>
+              <span>01010 10101 00110 11001</span><span>10101 01001 11010</span>
+              <span>11010 00110 10010 01001</span><span>00110 11001 01010</span>
             </div>
-            <div class="hero-bookmark"></div>
-            <div class="hero-card-title">배움이<br />쌓이는<br />공간</div>
-            <div class="hero-card-footer">
-              <span>GBOX3</span>
-              <span class="hero-card-seal">VIEW</span>
-            </div>
+            <pre class="terminal-book">        ___________________
+       / _________________/|
+      / /                / |
+     / /  L E C T U R E  /  |
+    / /    N O T E S    /  /|
+   / /________________/  / /
+  /__________________/  / /
+  |__________________| / /
+  |__________________|/ /
+  |__________________|/</pre>
+            <p class="terminal-caption">READ. LEARN. BUILD.</p>
+            <p class="terminal-prompt"><span>&gt;</span> open the next chapter<span class="terminal-cursor">_</span></p>
           </div>
-          <div class="hero-books">
-            <span class="hero-book hero-book--one"></span>
-            <span class="hero-book hero-book--two"></span>
-            <span class="hero-book hero-book--three"></span>
-            <span class="hero-book hero-book--four"></span>
-          </div>
-          <div class="hero-shelf"></div>
+          <div class="terminal-bottom"><span>배움은 계속됩니다.</span><span>■ ■ ■</span></div>
         </div>
       </div>
 
@@ -111,11 +113,12 @@
       <section class="library page-width" id="library" aria-labelledby="library-title" tabindex="-1">
         <div class="section-heading">
           <div>
-            <p class="section-kicker">Library collection</p>
+            <p class="section-kicker">[ 01 / Library collection ]</p>
             <h2 id="library-title">교재 서가</h2>
           </div>
           <p>
-            과목을 선택하거나 제목과 주제로 검색하세요.<br />각 단원을 누르면 슬라이드가 새 페이지에서 열립니다.
+            과목을 선택하거나 제목과 주제로 검색하세요.<br />
+            각 단원을 누르면 슬라이드가 새 페이지에서 열립니다.
           </p>
         </div>
 
@@ -183,7 +186,7 @@
     <footer class="site-footer">
       <div class="footer-inner page-width">
         <div>
-          <a class="footer-brand" href="./">GBOX3 <span>교재 도서관</span></a>
+          <a class="footer-brand" href="./"><span aria-hidden="true">&gt;_</span> 교재 도서관</a>
           <p>수업 수강·개인 학습용 자료입니다. 무단 재배포·상업적 이용을 금지합니다.</p>
         </div>
         <div class="footer-meta">

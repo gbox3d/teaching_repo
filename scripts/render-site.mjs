@@ -258,13 +258,13 @@ function renderDocument({ course, chapter, sourceUrl, html, css }) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="${escapeHtml(description)}">
     <meta name="theme-color" content="#07111f">
-    <title>${escapeHtml(title)} · GBOX3 교재 도서관</title>
+    <title>${escapeHtml(title)} · 교재 도서관</title>
     <link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
     <style>${css}</style>
     <link rel="stylesheet" href="../../../assets/deck.css">
   </head>
   <body>
-    <a class="library-return" data-library-return href="../../../index.html" aria-label="교재 도서관으로 돌아가기">← 도서관</a>
+    <a class="library-return" data-library-return href="../../../${escapeHtml(course.slug)}/#library" aria-label="${escapeHtml(course.title)} 교재 목록으로 돌아가기">← 도서관</a>
     <header class="deck-header">
       <p><span>${escapeHtml(course.title)}</span><strong>${escapeHtml(title)}</strong></p>
       <a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">원고 보기 ↗</a>
@@ -288,12 +288,16 @@ async function readCatalog() {
   const catalog = JSON.parse(await readFile(catalogFile, "utf8"));
   assert(catalog?.site && Array.isArray(catalog.courses), "site/catalog.json 형식이 올바르지 않습니다.");
   const courseIds = new Set();
+  const courseSlugs = new Set(["assets", "decks"]);
   const entries = [];
 
   for (const course of catalog.courses) {
     assertIdentifier(course.id, "course.id");
     assert(!courseIds.has(course.id), `중복 course.id: ${course.id}`);
     courseIds.add(course.id);
+    assertIdentifier(course.slug, `${course.id}.slug`);
+    assert(!courseSlugs.has(course.slug), `중복 또는 예약된 course.slug: ${course.slug}`);
+    courseSlugs.add(course.slug);
     assert(["published", "planned"].includes(course.status), `잘못된 course.status: ${course.id}`);
     assert(Array.isArray(course.chapters), `${course.id}.chapters가 배열이 아닙니다.`);
     if (course.status === "planned") {
@@ -320,6 +324,24 @@ async function copyPublishedFiles() {
     assertInside(dist, destination, "배포 파일");
     await mkdir(path.dirname(destination), { recursive: true });
     await copyFile(source, destination);
+  }
+}
+
+async function writeCoursePages(catalog) {
+  const template = await readFile(path.join(site, "index.html"), "utf8");
+  for (const course of catalog.courses) {
+    const directory = path.join(dist, course.slug);
+    assertInside(dist, directory, "과목 페이지");
+    const html = template
+      .replace(/\b(href|src)="\.\//g, '$1="../')
+      .replace(/<title>[\s\S]*?<\/title>/, () =>
+        `<title>${escapeHtml(course.title)} · ${escapeHtml(catalog.site.title)}</title>`,
+      )
+      .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, (_match, start, end) =>
+        `${start}${escapeHtml(`${course.title} · ${course.description}`)}${end}`,
+      );
+    await mkdir(directory, { recursive: true });
+    await writeFile(path.join(directory, "index.html"), html, "utf8");
   }
 }
 
@@ -366,6 +388,7 @@ async function main() {
     await mkdir(decksRoot, { recursive: true });
     initialized = true;
     await copyPublishedFiles();
+    await writeCoursePages(catalog);
 
     for (const { course, chapter } of entries) {
       const relativeSource = sourcePath(course, chapter);

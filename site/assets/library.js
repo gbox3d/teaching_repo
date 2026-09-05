@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  const catalogUrl = "./catalog.json";
-  const defaultAccent = "#2d655e";
+  const libraryRoot = new URL("../", document.currentScript.src);
+  const catalogUrl = new URL("catalog.json", libraryRoot);
   const numberFormatter = new Intl.NumberFormat("ko-KR");
   const dateFormatter = new Intl.DateTimeFormat("ko-KR", {
     year: "numeric",
@@ -61,25 +61,18 @@
     return Number.isFinite(number) && number > 0 ? Math.round(number) : 0;
   }
 
-  function safeAccent(value) {
-    const color = textValue(value, "");
-    if (/^#[0-9a-f]{3,8}$/i.test(color)) return color;
-    return defaultAccent;
-  }
-
   function safeInternalHref(value) {
     const href = textValue(value, "");
     if (!href) return "";
 
     try {
-      const parsed = new URL(href, document.baseURI);
-      const libraryRoot = new URL("./", document.baseURI);
+      const parsed = new URL(href, libraryRoot);
       if (
         ["http:", "https:"].includes(parsed.protocol) &&
         parsed.origin === libraryRoot.origin &&
         parsed.pathname.startsWith(libraryRoot.pathname)
       ) {
-        return href;
+        return parsed.href;
       }
     } catch (_error) {
       return "";
@@ -113,8 +106,7 @@
     link.href = href;
     link.hidden = false;
 
-    const isExternal = /^https?:\/\//i.test(href);
-    if (isExternal || config.newTab) {
+    if (config.external || config.newTab) {
       link.target = "_blank";
       link.rel = "noopener noreferrer";
     }
@@ -142,6 +134,16 @@
     return Array.isArray(state.catalog && state.catalog.courses) ? state.catalog.courses : [];
   }
 
+  function courseUrl(course) {
+    return course ? new URL(`${course.slug}/`, libraryRoot) : libraryRoot;
+  }
+
+  function courseFromLocation() {
+    const pathname = window.location.pathname.replace(/\/(?:index\.html)?$/, "");
+    const course = getCourses().find((entry) => courseUrl(entry).pathname.replace(/\/$/, "") === pathname);
+    return course ? course.id : "all";
+  }
+
   function validateCatalog(payload) {
     if (!payload || typeof payload !== "object" || !Array.isArray(payload.courses)) {
       throw new Error("catalog.json 형식이 올바르지 않습니다.");
@@ -158,7 +160,8 @@
       "강의별 교재와 주차별 슬라이드를 한곳에 모았습니다. 필요한 수업을 찾아 바로 열람해 보세요.",
     );
 
-    document.title = `${title} · GBOX3 Teaching`;
+    const course = getCourses().find((entry) => entry.id === state.course);
+    document.title = course ? `${course.title} · ${title}` : `${title} · Teaching Archive`;
     elements.heroDescription.textContent = description;
 
     [elements.repositoryLink, elements.heroSourceLink, elements.footerRepositoryLink].forEach((link) => {
@@ -193,36 +196,25 @@
     elements.statSlides.textContent = formatNumber(slides);
   }
 
-  function createFilterButton(id, label) {
-    const button = createElement("button", "filter-button", label);
-    button.type = "button";
-    button.dataset.course = id;
-    button.setAttribute("aria-pressed", String(state.course === id));
-    button.addEventListener("click", function () {
-      state.course = id;
-      updateFilterButtons();
-      renderCatalog();
-    });
-    return button;
+  function createFilterLink(id, label, course) {
+    const link = createElement("a", "filter-button", label);
+    link.href = `${courseUrl(course).href}#library`;
+    link.dataset.course = id;
+    if (state.course === id) link.setAttribute("aria-current", "page");
+    return link;
   }
 
   function buildFilters(courses) {
     const fragment = document.createDocumentFragment();
-    fragment.append(createFilterButton("all", "전체 교재"));
+    fragment.append(createFilterLink("all", "전체 교재"));
 
     courses.forEach((course) => {
       const id = textValue(course.id, "");
       if (!id) return;
-      fragment.append(createFilterButton(id, textValue(course.title, "이름 없는 교재")));
+      fragment.append(createFilterLink(id, textValue(course.title, "이름 없는 교재"), course));
     });
 
     elements.filters.replaceChildren(fragment);
-  }
-
-  function updateFilterButtons() {
-    elements.filters.querySelectorAll("[data-course]").forEach((button) => {
-      button.setAttribute("aria-pressed", String(button.dataset.course === state.course));
-    });
   }
 
   function filteredCourses() {
@@ -261,7 +253,7 @@
 
     const footer = createElement("div", "book-footer");
     footer.append(
-      createElement("span", "", "GBOX3 TEACHING"),
+      createElement("span", "", "COURSE ARCHIVE"),
       createElement("span", "book-edition", course.status === "planned" ? "SOON" : "READ"),
     );
 
@@ -412,8 +404,6 @@
     const headingId = `course-heading-${courseId.replace(/[^a-z0-9_-]/gi, "-")}`;
     const shelf = createElement("section", "course-shelf");
     shelf.setAttribute("aria-labelledby", headingId);
-    shelf.style.setProperty("--course-accent", safeAccent(course.accent));
-    shelf.style.setProperty("--shelf-index", String(index));
 
     const allCourses = getCourses();
     const courseNumber = Math.max(1, allCourses.indexOf(course) + 1);
@@ -479,10 +469,12 @@
 
   function resetCatalogView(options) {
     const config = options || {};
+    if (state.course !== "all") {
+      window.location.assign(`${libraryRoot.href}#library`);
+      return;
+    }
     state.query = "";
-    state.course = "all";
     elements.searchInput.value = "";
-    updateFilterButtons();
     renderCatalog();
     if (config.focusSearch) elements.searchInput.focus();
   }
@@ -527,6 +519,8 @@
 
       state.catalog = validateCatalog(await response.json());
       const courses = getCourses();
+      state.course = courseFromLocation();
+      state.query = elements.searchInput.value;
       setSiteInformation(state.catalog.site);
       setStatistics(courses);
       buildFilters(courses);
