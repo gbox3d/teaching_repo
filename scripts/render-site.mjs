@@ -11,9 +11,18 @@ const REPOSITORY_BLOB_URL = "https://github.com/gbox3d/teaching_repo/blob/main";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const site = path.join(root, "site");
 const dist = path.join(root, "dist");
-const decksRoot = path.join(dist, "decks");
+const legacyDecksRoot = path.join(dist, "decks");
 const catalogFile = path.join(site, "catalog.json");
 const themeFile = path.join(site, "assets", "marp-theme.css");
+const courseTemplateFile = path.join(site, "course.html");
+const courseAssets = [
+  "assets/library.css",
+  "assets/course.css",
+  "assets/course.js",
+  "assets/deck.css",
+  "assets/deck.js",
+  "favicon.svg",
+];
 const publishedFiles = [
   [path.join(site, "index.html"), path.join(dist, "index.html")],
   [path.join(site, "assets", "library.css"), path.join(dist, "assets", "library.css")],
@@ -258,13 +267,13 @@ function renderDocument({ course, chapter, sourceUrl, html, css }) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="${escapeHtml(description)}">
     <meta name="theme-color" content="#07111f">
-    <title>${escapeHtml(title)} · 교재 도서관</title>
-    <link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+    <title>${escapeHtml(title)} · ${escapeHtml(course.title)}</title>
+    <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
     <style>${css}</style>
-    <link rel="stylesheet" href="../../../assets/deck.css">
+    <link rel="stylesheet" href="../../assets/deck.css">
   </head>
   <body>
-    <a class="library-return" data-library-return href="../../../${escapeHtml(course.slug)}/#library" aria-label="${escapeHtml(course.title)} 교재 목록으로 돌아가기">← 도서관</a>
+    <a class="library-return" data-library-return href="../../#chapters" aria-label="${escapeHtml(course.title)} 목차로 돌아가기">← 목차</a>
     <header class="deck-header">
       <p><span>${escapeHtml(course.title)}</span><strong>${escapeHtml(title)}</strong></p>
       <a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">원고 보기 ↗</a>
@@ -278,7 +287,7 @@ function renderDocument({ course, chapter, sourceUrl, html, css }) {
       <button type="button" data-action="fullscreen" aria-label="전체 화면 전환">⛶</button>
     </nav>
     <p class="deck-help">← → 이동 · Home/End 처음/끝 · F 전체 화면</p>
-    <script src="../../../assets/deck.js"></script>
+    <script src="../../assets/deck.js"></script>
   </body>
 </html>
 `;
@@ -328,21 +337,68 @@ async function copyPublishedFiles() {
 }
 
 async function writeCoursePages(catalog) {
-  const template = await readFile(path.join(site, "index.html"), "utf8");
+  const template = await readFile(courseTemplateFile, "utf8");
   for (const course of catalog.courses) {
     const directory = path.join(dist, course.slug);
     assertInside(dist, directory, "과목 페이지");
-    const html = template
-      .replace(/\b(href|src)="\.\//g, '$1="../')
-      .replace(/<title>[\s\S]*?<\/title>/, () =>
-        `<title>${escapeHtml(course.title)} · ${escapeHtml(catalog.site.title)}</title>`,
-      )
-      .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, (_match, start, end) =>
-        `${start}${escapeHtml(`${course.title} · ${course.description}`)}${end}`,
-      );
+    const courseCatalog = {
+      ...course,
+      updated: catalog.site.updated,
+      chapters: course.chapters.map((chapter) => ({
+        ...chapter,
+        href: path.posix.relative(course.slug, chapter.href),
+      })),
+    };
+    const fields = {
+      title: course.title,
+      eyebrow: course.eyebrow,
+      description: course.description,
+      chapterCount: course.chapters.length,
+      slideCount: course.chapters.reduce((total, chapter) => total + chapter.slides, 0),
+      sourceUrl: course.sourceUrl,
+      updated: catalog.site.updated,
+    };
+    const html = template.replace(/\{\{(\w+)\}\}/g, (_match, key) => {
+      assert(Object.hasOwn(fields, key), `알 수 없는 과목 템플릿 필드: ${key}`);
+      return escapeHtml(fields[key]);
+    });
     await mkdir(directory, { recursive: true });
     await writeFile(path.join(directory, "index.html"), html, "utf8");
+    await writeFile(path.join(directory, "catalog.json"), `${JSON.stringify(courseCatalog, null, 2)}\n`, "utf8");
+    for (const asset of courseAssets) {
+      const destination = path.join(directory, ...asset.split("/"));
+      await mkdir(path.dirname(destination), { recursive: true });
+      await copyFile(path.join(site, ...asset.split("/")), destination);
+    }
+    await copyFile(path.join(root, "LICENSE"), path.join(directory, "LICENSE"));
   }
+}
+
+async function writeLegacyRedirect(course, chapter) {
+  const directory = path.join(legacyDecksRoot, course.id, chapter.id);
+  assertInside(legacyDecksRoot, directory, "기존 슬라이드 주소");
+  const href = `../../../${course.slug}/decks/${chapter.id}/index.html`;
+  const html = `<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${escapeHtml(chapter.title)} · ${escapeHtml(course.title)}</title>
+    <noscript><meta http-equiv="refresh" content="0; url=${escapeHtml(href)}"></noscript>
+  </head>
+  <body>
+    <p><a id="redirect-link" href="${escapeHtml(href)}">${escapeHtml(course.title)} · ${escapeHtml(chapter.title)} 열기</a></p>
+    <script>
+      const target = new URL(document.querySelector("#redirect-link").href);
+      target.search = window.location.search;
+      target.hash = window.location.hash;
+      window.location.replace(target.href);
+    </script>
+  </body>
+</html>
+`;
+  await mkdir(directory, { recursive: true });
+  await writeFile(path.join(directory, "index.html"), html, "utf8");
 }
 
 async function copyDeckAssets(context, deckDirectory, canonicalRoot) {
@@ -372,6 +428,9 @@ async function main() {
   for (const [source] of publishedFiles) {
     assert(await isFile(source), `사이트 입력 파일이 없습니다: ${path.relative(root, source)}`);
   }
+  for (const source of [courseTemplateFile, ...courseAssets.map((asset) => path.join(site, ...asset.split("/")))]) {
+    assert(await isFile(source), `과목 사이트 입력 파일이 없습니다: ${path.relative(root, source)}`);
+  }
 
   const marp = new Marp({ html: false });
   installUrlRewriter(marp);
@@ -385,10 +444,9 @@ async function main() {
 
   try {
     await rm(dist, { recursive: true, force: true });
-    await mkdir(decksRoot, { recursive: true });
+    await mkdir(legacyDecksRoot, { recursive: true });
     initialized = true;
     await copyPublishedFiles();
-    await writeCoursePages(catalog);
 
     for (const { course, chapter } of entries) {
       const relativeSource = sourcePath(course, chapter);
@@ -405,9 +463,9 @@ async function main() {
       assert(slides > 0, `렌더된 슬라이드가 없습니다: ${course.id}/${chapter.id}`);
       totalSlides += slides;
 
-      const href = path.posix.join("decks", course.id, chapter.id, "index.html");
+      const href = path.posix.join(course.slug, "decks", chapter.id, "index.html");
       const output = path.join(dist, ...href.split("/"));
-      assertInside(decksRoot, output, "생성된 덱");
+      assertInside(path.join(dist, course.slug, "decks"), output, "생성된 덱");
       await mkdir(path.dirname(output), { recursive: true });
       const record = { href, slides, sourceUrl: repositoryUrl(relativeSource) };
       await writeFile(
@@ -416,6 +474,7 @@ async function main() {
         "utf8",
       );
       await copyDeckAssets(context, path.dirname(output), canonicalRoot);
+      await writeLegacyRedirect(course, chapter);
       records.set(`${course.id}/${chapter.id}`, record);
     }
 
@@ -440,6 +499,7 @@ async function main() {
       })),
     };
     await writeFile(path.join(dist, "catalog.json"), `${JSON.stringify(outputCatalog, null, 2)}\n`, "utf8");
+    await writeCoursePages(outputCatalog);
     console.log(
       `교재 도서관 빌드 완료: ${entries.length}개 덱, ${totalSlides}장, 상대 Markdown 링크 ${rewrittenLinks}개 변환, 자산 ${copiedAssets}개 복사`,
     );

@@ -1594,6 +1594,125 @@ svg {
   gap: 12px;
 }
 
+.portal-tools {
+  grid-template-columns: minmax(0, 520px);
+}
+
+.portal-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.portal-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+
+.portal-cover {
+  display: grid;
+  place-items: center;
+  padding: 32px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.portal-cover .book-cover {
+  width: 188px;
+  max-width: 100%;
+}
+
+.portal-cover .book-title {
+  font-size: 1.3rem;
+}
+
+.portal-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: start;
+  padding: 27px;
+}
+
+.portal-title {
+  margin: 10px 0 14px;
+  color: var(--phosphor-bright);
+  font-size: 1.3rem;
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+}
+
+.portal-description {
+  margin: 0 0 24px;
+  color: var(--text-muted);
+  font-size: 0.83rem;
+}
+
+.portal-metadata {
+  margin: auto 0 0;
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.portal-address {
+  margin: 8px 0 20px;
+  color: var(--phosphor);
+  font-size: 0.83rem;
+}
+
+.course-open-link {
+  width: 100%;
+}
+
+.portal-grid > :is(.empty-state, .error-state, .loading-shelf) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1040px) {
+  .portal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portal-card {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+
+  .portal-cover {
+    border-right: 1px solid var(--line);
+    border-bottom: 0;
+  }
+
+  .portal-cover .book-cover {
+    width: 160px;
+  }
+
+  .course-open-link {
+    width: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .portal-card {
+    display: flex;
+  }
+
+  .portal-cover {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .portal-content {
+    padding: 24px;
+  }
+
+  .course-open-link {
+    width: 100%;
+  }
+}
+
 @media print {
   :root {
     color-scheme: light;

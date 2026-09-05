@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="강의별 교재와 주차별 슬라이드를 한곳에서 찾아보는 교재 도서관"
+      content="Android, 웹프로그래밍, 오픈소스 AI의 독립 교재를 찾아 수업별로 열람하는 교재 도서관"
     />
     <meta name="theme-color" content="#050b07" />
     <title>교재 도서관 · Teaching Archive</title>
@@ -47,7 +47,7 @@
             <span class="hero-title-accent">다음 페이지를 열다<span class="terminal-cursor" aria-hidden="true">_</span></span>
           </h1>
           <p class="hero-description" id="hero-description">
-            강의별 교재와 주차별 슬라이드를 한곳에 모았습니다. 필요한 수업을 찾아 바로 열람해 보세요.
+            수업에 맞는 교재를 선택하세요. 교재마다 전용 주소와 목차가 있어 해당 수업의 자료를 바로 열람할 수 있습니다.
           </p>
           <div class="hero-actions">
             <a class="button button--primary" href="#library">
@@ -103,7 +103,7 @@
           </div>
           <div class="stat stat--note">
             <dt>이용 안내</dt>
-            <dd>웹에서 바로 읽고<br />원본 자료도 확인하세요.</dd>
+            <dd>수업별 교재 주소를<br />학생들에게 안내하세요.</dd>
           </div>
         </dl>
       </div>
@@ -117,14 +117,14 @@
             <h2 id="library-title">교재 서가</h2>
           </div>
           <p>
-            과목을 선택하거나 제목과 주제로 검색하세요.<br />
-            각 단원을 누르면 슬라이드가 새 페이지에서 열립니다.
+            제목과 주제로 필요한 교재를 찾으세요.<br />
+            교재를 열면 해당 수업의 목차로 이동합니다.
           </p>
         </div>
 
-        <div class="catalog-tools" aria-label="교재 검색 및 필터">
+        <div class="catalog-tools portal-tools" aria-label="교재 검색">
           <form class="search" id="search-form" role="search">
-            <label for="catalog-search">교재와 단원 검색</label>
+            <label for="catalog-search">교재 제목과 주제 검색</label>
             <div class="search-control">
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <circle cx="11" cy="11" r="6.5"></circle>
@@ -134,7 +134,7 @@
                 id="catalog-search"
                 name="query"
                 type="search"
-                placeholder="예: Supabase, Android, 3주차"
+                placeholder="예: Android, Supabase, 로컬 LLM"
                 autocomplete="off"
                 spellcheck="false"
               />
@@ -144,23 +144,14 @@
               </button>
             </div>
           </form>
-
-          <div class="course-filters-wrap">
-            <span class="filter-label" id="filter-label">과목</span>
-            <div class="course-filters" id="course-filters" role="group" aria-labelledby="filter-label">
-              <span class="filter-skeleton"></span>
-              <span class="filter-skeleton"></span>
-              <span class="filter-skeleton"></span>
-            </div>
-          </div>
         </div>
 
         <div class="result-bar">
           <p id="result-status" role="status" aria-live="polite">교재 목록을 불러오는 중입니다.</p>
-          <button class="reset-filters" id="reset-filters" type="button" hidden>전체 보기</button>
+          <button class="reset-filters" id="reset-filters" type="button" hidden>검색 초기화</button>
         </div>
 
-        <div class="shelf-list" id="shelf-list" aria-busy="true">
+        <div class="shelf-list portal-grid" id="shelf-list" aria-busy="true">
           <div class="loading-shelf" aria-hidden="true">
             <div class="loading-cover"></div>
             <div class="loading-content">
@@ -177,7 +168,10 @@
 
         <noscript>
           <div class="notice">
-            이 도서관은 교재 목록을 표시하기 위해 JavaScript를 사용합니다. 브라우저에서 JavaScript를 켜 주세요.
+            교재 바로가기:
+            <a href="./android/">모바일프로그래밍(Android)</a> ·
+            <a href="./webprg/">웹프로그래밍</a> ·
+            <a href="./open_source_ai/">오픈소스 AI 응용</a>
           </div>
         </noscript>
       </section>

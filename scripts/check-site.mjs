@@ -1,6 +1,8 @@
 import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { runInNewContext } from "node:vm";
+import { isDeepStrictEqual } from "node:util";
 
 const EXPECTED_DECKS = 46;
 const EXPECTED_SLIDES = 923;
@@ -12,6 +14,7 @@ const EXPECTED = {
 const BLOB = "https://github.com/gbox3d/teaching_repo/blob/main";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
+const courseSlugs = new Set(Object.values(EXPECTED).map((course) => course.slug));
 const failures = [];
 
 const check = (value, message) => {
@@ -149,6 +152,13 @@ async function localTarget(filename, rawTarget, kind) {
     : filename;
   check(inside(dist, resolved), `${path.relative(dist, filename)}: ${kind} escapes dist: ${target}`);
   if (!inside(dist, resolved)) return;
+  const slug = path.relative(dist, filename).split(path.sep)[0];
+  if (courseSlugs.has(slug)) {
+    check(
+      inside(path.join(dist, slug), resolved),
+      `${path.relative(dist, filename)}: ${kind} leaves the standalone course: ${target}`,
+    );
+  }
 
   let info = await fileInfo(resolved);
   if (info?.isDirectory() && kind === "href") {
@@ -221,19 +231,92 @@ async function checkLibraryPage(relative, course) {
   check(await exists(filename), `${relative} missing`);
   if (!(await exists(filename))) return;
   const html = await readFile(filename, "utf8");
-  const prefix = course ? "../" : "./";
-  for (const asset of ["favicon.svg", "assets/library.css", "assets/library.js"]) {
-    check(html.includes(`="${prefix}${asset}"`), `${relative}: wrong library asset URL: ${asset}`);
+  const assets = course
+    ? ["favicon.svg", "assets/library.css", "assets/course.css", "assets/course.js"]
+    : ["favicon.svg", "assets/library.css", "assets/library.js"];
+  for (const asset of assets) {
+    check(html.includes(`="./${asset}"`), `${relative}: wrong local asset URL: ${asset}`);
   }
   check(!/<base\b/i.test(html), `${relative}: base element would change local section links`);
-  check(html.includes('href="#library"'), `${relative}: local library anchor missing`);
-  check(html.includes(`class="brand" href="${prefix}"`), `${relative}: wrong home link`);
+  check(html.includes('class="brand" href="./"'), `${relative}: wrong home link`);
   if (course) {
     const title = decodeHtml(html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? "");
     const description = decodeHtml(html.match(/<meta\s+name="description"\s+content="([^"]*)"/)?.[1] ?? "");
+    const heading = decodeHtml(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? "").replace(/<[^>]*>/g, "");
     check(title.includes(course.title), `${relative}: course title missing`);
     check(description.includes(course.title), `${relative}: course description missing`);
+    check(heading.includes(course.title), `${relative}: course heading missing`);
+    check(html.includes('id="chapters"'), `${relative}: chapter table of contents missing`);
+    check(!html.includes('id="course-filters"'), `${relative}: global course filters remain`);
   }
+}
+
+async function checkCourseCatalog(course, updated) {
+  const relative = `${course.slug}/catalog.json`;
+  const filename = path.join(dist, ...relative.split("/"));
+  check(await exists(filename), `${relative} missing`);
+  if (!(await exists(filename))) return;
+  const catalog = JSON.parse(await readFile(filename, "utf8"));
+  const expected = {
+    ...course,
+    updated,
+    chapters: course.chapters.map((chapter) => ({
+      ...chapter,
+      href: path.posix.join("decks", chapter.id, "index.html"),
+    })),
+  };
+  check(
+    isDeepStrictEqual(catalog, expected),
+    `${relative}: standalone catalog must contain only this course with local chapter links`,
+  );
+  for (const chapter of catalog.chapters ?? []) {
+    await localTarget(filename, chapter.href, "href");
+  }
+  for (const asset of [
+    "index.html", "LICENSE", "favicon.svg", "assets/library.css", "assets/course.css",
+    "assets/course.js", "assets/deck.css", "assets/deck.js",
+  ]) {
+    check(await exists(path.join(dist, course.slug, ...asset.split("/"))), `${course.slug}/${asset} missing`);
+  }
+}
+
+async function checkLegacyRedirect(course, chapter) {
+  const relative = path.posix.join("decks", course.id, chapter.id, "index.html");
+  const filename = path.join(dist, ...relative.split("/"));
+  check(await exists(filename), `${relative} legacy redirect missing`);
+  if (!(await exists(filename))) return relative;
+  const html = await readFile(filename, "utf8");
+  check(slideCount(html) === 0, `${relative}: old shared deck still contains slides`);
+  const target = `../../../${course.slug}/decks/${chapter.id}/index.html`;
+  check(html.includes(`href="${target}"`), `${relative}: legacy fallback link missing`);
+  const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map((match) => match[1]);
+  let redirected;
+  const location = {
+    href: `https://example.test/teaching_repo/${relative}?view=presenter#slide-7`,
+    search: "?view=presenter",
+    hash: "#slide-7",
+    replace(value) { redirected = value; },
+  };
+  const document = {
+    querySelector(selector) {
+      if (selector !== "#redirect-link") throw new Error(`Unexpected redirect selector: ${selector}`);
+      const href = html.match(/<a\b(?=[^>]*\bid="redirect-link")[^>]*\bhref="([^"]*)"/)?.[1];
+      if (!href) throw new Error("Redirect destination missing");
+      return { href: new URL(decodeHtml(href), location.href).href };
+    },
+  };
+  try {
+    for (const script of scripts) {
+      runInNewContext(script, { location, window: { location }, document, URL }, { timeout: 1000 });
+    }
+    check(
+      redirected && new URL(redirected, location.href).href === new URL(`${target}${location.search}${location.hash}`, location.href).href,
+      `${relative}: redirect must preserve query and slide fragment`,
+    );
+  } catch (error) {
+    failures.push(`${relative}: redirect failed: ${error.message}`);
+  }
+  return relative;
 }
 
 async function main() {
@@ -256,6 +339,7 @@ async function main() {
   let decks = 0;
   let slides = 0;
   const expectedHtml = new Set();
+  const expectedLegacy = new Set();
   for (const course of courses) {
     const expected = EXPECTED[course.id];
     check(Boolean(expected), `unexpected course: ${course.id}`);
@@ -263,6 +347,7 @@ async function main() {
     if (!expected || !Array.isArray(course.chapters)) continue;
     check(course.slug === expected.slug, `${course.id}: wrong course slug`);
     await checkLibraryPage(`${expected.slug}/index.html`, course);
+    await checkCourseCatalog(course, catalog.site.updated);
     check(course.status === expected.status, `${course.id}: wrong status`);
     check(
       course.chapters.length === expected.decks,
@@ -278,7 +363,7 @@ async function main() {
       const count = Number.isInteger(chapter.slides) ? chapter.slides : 0;
       slides += count;
       courseSlides += count;
-      const href = path.posix.join("decks", course.id, chapter.id, "index.html");
+      const href = path.posix.join(expected.slug, "decks", chapter.id, "index.html");
       check(chapter.href === href, `${course.id}/${chapter.id}: wrong href`);
       expectedHtml.add(href);
 
@@ -298,10 +383,14 @@ async function main() {
         const html = await readFile(deckFile, "utf8");
         check(slideCount(html) === chapter.slides, `${href}: catalog/HTML slide mismatch`);
         check(
-          html.includes(`data-library-return href="../../../${expected.slug}/#library"`),
+          html.includes('data-library-return href="../../#chapters"'),
           `${href}: return link missing`,
         );
+        for (const asset of ["favicon.svg", "assets/deck.css", "assets/deck.js"]) {
+          check(html.includes(`="../../${asset}"`), `${href}: wrong course asset URL: ${asset}`);
+        }
       }
+      expectedLegacy.add(await checkLegacyRedirect(course, chapter));
     }
     check(
       courseSlides === expected.slides,
@@ -318,7 +407,7 @@ async function main() {
   const actualHtml = new Set(
     files
       .map((file) => path.relative(dist, file).split(path.sep).join("/"))
-      .filter((file) => /^decks\/[^/]+\/[^/]+\/index\.html$/.test(file)),
+      .filter((file) => /^[^/]+\/decks\/[^/]+\/index\.html$/.test(file)),
   );
   check(
     actualHtml.size === EXPECTED_DECKS,
@@ -326,6 +415,14 @@ async function main() {
   );
   for (const file of expectedHtml) check(actualHtml.has(file), `catalog deck missing: ${file}`);
   for (const file of actualHtml) check(expectedHtml.has(file), `uncatalogued deck: ${file}`);
+  const actualLegacy = new Set(
+    files
+      .map((file) => path.relative(dist, file).split(path.sep).join("/"))
+      .filter((file) => /^decks\/[^/]+\/[^/]+\/index\.html$/.test(file)),
+  );
+  check(actualLegacy.size === EXPECTED_DECKS, `expected ${EXPECTED_DECKS} legacy redirects, got ${actualLegacy.size}`);
+  for (const file of expectedLegacy) check(actualLegacy.has(file), `legacy redirect missing: ${file}`);
+  for (const file of actualLegacy) check(expectedLegacy.has(file), `unexpected legacy redirect: ${file}`);
 
   const allowedTop = new Set([
     "LICENSE",
@@ -358,7 +455,7 @@ async function main() {
   if (failures.length) {
     throw new Error(`Site check failed (${failures.length})\n- ${failures.join("\n- ")}`);
   }
-  console.log(`사이트 검증 완료: ${EXPECTED_DECKS}개 덱, ${EXPECTED_SLIDES}장, 모든 로컬 링크 정상`);
+  console.log(`사이트 검증 완료: 독립 교재 ${courses.length}개, ${EXPECTED_DECKS}개 덱, ${EXPECTED_SLIDES}장, 기존 주소 리다이렉트 및 교재 내부 링크 정상`);
 }
 
 main().catch((error) => {

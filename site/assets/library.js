@@ -14,11 +14,9 @@
     searchForm: document.querySelector("#search-form"),
     searchInput: document.querySelector("#catalog-search"),
     clearSearch: document.querySelector("#clear-search"),
-    filters: document.querySelector("#course-filters"),
     resetFilters: document.querySelector("#reset-filters"),
     resultStatus: document.querySelector("#result-status"),
     shelfList: document.querySelector("#shelf-list"),
-    heroDescription: document.querySelector("#hero-description"),
     repositoryLink: document.querySelector("#repository-link"),
     heroSourceLink: document.querySelector("#hero-source-link"),
     footerRepositoryLink: document.querySelector("#footer-repository-link"),
@@ -31,7 +29,6 @@
 
   const state = {
     catalog: null,
-    course: "all",
     query: "",
   };
 
@@ -118,30 +115,8 @@
     return numberFormatter.format(numericValue(value));
   }
 
-  function getChapterSearchText(chapter) {
-    return normaliseText(
-      [chapter.id, chapter.label, chapter.title, chapter.description, chapter.type].filter(Boolean).join(" "),
-    );
-  }
-
-  function getCourseSearchText(course) {
-    return normaliseText(
-      [course.id, course.title, course.eyebrow].filter(Boolean).join(" "),
-    );
-  }
-
   function getCourses() {
     return Array.isArray(state.catalog && state.catalog.courses) ? state.catalog.courses : [];
-  }
-
-  function courseUrl(course) {
-    return course ? new URL(`${course.slug}/`, libraryRoot) : libraryRoot;
-  }
-
-  function courseFromLocation() {
-    const pathname = window.location.pathname.replace(/\/(?:index\.html)?$/, "");
-    const course = getCourses().find((entry) => courseUrl(entry).pathname.replace(/\/$/, "") === pathname);
-    return course ? course.id : "all";
   }
 
   function validateCatalog(payload) {
@@ -155,14 +130,7 @@
   function setSiteInformation(site) {
     const siteInfo = site && typeof site === "object" ? site : {};
     const title = textValue(siteInfo.title, "교재 도서관");
-    const description = textValue(
-      siteInfo.description,
-      "강의별 교재와 주차별 슬라이드를 한곳에 모았습니다. 필요한 수업을 찾아 바로 열람해 보세요.",
-    );
-
-    const course = getCourses().find((entry) => entry.id === state.course);
-    document.title = course ? `${course.title} · ${title}` : `${title} · Teaching Archive`;
-    elements.heroDescription.textContent = description;
+    document.title = `${title} · Teaching Archive`;
 
     [elements.repositoryLink, elements.heroSourceLink, elements.footerRepositoryLink].forEach((link) => {
       configureLink(link, siteInfo.repositoryUrl, { external: true, hideWhenMissing: true });
@@ -196,46 +164,21 @@
     elements.statSlides.textContent = formatNumber(slides);
   }
 
-  function createFilterLink(id, label, course) {
-    const link = createElement("a", "filter-button", label);
-    link.href = `${courseUrl(course).href}#library`;
-    link.dataset.course = id;
-    if (state.course === id) link.setAttribute("aria-current", "page");
-    return link;
-  }
-
-  function buildFilters(courses) {
-    const fragment = document.createDocumentFragment();
-    fragment.append(createFilterLink("all", "전체 교재"));
-
-    courses.forEach((course) => {
-      const id = textValue(course.id, "");
-      if (!id) return;
-      fragment.append(createFilterLink(id, textValue(course.title, "이름 없는 교재"), course));
-    });
-
-    elements.filters.replaceChildren(fragment);
-  }
-
   function filteredCourses() {
     const query = normaliseText(state.query);
     const weekQuery = query.match(/^0*(\d+)\s*주차$/);
 
-    return getCourses().flatMap((course) => {
-      const id = textValue(course.id, "");
-      if (state.course !== "all" && id !== state.course) return [];
-
+    return getCourses().filter((course) => {
+      if (!query) return true;
       const chapters = Array.isArray(course.chapters) ? course.chapters : [];
-      if (!query) return [{ course, chapters }];
-
-      if (!weekQuery && getCourseSearchText(course).includes(query)) return [{ course, chapters }];
-
-      const matchingChapters = chapters.filter((chapter) => {
-        if (weekQuery) return normaliseText(chapter.label) === `${Number(weekQuery[1])}주차`;
-        return getChapterSearchText(chapter).includes(query);
-      });
-      if (!matchingChapters.length) return [];
-      return [{ course, chapters: matchingChapters }];
+      if (weekQuery) {
+        return chapters.some((chapter) => normaliseText(chapter.label) === `${Number(weekQuery[1])}주차`);
+      }
+      const searchText = [
+        course.id, course.slug, course.title, course.eyebrow, course.description,
+        ...chapters.flatMap((chapter) => [chapter.id, chapter.label, chapter.title, chapter.description]),
+      ].filter(Boolean).join(" ");
+      return normaliseText(searchText).includes(query);
     });
   }
 
@@ -261,167 +204,43 @@
     return cover;
   }
 
-  function createCourseOverview(course, chapters, courseNumber) {
-    const overview = createElement("div", "course-overview");
-    overview.append(createBookCover(course, courseNumber));
+  function createCourseCard(course) {
+    const courseNumber = getCourses().indexOf(course) + 1;
+    const title = textValue(course.title, "이름 없는 교재");
+    const headingId = `course-heading-${course.slug}`;
+    const card = createElement("article", "portal-card");
+    card.dataset.course = course.slug;
+    card.setAttribute("aria-labelledby", headingId);
+    const cover = createElement("div", "portal-cover");
+    cover.append(createBookCover(course, courseNumber));
 
-    const metadata = createElement("div", "course-meta");
-    const metadataRow = createElement("div", "course-meta-row");
-    const isPlanned = course.status === "planned";
-    const status = createElement(
-      "span",
-      `course-status${isPlanned ? " course-status--planned" : ""}`,
-      isPlanned ? "준비 중" : "열람 가능",
-    );
-    const chapterCount = createElement(
-      "span",
-      "course-count",
-      chapters.length ? `· ${formatNumber(chapters.length)}개 단원` : "· 단원 준비 중",
-    );
-    metadataRow.append(status, chapterCount);
-
-    const title = createElement("h3", "", textValue(course.title, "이름 없는 교재"));
-    const summary = createElement(
-      "p",
-      "course-summary",
-      textValue(course.summary, textValue(course.description, "강의 교재")),
-    );
-
-    metadata.append(metadataRow, title, summary);
-    overview.append(metadata);
-    return overview;
-  }
-
-  function createChapterCard(chapter, course) {
-    const href = course.status === "published" ? safeInternalHref(chapter.href) : "";
-    const card = createElement("article", `chapter-card${href ? "" : " chapter-card--planned"}`);
-
-    const topLine = createElement("div", "chapter-topline");
-    topLine.append(createElement("span", "chapter-label", textValue(chapter.label, "단원")));
-    if (chapter.type === "special") {
-      topLine.append(createElement("span", "chapter-type", "특별 자료"));
-    }
-
-    const heading = createElement("h3");
-    const title = textValue(chapter.title, "제목 없는 단원");
-    if (href) {
-      const link = createElement("a", "chapter-link", title);
-      link.setAttribute(
-        "aria-label",
-        `${textValue(chapter.label, "단원")} ${title} 슬라이드 열기 (새 탭)`,
-      );
-      configureLink(link, href, { newTab: true });
-      heading.append(link);
-    } else {
-      heading.append(createElement("span", "", title));
-    }
-
+    const content = createElement("div", "portal-content");
+    const eyebrow = createElement("p", "course-eyebrow", textValue(course.eyebrow, "Course textbook"));
+    const heading = createElement("h3", "portal-title", title);
+    heading.id = headingId;
     const description = createElement(
-      "p",
-      "",
-      textValue(chapter.description, "해당 단원의 강의 슬라이드입니다."),
+      "p", "portal-description", textValue(course.description, "주차별 강의 교재입니다."),
     );
 
-    const footer = createElement("div", "chapter-footer");
-    const slides = numericValue(chapter.slides);
-    footer.append(
-      createElement(
-        "span",
-        "chapter-slide-count",
-        slides ? `${formatNumber(slides)} slides` : href ? "슬라이드" : "준비 중",
-      ),
+    const chapters = Array.isArray(course.chapters) ? course.chapters : [];
+    const slides = chapters.reduce((total, chapter) => total + numericValue(chapter.slides), 0);
+    const metadata = createElement(
+      "p", "portal-metadata", `${formatNumber(chapters.length)}개 단원 · ${formatNumber(slides)}장 슬라이드`,
     );
+    const address = createElement("p", "portal-address", `/${course.slug}/`);
+    content.append(eyebrow, heading, description, metadata, address);
 
-    const footerLinks = createElement("span", "chapter-footer-links");
-    const sourceHref = safeExternalHref(chapter.sourceUrl);
-    if (sourceHref) {
-      const source = createElement("a", "chapter-source", "원고 ↗");
-      source.setAttribute("aria-label", `${textValue(chapter.label, "단원")} 원본 원고 보기 (새 탭)`);
-      configureLink(source, sourceHref, { external: true, newTab: true });
-      footerLinks.append(source);
-    }
-    footerLinks.append(createElement("span", "chapter-open", href ? "열기" : "예정"));
-    footer.append(footerLinks);
-
-    card.append(topLine, heading, description, footer);
-    return card;
-  }
-
-  function createPlannedPanel(course) {
-    const panel = createElement("div", "planned-panel");
-    const inner = createElement("div");
-    inner.append(
-      createElement("div", "planned-icon"),
-      createElement("strong", "", "새 교재를 준비하고 있습니다"),
-      createElement(
-        "p",
-        "",
-        textValue(
-          course.summary,
-          "단원 구성과 슬라이드가 완성되는 대로 이 서가에서 바로 만나볼 수 있습니다.",
-        ),
-      ),
-    );
-    panel.append(inner);
-    return panel;
-  }
-
-  function createCourseHeading(course, headingId) {
-    const heading = createElement("div", "course-heading");
-    const titleGroup = createElement("div");
-    titleGroup.append(
-      createElement("p", "course-eyebrow", textValue(course.eyebrow, "Course collection")),
-    );
-    const title = createElement("h2", "", textValue(course.title, "이름 없는 교재"));
-    title.id = headingId;
-    titleGroup.append(title);
-
-    const detail = createElement("div", "course-heading-detail");
-    detail.append(
-      createElement(
-        "p",
-        "course-description",
-        textValue(course.description, "주차별 강의 슬라이드를 확인하세요."),
-      ),
-    );
-
-    const sourceHref = safeExternalHref(course.sourceUrl);
-    if (sourceHref) {
-      const source = createElement("a", "course-source-link", "교재 원본 보기 ↗");
-      source.setAttribute("aria-label", `${textValue(course.title, "교재")} 원본 보기 (새 탭)`);
-      configureLink(source, sourceHref, { external: true, newTab: true });
-      detail.append(source);
-    }
-
-    heading.append(titleGroup, detail);
-    return heading;
-  }
-
-  function createCourseShelf(entry, index) {
-    const course = entry.course;
-    const chapters = entry.chapters;
-    const courseId = textValue(course.id, `course-${index + 1}`);
-    const headingId = `course-heading-${courseId.replace(/[^a-z0-9_-]/gi, "-")}`;
-    const shelf = createElement("section", "course-shelf");
-    shelf.setAttribute("aria-labelledby", headingId);
-
-    const allCourses = getCourses();
-    const courseNumber = Math.max(1, allCourses.indexOf(course) + 1);
-    shelf.append(createCourseOverview(course, chapters, courseNumber));
-
-    const content = createElement("div", "course-content");
-    content.append(createCourseHeading(course, headingId));
-
-    if (chapters.length) {
-      const chapterGrid = createElement("div", "chapter-grid");
-      chapters.forEach((chapter) => chapterGrid.append(createChapterCard(chapter, course)));
-      content.append(chapterGrid);
+    if (course.status === "published") {
+      const link = createElement("a", "button button--primary course-open-link", "교재 열기 →");
+      configureLink(link, `${course.slug}/`);
+      link.setAttribute("aria-label", `${title} 교재 열기`);
+      content.append(link);
     } else {
-      content.append(createPlannedPanel(course));
+      content.append(createElement("span", "course-status course-status--planned", "교재 준비 중"));
     }
 
-    shelf.append(content);
-    return shelf;
+    card.append(cover, content);
+    return card;
   }
 
   function createEmptyState() {
@@ -429,29 +248,18 @@
     empty.append(
       createElement("div", "empty-state-mark", "⌕"),
       createElement("h3", "", "일치하는 교재가 없습니다"),
-      createElement("p", "", "검색어를 줄이거나 다른 과목을 선택해 보세요."),
+      createElement("p", "", "검색어를 줄이거나 다른 제목과 주제로 검색해 보세요."),
     );
     return empty;
   }
 
-  function setResultSummary(entries) {
-    const chapterCount = entries.reduce((total, entry) => total + entry.chapters.length, 0);
-    const hasFilters = Boolean(state.query) || state.course !== "all";
-
-    if (hasFilters) {
-      elements.resultStatus.replaceChildren(
-        document.createTextNode("검색 결과 "),
-        createElement("strong", "", `${formatNumber(entries.length)}개 교재`),
-        document.createTextNode(` · ${formatNumber(chapterCount)}개 단원`),
-      );
-    } else {
-      elements.resultStatus.replaceChildren(
-        createElement("strong", "", `${formatNumber(entries.length)}개 교재`),
-        document.createTextNode(`에서 ${formatNumber(chapterCount)}개 단원을 열람할 수 있습니다.`),
-      );
-    }
-
-    elements.resetFilters.hidden = !hasFilters;
+  function setResultSummary(courses) {
+    elements.resultStatus.replaceChildren(
+      document.createTextNode(state.query ? "검색 결과 " : ""),
+      createElement("strong", "", `${formatNumber(courses.length)}개 교재`),
+      document.createTextNode(" · 수업에 맞는 교재를 열어 주세요."),
+    );
+    elements.resetFilters.hidden = !state.query;
   }
 
   function renderCatalog() {
@@ -459,7 +267,7 @@
 
     const entries = filteredCourses();
     const fragment = document.createDocumentFragment();
-    entries.forEach((entry, index) => fragment.append(createCourseShelf(entry, index)));
+    entries.forEach((course) => fragment.append(createCourseCard(course)));
 
     elements.shelfList.replaceChildren(fragment.childNodes.length ? fragment : createEmptyState());
     elements.shelfList.setAttribute("aria-busy", "false");
@@ -469,10 +277,6 @@
 
   function resetCatalogView(options) {
     const config = options || {};
-    if (state.course !== "all") {
-      window.location.assign(`${libraryRoot.href}#library`);
-      return;
-    }
     state.query = "";
     elements.searchInput.value = "";
     renderCatalog();
@@ -497,7 +301,6 @@
 
     elements.shelfList.replaceChildren(errorState);
     elements.shelfList.setAttribute("aria-busy", "false");
-    elements.filters.replaceChildren();
     elements.resultStatus.textContent = "교재 목록을 표시할 수 없습니다.";
     elements.resetFilters.hidden = true;
 
@@ -519,11 +322,9 @@
 
       state.catalog = validateCatalog(await response.json());
       const courses = getCourses();
-      state.course = courseFromLocation();
       state.query = elements.searchInput.value;
       setSiteInformation(state.catalog.site);
       setStatistics(courses);
-      buildFilters(courses);
       renderCatalog();
     } catch (error) {
       showError(error);

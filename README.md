@@ -22,7 +22,8 @@
 
 ## 온라인 교재 도서관
 
-과목별 슬라이드는 [GitHub Pages 교재 도서관](https://gbox3d.github.io/teaching_repo/)에서 열람할 수 있다.
+전체 [교재 도서관](https://gbox3d.github.io/teaching_repo/)은 교재를 선택하는 입구다.
+각 교재는 자체 표지·목차·검색·슬라이드를 갖춘 독립 사이트이며, 수업별로 아래 주소를 학생들에게 안내하면 된다.
 
 | 교재 | 전용 주소 |
 | --- | --- |
@@ -40,7 +41,22 @@ npm run build
 npm test
 ```
 
-생성 결과는 `dist/`에 저장된다.
+생성 결과는 `dist/`에 저장된다. 교재별 폴더는 필요한 파일을 모두 포함하므로 해당 폴더만 별도 웹 서버에 배포할 수 있다.
+
+```text
+dist/
+├── index.html                 # 전체 교재 도서관
+├── android/                   # Android 교재 독립 배포본
+├── webprg/                    # 웹프로그래밍 교재 독립 배포본
+└── open_source_ai/             # 오픈소스 AI 교재 독립 배포본
+    ├── index.html             # 해당 교재의 표지와 목차
+    ├── catalog.json           # 해당 교재만 포함한 목록
+    ├── assets/                # 교재 화면의 CSS와 JavaScript
+    └── decks/                 # 해당 교재의 HTML 슬라이드와 자료
+```
+
+세 교재 폴더 모두 같은 구조를 사용한다. 단원은 각 교재 주소 아래의 `decks/<단원 ID>/index.html`에서 열린다.
+기존에 공유한 `/teaching_repo/decks/<교재 ID>/<단원 ID>/index.html` 주소는 새 단원 주소로 이동하며, 슬라이드 번호를 포함한 기존 링크도 유지된다.
 
 ## 읽는 순서
 
