@@ -9,6 +9,10 @@
 
 ## 필수 설치
 
+**1주차는 웹 브라우저와 [Kotlin Playground](https://play.kotlinlang.org/)만 사용한다.**
+수업 전에 접속과 `println("안녕하세요")` 예제 실행을 확인한다. 아래 설치 목록은
+이후 Android 앱 실습을 위한 준비이며 1주차 학생 실습의 완료 조건이 아니다.
+
 | 프로그램·구성요소 | 공식 경로 | 비고 |
 |---|---|---|
 | [Git for Windows](https://git-scm.com/install/windows) | Git 공식 사이트 | 수업 프로젝트 받기 |

@@ -357,7 +357,7 @@ probs = torch.softmax(scores / 0.05, dim=0)  # 합이 1인 확률
 | 시간·최대 메모리 | 1.2 s, 310 MB | 다음 실험 크기를 못 정한다 |
 | 결과 파일 경로 | `outputs/embed-….json` | 표를 다시 만들어야 한다 |
 
-- `torch.cuda.max_memory_allocated()`는 **최대치**를 알려 준다 — 실패 직전의 값
+- `torch.cuda.max_memory_allocated()`로 최대 메모리를 기록한다.
 - 10주차 LoRA 실험 기록 양식이 이 표에서 자란다
 
 ---

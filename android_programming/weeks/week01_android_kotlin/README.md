@@ -1,68 +1,82 @@
-# 1주차 — Android 실행 구조와 Kotlin 진단
+# 1주차 — Kotlin 첫걸음: 학번과 이름 출력하기
 
 ## 이번 주 질문
 
-> Android 앱은 어떤 파일에서 시작해 화면을 만들며, 실행 결과를 코드와 Logcat 증거로 어떻게 설명할 수 있을까?
+> 코드를 조금 바꿔서 내 학번과 이름을 출력할 수 있을까?
+
+프로그래밍을 처음 배우는 학생을 기준으로 시작한다. 짧은 코드를 실행하고,
+글자를 바꾸고, 다시 실행하는 경험이 이번 주의 중심이다.
 
 ## 학습 목표
 
-수업을 마치면 학생은 다음을 수행할 수 있다.
+1. 제공된 `fun main() { }` 틀 안에 코드를 쓴다.
+2. `println()`으로 학번과 이름을 두 줄에 출력한다.
+3. `val`에 학번과 이름을 담고 `$변수이름`으로 출력한다.
+4. 간단한 예제에서 `val`과 `var`, 문자열과 숫자의 차이를 확인한다.
 
-1. Android 프로젝트에서 `AndroidManifest.xml`, Kotlin 소스, `res/layout`, `res/values`의 역할을 각각 한 문장으로 설명한다.
-2. 에뮬레이터 또는 실기기에서 앱을 실행하고 실행 대상·화면·Logcat 세 가지 증거를 남긴다.
-3. `val`/`var`, 함수, 데이터 클래스, nullable type과 안전 호출을 사용한 Kotlin 코드를 작성한다.
-4. 단말 정보를 문자열로 가공해 XML View에 표시하고 비어 있거나 알 수 없는 값을 `알 수 없음`으로 처리한다.
-5. 오류 메시지의 첫 원인 줄을 근거로 실행 실패와 코드 실패를 구분한다.
+## 이번 주 결과물
 
-## 누적 결과물
+```text
+학번: 20260001
+이름: 홍길동
+```
 
-이번 주에는 `Smart I/O Controller`의 출발점인 `Device Info` 화면을 만든다. 아직 BLE나 ESP32-C3를 연결하지 않는다. 학생은 Android 앱만 다루며, 이후 주차에 이 화면을 장치 제어 대시보드로 확장한다.
+예제의 학번과 이름을 본인 정보로 바꾸면 된다. 마지막에는 코드와 실행 결과 화면을 제출한다.
 
 ## 2일 수업 흐름
 
-| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 | 산출물 |
+| 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | Android 앱 실행 구조, 프로젝트 탐색, 에뮬레이터/실기기, Logcat | 기준 프로젝트 실행, 파일 역할 지도, 의도적 오류 진단 | 실행 증거와 진단 기록 |
-| 2일차 | Kotlin 핵심 문법, null 안정성, View 갱신 | `Device Info` 화면과 입력 경계 처리 | 화면 캡처, 핵심 코드, 관찰표 |
+| 1일차 | 실행 버튼, `main`, `println`, 큰따옴표 | 예제 실행 → 내 학번·이름으로 바꾸기 → 다시 실행 | 학번·이름 두 줄 출력 |
+| 2일차 | `val`, 문자열·숫자, `$변수이름`, `var` | 학번·이름을 변수에 담아 출력 → 짧은 문법 연습 → 제출 | 변수로 만든 자기소개 코드 |
 
-두 날 모두 정확히 `설명·시연 30분 + 직접 해결 실습 60분`으로 운영한다.
+각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은
+인사말 한 줄을 더해 보고, 시간이 필요한 학생은 기본 두 줄을 반복해서 연습한다.
 
-## 선수 지식과 준비
+## 준비
 
-- 프로그래밍 언어의 변수, 조건문, 함수 개념
-- 강의자가 개강 전에 검증한 Android Studio와 SDK 환경
-- 에뮬레이터 1대 또는 개발자 옵션이 허용된 Android 실기기 1대
-- 수업용 Kotlin + XML Views 기준 프로젝트
-- 개인 계정 비밀번호, API 키, 단말 고유 식별자는 제출물에 포함하지 않는다.
+- 인터넷에 연결된 PC와 웹 브라우저
+- [Kotlin Playground](https://play.kotlinlang.org/) 접속
+- 본인의 학번과 이름
 
-도구·SDK의 정확한 버전은 개강 전 검증본을 사용하며 장기 교안에는 임의의 번호를 고정하지 않는다.
+Kotlin Playground는 브라우저에서 코드를 작성하고 실행하는 도구다.
+1주차 준비는 Playground 접속과 예제 실행까지면 충분하다.
+
+## 기초 문법 범위
+
+| 문법 | 이번 주에 알아둘 뜻 |
+|---|---|
+| `fun main() { }` | 프로그램을 시작하는 틀. 코드는 중괄호 안에 쓴다 |
+| `println("안녕하세요")` | 큰따옴표 안의 글자를 출력하고 줄을 바꾼다 |
+| `val name = "홍길동"` | 값에 이름을 붙인다. 실행 중 같은 변수에 다른 값을 다시 넣을 수 없다 |
+| `var greeting = "안녕하세요"` | 실행 중 값을 다시 넣을 수 있는 변수다 |
+| `"20260001"` / `1` | 큰따옴표가 있으면 문자열(`String`), 예제의 정수 `1`은 숫자(`Int`)다 |
+| `println("이름: $name")` | 문자열 안에 변수의 값을 넣어 출력한다 |
+| `// 메모` | 같은 줄에서 `//` 뒤는 실행하지 않는 설명이다 |
+
+숫자 덧셈은 짧게 맛보기로 확인한다. 이번 주에는 위 문법으로 자기소개 두 줄을 만들면 충분하다.
 
 ## 수업 자료
 
 - [슬라이드](slides.md) · [English slides](slides_en.md)
-- 강의 스크립트: 강의자 별도 관리(비공개)
-- [따라하기 절차](walkthrough.md)
-- [실습지](lab.md)
-- [예제 스니펫 안내](examples/README.md)
+- [순서대로 따라하기](walkthrough.md)
+- [실습과 제출 안내](lab.md)
+- [기초 문법 예제](examples/README.md)
+- [1일차 코드](examples/Hello.kt) · [2일차 코드](examples/StudentCard.kt)
 
-## 완료 증거
+## 완료 기준
 
-- [ ] 앱이 실행된 대상 이름과 화면 캡처 1장
-- [ ] Logcat에서 자신의 태그로 남긴 시작 로그 1줄
-- [ ] 프로젝트 핵심 경로 4개의 역할표
-- [ ] Kotlin 진단표와 nullable 값 처리 코드
-- [ ] 정상 값, 빈 값, `null`을 확인한 `Device Info` 관찰표
-- [ ] 실패 하나를 재현하고 첫 원인 줄·수정·재검증을 적은 3문장 기록
+- [ ] 본인의 학번과 이름이 각각 한 줄씩 출력된다.
+- [ ] 학번과 이름을 `val`에 담아 출력할 수 있다.
+- [ ] 코드에서 이름을 바꾸면 어느 출력이 달라지는지 가리킬 수 있다.
+- [ ] 최종 코드와 실행 결과 화면 1장을 제출한다.
 
-## 다음 주 연결
+## 다음 수업 연결
 
-이번 주에는 하나의 `TextView`에 정보를 표시했다. 2주차에는 같은 데이터를 여러 View와 리소스로 나누고, 세로·가로 화면과 접근성까지 고려한 장치 제어판 XML layout으로 확장한다.
+이번 주에는 코틀린으로 글자를 출력했다. Android 프로젝트와 앱 화면은 이후 수업에서
+강의자가 제공하는 기준 프로젝트로 시작한다. 1주차에 앱을 완성해 올 필요는 없다.
 
 ## 공식 참고 자료
 
-- [Create a project — Android Developers](https://developer.android.com/studio/projects/create-project)
-- [Projects overview — Android Developers](https://developer.android.com/studio/projects)
-- [Build and run your app — Android Developers](https://developer.android.com/studio/run)
-- [View logs with Logcat — Android Developers](https://developer.android.com/studio/debug/logcat)
-- [Kotlin basic syntax — Kotlin Documentation](https://kotlinlang.org/docs/basic-syntax.html)
-- [Kotlin null safety — Kotlin Documentation](https://kotlinlang.org/docs/null-safety.html)
+- [Kotlin 기초 문법](https://kotlinlang.org/docs/basic-syntax.html)
+- [브라우저에서 Kotlin 실행하기](https://kotlinlang.org/docs/run-code-snippets.html#browser-kotlin-playground)

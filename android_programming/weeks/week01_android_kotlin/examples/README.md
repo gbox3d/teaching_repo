@@ -1,133 +1,159 @@
-# 1주차 예제 스니펫 — Device Info
+# 1주차 예제 — Kotlin 기초 문법
 
-## 사용 범위
+[Kotlin Playground](https://play.kotlinlang.org/)의 편집 영역에 코드를 넣고 `Run ▶`을 누른다.
+아래 예제는 **한 번에 하나씩** 실행한다. 새 예제를 넣을 때는 이전 코드를 지운다.
+학번 `20260001`과 이름 `홍길동`은 연습용 값이다.
 
-이 폴더에는 복사 가능한 대표 스니펫만 있으며 **빌드 가능한 Gradle 프로젝트는 포함되어 있지 않다**. 강의자가 제공한 Kotlin + XML Views 기준 프로젝트에서 package 이름, import, resource 이름을 확인한 뒤 필요한 부분만 옮긴다.
-
-## 파일명과 문맥
-
-| 파일명 예시 | 프로젝트 안의 위치/역할 |
-|---|---|
-| `MainActivity.kt` | `app/src/main/java/<package>/`, 화면 생성·클릭 처리 |
-| `DeviceSummary.kt` | 같은 package, 단말 표시 데이터와 순수 함수 |
-| `activity_main.xml` | `app/src/main/res/layout/`, 정보와 버튼 View |
-| `strings.xml` | `app/src/main/res/values/`, 사용자 표시 문자열 |
-
-## `DeviceSummary.kt`
+## 1. 시작하는 틀과 `println`
 
 ```kotlin
-data class DeviceSummary(
-    val manufacturer: String,
-    val model: String,
-    val apiLevel: Int,
-)
-
-fun normalizeBuildValue(raw: String?, unknownSentinel: String): String? =
-    raw?.trim()?.takeIf {
-        it.isNotEmpty() && !it.equals(unknownSentinel, ignoreCase = true)
-    }
-```
-
-예상 관찰:
-
-- `normalizeBuildValue(" Pixel ", "unknown")`은 `Pixel`이다.
-- 공백, `null`, 플랫폼 sentinel인 `"unknown"`은 모두 `null`이다.
-- 함수는 Android 객체와 사용자 표시 문구 없이 입력 정규화만 담당한다.
-
-## `activity_main.xml` 핵심
-
-부모 layout의 종류와 namespace 선언은 기준 프로젝트를 따른다.
-
-```xml
-<TextView
-    android:id="@+id/deviceSummary"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/device_unknown" />
-
-<TextView
-    android:id="@+id/refreshCount"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/refresh_count_initial" />
-
-<Button
-    android:id="@+id/refreshButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/refresh" />
-```
-
-## `MainActivity.kt` 핵심
-
-필요한 Android class import는 IDE의 자동 import로 확인한다.
-
-```kotlin
-private const val TAG = "DeviceInfo"
-
-class MainActivity : AppCompatActivity() {
-    private var refreshCount = 0
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val summaryView = findViewById<TextView>(R.id.deviceSummary)
-        val countView = findViewById<TextView>(R.id.refreshCount)
-        val refreshButton = findViewById<Button>(R.id.refreshButton)
-
-        val unknownText = getString(R.string.value_unknown)
-        val summary = DeviceSummary(
-            manufacturer = normalizeBuildValue(Build.MANUFACTURER, Build.UNKNOWN)
-                ?: unknownText,
-            model = normalizeBuildValue(Build.MODEL, Build.UNKNOWN)
-                ?: unknownText,
-            apiLevel = Build.VERSION.SDK_INT,
-        )
-        summaryView.text = getString(
-            R.string.device_summary_format,
-            summary.manufacturer,
-            summary.model,
-            summary.apiLevel,
-        )
-
-        refreshButton.setOnClickListener {
-            refreshCount += 1
-            countView.text = getString(R.string.refresh_count, refreshCount)
-            Log.d(TAG, "refreshCount=$refreshCount")
-        }
-        Log.d(TAG, "onCreate: screen ready")
-    }
+fun main() {
+    println("안녕하세요")
 }
 ```
 
-예상 관찰:
-
-1. 최초 화면에는 단말 요약과 0회 문구가 보인다.
-2. 버튼을 두 번 누르면 화면과 마지막 로그 값이 2다.
-3. 화면 회전 시 Activity가 다시 만들어지면 현재 구현의 필드 값은 초기화될 수 있다. 상태 보존은 3주차에 다룬다.
-
-## `strings.xml` 핵심
-
-```xml
-<resources>
-    <string name="app_name">Smart I/O Controller</string>
-    <string name="device_unknown">장치 정보를 불러오는 중</string>
-    <string name="value_unknown">알 수 없음</string>
-    <string name="device_summary_format">%1$s %2$s · API %3$d</string>
-    <string name="refresh">새로고침</string>
-    <string name="refresh_count_initial">새로고침 0회</string>
-    <string name="refresh_count">새로고침 %1$d회</string>
-</resources>
+```text
+안녕하세요
 ```
 
-## 안전한 변형
+- `fun main()`은 프로그램이 시작하는 부분이다. 지금은 이 틀을 그대로 사용한다.
+- `{ }` 안에 실행할 코드를 쓴다.
+- `println()`은 소괄호 안의 내용을 출력하고 줄을 바꾼다.
+- 출력할 글자는 큰따옴표 `" "`로 감싼다. 한 줄씩 쓸 때 끝에 세미콜론은 필요 없다.
 
-- 실제 `Build` 값 대신 `DeviceSummary("Demo", "Emulator", 0)` 같은 가짜 입력으로 표시 형식을 시험한다.
-- 단말 고유 ID, 계정, 전화번호, 위치는 예제 목적에 필요하지 않으므로 읽거나 로그로 남기지 않는다.
+## 2. 학번과 이름을 두 줄로 출력하기
+
+[Hello.kt](Hello.kt)의 전체 코드를 복사해 실행한다.
+
+```kotlin
+fun main() {
+    println("학번: 20260001")
+    println("이름: 홍길동")
+}
+```
+
+```text
+학번: 20260001
+이름: 홍길동
+```
+
+큰따옴표 안의 학번과 이름을 바꾸고 다시 실행해 본다.
+
+## 3. `val` — 값에 이름 붙이기
+
+```kotlin
+fun main() {
+    val name = "홍길동"
+    println(name)
+}
+```
+
+```text
+홍길동
+```
+
+`name`이라는 변수에 `홍길동`을 담았다. `println(name)`은 변수 안의 값을 출력한다.
+`println("name")`처럼 큰따옴표로 감싸면 `name`이라는 글자 자체가 나온다.
+
+`val` 변수에는 실행 중 다른 값을 다시 대입할 수 없다. 코드를 편집할 때
+`"홍길동"`을 본인 이름으로 바꾸고 새로 실행하는 것은 가능하다.
+
+## 4. `$변수이름` — 문장 안에 값 넣기
+
+[StudentCard.kt](StudentCard.kt)의 전체 코드다. **2일차 최종 실습은 여기까지다.**
+
+```kotlin
+fun main() {
+    val studentId = "20260001"
+    val name = "홍길동"
+
+    println("학번: $studentId")
+    println("이름: $name")
+}
+```
+
+```text
+학번: 20260001
+이름: 홍길동
+```
+
+`"이름: $name"`에서 `$name` 자리에 변수의 값이 들어간다. 이를 **문자열 템플릿**이라고 한다.
+`studentId`의 `I`는 대문자다. 변수를 만들 때와 사용할 때 철자를 같게 쓴다.
+
+## 5. `var` — 실행 중 값 바꾸기
+
+```kotlin
+fun main() {
+    var greeting = "안녕하세요"
+    println(greeting)
+
+    greeting = "반갑습니다"
+    println(greeting)
+}
+```
+
+```text
+안녕하세요
+반갑습니다
+```
+
+변수를 처음 만들 때만 `var`를 쓴다. 같은 변수의 값을 바꿀 때는 `greeting = ...`처럼 쓴다.
+이 예제처럼 실행 중 값이 바뀌면 `var`, 학번과 이름처럼 다시 대입하지 않으면 `val`을 사용한다.
+
+## 6. 문자열과 숫자
+
+```kotlin
+fun main() {
+    val studentId = "20260001"
+    val week = 1
+
+    println(studentId)
+    println(week)
+    println(1 + 2)
+    println("1 + 2")
+}
+```
+
+```text
+20260001
+1
+3
+1 + 2
+```
+
+- `"20260001"`은 **문자열(`String`)**이다. 숫자 모양이어도 큰따옴표 안에 있으므로 글자로 다룬다.
+- `1`은 **정수(`Int`)**다. `1 + 2`처럼 계산할 수 있다.
+- `"1 + 2"`는 계산하지 않고 글자 그대로 출력한다.
+
+이번 예제에서는 Kotlin이 오른쪽 값을 보고 자료형을 알아내므로 `String`이나 `Int`를 직접 적지 않아도 된다.
+학번은 앞자리의 `0`도 그대로 표시할 수 있도록 문자열로 둔다.
+
+## 7. `//` — 코드에 설명 남기기
+
+```kotlin
+fun main() {
+    // 이 줄은 메모이므로 실행되지 않는다.
+    println("오늘은 Kotlin 첫 실습입니다")
+}
+```
+
+```text
+오늘은 Kotlin 첫 실습입니다
+```
+
+같은 줄에서 `//` 뒤의 내용은 **주석**, 즉 코드를 읽는 사람을 위한 설명이다.
+
+## 이번 주에 사용할 파일
+
+| 파일 | 용도 |
+|---|---|
+| [Hello.kt](Hello.kt) | 1일차: 큰따옴표 안의 학번과 이름 바꾸기 |
+| [StudentCard.kt](StudentCard.kt) | 2일차: 변수에 담은 학번과 이름 출력하기 |
+
+두 파일은 각각 독립된 예제다. Playground에는 한 파일의 코드만 넣는다.
+코드를 보관할 때는 텍스트 편집기에 복사해 해당 이름으로 저장한다.
 
 ## 공식 참고 자료
 
-- [Android app resources — Android Developers](https://developer.android.com/guide/topics/resources/providing-resources)
-- [Logcat — Android Developers](https://developer.android.com/studio/debug/logcat)
-- [Kotlin null safety — Kotlin Documentation](https://kotlinlang.org/docs/null-safety.html)
+- [Kotlin 기본 문법](https://kotlinlang.org/docs/basic-syntax.html)
+- [Kotlin Playground 사용 안내](https://kotlinlang.org/docs/run-code-snippets.html#browser-kotlin-playground)

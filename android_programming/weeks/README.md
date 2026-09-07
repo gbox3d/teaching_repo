@@ -6,7 +6,7 @@
 - 매 수업: 설명·시연 30분 + 직접 해결 실습 60분
 - 주당 합계: 이론·시연 60분 + 실습 120분
 - 실습 순환: 문제 읽기 → 예상 → 구현 → 관찰 → 오류 설명 → 변형·확장
-- 앞 주차 결과를 버리지 않고 `Smart I/O Controller`의 UI·상태·통신 구조로 누적한다.
+- 1주차에는 Kotlin 출력과 변수부터 연습하고, Android 프로젝트를 시작한 뒤에는 `Smart I/O Controller`의 UI·상태·통신 구조로 누적한다.
 - 기본 문제를 먼저 완성하고 남는 시간에 확장 문제를 수행한다.
 
 시험과 발표 주차는 대학 일정과 분반 인원에 따라 실제 평가 시간이 달라질 수 있다. 공개 자료에는 평가 구조와 연습 절차만 두며, 학기별 실제 문항·정답·학생 정보는 별도 비공개 공간에서 관리한다.
@@ -20,7 +20,7 @@
 | `README.md` | 학습 질문, 목표, 1·2일차 흐름, 완료 기준과 제출 증거 |
 | `slides.md` | Marp 호환 PT 원고. `---`가 슬라이드 구분자 |
 | `lab.md` | 60분 직접 해결 실습, 단계별 힌트, 검증과 확장 |
-| `examples/README.md` | Kotlin·XML 예제 조각, 적용 위치와 예상 관찰 결과 |
+| `examples/README.md` | Kotlin 기초 실행 예제 또는 Kotlin·XML 예제 조각과 예상 결과 |
 
 PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code Marp 확장으로 HTML, PDF, PPTX로 내보낼 수 있다.
 
@@ -30,7 +30,7 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 
 | 주차 | 주제 | 누적 산출물 | 폴더 |
 |---:|---|---|---|
-| 1 | Android 실행 구조와 Kotlin 진단 | Device Info 앱 골격 | [`week01_android_kotlin`](week01_android_kotlin/) |
+| 1 | Kotlin 첫걸음: 학번과 이름 출력하기 | 학번·이름 출력 코드 | [`week01_android_kotlin`](week01_android_kotlin/) |
 | 2 | XML View와 반응형 layout | 정적 장치 제어판 | [`week02_views_layout`](week02_views_layout/) |
 | 3 | Activity·Intent·생명주기 | 생명주기 추적 화면 | [`week03_activity_lifecycle`](week03_activity_lifecycle/) |
 | 4 | Fragment·RecyclerView·Navigation | mock 장치 목록과 상세 화면 | [`week04_fragments_navigation`](week04_fragments_navigation/) |
@@ -51,7 +51,7 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 - `slides.md`에는 두 번의 30분 설명·시연에 필요한 핵심 개념만 두고 긴 발화는 대본으로 분리한다.
 - 예제는 한 번에 한 개념만 보여 주며, 어느 파일·클래스·XML에 넣는지 함께 설명한다.
 - `lab.md`에는 완성 정답 대신 완료 조건, 관찰 항목과 단계별 힌트를 둔다.
-- 모든 실습은 정상 경로와 최소 한 개의 경계·실패 경로를 확인한다.
+- 1주차는 예제를 실행하고 값을 바꾸어 다시 출력하는 데 집중한다. 이후 앱 실습은 정상 경로와 최소 한 개의 경계·실패 경로를 확인한다.
 - UI는 Kotlin + XML View를 기본으로 하며 Jetpack Compose는 비교·확장 주제로만 다룬다.
 - Flow는 화면 생명주기에 맞춰 수집하고, Service를 별도 스레드로 설명하지 않는다.
 - BLE 실습은 scan 시간 제한, 권한 거절, 장치 미발견, 연결 해제와 재시도를 포함한다.

@@ -17,7 +17,7 @@
 
 ## 누적 결과물
 
-1주차 `Device Info`를 `Smart I/O Controller`의 장치 제어판으로 확장한다. 실제 BLE 연결은 아직 사용하지 않으며 `Disconnected`/`Ready` 두 mock 상태만 버튼으로 바꾼다. ESP32-C3 펌웨어 작업은 학생 범위가 아니다.
+강의자가 제공한 Kotlin + XML Views 기준 프로젝트를 `Smart I/O Controller`의 장치 제어판으로 확장한다. 1주차 산출물은 Kotlin 출력 코드이므로 Android 앱이 이미 완성되어 있다고 가정하지 않는다. 실제 BLE 연결은 아직 사용하지 않으며 `Disconnected`/`Ready` 두 mock 상태만 버튼으로 바꾼다. ESP32-C3 펌웨어 작업은 학생 범위가 아니다.
 
 ## 2일 수업 흐름
 
@@ -30,9 +30,10 @@
 
 ## 선수 지식과 준비
 
-- 1주차 기준 프로젝트 실행과 Logcat 필터 사용
-- Kotlin의 `val`/`var`, 함수, nullable 값 처리
-- `MainActivity.kt`, `activity_main.xml`, `strings.xml`의 연결 이해
+- 1주차의 `println`, `val`/`var`, 문자열 출력 연습
+- 강의자가 실행을 확인한 Android Studio 환경과 Kotlin + XML Views 기준 프로젝트
+- 수업 시작 시 강의자가 프로젝트 열기·실행과 `MainActivity.kt`, `activity_main.xml`, `strings.xml`의 위치를 함께 안내한다.
+- 예제에 필요한 함수·이벤트 연결 등은 사용하는 부분에서 설명한다. Logcat과 nullable 값 처리를 1주차에 배운 선수 지식으로 요구하지 않는다.
 - [1주차 자료](../week01_android_kotlin/README.md)
 
 ## 수업 자료

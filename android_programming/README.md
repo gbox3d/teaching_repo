@@ -20,7 +20,9 @@ Kotlin과 XML View로 Android 핵심 컴포넌트와 비동기 상태 관리를 
 - 공통 설치 프로그램: [`../ta_lab_setup_guide.md`](../ta_lab_setup_guide.md)
 - 환경 기준표: [`../environment_baseline_template.md`](../environment_baseline_template.md)
 
-현재 예제는 주로 설명용 Kotlin/XML 조각이며, 전체가 독립적으로 빌드되는 Gradle 프로젝트는 아니다.
+1주차는 [Kotlin Playground](https://play.kotlinlang.org/)에서 학번·이름을 출력하며
+출력문, 변수, 문자열·숫자를 연습한다. 실행할 수 있는 짧은 `.kt` 예제 두 개가 포함되어 있다.
+이후 Android 예제는 주로 설명용 Kotlin/XML 조각이며, 전체가 독립적으로 빌드되는 Gradle 프로젝트는 아니다.
 
 ## 학교 적용
 

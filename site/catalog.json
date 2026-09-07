@@ -4,7 +4,7 @@
     "description": "모바일·웹·오픈소스 AI 수업 자료를 주차별 HTML 슬라이드로 열람하는 공개 교재관입니다.",
     "repositoryUrl": "https://github.com/gbox3d/teaching_repo",
     "licenseUrl": "https://github.com/gbox3d/teaching_repo/blob/main/LICENSE",
-    "updated": "2026-09-02"
+    "updated": "2026-09-08"
   },
   "courses": [
     {
@@ -15,14 +15,14 @@
       "description": "Kotlin과 Android 프레임워크의 실행 구조에서 BLE 기반 Smart I/O 통합 프로젝트까지 이어지는 15주 과정입니다.",
       "status": "published",
       "accent": "#3ddc84",
-      "summary": "15개 주차 · 228장",
+      "summary": "15개 주차 · 226장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/android_programming",
       "chapters": [
         {
           "id": "week01_android_kotlin",
           "label": "1주차",
-          "title": "Android 실행 구조와 Kotlin 진단",
-          "description": "앱 시작점과 화면, 로그를 하나의 실행 흐름으로 추적합니다.",
+          "title": "Kotlin 첫걸음: 학번과 이름 출력하기",
+          "description": "println, val·var, 문자열과 숫자를 배우고 내 학번과 이름을 출력합니다.",
           "type": "week"
         },
         {

@@ -3,239 +3,238 @@ marp: true
 theme: default
 paginate: true
 header: 모바일프로그래밍 · 1주차
-footer: Kotlin + XML Views · Smart I/O Controller
+footer: Kotlin 기초 문법 실습
 ---
 
-# Android 실행 구조와 Kotlin 진단
+# Kotlin 첫걸음: 학번과 이름 출력하기
 
-## 이번 주 질문
+이번 주 목표는 **내 학번과 이름을 두 줄로 출력하기**입니다.
 
-앱의 시작점, 화면, 로그를 하나의 실행 흐름으로 설명할 수 있는가?
+```text
+학번: 20260001
+이름: 홍길동
+```
+
+위 학번과 이름은 연습용 예시입니다.
 
 ---
 
-# 1일차 — 앱이 실행되기까지
+# 1일차 — 글자를 적고 실행하기
 
 `30분 설명·시연 → 60분 실습`
 
----
-
-## 1일차 · 0–4분 — 결과에서 출발
-
-실행 증거는 세 층으로 남긴다.
-
-| 층 | 질문 | 증거 |
-|---|---|---|
-| 대상 | 어디서 실행했나? | 기기/에뮬레이터 이름 |
-| UI | 무엇이 보이나? | 화면과 상태 문구 |
-| 런타임 | 어떤 코드가 지났나? | Logcat 태그 |
-
-> “화면이 떴다”만으로는 어느 코드가 실행됐는지 알 수 없다.
+1. 브라우저에서 Kotlin Playground 열기
+2. `println`으로 글자 출력하기
+3. 예시를 내 학번과 이름으로 바꾸기
 
 ---
 
-## 1일차 · 4–9분 — 프로젝트 지도
+## 1일차 · 0–5분 — 실행할 곳 열기
 
-```text
-app/
-├─ src/main/AndroidManifest.xml   앱·컴포넌트 선언
-├─ src/main/java/.../MainActivity.kt
-├─ src/main/res/layout/activity_main.xml
-└─ src/main/res/values/strings.xml
-```
+브라우저에서 [Kotlin Playground](https://play.kotlinlang.org/)를 엽니다.
 
-`Kotlin 코드 → resource ID → XML View` 연결을 따라간다.
+1. 코드 입력 칸에 선생님이 보여 주는 코드를 적습니다.
+2. **Run(▶)** 버튼을 누릅니다.
+3. 출력 영역에 나타난 글자를 확인합니다.
+
+글자를 바꾼 뒤에는 **Run을 다시 눌러야** 결과가 바뀝니다.
 
 ---
 
-## 1일차 · 9–15분 — 시작 흐름
+## 1일차 · 5–15분 ① — 시작 틀과 첫 출력
 
-```text
-Launcher 아이콘
-      │ Intent
-      ▼
-AndroidManifest의 launcher Activity
-      │ onCreate()
-      ▼
-setContentView(...) ──▶ XML inflate ──▶ View tree
-```
+아래 코드를 그대로 적고 실행합니다.
 
 ```kotlin
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+fun main() {
+    println("안녕하세요")
 }
 ```
 
----
-
-## 1일차 · 15–21분 — 실행 대상과 실패 층
-
-| 증상 | 먼저 확인할 곳 |
-|---|---|
-| Run 대상이 없음 | Device Manager / USB 연결 |
-| 빌드 실패 | Build Output의 첫 원인 |
-| 설치 실패 | 선택 기기와 저장 공간 |
-| 실행 중 종료 | Logcat의 예외와 `Caused by` |
-| 화면 내용이 다름 | 설치된 앱·Activity·layout |
-
-여러 줄을 한꺼번에 고치기 전에 실패 층을 좁힌다.
+- `fun main()`은 프로그램이 시작하는 곳입니다. 먼저 그대로 사용합니다.
+- `{`와 `}` 사이에 실행할 코드를 적습니다.
+- `println(...)`은 괄호 안의 내용을 출력한 뒤 줄을 바꿉니다.
 
 ---
 
-## 1일차 · 21–27분 — Logcat은 실행 증거
+## 1일차 · 5–15분 ② — 글자는 큰따옴표 안에
 
 ```kotlin
-private const val TAG = "DeviceInfo"
-
-Log.d(TAG, "onCreate: screen ready")
+fun main() {
+    println("안녕하세요")
+    println("반갑습니다")
+}
 ```
 
-필터 기준:
+```text
+안녕하세요
+반갑습니다
+```
 
-- 실행 중인 앱 프로세스
-- 자신의 고유한 `TAG`
-- 오류 수준만 보지 말고 최초 예외 원인 확인
-
-개인정보나 토큰을 로그에 남기지 않는다.
-
----
-
-## 1일차 · 27–30분 — 실습 이양
-
-실습 순서:
-
-1. 실행 전 결과를 예측한다.
-2. 정상 실행의 대상·화면·로그를 기록한다.
-3. 안전한 오류 하나를 재현한다.
-4. 첫 원인 줄로 수정 범위를 좁힌다.
-
-**1일차 설명 합계: 4+5+6+6+6+3 = 30분**
+글자는 `" "`로 감쌉니다. 괄호 `(`와 `)`, 큰따옴표는 짝을 맞춥니다.
 
 ---
 
-# 2일차 — Kotlin으로 화면 상태 만들기
+## 1일차 · 15–25분 — 학번과 이름으로 바꾸기
+
+```kotlin
+fun main() {
+    println("학번: 20260001")
+    println("이름: 홍길동")
+}
+```
+
+1. `20260001`을 내 학번으로 바꿉니다.
+2. `홍길동`을 내 이름으로 바꿉니다.
+3. 실행해서 두 줄이 보이는지 확인합니다.
+
+처음에는 **큰따옴표 안의 글자만** 바꿔 봅니다.
+
+---
+
+## 1일차 · 25–30분 — 이제 직접 해 보기
+
+**설명 합계: 5+10+10+5 = 30분**
+
+이어지는 60분 동안 천천히 연습합니다.
+
+1. 예시 코드를 실행합니다.
+2. 내 학번과 이름으로 바꾸고 다시 실행합니다.
+3. 코드와 출력 내용을 저장해 둡니다.
+
+막히면 큰따옴표, 괄호, 중괄호가 빠졌는지 함께 확인합니다.
+
+---
+
+# 2일차 — Kotlin 기초 문법 더하기
 
 `30분 설명·시연 → 60분 실습`
 
+오늘도 결과는 **학번과 이름 두 줄**입니다.
+
+- `val`: 값에 이름 붙이기
+- `String`과 `Int`: 글자와 정수 구별하기
+- `$`: 저장한 값을 문장에 넣기
+- `var`: 나중에 다른 값을 넣을 수 있는 변수
+
 ---
 
-## 2일차 · 0–5분 — 값과 변경 가능성
+## 2일차 · 0–5분 — val로 값에 이름 붙이기
 
 ```kotlin
-val model: String = Build.MODEL       // 다시 대입하지 않음
-var refreshCount: Int = 0             // 상태 변화 의도
+fun main() {
+    val studentId = "20260001"
+    val name = "홍길동"
 
-fun label(name: String, value: String) = "$name: $value"
+    println(studentId)
+    println(name)
+}
 ```
 
-기본값은 `val`. 변경이 요구될 때만 `var`를 선택한다.
+`val 이름 = 값`으로 값을 저장합니다. `=`은 오른쪽 값을 넣는 표시입니다.
+
+`println(name)`은 `name`에 저장된 값인 `홍길동`을 출력합니다.
 
 ---
 
-## 2일차 · 5–10분 — 데이터 구조와 문자열 가공
+## 2일차 · 5–15분 ① — 글자와 정수
 
 ```kotlin
-data class DeviceSummary(
-    val manufacturer: String,
-    val model: String,
-    val apiLevel: Int,
-)
-
-val summaryText = getString(
-    R.string.device_summary_format,
-    summary.manufacturer,
-    summary.model,
-    summary.apiLevel,
-)
+val studentId = "20260001"  // String: 글자
+val age = 20                // Int: 정수
 ```
 
-원본 데이터와 지역화 가능한 화면 형식을 구분한다.
+- 큰따옴표 안의 글자는 **문자열**이며 자료형 이름은 `String`입니다.
+- `20`처럼 소수점 없는 숫자는 **정수**이며, 이 예시는 `Int`입니다.
+- Kotlin이 값을 보고 자료형을 알아내므로 지금은 직접 적지 않아도 됩니다.
+- 학번은 계산할 숫자가 아니라 구별하는 글자이므로 큰따옴표로 감쌉니다.
+
+`//` 뒤의 설명은 **주석**이며 실행되지 않습니다.
 
 ---
 
-## 2일차 · 10–16분 — nullable은 가능한 상태
+## 2일차 · 5–15분 ② — $로 문장에 값 넣기
 
 ```kotlin
-fun normalizeBuildValue(raw: String?, unknownSentinel: String): String? =
-    raw?.trim()?.takeIf {
-        it.isNotEmpty() && !it.equals(unknownSentinel, ignoreCase = true)
-    }
+fun main() {
+    val studentId = "20260001"
+    val name = "홍길동"
+
+    println("학번: $studentId")
+    println("이름: $name")
+}
 ```
 
-| 입력 | 결과 |
-|---|---|
-| `" Pixel "` | `Pixel` |
-| `"   "` | `null` |
-| `null` | `null` |
-| `"unknown"` | `null` |
+큰따옴표 안에서 `$이름`을 쓰면 저장된 값이 들어갑니다.
 
-`!!`는 불확실성을 없애지 않고 예외로 미룬다.
+이것을 **문자열 템플릿**이라고 합니다. 예시의 값만 내 정보로 바꿉니다.
 
 ---
 
-## 2일차 · 16–22분 — XML View와 Kotlin 연결
-
-```xml
-<TextView
-    android:id="@+id/deviceSummary"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/device_unknown" />
-```
+## 2일차 · 15–25분 — val과 var
 
 ```kotlin
-findViewById<TextView>(R.id.deviceSummary).text = getString(
-    R.string.device_summary_format,
-    summary.manufacturer,
-    summary.model,
-    summary.apiLevel,
-)
+fun main() {
+    var greeting = "안녕하세요"
+    println(greeting)
+    greeting = "반갑습니다"
+    println(greeting)
+}
 ```
 
-대체 문구와 표시 format은 `strings.xml`에 둔다.
+- `val`: 실행 중 이미 저장한 값을 다른 값으로 다시 대입할 수 없습니다.
+- `var`: 위의 `greeting = "반갑습니다"`처럼 다시 대입할 수 있습니다.
+
+`val name = "홍길동"`의 예시 이름을 편집하고 **다시 실행하는 것**은 가능합니다.
 
 ---
 
-## 2일차 · 22–27분 — 입력 → 가공 → 표시
+## 2일차 · 25–30분 — 오늘의 완성 코드
+
+```kotlin
+fun main() {
+    val studentId = "20260001"
+    val name = "홍길동"
+
+    println("학번: $studentId")
+    println("이름: $name")
+}
+```
+
+**설명 합계: 5+10+10+5 = 30분**
+
+내 학번과 이름을 넣고 실행하면 이번 주 목표를 달성합니다.
+
+---
+
+## 2일차 실습 — 천천히 반복하기 · 60분
+
+1. 완성 코드를 적고 실행합니다.
+2. `studentId`와 `name`의 값을 내 정보로 바꿉니다.
+3. 출력된 학번과 이름을 확인하고 코드를 저장합니다.
+
+시간이 남으면 인사말을 `var`로 바꿔 봅니다.
+또는 `main`의 `{ }` 안에 아래 두 줄을 넣어 비교해 봅니다.
+
+```kotlin
+println(1 + 2)       // 3
+println("1 + 2")     // 1 + 2
+```
+
+추가 연습은 선택입니다. 필수 결과는 학번과 이름 두 줄입니다.
+
+---
+
+## 제출하기
+
+2일차가 끝나면 두 가지를 한 번 제출합니다.
+
+1. **완성한 Kotlin 코드 `StudentCard.kt`**
+2. **학번과 이름이 출력된 화면 캡처 1장**
 
 ```text
-Build 값 / 테스트 입력
-          │
-          ▼
- normalizeBuildValue(), DeviceSummary
-          │
-          ▼
-       TextView.text
+학번: 20260001
+이름: 홍길동
 ```
 
-테스트는 단말의 “정상값”만 보지 않는다.
-
-- 정상: 실제 제조사·모델
-- 경계: 공백 문자열
-- 실패 가능: nullable 입력
-
----
-
-## 2일차 · 27–30분 — 실습 이양
-
-완료 조건:
-
-- `Device Info`가 실행된다.
-- 새로고침 횟수가 화면과 로그에 일치한다.
-- `null`·공백·`Build.UNKNOWN`이 resource의 `알 수 없음`으로 표시된다.
-- `!!` 없이 처리 이유를 설명한다.
-
-**2일차 설명 합계: 5+5+6+6+5+3 = 30분**
-
----
-
-## Compose와의 비교 — 이번 주 평가 범위 아님
-
-Compose는 Kotlin 함수로 UI를 선언한다. 이 수업은 Android의 View tree, XML resource, Activity 연결을 명시적으로 관찰하기 위해 **Kotlin + XML Views**를 기준으로 한다. Compose 문법은 구현·평가하지 않는다.
-
----
-
-## 다음 주
-
-하나의 정보 문구를 여러 View, style, dimension, 문자열 리소스로 분리하고 화면 크기·회전·접근성에 대응한다.
+내 학번과 이름이 맞게 나오는지 확인하면 끝입니다.
