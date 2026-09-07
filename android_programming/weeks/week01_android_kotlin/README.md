@@ -39,7 +39,7 @@
 
 ## 수업 자료
 
-- [슬라이드](slides.md)
+- [슬라이드](slides.md) · [English slides](slides_en.md)
 - 강의 스크립트: 강의자 별도 관리(비공개)
 - [따라하기 절차](walkthrough.md)
 - [실습지](lab.md)
