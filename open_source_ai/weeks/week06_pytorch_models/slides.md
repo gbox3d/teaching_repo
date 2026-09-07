@@ -351,11 +351,11 @@ probs = torch.softmax(scores / 0.05, dim=0)  # 합이 1인 확률
 
 | 항목 | 예 | 없으면 |
 |---|---|---|
-| 모델 ID·revision | `intfloat/multilingual-e5-small`, commit hash | 어느 가중치였는지 모른다 |
+| 모델 ID·revision | `intfloat/multilingual-e5-small`, commit hash | 가중치 식별 불가 |
 | seed·device·dtype | 42, cuda, float32 | 재현 불가 |
 | 입력 버전 | `sentences.txt` 5문장 | 결과 비교 불가 |
-| 시간·최대 메모리 | 1.2 s, 310 MB | 다음 실험 크기를 못 정한다 |
-| 결과 파일 경로 | `outputs/embed-….json` | 표를 다시 만들어야 한다 |
+| 시간·최대 메모리 | 1.2 s, 310 MB | 규모 판단 불가 |
+| 결과 파일 경로 | `outputs/embed-….json` | 결과 표 재작성 |
 
 - `torch.cuda.max_memory_allocated()`로 최대 메모리를 기록한다.
 - 10주차 LoRA 실험 기록 양식이 이 표에서 자란다

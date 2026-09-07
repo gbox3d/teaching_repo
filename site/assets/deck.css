@@ -228,6 +228,12 @@ body:not(.deck-ready) .deck-stage .marpit > svg:first-child {
   font-size: 0.67rem;
 }
 
+@media (max-width: 760px) {
+  .deck-help {
+    display: none;
+  }
+}
+
 @media (max-width: 700px) {
   .library-return {
     left: 10px;
@@ -243,8 +249,7 @@ body:not(.deck-ready) .deck-stage .marpit > svg:first-child {
   }
 
   .deck-header p span,
-  .deck-header > a,
-  .deck-help {
+  .deck-header > a {
     display: none;
   }
 
