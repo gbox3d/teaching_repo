@@ -124,7 +124,7 @@ index.html
 
 ---
 
-## 0–5분 · Git이 해결하는 질문
+## 0–3분 · Git이 해결하는 질문
 
 - 무엇을 바꾸었는가?
 - 다음 기록에 무엇을 포함할 것인가?
@@ -135,20 +135,62 @@ Git은 자동 저장 장치가 아니다. **의도 있는 스냅샷의 역사**�
 
 ---
 
-## 5–11분 · 세 영역
+## 3–8분 · `git init` — 저장소와 untracked
 
-```text
-working tree ── git add ──▶ staging area ── git commit ──▶ repository
-    수정 중                    다음 기록 후보                 확정 기록
+```bash
+git init          # 현재 폴더에 .git/ 을 만든다 = 저장소 본체
+git branch -M main
 ```
 
-- `HEAD`: 현재 보고 있는 commit
-- 같은 파일이 staged와 unstaged 변경을 동시에 가질 수도 있다.
-- `git status`는 세 영역의 차이를 요약한다.
+```text
+$ git status
+On branch main
+No commits yet
+Untracked files:
+        index.html
+nothing added to commit but untracked files present
+```
+
+- `.git/`이 이력 전체다. 작업 파일과 이력은 **다른 것**이다.
+- 폴더 안에 있다고 추적되지 않는다. `index.html`은 아직 **untracked**다.
+- identity 오류가 나면 이 저장소에만 `git config user.name` / `user.email`을 설정한다.
 
 ---
 
-## 11–16분 · 두 diff는 다르다
+## 8–13분 · 세 영역
+
+```text
+untracked ─┐
+           ├─ git add ─▶ staging area ─ git commit ─▶ repository
+modified ──┘             다음 기록 후보               확정 기록
+ working tree
+```
+
+- `untracked`: Git이 아직 모르는 새 파일. `git add`로 처음 추적된다.
+- `staging area(index)`: **다음 commit에 담기로 고른 것**만 모인 곳
+- `HEAD`: 현재 보고 있는 commit
+- 같은 파일이 staged와 unstaged 변경을 동시에 가질 수도 있다.
+
+---
+
+## 13–18분 · `git status`가 답을 알려 준다
+
+```text
+Changes to be committed:          ← staging area
+        modified:   app.js
+Changes not staged for commit:    ← working tree (추적 중)
+        modified:   app.js
+Untracked files:                  ← working tree (추적 전)
+        notes.txt
+```
+
+- 같은 `app.js`가 위아래에 **동시에** 나온다. commit은 파일이 아니라 `git add` 한 순간의 스냅샷을 기록하기 때문이다.
+- 각 제목 밑 괄호 안내문이 그 영역에서 되돌리는 명령을 알려 준다. 첫 commit 전에는 `git rm --cached`, 이후에는 `git restore --staged`다.
+- 명령을 치기 전에 **"이 파일이 지금 어느 제목 아래에 있는가"**를 먼저 말한다.
+
+---
+
+## 18–22분 · 두 diff는 다르다
 
 ```bash
 git diff
@@ -162,7 +204,7 @@ git diff --staged
 
 ---
 
-## 16–21분 · 최소 작업 순환
+## 22–25분 · 최소 작업 순환
 
 ```bash
 git status
@@ -177,7 +219,7 @@ git log --oneline --decorate -3
 
 ---
 
-## 21–25분 · 좋은 commit의 크기
+## 25–27분 · 좋은 commit의 크기
 
 나쁨:
 
@@ -199,7 +241,7 @@ Explain click result in status text
 
 ---
 
-## 25–28분 · 안전한 되돌리기
+## 27–29분 · 안전한 되돌리기
 
 ```bash
 git restore --staged index.html  # stage에서만 내림
@@ -210,7 +252,7 @@ git restore index.html           # 작업 내용 폐기: 실행 전 diff 확인
 
 ---
 
-## 28–30분 · 실습 성공 기준
+## 29–30분 · 실습 성공 기준
 
 - 제목, 설명, 동작을 각각 별도 commit
 - 매번 `diff --staged`를 읽고 commit

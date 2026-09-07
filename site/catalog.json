@@ -133,7 +133,7 @@
       "description": "브라우저와 Git의 기초부터 Supabase 기반 영속 서비스, 보안 점검과 프로젝트 발표까지 연결합니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 1개 특강 · 288장",
+      "summary": "15개 주차 + 1개 특강 · 290장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
