@@ -14,6 +14,10 @@
 | Ollama | `ollama --version` |  | 정상 / 실패 |  |
 | NVIDIA 드라이버 | `nvidia-smi` |  | 정상 / 실패 |  |
 
+- `uv` 설치 경로(`Get-Command uv | Select-Object -ExpandProperty Source`): ___
+- Ollama 행이 `실패`이고 `명령을 찾을 수 없음`이면 **미설치**다. 이번 주에는 설치하지 않고 조치 칸에 "미설치 → 4주차 전까지 설치"라고 적는다.
+- Ollama 행에 `Warning: client version is …`가 들어갔다면 **설치는 됐고 서버만 꺼진 것**이다. 조치 칸에 "서버 꺼짐"이라고 적는다.
+
 ## GPU
 
 | 항목 | 값 |
@@ -34,6 +38,15 @@
 
 1. (예) uv — 설치 후 새 창을 열지 않아 PATH 미갱신 → 새 PowerShell 창에서 `uv --version` 재확인 → 정상
 2.
+
+## 4주차 전까지 할 일 (개인 노트북)
+
+실습실 PC를 쓰면 조교가 이미 준비했으므로 "해당 없음"으로 둔다.
+
+| 항목 | 상태 | 완료 날짜 |
+|---|---|---|
+| Ollama 설치 — 새 창에서 `ollama --version`이 버전 문자열 출력 | 해당 없음 / 미완 / 완료 |  |
+| 강의자가 공지한 모델 — `ollama list`에 보임 | 해당 없음 / 미완 / 완료 |  |
 
 ## 한 문장 결론
 

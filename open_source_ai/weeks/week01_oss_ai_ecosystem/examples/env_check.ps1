@@ -27,8 +27,8 @@ $tools = @(
 $hints = @{
     "git"        = "Git for Windows 설치 후 새 PowerShell 창을 연다."
     "code"       = "VS Code 설치 때 PATH 추가 옵션이 빠졌을 수 있다. 조교에게 확인하거나 VS Code를 직접 연다."
-    "uv"         = "uv 설치 후 새 창을 연다. 설치 경로가 PATH에 들어갔는지 확인한다."
-    "ollama"     = "Ollama 설치 후 새 창을 연다. 서버 미기동 경고는 실패가 아니다."
+    "uv"         = 'uv 미설치. 설치: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"  (막히면: winget install --id=astral-sh.uv -e)  설치 뒤 반드시 새 창을 연다. 새 창에서도 안 되면 Get-Command uv 로 PATH 등록 여부를 본다.'
+    "ollama"     = '미설치. 1주차 실습 시간에는 설치하지 않는다 - 4주차 전까지 설치해 온다. 설치: powershell -ExecutionPolicy ByPass -c "irm https://ollama.com/install.ps1 | iex"  (막히면: winget install --id=Ollama.Ollama -e)  설치 뒤 새 창을 연다. 경고 두 줄(could not connect / client version)이 나오면 설치는 됐고 서버만 꺼진 상태다.'
     "nvidia-smi" = "NVIDIA GPU 또는 드라이버가 없다. GPU 없는 PC는 CPU·소형 모델 경로로 진행한다."
 }
 

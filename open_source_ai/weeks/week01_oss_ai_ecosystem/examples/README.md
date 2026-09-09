@@ -58,7 +58,8 @@ uv run python sysinfo.py --print
 | 상황 | 대체 경로 |
 |---|---|
 | NVIDIA GPU 또는 드라이버가 없다 | `env_check.ps1`의 `nvidia-smi` 행은 `실패`가 정상이다. `sysinfo.py`는 `gpu.available: false`와 사유를 기록하고 끝까지 실행된다. 점검표에는 "GPU 없음 → CPU + 소형 모델(`qwen3:0.6b`)"로 적는다 |
-| Ollama 서버가 꺼져 있다 | 이번 주는 서버가 필요 없다. `ollama --version`이 `Warning: could not connect to a running Ollama instance` 경고를 먼저 찍어도 실패가 아니며, `env_check.ps1`은 그 아래 줄의 버전 숫자로 `정상`을 판정한다. 점검표에는 그 줄을 그대로 옮긴다 |
+| Ollama가 아예 설치되어 있지 않다(개인 노트북) | `실패`와 `명령을 찾을 수 없음`이 정상이다. **이번 주에는 설치하지 않는다.** 점검표에 "미설치 → 4주차 전까지 설치"를 적고 넘어간다. 설치 절차는 [`lab.md`의 숙제](../lab.md#숙제--올라마-설치-4주차-전까지)에 있다 |
+| Ollama 서버가 꺼져 있다 | 이번 주는 서버가 필요 없다. `ollama --version`은 `Warning: could not connect to a running Ollama instance`와 `Warning: client version is 0.x.y` **두 줄**을 내고 `ollama version is …` 줄은 나오지 않는다. `env_check.ps1`은 숫자가 들어 있는 첫 줄을 버전으로 고르므로 표에는 `Warning: client version is 0.x.y`가 들어가고 상태는 `정상`이 된다 — 설치는 되어 있다는 뜻이라 실패가 아니다. 점검표에는 그 줄을 그대로 옮기고 조치 칸에 "서버 꺼짐"을 적는다 |
 | 네트워크가 막혀 `python-dotenv` 설치가 안 된다 | `uv run --no-project python sysinfo.py`로 실행한다. `.env`는 읽지 않으므로 `$env:OLLAMA_MODEL = "qwen3:0.6b"`처럼 셸 환경변수로 준다 |
 | 환경 기준표의 Python이 설치되지 않아 uv가 다운로드를 시작한다 | 네트워크가 열려 있으면 기다린다. 막혀 있으면 조교에게 알리고 3교시 문제 2(`git init`)를 먼저 진행한다 |
 | `code` 명령이 없다 | VS Code를 직접 열어 편집한다. 점검표에는 `실패`와 조치(PATH 옵션 확인)를 적는다 |

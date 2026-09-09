@@ -7,7 +7,7 @@
 
 ## 시작 전 준비
 
-- Git, VS Code, uv, Ollama가 설치된 Windows PC. 설치는 조교가 [설치 프로그램 목록](../../ta_setup_guide.md)에 따라 수업 전에 마친다. 정확한 버전은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
+- Windows PC. 실습실 PC는 Git, VS Code, uv, Ollama 설치를 조교가 [설치 프로그램 목록](../../ta_setup_guide.md)에 따라 수업 전에 마친다. **개인 노트북은 아무것도 깔려 있지 않아도 된다.** 단계 4에서 직접 설치한다. 정확한 버전은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
 - 브라우저에서 GitHub·Hugging Face에 로그인할 수 있는 상태. 토큰은 만들지 않는다.
 - [`examples/`](examples/README.md) 폴더를 개인 실습 폴더에 **복사**해서 사용한다. 수업 자료 원본은 수정하지 않는다.
 - 이 문서는 개인 실습 폴더를 `C:\classwork\osa-week01`로 쓴다. 강의자가 다른 경로를 안내하면 그 경로로 바꾼다.
@@ -52,7 +52,17 @@ ollama --version
 nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv
 ```
 
-**예상 결과** — 각 명령이 `git version …`, 버전 숫자, `uv …`, `ollama version is …` 같은 문자열을 출력한다. `ollama --version`은 서버가 꺼져 있으면 경고를 먼저 찍고 버전을 출력한다. 경고는 실패가 아니다. `nvidia-smi`는 헤더 한 줄 뒤에 `GPU 이름, NNNN MiB, 드라이버 버전` 한 줄을 출력한다. `명령을 찾을 수 없음`이 나오는 도구가 있으면 그 사실 자체가 기록할 값이다.
+**예상 결과** — 각 명령이 `git version …`, 버전 숫자, `uv …` 같은 문자열을 출력한다.
+
+`ollama --version`은 세 가지로 갈린다. 어느 쪽인지 구분해서 적는다.
+
+| 출력 | 뜻 |
+|---|---|
+| `ollama version is 0.x.y` 한 줄 | 설치·서버 모두 정상 |
+| `Warning: could not connect to a running Ollama instance` 와 `Warning: client version is 0.x.y` **두 줄** | 설치는 됐고 서버만 꺼짐. **이때 버전 줄은 나오지 않는다** |
+| `명령을 찾을 수 없음` | 미설치. 개인 노트북은 이것이 정상이며, 설치는 4주차 전까지 숙제다 |
+
+`nvidia-smi`는 헤더 한 줄 뒤에 `GPU 이름, NNNN MiB, 드라이버 버전` 한 줄을 출력한다. `명령을 찾을 수 없음`이 나오는 도구가 있으면 그 사실 자체가 기록할 값이다.
 
 **확인** — [ ] 예상과 실제가 다른 도구가 있으면 어느 것인지 적었다.
 
@@ -74,12 +84,72 @@ powershell -ExecutionPolicy Bypass -File .\env_check.ps1 -OutFile env_check_raw.
 
 **확인** — [ ] `env_check_raw.md`를 열어 사용자 이름·홈 경로가 없는 것을 확인했다.
 
-### 단계 4. 실패 하나를 일부러 재현하기
+### 단계 4. uv가 없으면 직접 설치하기
+
+단계 3의 표에서 `uv` 행이 `정상`이면 이 단계는 **4번의 `Get-Command uv`(설치 경로 확인)만** 하고 단계 5로 간다.
+`실패`였다면 아래를 순서대로 한다. 관리자 권한은 필요 없다.
+
+**할 일**
+
+1. 설치 전에 예상을 적는다: 설치가 끝난 바로 그 창에서 `uv --version`을 치면 될 것 같은가, 그 이유는 무엇인가.
+2. 둘 중 하나로 설치한다. 방법 1이 기본이고, 정책으로 막히면 방법 2를 쓴다.
+
+```powershell
+# 방법 1 · 공식 설치 스크립트
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+```powershell
+# 방법 2 · 스크립트 실행이 막힌 PC
+winget install --id=astral-sh.uv -e
+```
+
+3. 설치한 그 창에서 그대로 확인해 본다. 결과를 적는다.
+
+```powershell
+uv --version
+```
+
+4. **PowerShell 창을 완전히 닫고 새 창을 연 뒤** 실습 폴더로 돌아가 다시 확인한다.
+
+```powershell
+Set-Location C:\classwork\osa-week01
+uv --version
+Get-Command uv | Select-Object -ExpandProperty Source
+```
+
+5. 점검 스크립트를 다시 돌려 표가 바뀌는지 본다.
+
+```powershell
+.\env_check.ps1 -OutFile env_check_raw.md
+```
+
+**예상 결과** — 방법 1은 내려받기 줄 몇 개를 찍고 `uv` 와 `uvx` 를 `%USERPROFILE%\.local\bin` 에 두었다는 안내로 끝난다.
+
+3번(설치한 창)에서는 `uv : 'uv' 용어가 cmdlet … 이름으로 인식되지 않습니다` 가 나오는 것이 정상이다. 설치 프로그램이 PATH를 바꿔도 **이미 열려 있던 창은 열리던 순간의 PATH를 그대로 들고 있기 때문**이다.
+
+4번(새 창)에서 `uv 0.x.y` 같은 버전 문자열이 나온다. `Get-Command` 는 방법 1이면 `C:\Users\<사용자>\.local\bin\uv.exe`, 방법 2(winget)면 `…\WinGet\Links\uv.exe` 계열 경로를 출력한다. 경로는 설치 방법에 따라 다른 것이 정상이다.
+
+5번의 표에서 `uv` 행이 `실패`에서 `정상`으로 바뀌고, 아래 `실패 항목과 조치 힌트` 절에서 uv 줄이 사라진다.
+
+> 새 창에서도 `명령을 찾을 수 없음`이면 설치 실패와 PATH 미등록을 구분한다. `Test-Path "$env:USERPROFILE\.local\bin\uv.exe"` 가 `False` 면 설치 자체가 실패한 것이고, `True` 인데 명령만 안 되면 PATH 문제다. 자세한 절차는 [`lab.md`의 힌트 3](lab.md#단계별-힌트)에 있다.
+
+**확인** — [ ] 새 창에서 `uv --version`이 버전 문자열을 출력한다.
+**확인** — [ ] 3번과 4번의 결과가 왜 달랐는지(또는 왜 같았는지) 한 문장으로 적었다.
+**확인** — [ ] `uv`의 설치 경로를 점검표에 적었다.
+
+> **올라마는 오늘 설치하지 않는다.** 바이너리만 4 GB이고 모델은 그보다 커서 실습 30분에 맞지 않는다.
+> Ollama 행이 `실패`면 점검표에 "미설치 → 4주차 전까지 설치"를 적고 넘어간다.
+> 설치 절차는 [`lab.md`의 숙제](lab.md#숙제--올라마-설치-4주차-전까지)에 있다.
+
+### 단계 5. 실패 하나를 일부러 재현하기
 
 **할 일**
 
 1. 예측을 적는다: "PATH에 없는 명령을 부르면 스크립트는 멈추는가, 표에 실패로 적고 계속 가는가?"
 2. 복사본 `env_check.ps1`의 `$tools` 목록에서 Ollama 행의 `Command = "ollama"`를 `Command = "ollama-x"`로 잠시 바꾼다.
+
+   올라마가 이 PC에 없어서 Ollama 행이 **이미 `실패`**라면 바꿔도 변화가 보이지 않는다. 그때는 Ollama 대신 `Command = "git"`을 `"git-x"`로 바꿔 같은 관찰을 한다.
 3. 다시 실행한다.
 
 ```powershell
@@ -93,7 +163,7 @@ powershell -ExecutionPolicy Bypass -File .\env_check.ps1 -OutFile env_check_raw.
 
 **확인** — [ ] "설치 프로그램이 성공했다"와 "새 창에서 버전이 나온다"가 왜 다른지 한 문장으로 적었다.
 
-### 단계 5. 계정 확인과 점검표 완성
+### 단계 6. 계정 확인과 점검표 완성
 
 **할 일**
 
@@ -335,8 +405,10 @@ git status
 | 증상 | 이 문서에서 돌아갈 단계 |
 |---|---|
 | `env_check.ps1`이 "스크립트를 실행할 수 없으므로"로 멈춘다 | 1교시 단계 3 (`-ExecutionPolicy Bypass`로 이번 실행만 우회) |
-| 설치했는데 도구가 `명령을 찾을 수 없음`이다 | 1교시 단계 2 (새 PowerShell 창을 열고 다시 실행. 그래도 같으면 조교에게 설치 방식 확인) |
-| `nvidia-smi`만 실패한다 | 1교시 단계 5 (GPU 없는 PC. 점검표에 대체 경로 `CPU + qwen3:0.6b`를 적고 계속) |
+| 설치했는데 도구가 `명령을 찾을 수 없음`이다 | 1교시 단계 4 (PowerShell 창을 완전히 닫고 새로 연다. 그래도 같으면 `Test-Path`로 설치 실패와 PATH 미등록을 구분한다) |
+| `ollama`가 `명령을 찾을 수 없음`이다 | 설치하지 않아도 되는 상태다. 점검표에 "미설치 → 4주차 전까지 설치"를 적고 계속. 설치는 [`lab.md`의 숙제](lab.md#숙제--올라마-설치-4주차-전까지) |
+| `ollama --version`이 경고 두 줄만 낸다 | 설치는 됐고 서버만 꺼진 것이다. 트레이 또는 시작 메뉴에서 Ollama를 실행하고 다시 확인 |
+| `nvidia-smi`만 실패한다 | 1교시 단계 6 (GPU 없는 PC. 점검표에 대체 경로 `CPU + qwen3:0.6b`를 적고 계속) |
 | About에 라이선스가 `View license`로만 보인다 | 2교시 단계 2 (`LICENSE` 파일에서 이름을 읽는다) |
 | Releases가 비어 있다 | 2교시 단계 3 (Tags로 대신, 둘 다 없으면 "릴리스 없음") |
 | `uv run`이 Python을 내려받기 시작한다 | 3교시 단계 2 (네트워크가 열려 있으면 기다린다. 막혀 있으면 조교에게 알리고 단계 5를 먼저 진행) |
