@@ -113,6 +113,8 @@ Ready(epoch=4) → Input(HIGH,e4) → LinkLost
 
 빠른 반복, timeout, 오래된 사건을 예측하고 실습한다.
 
+[1일차 실습](lab.md#1일차-60분--fake-입력과-재연결)
+
 ---
 
 <!-- _class: lead -->
@@ -185,6 +187,8 @@ Wi-Fi·cloud·firmware 개발은 기본 평가 범위가 아니다.
 ---
 
 ## 25–30분 — 정책·제출 체크
+
+[2일차 실습](lab.md#2일차-60분--real-통합리허설증거)
 
 - `COURSE_POLICY_TBD`: 개인/2인 팀은 공식 공지 대기
 - 팀이 허용돼도 개인 구술·장애 대응 기록

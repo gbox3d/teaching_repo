@@ -19,6 +19,7 @@
 |---|---|
 | `README.md` | 학습 질문, 목표, 1·2일차 흐름, 완료 기준과 제출 증거 |
 | `slides.md` | Marp 호환 PT 원고. `---`가 슬라이드 구분자 |
+| `walkthrough.md` | 1·2주차: 처음부터 그대로 따라 하는 단계별 절차와 전체 코드 |
 | `lab.md` | 60분 직접 해결 실습, 단계별 힌트, 검증과 확장 |
 | `examples/README.md` | Kotlin 기초 실행 예제 또는 Kotlin·XML 예제 조각과 예상 결과 |
 
@@ -31,7 +32,7 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 | 주차 | 주제 | 누적 산출물 | 폴더 |
 |---:|---|---|---|
 | 1 | Kotlin 첫걸음: 학번과 이름 출력하기 | 학번·이름 출력 코드 | [`week01_android_kotlin`](week01_android_kotlin/) |
-| 2 | XML View와 반응형 layout | 정적 장치 제어판 | [`week02_views_layout`](week02_views_layout/) |
+| 2 | 첫 Android 앱: LinearLayout과 findViewById | 내 정보 화면과 버튼 카운터 | [`week02_views_layout`](week02_views_layout/) |
 | 3 | Activity·Intent·생명주기 | 생명주기 추적 화면 | [`week03_activity_lifecycle`](week03_activity_lifecycle/) |
 | 4 | Fragment·RecyclerView·Navigation | mock 장치 목록과 상세 화면 | [`week04_fragments_navigation`](week04_fragments_navigation/) |
 | 5 | 메인 스레드·ANR·동시성 | 멈추는 앱 진단 결과 | [`week05_threading_anr`](week05_threading_anr/) |

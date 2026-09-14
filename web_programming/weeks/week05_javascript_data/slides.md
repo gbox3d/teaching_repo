@@ -140,6 +140,8 @@ function filterByCategory(items, selectedCategory) {
 
 구현 전에 이 표가 테스트가 된다.
 
+[1일차 실습](lab.md#1일차-실습--데이터-계약과-기본-조회)
+
 ---
 
 <!-- _class: lead -->
@@ -250,7 +252,7 @@ const result = toCardModels(
 );
 ```
 
-확인:
+[2일차 실습](lab.md#2일차-실습--복사-정렬-view-model-집계)에서 확인:
 
 - 각 함수 단독 사례
 - 조합 결과

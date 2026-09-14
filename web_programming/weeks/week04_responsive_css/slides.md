@@ -132,6 +132,8 @@ margin → border → padding → content
 
 반복 값을 이름 있는 결정으로 만든다. token 수 자체가 목표는 아니다.
 
+[1일차 실습](lab.md#1일차-실습--cascade를-설명할-수-있는-모바일-style)
+
 ---
 
 <!-- _class: lead -->
@@ -245,6 +247,8 @@ https://example.invalid/this-is-a-very-long-unbroken-path...
 ```
 
 내용을 숨기기보다 레이아웃이 적응하도록 만든다.
+
+[2일차 실습](lab.md#2일차-실습--반응형-layout과-접근성-상태)
 
 ---
 

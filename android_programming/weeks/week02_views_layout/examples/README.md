@@ -1,119 +1,130 @@
-# 2주차 예제 스니펫 — 적응형 mock 제어판
+# 2주차 예제 — LinearLayout과 findViewById
 
-## 사용 범위
+Android Studio에서 **Empty Views Activity**로 만든 `StudentCard` 프로젝트를 기준으로 한다.
+아래 파일은 해당 날짜의 **완성본**이다. 먼저 [따라하기](../walkthrough.md)를 순서대로 하고, 막히면 내 코드와 비교한다.
+학번 `20260001`, 이름 `홍길동`, 전공 `컴퓨터공학과`는 연습용 값이다.
 
-이 폴더는 수업용 대표 스니펫 문서이며 **빌드 가능한 Gradle 프로젝트를 제공하지 않는다**. 강의자 기준 프로젝트의 dependency, package, theme, 부모 layout을 유지한 채 필요한 부분을 옮긴다.
+## 파일과 넣을 위치
 
-## 파일명과 문맥
-
-| 파일명 예시 | 위치/역할 |
+| 예제 파일 | 내 프로젝트에서 바꿀 파일 |
 |---|---|
-| `activity_main.xml` | `res/layout/`, 제어판 View 관계 |
-| `strings.xml` | `res/values/`, 상태·동작 문구 |
-| `dimens.xml` | `res/values/`, 공통 간격 |
-| `values-land/dimens.xml` | 가로 방향에서 달라지는 간격만 제공 |
-| `MainActivity.kt` | mock 상태 변경과 단일 `render()` |
+| [day1/activity_main.xml](day1/activity_main.xml) | `app › res › layout › activity_main.xml` |
+| [day1/MainActivity.kt](day1/MainActivity.kt) | `app › kotlin+java › com.example.studentcard › MainActivity.kt` — 템플릿이 만든 그대로이며 1일차에는 고치지 않는다 |
+| [day2/activity_main.xml](day2/activity_main.xml) | `app › res › layout › activity_main.xml` |
+| [day2/MainActivity.kt](day2/MainActivity.kt) | `app › kotlin+java › com.example.studentcard › MainActivity.kt` |
 
-## `activity_main.xml` 핵심
+`MainActivity.kt` 전체를 복사할 때 첫 줄 `package ...`는 내 프로젝트의 첫 줄을 그대로 둔다.
 
-아래 조각은 `ConstraintLayout` 내부에 들어간다. namespace와 나머지 constraint는 기준 프로젝트 문맥에 맞춘다.
+## 1. LinearLayout — 차례로 쌓기
+
+```xml
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!-- 이 안에 넣은 순서대로 위에서 아래로 놓인다 -->
+
+</LinearLayout>
+```
+
+| 속성 | 뜻 |
+|---|---|
+| `android:orientation="vertical"` | 위에서 아래로 쌓는다. `horizontal`이면 왼쪽에서 오른쪽으로 쌓는다 |
+| `android:gravity="center"` | 안의 내용을 가운데로 모은다 |
+| `match_parent` | 부모만큼 크게. 가장 바깥 레이아웃에서는 화면 전체다 |
+| `android:id="@+id/main"` | 템플릿의 `MainActivity.kt`가 사용하는 이름이다. 지우지 않는다 |
+
+## 2. TextView — 글자 한 줄
 
 ```xml
 <TextView
-    android:id="@+id/deviceName"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:text="@string/mock_device_name"
-    android:textSize="20sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
-
-<TextView
-    android:id="@+id/connectionStatus"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:text="@string/status_disconnected"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/deviceName" />
-
-<Button
-    android:id="@+id/connectButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/connect" />
-
-<Button
-    android:id="@+id/outputButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:enabled="false"
-    android:text="@string/output_on" />
+    android:layout_marginTop="8dp"
+    android:text="학번: 20260001"
+    android:textSize="20sp" />
 ```
 
-## `strings.xml` 핵심
+- `wrap_content`: 글자에 딱 맞는 크기다.
+- `android:text`: 화면에 보일 글자다.
+- `android:textSize`: 글자 크기다. 글자에는 `sp`를 쓴다.
+- `android:layout_marginTop`: 위쪽 간격이다. 간격에는 `dp`를 쓴다.
+- 마지막은 `/>`로 닫는다. 따옴표 `" "` 짝이 맞는지 확인한다.
+
+## 3. 1일차 완성 — 내 정보 화면
+
+[day1/activity_main.xml](day1/activity_main.xml)을 넣고 실행하면 화면 가운데에 네 줄이 보인다.
+
+```text
+내 정보
+학번: 20260001
+이름: 홍길동
+전공: 컴퓨터공학과
+```
+
+## 4. `android:id`와 `findViewById`
 
 ```xml
-<resources>
-    <string name="mock_device_name">DEMO Smart I/O Mock Device</string>
-    <string name="status_disconnected">연결 안 됨 · 연결 후 출력 제어 가능</string>
-    <string name="status_ready">제어 준비</string>
-    <string name="connect">연결</string>
-    <string name="disconnect">연결 해제</string>
-    <string name="output_on">출력 켜기</string>
-</resources>
+<TextView
+    android:id="@+id/nameText"
+    android:text="이름: ?"
+    ... />
 ```
 
-## `MainActivity.kt` 핵심
+```kotlin
+val name = "홍길동"
+val nameText = findViewById<TextView>(R.id.nameText)
+nameText.text = "이름: $name"
+```
+
+- XML의 `@+id/nameText`가 이름표이고, Kotlin에서는 `R.id.nameText`로 같은 View를 부른다.
+- `findViewById<TextView>`는 그 id를 가진 TextView를 찾아 준다.
+- `.text`에 글자를 넣으면 화면의 글자가 바뀐다. XML에 적은 `이름: ?`는 코드가 바꾸기 전의 처음 글자다.
+
+## 5. `setOnClickListener` — 누를 때마다 실행
 
 ```kotlin
-enum class MockConnection { DISCONNECTED, READY }
+var count = 0
+val countText = findViewById<TextView>(R.id.countText)
+val plusButton = findViewById<Button>(R.id.plusButton)
 
-private var connection = MockConnection.DISCONNECTED
-
-private fun render(state: MockConnection) {
-    val ready = state == MockConnection.READY
-    connectionStatus.setText(
-        if (ready) R.string.status_ready else R.string.status_disconnected
-    )
-    connectButton.setText(if (ready) R.string.disconnect else R.string.connect)
-    outputButton.isEnabled = ready
-}
-
-private fun bindEvents() {
-    connectButton.setOnClickListener {
-        connection = if (connection == MockConnection.READY) {
-            MockConnection.DISCONNECTED
-        } else {
-            MockConnection.READY
-        }
-        render(connection)
-    }
+plusButton.setOnClickListener {
+    count = count + 1
+    countText.text = "$count"
 }
 ```
 
-`connectionStatus`, `connectButton`, `outputButton`은 `onCreate()`에서 찾은 View 참조라는 문맥이다. field 선언 방식은 기준 프로젝트를 따른다.
+- 중괄호 `{ }` 안의 코드는 앱이 켜질 때가 아니라 **버튼을 누를 때마다** 실행된다.
+- `count`는 바뀌는 값이므로 `var`다. `count = count + 1`은 `count++`로 줄여 쓸 수도 있다.
+- 화면에는 글자를 넣는다. 숫자 `count`를 그대로 넣는 코드는 [실습지의 막혔을 때](../lab.md#막혔을-때)를 본다.
 
-## 예상 관찰
+## 6. 2일차 완성 — 버튼 카운터
 
-1. 최초에는 `연결 안 됨`이고 출력 버튼은 비활성이다.
-2. 연결 버튼을 누르면 상태 문구, 연결 버튼 label, 출력 버튼 활성 여부가 함께 바뀐다.
-3. 긴 장치명과 큰 글꼴에서는 고정 폭·높이의 문제가 먼저 드러난다.
-4. 회전 뒤 mock 상태가 초기화될 수 있다. 이번 주에는 관찰하고 3주차 상태 보존에서 해결한다.
+[day2/activity_main.xml](day2/activity_main.xml)과 [day2/MainActivity.kt](day2/MainActivity.kt)를 넣고 실행한 결과:
 
-## 경계 입력
+```text
+내 정보
+학번: 20260001
+이름: 홍길동
+전공: 컴퓨터공학과
 
-```kotlin
-val longMockName =
-    "DEMO-LAB-SMART-IO-CONTROLLER-DEVICE-WITH-A-LONG-NAME"
-deviceName.text = longMockName
+3
+[-1] [초기화] [+1]
 ```
 
-실제 BLE 이름을 읽는 코드가 아니다. 개인 장치 식별값도 사용하지 않는다.
+| 누른 순서 | 화면 숫자 |
+|---|---|
+| 처음 실행 | `0` |
+| `+1` 세 번 | `3` |
+| 이어서 `-1` 한 번 | `2` |
+| 이어서 `초기화` | `0` |
+
+화면을 돌리면 숫자가 `0`으로 돌아간다. 이번 주에는 관찰만 하고, 3주차에 이유와 해결 방법을 배운다.
 
 ## 공식 참고 자료
 
-- [ConstraintLayout — Android Developers](https://developer.android.com/develop/ui/views/layout/constraint-layout)
-- [Alternative resources — Android Developers](https://developer.android.com/guide/topics/resources/providing-resources#AlternativeResources)
-- [Accessibility principles — Android Developers](https://developer.android.com/guide/topics/ui/accessibility/principles)
+- [LinearLayout — Android Developers](https://developer.android.com/develop/ui/views/layout/linear)
+- [버튼 — Android Developers](https://developer.android.com/develop/ui/views/components/button)

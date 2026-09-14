@@ -89,6 +89,8 @@ Bound Service는 client-server interface다. 같은 process의 local binder도 l
 
 **실습:** 같은 작업을 Service로 할 이유를 한 문장으로 먼저 쓴다.
 
+[1일차 실습](lab.md#1일차-60분--service는-thread가-아니다)
+
 ---
 
 # Foreground Service와 1차 과제
@@ -164,3 +166,5 @@ Service 실험은 별도 경계로 관찰
 - ESP32-C3 펌웨어 작업 없음
 
 **실습:** rubric 근거가 비어 있는 항목부터 보완한다.
+
+[2일차 실습](lab.md#2일차-60분--1차-과제-리허설과-증거)

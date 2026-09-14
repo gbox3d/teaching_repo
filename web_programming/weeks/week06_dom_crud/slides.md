@@ -126,6 +126,8 @@ render(todos)
 
 **1일차 실습:** Create → Read → Delete 순으로 한 기능씩 검증한다.
 
+[1일차 실습](lab.md#1일차-60분--createreaddelete)
+
 ---
 
 # 2일차: id·수정·영속화
@@ -261,3 +263,5 @@ function loadTodos() {
 5. 키보드만으로 추가·수정·삭제 가능한가?
 
 **2일차 실습:** Update + persistence + failure path를 증거로 남긴다.
+
+[2일차 실습](lab.md#2일차-60분--update저장복구)

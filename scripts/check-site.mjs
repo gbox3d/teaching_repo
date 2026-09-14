@@ -5,9 +5,9 @@ import { runInNewContext } from "node:vm";
 import { isDeepStrictEqual } from "node:util";
 
 const EXPECTED_DECKS = 46;
-const EXPECTED_SLIDES = 927;
+const EXPECTED_SLIDES = 926;
 const EXPECTED = {
-  android: { slug: "android", decks: 15, slides: 226, status: "published" },
+  android: { slug: "android", decks: 15, slides: 225, status: "published" },
   web: { slug: "webprg", decks: 16, slides: 290, status: "published" },
   "open-source-ai": { slug: "open_source_ai", decks: 15, slides: 411, status: "published" },
 };

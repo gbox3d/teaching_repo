@@ -3,212 +3,233 @@ marp: true
 theme: default
 paginate: true
 header: 모바일프로그래밍 · 2주차
-footer: XML Views · Adaptive Smart I/O Controller
+footer: 첫 Android 앱 · LinearLayout과 findViewById
 ---
 
-# XML View와 적응형 장치 제어판
+# 첫 Android 앱: 내 정보 화면과 카운터
 
-> 화면은 픽셀 좌표가 아니라 관계와 상태의 표현이다.
+1주차에는 학번과 이름을 **콘솔**에 출력했습니다.
+이번 주에는 **앱 화면**에 띄우고, 버튼으로 숫자를 바꿉니다.
+
+```text
+내 정보
+학번: 20260001
+이름: 홍길동
+전공: 컴퓨터공학과
+
+3
+[-1] [초기화] [+1]
+```
 
 ---
 
-# 1일차 — View tree와 resource
+# 1일차 — 앱 화면에 내 정보 띄우기
 
 `30분 설명·시연 → 60분 실습`
 
+1. Android Studio에서 새 프로젝트 만들기
+2. LinearLayout으로 글자를 위에서 아래로 쌓기
+3. TextView로 학번·이름·전공 표시하기
+
 ---
 
-## 1일차 · 0–4분 — 화면을 계약으로 읽기
+## 1일차 · 0–5분 — 새 프로젝트 만들기
 
-| 사용자 질문 | UI가 답해야 하는 것 |
+1. **New Project** → **Empty Views Activity** 선택
+2. Name: `StudentCard` · Language: **Kotlin**
+3. **Finish** → 아래쪽 진행 표시가 끝날 때까지 기다리기
+4. 기기를 고르고 **Run ▶** → `Hello World!` 확인
+
+이름이 비슷한 **Empty Activity**가 아니라 **Empty Views Activity**를 고릅니다.
+
+---
+
+## 1일차 · 5–15분 ① — 화면을 만드는 두 파일
+
+| 파일 | 하는 일 |
 |---|---|
-| 어떤 장치인가? | 장치 이름 |
-| 지금 연결됐나? | 상태 문구·색 이외의 단서 |
-| 무엇을 할 수 있나? | 활성화된 동작 |
-| 실패하면? | 이유와 다음 행동 |
-
-이번 주는 실제 장치 대신 mock 상태를 사용한다.
-
----
-
-## 1일차 · 4–9분 — XML은 View tree가 된다
-
-```text
-ConstraintLayout
-├─ TextView   title
-├─ TextView   deviceName
-├─ TextView   connectionStatus
-├─ Button     connectButton
-└─ Button     outputButton
-```
-
-부모가 자식의 측정과 배치에 참여한다. 깊은 중첩은 읽기와 측정 비용을 키운다.
-
----
-
-## 1일차 · 9–15분 — 크기와 단위
-
-| 표현 | 의미 |
-|---|---|
-| `wrap_content` | 내용에 필요한 크기 |
-| `match_parent` | 부모가 허용한 크기 |
-| ConstraintLayout의 `0dp` | 연결된 constraint 사이 크기 |
-| `dp` | 레이아웃·간격 |
-| `sp` | 사용자 글꼴 배율을 따르는 텍스트 |
-
-```xml
-android:layout_width="0dp"
-android:layout_height="wrap_content"
-android:textSize="18sp"
-```
-
----
-
-## 1일차 · 15–21분 — 위치보다 관계
-
-```xml
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintTop_toBottomOf="@id/deviceName"
-```
-
-```text
-parent start ├──── status(0dp) ────┤ parent end
-                         ▲
-                    deviceName 아래
-```
-
-절대 좌표가 아니라 어떤 View와 연결되는지를 읽는다.
-
----
-
-## 1일차 · 21–27분 — resource와 단일 render
+| `res/layout/activity_main.xml` | 화면에 **무엇을 어떻게** 놓을지 적는다 |
+| `MainActivity.kt` | 앱이 시작될 때 **할 일**을 적는다 |
 
 ```kotlin
-enum class MockConnection { DISCONNECTED, READY }
+setContentView(R.layout.activity_main)
+```
 
-fun render(state: MockConnection) {
-    statusView.setText(
-        if (state == MockConnection.READY)
-            R.string.status_ready else R.string.status_disconnected
-    )
-    outputButton.isEnabled = state == MockConnection.READY
+“`activity_main.xml`을 이 화면으로 쓴다”는 뜻입니다. 1일차에는 XML만 고칩니다.
+
+---
+
+## 1일차 · 5–15분 ② — LinearLayout은 차례로 쌓는다
+
+```text
+vertical (세로)            horizontal (가로)
+
+내 정보                    [-1] [초기화] [+1]
+학번: 20260001
+이름: 홍길동
+전공: 컴퓨터공학과
+```
+
+- 안에 넣은 **순서대로** 한 줄씩 놓습니다.
+- `android:orientation`: `vertical`은 위에서 아래로, `horizontal`은 옆으로
+- `android:gravity="center"`: 안의 내용을 가운데로 모읍니다.
+
+---
+
+## 1일차 · 15–25분 ① — TextView 하나 읽기
+
+```xml
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="학번: 20260001"
+    android:textSize="20sp" />
+```
+
+- `wrap_content`: 글자에 딱 맞는 크기 (`match_parent`는 부모만큼)
+- `android:text`: 화면에 보일 글자
+- 글자 크기는 `sp`, 간격은 `dp`를 씁니다.
+
+---
+
+## 1일차 · 15–25분 ② — 내 정보 화면 완성하기
+
+```xml
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!-- TextView 네 개: 내 정보 · 학번 · 이름 · 전공 -->
+
+</LinearLayout>
+```
+
+- `android:id="@+id/main"`은 **지우지 않습니다.** `MainActivity.kt`가 씁니다.
+- 학번 TextView를 복사해 붙이고 `android:text`만 바꿉니다.
+
+---
+
+## 1일차 · 25–30분 — 이제 직접 해 보기
+
+[1일차 실습](lab.md#1일차--linearlayout으로-내-정보-화면-만들기-60분) · [따라하기](walkthrough.md#1일차)
+
+1. `StudentCard` 프로젝트를 만들고 `Hello World!`를 실행합니다.
+2. `activity_main.xml`을 LinearLayout으로 바꿉니다.
+3. 학번·이름·전공을 본인 정보로 띄우고 캡처합니다.
+
+**설명 합계: 5+10+10+5 = 30분**
+
+막히면 `android:id="@+id/main"`, 따옴표, `/>` 짝부터 확인합니다.
+
+---
+
+# 2일차 — 코드로 화면 바꾸기
+
+`30분 설명·시연 → 60분 실습`
+
+1. `android:id`로 View에 이름표 붙이기
+2. `findViewById`로 View를 찾아 글자 바꾸기
+3. 버튼을 누를 때마다 숫자 세기
+
+---
+
+## 2일차 · 0–5분 — id는 View의 이름표
+
+```xml
+<TextView
+    android:id="@+id/nameText"
+    android:text="이름: ?"
+    ... />
+```
+
+```kotlin
+R.id.nameText
+```
+
+- XML에서 `@+id/nameText`로 이름표를 붙입니다.
+- Kotlin에서는 `R.id.nameText`로 같은 View를 가리킵니다.
+- 철자가 한 글자라도 다르면 찾지 못합니다.
+
+---
+
+## 2일차 · 5–15분 ① — findViewById로 찾아서 바꾸기
+
+```kotlin
+val name = "홍길동"
+val nameText = findViewById<TextView>(R.id.nameText)
+nameText.text = "이름: $name"
+```
+
+| 1주차 (콘솔) | 2주차 (앱 화면) |
+|---|---|
+| `println("이름: $name")` | `nameText.text = "이름: $name"` |
+
+`findViewById<TextView>`: id가 `nameText`인 **TextView**를 찾아 줘
+
+---
+
+## 2일차 · 5–15분 ② — 버튼을 누르면 실행할 코드
+
+```kotlin
+val plusButton = findViewById<Button>(R.id.plusButton)
+
+plusButton.setOnClickListener {
+    // 버튼을 누를 때마다 이 안의 코드가 실행된다
 }
 ```
 
-문구는 `strings.xml`, 상태별 표시 결정은 `render()` 한 곳에 둔다.
+- `{ }` 안의 코드는 앱이 켜질 때가 아니라 **누를 때마다** 실행됩니다.
+- `TextView`, `Button`이 빨간색이면 **Alt+Enter**(맥 ⌥+Enter)로 import합니다.
 
 ---
 
-## 1일차 · 27–30분 — 실습 이양
+## 2일차 · 15–25분 — var로 숫자 세기
 
-1. View tree와 폭 정책을 먼저 그린다.
-2. 세로 화면 기준선을 만든다.
-3. mock 상태를 두 번 전환한다.
-4. 화면·로그·활성 상태를 함께 확인한다.
+```kotlin
+var count = 0
+val countText = findViewById<TextView>(R.id.countText)
 
-**1일차 설명 합계: 4+5+6+6+6+3 = 30분**
-
----
-
-# 2일차 — 화면 변화와 접근성
-
-`30분 설명·시연 → 60분 실습`
-
----
-
-## 2일차 · 0–5분 — configuration은 입력 조건
-
-```text
-같은 layout + 다른 조건
-├─ portrait / landscape
-├─ 작은 폭 / 큰 폭
-├─ 기본 글꼴 / 큰 글꼴
-└─ 짧은 번역 / 긴 번역
+plusButton.setOnClickListener {
+    count = count + 1
+    countText.text = "$count"
+}
 ```
 
-한 기기에서 한 번 보인 화면은 충분한 검증이 아니다.
+- 누를 때마다 값이 바뀌므로 `val`이 아니라 `var`입니다.
+- 화면에는 글자가 들어가므로 `count`가 아니라 `"$count"`로 넣습니다.
 
 ---
 
-## 2일차 · 5–11분 — resource qualifier
+## 2일차 · 25–30분 — 이제 직접 해 보기
 
-```text
-res/
-├─ values/dimens.xml
-├─ values-land/dimens.xml
-├─ layout/activity_main.xml
-└─ values/strings.xml
-```
+[2일차 실습](lab.md#2일차--버튼으로-숫자-세기-60분) · [따라하기](walkthrough.md#2일차)
 
-```xml
-<!-- values-land/dimens.xml -->
-<dimen name="screen_padding">32dp</dimen>
-```
+1. 이름 TextView에 id를 붙이고 코드로 글자를 바꿉니다.
+2. `+1` 버튼을 누르면 숫자가 1씩 늘게 합니다.
+3. `-1`과 `초기화` 버튼은 `+1` 코드를 보고 **직접** 완성합니다.
 
-공통 구조는 유지하고 필요한 값만 조건별로 바꾼다.
+**설명 합계: 5+10+10+5 = 30분**
 
 ---
 
-## 2일차 · 11–17분 — 긴 내용과 스크롤
+## 제출하기
 
-나쁜 신호:
+2일차가 끝나면 세 가지를 한 번 제출합니다.
 
-- 고정 폭·높이 때문에 글자 잘림
-- 가로에서 버튼이 화면 밖으로 밀림
-- 큰 글꼴에서 상태와 버튼이 겹침
-
-우선순위:
-
-1. `wrap_content`와 constraint 확인
-2. 불필요한 고정 높이 제거
-3. 내용이 화면보다 길 수 있으면 스크롤 컨테이너 검토
+1. **`activity_main.xml`**
+2. **`MainActivity.kt`**
+3. **실행 화면 캡처 1장**: 학번·이름·전공과 숫자 `3`이 보이는 화면
 
 ---
 
-## 2일차 · 17–23분 — 접근 가능한 상태
+## 다음 주 미리 보기
 
-| 항목 | 점검 질문 |
-|---|---|
-| label | 아이콘만으로 의미를 강요하는가? |
-| 상태 | 색 외에 `연결됨/연결 안 됨` 문구가 있는가? |
-| 조작 | 비활성 버튼의 이유를 주변 문구로 아는가? |
-| 읽기 | 큰 글꼴에서도 핵심 정보가 남는가? |
+숫자를 `3`으로 만든 뒤 에뮬레이터 화면을 **돌려** 보세요.
 
-텍스트가 이미 의미를 말하는 버튼에는 중복 설명을 만들지 않는다.
+숫자는 어떻게 되었나요? 왜 그럴까요?
 
----
-
-## 2일차 · 23–27분 — 상태와 행동의 일관성
-
-| 상태 | 연결 버튼 | 출력 버튼 | 상태 문구 |
-|---|---|---|---|
-| `DISCONNECTED` | 연결 | 비활성 | 연결 안 됨 |
-| `READY` | 연결 해제 | 활성 | 제어 준비 |
-
-상태 문구, 버튼 label, `isEnabled`를 서로 다른 listener에 흩뜨리지 않는다.
-
----
-
-## 2일차 · 27–30분 — 실습 이양
-
-검증 매트릭스:
-
-- 세로 / 가로
-- 기본 글꼴 / 큰 글꼴
-- 짧은 이름 / 긴 이름
-- `DISCONNECTED` / `READY`
-
-**2일차 설명 합계: 5+6+6+6+4+3 = 30분**
-
----
-
-## Compose 비교 — 확장 관찰만
-
-Compose의 Modifier도 크기·관계·접근성 의미를 선언하지만 이번 주 구현과 평가는 XML View/resource 구조를 기준으로 한다.
-
----
-
-## 다음 주 질문
-
-회전으로 화면 객체가 다시 만들어질 때 어떤 callback이 호출되고 어떤 상태를 어디에 보존해야 할까?
+3주차에는 화면이 다시 만들어지는 **Activity 생명주기**를 배웁니다.

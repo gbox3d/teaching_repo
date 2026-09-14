@@ -107,6 +107,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 ## 1일차 · 27–30분 — 실습 이양
 
+[1일차 실습](lab.md#1일차-실습--회전으로-상태-소실을-재현하고-복원하기-60분)
+
 1. 상태 소실을 먼저 재현한다.
 2. callback과 instance id를 기록한다.
 3. 작은 값 하나만 저장·복원한다.
@@ -202,6 +204,8 @@ deprecated `startActivityForResult()`/`onActivityResult()`를 사용하지 않�
 ---
 
 ## 2일차 · 27–30분 — 실습 이양
+
+[2일차 실습](lab.md#2일차-실습--상세-activity와-결과-계약-60분)
 
 검증 순서:
 

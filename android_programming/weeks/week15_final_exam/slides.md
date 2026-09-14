@@ -99,6 +99,8 @@ Idle → Scanning → Connecting → Discovering → Ready
 
 ## 25–30분 — 1일차 증거
 
+[1일차 실습](lab.md#1일차-60분--요구-분석과-1차-구현)
+
 - 요구 체크리스트
 - 중간 실행 결과
 - 첫 정상 trace
@@ -180,6 +182,8 @@ Idle → Scanning → Connecting → Discovering → Ready
 ---
 
 ## 25–30분 — 최종 체크
+
+[2일차 실습](lab.md#2일차-60분--실패-검증과-개인-시연)
 
 1. 저장
 2. 요구 체크

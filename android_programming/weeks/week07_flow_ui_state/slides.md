@@ -98,6 +98,8 @@ private fun render(state: ControllerUiState) = with(binding) {
 
 **실습:** 먼저 상태 전이표를 만들고 모든 `when` 분기를 구현한다.
 
+[1일차 실습](lab.md#1일차-60분--stateflow와-exhaustive-render)
+
 ---
 
 # 생명주기에 맞춘 수집과 복구
@@ -173,6 +175,8 @@ collector 시작/종료 로그와 instance id를 함께 기록한다.
 ---
 
 ## 2일차 · [27–30분] 검증 행렬
+
+[2일차 실습](lab.md#2일차-60분--lifecycle-timeout-retry)
 
 | 경로 | 기대 |
 |---|---|

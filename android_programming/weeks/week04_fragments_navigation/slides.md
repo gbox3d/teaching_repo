@@ -99,6 +99,8 @@ if (deviceId == null) renderMissingDevice()
 
 ## 1일차 · 27–30분 — 실습 이양
 
+[1일차 실습](lab.md#1일차-실습--fragmentview-수명과-navigation-60분)
+
 1. graph를 그림으로 먼저 확인한다.
 2. 두 Fragment의 View 로그를 남긴다.
 3. 이동과 Back을 관찰한다.
@@ -198,6 +200,8 @@ when {
 ---
 
 ## 2일차 · 27–30분 — 실습 이양
+
+[2일차 실습](lab.md#2일차-실습--recyclerview-목록과-펄스-입력-검증-60분)
 
 완료 조건:
 

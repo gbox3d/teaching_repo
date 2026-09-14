@@ -101,6 +101,8 @@ executor.submit {
 
 ## 1일차 · 27–30분 — 실습 이양
 
+[1일차 실습](lab.md#1일차-실습--blocking과-executor-비교-60분)
+
 1. blocking 실패를 짧게 재현한다.
 2. 같은 duration을 Executor로 옮긴다.
 3. UI는 main에서만 갱신한다.
@@ -189,6 +191,8 @@ repeat(25_000) {
 ---
 
 ## 2일차 · 27–30분 — 실습 이양
+
+[2일차 실습](lab.md#2일차-실습--view-취소-경계와-race-condition-60분)
 
 - 긴 작업→즉시 Back: stale UI 갱신 없음
 - unsafe 1 worker, 4 workers 각각 반복

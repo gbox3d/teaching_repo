@@ -83,6 +83,8 @@ onReceive main thread
 
 **실습:** register 수명과 event 출처를 먼저 표로 작성한다.
 
+[1일차 실습](lab.md#1일차-60분--receiver-lifecycle과-입력-검증)
+
 ---
 
 # Runtime permission과 BLE 예고
@@ -163,3 +165,5 @@ sealed interface PermissionUiState {
 | no BLE feature | 권한 요청 없이 unavailable |
 
 **실습:** 실제 scan 대신 권한과 capability 상태까지만 증명한다.
+
+[2일차 실습](lab.md#2일차-60분--ble-권한-matrix와-거절-ux)

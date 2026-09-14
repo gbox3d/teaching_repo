@@ -113,6 +113,8 @@ gateway.events.collect { event ->
 
 먼저 다음 상태를 예측하고 실행한다.
 
+[1일차 실습](lab.md#1일차-60분--fake-scanconnectdiscover)
+
 ---
 
 <!-- _class: lead -->
@@ -186,6 +188,8 @@ t+3200 Ready
 ---
 
 ## 25–30분 — 실습 인계
+
+[2일차 실습](lab.md#2일차-60분--real-transport와-esp32-c3)
 
 실습 순서:
 

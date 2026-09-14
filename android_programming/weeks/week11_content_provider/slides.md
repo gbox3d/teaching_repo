@@ -116,6 +116,8 @@ override fun getType(uri: Uri): String = when (uriMatcher.match(uri)) {
 
 ## 25–30분 — 예측 후 실습 인계
 
+[1일차 실습](lab.md#1일차-60분--uri와-fake-resolver)
+
 예측 카드:
 
 1. 없는 ID를 조회하면 null, 빈 목록, 오류 중 무엇인가?
@@ -196,6 +198,8 @@ sealed interface HistoryUiState {
 ---
 
 ## 25–30분 — 실습 인계
+
+[2일차 실습](lab.md#2일차-60분--필터정렬접근-실패)
 
 반드시 확인할 세 경로:
 

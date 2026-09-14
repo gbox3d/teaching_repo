@@ -132,6 +132,8 @@ seed:
 
 차이는 UI filter가 아니라 RLS policy가 만든다.
 
+[1일차 실습](lab.md#1일차-60분--schemagrantrls-재현)
+
 ---
 
 # 2일차: data source를 교체하고 진단하기
@@ -238,6 +240,8 @@ publishable key + RLS + least grant = 공개 client의 보안 모델
 4. unpublished slug가 DOM/응답에 없는지 확인
 5. key 종류 재확인
 6. Security Advisor와 policy 목록 확인
+
+[2일차 실습](lab.md#2일차-60분--project-data-source-교체)
 
 ---
 

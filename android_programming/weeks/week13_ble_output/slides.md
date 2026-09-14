@@ -107,6 +107,8 @@ timeout은 자동으로 `LOW`나 `HIGH`를 단정할 근거가 아니다. 동기
 
 사건 trace를 먼저 예측한 뒤 UI와 대조한다.
 
+[1일차 실습](lab.md#1일차-60분--fake-명령과-reducer)
+
 ---
 
 <!-- _class: lead -->
@@ -180,6 +182,8 @@ t3  DeviceStateConfirmed(requestId=7, actual=HIGH)  // 계약 지원 시
 ---
 
 ## 25–30분 — 실습 인계
+
+[2일차 실습](lab.md#2일차-60분--real-출력과-실패-복구)
 
 1. fake 회귀 테스트
 2. real Ready 확인

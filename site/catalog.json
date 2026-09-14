@@ -15,7 +15,7 @@
       "description": "Kotlin과 Android 프레임워크의 실행 구조에서 BLE 기반 Smart I/O 통합 프로젝트까지 이어지는 15주 과정입니다.",
       "status": "published",
       "accent": "#3ddc84",
-      "summary": "15개 주차 · 226장",
+      "summary": "15개 주차 · 225장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/android_programming",
       "chapters": [
         {
@@ -28,8 +28,8 @@
         {
           "id": "week02_views_layout",
           "label": "2주차",
-          "title": "XML View와 적응형 장치 제어판",
-          "description": "View tree와 resource를 사용해 적응형 제어 화면을 구성합니다.",
+          "title": "첫 Android 앱: 내 정보 화면과 카운터",
+          "description": "LinearLayout으로 학번·이름·전공을 표시하고 findViewById로 버튼 카운터를 만듭니다.",
           "type": "week"
         },
         {

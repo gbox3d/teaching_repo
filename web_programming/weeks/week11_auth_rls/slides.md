@@ -77,6 +77,8 @@ supabase.auth.onAuthStateChange((_event, session) => {
 - 로그아웃 후 작성 form 숨김
 - 비밀번호를 로그·DOM·URL에 남기지 않기
 
+[1일차 실습](lab.md#1일차-60분--인증-상태-ui)
+
 ---
 
 # 2일차: 소유권 데이터
@@ -137,6 +139,8 @@ with check ((select auth.uid()) = owner_id)
 3. B가 delete 시도
 4. 익명 요청 시도
 5. dashboard에서 실제 row 확인
+
+[2일차 실습](lab.md#2일차-60분--소유자-rls-공격-테스트)
 
 ---
 

@@ -1,66 +1,92 @@
-# 2주차 — XML View와 적응형 장치 제어판
+# 2주차 — 첫 Android 앱: 내 정보 화면과 카운터
 
 ## 이번 주 질문
 
-> 같은 장치 제어 화면이 글자 길이, 글꼴 크기, 화면 방향이 달라도 읽고 조작할 수 있으려면 View와 resource를 어떻게 나눠야 할까?
+> XML로 그린 앱 화면에 내 정보를 띄우고, Kotlin 코드로 그 화면을 바꿀 수 있을까?
+
+1주차에는 Kotlin Playground에서 학번과 이름을 콘솔에 출력했다. 이번 주에는 Android Studio로
+처음 앱을 만들어 같은 정보를 휴대폰 화면에 띄우고, 버튼을 누르면 숫자가 바뀌는 카운터를 만든다.
 
 ## 학습 목표
 
-수업을 마치면 학생은 다음을 수행할 수 있다.
+1. `Empty Views Activity` 템플릿으로 새 프로젝트를 만들고 에뮬레이터에서 실행한다.
+2. `activity_main.xml`과 `MainActivity.kt`가 각각 무엇을 맡는지 한 문장으로 말한다.
+3. LinearLayout의 `orientation`·`gravity`와 TextView의 `text`·`textSize`·`layout_marginTop`으로 학번·이름·전공 화면을 만든다.
+4. `android:id`와 `findViewById`로 View를 찾아 글자를 바꾼다.
+5. `setOnClickListener`와 `var`로 버튼을 누를 때마다 바뀌는 카운터를 만든다.
 
-1. XML layout을 View tree로 그려 부모·자식의 크기 결정 관계를 설명한다.
-2. `dp`, `sp`, `wrap_content`, `match_parent`, constraint의 용도를 구분해 화면을 구현한다.
-3. 문자열·색상·간격을 resource로 분리하고 코드에서 resource를 참조한다.
-4. 세로·가로, 긴 장치 이름, 큰 글꼴 조건에서 잘림이나 겹침을 재현하고 최소 수정한다.
-5. label, content description, 상태 문구, 활성/비활성 표현을 사용해 기본 접근성을 점검한다.
-6. mock 연결 상태를 하나의 `render()` 함수로 화면에 일관되게 반영한다.
+## 이번 주 결과물
 
-## 누적 결과물
+```text
+내 정보
+학번: 20260001
+이름: 홍길동
+전공: 컴퓨터공학과
 
-강의자가 제공한 Kotlin + XML Views 기준 프로젝트를 `Smart I/O Controller`의 장치 제어판으로 확장한다. 1주차 산출물은 Kotlin 출력 코드이므로 Android 앱이 이미 완성되어 있다고 가정하지 않는다. 실제 BLE 연결은 아직 사용하지 않으며 `Disconnected`/`Ready` 두 mock 상태만 버튼으로 바꾼다. ESP32-C3 펌웨어 작업은 학생 범위가 아니다.
+3
+[-1] [초기화] [+1]
+```
+
+예제의 학번·이름·전공을 본인 정보로 바꾸면 된다. 마지막에는 두 파일과 실행 화면을 제출한다.
 
 ## 2일 수업 흐름
 
-| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 | 산출물 |
+| 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | View tree, 크기·단위, constraint, resource, 이벤트 렌더링 | 세로 장치 제어판과 mock 상태 구현 | XML 구조도와 정상 화면 |
-| 2일차 | resource qualifier, 회전·큰 글꼴, 접근성, 상태 표현 | 가로·긴 문구·큰 글꼴·사용 불가 상태 점검 | 조건별 관찰표와 개선 화면 |
+| 1일차 | 새 프로젝트, 화면 파일 두 개, LinearLayout, TextView 속성 | 프로젝트 실행 → LinearLayout으로 바꾸기 → 학번·이름·전공 표시 → 속성 바꿔 보기 | 내 정보 화면 |
+| 2일차 | `android:id`, `findViewById`, `setOnClickListener`, `var` 카운터 | 코드로 이름 바꾸기 → `+1` 버튼 → `-1`·`초기화` 직접 완성 → 회전 관찰 → 제출 | 버튼 카운터 앱 |
 
-두 날 모두 `설명·시연 30분 + 직접 해결 실습 60분`이다.
+각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
+시간이 필요한 학생은 따라하기 문서의 단계를 하나씩 반복한다.
 
-## 선수 지식과 준비
+## 준비
 
-- 1주차의 `println`, `val`/`var`, 문자열 출력 연습
-- 강의자가 실행을 확인한 Android Studio 환경과 Kotlin + XML Views 기준 프로젝트
-- 수업 시작 시 강의자가 프로젝트 열기·실행과 `MainActivity.kt`, `activity_main.xml`, `strings.xml`의 위치를 함께 안내한다.
-- 예제에 필요한 함수·이벤트 연결 등은 사용하는 부분에서 설명한다. Logcat과 nullable 값 처리를 1주차에 배운 선수 지식으로 요구하지 않는다.
-- [1주차 자료](../week01_android_kotlin/README.md)
+- 실습실 PC의 Android Studio와 에뮬레이터 (버전은 수업 공지와 [설치 안내](../../ta_setup_guide.md)를 따른다)
+- 1주차에 만든 `StudentCard.kt`의 학번·이름 출력 코드
+- 본인의 학번·이름·전공
+
+## 이번 주 범위
+
+| 문법·속성 | 이번 주에 알아둘 뜻 |
+|---|---|
+| `LinearLayout` | 안에 넣은 View를 순서대로 한 줄씩 쌓는 레이아웃 |
+| `android:orientation` | `vertical`은 위에서 아래로, `horizontal`은 왼쪽에서 오른쪽으로 쌓는다 |
+| `android:gravity="center"` | 안의 내용을 가운데로 모은다 |
+| `wrap_content` / `match_parent` | 내용에 맞는 크기 / 부모만큼의 크기 |
+| `sp` / `dp` | 글자 크기 단위 / 간격·크기 단위 |
+| `android:id="@+id/nameText"` | View에 이름표를 붙인다. Kotlin에서는 `R.id.nameText`로 부른다 |
+| `findViewById<TextView>(R.id.nameText)` | id로 화면의 View를 찾는다 |
+| `nameText.text = "이름: $name"` | TextView의 글자를 바꾼다 |
+| `plusButton.setOnClickListener { }` | 버튼을 누를 때마다 중괄호 안의 코드를 실행한다 |
+
+문자열 resource(`strings.xml`), ConstraintLayout, 화면을 돌린 뒤 값 유지하기는 이후 주차에서 다룬다.
 
 ## 수업 자료
 
 - [슬라이드](slides.md)
-- 강의 스크립트: 강의자 별도 관리(비공개)
-- [실습지](lab.md)
-- [예제 스니펫 안내](examples/README.md)
+- [순서대로 따라하기](walkthrough.md)
+- [실습과 제출 안내](lab.md)
+- [예제 설명](examples/README.md)
+- 1일차 완성 코드: [activity_main.xml](examples/day1/activity_main.xml) · [MainActivity.kt](examples/day1/MainActivity.kt)
+- 2일차 완성 코드: [activity_main.xml](examples/day2/activity_main.xml) · [MainActivity.kt](examples/day2/MainActivity.kt)
 
-## 완료 증거
+## 완료 기준
 
-- [ ] View tree와 각 View의 폭/높이 정책을 적은 구조도
-- [ ] 문자열 리터럴을 resource로 분리한 XML
-- [ ] mock 상태 두 가지를 같은 `render()`에서 표시한 Kotlin 코드
-- [ ] 세로·가로, 기본·큰 글꼴, 짧은·긴 이름 관찰표
-- [ ] 정상·경계·실패 조건 각각의 화면 또는 관찰 기록
-- [ ] 접근성 점검 4항목과 수정 전후 설명
+- [ ] `Empty Views Activity`로 만든 `StudentCard` 앱이 에뮬레이터에서 실행된다.
+- [ ] LinearLayout 안에 본인의 학번·이름·전공이 세 줄로 보인다.
+- [ ] 코드에서 `findViewById`로 이름 TextView의 글자를 바꾼다.
+- [ ] `+1`·`-1`·`초기화` 버튼으로 숫자가 바뀐다.
+- [ ] 두 파일과 숫자 `3`이 보이는 실행 화면 1장을 제출한다.
 
-## 다음 주 연결
+## 다음 수업 연결
 
-회전하면 Activity와 View tree가 다시 만들어지고 현재 mock 상태가 초기화될 수 있다. 3주차에는 lifecycle callback을 로그로 관찰하고 저장 가능한 UI 상태와 일회성 화면 이동을 분리한다.
+숫자를 올린 뒤 화면을 돌리면 숫자가 `0`으로 돌아간다. 3주차에는 화면이 다시 만들어지는
+Activity 생명주기를 관찰하고, 화면을 돌려도 숫자가 남도록 상태를 저장한다.
 
 ## 공식 참고 자료
 
-- [Layouts in views — Android Developers](https://developer.android.com/develop/ui/views/layout/declaring-layout)
-- [Build a responsive UI with ConstraintLayout — Android Developers](https://developer.android.com/develop/ui/views/layout/constraint-layout)
-- [App resources overview — Android Developers](https://developer.android.com/guide/topics/resources/providing-resources)
-- [Support different screen sizes — Android Developers](https://developer.android.com/training/multiscreen/screensizes)
-- [Make apps more accessible — Android Developers](https://developer.android.com/guide/topics/ui/accessibility/apps)
-- [String resources — Android Developers](https://developer.android.com/guide/topics/resources/string-resource)
+- [새 프로젝트 만들기 — Android Developers](https://developer.android.com/studio/projects/create-project)
+- [앱 빌드 및 실행 — Android Developers](https://developer.android.com/studio/run)
+- [View 레이아웃 — Android Developers](https://developer.android.com/develop/ui/views/layout/declaring-layout)
+- [LinearLayout — Android Developers](https://developer.android.com/develop/ui/views/layout/linear)
+- [버튼 — Android Developers](https://developer.android.com/develop/ui/views/components/button)

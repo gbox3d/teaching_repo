@@ -94,6 +94,8 @@ Start by changing **only the text inside the double quotes**.
 
 ## Day 1 · 25–30 min — Try It Yourself
 
+[Day 1 lab](lab.md#1일차--글자-두-줄-출력하기-60분) · [Walkthrough](walkthrough.md)
+
 **Explanation total: 5+10+10+5 = 30 min**
 
 Take your time during the following 60-minute lab.
@@ -208,6 +210,8 @@ Enter your student ID and name, then run the code to meet this week's goal.
 ---
 
 ## Day 2 Lab — Practice at Your Own Pace · 60 min
+
+[Day 2 lab](lab.md#2일차--변수에-담아-출력하기-60분) · [Walkthrough](walkthrough.md)
 
 1. Type the finished code and run it.
 2. Set `studentId` and `name` to your own details.
