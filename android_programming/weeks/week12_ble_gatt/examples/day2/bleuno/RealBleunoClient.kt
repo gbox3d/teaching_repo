@@ -97,6 +97,7 @@ class RealBleunoClient(
     override fun startScan(timeoutMs: Long, onFound: (BleunoDevice) -> Unit, onFinished: () -> Unit) {
         if (!PermissionHelper.hasAll(appContext)) {
             Log.w(TAG, "startScan: 권한이 없어 무시함 (${PermissionHelper.missing(appContext).joinToString()})")
+            onFinished()
             return
         }
         val scanner = bluetoothManager?.adapter?.bluetoothLeScanner

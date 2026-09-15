@@ -119,6 +119,7 @@ override fun onDestroy() {
 
 `onCreate`의 끝에서 `viewModel.resultText`를 `stateText`에 넣고, 그 값이 `"연결 실패"`면 [다시 시도]를 보이게 한다.
 막히면 [따라하기 6단계](walkthrough.md#6-회전-뒤-남은-문구-다시-읽기)를 본다. 그다음 아래 때에 회전하고 표를 채운다.
+폰 크기 화면을 가로로 돌리면 아래쪽이 잘려 [다시 시도]·[연결]이 반쯤 가려질 수 있다. 반쯤 가려진 버튼도 보이는 것으로 적는다.
 
 | 회전한 때 | 글자 | [검색]·[중지]·ProgressBar | Logcat `tag:Conn` |
 |---|---|---|---|
@@ -228,7 +229,7 @@ lifecycleScope.launch {
 ### 4. 남은 초 받고 회전하기
 
 1. 같은 틀을 첫 틀 **아래**에 하나 더 넣고 `viewModel.seconds.collect { seconds -> }` 안에서, `seconds`가 0보다 크면 `stateText`를 `연결 중… $seconds`로 바꾼다.
-2. `연결 중… 5`→`1`이 보이면 `연결 중… 3`에서 회전한다. 숫자·[중지]·ProgressBar가 이어지면 **캡처 1**을 찍는다.
+2. `연결 중… 5`→`1`이 보이면 `연결 중… 3`에서 회전한다. 숫자·[중지]·ProgressBar가 이어지면 **캡처 1**을 찍는다. 폰 크기 가로 화면에서는 아래쪽 [연결]이 반쯤 가려져도 된다.
 3. 홈으로 나갔다 돌아와도 같은지 본다.
 
 ### 5. 준비됨 화면과 제출 준비
@@ -263,7 +264,7 @@ lifecycleScope.launch {
 | `Suspend function 'suspend fun collect(collector: FlowCollector<Int>): Nothing' should be called only from a coroutine or another suspend function.` (`<Int>` 자리는 받는 값에 따라 달라서, `state`를 받을 때는 `<String>`으로 나온다) | `collect`를 틀 없이 `onCreate`에 바로 썼다. 틀(`lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { } }`) 안에 넣는다. `seconds` 틀이면 `state` 틀 **아래**에 둔다 |
 | `Unresolved reference 'repeatOnLifecycle'.` 과 `Suspension functions can only be called within coroutine body.` | Alt+Enter로 `androidx.lifecycle.repeatOnLifecycle`을 import한다. 두 번째 메시지는 함께 사라진다 |
 | `Unresolved reference 'disconnectButton'.` | `activity_main.xml`의 `android:id="@+id/disconnectButton"` 철자를 본다. 오류는 Kotlin 파일에 나오지만 원인은 XML이다 |
-| (예상) 빌드는 되는데 `연결 실패`에서 회전하면 `대기 중`으로 돌아가고 [다시 시도]가 사라진다 | `private val viewModel = ConnViewModel()`로 직접 만들었는지 본다. `by viewModels()`로 받는다 |
+| 빌드는 되는데 `연결 실패`에서 회전하면 `대기 중`으로 돌아가고 [다시 시도]가 사라진다 | `private val viewModel = ConnViewModel()`로 직접 만들었는지 본다. `by viewModels()`로 받는다 |
 | (예상, 1일차) 회전한 뒤 숫자가 멈추고 끝까지 바뀌지 않는다 | `onCreate`의 `viewModel.listener = { … }` 등록이 빠졌는지 본다. 회전하면 새 화면이 다시 등록해야 한다 |
 | (예상, 2일차) 회전 직후 `연결 중… 3` 대신 `연결 중`만 보이고 1초 뒤에야 숫자가 나온다 | `seconds` 틀이 `state` 틀 위에 있는지 본다. 아래로 옮긴다 |
 

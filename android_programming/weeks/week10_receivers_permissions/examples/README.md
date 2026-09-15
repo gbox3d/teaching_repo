@@ -112,7 +112,7 @@ binding.batteryText.text = "배터리 $percent% · $charging"
 
 - 전체 파일은 [day2/AndroidManifest.xml](day2/AndroidManifest.xml)이다. `tools:` 속성을 쓰려고 `<manifest>` 태그에 `xmlns:tools`가 있다. 새 프로젝트 템플릿에는 보통 이미 들어 있으니 내 파일에 있으면 다시 넣지 않는다.
 - `neverForLocation`은 검색 결과로 위치를 알아내지 않는다는 표시, `tools:targetApi="s"`는 Android 12용 속성이라고 편집기에 알리는 표시다. 외우지 않는다.
-- 선언을 빼도 빌드는 된다. 그러면 [권한 확인]을 눌러도 권한 창이 뜨지 않고 곧바로 거절로 처리된다(예상).
+- 선언을 빼도 빌드는 된다. 그러면 [권한 확인]을 눌러도 권한 창이 뜨지 않고 곧바로 거절로 처리된다.
 
 ## 5. `blePermissions()` — 버전에 맞는 권한 고르기(제공)
 
@@ -174,7 +174,7 @@ binding.permissionButton.setOnClickListener {
 | 권한 창 [허용 안함] | 대화상자 `권한이 필요합니다` |
 | 같은 권한을 두 번 거절한 뒤 [권한 확인] | 권한 창 없이 곧바로 대화상자 |
 
-- 요청 틀은 클래스 변수 자리에서 만든다. 버튼 리스너 안에서 만들면 빌드는 되지만 누르는 순간 앱이 멈춘다(예상).
+- 요청 틀은 클래스 변수 자리에서 만든다. 버튼 리스너 안에서 만들면 빌드는 되지만 누르는 순간 앱이 멈춘다.
 - `{ _ -> }`: 결과 묶음은 읽지 않고 `hasBlePermissions()`로 지금 권한을 다시 확인한다.
 - 권한 창 문구와 버튼 이름은 OS 버전과 언어 설정에 따라 조금 다르다.
 
@@ -202,7 +202,7 @@ private fun showPermissionDialog() {
 
 - `AlertDialog`는 `androidx.appcompat.app.AlertDialog`를 import한다.
 - 4주차 명시적 Intent는 열 화면(`ControlActivity::class.java`)을 정했다. 암시적 Intent는 할 일(ACTION)과 대상(`package:…` 주소)만 적고 시스템이 화면을 찾는다.
-- `package:`를 빼면 [설정으로]를 누르는 순간 앱이 멈춘다(예상).
+- `package:`를 빼면 [설정으로]를 누르는 순간 앱이 멈춘다.
 
 ## 8. 강의 시연 — `setResult`로 결과 받기(완성본에 없음)
 

@@ -399,7 +399,7 @@ class ControlActivity : AppCompatActivity() {
 1. [뒤로]를 누르고 [제어 화면]으로 다시 들어온다. 새 화면이라 로그가 비어 있다. `3` → Switch 켜기 → 로그에 `on 3`과 `응답: {"result":"ok","ms":"led(s) on"}`이 보이는 **세로 화면을 캡처한다.** 이 화면이 제출 캡처 1이다.
 
 - 로그 칸(`logText`)에는 스크롤이 없다. 명령 하나에 `on 3` 한 줄과 접힌 JSON 줄이 쌓여, 몇 번 보내면 새 줄이 칸 아래로 밀려 안 보인다. 캡처는 **들어온 직후 첫 조작**에서 찍는다. 넘치면 [뒤로] → [제어 화면]으로 다시 들어온다.
-- 화면을 돌리면 로그가 비워진 뒤 `on 3`과 응답이 한 번 더 찍힐 수 있다. Switch 켜짐 상태가 되살아나며 리스너가 한 번 더 불리기 때문이다(3주차 회전). 캡처는 돌리지 않은 세로 화면에서 찍는다.
+- 화면을 돌리면 Switch 켜짐 상태가 되살아나며 리스너가 한 번 더 불려 `on 3`이 다시 나간다(3주차 회전). 폰 크기 가로 화면에서는 로그 칸이 안 보여, 이때 다시 나간 명령과 응답은 Logcat `tag:BLE`에서만 보인다. 세로로 되돌릴 때 한 번 더 나가고, 그때 비워진 로그에 `on 3`과 응답이 찍힌다. 캡처는 돌리지 않은 세로 화면에서 찍는다.
 
 2. 보드와 실기기가 있으면 실제 보드로 해 본다.
    1. 보드 LED가 파랑 깜빡임인지 본다.
@@ -1911,6 +1911,7 @@ class RealBleunoClient(
     override fun startScan(timeoutMs: Long, onFound: (BleunoDevice) -> Unit, onFinished: () -> Unit) {
         if (!PermissionHelper.hasAll(appContext)) {
             Log.w(TAG, "startScan: 권한이 없어 무시함 (${PermissionHelper.missing(appContext).joinToString()})")
+            onFinished()
             return
         }
         val scanner = bluetoothManager?.adapter?.bluetoothLeScanner

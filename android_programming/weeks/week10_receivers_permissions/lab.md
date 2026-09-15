@@ -167,6 +167,7 @@ private val permissionLauncher = registerForActivityResult(ActivityResultContrac
 - 요청 틀을 버튼 리스너 **안**에서 만들지 않는다. 클래스 변수 자리여야 한다.
 - 이미 허용해 버렸으면 설정 › 앱 › Smart I/O Controller › 권한 › 근처 기기 › 허용 안함으로 되돌린 뒤 앱을 다시 실행한다.
 - 같은 권한을 두 번 거절하면 이후에는 권한 창 없이 곧바로 대화상자가 뜬다. 코드가 틀린 것이 아니다.
+- 폰 크기 화면을 가로로 돌리면 위아래가 잘려 [권한 확인]이 반쯤 가리고 배터리 문구가 안 보인다. 확인할 항목이 안 보이면 세로로 되돌려 확인한다.
 
 ### 5. 캡처 2·3
 
@@ -176,7 +177,7 @@ private val permissionLauncher = registerForActivityResult(ActivityResultContrac
 ## 막혔을 때
 
 오류 문구는 Android Studio의 Build 창에 나오는 첫 줄이다. 파일 이름과 줄 번호는 내 코드에 따라 다르다.
-**(예상)** 표시는 빌드는 되지만 실행에서 드러나는 증상을 코드로 짐작해 적은 것이라, 에뮬레이터에서 조금 다르게 보일 수 있다. Logcat 문구의 `@` 뒤 숫자는 실행마다 다르다.
+빌드는 되지만 실행에서 드러나는 증상은 Android 14 에뮬레이터에서 확인한 것이라, 기기와 버전에 따라 조금 다르게 보일 수 있다. Logcat 문구의 `@` 뒤 숫자는 실행마다 다르다.
 
 | 상황 | 확인할 것 |
 |---|---|
@@ -185,11 +186,11 @@ private val permissionLauncher = registerForActivityResult(ActivityResultContrac
 | `Modifier 'override' is not applicable to 'local function'.` | `override fun onStart()`가 `onCreate` **안**에 들어갔다. `onCreate`를 닫는 `}`가 `onStart`보다 위에 오게 옮긴다 |
 | `Operator call is prohibited on a nullable receiver of type 'kotlin.Int?'. Use '?.'-qualified call instead.` | `val level = intent?.getIntExtra(…)` 끝에 `?: -1`이 빠졌다. 기본값을 붙여 `Int`로 만든다 |
 | `Function invocation 'blePermissions()' expected.` | `launch(blePermissions)`에 괄호가 빠졌다. `launch(blePermissions())`로 쓴다 |
-| (예상) 빌드는 되고 화면도 멀쩡한데, 화면을 돌린 뒤 Logcat(Error)에 `has leaked IntentReceiver` … `Are you missing a call to unregisterReceiver()?`. 홈으로 나갈 때는 이 메시지가 찍히지 않으니 회전으로 확인한다 | `onStop`에 `unregisterReceiver(batteryReceiver)`가 있는지 본다 |
-| (예상) [연결] → [뒤로]로 돌아온 뒤 Battery를 바꿔도 문구가 그대로이고, 다시 [연결]을 누르면 앱이 멈춘다. Logcat에 `java.lang.IllegalArgumentException: Receiver not registered:` | 등록을 `onCreate`에 두었다. `registerReceiver`를 `onStart`로 옮겨 `onStop`의 해제와 짝을 맞춘다 |
-| (예상) [권한 확인]을 눌러도 권한 창이 안 뜨고 곧바로 `권한이 필요합니다`가 뜬다. [설정으로]로 간 권한 목록에 "근처 기기"가 없다 | `AndroidManifest.xml`에 `uses-permission`이 있는지 본다. 선언하지 않은 권한은 요청하자마자 거절로 돌아온다 |
-| (예상) 권한이 없는 상태에서 [권한 확인]을 누르는 순간 앱이 멈춘다. Logcat에 `is attempting to register while current state is RESUMED. LifecycleOwners must call register before they are STARTED.` | `registerForActivityResult`를 버튼 리스너 안에서 만들었다. `private val permissionLauncher = …`를 클래스 변수 자리로 옮긴다 |
-| (예상) [설정으로]를 누르는 순간 앱이 멈춘다. Logcat에 `android.content.ActivityNotFoundException: No Activity found to handle Intent` | `Uri.parse("package:$packageName")`에서 `package:`가 빠졌는지 본다 |
+| `onStop`의 해제를 빠뜨려도 빌드는 되고 화면도 멀쩡하다. 화면을 돌리거나 [뒤로]로 닫아도 Logcat에 오류가 찍히지 않고, 회전할 때마다 풀리지 않은 등록만 쌓인다. 화면·Logcat으로는 드러나지 않는다 | `onStart`의 등록과 `onStop`의 `unregisterReceiver(batteryReceiver)`가 짝으로 있는지 코드에서 눈으로 확인한다 |
+| [연결] → [뒤로]로 돌아온 뒤 Battery를 바꿔도 문구가 그대로이고, 다시 [연결]을 누르면 앱이 멈춘다. Logcat에 `java.lang.IllegalArgumentException: Receiver not registered:` | 등록을 `onCreate`에 두었다. `registerReceiver`를 `onStart`로 옮겨 `onStop`의 해제와 짝을 맞춘다 |
+| [권한 확인]을 눌러도 권한 창이 안 뜨고 곧바로 `권한이 필요합니다`가 뜬다. [설정으로]로 간 권한 목록에 "근처 기기"가 없다 | `AndroidManifest.xml`에 `uses-permission`이 있는지 본다. 선언하지 않은 권한은 요청하자마자 거절로 돌아온다 |
+| 권한이 없는 상태에서 [권한 확인]을 누르는 순간 앱이 멈춘다. Logcat에 `is attempting to register while current state is RESUMED. LifecycleOwners must call register before they are STARTED.` | `registerForActivityResult`를 버튼 리스너 안에서 만들었다. `private val permissionLauncher = …`를 클래스 변수 자리로 옮긴다 |
+| [설정으로]를 누르는 순간 앱이 멈춘다. Logcat에 `android.content.ActivityNotFoundException: No Activity found to handle Intent` | `Uri.parse("package:$packageName")`에서 `package:`가 빠졌는지 본다 |
 
 한 번에 한 곳만 바꾸고 다시 실행한다. 해결되지 않으면 오류 메시지가 보이는 화면을 그대로 보여 주고 도움을 받는다.
 

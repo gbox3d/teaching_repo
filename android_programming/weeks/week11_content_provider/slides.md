@@ -119,7 +119,7 @@ deviceJob = lifecycleScope.launch {
 | | `notifyDataSetChanged()` 있음 | 없음 |
 |---|---|---|
 | Logcat `tag:Scan`의 장치 수 | 1 → 2 → 3 | 1 → 2 → 3 |
-| 화면의 목록 | 1초마다 한 줄씩 는다 | 늘지 않거나 나중에 한꺼번에(예상) |
+| 화면의 목록 | 1초마다 한 줄씩 는다 | 늘지 않거나 나중에 한꺼번에 |
 
 시연: `for` 안의 `notifyDataSetChanged()` 한 줄만 지우고 [검색]을 누릅니다.
 

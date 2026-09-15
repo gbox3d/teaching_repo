@@ -62,7 +62,7 @@ private val viewModel: ConnViewModel by viewModels()
 |---|---|
 | 앱 시작 | 새 `ConnViewModel`이 만들어진다 |
 | 회전 | 옛 화면 `onDestroy` → 새 화면 `onCreate`. 새 화면도 **같은 객체**를 받으므로 `resultText`가 남아 있다 |
-| [뒤로]로 연결 화면을 닫음 | 화면과 함께 ViewModel도 정리된다 |
+| 뒤로가기(◁)로 앱을 닫음 | 화면과 함께 ViewModel도 정리된다 |
 
 - `: ViewModel()`은 `ViewModel`을 물려받는다는 표시다. 빼면 `viewModelScope`를 쓸 수 없다.
 - `private val viewModel = ConnViewModel()`로 직접 만들면 빌드는 되지만 회전할 때마다 새 객체가 생겨 `대기 중`으로 돌아간다.

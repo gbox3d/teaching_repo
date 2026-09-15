@@ -250,15 +250,15 @@ if (result != "ok") {
 | `Suspend function 'suspend fun delay(timeMillis: Long): Unit' should be called only from a coroutine or another suspend function.` (`pauseButtons` 안) | `delay(300)`을 `lifecycleScope.launch { }` 밖에서 불렀다. 6주차처럼 `launch { }` 안에 둔다 |
 | `Unresolved reference 'log_error'.` (`R.color.log_error` 줄. `log_ok` 줄에는 `Unresolved reference 'log_ok'.`) | `colors.xml`에 두 색 줄을 넣지 않았거나 이름 철자가 코드와 다르다. `app › res › values › colors.xml`에서 `log_ok`·`log_error` 두 줄과 철자를 본다. `colors.xml` 파일이 아예 없으면 같은 줄에 `Unresolved reference 'color'.`로 나온다 |
 | `Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'com.example.smartio.bleuno.BleunoClient?'.` | `Bleuno.client.send(…)`처럼 `?.`를 뺐다. `Bleuno.client?.send(…)`. 12주차와 같은 메시지다. `!!`는 쓰지 않는다 |
-| (예상) Switch를 켜면 앱 로그에 `on 3`만 쌓이고 `응답:` 줄이 없다. 상단이 `상태: 연결 안 됨`이고 Logcat에 `send(가짜): 준비되지 않아 무시함` | 연결되지 않은 채 들어왔다(목록 줄을 누르지 않았거나 [해제]한 뒤 [연결]로 들어옴). [뒤로] → 목록 줄 탭 → `준비됨` → [제어 화면]으로 들어온다 |
-| (예상) 처음에는 응답이 찍히다가 홈에 갔다 오면 명령 줄만 쌓이고 `응답:` 줄이 안 생긴다. Logcat에는 `onCharacteristicChanged(가짜): {"result":"ok",…}`가 계속 찍힌다 | `onMessage { }` 등록을 `onCreate`에 두었다. 다시 보일 때 불리는 것은 `onStart`다. 등록을 `onStart()` 안으로 옮긴다 |
-| (예상) Fake로 `준비됨` 제어 화면에 가만히 있으면 10초마다 로그에 `응답: {"event":"input","index":0,"value":1}` 줄이 생긴다. 2일차 코드면 로그가 빨개지고 `응답: null · ` 창이 뜬다 | `if (result != null)` 검사가 빠졌다. 입력 이벤트 줄에는 `result`가 없다. 실보드는 이 줄을 보내지 않아 Fake에서만 드러난다 |
-| (예상) `3` → Switch 켜기에 `응답: {"result":"fail","ms":"unknown command"}`, 로그가 빨갛고 창이 뜬다. Logcat에 `writeCharacteristic(가짜): "on3"` | `send` 줄에서 명령 이름과 번호 사이 띄어쓰기가 빠졌다. `"on $index"`. 앱 로그 줄이 아니라 Logcat에서 실제로 보낸 글자를 확인한다 |
+| Switch를 켜면 앱 로그에 `on 3`만 쌓이고 `응답:` 줄이 없다. 상단이 `상태: 연결 안 됨`이고 Logcat에 `send(가짜): 준비되지 않아 무시함` | 연결되지 않은 채 들어왔다(목록 줄을 누르지 않았거나 [해제]한 뒤 [연결]로 들어옴). [뒤로] → 목록 줄 탭 → `준비됨` → [제어 화면]으로 들어온다 |
+| 처음에는 응답이 찍히다가 홈에 갔다 오면 명령 줄만 쌓이고 `응답:` 줄이 안 생긴다. Logcat에는 `onCharacteristicChanged(가짜): {"result":"ok",…}`가 계속 찍힌다 | `onMessage { }` 등록을 `onCreate`에 두었다. 다시 보일 때 불리는 것은 `onStart`다. 등록을 `onStart()` 안으로 옮긴다 |
+| Fake로 `준비됨` 제어 화면에 가만히 있으면 10초마다 로그에 `응답: {"event":"input","index":0,"value":1}` 줄이 생긴다. 2일차 코드면 로그가 빨개지고 `응답: null · ` 창이 뜬다 | `if (result != null)` 검사가 빠졌다. 입력 이벤트 줄에는 `result`가 없다. 실보드는 이 줄을 보내지 않아 Fake에서만 드러난다 |
+| `3` → Switch 켜기에 `응답: {"result":"fail","ms":"unknown command"}`, 로그가 빨갛고 창이 뜬다. Logcat에 `writeCharacteristic(가짜): "on3"` | `send` 줄에서 명령 이름과 번호 사이 띄어쓰기가 빠졌다. `"on $index"`. 앱 로그 줄이 아니라 Logcat에서 실제로 보낸 글자를 확인한다 |
 | (예상) 입력 칸을 비운 채 Switch를 누르자 앱이 멈춘다. Logcat에 `java.lang.NumberFormatException: For input string: ""` | 허용 번호 가지를 빈 칸 가지보다 앞에 두었다. 순서는 빈 칸 → 허용 번호 → 켜기/끄기 |
 | (예상) 아주 긴 숫자를 넣고 Switch를 누르자 앱이 멈춘다. Logcat에 `java.lang.NumberFormatException` | `pinEdit`의 `android:maxLength="2"`가 빠졌다 |
 | (예상) `0`~`3`을 넣으면 `허용되지 않는 번호`, `9`를 넣으면 `on 9`가 나간다 | 조건에서 `== false`가 빠졌다. `isAllowedIndex(pin.toInt()) == false` |
-| (예상) 명령을 몇 번 보냈더니 새 줄이 로그에 안 보인다 | 코드 잘못이 아니다. 로그 칸에 스크롤이 없어 아래로 밀렸다. [뒤로] → [제어 화면]으로 다시 들어오면 빈 로그로 시작한다 |
-| (예상) 화면을 돌리면 로그에 `on 3`과 응답이 한 번 더 찍힌다(2일차 코드에서 입력 칸이 `9`면 Toast가 다시 뜬다) | Switch 켜짐 상태가 되살아나며 리스너가 한 번 더 불린 것이다(3주차 회전). LED는 이미 켜져 있어 보드에는 변화가 없다 |
+| 명령을 몇 번 보냈더니 새 줄이 로그에 안 보인다 | 코드 잘못이 아니다. 로그 칸에 스크롤이 없어 아래로 밀렸다. [뒤로] → [제어 화면]으로 다시 들어오면 빈 로그로 시작한다 |
+| 화면을 돌렸다 세로로 되돌리니 로그가 비워지고 `on 3`과 응답이 찍혀 있다. 폰 크기 가로 화면에서는 로그 칸이 안 보여, 돌릴 때 다시 나간 `on 3`은 Logcat에만 찍힌다(2일차 코드에서 입력 칸이 `9`면 돌릴 때마다 Toast가 다시 뜬다) | Switch 켜짐 상태가 되살아나며 리스너가 한 번 더 불린 것이다(3주차 회전). 가로로 돌릴 때 한 번, 세로로 되돌릴 때 또 한 번 나간다. LED는 이미 켜져 있어 보드에는 변화가 없다 |
 | [전체 끄기]를 눌렀는데 Switch가 켜진 모양 그대로다 | 정상이다. [전체 끄기]는 보드에 명령만 보낸다. Switch를 다시 켜려면 한 번 끄고 켠다 |
 | 2일차에 Switch·[전체 끄기]가 늘 회색이다 | 상단이 `상태: 준비됨`인지 본다. 준비됨인데도 회색이면 collect 안에서 `ConnState.READY`일 때 켜는 줄이 있는지 본다 |
 

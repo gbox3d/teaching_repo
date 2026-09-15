@@ -163,7 +163,7 @@ on 3
 | 권한을 다시 끄고 [검색] → 요청 창에서 거절 | `권한이 필요합니다` 창. 문구 `장치를 검색하고 연결하려면 권한이 필요합니다. 설정 › 권한에서 허용해 주세요.`, 버튼 [취소]·[설정으로] |
 | [설정으로] | Smart I/O Controller의 앱 정보 화면. 뒤로 가기로 앱에 돌아온다 |
 
-같은 권한을 여러 번 거절하면 Android가 요청 창을 더 띄우지 않고 곧바로 결과를 돌려줄 수 있다. 그때는 [검색]을 누르자마자 `권한이 필요합니다` 창이 뜬다(예상). 앱 정보에서 권한을 다시 바꾸면 요청 창이 다시 뜬다.
+요청 창에서 거절한 뒤에는 Android가 요청 창을 더 띄우지 않고 곧바로 결과를 돌려주기도 한다. 앱 정보에서 끈 상태는 한 번, 새로 설치한 상태는 두 번 거절하면 그다음 [검색]부터 요청 창 없이 곧바로 `권한이 필요합니다` 창이 뜬다(Android 14 에뮬레이터에서 확인). 앱 정보에서 권한을 다시 바꾸면(`허용` → `허용 안함`) 요청 창이 다시 뜬다.
 
 ### 7. TODO(1) ④ [권한 확인] 버튼
 
@@ -300,7 +300,7 @@ onStart 8번 `Bleuno.client?.onMessage { json ->` 안, 마지막 가지 `} else 
 | [전체 끄기] | `off -1` → `응답: {"result":"ok","ms":"led(s) off"}` |
 | [온습도 받기 시작] | 명령 로그에는 새 줄이 없고, 입력 이력에 `시:분:초 [24.5,40.0]`이 3초마다 |
 
-오류 응답을 보고 싶으면 9단계의 `Bleuno.client?.send("on $index")`를 잠시 `"on$index"`로 바꿔 실행한다. `3` → Switch 켜기에 빨간 `응답: {"result":"fail","ms":"unknown command"}`과 `보드가 오류를 알렸습니다` / `응답: fail · unknown command` 창이 뜰 것이다(예상). 확인한 뒤 **띄어쓰기를 되돌린다.**
+오류 응답을 보고 싶으면 9단계의 `Bleuno.client?.send("on $index")`를 잠시 `"on$index"`로 바꿔 실행한다. `3` → Switch 켜기에 빨간 `응답: {"result":"fail","ms":"unknown command"}`과 `보드가 오류를 알렸습니다` / `응답: fail · unknown command` 창이 뜬다. 확인한 뒤 **띄어쓰기를 되돌린다.**
 
 ### 11. TODO(3) ① startConnectTimeout() — 시간 제한 걸기
 
@@ -361,9 +361,9 @@ onStart 8번 `Bleuno.client?.onMessage { json ->` 안, 마지막 가지 `} else 
 1. 12단계 함수의 `delay(10000)`을 잠시 `delay(1000)`으로 바꾼다.
 2. `Run ▶` → [검색] → `ESP32_BLE_FAKE1` 줄을 누른다.
 
-| 조작 | 보여야 할 것(예상) |
+| 조작 | 보여야 할 것 |
 |---|---|
-| 줄 탭 | 약 1초 뒤 Toast `연결 시간이 초과되었습니다`. 상태 글자 `연결 시간 초과 — [다시 시도]를 누르세요`, [검색] 켜짐, [다시 시도] 보임, 원형 진행 표시 없음 |
+| 줄 탭 | 약 1초 뒤 상태 글자 `연결 시간 초과 — [다시 시도]를 누르세요`, [검색] 켜짐, [다시 시도] 보임, 원형 진행 표시 없음. Toast `연결 시간이 초과되었습니다`는 먼저 뜬 `선택: …` Toast가 사라진 뒤(줄을 누르고 약 2~3초 뒤) 뜬다 |
 | [검색] → 줄 탭 직후 곧바로 회전 | 약 1초 뒤 같은 안내. 회전으로 앞 화면의 예약은 사라지지만 onCreate 52번이 시간 제한을 다시 건다 |
 | Logcat `tag:BLE` | `connectGatt(가짜): 00:11:22:33:44:01` → `disconnect(가짜) → 연결 안 됨` |
 
@@ -419,7 +419,7 @@ TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity
 2. Android 실기기를 USB로 연결한다. 개발자 옵션·USB 디버깅은 11주차에 켰다. Android Studio 위쪽 기기 목록에 기기 이름이 보이면 된다. 기기의 블루투스를 켠다(Android 11 이하 기기는 위치도 켠다).
 3. 1일차 리허설의 점검표(15단계)에서 TODO(1)이나 TODO(2)의 줄에 X가 남았다면, 먼저 `MainActivity.kt`·`ControlActivity.kt` 전체를 [rehearsal_solution/MainActivity.kt](examples/rehearsal_solution/MainActivity.kt)·[rehearsal_solution/ControlActivity.kt](examples/rehearsal_solution/ControlActivity.kt)로 바꾼다(2단계와 같은 방법). 완성본은 허용 자료다.
    - 시연 출력 제어의 응답 줄(O2)은 TODO(2)의 응답 가지가 있어야 생긴다. `LED 0 밝기` 막대로 LED만 켜서는 응답 줄이 붙지 않는다.
-   - TODO(1)이 빈 starter는 권한을 늘 허용으로 본다. 권한이 없는 실기기에서 블루투스를 끈 채 [검색]을 누르면 앱이 멈출 수 있다(예상).
+   - TODO(1)이 빈 starter는 권한을 늘 허용으로 본다. 권한이 없는 실기기에서 블루투스를 끈 채 [검색]을 누르면 앱이 멈춘다(Android 14 에뮬레이터에서 확인).
 4. `MainActivity.kt`에서 아래 줄을 찾아 `true`를 `false`로 바꾼다. 완성본에서는 88행이다(내가 채운 파일은 줄 번호가 조금 다를 수 있다).
 
 ```kotlin
@@ -431,7 +431,7 @@ TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity
 5. 기기 목록에서 실기기를 고르고 `Run ▶`을 누른다. 앱이 기기에 설치되어 열린다. [권한 확인] → `근처 기기` 허용 → `권한 OK`.
 6. [검색]을 누른다. 목록에 옆자리 보드도 함께 보이므로 **내 보드 이름** 줄을 누른다. `연결 중` → `서비스 확인 중` → `준비됨`이 되고 보드의 파랑 깜빡임이 멈춘다.
 7. [제어 화면] → `0` → LED Switch 켜기 → 보드의 0번 LED가 켜진다. 로그에 `응답: {"result":"ok","ms":"led(s) on"}`. Switch를 끄면 꺼진다. Switch에 반응이 없거나 `응답:` 줄이 없으면 3번으로 돌아가 두 파일을 완성본으로 바꾼다.
-8. [온습도 받기 시작] → 입력 이력에 `시:분:초 [온도,습도]` 줄이 3줄 쌓이면 [중지].
+8. [온습도 받기 시작] → 입력 이력에 `시:분:초 [온도,습도]` 줄이 2줄 쌓이면 [중지].
 9. 앱은 기기에 **그대로 둔다**(시연 때 이 앱을 쓴다). Android Studio에서는 `useFake = true`로 되돌리고 기기 목록을 에뮬레이터로 바꾼다.
 
 | 확인 | 됨 |
@@ -440,7 +440,7 @@ TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity
 | 실기기 앱에서 `권한 OK` | ☐ |
 | 내 보드 이름으로 `준비됨` | ☐ |
 | LED 0이 켜지고 꺼지며, 명령 로그에 `응답:` 줄이 붙는다 | ☐ |
-| 입력 이력 3줄 | ☐ |
+| 입력 이력 2줄 | ☐ |
 
 하나라도 안 되면 바로 손을 든다. 시험 시작 전에 보드·케이블·기기를 바꾸는 것이 가장 빠르다. 보드 문제인지 앱 문제인지 모르겠으면 에뮬레이터에서 `useFake = true`로 같은 조작을 해 본다.
 22분까지 다섯 칸을 끝내지 못하면 조교가 본시험 0–5분에 이어서 확인하고, 내 시연 차례는 순서표 맨 뒤로 미뤄진다.
@@ -461,7 +461,7 @@ TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity
 
 1. (약 30초) 실기기에서 17단계에 설치해 둔 `SmartIO`를 연다 → [검색] → 내 보드 이름 줄 → `준비됨` → [제어 화면].
 2. (약 1분) **출력 제어**: LED 번호를 넣고 Switch를 켜 LED가 켜지는 것을 보인다 → Switch를 끄거나 [전체 끄기]로 끈다 → 명령 로그에서 보낸 명령과 `응답:` 줄을 손가락으로 가리킨다.
-3. (약 1분) **입력 수신**: [온습도 받기 시작] → 입력 이력 3줄 → [중지] → 새 줄이 더 안 쌓이는 것을 평가자와 함께 본다.
+3. (약 1분) **입력 수신**: [온습도 받기 시작] → 입력 이력 2줄 → [중지] → 새 줄이 더 안 쌓이는 것을 평가자와 함께 본다.
 4. (약 30초) **구술**: 평가자가 에뮬레이터 쪽 본시험 코드에서 콜백 하나를 가리키고 "이 콜백은 언제 불리나"를 묻는다. "사용자가 ○○을 누를 때마다", "보드가 JSON 한 줄을 보낼 때마다"처럼 **때와 조건**을 한 문장으로 답한다.
 
 끝나면 곧바로 본시험으로 돌아간다. 시연은 본시험 5–55분에 하고, 3분은 모두 똑같이 한 번 쓰므로 제출 마감은 모두 60분이다. 장비 장애나 평가자 사정으로 3분을 넘긴 몫만 장애 기록지에 적고, 60분 뒤 같은 자리에서 그만큼 이어서 한다.
@@ -1503,6 +1503,7 @@ class RealBleunoClient(
     override fun startScan(timeoutMs: Long, onFound: (BleunoDevice) -> Unit, onFinished: () -> Unit) {
         if (!PermissionHelper.hasAll(appContext)) {
             Log.w(TAG, "startScan: 권한이 없어 무시함 (${PermissionHelper.missing(appContext).joinToString()})")
+            onFinished()
             return
         }
         val scanner = bluetoothManager?.adapter?.bluetoothLeScanner

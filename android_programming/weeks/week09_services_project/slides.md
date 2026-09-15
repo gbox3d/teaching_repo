@@ -108,7 +108,7 @@ binding.serviceStartButton.setOnClickListener {
 
 - 4주차 `Intent(this, ControlActivity::class.java)` → `startActivity(intent)`와 같은 모양입니다.
 - [서비스 중지]는 같은 두 줄에서 `startService` 자리에 `stopService(intent)`를 씁니다.
-- `<service>` 줄이 없어도 **빌드는 됩니다**. 그래도 눌러도 Service가 시작되지 않습니다(예상).
+- `<service>` 줄이 없어도 **빌드는 됩니다**. 그래도 눌러도 Service가 시작되지 않습니다.
 
 ---
 

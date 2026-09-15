@@ -158,8 +158,8 @@ X가 있으면 [막혔을 때](#막혔을-때)의 "빌드는 되는데" 줄부�
 | `Assignment type mismatch: actual type is 'kotlin.String', but 'kotlin.Int' was expected.` | `_seconds`는 `MutableStateFlow(0)`이라 숫자만 받는다. `i`만 넣고 `"남은 초: "` 글자는 화면의 `collect` 안에서 붙인다 |
 | `MainActivity.kt`에서 `Unresolved reference 'timeText'.` | 원인은 XML이다. `android:id="@+id/timeText"` 철자를 본다. id와 `binding.` 뒤 이름이 글자까지 같아야 한다 |
 | `Android resource linking failed` 와 `AAPT: error: resource style/Theme.Rehersal (aka com.example.rehearsal:style/Theme.Rehersal) not found.` | Manifest의 `android:theme` 이름이 `themes.xml`의 `Theme.Rehearsal`과 다르다. 철자를 맞춘다 |
-| 빌드는 되는데 [취소]를 누르면 `취소됨`이 됐다가 숫자가 계속 줄고 `완료`로 덮인다 (예상 증상) | `job = viewModelScope.launch {`에서 `job = `를 빠뜨렸다. 보관하지 않으면 `job?.cancel()`이 멈출 코루틴이 없다. 빌드가 되므로 **[취소]를 누르고 몇 초 기다려 봐야** 드러난다 |
-| 빌드는 되는데 [시작]을 누르면 5초 동안 화면이 멈췄다가 한꺼번에 `완료`가 된다. Logcat에는 1초마다 찍힌다 (예상 증상) | `delay(1000)` 대신 `Thread.sleep(1000)`을 썼다. 코루틴 안에서 기다릴 때는 `delay`다(6주차) |
+| 빌드는 되는데 [취소]를 누르면 `취소됨`이 됐다가 숫자가 계속 줄고 `완료`로 덮인다 | `job = viewModelScope.launch {`에서 `job = `를 빠뜨렸다. 보관하지 않으면 `job?.cancel()`이 멈출 코루틴이 없다. 빌드가 되므로 **[취소]를 누르고 몇 초 기다려 봐야** 드러난다 |
+| 빌드는 되는데 [시작]을 누르면 5초 동안 화면이 멈췄다가 한꺼번에 `완료`가 된다. Logcat에는 1초마다 찍힌다 | `delay(1000)` 대신 `Thread.sleep(1000)`을 썼다. 코루틴 안에서 기다릴 때는 `delay`다(6주차) |
 | 빌드는 되는데 카운트다운 중에 [취소]가 켜지지 않는다 (예상 증상) | `if (state == "카운트다운 중")`의 글자가 ViewModel의 글자와 다르다. ViewModel의 글자를 복사해 붙인다 |
 | 빌드는 되는데 회전하면 `대기 중` / `남은 초: 0`으로 돌아간다 (예상 증상) | `by viewModels()` 대신 `RehearsalViewModel()`로 직접 만들었다. `private val viewModel: RehearsalViewModel by viewModels()`로 쓴다 |
 | 빌드는 되는데 회전하면 `남은 초: 0`으로 돌아가고 더 바뀌지 않는다 (예상 증상) | `collect`를 `repeatOnLifecycle` 틀 밖(예: [시작] 리스너 안)에서 시작했다. 두 틀을 `onCreate()`에 두고 그 안에서 `collect`한다 |

@@ -64,7 +64,7 @@ binding.deviceList.adapter = adapter
 - 어댑터는 목록(`devices`)의 값을 한 줄씩 View로 만들어 ListView에 넘긴다. 세 값은 화면(`this`), 한 줄의 모양, 목록이다.
 - `android.R.layout.simple_list_item_1`은 Android가 준비한 한 줄짜리 글자 모양이다. 우리 앱의 `R`이 아니다.
 - 두 `val`은 `onCreate` 안, 이 둘을 쓰는 리스너들(3·4·19번)보다 **위**에 둔다. 아래에 두면 `Unresolved reference 'devices'.` 오류가 난다.
-- `layout_height="0dp"` + `layout_weight="1"`은 남는 세로 공간을 목록이 모두 차지하게 한다. 연결 화면은 스크롤이 없어 가로 화면에서는 목록이 거의 안 보일 수 있다. 확인은 세로에서 한다.
+- `layout_height="0dp"` + `layout_weight="1"`은 남는 세로 공간을 목록이 모두 차지하게 한다. 연결 화면은 스크롤이 없다. 폰 크기 화면을 가로로 돌리면 위아래가 잘려 일부 버튼·글자가 안 보일 수 있고, 목록은 높이가 0이 되어 보이지 않는다. 확인할 항목이 안 보이면 세로로 되돌려 확인한다.
 
 ## 3. `notifyDataSetChanged()` — 바꿨으면 알린다
 
@@ -90,7 +90,7 @@ deviceJob = lifecycleScope.launch {
 | `끊김` 뒤 다시 [검색] | 목록이 비워지고 A·B·C가 다시 들어감 | 1부터 다시 |
 | 화면 돌리기 | 상태는 이어지지만 목록은 비워지고 추가도 멈춤 | 멈춤 |
 
-- `add`는 목록만 바꾼다. `notifyDataSetChanged()`로 알려야 ListView가 다시 그린다. `for` 안의 이 줄을 빼면 Logcat 개수는 늘어도 목록이 늘지 않거나 나중에 한꺼번에 나타나고, 그 사이 목록을 누르면 앱이 멈출 수 있다(예상).
+- `add`는 목록만 바꾼다. `notifyDataSetChanged()`로 알려야 ListView가 다시 그린다. `for` 안의 이 줄을 빼면 Logcat 개수는 늘어도 목록은 비어 있다. 상태가 `준비됨`이 되는 순간 세 줄이 한꺼번에 나타나고, `끊김`이면 끝까지 비어 있다.
 - 이름을 넣는 코루틴은 화면의 `lifecycleScope`에서 돈다(6주차). 상태 카운트다운은 7주차 ViewModel에서 따로 돈다.
 - 회전하면 `devices`가 새 화면에서 빈 목록으로 다시 만들어진다. 이번 주에는 고치지 않는다.
 
@@ -137,7 +137,7 @@ if (lastName.isEmpty()) {
 |---|---|
 | 처음 설치 | `마지막 장치: 없음` |
 | `ESP32_BLE_B` 골라 [연결] → [뒤로] | 그대로(`onCreate`에서만 읽는다) |
-| 화면 돌리기, 또는 앱을 완전히 끄고 다시 실행 | `마지막 장치: ESP32_BLE_B` |
+| 화면 돌리기(안 보이면 세로로 되돌려 확인), 또는 앱을 완전히 끄고 다시 실행 | `마지막 장치: ESP32_BLE_B` |
 | Android Studio에서 다시 `Run ▶` | 그대로 남는다 |
 | 앱 삭제 뒤 다시 설치 | `마지막 장치: 없음` |
 
@@ -195,7 +195,7 @@ binding.contactsButton.setOnClickListener {
 - `contactsLauncher`는 10주차 `permissionLauncher`와 같은 모양으로 클래스 변수 자리에 만든다. 결과는 `_`로 두고 `checkSelfPermission`으로 다시 확인한다.
 - 목록 대화상자는 `.setItems(names.toTypedArray(), null)`로 띄운다. `setItems`가 배열을 받아서 목록을 배열로 바꿔 넘긴다.
 - `Manifest`는 `android.Manifest`를 import한다.
-- Manifest 선언을 빼도 빌드는 된다. 그러면 권한 창 없이 곧바로 `연락처 권한 없음`이 뜬다(예상).
+- Manifest 선언을 빼도 빌드는 된다. 그러면 권한 창 없이 곧바로 `연락처 권한 없음`이 뜬다.
 - 권한 창 문구와 버튼 이름은 OS 버전과 언어 설정에 따라 조금 다르다.
 
 ## 8. 2일차 완성 — 목록, 저장, 연락처

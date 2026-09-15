@@ -26,11 +26,11 @@ class RehearsalViewModel : ViewModel() {
         // TODO(1) job이 이미 돌고 있으면(isActive) 그냥 돌아간다.
         //         아니면 viewModelScope.launch로 코루틴을 시작하고 그 Job을 job에 보관한다. 코루틴 안에서는
         //         _state를 "카운트다운 중"으로 바꾸고, 5부터 1까지 _seconds에 넣으며 1초씩 기다린 뒤,
-        //         _seconds를 0, _state를 "완료"로 바꾼다. Log.d("Rehearsal", …)로 남은 초를 찍어도 좋다.
+        //         _seconds를 0, _state를 "완료"로 바꾼다. for 안 첫 줄에 Log.d("Rehearsal", "남은 초: $i"), "완료"로 바꾼 다음 줄에 Log.d("Rehearsal", "완료")를 찍는다.
     }
 
     // 4. [취소]: 카운트다운 코루틴을 멈추고 취소됨으로 바꾼다. 남은 초는 멈춘 숫자 그대로 둔다(8주차 1일차).
     fun cancelCountdown() {
-        // TODO(2) 보관한 job을 취소하고 _state를 "취소됨"으로 바꾼다. job은 null일 수 있다.
+        // TODO(2) 보관한 job을 취소하고 _state를 "취소됨"으로 바꾼다. job은 null일 수 있다. 그다음 줄에 Log.d("Rehearsal", "취소됨")을 찍는다.
     }
 }

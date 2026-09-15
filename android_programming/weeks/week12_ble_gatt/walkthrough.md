@@ -1218,7 +1218,7 @@ onServicesDiscovered(가짜) → onDescriptorWrite → 준비됨
 - **BLE 연결은 목록 줄 탭이다.** [연결] 버튼은 4주차에 만든 "장치 이름만 들고 제어 화면으로 이동" 버튼 그대로라서 눌러도 보드와 연결하지 않는다.
 - `devices`(목록에 보이는 글자)와 `addresses`(연결에 쓸 주소)를 **같은 순서의 목록 두 개**로 둔다. `devices`의 0번 줄과 `addresses`의 0번 주소가 같은 보드다. `addresses`도 `devices`처럼 [검색] 블록보다 위에 만들어야 리스너 안에서 쓸 수 있다.
 - `addresses.get(position)`: 11주차 `adapter.getItem(position)`처럼 번호로 꺼낸다. 번호는 0부터 센다.
-- `client.stopScan()`을 먼저 부른다. 특강 콜백 사슬도 "검색 멈춤 → 연결" 순서다. 검색 중에 누르면 `검색 완료 · 장치 수: N`이 잠깐 보인 뒤 `연결 중`으로 바뀐다.
+- `client.stopScan()`을 먼저 부른다. 특강 콜백 사슬도 "검색 멈춤 → 연결" 순서다. 검색 중에 눌러도 `검색 완료 · 장치 수: N`은 보이지 않고 곧바로 `연결 중`으로 바뀐다.
 - 11주차 세 줄(이름 칸 채우기·Toast)은 그대로 둔다. 장치 이름 칸의 글자는 14단계 [제어 화면]이 제어 화면으로 넘긴다.
 
 ### 14. [제어 화면]으로 같은 연결 보기
@@ -1260,7 +1260,7 @@ onServicesDiscovered(가짜) → onDescriptorWrite → 준비됨
 | `Bleuno` | `com.example.smartio.bleuno.Bleuno` |
 
 4. 실행하고 [검색] → FAKE1 줄 누르기 → `준비됨` → [제어 화면]을 누른다. 제어 화면 상단에 `장치: ESP32_BLE_FAKE1 (00:11:22:33:44:01)`, 그 아래 `상태: 준비됨`이 보이면 성공이다.
-5. [뒤로]로 돌아와 `준비됨`에서 에뮬레이터 화면을 돌린다. 상태 `준비됨`과 버튼 모양이 그대로이고, 장치 이름 칸 글자도 남는다. 목록만 11주차처럼 비워진다.
+5. [뒤로]로 돌아와 `준비됨`에서 에뮬레이터 화면을 돌린다. 상태 `준비됨`과 버튼 모양이 그대로이고, 장치 이름 칸 글자도 남는다. 목록만 11주차처럼 비워진다. 폰 크기 가로 화면에서는 위아래가 잘려 장치 이름 칸과 목록이 안 보일 수 있으니 세로로 되돌려 확인한다.
 
 - `// 39.`는 4주차 [연결]과 같은 Intent 코드다. **연결 객체는 Intent로 넘기지 않는다.** 대신 `object Bleuno { var client }`에 하나 두고 두 화면이 같이 쓴다. 제어 화면으로 넘어가도 연결은 끊기지 않는다.
 - 제어 화면 `// 4.`는 MainActivity 7번과 같은 collect 틀이다. `Bleuno.client`는 `BleunoClient?`(아직 안 만들었으면 `null`)라서 3주차 `?.`로 부른다. `!!`는 쓰지 않는다. client가 없으면 `?.`에서 멈추고 `상태: ?`가 그대로 남는다.
@@ -1988,6 +1988,7 @@ class RealBleunoClient(
     override fun startScan(timeoutMs: Long, onFound: (BleunoDevice) -> Unit, onFinished: () -> Unit) {
         if (!PermissionHelper.hasAll(appContext)) {
             Log.w(TAG, "startScan: 권한이 없어 무시함 (${PermissionHelper.missing(appContext).joinToString()})")
+            onFinished()
             return
         }
         val scanner = bluetoothManager?.adapter?.bluetoothLeScanner

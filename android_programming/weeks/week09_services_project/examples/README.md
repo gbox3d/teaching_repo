@@ -75,7 +75,7 @@ ViewModel·코루틴 의존성은 4주차 `build.gradle.kts`와 같은 줄로 �
 | ContentProvider | 없음 | `<provider>` | 11주 비교·시연 |
 
 - `exported="false"`는 이 앱 안에서만 쓴다는 뜻이다.
-- `<service>` 줄이 없어도 빌드는 된다. 그러면 [서비스 시작]을 눌러도 Service가 시작되지 않는다(예상 증상: Logcat `tag:Service`에 아무것도 찍히지 않는다).
+- `<service>` 줄이 없어도 빌드는 된다. 그러면 [서비스 시작]을 눌러도 Service가 시작되지 않는다(Logcat `tag:Service`에 아무것도 찍히지 않는다).
 
 ## 2. started Service — onStartCommand·onDestroy·onBind
 
@@ -128,7 +128,7 @@ class LogService : Service() {
 | [검색] 카운트다운 중 [서비스 시작] | 카운트다운이 끊기지 않는다 | `onStartCommand thread=main` |
 
 - `LogService::class.java`를 빼고 `Intent(this, LogService)`로 쓰면 `None of the following candidates is applicable:` 과 `Classifier 'class LogService : Service' does not have a companion object, so it cannot be used as an expression.` 오류가 난다.
-- Service가 돌고 있을 때 뒤로 가기로 앱을 닫으면, Android 8 이상에서는 잠시 뒤 시스템이 Service를 멈춰 `onDestroy`가 찍힐 수 있다(예상). 시연은 앱을 연 채로 한다.
+- Service가 돌고 있을 때 뒤로 가기로 앱을 닫으면, Android 8 이상에서는 잠시 뒤 시스템이 Service를 멈춰 `onDestroy`가 찍힌다(Android 14 에뮬레이터에서 약 1분 뒤). 시연은 앱을 연 채로 한다.
 
 ## 4. Service도 메인 스레드에서 돈다
 
@@ -138,7 +138,7 @@ class LogService : Service() {
 ```
 
 - Logcat의 `thread=main`은 5주차에 본 메인 스레드다. Service는 따로 스레드를 만들지 않는다.
-- 그래서 `onStartCommand` 안에서 `Thread.sleep(10000)`처럼 오래 걸리는 일을 하면 화면이 멈춘다(예상 증상: 10초 동안 버튼이 반응하지 않고, 계속 누르면 "앱이 응답하지 않습니다" 창이 뜰 수 있다). 5주차 1일차 시연과 같다.
+- 그래서 `onStartCommand` 안에서 `Thread.sleep(10000)`처럼 오래 걸리는 일을 하면 화면이 10초 동안 멈춘다. 5주차 1일차 시연과 같다. 멈춘 동안 버튼을 누르면 약 5초 뒤 "Smart I/O Controller이(가) 응답하지 않음" 창([앱 닫기]·[대기])이 뜨고, 10초가 지나 앱이 풀리면 창은 저절로 닫힌다(Android 14 에뮬레이터에서 확인).
 - 오래 걸리는 일은 Service 안에서도 5주차 `Thread { }.start()`나 6주차 코루틴으로 보낸다. 이번 주에는 시연만 한다.
 
 ## 5. Fragment — Activity 안의 화면 조각
@@ -195,12 +195,12 @@ class FirstFragment : Fragment() {
 | [두 번째 조각] | 버튼 줄은 그대로, 아래 글자만 `여기는 SecondFragment` | `SecondFragment onCreateView` |
 | [첫 번째 조각] | `여기는 FirstFragment` | `FirstFragment onCreateView` |
 | 같은 버튼을 두 번 | 글자는 같다 | 누를 때마다 한 줄씩 찍힌다(새 조각을 만들어 끼운다) |
-| SecondFragment를 보다가 회전(예상) | 가로 화면에서도 `여기는 SecondFragment` | `SecondFragment onCreateView` 한 줄 |
-| 뒤로 가기(예상) | 앱이 닫힌다 | 조각 단위로 뒤로 가지 않는다 |
+| SecondFragment를 보다가 회전 | 가로 화면에서도 `여기는 SecondFragment` | `SecondFragment onCreateView` 한 줄 |
+| 뒤로 가기 | 앱이 닫힌다 | 조각 단위로 뒤로 가지 않는다 |
 
 - `layout_height="0dp"` + `layout_weight="1"`은 2주차 확장에서 본 "남은 공간 나눠 갖기"다.
 - `if (savedInstanceState == null)`: 처음 켤 때만 조각을 끼운다. 회전 뒤에는 보던 조각을 시스템이 되살린다(3주차 복원과 같은 원리).
-- `transaction.commit()`을 빼도 빌드는 된다. 그러면 버튼을 눌러도 화면이 바뀌지 않는다(예상).
+- `transaction.commit()`을 빼도 빌드는 된다. 그러면 버튼을 눌러도 화면이 바뀌지 않는다.
 - XML id 철자가 다르면 `Unresolved reference 'fragmentContainer'.` 오류가 Kotlin 파일에 난다.
 
 ## 7. fakeRequest() — 1차 과제 (b) 제공 함수
@@ -260,11 +260,11 @@ suspend fun fakeRequest(): String {
 | 1초 뒤 실패 | `요청 실패` | **보임** |
 | [다시 시도] | `요청 중…` → 1초 뒤 성공 또는 실패 | 숨김 → 결과대로 |
 | `요청 중…`일 때 [요청] 한 번 더 | 바뀌지 않는다(새 요청 없음) | 숨김 |
-| `요청 중…`에서 회전(예상) | 가로 화면에서도 `요청 중…`, 1초 안에 결과가 새 화면에 나온다 | 결과대로 |
-| `요청 실패`에서 회전(예상) | 가로 화면에서도 `요청 실패` | **보임** 유지 |
+| `요청 중…`에서 회전 | 가로 화면에서도 `요청 중…`, 1초 안에 결과가 새 화면에 나온다 | 결과대로 |
+| `요청 실패`에서 회전 | 가로 화면에서도 `요청 실패` | **보임** 유지 |
 
 - 이 예제 하나로 채점 축 중 화면에 드러나는 세 개(정상 흐름 / 실패·재시도 / 회전 유지)를 모두 볼 수 있다. 네 번째 코드 설명은 발표 때 개인 구술이다.
-- `try/catch` 없이 부르면 빌드는 되지만 실패할 때 앱이 꺼진다(예상 증상: Logcat `FATAL EXCEPTION: main`, `java.lang.Exception: 요청 실패` 비슷한 줄). [다시 시도]는 절대 보이지 않는다.
+- `try/catch` 없이 부르면 빌드는 되지만 실패할 때 앱이 꺼진다(Logcat `FATAL EXCEPTION: main`, `java.lang.Exception: 요청 실패`). [다시 시도]는 절대 보이지 않는다.
 - 6주차처럼 Activity의 `lifecycleScope.launch { }`에서 부르면 회전할 때 `대기 중`으로 돌아간다(예상). 과제의 회전 유지 축을 받으려면 이 예제처럼 ViewModel에서 부른다.
 - 50% 확률이라 성공과 실패를 둘 다 보려면 몇 번 눌러야 한다. 이 앱은 Logcat에 로그를 남기지 않는다.
 

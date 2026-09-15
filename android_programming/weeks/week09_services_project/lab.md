@@ -127,25 +127,25 @@ Service·Fragment 시연을 다시 해 보는 단계와 (b)의 `fakeRequest()` �
 ## 막혔을 때
 
 6·7주차 코드에서 나는 오류는 [6주차 막혔을 때](../week06_coroutines/lab.md#막혔을-때)와 [7주차 막혔을 때](../week07_flow_ui_state/lab.md#막혔을-때)를 본다.
-아래 표의 "빌드는 되는데 …" 줄은 실행해서 드러나는 **예상 증상**이다. 문구는 기기와 버전에 따라 조금 다를 수 있다.
+아래 표에서 실행해야 드러나는 증상은 Android 14 에뮬레이터에서 확인한 것이다. (예상)이 붙은 줄만 확인하지 않았다. 문구는 기기와 버전에 따라 조금 다를 수 있다.
 
 | 상황 | 확인할 것 |
 |---|---|
 | `Suspend function 'suspend fun fakeRequest(): String' should be called only from a coroutine or another suspend function.` | `fakeRequest()`는 suspend 함수다. ViewModel이면 `viewModelScope.launch { }` 안, Activity면 `lifecycleScope.launch { }` 안에서 부른다. 회전 유지까지 얻으려면 ViewModel 쪽이다 |
 | `Suspend function 'suspend fun collect(collector: FlowCollector<String>): Nothing' should be called only from a coroutine or another suspend function.` | `collect`도 suspend 함수다. 7주차 틀 `lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { … } }` 안에 넣고 `collect { }` 안만 채운다 |
-| 빌드는 되는데 [요청]을 몇 번 누르면 앱이 꺼진다. Logcat에 `FATAL EXCEPTION: main`과 `java.lang.Exception: 요청 실패` 비슷한 줄(예상) | `fakeRequest()`를 `try { … } catch (e: Exception) { … }` 없이 불렀다. 감싸고, `catch` 안에서 실패 문구와 `_failed.value = true`를 넣어 [다시 시도]를 보인다 |
+| 빌드는 되는데 [요청]을 몇 번 누르면 앱이 꺼진다. Logcat에 `FATAL EXCEPTION: main`과 `java.lang.Exception: 요청 실패` | `fakeRequest()`를 `try { … } catch (e: Exception) { … }` 없이 불렀다. 감싸고, `catch` 안에서 실패 문구와 `_failed.value = true`를 넣어 [다시 시도]를 보인다 |
 | 빌드는 되는데 요청 중이나 결과가 나온 뒤 회전하면 `대기 중`으로 돌아가고 [다시 시도]가 사라진다(예상) | Activity의 `lifecycleScope.launch { }` 안에서 불렀다. `RequestViewModel`의 `viewModelScope.launch { }`로 옮기고, 화면은 `StateFlow`를 `collect`해서 고친다(7주차) |
 | `요청 중…`일 때 [요청]을 다시 눌러도 아무 일이 없다 | 버그가 아니다. `request()` 첫머리의 `requestJob?.isActive == true` 검사가 중복 시작을 막는다(7주차 `startScan()`과 같다) |
 | `Null cannot be a value of a non-null type 'android.os.IBinder'.` | (따라하기 A) `onBind`의 반환형을 `IBinder?`로, 인자를 `intent: Intent?`로 바꾼다. `?`가 없는 타입에는 `null`을 넣을 수 없다(3주차). New › Service › Service로 만들면 이 모양이 생긴다 |
 | `Class 'LogService' is not abstract and does not implement abstract base class member 'onBind'.` | (따라하기 A) `Service`를 물려받으면 `onBind`가 꼭 있어야 한다. `override fun onBind(intent: Intent?): IBinder? { return null }`을 넣는다 |
 | `None of the following candidates is applicable:` 과 `Classifier 'class LogService : Service' does not have a companion object, so it cannot be used as an expression.` | (따라하기 A) `Intent(this, LogService)`로 썼다. 4주차처럼 `Intent(this, LogService::class.java)`로 쓴다 |
-| 빌드는 되는데 [서비스 시작]을 눌러도 Logcat `tag:Service`에 아무것도 찍히지 않는다(예상) | (따라하기 A) `AndroidManifest.xml`의 `<application>` 안에 `<service android:name=".LogService" android:exported="false" />`가 있는지 본다. 로그가 안 찍히면 먼저 Manifest를 본다 |
-| `onStartCommand`에 `Thread.sleep`을 넣었더니 [서비스 시작] 뒤 화면이 멈춘다(예상) | (따라하기 A) Service도 메인 스레드에서 돈다. 오래 걸리는 일은 5주차 `Thread { }.start()`나 6주차 코루틴으로 보낸다. 관찰했으면 지운다 |
-| Service를 시작한 채 뒤로 가기로 앱을 닫았더니 잠시 뒤 Logcat에 `onDestroy`가 찍힌다(예상) | (따라하기 A) 버그가 아니다. Android 8 이상은 백그라운드로 간 앱의 Service를 멈춘다. 시연은 앱을 연 채로 한다 |
+| 빌드는 되는데 [서비스 시작]을 눌러도 Logcat `tag:Service`에 아무것도 찍히지 않는다 | (따라하기 A) `AndroidManifest.xml`의 `<application>` 안에 `<service android:name=".LogService" android:exported="false" />`가 있는지 본다. 로그가 안 찍히면 먼저 Manifest를 본다 |
+| `onStartCommand`에 `Thread.sleep`을 넣었더니 [서비스 시작] 뒤 화면이 멈춘다 | (따라하기 A) Service도 메인 스레드에서 돈다. 오래 걸리는 일은 5주차 `Thread { }.start()`나 6주차 코루틴으로 보낸다. 관찰했으면 지운다 |
+| Service를 시작한 채 뒤로 가기로 앱을 닫았더니 약 1분 뒤 Logcat에 `onDestroy`가 찍힌다 | (따라하기 A) 버그가 아니다. Android 8 이상은 백그라운드로 간 앱의 Service를 멈춘다. 시연은 앱을 연 채로 한다 |
 | `Unresolved reference 'Fragment'.` 과 `'onCreateView' overrides nothing.` | (따라하기 B) `Fragment`에 커서를 두고 Alt+Enter(맥 ⌥+Enter) → `androidx.fragment.app.Fragment`. 고치면 `MainActivity.kt`의 `Argument type mismatch: actual type is 'com.example.fragmentdemo.FirstFragment', but 'androidx.fragment.app.Fragment' was expected.`도 함께 사라진다. `android.app.Fragment`는 고르지 않는다 |
 | `Unresolved reference 'fragmentContainer'.` | (따라하기 B) 오류는 Kotlin 파일에 나오지만 원인은 XML이다. `activity_main.xml`의 `android:id="@+id/fragmentContainer"` 철자가 코드의 `R.id.fragmentContainer`와 같은지 본다 |
-| 빌드는 되는데 [두 번째 조각]을 눌러도 화면이 `여기는 FirstFragment` 그대로다(예상) | (따라하기 B) 그 리스너에 `transaction.commit()` 줄이 있는지 본다. 세 버튼 코드의 줄 수를 나란히 비교하면 빠진 줄이 보인다 |
-| 조각을 바꾼 뒤 뒤로 가기를 누르면 앞 조각으로 가지 않고 앱이 닫힌다(예상) | (따라하기 B) 버그가 아니다. 조각의 뒤로 가기 기록은 따로 넣어야 생기며 이번 시연 범위 밖이다 |
+| 빌드는 되는데 [두 번째 조각]을 눌러도 화면이 `여기는 FirstFragment` 그대로다 | (따라하기 B) 그 리스너에 `transaction.commit()` 줄이 있는지 본다. 세 버튼 코드의 줄 수를 나란히 비교하면 빠진 줄이 보인다 |
+| 조각을 바꾼 뒤 뒤로 가기를 누르면 앞 조각으로 가지 않고 앱이 닫힌다 | (따라하기 B) 버그가 아니다. 조각의 뒤로 가기 기록은 따로 넣어야 생기며 이번 시연 범위 밖이다 |
 
 한 번에 한 곳만 바꾸고 다시 실행한다. 해결되지 않으면 오류 메시지가 보이는 화면을 그대로 보여 주고 도움을 받는다.
 

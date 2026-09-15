@@ -67,7 +67,7 @@ starter에 이미 있던 기능(S1·S2·P3)도 제출본에서 **그대로 동�
 | 시연 | 점수 | 보드 앞에서 |
 |---|---:|---|
 | 출력 제어 | 2 | 명령으로 LED 켜기·끄기, 로그의 응답 줄 보여 주기 |
-| 입력 수신 | 2 | `dht11` 입력 이력 3줄, [중지]로 멈추기 |
+| 입력 수신 | 2 | `dht11` 입력 이력 2줄, [중지]로 멈추기 |
 | 구술 | 1 | "이 콜백은 언제 불리나" 한 문항 |
 
 - **기본점수**: 구현 점수가 5점보다 낮아도 TODO 자리에 **구현 시도 흔적**이 있으면 구현 5점입니다.
@@ -152,8 +152,8 @@ MainActivity.kt:398:5 Missing return statement.         ← 2를 어기면
 | `Missing return statement.` | TODO 주석과 함께 `return true` 줄까지 지웠다 |
 | `Unresolved reference 'delay'.` | 회색 import가 자동 정리로 지워졌다 → Alt+Enter |
 | `Suspend function 'suspend fun waitConnectTimeout(): Unit' should be called only from a coroutine or another suspend function.` | `lifecycleScope.launch { }` 없이 불렀다 |
-| 빈 칸에서 Switch를 누르면 앱이 멈춘다 (예상) | `toInt()`를 빈 칸 검사보다 먼저 했다 |
-| 빨간 `응답: {"result":"fail","ms":"unknown command"}` (예상) | `"on$index"` — 띄어쓰기가 빠졌다 |
+| 빈 칸에서 Switch를 누르면 앱이 멈춘다 | `toInt()`를 빈 칸 검사보다 먼저 했다 |
+| 빨간 `응답: {"result":"fail","ms":"unknown command"}` | `"on$index"` — 띄어쓰기가 빠졌다 |
 
 빌드는 되는데 틀린 것은 **눌러 봐야** 보입니다. 그래서 점검표가 있습니다.
 
@@ -209,11 +209,11 @@ MainActivity.kt:398:5 Missing return statement.         ← 2를 어기면
 2. 1일차 `SmartIO`에서 `useFake = false`로 바꾸고 **실기기**에 Run ▶ → [권한 확인] → 허용.
    리허설 TODO(1)·(2)를 못 끝냈으면 먼저 두 파일을 `rehearsal_solution`으로 바꿉니다.
 3. [검색] → **내 보드 이름** 줄 탭 → `준비됨` → [제어 화면] → `0` + Switch → LED 0 켜짐.
-4. [온습도 받기 시작] → 입력 이력 3줄 → [중지]. 이 앱은 기기에 **그대로 둡니다**(시연용).
+4. [온습도 받기 시작] → 입력 이력 2줄 → [중지]. 이 앱은 기기에 **그대로 둡니다**(시연용).
 5. `useFake = true`로 되돌리고 Run 대상을 에뮬레이터로 돌립니다.
 
 ```text
-☐ 기기 인식   ☐ 권한 OK   ☐ 내 보드 준비됨   ☐ LED 켜짐   ☐ 이력 3줄
+☐ 기기 인식   ☐ 권한 OK   ☐ 내 보드 준비됨   ☐ LED 켜짐   ☐ 이력 2줄
 ```
 
 안 되는 자리는 **시험 전에** 보드·기기를 바꿉니다.
@@ -231,7 +231,7 @@ MainActivity.kt:398:5 Missing return statement.         ← 2를 어기면
 |---|---|
 | ① 30초 | 시연 기기 앱 → [검색] → 내 보드 → `준비됨` → [제어 화면] |
 | ② 1분 | 출력 제어: LED 켜기·끄기, 로그의 응답 줄 가리키기 |
-| ③ 1분 | 입력 수신: [온습도 받기 시작] → 3줄 → [중지] |
+| ③ 1분 | 입력 수신: [온습도 받기 시작] → 2줄 → [중지] |
 | ④ 30초 | 구술: 평가자가 가리킨 콜백이 **언제 불리는지** 한 문장 |
 
 좌석표 순서대로 평가자가 자리로 갑니다. 순서는 칠판과 LMS에 공지합니다.

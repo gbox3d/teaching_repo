@@ -152,7 +152,7 @@ viewModel.seconds.collect { seconds ->                     // collect
 |---|---|
 | `Unresolved reference 'seconds초'.` | `"$seconds초"` — `$변수` 바로 뒤에 한글 |
 | [취소]가 켜지지 않는다 (예상) | 비교 글자가 `"카운트다운 중"`과 다르다 |
-| [취소] 뒤에도 숫자가 준다 (예상) | `job = viewModelScope.launch {`로 보관하지 않았다 |
+| [취소] 뒤에도 숫자가 준다 | `job = viewModelScope.launch {`로 보관하지 않았다 |
 | 회전하면 `대기 중`으로 돌아간다 (예상) | `by viewModels()` 대신 직접 만들었다 |
 
 빌드는 되는데 틀린 것은 **실행해서 눌러 봐야** 보입니다. 그래서 점검표가 있습니다.

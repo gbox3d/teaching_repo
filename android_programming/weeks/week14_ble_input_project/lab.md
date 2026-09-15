@@ -18,7 +18,7 @@
 | 40–47분 | 시간이 남으면 4번 이력 줄 `split` Toast → 6번 연결 시간 제한 |
 | 47–60분 | 7번: 캡처 세트를 찍고, 짝과 서로 시간을 재며 2~3분 시연을 한 바퀴 한다 |
 
-- **47분까지 반드시**: 2·3번(입력 이력·온습도 받기)과 5번(끊김·[재연결]). 이것만 되어도 리허설의 입력 3줄·끊김·[재연결] 장면이 나온다.
+- **47분까지 반드시**: 2·3번(입력 이력·온습도 받기)과 5번(끊김·[재연결]). 이것만 되어도 리허설의 입력 2줄·끊김·[재연결] 장면이 나온다.
 - **늦으면 다음으로 미룸**: 4번(이력 줄 `split` Toast), 6번(연결 시간 제한과 `delay(1000)` 확인). 25분에 3번이 끝나지 않았으면 4번을 건너뛰고 5번부터 한다.
 - 4번은 시연에서 빼도 된다. 6번은 2차 과제 필수 기능(시간 초과 안내)이므로 발표 전까지 자기 프로젝트에서 넣고, 7번 표의 7번 캡처를 그때 찍는다.
 - 구현이 늦어도 47분에는 멈추고 7번 리허설을 되는 데까지 한 번 한다. 남은 구현은 발표 전까지 자기 프로젝트에서 마무리한다.
@@ -93,7 +93,7 @@ binding.inputStartButton.setOnClickListener {
 3. 클래스 끝에 `private fun stopInput()`을 만든다. `inputJob?.cancel()`, 두 버튼 끄기, `Bleuno.client?.isReady == true`이면 [온습도 받기 시작]만 켜기.
 4. `stopInput()`을 세 곳에서 부른다. [중지] 리스너 안, `// 4.` collect의 `// 13.` `if (state == ConnState.READY) { … }` 아래, `onStop()`의 `onMessage(null)` 아래.
 5. `Job`·`isActive`를 import한다. `isActive`는 `kotlinx.coroutines.isActive`다.
-6. 실행하고 표를 채운다.
+6. 실행하고 표를 채운다. 폰 크기 화면을 가로로 돌리면 위아래가 잘려 일부 버튼·글자가 안 보일 수 있다. 제어 화면은 가로에서 `명령 로그` 아래([온습도 받기 시작]·[중지]·입력 이력·[뒤로])가 화면 밖이다. 확인할 항목이 안 보이면 세로로 되돌려 확인한다(숫자 키보드가 뜨면 닫고 본다).
 
 | 조작 | [온습도 받기 시작] | [중지] | 입력 이력 |
 |---|---|---|---|
@@ -146,7 +146,7 @@ binding.inputList.setOnItemClickListener { _, _, position, _ ->
 | `준비됨` → [끊김 시험] |  |  |
 | 이어서 [재연결] |  |  |
 | [끊김 시험] 뒤 화면 돌리기 |  |  |
-| `준비됨` → [제어 화면] → 화면 돌리기 → [뒤로] → [끊김 시험] → [재연결] |  |  |
+| `준비됨` → [제어 화면] → 화면 돌리기 → 가로인 채로 기기의 뒤로 가기 → [끊김 시험] → [재연결] |  |  |
 | [끊김 시험] 뒤 [연결]로 제어 화면 들어가기 → [뒤로] |  |  |
 
 - 4번에서 `Toast.makeText(this, …)`를 collect 안에 바로 쓰지 않고 함수로 빼는 까닭을 `this`로 한 문장 적는다.
@@ -196,8 +196,8 @@ private suspend fun waitConnectTimeout() {
 | 1 | 권한 안내: Toast `권한 OK` 또는 거절 뒤 AlertDialog `권한이 필요합니다` |  |
 | 2 | 장치 목록: `검색된 장치`에 `ESP32_BLE…` 줄 |  |
 | 3 | 준비됨: 상태 `준비됨`, [제어 화면] 켜짐 |  |
-| 4 | LED on/off: 명령 로그에 `on 3`과 `응답: {"result":"ok","ms":"led(s) on"}`(실보드면 LED 사진도) |  |
-| 5 | 입력 수신: 입력 이력 3줄 이상(`시:분:초 [온도,습도]`, 또는 Fake 입력 이벤트 3줄) |  |
+| 4 | LED on/off: 명령 로그에 `on 3`과 `응답: {"result":"ok","ms":"led(s) on"}`(실보드면 LED 사진도). LED를 켠 직후 찍는다 |  |
+| 5 | 입력 수신: 입력 이력 2줄 이상(`시:분:초 [온도,습도]`, 시각이 약 3초 간격인 줄, 또는 Fake 입력 이벤트 2줄) |  |
 | 6 | 끊김 + [재연결]: 상태 `끊김`과 [재연결] 버튼 |  |
 | 7 | 시간 초과: Toast `연결 시간이 초과되었습니다`와 [다시 시도](6번에서 찍은 것) |  |
 
@@ -207,7 +207,7 @@ private suspend fun waitConnectTimeout() {
 0:00  [권한 확인] → 권한 OK
 0:10  [검색] → ESP32_BLE_FAKE1 줄 탭 → 연결 중 → 서비스 확인 중 → 준비됨
 0:30  [제어 화면] → 3 입력 → LED 켜기·끄기 → on 3 / 응답 줄
-0:50  [온습도 받기 시작] → 약 6초 → 이력 3줄 → 이력 줄 하나 탭(Toast) → [중지]
+0:50  [온습도 받기 시작] → 약 3초 → 이력 2줄 → 이력 줄 하나 탭(Toast) → [중지]
 1:20  [뒤로] → [끊김 시험] → 끊김 + Toast + [재연결]
 1:40  [재연결] → 준비됨
 2:00  [해제] → 연결 안 됨
@@ -273,13 +273,13 @@ private suspend fun waitConnectTimeout() {
 | `Unresolved reference 'split'.` 아래에 `Cannot infer type for this parameter. Please specify it explicitly.` 두 줄 | `history.split(" ")`처럼 목록 전체에 썼다. `split`은 글자 하나에 쓴다. `history[position].split(" ")` |
 | `Assignment type mismatch: actual type is 'kotlin.String?', but 'kotlin.String' was expected.` (`getString` 줄) | `prefs.getString("lastAddress", "")` 뒤에 `?: ""`가 빠졌다. 11주차 `lastName`과 같은 이유다 |
 | `SimpleDateFormat`·`Date`·`Locale`이 빨간색 | Alt+Enter로 `java.text.SimpleDateFormat`, `java.util.Date`, `java.util.Locale`을 import한다. `Date`는 `java.sql.Date`가 아니라 `java.util.Date`를 고른다 |
-| (예상) Fake 제어 화면에서 이력에 `12:00:10 1`, `12:00:20 0`처럼 숫자 하나만 있는 줄이 생기고 `입력=1` 줄은 나오지 않는다 | `if (value != null)` 가지를 `if (event == "input")`보다 먼저 두었다. 입력 이벤트 JSON에도 `"value"`가 있다. `event`를 먼저 본다 |
-| (예상) 이력에 줄이 들어가야 할 때 목록이 늘지 않다가, 목록을 끌거나 홈에서 돌아오는 순간 앱이 멈춘다. Logcat에 `java.lang.IllegalStateException: The content of the adapter has changed but ListView did not receive a notification.` | `addHistory()`에서 `add` 뒤 `historyAdapter.notifyDataSetChanged()`가 빠졌다(11주차) |
-| (예상) [중지]를 누르면 버튼 모양만 바뀌고 이력은 계속 3초마다 늘어난다. 다시 시작하면 3초에 두 줄씩 쌓인다 | `lifecycleScope.launch {` 앞에 `inputJob =`이 빠졌다. `inputJob`이 늘 `null`이라 `cancel()`이 아무것도 멈추지 못한다. 6주차 `scanJob =`과 같다 |
-| (예상) 제어 화면은 열리는데 첫 이력 줄이 들어오는 순간 앱이 멈춘다. Logcat에 `kotlin.UninitializedPropertyAccessException: lateinit property historyAdapter has not been initialized` | onCreate에서 `historyAdapter = ArrayAdapter(…)`와 `binding.inputList.adapter = historyAdapter` 두 줄이 빠졌다. `lateinit`은 넣기 전에 쓰면 멈춘다 |
-| (예상) 목록 줄을 누르자마자 `연결 시간이 초과되었습니다`가 뜨고 몇 번 눌러도 `준비됨`이 되지 않는다 | `delay(10)`처럼 적었다. `delay`의 숫자는 **밀리초**라 10초는 `10000`이다. `delay(1000)`으로 확인한 뒤 되돌리지 않았는지도 본다 |
-| (예상) 이력 줄을 누르면 Toast가 `받은 시각: [12:00:03, [24.5,40.0]][0] · 값: …`처럼 나온다 | 문자열 안에 `$parts[0]`을 바로 썼다. `$`는 `parts`까지만 읽는다. `val time = parts[0]`에 담아 `$time`으로 쓴다 |
-| (예상) 이력 줄을 누르는 순간 앱이 멈춘다. Logcat에 `java.lang.IndexOutOfBoundsException` | `parts[2]`처럼 없는 칸을 꺼냈다. 이력 줄은 칸이 두 개(`[0]`·`[1]`)뿐이다. 번호는 0부터 센다 |
+| Fake 제어 화면에서 이력에 `12:00:10 1`, `12:00:20 0`처럼 숫자 하나만 있는 줄이 생기고 `입력=1` 줄은 나오지 않는다 | `if (value != null)` 가지를 `if (event == "input")`보다 먼저 두었다. 입력 이벤트 JSON에도 `"value"`가 있다. `event`를 먼저 본다 |
+| Logcat `tag:BLE`에는 받은 줄(`onCharacteristicChanged`)이 찍히는데 입력 이력이 끝까지 늘지 않는다. 앱은 멈추지 않는다 | `addHistory()`에서 `add` 뒤 `historyAdapter.notifyDataSetChanged()`가 빠졌다(11주차) |
+| [중지]를 누르면 버튼 모양만 바뀌고 이력은 계속 3초마다 늘어난다. 다시 시작하면 3초에 두 줄씩 쌓인다 | `lifecycleScope.launch {` 앞에 `inputJob =`이 빠졌다. `inputJob`이 늘 `null`이라 `cancel()`이 아무것도 멈추지 못한다. 6주차 `scanJob =`과 같다 |
+| 제어 화면은 열리는데 첫 이력 줄이 들어오는 순간 앱이 멈춘다. Logcat에 `kotlin.UninitializedPropertyAccessException: lateinit property historyAdapter has not been initialized` | onCreate에서 `historyAdapter = ArrayAdapter(…)`와 `binding.inputList.adapter = historyAdapter` 두 줄이 빠졌다. `lateinit`은 넣기 전에 쓰면 멈춘다 |
+| 목록 줄을 누르자마자 `연결 시간이 초과되었습니다`가 뜨고 몇 번 눌러도 `준비됨`이 되지 않는다 | `delay(10)`처럼 적었다. `delay`의 숫자는 **밀리초**라 10초는 `10000`이다. `delay(1000)`으로 확인한 뒤 되돌리지 않았는지도 본다 |
+| 이력 줄을 누르면 Toast가 `받은 시각: [12:00:03, [24.5,40.0]][0] · 값: …`처럼 나온다 | 문자열 안에 `$parts[0]`을 바로 썼다. `$`는 `parts`까지만 읽는다. `val time = parts[0]`에 담아 `$time`으로 쓴다 |
+| 이력 줄을 누르는 순간 앱이 멈춘다. Logcat에 `java.lang.IndexOutOfBoundsException` | `parts[2]`처럼 없는 칸을 꺼냈다. 이력 줄은 칸이 두 개(`[0]`·`[1]`)뿐이다. 번호는 0부터 센다 |
 | 끊김 Toast가 화면을 돌리거나 [뒤로]로 돌아오거나 홈에서 돌아올 때마다 또 뜬다 | 정상이다. StateFlow가 새로 보이는 화면에 마지막 값 `끊김`을 다시 준다(7주차) |
 | 받는 중에 화면을 돌렸더니 입력 이력이 비고 받기가 꺼졌다 | 정상이다. 이력은 그 화면이 가진 목록이라 화면이 새로 만들어지면 비고, `onStop`이 받기를 멈춘다. 캡처는 세로에서 찍는다 |
 | (예상) [재연결]을 누르면 Toast `마지막 주소가 없습니다. [검색]부터 하세요`만 뜬다 | 목록 줄로 연결한 적이 없거나, 목록 줄 리스너의 `putString("lastAddress", …)` 저장 줄 또는 onCreate의 꺼내기 줄이 빠졌다 |
@@ -304,6 +304,6 @@ private suspend fun waitConnectTimeout() {
 - 1일차: 가로 버튼 줄의 [중지] 옆에 [이력 지우기] 버튼을 둔다. 누르면 `history.clear()` 뒤 어댑터에 알려 목록을 비운다(12주차 `devices.clear()`와 같은 모양).
 - 1일차: 온습도 요청 간격을 5초로 바꿔 이력 시각이 5초씩 벌어지는지 확인하고 되돌린다.
 - 1일차: 짝의 앱으로 [슬라이드 2일차](slides.md)의 코드 설명 질문을 서로 한 개씩 내 본다.
-- 1일차: 보드와 실기기가 있으면 `useFake = false`로 온습도 3줄과 보드 전원 끄기 → `끊김` → [재연결]을 해 보고 캡처한다.
+- 1일차: 보드와 실기기가 있으면 `useFake = false`로 온습도 2줄과 보드 전원 끄기 → `끊김` → [재연결]을 해 보고 캡처한다.
 
 추가 과제는 선택 사항이며 2차 과제 점수에 더하거나 빼지 않는다.

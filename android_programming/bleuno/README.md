@@ -131,7 +131,7 @@ Manifest에 적는 것과 별개로, `BLUETOOTH_SCAN`·`BLUETOOTH_CONNECT`(Andro
 |---|---|
 | `client.connectionState` | `StateFlow<String>`. 값은 `ConnState`의 문자열 다섯 개 중 하나. `collect { }`로 화면에 반영한다 |
 | `client.isReady` | 지금 `준비됨`이면 `true` |
-| `client.startScan(5000, onFound = { device -> … }, onFinished = { … })` | 5초 동안 검색. 보드를 찾을 때마다 `onFound`, 끝나면 `onFinished` |
+| `client.startScan(5000, onFound = { device -> … }, onFinished = { … })` | 5초 동안 검색. 보드를 찾을 때마다 `onFound`, 끝나면 `onFinished`. 권한이 없거나 블루투스가 꺼져 있으면 검색 없이 곧바로 `onFinished` |
 | `client.stopScan()` | 검색을 바로 멈춘다. `onFinished`도 불린다 |
 | `client.connect(device.address)` | 연결 시작. 상태가 `연결 중` → `서비스 확인 중` → `준비됨`으로 바뀐다 |
 | `client.disconnect()` | 연결 해제. 상태가 `연결 안 됨`이 된다 |
@@ -288,7 +288,7 @@ Fake도 같은 태그로 `(가짜)`가 붙은 로그를 남기므로, 앱 문제
 | 증상 | 확인할 것 |
 |---|---|
 | 검색해도 목록이 비어 있다 | 보드 LED가 파랑 깜빡임인가(다른 폰에 이미 연결되면 검색에 안 잡힌다) · `PermissionHelper.hasAll`이 `true`인가 · 블루투스가 켜져 있는가 · Android 11 이하면 위치 서비스가 켜져 있는가 |
-| Logcat에 `startScan: 권한이 없어 무시함` | 런타임 권한을 아직 허용하지 않았다. `permissionLauncher.launch(PermissionHelper.required())` |
+| Logcat에 `startScan: 권한이 없어 무시함` | 런타임 권한을 아직 허용하지 않았다. 검색은 시작하지 않고 `onFinished`만 곧바로 불린다. `permissionLauncher.launch(PermissionHelper.required())` |
 | 상태가 `연결 중`에서 멈춘다 | 보드 전원·거리 확인. 10초 넘게 그대로면 `disconnect()` 후 다시 시도(14주차 timeout) |
 | 상태가 갑자기 `끊김` | 보드 전원이 꺼졌거나 멀어졌다. `connect(lastAddress)`로 재연결 |
 | `send`를 불렀는데 응답이 없다 | `client.isReady`가 `true`인가. `onMessage`를 `onStart`에서 등록했는가 |

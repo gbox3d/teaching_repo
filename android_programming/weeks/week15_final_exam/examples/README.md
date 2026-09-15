@@ -106,7 +106,7 @@ binding.permissionButton.setOnClickListener {
 | 요청 창에서 거절 | `권한이 필요합니다` 창(3번) |
 
 - 요청 틀은 **화면이 시작되기 전에** 만들어야 해서 클래스 안에 둔다. 버튼은 이미 만든 틀의 `launch`만 부른다.
-- 리스너 안에서 `registerForActivityResult`를 새로 만들어도 빌드는 된다. 하지만 권한이 없는 기기에서 누르는 순간 앱이 멈출 것이다(Logcat `java.lang.IllegalStateException: LifecycleOwner com.example.smartio.MainActivity@… is attempting to register while current state is RESUMED. LifecycleOwners must call register before they are STARTED.`, 예상).
+- 리스너 안에서 `registerForActivityResult`를 새로 만들어도 빌드는 된다. 하지만 권한이 없는 기기에서 누르는 순간 앱이 멈춘다(Logcat `java.lang.IllegalStateException: LifecycleOwner com.example.smartio.MainActivity@… is attempting to register while current state is RESUMED. LifecycleOwners must call register before they are STARTED.`).
 - `{ _ -> }`의 `_`는 넘어오는 결과를 쓰지 않는다는 뜻이다. 결과 대신 13번으로 지금 권한을 다시 확인한다.
 
 ## 3. 거절했을 때 — AlertDialog와 암시적 Intent
@@ -176,7 +176,7 @@ binding.ledSwitch.setOnCheckedChangeListener { _, isChecked ->
 | `3` 켜기 | 명령 로그 `on 3`, Switch·[전체 끄기] 0.3초 회색 | `writeCharacteristic(가짜): "on 3"` |
 | `3` 끄기 | 명령 로그 `off 3` | `writeCharacteristic(가짜): "off 3"` |
 
-- 순서가 중요하다. 빈 칸 검사를 먼저 해야 뒤의 `pin.toInt()`가 안전하다. 순서를 바꾸면 빌드는 되지만 빈 칸에서 앱이 멈출 것이다(Logcat `java.lang.NumberFormatException: For input string: ""`, 예상).
+- 순서가 중요하다. 빈 칸 검사를 먼저 해야 뒤의 `pin.toInt()`가 안전하다. 순서를 바꾸면 빌드는 되지만 빈 칸에서 앱이 멈춘다(Logcat `java.lang.NumberFormatException: For input string: ""`).
 - `isAllowedIndex(pin)`처럼 글자를 넘기면 `Argument type mismatch: actual type is 'kotlin.String', but 'kotlin.Int' was expected.`
 - 명령 규약은 **명령 이름 + 띄어쓰기 한 칸 + 번호**다. `"on$index"`라 쓰면 빌드는 되고 보드가 `{"result":"fail","ms":"unknown command"}`로 답한다([bleuno README 2절](../../../bleuno/README.md#2-명령과-응답)).
 
@@ -237,7 +237,7 @@ private suspend fun waitConnectTimeout() {
 | 실행 결과 | 화면 |
 |---|---|
 | Fake 목록 줄 탭 | 약 2초 만에 `준비됨`. 10초가 지나도 안내가 없다(정상) |
-| (확인용) `delay(10000)`을 잠시 `delay(1000)`으로 바꾸고 목록 줄 탭 | 약 1초 뒤 Toast `연결 시간이 초과되었습니다`, 상태 `연결 시간 초과 — [다시 시도]를 누르세요`, [검색] 켜짐, [다시 시도] 보임(예상). Logcat `connectGatt(가짜): 00:11:22:33:44:01` → `disconnect(가짜) → 연결 안 됨`. 확인 뒤 되돌린다 |
+| (확인용) `delay(10000)`을 잠시 `delay(1000)`으로 바꾸고 목록 줄 탭 | 약 1초 뒤 상태 `연결 시간 초과 — [다시 시도]를 누르세요`, [검색] 켜짐, [다시 시도] 보임. Toast `연결 시간이 초과되었습니다`는 먼저 뜬 `선택: …` Toast가 사라진 뒤(줄을 누르고 약 2~3초 뒤) 뜬다. Logcat `connectGatt(가짜): 00:11:22:33:44:01` → `disconnect(가짜) → 연결 안 됨`. 확인 뒤 되돌린다 |
 | 연결 중에 회전 | onCreate 52번이 시간 제한을 다시 건다(10초를 처음부터 센다) |
 
 - `waitConnectTimeout()`은 코루틴 밖에서 부를 수 없다. `startConnectTimeout()`에서 바로 부르면 `Suspend function 'suspend fun waitConnectTimeout(): Unit' should be called only from a coroutine or another suspend function.`
@@ -249,10 +249,10 @@ private suspend fun waitConnectTimeout() {
 | 채점표 항목(구현 15) | 다시 쓰는 개념(처음 배운 주) | `rehearsal_solution` 줄 |
 |---|---|---|
 | 권한·SharedPreferences 3 | Manifest 선언(10주) → `checkSelfPermission` 반복(10·12주) → 요청 틀과 `launch`(10주) → 결과 `{ _ -> }` → 거절 AlertDialog와 암시적 Intent(10주). 저장·복원(11·14주)은 starter 완성분 | `AndroidManifest.xml` 10~26행, `MainActivity.kt` 64~70행, 284~290행, 392~399행, 402~413행, 저장 133·306·321~331행 |
-| `send`·`onMessage`·재연결 3 | `send("on $index")`와 명령 규약, `onMessage { json -> }`와 `BleunoMessage.result/message`, 오류 색·창, 허용 번호(13주). 재연결 버튼(14주)은 starter 완성분 | `ControlActivity.kt` 58~81행, 195~210행, 226~234행, `MainActivity.kt` 348~358행 |
+| `send`·`onMessage`·재연결 3 | `send("on $index")`와 명령 규약, `onMessage { json -> }`와 `BleunoMessage.result/message`, 오류 색·창, 허용 번호(13주). 재연결 버튼(14주)은 starter 완성분 | `ControlActivity.kt` 58~81행, 195~210행, 226~234행, `MainActivity.kt` 350~358행 |
 | 코루틴 timeout·취소·오류 3 | `Job` 보관과 `?.cancel()`, `lifecycleScope.launch`, `suspend fun`과 `delay`(6주), `connectionState.value`와 `listOf(…).contains(…)`(7·13·14주) | `MainActivity.kt` 108행, 468~473행, 478~492행 |
 | UI·이벤트 3 | `setOnCheckedChangeListener`(4주), `isEmpty()`·`.toInt()`·문자열 템플릿(4주), `Toast`(3주), `isEnabled`로 잠깐 막기(5·13주) | `ControlActivity.kt` 58~81행, 238~250행 |
-| 상태 보존·StateFlow 3 | `connectionState` collect 틀(7·12주), 회전하면 시간 제한 다시 걸기(14주) — starter 완성분 | `MainActivity.kt` 233~281행, 333~337행, `ControlActivity.kt` 88~113행 |
+| 상태 보존·StateFlow 3 | `connectionState` collect 틀(7·12주), 회전하면 시간 제한 다시 걸기(14주) — starter 완성분 | `MainActivity.kt` 235~281행, 335~337행, `ControlActivity.kt` 90~113행 |
 
 세부 기준은 [채점표](../rubric.md)에 있다.
 

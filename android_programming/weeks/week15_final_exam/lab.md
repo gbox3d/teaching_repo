@@ -79,7 +79,7 @@ starter는 **빌드·실행은 되고 기능만 비어 있는** 상태다. 시�
 | 권한을 다시 끄고 [권한 확인] → 거절 | `권한이 필요합니다` 창, [취소]·[설정으로] |  |
 | [설정으로] | Smart I/O Controller의 앱 정보 화면 |  |
 
-- 같은 권한을 여러 번 거절하면 Android가 요청 창을 더 띄우지 않고 곧바로 결과를 돌려줄 수 있다. 그때는 [권한 확인]을 누르자마자 `권한이 필요합니다` 창이 뜬다(예상). 앱 정보에서 권한을 다시 바꾸면 요청 창이 다시 뜬다.
+- 요청 창에서 거절한 뒤에는 Android가 요청 창을 더 띄우지 않고 곧바로 결과를 돌려주기도 한다. 앱 정보에서 끈 상태는 한 번, 새로 설치한 상태는 두 번 거절하면 그다음 [권한 확인]부터 요청 창 없이 곧바로 `권한이 필요합니다` 창이 뜬다(Android 14 에뮬레이터에서 확인). 앱 정보에서 권한을 다시 바꾸면(`허용` → `허용 안함`) 요청 창이 다시 뜬다.
 - 권한 흐름에는 Logcat `tag:BLE` 줄이 없다.
 
 ### 4. TODO(2) — LED 번호 토글과 응답 표시
@@ -112,8 +112,8 @@ starter는 **빌드·실행은 되고 기능만 비어 있는** 상태다. 시�
 
 | 조작 (`delay(1000)`으로 바꾼 상태) | 예상 | 내 앱 (O/X) |
 |---|---|---|
-| [검색] → `ESP32_BLE_FAKE1` 줄 탭 | 약 1초 뒤 Toast `연결 시간이 초과되었습니다`, 상태 `연결 시간 초과 — [다시 시도]를 누르세요`, [검색] 켜짐, [다시 시도] 보임 (예상) |  |
-| 줄 탭 직후 곧바로 회전 | 약 1초 뒤 같은 안내. 52번이 시간 제한을 다시 건다 (예상) |  |
+| [검색] → `ESP32_BLE_FAKE1` 줄 탭 | 약 1초 뒤 상태 `연결 시간 초과 — [다시 시도]를 누르세요`, [검색] 켜짐, [다시 시도] 보임. Toast `연결 시간이 초과되었습니다`는 먼저 뜬 `선택: …` Toast가 사라진 뒤(줄을 누르고 약 2~3초 뒤) 뜬다 |  |
+| 줄 탭 직후 곧바로 회전 | 약 1초 뒤 같은 안내. 52번이 시간 제한을 다시 건다 |  |
 | Logcat `package:mine tag:BLE` | `connectGatt(가짜): 00:11:22:33:44:01` → `disconnect(가짜) → 연결 안 됨` |  |
 
 4. 확인이 끝나면 **`delay(10000)`으로 되돌린다.**
@@ -158,7 +158,7 @@ X가 있으면 [막혔을 때](#막혔을-때)부터 본다.
 
 ### 1. 시작 전 점검
 
-- [ ] 실기기에 내 `SmartIO`(`useFake = false`)가 설치되어 있고, 내 보드로 `준비됨`·LED 켜기와 `응답:` 줄·입력 이력 3줄을 확인했다. 리허설 TODO(1)·(2)를 끝내지 못했으면 두 파일을 `rehearsal_solution`으로 바꿔 설치했다.
+- [ ] 실기기에 내 `SmartIO`(`useFake = false`)가 설치되어 있고, 내 보드로 `준비됨`·LED 켜기와 `응답:` 줄·입력 이력 2줄을 확인했다. 리허설 TODO(1)·(2)를 끝내지 못했으면 두 파일을 `rehearsal_solution`으로 바꿔 설치했다.
 - [ ] 에뮬레이터가 켜져 있고 Android Studio의 Run 대상이 에뮬레이터다.
 - [ ] 휴대폰은 가방에 넣었다(시연 기기는 책상 위에 앱 화면만). 브라우저에는 [허용 자료](#허용-자료) 탭만 있다.
 - [ ] [장애가 나면](#장애가-나면) 손을 든다는 것을 안다.
@@ -176,7 +176,7 @@ X가 있으면 [막혔을 때](#막혔을-때)부터 본다.
 
 1. 시연 기기의 `SmartIO` → [검색] → **내 보드 이름** 줄 탭 → `준비됨` → [제어 화면].
 2. **출력 제어**: LED 번호 → Switch 켜기 → 보드 LED가 켜진다 → Switch 끄기(또는 [전체 끄기]) → 명령 로그의 응답 줄을 가리킨다. 응답 줄이 없으면 O2를 받지 못하므로, 시연 앱은 설명 시간 점검 때 응답이 붙는 앱(내가 끝낸 리허설 또는 `rehearsal_solution`)으로 설치해 둔다.
-3. **입력 수신**: [온습도 받기 시작] → 입력 이력 3줄 → [중지].
+3. **입력 수신**: [온습도 받기 시작] → 입력 이력 2줄 → [중지].
 4. **구술**: 평가자가 본시험 프로젝트 코드에서 콜백 하나를 가리키면 "언제 불리는지" 한 문장으로 답한다.
 
 - 보드가 검색되지 않으면 손을 든다. 강의자가 확인하면 보드를 바꾸거나 에뮬레이터의 Fake로 시연한다.
@@ -231,7 +231,7 @@ X가 있으면 [막혔을 때](#막혔을-때)부터 본다.
 ## 막혔을 때
 
 오류 문구는 Android Studio의 Build 창에 나오는 줄이다. `MainActivity.kt:줄:열`의 줄 번호는 내 코드에 따라 다르다.
-**(예상)** 표시는 빌드는 되지만 실행에서 드러나는 증상을 코드로 짐작해 적은 것이라, 기기에서 조금 다르게 보일 수 있다.
+빌드는 되지만 실행에서 드러나는 증상은 Android 14 에뮬레이터에서 확인한 모습이라, 기기에 따라 조금 다르게 보일 수 있다.
 
 | 상황 | 확인할 것 |
 |---|---|
@@ -241,10 +241,10 @@ X가 있으면 [막혔을 때](#막혔을-때)부터 본다.
 | `Argument type mismatch: actual type is 'kotlin.String', but 'kotlin.Int' was expected.` (`isAllowedIndex` 줄) | `isAllowedIndex(pin)`처럼 글자를 넘겼다. `pinEdit`의 글자는 `String`, `isAllowedIndex(index: Int)`는 숫자를 받는다. `isAllowedIndex(pin.toInt())` |
 | `None of the following candidates is applicable:` 아래 `makeText` 후보 두 줄, 이어서 `Unresolved reference 'show'.` | 메시지가 원인을 직접 말하지 않는다. 50번의 `lifecycleScope.launch { }` 안에 `Toast.makeText(this, …)`를 바로 썼다. 그 안의 `this`는 Activity가 아니라 코루틴이다. Toast는 51번 `waitConnectTimeout()`(Activity의 함수) 안에 두고 `launch` 안에서는 그 함수를 부른다. `show` 줄은 앞 줄 때문에 따라 나온 것이다 |
 | `Missing return statement.` | TODO 주석을 지우면서 `hasBlePermissions()`의 `return true` 줄까지 지웠다. 함수 끝에 `return true`를 되살린다. `isAllowedIndex()`의 `return false`를 지워도 같은 오류가 날 것이다 |
-| (예상) 권한을 끈 상태에서 [권한 확인]을 누르는 순간 앱이 멈춘다. Logcat에 `java.lang.IllegalStateException: LifecycleOwner com.example.smartio.MainActivity@… is attempting to register while current state is RESUMED. LifecycleOwners must call register before they are STARTED.` 이미 허용된 기기에서는 `권한 OK`만 떠서 멀쩡해 보인다 | [권한 확인] 리스너 안에서 `registerForActivityResult(…)`로 요청 틀을 새로 만들었다. 요청 틀은 화면이 시작되기 전에 만들어야 하므로 클래스 안에 있는 `permissionLauncher`를 쓰고, 리스너에서는 `permissionLauncher.launch(PermissionHelper.required())`만 부른다 |
-| (예상) Android 12 이상에서 요청 창에서 허용했는데 곧바로 `권한이 필요합니다` 창이 뜬다. 설정에서는 `근처 기기`가 허용으로 보이는데 [권한 확인]을 누를 때마다 창이 또 뜨고, [검색]도 요청만 한다 | `AndroidManifest.xml`에서 `BLUETOOTH_CONNECT` 권한 줄이 빠졌다. 선언하지 않은 권한은 요청해도 곧바로 거절된다. starter Manifest는 고치지 않는다 |
-| (예상) `3` → Switch 켜기에 명령 로그 `on 3` 아래 빨간 `응답: {"result":"fail","ms":"unknown command"}`와 `보드가 오류를 알렸습니다` / `응답: fail · unknown command` 창. Logcat에 `writeCharacteristic(가짜): "on3"` | `send("on$index")`처럼 명령 이름과 번호 사이 띄어쓰기가 빠졌다. 로그에 쌓는 글자는 맞아 보여도 보낸 글자가 다르다. `send("on $index")`. Logcat에서 실제로 보낸 글자를 확인한다 |
-| (예상) 번호 칸을 비운 채 Switch를 누르는 순간 앱이 멈춘다. Logcat에 `java.lang.NumberFormatException: For input string: ""` | 허용 번호 검사(`pin.toInt()`)를 빈 칸 검사보다 앞에 두었다. 순서는 빈 칸 → 허용 번호 → 켜기/끄기 |
+| 권한을 끈 상태에서 [권한 확인]을 누르는 순간 앱이 멈춘다. Logcat에 `java.lang.IllegalStateException: LifecycleOwner com.example.smartio.MainActivity@… is attempting to register while current state is RESUMED. LifecycleOwners must call register before they are STARTED.` 이미 허용된 기기에서는 `권한 OK`만 떠서 멀쩡해 보인다 | [권한 확인] 리스너 안에서 `registerForActivityResult(…)`로 요청 틀을 새로 만들었다. 요청 틀은 화면이 시작되기 전에 만들어야 하므로 클래스 안에 있는 `permissionLauncher`를 쓰고, 리스너에서는 `permissionLauncher.launch(PermissionHelper.required())`만 부른다 |
+| Android 12 이상에서 요청 창에서 허용했는데 곧바로 `권한이 필요합니다` 창이 뜬다. 설정에서는 `근처 기기`가 허용으로 보이는데 [권한 확인]을 누를 때마다 창이 또 뜨고, [검색]도 요청 창 없이 곧바로 `권한이 필요합니다` 창을 띄우며 검색하지 않는다 | `AndroidManifest.xml`에서 `BLUETOOTH_CONNECT` 권한 줄이 빠졌다. 선언하지 않은 권한은 요청해도 곧바로 거절된다. starter Manifest는 고치지 않는다 |
+| `3` → Switch 켜기에 명령 로그 `on 3` 아래 빨간 `응답: {"result":"fail","ms":"unknown command"}`와 `보드가 오류를 알렸습니다` / `응답: fail · unknown command` 창. Logcat에 `writeCharacteristic(가짜): "on3"` | `send("on$index")`처럼 명령 이름과 번호 사이 띄어쓰기가 빠졌다. 로그에 쌓는 글자는 맞아 보여도 보낸 글자가 다르다. `send("on $index")`. Logcat에서 실제로 보낸 글자를 확인한다 |
+| 번호 칸을 비운 채 Switch를 누르는 순간 앱이 멈춘다. Logcat에 `java.lang.NumberFormatException: For input string: ""` | 허용 번호 검사(`pin.toInt()`)를 빈 칸 검사보다 앞에 두었다. 순서는 빈 칸 → 허용 번호 → 켜기/끄기 |
 | 목록 줄을 누르고 10초를 기다려도 `연결 시간이 초과되었습니다`가 안 뜬다 | 오류가 아니다. Fake는 약 2초 만에 `준비됨`이 된다. 51번 `delay`를 잠시 1000으로 줄여 확인하고 되돌린다 |
 | [권한 확인]을 눌러도 아무 일이 없다 | 12번 리스너 안이 아직 비어 있거나, `hasBlePermissions()`가 `true`인데 Toast 줄이 없다. 13번 → 12번 순서로 다시 본다 |
 

@@ -120,7 +120,8 @@ if (hasBlePermissions() == false) {
 - [ ] 검색 중에 홈으로 나가면 Logcat에 `stopScan(가짜)`가 찍힌다.
 - [ ] 목록에 `ESP32_BLE…` 줄이 보이는 **세로** 연결 화면을 캡처했다(캡처 1).
 
-화면을 돌리면 11주차처럼 목록이 비워진다. 캡처는 돌리기 전에 세로에서 한다.
+화면을 돌리면 11주차처럼 목록이 비워진다. 폰 크기 화면을 가로로 돌리면 위아래가 잘려 목록 자체가 안 보일 수 있다. 목록이 비워졌는지는 세로로 되돌려 확인한다.
+캡처는 돌리기 전에 세로에서 한다. 폰 폭에 따라 `ESP32_BLE_FAKE1 (00:11:22:33:44:01)` 줄이 두 줄로 접힐 수 있다.
 프로젝트는 2일차에 그대로 이어서 사용한다. 제출은 2일차 마지막에 한 번만 한다.
 
 ## 2일차 — 연결하고 두 화면에서 상태 보기 (60분)
@@ -210,7 +211,7 @@ if (hasBlePermissions() == false) {
 
 ### 5. 캡처 2와 보드 사진
 
-1. 목록 줄을 눌러 `준비됨`이 된 연결 화면과 Logcat `package:mine tag:BLE`의 연결 줄이 함께 보이게 **캡처한다(캡처 2).** Android Studio의 기기 화면 창과 Logcat 창을 나란히 두면 한 장에 담긴다. 어려우면 두 장으로 나눈다.
+1. 목록 줄을 눌러 `준비됨`이 된 연결 화면과 Logcat `package:mine tag:BLE`의 연결 줄이 함께 보이게 **캡처한다(캡처 2).** Android Studio의 기기 화면 창과 Logcat 창을 나란히 두면 한 장에 담긴다. 어려우면 두 장으로 나눈다. 줄을 누르면 뜨는 Toast `선택: …`가 약 2초 동안 화면을 덮으니 Toast가 사라진 뒤 찍는다.
    - 실보드: `onConnectionStateChange` → `onMtuChanged` → `onServicesDiscovered` 줄이 순서대로 보이게
    - Fake: `connectGatt(가짜)` → `onConnectionStateChange(가짜)` → `onServicesDiscovered(가짜) → onDescriptorWrite → 준비됨` 세 줄이 보이게
 2. 실보드와 연결했으면 파랑 깜빡임이 멈추고 LED가 꺼진 보드를 **사진으로 찍는다.** 연결 전 파랑 깜빡임 사진과 나란히 두면 더 좋다. [해제]를 누르면 보드가 다시 파랑 깜빡임으로 돌아가는지도 본다.
@@ -228,10 +229,10 @@ if (hasBlePermissions() == false) {
 | `Suspend function 'suspend fun collect(collector: FlowCollector<String>): Nothing' should be called only from a coroutine or another suspend function.` | `collect`를 틀 밖에서 불렀다. MainActivity 7번처럼 `lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { … } }` 안에 둔다 |
 | `Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'com.example.smartio.bleuno.BleunoClient?'.` | 제어 화면에서 `Bleuno.client.connectionState`로 썼다. `Bleuno.client?.connectionState?.collect`로 `?.`를 쓴다. `!!`는 쓰지 않는다 |
 | `Unresolved reference 'stateText'.` (`ControlActivity.kt`에 표시된다) | 고칠 곳은 `activity_control.xml`이다. `android:id="@+id/stateText"` TextView가 있는지, 철자가 같은지 본다 |
-| (예상) 권한·블루투스가 켜진 상태에서 [검색]을 누르거나, 홈·회전·[연결]로 화면을 떠나는 순간(검색하지 않았어도) 앱이 멈춘다. 2일차 코드라면 앱을 켜자마자 멈춘다. Logcat에 `kotlin.UninitializedPropertyAccessException: lateinit property client has not been initialized` | `onCreate`의 `client = Bleuno.client ?: Bleuno.create(this, useFake)` 줄이 빠졌다. `lateinit`은 채우는 줄이 없어도 빌드가 된다. 화면을 떠날 때 멈추는 것은 `onStop`의 `client.stopScan()`이 채워지지 않은 `client`를 쓰기 때문이다 |
-| (예상) [검색]을 누르면 ProgressBar가 한순간 보였다 사라지고 `검색 완료 · 장치 수: 0`(2일차 코드면 `장치를 찾지 못했습니다 — [다시 시도]를 누르세요`). Logcat에 `startScan(가짜): 5ms 동안 검색` | `startScan`의 첫 값은 밀리초다. `5`가 아니라 `5000`(5초)으로 쓴다 |
-| (예상) [검색]·[권한 확인]을 눌러도 시스템 권한 창이 뜨지 않고 곧바로 `권한이 필요합니다`. 앱 권한 화면에 "근처 기기"가 없다 | `AndroidManifest.xml`에 10주차에 넣은 `BLUETOOTH_SCAN`·`BLUETOOTH_CONNECT` 선언이 있는지 본다 |
-| (예상) `준비됨`에서 화면을 돌리면 `연결 안 됨`으로 돌아가고 [제어 화면]이 꺼진다. 실보드면 그 뒤 [검색]해도 `장치를 찾지 못했습니다 — [다시 시도]를 누르세요` | `client = Bleuno.create(this, useFake)`처럼 `Bleuno.client ?:`가 빠졌다. bleuno README 6절 사용 예를 그대로 복사했을 때도 이렇다. `client = Bleuno.client ?: Bleuno.create(this, useFake)`로 쓴다 |
+| 권한·블루투스가 켜진 상태에서 [검색]을 누르거나, 홈·회전·[연결]로 화면을 떠나는 순간(검색하지 않았어도) 앱이 멈춘다. Logcat에 `kotlin.UninitializedPropertyAccessException: lateinit property client has not been initialized`. 홈으로 나가다 멈췄으면 예외 첫 줄이 `java.lang.RuntimeException: Unable to stop activity …`로 시작할 수 있다. (예상) 2일차 코드라면 앱을 켜자마자 멈춘다 | `onCreate`의 `client = Bleuno.client ?: Bleuno.create(this, useFake)` 줄이 빠졌다. `lateinit`은 채우는 줄이 없어도 빌드가 된다. 화면을 떠날 때 멈추는 것은 `onStop`의 `client.stopScan()`이 채워지지 않은 `client`를 쓰기 때문이다 |
+| [검색]을 누르면 ProgressBar가 한순간 보였다 사라지고 `검색 완료 · 장치 수: 0`(2일차 코드면 `장치를 찾지 못했습니다 — [다시 시도]를 누르세요`). Logcat에 `startScan(가짜): 5ms 동안 검색` | `startScan`의 첫 값은 밀리초다. `5`가 아니라 `5000`(5초)으로 쓴다 |
+| [검색]·[권한 확인]을 눌러도 시스템 권한 창이 뜨지 않고 곧바로 `권한이 필요합니다`. 앱 권한 화면에 "근처 기기"가 없다 | `AndroidManifest.xml`에 10주차에 넣은 `BLUETOOTH_SCAN`·`BLUETOOTH_CONNECT` 선언이 있는지 본다 |
+| `준비됨`에서 화면을 돌리면 `연결 안 됨`으로 돌아가고 [제어 화면]이 꺼진다. (예상) 실보드면 그 뒤 [검색]해도 `장치를 찾지 못했습니다 — [다시 시도]를 누르세요` | `client = Bleuno.create(this, useFake)`처럼 `Bleuno.client ?:`가 빠졌다. bleuno README 6절 사용 예를 그대로 복사했을 때도 이렇다. `client = Bleuno.client ?: Bleuno.create(this, useFake)`로 쓴다 |
 | (예상) 실기기에서 [검색]·[다시 시도]를 연달아 여러 번(30초에 5번 넘게) 눌렀더니 보드가 파랑 깜빡임인데도 `장치를 찾지 못했습니다 — [다시 시도]를 누르세요`가 반복된다 | Android가 짧은 시간에 너무 많은 검색을 잠시 막는다. 30초쯤 기다린 뒤 [검색]을 한 번만 누른다. Fake에는 해당하지 않는다 |
 | (예상) 에뮬레이터에서 `useFake = false`로 실행했더니 늘 `장치를 찾지 못했습니다 — [다시 시도]를 누르세요`. Logcat에 `stopScan: 찾은 기기 0개` | 에뮬레이터 주변에는 보드가 없다. 실기기로 실행하거나 `useFake = true`로 되돌린다 |
 | 실보드가 목록에 안 뜬다 | 보드 LED가 파랑 깜빡임인지(다른 폰에 연결되면 광고를 멈춘다), 블루투스가 켜져 있는지, Android 11 이하면 위치가 켜져 있는지, 28번 괄호 안이 `"ESP32_BLE"`인지 본다 |

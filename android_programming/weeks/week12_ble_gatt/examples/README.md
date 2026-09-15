@@ -59,8 +59,8 @@ client = Bleuno.client ?: Bleuno.create(this, useFake)
 | 회전해서 `onCreate`가 다시 불렸을 때 | 이미 있는 `Bleuno.client`를 그대로 받는다(연결·상태가 이어진다) |
 | `useFake = false` | 실제 보드용 `RealBleunoClient`를 만든다(실기기에서만 보드를 찾는다) |
 
-- `lateinit var`는 `binding`과 같은 "onCreate에서 채우는 변수" 틀이다. 채우는 줄을 빼도 빌드는 되고, 쓰는 순간 `UninitializedPropertyAccessException`으로 멈춘다(예상).
-- `Bleuno.client ?:`를 빼면 회전할 때마다 새 client가 만들어져 `준비됨`이 `연결 안 됨`으로 돌아간다(예상).
+- `lateinit var`는 `binding`과 같은 "onCreate에서 채우는 변수" 틀이다. 채우는 줄을 빼도 빌드는 되고, 쓰는 순간 `UninitializedPropertyAccessException`으로 멈춘다.
+- `Bleuno.client ?:`를 빼면 회전할 때마다 새 client가 만들어져 `준비됨`이 `연결 안 됨`으로 돌아간다.
 
 ## 3. 블루투스 켜기 요청 — `StartActivityForResult` 틀
 
@@ -152,7 +152,7 @@ lifecycleScope.launch {
 | 1초 뒤 | `서비스 확인 중` | `onConnectionStateChange(가짜): STATE_CONNECTED → 서비스 확인 중` |
 | 다시 1초 뒤 | `준비됨`, [해제]·[제어 화면] 켜짐 | `onServicesDiscovered(가짜) → onDescriptorWrite → 준비됨` |
 | [해제] | `연결 안 됨`, [검색] 켜짐 | `disconnect(가짜) → 연결 안 됨` |
-| `준비됨`에서 회전 | `준비됨`과 버튼 유지, 목록만 비워짐 | — |
+| `준비됨`에서 회전 | `준비됨`과 버튼 유지, 목록만 비워짐(가로에서 안 보이면 세로로 되돌려 확인) | — |
 
 - **BLE 연결은 목록 줄 탭**이다. [연결] 버튼은 4주차 "이름만 들고 제어 화면으로 이동" 그대로다.
 - `준비됨` 동안 10초마다 `onCharacteristicChanged(가짜): {"event":"input",…}`가 찍힌다. 14주차용 입력 이벤트라 12주차 앱은 받지 않는다.

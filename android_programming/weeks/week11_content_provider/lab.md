@@ -66,7 +66,7 @@ deviceJob = lifecycleScope.launch {
 | [검색] → 이름 두 개가 들어온 직후 [중지] |  |  |  |
 | `끊김`(또는 [해제]) 뒤 다시 [검색] |  |  |  |
 
-5. `for` **안**의 `adapter.notifyDataSetChanged()` 한 줄만 지우고 실행해 아래 표를 채운 뒤 **되돌린다**. 이 줄이 없을 때의 화면은 기기마다 조금 다를 수 있어 예상으로만 적어 두었다.
+5. `for` **안**의 `adapter.notifyDataSetChanged()` 한 줄만 지우고 실행해 아래 표를 채운 뒤 **되돌린다**. 이 줄이 없을 때의 화면은 기기마다 조금 다를 수 있다.
 
 | 관찰할 것 | 알림 있음 | 알림 없음 |
 |---|---|---|
@@ -106,7 +106,7 @@ binding.deviceList.setOnItemClickListener { _, _, position, _ ->
 - [ ] 3번 표를 채웠고 `notifyDataSetChanged()`는 되돌렸다.
 - [ ] 세 줄이 모두 보이는 **세로** 연결 화면을 캡처했다(캡처 1).
 
-화면을 돌리면 상태는 이어지지만 목록은 비워진다. 캡처는 돌리기 전에 세로에서 한다.
+화면을 돌리면 상태는 이어지지만 목록은 비워진다. 폰 크기 화면을 가로로 돌리면 위아래가 잘려 일부 버튼·글자가 안 보일 수 있다. 확인할 항목이 안 보이면 세로로 되돌려 확인한다. 캡처는 돌리기 전에 세로에서 한다.
 프로젝트는 2일차에 그대로 이어서 사용한다. 제출은 2일차 마지막에 한 번만 한다.
 
 ## 2일차 — 마지막 장치 저장과 실기기 준비 (60분)
@@ -158,7 +158,7 @@ val lastName = prefs.getString("last", "") ?: ""
 | 조작 | 예상 글자 | 실제 글자 |
 |---|---|---|
 | `ESP32_BLE_C` 골라 [연결] → 제어 화면 [뒤로] |  |  |
-| 이어서 화면 돌리기 |  |  |
+| 이어서 화면 돌리기(안 보이면 세로로 되돌려 확인) |  |  |
 | 앱을 완전히 끄고 다시 실행 |  |  |
 | Android Studio에서 다시 `Run ▶` |  |  |
 | 앱을 삭제(아이콘 길게 누르기 › 제거)한 뒤 `Run ▶` |  |  |
@@ -228,10 +228,10 @@ Android 폰이 있으면 [따라하기 14단계](walkthrough.md#14-실기기-준
 | `Unresolved reference 'count개'.` | `"장치 $count개"`처럼 `$count` 뒤에 한글을 붙였다. `"장치 수: $count"`처럼 뒤에 공백·기호를 두거나 순서를 바꾼다 |
 | `No value passed for parameter 'p1'.` (편집기의 빨간 줄 설명에는 `mode`로 보일 수 있다) | `getSharedPreferences("smartio")`에 두 번째 값이 빠졌다. `getSharedPreferences("smartio", MODE_PRIVATE)`로 쓴다 |
 | `Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'kotlin.String?'.` | `prefs.getString("last", "")` 끝에 `?: ""`가 빠져 `lastName.isEmpty()`에서 막혔다. `?: ""`를 붙인다. `!!`는 쓰지 않는다 |
-| (예상) [검색] 뒤 Logcat `tag:Scan`에는 `장치 수: 1`~`3`이 찍히는데 목록이 늘지 않거나 나중에 한꺼번에 나타난다. 그 사이 목록을 누르면 앱이 멈추고 Logcat에 `java.lang.IllegalStateException: The content of the adapter has changed but ListView did not receive a notification.` | `for` 안의 `devices.add(name)` 다음 줄에 `adapter.notifyDataSetChanged()`가 있는지 본다 |
+| [검색] 뒤 Logcat `tag:Scan`에는 `장치 수: 1`~`3`이 찍히는데 목록은 비어 있다. 상태가 `준비됨`이 되는 순간 세 줄이 한꺼번에 나타나고, `끊김`이면 끝까지 비어 있다 | `for` 안의 `devices.add(name)` 다음 줄에 `adapter.notifyDataSetChanged()`가 있는지 본다 |
 | (예상) 실행하자마자 앱이 멈추고 Logcat에 `Don't call setOnClickListener for an AdapterView. You probably want setOnItemClickListener instead` | `binding.deviceList.setOnClickListener`로 썼다. `setOnItemClickListener { _, _, position, _ -> }`로 바꾼다 |
 | (예상) 빌드도 되고 [연결]도 되는데 앱을 다시 켜도 늘 `마지막 장치: 없음` | 저장 줄 끝에 `.apply()`가 있는지, 저장과 꺼내기의 `"smartio"`·`"last"`가 글자까지 같은지 본다 |
-| (예상) [연락처 보기]를 눌러도 권한 창이 안 뜨고 곧바로 `연락처 권한 없음`이 뜬다. 앱 정보 › 권한에 "연락처"가 없다 | `AndroidManifest.xml`에 `<uses-permission android:name="android.permission.READ_CONTACTS" />`가 있는지 본다 |
+| [연락처 보기]를 눌러도 권한 창이 안 뜨고 곧바로 `연락처 권한 없음`이 뜬다. 앱 정보 › 권한에 "연락처"가 없다 | `AndroidManifest.xml`에 `<uses-permission android:name="android.permission.READ_CONTACTS" />`가 있는지 본다 |
 | `Unresolved reference 'permission'.` (`Manifest.permission`이 있는 줄마다 나온다) | 파일 위쪽 import가 `java.util.jar.Manifest`로 잘못 들어갔다. `import android.Manifest`로 바꾼다 |
 | 앱을 삭제했다가 다시 설치했더니 `마지막 장치: 없음` | 코드 잘못이 아니다. 앱을 삭제하면 저장소도 함께 지워진다 |
 | 화면을 돌리니 목록이 비워졌다 | 코드 잘못이 아니다. `devices`가 화면(Activity) 안에 있어서 새 화면이 빈 목록으로 시작한다 |
