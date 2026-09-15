@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Fragment Demo</string>
+    <string name="first">첫 번째 조각</string>
+    <string name="second">두 번째 조각</string>
+    <string name="first_text">여기는 FirstFragment</string>
+    <string name="second_text">여기는 SecondFragment</string>
+</resources>

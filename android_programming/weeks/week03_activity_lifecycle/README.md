@@ -91,6 +91,7 @@ onResume
 
 ## 다음 수업 연결
 
+다음 주는 [4주차 — SmartIO 시작: ViewBinding·입력 위젯·두 번째 화면](../week04_fragments_navigation/README.md)이다.
 4주차부터는 새 프로젝트 `SmartIO`를 만든다. 글자를 입력받는 `EditText`, 켜고 끄는 `Switch`, 두 번째 화면으로
 이동하는 `Intent`를 배우고, `findViewById` 대신 ViewBinding으로 View를 찾는다.
 

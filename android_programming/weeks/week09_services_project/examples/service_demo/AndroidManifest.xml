@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:label="@string/app_name"
+        android:theme="@style/Theme.SmartIO">
+
+        <!-- New › Activity로 만들면 이 줄이 자동으로 생긴다. -->
+        <activity
+            android:name=".ControlActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 9주차 1일차: Service도 Activity처럼 여기에 적어야 시작된다. exported="false"는 이 앱 안에서만 쓴다는 뜻이다. -->
+        <service
+            android:name=".LogService"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

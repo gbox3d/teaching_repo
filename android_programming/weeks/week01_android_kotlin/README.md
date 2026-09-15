@@ -83,6 +83,7 @@ Kotlin Playground는 브라우저에서 코드를 작성하고 실행하는 도�
 
 ## 다음 수업 연결
 
+다음 주는 [2주차 — 첫 Android 앱: 내 정보 화면과 카운터](../week02_views_layout/README.md)다.
 이번 주에는 코틀린으로 글자를 출력했다. 2주차에는 Android Studio에서 첫 앱 `StudentCard`를 만들어
 같은 학번과 이름을 폰 화면에 띄우고, 버튼을 누르면 숫자가 바뀌는 카운터를 만든다.
 `println("이름: $name")`이 `nameText.text = "이름: $name"`으로 바뀌는 것이 다음 주의 핵심이다.

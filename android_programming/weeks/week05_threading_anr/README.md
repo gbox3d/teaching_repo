@@ -84,6 +84,7 @@ Smart I/O Controller
 
 ## 다음 수업 연결
 
+다음 주는 [6주차 — 코루틴: delay·취소·오류 처리](../week06_coroutines/README.md)다.
 검색 중에 남은 초 `5, 4, 3, 2, 1`을 보이려면 `postDelayed`를 다섯 번 겹쳐야 한다. 6주차에는 코루틴의 `delay(1000)`와
 `for (i in 5 downTo 1)`로 카운트다운을 만들고, 가짜 연결이 실패했을 때 `try/catch`로 [다시 시도] 버튼을 보인다.
 

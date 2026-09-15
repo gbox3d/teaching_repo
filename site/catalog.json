@@ -4,7 +4,7 @@
     "description": "모바일·웹·오픈소스 AI 수업 자료를 주차별 HTML 슬라이드로 열람하는 공개 교재관입니다.",
     "repositoryUrl": "https://github.com/gbox3d/teaching_repo",
     "licenseUrl": "https://github.com/gbox3d/teaching_repo/blob/main/LICENSE",
-    "updated": "2026-09-08"
+    "updated": "2026-09-16"
   },
   "courses": [
     {
@@ -15,112 +15,112 @@
       "description": "Kotlin과 Android 프레임워크의 실행 구조에서 BLE 기반 Smart I/O 통합 프로젝트까지 이어지는 15주 과정입니다.",
       "status": "published",
       "accent": "#3ddc84",
-      "summary": "15개 주차 · 225장",
+      "summary": "15개 주차 · 300장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/android_programming",
       "chapters": [
         {
           "id": "week01_android_kotlin",
           "label": "1주차",
           "title": "Kotlin 첫걸음: 학번과 이름 출력하기",
-          "description": "println, val·var, 문자열과 숫자를 배우고 내 학번과 이름을 출력합니다.",
+          "description": "코드를 조금 바꿔서 내 학번과 이름을 출력할 수 있을까? Kotlin Playground에서 println·val·var·if·fun을 연습합니다.",
           "type": "week"
         },
         {
           "id": "week02_views_layout",
           "label": "2주차",
           "title": "첫 Android 앱: 내 정보 화면과 카운터",
-          "description": "LinearLayout으로 학번·이름·전공을 표시하고 findViewById로 버튼 카운터를 만듭니다.",
+          "description": "XML로 그린 앱 화면에 내 정보를 띄우고 Kotlin 코드로 바꿀 수 있을까? LinearLayout과 findViewById로 버튼 카운터를 만듭니다.",
           "type": "week"
         },
         {
           "id": "week03_activity_lifecycle",
           "label": "3주차",
           "title": "Activity 생명주기와 상태 보존",
-          "description": "Activity callback과 사용자 상태의 서로 다른 수명을 관찰합니다.",
+          "description": "화면을 돌리면 왜 숫자가 0으로 돌아갈까? Logcat으로 생명주기 순서를 확인하고 onSaveInstanceState로 숫자를 남깁니다.",
           "type": "week"
         },
         {
           "id": "week04_fragments_navigation",
           "label": "4주차",
-          "title": "Fragment, Navigation, RecyclerView",
-          "description": "화면 책임과 View 수명을 분리하고 목록 탐색 구조를 만듭니다.",
+          "title": "SmartIO 시작: ViewBinding·입력 위젯·두 번째 화면",
+          "description": "입력한 장치 이름을 두 번째 화면으로 넘기고 LED 명령을 로그에 쌓을 수 있을까? ViewBinding·EditText·Switch·Intent로 SmartIO를 시작합니다.",
           "type": "week"
         },
         {
           "id": "week05_threading_anr",
           "label": "5주차",
-          "title": "메인 스레드, ANR 위험, 경쟁 상태",
-          "description": "응답성을 해치는 블로킹과 공유 상태의 경쟁 조건을 진단합니다.",
+          "title": "메인 스레드와 백그라운드: Thread·Handler",
+          "description": "5초 걸리는 검색 중에도 화면이 멈추지 않게 하려면? Thread·runOnUiThread·Handler와 ProgressBar로 메인 스레드를 비워 둡니다.",
           "type": "week"
         },
         {
           "id": "week06_coroutines",
           "label": "6주차",
-          "title": "Kotlin Coroutine과 취소 가능한 작업",
-          "description": "구조화된 동시성과 화면 수명에 맞는 작업 취소를 다룹니다.",
+          "title": "코루틴: delay·취소·오류 처리",
+          "description": "화면을 멈추지 않고 숫자를 줄이고, 도중에 멈추거나 실패해도 앱이 꺼지지 않게 하려면? lifecycleScope·delay·Job·try/catch를 씁니다.",
           "type": "week"
         },
         {
           "id": "week07_flow_ui_state",
           "label": "7주차",
-          "title": "Flow 기반 단방향 UI 상태",
-          "description": "시간에 따라 변하는 상태를 Flow와 단방향 데이터 흐름으로 표현합니다.",
+          "title": "ViewModel과 StateFlow: 회전해도 살아 있는 상태",
+          "description": "화면을 돌려도 '연결 중… 3'과 버튼 상태가 이어지려면 상태를 어디에 둘까? ViewModel에 상태를 두고 StateFlow를 collect로 받습니다.",
           "type": "week"
         },
         {
           "id": "week08_midterm",
           "label": "8주차",
-          "title": "중간 개인 실기",
-          "description": "읽기, 예측, 구현, 검증 과정을 개인 실기로 점검합니다.",
+          "title": "중간고사(개인 실기)",
+          "description": "2~7주에 만든 버튼·코루틴·ViewModel·StateFlow를 혼자 60분 안에 다시 쓸 수 있을까? 공개 리허설로 시험 모양을 미리 풀어 봅니다.",
           "type": "week"
         },
         {
           "id": "week09_services_project",
           "label": "9주차",
-          "title": "Service와 1차 과제",
-          "description": "화면 밖 작업의 수명과 실행 맥락을 분리해 설계합니다.",
+          "title": "앱 컴포넌트 비교와 1차 과제 발표",
+          "description": "화면이 없는 Service는 어디서 돌까? 네 컴포넌트를 비교하고 Service도 메인 스레드에서 도는 것을 확인한 뒤 1차 과제를 발표합니다.",
           "type": "week"
         },
         {
           "id": "week10_receivers_permissions",
           "label": "10주차",
           "title": "BroadcastReceiver와 런타임 권한",
-          "description": "짧은 이벤트 진입점과 사용자 권한 요청 흐름을 구현합니다.",
+          "description": "시스템의 배터리 알림을 화면에 보이고, BLE 검색 전에 허락을 받으려면? BroadcastReceiver와 런타임 권한·AlertDialog를 만듭니다.",
           "type": "week"
         },
         {
           "id": "week11_content_provider",
           "label": "11주차",
-          "title": "ContentProvider와 센서 이력 경계",
-          "description": "센서 이력에 대한 URI 기반 접근 계약과 데이터 경계를 설계합니다.",
+          "title": "목록과 저장: ListView·SharedPreferences·ContentProvider 비교 + 실기기 준비",
+          "description": "검색한 장치 이름을 목록에 쌓아 고르고 마지막 장치를 기억하려면? ListView·SharedPreferences를 쓰고 ContentProvider를 비교합니다.",
           "type": "week"
         },
         {
           "id": "week12_ble_gatt",
           "label": "12주차",
-          "title": "BLE GATT와 연결 상태",
-          "description": "BLE 역할과 GATT 연결을 관찰 가능한 상태 기계로 구성합니다.",
+          "title": "BLE 기초: Bleuno 클라이언트로 검색·연결",
+          "description": "검색 목록에 진짜 보드를 띄우고 연결 상태를 두 화면에서 함께 보려면? 제공 라이브러리 bleuno로 검색·연결합니다.",
           "type": "week"
         },
         {
           "id": "week13_ble_output",
           "label": "13주차",
-          "title": "BLE 출력 제어와 명령 확인",
-          "description": "출력 요청, 전송, 장치 반영을 구분하고 명령 결과를 확인합니다.",
+          "title": "BLE 출력 제어: 문자열 명령과 응답",
+          "description": "LED Switch로 보드의 LED를 켜고 보드의 대답까지 확인하려면? send로 명령을 보내고 onMessage로 JSON 응답을 받습니다.",
           "type": "week"
         },
         {
           "id": "week14_ble_input_project",
           "label": "14주차",
-          "title": "BLE 입력 알림과 Smart I/O 통합 프로젝트",
-          "description": "BLE 입력 알림을 수신해 Smart I/O 앱의 상태와 화면을 통합합니다.",
+          "title": "입력 수신·끊김·재연결과 2차 과제 발표",
+          "description": "온습도를 3초마다 받아 쌓고, 연결이 끊기거나 오래 걸리면 알리고 다시 연결하려면? 입력 이력·재연결·연결 시간 제한을 만들고 2차 과제를 발표합니다.",
           "type": "week"
         },
         {
           "id": "week15_final_exam",
           "label": "15주차",
-          "title": "기말 개인 실기",
-          "description": "통합 앱을 읽고 수정하고 검증하며 설계 판단을 설명합니다.",
+          "title": "기말고사(개인 실기)",
+          "description": "권한 확인·LED 명령과 응답·연결 시간 제한을 혼자 60분 안에 다시 쓸 수 있을까? 리허설 뒤 본시험과 보드 앞 개인 시연·구술을 합니다.",
           "type": "week"
         }
       ]

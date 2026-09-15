@@ -88,6 +88,7 @@ Smart I/O Controller
 
 ## 다음 수업 연결
 
+다음 주는 [7주차 — ViewModel과 StateFlow: 회전해도 살아 있는 상태](../week07_flow_ui_state/README.md)다.
 카운트다운 중에 화면을 돌리면 숫자가 사라지고 `대기 중`으로 돌아간다. `lifecycleScope`가 화면과 함께 사라지기 때문이다.
 7주차에는 화면보다 오래 사는 `ViewModel`에 코루틴과 상태를 옮겨, 회전해도 `연결 중… 3`이 이어지게 만든다.
 
