@@ -1,206 +1,152 @@
-# 3주차 실습 — Activity 수명과 사용자 상태 분리하기
+# 3주차 실습 — 생명주기 로그와 회전해도 남는 숫자
 
-## 공통 규칙
+2주차 `StudentCard` 프로젝트를 이어서 쓴다. 이번 주에는 XML을 고치지 않고 `MainActivity.kt`만 고친다.
+모든 단계와 전체 코드는 [따라하기](walkthrough.md)에 있다.
 
-- 예상 callback을 먼저 적되 실제 로그와 다르면 관찰값을 우선한다.
-- callback마다 `super` 호출을 유지하고 같은 형식의 로그를 사용한다.
-- `onDestroy()` 호출을 강제로 보장하거나 회전을 막는 방식으로 문제를 숨기지 않는다.
-- Activity 간에는 가짜 장치명·별칭만 전달하며 실제 장치 식별 정보는 사용하지 않는다.
+## 1일차 — 생명주기 로그와 Toast (60분)
 
-## 1일차 실습 — 회전으로 상태 소실을 재현하고 복원하기 (60분)
+| 시간 | 할 일 |
+|---|---|
+| 0–10분 | 2주차 프로젝트를 열어 실행하고 Logcat 창에 `package:mine tag:Life` 필터를 건다 |
+| 10–20분 | `onCreate`에 `Log.d`를 넣고 Logcat에 한 줄이 보이는지 확인한다 |
+| 20–35분 | 콜백 6개를 추가하고 실행·홈·복귀·회전·뒤로의 순서를 기록표에 적는다 |
+| 35–45분 | `+1` 버튼에 Toast를 넣는다 |
+| 45–55분 | 회전 때의 Logcat을 캡처하고 기록표를 정리한다 |
+| 55–60분 | 프로젝트를 저장하고 오늘 확인할 것을 점검한다 |
 
-### 상황과 문제
+### 1. 프로젝트 실행하고 Logcat 열기
 
-사용자가 mock 출력 버튼을 세 번 누른 뒤 화면을 회전했더니 횟수가 0으로 돌아갔다. 어떤 Activity 객체와 callback이 관여했는지 로그로 증명하고 작은 UI 상태를 올바르게 복원하라.
+1. 2주차 `StudentCard`를 열고 실행해 버튼 세 개가 동작하는지 확인한다.
+   없거나 동작하지 않으면 [따라하기 1단계](walkthrough.md#1-2주차-프로젝트-열기)대로 2주차 완성 코드를 넣는다.
+2. 아래쪽 **Logcat** 창을 열고 필터 칸에 `package:mine tag:Life`를 입력한다.
 
-### 시간 배분
+### 2. onCreate에 Log.d 넣기
 
-| 단계 | 구간 | 시간 | 활동 |
-|---|---:|---:|---|
-| 경로 예측 | 0–8분 | 8분 | 네 행동의 callback 예상 |
-| 로그 계측 | 8–20분 | 12분 | 여섯 callback과 instance id 추가 |
-| 시나리오 관찰 | 20–35분 | 15분 | 실행·Home·회전·Back 기록 |
-| 상태 소실·복원 | 35–49분 | 14분 | 탭 횟수 저장·복원 |
-| 실패·경계 확인 | 49–56분 | 7분 | 키 오류와 복원값 확인 |
-| 검증·회고 | 56–60분 | 4분 | 책임 분류와 증거 정리 |
-| **합계** |  | **60분** |  |
+`super.onCreate(savedInstanceState)` 줄 바로 아래에 `Log.d("Life", "onCreate")`를 넣고 실행한다.
 
-### 1. 실행 전 예측
+- `Log`가 빨간색이면 **Alt+Enter**(맥 ⌥+Enter)로 import한다.
+- Logcat에 `onCreate` 한 줄이 보이면 다음 단계로 간다. 안 보이면 필터 철자와 기기 선택을 확인한다.
 
-| 시나리오 | 예상 callback 순서 | 같은 instance 예상? | 실제 로그 | 해석 |
-|---|---|---|---|---|
-| 최초 실행 |  |  |  |  |
-| Home→복귀 |  |  |  |  |
-| 세로→가로 회전 |  |  |  |  |
-| Back 종료 |  |  |  |  |
+### 3. 콜백 6개 추가하고 순서 기록표 채우기
 
-### 2. callback 로그 계측
+[따라하기 4단계](walkthrough.md#4-나머지-콜백-6개-추가하기)의 코드를 `onCreate`의 마지막 `}` 아래에 넣는다.
+그다음 아래 다섯 행동을 하나씩 하면서 Logcat에 찍히는 순서를 적는다. 행동마다 Logcat의 휴지통으로 지우고 보면 읽기 쉽다.
 
-`onCreate`, `onStart`, `onResume`, `onPause`, `onStop`, `onDestroy`에 다음 형식의 로그를 둔다.
+| 행동 | 예상 순서 | 실제 순서(Logcat) |
+|---|---|---|
+| 실행 |  |  |
+| 홈 버튼 |  |  |
+| 복귀(앱 아이콘 다시 누르기) |  |  |
+| 회전 |  |  |
+| 뒤로 |  |  |
 
-```text
-id=<관찰용 Activity instance id> event=<callback> taps=<현재 횟수>
-```
+- 회전에서 `onDestroy` 뒤에 무엇이 오는지 본다. 숫자가 `0`이 되는 이유가 거기에 있다.
+- 홈 버튼 뒤 복귀와 회전의 차이를 한 문장으로 적는다.
 
-요구사항:
+### 4. +1 버튼에 Toast 넣기
 
-- 같은 `LifecycleTrace` tag를 사용한다.
-- 각 override에서 적절한 `super`를 호출한다.
-- `onCreate`에서 `savedInstanceState == null` 여부도 기록한다.
-- 실제 사용자나 기기 식별값을 로그에 넣지 않는다.
+`plusButton.setOnClickListener { }` 안에 `Toast.makeText(this, "지금 숫자: $count", Toast.LENGTH_SHORT).show()`를 넣는다.
 
-### 3. 네 시나리오 관찰
+- `Toast`가 빨간색이면 import한다.
+- `+1`을 누를 때 화면 아래에 `지금 숫자: 1`이 잠깐 보이면 성공이다. 안 보이면 끝의 `.show()`를 확인한다.
 
-각 시나리오 전 Logcat에 구분 메시지를 남기거나 시간 기준을 기록한다. 앱을 정상 기준선으로 돌린 뒤 한 시나리오씩 실행한다.
+### 5. 오늘 확인할 것
 
-관찰 질문:
+- [ ] Logcat에 `package:mine tag:Life` 필터를 걸고 `onCreate`·`onStart`·`onResume`을 보았다.
+- [ ] 다섯 행동의 실제 순서를 기록표에 적었다.
+- [ ] `+1`을 누르면 Toast가 뜬다.
+- [ ] 회전 때의 Logcat을 캡처했다.
 
-1. 화면이 상호작용 가능한 시점은 어느 callback 뒤인가?
-2. Home 복귀에서 instance id가 유지되는가?
-3. 회전에서 이전 id와 새 id가 어떻게 보이는가?
-4. Back 뒤 `onDestroy`가 보였더라도 모든 프로세스 종료에서 보장된다고 말할 수 있는가?
+프로젝트는 2일차에 그대로 이어서 사용한다. 제출은 2일차 마지막에 한 번만 한다.
 
-### 4. 상태 소실과 saved state 복원
+## 2일차 — 회전해도 숫자가 남게 (60분)
 
-1. 탭 횟수 3을 만든다.
-2. 회전해 0으로 돌아가는 실패를 기록한다.
-3. `onSaveInstanceState()`에 정수 하나를 저장한다.
-4. `onCreate()`에서 같은 key로 복원한다.
-5. `render()`를 호출해 화면에 복원값을 반영한다.
-6. 다시 3회→회전 조건으로 검증한다.
+| 시간 | 할 일 |
+|---|---|
+| 0–10분 | 1일차 프로젝트를 실행해 `3`을 만들고 회전해 `0`이 되는 것을 다시 본다 |
+| 10–20분 | `count`를 class 바로 안으로 옮기고 `onSaveInstanceState`에서 저장한다 |
+| 20–35분 | `onCreate`에서 `?.`와 `?:`로 꺼내 화면에 쓴다 |
+| 35–45분 | `3` → 회전 → `3`을 확인하고 캡처 2장을 남긴다 |
+| 45–55분 | 확인표를 채우고, 시간이 남으면 추가 과제를 한다 |
+| 55–60분 | 최종 파일과 캡처를 정리해 제출한다 |
 
-### 5. 정상·경계·실패 확인
+### 1. 문제 다시 보기
 
-- **정상:** 최초 실행은 기본값 0이고 `savedInstanceState == null`이다.
-- **경계:** 3회 클릭 후 연속 두 번 회전해도 3이 유지된다.
-- **실패:** 저장 key와 복원 key를 별도 복사본에서 다르게 해 0으로 돌아감을 재현한 뒤 같은 key로 복구한다.
-- **수명:** Home→복귀와 회전의 instance id 차이를 설명한다.
+실행 → `+1` 세 번 → 회전. 숫자와 Logcat이 어떻게 되는지 한 줄로 적는다.
 
-### 단계별 힌트
+### 2. count 옮기고 저장하기
 
-<details>
-<summary>힌트 1 — callback 로그 순서가 섞여 보인다</summary>
+1. `onCreate` 안의 `var count = 0` 줄을 지우고, `class MainActivity : AppCompatActivity() {` 바로 아래에 `var count = 0`을 넣는다. 실행해서 전과 같이 동작하는지 본다.
+2. `onCreate`의 마지막 `}` 아래에 `onSaveInstanceState`를 추가한다. 매개변수는 `outState: Bundle`이고 `?`가 없다.
+   안에서 `super.onSaveInstanceState(outState)`를 먼저 부르고, `outState.putInt("count", count)`로 숫자를 넣는다.
+3. `Log.d("Life", "onSaveInstanceState count=$count")`도 넣어 둔다.
 
-현재 앱 process와 `LifecycleTrace` tag로 필터링하고 instance id별로 줄을 묶는다. 이전 실행 로그를 지운 뒤 시나리오 하나만 반복한다.
-</details>
+- 실행 → `3` → 회전. 숫자는 아직 `0`이지만 Logcat에 `onSaveInstanceState count=3`이 보이면 저장은 성공이다.
+- `count`가 빨간색이면 1번에서 class 바로 안으로 옮겼는지 본다.
 
-<details>
-<summary>힌트 2 — 저장은 되는데 화면이 0이다</summary>
+### 3. onCreate에서 복원하기
 
-필드 복원 뒤 `render()`가 어떤 값을 읽는지 확인한다. View를 만들기 전 갱신하거나 복원 뒤 다시 0을 대입하지 않았는지도 순서대로 본다.
-</details>
+`val countText = findViewById<TextView>(R.id.countText)` 줄 위아래에 두 줄을 넣는다.
 
-<details>
-<summary>힌트 3 — Bundle에 enum이나 연결 객체를 넣고 싶다</summary>
+- 위: `count = savedInstanceState?.getInt("count") ?: 0`
+- 아래: `countText.text = "$count"`
 
-이번 실습은 작은 정수만 저장한다. 연결 객체는 화면 복원 데이터가 아니며, enum은 필요한 최소 표현과 복원 정책을 먼저 설계해야 한다.
-</details>
+힌트:
 
-### 확장
+- `savedInstanceState`는 `Bundle?`이다. 처음 실행에는 null이므로 `.`이 아니라 `?.`로 부른다.
+- `?.getInt(...)`의 결과는 `Int?`다. `count`는 `Int`이므로 `?: 0`으로 null일 때 쓸 값을 정해 준다.
+- 넣을 때 쓴 이름표 `"count"`와 꺼낼 때 이름표가 같은지 본다.
+- 숫자를 꺼냈으면 화면에도 다시 써야 한다.
 
-mock 연결 enum의 이름을 문자열로 저장·복원하되 알 수 없는 문자열이면 `DISCONNECTED`로 돌아가게 한다. 왜 안전한 기본값을 택했는지 적는다.
+### 4. 검증하고 캡처하기
 
-### 1일차 제출 증거
+| 확인 | 예상 | 실제 |
+|---|---|---|
+| `+1` 세 번 → 회전 |  |  |
+| 회전한 채로 `+1` 한 번 |  |  |
+| 홈 버튼 → 복귀 |  |  |
+| 뒤로 → 앱 다시 실행 |  |  |
 
-- `day1-lifecycle.md`: 네 시나리오의 예상/실제 callback 표
-- 상태 소실 전과 복원 후의 같은 회전 조건 증거
-- saved state, ViewModel, 영구 저장소 책임 비교 3문장
+- **캡처 1**: 회전한 뒤에도 `3`이 보이는 화면
+- **캡처 2**: 회전할 때 `onSaveInstanceState count=3` → `onDestroy` → `onCreate`가 찍힌 Logcat
 
-## 2일차 실습 — 상세 Activity와 결과 계약 (60분)
+마지막 줄이 `0`으로 돌아가는 것은 정상이다. 뒤로로 끝낸 앱은 저장하지 않는다.
 
-### 상황과 문제
+## 막혔을 때
 
-Main 화면에서 mock 장치를 선택해 상세 Activity를 열고 사용자가 별칭을 편집한다. 유효한 별칭만 Main으로 반영하며 공백, 취소, 입력 extra 누락에서는 앱이 종료되지 않고 기존 상태를 지켜야 한다.
+| 상황 | 확인할 것 |
+|---|---|
+| `Unresolved reference 'Log'.` 오류 | `Log`에 커서를 두고 **Alt+Enter**(맥 ⌥+Enter)로 import한다. `import android.util.Log`가 생겨야 한다 |
+| `Unresolved reference 'Toast'.` 오류 | 같은 방법으로 import한다. `import android.widget.Toast` |
+| `'onStart' hides member of supertype 'AppCompatActivity' and needs an 'override' modifier.` 오류 | `fun onStart()` 앞에 `override`를 붙인다 |
+| 실행하자마자 앱이 꺼지는데 Logcat에 아무것도 없다 | 필터에서 `tag:Life`를 지우고 `package:mine`만 남긴 뒤 빨간 줄(`FATAL EXCEPTION`)을 읽는다. `did not call through to super.onStart()`가 보이면 그 콜백 안의 `super.onStart()` 줄을 지운 것이다. 되살린다. 다 읽으면 필터를 `package:mine tag:Life`로 되돌린다 |
+| `'onSaveInstanceState' overrides nothing.` 오류 | 매개변수를 `outState: Bundle`로 쓴다. `Bundle?`이 아니다 |
+| `Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'android.os.Bundle?'.` 오류 | `savedInstanceState.getInt`를 `savedInstanceState?.getInt`로 바꾼다. `!!`는 쓰지 않는다 |
+| `Assignment type mismatch: actual type is 'kotlin.Int?', but 'kotlin.Int' was expected.` 오류 | 끝에 `?: 0`을 붙인다 |
+| `onSaveInstanceState` 안에서 `Unresolved reference 'count'.` 오류 | `var count = 0`이 아직 `onCreate` 안에 있다. class 바로 안으로 옮긴다 |
+| 빌드는 되는데 회전하면 `0`이 된다 | Logcat에 `onSaveInstanceState count=3`이 보이는지 본다. 보이면 꺼낼 때 이름표 철자(`"count"`)가 다르거나 `countText.text = "$count"`가 빠진 것이다 |
+| Logcat에 아무것도 안 보인다 | 필터가 `package:mine tag:Life`인지, Logcat 왼쪽 위의 기기가 실행 중인 에뮬레이터인지 본다 |
+| 화면이 돌지 않는다 | 에뮬레이터 화면 위쪽을 아래로 끌어 빠른 설정에서 **자동 회전**을 켠다 |
+| 노란색 경고 표시가 있다 | 실행에는 문제가 없다. 빨간 오류부터 해결한다 |
 
-### 시간 배분
+한 번에 한 곳만 바꾸고 다시 실행한다. 해결되지 않으면 오류 메시지가 보이는 화면을 그대로 보여 주고 도움을 받는다.
 
-| 단계 | 구간 | 시간 | 활동 |
-|---|---:|---:|---|
-| 계약 예측 | 0–8분 | 8분 | 입력/결과/취소 표 작성 |
-| Detail 화면 | 8–21분 | 13분 | Activity·XML·Manifest 선언 |
-| Result 연결 | 21–36분 | 15분 | launcher, 저장 결과, render |
-| 경계·실패 처리 | 36–49분 | 13분 | 공백·취소·extra 누락 |
-| 회전 재검증 | 49–56분 | 7분 | Main alias 복원 확인 |
-| 검증·제출 | 56–60분 | 4분 | 결과표와 코드 증거 |
-| **합계** |  | **60분** |  |
+## 제출 — 세 가지
 
-### 1. 구현 전 계약표
+1. **`MainActivity.kt`**: 콜백 7개 로그, Toast, 저장·복원이 있는 최종 코드
+2. **캡처 1**: 회전한 뒤에도 숫자 `3`이 보이는 화면
+3. **캡처 2**: 회전할 때 `onSaveInstanceState count=3`이 찍힌 Logcat
 
-| 입력/행동 | Detail 기대 | resultCode | Main 기대 |
-|---|---|---|---|
-| 정상 장치명, 유효 별칭 저장 |  |  |  |
-| 정상 장치명, 공백 저장 |  |  |  |
-| 정상 장치명, Back |  |  |  |
-| 장치명 extra 누락 |  |  |  |
+콜백 로그와 Toast까지 되면 기본 성공이다. 저장·복원은 예제와 도움을 받아 마무리해도 된다.
+제출 위치와 마감은 수업 공지를 따른다.
 
-상수 이름을 먼저 정한다.
+## 먼저 끝났다면
 
-```kotlin
-const val EXTRA_DEVICE_NAME = "device_name"
-const val EXTRA_ALIAS = "device_alias"
-```
+- 2일차: 이름 TextView의 글자도 저장해 본다. `onSaveInstanceState`에서 `outState.putString("name", …)`으로 넣고,
+  `onCreate`에서 `val savedName = savedInstanceState?.getString("name")`으로 꺼낸다. 꺼낸 값이 null이면 지금처럼 `"이름: $name"`을 쓴다.
+  화면은 회전 전후가 같아 보이므로 Logcat 줄로 확인한다. `Log.d("Life", "저장된 이름: $savedName")`을 넣으면
+  처음 실행에는 `null`, 회전 뒤에는 저장한 글자가 찍힌다.
+- 2일차: 회전 뒤 복원했을 때만 Toast `복원했습니다`를 띄워 본다. `savedInstanceState`가 null이 아닐 때가 복원한 때다. 1주차 `if`를 쓴다.
+  힌트: `if (savedInstanceState != null) { … }` — `!=`는 "같지 않다"라는 뜻이다.
 
-### 2. `DeviceDetailActivity` 구현
-
-요구사항:
-
-1. Activity와 XML layout을 만들고 Manifest에 선언한다.
-2. `intent.getStringExtra(EXTRA_DEVICE_NAME)`을 nullable로 받는다.
-3. null 또는 공백이면 canceled 결과로 안전하게 종료한다.
-4. 유효하면 장치명과 별칭 입력란을 보여 준다.
-5. 저장 클릭 시 trim 결과가 빈 값이면 `EditText.error`를 표시하고 화면에 머문다.
-6. 유효하면 `RESULT_OK`와 별칭 extra를 설정한 뒤 종료한다.
-
-### 3. Main의 Activity Result API
-
-- `registerForActivityResult(ActivityResultContracts.StartActivityForResult())`로 launcher를 등록한다.
-- 상세 버튼에서 명시적 Intent를 만들어 `launch()`한다.
-- `RESULT_OK`, nullable data, nullable alias를 각각 확인한다.
-- 정상 별칭일 때만 기존 상태를 갱신하고 `render()`한다.
-- `startActivityForResult()`와 `onActivityResult()`는 사용하지 않는다.
-
-### 4. 정상·경계·실패 확인
-
-- **정상:** `Lab Board`를 저장하면 Main 장치 별칭이 바뀐다.
-- **경계:** 앞뒤 공백이 있는 `  Lab Board  `가 trim된 정책대로 표시된다.
-- **실패:** 빈 입력은 Detail의 오류로 남고, extra 누락은 앱 crash 없이 canceled 종료된다.
-- **취소:** 기존 별칭을 만든 뒤 Detail에서 Back을 눌러도 기존값이 유지된다.
-- **회전:** 갱신된 alias를 Main의 saved state에 포함했다면 회전 후에도 유지된다.
-
-### 단계별 힌트
-
-<details>
-<summary>힌트 1 — Activity를 찾을 수 없다는 오류가 난다</summary>
-
-Manifest의 `<application>` 안에 `DeviceDetailActivity`가 선언됐는지, class package가 실제 파일과 일치하는지 확인한다.
-</details>
-
-<details>
-<summary>힌트 2 — 결과 callback이 호출되지만 값이 없다</summary>
-
-Detail에서 `setResult()`가 `finish()`보다 먼저인지, 결과 Intent와 Main이 같은 `EXTRA_ALIAS` 상수를 쓰는지 비교한다.
-</details>
-
-<details>
-<summary>힌트 3 — Back을 누르면 별칭이 null로 바뀐다</summary>
-
-callback에서 모든 결과를 대입하지 말고 `RESULT_OK`이고 유효 extra가 있을 때만 기존값을 교체한다.
-</details>
-
-### 확장
-
-별칭 편집 Activity의 입력과 결과를 캡슐화한 사용자 정의 `ActivityResultContract`가 어떤 장점을 주는지 공식 문서를 바탕으로 인터페이스만 설계한다. 기본 제출에서는 built-in contract 코드가 동작하면 충분하다.
-
-### 2일차 제출 증거
-
-- `day2-result-matrix.md`: 네 계약 행의 예상/실제
-- launcher 등록, extra 검증, 결과 설정 핵심 코드
-- 정상 저장 화면과 공백 오류 화면
-- deprecated 결과 API가 없음을 확인한 검색 결과 또는 설명
-
-## 최종 제출 체크
-
-- [ ] 여섯 핵심 callback을 실제 로그로 관찰했다.
-- [ ] 상태 소실을 먼저 재현하고 같은 조건에서 복원했다.
-- [ ] 정상·경계·실패·취소 결과가 분리되어 있다.
-- [ ] Activity나 View 객체를 Intent extra로 전달하지 않았다.
+추가 과제는 선택 사항이다.

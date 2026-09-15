@@ -1,0 +1,45 @@
+package com.example.smartio
+
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.example.smartio.databinding.ActivityMainBinding
+
+class MainActivity : AppCompatActivity() {
+    // ViewBinding 틀: 화면의 View를 binding.xxx로 부른다.
+    private lateinit var binding: ActivityMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        // 1. [연결] 버튼: 장치 이름이 비었는지 확인한다.
+        binding.connectButton.setOnClickListener {
+            val name = binding.deviceNameEdit.text.toString()
+            if (name.isEmpty()) {
+                Toast.makeText(this, "장치 이름을 입력하세요", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "연결: $name", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // 2. 자동 연결 Switch: 켜고 끌 때마다 알린다.
+        binding.autoSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                Toast.makeText(this, "자동 연결 켜짐", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "자동 연결 꺼짐", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+}

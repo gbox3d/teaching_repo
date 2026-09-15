@@ -98,7 +98,7 @@ plusButton.setOnClickListener {
 ```
 
 - 중괄호 `{ }` 안의 코드는 앱이 켜질 때가 아니라 **버튼을 누를 때마다** 실행된다.
-- `count`는 바뀌는 값이므로 `var`다. `count = count + 1`은 `count++`로 줄여 쓸 수도 있다.
+- `count`는 바뀌는 값이므로 `var`다. `count = count + 1`은 지금 값에 1을 더해 다시 넣는다.
 - 화면에는 글자를 넣는다. 숫자 `count`를 그대로 넣는 코드는 [실습지의 막혔을 때](../lab.md#막혔을-때)를 본다.
 
 ## 6. 2일차 완성 — 버튼 카운터
@@ -123,6 +123,23 @@ plusButton.setOnClickListener {
 | 이어서 `초기화` | `0` |
 
 화면을 돌리면 숫자가 `0`으로 돌아간다. 이번 주에는 관찰만 하고, 3주차에 이유와 해결 방법을 배운다.
+
+## 7. 확장 — `layout_weight`로 버튼 세 개 가로 균등 (선택)
+
+버튼을 감싼 가로 LinearLayout의 `layout_width`를 `match_parent`로 바꾸고, 버튼 세 개에 아래 두 줄을 준다.
+
+```xml
+<Button
+    android:id="@+id/minusButton"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="-1" />
+```
+
+- `android:layout_weight="1"`: 남은 폭을 나눠 갖는 비율이다. 셋 다 `1`이면 1:1:1로 나눈다.
+- `android:layout_width="0dp"`: 폭은 weight가 정하므로 처음 폭을 비워 둔다.
+- 실행하면 버튼 세 개가 화면 폭을 똑같이 나눠 가진다. 완성본 예제에는 넣지 않았다. [실습지의 먼저 끝났다면](../lab.md#먼저-끝났다면)을 본다.
 
 ## 공식 참고 자료
 

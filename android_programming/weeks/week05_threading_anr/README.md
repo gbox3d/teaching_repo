@@ -1,67 +1,96 @@
-# 5주차 — 메인 스레드, ANR 위험, 경쟁 상태
+# 5주차 — 메인 스레드와 백그라운드: Thread·Handler
 
 ## 이번 주 질문
 
-> 오래 걸리는 장치 작업을 실행하면서 화면 응답성과 상태 일관성을 지키려면 어떤 코드는 메인 스레드 밖으로 보내고, 결과는 어떻게 안전하게 돌아와야 할까?
+> 5초 걸리는 검색을 시작해도 화면이 멈추지 않고, 버튼을 다시 누를 수 있게 하려면 어떻게 해야 할까?
+
+4주차에는 연결 화면과 제어 화면 두 개를 만들고 버튼·EditText·Switch를 다뤘다. 이번 주에는 연결 화면에
+[검색] 버튼을 달고 5초 걸리는 검색을 흉내 낸다. 클릭 리스너에서 그냥 5초를 기다리면 화면 전체가 멈추는 것을 직접 보고,
+`Thread`와 `Handler`로 화면을 멈추지 않게 고친다. 12주차에 실제 BLE 검색을 붙일 자리다.
 
 ## 학습 목표
 
-수업을 마치면 학생은 다음을 수행할 수 있다.
+1. 메인 스레드가 그리기와 클릭을 한 줄로 처리한다는 것을 그림으로 설명하고, 메인 스레드를 막으면 화면이 멈추고 ANR이 생기는 이유를 말한다.
+2. `Thread { }.start()`로 5초 대기를 다른 스레드에 맡기고, `runOnUiThread { }` 안에서만 화면을 바꾼다.
+3. `Handler(Looper.getMainLooper())`의 `postDelayed`로 5초 뒤 할 일을 예약하고 `removeCallbacks`로 취소한다.
+4. `ProgressBar`의 `visibility`로 검색 중임을 보여 준다.
+5. `isEnabled`로 검색 중에 버튼을 다시 못 누르게 막는다.
 
-1. 메인 스레드의 UI event 처리와 rendering 책임을 queue 그림으로 설명한다.
-2. 교육용 blocking mock으로 화면 멈춤을 재현하고 “멈춤”과 시스템의 ANR 판단을 구분한다.
-3. 긴 mock 작업을 `ExecutorService`에서 실행하고 `Handler(Looper.getMainLooper())`로 UI 결과를 전달한다.
-4. worker thread에서 View를 직접 변경하지 않아야 하는 이유를 설명한다.
-5. Fragment View가 파괴될 때 `Future.cancel(true)`와 stale-result token으로 늦은 결과를 무시한다.
-6. 공유 정수의 read–modify–write 경쟁을 반복 관찰하고 `AtomicInteger`로 기대값을 보장한다.
+## 이번 주 결과물
 
-## 누적 결과물
+```text
+Smart I/O Controller
+장치 이름 [ESP32_BLE      ]
+자동 연결                 (  )
+      [검색] [중지]
+         ◌  ← 돌아가는 원
+       검색 중…
+        [연결]
+```
 
-4주차 `DeviceControlFragment`의 mock 펄스에 `Idle → Running → Success/Error` 상태를 추가한다. 실제 BLE/GPIO 작업 대신 지연 가능한 mock 작업을 사용한다. 학생은 ESP32-C3 펌웨어를 작성·빌드·플래싱하지 않는다.
+[검색]을 누르면 위처럼 바뀌고, 5초 뒤 `검색 완료` Toast와 함께 원이 사라진다. [중지]를 누르면 바로 멈춘다.
+마지막에는 두 파일과 캡처 2장을 제출한다.
 
 ## 2일 수업 흐름
 
-| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 | 산출물 |
+| 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | 메인 Looper, blocking, ANR 위험, worker와 UI thread 경계 | 멈추는 mock 재현 후 Executor 기반 응답형 UI로 개선 | 전후 응답성 관찰표와 thread 로그 |
-| 2일차 | Executor/Future 수명, 취소, 경쟁 상태, 원자적 갱신 | 회전/Back 취소와 unsafe/atomic counter 비교 | 취소 증거와 race 반복 결과표 |
+| 1일차 | 람다 안에서 바깥 변수 쓰기, `Thread.sleep`으로 멈추는 화면, 메인 스레드·메시지 큐·ANR, `Thread`·`runOnUiThread` | [검색] 배치 → 멈춤 관찰 → Thread로 고치기 → 워커에서 View 만지면 생기는 오류 관찰 | 검색 중 화면 |
+| 2일차 | 작년 BLE 특강의 `postDelayed`, `Handler`·`removeCallbacks`, `ProgressBar`·`visibility` | [중지]·ProgressBar 배치 → Handler로 예약 → [중지]로 취소 → 검색→완료·검색→중지 확인 → 제출 | 검색·중지가 되는 연결 화면 |
 
-두 날 모두 `설명·시연 30분 + 직접 해결 실습 60분`이다.
+각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
+시간이 필요한 학생은 따라하기 문서의 단계를 하나씩 반복한다.
 
-## 선수 지식과 준비
+## 준비
 
-- Fragment와 Fragment View lifecycle
-- RecyclerView item 선택과 navigation argument
-- 정상·경계·실패 입력 검증
-- Logcat의 timestamp, thread 이름, tag 필터
-- [4주차 자료](../week04_fragments_navigation/README.md)
+- 실습실 PC의 Android Studio와 에뮬레이터 (버전은 수업 공지와 [설치 안내](../../ta_setup_guide.md)를 따른다)
+- 4주차에 만든 `SmartIO` 프로젝트(연결 화면 `MainActivity`, 제어 화면 `ControlActivity`). 없으면 강의자에게 4주차 완성본(4주차 `examples/day2`)을 요청한다
+- 3주차 Logcat 필터(`package:mine`)
+
+## 이번 주 범위
+
+| 문법·속성 | 이번 주에 알아둘 뜻 |
+|---|---|
+| 람다 안에서 바깥 변수 쓰기 | `{ }` 안에서 바깥의 `val name`·`binding`을 그대로 읽고 바꿀 수 있다. 나중에 실행돼도 기억한다 |
+| 메인(UI) 스레드 | 화면 그리기와 버튼 클릭을 순서대로 처리하는 한 줄. 여기서 오래 기다리면 화면이 멈춘다 |
+| ANR | 메인 스레드가 5초 넘게 터치에 답하지 못하면 시스템이 앱을 멈춰 세운다 |
+| `Thread { … }.start()` | 중괄호 안의 일을 새 스레드에서 한다. `.start()`가 없으면 시작되지 않는다 |
+| `runOnUiThread { … }` | 화면을 바꾸는 일을 메인 스레드에 넘긴다. 워커에서 View를 직접 바꾸면 앱이 꺼진다 |
+| `Handler(Looper.getMainLooper())` | 메인 스레드의 메시지 큐에 일을 넣어 주는 손잡이 |
+| `handler.postDelayed(finishScan, 5000)` | 5000ms 뒤에 `finishScan`을 메인 스레드에서 실행하라고 예약한다 |
+| `handler.removeCallbacks(finishScan)` | 아직 실행되지 않은 예약을 취소한다. 같은 이름을 넘겨야 한다 |
+| `val finishScan = Runnable { … }` | 나중에 실행할 코드 묶음에 이름을 붙인다 |
+| `ProgressBar`, `visibility = View.VISIBLE / View.GONE` | 돌아가는 원을 보이거나 자리까지 숨긴다 |
+| `button.isEnabled = false` | 버튼을 회색으로 만들어 누르지 못하게 한다 |
+
+남은 초를 세어 보이는 카운트다운, 코루틴, 실제 BLE 검색은 이후 주차에서 다룬다.
 
 ## 수업 자료
 
 - [슬라이드](slides.md)
-- 강의 스크립트: 강의자 별도 관리(비공개)
-- [실습지](lab.md)
-- [예제 스니펫 안내](examples/README.md)
+- [순서대로 따라하기](walkthrough.md)
+- [실습과 제출 안내](lab.md)
+- [예제 설명](examples/README.md)
+- 1일차 완성 코드: [MainActivity.kt](examples/day1/MainActivity.kt) · [activity_main.xml](examples/day1/activity_main.xml) · [strings.xml](examples/day1/strings.xml)
+- 2일차 완성 코드: [MainActivity.kt](examples/day2/MainActivity.kt) · [activity_main.xml](examples/day2/activity_main.xml)
 
-## 완료 증거
+## 완료 기준
 
-- [ ] 메인 queue에 blocking 작업이 들어갔을 때의 흐름도
-- [ ] blocking 버전의 입력 지연과 Executor 버전의 응답성 비교
-- [ ] worker·main thread 이름이 구분된 Logcat 기록
-- [ ] `Idle/Running/Success/Error` 상태별 버튼·문구 표
-- [ ] Back 또는 회전 뒤 늦은 결과가 새 View를 덮지 않는 취소 기록
-- [ ] worker 1개와 4개의 unsafe 결과 5회, atomic 결과 5회 표
-- [ ] “한 번 기대값이 나옴”이 thread-safe 증거가 아닌 이유 2문장
+- [ ] [검색]을 누르면 `검색 중…`이 바로 보이고 버튼이 회색이 되며, 그동안 Switch와 [연결]이 눌린다.
+- [ ] 5초 뒤 `검색 완료` Toast가 뜨고 버튼이 복구된다.
+- [ ] 2일차에는 검색 중에 돌아가는 원이 보이고, [중지]를 누르면 5초가 지나도 `검색 완료`가 뜨지 않는다.
+- [ ] `MainActivity.kt`에 `Thread.sleep`이 남아 있지 않다.
+- [ ] `MainActivity.kt`, `activity_main.xml`, 캡처 2장(검색 중 화면 / `검색 완료` Toast 또는 [중지] 뒤 화면)을 제출한다.
 
-## 다음 주 연결
+## 다음 수업 연결
 
-Thread, Handler, Future를 직접 연결하면 수명·취소·오류 코드가 쉽게 흩어진다. 6주차에는 같은 mock 작업을 `suspend`, dispatcher, `lifecycleScope`, structured concurrency로 다시 표현한다.
+검색 중에 남은 초 `5, 4, 3, 2, 1`을 보이려면 `postDelayed`를 다섯 번 겹쳐야 한다. 6주차에는 코루틴의 `delay(1000)`와
+`for (i in 5 downTo 1)`로 카운트다운을 만들고, 가짜 연결이 실패했을 때 `try/catch`로 [다시 시도] 버튼을 보인다.
 
 ## 공식 참고 자료
 
-- [Processes and threads overview — Android Developers](https://developer.android.com/guide/components/processes-and-threads)
-- [Threading on Android — Android Developers](https://developer.android.com/topic/performance/threads)
-- [Keep your app responsive — Android Developers](https://developer.android.com/training/articles/perf-anr)
-- [ANRs — Android Developers](https://developer.android.com/topic/performance/vitals/anr)
-- [Handler reference — Android Developers](https://developer.android.com/reference/android/os/Handler)
-- [Looper reference — Android Developers](https://developer.android.com/reference/android/os/Looper)
+- [프로세스 및 스레드 개요 — Android Developers](https://developer.android.com/guide/components/processes-and-threads)
+- [앱 응답성 유지(ANR) — Android Developers](https://developer.android.com/topic/performance/vitals/anr)
+- [Handler — Android Developers](https://developer.android.com/reference/android/os/Handler)
+- [Activity.runOnUiThread — Android Developers](https://developer.android.com/reference/android/app/Activity#runOnUiThread(java.lang.Runnable))
+- [ProgressBar — Android Developers](https://developer.android.com/reference/android/widget/ProgressBar)

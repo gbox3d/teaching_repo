@@ -44,7 +44,22 @@ footer: 첫 Android 앱 · LinearLayout과 findViewById
 
 ---
 
-## 1일차 · 5–15분 ① — 화면을 만드는 두 파일
+## 1일차 · 5–15분 ① — Project 창의 세 폴더
+
+왼쪽 **Project** 창(위쪽이 `Android` 보기)에서 `app`을 펼치면 폴더 세 개가 보입니다.
+
+| 폴더 | 들어 있는 것 |
+|---|---|
+| `manifests` | 앱 정보 파일 `AndroidManifest.xml` — 이번 주에는 열지 않습니다 |
+| `kotlin+java` | Kotlin 코드. `MainActivity.kt`가 여기 있습니다 |
+| `res` | 화면·그림 같은 자원. `layout › activity_main.xml`이 여기 있습니다 |
+
+이번 주에 여는 파일은 `kotlin+java`와 `res`에 하나씩, **둘뿐**입니다.
+나머지 폴더와 파일은 이름만 보고 지나갑니다.
+
+---
+
+## 1일차 · 5–15분 ② — 화면을 만드는 두 파일
 
 | 파일 | 하는 일 |
 |---|---|
@@ -59,7 +74,7 @@ setContentView(R.layout.activity_main)
 
 ---
 
-## 1일차 · 5–15분 ② — LinearLayout은 차례로 쌓는다
+## 1일차 · 5–15분 ③ — LinearLayout은 차례로 쌓는다
 
 ```text
 vertical (세로)            horizontal (가로)
@@ -156,7 +171,28 @@ R.id.nameText
 
 ---
 
-## 2일차 · 5–15분 ① — findViewById로 찾아서 바꾸기
+## 2일차 · 5–15분 ① — 지금은 안 봐도 되는 틀
+
+```kotlin
+class MainActivity : AppCompatActivity() {                  // 틀
+    override fun onCreate(savedInstanceState: Bundle?) {    // 틀: 앱이 켜질 때 실행
+        super.onCreate(savedInstanceState)                  // 틀
+        enableEdgeToEdge()                                  // 틀
+        setContentView(R.layout.activity_main)              // 화면 파일 연결
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            ...                                             // 틀 (insets 블록)
+        }
+        // ← 오늘 쓰는 코드는 이 자리에 넣습니다
+    }
+}
+```
+
+- 템플릿이 만든 줄은 **지우지도 고치지도 않습니다.** 뜻은 3주차부터 배웁니다.
+- 우리 자리는 `onCreate()` 안, `insets` 블록 **아래**입니다.
+
+---
+
+## 2일차 · 5–15분 ② — findViewById로 찾아서 바꾸기
 
 ```kotlin
 val name = "홍길동"
@@ -172,7 +208,7 @@ nameText.text = "이름: $name"
 
 ---
 
-## 2일차 · 5–15분 ② — 버튼을 누르면 실행할 코드
+## 2일차 · 5–15분 ③ — 버튼을 누르면 실행할 코드
 
 ```kotlin
 val plusButton = findViewById<Button>(R.id.plusButton)
@@ -187,7 +223,28 @@ plusButton.setOnClickListener {
 
 ---
 
-## 2일차 · 15–25분 — var로 숫자 세기
+## 2일차 · 15–25분 ① — 숫자와 버튼 배치하기
+
+```xml
+<TextView
+    android:id="@+id/countText"
+    android:text="0"
+    android:textSize="40sp"
+    ... />
+
+<LinearLayout android:orientation="horizontal" ...>
+    <Button android:id="@+id/minusButton" android:text="-1" ... />
+    <Button android:id="@+id/resetButton" android:text="초기화" ... />
+    <Button android:id="@+id/plusButton" android:text="+1" ... />
+</LinearLayout>
+```
+
+- 숫자 TextView 하나와, 버튼 세 개를 감싼 **가로** LinearLayout을 정보 아래에 둡니다.
+- 전체 XML은 [따라하기 9단계](walkthrough.md#9-숫자와-버튼-배치하기)에서 붙여 넣습니다.
+
+---
+
+## 2일차 · 15–25분 ② — var로 숫자 세기
 
 ```kotlin
 var count = 0
@@ -223,6 +280,24 @@ plusButton.setOnClickListener {
 1. **`activity_main.xml`**
 2. **`MainActivity.kt`**
 3. **실행 화면 캡처 1장**: 학번·이름·전공과 숫자 `3`이 보이는 화면
+
+---
+
+## 확장 — layout_weight로 버튼 세 개 가로 균등
+
+```xml
+<Button
+    android:id="@+id/minusButton"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="-1" />
+```
+
+- 버튼을 감싼 가로 LinearLayout의 `layout_width`를 `match_parent`로 바꿉니다.
+- 버튼 세 개 모두 `layout_width="0dp"` + `layout_weight="1"` → 남은 폭을 **1:1:1**로 나눕니다.
+- 폭은 weight가 정하므로 `layout_width`는 `0dp`로 비워 둡니다.
+- 먼저 끝난 학생의 선택 과제입니다. 실습지 [먼저 끝났다면](lab.md#먼저-끝났다면)을 봅니다.
 
 ---
 

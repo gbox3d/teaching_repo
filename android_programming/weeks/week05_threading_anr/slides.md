@@ -3,206 +3,290 @@ marp: true
 theme: default
 paginate: true
 header: 모바일프로그래밍 · 5주차
-footer: Main thread · Executor · race condition
+footer: 메인 스레드와 백그라운드 · Thread · Handler
 ---
 
-# 메인 스레드, ANR 위험, 경쟁 상태
+# 메인 스레드와 백그라운드: Thread·Handler
 
-> “백그라운드”는 빠름이 아니라 책임과 수명의 분리다.
+4주차에 만든 연결 화면에 **[검색]** 버튼을 답니다.
+5초 걸리는 검색을 흉내 내면서 화면이 **멈추지 않게** 만드는 것이 이번 주 목표입니다.
+
+```text
+Smart I/O Controller
+장치 이름 [ESP32_BLE      ]
+자동 연결                 (  )
+      [검색] [중지]
+         ◌
+       검색 중…
+        [연결]
+```
 
 ---
 
-# 1일차 — 멈추는 UI에서 응답형 UI로
+# 1일차 — 화면이 멈추지 않게: 메인 스레드와 Thread
 
 `30분 설명·시연 → 60분 실습`
 
+1. 오늘 문법: 람다 안에서 바깥 변수 쓰기
+2. [검색]에 `Thread.sleep(5000)`을 넣으면 생기는 일
+3. `Thread { }.start()`와 `runOnUiThread { }`
+
 ---
 
-## 1일차 · 0–4분 — 증상 먼저 보기
+## 1일차 · 0–5분 — 오늘 문법: 람다 안에서 바깥 변수 쓰기
 
 ```kotlin
-statusView.text = "작업 시작"
-Thread.sleep(2_000) // 교육용 실패 재현
-statusView.text = "작업 완료"
+var count = 0                          // 람다 바깥
+plusButton.setOnClickListener {        // 람다 { }
+    count = count + 1                  // 바깥 변수를 바꾼다 (2주차)
+}
+```
+
+```kotlin
+val name = binding.deviceNameEdit.text.toString()   // 람다 바깥
+Thread {
+    Thread.sleep(5000)
+    runOnUiThread { binding.stateText.text = "검색 완료: $name" }
+}.start()
+```
+
+- `{ }` 안에서는 바깥에서 만든 변수를 그대로 읽고 바꿀 수 있습니다.
+- 람다가 **5초 뒤에** 실행돼도 `name`을 기억하고 있습니다.
+
+---
+
+## 1일차 · 5–15분 ① — [검색]에 Thread.sleep(5000)을 넣으면
+
+```kotlin
+binding.scanButton.setOnClickListener {
+    binding.stateText.text = "검색 중…"
+    Thread.sleep(5000)                 // 5초 동안 기다린다 (잘못된 코드)
+    binding.stateText.text = "검색 완료"
+}
 ```
 
 관찰:
 
-- 시작 문구가 즉시 그려지는가?
-- 다른 버튼과 스크롤이 반응하는가?
-- 입력이 작업 뒤 한꺼번에 처리되는가?
+- `검색 중…`이 화면에 **보이지 않고**, 5초 뒤 바로 `검색 완료`가 됩니다.
+- 그동안 Switch도 [연결]도 눌리지 않습니다.
+- Logcat: `Skipped 299 frames! The application may be doing too much work on its main thread.` (숫자는 실행마다 다름)
 
 ---
 
-## 1일차 · 4–10분 — 메인 queue
+## 1일차 · 5–15분 ② — 메인 스레드와 메시지 큐
 
 ```text
-input ─┐
-draw ──┼─▶ Main Message Queue ─▶ Looper/Main Thread
-click ─┘                              │
-                              한 작업이 길면 뒤가 대기
+터치 ─┐
+그리기 ┼─▶ 메시지 큐 ─▶ 메인 스레드가 하나씩 처리
+클릭 ─┘                     │
+                    한 일이 길면 뒤의 일이 모두 기다린다
 ```
 
-메인 스레드는 View 이벤트와 화면 갱신의 소유자다.
+- 화면을 그리는 일과 버튼 클릭은 **메인 스레드** 한 줄에서 순서대로 처리됩니다.
+- `Thread.sleep(5000)`은 이 줄을 5초 동안 막습니다. 그래서 글자도 안 바뀌고 버튼도 안 눌립니다.
+- `stateText.text = "검색 중…"`은 큐에 “다시 그려 달라”고 넣은 것일 뿐, 그리는 일은 클릭 처리가 끝난 뒤입니다.
 
 ---
 
-## 1일차 · 10–16분 — 멈춤과 ANR
+## 1일차 · 5–15분 ③ — ANR: 응답 없음
 
-| 용어 | 의미 |
-|---|---|
-| blocking | 현재 thread가 작업 완료를 기다림 |
-| UI freeze/jank | 사용자가 지연·끊김을 느낌 |
-| ANR | 시스템이 정해진 상황·시간 기준으로 무응답 판단 |
-
-짧은 멈춤도 UX 실패다. 특정 sleep 시간이 항상 ANR을 보장한다고 가정하지 않는다.
-
----
-
-## 1일차 · 16–22분 — 작업과 결과의 왕복
+메인 스레드가 **5초 넘게** 터치에 답하지 못하면 시스템이 앱을 멈춰 세웁니다.
 
 ```text
-Main: 클릭 → Running 표시 → executor.submit
-                              │
-Worker:                 blocking mock
-                              │ result
-                              ▼
-Main: Handler.post → Success/Error render
+ANR in com.example.smartio (com.example.smartio/.MainActivity)
+Reason: Input dispatching timed out (... Waited 5002ms for MotionEvent).
 ```
+
+- ANR = Application Not Responding. “앱이 응답하지 않습니다” 대화상자가 뜰 수 있습니다.
+- 규칙 하나: **메인 스레드에서는 오래 기다리는 일을 하지 않는다.**
+- 그러면 5초 기다리는 일은 누가 할까요? → 다른 스레드
+
+---
+
+## 1일차 · 15–25분 ① — Thread { }.start()와 runOnUiThread { }
 
 ```kotlin
-executor.submit {
-    val result = try {
-        Result.success(slowMockWork(duration))
-    } catch (cancelled: InterruptedException) {
-        Thread.currentThread().interrupt()
-        return@submit
-    } catch (error: Exception) {
-        Result.failure(error)
+binding.scanButton.isEnabled = false
+binding.stateText.text = "검색 중…"
+Thread {                               // 새 스레드에서 할 일
+    Thread.sleep(5000)                 // 여기서 기다려도 화면은 멈추지 않는다
+    runOnUiThread {                    // 화면을 바꾸는 일은 메인 스레드에 맡긴다
+        binding.stateText.text = "검색 완료"
+        binding.scanButton.isEnabled = true
     }
-    mainHandler.post { render(result) }
-}
+}.start()                              // start()를 빠뜨리면 아무 일도 안 일어난다
+```
+
+```text
+메인: 클릭 → "검색 중…" 표시 → Thread 시작 → (자유롭게 그리기·클릭 처리) → "검색 완료"·버튼 복구
+워커:                   5초 대기 ──▶ runOnUiThread { … } ──▶ 메인에 넘김 ─┘
 ```
 
 ---
 
-## 1일차 · 22–27분 — UI 상태는 명시적으로
+## 1일차 · 15–25분 ② — 워커 스레드에서 View를 만지면
 
-| 상태 | 실행 버튼 | 진행 표시 | 결과 |
-|---|---|---|---|
-| Idle | 활성 | 숨김 | 안내 |
-| Running | 비활성 | 표시 | 실행 중 |
-| Success | 활성 | 숨김 | mock 성공 |
-| Error | 활성 | 숨김 | 실패 이유·재시도 |
+```kotlin
+Thread {
+    Thread.sleep(5000)
+    binding.stateText.text = "검색 완료"      // runOnUiThread 없이 바꾸면?
+}.start()
+```
 
-중복 클릭으로 여러 작업을 만들지 않는다.
+앱이 꺼지고 Logcat에 이렇게 남습니다.
 
----
+```text
+FATAL EXCEPTION: Thread-2
+android.view.ViewRootImpl$CalledFromWrongThreadException:
+Only the original thread that created a view hierarchy can touch its views.
+Expected: main Calling: Thread-2
+```
 
-## 1일차 · 27–30분 — 실습 이양
-
-[1일차 실습](lab.md#1일차-실습--blocking과-executor-비교-60분)
-
-1. blocking 실패를 짧게 재현한다.
-2. 같은 duration을 Executor로 옮긴다.
-3. UI는 main에서만 갱신한다.
-4. `0/800/2500ms`를 같은 표로 비교한다.
-
-**1일차 설명 합계: 4+6+6+6+5+3 = 30분**
+- View는 **메인 스레드만** 바꿀 수 있습니다. 워커에서는 `runOnUiThread { }`로 감쌉니다.
+- `isEnabled = false`로 검색 중에 [검색]을 다시 못 누르게 막습니다.
 
 ---
 
-# 2일차 — 취소와 공유 상태
+## 1일차 · 25–30분 — 이제 직접 해 보기
+
+[1일차 실습](lab.md#1일차--검색-버튼을-멈추지-않게-만들기-60분) · [따라하기](walkthrough.md#1일차)
+
+1. 연결 화면에 [검색] 버튼과 상태 TextView를 추가합니다.
+2. 누르면 버튼을 비활성화하고 `검색 중…`을 보입니다.
+3. `Thread`에서 5초 기다린 뒤 `runOnUiThread`로 `검색 완료`·버튼 복구·Toast.
+
+**설명 합계: 5+10+10+5 = 30분**
+
+막히면 `.start()`, `runOnUiThread { }` 안에 View 코드가 있는지부터 확인합니다.
+
+---
+
+# 2일차 — 예약과 취소: Handler·postDelayed·ProgressBar
 
 `30분 설명·시연 → 60분 실습`
 
----
-
-## 2일차 · 0–5분 — 작업보다 View가 먼저 사라질 수 있다
-
-```text
-Control View A ── starts Task T
-      │ Back / rotation
-      ▼
-onDestroyView(A)      Task T finishes later
-      │ cancel + token invalidate     │
-      └───────────────────────────────┘ ignore stale result
-```
+1. 작년 BLE 특강 코드에서 `postDelayed` 찾기
+2. `Handler(Looper.getMainLooper())`로 5초 뒤 일 예약하고 [중지]로 취소하기
+3. `ProgressBar`로 검색 중임을 보여 주기
 
 ---
 
-## 2일차 · 5–11분 — Future와 협력적 취소
+## 2일차 · 0–5분 — 작년 특강 코드 한 조각: postDelayed
+
+강의자의 BLE 테스트 앱(12주에 다시 봅니다)에서 검색을 5초 뒤에 멈추는 부분입니다.
 
 ```kotlin
-override fun onDestroyView() {
-    activeToken = null
-    runningTask?.cancel(true)
-    statusView = null
-    super.onDestroyView()
-}
+private val mHandlerBleScanTimeout = Handler(Looper.getMainLooper())
+
+bluetoothLeScanner.startScan(mScanCallback)
+mHandlerBleScanTimeout.postDelayed({
+    bluetoothLeScanner.stopScan(mScanCallback)
+    Log.d("MainActivity", "scan timeout")
+}, 5000)
 ```
 
-작업은 interruption을 무시하지 않아야 한다. 취소 요청과 즉시 종료는 같은 말이 아니다.
+- “5초 뒤에 이 코드를 실행해 줘”를 **한 줄**로 씁니다. 새 스레드도, `sleep`도 없습니다.
+- 오늘은 이 한 줄을 우리 [검색]에 옮깁니다.
 
 ---
 
-## 2일차 · 11–17분 — race는 실행 순서 문제
-
-```text
-counter = 7
-
-Worker A: read 7 ───── write 8
-Worker B:    read 7 ───── write 8
-
-두 번 증가했지만 결과는 8
-```
-
-`counter += 1`은 원자적 한 동작이라고 가정할 수 없다.
-
----
-
-## 2일차 · 17–23분 — 한 번 맞았다고 안전하지 않다
-
-| workers | 반복 | unsafe 예상 |
-|---:|---:|---|
-| 1 | 100,000 | 대체로 기대값, 경쟁 없음 |
-| 4 | 각 25,000 | 실행마다 달라질 수 있음 |
-
-경쟁 bug는 비결정적이다. 여러 번 실행하고 thread-safe 근거를 코드에서 찾는다.
-
----
-
-## 2일차 · 23–27분 — AtomicInteger
+## 2일차 · 5–15분 ① — Handler(Looper.getMainLooper())와 postDelayed
 
 ```kotlin
-val counter = AtomicInteger(0)
+private val handler = Handler(Looper.getMainLooper())   // 클래스 안, onCreate 밖
+```
 
-repeat(25_000) {
-    counter.incrementAndGet()
+```kotlin
+handler.postDelayed({
+    binding.stateText.text = "검색 완료"      // 메인 스레드에서 실행된다
+}, 5000)
+```
+
+- `Handler`는 메인 스레드의 **메시지 큐에 일을 넣어 주는 손잡이**입니다.
+- `postDelayed(할 일, 밀리초)`: 큐에 “5000ms 뒤에 실행” 표를 붙여 넣습니다.
+- 메인 스레드가 실행하므로 `runOnUiThread`가 필요 없습니다.
+- `Handler`·`Looper`가 빨간색이면 Alt+Enter → `android.os` 것을 고릅니다.
+- 이 형태(이름 없는 `{ }`)는 **취소할 수 없습니다** → 다음 장에서 이름을 붙입니다.
+
+---
+
+## 2일차 · 5–15분 ② — 이름 붙인 일 Runnable과 removeCallbacks
+
+```kotlin
+val finishScan = Runnable {            // 할 일에 이름을 붙여 둔다
+    binding.stateText.text = "검색 완료"
+    binding.scanButton.isEnabled = true
 }
+
+handler.postDelayed(finishScan, 5000)  // [검색]: 5초 뒤 실행 예약
+handler.removeCallbacks(finishScan)    // [중지]: 그 예약을 취소
 ```
 
-```text
-4 workers × 25,000 = expected 100,000
-```
-
-원자적 연산은 공유 갱신의 계약을 명시한다.
+- 취소하려면 **같은 이름**을 넘겨야 합니다. `removeCallbacks { }`처럼 새 `{ }`를 주면 취소되지 않습니다.
+- `removeCallbacks`는 **아직 실행되지 않은** 예약만 뺍니다. 이미 실행된 뒤에는 할 일이 없습니다.
 
 ---
 
-## 2일차 · 27–30분 — 실습 이양
+## 2일차 · 15–25분 ① — ProgressBar: 돌아가는 원
 
-[2일차 실습](lab.md#2일차-실습--view-취소-경계와-race-condition-60분)
+```xml
+<ProgressBar
+    android:id="@+id/scanProgress"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone" />
+```
 
-- 긴 작업→즉시 Back: stale UI 갱신 없음
-- unsafe 1 worker, 4 workers 각각 반복
-- atomic 4 workers 5회 모두 기대값
-- Executor 종료와 View 참조 정리 확인
+```kotlin
+binding.scanProgress.visibility = View.VISIBLE   // 보이기
+binding.scanProgress.visibility = View.GONE      // 자리까지 없애기
+```
 
-**2일차 설명 합계: 5+6+6+6+4+3 = 30분**
+- 기본 ProgressBar는 끝을 모르는 작업용 **돌아가는 원**입니다. 숫자는 필요 없습니다.
+- `View`가 빨간색이면 Alt+Enter → `android.view.View`.
 
 ---
 
-## 다음 주
+## 2일차 · 15–25분 ② — 검색 중과 아닐 때 화면 표
 
-동일한 작업을 Coroutine으로 옮겨 dispatcher, scope, cancellation, exception을 하나의 구조 안에서 표현한다.
+| 상황 | [검색] | [중지] | ProgressBar | 상태 글자 |
+|---|---|---|---|---|
+| 처음 | 활성 | 비활성 | `GONE` | `대기 중` |
+| [검색] 누름 | 비활성 | 활성 | `VISIBLE` | `검색 중…` |
+| 5초 뒤 `finishScan` | 활성 | 비활성 | `GONE` | `검색 완료` + Toast |
+| [중지] 누름 | 활성 | 비활성 | `GONE` | `검색 중지` |
+
+- 한 상황마다 **네 가지**를 함께 바꿉니다. 하나라도 빠지면 버튼이 눌리지 않거나 원이 계속 돕니다.
+- XML에서 [중지]는 `android:enabled="false"`, ProgressBar는 `android:visibility="gone"`으로 시작합니다.
+
+---
+
+## 2일차 · 25–30분 — AsyncTask 한 줄, 이제 직접 해 보기
+
+[2일차 실습](lab.md#2일차--handler로-예약하고-중지로-취소하기-60분) · [따라하기](walkthrough.md#2일차)
+
+1. 1일차의 `Thread`를 `handler.postDelayed(finishScan, 5000)`으로 바꿉니다.
+2. [중지] 버튼: `removeCallbacks(finishScan)` + 화면 되돌리기.
+3. 검색 중에만 ProgressBar가 보이게 합니다.
+
+옛날 코드에는 `AsyncTask`라는 도구가 보입니다. 지금은 쓰지 않는 레거시이고, 우리는 6주차부터 **코루틴**을 씁니다.
+
+**설명 합계: 5+10+10+5 = 30분**
+
+---
+
+## 제출하기
+
+2일차가 끝나면 세 가지를 한 번 제출합니다.
+
+1. **`MainActivity.kt`**
+2. **`activity_main.xml`**
+3. **실행 화면 캡처 2장**: 검색 중(버튼 비활성·ProgressBar 표시) 화면, `검색 완료` Toast가 보이는 화면 또는 [중지]를 누른 뒤 화면
+
+---
+
+## 다음 주 미리 보기
+
+검색 중에 남은 시간을 `5, 4, 3, 2, 1`로 세어 보이려면 `postDelayed`를 다섯 번 겹쳐 써야 합니다.
+
+6주차에는 **코루틴**의 `delay(1000)` 한 줄로 카운트다운을 만들고, 가짜 연결이 실패했을 때 [다시 시도]하는 흐름을 만듭니다.

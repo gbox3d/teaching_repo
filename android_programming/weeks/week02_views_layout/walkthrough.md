@@ -36,7 +36,15 @@ Android Studio와 에뮬레이터는 실습실 PC에 설치된 것을 사용하�
 
 ### 3. 두 파일 찾기
 
-왼쪽 **Project** 창 위쪽이 `Android` 보기인지 확인하고 두 파일을 연다.
+왼쪽 **Project** 창 위쪽이 `Android` 보기인지 확인하고 `app`을 펼친다. 폴더 세 개가 보인다.
+
+| 폴더 | 들어 있는 것 | 이번 주 |
+|---|---|---|
+| `manifests` | 앱 정보 파일 `AndroidManifest.xml` | 열지 않는다 |
+| `kotlin+java` | Kotlin 코드 | `MainActivity.kt`를 연다 |
+| `res` | 화면·그림 같은 자원 | `layout › activity_main.xml`을 연다 |
+
+이번 주에 여는 파일은 아래 두 개뿐이다.
 
 | 파일 | 위치 | 하는 일 |
 |---|---|---|
@@ -178,8 +186,41 @@ XML 글자 아래에 노란 줄이 생길 수 있다. 경고일 뿐 실행에는
 ```
 
 2. 실행해서 `이름: ?`가 보이는지 확인한다.
-3. `MainActivity.kt`를 열고, `onCreate()`의 **마지막 `}` 바로 위**에 아래 세 줄을 넣는다.
-   템플릿이 만든 `ViewCompat.setOnApplyWindowInsetsListener(...) { ... }` 블록의 아래쪽이다.
+3. `MainActivity.kt`를 연다. 템플릿이 만든 아래 코드가 이미 들어 있다(같은 내용이 [examples/day1/MainActivity.kt](examples/day1/MainActivity.kt)에 있다).
+   이 줄들은 **지금은 안 봐도 되는 틀**이므로 지우거나 고치지 않는다. 지웠다면 아래 코드를 그대로 다시 넣는다.
+
+```kotlin
+package com.example.studentcard
+
+import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    }
+}
+```
+
+| 템플릿 코드 | 지금 알아둘 것 |
+|---|---|
+| `class MainActivity : AppCompatActivity() {` | 이 화면의 코드를 담는 틀 |
+| `override fun onCreate(savedInstanceState: Bundle?) {` | 앱이 켜질 때 실행되는 곳. 우리 코드는 이 안에 넣는다 |
+| `super.onCreate(...)`, `enableEdgeToEdge()` | 틀. 그대로 둔다 |
+| `setContentView(R.layout.activity_main)` | 화면 파일을 연결하는 줄 |
+| `ViewCompat.setOnApplyWindowInsetsListener(...) { ... }` | 틀(`insets` 블록). 그대로 둔다 |
+
+   `onCreate()`의 **마지막 `}` 바로 위**, 즉 `insets` 블록의 닫는 `}` 아래에 아래 세 줄을 넣는다.
 
 ```kotlin
         val name = "홍길동"
@@ -188,7 +229,9 @@ XML 글자 아래에 노란 줄이 생길 수 있다. 경고일 뿐 실행에는
 ```
 
 4. `TextView`가 빨간색이면 그 글자에 커서를 두고 **Alt+Enter**(맥은 ⌥+Enter)를 눌러 **Import class**를 고른다.
+   위쪽 `import` 줄에 `import android.widget.TextView`가 생긴다.
 5. `홍길동`을 본인 이름으로 바꾸고 실행한다. `이름: ?`가 본인 이름으로 바뀌면 성공이다.
+   코드를 `onCreate()` 바깥에 넣으면 `Syntax error: Expecting member declaration` 오류가 난다. 위치를 다시 확인한다.
 
 1주차의 `println("이름: $name")`은 콘솔에 출력했다. `nameText.text = "이름: $name"`은 **앱 화면**의 글자를 바꾼다.
 
@@ -276,6 +319,8 @@ XML 글자 아래에 노란 줄이 생길 수 있다. 경고일 뿐 실행에는
 
 실행하면 정보 아래에 `0`과 버튼 세 개가 보인다. 아직 버튼을 눌러도 아무 일도 일어나지 않는다.
 버튼 세 개가 옆으로 놓인 것은 버튼을 감싼 LinearLayout이 `horizontal`이기 때문이다.
+
+- `android:layout_marginStart="8dp"`: 왼쪽(시작) 간격. 옆으로 놓을 때 쓴다. 위쪽 간격 `layout_marginTop`과 같은 방식이다.
 
 ### 10. `+1` 버튼 동작시키기
 

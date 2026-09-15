@@ -33,8 +33,8 @@
 
 | 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | 새 프로젝트, 화면 파일 두 개, LinearLayout, TextView 속성 | 프로젝트 실행 → LinearLayout으로 바꾸기 → 학번·이름·전공 표시 → 속성 바꿔 보기 | 내 정보 화면 |
-| 2일차 | `android:id`, `findViewById`, `setOnClickListener`, `var` 카운터 | 코드로 이름 바꾸기 → `+1` 버튼 → `-1`·`초기화` 직접 완성 → 회전 관찰 → 제출 | 버튼 카운터 앱 |
+| 1일차 | 새 프로젝트, Project 창의 세 폴더, 화면 파일 두 개, LinearLayout, TextView 속성 | 프로젝트 실행 → LinearLayout으로 바꾸기 → 학번·이름·전공 표시 → 속성 바꿔 보기 | 내 정보 화면 |
+| 2일차 | `android:id`, 템플릿 틀은 그대로 두기, `findViewById`, `setOnClickListener`, `var` 카운터 | 코드로 이름 바꾸기 → `+1` 버튼 → `-1`·`초기화` 직접 완성 → 회전 관찰 → 제출 | 버튼 카운터 앱 |
 
 각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
 시간이 필요한 학생은 따라하기 문서의 단계를 하나씩 반복한다.
@@ -54,10 +54,13 @@
 | `android:gravity="center"` | 안의 내용을 가운데로 모은다 |
 | `wrap_content` / `match_parent` | 내용에 맞는 크기 / 부모만큼의 크기 |
 | `sp` / `dp` | 글자 크기 단위 / 간격·크기 단위 |
+| `android:layout_marginTop` / `android:layout_marginStart` | 위쪽 간격 / 왼쪽(시작) 간격. 옆으로 놓을 때 쓴다 |
 | `android:id="@+id/nameText"` | View에 이름표를 붙인다. Kotlin에서는 `R.id.nameText`로 부른다 |
 | `findViewById<TextView>(R.id.nameText)` | id로 화면의 View를 찾는다 |
 | `nameText.text = "이름: $name"` | TextView의 글자를 바꾼다 |
 | `plusButton.setOnClickListener { }` | 버튼을 누를 때마다 중괄호 안의 코드를 실행한다 |
+| `class MainActivity : AppCompatActivity()`, `onCreate`, `insets` 블록 | 템플릿이 만든 **틀**. 지우지도 고치지도 않는다. 우리 코드는 `onCreate()` 안, `insets` 블록 아래에 넣는다 |
+| `android:layout_weight="1"` (확장) | 남은 폭을 나눠 갖는 비율. 버튼 세 개에 `0dp` 폭과 함께 주면 가로로 균등해진다 |
 
 문자열 resource(`strings.xml`), ConstraintLayout, 화면을 돌린 뒤 값 유지하기는 이후 주차에서 다룬다.
 

@@ -1,67 +1,105 @@
-# 4주차 — Fragment, Navigation, RecyclerView
+# 4주차 — SmartIO 시작: ViewBinding·입력 위젯·두 번째 화면
 
 ## 이번 주 질문
 
-> 장치 목록과 제어 화면을 분리하면서도 Fragment의 View 수명, 선택한 장치, 잘못된 입력을 안전하게 관리하려면 어떤 경계를 세워야 할까?
+> 사용자가 입력한 장치 이름을 받아 두 번째 화면으로 넘기고, 그 화면에서 LED 명령을 쌓아 보여 줄 수 있을까?
+
+2~3주차에는 `StudentCard` 앱에서 화면을 그리고 버튼으로 숫자를 바꾸고, 회전해도 값이 남게 했다.
+이번 주부터는 학기 끝까지 키워 갈 **Smart I/O Controller** 앱(`SmartIO` 프로젝트)을 새로 만든다.
+연결 화면에서 장치 이름을 입력해 제어 화면으로 넘기고, 제어 화면에서 LED Switch를 켜고 끌 때마다
+`on 3`·`off 3` 같은 명령이 로그에 쌓이게 한다. 이 명령 문자열은 13주차에 실제 보드로 보낸다.
 
 ## 학습 목표
 
-수업을 마치면 학생은 다음을 수행할 수 있다.
+1. 새 프로젝트 `SmartIO`를 만들고 `buildFeatures { viewBinding = true }`를 켜서 `binding.xxx`로 View를 다룬다.
+2. 화면의 글자를 `strings.xml`에 두고 `@string/이름`으로 부른다.
+3. `EditText`에서 `text.toString()`으로 입력을 읽고, `isEmpty()`로 빈 값을 검사한다.
+4. `Switch`의 `setOnCheckedChangeListener`에서 `isChecked`로 켜짐·꺼짐을 구분한다.
+5. 두 번째 Activity를 만들고 명시적 `Intent`와 `putExtra`/`getStringExtra`로 이름을 전달하고 `finish()`로 돌아온다.
 
-1. Activity, Fragment, Fragment의 View lifecycle을 구분하고 `onDestroyView()` 뒤 View 참조 위험을 설명한다.
-2. `NavHostFragment`와 navigation graph로 목록→제어→Back 흐름을 구성한다.
-3. 화면 간에 전체 객체 대신 안정적인 mock device ID를 argument로 전달하고 누락값을 처리한다.
-4. RecyclerView의 데이터–Adapter–ViewHolder–item View 관계를 그림과 코드로 설명한다.
-5. `ListAdapter`와 `DiffUtil.ItemCallback`으로 mock 장치 목록을 표시하고 클릭 위치가 아닌 item 데이터를 전달한다.
-6. 숫자 입력을 필수·형식·범위 순서로 검증하고 정상·경계·실패 결과를 UI에 표시한다.
+## 이번 주 결과물
 
-## 누적 결과물
+```text
+[연결 화면]                       [제어 화면]
+Smart I/O Controller              장치: ESP32_BLE_1
+┌ 장치 이름 ─────────┐            ┌ 핀 번호 ┐
+│ ESP32_BLE_1        │            │ 3       │
+└────────────────────┘            └─────────┘
+자동 연결        (O)              LED        (O)
+      [ 연결 ]                    명령 로그
+                                  on 3
+                                  off 3
+                                  on 3
+                                        [ 뒤로 ]
+```
 
-3주차 Activity 기반 제어판을 `DeviceListFragment`와 `DeviceControlFragment`로 나눈다. 고정 mock 장치 목록에서 항목을 선택하고 `100..5000ms` 범위의 mock 출력 펄스를 검증한다. 실제 BLE 송신과 ESP32-C3 펌웨어 작업은 하지 않는다.
+캡처 2장을 제출한다. 연결 화면에 장치 이름을 입력한 화면, 제어 화면 상단에 그 이름이 보이고 로그에 `on 3`·`off 3`이 쌓인 화면.
 
 ## 2일 수업 흐름
 
-| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 | 산출물 |
+| 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | Fragment/View lifecycle, NavHost, graph, argument, Back stack | 목록·제어 Fragment 골격과 lifecycle 추적 | 화면 전환도와 로그 관찰표 |
-| 2일차 | RecyclerView 파이프라인, ListAdapter, item click, 입력 검증 | mock 목록과 제어 입력 완성 | 장치 목록·제어 화면과 검증표 |
+| 1일차 | 오늘 문법(`"on $pin"`·`toInt()`·`isEmpty()`), 새 프로젝트와 ViewBinding, `strings.xml`, `EditText`·`Switch` | `SmartIO` 만들기 → ViewBinding 켜기 → 연결 화면 배치 → [연결] 빈 값 검사 Toast → Switch Toast | 연결 화면 |
+| 2일차 | 오늘 문법(`getStringExtra(...) ?: ""`·`else if`), 두 번째 Activity, Manifest, `Intent`·`putExtra`·`finish()`, Fragment 한 장 | `ControlActivity` 만들기 → 이름 전달·표시 → 핀 `EditText`·LED `Switch`·로그 → [뒤로] → 제출 | 두 화면 앱 |
 
-각 일차는 정확히 `설명·시연 30분 + 직접 해결 실습 60분`이다.
+각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
+시간이 필요한 학생은 따라하기 문서의 단계를 하나씩 반복한다.
 
-## 선수 지식과 준비
+## 준비
 
-- Activity lifecycle과 Logcat 추적
-- saved instance state의 목적
-- XML View, resource, `render()` 함수
-- explicit Intent의 입력 계약 개념
-- [3주차 자료](../week03_activity_lifecycle/README.md)
+- 실습실 PC의 Android Studio와 에뮬레이터 (버전은 수업 공지와 [설치 안내](../../ta_setup_guide.md)를 따른다)
+- 2주차의 `findViewById`·`setOnClickListener`, 3주차의 `Toast`와 `?:` 사용법
+- 이번 주는 `StudentCard`를 이어 쓰지 않고 새 프로젝트 `SmartIO`를 만든다
+
+## 이번 주 범위
+
+| 문법·속성 | 이번 주에 알아둘 뜻 |
+|---|---|
+| `"on $pin"` | 1주차 `$변수`와 같다. 명령 문자열을 만들 때 쓴다 |
+| `"3".toInt()` | 글자를 정수로 바꾼다. 숫자가 아닌 글자면 앱이 꺼지므로 빈 값 검사 뒤에 쓴다 |
+| `name.isEmpty()` | 글자가 하나도 없으면 `true` |
+| `if (…) { } else if (…) { } else { }` | 1주차 `if/else`에 조건을 하나 더 이어 붙인 것. `if` 안에 `if/else`를 넣어도 된다 |
+| `buildFeatures { viewBinding = true }` | `build.gradle.kts`에 넣으면 레이아웃마다 `ActivityMainBinding` 같은 클래스가 생긴다 |
+| `binding = ActivityMainBinding.inflate(layoutInflater)` / `setContentView(binding.root)` | 틀. `findViewById` 대신 `binding.connectButton`처럼 id로 바로 부른다 |
+| `lateinit var binding` | 틀. "나중에 넣는다"는 표시로, `onCreate()`에서 넣는다 |
+| `@string/connect` | `strings.xml`의 `<string name="connect">연결</string>`을 가리킨다 |
+| `EditText` · `android:inputType` | 글자를 입력받는 칸. `text`면 글자, `number`면 숫자 키패드 |
+| `binding.deviceNameEdit.text.toString()` | 입력칸의 글자를 String으로 꺼낸다 |
+| `Switch` · `setOnCheckedChangeListener { _, isChecked -> }` | 켜고 끌 때마다 실행. `isChecked`가 `true`면 켜짐 |
+| `Intent(this, ControlActivity::class.java)` | "이 화면에서 ControlActivity로" 가는 명시적 Intent |
+| `intent.putExtra("name", name)` / `intent.getStringExtra("name") ?: ""` | 이름을 넣어 보내고, 받는 쪽에서 꺼낸다. 없으면 `""` |
+| `startActivity(intent)` / `finish()` | 다음 화면을 연다 / 지금 화면을 닫고 이전 화면으로 돌아간다 |
+
+Fragment는 "Activity 안의 화면 조각"이라는 한 장만 보고 9주차에 시연한다. 스레드·코루틴·ViewModel은 5~7주차에 다룬다.
 
 ## 수업 자료
 
 - [슬라이드](slides.md)
-- 강의 스크립트: 강의자 별도 관리(비공개)
-- [실습지](lab.md)
-- [예제 스니펫 안내](examples/README.md)
+- [순서대로 따라하기](walkthrough.md)
+- [실습과 제출 안내](lab.md)
+- [예제 설명](examples/README.md)
+- 1일차 완성 코드: [build.gradle.kts](examples/day1/build.gradle.kts) · [strings.xml](examples/day1/strings.xml) · [activity_main.xml](examples/day1/activity_main.xml) · [MainActivity.kt](examples/day1/MainActivity.kt)
+- 2일차 완성 코드: [MainActivity.kt](examples/day2/MainActivity.kt) · [ControlActivity.kt](examples/day2/ControlActivity.kt) · [activity_control.xml](examples/day2/activity_control.xml) · [strings.xml](examples/day2/strings.xml) · [AndroidManifest.xml](examples/day2/AndroidManifest.xml)
 
-## 완료 증거
+## 완료 기준
 
-- [ ] Activity–Fragment–Fragment View 수명 비교도
-- [ ] 목록→제어→Back navigation graph와 실행 화면
-- [ ] `onCreateView`/`onDestroyView`를 포함한 instance별 로그
-- [ ] 0개·1개·여러 개 mock 목록 관찰 결과
-- [ ] 정상 device ID와 argument 누락 결과
-- [ ] 펄스 `100`, `5000`, `99`, `5001`, 빈 값, 문자 입력 검증표
-- [ ] 실제 하드웨어 명령을 보내지 않는 mock 결과 문구
+- [ ] `SmartIO` 프로젝트가 ViewBinding으로 실행되고 `MainActivity.kt`에 `findViewById`가 없다.
+- [ ] 연결 화면의 글자(제목·힌트·버튼)가 `strings.xml`에서 온다.
+- [ ] 장치 이름이 비면 Toast `장치 이름을 입력하세요`, 있으면 제어 화면으로 이동한다.
+- [ ] 제어 화면 상단에 전달받은 이름이 `장치: 이름`으로 보인다.
+- [ ] LED Switch를 켜면 `on 3`, 끄면 `off 3`이 로그에 쌓이고, 핀이 비면 Toast가 뜬다. [뒤로]로 연결 화면에 돌아온다.
+- [ ] 캡처 2장(연결 화면 입력, 제어 화면 로그)과 `MainActivity.kt`·`ControlActivity.kt`를 제출한다.
 
-## 다음 주 연결
+## 다음 수업 연결
 
-목록 구성과 입력 검증이 맞아도 긴 작업을 메인 스레드에서 실행하면 화면이 멈춘다. 5주차에는 의도적 blocking과 ANR 위험을 관찰하고 Thread/Executor로 작업과 UI 갱신을 분리한다.
+연결 화면의 [연결]은 지금 바로 다음 화면으로 넘어간다. 실제 장치 검색은 몇 초가 걸린다.
+5주차에는 [검색] 버튼을 누르면 5초 동안 기다리는 일을 화면을 멈추지 않고 처리하는 방법(메인 스레드와 백그라운드)을 배운다.
 
 ## 공식 참고 자료
 
-- [Fragments — Android Developers](https://developer.android.com/guide/fragments)
-- [Fragment lifecycle — Android Developers](https://developer.android.com/guide/fragments/lifecycle)
-- [Navigation — Android Developers](https://developer.android.com/guide/navigation)
-- [Design your navigation graph — Android Developers](https://developer.android.com/guide/navigation/design)
-- [Create dynamic lists with RecyclerView — Android Developers](https://developer.android.com/develop/ui/views/layout/recyclerview)
-- [ListAdapter reference — Android Developers](https://developer.android.com/reference/androidx/recyclerview/widget/ListAdapter)
+- [뷰 결합(ViewBinding) — Android Developers](https://developer.android.com/topic/libraries/view-binding)
+- [문자열 리소스 — Android Developers](https://developer.android.com/guide/topics/resources/string-resource)
+- [텍스트 필드(EditText) — Android Developers](https://developer.android.com/develop/ui/views/components/text-fields)
+- [토글 버튼과 스위치 — Android Developers](https://developer.android.com/develop/ui/views/components/togglebutton)
+- [다른 액티비티 시작하기 — Android Developers](https://developer.android.com/training/basics/firstapp/starting-activity)
+- [Fragment 개요 — Android Developers](https://developer.android.com/guide/fragments)

@@ -1,226 +1,168 @@
-# 5주차 실습 — 멈추는 mock 작업을 응답형 작업으로 바꾸기
+# 5주차 실습 — 멈추지 않는 검색 버튼 만들기
 
-## 공통 규칙
+4주차 `SmartIO` 프로젝트를 이어서 쓴다. 연결 화면에 [검색] 버튼을 달고, 5초 걸리는 검색을 흉내 내면서
+화면이 멈추지 않게 만든다. 모든 단계와 전체 코드는 [따라하기](walkthrough.md)에 있다.
 
-- blocking 코드는 강의자가 지정한 교육용 복사본에서 짧게 재현하고 최종 코드에서 제거한다.
-- 실제 BLE scan/write나 ESP32-C3 작업을 호출하지 않는다.
-- worker thread에서 View를 직접 변경하지 않는다.
-- freeze를 관찰했다고 ANR 발생을 단정하지 않고 실제 증거에 맞는 용어를 쓴다.
-- 반복 실험 중 에뮬레이터가 불안정하면 기준 프로젝트로 복구하고 강의자에게 알린다.
+## 1일차 — 검색 버튼을 멈추지 않게 만들기 (60분)
 
-## 1일차 실습 — blocking과 Executor 비교 (60분)
+| 시간 | 할 일 |
+|---|---|
+| 0–10분 | 4주차 `SmartIO`를 열어 실행하고, `strings.xml`에 문자열 세 개를 추가한다 |
+| 10–20분 | `activity_main.xml`에 [검색] 버튼과 상태 TextView를 배치한다 |
+| 20–30분 | `Thread.sleep(5000)`을 클릭 리스너에 넣어 멈춤을 관찰하고 기록한 뒤 지운다 |
+| 30–50분 | `Thread { }`와 `runOnUiThread { }`로 고쳐 검색 중·검색 완료 흐름을 완성한다 |
+| 50–55분 | `runOnUiThread`를 빼면 어떻게 되는지 관찰하고 되살린다 |
+| 55–60분 | 검색 중 화면을 캡처하고 프로젝트를 저장한다 |
 
-### 상황과 문제
+### 1. 문자열과 화면 준비하기
 
-mock 출력 펄스 준비에 시간이 걸린다는 가정으로 click listener에서 대기했더니 상태 문구, 스크롤, 취소 버튼이 함께 멈췄다. 같은 지연 작업을 worker에서 실행하고 UI 상태만 main thread에서 갱신하라.
+1. `strings.xml`의 4주차 아홉 줄은 그대로 두고 `scan`(검색), `stop`(중지), `state_idle`(대기 중) 세 줄을 추가한다. 전체는 [따라하기 2단계](walkthrough.md#2-문자열-추가하기)에 있다.
+2. `activity_main.xml`의 Switch와 [연결] 사이에 `scanButton` 버튼과 `stateText` TextView를 추가한다. 4주차 `deviceNameEdit`·`autoSwitch`·`connectButton`은 그대로 둔다. 전체는 [따라하기 3단계](walkthrough.md#3-검색-버튼과-상태-글자-배치하기)에 있다.
+3. 실행해서 [검색]과 `대기 중`이 보이면 다음으로 간다.
 
-### 시간 배분
+### 2. 멈춤 관찰하기
 
-| 단계 | 구간 | 시간 | 활동 |
-|---|---:|---:|---|
-| 결과 예측 | 0–8분 | 8분 | duration별 UI·로그 예상 |
-| blocking 재현 | 8–19분 | 11분 | 짧은 멈춤과 timestamp 관찰 |
-| Executor 구현 | 19–36분 | 17분 | worker 작업과 main 결과 전달 |
-| UI 상태 연결 | 36–48분 | 12분 | Idle/Running/Success/Error render |
-| 경계·실패 검증 | 48–56분 | 8분 | 0/800/2500ms와 중복 클릭 |
-| 정리·제출 | 56–60분 | 4분 | 실패 코드 제거와 증거 정리 |
-| **합계** |  | **60분** |  |
-
-### 1. 실행 전 예측
-
-| 구현/입력 | 시작 문구 즉시 보임? | 다른 버튼 반응? | 예상 thread | 실제 |
-|---|---|---|---|---|
-| main blocking 800ms |  |  |  |  |
-| executor 0ms |  |  |  |  |
-| executor 800ms |  |  |  |  |
-| executor 2500ms |  |  |  |  |
-
-### 2. 교육용 blocking 실패 재현
-
-별도 복사본의 click listener에서만 다음 흐름을 사용한다.
+`onCreate()` 마지막 `}` 바로 위(4주차 자동 연결 Switch 코드 아래)에 아래 코드를 넣고 실행한다. [검색]을 누르고 바로 Switch를 켜 본다.
 
 ```kotlin
-renderRunning()
-Thread.sleep(durationMs) // 실패 재현 전용
-renderSuccess(durationMs)
+binding.scanButton.setOnClickListener {
+    binding.stateText.text = "검색 중…"
+    Thread.sleep(5000)
+    binding.stateText.text = "검색 완료"
+}
 ```
 
-1. duration은 먼저 800ms로 제한한다.
-2. click 시작/종료와 thread 이름을 로그로 남긴다.
-3. 실행 중 보조 버튼을 눌러 callback timestamp를 비교한다.
-4. 시작 상태가 언제 그려지는지 기록한다.
-5. 관찰 후 이 blocking 구현을 최종 코드에서 제거한다.
-
-### 3. Executor와 main Handler로 개선
-
-요구사항:
-
-- Fragment field에 단일 worker `ExecutorService`를 만든다.
-- main looper와 연결된 `Handler`를 만든다.
-- click 시 main에서 `Running`을 render하고 중복 실행 버튼을 비활성화한다.
-- `executor.submit` 안에서는 mock 지연과 결과 계산만 한다.
-- 완료/오류 UI는 `mainHandler.post`에서 render한다.
-- 로그에 `Thread.currentThread().name`을 남겨 worker와 main을 구분한다.
-
-### 4. UI 상태표 구현
-
-| 상태 | 실행 버튼 | ProgressBar | 상태 문구 |
-|---|---|---|---|
-| Idle | 활성 | 숨김 | 대기 |
-| Running | 비활성 | 표시 | mock 작업 중 |
-| Success | 활성 | 숨김 | `Nms mock 완료` |
-| Error | 활성 | 숨김 | 오류와 재시도 안내 |
-
-모든 View 변경은 `render(state)` 한 곳에서 한다. 성공 문구가 실제 하드웨어 명령 성공으로 읽히지 않게 `mock`을 포함한다.
-
-### 5. 정상·경계·실패 확인
-
-- **정상:** executor 800ms 실행 중 보조 버튼과 목록 스크롤이 반응한다.
-- **경계:** 0ms에서도 Running→Success 전이가 모순 없이 끝나고, 2500ms에도 중복 task가 생기지 않는다.
-- **실패:** main blocking 800ms에서 입력 callback 지연을 재현하고 최종 구현에서는 해당 blocking 코드가 없다.
-- **thread:** mock 작업 로그는 worker, `render()` 로그는 main thread다.
-
-### 단계별 힌트
-
-<details>
-<summary>힌트 1 — 시작 문구가 작업 뒤에 보인다</summary>
-
-문구를 대입한 직후에도 main thread가 click handler에서 돌아오지 않으면 다음 frame을 그릴 수 없다. 지연 작업이 어느 thread에서 실행되는지 로그로 확인한다.
-</details>
-
-<details>
-<summary>힌트 2 — background 작업 뒤 View 변경 오류가 난다</summary>
-
-worker block 안에서 TextView, Button, ProgressBar를 직접 만지는 줄을 찾는다. 결과 값만 만든 뒤 main Handler에 post한다.
-</details>
-
-<details>
-<summary>힌트 3 — 버튼을 두 번 누르면 결과가 두 번 온다</summary>
-
-Running 상태로 바꿀 때 실행 버튼을 비활성화하고, 별도 `runningTask`가 이미 완료되지 않았다면 새 submit을 하지 않는다.
-</details>
-
-### 확장
-
-mock 함수가 음수 duration을 받으면 `IllegalArgumentException`을 발생시키도록 하고, 일반 실패는 Error UI와 재시도 가능한 상태로 바뀌는지 검증한다. 취소로 발생한 `InterruptedException`은 일반 오류로 렌더링하지 말고 interrupt 상태를 복원한 뒤 작업을 종료한다.
-
-### 1일차 제출 증거
-
-- `day1-responsiveness.md`: 네 조건의 예상/실제와 timestamp
-- main/worker thread 이름 로그
-- blocking 실패 코드가 최종본에서 제거됐다는 확인
-- 상태표와 Running/Success 화면
-
-## 2일차 실습 — View 취소 경계와 race condition (60분)
-
-### 상황과 문제
-
-긴 mock 작업 중 Back을 눌렀는데 이전 결과가 새 제어 화면에 나타난다. 또 여러 worker가 성공 횟수를 증가시켰더니 기대값보다 작은 값이 가끔 나온다. View 수명과 공유 갱신을 각각 안전하게 만들어라.
-
-### 시간 배분
-
-| 단계 | 구간 | 시간 | 활동 |
-|---|---:|---:|---|
-| 결과 예측 | 0–8분 | 8분 | 취소·race 결과 예상 |
-| 취소 경계 | 8–22분 | 14분 | Future, token, View 정리 |
-| unsafe counter | 22–35분 | 13분 | 1/4 worker 반복 실험 |
-| atomic 수정 | 35–47분 | 12분 | AtomicInteger와 완료 신호 |
-| 반복 검증 | 47–56분 | 9분 | 각 조건 5회와 Back 재검증 |
-| 종료·제출 | 56–60분 | 4분 | executor 종료·표 정리 |
-| **합계** |  | **60분** |  |
-
-### 1. 코드 전 예측
-
-| 조건 | expected | actual 예상 | 이유 | 실제 5회 |
-|---|---:|---|---|---|
-| unsafe, 1 worker × 100000 | 100000 |  |  |  |
-| unsafe, 4 workers × 25000 | 100000 |  |  |  |
-| atomic, 4 workers × 25000 | 100000 |  |  |  |
-
-취소 시나리오도 먼저 적는다.
-
-| 행동 | 이전 task 결과가 새 View에 보여야 하나? | 취소 로그 예상 |
+| 질문 | 예상 | 실제 |
 |---|---|---|
-| 2500ms 시작→즉시 Back |  |  |
-| 시작→회전→새 Control View |  |  |
+| `검색 중…`이 화면에 보이는가? |  |  |
+| 5초 동안 Switch가 켜지는가? |  |  |
+| Logcat에 `Skipped … frames!` 줄이 있는가? |  |  |
 
-### 2. View 수명에 맞춘 취소
+관찰을 적었으면 이 코드를 **지운다.** 메인 스레드에서 5초를 기다리는 코드는 최종본에 남기지 않는다.
 
-요구사항:
+### 3. Thread와 runOnUiThread로 고치기
 
-1. submit 결과 `Future`를 현재 task로 보관한다.
-2. 각 실행에 고유한 in-memory token을 만든다.
-3. `onDestroyView()`에서 token을 무효화하고 `Future.cancel(true)`를 요청한다.
-4. View 참조를 정리한다.
-5. main Handler callback은 token이 현재 실행과 같을 때만 render한다.
-6. Fragment의 `onDestroy()`에서 소유한 executor를 `shutdownNow()`한다.
+2번 코드를 지운 자리에 새로 만든다. 요구 사항:
 
-`cancel(true)`만 믿지 말고 stale result 검사를 함께 둔다.
+- [검색]을 누르면 `binding.scanButton.isEnabled = false`, `stateText`는 `검색 중…`.
+- `Thread { … }.start()` 안에서 `Thread.sleep(5000)`.
+- 5초 뒤 `runOnUiThread { … }` 안에서 `검색 완료`, 버튼 복구, Toast `검색 완료`.
 
-### 3. unsafe counter 재현
+힌트:
 
-교육용 실패 함수에서 공유 `Int`에 다음 read–modify–write를 여러 worker가 수행한다.
+- 새 스레드에서 기다리고, 화면을 바꾸는 줄은 **모두** `runOnUiThread { }` 안에 둔다.
+- `Toast`가 빨간색이면 Alt+Enter로 import한다.
+- 장치 이름을 `검색 완료: $name`처럼 함께 보이려면 `val name = binding.deviceNameEdit.text.toString()`을 `Thread { }` **바깥**(클릭 리스너 첫 줄)에서 만든다. 람다 안에서 바깥 변수를 그대로 쓸 수 있다.
+- 막히면 [따라하기 5단계](walkthrough.md#5-thread와-runonuithread로-고치기)와 [1일차 완성 코드](examples/day1/MainActivity.kt)를 한 줄씩 비교한다.
 
-```kotlin
-val current = unsafeCounter
-if (iteration % 100 == 0) Thread.yield()
-unsafeCounter = current + 1
-```
+| 조작 | 예상 화면 | 실제 |
+|---|---|---|
+| [검색] 누른 직후 |  |  |
+| 검색 중에 Switch 켜기 |  |  |
+| 5초 뒤 |  |  |
 
-- 1 worker × 100000을 5회 실행한다.
-- 4 workers × 각 25000을 5회 실행한다.
-- expected와 actual을 모두 기록한다.
-- actual이 한 번 expected와 같아도 안전하다고 판정하지 않는다.
+### 4. 워커 스레드에서 View 만지기 (관찰만)
 
-### 4. AtomicInteger로 수정
+`runOnUiThread {`와 짝이 되는 `}` 두 줄을 지우고 [검색]을 눌러 본다. 5초 뒤 무슨 일이 생기는지, Logcat의 빨간 줄 첫 문장을 적는다.
+적었으면 두 줄을 되살린다.
 
-공유 값을 `AtomicInteger(0)`으로 바꾸고 각 worker에서 `incrementAndGet()`을 호출한다. worker 완료 수를 별도의 thread-safe 값으로 세어 마지막 worker만 결과를 main Handler에 전달한다.
+### 5. 오늘 확인할 것
 
-같은 4×25000 조건을 5회 실행한다.
+- [ ] [검색]을 누르면 `검색 중…`이 **바로** 보이고 버튼이 회색이 된다.
+- [ ] 검색 중에 Switch와 [연결]이 눌린다.
+- [ ] 5초 뒤 `검색 완료`, 버튼 복구, Toast가 보인다.
+- [ ] `Thread.sleep`은 `Thread { }` 안에만 있고, View를 바꾸는 줄은 `runOnUiThread { }` 안에만 있다.
+- [ ] 검색 중 화면을 캡처했다.
 
-### 5. 정상·경계·실패 확인
+## 2일차 — Handler로 예약하고 [중지]로 취소하기 (60분)
 
-- **정상:** atomic 4-worker 결과는 5회 모두 100000이다.
-- **경계:** unsafe라도 1 worker에서는 경쟁이 없어 100000일 수 있다. 이것이 다중 thread 안전성을 증명하지 않음을 적는다.
-- **실패:** unsafe 4-worker 결과가 어긋나는 run을 관찰하거나, 어긋나지 않았어도 read–modify–write interleaving으로 위험을 증명한다.
-- **취소:** 2500ms 시작 직후 Back/회전에서 이전 결과가 새 View를 덮지 않는다.
-- **수명:** Fragment 종료 후 새 task를 받지 않으며 executor 종료 로그가 있다.
+| 시간 | 할 일 |
+|---|---|
+| 0–10분 | 1일차 프로젝트를 열어 실행하고, `activity_main.xml`에 [중지]와 ProgressBar를 배치한다 |
+| 10–20분 | `Handler(Looper.getMainLooper())`를 만들고 검색 끝에 할 일 `finishScan`을 `Runnable`로 만든다 |
+| 20–35분 | [검색]을 `postDelayed`로, [중지]를 `removeCallbacks`로 완성한다 |
+| 35–45분 | 검색 중에만 ProgressBar가 보이는지 확인하고, 네 가지(두 버튼·원·글자)가 함께 바뀌는지 표와 대조한다 |
+| 45–55분 | 검색→완료, 검색→중지 두 가지를 확인한다 |
+| 55–60분 | 캡처 2장과 파일을 정리해 제출한다 |
 
-### 단계별 힌트
+### 1. 화면 배치하기
 
-<details>
-<summary>힌트 1 — cancel했는데 완료 로그가 남는다</summary>
+[따라하기 9단계](walkthrough.md#9-중지-버튼과-progressbar-배치하기)의 XML로 1일차 [검색] 버튼 자리에 [검색] [중지]를 나란히 놓고 그 아래 `scanProgress` ProgressBar를 둔다.
 
-interruption 요청과 작업 종료는 다르다. mock work가 `InterruptedException`을 삼키는지 보고, UI callback에서는 실행 token이 아직 유효한지 별도로 확인한다.
-</details>
+- [중지]는 `android:enabled="false"`, ProgressBar는 `android:visibility="gone"`으로 시작한다.
+- 실행하면 [중지]가 회색이고 원은 보이지 않는다.
 
-<details>
-<summary>힌트 2 — unsafe 결과가 계속 100000이다</summary>
+### 2. Handler와 finishScan 만들기
 
-한 번의 결과로 판정하지 않는다. worker 수, 반복 횟수, 동일한 공유 변수 사용을 확인하고 강의자 기준의 `Thread.yield()` 지점을 적용해 5회 반복한다.
-</details>
+1. 클래스 안, `onCreate()` 바깥에 `private val handler = Handler(Looper.getMainLooper())`를 둔다. import는 **`android.os`** 것을 고른다.
+2. `onCreate()` 안에서 1일차 [검색] 코드를 지우고, 검색이 끝났을 때 할 일을 `val finishScan = Runnable { … }`로 만든다.
+   안에는 `검색 완료` 표시, ProgressBar `View.GONE`, [검색] 활성, [중지] 비활성, Toast 다섯 가지가 들어간다.
 
-<details>
-<summary>힌트 3 — 마지막 worker를 판단하기 어렵다</summary>
+### 3. [검색]과 [중지] 완성하기
 
-counter 값과 완료한 worker 수는 다른 상태다. 완료 수에는 별도의 `AtomicInteger`를 두고 `incrementAndGet() == workerCount`일 때만 결과를 post한다.
-</details>
+아래 표대로 동작하도록 두 버튼의 클릭 리스너를 직접 만든다.
 
-### 확장
+| 상황 | [검색] | [중지] | ProgressBar | 상태 글자 |
+|---|---|---|---|---|
+| [검색] 누름 | 비활성 | 활성 | `View.VISIBLE` | `검색 중…` |
+| 5초 뒤 `finishScan` | 활성 | 비활성 | `View.GONE` | `검색 완료` + Toast |
+| [중지] 누름 | 활성 | 비활성 | `View.GONE` | `검색 중지` |
 
-single-thread executor가 unsafe counter를 우연히 안전하게 보이게 하는 이유와, fixed thread pool + AtomicInteger의 계약 차이를 4문장으로 비교한다.
+힌트:
 
-### 2일차 제출 증거
+- 예약은 `handler.postDelayed(finishScan, 5000)`, 취소는 `handler.removeCallbacks(finishScan)` 한 줄씩이다.
+- `Thread`와 `runOnUiThread`는 더 이상 필요 없다. `Handler`가 메인 스레드에서 실행해 준다.
+- 취소가 되지 않으면 `removeCallbacks`에 `finishScan`이 아닌 다른 `{ }`를 넘기고 있는지 본다.
+- 막히면 [따라하기 12단계](walkthrough.md#12-검색으로-예약하고-중지로-취소하기)를 본다.
 
-- `day2-concurrency.md`: 세 조건 5회 결과와 interleaving 그림
-- Back/회전 취소 로그와 stale result 미표시 증거
-- `Future.cancel`, token 검사, AtomicInteger 핵심 코드
-- “취소 요청이 즉시 종료 보장이 아닌 이유” 2문장
+### 4. 두 가지 흐름 확인하기
 
-## 최종 제출 체크
+완성한 앱으로 아래 두 가지를 해 보고 실제를 적는다. 두 번째는 5초가 지나도 `검색 완료`·Toast가 **없어야** 한다.
 
-- [ ] 두 날의 60분 실습 결과가 분리되어 있다.
-- [ ] main thread blocking 실패 코드는 최종본에서 제거했다.
-- [ ] worker가 View를 직접 갱신하지 않는다.
-- [ ] 정상·경계·실패·취소를 모두 검증했다.
-- [ ] 실제 BLE/GPIO/펌웨어 동작을 주장하지 않는다.
+| 조작 | 예상 | 실제 |
+|---|---|---|
+| [검색] → 그대로 5초 |  |  |
+| [검색] → 2초 뒤 [중지] → 그대로 5초 |  |  |
+
+### 5. 오늘 확인할 것
+
+- [ ] [검색]을 누르면 [검색] 비활성, [중지] 활성, 돌아가는 원, `검색 중…`이 함께 바뀐다.
+- [ ] 5초 뒤 `검색 완료` Toast가 뜨고 원이 사라진다.
+- [ ] [중지]를 누르면 `검색 중지`가 되고, 5초가 지나도 `검색 완료`가 뜨지 않는다.
+- [ ] `MainActivity.kt`에 `Thread.sleep`이 없다.
+
+## 막혔을 때
+
+| 상황 | 확인할 것 |
+|---|---|
+| `Unresolved reference 'View'.` | `View.GONE`·`View.VISIBLE`을 쓰는 줄에서 Alt+Enter → `android.view.View`를 import한다 |
+| `Cannot create an instance of an abstract class.` 와 `Unresolved reference 'postDelayed'.` | `Handler`를 `java.util.logging.Handler`로 import했다. 그 import 줄을 `import android.os.Handler`로 고친다 |
+| `Argument type mismatch: actual type is 'kotlin.Int', but 'java.lang.Runnable' was expected.` | `postDelayed(5000, finishScan)`처럼 순서를 바꿨다. `postDelayed(finishScan, 5000)`이다 |
+| `Assignment type mismatch: actual type is 'kotlin.String', but 'kotlin.Int' was expected.` | `visibility = "gone"`처럼 글자를 넣었다. `View.GONE`을 넣는다 |
+| `Assignment type mismatch: actual type is 'kotlin.String', but 'kotlin.Boolean' was expected.` | `isEnabled = "false"`처럼 글자를 넣었다. 따옴표 없이 `false`를 넣는다 |
+| 노란 줄 `'constructor(): Handler' is deprecated. Deprecated in Java.` | `Handler()`로 만들었다. 실행은 되지만 `Handler(Looper.getMainLooper())`로 쓴다 |
+| [검색]을 누르면 `검색 중…`이 안 보이고 5초 뒤 바로 `검색 완료`가 된다 | `Thread.sleep`이 `Thread { }` 밖(클릭 리스너 바로 안)에 있다. 1일차 2번 코드가 남아 있는지 본다 |
+| 5초 뒤 앱이 꺼진다. Logcat: `CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.` | `Thread { }` 안에서 `binding.…`을 직접 바꿨다. 그 줄들을 `runOnUiThread { }`로 감싼다 |
+| [검색]을 누르면 `검색 중…`에서 영원히 멈추고 버튼이 회색이다 | `Thread { … }` 뒤에 `.start()`가 빠졌다. 빌드 오류는 나지 않는다 |
+| [중지]를 눌러도 5초 뒤 `검색 완료`가 뜬다 | `removeCallbacks { }`처럼 새 중괄호를 넘겼거나, `finishScan`을 `Runnable { }`이 아니라 `{ }`로 만들었다. `val finishScan = Runnable { … }`, `removeCallbacks(finishScan)`으로 쓴다 |
+| 노란색 경고 표시가 있다 | 실행에는 문제가 없다. 빨간 오류부터 해결한다 |
+
+한 번에 한 곳만 바꾸고 다시 실행한다. 해결되지 않으면 오류 메시지가 보이는 화면을 그대로 보여 주고 도움을 받는다.
+
+## 제출 — 세 가지
+
+1. **`MainActivity.kt`**: Handler로 검색·중지가 동작하는 최종 코드
+2. **`activity_main.xml`**: [검색] [중지] ProgressBar 상태 TextView가 있는 최종 XML
+3. **실행 화면 2장**: 검색 중(버튼 비활성·돌아가는 원) 화면, `검색 완료` Toast 화면 또는 [중지] 뒤 `검색 중지` 화면
+
+1일차 `Thread` 버전까지 동작하면 기본 성공이다. 2일차 [중지]와 ProgressBar는 예제와 도움을 받아 마무리해도 된다.
+제출 위치와 마감은 수업 공지를 따른다.
+
+## 먼저 끝났다면
+
+- 1일차: 장치 이름이 비어 있으면 4주차처럼 Toast `장치 이름을 입력하세요`를 띄우고 검색을 시작하지 않게 해 본다(`if`/`else`).
+- 2일차: [중지]를 누르면 Toast `검색을 중지했습니다`를 띄워 본다.
+- 2일차: [검색]을 누른 뒤 상태 글자를 `검색 중… (5초)`로 바꾸고, 예약 시간을 `10000`으로 늘리면 글자도 함께 바꿔야 한다는 점을 느껴 본다. 남은 초를 세어 보이는 것은 6주차에 한다.
+- 2일차: [검색]을 누른 뒤 바로 화면을 돌려 본다. 새 화면은 `대기 중`인데 5초 뒤 사라진 화면의 Toast `검색 완료`만 뜬다. 3주차 `onDestroy()`를 override해 `handler.removeCallbacksAndMessages(null)` 한 줄을 넣으면 남은 예약이 지워져 Toast가 뜨지 않는다. 회전해도 검색이 이어지게 하는 것은 7주차에 한다.
+
+추가 과제는 선택 사항이다.

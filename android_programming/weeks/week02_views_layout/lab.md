@@ -143,8 +143,10 @@ plusButton.setOnClickListener {
 | 프로젝트에 `activity_main.xml`이 없다 | `Empty Activity`로 만들었는지 본다. `Empty Views Activity`로 새로 만든다 |
 | `Unresolved reference 'id'` 또는 `Unresolved reference 'main'` 오류 | 가장 바깥 `LinearLayout`에 `android:id="@+id/main"`이 있는지 본다 |
 | `Unresolved reference 'nameText'` 오류 | XML의 `@+id/nameText`와 코드의 `R.id.nameText` 철자가 같은지 본다 |
-| `TextView`, `Button`이 빨간색이다 | **Alt+Enter**(맥 ⌥+Enter)로 import한다 |
+| `TextView`, `Button`이 빨간색이다. 빌드하면 `Unresolved reference 'TextView'` | 그 글자에 커서를 두고 **Alt+Enter**(맥 ⌥+Enter) → **Import class** |
+| `Syntax error: Expecting member declaration` 오류 | 코드를 `onCreate()`의 마지막 `}` **바깥**에 넣었는지 본다. `insets` 블록 아래, `onCreate()` 안으로 옮긴다 |
 | `Assignment type mismatch` 오류 | `countText.text = count`처럼 숫자를 그대로 넣었는지 본다. `"$count"`로 쓴다 |
+| `'val' cannot be reassigned` 오류 | `val count = 0`으로 만들었는지 본다. 바뀌는 값이므로 `var count = 0`으로 쓴다 |
 | 버튼을 누르면 앱이 꺼진다 | `countText.setText(count)`를 썼는지 본다. `countText.text = "$count"`로 쓴다 |
 | 버튼을 눌러도 숫자가 그대로다 | 중괄호 `{ }` 안에서 `countText.text`를 바꾸는지 본다 |
 | 노란색 경고 표시가 있다 | 실행에는 문제가 없다. 빨간 오류부터 해결한다 |
@@ -157,13 +159,18 @@ plusButton.setOnClickListener {
 2. **`MainActivity.kt`**: 이름 바꾸기와 버튼 세 개가 동작하는 최종 코드
 3. **실행 화면 1장**: 학번·이름·전공과 숫자 `3`이 보이는 캡처
 
-`+1` 버튼까지 동작하면 기본 성공이다. `-1`과 `초기화`는 예제와 도움을 받아 마무리해도 된다.
+완료 기준은 `+1`·`-1`·`초기화` 세 버튼이 모두 동작하는 것이다. `+1`만 되면 부분 통과이며, `-1`·`초기화`는 예제와 도움을 받아 마무리해도 된다.
 제출 위치와 마감은 수업 공지를 따른다.
 
 ## 먼저 끝났다면
 
 - 1일차: `좋아하는 것` 한 줄을 더 추가하거나 제목에 `android:textColor="#1E88E5"`를 넣어 색을 바꿔 본다.
 - 2일차: 숫자가 `0` 아래로 내려가지 않게 `-1` 버튼 안에 `if (count > 0)`을 넣어 본다.
+  1주차의 `if (score >= 60) "합격" else "불합격"`과 달리 `if (count > 0) { count = count - 1 }`처럼 조건 뒤에 중괄호 `{ }`로 실행할 줄을 감싼다.
 - 2일차: 세 버튼에 똑같이 있는 `countText.text = "$count"` 줄을 함수 하나로 묶어 본다.
+  1주차의 `fun intro(name: String)`처럼 `MainActivity.kt`의 **마지막 `}` 아래**(클래스 바깥)에
+  `fun showCount(countText: TextView, count: Int)`를 만들고, 세 버튼 안에서 `showCount(countText, count)`로 부른다.
+- 2일차: 버튼 세 개를 화면 폭에 맞춰 똑같은 너비로 펼쳐 본다. 버튼을 감싼 가로 LinearLayout의 `layout_width`를 `match_parent`로 바꾸고,
+  버튼 세 개 모두 `android:layout_width="0dp"`와 `android:layout_weight="1"`을 준다. 슬라이드의 **확장** 장을 본다.
 
 추가 과제는 선택 사항이다.
