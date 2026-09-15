@@ -133,7 +133,7 @@
       "description": "브라우저와 Git의 기초부터 Supabase 기반 영속 서비스, 보안 점검과 프로젝트 발표까지 연결합니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 1개 특강 · 290장",
+      "summary": "15개 주차 + 1개 특강 · 293장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
@@ -146,8 +146,8 @@
         {
           "id": "week02_github_pages",
           "label": "2주차",
-          "title": "GitHub와 GitHub Pages",
-          "description": "로컬 커밋을 원격 저장소와 공개 웹 주소로 연결합니다.",
+          "title": "GitHub와 공개 배포",
+          "description": "GitHub 저장소에 올리고 수정을 push하며, 브랜치로 다른 내용을 올린 뒤 합쳐 Pages로 공개합니다.",
           "type": "week"
         },
         {

@@ -27,7 +27,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 주차 | 주제 | 폴더 |
 |---:|---|---|
 | 1 | 웹 실행 구조와 Git 상태 | [`week01_web_git`](week01_web_git/) |
-| 2 | GitHub와 GitHub Pages | [`week02_github_pages`](week02_github_pages/) |
+| 2 | GitHub와 공개 배포 | [`week02_github_pages`](week02_github_pages/) |
 | 3 | 시맨틱 HTML과 form | [`week03_semantic_html`](week03_semantic_html/) |
 | 4 | CSS와 반응형 UI | [`week04_responsive_css`](week04_responsive_css/) |
 | 5 | JavaScript 데이터와 함수 | [`week05_javascript_data`](week05_javascript_data/) |

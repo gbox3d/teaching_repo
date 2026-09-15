@@ -1,68 +1,106 @@
-# 2주차 — GitHub와 GitHub Pages
+# 2주차 — GitHub와 공개 배포
+
+실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week02_github_pages
 
 ## 이번 주 질문
 
-> 내 컴퓨터의 commit은 원격 저장소와 어떻게 연결되며, 로컬에서 보이던 페이지가 공개 URL에서 깨지는 이유는 무엇인가?
+> 내 컴퓨터에만 있는 페이지를 GitHub에 올려 누구나 여는 주소를 만들고, 다른 내용은 브랜치로 따로 올릴 수 있을까?
+
+1주차에는 `index.html`·`styles.css`·`app.js` 세 파일을 만들고 내 컴퓨터에서 `git init → git add → git commit`까지 해 보았다.
+이번 주에는 그 저장소를 GitHub에 올리고(push) GitHub Pages로 공개 주소를 만든다.
+2일차에는 브랜치를 만들어 소개 페이지를 따로 올린 뒤 main에 합친다.
 
 ## 학습 목표
 
-1. local repository, remote repository, branch, upstream의 관계를 설명한다.
-2. `fetch`, `pull`, `push`가 어느 방향으로 어떤 참조를 바꾸는지 구분한다.
-3. 두 branch의 독립 변경을 merge하고 conflict marker를 읽어 해결한다.
-4. GitHub Pages의 publishing source와 entry file을 확인한다.
-5. project site URL의 repository base path를 고려해 상대경로를 작성한다.
-6. 404, 대소문자, 캐시, 배포 지연 문제를 Network와 Actions 기록으로 진단한다.
+1. GitHub 계정과 빈 저장소 `my-web`을 만들고, 내 저장소에 `git remote add origin <HTTPS URL>`로 주소를 적는다.
+2. `git push -u origin main`으로 commit을 올리고, 처음 push 때 브라우저 로그인을 마친다.
+3. 파일을 고쳐 `add → commit → push` 하면 GitHub 화면이 바뀌는 것을 확인한다.
+4. **Settings › Pages**에서 main 브랜치를 배포해 `https://<아이디>.github.io/my-web/`을 연다.
+5. `git branch about`·`git switch about`으로 브랜치를 만들어 `about.html`을 따로 push하고, main에서 `git merge about`으로 합쳐 공개 페이지에 반영한다.
 
-## 수업 흐름
-
-| 일차 | 설명·시연 30분 | 직접 해결 실습 60분 | 결과물 |
-|---|---|---|---|
-| 1일차 | remote, tracking branch, branch·merge·conflict | 두 branch를 만들고 충돌을 해결한 뒤 push | branch 이력과 merge/conflict commit |
-| 2일차 | Pages source, project URL, 경로 진단 | 랜딩 페이지를 배포하고 의도적 오류를 수정 | 공개 URL과 오류 해결표 |
-
-## 준비와 안전
-
-- GitHub 계정, Git, 브라우저, 편집기
-- 공개 저장소에는 수업용 가상 데이터만 사용한다.
-- 비밀번호, personal access token, API secret, 실제 개인정보를 파일·캡처·commit에 남기지 않는다.
-- GitHub Pages는 공개 웹사이트다. 저장소 공개 범위와 무관하게 민감 정보를 게시하지 않는다.
-- 인증이 필요하면 브라우저 또는 강의자가 정한 credential manager를 사용하고 토큰을 명령에 직접 적지 않는다.
-
-## 자료 안내
-
-- [PT 원고](slides.md)
-- 강의 대본: 강의자 별도 관리(비공개)
-- [실습지](lab.md)
-- [배포 예제](examples/README.md)
-
-## 핵심 상태도
+## 이번 주 결과물
 
 ```text
-working tree → stage → local commit ── push ──▶ origin의 branch
-                                      ◀─ fetch ── origin 추적 참조
-
-main ──┬── layout-a ── commit A ──┐
-       └── layout-b ── commit B ──┴── merge 또는 conflict 해결
+[캡처 1] github.com/student01/my-web ─ app.js · index.html · styles.css
+[캡처 2] https://student01.github.io/my-web/ ─ "내 첫 GitHub 페이지"
+[캡처 3] github.com/student01/my-web 의 브랜치 목록 ─ main · about
+[캡처 4] https://student01.github.io/my-web/about.html ─ "소개"
 ```
+
+`student01`은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다. 마지막에는 캡처 4장을 제출한다.
+
+## 2일 수업 흐름
+
+| 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
+|---|---|---|---|
+| 1일차 | GitHub 계정·빈 저장소, remote와 `origin`, 첫 push와 브라우저 로그인, 고치고 push, Pages 켜기 | 세 파일 준비 → 빈 저장소 → push → 제목 고쳐 push → Pages → 공개 URL | 캡처 1·2 |
+| 2일차 | 브랜치는 따로 올리는 작업선, `branch`·`switch`, about.html commit, `push -u origin about`, `merge` → push, 브랜치 삭제 | about 브랜치 → about.html·링크 → push → GitHub에서 브랜치 비교 → merge → 공개 페이지 확인 | 캡처 3·4 |
+
+각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
+시간이 필요한 학생은 따라하기 문서의 단계를 하나씩 반복한다.
+
+## 준비
+
+- 새 폴더 `my-web`에 [따라하기 2단계](walkthrough.md#2-세-파일-만들기)의 세 파일을 만든다 (1주차 파일을 복사해 와도 되지만 `<h1>`은 `내 첫 페이지`로 둔다)
+- Git (`git --version`으로 확인), VS Code, 브라우저
+- 이메일 주소 (GitHub 계정 만들기와 확인 메일에 쓴다)
+- 공개 저장소와 공개 페이지에는 실명·학번·전화번호를 넣지 않는다. 예시 아이디는 `student01`, 저장소 이름은 `my-web`이다.
+
+## 이번 주 범위
+
+| 명령·용어 | 이번 주에 알아둘 뜻 |
+|---|---|
+| GitHub | Git 저장소를 인터넷에 올려 두는 서비스. Git(도구)과 다른 것이다 |
+| remote / `origin` | 내 저장소가 기억하는 인터넷 저장소 주소. 첫 remote의 이름은 관례로 `origin` |
+| `git remote add origin <URL>` | GitHub 저장소 주소를 `origin`이라는 이름으로 적어 둔다. 아직 아무것도 보내지 않는다 |
+| `git remote -v` | 적어 둔 주소를 확인한다 |
+| `git add .` | 폴더 안에서 바뀐 파일을 모두 다음 commit에 넣는다 |
+| `git push -u origin main` | main 브랜치의 commit을 `origin`으로 올린다. `-u`는 다음부터 `git push`만 쳐도 되게 기억한다 |
+| 브라우저 로그인 | 처음 push 때 Git Credential Manager가 브라우저를 열어 GitHub 로그인을 받는다. 비밀번호나 토큰을 명령에 적지 않는다 |
+| GitHub Pages | 저장소의 HTML 파일을 그대로 웹 주소로 보여 주는 기능. 주소는 `https://<아이디>.github.io/<저장소>/` |
+| 브랜치(branch) | 다른 내용을 따로 올리는 작업선. `main`은 처음부터 있는 기본 브랜치 |
+| `git branch about` / `git switch about` | about 브랜치를 만든다 / about 브랜치로 옮겨 간다 |
+| `git branch` | 브랜치 목록. `*`가 지금 있는 브랜치 |
+| `git push -u origin about` | about 브랜치를 GitHub에 따로 올린다. main에는 아직 없다 |
+| `git merge about` | 지금 있는 브랜치(main)에 about의 commit을 가져와 합친다 |
+| `git branch -d about` | 합친 뒤 필요 없는 브랜치를 지운다 |
+| `git clone <URL>` / `git pull` (확장) | 다른 PC에서 이어 할 때 저장소를 내려받는다 / 새 commit을 가져온다 |
+
+충돌(conflict), fork와 Pull Request, SSH 키, GitHub Actions는 이번 주에 다루지 않는다.
+
+## 수업 자료
+
+- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week02_github_pages/index.html
+- [순서대로 따라하기](walkthrough.md)
+- [실습과 제출 안내](lab.md)
+- [예제 설명](examples/README.md)
+- 1일차 완성 코드: [index.html](examples/day1/index.html) · [styles.css](examples/day1/styles.css) · [app.js](examples/day1/app.js)
+- 2일차 완성 코드: [index.html](examples/day2/index.html) · [about.html](examples/day2/about.html) · [styles.css](examples/day2/styles.css) · [app.js](examples/day2/app.js)
+- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week02_github_pages
 
 ## 완료 기준
 
-- [ ] `git remote -v`의 fetch/push 대상을 설명했다.
-- [ ] 두 branch가 같은 기준 commit에서 갈라진 것을 log graph로 확인했다.
-- [ ] conflict marker의 ours/theirs 내용을 비교해 의도적으로 결과를 작성했다.
-- [ ] Pages publishing source를 `main`의 `/(root)`로 설정했다.
-- [ ] 공개 project site URL에서 HTML, CSS, JS, 이미지가 모두 200이다.
-- [ ] 로컬에서는 보이지만 Pages에서는 실패하는 경로 오류 한 개를 재현·수정했다.
-- [ ] 저장소 URL, Pages URL, 해결 commit, 오류 원인표를 제출할 수 있다.
+- [ ] GitHub 저장소 `my-web`에 `index.html`·`styles.css`·`app.js` 세 파일이 보인다.
+- [ ] `https://<아이디>.github.io/my-web/`에서 `내 첫 GitHub 페이지`가 열린다.
+- [ ] GitHub 브랜치 목록에 `about`이 보이고, about 브랜치에만 `about.html`이 있다.
+- [ ] main에 merge한 뒤 공개 페이지의 `소개 페이지 보기` 링크가 동작한다.
+- [ ] 캡처 4장을 제출한다.
 
-## 공식 참고
+## 다음 수업 연결
 
-- [GitHub Pages 사이트 만들기](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
-- [Publishing source 설정](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
-- [GitHub Pages 개요](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)
+이제 `git add → commit → push` 한 번이면 공개 페이지가 바뀐다. 3주차부터는 이 `my-web` 저장소에 페이지를 늘려 가며
+시맨틱 HTML과 form을 배운다. 매주 결과는 같은 공개 주소 `https://<아이디>.github.io/my-web/`에서 확인한다.
 
-GitHub의 화면 이름과 무료 정책은 바뀔 수 있다. 개강 시점에는 위 공식 문서와 실제 강의용 새 계정에서 다시 확인한다.
+## 공식 참고 자료
 
-## 다음 주 연결
-
-배포한 랜딩 페이지를 3주차부터 프로젝트의 목록·상세·작성 화면으로 발전시킨다. 다음 수업 전에 프로젝트 후보 주제 2개와 사용할 텍스트·이미지의 출처 후보를 정리한다.
+- [GitHub 계정 만들기 — GitHub Docs](https://docs.github.com/ko/get-started/start-your-journey/creating-an-account-on-github)
+- [새 리포지토리 만들기 — GitHub Docs](https://docs.github.com/ko/repositories/creating-and-managing-repositories/creating-a-new-repository)
+- [원격 리포지토리 정보 — GitHub Docs](https://docs.github.com/ko/get-started/git-basics/about-remote-repositories)
+- [원격 리포지토리 관리 — GitHub Docs](https://docs.github.com/ko/get-started/git-basics/managing-remote-repositories)
+- [Git에서 GitHub 자격 증명 캐싱 — GitHub Docs](https://docs.github.com/ko/get-started/git-basics/caching-your-github-credentials-in-git)
+- [GitHub Pages 사이트 만들기 — GitHub Docs](https://docs.github.com/ko/pages/getting-started-with-github-pages/creating-a-github-pages-site)
+- [GitHub Pages 사이트에 대한 게시 원본 구성 — GitHub Docs](https://docs.github.com/ko/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
+- [리포지토리의 브랜치 보기 — GitHub Docs](https://docs.github.com/ko/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/viewing-branches-in-your-repository)
+- [리포지토리 내에서 분기 관리(브랜치 삭제) — GitHub Docs](https://docs.github.com/ko/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository)
+- [비빠른 선행 오류 처리 — GitHub Docs](https://docs.github.com/ko/get-started/using-git/dealing-with-non-fast-forward-errors) (다른 PC에서 이어 할 때)
+- [새 SSH 키 생성 및 ssh-agent에 추가 — GitHub Docs](https://docs.github.com/ko/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) (강의자 시연·선택)
