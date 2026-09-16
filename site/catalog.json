@@ -130,7 +130,7 @@
       "slug": "webprg",
       "title": "웹프로그래밍",
       "eyebrow": "WEB PROGRAMMING",
-      "description": "브라우저와 Git의 기초부터 Supabase 기반 영속 서비스, 보안 점검과 프로젝트 발표까지 연결합니다.",
+      "description": "브라우저와 Git의 기초에서 시작해 저장소 하나에 페이지를 쌓아 공개 사이트를 만들고, 목록·브라우저 저장·JSON 불러오기까지 다루는 15주 입문 과정입니다.",
       "status": "published",
       "accent": "#62a8ff",
       "summary": "15개 주차 + 2개 특강 · 297장",
@@ -147,7 +147,7 @@
           "id": "week02_github_pages",
           "label": "2주차",
           "title": "GitHub와 공개 배포",
-          "description": "GitHub 저장소에 올리고 수정을 push하며, 브랜치로 다른 내용을 올린 뒤 합쳐 Pages로 공개합니다.",
+          "description": "내 컴퓨터에만 있는 페이지를 GitHub에 올려 누구나 여는 주소를 만들고, 다른 내용은 브랜치로 따로 올릴 수 있을까?",
           "type": "week"
         },
         {
@@ -161,84 +161,84 @@
           "id": "week04_responsive_css",
           "label": "4주차",
           "title": "CSS와 반응형 UI",
-          "description": "의미 구조를 유지하면서 다양한 화면에 적응하는 표현 규칙을 만듭니다.",
+          "description": "3주차에 만든 세 페이지를 색과 박스로 꾸미고, 휴대폰처럼 좁은 화면에서는 메뉴가 세로로 서게 할 수 있을까?",
           "type": "week"
         },
         {
           "id": "week05_javascript_data",
           "label": "5주차",
           "title": "JavaScript 데이터와 함수",
-          "description": "DOM과 분리된 데이터 변환 함수를 설계하고 테스트합니다.",
+          "description": "3주차에 연결을 뺐던 `app.js`를 되살려, 변수와 함수로 만든 인사말을 `index.html`에 띄울 수 있을까?",
           "type": "week"
         },
         {
           "id": "week06_dom_crud",
           "label": "6주차",
-          "title": "DOM·event·브라우저 CRUD",
-          "description": "사용자 이벤트와 상태, DOM 렌더링을 CRUD 흐름으로 연결합니다.",
+          "title": "DOM·이벤트·브라우저 CRUD",
+          "description": "5주차에 복붙 틀로 쓴 `document.querySelector('#greeting').textContent = …` 한 줄은 무엇이었을까? 버튼을 눌렀을 때 화면을 바꾸려면 무엇이 더 필요할까?",
           "type": "week"
         },
         {
           "id": "week07_async_modules",
           "label": "7주차",
-          "title": "ES Module과 비동기 처리",
-          "description": "모듈 책임을 나누고 비동기 데이터의 성공과 실패를 처리합니다.",
+          "title": "폼 입력 읽기와 결과 표시",
+          "description": "3주차에 만든 방명록 폼의 **[남기기]** 버튼은 눌러도 주소창만 바뀌고 아무 일도 일어나지 않았다. 입력한 이름과 메시지를 읽어 화면에 띄우려면 무엇이 더 필요할까?",
           "type": "week"
         },
         {
           "id": "week08_midterm",
           "label": "8주차",
           "title": "중간 개인 실기",
-          "description": "요구사항을 실행 순서로 바꾸어 독립적으로 구현하고 설명합니다.",
+          "description": "2~7주에 한 주씩 쌓아 온 것을, 문제지를 보고 **혼자 60분 안에** 만들어 공개 주소까지 올릴 수 있을까?",
           "type": "week"
         },
         {
           "id": "week09_architecture_project",
           "label": "9주차",
-          "title": "1차 과제와 풀스택 설계",
-          "description": "정적 페이지를 데이터 경계가 분명한 시스템 구조로 확장합니다.",
+          "title": "1차 과제 발표와 브랜치 복습",
+          "description": "3~7주에 한 주씩 쌓아 온 내 사이트를, 공개 주소를 열어 **2분 안에** 남에게 보여 줄 수 있을까? 그리고 그 설명을 저장소 첫 화면에 한 장으로 남길 수 있을까?",
           "type": "week"
         },
         {
           "id": "week10_supabase_data",
           "label": "10주차",
-          "title": "Supabase 데이터 연결",
-          "description": "브라우저에서 Supabase 공개 데이터를 안전하게 조회합니다.",
+          "title": "배열 데이터를 목록으로 그리기",
+          "description": "방명록에 두 번째 글을 남기면 앞 글이 사라진다. 남긴 글을 **쌓아서** 목록으로 보여 주고, 필요 없는 줄을 지울 수 있을까?",
           "type": "week"
         },
         {
           "id": "week11_auth_rls",
           "label": "11주차",
-          "title": "Auth와 소유자 RLS",
-          "description": "인증 흐름과 행 수준 소유자 권한을 분리해 설계합니다.",
+          "title": "객체와 localStorage",
+          "description": "방명록에 남긴 글을 **새로고침해도 남게** 할 수 있을까? 그리고 한 줄에 이름·메시지·날짜 **세 값**을 함께 담을 수 있을까?",
           "type": "week"
         },
         {
           "id": "week12_persistent_crud",
           "label": "12주차",
-          "title": "영속 CRUD와 관계 기능",
-          "description": "핵심 엔터티와 관계 기능의 영속 CRUD를 완성합니다.",
+          "title": "fetch로 JSON 불러오기",
+          "description": "화면에 쓸 내용을 HTML 안에 직접 적지 않고, **따로 만든 파일에서 읽어 와** 카드로 그릴 수 있을까?",
           "type": "week"
         },
         {
           "id": "week13_release_security",
           "label": "13주차",
           "title": "보안·접근성·릴리스 점검",
-          "description": "비밀 정보, 권한, 접근성, 배포 회귀를 릴리스 전에 점검합니다.",
+          "description": "지금까지 만든 네 페이지를, **다른 사람이 써도 안전하고 누구나 읽을 수 있게** 다듬어 내놓을 수 있을까?",
           "type": "week"
         },
         {
           "id": "week14_project_presentation",
           "label": "14주차",
           "title": "최종 프로젝트 발표",
-          "description": "기능 나열 대신 설계 결정과 재현 가능한 증거를 발표합니다.",
+          "description": "3~13주에 한 주씩 쌓아 온 내 사이트를, 공개 주소 하나로 **3분 안에** 남에게 보여 줄 수 있을까? 그리고 그 설명을 저장소 첫 화면에 한 장으로 남길 수 있을까?",
           "type": "week"
         },
         {
           "id": "week15_final_exam",
           "label": "15주차",
           "title": "기말 개인 실기",
-          "description": "통합 웹 앱의 읽기, 수정, 검증, 설명 능력을 확인합니다.",
+          "description": "2~13주에 배운 것을 처음 보는 starter 위에서 60분 안에 다시 만들고, 공개 주소로 제출할 수 있을까?",
           "type": "week"
         },
         {
