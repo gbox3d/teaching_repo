@@ -69,12 +69,14 @@
 
 | 항목 | 승인 값 | 검증 방법 |
 |---|---|---|
-| Node.js LTS major·minor | TBD | `node --version` |
-| npm | Node와 함께 설치된 값 | `npm --version` |
+| Node.js LTS (조교 빌드 PC 전용) | TBD | `node --version` — 학생 실습 PC 준비물이 아니다 |
+| npm (조교 빌드 PC 전용) | Node와 함께 설치된 값 | `npm --version` |
 | Marp 도구 | 사용 안 함 / VS Code 확장 / CLI — TBD | 슬라이드 1개 preview/export |
-| GitHub Pages 기준 | branch·folder TBD | 새 실습 저장소 배포 |
-| Supabase 기준 | 학생별/팀별 project, region TBD | publishable key로 읽기·RLS 교차검증 |
-| Deno | 미사용/선택 — TBD | 선택 시 공식 smoke test |
+| GitHub Pages 기준 | `main` · `/(root)` (2026-2 확정) | 새 실습 저장소 배포 |
+| VS Code 확장 Live Server | 설치 가능 여부 TBD — 4주차 시작 전 확인 | 상태줄 **Go Live** → `http://127.0.0.1:5500/` |
+| 로컬 서버 대체 | Python 3 사용 여부 TBD | `python3 -m http.server 8000` (확장 설치 불가 시) |
+| Supabase | 선택 특강에서만 — 운영 여부 TBD | 특강을 운영할 때만 준비한다. 정규 15주 범위 밖 |
+| Deno | 미사용 (2026-2 설계에서 제외) | — |
 | Kakao 특강 | 미사용/사용 — TBD | localhost 허용 도메인과 지도 1회 표시 |
 
 ## 모바일프로그래밍
@@ -130,7 +132,7 @@ BLE 실습은 에뮬레이터만으로 완료 판정하지 않고 승인된 실�
 | 서비스 | 학생/팀/수업 공용 | 준비 담당 | 완료 기준 | 비밀정보 취급 |
 |---|---|---|---|---|
 | GitHub | TBD | TBD | 이메일 인증, 저장소 생성·clone·push | 비밀번호·2FA 수집 금지 |
-| Supabase | TBD | TBD | 수업용 project와 RLS 테스트 | secret/service-role 배포 금지 |
+| Supabase | TBD | TBD | 웹 선택 특강을 운영할 때만 준비 | secret/service-role 배포 금지 |
 | Hugging Face | TBD | TBD | 필요한 공개 모델 접근 | token은 `.env`로만 |
 | Kakao Developers | TBD | TBD | JS 키·허용 도메인 검증 | 실제 키 Git 기록 금지 |
 | MIT App Inventor | TBD | TBD | 로그인·Companion 연결 | 개인 계정 비밀번호 수집 금지 |
