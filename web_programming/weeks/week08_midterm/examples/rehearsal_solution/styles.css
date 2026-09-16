@@ -1,0 +1,43 @@
+/* 중간 실기 리허설 — styles.css */
+
+body {
+  margin: 0;
+  padding: 16px;
+  font-family: system-ui, sans-serif;
+  color: #17213a;
+  background: #f4f6fb;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+nav a {
+  color: #3157d5;
+}
+
+.card {
+  padding: 16px;
+  border: 1px solid #c7d0e8;
+  background: white;
+}
+
+nav {
+  display: flex;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+  }
+}
+
+body.dark {
+  color: #eeeeee;
+  background: #222222;
+}
+
+body.dark .card {
+  background: #333333;
+}

@@ -4,8 +4,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const EXPECTED_NODE_MAJOR = 24;
-const EXPECTED_DECKS = 46;
-const EXPECTED_SLIDES = 1002;
+const EXPECTED_DECKS = 47;
+const EXPECTED_SLIDES = 1008;
 const REPOSITORY_BLOB_URL = "https://github.com/gbox3d/teaching_repo/blob/main";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");

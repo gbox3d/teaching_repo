@@ -2,256 +2,243 @@
 marp: true
 theme: default
 paginate: true
-header: 웹프로그래밍
-footer: 10주차 · Supabase 데이터 연결
+header: "웹프로그래밍 · 10주차"
+footer: "배열 데이터를 목록으로 그리기 · push, createElement, showList"
 ---
 
-# Supabase 데이터 연결
+# 배열 데이터를 목록으로 그리기
 
-## 1일차: 공개 읽기를 안전하게 열기
-
-질문: **browser가 database를 직접 호출해도 되는 조건은 무엇인가?**
-
----
-
-## 요청 경로
+7주차 방명록은 두 번째 글을 남기면 **앞 글이 사라졌습니다.**
+카드가 한 줄이었기 때문입니다. 이번 주에는 글을 배열에 쌓아 목록으로 그립니다.
 
 ```text
-Browser
-  → supabase-js
-  → Data API
-  → Postgres grant
-  → RLS policy
-  → 허용된 rows
+guestbook.html   <ul id="list"></ul> · <p id="count">0개</p>   ← 목록 자리
+guestbook.js     let items = []  →  push  →  <li>를 만들어 append
 ```
 
-publishable key만으로 권한을 결정하지 않는다.
+고치는 파일은 `guestbook.html`·`guestbook.js` 둘뿐입니다.
 
 ---
 
-## 두 개의 인증
+# 1일차 — 배열에 쌓아 목록으로 그리기
 
-| 항목 | 뜻 |
-|---|---|
-| publishable key | 어느 Supabase project를 호출하는 공개 client인지 |
-| 사용자 JWT | 로그인한 사용자가 누구인지 |
+`30분 설명·시연 → 60분 실습`
 
-이번 주: 로그인 전 요청 → Postgres의 `anon` 역할<br>
-11주차: 로그인 후 요청 → `authenticated` 역할 + 사용자 식별
+1. 오늘 문법 — 배열 `push`·`length`·`[i]`·`for`
+2. `createElement`·`textContent`·`append`
+3. 7주차 코드에 다섯 줄 더하기
+4. 항목 수와 데이터가 가는 세 곳
 
 ---
 
-## browser에 둘 수 있는 것
+## 1일차 · 0–5분 — 오늘 문법: 배열에 쌓기
 
 ```js
-const url = "https://YOUR_PROJECT_REF.supabase.co";
-const key = "sb_publishable_REPLACE_ME";
+let items = [];
+items.push('student01: 안녕하세요');
+items.push('student02: 고맙습니다');
+console.log(items.length);   // 2
+console.log(items[0]);       // student01: 안녕하세요
+
+for (let i = 0; i < items.length; i++) {
+  console.log(i, items[i]);
+}
 ```
 
-가능: project URL, publishable key<br>
-불가: secret key, service-role key, DB password, connection string
-
-브라우저에 전달된 값은 DevTools에서 볼 수 있다.
-
----
-
-## grant와 RLS는 다른 층
-
-```sql
-grant select on table public.course_posts to anon;
-```
-
-grant: 역할이 table의 어떤 명령을 실행할 수 있는가?
-
-```sql
-create policy "published rows are readable"
-on public.course_posts for select to anon
-using (is_published = true);
-```
-
-RLS: 그 명령이 어떤 row에 적용되는가?
+- 배열 `[ ]`은 값을 **여러 개** 담는 상자, `push`는 그 뒤에 하나를 더하는 일입니다.
+- `length`는 개수, `items[0]`은 첫 번째 값입니다. 번호는 **0부터** 셉니다.
+- `for`는 **몇 번째인지(`i`)가 필요해서** 씁니다. 오늘은 만들어만 두고 2일차에 씁니다.
 
 ---
 
-## SQL로 만든 table은 RLS를 직접 켠다
-
-```sql
-alter table public.course_posts
-enable row level security;
-```
-
-public처럼 Data API에 노출된 schema의 table은 RLS와 policy를 함께 검토한다.
-
-policy가 없으면 publishable client에는 행이 보이지 않는 것이 안전한 기본값이다.
-
----
-
-## 재현 가능한 schema
-
-```sql
-create table if not exists public.course_posts (...);
-
-insert into public.course_posts (slug, title, ...)
-values (...)
-on conflict (slug) do update set ...;
-```
-
-- 이름과 constraint를 명시
-- 안정된 unique key로 seed 중복 방지
-- policy는 drop/create로 기대 상태 고정
-
----
-
-## 공개 읽기만 허용
-
-```sql
-revoke all on table public.course_posts
-from anon, authenticated;
-
-grant select on table public.course_posts
-to anon, authenticated;
-```
-
-이번 주에는 browser write를 열지 않는다.
-
-다음 주 Auth와 owner policy 전에 임시 `using (true)` 쓰기 policy를 만들지 않는다.
-
----
-
-## 관찰 실험
-
-seed:
-
-- published 2행
-- unpublished 1행
-
-| 실행 위치 | 기대 |
-|---|---:|
-| SQL Editor 관리자 조회 | 3행 |
-| 로그인 전 browser client | 2행 |
-
-차이는 UI filter가 아니라 RLS policy가 만든다.
-
-[1일차 실습](lab.md#1일차-60분--schemagrantrls-재현)
-
----
-
-# 2일차: data source를 교체하고 진단하기
-
-UI 계약은 유지하고 data source 내부만 바꾼다.
-
----
-
-## client 초기화
+## 1일차 · 5–12분 — createElement·textContent·append
 
 ```js
-import { createClient } from "@supabase/supabase-js";
-
-const client = createClient(
-  "https://YOUR_PROJECT_REF.supabase.co",
-  "sb_publishable_REPLACE_ME"
-);
+const li = document.createElement('li');
+li.textContent = 'student01: 안녕하세요';
+list.append(li);
 ```
 
-예제는 browser ESM CDN의 고정된 major version을 사용한다.
+```html
+<ul class="card" id="list"></ul>   <!-- 비어 있는 채로 HTML에 둔다 -->
+```
 
-placeholder를 실제 project 값으로 바꾸기 전 요청하지 않는다.
+- `createElement('li')`는 **아직 화면에 없는** 새 `<li>`를 만듭니다.
+- `textContent`는 그 안의 글자를 정합니다. 7주차에 쓴 것과 같습니다.
+- `append`로 `<ul>` 안에 **붙여야** 비로소 화면에 보입니다. 세 줄이 한 묶음입니다.
+- 만들기·글자 넣기·붙이기 순서를 바꾸지 않습니다.
 
 ---
 
-## select 결과
+## 1일차 · 12–20분 — 7주차 코드에 다섯 줄 더하기
 
 ```js
-const { data, error } = await client
-  .from("course_posts")
-  .select("id, slug, title, summary, created_at")
-  .order("created_at", { ascending: false });
-
-if (error) throw error;
+  clearNotice();
+  const text = `${name}: ${message}`;
+  items.push(text);
+  const li = document.createElement('li');
+  li.textContent = text;
+  list.append(li);
 ```
 
-필요한 column만 선택하고 error를 명시적으로 처리한다.
+- 7주차의 `last.textContent = …` 한 줄을 지우고 그 자리에 다섯 줄을 넣습니다.
+- 같은 문장을 배열과 화면 **두 곳**에 넣습니다. 그래서 `const text`로 한 번만 만듭니다.
+- 빈값 검사·`focus()`·`form.reset()`은 7주차 그대로 둡니다.
+- `<p id="last">` 두 줄은 HTML에서 지우고 `<ul id="list">`로 바꿉니다.
 
 ---
 
-## RLS는 자동 filter처럼 보인다
+## 1일차 · 20–25분 — 항목 수와 데이터가 가는 세 곳
 
-```sql
-using (is_published = true)
+```js
+  count.textContent = `${items.length}개`;
 ```
-
-browser query가 모든 행을 요청해도 허용된 행만 반환한다.
-
-중요:
-
-- 숨겨진 행의 존재를 client가 구분할 수 없음
-- “0행”은 error가 아님
-- 관리 화면의 결과와 client 결과가 다를 수 있음
-
----
-
-## UI 상태
 
 ```text
-setup    : placeholder가 남음
-loading  : 요청 중
-empty    : data.length === 0
-success  : 공개 rows 표시
-error    : error 존재/연결 실패
+① 화면              오늘 목록이 있는 곳. 새로고침하면 사라진다
+② 브라우저 저장소   내 브라우저에 남는다        → 11주차
+③ 인터넷 서버       여러 사람이 함께 본다       → 선택 특강
 ```
 
-setup은 network error가 아니다. 사용자가 해야 할 다음 행동을 정확히 안내한다.
+- 화면에 쓰는 숫자를 세지 않습니다. **배열의 개수**를 그대로 보여 줍니다(9주차 복습).
+- 오늘 목록은 **①**입니다. 새로고침하면 빈 목록으로 돌아갑니다.
+- 데이터가 배열에 있고 화면은 그 배열을 비추는 것뿐이라는 점이 오늘의 핵심입니다.
 
 ---
 
-## 오류를 층별로 읽기
+## 1일차 · 25–30분 — 이제 직접 해 보기
 
-| 관찰 | 우선 확인 |
-|---|---|
-| import 실패 | CDN/Network/CSP |
-| project URL 실패 | URL·DNS |
-| 401/invalid key | publishable key |
-| permission denied | grant |
-| 0 rows | RLS policy·seed 조건 |
-| relation not found | table/schema 이름 |
+[1일차 실습](lab.md#1일차--배열에-쌓아-목록으로-그리기-60분) · [따라하기](walkthrough.md#1일차)
+실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data
 
-Console과 Network의 첫 실패를 함께 본다.
+1. `guestbook.html`의 마지막 글 두 줄을 `<ul id="list">`와 `<p id="count">`로 바꿉니다.
+2. `let items = []`에 쌓고, `<li>`를 만들어 목록에 붙입니다.
+3. 남길 때마다 `N개`가 오르는지 보고, 이름을 비우고 눌러 7주차 안내가 그대로인지 봅니다.
+
+**설명 합계: 5+7+8+5+5 = 30분**
+
+막히면 Console의 **첫 빨간 줄**과 `guestbook.js:31` 같은 줄 번호부터 읽습니다.
 
 ---
 
-## key를 숨기는 것과 권한을 제한하는 것
+# 2일차 — 다시 그리기와 삭제 버튼
 
-정적 Pages의 JavaScript 변수는 공개된다.
+`30분 설명·시연 → 60분 실습`
+
+1. 지우려면 두 곳을 바꿔야 한다
+2. `showList()` — 비우고 다시 그리기
+3. 삭제 버튼 복붙 틀
+4. 붙인 뒤 확인만
+
+---
+
+## 2일차 · 0–5분 — 지우려면 두 곳을 바꿔야 한다
 
 ```text
-난독화/별도 파일 ≠ secret
-publishable key + RLS + least grant = 공개 client의 보안 모델
+어제:  제출 → items에 push       + 화면에 <li> 하나 append
+오늘:  삭제 → items에서 하나 빼기 + 화면에서도 그 줄만 빼기
 ```
 
-비밀이 필요한 기능은 server/Edge Function 경계 뒤로 이동한다.
+- 어제는 **더하기**뿐이라 화면에 한 줄을 붙이면 끝이었습니다.
+- 지우기는 배열과 화면 **두 곳**을 맞춰야 합니다. 한쪽만 바꾸면 숫자와 화면이 어긋납니다.
+- 한 줄만 빼는 대신 **목록을 통째로 비우고 배열대로 다시 그리는** 방법을 씁니다.
+- 방법이 하나라서 추가할 때도, 지울 때도 같은 함수를 부르면 됩니다.
 
 ---
 
-## 배포 검증
+## 2일차 · 5–12분 — showList(): 비우고 다시 그리기
 
-1. 새 탭에서 Pages URL 열기
-2. module/CDN/Data API Network 확인
-3. published 2행 확인
-4. unpublished slug가 DOM/응답에 없는지 확인
-5. key 종류 재확인
-6. Security Advisor와 policy 목록 확인
+```js
+function showList() {
+  list.innerHTML = '';
+  for (let i = 0; i < items.length; i++) {
+    const li = document.createElement('li');
+    li.textContent = items[i];
+    list.append(li);
+  }
+  count.textContent = `${items.length}개`;
+}
+```
 
-[2일차 실습](lab.md#2일차-60분--project-data-source-교체)
+- `list.innerHTML = ''`는 목록을 **비웁니다.** 이 수업에서 `innerHTML`은 비우기에만 씁니다.
+- 어제 submit 안에 있던 다섯 줄이 이 함수로 옮겨 오고, submit에는 두 줄만 남습니다.
+- 목록 이름은 `showList`로 통일합니다. 추가·삭제 뒤에 이 함수를 부릅니다.
 
 ---
 
-## 다음 주 질문
+## 2일차 · 12–19분 — 삭제 버튼 복붙 틀
 
-공개 읽기에서 개인 CRUD로 바뀌면 무엇이 추가되는가?
+```js
+    const removeButton = document.createElement('button');
+    removeButton.textContent = '삭제';
+    removeButton.addEventListener('click', function () {
+      items.splice(i, 1);
+      showList();
+    });
+    li.append(removeButton);
+```
 
-- Auth session과 JWT
-- `owner_id`
-- `to authenticated`
-- `using (auth.uid() = owner_id)`
-- `with check (auth.uid() = owner_id)`
-- 본인/타인 계정 교차 검증
+- `splice(i, 1)`은 배열에서 `i`번째 값 **하나**를 뺍니다.
+- 뺀 다음 `showList()`를 부르면 화면이 새 배열대로 다시 그려집니다.
+- `showList()`가 다시 그릴 때 **버튼마다 번호를 새로 붙입니다.**
+- 이 일곱 줄은 **그대로 옮겨 쓰는 틀**입니다. 오늘은 안을 뜯어보지 않습니다.
+
+---
+
+## 2일차 · 19–25분 — 붙인 뒤 확인만
+
+```text
+student01: 안녕하세요   [삭제]        3개
+student02: 고맙습니다   [삭제]   →   가운데 [삭제] 클릭
+student03: 반갑습니다   [삭제]
+```
+
+```text
+student01: 안녕하세요   [삭제]        2개   ← 숫자도 함께 줄었다
+student03: 반갑습니다   [삭제]
+```
+
+- 가운데를 지워도 남은 줄의 버튼이 **밀리지 않습니다.** 다시 그렸기 때문입니다.
+- 항목 수는 `items.length`를 그대로 쓰므로 따로 빼거나 더하지 않습니다.
+- 다 지우면 `아직 남긴 글이 없습니다.`가 보이게 한 줄을 더합니다.
+
+---
+
+## 2일차 · 25–30분 — 이제 직접 해 보기
+
+[2일차 실습](lab.md#2일차--다시-그리기와-삭제-버튼-60분) · [따라하기](walkthrough.md#2일차)
+실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data
+
+1. 어제 submit 안의 다섯 줄을 `showList()` 함수로 옮기고, submit에는 두 줄만 남깁니다.
+2. 삭제 버튼 틀을 붙여 가운데 항목을 지워 봅니다.
+3. 목록이 비면 `아직 남긴 글이 없습니다.`가 보이게 하고, push한 뒤 캡처합니다.
+
+**설명 합계: 5+7+7+6+5 = 30분**
+
+---
+
+## 제출하기
+
+2일차가 끝나면 캡처 **한 장**을 제출합니다.
+
+```text
+https://student01.github.io/my-web/guestbook.html
+글 3개를 남기고 가운데 한 줄의 [삭제]를 누른 화면
+
+남긴 글
+· student01: 안녕하세요   [삭제]
+· student03: 반갑습니다   [삭제]
+2개
+```
+
+주소창이 함께 보이게 찍습니다. 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
+
+---
+
+## 다음 주 미리 보기
+
+지금 목록은 **화면에만** 있습니다. 새로고침하면 빈 목록으로 돌아갑니다.
+
+11주차에는 항목을 `{ 이름, 메시지, 날짜 }` **객체**로 바꾸고 `localStorage`에 저장해
+새로고침해도 남게 합니다. 그때부터 확인과 캡처는 **공개 주소에서만** 합니다.
+12주차에는 JSON 파일에서 데이터를 불러와 카드로 그립니다.

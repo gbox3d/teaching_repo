@@ -1,288 +1,170 @@
-# 5주차 실습 — 데이터 파이프라인을 함수로 증명하라
+# 5주차 실습 — 인사말을 만드는 app.js
 
-## 프로젝트 시나리오
+실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data
 
-캠퍼스 활동 카드 8개를 다음 주 DOM에 렌더링할 예정이다. 이번 주에는 UI 없이 데이터 계약과 변환 규칙을 구현한다. input/output과 원본 불변성을 Console과 test로 증명한다.
+4주차까지 꾸민 `my-web`에 JavaScript를 되살린다. `index.html`에 `script` 한 줄을 넣고 `app.js`를 비운 뒤 새로 쓴다.
+모든 단계와 전체 코드는 [따라하기](walkthrough.md)에 있다. `student01`은 예시 아이디이므로 본인 아이디로 바꾼다.
+**1일차는 화면을 건드리지 않는다.** 확인은 전부 브라우저의 **F12 › Console** 탭에서 한다.
 
-## 공통 규칙
+## 1일차 — 값을 만들어 Console에 찍기 (60분)
 
-- 외부 package를 설치하지 않는다.
-- 변환 함수 안에서 DOM을 읽거나 수정하지 않는다.
-- 변환 함수는 `console.log` 대신 값을 return한다.
-- 샘플 객체는 동일한 field shape와 type을 유지한다.
-- 실제 개인정보와 외부 API data를 사용하지 않는다.
+| 시간 | 할 일 |
+|---|---|
+| 0–5분 | 같은 PC면 `git pull`, 다른 PC면 `git clone https://github.com/<아이디>/my-web.git` 뒤 **File › Open Folder** |
+| 5–15분 | `index.html`에 `<script src="app.js" defer></script>` 한 줄을 되살리고, `app.js`를 전부 지운 뒤 `console.log` 한 줄을 쓴다 |
+| 15–30분 | `const name`과 `let hour`를 만들어 Console에 찍고, `hour`에 다른 값을 다시 넣어 본다 |
+| 30–45분 | 템플릿 문자열로 인사 문장을 만들어 Console에 찍는다 |
+| 45–55분 | 일부러 오타를 내고 빨간 줄의 `app.js:줄번호`를 찾아 고친다 → 확인용 Console 캡처 |
+| 55–60분 | 끝 루틴: `git add .` → `git commit` → `git push` → 공개 주소 새로고침 → 공용 PC면 자격 증명 삭제 |
 
-## 1일차 실습 — 데이터 계약과 기본 조회
+### 1. script 줄 되살리고 app.js 비우기 (`<script src="app.js" defer></script>`)
 
-### 시간 배분
+`index.html`의 `<link rel="stylesheet" href="styles.css">` 바로 아래에 `script` 한 줄을 넣고, `app.js`는 **전부 지운 뒤** 첫 줄을 새로 쓴다.
+[따라하기 2~3단계](walkthrough.md#2-indexhtml에-script-줄-되살리기)를 본다.
 
-| 단계 | 시간 | 활동 |
-|---|---:|---|
-| 계약 설계 | 0–10분 | field·type·경계 표 |
-| 데이터 8개 | 10–22분 | 일관된 object와 array 작성 |
-| 함수 1–2 | 22–36분 | search, category filter |
-| 함수 3–4 | 36–47분 | find by id, unique tags |
-| 사례 검증 | 47–55분 | 정상·빈·없는 값 |
-| 정리 | 55–60분 | export, commit, 회고 |
+- 2주차 카운터 코드(`() =>`·`#count-button`)는 남기지 않는다. 그 버튼은 3주차에 이미 사라졌다.
+- 첫 줄은 `console.log('app.js가 실행되었습니다');` 한 줄이다. 저장하고 브라우저를 새로고침한다.
+- **F12 › Console**에 그 글자가 보이면 연결된 것이다. 아무것도 없으면 `script` 줄의 파일 이름 철자를 본다.
+- 화면은 4주차와 똑같다. 그것이 정상이다.
 
-### 문제 1 · 데이터 계약
+### 2. 값 만들기 (`const` · `let`)
 
-`activities.mjs`에서 최소 8개 object를 export한다. 다음 field를 기본으로 하고 프로젝트 주제에 맞게 이름을 바꿀 수 있다.
+`const name`과 `let hour`를 만들고 각각 `console.log`로 찍은 뒤, `hour`에 다른 숫자를 다시 넣어 또 찍는다.
+[따라하기 4~5단계](walkthrough.md#4-const와-let으로-값-만들기)를 본다.
 
-| field | type | 규칙 예시 |
-|---|---|---|
-| `id` | string | unique, URL-friendly |
-| `title` | string | 1자 이상 |
-| `description` | string | 검색 대상 |
-| `category` | string | `study`, `hobby`, `volunteer` 중 하나 |
-| `capacity` | number | 1 이상 정수 |
-| `joined` | number | 0 이상, capacity 이하 |
-| `startsAt` | string | 정렬 가능한 동일 ISO 형식 |
-| `tags` | Array<string> | 중복 없는 소문자 token 권장 |
+- 문자열은 따옴표 안에, 숫자는 따옴표 없이 쓴다. `'9'`와 `9`는 다르다.
+- 다시 넣을 때 `let`을 또 쓰지 않는다. `hour = 15;`처럼 이름만 적는다.
+- `name`에 다시 넣어 보면 Console에 `Uncaught TypeError: Assignment to constant variable.`이 뜬다. 확인했으면 그 줄은 지운다.
+- 이름은 뜻이 보이게 적는다. `a`·`b`는 쓰지 않는다.
 
-데이터 작성 뒤 다음 자체 검사를 생각해 본다.
+### 3. 문장 만들기 (템플릿 문자열 `` `${}` ``)
 
-- id가 모두 unique인가?
-- category 철자가 일관적인가?
-- joined가 capacity를 넘는 항목이 있는가?
-- tags가 Array가 아닌 항목이 있는가?
+백틱으로 감싼 문장 안에 `${name}`·`${hour}`를 넣어 인사 문장을 만들고 Console에 찍는다.
+[따라하기 6단계](walkthrough.md#6-템플릿-문자열로-인사말-만들기)를 본다.
 
-### 문제 2 · 검색 함수
+- 백틱은 키보드 `1` 왼쪽, `Esc` 아래 키다. **한글 입력 상태에서는 다른 글자가 들어간다.**
+- `${name}`이 글자 그대로 찍히면 백틱이 아니라 작은따옴표를 쓴 것이다.
+- 문장에 본인 아이디가 들어가게 한다. 실명은 쓰지 않는다.
 
-함수 계약:
+### 4. 오타를 내고 빨간 줄 읽기 (Console)
 
-```text
-searchActivities(items, query) → Array
-```
+`name`을 `nmae`로 바꿔 저장하고 새로고침해 빨간 줄을 읽은 뒤 고친다. [따라하기 7단계](walkthrough.md#7-일부러-오타를-내고-빨간-줄-읽기)를 본다.
 
-요구:
+- 빨간 줄 오른쪽의 `app.js:6`이 **파일 이름과 줄 번호**다. 그 줄부터 본다.
+- 오류가 난 줄에서 멈추므로 그 아래 `console.log`는 찍히지 않는다. 몇 줄이 사라졌는지 세어 본다.
+- 고친 뒤 새로고침해 빨간 줄이 사라지고 여섯 줄이 모두 보이면 **확인용 캡처**를 저장한다.
 
-1. query의 앞뒤 공백을 제거한다.
-2. 대소문자 차이를 무시한다.
-3. title, description, tags 중 하나에 포함되면 남긴다.
-4. 정규화한 query가 빈 문자열이면 입력과 같은 항목을 가진 **새 Array**를 반환한다.
-5. 입력 object를 수정하지 않는다.
+### 5. 오늘 확인할 것
 
-구현 전에 아래 예상표를 채운다.
+- [ ] Console에 `app.js가 실행되었습니다`를 포함해 여섯 줄이 보인다.
+- [ ] 빨간 줄이 없다.
+- [ ] `git push` 뒤 공개 주소를 열어도 화면은 그대로이고 Console에 같은 줄이 보인다.
+- [ ] 확인용 Console 캡처를 저장했다(2일차를 못 끝내면 이 캡처로 인정한다).
 
-| query | 예상 length | 예상 id |
-|---|---:|---|
-| `산책` |  |  |
-| `  산책  ` |  |  |
-| `WEB` |  |  |
-| `` | 8 | 전체 |
-| 존재하지 않는 말 | 0 | 없음 |
+## 2일차 — if와 함수로 인사말 만들기 (60분)
 
-### 문제 3 · 범주와 id 조회
+| 시간 | 할 일 |
+|---|---|
+| 0–5분 | 같은 PC면 `git pull`, 다른 PC면 `git clone https://github.com/<아이디>/my-web.git` |
+| 5–22분 | `index.html`의 `<main>` 첫 줄에 `<p class="card" id="greeting">`을 넣고, `if / else`로 오전·오후 인사를 고른다 |
+| 22–40분 | `greet(name)`과 `hello(hour)` 함수 두 개를 만들어 문장을 조립한다 |
+| 40–48분 | 복붙 틀 한 줄로 `#greeting`에 인사말을 표시한다 |
+| 48–55분 | 오늘 작업을 먼저 commit한 뒤, 인사말을 일부러 틀리게 고쳐 다시 commit하고 `git revert HEAD`로 되돌린다 |
+| 55–60분 | 끝 루틴: `git push` → 공개 주소 새로고침 → **캡처 1장** → 공용 PC면 자격 증명 삭제 |
 
-```text
-filterByCategory(items, category) → Array
-findActivityById(items, id) → Object | undefined
-```
+### 1. 인사말 자리와 지금 시각 (`id="greeting"` · `new Date().getHours()`)
 
-- category가 `all`이면 새 Array로 전체를 반환한다.
-- 없는 category는 빈 Array다.
-- find는 첫 일치 object 또는 undefined다.
-- 함수가 global selected value를 직접 읽지 않는다.
+`index.html`의 `<main>` 첫 줄에 문단 하나를 넣고, `app.js`를 다시 쓰기 시작한다.
+[따라하기 10~11단계](walkthrough.md#10-인사말-자리-만들기)를 본다.
 
-### 문제 4 · unique tag
+- 문단의 글자는 `인사말을 준비 중입니다.`로 둔다. JavaScript가 도달하지 못하면 이 글자가 그대로 남는다.
+- `id`는 `greeting` 하나만 쓴다. 6주차가 이 이름을 그대로 받는다.
+- `const hour = new Date().getHours();`는 **복붙 틀 한 줄**이다. `console.log(hour)`로 숫자를 확인한다.
 
-```text
-uniqueTags(items) → Array<string>
-```
+### 2. 오전·오후 고르기 (`if / else` · `>=`)
 
-모든 `tags`를 펼치고 Set으로 중복을 제거한 뒤 일관된 순서로 반환한다. 원본 tags 배열은 바꾸지 않는다.
+`if (hour >= 12) { } else { }`로 두 문장 중 하나를 고른다. [따라하기 12단계](walkthrough.md#12-if로-오전오후-인사-고르기)를 본다.
 
-### 단계별 힌트
+- 지금 시각 한 갈래만 확인된다. 다른 갈래를 보려면 `const hour = 9;`처럼 숫자를 직접 넣어 본다. 확인 뒤 틀 한 줄로 되돌린다.
+- `=`는 넣는 것, `===`는 같은지 비교하는 것이다. `if (hour = 12)`라고 쓰지 않는다.
+- 중괄호 `{ }`의 짝을 맞춘다. 짝이 안 맞으면 `Uncaught SyntaxError`가 뜬다.
 
-<details>
-<summary>힌트 1 — 검색어 대소문자와 공백</summary>
+### 3. 함수 두 개 (`function` · `return`)
 
-query와 검색 대상 문자열에 같은 정규화 함수를 적용한다. `trim()`과 `toLocaleLowerCase('ko-KR')`를 한 곳에서 처리하면 규칙이 어긋나지 않는다.
-</details>
+`greet(name)`과 `hello(hour)`를 만들고 `return`한 값을 템플릿 문자열로 이어 붙인다.
+[따라하기 13단계](walkthrough.md#13-함수-두-개로-묶기)를 본다.
 
-<details>
-<summary>힌트 2 — tags 검색</summary>
+- 함수는 정의만으로 실행되지 않는다. `greet(name)`처럼 **괄호를 붙여 호출**해야 값이 나온다.
+- `console.log`만 하고 `return`을 빼면 결과가 `undefined`가 된다. 돌려줄 값은 `return`으로 내보낸다.
+- 함수 이름은 `greet`·`hello` 그대로 쓴다. 6주차에 같은 이름을 다시 쓴다.
 
-`tags.some((tag) => normalizedTag.includes(normalizedQuery))`처럼 “하나라도” 조건을 표현할 수 있다.
-</details>
+### 4. 화면에 띄우기 (복붙 틀 한 줄)
 
-<details>
-<summary>힌트 3 — Set을 Array로 반환</summary>
+`app.js` 마지막 줄에 `document.querySelector('#greeting').textContent = message;`를 적는다.
+[따라하기 14단계](walkthrough.md#14-문장-조립하고-화면에-띄우기)를 본다.
 
-Set은 unique를 만드는 중간 구조로 쓰고 `[...set]` 또는 `Array.from(set)`으로 다음 단계가 다루기 쉬운 Array를 반환한다.
-</details>
+- 이 줄의 뜻은 6주차에 배운다. 오늘은 모양 그대로 쓰고 `#greeting`과 `message`만 내 것과 맞춘다.
+- 글자가 안 바뀌면 Console의 빨간 줄을 먼저 본다. 대개 그 위 줄에서 멈춘 것이다.
 
-### 검증
+### 5. 되돌리기 (`git revert HEAD`)
 
-Node의 `node:assert/strict` 또는 `node:test`를 사용해 최소 다음을 확인한다.
+오늘 만든 코드를 `git add .` → `git commit -m "함수로 인사말 만들어 화면에 표시"`로 **먼저 commit한다**(따라하기 14단계 끝).
+그런 다음 인사말을 일부러 틀리게 고쳐 다시 commit하고 `git revert HEAD`로 되돌린다. [따라하기 15단계](walkthrough.md#15-틀린-문장을-commit하고-git-revert로-되돌리기)를 본다.
 
-- 공백 query와 빈 query
-- 대소문자 query
-- 없는 category와 `all`
-- 존재/부재 id의 find 결과
-- tag 중복 제거
-- 반환 Array가 입력과 같은 reference가 아님
+- 먼저 commit해야 되돌리기가 문구 한 줄만 되돌린다(`1 file changed, 1 insertion(+), 1 deletion(-)`). 건너뛰면 오늘 작업 전체가 되돌아간다.
+- 편집기 창이 뜨면 기본 메시지 `Revert "…"` 그대로 저장하고 닫는다.
+- `git log --oneline`에 `인사말 문구 바꾸기`와 `Revert "인사말 문구 바꾸기"`가 모두 남아 있으면 맞다. 되돌리기도 기록으로 남는 것이 `revert`다.
+- `git reset HEAD^`는 기록 자체를 지운다. push해서 공유한 commit에는 쓰지 않는다.
 
-### 확장
+## 막혔을 때
 
-1. `buildActivityIndex(items) → Map<id, activity>`를 만들고 없는 id lookup을 비교한다.
-2. 데이터 계약을 검사해 모든 오류를 문자열 배열로 반환하는 `validateActivities`를 설계한다.
-3. 한국어 검색에서 단순 lowercase/includes가 해결하지 못하는 초성·띄어쓰기·정규화 문제를 조사한다.
+| 증상 | 확인할 것 |
+|---|---|
+| 공개 주소에 방금 push한 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다. 다음 수업 시작 5분에 다시 확인해도 된다. `git status`에 `Your branch is ahead`가 있으면 push를 안 한 것이다 |
+| Console에 아무 줄도 안 뜬다 | `index.html`에 `<script src="app.js" defer></script>`가 없거나 파일 이름 철자가 다르다. 파일 이름이 틀리면 `app.js` 안의 오류가 아니라 **파일을 못 불러왔다**는 줄이 뜬다(공개 주소에서는 `404`, `file://`에서는 `net::ERR_FILE_NOT_FOUND`). Console에 내 `console.log`가 하나도 없으면 연결부터 의심한다. `app.js`를 저장했는지도 본다 |
+| `Uncaught ReferenceError: nmae is not defined` | 없는 이름을 썼다. 오른쪽 `app.js:6`의 줄로 가 철자를 고친다 |
+| `Uncaught ReferenceError: helo is not defined` | 함수 이름 오타다. 정의한 이름(`hello`)과 부른 이름을 비교한다 |
+| `Uncaught SyntaxError: Unexpected end of input` | 백틱이나 중괄호를 닫지 않았다. 문장 끝의 `` ` ``와 `}`를 세어 본다. 닫지 않은 백틱 **뒤에 백틱이 더 있으면** `Uncaught SyntaxError: Unexpected identifier '…'`로 나온다. 어느 쪽이든 백틱 짝부터 센다 |
+| `Uncaught SyntaxError: missing ) after argument list` | 괄호를 닫지 않았다. `console.log(greet('student01'));`처럼 괄호 짝을 맞춘다 |
+| `Uncaught TypeError: Assignment to constant variable.` | `const`로 만든 값에 다시 넣었다. 다시 넣어야 하면 `let`으로 만든다 |
+| `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` | `app.js`에 2주차 카운터 코드가 남아 있다. 그 버튼은 3주차에 사라졌다. [따라하기 3단계](walkthrough.md#3-appjs-비우고-첫-줄-쓰기)처럼 전체를 지우고 새로 쓴다 |
+| `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` | `#greeting`을 못 찾았다. `id="greeting"` 철자, 그리고 `script` 줄에 `defer`가 있는지 본다 |
+| Console에 `${name}`이 글자 그대로 찍힌다 | 작은따옴표로 감쌌다. 백틱(`` ` ``)으로 바꾼다. 한글 입력 상태에서 친 백틱은 다른 글자다 |
+| 함수 결과가 `undefined`로 찍힌다 | 함수 안에 `return`이 없다. `console.log`는 찍기만 하고 값을 돌려주지 않는다 |
+| 화면에 `인사말을 준비 중입니다.`가 그대로 있다 | 마지막 줄까지 가지 못했다. Console의 첫 빨간 줄을 고친 뒤 새로고침한다 |
+| 인사말이 `좋은 오후입니다.`로 나온다 | 12시가 지나서 연 것이며 정상이다. 두 갈래 모두 정답이다 |
+| `git revert HEAD` 뒤 편집기 창이 열려 멈춰 있다 | 기본 메시지를 그대로 두고 저장한 뒤 창을 닫는다(VS Code는 탭을 닫으면 된다). 그러면 터미널에 `[main …] Revert "…"`가 나온다 |
+| `nothing to commit, working tree clean` | 파일을 저장하지 않았거나 이미 commit했다. VS Code 탭 제목의 ● 표시와 `git log --oneline`을 본다 |
+| 화면이 4주차와 똑같다 (1일차) | 정상이다. 1일차 `app.js`는 화면을 건드리지 않는다. 확인은 Console에서 한다 |
 
-## 2일차 실습 — 복사 정렬, view model, 집계
+한 번에 한 곳만 고치고 새로고침한다. 해결되지 않으면 Console 화면을 그대로 보여 주고 도움을 받는다.
 
-### 시간 배분
+## 제출 — 캡처 한 장
 
-| 단계 | 시간 | 활동 |
-|---|---:|---|
-| 결과 계약 | 0–8분 | 정렬/view model/summary 예상 |
-| 정렬 | 8–20분 | asc/desc와 invalid direction |
-| view model | 20–32분 | map과 available seat 문구 |
-| 집계 | 32–43분 | reduce와 Map/total |
-| 파이프라인 | 43–50분 | search→filter→sort→map |
-| 자동 검증 | 50–58분 | 정상·경계·실패·불변성 tests |
-| 회고 | 58–60분 | 함수 분리 근거 |
+공개 주소 `https://<아이디>.github.io/my-web/`을 열고 **F12 › Console**을 켠 채로 한 화면을 캡처한다.
 
-### 문제 1 · 원본을 보존하는 정렬
+- 카드 한 줄에 `안녕하세요, <아이디>님! 좋은 아침입니다.`(또는 `좋은 오후입니다.`)가 보인다.
+- Console에 시각 숫자와 같은 문장이 찍혀 있고 빨간 줄이 없다.
+- 주소창이 함께 보이게 찍는다.
 
-```text
-sortByStartsAt(items, direction) → Array
-direction: "asc" | "desc"
-```
+2일차를 끝내지 못했다면 1일차 확인용 Console 캡처를 대신 낸다. 캡처에 실명·학번·실제 이메일이 보이지 않게 한다.
+제출 위치와 마감은 수업 공지를 따른다.
 
-요구:
+## 먼저 끝났다면
 
-1. 입력 Array를 먼저 복사한다.
-2. `startsAt` 오름차순/내림차순을 지원한다.
-3. direction이 두 값이 아니면 `RangeError`를 던진다.
-4. 같은 날짜 항목의 tie-break 기준을 title 또는 id로 명시한다.
-
-불변성 검증:
+- 관심사 세 개를 담은 목록을 만들어 Console에 한 줄씩 찍어 본다. 아래 두 문법은 **10주차에 정식으로 배운다.** 오늘은 모양만 따라 해 본다.
 
 ```js
-const before = activities.map(({ id }) => id);
-const sorted = sortByStartsAt(activities, 'desc');
-const after = activities.map(({ id }) => id);
-```
+const interests = ['사진 찍기', '보드게임', '저녁 산책'];
 
-`before`, `after`, `sorted`의 관계를 assertion으로 작성한다.
-
-### 문제 2 · card view model
-
-```text
-toCardModels(items) → Array<CardModel>
-```
-
-각 결과는 최소 다음을 가진다.
-
-```js
-{
-  id,
-  title,
-  categoryLabel,
-  startsAt,
-  availability
+for (const item of interests) {
+  console.log(item);
 }
 ```
 
-- `availability`: 남은 자리 0이면 `마감`, 아니면 `N자리 남음`
-- category 내부 code를 보이는 한국어 label로 변환
-- 입력 object를 수정하지 않음
-- 결과 개수는 입력 개수와 같음
+- `console.log(interests)` 한 줄도 찍어 목록 전체가 어떻게 보이는지 확인한다.
+- `hello(hour)` 안의 기준 시각 `12`를 다른 숫자로 바꿔 두 갈래를 모두 확인한 뒤 되돌린다.
+- 인사 문장에 오늘 할 일을 한 줄 더 붙여 본다(`` `${message} 오늘도 좋은 하루 되세요.` ``).
+- `console.log`를 `console.info`로 바꿔 보고 Console에서 모양이 어떻게 다른지 본다.
 
-### 문제 3 · 요약 집계
-
-```text
-summarizeActivities(items) → {
-  totalActivities,
-  totalCapacity,
-  totalJoined,
-  openActivities,
-  categoryCounts // Map
-}
-```
-
-reduce를 사용할 때 빈 배열에서도 위 구조와 number/Map type이 유지되도록 initial value를 제공한다. 한 함수가 너무 복잡해지면 `countByCategory`를 분리한다.
-
-### 문제 4 · 파이프라인
-
-다음 입력 상태를 받아 card model 결과를 만드는 작은 함수 또는 demo를 작성한다.
-
-```js
-const state = {
-  query: '웹',
-  category: 'study',
-  direction: 'asc',
-};
-```
-
-순서:
-
-```text
-전체 → 검색 → category filter → 날짜 정렬 → card model
-```
-
-각 단계의 length를 별도 log로 관찰하되 변환 함수 내부에는 log를 넣지 않는다.
-
-### 필수 테스트 표
-
-| 함수 | 입력 | 기대 | 종류 |
-|---|---|---|---|
-| search | 공백 query | 전체의 새 Array | 경계 |
-| filter | 없는 category | `[]` | 경계 |
-| sort | `asc` | 첫 날짜가 가장 빠름 | 정상 |
-| sort | `sideways` | `RangeError` | 실패 |
-| sort | 원본 | id 순서 유지 | 불변성 |
-| view model | 정원=참여 | `마감` | 경계 |
-| summary | `[]` | 모두 0, Map size 0 | 경계 |
-| pipeline | 검색+범주+정렬 | 예상 id 순서 | 정상 |
-
-### 단계별 힌트
-
-<details>
-<summary>힌트 1 — sort 뒤 원본 test가 실패한다</summary>
-
-`items.sort(...)`는 items 자체를 바꾼다. `[...items].sort(...)`처럼 array container를 복사한 뒤 정렬한다.
-</details>
-
-<details>
-<summary>힌트 2 — 내림차순 comparator</summary>
-
-오름차순 비교 결과에 방향 계수 `1` 또는 `-1`을 곱할 수 있다. invalid direction을 기본값으로 조용히 처리하지 않는다.
-</details>
-
-<details>
-<summary>힌트 3 — reduce가 빈 배열에서 실패한다</summary>
-
-누적 결과의 완전한 초기 object를 두 번째 인수로 준다. Map도 `new Map()`으로 초기화한다.
-</details>
-
-### 최종 검증
-
-```powershell
-node demo.mjs
-node --test
-```
-
-- [ ] 모든 test가 통과한다.
-- [ ] demo 결과의 id 순서를 예상표와 비교했다.
-- [ ] 원본 id 순서는 demo 전후 같다.
-- [ ] 변환 함수가 DOM/global state/Console에 의존하지 않는다.
-- [ ] 최소 4개 named function이 각각 한 가지 변환 의도를 가진다.
-
-### 확장 주제
-
-1. 여러 조건 정렬(comparator composition)을 title tie-break와 함께 구현한다.
-2. 평균 참여율을 계산할 때 capacity 0인 비정상 데이터의 정책을 설계한다.
-3. `Object.freeze`의 shallow 특성과 개발 중 mutation 탐지 용도를 실험한다.
-4. 많은 데이터에서 매번 filter하는 방식과 Map index의 시간·메모리 trade-off를 설명한다.
-
-## 다음 주 handoff 작성
-
-아래 내용을 `handoff.md`에 적는다.
-
-- 카드 하나를 만드는 데 필요한 view model field
-- 결과가 빈 배열일 때 보일 문구
-- 검색 중 query와 category 상태
-- 함수를 호출한 뒤 DOM이 담당할 일과 담당하지 않을 일
+추가 과제는 선택 사항이며 채점하지 않는다.

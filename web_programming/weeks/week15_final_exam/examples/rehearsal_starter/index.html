@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>web-final · 읽은 책 기록</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>읽은 책 기록</h1>
+      <button id="mode-button" type="button">다크 모드</button>
+    </header>
+    <main>
+      <h2>한 권 남기기</h2>
+      <form id="book-form">
+        <label for="title">제목</label>
+        <input id="title" type="text">
+        <button type="submit">추가</button>
+      </form>
+      <p id="notice"></p>
+      <ul id="book-list"></ul>
+      <h2>추천 목록</h2>
+      <p id="load-status">불러오는 중…</p>
+      <ul id="recommend-list"></ul>
+    </main>
+    <footer>
+      <p>수업용 연습 페이지 · student01</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>중간 실기 리허설</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>사진 동아리 소개</h1>
+      <nav>
+        <a href="#activity">활동</a>
+        <a href="#notice">모임</a>
+        <a href="#join">신청</a>
+      </nav>
+    </header>
+    <main class="card">
+      <h2 id="activity">활동</h2>
+      <!-- 문제 1-1: 여기에 ul 하나와 li 세 줄을 넣는다 -->
+      <!-- 문제 1-2: 여기에 2열 3행 table을 넣는다. 첫 줄은 th 두 개 -->
+      <h2 id="notice">모임</h2>
+      <p id="notice-text">아직 누르지 않았습니다.</p>
+      <button id="notice-button" type="button">이번 주 모임 보기</button>
+      <button id="dark-button" type="button">다크 모드</button>
+      <h2 id="join">신청</h2>
+      <form id="join-form">
+        <p><label for="name">이름</label> <input id="name" type="text"></p>
+        <p><label for="reason">신청 이유</label> <input id="reason" type="text"></p>
+        <button type="submit">신청하기</button>
+      </form>
+      <p id="result"></p>
+    </main>
+    <footer>
+      <p>수업용 연습 페이지 · student01</p>
+    </footer>
+  </body>
+</html>

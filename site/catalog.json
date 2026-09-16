@@ -133,7 +133,7 @@
       "description": "브라우저와 Git의 기초부터 Supabase 기반 영속 서비스, 보안 점검과 프로젝트 발표까지 연결합니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 1개 특강 · 291장",
+      "summary": "15개 주차 + 2개 특강 · 297장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
@@ -246,6 +246,13 @@
           "label": "특강",
           "title": "사람과 AI가 같이 쓰는 Kakao 항공 지도 Canvas",
           "description": "Kakao SKYVIEW와 Canvas 위에서 사람과 AI의 명시적 공동 작업 흐름을 구현합니다.",
+          "type": "special"
+        },
+        {
+          "id": "supabase_guestbook",
+          "label": "특강",
+          "title": "Supabase로 만드는 서버 방명록",
+          "description": "11주차 방명록의 저장 위치만 브라우저에서 Supabase 서버로 바꿔, 다른 PC에서도 같은 목록이 보이게 합니다.",
           "type": "special"
         }
       ]

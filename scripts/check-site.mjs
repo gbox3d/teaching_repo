@@ -4,11 +4,11 @@ import { fileURLToPath } from "node:url";
 import { runInNewContext } from "node:vm";
 import { isDeepStrictEqual } from "node:util";
 
-const EXPECTED_DECKS = 46;
-const EXPECTED_SLIDES = 1002;
+const EXPECTED_DECKS = 47;
+const EXPECTED_SLIDES = 1008;
 const EXPECTED = {
   android: { slug: "android", decks: 15, slides: 300, status: "published" },
-  web: { slug: "webprg", decks: 16, slides: 291, status: "published" },
+  web: { slug: "webprg", decks: 17, slides: 297, status: "published" },
   "open-source-ai": { slug: "open_source_ai", decks: 15, slides: 411, status: "published" },
 };
 const BLOB = "https://github.com/gbox3d/teaching_repo/blob/main";

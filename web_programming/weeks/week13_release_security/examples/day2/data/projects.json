@@ -1,0 +1,20 @@
+[
+  {
+    "title": "자기소개 페이지",
+    "description": "홈 화면입니다. 이름과 소개, 취미 목록을 적었습니다.",
+    "image": "images/project1.png",
+    "link": "index.html"
+  },
+  {
+    "title": "내 정보 표",
+    "description": "아이디와 이메일, 관심 분야를 표로 정리했습니다.",
+    "image": "images/project2.png",
+    "link": "about.html"
+  },
+  {
+    "title": "방명록",
+    "description": "이름과 메시지를 남기면 목록에 저장되는 페이지입니다.",
+    "image": "images/project3.png",
+    "link": "guestbook.html"
+  }
+]

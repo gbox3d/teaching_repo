@@ -1,109 +1,135 @@
-# 8주차 공개용 모의 실기
+# 8주차 실습 — 리허설과 중간 실기
 
-이 문서는 시험 해결 절차를 연습하기 위한 공개용 동형 과제다. 실제 학기별 문제·fixture·정답이 아니다.
+실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week08_midterm
 
-## 공통 규칙
+1일차는 시험과 같은 모양의 **리허설**이다. 문제 네 개를 60분 안에 풀고, 새 저장소를 만들어 Pages로 배포하는 절차까지 오늘 끝낸다.
+2일차 60분이 **본시험**이다. 문제지는 시험 시간에 받는다. 작업 폴더는 `my-web/exam/` 하나다.
+모든 단계와 전체 코드는 [따라하기](walkthrough.md)에 있다. `student01`은 예시 아이디이므로 본인 아이디로 바꾼다.
 
-- [중립 starter](examples/starter/)에서 시작한다.
-- 60분 타이머를 사용한다.
-- 첫 3분에는 요구사항을 분류하고 검증 문장만 작성한다.
-- 자동완성·자료·네트워크 사용 범위는 실제 시험의 LMS 공지를 따른다.
-- 모의 활동에서는 정상과 실패 경로를 모두 기록한다.
+## 1일차 — 리허설과 저장소 준비 (60분)
 
-## 1일차 60분 — 기능 통합 모의
+| 시간 | 할 일 |
+|---|---|
+| 0–5분 | 새 폴더 `midterm-practice`를 만들어 **File › Open Folder**로 열고, 리허설 starter 세 파일을 넣는다 |
+| 5–15분 | 문제 1: `활동` 아래에 `ul`·`li` 세 줄과 2열 3행 `table`을 넣는다 |
+| 15–25분 | 문제 2: `.card` 규칙, `nav`를 `display: flex`, `@media (max-width: 600px)`에서 세로 |
+| 25–37분 | 문제 3: 버튼 두 개 — 글자 바꾸기(`textContent`)와 다크 모드(`classList.toggle`) |
+| 37–45분 | 문제 4: 신청하기 → `#result`에 `이름: 신청 이유`, 이름이 비면 안내하고 커서 이동 |
+| 45–50분 | [해답](examples/rehearsal_solution)과 한 줄씩 맞춰 본다. 먼저 끝났으면 더 일찍 시작한다 |
+| 50–60분 | `git init` → `git branch -M main` → `git config` 두 줄 → `git add .` → `git commit` → GitHub에 새 저장소 `midterm-practice` 만들기 → `git remote add origin <HTTPS URL>` → `git push -u origin main`(첫 push는 브라우저 로그인) → **Settings › Pages**(`main`·`/(root)`) → 공개 주소 열기 → 공용 PC면 자격 증명 삭제 |
 
-### 공개 연습 상황
+시험 당일에는 이 마지막 줄(저장소 만들기·Pages 켜기)을 **하지 않는다.** 오늘 한 번 해 두는 것이 목적이다.
 
-학습 주제 문자열을 관리하는 작은 페이지를 만든다. 다음은 기술 통합 연습용 요구사항이며 실제 시험 문제가 아니다.
+### 1. starter 세 파일 넣기 (`index.html` · `styles.css` · `app.js`)
 
-### 요구사항
+[examples/rehearsal_starter](examples/rehearsal_starter)의 세 파일을 새 폴더에 그대로 넣는다. [따라하기 2단계](walkthrough.md#2-starter-세-파일-넣기)를 본다.
 
-- 시맨틱 `main`, heading, label이 연결된 form, list를 사용한다.
-- 입력한 제목을 `{ id, title, done }` 형태의 상태에 추가한다.
-- 공백 입력은 거부하고 이유를 status 영역에 표시한다.
-- 각 항목의 완료 상태를 고유 id로 전환한다.
-- 항목이 없으면 다음 행동을 안내한다.
-- 40rem 이하에서 form control이 세로로 배치되고 가로 스크롤이 없다.
-- 키보드 focus가 분명히 보인다.
+- `index.html`을 더블클릭해 열고 F12 **Console**에 `리허설 starter 준비 완료`가 보이면 준비가 끝난 것이다.
+- 지금은 꾸며지지 않은 화면이 정상이다. 버튼을 눌러도 아무 일도 일어나지 않는다.
+- 세 파일은 **같은 폴더에 나란히** 둔다. 폴더를 하나 더 만들지 않는다.
 
-### 시간 기록표
+### 2. 문제 1 — 목록과 표 (`ul` · `li` · `table` · `tr` · `th` · `td`)
 
-| 시각 | 목표 | 실제 완료 시각 |
-|---:|---|---|
-| 0–8분 | 요구사항 분류·starter 실행 | |
-| 8–18분 | 의미 구조·기본 반응형 CSS | |
-| 18–38분 | submit → state → render | |
-| 38–48분 | 완료 전환·empty | |
-| 48–55분 | 공백·키보드·320px 검증 | |
-| 55–60분 | 저장·commit·회고 | |
+`index.html`의 `문제 1-1`·`문제 1-2` 주석을 지우고 그 자리에 넣는다. [따라하기 3단계](walkthrough.md#3-문제-1-목록과-표-넣기)를 본다.
 
-### 힌트
+- `li` 세 줄 앞에 점(•)이 붙으면 `ul` 안에 있는 것이다.
+- 표는 줄(`tr`)을 세 개 쌓고, 첫 줄만 `th` 두 개로 만든다. 나머지 두 줄은 `td` 두 개다.
+- 선이 없는 것이 정상이다. 선은 문제 2에서 `.card`의 `border`로 한 번만 그린다.
 
-1. `render()`는 상태 배열만 보고 목록과 empty를 결정한다.
-2. form의 `submit`을 사용하면 버튼과 Enter를 함께 처리할 수 있다.
-3. title이 같은 항목을 구분하려면 화면의 `data-id`와 상태의 `id`를 연결한다.
+### 3. 문제 2 — 카드 색과 nav 가로 배치 (`.class` · `flex` · `@media`)
 
-### 검증
+`styles.css`의 `문제 2-1`~`2-3` 주석 자리에 규칙 세 개를 쓴다. [따라하기 4단계](walkthrough.md#4-문제-2-카드-색과-nav-가로-배치)를 본다.
 
-- [ ] 정상 입력 뒤 state 길이와 `<li>` 수가 함께 증가한다.
-- [ ] 공백 입력 뒤 둘 다 변하지 않는다.
-- [ ] 같은 제목 두 개 중 하나만 완료 전환할 수 있다.
-- [ ] 마지막 항목이 없어지면 empty 안내가 보인다.
-- [ ] 320px viewport에서 가로 스크롤이 없다.
-- [ ] 마우스 없이 입력과 완료 전환을 수행한다.
-- [ ] 처리하지 않은 Console 오류가 없다.
+- `.card`는 `main`에 이미 붙어 있다. class 이름 앞의 점(`.`)을 빠뜨리면 아무 일도 일어나지 않는다.
+- `nav`에 `display: flex`를 주면 링크 세 개가 가로로 선다. `gap`으로 사이를 벌린다.
+- F12 → 기기 모드에서 **375px**로 줄여 링크가 세로로 서면 `@media`가 맞은 것이다. 1280px에서는 다시 가로다.
 
-## 2일차 60분 — 시간 제한 제출 모의
+### 4. 문제 3 — 버튼 두 개 (`addEventListener` · `textContent` · `classList`)
 
-1일차 결과를 복사하지 않고 starter를 새 폴더에 다시 준비한다. 아래 “변경 카드” 중 교수자가 공개 연습용으로 두 장을 선택한다. 실제 시험에서는 별도 비공개 요구사항을 사용한다.
+`app.js`의 `문제 3-1`·`3-2` 주석 자리에 쓴다. [따라하기 5단계](walkthrough.md#5-문제-3-버튼으로-글자와-색-바꾸기)를 본다.
 
-### 공개 변경 카드
+- 변수 `noticeButton`·`noticeText`·`darkButton`은 파일 맨 위에 이미 만들어져 있다. 다시 만들지 않는다.
+- 클릭할 때마다 할 일은 `function () { }` 안에 쓴다. 5·6주에 쓴 그 모양이다.
+- 다크 모드 CSS(`body.dark`)는 `styles.css`에 이미 있다. JavaScript는 class를 붙였다 떼기만 한다.
+- 빨간 줄에 `null`이 보이면 선택자 철자와 `#`을 본다.
 
-- **A — 삭제:** id가 일치하는 항목만 삭제하고 마지막 삭제 뒤 empty를 보인다.
-- **B — 수정:** 제목 편집·저장·취소를 구분하고 공백 저장을 거부한다.
-- **C — 필터:** 전체/진행/완료 화면을 전환하되 원본 상태를 잃지 않는다.
-- **D — 통계:** 전체·완료·남은 개수를 상태에서 계산한다.
-- **E — 정렬:** 제목 정렬 전후에도 동작 대상 id가 유지된다.
+### 5. 문제 4 — 폼 입력 표시와 빈값 안내 (`submit` · `value` · `trim` · `focus`)
 
-### 수행 순서
+`app.js`의 `문제 4-1`·`4-2` 주석 자리에 쓴다. [따라하기 6단계](walkthrough.md#6-문제-4-폼-입력-표시와-빈값-안내)를 본다.
 
-| 시간 | 활동 |
-|---:|---|
-| 0–5분 | 환경, Git, 선택 카드 확인 |
-| 5–12분 | 검증 문장과 구현 순서 |
-| 12–38분 | 핵심 수직 경로 구현 |
-| 38–48분 | 두 번째 카드와 경계 처리 |
-| 48–55분 | Console·키보드·viewport |
-| 55–60분 | 파일 저장, commit, 제출 재열기 |
+- **신청하기**를 눌렀을 때 화면이 처음으로 돌아가고 주소 끝에 `?`가 붙으면 `event.preventDefault()`가 빠진 것이다.
+- 이름 칸이 비었는지는 `trim()` 한 값이 `''`인지로 본다. 빈칸만 넣은 경우도 걸러야 한다.
+- 안내를 띄운 뒤에는 `return`으로 멈춘다. 멈추지 않으면 빈 이름이 그대로 표시된다.
 
-### 단계별 힌트
+### 6. 오늘 확인할 것
 
-**힌트 1:** 새 기능이 상태 모양을 바꾸는지, 화면 표현만 바꾸는지 먼저 구분한다.
+- [ ] 리허설 화면에 목록·표·카드 테두리가 보이고 375px에서 메뉴가 세로로 선다.
+- [ ] 버튼 두 개가 각각 글자와 배경을 바꾼다.
+- [ ] 이름을 비우고 누르면 안내가 뜨고, 채워서 누르면 `이름: 신청 이유`가 뜬다.
+- [ ] Console에 빨간 줄이 없다.
+- [ ] `https://<아이디>.github.io/midterm-practice/`가 열린다.
 
-**힌트 2:** Update는 `map`, Delete는 `filter`, 화면용 부분집합은 원본을 덮지 않는 별도 계산으로 생각한다.
+1일차 결과는 점수에 들어가지 않는다. **어디서 막혔는지 알고 가는 것**이 목적이다.
 
-**힌트 3:** 막히면 HTML → selector → event → state → render → Console 순서로 첫 실패 지점을 기록한다.
+## 2일차 — 중간 실기 (60분)
 
-### 제출 검증
+| 시간 | 할 일 |
+|---|---|
+| 0–5분 | 문제지를 끝까지 읽고 요구 사항에 번호를 매긴다. 아직 코드를 쓰지 않는다 |
+| 5–15분 | HTML: 뼈대·목록·표·폼 |
+| 15–25분 | CSS: 선택자·박스·`flex`·`@media` |
+| 25–50분 | DOM과 폼: 클릭 → `textContent`·`classList`, 제출 → 표시·빈값 안내 |
+| 50–55분 | `git add .` → `git commit -m "중간 실기"` → `git push` |
+| 55–60분 | 예비: 공개 주소 새로고침·캡처·`git log -1 --oneline` 적기 |
 
-- [ ] 선택 카드별 정상 경로를 재현했다.
-- [ ] 최소 한 경계/실패 경로가 요구한 상태를 보인다.
-- [ ] 최신 변경이 저장되고 commit에 포함되었다.
-- [ ] 제출 위치의 파일을 다시 열어 같은 결과를 확인했다.
-- [ ] 해결하지 못한 항목은 증상·관찰·시도를 구분해 기록했다.
+시작 전 `my-web`에서 `git pull`을 하고 `exam` 폴더를 만든 뒤, 받은 starter 세 파일을 넣고 첫 commit(`중간 실기 시작`)까지 해 둔다. [따라하기 9단계](walkthrough.md#9-my-web에-exam-폴더-만들기)와 [10단계](walkthrough.md#10-starter-세-파일-넣고-첫-commit-하기)를 본다.
 
-## 모의 회고
+### 시험 규칙
 
-다음 네 문장을 각 한 줄로 작성한다.
+- 작업 폴더는 `my-web/exam/` 하나다. 파일은 `index.html`·`styles.css`·`app.js` 세 개다.
+- **저장 → push → 공개 주소를 새로고침해서 보이는 것이 제출본**이다. 저장하지 않은 파일은 commit되지 않는다.
+- commit은 두 번 이상 한다. 시작 전 starter를 넣은 첫 commit(`중간 실기 시작`)과 마지막 commit(`중간 실기`)이면 된다.
+- 범위 밖(배열 목록·`localStorage`·`fetch`·모듈·외부 라이브러리)은 쓰지 않는다. 가점이 없고, 화면이 멈추면 감점이다.
+- 볼 수 있는 것: 교재 사이트, 본인 `my-web` 저장소, MDN. 그 밖은 강의자 공지를 따른다.
+- 한 문제에 5분 넘게 막히면 다음 문제로 간다. 문제끼리 이어져 있지 않다.
 
-1. 가장 늦게 발견한 오류:
-2. 오류를 처음 확인할 수 있었던 더 이른 검증:
-3. 다음에는 앞당길 작업:
-4. 마지막 commit과 working tree 상태:
+## 막혔을 때
 
-## 확장 토론
+| 증상 | 확인할 것 |
+|---|---|
+| 공개 주소에 방금 push한 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 5분 안에 안 보이면 로컬 화면 캡처와 `git log -1 --oneline` 출력을 같은 점수로 인정한다. `git status`에 `Your branch is ahead`가 있으면 push를 안 한 것이다 |
+| `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` | `querySelector`가 아무것도 못 찾았다. 선택자의 `#`과 철자를 `index.html`의 `id`와 대소문자까지 비교한다. `<script src="app.js" defer>`에서 `defer`가 빠져도 같은 줄이 나온다 |
+| `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` | 글을 넣을 곳을 못 찾았다. `#result`·`#notice-text` 같은 `id`의 철자를 본다 |
+| `Uncaught ReferenceError: nameinput is not defined` | 변수 이름의 대소문자가 다르다. 만든 이름은 `nameInput`이다 |
+| `Uncaught TypeError: Cannot read properties of undefined (reading 'toggle')` | `classList`를 `classlist`로 썼다. 가운데 `L`이 대문자다 |
+| **신청하기**를 누르면 화면이 처음으로 돌아가고 주소 끝에 `?`가 붙는다 | `event.preventDefault()`가 없다. `function (event) { event.preventDefault(); … }` |
+| 이름을 비우고 눌렀는데 `: 사진이 좋아서`가 표시된다 | 안내 뒤에 `return`이 없다. `if` 블록 안에서 멈춰야 한다 |
+| 화면이 전혀 꾸며지지 않는다 | `Uncaught`로 시작하는 JS 빨간 줄은 없고, 대신 `Failed to load resource: net::ERR_FILE_NOT_FOUND`(공개 주소에서는 404) 한 줄이 뜬다. 이 줄은 파일을 못 찾았다는 뜻이므로 `<link rel="stylesheet" href="styles.css">` 줄의 파일 이름과 파일 위치를 본다 |
+| `! [rejected]        main -> main (fetch first)` | GitHub에 내가 모르는 commit이 있다. `git pull` 뒤 다시 `git push` |
+| `fatal: 'origin' does not appear to be a git repository` | 주소를 아직 안 적었다. `git remote -v`가 비어 있으면 `git remote add origin <HTTPS URL>`을 먼저 하고 다시 push한다 |
+| `error: remote origin already exists.` | 주소가 이미 적혀 있다. `git remote -v`의 주소가 맞으면 그대로 push한다 |
+| `nothing to commit, working tree clean` | 파일을 저장하지 않았거나 이미 commit했다. VS Code 탭 제목의 ● 표시를 본다 |
+| `Everything up-to-date` | 새 commit이 없다. `git log -1 --oneline`으로 마지막 commit이 방금 것인지 본다 |
+| `remote: Permission to student01/my-web.git denied to <다른 아이디>` | 공용 PC에 이전 사용자의 로그인이 남아 있다. **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 제거하고 다시 push한다 |
+| 공개 주소 `…/my-web/exam/`이 404 | GitHub `main`의 `exam/` 폴더에 `index.html`이 있는지 본다. 파일 이름은 소문자 `index.html`이다 |
 
-- 제한 시간 평가에서 자동 테스트와 수동 검증을 어떻게 조합할까?
-- 기능 점수와 접근성·오류 처리 점수는 왜 분리해야 할까?
-- starter가 지나치게 많거나 적으면 무엇을 평가하게 되는가?
-- 생성형 AI가 허용되는 평가라면 과정 증거와 구두 설명을 어떻게 설계할까?
+한 번에 한 곳만 고치고 다시 확인한다. 10분 넘게 같은 자리에 있으면 손을 든다. 환경·제출 문제는 함께 본다.
+
+## 제출 — 네 가지
+
+1. **공개 URL**: `https://<아이디>.github.io/my-web/exam/`
+2. **저장소 URL**: `https://github.com/<아이디>/my-web`
+3. **마지막 commit SHA**: `git log -1 --oneline`의 앞 일곱 글자 (예: `1ea3c2e`)
+4. **캡처 1장**: 완성 화면과 **주소창**이 함께 보이게 찍는다
+
+캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 제출 위치와 마감은 수업 공지를 따른다.
+Pages가 늦어 1번을 만들 수 없으면 로컬 화면 캡처 + 3번으로 대신 인정한다.
+
+## 먼저 끝났다면
+
+- 1일차: 리허설 페이지의 `@media` 폭을 `600px` 대신 다른 값으로 바꿔 보고, 기기 모드에서 언제 세로로 바뀌는지 확인한다.
+- 1일차: 다크 모드를 켠 채 375px로 줄여 두 가지가 같이 동작하는지 본다.
+- 1일차: `이름` 칸에 빈칸만 넣고 눌러 본다. `trim()`이 없으면 어떻게 되는지 지우고 확인한 뒤 되돌린다.
+- 2일차: 남는 시간에는 새 기능을 넣지 않는다. 링크를 모두 눌러 404가 없는지, Console이 깨끗한지, 캡처가 찍혔는지만 본다.
+
+1일차 확장 과제는 채점하지 않는다.

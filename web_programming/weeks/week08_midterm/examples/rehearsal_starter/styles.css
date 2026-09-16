@@ -1,0 +1,33 @@
+/* 중간 실기 리허설 — styles.css */
+/* 문제 2를 이 파일에 쓴다. */
+
+body {
+  margin: 0;
+  padding: 16px;
+  font-family: system-ui, sans-serif;
+  color: #17213a;
+  background: #f4f6fb;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+nav a {
+  color: #3157d5;
+}
+
+/* 문제 2-1: .card 규칙을 만든다. 배경 white, padding 16px, border 한 줄 */
+
+/* 문제 2-2: nav를 display: flex로 가로로 놓고 gap을 준다 */
+
+/* 문제 2-3: @media (max-width: 600px)에서 nav를 세로로 바꾼다 */
+
+body.dark {
+  color: #eeeeee;
+  background: #222222;
+}
+
+body.dark .card {
+  background: #333333;
+}
