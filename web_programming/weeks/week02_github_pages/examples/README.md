@@ -26,7 +26,7 @@ Week 02 · GitHub Pages
 [방문 버튼] 클릭 횟수: 0
 ```
 
-- `index.html`: 제목 `<h1>`, 문장 `<p>`, 버튼과 `<output>`. `styles.css`와 `app.js`를 연결한다.
+- `index.html`: 제목 `<h1>`, 문장 `<p>`, 버튼과 `<p id="status">`. `styles.css`와 `app.js`를 연결한다.
 - `styles.css`: 카드 모양과 버튼 색. 1주차 예제를 조금 줄인 것이다.
 - `app.js`: 버튼을 누를 때마다 `클릭 횟수`를 1씩 올린다. 1주차와 같다.
 

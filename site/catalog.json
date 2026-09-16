@@ -140,7 +140,7 @@
           "id": "week01_web_git",
           "label": "1주차",
           "title": "웹 실행 구조와 Git 상태",
-          "description": "브라우저 요청 흐름과 Git 작업 트리의 상태를 함께 추적합니다.",
+          "description": "브라우저에 보이는 한 화면은 어떤 파일들로 만들어지며, 내가 고친 파일을 Git에 어떻게 기록할까?",
           "type": "week"
         },
         {

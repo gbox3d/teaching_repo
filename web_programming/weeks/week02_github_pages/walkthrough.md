@@ -47,7 +47,7 @@ VS Code 왼쪽 탐색기의 **New File** 아이콘으로 파일 세 개를 만�
       <h1>내 첫 페이지</h1>
       <p>내 컴퓨터에서 만든 페이지를 GitHub에 올려 공개합니다.</p>
       <button id="count-button" type="button">방문 버튼</button>
-      <output id="status" aria-live="polite">클릭 횟수: 0</output>
+      <p id="status">클릭 횟수: 0</p>
     </main>
   </body>
 </html>
@@ -114,6 +114,8 @@ console.info('my-web ready');
 ```bash
 git init
 git branch -M main
+git config user.name "student01"
+git config user.email "본인 이메일"
 git add .
 git commit -m "첫 페이지 만들기"
 git log --oneline
@@ -132,8 +134,8 @@ git log --oneline
 `git log --oneline`에는 `0be6182 첫 페이지 만들기` 한 줄이 보인다. 앞의 일곱 글자는 PC마다 다르다.
 
 - `git add .`: 폴더 안에서 바뀐 파일을 모두 다음 commit에 넣는다. 1주차의 `git add index.html`을 세 파일에 한 번에 한 것이다.
-- `Author identity unknown`이 나오면 1주차처럼 `git config user.name "student01"`과 `git config user.email "본인 이메일"`을 설정하고 commit을 다시 한다.
-  공용 PC에서는 `--global`을 붙이지 않는다.
+- `git config` 두 줄은 **저장소마다 따로** 적용된다. 1주차 폴더에서 적었어도 새 폴더에서 다시 적어야 내 별칭으로 기록된다.
+  건너뛰면 오류 없이 commit되면서 PC 계정 이름이 공개 저장소에 그대로 올라간다. 공용 PC에서는 `--global`을 붙이지 않는다.
 
 ### 4. GitHub 계정 만들기
 
@@ -235,7 +237,7 @@ branch 'main' set up to track 'origin/main'.
       <h1>내 첫 GitHub 페이지</h1>
       <p>내 컴퓨터에서 만든 페이지를 GitHub에 올려 공개합니다.</p>
       <button id="count-button" type="button">방문 버튼</button>
-      <output id="status" aria-live="polite">클릭 횟수: 0</output>
+      <p id="status">클릭 횟수: 0</p>
     </main>
   </body>
 </html>
@@ -348,7 +350,7 @@ Switched to branch 'about'
 </html>
 ```
 
-2. `index.html`의 `<output …>` 줄 아래에 `<p><a href="about.html">소개 페이지 보기</a></p>` 한 줄을 추가한다.
+2. `index.html`의 `<p id="status">` 줄 아래에 `<p><a href="about.html">소개 페이지 보기</a></p>` 한 줄을 추가한다.
    전체 파일은 아래와 같다. 같은 파일이 [examples/day2/index.html](examples/day2/index.html)에 있다.
 
 ```html
@@ -367,7 +369,7 @@ Switched to branch 'about'
       <h1>내 첫 GitHub 페이지</h1>
       <p>내 컴퓨터에서 만든 페이지를 GitHub에 올려 공개합니다.</p>
       <button id="count-button" type="button">방문 버튼</button>
-      <output id="status" aria-live="polite">클릭 횟수: 0</output>
+      <p id="status">클릭 횟수: 0</p>
       <p><a href="about.html">소개 페이지 보기</a></p>
     </main>
   </body>

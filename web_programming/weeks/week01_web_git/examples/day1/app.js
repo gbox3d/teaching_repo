@@ -8,4 +8,4 @@ countButton.addEventListener('click', () => {
   status.textContent = `클릭 횟수: ${clickCount}`;
 });
 
-console.info('Web role demo ready');
+console.info('week01 ready');
