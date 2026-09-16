@@ -133,7 +133,7 @@
       "description": "브라우저와 Git의 기초부터 Supabase 기반 영속 서비스, 보안 점검과 프로젝트 발표까지 연결합니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 1개 특강 · 293장",
+      "summary": "15개 주차 + 1개 특강 · 291장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
@@ -154,7 +154,7 @@
           "id": "week03_semantic_html",
           "label": "3주차",
           "title": "시맨틱 HTML과 form",
-          "description": "문서 의미와 입력 순서가 드러나는 HTML 구조를 작성합니다.",
+          "description": "2주차에 공개한 `my-web`을 홈·내 정보·방명록 세 페이지로 늘리고, 이름과 메시지를 적는 입력 칸까지 만들 수 있을까?",
           "type": "week"
         },
         {

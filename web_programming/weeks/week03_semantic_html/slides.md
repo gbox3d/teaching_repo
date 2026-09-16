@@ -3,230 +3,246 @@ marp: true
 theme: default
 paginate: true
 header: "웹프로그래밍 · 3주차"
-footer: "시맨틱 HTML과 form"
+footer: "시맨틱 HTML과 form · 세 페이지 자기소개 사이트"
 ---
 
-# 3주차
-## 시맨틱 HTML과 form
+# 시맨틱 HTML과 form
 
-CSS 없이도 의미와 사용 순서가 드러나는 화면을 만든다.
-
----
-
-## 의미를 먼저 만드는 이유
-
-- 브라우저가 일관된 기본 동작을 제공한다.
-- 키보드와 보조기술이 구조를 탐색할 수 있다.
-- 검색·읽기 도구가 콘텐츠 관계를 해석한다.
-- CSS와 JavaScript를 바꾸어도 구조 계약이 남는다.
-
-**시맨틱 HTML은 태그 이름 맞히기가 아니라 관계를 표현하는 일이다.**
-
----
-
-<!-- _class: lead -->
-
-# 1일차 · 설명 30분
-## 문서 구조와 올바른 동작 요소
-
----
-
-## 0–5분 · 페이지의 뼈대
-
-```html
-<header>사이트 소개</header>
-<nav aria-label="주요 메뉴">...</nav>
-<main>
-  <h1>이 페이지의 제목</h1>
-  <section>...</section>
-</main>
-<footer>문서 정보</footer>
-```
-
-landmark는 화면 사각형이 아니라 탐색 가능한 큰 영역이다.
-
----
-
-## 5–10분 · heading은 문서 목차
+2주차에는 카드 한 장짜리 `index.html`을 공개했습니다.
+이번 주에는 같은 `my-web`을 **세 페이지**로 늘리고, 이름과 메시지를 적는 입력 칸을 만듭니다.
 
 ```text
-h1 캠퍼스 활동
- ├─ h2 이번 주 활동
- │   ├─ h3 사진 산책
- │   └─ h3 알고리즘 모임
- └─ h2 이용 안내
+my-web/
+  index.html      ← 자기소개 (다시 씀)
+  about.html      ← 내 정보 표 (다시 씀)
+  guestbook.html  ← 방명록 form (새 파일)
+  images/profile.png
 ```
 
-- 글자 크기를 위해 level을 고르지 않는다.
-- 하위 내용을 열 때 한 단계씩 내려간다.
-- 페이지마다 목적이 분명한 `h1`을 둔다.
+`styles.css`·`app.js`는 파일로 남기고 **연결하지 않습니다**. 이번 주는 HTML만 합니다.
 
 ---
 
-## 10–15분 · section과 article
+# 1일차 — 뼈대와 자기소개 페이지
 
-- `section`: 한 주제로 묶이며 보통 heading이 있는 영역
-- `article`: 따로 배포·재사용해도 이해되는 독립 항목
-- `div`: 의미 계약 없이 styling·grouping이 필요할 때
+`30분 설명·시연 → 60분 실습`
 
-모든 `div`를 `section`으로 바꾸는 것은 semantic이 아니다.
-
----
-
-## 15–20분 · link와 button
-
-| 사용자 기대 | 요소 |
-|---|---|
-| 다른 URL·문서로 이동 | `<a href="...">` |
-| 현재 화면에서 실행·상태 변경 | `<button type="button">` |
-| form 제출 | `<button type="submit">` |
-
-CSS 모양이 아니라 **활성화 뒤 일어나는 일**로 선택한다.
+1. 시작 루틴(`git pull`·`git clone`)과 끝 루틴
+2. `header`·`nav`·`main`·`footer`
+3. 제목·문단·강조
+4. 링크와 그림, 목록
 
 ---
 
-## 20–25분 · accessible name
+## 1일차 · 0–5분 — 오늘 Git 5분: 시작 루틴과 끝 루틴
 
-사용자는 컨트롤의 이름을 알아야 한다.
+```bash
+git pull                                           # 같은 PC에서 이어 할 때
+git clone https://github.com/student01/my-web.git  # 다른 PC에서 시작할 때
+```
+
+- 이번 주부터 실습 **0–5분은 항상 이 두 줄 중 하나**입니다. 2주차 부록 슬라이드의 복습입니다.
+
+```bash
+git add .
+git commit -m "자기소개 페이지 만들기"
+git push
+```
+
+- 실습 **55–60분은 항상 이것**입니다. push → 공개 주소 새로고침 → 캡처.
+- 공용 PC는 나가기 전 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지웁니다.
+
+---
+
+## 1일차 · 5–10분 — 페이지의 뼈대 header·nav·main·footer
 
 ```html
-<a href="detail.html">사진 산책 자세히 보기</a>
-<button type="button">즐겨찾기 추가</button>
+<body>
+  <header> … 제목과 메뉴 … </header>
+  <main>   … 이 페이지의 본문 … </main>
+  <footer> … 마무리 한 줄 … </footer>
+</body>
 ```
 
-`자세히`, `클릭`처럼 맥락 밖에서 모호한 이름을 반복하지 않는다.
+- 2주차의 `<main class="card">` 한 덩어리를 **네 자리로 나눕니다**.
+- `nav`는 링크 묶음이라는 뜻이며 `header` 안에 둡니다.
+- `main`은 한 페이지에 하나입니다.
+- 이름만 나눴을 뿐 화면은 아직 위에서 아래로 쌓입니다. 꾸미기는 4주차입니다.
 
 ---
 
-## 25–30분 · 키보드로 구조 시험
-
-1. 주소창부터 `Tab`으로 이동
-2. focus 순서와 보이는 이름 말하기
-3. link는 `Enter`, button은 `Enter`/`Space`
-4. `Shift+Tab`으로 역방향 확인
-
-DOM 순서를 CSS로 뒤집어도 focus 순서는 자동으로 바뀌지 않는다.
-
-[1일차 실습](lab.md#1일차-실습--목록과-상세의-의미-구조)
-
----
-
-<!-- _class: lead -->
-
-# 2일차 · 설명 30분
-## form, 네이티브 검증, 데이터 표
-
----
-
-## 0–5분 · form은 입력 계약
+## 1일차 · 10–16분 — 제목 h1~h3와 문단 p·strong
 
 ```html
-<form action="confirmation.html" method="get">
-  ...
-  <button type="submit">활동 등록</button>
-</form>
+<h1>student01의 웹 연습장</h1>
+<h2>소개</h2>
+<p>웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>
 ```
 
-- `action`: 제출 대상
-- `method`: 전달 방식
-- `name`: 제출 데이터의 key
-- button type을 명시해 의도를 고정한다.
+- `h1`은 페이지에 **하나**. 그 아래 큰 묶음이 `h2`, 그 안이 `h3`입니다.
+- 글자를 크게 하려고 `h1`을 고르지 않습니다. 크기는 4주차 CSS로 정합니다.
+- `p`는 문단 하나, `strong`은 문단 안에서 중요한 말입니다.
 
 ---
 
-## 5–10분 · label은 placeholder가 아니다
+## 1일차 · 16–22분 — 링크 a href와 그림 img alt
 
 ```html
-<label for="title">활동 이름</label>
-<input id="title" name="title" required>
+<a href="about.html">내 정보</a>
+<img src="images/profile.png" alt="student01의 프로필 그림" width="160">
 ```
 
-- `for`와 `id`를 정확히 연결
-- label 클릭 시 input focus 확인
-- placeholder는 예시일 뿐 이름을 대체하지 않음
+- 같은 폴더의 파일은 **파일 이름만** 적습니다(상대 경로). 2주차 소개 링크와 같습니다.
+- 그림은 `images/` 폴더를 만들어 그 안에 두고 `images/profile.png`로 부릅니다.
+- `alt`는 그림이 안 보일 때 대신 읽히는 글입니다. "사진"·"이미지"라고만 쓰지 않습니다.
+- 경로가 틀리면 그림 자리에 `alt` 글자만 보입니다. 그것이 확인 방법입니다.
 
 ---
 
-## 10–15분 · 목적에 맞는 input type
+## 1일차 · 22–27분 — 목록 ul·ol·li
 
 ```html
-<input type="email" autocomplete="email">
-<input type="date">
-<input type="number" min="1" max="20">
+<ul>
+  <li>사진 찍기</li>
+  <li>보드게임</li>
+</ul>
 ```
 
-적절한 type은 모바일 키보드, 브라우저 UI, 기본 검증을 함께 제공한다.
+- `ul`: 순서가 없는 목록(점). `ol`: 순서가 있는 목록(1, 2, 3).
+- 줄 하나가 `li` 하나입니다. `li`는 `ul`이나 `ol` **안에만** 둡니다.
+- 2일차 `guestbook.html`의 "쓰는 순서"는 `ol`로 만듭니다.
 
 ---
 
-## 15–20분 · 네이티브 constraint validation
+## 1일차 · 27–30분 — 이제 직접 해 보기
 
-```html
-<input
-  name="code"
-  required
-  minlength="4"
-  maxlength="12"
-  pattern="[A-Za-z0-9-]+"
->
-```
+[1일차 실습](lab.md#1일차--세-페이지의-뼈대와-자기소개-60분) · [따라하기](walkthrough.md#1일차)
+실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week03_semantic_html
 
-테스트할 입력:
+1. `index.html`의 2주차 내용과 `link`·`script` 두 줄을 지우고 뼈대 네 개를 만듭니다.
+2. `h1`·소개 문단·`strong`, 프로필 그림, 메뉴 링크 두 개.
+3. 취미 `ul` 세 줄과 `footer`, 그리고 끝 루틴.
 
-- 빈 값
-- 최소보다 1 짧음
-- 허용하지 않은 문자
-- 최소/최대 경계
-- 정상 값
+**설명 합계: 5+5+6+6+5+3 = 30분**
+
+`styles.css`·`app.js`는 오늘 **열지 않습니다**. 파일은 두고 연결 줄만 뺍니다.
 
 ---
 
-## 20–24분 · 관련 입력은 fieldset
+# 2일차 — 내 정보 표와 방명록 form
 
-```html
-<fieldset>
-  <legend>연락 방법</legend>
-  <label><input type="radio" name="contact" value="email"> 이메일</label>
-  <label><input type="radio" name="contact" value="none"> 연락하지 않음</label>
-</fieldset>
-```
+`30분 설명·시연 → 60분 실습`
 
-`legend`는 여러 control이 공유하는 질문이다.
+1. `table`로 2열 표 만들기
+2. `form`·`label`·`input`·`textarea`
+3. `button type="submit"`이 지금 하는 일
+4. `guestbook` 브랜치 → merge
 
 ---
 
-## 24–27분 · table은 2차원 데이터
+## 2일차 · 0–6분 — 표 table·tr·th·td
 
 ```html
 <table>
-  <caption>이번 주 활동 일정</caption>
-  <thead><tr><th scope="col">활동</th>...</tr></thead>
-  <tbody>...</tbody>
+  <tr><th>항목</th><th>내용</th></tr>
+  <tr><td>아이디</td><td>student01</td></tr>
 </table>
 ```
 
-레이아웃을 맞추기 위한 table은 사용하지 않는다.
+- `table` 안에 줄(`tr`)을 쌓고, 줄 안에 칸을 넣습니다.
+- `th`는 제목 칸(굵게·가운데), `td`는 내용 칸입니다.
+- 선이 없는 것이 정상입니다. 선·여백은 4주차 CSS로 그립니다.
+- 표에 실제 이메일·학번·전화번호를 넣지 않습니다. 수업용 가상 정보를 씁니다.
 
 ---
 
-## 27–30분 · 이미지 대체 텍스트
+## 2일차 · 6–14분 — form과 label for·input·textarea
 
-- 정보 이미지: 맥락에서 필요한 정보를 `alt`로
-- 장식 이미지: `alt=""`
-- 주변 텍스트와 같은 내용을 장황하게 반복하지 않음
-- 파일명이나 “이미지”라는 말만 쓰지 않음
+```html
+<form>
+  <label for="name">이름</label>
+  <input id="name" type="text">
+  <label for="message">메시지</label>
+  <textarea id="message" rows="4"></textarea>
+</form>
+```
 
-**질문:** 같은 이미지라도 페이지 맥락이 바뀌면 alt가 달라질 수 있는가?
-
-[2일차 실습](lab.md#2일차-실습--작성-form과-네이티브-검증)
+- `form`은 입력 칸을 묶는 영역입니다.
+- `label`의 `for`와 `input`의 `id`가 **같아야** 이름표를 눌렀을 때 커서가 들어갑니다.
+- `type="text"`는 한 줄, `type="email"`은 이메일용, `textarea`는 여러 줄입니다.
+- 커서가 안 들어가면 `for`와 `id`의 철자를 대소문자까지 비교합니다.
 
 ---
 
-## 정리
+## 2일차 · 14–19분 — button type submit과 아직 일어나지 않는 일
+
+```html
+<button type="submit">남기기</button>
+```
 
 ```text
-문서: landmark → heading → 독립 콘텐츠
-동작: 이동은 link, 실행은 button
-입력: label + type + constraint + 상태 검증
-점검: mouse 없이 전체 흐름 수행
+누르기 전: …/guestbook.html
+누른 뒤  : …/guestbook.html?      ← 주소창만 바뀐다
 ```
+
+- 지금은 눌러도 **화면에 아무 일도 일어나지 않습니다**. 주소창 끝에 `?`만 붙습니다.
+- 적은 글을 화면에 띄우는 일은 **7주차**에 JavaScript로 합니다.
+- 오늘은 "입력 칸을 올바로 만든다"까지가 목표입니다.
+
+---
+
+## 2일차 · 19–25분 — 오늘 Git 5분: guestbook 브랜치와 404
+
+```bash
+git switch -c guestbook     # 만들면서 바로 옮겨 간다
+```
+
+```bash
+git switch main
+git merge guestbook
+git push
+```
+
+- `-c`는 2주차의 `git branch` + `git switch`를 한 줄로 한 것입니다.
+- 2주차 마지막 장의 "다음 주에는 새 이름으로 브랜치를 또 만듭니다"가 오늘입니다.
+- 링크가 404면 **파일 이름의 철자와 대소문자**를 봅니다. 내 PC에서는 `Guestbook.html`도 열리지만 공개 주소에서는 404입니다.
+
+---
+
+## 2일차 · 25–30분 — 이제 직접 해 보기
+
+[2일차 실습](lab.md#2일차--내-정보-표와-방명록-form-60분) · [따라하기](walkthrough.md#2일차)
+실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week03_semantic_html
+
+1. `git pull` → `git switch -c guestbook`.
+2. `about.html`을 2열 4행 표로 다시 쓰고, `guestbook.html`을 새로 만듭니다.
+3. 세 페이지 메뉴를 같게 맞추고 `merge` → `push` → 공개 주소에서 캡처.
+
+**설명 합계: 6+8+5+6+5 = 30분**
+
+막히면 화면의 그림·링크 경로부터 봅니다.
+
+---
+
+## 제출하기
+
+2일차가 끝나면 캡처 **한 장**을 제출합니다.
+
+```text
+https://student01.github.io/my-web/guestbook.html
+메뉴: 홈 · 내 정보 · 방명록
+입력 칸: 이름 · 이메일 · 메시지 + [남기기]
+주소창이 함께 보이게 찍습니다
+```
+
+캡처에 실명·학번·실제 이메일이 보이지 않게 합니다. 아이디는 보여도 됩니다.
+
+---
+
+## 다음 주 미리 보기
+
+오늘 만든 세 페이지는 꾸미지 않은 화면입니다.
+
+4주차에는 `styles.css`를 비우고 다시 써서 세 페이지에 연결하고,
+색·박스·`display: flex`·`@media`로 꾸밉니다.
+오늘 만든 `header`·`nav`·`main`·`footer`·`ul`·`table`이 그대로 CSS의 대상이 됩니다.

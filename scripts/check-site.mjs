@@ -5,10 +5,10 @@ import { runInNewContext } from "node:vm";
 import { isDeepStrictEqual } from "node:util";
 
 const EXPECTED_DECKS = 46;
-const EXPECTED_SLIDES = 1004;
+const EXPECTED_SLIDES = 1002;
 const EXPECTED = {
   android: { slug: "android", decks: 15, slides: 300, status: "published" },
-  web: { slug: "webprg", decks: 16, slides: 293, status: "published" },
+  web: { slug: "webprg", decks: 16, slides: 291, status: "published" },
   "open-source-ai": { slug: "open_source_ai", decks: 15, slides: 411, status: "published" },
 };
 const BLOB = "https://github.com/gbox3d/teaching_repo/blob/main";
@@ -401,7 +401,7 @@ async function main() {
   check(decks === EXPECTED_DECKS, `expected ${EXPECTED_DECKS} decks, got ${decks}`);
   check(slides === EXPECTED_SLIDES, `expected ${EXPECTED_SLIDES} slides, got ${slides}`);
   check(catalog.site?.stats?.decks === EXPECTED_DECKS, "site.stats.decks must be 46");
-  check(catalog.site?.stats?.slides === EXPECTED_SLIDES, "site.stats.slides must be 1004");
+  check(catalog.site?.stats?.slides === EXPECTED_SLIDES, "site.stats.slides must be 1002");
 
   const files = await walk(dist);
   const actualHtml = new Set(
