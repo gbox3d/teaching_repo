@@ -133,7 +133,7 @@
       "description": "브라우저와 Git의 기초에서 시작해 저장소 하나에 페이지를 쌓아 공개 사이트를 만들고, 목록·브라우저 저장·JSON 불러오기까지 다루는 15주 입문 과정입니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 2개 특강 · 297장",
+      "summary": "15개 주차 + 2개 특강 · 302장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
@@ -161,7 +161,7 @@
           "id": "week04_responsive_css",
           "label": "4주차",
           "title": "CSS와 반응형 UI",
-          "description": "3주차에 만든 세 페이지를 색과 박스로 꾸미고, 휴대폰처럼 좁은 화면에서는 메뉴가 세로로 서게 할 수 있을까?",
+          "description": "메뉴 세 개를 가로로 놓고, 좁은 화면에서는 세로로 세우려면 무엇을 알아야 하나?",
           "type": "week"
         },
         {

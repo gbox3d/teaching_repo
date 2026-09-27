@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex10 flex grow</title>
+    <style>
+        body {
+            background-color: #222222;
+            color: white;
+            font-family: sans-serif;
+        }
+        .frame {
+            display: flex;
+            border: 1px solid white;
+            width: 300px;
+            height: 48px;
+            margin-bottom: 8px;
+        }
+        .box {
+            width: 48px;
+            margin: 4px;
+            background-color: dodgerblue;
+            text-align: center;
+            line-height: 32px;
+        }
+        .grow {
+            flex: 1;                    /* 주축의 남는 공간을 이 자식이 차지한다 */
+            /* flex: 2; */              /* 둘이 나눠 가질 때 2:1 로 */
+        }
+        /* 세로에서도 같다: 화면을 위·가운데·아래로 나눌 때 */
+        .screen {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid white;
+            width: 300px;
+            height: 200px;
+        }
+        .screen div {
+            background-color: dodgerblue;
+            margin: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <p>1. 기본 — 남는 공간은 비어 있다</p>
+    <div class="frame">
+        <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+    </div>
+    <p>2. 가운데만 flex: 1</p>
+    <div class="frame">
+        <div class="box">1</div><div class="box grow">2</div><div class="box">3</div>
+    </div>
+    <p>3. 셋 다 flex: 1 → 똑같이 나눈다</p>
+    <div class="frame">
+        <div class="box grow">1</div><div class="box grow">2</div><div class="box grow">3</div>
+    </div>
+    <p>4. column 에서 main 만 flex: 1 → header·footer 는 제 크기, main 이 나머지</p>
+    <div class="screen">
+        <div>header</div>
+        <div class="grow">main</div>
+        <div>footer</div>
+    </div>
+</body>
+</html>

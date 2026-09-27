@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex11 media query</title>
+    <style>
+        body {
+            background-color: #222222;
+            color: white;
+            font-family: sans-serif;
+        }
+        .frame {
+            display: flex;
+            flex-direction: row;        /* 평소에는 가로 */
+            border: 1px solid white;
+            margin-bottom: 8px;
+        }
+        .box {
+            width: 64px;
+            height: 32px;
+            margin: 4px;
+            background-color: dodgerblue;
+            text-align: center;
+            line-height: 32px;
+        }
+        /* 창 폭이 600px 이하일 때만 안쪽 규칙이 살아난다.
+           같은 선택자를 두 번 쓰면 뒤가 이기므로(ex01) 이 규칙이 위의 row 를 덮는다 */
+        @media (max-width: 600px) {     /* 900px 으로 바꿔 보기 */
+            .narrow {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <p>1. @media 규칙이 있는 frame (class="narrow") — 창을 600px 보다 좁히면 세로로</p>
+    <div class="frame narrow">
+        <div class="box">홈</div><div class="box">내 정보</div><div class="box">방명록</div>
+    </div>
+    <p>2. @media 규칙이 없는 frame — 창을 아무리 좁혀도 가로</p>
+    <div class="frame">
+        <div class="box">홈</div><div class="box">내 정보</div><div class="box">방명록</div>
+    </div>
+    <p>F12 › 기기 모드(Ctrl+Shift+M) 에서 폭을 375 로 바꿔 본다. 1번만 세로로 선다.</p>
+</body>
+</html>

@@ -3,61 +3,37 @@ marp: true
 theme: default
 paginate: true
 header: "웹프로그래밍 · 4주차"
-footer: "CSS와 반응형 UI · 선택자·색·박스·flex·@media"
+footer: "CSS와 반응형 UI · 부품을 하나씩 비교하고 마지막에 조립"
 ---
 
 # CSS와 반응형 UI
 
-3주차에는 세 페이지를 만들었지만 화면은 꾸미지 않았습니다.
-이번 주에는 `styles.css`를 **비우고 다시 써서** 세 페이지에 연결합니다.
+3주차 `my-web` 세 페이지는 아직 꾸미지 않았습니다. 이번 주는 CSS 입니다.
 
-```text
-my-web/
-  index.html      ← link 한 줄 + class="card" 세 곳
-  about.html      ← link 한 줄
-  guestbook.html  ← link 한 줄
-  styles.css      ← 비우고 다시 쓴다 (이번 주의 주인공)
-```
+이번 주 방식: **부품 12개를 하나씩 비교**하고, 마지막에 `my-web` 의 `styles.css` 를 **조립**합니다.
 
-`app.js`는 이번 주에도 열지 않습니다. 동작은 5주차입니다.
+- 파일 하나 = 속성 하나. 값 하나만 다른 형제를 나란히 놓고 차이를 봅니다.
+- 첫 형제는 기본값. 주석은 다른 값. 주석을 풀거나 값을 바꿔 봅니다.
+- 실습도 파일을 만드는 것이 아니라 **값을 바꿔 보는 것**입니다.
+- 만들기는 2일차 끝에 한 번. 어느 규칙이 어느 파일에서 온 것인지 적어 둡니다.
+
+작년 수업(dayNN/exNN 비교 파일 → 마지막에 만들기)과 같은 방식입니다.
 
 ---
 
-# 1일차 — 색과 글꼴
+# 1일차 — 선택자와 박스
 
 `30분 설명·시연 → 60분 실습`
 
-1. `git log --oneline`과 GitHub Commits 탭
-2. `link` 줄 되살리기와 규칙의 모양
-3. 선택자: 태그와 `.class`
-4. 색·글꼴 네 가지와 DevTools Styles
+1. ex01 선택자 — 맞아야 적용되고, 겹치면 클래스가 이긴다
+2. ex02 display — 줄을 차지하는지는 태그가 아니라 display
+3. ex03 박스모델 — padding·border·margin 세 층
+4. ex04 width·max-width — 창이 좁아지면 어느 쪽이 줄어드나
+5. ex05 text-align — 가로는 되고 세로 가운데는 안 된다
 
 ---
 
-## 1일차 · 0–5분 — 오늘 Git 5분: git log --oneline과 Commits 탭
-
-```bash
-git pull
-git log --oneline
-```
-
-```text
-9bd9ddb 방명록 페이지 추가
-32b2716 자기소개 페이지 만들기
-```
-
-- 시작 0–5분은 `git pull`(같은 PC) 또는 `git clone`(다른 PC)입니다. 3주차와 같습니다.
-- `git log --oneline`은 **내 PC의 기록**입니다. 앞의 일곱 글자는 PC마다 다릅니다.
-- GitHub 저장소 화면의 **Commits** 탭에서 commit 하나를 누르면 그때 **바뀐 줄**이 초록·빨강으로 보입니다.
-- 오늘 고칠 파일은 `styles.css` 하나입니다. 끝 루틴(add → commit → push)은 3주차와 같습니다.
-
----
-
-## 1일차 · 5–11분 — link 줄 되살리기와 규칙의 모양
-
-```html
-    <link rel="stylesheet" href="styles.css">
-```
+## 1일차 · 0–4분 — 이번 주 방식: 부품을 보고 마지막에 조립한다
 
 ```css
 선택자 {
@@ -65,187 +41,293 @@ git log --oneline
 }
 ```
 
-- 3주차에 뺐던 `link` 한 줄을 **세 페이지 모두** `<title>` 아래에 다시 넣습니다.
-- 2주차 `styles.css`는 읽기만 한 **틀**입니다. 오늘 전체를 지우고 처음부터 씁니다.
-- 규칙 하나 = 선택자 + 중괄호 + `속성: 값;` 줄들.
-- 줄 끝 세미콜론을 빠뜨리면 그 줄과 **다음 줄까지** 함께 무시됩니다.
+- 규칙 하나 = 선택자 + 중괄호 + `속성: 값;` 줄들. 비교 파일은 `<style>` 안에, `my-web` 은 `styles.css` + `<link rel="stylesheet" href="styles.css">`.
+- 색·글꼴 속성은 이름 그대로입니다: `color` · `background-color` · `font-size` · `font-family`.
+- **CSS 는 틀려도 오류 메시지가 없다.** 선택자가 안 맞거나 세미콜론이 빠지면 조용히 무시됩니다.
+- 그래서 형제를 나란히 놓고 **눈으로** 비교합니다. 값을 바꿨는데 화면이 안 바뀌면 그것도 결과입니다.
 
 ---
 
-## 1일차 · 11–17분 — 선택자: 태그와 .class
+## 1일차 · 4–10분 — ex01 선택자: 맞아야 적용되고, 겹치면 클래스가 이긴다
+
+[examples/ex01_selector.html](examples/ex01_selector.html)
+형제: `p` / `p.red` / `div.red` / `p.Red`(오타) / `nav a` / nav 밖 `a`
 
 ```css
-h1 { color: #1f3a93; }
-nav a { color: #3157d5; }
-.card { background-color: #ffffff; }
+p     { color: blue; }    /* 태그 선택자: 모든 p */
+.red  { color: red; }     /* 클래스 선택자: class="red" 만, 태그는 상관없다 */
+nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
+/* p { color: gray; } */
 ```
 
-```html
-<p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>
-```
+- 2번은 `p` 이면서 `.red` → 빨강. 4번 `class="Red"` 는 `.red` 와 다른 이름 → 파랑.
+- 바꿔 보기: 주석 풀기 → 1·4번(`.red` 가 안 맞는 p)만 회색, 2번은 빨강 그대로. 4번의 `class="Red"` 를 `class="red"` 로 → 빨강.
 
-- 태그 선택자(`h1`)는 그 태그 **전부**를 고릅니다.
-- `nav a`처럼 사이를 띄우면 "`nav` 안에 있는 `a`"라는 뜻입니다.
-- `.card`는 HTML에 `class="card"`라고 적어 둔 것만 고릅니다. 점은 CSS에서만 씁니다.
-- 선택자가 **한 글자라도 다르면** 아무 일도 일어나지 않습니다. `.Card`는 `.card`가 아닙니다.
+**선택자가 맞아야 적용된다. 클래스는 태그보다 좁게 고르니 더 세다. 세기가 같을 때만 뒤가 이긴다.**
 
 ---
 
-## 1일차 · 17–25분 — 색과 글꼴 네 가지, 그리고 Styles 탭
+## 1일차 · 10–15분 — ex02 display: 줄을 차지하는지는 태그가 아니라 display
+
+[examples/ex02_display.html](examples/ex02_display.html)
+형제: div 3개 / span 3개 / span + `display: block` / div + `display: inline`
 
 ```css
-body {
-  background-color: #eef2ff;
-  color: #17213a;
-  font-family: system-ui, sans-serif;
-  font-size: 16px;
-}
+.as-block  { display: block; }   /* 한 줄을 다 차지한다 */
+.as-inline { display: inline; }  /* 글자처럼 옆으로 이어진다 */
 ```
 
-- `background-color` 배경색 · `color` 글자색 · `font-size` 글자 크기 · `font-family` 글꼴
-- `body`에 준 글자색과 글꼴은 안쪽 글자에도 그대로 내려갑니다.
-- DevTools **Elements › Styles**에서 값을 바꾸면 화면이 바로 바뀝니다.
-- 다만 **새로고침하면 사라집니다.** 파일에 저장된 것이 아닙니다.
-- `text-align: center`는 오늘 `footer` 한 곳에 씁니다.
+- 1번 div 는 세로로 쌓이고 2번 span 은 옆으로 이어집니다. 태그의 기본값이 다를 뿐, 3·4번처럼 바꿀 수 있습니다.
+- 바꿔 보기: `.as-block` 을 `inline` 으로, `.as-inline` 을 `block` 으로 → 3번과 4번이 자리를 바꾼다. 내일의 `flex` 도 같은 속성의 다른 값.
+
+**줄을 차지하는지는 태그가 아니라 `display` 가 정한다.**
 
 ---
 
-## 1일차 · 25–30분 — 이제 직접 해 보기
+## 1일차 · 15–21분 — ex03 박스모델: padding·border·margin 세 층
 
-[1일차 실습](lab.md#1일차--색과-글꼴-60분) · [따라하기](walkthrough.md#1일차)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css
+[examples/ex03_box_model.html](examples/ex03_box_model.html)
+형제: 기본 / `padding` / `border` / `margin` / 셋 다 (흰 frame 위의 하늘색 box)
 
-1. 세 페이지에 `link` 줄을 넣고 `styles.css`를 전체 지웁니다.
-2. `body`·`h1`·`h2`·`nav a` 네 규칙을 씁니다.
-3. `index.html`의 문단 두 개와 취미 목록에 `class="card"`를 붙이고 `.card`·`footer` 규칙을 씁니다.
+```css
+.pad { padding: 16px; }           /* 테두리 안쪽, 글자와 테두리 사이 */
+.bd  { border: 4px solid navy; }  /* 테두리 */
+.mg  { margin: 16px; }            /* 테두리 바깥, 이웃과의 거리 */
+```
 
-**설명 합계: 5+6+6+8+5 = 30분**
+- 하늘색 배경은 `padding` 까지 칠해지고, `margin` 이 벌린 자리는 흰 frame 이 보입니다. F12 › Styles 맨 아래 상자 그림.
+- 바꿔 보기: 세 값을 0 / 16 / 32 로 → 5번 상자에서 어느 층이 커지는지.
 
-화면이 안 바뀌면 **선택자 철자**와 `link` 줄부터 봅니다.
+**안쪽 여백(padding)·테두리(border)·바깥 여백(margin)은 서로 다른 층이다.**
 
 ---
 
-# 2일차 — 박스와 반응형
+## 1일차 · 21–26분 — ex04 width와 max-width, margin auto
+
+[examples/ex04_width.html](examples/ex04_width.html)
+형제: 기본(부모 폭) / `width: 640px` / `max-width: 640px` / `max-width` + `margin` 좌우 `auto`
+
+```css
+.w      { width: 640px; }        /* 창이 좁아져도 640px, 삐져나간다 */
+.mw     { max-width: 640px; }    /* 640px 까지만, 창이 좁으면 같이 줄어든다 */
+.center { max-width: 640px; margin-left: auto; margin-right: auto; }
+```
+
+- `margin-left: auto; margin-right: auto` → 남는 폭을 왼쪽·오른쪽이 반씩. 합쳐서 `margin: 0 auto`.
+- 바꿔 보기: 창 폭을 400px 까지 천천히 줄이기 → 2번만 삐져나가 가로 스크롤이 생긴다.
+
+**`width` 는 폭을 못박고 `max-width` 는 상한만 둔다. 상한만 두면 창과 함께 준다.**
+
+---
+
+## 1일차 · 26–28분 — ex05 text-align, 그리고 안 되는 세로 가운데
+
+[examples/ex05_text_align.html](examples/ex05_text_align.html)
+형제: 기본 / `text-align: center` / `right` / `vertical-align: middle`(블록 상자엔 효과 없음)
+
+```css
+.center { text-align: center; }
+.right  { text-align: right; }
+.middle { vertical-align: middle; }  /* 블록 상자에는 아무 일도 일어나지 않는다 */
+```
+
+- 가로 정렬은 `text-align` 한 줄. 4번은 값을 뭘로 바꿔도 글자가 위에 붙어 있습니다.
+- 바꿔 보기: `.middle` 값을 `bottom` 으로 → 그래도 안 움직인다. 답은 2일차 ex08.
+
+**`vertical-align` 은 줄 안 글자끼리의 정렬이라 상자 안 내용은 못 옮긴다. 세로 정렬은 부모의 일이다 → ex08.**
+
+---
+
+## 1일차 · 28–30분 — 이제 직접 해 보기
+
+[1일차 실습](lab.md#1일차--선택자와-박스-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
+
+1. `my-web/week04/` 폴더를 만들고 ex01~ex05 다섯 파일을 저장합니다.
+2. 파일마다 값을 하나 이상 바꿔 보고 화면이 어떻게 달라지는지 봅니다.
+3. push 하고 `https://student01.github.io/my-web/week04/ex01_selector.html` 을 엽니다.
+
+Git 은 0–5분 `git pull`, 55–60분 `git add .` → `git commit` → `git push` 입니다.
+화면이 안 바뀌면 오류를 찾지 말고 **선택자 철자**와 **세미콜론**부터 봅니다.
+
+**설명 합계: 4+6+5+6+5+2+2 = 30분**
+
+---
+
+# 2일차 — flex, 그리고 조립
 
 `30분 설명·시연 → 60분 실습`
 
-1. `git restore`로 되돌리기
-2. 박스모델 `padding`·`margin`·`border`
-3. `max-width`·`margin: 0 auto`
-4. `display: flex`·`gap`·`flex-wrap`
-5. `@media (max-width: 600px)`와 기기 모드 375
+1. flex 원리 다섯 줄 — 부모·주축·교차축
+2. ex06·ex07·ex08 — direction 이 주축, justify 는 주축, align 은 교차축
+3. ex09·ex10 — wrap·gap 은 부모에, flex: 1 은 남는 공간
+4. ex11 — @media 는 조건이 맞을 때만
+5. 조립 — `my-web/styles.css` 를 부품에서 모은다
 
 ---
 
-## 2일차 · 0–5분 — 오늘 Git 5분: git restore
-
-```bash
-git status
-git restore styles.css
-```
+## 2일차 · 0–4분 — flex 원리 다섯 줄: 부모·주축·교차축
 
 ```text
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-	modified:   styles.css
+부모(컨테이너) display: flex, flex-direction: row
+┌──────────────── 주축 → ───────────┐
+│ [1] [2] [3]                       │  교차축 ↓
+└───────────────────────────────────┘
 ```
 
-- 1주차에 **보기만** 했던 명령을 오늘 실제로 써 봅니다. `git status`가 방법을 같이 알려 줍니다.
-- `git restore <파일>`: 저장은 했지만 commit하지 않은 수정을 마지막 commit 상태로 되돌립니다.
-- `git add`까지 했다면 `git restore --staged <파일>`로 add만 취소합니다(파일 내용은 그대로).
-- 되돌린 내용은 돌아오지 않습니다. 성공하면 **아무 말도 나오지 않습니다**.
+1. `display: flex` 는 **부모**에 쓴다. 자식들이 배치 대상이 된다.
+2. `flex-direction` 이 **주축**을 정한다. `row` 면 가로, `column` 이면 세로.
+3. `justify-content` 는 **주축** 정렬이다. "가로" 가 아니다.
+4. `align-items` 는 **교차축** 정렬이다. `row` 에선 세로, `column` 에선 가로.
+5. `flex: 1` 은 주축의 **남는 공간**을 그 자식이 차지한다.
+
+ex06~ex10 은 이 다섯 줄을 한 줄씩 눈으로 확인하는 파일입니다.
 
 ---
 
-## 2일차 · 5–12분 — 박스모델 padding·margin·border
+## 2일차 · 4–9분 — ex06 flex-direction: 주축을 정한다
+
+[examples/ex06_flex_direction.html](examples/ex06_flex_direction.html)
+형제: flex 없음 / row / row-reverse / column / column-reverse / row + center / column + center
+
+```css
+.flex   { display: flex; }               /* 부모에 쓴다. 자식들이 한 줄로 선다 */
+.column { flex-direction: column; }      /* 주축이 세로 ↓ (기본값 row 는 가로 →) */
+.center { justify-content: center; }     /* 주축 방향으로 가운데 */
+```
+
+- 6번과 7번은 같은 `justify-content: center`. row 에선 가로, column 에선 세로 가운데.
+- 바꿔 보기: 6·7번의 direction 을 서로 바꾸기 → 가운데 방향이 뒤집힌다. 자식에 `display: flex` → 상자 셋은 그대로, 숫자만 왼쪽으로.
+
+**`display: flex` 는 부모에. `flex-direction` 이 주축을 정하고 `justify-content` 는 주축을 따라간다.**
+
+---
+
+## 2일차 · 9–13분 — ex07 justify-content: 주축 위의 남는 공간
+
+[examples/ex07_justify_content.html](examples/ex07_justify_content.html)
+형제: `flex-start` / `center` / `flex-end` / `space-between` / `space-around`, 주석 `space-evenly`
+
+```css
+.start   { justify-content: flex-start; }    /* 기본값: 앞에 모은다 */
+.between { justify-content: space-between; } /* 양 끝에 붙이고 사이를 벌린다 */
+.around  { justify-content: space-around; }  /* 상자마다 양옆에 같은 여백 */
+/* .evenly { justify-content: space-evenly; } */ /* 모든 간격이 같다 */
+```
+
+- 상자 셋 48px, frame 300px. 남는 공간을 어디에 둘지가 값마다 다릅니다.
+- 바꿔 보기: `.frame` 의 `height` 를 160px 로 하고 주석 `column` 풀기 → 다섯 개가 전부 세로로. `.evenly` 를 풀고 5번 class 를 `evenly` 로.
+
+**`justify-content` 는 주축 위에서 남는 공간을 어떻게 나누는가다.**
+
+---
+
+## 2일차 · 13–17분 — ex08 align-items: 교차축, ex05의 답
+
+[examples/ex08_align_items.html](examples/ex08_align_items.html)
+형제: `stretch`(기본) / `flex-start` / `center` / `flex-end`, frame 주석 `column`
+
+```css
+.stretch { align-items: stretch; }     /* 기본값: 높이를 안 정한 자식은 끝까지 늘어난다 */
+.start   { align-items: flex-start; }  /* 위 */
+.center  { align-items: center; }      /* 세로 가운데 */
+.end     { align-items: flex-end; }    /* 아래 */
+```
+
+- `.box` 에 높이가 없어 1번은 frame 높이만큼 늘어납니다. ex05 에서 안 되던 세로 가운데가 3번에서 됩니다.
+- 바꿔 보기: `.frame` 의 `column` 주석 풀기 → 네 개가 전부 가로로 움직인다. 교차축이 가로가 됐기 때문.
+
+**`align-items` 는 교차축 정렬. row 에선 세로, column 에선 가로.**
+
+---
+
+## 2일차 · 17–21분 — ex09 flex-wrap과 gap: 넘기기와 간격
+
+[examples/ex09_flex_wrap_gap.html](examples/ex09_flex_wrap_gap.html)
+형제: `nowrap`(64px×6 이 300px 안에 찌그러짐) / `wrap` / `wrap` + `gap: 16px`
+
+```css
+.nowrap { flex-wrap: nowrap; }  /* 기본값: 한 줄에 억지로 넣는다 */
+.wrap   { flex-wrap: wrap; }    /* 안 들어가면 다음 줄로 넘긴다 */
+.gap    { gap: 16px; }          /* 자식 사이 간격. 부모에 쓴다 */
+```
+
+- 64px × 6 = 384px. 300px 에 안 들어가면 1번은 찌그러뜨리고 2번은 넘깁니다. `gap` 은 부모에 — `nav a { gap }` 은 아무 일도 없습니다.
+- 바꿔 보기: 자식 수 6 → 3 → 찌그러짐도 넘김도 사라진다. `gap` 을 0 / 16 / 32 로.
+
+**넘길지는 `flex-wrap`, 사이 간격은 `gap`. 사이는 자식 하나가 정할 수 없으니 둘 다 부모에 쓴다.**
+
+---
+
+## 2일차 · 21–24분 — ex10 flex: 1 — 남는 공간을 차지한다
+
+[examples/ex10_flex_grow.html](examples/ex10_flex_grow.html)
+형제: 기본 / 가운데만 `flex: 1` / 셋 다 `flex: 1` / column 화면(header · main `flex: 1` · footer)
+
+```css
+.grow   { flex: 1; }   /* 주축의 남는 공간을 이 자식이 차지한다.  flex: 2 면 두 배 몫 */
+.screen { display: flex; flex-direction: column; height: 200px; }
+```
+
+- 이 속성만 **자식**에 씁니다. "남는 공간을 내가 가진다"는 자식의 말이기 때문입니다. 4번은 세로에서도 같다는 것 — 작년 게임 타이틀 화면의 원리.
+- 바꿔 보기: 3번 가운데 `<div>` 에만 `style="flex: 2"` → 가운데가 두 배 몫. `.grow` 의 `flex: 2` 주석은 셋 다 2 라 변화 없음.
+
+**`flex: 1` 은 주축의 남는 공간을 그 자식이 차지한다. 여럿이면 숫자 비율로 나눈다.**
+
+---
+
+## 2일차 · 24–27분 — ex11 @media: 조건이 맞을 때만 뒤 규칙이 산다
+
+[examples/ex11_media.html](examples/ex11_media.html)
+형제: `@media (max-width: 600px)` 규칙이 있는 frame(`.narrow`) / 없는 frame
+
+```css
+.frame { display: flex; flex-direction: row; }   /* 평소에는 가로 */
+@media (max-width: 600px) {                      /* 900px 으로 바꿔 보기 */
+    .narrow { flex-direction: column; }
+}
+```
+
+- 600px 이하일 때만 안쪽 규칙이 살아납니다. 그때 `.narrow` 는 `row` 와 `column` 을 둘 다 갖고, 세기가 같으니 뒤가 이깁니다(ex01). 확인은 F12 › 기기 모드 375.
+- 바꿔 보기: 600 → 900 → 보통 창에서도 1번이 세로. `(max-width 600px)` 콜론 누락 → 오류 없이 덩어리 전체 무시.
+
+**조건이 맞을 때만 뒤 규칙이 살아난다. 세기가 같으면 뒤가 이긴다.**
+
+---
+
+## 2일차 · 27–30분 — 조립: my-web styles.css, 그리고 실습 인계
 
 ```text
-margin  ← 상자 바깥 여백
-border  ← 상자 테두리
-padding ← 테두리와 글자 사이
-글자
+body  { max-width: 640px; margin: 0 auto; padding: 16px }      ← ex04 + ex03
+nav   { display: flex; gap: 16px; flex-wrap: wrap }            ← ex06 + ex09 (부모에)
+.card { background-color; padding; margin: 12px 0; border }    ← ex01 클래스 + ex03 세 층
+@media (max-width: 600px) { nav { flex-direction: column } }   ← ex11 + ex06
 ```
 
-```css
-.card {
-  padding: 16px;
-  margin: 12px 0;
-  border: 1px solid #c3cbe6;
-}
-```
+[2일차 실습](lab.md#2일차--flex와-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
 
-- `margin: 12px 0`은 위아래 12px, 좌우 0이라는 뜻입니다.
-- DevTools **Elements › Styles** 맨 아래 상자 그림에서 네 값을 그대로 볼 수 있습니다.
+1. ex06~ex11 여섯 파일을 `week04/` 에 저장하고 값을 바꿔 봅니다(35분까지).
+2. 조립: `styles.css` 를 조립표 순서로, 세 페이지에 `link` 줄, `index.html` 에 `class="card"` 세 곳.
+3. 1280 과 기기 모드 375 로 확인 → `git add .` → `git commit` → `git push` → 캡처.
+
+**설명 합계: 4+5+4+4+4+3+3+3 = 30분**
 
 ---
 
-## 2일차 · 12–17분 — max-width와 margin: 0 auto
+## 부록 — ex12 position (선택, 설명 없음)
+
+[examples/ex12_position.html](examples/ex12_position.html)
+형제: `static`(기본) / `relative; top: 20px; left: 40px` / `absolute; right: 4px; bottom: 4px`
 
 ```css
-body {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 16px;
-}
+.frame    { position: relative; }                           /* absolute 자식의 기준점 */
+.relative { position: relative; top: 20px; left: 40px; }    /* 원래 자리에서 밀어낸다. 자리는 남는다 */
+.absolute { position: absolute; right: 4px; bottom: 4px; }  /* 흐름에서 빠져 frame 모서리 기준 */
 ```
 
-- `max-width: 640px`: 화면이 아무리 넓어도 본문은 640px까지만 넓어집니다. 글줄이 길면 읽기 어렵습니다.
-- `margin: 0 auto`: 위아래 0, 좌우는 남는 공간을 **반씩** 나눠 가집니다. 그래서 가운데로 모입니다.
-- `width: 640px`이 아니라 `max-width`인 이유는, 화면이 640px보다 좁으면 그 화면에 맞춰 줄어들어야 하기 때문입니다.
-- `padding: 16px`은 화면 가장자리에 글자가 붙지 않게 합니다.
+- 수업에서 다루지 않습니다. 먼저 끝났으면 열어서 값을 바꿔 봅니다.
+- 3번에서 B 가 A 자리로 올라오는 이유: A 가 문서 흐름에서 빠졌기 때문입니다.
 
----
-
-## 2일차 · 17–23분 — display: flex·gap·flex-wrap
-
-```css
-nav {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-```
-
-```text
-전: 홈 내 정보 방명록      ← 링크끼리 거의 붙어 있다
-후: 홈   내 정보   방명록  ← 한 줄로 나란히, 사이 16px
-```
-
-- `display: flex`는 안에 있는 것들을 **한 줄로 나란히** 놓습니다.
-- `gap`은 그 사이 간격, `flex-wrap: wrap`은 한 줄에 다 안 들어가면 다음 줄로 넘기라는 뜻입니다.
-- flex로 바꾸는 진짜 이유는 다음 장입니다. 세로로 세울 수 있게 됩니다.
-
----
-
-## 2일차 · 23–27분 — @media 세 줄과 기기 모드 375
-
-```css
-@media (max-width: 600px) {
-  nav {
-    flex-direction: column;
-  }
-}
-```
-
-- 뜻: **화면 폭이 600px 이하일 때만** 안쪽 규칙을 쓴다.
-- `flex-direction: column`은 가로로 놓던 것을 세로로 바꿉니다.
-- 파일 **맨 끝**에 붙입니다. 이 세 줄은 그대로 복사해 씁니다.
-- 확인은 DevTools **기기 모드**(Ctrl+Shift+M, macOS ⌘+⇧+M) → 폭에 `375`를 칩니다.
-- 괄호 안 콜론(`max-width:`)을 빠뜨리면 오류 없이 **블록 전체가 무시**됩니다.
-
----
-
-## 2일차 · 27–30분 — 이제 직접 해 보기
-
-[2일차 실습](lab.md#2일차--박스와-반응형-60분) · [따라하기](walkthrough.md#2일차)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css
-
-1. `nav`를 flex로, `.card`에 `padding`·`margin`·`border`를 줍니다.
-2. `body`에 `max-width`·`margin: 0 auto`, 파일 끝에 `@media` 세 줄, 그 앞에 입력 칸 폭.
-3. 375px에서 메뉴가 세로로 서면 캡처합니다. 마지막에 `git restore`를 한 번 써 봅니다.
-
-**설명 합계: 5+7+5+6+4+3 = 30분**
+**문서 흐름에서 빼는 두 방법. `relative` 는 자리를 남기고, `absolute` 는 남기지 않는다.**
 
 ---
 
@@ -254,14 +336,14 @@ nav {
 2일차가 끝나면 캡처 **한 장**을 제출합니다.
 
 ```text
-https://student01.github.io/my-web/
+https://student01.github.io/my-web/index.html
 DevTools 기기 모드 375px
 메뉴: 홈 / 내 정보 / 방명록   ← 세로로 한 줄씩
 소개 문단·취미 목록: 테두리 있는 흰 카드
 주소창과 폭 375 표시가 함께 보이게 찍습니다
 ```
 
-1280px 화면은 확인용입니다. 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
+1280px 화면과 `week04/` 의 실험 파일은 확인용입니다. 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
 
 ---
 
@@ -269,8 +351,6 @@ DevTools 기기 모드 375px
 
 오늘까지 세 페이지는 **보이는 것**만 바뀌었습니다. 버튼도 입력 칸도 아직 아무 동작을 하지 않습니다.
 
-5주차에는 `app.js`를 비우고 다시 써서 JavaScript를 시작합니다.
-`<script src="app.js" defer></script>` 줄을 되살리고, Console에 값을 찍어 보고,
-함수가 만든 인사말을 `index.html`에 한 줄 띄웁니다.
-
-오늘 정한 색 값과 `.card`는 6주차 다크 모드에서 다시 씁니다.
+5주차에는 `app.js` 를 비우고 다시 써서 JavaScript 를 시작합니다.
+`<script src="app.js" defer></script>` 줄을 되살리고, Console 에 값을 찍어 봅니다.
+`styles.css` 는 그대로입니다. 오늘 정한 `.card` 색은 6주차 다크 모드에서 다시 씁니다.

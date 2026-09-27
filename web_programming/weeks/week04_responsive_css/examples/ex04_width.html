@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex04 width</title>
+    <style>
+        .box {
+            background-color: lightgreen;
+            border: 1px solid green;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+        .w {
+            width: 640px;               /* 창이 좁아져도 640px, 삐져나간다 */
+        }
+        .mw {
+            max-width: 640px;           /* 640px 까지만, 창이 좁으면 같이 줄어든다 */
+        }
+        .center {
+            max-width: 640px;
+            margin-left: auto;          /* 남는 폭을 왼쪽·오른쪽이 반씩 */
+            margin-right: auto;         /* 두 줄을 합쳐 margin: 0 auto 라고도 쓴다 */
+        }
+    </style>
+</head>
+<body>
+    <div class="box">1. 기본 → 부모(body) 폭 전부</div>
+    <div class="box w">2. width: 640px</div>
+    <div class="box mw">3. max-width: 640px</div>
+    <div class="box center">4. max-width: 640px + margin 좌우 auto</div>
+    <p>창 폭을 400px 까지 천천히 줄여 본다. 2번만 삐져나가 가로 스크롤이 생긴다.</p>
+</body>
+</html>

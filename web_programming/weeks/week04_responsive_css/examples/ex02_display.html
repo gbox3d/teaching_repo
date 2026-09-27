@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex02 display</title>
+    <style>
+        .box {
+            background-color: yellow;
+            border: 1px solid black;
+            margin: 4px;
+            padding: 4px;
+        }
+        .as-block {
+            display: block;         /* 한 줄을 다 차지한다 */
+        }
+        .as-inline {
+            display: inline;        /* 글자처럼 옆으로 이어진다 */
+        }
+    </style>
+</head>
+<body>
+    <p>1. div 세 개 (기본값 display: block)</p>
+    <div class="box">div</div>
+    <div class="box">div</div>
+    <div class="box">div</div>
+
+    <p>2. span 세 개 (기본값 display: inline)</p>
+    <span class="box">span</span>
+    <span class="box">span</span>
+    <span class="box">span</span>
+
+    <p>3. span 에 display: block</p>
+    <span class="box as-block">span</span>
+    <span class="box as-block">span</span>
+    <span class="box as-block">span</span>
+
+    <p>4. div 에 display: inline</p>
+    <div class="box as-inline">div</div>
+    <div class="box as-inline">div</div>
+    <div class="box as-inline">div</div>
+
+    <p>줄을 차지하는지는 태그가 아니라 display 가 정한다.</p>
+</body>
+</html>

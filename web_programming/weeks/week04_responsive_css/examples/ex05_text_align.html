@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex05 text-align</title>
+    <style>
+        .box {
+            width: 300px;
+            height: 100px;
+            background-color: blue;
+            color: white;
+            border: 4px solid gold;
+            margin-bottom: 8px;
+        }
+        /* 가로 */
+        .center {
+            text-align: center;
+        }
+        .right {
+            text-align: right;
+        }
+        /* 세로 */
+        .middle {
+            vertical-align: middle;     /* 블록 상자에는 아무 일도 일어나지 않는다 */
+        }
+    </style>
+</head>
+<body>
+    <div class="box">1. 기본 (왼쪽)</div>
+    <div class="box center">2. text-align: center</div>
+    <div class="box right">3. text-align: right</div>
+    <div class="box middle">4. vertical-align: middle → 그대로 위에 붙어 있다</div>
+    <p>가로 정렬은 text-align 으로 된다. 세로 가운데는 이 방법으로는 안 된다. 답은 ex08 align-items.</p>
+</body>
+</html>

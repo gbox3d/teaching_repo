@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex09 flex-wrap gap</title>
+    <style>
+        body {
+            background-color: #222222;
+            color: white;
+            font-family: sans-serif;
+        }
+        .frame {
+            display: flex;
+            border: 1px solid white;
+            width: 300px;
+            height: 120px;
+            margin-bottom: 8px;
+        }
+        .box {
+            width: 64px;
+            height: 32px;
+            background-color: dodgerblue;
+            text-align: center;
+            line-height: 32px;
+        }
+        .nowrap { flex-wrap: nowrap; }  /* 기본값: 한 줄에 억지로 넣는다. 64px 여섯 개가 찌그러진다 */
+        .wrap   { flex-wrap: wrap; }    /* 안 들어가면 다음 줄로 넘긴다 */
+        .gap    { gap: 16px; }          /* 자식 사이 간격. 부모에 쓴다 */
+    </style>
+</head>
+<body>
+    <p>1. nowrap (기본값) — 폭 64px × 6 = 384px 를 300px 안에</p>
+    <div class="frame nowrap">
+        <div class="box">1</div><div class="box">2</div><div class="box">3</div><div class="box">4</div><div class="box">5</div><div class="box">6</div>
+    </div>
+    <p>2. wrap</p>
+    <div class="frame wrap">
+        <div class="box">1</div><div class="box">2</div><div class="box">3</div><div class="box">4</div><div class="box">5</div><div class="box">6</div>
+    </div>
+    <p>3. wrap + gap: 16px</p>
+    <div class="frame wrap gap">
+        <div class="box">1</div><div class="box">2</div><div class="box">3</div><div class="box">4</div><div class="box">5</div><div class="box">6</div>
+    </div>
+    <p>주축에 다 안 들어가면 넘길지는 flex-wrap, 사이 간격은 gap. 둘 다 부모(frame)에 쓴다.</p>
+</body>
+</html>
