@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex02 script position</title>
+    <script>
+        // 1. head 안의 script: 아직 body 를 읽기 전이라 p#msg 가 없다 → null
+        console.log('1. head 안 script :', document.getElementById('msg'));
+        // 아래 주석을 풀면 Console 에 빨간 오류가 뜬다. 오류 줄 오른쪽의 "파일 이름:줄 번호"를 읽는다
+        // document.getElementById('msg').innerText = 'head 에서 바꿈';
+    </script>
+    <!-- 3. defer: 파일을 받아 두었다가 HTML 을 끝까지 읽은 뒤에 실행한다 -->
+    <script src="ex02_script_position.js" defer></script>
+</head>
+<body>
+    <h1>ex02 script 위치</h1>
+    <p id="msg">p#msg — 이 글자가 바뀌면 누군가 p 를 찾은 것이다</p>
+    <p>F12 › Console 에서 세 줄이 찍힌 <b>순서</b>와 <b>값</b>(null 인지)을 본다.</p>
+
+    <script>
+        // 2. body 끝의 script: 위의 p#msg 를 이미 읽었다 → 찾는다
+        console.log('2. body 끝 script :', document.getElementById('msg'));
+    </script>
+</body>
+</html>

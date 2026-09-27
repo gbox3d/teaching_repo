@@ -14,11 +14,11 @@
     <script src="./assets/library.js" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#library">교재 목록으로 바로가기</a>
+    <a class="skip-link" href="#library" data-i18n="skip">교재 목록으로 바로가기</a>
 
     <header class="site-header">
       <div class="topbar page-width">
-        <a class="brand" href="./" aria-label="교재 도서관 홈">
+        <a class="brand" href="./" aria-label="교재 도서관 홈" data-i18n-attr="aria-label:brandHome">
           <span class="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 36 36" focusable="false">
               <path d="m7 10 8 8-8 8M20 26h9" />
@@ -26,14 +26,21 @@
           </span>
           <span class="brand-copy">
             <span>TEACHING ARCHIVE</span>
-            <strong>교재 도서관</strong>
+            <strong data-i18n="siteTitle">교재 도서관</strong>
           </span>
         </a>
 
-        <nav class="topnav" aria-label="주요 메뉴">
-          <a class="topnav-link" href="#library">교재 찾기</a>
+        <nav class="topnav" aria-label="주요 메뉴" data-i18n-attr="aria-label:menu">
+          <a class="topnav-link" href="#library" data-i18n="find">교재 찾기</a>
+          <label class="language-switch">
+            <span class="visually-hidden" data-i18n="language">언어</span>
+            <select id="language-select" data-language-select>
+              <option value="ko" lang="ko">한국어</option>
+              <option value="en" lang="en">English</option>
+            </select>
+          </label>
           <a class="topnav-link topnav-link--source" id="repository-link" href="./">
-            원본 저장소
+            <span data-i18n="repository">원본 저장소</span>
             <span aria-hidden="true">↗</span>
           </a>
         </nav>
@@ -43,19 +50,19 @@
         <div class="hero-copy">
           <p class="eyebrow"><span aria-hidden="true"></span> A place to read &amp; learn</p>
           <h1 id="hero-title">
-            <span>배움의 기록,</span>
-            <span class="hero-title-accent">다음 페이지를 열다<span class="terminal-cursor" aria-hidden="true">_</span></span>
+            <span data-i18n="heroLine1">배움의 기록,</span>
+            <span class="hero-title-accent"><span data-i18n="heroLine2">다음 페이지를 열다</span><span class="terminal-cursor" aria-hidden="true">_</span></span>
           </h1>
-          <p class="hero-description" id="hero-description">
+          <p class="hero-description" id="hero-description" data-i18n="heroDescription">
             수업에 맞는 교재를 선택하세요. 교재마다 전용 주소와 목차가 있어 해당 수업의 자료를 바로 열람할 수 있습니다.
           </p>
           <div class="hero-actions">
             <a class="button button--primary" href="#library">
-              교재 둘러보기
+              <span data-i18n="browse">교재 둘러보기</span>
               <span aria-hidden="true">↓</span>
             </a>
             <a class="button button--quiet" id="hero-source-link" href="./">
-              GitHub에서 보기
+              <span data-i18n="viewGithub">GitHub에서 보기</span>
               <span aria-hidden="true">↗</span>
             </a>
           </div>
@@ -83,27 +90,27 @@
             <p class="terminal-caption">READ. LEARN. BUILD.</p>
             <p class="terminal-prompt"><span>&gt;</span> open the next chapter<span class="terminal-cursor">_</span></p>
           </div>
-          <div class="terminal-bottom"><span>배움은 계속됩니다.</span><span>■ ■ ■</span></div>
+          <div class="terminal-bottom"><span data-i18n="terminalNote">배움은 계속됩니다.</span><span>■ ■ ■</span></div>
         </div>
       </div>
 
       <div class="stats-wrap">
-        <dl class="stats page-width" aria-label="교재 도서관 현황">
+        <dl class="stats page-width" aria-label="교재 도서관 현황" data-i18n-attr="aria-label:stats">
           <div class="stat">
-            <dt>공개 교재</dt>
-            <dd><strong id="stat-courses">—</strong><span>권</span></dd>
+            <dt data-i18n="statCourses">공개 교재</dt>
+            <dd><strong id="stat-courses">—</strong><span data-i18n="courseUnit">권</span></dd>
           </div>
           <div class="stat">
-            <dt>학습 단원</dt>
-            <dd><strong id="stat-chapters">—</strong><span>개</span></dd>
+            <dt data-i18n="statChapters">학습 단원</dt>
+            <dd><strong id="stat-chapters">—</strong><span data-i18n="chapterUnit">개</span></dd>
           </div>
           <div class="stat">
-            <dt>전체 슬라이드</dt>
-            <dd><strong id="stat-slides">—</strong><span>장</span></dd>
+            <dt data-i18n="statSlides">전체 슬라이드</dt>
+            <dd><strong id="stat-slides">—</strong><span data-i18n="slideUnit">장</span></dd>
           </div>
           <div class="stat stat--note">
-            <dt>이용 안내</dt>
-            <dd>수업별 교재 주소를<br />학생들에게 안내하세요.</dd>
+            <dt data-i18n="statNote">이용 안내</dt>
+            <dd data-i18n="statNoteText">수업별 교재 주소를<br />학생들에게 안내하세요.</dd>
           </div>
         </dl>
       </div>
@@ -114,17 +121,17 @@
         <div class="section-heading">
           <div>
             <p class="section-kicker">[ 01 / Library collection ]</p>
-            <h2 id="library-title">교재 서가</h2>
+            <h2 id="library-title" data-i18n="libraryTitle">교재 서가</h2>
           </div>
-          <p>
+          <p data-i18n="libraryNote">
             제목과 주제로 필요한 교재를 찾으세요.<br />
             교재를 열면 해당 수업의 목차로 이동합니다.
           </p>
         </div>
 
-        <div class="catalog-tools portal-tools" aria-label="교재 검색">
+        <div class="catalog-tools portal-tools" aria-label="교재 검색" data-i18n-attr="aria-label:search">
           <form class="search" id="search-form" role="search">
-            <label for="catalog-search">교재 제목과 주제 검색</label>
+            <label for="catalog-search" data-i18n="searchLabel">교재 제목과 주제 검색</label>
             <div class="search-control">
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <circle cx="11" cy="11" r="6.5"></circle>
@@ -135,11 +142,12 @@
                 name="query"
                 type="search"
                 placeholder="예: Android, Supabase, 로컬 LLM"
+                data-i18n-attr="placeholder:searchPlaceholder"
                 autocomplete="off"
                 spellcheck="false"
               />
               <button class="clear-search" id="clear-search" type="button" hidden>
-                <span class="visually-hidden">검색어 지우기</span>
+                <span class="visually-hidden" data-i18n="clearSearch">검색어 지우기</span>
                 <span aria-hidden="true">×</span>
               </button>
             </div>
@@ -147,8 +155,8 @@
         </div>
 
         <div class="result-bar">
-          <p id="result-status" role="status" aria-live="polite">교재 목록을 불러오는 중입니다.</p>
-          <button class="reset-filters" id="reset-filters" type="button" hidden>검색 초기화</button>
+          <p id="result-status" role="status" aria-live="polite" data-i18n="loading">교재 목록을 불러오는 중입니다.</p>
+          <button class="reset-filters" id="reset-filters" type="button" hidden data-i18n="reset">검색 초기화</button>
         </div>
 
         <div class="shelf-list portal-grid" id="shelf-list" aria-busy="true">
@@ -180,14 +188,14 @@
     <footer class="site-footer">
       <div class="footer-inner page-width">
         <div>
-          <a class="footer-brand" href="./"><span aria-hidden="true">&gt;_</span> 교재 도서관</a>
-          <p>수업 수강·개인 학습용 자료입니다. 무단 재배포·상업적 이용을 금지합니다.</p>
+          <a class="footer-brand" href="./"><span aria-hidden="true">&gt;_</span> <span data-i18n="siteTitle">교재 도서관</span></a>
+          <p data-i18n="license">수업 수강·개인 학습용 자료입니다. 무단 재배포·상업적 이용을 금지합니다.</p>
         </div>
         <div class="footer-meta">
-          <p>마지막 갱신 <time id="updated-date">—</time></p>
-          <nav aria-label="관련 링크">
-            <a id="footer-repository-link" href="./">GitHub 저장소 <span aria-hidden="true">↗</span></a>
-            <a id="license-link" href="./">라이선스 <span aria-hidden="true">↗</span></a>
+          <p><span data-i18n="updated">마지막 갱신</span> <time id="updated-date">—</time></p>
+          <nav aria-label="관련 링크" data-i18n-attr="aria-label:footerLinks">
+            <a id="footer-repository-link" href="./"><span data-i18n="githubRepository">GitHub 저장소</span> <span aria-hidden="true">↗</span></a>
+            <a id="license-link" href="./"><span data-i18n="licenseLink">라이선스</span> <span aria-hidden="true">↗</span></a>
           </nav>
         </div>
       </div>

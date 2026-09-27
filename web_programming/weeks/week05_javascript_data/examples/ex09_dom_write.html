@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex09 dom write</title>
+</head>
+<body>
+    <h1>ex09 화면에 쓰기: 먼저 찾고, 그다음 바꾼다</h1>
+    <p id="p1">1. 원래 글자 — getElementById 로 찾아 innerText 로 바꿀 자리</p>
+    <p id="p2">2. 원래 글자 — querySelector 로 찾아 textContent 로 바꿀 자리</p>
+    <p id="p3">3. 원래 글자 — 태그를 넣어 볼 자리</p>
+    <input id="inp" value="4. 입력 칸의 원래 값" size="30">
+    <p><button id="btn">바꾸기</button></p>
+
+    <script>
+        const p1 = document.getElementById('p1');   // 작년 예제 방식: id 로 찾는다('#' 없이)
+        const p2 = document.querySelector('#p2');   // CSS 선택자로 찾는다('#' 은 id — 4주차 ex01)
+        const p3 = document.querySelector('#p3');
+        const inp = document.querySelector('#inp');
+
+        console.log(p1, p2);                        // 찾은 요소가 찍힌다
+        console.log(document.querySelector('#p9')); // 없는 id → null. null 에 .textContent 를 쓰면 오류
+
+        document.querySelector('#btn').addEventListener('click', function () {
+            p1.innerText = '1. innerText 로 바꿨다';
+            p2.textContent = '2. textContent 로 바꿨다';    // 글자만 바꿀 때는 innerText 와 결과가 같다
+            p3.textContent = '<b>3. 굵게 될까?</b>';        // 태그가 아니라 글자 그대로 보인다
+            inp.value = '4. value 로 바꿨다';               // 입력 칸 안의 글자는 value
+        });
+    </script>
+</body>
+</html>

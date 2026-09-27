@@ -12,11 +12,11 @@
     <script src="./assets/course.js" defer></script>
   </head>
   <body class="course-page">
-    <a class="skip-link" href="#chapters">단원 목차로 바로가기</a>
+    <a class="skip-link" href="#chapters" data-i18n="skip">단원 목차로 바로가기</a>
 
     <header class="site-header">
       <div class="topbar page-width">
-        <a class="brand" href="./" aria-label="{{title}} 교재 홈">
+        <a class="brand" href="./" aria-label="{{title}} 교재 홈" data-i18n-attr="aria-label:brandHome">
           <span class="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 36 36" focusable="false">
               <path d="m7 10 8 8-8 8M20 26h9" />
@@ -24,13 +24,20 @@
           </span>
           <span class="brand-copy">
             <span>{{eyebrow}}</span>
-            <strong>{{title}}</strong>
+            <strong data-course-field="title">{{title}}</strong>
           </span>
         </a>
-        <nav class="topnav" aria-label="교재 메뉴">
-          <a class="topnav-link" href="#chapters">목차</a>
+        <nav class="topnav" aria-label="교재 메뉴" data-i18n-attr="aria-label:menu">
+          <a class="topnav-link" href="#chapters" data-i18n="contents">목차</a>
+          <label class="language-switch">
+            <span class="visually-hidden" data-i18n="language">언어</span>
+            <select id="language-select" data-language-select>
+              <option value="ko" lang="ko">한국어</option>
+              <option value="en" lang="en">English</option>
+            </select>
+          </label>
           <a class="topnav-link topnav-link--source" href="{{sourceUrl}}" target="_blank" rel="noopener noreferrer">
-            교재 원고 <span aria-hidden="true">↗</span><span class="visually-hidden"> (새 탭)</span>
+            <span data-i18n="source">교재 원고</span> <span aria-hidden="true">↗</span><span class="visually-hidden" data-i18n="newTab"> (새 탭)</span>
           </a>
         </nav>
       </div>
@@ -38,17 +45,17 @@
       <div class="course-intro page-width">
         <div class="course-title-page">
           <p class="course-kicker">[ {{eyebrow}} ]</p>
-          <h1>{{title}}<span class="terminal-cursor" aria-hidden="true">_</span></h1>
-          <p class="course-introduction">{{description}}</p>
-          <a class="button button--primary" href="#chapters">단원 목차 열기 <span aria-hidden="true">↓</span></a>
+          <h1><span data-course-field="title">{{title}}</span><span class="terminal-cursor" aria-hidden="true">_</span></h1>
+          <p class="course-introduction" data-course-field="description">{{description}}</p>
+          <a class="button button--primary" href="#chapters"><span data-i18n="openContents">단원 목차 열기</span> <span aria-hidden="true">↓</span></a>
         </div>
-        <aside class="course-facts" aria-label="이 교재의 구성">
+        <aside class="course-facts" aria-label="이 교재의 구성" data-i18n-attr="aria-label:facts">
           <p class="course-facts-label">LECTURE NOTES</p>
           <dl>
-            <div><dt>학습 단원</dt><dd><strong>{{chapterCount}}</strong><span>개</span></dd></div>
-            <div><dt>강의 슬라이드</dt><dd><strong>{{slideCount}}</strong><span>장</span></dd></div>
+            <div><dt data-i18n="chapters">학습 단원</dt><dd><strong>{{chapterCount}}</strong><span data-i18n="chapterUnit">개</span></dd></div>
+            <div><dt data-i18n="slides">강의 슬라이드</dt><dd><strong>{{slideCount}}</strong><span data-i18n="slideUnit">장</span></dd></div>
           </dl>
-          <p class="course-reading-note">목차에서 이번 수업의 단원을<br />선택해 읽으세요.</p>
+          <p class="course-reading-note" data-i18n="readingNote">목차에서 이번 수업의 단원을<br />선택해 읽으세요.</p>
         </aside>
       </div>
     </header>
@@ -58,28 +65,28 @@
         <div class="course-contents-heading">
           <div>
             <p class="section-kicker">[ CONTENTS ]</p>
-            <h2 id="chapters-title">단원 목차</h2>
+            <h2 id="chapters-title" data-i18n="chaptersTitle">단원 목차</h2>
           </div>
-          <p>단원을 선택하면 강의 슬라이드가 새 탭에서 열립니다.</p>
+          <p data-i18n="chaptersNote">단원을 선택하면 강의 슬라이드가 새 탭에서 열립니다.</p>
         </div>
 
         <form class="search course-search" id="search-form" role="search">
-          <label for="chapter-search">이 교재의 단원 검색</label>
+          <label for="chapter-search" data-i18n="searchLabel">이 교재의 단원 검색</label>
           <div class="search-control">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <circle cx="11" cy="11" r="6.5"></circle>
               <path d="m16 16 4.2 4.2"></path>
             </svg>
-            <input id="chapter-search" name="query" type="search" placeholder="단원 제목, 주제 또는 주차 검색" autocomplete="off" spellcheck="false" />
+            <input id="chapter-search" name="query" type="search" placeholder="단원 제목, 주제 또는 주차 검색" data-i18n-attr="placeholder:searchPlaceholder" autocomplete="off" spellcheck="false" />
             <button class="clear-search" id="clear-search" type="button" hidden>
-              <span class="visually-hidden">검색어 지우기</span><span aria-hidden="true">×</span>
+              <span class="visually-hidden" data-i18n="clearSearch">검색어 지우기</span><span aria-hidden="true">×</span>
             </button>
           </div>
         </form>
 
         <div class="result-bar">
-          <p id="result-status" role="status" aria-live="polite">단원 목차를 불러오는 중입니다.</p>
-          <button class="reset-filters" id="reset-search" type="button" hidden>전체 단원 보기</button>
+          <p id="result-status" role="status" aria-live="polite" data-i18n="loading">단원 목차를 불러오는 중입니다.</p>
+          <button class="reset-filters" id="reset-search" type="button" hidden data-i18n="showAll">전체 단원 보기</button>
         </div>
         <div id="chapter-list" aria-busy="true">
           <div class="course-loading" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
@@ -93,14 +100,14 @@
     <footer class="site-footer">
       <div class="footer-inner page-width">
         <div>
-          <a class="footer-brand" href="./"><span aria-hidden="true">&gt;_</span> {{title}}</a>
-          <p>수업 수강·개인 학습용 자료입니다. 무단 재배포·상업적 이용을 금지합니다.</p>
+          <a class="footer-brand" href="./"><span aria-hidden="true">&gt;_</span> <span data-course-field="title">{{title}}</span></a>
+          <p data-i18n="license">수업 수강·개인 학습용 자료입니다. 무단 재배포·상업적 이용을 금지합니다.</p>
         </div>
         <div class="footer-meta">
-          <p>마지막 갱신 <time datetime="{{updated}}">{{updated}}</time></p>
-          <nav aria-label="교재 관련 링크">
-            <a href="{{sourceUrl}}" target="_blank" rel="noopener noreferrer">교재 원고 <span aria-hidden="true">↗</span><span class="visually-hidden"> (새 탭)</span></a>
-            <a href="./LICENSE">라이선스</a>
+          <p><span data-i18n="updated">마지막 갱신</span> <time datetime="{{updated}}">{{updated}}</time></p>
+          <nav aria-label="교재 관련 링크" data-i18n-attr="aria-label:footerLinks">
+            <a href="{{sourceUrl}}" target="_blank" rel="noopener noreferrer"><span data-i18n="source">교재 원고</span> <span aria-hidden="true">↗</span><span class="visually-hidden" data-i18n="newTab"> (새 탭)</span></a>
+            <a href="./LICENSE" data-i18n="licenseLink">라이선스</a>
           </nav>
         </div>
       </div>

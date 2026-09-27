@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex08 function</title>
+</head>
+<body>
+    <h1>ex08 function: 정의 · 호출 · return</h1>
+    <p>1. return 없는 함수를 부른 결과 : <b id="o1"></b></p>
+    <p>2. return 하는 함수를 부른 결과 : <b id="o2"></b></p>
+    <p>3. 같은 함수, 다른 값 : <b id="o3"></b> / <b id="o4"></b></p>
+    <p><input id="name" value="student04"> <button id="btn">4. 입력한 이름으로 부르기</button> <b id="o5"></b></p>
+
+    <script>
+        function greetLog(name) {           // 정의: 이름을 붙여 두기만 한다
+            console.log('안녕하세요, ' + name + '님!');     // return 이 없다
+        }
+
+        function greet(name) {
+            return `안녕하세요, ${name}님!`;               // 만든 문장을 부른 곳으로 돌려준다
+        }
+
+        function neverCalled() {
+            console.log('이 줄은 찍히지 않는다');           // 정의만 하고 부르지 않았다
+        }
+
+        const a = greetLog('student01');    // 호출: Console 에 찍히고, a 에는 undefined
+        const b = greet('student01');       // 호출: Console 에는 없고, b 에 문장이 담긴다
+
+        document.getElementById('o1').innerText = a;
+        document.getElementById('o2').innerText = b;
+        document.getElementById('o3').innerText = greet('student02');
+        document.getElementById('o4').innerText = greet('student03');
+
+        document.getElementById('btn').addEventListener('click', function () {
+            document.getElementById('o5').innerText = greet(document.getElementById('name').value);
+        });
+    </script>
+</body>
+</html>

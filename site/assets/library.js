@@ -3,12 +3,94 @@
 
   const libraryRoot = new URL("../", document.currentScript.src);
   const catalogUrl = new URL("catalog.json", libraryRoot);
-  const numberFormatter = new Intl.NumberFormat("ko-KR");
-  const dateFormatter = new Intl.DateTimeFormat("ko-KR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const LANGUAGE_KEY = "teaching-language";
+  const LANGUAGES = ["ko", "en"];
+
+  // 정적 문구의 한국어는 HTML에 있는 그대로 쓰고, 영어만 여기 둔다.
+  const STATIC_EN = {
+    skip: "Skip to the course list",
+    brandHome: "Teaching Library home",
+    siteTitle: "Teaching Library",
+    menu: "Main menu",
+    find: "Find a course",
+    language: "Language",
+    repository: "Source",
+    heroLine1: "A record of learning,",
+    heroLine2: "open the next page",
+    heroDescription:
+      "Choose the course for your class. Each course has its own address and table of contents, so you can open that class's materials right away.",
+    browse: "Browse courses",
+    viewGithub: "View on GitHub",
+    terminalNote: "Learning goes on.",
+    stats: "Library overview",
+    statCourses: "Courses",
+    courseUnit: "",
+    statChapters: "Chapters",
+    chapterUnit: "",
+    statSlides: "Slides",
+    slideUnit: "",
+    statNote: "Tip",
+    statNoteText: "Share each course's address with your students.",
+    libraryTitle: "Course shelf",
+    libraryNote: "Search by title or topic. Opening a course takes you to its table of contents.",
+    search: "Course search",
+    searchLabel: "Search course titles and topics",
+    searchPlaceholder: "e.g. Android, Supabase, local LLM",
+    clearSearch: "Clear search",
+    loading: "Loading the course list.",
+    reset: "Reset search",
+    license: "For class and personal study only. Redistribution and commercial use are prohibited.",
+    updated: "Last updated",
+    footerLinks: "Related links",
+    githubRepository: "GitHub repository",
+    licenseLink: "License",
+  };
+
+  const TEXT = {
+    ko: {
+      siteTitle: "교재 도서관",
+      unknown: "정보 없음",
+      untitled: "이름 없는 교재",
+      defaultDescription: "주차별 강의 교재입니다.",
+      metadata: (chapters, slides) => `${chapters}개 단원 · ${slides}장 슬라이드`,
+      open: "교재 열기 →",
+      openLabel: (title) => `${title} 교재 열기`,
+      planned: "교재 준비 중",
+      noMatch: "일치하는 교재가 없습니다",
+      noMatchHint: "검색어를 줄이거나 다른 제목과 주제로 검색해 보세요.",
+      searchPrefix: "검색 결과 ",
+      courseCount: (count) => `${count}개 교재`,
+      resultSuffix: " · 수업에 맞는 교재를 열어 주세요.",
+      loadError: "교재 목록을 불러오지 못했습니다",
+      loadErrorHint: "네트워크 상태를 확인한 뒤 다시 시도해 주세요. 로컬 파일이라면 웹 서버를 통해 열어야 합니다.",
+      retry: "다시 불러오기",
+      errorStatus: "교재 목록을 표시할 수 없습니다.",
+      loading: "교재 목록을 불러오는 중입니다.",
+    },
+    en: {
+      siteTitle: "Teaching Library",
+      unknown: "Unknown",
+      untitled: "Untitled course",
+      defaultDescription: "Weekly lecture materials.",
+      metadata: (chapters, slides) => `${chapters} chapters · ${slides} slides`,
+      open: "Open course →",
+      openLabel: (title) => `Open ${title}`,
+      planned: "Coming soon",
+      noMatch: "No matching courses",
+      noMatchHint: "Try fewer words or another title or topic.",
+      searchPrefix: "Search results: ",
+      courseCount: (count) => `${count} courses`,
+      resultSuffix: " · Open the course for your class.",
+      loadError: "Could not load the course list",
+      loadErrorHint: "Check your network and try again. A local file must be opened through a web server.",
+      retry: "Reload",
+      errorStatus: "The course list cannot be shown.",
+      loading: "Loading the course list.",
+    },
+  };
+
+  const originalText = new Map();
+  const originalAttributes = new Map();
 
   const elements = {
     searchForm: document.querySelector("#search-form"),
@@ -25,12 +107,39 @@
     statCourses: document.querySelector("#stat-courses"),
     statChapters: document.querySelector("#stat-chapters"),
     statSlides: document.querySelector("#stat-slides"),
+    languageSelect: document.querySelector("#language-select"),
   };
 
   const state = {
     catalog: null,
     query: "",
+    language: initialLanguage(),
   };
+
+  function initialLanguage() {
+    const requested = new URL(window.location.href).searchParams.get("lang");
+    if (LANGUAGES.includes(requested)) return requested;
+    try {
+      const saved = window.localStorage.getItem(LANGUAGE_KEY);
+      if (LANGUAGES.includes(saved)) return saved;
+    } catch (_error) {}
+    return "ko";
+  }
+
+  function text(key, ...args) {
+    const value = TEXT[state.language][key];
+    return typeof value === "function" ? value(...args) : value;
+  }
+
+  // 영문 필드가 있으면 그것을, 없으면 한국어 원문을 쓴다.
+  function localized(entry, key) {
+    if (state.language === "en" && entry && entry.en && typeof entry.en[key] === "string") return entry.en[key];
+    return entry ? entry[key] : undefined;
+  }
+
+  function locale() {
+    return state.language === "en" ? "en-US" : "ko-KR";
+  }
 
   function createElement(tagName, className, text) {
     const node = document.createElement(tagName);
@@ -112,7 +221,7 @@
   }
 
   function formatNumber(value) {
-    return numberFormatter.format(numericValue(value));
+    return new Intl.NumberFormat(locale()).format(numericValue(value));
   }
 
   function getCourses() {
@@ -129,7 +238,7 @@
 
   function setSiteInformation(site) {
     const siteInfo = site && typeof site === "object" ? site : {};
-    const title = textValue(siteInfo.title, "교재 도서관");
+    const title = textValue(localized(siteInfo, "title"), text("siteTitle"));
     document.title = `${title} · Teaching Archive`;
 
     [elements.repositoryLink, elements.heroSourceLink, elements.footerRepositoryLink].forEach((link) => {
@@ -142,13 +251,14 @@
 
     const updated = textValue(siteInfo.updated, "");
     if (!updated) {
-      elements.updatedDate.textContent = "정보 없음";
+      elements.updatedDate.textContent = text("unknown");
       elements.updatedDate.removeAttribute("datetime");
       return;
     }
 
     const date = new Date(updated);
     elements.updatedDate.dateTime = updated;
+    const dateFormatter = new Intl.DateTimeFormat(locale(), { year: "numeric", month: "long", day: "numeric" });
     elements.updatedDate.textContent = Number.isNaN(date.getTime()) ? updated : dateFormatter.format(date);
   }
 
@@ -166,17 +276,26 @@
 
   function filteredCourses() {
     const query = normaliseText(state.query);
-    const weekQuery = query.match(/^0*(\d+)\s*주차$/);
+    const weekQuery = query.match(/^0*(\d+)\s*주차$/) || query.match(/^week\s*0*(\d+)$/);
 
     return getCourses().filter((course) => {
       if (!query) return true;
       const chapters = Array.isArray(course.chapters) ? course.chapters : [];
       if (weekQuery) {
-        return chapters.some((chapter) => normaliseText(chapter.label) === `${Number(weekQuery[1])}주차`);
+        return chapters.some((chapter) =>
+          [chapter.label, chapter.en && chapter.en.label]
+            .map(normaliseText)
+            .some((label) => label === `${Number(weekQuery[1])}주차` || label === `week ${Number(weekQuery[1])}`),
+        );
       }
+      const english = (entry) => entry.en || {};
       const searchText = [
         course.id, course.slug, course.title, course.eyebrow, course.description,
-        ...chapters.flatMap((chapter) => [chapter.id, chapter.label, chapter.title, chapter.description]),
+        english(course).title, english(course).description,
+        ...chapters.flatMap((chapter) => [
+          chapter.id, chapter.label, chapter.title, chapter.description,
+          english(chapter).label, english(chapter).title, english(chapter).description,
+        ]),
       ].filter(Boolean).join(" ");
       return normaliseText(searchText).includes(query);
     });
@@ -192,7 +311,7 @@
       createElement("span", "", "LECTURE NOTE"),
     );
 
-    const title = createElement("div", "book-title", textValue(course.title, "이름 없는 교재"));
+    const title = createElement("div", "book-title", textValue(localized(course, "title"), text("untitled")));
 
     const footer = createElement("div", "book-footer");
     footer.append(
@@ -206,7 +325,7 @@
 
   function createCourseCard(course) {
     const courseNumber = getCourses().indexOf(course) + 1;
-    const title = textValue(course.title, "이름 없는 교재");
+    const title = textValue(localized(course, "title"), text("untitled"));
     const headingId = `course-heading-${course.slug}`;
     const card = createElement("article", "portal-card");
     card.dataset.course = course.slug;
@@ -219,24 +338,24 @@
     const heading = createElement("h3", "portal-title", title);
     heading.id = headingId;
     const description = createElement(
-      "p", "portal-description", textValue(course.description, "주차별 강의 교재입니다."),
+      "p", "portal-description", textValue(localized(course, "description"), text("defaultDescription")),
     );
 
     const chapters = Array.isArray(course.chapters) ? course.chapters : [];
     const slides = chapters.reduce((total, chapter) => total + numericValue(chapter.slides), 0);
     const metadata = createElement(
-      "p", "portal-metadata", `${formatNumber(chapters.length)}개 단원 · ${formatNumber(slides)}장 슬라이드`,
+      "p", "portal-metadata", text("metadata", formatNumber(chapters.length), formatNumber(slides)),
     );
     const address = createElement("p", "portal-address", `/${course.slug}/`);
     content.append(eyebrow, heading, description, metadata, address);
 
     if (course.status === "published") {
-      const link = createElement("a", "button button--primary course-open-link", "교재 열기 →");
-      configureLink(link, `${course.slug}/`);
-      link.setAttribute("aria-label", `${title} 교재 열기`);
+      const link = createElement("a", "button button--primary course-open-link", text("open"));
+      configureLink(link, `${course.slug}/${state.language === "en" ? "?lang=en" : ""}`);
+      link.setAttribute("aria-label", text("openLabel", title));
       content.append(link);
     } else {
-      content.append(createElement("span", "course-status course-status--planned", "교재 준비 중"));
+      content.append(createElement("span", "course-status course-status--planned", text("planned")));
     }
 
     card.append(cover, content);
@@ -247,17 +366,17 @@
     const empty = createElement("div", "empty-state");
     empty.append(
       createElement("div", "empty-state-mark", "⌕"),
-      createElement("h3", "", "일치하는 교재가 없습니다"),
-      createElement("p", "", "검색어를 줄이거나 다른 제목과 주제로 검색해 보세요."),
+      createElement("h3", "", text("noMatch")),
+      createElement("p", "", text("noMatchHint")),
     );
     return empty;
   }
 
   function setResultSummary(courses) {
     elements.resultStatus.replaceChildren(
-      document.createTextNode(state.query ? "검색 결과 " : ""),
-      createElement("strong", "", `${formatNumber(courses.length)}개 교재`),
-      document.createTextNode(" · 수업에 맞는 교재를 열어 주세요."),
+      document.createTextNode(state.query ? text("searchPrefix") : ""),
+      createElement("strong", "", text("courseCount", formatNumber(courses.length))),
+      document.createTextNode(text("resultSuffix")),
     );
     elements.resetFilters.hidden = !state.query;
   }
@@ -287,21 +406,17 @@
     const errorState = createElement("div", "error-state");
     errorState.append(
       createElement("div", "error-state-mark", "!"),
-      createElement("h3", "", "교재 목록을 불러오지 못했습니다"),
-      createElement(
-        "p",
-        "",
-        "네트워크 상태를 확인한 뒤 다시 시도해 주세요. 로컬 파일이라면 웹 서버를 통해 열어야 합니다.",
-      ),
+      createElement("h3", "", text("loadError")),
+      createElement("p", "", text("loadErrorHint")),
     );
-    const retry = createElement("button", "", "다시 불러오기");
+    const retry = createElement("button", "", text("retry"));
     retry.type = "button";
     retry.addEventListener("click", loadCatalog, { once: true });
     errorState.append(retry);
 
     elements.shelfList.replaceChildren(errorState);
     elements.shelfList.setAttribute("aria-busy", "false");
-    elements.resultStatus.textContent = "교재 목록을 표시할 수 없습니다.";
+    elements.resultStatus.textContent = text("errorStatus");
     elements.resetFilters.hidden = true;
 
     if (window.console && typeof window.console.error === "function") {
@@ -311,7 +426,7 @@
 
   async function loadCatalog() {
     elements.shelfList.setAttribute("aria-busy", "true");
-    elements.resultStatus.textContent = "교재 목록을 불러오는 중입니다.";
+    elements.resultStatus.textContent = text("loading");
 
     try {
       const response = await fetch(catalogUrl, {
@@ -323,9 +438,8 @@
       state.catalog = validateCatalog(await response.json());
       const courses = getCourses();
       state.query = elements.searchInput.value;
-      setSiteInformation(state.catalog.site);
       setStatistics(courses);
-      renderCatalog();
+      applyLanguage();
     } catch (error) {
       showError(error);
     }
@@ -351,5 +465,52 @@
     resetCatalogView({ focusSearch: true });
   });
 
+  function applyStaticText() {
+    document.querySelectorAll("[data-i18n]").forEach((node) => {
+      if (!originalText.has(node)) originalText.set(node, node.innerHTML);
+      if (state.language === "en") node.textContent = STATIC_EN[node.dataset.i18n];
+      else node.innerHTML = originalText.get(node);
+    });
+    document.querySelectorAll("[data-i18n-attr]").forEach((node) => {
+      node.dataset.i18nAttr.split(";").forEach((pair) => {
+        const [attribute, key] = pair.split(":");
+        const id = `${attribute}\u0000${key}`;
+        if (!originalAttributes.has(node)) originalAttributes.set(node, new Map());
+        const saved = originalAttributes.get(node);
+        if (!saved.has(id)) saved.set(id, node.getAttribute(attribute));
+        node.setAttribute(attribute, state.language === "en" ? STATIC_EN[key] : saved.get(id));
+      });
+    });
+  }
+
+  function applyLanguage() {
+    document.documentElement.lang = state.language;
+    if (elements.languageSelect) elements.languageSelect.value = state.language;
+    applyStaticText();
+    if (!state.catalog) return;
+    setSiteInformation(state.catalog.site);
+    renderCatalog();
+  }
+
+  function setLanguage(language) {
+    if (!LANGUAGES.includes(language)) return;
+    state.language = language;
+    try {
+      window.localStorage.setItem(LANGUAGE_KEY, language);
+    } catch (_error) {}
+    const url = new URL(window.location.href);
+    if (language === "ko") url.searchParams.delete("lang");
+    else url.searchParams.set("lang", language);
+    window.history.replaceState(null, "", url.href);
+    applyLanguage();
+  }
+
+  if (elements.languageSelect) {
+    elements.languageSelect.addEventListener("change", function () {
+      setLanguage(elements.languageSelect.value);
+    });
+  }
+
+  applyLanguage();
   loadCatalog();
 })();

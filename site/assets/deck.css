@@ -110,15 +110,58 @@ button {
   white-space: nowrap;
 }
 
-.deck-header > a {
+.deck-header-tools {
+  display: flex;
   flex: 0 0 auto;
+  align-items: center;
+  gap: 14px;
   margin-left: 18px;
+}
+
+.deck-header-tools > a {
   color: #b7c9db;
   text-decoration: none;
 }
 
-.deck-header > a:hover {
+.deck-header-tools > a:hover {
   color: #ffffff;
+}
+
+.deck-language select {
+  min-height: 30px;
+  padding: 0 26px 0 10px;
+  color: #eef6ff;
+  background: rgba(10, 25, 42, 0.88)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='m1 1 4 4 4-4' fill='none' stroke='%2379c7ff' stroke-width='1.5'/%3E%3C/svg%3E")
+    no-repeat right 9px center / 10px 6px;
+  border: 1px solid rgba(159, 204, 239, 0.34);
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  appearance: none;
+}
+
+.deck-language select:hover,
+.deck-language select:focus-visible {
+  border-color: #79c7ff;
+}
+
+.deck-language option {
+  color: #0b1a2b;
+  background: #ffffff;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 .deck-stage {
@@ -249,8 +292,12 @@ body:not(.deck-ready) .deck-stage .marpit > svg:first-child {
   }
 
   .deck-header p span,
-  .deck-header > a {
+  .deck-header-tools > a {
     display: none;
+  }
+
+  .deck-header-tools {
+    margin-left: 10px;
   }
 
   .deck-stage {

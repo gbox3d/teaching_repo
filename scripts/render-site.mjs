@@ -80,6 +80,10 @@ function sourcePath(course, chapter) {
   throw new Error(`원고 위치를 결정할 수 없습니다: ${course.id}/${chapter.id}`);
 }
 
+function englishSourcePath(relativeSource) {
+  return relativeSource.replace(/slides\.md$/, "slides_en.md");
+}
+
 function repositoryUrl(relative) {
   const encoded = relative.split("/").map(encodeURIComponent).join("/");
   return `${REPOSITORY_BLOB_URL}/${encoded}`;
@@ -257,11 +261,64 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
-function renderDocument({ course, chapter, sourceUrl, html, css }) {
+const DECK_TEXT = {
+  ko: {
+    description: (course, chapter) => `${course.title} ${chapter.label} 강의 슬라이드`,
+    returnLabel: (course) => `${course.title} 목차로 돌아가기`,
+    returnText: "← 목차",
+    source: "원고 보기 ↗",
+    stage: (title) => `${title} 슬라이드`,
+    controls: "슬라이드 이동",
+    previous: "이전 슬라이드",
+    next: "다음 슬라이드",
+    fullscreen: "전체 화면 전환",
+    help: "← → 이동 · Home/End 처음/끝 · F 전체 화면",
+    language: "언어",
+  },
+  en: {
+    description: (course, chapter) => `${course.title} ${chapter.label} lecture slides`,
+    returnLabel: (course) => `Back to ${course.title} contents`,
+    returnText: "← Contents",
+    source: "Source ↗",
+    stage: (title) => `${title} slides`,
+    controls: "Slide navigation",
+    previous: "Previous slide",
+    next: "Next slide",
+    fullscreen: "Toggle full screen",
+    help: "← → move · Home/End first/last · F full screen",
+    language: "Language",
+  },
+};
+
+const DECK_FILES = { ko: "index.html", en: "index.en.html" };
+
+function localized(value, lang) {
+  return lang === "en" && value?.en ? { ...value, ...value.en } : value;
+}
+
+function languageSelect(lang, languages, text) {
+  const options = [
+    ["ko", "한국어"],
+    ["en", "English"],
+  ]
+    .filter(([code]) => languages.includes(code))
+    .map(
+      ([code, label]) =>
+        `<option value="${code}" data-file="${DECK_FILES[code]}"${code === lang ? " selected" : ""}>${label}</option>`,
+    )
+    .join("");
+  return `<label class="deck-language"><span class="visually-hidden">${escapeHtml(text.language)}</span><select data-language-select aria-label="${escapeHtml(text.language)}">${options}</select></label>`;
+}
+
+function renderDocument({ course: sourceCourse, chapter: sourceChapter, lang, languages, sourceUrl, html, css }) {
+  const course = localized(sourceCourse, lang);
+  const chapter = localized(sourceChapter, lang);
+  const text = DECK_TEXT[lang];
   const title = `${chapter.label} · ${chapter.title}`;
-  const description = `${course.title} ${chapter.label} 강의 슬라이드`;
+  const description = text.description(course, chapter);
+  const switcher = languages.length > 1 ? languageSelect(lang, languages, text) : "";
   return `<!doctype html>
-<html lang="ko">
+<html lang="${lang}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -273,24 +330,36 @@ function renderDocument({ course, chapter, sourceUrl, html, css }) {
     <link rel="stylesheet" href="../../assets/deck.css">
   </head>
   <body>
-    <a class="library-return" data-library-return href="../../#chapters" aria-label="${escapeHtml(course.title)} 목차로 돌아가기">← 목차</a>
+    <a class="library-return" data-library-return href="../../#chapters" aria-label="${escapeHtml(text.returnLabel(course))}">${escapeHtml(text.returnText)}</a>
     <header class="deck-header">
       <p><span>${escapeHtml(course.title)}</span><strong>${escapeHtml(title)}</strong></p>
-      <a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">원고 보기 ↗</a>
+      <div class="deck-header-tools">
+        ${switcher}
+        <a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(text.source)}</a>
+      </div>
     </header>
-    <main class="deck-stage" aria-label="${escapeHtml(title)} 슬라이드">${html}</main>
-    <nav class="deck-controls" aria-label="슬라이드 이동">
-      <button type="button" data-action="previous" aria-label="이전 슬라이드">←</button>
+    <main class="deck-stage" aria-label="${escapeHtml(text.stage(title))}">${html}</main>
+    <nav class="deck-controls" aria-label="${escapeHtml(text.controls)}">
+      <button type="button" data-action="previous" aria-label="${escapeHtml(text.previous)}">←</button>
       <div class="deck-progress" aria-hidden="true"><span data-progress></span></div>
       <output data-counter aria-live="polite">1 / 1</output>
-      <button type="button" data-action="next" aria-label="다음 슬라이드">→</button>
-      <button type="button" data-action="fullscreen" aria-label="전체 화면 전환">⛶</button>
+      <button type="button" data-action="next" aria-label="${escapeHtml(text.next)}">→</button>
+      <button type="button" data-action="fullscreen" aria-label="${escapeHtml(text.fullscreen)}">⛶</button>
     </nav>
-    <p class="deck-help">← → 이동 · Home/End 처음/끝 · F 전체 화면</p>
+    <p class="deck-help">${escapeHtml(text.help)}</p>
     <script src="../../assets/deck.js"></script>
   </body>
 </html>
 `;
+}
+
+function assertEnglishFields(value, fields, label) {
+  if (value === undefined) return;
+  assert(value && typeof value === "object" && !Array.isArray(value), `${label}는 객체여야 합니다.`);
+  for (const [key, field] of Object.entries(value)) {
+    assert(fields.includes(key), `${label}.${key}는 알 수 없는 영문 필드입니다.`);
+    assert(typeof field === "string" && field.trim(), `${label}.${key}는 빈 문자열일 수 없습니다.`);
+  }
 }
 
 async function readCatalog() {
@@ -309,6 +378,7 @@ async function readCatalog() {
     courseSlugs.add(course.slug);
     assert(["published", "planned"].includes(course.status), `잘못된 course.status: ${course.id}`);
     assert(Array.isArray(course.chapters), `${course.id}.chapters가 배열이 아닙니다.`);
+    assertEnglishFields(course.en, ["title", "description"], `${course.id}.en`);
     if (course.status === "planned") {
       assert(course.chapters.length === 0, `준비 중 교재에는 단원을 둘 수 없습니다: ${course.id}`);
       continue;
@@ -320,6 +390,7 @@ async function readCatalog() {
       assert(!chapterIds.has(chapter.id), `중복 chapter.id: ${course.id}/${chapter.id}`);
       chapterIds.add(chapter.id);
       assert(["week", "special"].includes(chapter.type), `잘못된 chapter.type: ${course.id}/${chapter.id}`);
+      assertEnglishFields(chapter.en, ["label", "title", "description"], `${course.id}/${chapter.id}.en`);
       entries.push({ course, chapter });
     }
   }
@@ -347,6 +418,7 @@ async function writeCoursePages(catalog) {
       chapters: course.chapters.map((chapter) => ({
         ...chapter,
         href: path.posix.relative(course.slug, chapter.href),
+        ...(chapter.hrefEn ? { hrefEn: path.posix.relative(course.slug, chapter.hrefEn) } : {}),
       })),
     };
     const fields = {
@@ -441,6 +513,8 @@ async function main() {
   let totalSlides = 0;
   let rewrittenLinks = 0;
   let copiedAssets = 0;
+  let englishDecks = 0;
+  let englishSlides = 0;
 
   try {
     await rm(dist, { recursive: true, force: true });
@@ -454,26 +528,47 @@ async function main() {
       assertInside(root, sourceFile, "슬라이드 원고");
       assert(await isFile(sourceFile), `슬라이드 원고가 없습니다: ${relativeSource}`);
 
-      const prepared = prepareMarkdown(await readFile(sourceFile, "utf8"), relativeSource);
-      const context = { assets: new Map(), relativeSource, rewrittenLinks: 0 };
-      const rendered = marp.render(prepared, { teaching: context });
-      rewrittenLinks += context.rewrittenLinks;
-      copiedAssets += context.assets.size;
-      const slides = slideCount(rendered.html);
-      assert(slides > 0, `렌더된 슬라이드가 없습니다: ${course.id}/${chapter.id}`);
-      totalSlides += slides;
+      const englishSource = englishSourcePath(relativeSource);
+      const hasEnglish = await isFile(path.resolve(root, ...englishSource.split("/")));
+      const languages = hasEnglish ? ["ko", "en"] : ["ko"];
+      const record = {};
+      for (const lang of languages) {
+        const relative = lang === "en" ? englishSource : relativeSource;
+        const prepared = prepareMarkdown(await readFile(path.resolve(root, ...relative.split("/")), "utf8"), relative);
+        const context = { assets: new Map(), relativeSource: relative, rewrittenLinks: 0 };
+        const rendered = marp.render(prepared, { teaching: context });
+        rewrittenLinks += context.rewrittenLinks;
+        copiedAssets += context.assets.size;
+        const slides = slideCount(rendered.html);
+        assert(slides > 0, `렌더된 슬라이드가 없습니다: ${course.id}/${chapter.id} (${lang})`);
 
-      const href = path.posix.join(course.slug, "decks", chapter.id, "index.html");
-      const output = path.join(dist, ...href.split("/"));
-      assertInside(path.join(dist, course.slug, "decks"), output, "생성된 덱");
-      await mkdir(path.dirname(output), { recursive: true });
-      const record = { href, slides, sourceUrl: repositoryUrl(relativeSource) };
-      await writeFile(
-        output,
-        renderDocument({ course, chapter, sourceUrl: record.sourceUrl, html: rendered.html, css: rendered.css }),
-        "utf8",
-      );
-      await copyDeckAssets(context, path.dirname(output), canonicalRoot);
+        const href = path.posix.join(course.slug, "decks", chapter.id, DECK_FILES[lang]);
+        const output = path.join(dist, ...href.split("/"));
+        assertInside(path.join(dist, course.slug, "decks"), output, "생성된 덱");
+        await mkdir(path.dirname(output), { recursive: true });
+        const sourceUrl = repositoryUrl(relative);
+        await writeFile(
+          output,
+          renderDocument({ course, chapter, lang, languages, sourceUrl, html: rendered.html, css: rendered.css }),
+          "utf8",
+        );
+        await copyDeckAssets(context, path.dirname(output), canonicalRoot);
+        if (lang === "ko") {
+          totalSlides += slides;
+          Object.assign(record, { href, slides, sourceUrl });
+        } else {
+          englishDecks += 1;
+          englishSlides += slides;
+          Object.assign(record, { hrefEn: href, slidesEn: slides, sourceUrlEn: sourceUrl });
+        }
+      }
+      // 영문판 장수가 달라도 배포는 막지 않는다(한국어 원고를 고친 세션이 번역까지 맡지 않을 수 있음).
+      // 다만 언어를 바꿀 때 #slide-N 위치가 어긋나므로 경고로 알린다.
+      if (hasEnglish && record.slidesEn !== record.slides) {
+        console.warn(
+          `경고: 영문판 장수가 한국어판과 다릅니다: ${course.id}/${chapter.id} (ko ${record.slides}, en ${record.slidesEn}) — ${englishSource} 갱신 필요`,
+        );
+      }
       await writeLegacyRedirect(course, chapter);
       records.set(`${course.id}/${chapter.id}`, record);
     }
@@ -487,6 +582,7 @@ async function main() {
           publishedCourses: catalog.courses.filter((course) => course.status === "published").length,
           decks: entries.length,
           slides: totalSlides,
+          englishDecks,
         },
       },
       courses: catalog.courses.map((course) => ({
@@ -501,7 +597,7 @@ async function main() {
     await writeFile(path.join(dist, "catalog.json"), `${JSON.stringify(outputCatalog, null, 2)}\n`, "utf8");
     await writeCoursePages(outputCatalog);
     console.log(
-      `교재 도서관 빌드 완료: ${entries.length}개 덱, ${totalSlides}장, 상대 Markdown 링크 ${rewrittenLinks}개 변환, 자산 ${copiedAssets}개 복사`,
+      `교재 도서관 빌드 완료: ${entries.length}개 덱, ${totalSlides}장 (영문판 ${englishDecks}개 덱, ${englishSlides}장), 상대 Markdown 링크 ${rewrittenLinks}개 변환, 자산 ${copiedAssets}개 복사`,
     );
   } catch (error) {
     if (initialized) await rm(dist, { recursive: true, force: true });

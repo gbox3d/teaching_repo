@@ -202,6 +202,46 @@ svg {
   border-radius: 0;
 }
 
+.language-switch select {
+  min-height: 38px;
+  padding: 0 30px 0 12px;
+  color: var(--text);
+  background: var(--surface)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='m1 1 4 4 4-4' fill='none' stroke='%2369f58f' stroke-width='1.5'/%3E%3C/svg%3E")
+    no-repeat right 11px center / 10px 6px;
+  border: 1px solid rgba(105, 245, 143, 0.24);
+  border-radius: 0;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 650;
+  cursor: pointer;
+  appearance: none;
+}
+
+.language-switch select:hover,
+.language-switch select:focus-visible {
+  color: var(--phosphor-bright);
+  border-color: var(--line-strong);
+}
+
+.language-switch option {
+  color: var(--text);
+  background: var(--surface);
+}
+
+@media (max-width: 480px) {
+  .topnav {
+    gap: 12px;
+  }
+
+  .language-switch select {
+    min-height: 32px;
+    padding: 0 24px 0 8px;
+    background-position: right 8px center;
+    font-size: 0.74rem;
+  }
+}
+
 .hero {
   position: relative;
   z-index: 1;

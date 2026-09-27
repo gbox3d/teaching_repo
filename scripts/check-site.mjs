@@ -263,6 +263,7 @@ async function checkCourseCatalog(course, updated) {
     chapters: course.chapters.map((chapter) => ({
       ...chapter,
       href: path.posix.join("decks", chapter.id, "index.html"),
+      ...(chapter.hrefEn ? { hrefEn: path.posix.join("decks", chapter.id, "index.en.html") } : {}),
     })),
   };
   check(
@@ -271,6 +272,7 @@ async function checkCourseCatalog(course, updated) {
   );
   for (const chapter of catalog.chapters ?? []) {
     await localTarget(filename, chapter.href, "href");
+    if (chapter.hrefEn) await localTarget(filename, chapter.hrefEn, "href");
   }
   for (const asset of [
     "index.html", "LICENSE", "favicon.svg", "assets/library.css", "assets/course.css",
@@ -278,6 +280,33 @@ async function checkCourseCatalog(course, updated) {
   ]) {
     check(await exists(path.join(dist, course.slug, ...asset.split("/"))), `${course.slug}/${asset} missing`);
   }
+}
+
+// 영문 원고(slides_en.md)가 있는 단원만 영문 덱을 요구한다. 장수 상수는 한국어판 기준이다.
+async function checkEnglishDeck(course, chapter, expected, source) {
+  const englishSource = source.replace(/slides\.md$/, "slides_en.md");
+  const hasSource = await exists(path.join(root, ...englishSource.split("/")));
+  const label = `${course.id}/${chapter.id}`;
+  if (!hasSource) {
+    check(!chapter.hrefEn, `${label}: English deck without slides_en.md`);
+    return 0;
+  }
+  const href = path.posix.join(expected.slug, "decks", chapter.id, "index.en.html");
+  check(chapter.hrefEn === href, `${label}: wrong hrefEn`);
+  check(chapter.sourceUrlEn === sourceUrl(englishSource), `${label}: wrong sourceUrlEn`);
+  const deckFile = path.join(dist, ...href.split("/"));
+  check(await exists(deckFile), `${href} missing`);
+  if (!(await exists(deckFile))) return 1;
+  const html = await readFile(deckFile, "utf8");
+  check(slideCount(html) === chapter.slidesEn, `${href}: catalog/HTML English slide mismatch`);
+  check(html.includes('<html lang="en">'), `${href}: html lang must be en`);
+  check(html.includes('data-library-return href="../../#chapters"'), `${href}: return link missing`);
+  const korean = await readFile(path.join(dist, ...chapter.href.split("/")), "utf8");
+  for (const file of ["index.html", "index.en.html"]) {
+    check(html.includes(`data-file="${file}"`), `${href}: language option missing: ${file}`);
+    check(korean.includes(`data-file="${file}"`), `${chapter.href}: language option missing: ${file}`);
+  }
+  return 1;
 }
 
 async function checkLegacyRedirect(course, chapter) {
@@ -338,6 +367,7 @@ async function main() {
 
   let decks = 0;
   let slides = 0;
+  let englishDecks = 0;
   const expectedHtml = new Set();
   const expectedLegacy = new Set();
   for (const course of courses) {
@@ -390,6 +420,7 @@ async function main() {
           check(html.includes(`="../../${asset}"`), `${href}: wrong course asset URL: ${asset}`);
         }
       }
+      if (source) englishDecks += await checkEnglishDeck(course, chapter, expected, source);
       expectedLegacy.add(await checkLegacyRedirect(course, chapter));
     }
     check(
@@ -402,6 +433,7 @@ async function main() {
   check(slides === EXPECTED_SLIDES, `expected ${EXPECTED_SLIDES} slides, got ${slides}`);
   check(catalog.site?.stats?.decks === EXPECTED_DECKS, "site.stats.decks must be 47");
   check(catalog.site?.stats?.slides === EXPECTED_SLIDES, "site.stats.slides must be 1014");
+  check(catalog.site?.stats?.englishDecks === englishDecks, `site.stats.englishDecks must be ${englishDecks}`);
 
   const files = await walk(dist);
   const actualHtml = new Set(
@@ -455,7 +487,7 @@ async function main() {
   if (failures.length) {
     throw new Error(`Site check failed (${failures.length})\n- ${failures.join("\n- ")}`);
   }
-  console.log(`사이트 검증 완료: 독립 교재 ${courses.length}개, ${EXPECTED_DECKS}개 덱, ${EXPECTED_SLIDES}장, 기존 주소 리다이렉트 및 교재 내부 링크 정상`);
+  console.log(`사이트 검증 완료: 독립 교재 ${courses.length}개, ${EXPECTED_DECKS}개 덱, ${EXPECTED_SLIDES}장, 영문판 ${englishDecks}개 덱, 기존 주소 리다이렉트 및 교재 내부 링크 정상`);
 }
 
 main().catch((error) => {

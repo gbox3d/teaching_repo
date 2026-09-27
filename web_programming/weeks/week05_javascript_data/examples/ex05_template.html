@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex05 template string</title>
+</head>
+<body>
+    <h1>ex05 문장 만들기: + 와 템플릿 문자열</h1>
+    <p>1. + 로 잇기 : <b id="s1"></b></p>
+    <p>2. 템플릿 문자열(백틱) : <b id="s2"></b></p>
+    <p>3. 작은따옴표 안의 ${} : <b id="s3"></b></p>
+    <p>4. ${} 안의 계산 : <b id="s4"></b></p>
+
+    <script>
+        const name = 'student01';
+        const hour = 9;
+
+        document.getElementById('s1').innerText = '안녕하세요, ' + name + '님! 지금은 ' + hour + '시입니다.';
+        document.getElementById('s2').innerText = `안녕하세요, ${name}님! 지금은 ${hour}시입니다.`;   // ` 로 감싼다
+        document.getElementById('s3').innerText = '안녕하세요, ${name}님!';     // ' 로 감싸면 ${} 가 글자 그대로
+        document.getElementById('s4').innerText = `한 시간 뒤는 ${hour + 1}시입니다.`;   // ${} 안은 계산된다
+    </script>
+</body>
+</html>

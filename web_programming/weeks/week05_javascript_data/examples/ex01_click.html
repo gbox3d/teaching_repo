@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex01 click</title>
+</head>
+<body>
+    <h1>ex01 지금 실행 vs 클릭할 때 실행</h1>
+    <input id="input-name" placeholder="이름">
+    <button id="btn-1">1. function 으로</button>
+    <button id="btn-2">2. 화살표로</button>
+    <p id="output">버튼을 눌러 보세요</p>
+    <p>F12 › Console 을 열고 A·B·C·D 가 찍히는 순서를 본다.</p>
+
+    <script>
+        console.log('A. 페이지를 열자마자 실행된다');
+
+        var inputName = document.getElementById('input-name');
+        var btn1 = document.getElementById('btn-1');
+        var btn2 = document.getElementById('btn-2');
+        var output = document.getElementById('output');
+
+        btn1.addEventListener('click', function () {
+            console.log('B. 1번 버튼을 누를 때마다 실행된다');
+            output.innerText = inputName.value + '님 (function)';
+        });
+
+        btn2.addEventListener('click', () => {         // 작년 예제의 모양. 뜻은 1번과 같다
+            console.log('C. 2번 버튼을 누를 때마다 실행된다');
+            output.innerText = inputName.value + '님 (화살표)';
+        });
+
+        console.log('D. A 바로 다음에 실행된다. B·C 보다 먼저');
+    </script>
+</body>
+</html>

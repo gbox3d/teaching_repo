@@ -4,7 +4,11 @@
     "description": "모바일·웹·오픈소스 AI 수업 자료를 주차별 HTML 슬라이드로 열람하는 공개 교재관입니다.",
     "repositoryUrl": "https://github.com/gbox3d/teaching_repo",
     "licenseUrl": "https://github.com/gbox3d/teaching_repo/blob/main/LICENSE",
-    "updated": "2026-09-16"
+    "updated": "2026-09-16",
+    "en": {
+      "title": "Teaching Library",
+      "description": "A public library of weekly HTML lecture slides for mobile, web, and open source AI courses."
+    }
   },
   "courses": [
     {
@@ -23,107 +27,186 @@
           "label": "1주차",
           "title": "Kotlin 첫걸음: 학번과 이름 출력하기",
           "description": "코드를 조금 바꿔서 내 학번과 이름을 출력할 수 있을까? Kotlin Playground에서 println·val·var·if·fun을 연습합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 1",
+            "title": "First Steps in Kotlin: Print Your Student ID and Name",
+            "description": "Can you change a little code to print your own student ID and name? Practice println, val, var, if, and fun in Kotlin Playground."
+          }
         },
         {
           "id": "week02_views_layout",
           "label": "2주차",
           "title": "첫 Android 앱: 내 정보 화면과 카운터",
           "description": "XML로 그린 앱 화면에 내 정보를 띄우고 Kotlin 코드로 바꿀 수 있을까? LinearLayout과 findViewById로 버튼 카운터를 만듭니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 2",
+            "title": "First Android App: My Info Screen and a Counter",
+            "description": "Can you show your info on an app screen drawn in XML, and change it with Kotlin code? Build a button counter with LinearLayout and findViewById."
+          }
         },
         {
           "id": "week03_activity_lifecycle",
           "label": "3주차",
           "title": "Activity 생명주기와 상태 보존",
           "description": "화면을 돌리면 왜 숫자가 0으로 돌아갈까? Logcat으로 생명주기 순서를 확인하고 onSaveInstanceState로 숫자를 남깁니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 3",
+            "title": "Activity Lifecycle and Saving State",
+            "description": "Why does the number go back to 0 when you rotate the screen? Trace the lifecycle order with Logcat, and keep the number with onSaveInstanceState."
+          }
         },
         {
           "id": "week04_fragments_navigation",
           "label": "4주차",
           "title": "SmartIO 시작: ViewBinding·입력 위젯·두 번째 화면",
           "description": "입력한 장치 이름을 두 번째 화면으로 넘기고 LED 명령을 로그에 쌓을 수 있을까? ViewBinding·EditText·Switch·Intent로 SmartIO를 시작합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 4",
+            "title": "Starting SmartIO: ViewBinding, Input Widgets, a Second Screen",
+            "description": "Can you pass a typed-in device name to a second screen and log LED commands? Start SmartIO with ViewBinding, EditText, Switch, and Intent."
+          }
         },
         {
           "id": "week05_threading_anr",
           "label": "5주차",
           "title": "메인 스레드와 백그라운드: Thread·Handler",
           "description": "5초 걸리는 검색 중에도 화면이 멈추지 않게 하려면? Thread·runOnUiThread·Handler와 ProgressBar로 메인 스레드를 비워 둡니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 5",
+            "title": "Main Thread and Background Work: Thread, Handler",
+            "description": "How do you keep the screen from freezing during a 5-second scan? Free up the main thread with Thread, runOnUiThread, Handler, and ProgressBar."
+          }
         },
         {
           "id": "week06_coroutines",
           "label": "6주차",
           "title": "코루틴: delay·취소·오류 처리",
           "description": "화면을 멈추지 않고 숫자를 줄이고, 도중에 멈추거나 실패해도 앱이 꺼지지 않게 하려면? lifecycleScope·delay·Job·try/catch를 씁니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 6",
+            "title": "Coroutines: delay, Cancellation, Error Handling",
+            "description": "How do you count down without freezing the screen, and keep the app alive if it's stopped or fails partway? Use lifecycleScope, delay, Job, and try/catch."
+          }
         },
         {
           "id": "week07_flow_ui_state",
           "label": "7주차",
           "title": "ViewModel과 StateFlow: 회전해도 살아 있는 상태",
           "description": "화면을 돌려도 '연결 중… 3'과 버튼 상태가 이어지려면 상태를 어디에 둘까? ViewModel에 상태를 두고 StateFlow를 collect로 받습니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 7",
+            "title": "ViewModel and StateFlow: State That Survives Rotation",
+            "description": "For \"Connecting… 3\" and the button state to survive a rotation, where should the state live? Put it in a ViewModel and collect it with StateFlow."
+          }
         },
         {
           "id": "week08_midterm",
           "label": "8주차",
           "title": "중간고사(개인 실기)",
           "description": "2~7주에 만든 버튼·코루틴·ViewModel·StateFlow를 혼자 60분 안에 다시 쓸 수 있을까? 공개 리허설로 시험 모양을 미리 풀어 봅니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 8",
+            "title": "Midterm (Individual Hands-on Exam)",
+            "description": "Can you rewrite the buttons, coroutines, ViewModel, and StateFlow from weeks 2–7 alone in 60 minutes? A public rehearsal lets you try the exam's shape in advance."
+          }
         },
         {
           "id": "week09_services_project",
           "label": "9주차",
           "title": "앱 컴포넌트 비교와 1차 과제 발표",
           "description": "화면이 없는 Service는 어디서 돌까? 네 컴포넌트를 비교하고 Service도 메인 스레드에서 도는 것을 확인한 뒤 1차 과제를 발표합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 9",
+            "title": "Comparing App Components and Project 1 Presentations",
+            "description": "Where does a screen-less Service actually run? Compare the four components, confirm that a Service also runs on the main thread, and present Project 1."
+          }
         },
         {
           "id": "week10_receivers_permissions",
           "label": "10주차",
           "title": "BroadcastReceiver와 런타임 권한",
           "description": "시스템의 배터리 알림을 화면에 보이고, BLE 검색 전에 허락을 받으려면? BroadcastReceiver와 런타임 권한·AlertDialog를 만듭니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 10",
+            "title": "BroadcastReceiver and Runtime Permissions",
+            "description": "How do you show the system's battery updates on screen, and get permission before a BLE scan? Build a BroadcastReceiver along with runtime permissions and an AlertDialog."
+          }
         },
         {
           "id": "week11_content_provider",
           "label": "11주차",
           "title": "목록과 저장: ListView·SharedPreferences·ContentProvider 비교 + 실기기 준비",
           "description": "검색한 장치 이름을 목록에 쌓아 고르고 마지막 장치를 기억하려면? ListView·SharedPreferences를 쓰고 ContentProvider를 비교합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 11",
+            "title": "Lists and Storage: ListView, SharedPreferences, ContentProvider Compared + Getting a Physical Device Ready",
+            "description": "How do you stack scanned device names into a pickable list and remember the last device? Use ListView and SharedPreferences, and compare them with ContentProvider."
+          }
         },
         {
           "id": "week12_ble_gatt",
           "label": "12주차",
           "title": "BLE 기초: Bleuno 클라이언트로 검색·연결",
           "description": "검색 목록에 진짜 보드를 띄우고 연결 상태를 두 화면에서 함께 보려면? 제공 라이브러리 bleuno로 검색·연결합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 12",
+            "title": "BLE Basics: Scan and Connect with the Bleuno Client",
+            "description": "Want to show a real board in the scan list and see connection state on both screens together? Scan and connect using the provided bleuno library."
+          }
         },
         {
           "id": "week13_ble_output",
           "label": "13주차",
           "title": "BLE 출력 제어: 문자열 명령과 응답",
           "description": "LED Switch로 보드의 LED를 켜고 보드의 대답까지 확인하려면? send로 명령을 보내고 onMessage로 JSON 응답을 받습니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 13",
+            "title": "BLE Output Control: String Commands and Responses",
+            "description": "Want to turn the board's LED on and off with the LED switch, and confirm the board's reply? Send commands with send and receive JSON responses with onMessage."
+          }
         },
         {
           "id": "week14_ble_input_project",
           "label": "14주차",
           "title": "입력 수신·끊김·재연결과 2차 과제 발표",
           "description": "온습도를 3초마다 받아 쌓고, 연결이 끊기거나 오래 걸리면 알리고 다시 연결하려면? 입력 이력·재연결·연결 시간 제한을 만들고 2차 과제를 발표합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 14",
+            "title": "Input Reception, Disconnects, Reconnecting, and the Project 2 Presentation",
+            "description": "Want to collect temperature and humidity every 3 seconds, and get alerted and reconnect when the connection drops or takes too long? Build input history, reconnection, and a connect timeout, then present Project 2."
+          }
         },
         {
           "id": "week15_final_exam",
           "label": "15주차",
           "title": "기말고사(개인 실기)",
           "description": "권한 확인·LED 명령과 응답·연결 시간 제한을 혼자 60분 안에 다시 쓸 수 있을까? 리허설 뒤 본시험과 보드 앞 개인 시연·구술을 합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 15",
+            "title": "Final Exam (Individual Hands-On)",
+            "description": "Can you rewrite the permission check, LED command and response, and connect timeout on your own in 60 minutes? After a rehearsal, take the real exam with an individual demo and oral questions in front of the board."
+          }
         }
-      ]
+      ],
+      "en": {
+        "title": "Mobile Programming (Android)",
+        "description": "A 15-week course that goes from how Kotlin and the Android framework run to an integrated BLE-based Smart I/O project."
+      }
     },
     {
       "id": "web",
@@ -141,121 +224,210 @@
           "label": "1주차",
           "title": "웹 실행 구조와 Git 상태",
           "description": "브라우저에 보이는 한 화면은 어떤 파일들로 만들어지며, 내가 고친 파일을 Git에 어떻게 기록할까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 1",
+            "title": "How the Web Runs and Git State",
+            "description": "What files make up the one screen you see in a browser, and how do you record the files you changed with Git?"
+          }
         },
         {
           "id": "week02_github_pages",
           "label": "2주차",
           "title": "GitHub와 공개 배포",
           "description": "내 컴퓨터에만 있는 페이지를 GitHub에 올려 누구나 여는 주소를 만들고, 다른 내용은 브랜치로 따로 올릴 수 있을까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 2",
+            "title": "GitHub and Public Deployment",
+            "description": "Can you push a page that only lives on your computer to GitHub to create an address anyone can open, and publish different content separately with a branch?"
+          }
         },
         {
           "id": "week03_semantic_html",
           "label": "3주차",
           "title": "시맨틱 HTML과 form",
           "description": "2주차에 공개한 `my-web`을 홈·내 정보·방명록 세 페이지로 늘리고, 이름과 메시지를 적는 입력 칸까지 만들 수 있을까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 3",
+            "title": "Semantic HTML and Forms",
+            "description": "Can you grow the `my-web` you published in Week 2 into three pages — home, about, and guestbook — and add input fields for a name and a message?"
+          }
         },
         {
           "id": "week04_responsive_css",
           "label": "4주차",
           "title": "CSS와 반응형 UI",
           "description": "메뉴 세 개를 가로로 놓고, 좁은 화면에서는 세로로 세우려면 무엇을 알아야 하나?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 4",
+            "title": "CSS and Responsive UI",
+            "description": "What do you need to know to lay three menu items out in a row and stack them vertically on a narrow screen?"
+          }
         },
         {
           "id": "week05_javascript_data",
           "label": "5주차",
           "title": "JavaScript 데이터와 함수",
           "description": "3주차에 연결을 뺐던 `app.js`를 되살려, 변수와 함수로 만든 인사말을 `index.html`에 띄울 수 있을까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 5",
+            "title": "JavaScript Data and Functions",
+            "description": "Can you bring back `app.js`, which you left unlinked in Week 3, and show a greeting built from variables and functions on `index.html`?"
+          }
         },
         {
           "id": "week06_dom_crud",
           "label": "6주차",
           "title": "DOM·이벤트·브라우저 CRUD",
           "description": "5주차에 복붙 틀로 쓴 `document.querySelector('#greeting').textContent = …` 한 줄은 무엇이었을까? 버튼을 눌렀을 때 화면을 바꾸려면 무엇이 더 필요할까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 6",
+            "title": "DOM, Events, and Browser CRUD",
+            "description": "That one line you copy-pasted in Week 5, `document.querySelector('#greeting').textContent = …` — what was it, really? What more do you need to change the screen when a button is clicked?"
+          }
         },
         {
           "id": "week07_async_modules",
           "label": "7주차",
           "title": "폼 입력 읽기와 결과 표시",
           "description": "3주차에 만든 방명록 폼의 **[남기기]** 버튼은 눌러도 주소창만 바뀌고 아무 일도 일어나지 않았다. 입력한 이름과 메시지를 읽어 화면에 띄우려면 무엇이 더 필요할까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 7",
+            "title": "Reading Form Input and Displaying Results",
+            "description": "Press [남기기] on the guestbook form you built in Week 3, and only the address bar changes — nothing else happens. What more do you need to read the name and message you typed and show them on screen?"
+          }
         },
         {
           "id": "week08_midterm",
           "label": "8주차",
           "title": "중간 개인 실기",
           "description": "2~7주에 한 주씩 쌓아 온 것을, 문제지를 보고 **혼자 60분 안에** 만들어 공개 주소까지 올릴 수 있을까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 8",
+            "title": "Midterm Hands-on Exam",
+            "description": "Can you take what you built week by week in Weeks 2–7, work from a question sheet alone in 60 minutes, and get it up at a public URL?"
+          }
         },
         {
           "id": "week09_architecture_project",
           "label": "9주차",
           "title": "1차 과제 발표와 브랜치 복습",
           "description": "3~7주에 한 주씩 쌓아 온 내 사이트를, 공개 주소를 열어 **2분 안에** 남에게 보여 줄 수 있을까? 그리고 그 설명을 저장소 첫 화면에 한 장으로 남길 수 있을까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 9",
+            "title": "Project 1 Presentation and Branch Review",
+            "description": "Can you open the public URL and show someone the site you built week by week in Weeks 3–7, in 2 minutes? And can you leave that description as a single page on the repository's front screen?"
+          }
         },
         {
           "id": "week10_supabase_data",
           "label": "10주차",
           "title": "배열 데이터를 목록으로 그리기",
           "description": "방명록에 두 번째 글을 남기면 앞 글이 사라진다. 남긴 글을 **쌓아서** 목록으로 보여 주고, 필요 없는 줄을 지울 수 있을까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 10",
+            "title": "Drawing Array Data as a List",
+            "description": "Leave a second entry in the guestbook, and the first one disappears. Can you stack entries and show them as a list, and delete the lines you don't need?"
+          }
         },
         {
           "id": "week11_auth_rls",
           "label": "11주차",
           "title": "객체와 localStorage",
           "description": "방명록에 남긴 글을 **새로고침해도 남게** 할 수 있을까? 그리고 한 줄에 이름·메시지·날짜 **세 값**을 함께 담을 수 있을까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 11",
+            "title": "Objects and localStorage",
+            "description": "Can we make guestbook entries **survive a refresh**? And can one line hold **all three values** — name, message, and date — together?"
+          }
         },
         {
           "id": "week12_persistent_crud",
           "label": "12주차",
           "title": "fetch로 JSON 불러오기",
           "description": "화면에 쓸 내용을 HTML 안에 직접 적지 않고, **따로 만든 파일에서 읽어 와** 카드로 그릴 수 있을까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 12",
+            "title": "Loading JSON with fetch",
+            "description": "Instead of writing the screen's content directly into HTML, can we **read it from a separate file** and draw it as cards?"
+          }
         },
         {
           "id": "week13_release_security",
           "label": "13주차",
           "title": "보안·접근성·릴리스 점검",
           "description": "지금까지 만든 네 페이지를, **다른 사람이 써도 안전하고 누구나 읽을 수 있게** 다듬어 내놓을 수 있을까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 13",
+            "title": "Security, Accessibility, and Release Checks",
+            "description": "Can we polish the four pages we've built so far to be **safe for anyone to use and readable by everyone**?"
+          }
         },
         {
           "id": "week14_project_presentation",
           "label": "14주차",
           "title": "최종 프로젝트 발표",
           "description": "3~13주에 한 주씩 쌓아 온 내 사이트를, 공개 주소 하나로 **3분 안에** 남에게 보여 줄 수 있을까? 그리고 그 설명을 저장소 첫 화면에 한 장으로 남길 수 있을까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 14",
+            "title": "Final Project Presentation",
+            "description": "Can we show the site we built up week by week, from Week 3 through Week 13, to someone else **in under 3 minutes** using a single public address? And can we leave that explanation as one page on the repository's front screen?"
+          }
         },
         {
           "id": "week15_final_exam",
           "label": "15주차",
           "title": "기말 개인 실기",
           "description": "2~13주에 배운 것을 처음 보는 starter 위에서 60분 안에 다시 만들고, 공개 주소로 제출할 수 있을까?",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 15",
+            "title": "Final Individual Exam",
+            "description": "Can we rebuild what we learned in Weeks 2–13 on a starter we've never seen, in 60 minutes, and submit it at a public address?"
+          }
         },
         {
           "id": "kakao_aerial_map",
           "label": "특강",
           "title": "사람과 AI가 같이 쓰는 Kakao 항공 지도 Canvas",
           "description": "Kakao SKYVIEW와 Canvas 위에서 사람과 AI의 명시적 공동 작업 흐름을 구현합니다.",
-          "type": "special"
+          "type": "special",
+          "en": {
+            "label": "Special",
+            "title": "A Kakao Aerial-Map Canvas Shared by Humans and AI",
+            "description": "Implements an explicit human-AI collaboration workflow on Kakao SKYVIEW and Canvas."
+          }
         },
         {
           "id": "supabase_guestbook",
           "label": "특강",
           "title": "Supabase로 만드는 서버 방명록",
           "description": "11주차 방명록의 저장 위치만 브라우저에서 Supabase 서버로 바꿔, 다른 PC에서도 같은 목록이 보이게 합니다.",
-          "type": "special"
+          "type": "special",
+          "en": {
+            "label": "Special",
+            "title": "Building a Server-Backed Guestbook with Supabase",
+            "description": "Moves only the storage location of the Week 11 guestbook from the browser to a Supabase server, so the same list shows up on other PCs too."
+          }
         }
-      ]
+      ],
+      "en": {
+        "title": "Web Programming",
+        "description": "A 15-week introductory course that starts with browser and Git basics, builds a public site page by page in one repository, and covers lists, browser storage, and loading JSON."
+      }
     },
     {
       "id": "open-source-ai",
@@ -273,107 +445,186 @@
           "label": "1주차",
           "title": "오리엔테이션과 오픈소스 AI 생태계",
           "description": "오픈소스 AI 생태계를 읽고 내 PC의 실습 환경을 증거로 점검합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 1",
+            "title": "Orientation and the Open Source AI Ecosystem",
+            "description": "Read the open source AI ecosystem, and check your PC's lab environment with evidence."
+          }
         },
         {
           "id": "week02_git_github_license",
           "label": "2주차",
           "title": "Git/GitHub 협업과 라이선스",
           "description": "브랜치·PR·리뷰로 협업하고 코드·모델·데이터 라이선스를 판별합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 2",
+            "title": "Git/GitHub Collaboration and Licensing",
+            "description": "Collaborate through branches, PRs, and reviews, and determine licenses for code, models, and data."
+          }
         },
         {
           "id": "week03_reproducible_python",
           "label": "3주차",
           "title": "재현 가능한 Python 오픈소스 프로젝트",
           "description": "uv 격리환경, CLI 구조, 비밀정보 분리로 재현 가능한 프로젝트를 만듭니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 3",
+            "title": "Reproducible Python Open Source Projects",
+            "description": "Build a reproducible project with uv's isolated environments, a CLI structure, and separated secrets."
+          }
         },
         {
           "id": "week04_ollama_local_llm",
           "label": "4주차",
           "title": "Ollama와 로컬 LLM",
           "description": "로컬 LLM의 실행 구조를 관찰하고 REST API와 Modelfile로 응용합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 4",
+            "title": "Ollama and Local LLMs",
+            "description": "Observe how a local LLM runs, then apply it through the REST API and a Modelfile."
+          }
         },
         {
           "id": "week05_huggingface_hub",
           "label": "5주차",
           "title": "Hugging Face Hub와 공개 자원 분석",
           "description": "Model Card·Dataset Card와 라이선스를 분석하고 pipeline으로 첫 추론을 합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 5",
+            "title": "Hugging Face Hub and Analyzing Public Resources",
+            "description": "Analyze Model Cards, Dataset Cards, and licenses, and run your first inference with a pipeline."
+          }
         },
         {
           "id": "week06_pytorch_models",
           "label": "6주차",
           "title": "PyTorch 모델 활용",
           "description": "Tensor·자동미분·학습 루프와 사전학습 모델 호출을 직접 다룹니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 6",
+            "title": "Using PyTorch Models",
+            "description": "Work directly with tensors, autograd, training loops, and calling pretrained models."
+          }
         },
         {
           "id": "week07_embeddings_rag",
           "label": "7주차",
           "title": "임베딩·검색·RAG 응용",
           "description": "문서 분할·임베딩·벡터 검색으로 출처 있는 RAG 답변기를 만들고 평가합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 7",
+            "title": "Embeddings, Search, and RAG",
+            "description": "Split documents, embed and vector-search them, and build and evaluate a sourced RAG answerer."
+          }
         },
         {
           "id": "week08_midterm",
           "label": "8주차",
           "title": "수시평가와 2차 종합과제",
           "description": "1~7주 내용을 개인 실기로 점검하고 2차 종합과제를 제출합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 8",
+            "title": "Midterm Assessment and Project 2",
+            "description": "Check your grasp of weeks 1-7 with an individual hands-on exam, and submit Project 2."
+          }
         },
         {
           "id": "week09_project_governance",
           "label": "9주차",
           "title": "프로젝트 제안과 오픈소스 거버넌스",
           "description": "거버넌스 문서를 분석하고 팀 프로젝트의 문제·범위·마일스톤을 제안합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 9",
+            "title": "Project Proposals and Open Source Governance",
+            "description": "Analyze governance documents and propose your team project's problem, scope, and milestones."
+          }
         },
         {
           "id": "week10_peft_lora",
           "label": "10주차",
           "title": "PEFT/LoRA 경량 파인튜닝",
           "description": "LoRA로 소형 모델을 경량 학습하고 전후 비교와 실험 기록을 남깁니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 10",
+            "title": "Lightweight Fine-Tuning with PEFT/LoRA",
+            "description": "Lightly fine-tune a small model with LoRA, and log a before/after comparison and experiment record."
+          }
         },
         {
           "id": "week11_dataset_evaluation",
           "label": "11주차",
           "title": "데이터셋 구성과 모델 평가",
           "description": "데이터를 정제·분할·점검하고 기준선과 비교해 모델을 정량·정성 평가합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 11",
+            "title": "Dataset Curation and Model Evaluation",
+            "description": "Clean, split, and inspect data, then evaluate a model against a baseline both quantitatively and qualitatively."
+          }
         },
         {
           "id": "week12_ai_service_deploy",
           "label": "12주차",
           "title": "AI 서비스화와 배포",
           "description": "FastAPI·Gradio로 모델을 서비스화하고 오류·스트리밍·패키징을 다룹니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 12",
+            "title": "AI Service Deployment",
+            "description": "Turn a model into a service with FastAPI and Gradio, covering error handling, streaming, and packaging."
+          }
         },
         {
           "id": "week13_test_ci_security",
           "label": "13주차",
           "title": "테스트·CI·보안·코드리뷰",
           "description": "pytest·ruff·GitHub Actions·의존성 감사로 품질과 공급망 보안을 자동화합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 13",
+            "title": "Testing, CI, Security, and Code Review",
+            "description": "Automate quality and supply-chain security with pytest, ruff, GitHub Actions, and dependency audits."
+          }
         },
         {
           "id": "week14_release_feedback",
           "label": "14주차",
           "title": "릴리스와 커뮤니티 피드백",
           "description": "README·Model Card·SemVer 릴리스를 만들고 교차 재현과 피드백을 받습니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 14",
+            "title": "Release and Community Feedback",
+            "description": "Produce a README, Model Card, and SemVer release, then gather cross-reproduction and feedback."
+          }
         },
         {
           "id": "week15_final_presentation",
           "label": "15주차",
           "title": "기말평가와 프로젝트 발표",
           "description": "최종 시연과 교차 재현 검증으로 오픈소스 릴리스를 평가하고 회고합니다.",
-          "type": "week"
+          "type": "week",
+          "en": {
+            "label": "Week 15",
+            "title": "Final Assessment and Project Presentation",
+            "description": "Evaluate and reflect on the open-source release through a final demo and cross-reproduction verification."
+          }
         }
-      ]
+      ],
+      "en": {
+        "title": "Open Source AI Applications",
+        "description": "A 15-week course in three 60-minute blocks: open source collaboration and licenses, reproducible uv environments, Ollama local LLMs, Hugging Face and PyTorch, RAG, PEFT/LoRA, serving, and releases."
+      }
     }
   ]
 }

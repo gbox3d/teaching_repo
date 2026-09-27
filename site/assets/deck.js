@@ -24,6 +24,45 @@
     window.history[method](null, "", hash);
   }
 
+  // 본문이 아래 여백을 넘는 슬라이드는 글자 크기를 줄여 한 화면에 맞춘다.
+  // 테마가 em 단위를 쓰므로 section 글자 크기만 줄이면 제목·표·코드가 함께 줄어든다.
+  const MIN_FIT_RATIO = 0.62;
+
+  function contentBottom(section) {
+    let bottom = 0;
+    Array.from(section.children).forEach(function (child) {
+      if (child.tagName === "HEADER" || child.tagName === "FOOTER") return;
+      bottom = Math.max(bottom, child.offsetTop + child.offsetHeight);
+    });
+    return bottom;
+  }
+
+  function fitSlide(slide) {
+    const section = slide.querySelector("foreignObject > section");
+    if (!section) return;
+    section.style.fontSize = "";
+    const style = window.getComputedStyle(section);
+    const base = parseFloat(style.fontSize);
+    const limit = section.clientHeight - parseFloat(style.paddingBottom) + 1;
+    let size = base;
+    while (contentBottom(section) > limit && size > base * MIN_FIT_RATIO) {
+      size -= 1;
+      section.style.fontSize = `${size}px`;
+    }
+  }
+
+  // 웹 글꼴처럼 늦게 들어오는 자원이 요소 크기를 바꾸면 현재 슬라이드를 다시 맞춘다.
+  const resizeObserver = typeof ResizeObserver === "function"
+    ? new ResizeObserver(function () { fitSlide(slides[current]); })
+    : null;
+
+  function watchSlide(slide) {
+    const section = slide.querySelector("foreignObject > section");
+    if (!resizeObserver || !section) return;
+    resizeObserver.disconnect();
+    Array.from(section.children).forEach(function (child) { resizeObserver.observe(child); });
+  }
+
   function show(index, options) {
     if (!slides.length) return;
     const settings = options || {};
@@ -35,6 +74,8 @@
       if (active) slide.setAttribute("aria-current", "page");
       else slide.removeAttribute("aria-current");
     });
+    fitSlide(slides[current]);
+    watchSlide(slides[current]);
     previous.disabled = current === 0;
     next.disabled = current === slides.length - 1;
     counter.value = `${current + 1} / ${slides.length}`;
@@ -116,6 +157,19 @@
     },
     { passive: true },
   );
+
+  const languageSelect = document.querySelector("[data-language-select]");
+  if (languageSelect) {
+    languageSelect.addEventListener("change", function () {
+      const option = languageSelect.selectedOptions[0];
+      try {
+        window.localStorage.setItem("teaching-language", languageSelect.value);
+      } catch (_error) {}
+      const target = new URL(option.dataset.file, window.location.href);
+      target.hash = `slide-${current + 1}`;
+      window.location.href = target.href;
+    });
+  }
 
   window.addEventListener("hashchange", function () {
     const requested = indexFromHash();
