@@ -97,11 +97,11 @@ override fun onStart() {
 
 | Method | How |
 |---|---|
-| Button | The rotate buttons in the emulator's **top** toolbar: **Rotate Left** · **Rotate Right** |
+| Button | **Rotate Left** · **Rotate Right** on the toolbar (**top** inside Android Studio, **right** in a separate window) |
 | Shortcut | Click the emulator screen once, then **Ctrl+L** · **Ctrl+R** (⌘+L · ⌘+R on Mac) |
 
 - Each press rotates the device 90 degrees. Use the opposite button to go back to portrait.
-- If the emulator is a separate window, the toolbar is on the **right**, and the shortcuts are **Ctrl+←** · **Ctrl+→**.
+- A separate emulator window uses **Ctrl+←** · **Ctrl+→** (⌘+← · ⌘+→ on Mac). Press **F1** (⌘+/) for the full list.
 
 **If the device rotates but the app screen doesn't**, auto-rotate is off on the device.
 
