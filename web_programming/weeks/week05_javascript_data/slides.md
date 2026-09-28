@@ -8,9 +8,9 @@ footer: "JavaScript 데이터와 함수 · 비교 예제로 원리를 보고 마
 
 # JavaScript 데이터와 함수
 
-4주차까지 `my-web` 은 **보이는 것**만 바뀌었습니다. 이번 주는 JavaScript 입니다.
+4주차까지 만든 페이지는 **보이는 것**만 바뀌었습니다. 이번 주는 JavaScript 입니다.
 
-이번 주 방식: **비교 예제 10개**를 하나씩 보고, 마지막에 `my-web` 의 `index.html`·`app.js` 를 **조립**합니다.
+이번 주 방식: **비교 예제 10개**를 하나씩 보고, 마지막에 새 저장소 `web-week05` 의 `index.html`·`app.js` 를 **조립**합니다(지난주 완성본에서 시작).
 
 - JavaScript 는 **브라우저가** 실행합니다. 페이지를 열면 그때 돕니다.
 - 결과는 두 곳에서 봅니다: **화면**과 **F12 › Console**.
@@ -152,11 +152,10 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 
 [1일차 실습](lab.md#1일차--스크립트와-값-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
-1. `my-web/week05/` 폴더를 만들고 ex01~ex05 를 **Raw** 로 저장합니다(ex02 는 `.js` 까지).
+1. 새 폴더 `web-week05` 에 지난주 완성본을 넣고, `ex/` 에 ex01~ex05 를 **Raw** 로 저장합니다(ex02 는 `.js` 까지).
 2. 파일마다 값을 하나 이상 바꿔 보고, 화면과 Console 이 어떻게 달라지는지 봅니다.
-3. push 하고 `https://student01.github.io/my-web/week05/ex01_click.html` 을 엽니다.
+3. 50–60분: 새 저장소 `web-week05` 를 만들어 2주차에 배운 순서 그대로 올리고, Pages 를 켜서 `…/web-week05/ex/ex01_click.html` 을 엽니다.
 
-Git 은 0–5분 `git pull`, 55–60분 `git add .` → `git commit` → `git push` 입니다.
 결과가 이상하면 **Console 을 먼저** 엽니다. 빨간 줄 오른쪽 `파일:줄` 로 갑니다.
 
 **설명 합계: 4+6+6+5+5+2+2 = 30분**
@@ -167,30 +166,30 @@ Git 은 0–5분 `git pull`, 55–60분 `git add .` → `git commit` → `git pu
 
 `30분 설명·시연 → 60분 실습`
 
-1. 오늘 Git — `restore` 는 commit 전, `revert` 는 commit 뒤
+1. 내 PC에서 웹 서버로 열기: file:// 과 http://localhost
 2. ex06·ex07 — 비교는 `true`/`false`, `if` 는 처음 맞는 한 곳만
 3. ex08 — `function` 정의 · 호출 · `return`
 4. ex09·ex10 — 먼저 찾고 바꾼다, `new Date()` 는 지금 시각
-5. 조립 — `my-web` 의 `index.html` 두 줄과 `app.js` 를 ex 에서 모은다
+5. 조립 — `web-week05` 의 `index.html` 두 줄과 `app.js` 를 ex 에서 모은다
 
 ---
 
-## 2일차 · 0–4분 — 오늘 Git: restore는 commit 전, revert는 commit 뒤
+## 2일차 · 0–4분 — 내 PC에서 웹 서버로 열기: file:// 과 http://localhost
 
-```bash
-git restore app.js   # 저장만 한 잘못 → 마지막 commit 상태로
-git revert HEAD      # commit 한 잘못 → 되돌리는 commit 을 새로 만든다
-```
+[server.mjs](../../tools/static-server/server.mjs) 를 `web-week05` 에 저장 → `node server.mjs` → `http://localhost:8000/` · [사용 안내](../../tools/static-server/README.md)
 
 ```text
-[main e9f3b26] Revert "인사말 문구 바꾸기"
- Date: Wed Sep 30 10:41:07 2026 +0900
- 1 file changed, 1 insertion(+), 1 deletion(-)
+200 GET /
+200 GET /styles.css
+200 GET /app.js
+200 GET /images/profile.png
+404 GET /favicon.ico        ← 탭 아이콘 요청. 없어도 된다
 ```
 
-- `revert` 는 새 commit 이 생기고, `git log --oneline` 에 원래 commit 과 둘 다 남습니다.
-- 편집기 창이 뜨면 기본 메시지 `Revert "…"` 그대로 저장하고 닫습니다.
-- `git reset HEAD^` 는 기록을 지웁니다. push 한 뒤 지우면 내 PC 기록이 GitHub 기록과 어긋나 다음 `git push` 가 거부(rejected)됩니다. 그래서 push 한 뒤에는 기록을 더하는 `revert` 를 씁니다.
+- 두 번 눌러 열면 `file:///…`. 이번 주 파일은 서버로 열어도 결과가 같습니다. 멈추기는 Ctrl+C.
+- 나중에 배우는 `fetch`·`type="module"` 은 서버나 공개 주소가 있어야 돕니다.
+
+**브라우저는 HTML 을 받은 뒤 그 안의 CSS·JS·그림을 하나씩 따로 요청한다(1주차 요청과 응답).**
 
 ---
 
@@ -284,13 +283,13 @@ now.getMonth() + 1          // 사람이 읽는 월
 ```
 
 - 9월 28일 8시 47분에 열면 8 · 47 · 2026 · 8 · 9 · 1. `getDay()` 는 0 = 일요일.
-- 바꿔 보기: 새로고침 → 다시 잰다. `getSeconds()` 줄 더하기. my-web 의 `new Date().getHours()` 는 위 두 줄을 이어 쓴 것.
+- 바꿔 보기: 새로고침 → 다시 잰다. `getSeconds()` 줄 더하기. 조립의 `new Date().getHours()` 는 위 두 줄을 이어 쓴 것.
 
 **`new Date()` 는 실행된 순간의 시각을 담은 값이고, `.getHours()` 는 그 값에게 묻는 것이다.**
 
 ---
 
-## 2일차 · 27–30분 — 조립: my-web app.js, 그리고 실습 인계
+## 2일차 · 27–30분 — 조립: web-week05 app.js, 그리고 실습 인계
 
 ```text
 <script src="app.js" defer>  <p class="card" id="greeting">  ← ex02 · ex09
@@ -304,9 +303,9 @@ document.querySelector('#greeting').textContent = message;  ← ex09 2번
 
 [2일차 실습](lab.md#2일차--조건과-함수-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
-1. ex06~ex10 을 `week05/` 에 저장하고 값을 바꿔 봅니다(33분까지).
+1. ex06~ex10 을 `ex/` 에 저장하고 값을 바꿔 봅니다(33분까지).
 2. 조립: `index.html` 에 두 줄, `app.js` 는 비우고 조립표 순서로.
-3. 되돌리기 두 가지 → `git push` → 공개 주소에서 카드·Console 두 줄 캡처.
+3. 서버로 열어 확인 → 2주차에 배운 순서 그대로 push → 공개 주소에서 카드·Console 캡처.
 
 **설명 합계: 4+5+5+5+5+3+3 = 30분**
 
@@ -317,14 +316,14 @@ document.querySelector('#greeting').textContent = message;  ← ex09 2번
 2일차가 끝나면 캡처 **한 장**을 제출합니다.
 
 ```text
-https://student01.github.io/my-web/
+https://student01.github.io/web-week05/
 카드: 안녕하세요, student01님! 좋은 아침입니다.
 F12 Console: console.log 두 줄 (hour 숫자 / message 문장)
 주소창·카드·Console 이 한 화면에 보이게 찍습니다
 ```
 
 12시 이후에 열면 `좋은 오후입니다.` 가 나옵니다. 둘 다 정답입니다.
-2일차를 끝내지 못했으면 `…/my-web/week05/ex01_click.html` 에서 Console 에 A·D·B 가 찍힌 화면으로 대신합니다.
+2일차를 끝내지 못했으면 `…/web-week05/ex/ex01_click.html` 에서 Console 에 A·D·B 가 찍힌 화면으로 대신합니다.
 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
 
 ---
@@ -333,6 +332,6 @@ F12 Console: console.log 두 줄 (hour 숫자 / message 문장)
 
 오늘 `app.js` 는 페이지를 열 때 **한 번** 실행됩니다.
 
-6주차에는 ex01 에서 본 `addEventListener` 를 `my-web` 에 씁니다. 누를 때마다 실행되는 코드입니다.
+6주차에는 새 저장소 `web-week06` 을 오늘 완성본에서 시작하고, ex01 에서 본 `addEventListener` 를 씁니다. 누를 때마다 실행되는 코드입니다.
 오늘 조립한 `#greeting`·`greet(name)`·`hello(hour)` 를 이어받아 "인사 바꾸기" 버튼과 클릭 횟수를 만듭니다.
 다크 모드도 더합니다. 4주차에 정한 `.card` 색을 그때 다시 씁니다.

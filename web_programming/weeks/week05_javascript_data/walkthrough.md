@@ -1,8 +1,8 @@
 # 5주차 따라하기 — 비교 예제로 원리를 보고 마지막에 조립
 
 이번 주 실습은 코드를 새로 짜는 것이 아니라 **값을 바꿔 보는 것**이다.
-비교 파일을 내 저장소 `my-web/week05/`에 저장하고, 값·주석을 바꾼 뒤 결과를 **화면과 Console 두 곳**에서 본다.
-`my-web`의 `index.html`·`app.js`는 2일차 끝에 부품에서 **조립**한다.
+이번 주는 새 저장소 `web-week05`를 만든다. 지난주 완성본을 넣고, 비교 파일은 그 안의 `ex/` 폴더에 저장한다. 값·주석을 바꾼 뒤 결과를 **화면과 Console 두 곳**에서 본다.
+맨 위의 `index.html`·`app.js`는 2일차 끝에 부품에서 **조립**한다.
 
 `student01`은 연습용 아이디다. 명령과 주소에 있는 `student01`은 본인 GitHub 아이디로 바꾼다.
 명령은 VS Code의 터미널(**Terminal › New Terminal**, Windows는 PowerShell)에서 실행한다. macOS 터미널도 같은 명령이다.
@@ -13,33 +13,35 @@
 
 ## 1일차
 
-### 1. week05 폴더 만들기
+### 1. web-week05 폴더 만들고 지난주 완성본 넣기
 
-지난주에 쓰던 PC라면 폴더를 열고 새 commit만 받아 온다. 현재 폴더: `my-web`
+저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week05`를 만들고 VS Code **File › Open Folder**로 연다.
 
-```bash
-git pull
-```
+지난주 완성본을 넣는다. 내 `web-week04` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`)과 `images/`를 `web-week05`로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
+ZIP을 못 받았으면 교재 [4주차 `examples/build/`](../week04_responsive_css/examples/build/)의 파일을 2단계와 같은 **Raw** 방법으로 받는다. 4주차를 옛 저장소 `my-web`으로 수업한 분반은 내 `my-web`을 같은 방법으로 받아 맨 위 파일과 `images/`만 옮긴다.
 
-처음 쓰는 PC라면 저장소를 통째로 내려받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
-
-```bash
-git clone https://github.com/student01/my-web.git
-cd my-web
-```
-
-이어서 `my-web` 안에 `week05` 폴더를 만든다. VS Code 탐색기에서 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `my-web`
+이어서 `web-week05` 안에 `ex` 폴더를 만든다. VS Code 탐색기에서 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week05`
 
 ```bash
-mkdir week05
+mkdir ex
 ```
 
-**예상 결과** — `git pull`은 집에서 push한 것이 없으면 `Already up to date.` 한 줄이다.
-`my-web` 안에 `index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`images/`·`week04/`와 나란히 빈 `week05/` 폴더가 보인다.
+**예상 결과** — VS Code 탐색기가 아래 모양이다.
 
-- 폴더 이름은 `week05`다. `Week05`·`week5`로 만들면 공개 주소가 달라져 5단계에서 404가 난다.
-- 빈 폴더는 Git이 올리지 않는다. 2단계에서 파일을 넣으면 함께 올라간다.
-- `my-web`의 `index.html`·`app.js`는 오늘 건드리지 않는다. 2일차 끝에 조립한다.
+```text
+web-week05/
+  ex/            ← 아직 비어 있다
+  images/
+  about.html
+  app.js
+  guestbook.html
+  index.html
+  styles.css
+```
+
+- 폴더 이름은 `ex`다. `Ex`·`ex05`로 만들면 공개 주소가 달라져 5단계에서 404가 난다.
+- `index.html`을 두 번 눌러 열면 4주차 완성 화면이 보인다. 이번 주는 여기서 시작한다.
+- `index.html`·`app.js`는 오늘 건드리지 않는다. 2일차 끝에 조립한다.
 
 ### 2. 비교 파일 가져오기
 
@@ -56,16 +58,16 @@ mkdir week05
 
 가져오는 방법은 둘 중 하나다.
 
-1. **Raw로 저장** — [교재 저장소 examples 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `my-web/week05/`에 저장한다. 파일 이름은 교재와 **같게** 둔다.
-2. **타이핑** — Raw가 열리지 않을 때만 쓴다. VS Code에서 `week05/ex01_click.html`을 새로 만들고 교재 화면을 보며 친다. 1일차 파일은 25~49줄이다. **주석 줄도 그대로 친다.** 주석에 원리와 실험 거리가 있고(ex02 11행처럼 `//`를 지워 실험하는 줄), 줄 번호가 교재와 같아야 오류 줄의 `파일:줄`을 교재와 맞춰 볼 수 있다.
+1. **Raw로 저장** — [교재 저장소 examples 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week05/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다.
+2. **타이핑** — Raw가 열리지 않을 때만 쓴다. VS Code에서 `ex/ex01_click.html`을 새로 만들고 교재 화면을 보며 친다. 1일차 파일은 25~49줄이다. **주석 줄도 그대로 친다.** 주석에 원리와 실험 거리가 있고(ex02 11행처럼 `//`를 지워 실험하는 줄), 줄 번호가 교재와 같아야 오류 줄의 `파일:줄`을 교재와 맞춰 볼 수 있다.
 
 `ex02`는 `ex02_script_position.html`과 `ex02_script_position.js`를 **둘 다** 받아 **같은 폴더**에 둔다.
 HTML의 `<script src="ex02_script_position.js" defer>`가 같은 폴더에서 그 이름을 찾기 때문이다.
 
-**예상 결과** — `week05/` 안에 파일 여섯 개가 있다.
+**예상 결과** — `ex/` 안에 파일 여섯 개가 있다.
 
 ```text
-week05/
+ex/
   ex01_click.html
   ex02_script_position.html
   ex02_script_position.js
@@ -140,50 +142,49 @@ head 안의 스크립트는 브라우저가 그 줄을 **읽는 순간** 실행�
 - 저장(Ctrl+S, macOS는 ⌘+S) → 새로고침(F5, macOS는 ⌘+R). 이 두 동작을 한 쌍으로 익힌다. 저장을 안 하면 화면이 안 바뀐다. VS Code 탭 제목의 ● 표시는 저장 안 됨이다.
 - CSS는 틀려도 조용히 무시됐다(4주차). JavaScript는 문법이 틀리거나 없는 것을 쓰면 **Console에 빨간 줄**이 뜬다. 결과만 다른 경우(ex04의 `12`)는 조용하다. 그래서 화면과 Console을 둘 다 본다. 빨간 줄이 있으면 오른쪽의 `파일:줄`로 간다.
 - 오류 난 스크립트 덩어리는 그 줄에서 멈춘다. 위 예에서도 1번 `script`만 멈췄고, 2번·3번은 따로 있는 `script`라 제 할 일을 했다.
-- 값을 원래대로 못 돌리겠으면 파일을 다시 받거나, 5단계 뒤라면 `git restore week05/ex02_script_position.html`로 마지막 commit 상태로 되돌린다.
+- 값을 원래대로 못 돌리겠으면 교재에서 그 파일을 다시 **Raw**로 받아 덮어쓴다.
 - 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--스크립트와-값-60분)에 있다.
 
-### 5. push와 공개 주소 확인
+### 5. 이번 주 저장소 만들어 올리기
 
-다섯 파일에서 각각 값 하나 이상을 바꿔 봤으면 올린다. 현재 폴더: `my-web`
+1일차 50–60분에 한다. 다섯 파일에서 각각 값 하나 이상을 바꿔 봤으면 올린다.
+
+GitHub에서 **New repository**를 누르고 이름 `web-week05`, **Public**으로 만든다. README는 추가하지 않는다.
+터미널에서 2주차에 배운 순서 그대로 친다. 현재 폴더: `web-week05`
 
 ```bash
+git init
 git add .
-git commit -m "5주차 비교 파일 다섯 개 실험"
-git push
+git commit -m "5주차 1일차"
+git branch -M main
+git remote add origin https://github.com/student01/web-week05.git
+git push -u origin main
 ```
 
-**예상 결과** — `git commit`이 아래처럼 찍는다. 새 파일마다 `create mode` 줄이 하나씩 붙는다.
+저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
 
-```text
-[main 3c8e5a1] 5주차 비교 파일 다섯 개 실험
- 6 files changed, 183 insertions(+)
- create mode 100644 week05/ex01_click.html
- create mode 100644 week05/ex02_script_position.html
- create mode 100644 week05/ex02_script_position.js
- create mode 100644 week05/ex03_let_const.html
- create mode 100644 week05/ex04_plus.html
- create mode 100644 week05/ex05_template.html
-```
-
-1분쯤 뒤 `https://student01.github.io/my-web/week05/ex01_click.html`을 연다. F12 › **Console**을 열면 로컬에서 본 것과 같이 A·D 두 줄이 찍혀 있다. 이 화면은 **확인용**이다.
+**예상 결과** — GitHub 저장소 화면을 새로고침하면 `ex/`·`images/`와 파일 다섯 개가 보인다.
+1~3분 뒤 `https://student01.github.io/web-week05/ex/ex01_click.html`을 연다. F12 › **Console**을 열면 로컬에서 본 것과 같이 A·D 두 줄이 찍혀 있다. 이 화면은 **확인용**이다.
 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
 
-- 앞의 일곱 글자는 PC마다 다르다. 값을 바꾼 만큼 줄 수도 달라진다. 파일 수가 6인지만 본다.
-- 404가 나면 주소의 `week05/`와 파일 이름이 폴더·파일 이름과 글자 단위로 같은지, `git push`가 끝났는지 본다.
+- 404가 나면 주소의 `web-week05/ex/`와 파일 이름이 저장소·폴더·파일 이름과 글자 단위로 같은지, Pages를 켰는지 본다.
 - 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
+- push가 거부되거나 로그인 창이 안 뜨면 [2주차 실습지의 막혔을 때](../week02_github_pages/lab.md#막혔을-때)를 본다.
 
 ## 2일차
 
-### 6. 비교 파일 다섯 개 가져오기
+### 6. 폴더 열고 비교 파일 다섯 개 가져오기
 
-먼저 새 commit을 받아 온다. 현재 폴더: `my-web`
+같은 PC에 `web-week05` 폴더가 남아 있으면 그대로 연다. 없으면 어제 올린 저장소를 내려받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
 
 ```bash
-git pull
+git clone https://github.com/student01/web-week05.git
 ```
 
-오늘 파일은 다섯 개다. 2단계의 **Raw** → 저장으로 `my-web/week05/`에 넣는다(파일이 29~57줄이라 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 다섯 개를 다 받아 둔다. 5분 안에 다 못 받았으면 ex06부터 시작하고, 나머지는 각 문항을 시작할 때 받는다.
+내려받은 `web-week05`를 **File › Open Folder**로 연다.
+
+오늘 파일은 다섯 개다. 2단계의 **Raw** → 저장으로 `web-week05/ex/`에 넣는다(파일이 29~57줄이라 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 다섯 개를 다 받아 둔다. 5분 안에 다 못 받았으면 ex06부터 시작하고, 나머지는 각 문항을 시작할 때 받는다.
+같은 방법으로 [server.mjs](../../tools/static-server/server.mjs)를 받아 `web-week05` 맨 위(`index.html` 옆)에 저장한다. 12단계에서 쓴다.
 
 | 파일 | 비교하는 것 |
 |---|---|
@@ -193,7 +194,7 @@ git pull
 | [ex09_dom_write.html](examples/ex09_dom_write.html) | `getElementById` + `innerText` / `querySelector` + `textContent` / 태그를 넣은 글자 / 입력 칸 `value` |
 | [ex10_date.html](examples/ex10_date.html) | `new Date()`의 `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getDay()` |
 
-**예상 결과** — 다섯 개를 다 받으면 `week05/`에 파일이 열한 개 있다(1일차 여섯 + 오늘 다섯).
+**예상 결과** — 다섯 개를 다 받으면 `ex/`에 파일이 열한 개 있다(1일차 여섯 + 오늘 다섯). 맨 위에는 `server.mjs`가 하나 늘었다.
 `ex06_compare.html`을 열면 표의 결과 칸이 위에서부터 `true` `false` `true` `false` `false` `true`다.
 
 - `ex07`·`ex08`·`ex09`는 버튼이나 입력 칸이 있다. 누르기 전과 누른 뒤를 비교한다.
@@ -202,10 +203,10 @@ git pull
 
 ### 7. 조립표
 
-이제 `my-web`의 `index.html`·`app.js`를 부품에서 조립한다. 줄마다 **어느 ex에서 본 것**인지 적어 두었다.
+이제 `web-week05` 맨 위의 `index.html`·`app.js`를 부품에서 조립한다. 줄마다 **어느 ex에서 본 것**인지 적어 두었다.
 옮겨 적을 때 출처 ex 파일을 옆에 열어 두고, 같은 문법이 거기서 화면과 Console에 무엇을 냈는지 떠올린다.
 
-| my-web의 줄 | 어느 ex에서 본 것 |
+| 조립할 줄 | 어느 ex에서 본 것 |
 |---|---|
 | `index.html` `<head>`의 `<script src="app.js" defer></script>` | [ex02](examples/ex02_script_position.html) 3번. `defer`는 HTML을 다 읽은 뒤 실행한다 → `#greeting`을 찾을 수 있다 |
 | `index.html`의 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` | [ex09](examples/ex09_dom_write.html) 찾을 자리에 `id`, [4주차 ex01](../week04_responsive_css/examples/ex01_selector.html) 클래스 선택자(`.red`와 같은 원리), `.card` 규칙은 [4주차 styles.css](../week04_responsive_css/examples/build/styles.css) |
@@ -220,7 +221,7 @@ git pull
 **예상 결과** — 표의 위 두 줄이 8단계, 나머지 일곱 줄이 9단계에서 쓰는 순서와 같다. 표에 없는 문법은 `app.js`에도 없다.
 
 - 새 문법은 없다. 이틀 동안 비교 파일에서 본 것을 한 파일에 모을 뿐이다.
-- 비교 파일은 작년 방식(`var`·`getElementById`·`innerText`)과 이 교재의 방식(`const`·`querySelector`·`textContent`)을 나란히 보였다. `my-web`은 이 교재의 방식으로 쓴다. `const`는 다시 담지 않는 값이라는 표시다(ex03). `querySelector`는 CSS 선택자(`#id`·`.class`)를 받아서 찾는 법을 하나로 쓸 수 있다(ex09). `textContent`는 글자만 바꿀 때 `innerText`와 결과가 같다. 작년 방식으로 써도 화면은 같고, 어느 쪽으로 써도 정답이다(ex03·ex09).
+- 비교 파일은 작년 방식(`var`·`getElementById`·`innerText`)과 이 교재의 방식(`const`·`querySelector`·`textContent`)을 나란히 보였다. 조립은 이 교재의 방식으로 쓴다. `const`는 다시 담지 않는 값이라는 표시다(ex03). `querySelector`는 CSS 선택자(`#id`·`.class`)를 받아서 찾는 법을 하나로 쓸 수 있다(ex09). `textContent`는 글자만 바꿀 때 `innerText`와 결과가 같다. 작년 방식으로 써도 화면은 같고, 어느 쪽으로 써도 정답이다(ex03·ex09).
 
 ### 8. index.html에 두 줄 넣기
 
@@ -366,9 +367,22 @@ document.querySelector('#greeting').textContent = message;
 - 21행은 ex09처럼 찾은 요소를 `const`에 담아 두지 않고, 찾은 결과에 바로 `.textContent`를 붙였다. 2행과 같은 이어 쓰기다. `const card = document.querySelector('#greeting');` 다음 줄에 `card.textContent = message;`로 나눠 써도 같다(ex09 2번 모양).
 - 21행 `textContent`에 넣은 것은 글자 그대로 보인다. 태그를 넣어도 굵어지지 않는다(ex09 3번).
 
-### 12. 확인하고 push
+### 12. 서버로 열어 확인
 
-먼저 로컬에서 본다. `index.html`을 Chrome으로 열고 **F12 › Console**을 연다.
+6단계에서 저장한 `server.mjs`로 `web-week05`를 연다. 쓰는 법은 [서버 사용 안내](../../tools/static-server/README.md)에 있다. 현재 폴더: `web-week05`
+
+```bash
+node server.mjs
+```
+
+**예상 결과** — 터미널에 두 줄이 찍히고 서버가 떠 있다. 폴더 줄은 PC마다 다르다.
+
+```text
+폴더: C:\Users\student\web-week05
+주소: http://localhost:8000/   (멈추기: Ctrl+C)
+```
+
+Chrome 주소창에 `http://localhost:8000/`을 치고 **F12 › Console**을 연다.
 
 **예상 결과** — 카드와 Console이 아래처럼 보인다. 오전 10시에 열었을 때다.
 
@@ -378,166 +392,44 @@ Console : 10                                           app.js:18
           안녕하세요, student01님! 좋은 아침입니다.      app.js:19
 ```
 
+터미널에는 요청이 한 줄씩 늘었다.
+
+```text
+200 GET /
+200 GET /styles.css
+200 GET /app.js
+200 GET /images/profile.png
+404 GET /favicon.ico
+```
+
+브라우저는 HTML을 받은 뒤 그 안의 `<link>`·`<script>`·`<img>`가 가리키는 CSS·JS·그림을 하나씩 따로 요청한다(1주차 요청과 응답). 앞의 숫자는 응답 코드다. `200`은 찾아서 보냈다, `404`는 그런 파일이 없다는 뜻이다.
+
 - Console 첫 줄의 숫자는 지금 시각(0~23)이다. 12 이상이면 카드와 Console 둘째 줄이 `좋은 오후입니다.`로 끝난다. 둘 다 정답이다.
+- 가운데 세 줄의 순서는 열 때마다 바뀔 수 있다. 브라우저가 동시에 요청하기 때문이다. 줄 수만 본다.
+- `favicon.ico`는 브라우저가 탭 아이콘을 찾으려고 스스로 보낸 요청이다. 404여도 괜찮다.
 - 카드가 `인사말을 준비 중입니다.` 그대로면 21행까지 가지 못한 것이다. Console의 첫 빨간 줄 오른쪽 `app.js:줄`부터 고친다.
 - `Cannot set properties of null (setting 'textContent')`가 뜨면 21행이 `#greeting`을 못 찾은 것이다. `index.html`의 `id="greeting"` 철자와 `script` 줄의 `defer`를 본다.
+- `http://localhost:8000/ex/ex01_click.html`도 열어 본다. 두 번 눌러 열었을 때(`file:///…`)와 화면·Console이 같다. 이번 주 파일은 어느 쪽으로 열어도 결과가 같다.
+- 확인이 끝나면 터미널을 누르고 **Ctrl+C**로 서버를 멈춘다. Node가 없는 PC는 `index.html`을 두 번 눌러 열어 같은 것을 확인한다.
 
-맞으면 올린다. 현재 폴더: `my-web`
+### 13. push와 캡처
+
+2일차 55–60분에 한다. 2주차에 배운 순서 그대로 올린다. 현재 폴더: `web-week05`
 
 ```bash
 git add .
-git commit -m "함수로 인사말 만들어 화면에 표시"
+git commit -m "5주차 2일차"
 git push
 ```
 
-**예상 결과**
-
-```text
-[main 7b2d9f4] 함수로 인사말 만들어 화면에 표시
- 7 files changed, 214 insertions(+), 8 deletions(-)
- create mode 100644 week05/ex06_compare.html
- create mode 100644 week05/ex07_if_else.html
- create mode 100644 week05/ex08_function.html
- create mode 100644 week05/ex09_dom_write.html
- create mode 100644 week05/ex10_date.html
-```
-
-`git push`의 마지막 두 줄은 아래 모양이다.
-
-```text
-To https://github.com/student01/my-web.git
-   3c8e5a1..7b2d9f4  main -> main
-```
-
-1분쯤 뒤 `https://student01.github.io/my-web/`을 새로고침하고 **F12 › Console**을 연다. 로컬과 같은 카드와 두 줄이 보인다.
-
-- 앞의 일곱 글자와 줄 수는 PC마다 다르다. 파일 수가 7인지만 본다(비교 파일 5 + `index.html` + `app.js`).
-- `8 deletions`는 9단계에서 지운 2주차 카운터 코드다. 11줄 중 빈 줄 3개는 새 `app.js`에도 있어서 Git이 지운 줄로 세지 않는다.
-
-### 13. 되돌리기 두 가지
-
-실험하다 망친 파일을 되돌리는 방법은 **commit 전이냐 뒤냐**로 갈린다. 둘 다 실제로 한 번씩 해 본다.
-
-**① commit 전 — `git restore`**
-
-두 갈래를 다 보려고 `app.js` 2행을 `const hour = 9;`로 바꾸고 저장한다. 새로고침해서 `좋은 아침입니다.`를 본다. `15`로 바꾸면 `좋은 오후입니다.`다.
-다 봤으면 이 변경을 버린다. 저장만 하고 commit은 하지 않은 상태다. `'좋은 아침입니다.'`를 아무 글자로 바꿔 저장해 봐도 같다. 현재 폴더: `my-web`
-
-```bash
-git status
-```
-
-**예상 결과**
-
-```text
-On branch main
-Your branch is up to date with 'origin/main'.
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-	modified:   app.js
-
-no changes added to commit (use "git add" and/or "git commit -a")
-```
-
-`modified:` 줄이 `app.js` 하나여야 한다. `week05/` 파일이 함께 보이면 먼저 `git restore week05/`로 되돌린다.
-
-```bash
-git restore app.js
-git status
-```
-
-**예상 결과** — `git restore`는 아무것도 찍지 않는다. `git status`가 아래처럼 바뀌고, VS Code의 `app.js` 2행이 `const hour = new Date().getHours();`로 돌아와 있다.
-
-```text
-On branch main
-Your branch is up to date with 'origin/main'.
-
-nothing to commit, working tree clean
-```
-
-- `git restore`는 파일을 **마지막 commit 상태로 덮는다.** commit 전의 변경은 기록이 없으므로 되살릴 수 없다. 버릴 것만 restore한다.
-
-**② commit 뒤 — `git revert`**
-
-`app.js` 5행 문장을 일부러 다른 문구로 바꾸고 저장한다.
-
-```js
-  return `반갑습니다, ${name}님!!!`;
-```
-
-이 잘못을 commit까지 한 뒤 되돌린다. 현재 폴더: `my-web`
-
-```bash
-git add app.js
-git commit -m "인사말 문구 바꾸기"
-git revert HEAD
-```
-
-`HEAD`는 가장 최근 commit을 가리킨다. `git revert HEAD`는 방금 한 commit을 거꾸로 되돌리는 새 commit을 만든다. `HEAD^`는 그 하나 전 commit이다.
-
-**예상 결과** — `git commit`이 먼저 아래 두 줄을 찍는다.
-
-```text
-[main c41e0a8] 인사말 문구 바꾸기
- 1 file changed, 1 insertion(+), 1 deletion(-)
-```
-
-이어 `git revert HEAD`에서 **편집기 창**이 열린다. 첫 줄의 기본 메시지 `Revert "인사말 문구 바꾸기"`를 그대로 두고 닫는다.
-
-- VS Code가 열렸으면 새로 열린 탭(`COMMIT_EDITMSG`)을 닫는다.
-- 터미널 화면이 바뀌고 줄 앞에 `~`가 보이면 Vim이다. **Esc**를 누르고 `:wq`를 친 뒤 **Enter**.
-- 편집기를 건너뛰려면 처음부터 `git revert HEAD --no-edit`로 쳐도 결과가 같다.
-
-창을 닫으면 터미널에 아래가 나온다.
-
-```text
-[main e9f3b26] Revert "인사말 문구 바꾸기"
- Date: Wed Sep 30 10:41:07 2026 +0900
- 1 file changed, 1 insertion(+), 1 deletion(-)
-```
-
-```bash
-git log --oneline -3
-```
-
-**예상 결과** — 기록이 셋 다 남아 있다.
-
-```text
-e9f3b26 Revert "인사말 문구 바꾸기"
-c41e0a8 인사말 문구 바꾸기
-7b2d9f4 함수로 인사말 만들어 화면에 표시
-```
-
-`app.js` 5행은 `` return `안녕하세요, ${name}님!`; ``로 돌아와 있다.
-
-- `git revert`는 commit을 지우지 않는다. **거꾸로 바꾸는 새 commit**을 하나 더 만든다. 그래서 잘못한 기록과 되돌린 기록이 둘 다 남는다.
-- `git reset HEAD^`는 기록 자체를 지운다. push한 commit을 지우면 내 PC 기록이 GitHub 기록과 어긋나 다음 `git push`가 거부(rejected)된다. 그래서 push한 뒤에는 기록을 더하는 `revert`를 쓴다.
-- 가운데 `Date:` 줄은 `git revert`가 늘 한 줄 붙이는 것이다. 앞의 일곱 글자와 시각은 PC마다 다르다.
-
-### 14. push와 캡처
-
-되돌리기 연습의 두 commit도 올린다. 현재 폴더: `my-web`
-
-```bash
-git push
-```
-
-**예상 결과** — 마지막 두 줄이 아래 모양이다.
-
-```text
-To https://github.com/student01/my-web.git
-   7b2d9f4..e9f3b26  main -> main
-```
-
-1. 1분쯤 뒤 `https://student01.github.io/my-web/`을 새로고침한다.
+1. 1분쯤 뒤 `https://student01.github.io/web-week05/`을 새로고침한다.
 2. **F12 › Console**을 켠 채로, 카드의 인사말과 Console 두 줄(`hour`·`message`)이 **한 화면에** 보이게 한다.
 3. 주소창이 함께 보이게 화면을 캡처한다. 이 한 장이 이번 주 제출물이다.
 4. 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
 
+**예상 결과** — 공개 주소에서도 12단계의 로컬 화면과 같은 카드와 Console 두 줄이 보인다.
+
 - 12시 이후에 열면 `좋은 오후입니다.`가 나온다. 둘 다 정답이다.
 - 캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 아이디는 보여도 된다.
-- 끝 루틴에서 `git add .` → `git commit`을 다시 해 보면 `nothing to commit, working tree clean`이 나온다. 12·13단계에서 이미 commit했으므로 정상이다.
 - 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
 - 증상별 확인 순서는 [실습지의 막혔을 때](lab.md#막혔을-때)에 있다. 한 번에 한 곳만 고치고 새로고침한다.

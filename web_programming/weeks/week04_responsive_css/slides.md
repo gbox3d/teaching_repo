@@ -8,9 +8,10 @@ footer: "CSS와 반응형 UI · 부품을 하나씩 비교하고 마지막에 �
 
 # CSS와 반응형 UI
 
-3주차 `my-web` 세 페이지는 아직 꾸미지 않았습니다. 이번 주는 CSS 입니다.
+3주차에 만든 세 페이지는 아직 꾸미지 않았습니다. 이번 주는 CSS 입니다.
+이번 주 저장소는 새로 만드는 `web-week04` 입니다. 공개 주소 `https://student01.github.io/web-week04/`
 
-이번 주 방식: **부품 12개를 하나씩 비교**하고, 마지막에 `my-web` 의 `styles.css` 를 **조립**합니다.
+이번 주 방식: **부품 12개를 하나씩 비교**하고, 마지막에 `styles.css` 를 **조립**합니다.
 
 - 파일 하나 = 속성 하나. 값 하나만 다른 형제를 나란히 놓고 차이를 봅니다.
 - 첫 형제는 기본값. 주석은 다른 값. 주석을 풀거나 값을 바꿔 봅니다.
@@ -41,7 +42,7 @@ footer: "CSS와 반응형 UI · 부품을 하나씩 비교하고 마지막에 �
 }
 ```
 
-- 규칙 하나 = 선택자 + 중괄호 + `속성: 값;` 줄들. 비교 파일은 `<style>` 안에, `my-web` 은 `styles.css` + `<link rel="stylesheet" href="styles.css">`.
+- 규칙 하나 = 선택자 + 중괄호 + `속성: 값;` 줄들. 비교 파일은 `<style>` 안에, 세 페이지는 `styles.css` + `<link rel="stylesheet" href="styles.css">`.
 - 색·글꼴 속성은 이름 그대로입니다: `color` · `background-color` · `font-size` · `font-family`.
 - **CSS 는 틀려도 오류 메시지가 없다.** 선택자가 안 맞거나 세미콜론이 빠지면 조용히 무시됩니다.
 - 그래서 형제를 나란히 놓고 **눈으로** 비교합니다. 값을 바꿨는데 화면이 안 바뀌면 그것도 결과입니다.
@@ -142,11 +143,10 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 
 [1일차 실습](lab.md#1일차--선택자와-박스-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
 
-1. `my-web/week04/` 폴더를 만들고 ex01~ex05 다섯 파일을 저장합니다.
+1. 새 폴더 `web-week04` 에 지난주 파일을 넣고, `ex/` 에 ex01~ex05 를 저장합니다.
 2. 파일마다 값을 하나 이상 바꿔 보고 화면이 어떻게 달라지는지 봅니다.
-3. push 하고 `https://student01.github.io/my-web/week04/ex01_selector.html` 을 엽니다.
+3. 끝: `web-week04` 저장소에 올리고 Pages 켜기 — 순서는 실습지
 
-Git 은 0–5분 `git pull`, 55–60분 `git add .` → `git commit` → `git push` 입니다.
 화면이 안 바뀌면 오류를 찾지 말고 **선택자 철자**와 **세미콜론**부터 봅니다.
 
 **설명 합계: 4+6+5+6+5+2+2 = 30분**
@@ -161,7 +161,7 @@ Git 은 0–5분 `git pull`, 55–60분 `git add .` → `git commit` → `git pu
 2. ex06·ex07·ex08 — direction 이 주축, justify 는 주축, align 은 교차축
 3. ex09·ex10 — wrap·gap 은 부모에, flex: 1 은 남는 공간
 4. ex11 — @media 는 조건이 맞을 때만
-5. 조립 — `my-web/styles.css` 를 부품에서 모은다
+5. 조립 — `styles.css` 를 부품에서 모은다
 
 ---
 
@@ -294,7 +294,7 @@ ex06~ex10 은 이 다섯 줄을 한 줄씩 눈으로 확인하는 파일입니�
 
 ---
 
-## 2일차 · 27–30분 — 조립: my-web styles.css, 그리고 실습 인계
+## 2일차 · 27–30분 — 조립: web-week04 styles.css, 그리고 실습 인계
 
 ```text
 body  { max-width: 640px; margin: 0 auto; padding: 16px }      ← ex04 + ex03
@@ -305,9 +305,9 @@ nav   { display: flex; gap: 16px; flex-wrap: wrap }            ← ex06 + ex09 (
 
 [2일차 실습](lab.md#2일차--flex와-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
 
-1. ex06~ex11 여섯 파일을 `week04/` 에 저장하고 값을 바꿔 봅니다(35분까지).
+1. ex06~ex11 여섯 파일을 `ex/` 에 저장하고 값을 바꿔 봅니다(35분까지).
 2. 조립: `styles.css` 를 조립표 순서로, 세 페이지에 `link` 줄, `index.html` 에 `class="card"` 세 곳.
-3. 1280 과 기기 모드 375 로 확인 → `git add .` → `git commit` → `git push` → 캡처.
+3. 1280 과 기기 모드 375 로 확인 → 끝: `web-week04` 에 올리고 캡처 — 순서는 실습지
 
 **설명 합계: 4+5+4+4+4+3+3+3 = 30분**
 
@@ -336,14 +336,14 @@ nav   { display: flex; gap: 16px; flex-wrap: wrap }            ← ex06 + ex09 (
 2일차가 끝나면 캡처 **한 장**을 제출합니다.
 
 ```text
-https://student01.github.io/my-web/index.html
+https://student01.github.io/web-week04/
 DevTools 기기 모드 375px
 메뉴: 홈 / 내 정보 / 방명록   ← 세로로 한 줄씩
 소개 문단·취미 목록: 테두리 있는 흰 카드
 주소창과 폭 375 표시가 함께 보이게 찍습니다
 ```
 
-1280px 화면과 `week04/` 의 실험 파일은 확인용입니다. 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
+1280px 화면과 `ex/` 의 실험 파일은 확인용입니다. 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
 
 ---
 
@@ -351,6 +351,7 @@ DevTools 기기 모드 375px
 
 오늘까지 세 페이지는 **보이는 것**만 바뀌었습니다. 버튼도 입력 칸도 아직 아무 동작을 하지 않습니다.
 
-5주차에는 `app.js` 를 비우고 다시 써서 JavaScript 를 시작합니다.
+5주차는 새 저장소 `web-week05` 에서, 오늘 파일을 시작점으로 합니다.
+그 위에서 `app.js` 를 비우고 다시 써서 JavaScript 를 시작합니다.
 `<script src="app.js" defer></script>` 줄을 되살리고, Console 에 값을 찍어 봅니다.
 `styles.css` 는 그대로입니다. 오늘 정한 `.card` 색은 6주차 다크 모드에서 다시 씁니다.

@@ -2,8 +2,9 @@
 
 # 4주차 — CSS와 반응형 UI
 
-이번 주는 부품을 하나씩 본다. 비교 파일 11개(부록 ex12 는 선택)를 열어 값을 바꿔 보고, 마지막에 `my-web`의 `styles.css`를 그 부품으로 조립한다.
+이번 주는 부품을 하나씩 본다. 비교 파일 11개(부록 ex12 는 선택)를 열어 값을 바꿔 보고, 마지막에 `styles.css`를 그 부품으로 조립한다.
 작년 수업과 같은 방식이다. 파일 하나에 속성 하나. 같은 상자에 값 하나만 다른 형제를 나란히 놓고 차이를 눈으로 본다.
+이번 주부터 주마다 새 저장소를 만든다. 이번 주 저장소는 `web-week04` 이고, 지난주 완성본에서 시작한다.
 
 ## 이번 주 질문
 
@@ -24,7 +25,7 @@
 ## 이번 주 결과물
 
 ```text
-[캡처 1] https://student01.github.io/my-web/
+[캡처 1] https://student01.github.io/web-week04/
          DevTools 기기 모드 375px
          메뉴 홈 / 내 정보 / 방명록 이 세로로 한 줄씩
          소개 문단과 취미 목록이 테두리 있는 흰 카드
@@ -32,23 +33,29 @@
 ```
 
 - 제출은 이 캡처 **한 장**이다. 1280px 화면은 확인용이다.
-- `my-web/week04/` 에 비교 파일을 저장하고 값을 바꾼 것은 push 로 남긴다. 기록물·표는 없다. 산출물은 push 된 파일과 화면이다.
+- 이번 주 저장소 `web-week04` 의 모양은 아래와 같다. 비교 파일은 `ex/` 에 저장하고 값을 바꾼 채로 올린다. 기록물·표는 없다. 산출물은 올린 파일과 화면이다.
 - `student01` 은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다.
+
+```text
+web-week04/
+  index.html  about.html  guestbook.html  styles.css  app.js  images/   ← 지난주 완성본에서 시작, 2일차에 조립
+  ex/                                                                  ← 비교 파일(값을 바꿔 보는 실험)
+```
 
 ## 2일 수업 흐름
 
 | 일차 | 설명 30분 | 실습 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | 이번 주 방식 → ex01 선택자 → ex02 display → ex03 박스모델 → ex04 width·max-width → ex05 text-align | `my-web/week04/` 에 다섯 파일 저장 → 값 바꿔 보기 → push | `week04/` 다섯 파일(확인용) |
-| 2일차 | flex 원리 다섯 줄 → ex06 direction → ex07 justify → ex08 align → ex09 wrap·gap → ex10 flex: 1 → ex11 @media → 조립표 | 여섯 파일 값 바꿔 보기 → `styles.css` 조립 → 1280·375 확인 → push | 캡처 1 |
+| 1일차 | 이번 주 방식 → ex01 선택자 → ex02 display → ex03 박스모델 → ex04 width·max-width → ex05 text-align | `web-week04` 폴더에 지난주 파일 넣기 → `ex/` 에 다섯 파일 저장 → 값 바꿔 보기 → 새 저장소 `web-week04` 에 올리고 Pages 켜기 | 공개 주소와 `ex/` 다섯 파일(확인용) |
+| 2일차 | flex 원리 다섯 줄 → ex06 direction → ex07 justify → ex08 align → ex09 wrap·gap → ex10 flex: 1 → ex11 @media → 조립표 | 여섯 파일 값 바꿔 보기 → `styles.css` 조립 → 1280·375 확인 → 올리기 | 캡처 1 |
 
 각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
 
 ## 준비
 
-- 3주차까지 push 한 `my-web` 저장소. 같은 PC 면 `git pull`, 다른 PC 면 `git clone https://github.com/<아이디>/my-web.git`
-- VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
-- 이번 주에 만드는 폴더는 `my-web/week04/` 하나. 고치는 파일은 `styles.css` 와 세 페이지의 `link` 한 줄씩, `index.html` 의 `class="card"` 세 곳
+- 지난주 완성본. 내 3주차 저장소(`my-web`) GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [3주차 examples/day2/](../week03_semantic_html/examples/day2/) 파일을 쓴다
+- VS Code, Chrome(DevTools), Git, GitHub 계정
+- 이번 주에 만드는 폴더는 `web-week04` 하나. 고치는 파일은 `styles.css` 와 세 페이지의 `link` 한 줄씩, `index.html` 의 `class="card"` 세 곳
 - `app.js` 는 열지 않는다. 5주차에 비우고 다시 쓴다
 - 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
 
@@ -90,14 +97,15 @@
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
 - [예제 설명](examples/README.md) — 비교 파일 12개와 `build/`
-- 2일차 끝의 `my-web`(조립 결과): [styles.css](examples/build/styles.css) · [index.html](examples/build/index.html) · [about.html](examples/build/about.html) · [guestbook.html](examples/build/guestbook.html) · [app.js](examples/build/app.js) · [images/profile.png](examples/build/images/profile.png)
+- 2일차 끝의 `web-week04`(조립 결과): [styles.css](examples/build/styles.css) · [index.html](examples/build/index.html) · [about.html](examples/build/about.html) · [guestbook.html](examples/build/guestbook.html) · [app.js](examples/build/app.js) · [images/profile.png](examples/build/images/profile.png)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css
 
 ## 완료 기준
 
-- [ ] `my-web/week04/` 에 비교 파일이 있고, 각 파일에서 값을 하나 이상 바꿔 push 했다.
+- [ ] GitHub 에 `web-week04` 저장소가 있고 Pages 가 켜져 있다.
+- [ ] `ex/` 에 비교 파일이 있고, 각 파일에서 값을 하나 이상 바꿔 올렸다.
 - [ ] 세 페이지의 `<head>` 에 `<link rel="stylesheet" href="styles.css">` 가 있다.
-- [ ] 공개 주소에서 배경색·제목 색·메뉴 색이 보이고, 소개 문단과 취미 목록이 테두리 있는 흰 카드로 보인다.
+- [ ] 공개 주소 `https://student01.github.io/web-week04/` 에서 배경색·제목 색·메뉴 색이 보이고, 소개 문단과 취미 목록이 테두리 있는 흰 카드로 보인다.
 - [ ] 1280px 에서 메뉴 세 개가 가로 한 줄이고, 가로 스크롤 막대가 생기지 않는다.
 - [ ] DevTools 기기 모드 375px 에서 메뉴 세 개가 세로로 선다.
 - [ ] 375px 화면 캡처 1장을 제출한다.
@@ -105,8 +113,9 @@
 ## 다음 수업 연결
 
 이번 주까지 세 페이지는 **보이는 것**만 바뀌었다. 버튼도 입력 칸도 아직 아무 동작을 하지 않는다.
-5주차에는 `app.js` 를 비우고 다시 써서 JavaScript 를 시작한다. `index.html` 에 `<script src="app.js" defer></script>` 줄을 되살린다.
-`styles.css` 는 그대로 둔다. `.card` 의 색은 6주차 다크 모드에서 다시 쓴다. 결과는 같은 공개 주소 `https://student01.github.io/my-web/` 에서 확인한다.
+5주차에는 새 저장소 `web-week05` 를 만든다. 시작점은 이번 주 `web-week04` 의 파일이다.
+그 위에서 `app.js` 를 비우고 다시 써서 JavaScript 를 시작한다. `index.html` 에 `<script src="app.js" defer></script>` 줄을 되살린다.
+`styles.css` 는 그대로 가져간다. `.card` 의 색은 6주차 다크 모드에서 다시 쓴다. 결과는 새 공개 주소 `https://student01.github.io/web-week05/` 에서 확인한다.
 
 ## 공식 참고 자료
 
@@ -116,4 +125,3 @@
 - [플렉스박스(Flexbox) — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/CSS_layout/Flexbox)
 - [미디어 쿼리 시작하기 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/CSS_layout/Media_queries)
 - [기기 모드로 모바일 기기 시뮬레이션 — Chrome DevTools](https://developer.chrome.com/docs/devtools/device-mode)
-- [git restore — Git 공식 문서](https://git-scm.com/docs/git-restore)

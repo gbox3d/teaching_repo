@@ -1,8 +1,9 @@
 # 4주차 따라하기 — 부품을 비교하고 마지막에 조립
 
 이번 주 실습은 파일을 만드는 것이 아니라 **값을 바꿔 보는 것**이다.
-비교 파일을 내 저장소 `my-web/week04/`에 저장하고, 값을 바꾼 뒤 화면이 어떻게 달라지는지 본다.
-`my-web`의 `styles.css`는 2일차 끝에 부품에서 **조립**한다.
+이번 주부터 주마다 새 저장소를 만든다. 이번 주 저장소는 `web-week04`이고, 지난주 완성본에서 시작한다.
+비교 파일을 `web-week04/ex/`에 저장하고, 값을 바꾼 뒤 화면이 어떻게 달라지는지 본다.
+`web-week04`의 `styles.css`는 2일차 끝에 부품에서 **조립**한다.
 
 `student01`은 연습용 아이디다. 명령과 주소에 있는 `student01`은 본인 GitHub 아이디로 바꾼다.
 명령은 VS Code의 터미널(**Terminal › New Terminal**, Windows는 PowerShell)에서 실행한다. macOS 터미널도 같은 명령이다.
@@ -13,31 +14,25 @@
 
 ## 1일차
 
-### 1. week04 폴더 만들기
+### 1. web-week04 폴더 만들고 지난주 파일 넣기
 
-지난주에 쓰던 PC라면 폴더를 열고 새 commit만 받아 온다. 현재 폴더: `my-web`
+문서 폴더 등 원하는 위치에 새 폴더 `web-week04`를 만들고 VS Code **File › Open Folder**로 연다.
+이어서 지난주 완성본을 넣는다. 방법은 둘 중 하나다.
 
-```bash
-git pull
-```
+1. **내 3주차 저장소에서** — GitHub에서 내 3주차 저장소(`my-web`) 화면을 열고 **Code › Download ZIP**을 누른다. 압축을 풀면 `my-web-main` 폴더가 생긴다. 그 **안의** 파일과 `images/` 폴더를 `web-week04`로 옮긴다.
+2. **교재에서** — 1번을 못 했으면 [3주차 examples/day2/](../week03_semantic_html/examples/day2/)의 `index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`를 **Raw**로 받는다. `images/profile.png`는 파일 화면의 내려받기 단추로 받아 `web-week04/images/`에 넣는다.
 
-처음 쓰는 PC라면 저장소를 통째로 내려받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
-
-```bash
-git clone https://github.com/student01/my-web.git
-cd my-web
-```
-
-이어서 `my-web` 안에 `week04` 폴더를 만든다. VS Code 탐색기에서 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `my-web`
+마지막으로 `web-week04` 안에 `ex` 폴더를 만든다. VS Code 탐색기에서 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week04`
 
 ```bash
-mkdir week04
+mkdir ex
 ```
 
-**예상 결과** — `my-web` 안에 `index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`images/`와 나란히 빈 `week04/` 폴더가 보인다.
+**예상 결과** — `web-week04` 안에 `index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`images/`와 나란히 빈 `ex/` 폴더가 보인다.
 
-- 폴더 이름은 `week04`다. `Week04`·`week4`로 만들면 공개 주소가 달라져 4단계에서 404가 난다.
-- 빈 폴더는 Git이 올리지 않는다. 2단계에서 파일을 넣으면 함께 올라간다.
+- `my-web-main` 폴더째 넣지 않는다. 폴더가 한 겹 더 생기면 공개 주소가 달라진다. 파일만 옮긴다.
+- 폴더 이름은 `ex`다. `Ex`·`examples`로 만들면 공개 주소가 달라져 4단계에서 404가 난다.
+- 빈 폴더는 GitHub에 올라가지 않는다. 2단계에서 파일을 넣으면 함께 올라간다.
 
 ### 2. 비교 파일 다섯 개 가져오기
 
@@ -53,13 +48,13 @@ mkdir week04
 
 가져오는 방법은 둘 중 하나다.
 
-1. **Raw로 저장** — [교재 저장소 examples 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `my-web/week04/`에 저장한다. 파일 이름은 교재와 **같게** 둔다.
-2. **타이핑** — VS Code에서 `week04/ex01_selector.html`을 새로 만들고 교재 화면을 보며 친다. 1일차 파일은 31~45줄이다. 주석은 빼도 된다.
+1. **Raw로 저장** — [교재 저장소 examples 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week04/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다.
+2. **타이핑** — VS Code에서 `ex/ex01_selector.html`을 새로 만들고 교재 화면을 보며 친다. 1일차 파일은 31~45줄이다. 주석은 빼도 된다.
 
 저장한 파일은 VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**(macOS는 **Reveal in Finder**)로 찾아 두 번 눌러 브라우저로 연다.
 
 **예상 결과** — `ex01_selector.html`을 열면 여섯 줄이 보인다. 1번 파랑, 2·3번 빨강, 4번 파랑, 5번 초록, 6번 기본 링크색이다.
-`week04/` 안에 파일 다섯 개가 있다.
+`ex/` 안에 파일 다섯 개가 있다.
 
 - 저장한 파일 이름이 `ex01_selector.html.txt`처럼 `.txt`로 끝나면 이름을 고친다. 브라우저가 붙인 것이다.
 - 다섯 파일을 한 번에 다 받고 시작해도 되고, 하나씩 받아 실험하고 다음으로 가도 된다.
@@ -81,44 +76,47 @@ mkdir week04
 
 - 저장(Ctrl+S) → 새로고침(F5). 이 두 동작을 한 쌍으로 익힌다. 저장을 안 하면 화면이 안 바뀐다.
 - CSS는 틀려도 **오류 메시지가 없다.** 아무 일도 안 일어나면 DevTools Styles에서 내 규칙이 그 상자에 보이는지 본다. 안 보이면 선택자가 안 맞은 것이다.
-- 값을 원래대로 못 돌리겠으면 파일을 다시 받거나, 4단계 뒤라면 `git restore week04/ex01_selector.html`로 마지막 commit 상태로 되돌린다.
+- 값을 원래대로 못 돌리겠으면 교재에서 그 파일을 다시 받는다.
 - 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--선택자와-박스-60분)에 있다.
 
-### 4. push와 공개 주소 확인
+### 4. 이번 주 저장소 만들어 올리기
 
-다섯 파일에서 각각 값 하나 이상을 바꿨으면 올린다. 현재 폴더: `my-web`
+50분이 되면 올린다. 2주차에 배운 순서 그대로다.
+
+먼저 GitHub에서 새 저장소를 만든다. 이름은 `web-week04`, **Public**으로 하고 README는 추가하지 않는다.
+이어서 VS Code 터미널에서 친다. 현재 폴더: `web-week04`
 
 ```bash
+git init
 git add .
-git commit -m "4주차 비교 파일 다섯 개 실험"
-git push
+git commit -m "4주차 1일차"
+git branch -M main
+git remote add origin https://github.com/student01/web-week04.git
+git push -u origin main
 ```
 
-**예상 결과**
+저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
 
-```text
-[main 5e2d1c7] 4주차 비교 파일 다섯 개 실험
- 5 files changed, 184 insertions(+)
-```
-
-1분쯤 뒤 `https://student01.github.io/my-web/week04/ex01_selector.html`을 연다. 로컬에서 보던 것과 같은 화면이 보인다. 이 화면은 **확인용**이다.
+**예상 결과** — GitHub의 `web-week04` 저장소 화면을 새로고침하면 세 페이지·`styles.css`·`app.js`·`images/`·`ex/`가 보인다.
+1~3분 뒤 `https://student01.github.io/web-week04/`을 열면 3주차의 꾸미지 않은 세 페이지가 보인다. `https://student01.github.io/web-week04/ex/ex01_selector.html`은 로컬에서 보던 것과 같은 화면이다. 두 화면은 **확인용**이다.
 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
 
-- 앞의 일곱 글자는 PC마다 다르다. 값을 바꾼 만큼 줄 수도 달라진다. 파일 수가 5인지만 본다.
-- 404가 나면 주소의 `week04/`와 파일 이름이 폴더·파일 이름과 글자 단위로 같은지, `git push`가 끝났는지 본다.
+- 404가 나면 주소의 `web-week04/`·`ex/`와 파일 이름이 폴더·파일 이름과 글자 단위로 같은지, Pages를 켰는지 본다.
 - 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
+- push가 거부되거나 로그인 창이 안 뜨면 [2주차 막혔을 때 표](../week02_github_pages/lab.md#막혔을-때)를 본다.
 
 ## 2일차
 
 ### 5. flex 파일 여섯 개 가져오기
 
-먼저 새 commit을 받아 온다. 현재 폴더: `my-web`
+같은 PC에 `web-week04` 폴더가 남아 있으면 **File › Open Folder**로 연다.
+없으면 저장소를 내려받은 뒤 **File › Open Folder**로 연다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
 
 ```bash
-git pull
+git clone https://github.com/student01/web-week04.git
 ```
 
-오늘 파일은 여섯 개다. 2단계의 **Raw** → 저장으로 `my-web/week04/`에 넣는다(파일이 47~68줄이라 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 여섯 개를 다 받아 둔다.
+오늘 파일은 여섯 개다. 2단계의 **Raw** → 저장으로 `web-week04/ex/`에 넣는다(파일이 47~68줄이라 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 여섯 개를 다 받아 둔다.
 
 | 파일 | 비교하는 것 |
 |---|---|
@@ -131,14 +129,14 @@ git pull
 
 [ex12_position.html](examples/ex12_position.html)은 부록이다. 시간이 남으면 열어 본다.
 
-**예상 결과** — `week04/`에 파일이 열한 개(부록까지 열두 개) 있다. `ex06_flex_direction.html`을 열면 검은 바탕에 흰 테두리 상자 일곱 개가 보인다. 1번은 세로로 쌓여 있고 2번부터 flex로 배치된다(2·3·6번은 가로, 4·5·7번은 세로).
+**예상 결과** — `ex/`에 파일이 열한 개(부록까지 열두 개) 있다. `ex06_flex_direction.html`을 열면 검은 바탕에 흰 테두리 상자 일곱 개가 보인다. 1번은 세로로 쌓여 있고 2번부터 flex로 배치된다(2·3·6번은 가로, 4·5·7번은 세로).
 
 - flex 파일은 같은 틀을 쓴다. 부모 `.frame`에 `display: flex`, 자식은 `.box`. frame에 붙인 클래스 하나로 형제를 만든다.
 - 파일마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--flex와-조립-60분)에 있다.
 
 ### 6. 조립표
 
-이제 `my-web`의 `styles.css`를 부품에서 조립한다. 규칙마다 **어느 ex에서 본 것**인지 적어 두었다.
+이제 `web-week04`의 `styles.css`를 부품에서 조립한다. 규칙마다 **어느 ex에서 본 것**인지 적어 두었다.
 규칙을 옮겨 적을 때 출처 ex 파일을 옆에 열어 두고, 같은 속성이 거기서 어떻게 움직였는지 떠올린다.
 
 | `styles.css` 규칙 | 어느 ex에서 본 것 |
@@ -438,7 +436,7 @@ console.info('my-web ready');
 **예상 결과** — 세 페이지 어디에도 `<script>` 줄이 없으므로 이 파일은 실행되지 않는다. 그래서 오류도 나지 않는다.
 
 - 5주차에 이 파일을 비우고 다시 쓴다. 그때 `<script src="app.js" defer>` 줄을 되살린다.
-- 지우지 않는다. 지운 학생은 `git restore app.js`로 되살린다.
+- 지우지 않는다. 지운 학생은 [examples/build/app.js](examples/build/app.js)를 **Raw**로 다시 받는다.
 
 ### 12. 1280·기기 모드 375 확인 → push → 캡처
 
@@ -454,27 +452,22 @@ console.info('my-web ready');
 - 375는 600보다 작으므로 `@media (max-width: 600px)` 안의 규칙이 산다. 1280에서는 죽어 있다(ex11).
 - 375에서도 메뉴가 가로 그대로면 `@media (max-width 600px)`처럼 콜론이 빠졌는지, 중괄호 `}`가 두 개 다 있는지 본다. 틀려도 오류 없이 덩어리 전체가 무시된다.
 
-두 폭이 맞으면 올린다. 현재 폴더: `my-web`
+두 폭이 맞으면 올린다. 2주차에 배운 순서 그대로다. 현재 폴더: `web-week04`
 
 ```bash
 git add .
-git commit -m "styles.css 조립하고 flex 비교 파일 여섯 개 실험"
+git commit -m "4주차 2일차"
 git push
 ```
 
-**예상 결과**
+**예상 결과** — GitHub의 `web-week04` 저장소 화면에서 `ex/`에 비교 파일이 열한 개(부록까지 열두 개) 보이고, `styles.css`를 누르면 9단계의 내용이 보인다.
 
-```text
-[main 9a4f2b1] styles.css 조립하고 flex 비교 파일 여섯 개 실험
- 10 files changed, 391 insertions(+), 23 deletions(-)
-```
-
-1. 1분쯤 뒤 `https://student01.github.io/my-web/`을 새로고침한다.
+1. 1분쯤 뒤 `https://student01.github.io/web-week04/`을 새로고침한다.
 2. F12 → 기기 모드(**Ctrl+Shift+M**) → 폭 `375`.
 3. 메뉴가 세로로 서고 카드에 테두리가 보이면 **주소창과 폭 375 표시가 함께 보이게** 화면을 캡처한다. 이 한 장이 이번 주 제출물이다.
 4. 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
 
-- 앞의 일곱 글자와 줄 수는 PC마다 다르다. 파일 수가 10인지만 본다(비교 파일 6 + 세 페이지 + `styles.css`).
 - 캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 아이디는 보여도 된다.
 - 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
-- 실험하다 파일을 망쳤으면 `git restore <파일>`로 마지막 commit 상태로 되돌린다. 증상별 확인 순서는 [실습지](lab.md)의 막혔을 때 표에 있다.
+- 실험하다 비교 파일을 망쳤으면 교재에서 다시 받는다. 증상별 확인 순서는 [실습지](lab.md#막혔을-때)의 막혔을 때 표에 있다.
+- 선택: Node.js가 있으면 정적 서버 [`server.mjs`](../../tools/static-server/README.md)로 `web-week04`를 `http://localhost:8000/`에서 열어 볼 수 있다. 설명은 5주차에 한다.

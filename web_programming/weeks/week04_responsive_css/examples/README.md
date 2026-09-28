@@ -6,7 +6,7 @@
 첫 형제는 **기본값**이다(ex11 만 1번이 `@media` 가 있는 frame). 주석 처리된 줄은 **대안값**이다. 주석을 풀거나 값을 바꾸고 저장 → 새로고침으로 무엇이 달라지는지 본다.
 작년 수업에서 CSS 를 가르친 방식이다. 만들기는 마지막 하나, [`build/`](build/) 뿐이다.
 
-각 파일은 단일 HTML 이고 `<style>` 이 안에 있다. 내려받아 `my-web/week04/` 에 파일 이름 그대로 저장한다(교재 저장소에서 **Raw** → 저장, 또는 타이핑). 가져오는 방법은 [따라하기 1일차](../walkthrough.md#1일차)에 있다.
+각 파일은 단일 HTML 이고 `<style>` 이 안에 있다. 내려받아 이번 주 저장소 폴더의 `web-week04/ex/` 에 파일 이름을 바꾸지 않고 저장한다(교재 저장소에서 **Raw** → 저장, 또는 타이핑). 가져오는 방법은 [따라하기 1일차](../walkthrough.md#1일차)에 있다.
 
 ## 비교 파일
 
@@ -55,11 +55,11 @@ flex 파일(ex06~ex11)은 같은 틀을 쓴다. `.frame` 이 **부모(컨테이�
 
 주석에 적힌 "가로"·"세로"는 row 일 때 이야기다. 정확한 낱말은 **주축**·**교차축**이다. `justify-content` 는 주축, `align-items` 는 교차축. `flex-direction: column` 이면 둘 다 방향이 바뀐다.
 
-## `build/` — 2일차 끝의 my-web
+## `build/` — 2일차 끝의 web-week04
 
-[`build/`](build/) 는 2일차 끝의 `my-web` **전체**다. 5주차의 시작점이다(5주차 walkthrough 1단계). 비교 파일을 저장한 `week04/` 실험 파일은 여기 넣지 않는다.
+[`build/`](build/) 는 2일차 끝의 `web-week04` 저장소 **루트 전체**다. 5주차 새 저장소 `web-week05` 의 시작점이다. 비교 파일을 저장한 `ex/` 폴더는 여기 넣지 않는다.
 
-| `build/` 파일 | 내 `my-web` 의 위치 | 따라하기 단계 |
+| `build/` 파일 | 내 `web-week04` 의 위치 | 따라하기 단계 |
 |---|---|---|
 | [styles.css](build/styles.css) | `styles.css` | [2일차 6·9단계](../walkthrough.md#2일차) — 조립표 순서로 규칙을 쓴다. 이 파일과 글자 단위로 같아진다 |
 | [index.html](build/index.html) | `index.html` | [2일차 7·8·10단계](../walkthrough.md#2일차) — `<head>` 에 `link` 한 줄, `class="card"` 세 곳 |

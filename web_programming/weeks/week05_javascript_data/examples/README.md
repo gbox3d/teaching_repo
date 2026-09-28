@@ -8,7 +8,7 @@
 만들기는 마지막 하나, [`build/`](build/) 뿐이다.
 
 각 파일은 단일 HTML 이고 `<script>` 가 안에 있다. ex02 만 보조 파일 [ex02_script_position.js](ex02_script_position.js) 를 같은 폴더에서 불러온다.
-내려받아 `my-web/week05/` 에 파일 이름 그대로 저장한다(교재 저장소에서 **Raw** → 저장. Raw 가 열리지 않을 때만 주석 줄까지 타이핑). 가져오는 방법은 [따라하기 1일차](../walkthrough.md#1일차)에 있다.
+내려받아 이번 주 저장소 `web-week05` 의 `ex/` 폴더에 파일 이름 그대로 저장한다(교재 저장소에서 **Raw** → 저장. Raw 가 열리지 않을 때만 주석 줄까지 타이핑). 가져오는 방법은 [따라하기 1일차](../walkthrough.md#1일차)에 있다.
 
 ## 비교 파일
 
@@ -56,11 +56,11 @@ if (hour >= 12) {
 
 3번은 `hour >= 18` 을 먼저 본다. 그래서 20시에 3번은 `저녁`, 4번은 `오후` 다. 큰 수부터 물어야 하는 이유다.
 
-## `build/` — 2일차 끝의 my-web
+## `build/` — 2일차 끝의 web-week05
 
-[`build/`](build/) 는 2일차 끝의 `my-web` **전체**다. 6주차 예제의 시작점이다. 비교 파일을 저장한 `week05/` 실험 파일은 여기 넣지 않는다.
+[`build/`](build/) 는 2일차 끝의 `web-week05` 저장소 맨 위(`index.html` 등이 있는 자리) **전체**다. 6주차 새 저장소 `web-week06` 의 시작점이다. 비교 파일을 저장한 `ex/` 폴더와 서버 `server.mjs` 는 여기 넣지 않는다.
 
-| `build/` 파일 | 내 `my-web` 의 위치 | 따라하기 단계 |
+| `build/` 파일 | 내 `web-week05` 의 위치 | 따라하기 단계 |
 |---|---|---|
 | [index.html](build/index.html) | `index.html` | [2일차 8·10단계](../walkthrough.md#2일차) — `<head>` 에 `<script src="app.js" defer></script>`, `<main>` 첫 줄에 `#greeting` 카드. 두 줄만 늘어난다 |
 | [app.js](build/app.js) | `app.js` | [2일차 9·11단계](../walkthrough.md#2일차) — 2주차 카운터 코드를 지우고 조립표 순서로 쓴다. 1행의 아이디(`student01` 자리)만 다르고 나머지는 이 파일과 글자 단위로 같아진다 |
@@ -71,11 +71,11 @@ if (hour >= 12) {
 
 `app.js` 에 남아 있던 2주차 카운터 코드를 지우는 이유: 그 코드가 찾던 버튼은 3주차에 `index.html` 에서 사라졌다. 찾으면 `null` 이 오고, `null` 에 `addEventListener` 를 쓰면 빨간 오류가 나서 그 아래 줄이 실행되지 않는다(ex02 · ex03 에서 본 것).
 
-### 조립표 — `my-web` 의 줄은 어느 ex 에서 본 것인가
+### 조립표 — `web-week05` 의 줄은 어느 ex 에서 본 것인가
 
 `index.html` 두 줄과 `app.js` 21줄은 새로 배우는 것이 없다. 비교 파일에서 본 것을 한 곳에 모은 것이다.
 
-| `my-web` 의 줄 | 어느 ex 에서 본 것 |
+| `web-week05` 의 줄 | 어느 ex 에서 본 것 |
 |---|---|
 | `index.html` `<head>` 의 `<script src="app.js" defer></script>` | ex02 3번. HTML 을 다 읽은 뒤 실행하므로 아래의 `#greeting` 을 찾을 수 있다 |
 | `index.html` 의 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` | ex09 (찾을 자리에 `id`), 4주차 ex01 (클래스 선택자, `.red` 와 같은 원리), `.card` 규칙은 4주차 `styles.css` |

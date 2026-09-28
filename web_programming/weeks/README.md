@@ -5,8 +5,8 @@
 - 15주, 주 2회 × 90분
 - 매 수업: 설명·시연 30분 + 직접 해결 실습 60분
 - 주당 합계: 설명·시연 60분 + 실습 120분
-- 저장소는 `my-web` 하나다. 1주차는 연습용 폴더 `week01`에서 로컬 Git만 다루고, 2주차에 만든 `my-web`에 15주까지 페이지를 쌓는다. 공개 주소는 `https://<아이디>.github.io/my-web/`이다.
-- 매주 시작점은 전주 `examples/day2` 완성본(그 시점의 `my-web` 전체 파일)이다. 자기 코드로 이어 가도 되고, 막히면 전주 완성본을 받아 이어 간다.
+- 1주차는 연습용 폴더 `week01`에서 로컬 Git을, 2주차는 GitHub 저장소 `my-web`과 Pages 등록을 배운다. **Git 설명은 2주차까지다.** 3주차는 `my-web`을 이어 쓰고, **4주차부터는 매주 새 저장소 `web-weekNN`을 만들어 올린다**(아래 실습 루틴).
+- 매주 시작점은 지난주 완성본이다(4주차부터 `examples/build/`, 그 전은 `examples/day2/`). 자기 코드로 이어 가도 되고, 막히면 교재의 지난주 완성본을 받아 이어 간다.
 - **매주 캡처 1장으로 끝난다.** 그 캡처가 README "완료 기준"의 화면이고 주차별 실습 점수의 근거다. 산출물이 보고서·표여서는 안 된다.
 - 주차별 실습 점수는 1~7주·10~13주 캡처로 산정한다(2주차는 고정본의 캡처 4장). 8·9·14·15주는 실습 점수 대상이 아니다.
 - 고정 평가 주: 8주 중간 개인 실기, 9주 1차 과제 발표, 14주 최종 프로젝트 발표, 15주 기말 개인 실기.
@@ -14,29 +14,46 @@
 
 시험과 발표 주차는 대학 일정과 분반 인원에 따라 실제 평가 시간이 달라질 수 있다. 공개 자료에는 평가 구조와 연습 절차만 두며, 학기별 실제 문항·정답·학생 정보는 별도 비공개 공간에서 관리한다.
 
-## 실습 루틴 (3주차부터 매 실습)
+## 실습 루틴 (3주차부터)
 
-공용 실습실 PC라 수업이 끝나면 파일이 남지 않는 환경을 전제한다. 아래 루틴은 3주차부터 각 주 `lab.md` 시간표의 처음과 끝에 그대로 들어 있다.
+Git 은 **2주차까지만 설명한다**(GitHub Pages 등록까지). 3주차부터는 Git 설명 없이 웹에 집중하고, 아래 올리기 순서만 따른다. 명령의 뜻은 2주차에 배웠다.
+**매주 새 저장소를 만든다.** 이름은 `web-week04`, `web-week05` … 이고, 공개 주소는 `https://<아이디>.github.io/web-week05/`이다(3주차까지는 `my-web`).
 
-**시작 0–5분**
+```text
+web-week05/
+  index.html  about.html  guestbook.html  styles.css  app.js  images/   ← 이번 주 만들기. 지난주 완성본에서 시작
+  ex/                                                                  ← 비교 파일(값을 바꿔 보는 실험)
+  server.mjs                                                           ← 정적 서버(5주차부터)
+```
 
-| 상황 | 하는 일 |
-|---|---|
-| 지난 시간과 같은 PC | `git pull` |
-| 다른 PC에서 처음 | `git clone https://github.com/<아이디>/my-web.git` |
+**1일차 시작 0–5분** — 새 폴더 `web-weekNN`을 VS Code로 연다. 지난주 완성본을 넣는다: 내 지난주 저장소 GitHub 화면 **Code › Download ZIP**, 또는 교재의 지난주 `examples/build/`. `ex/` 폴더에 오늘 비교 파일을 **Raw**로 저장한다.
 
-**끝 55–60분**
+**1일차 끝 50–60분** — GitHub에서 새 저장소 `web-weekNN`을 만든다(Public, README 추가하지 않음). 터미널에서:
 
-1. `git add .` → `git commit -m "…"` → `git push`
-2. Pages 주소를 새로고침해 반영을 확인하고 캡처한다
-3. 공용 PC면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 제거한다
+```bash
+git init
+git add .
+git commit -m "5주차 1일차"
+git branch -M main
+git remote add origin https://github.com/<아이디>/web-week05.git
+git push -u origin main
+```
+
+그다음 저장소 **Settings › Pages › Branch: main, /(root) › Save** → 1~3분 뒤 공개 주소를 연다.
+
+**2일차 시작 0–5분** — 같은 PC에 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/<아이디>/web-weekNN.git` 뒤 **File › Open Folder**.
+
+**2일차 끝 55–60분** — `git add .` → `git commit -m "…"` → `git push` → 공개 주소 새로고침·캡처.
+
+**공용 PC**는 매 실습 끝에 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 제거한다.
 
 **Pages 반영 지연 규칙** — 각 주 `lab.md` "막혔을 때" 표의 첫 줄에 둔다.
-- **11주차부터 확인·캡처는 공개 URL에서만 한다.** `localStorage`는 `file://`과 공개 주소가 서로 다른 저장소를 쓰므로 "새로고침해도 남는다"가 로컬 화면으로는 재현되지 않는다. 12주차 `fetch`도 같은 이유로 공개 URL이 기준이다.
 
 - 공개 페이지 반영이 1~3분 늦는다. 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정하고, 다음 수업 시작 5분에 Pages 확인을 허용한다.
+- **11주차부터 확인·캡처는 공개 URL에서만 한다.** `localStorage`는 주소(origin)마다 따로 저장되므로 "새로고침해도 남는다"는 캡처하는 그 주소에서 확인한다. 12주차 `fetch`도 공개 URL이 기준이다.
+- push 가 거부되거나 로그인 창이 안 뜨면 [2주차 막혔을 때 표](week02_github_pages/lab.md)를 본다.
 
-**clone이 로그인 문제로 막히면** 조교에게 전주 `examples/day2`를 받아 그 폴더에서 작업하고, 끝 루틴에서 `git remote add origin <URL>`을 한 뒤 push한다.
+**정적 서버** — [`../tools/static-server/`](../tools/static-server/README.md)의 `server.mjs` 한 파일을 그 주 폴더에 두고 `node server.mjs` → `http://localhost:8000/`. 5주차 2일차에 처음 설명하고, `fetch`(12주차)처럼 `file://`로 안 되는 기능을 공개 주소와 같은 조건으로 미리 본다. Node가 없는 PC는 파일을 두 번 눌러 열거나 push 뒤 공개 주소로 확인한다.
 
 ## 주차 폴더 구성
 
@@ -95,13 +112,13 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 
 - **학생 기준선**: 프로그래밍 경험이 거의 없는 대학생이다. 1주차에 URL·요청과 응답·HTML/CSS/JS의 역할·DevTools와 로컬 `git init → add → commit`, 2주차에 GitHub 저장소 `my-web`·push·Pages·브랜치와 merge까지 배웠다. 그 밖의 것은 모른다고 전제한다.
 - **기준 자료 우선순위**: (1) 강의자 판서와 Git·GitHub 슬라이드 → (2) 수업계획서의 15주 헤드라인과 평가 배점 → (3) MDN 입문 순서(HTML → CSS → JavaScript → DOM → 폼 → 저장 → fetch). 순서·용어·API는 이 셋과 같게 쓴다.
-- **한 주 새 개념은 3~5개**다. 앞 주에서 배운 것만 전제하고 난이도가 한 주에 두 단계 뛰지 않는다. "오늘 문법 5분"이나 복붙 틀로 처리하는 항목은 개념 수에서 빼되 슬라이드 1장으로 제한한다. Git 루틴(pull·add·commit·push)은 3주차부터 복습이므로 개념 수에 넣지 않는다.
+- **한 주 새 개념은 3~5개**다. 앞 주에서 배운 것만 전제하고 난이도가 한 주에 두 단계 뛰지 않는다. "오늘 문법 5분"이나 복붙 틀로 처리하는 항목은 개념 수에서 빼되 슬라이드 1장으로 제한한다. 3주차부터의 올리기 순서(add·commit·push)는 설명하지 않는 루틴이므로 개념 수에 넣지 않는다.
 - **매주 캡처 1장으로 보여 줄 웹페이지·동작 하나로 끝난다.** 1일차 중간 화면은 `lab.md`에 "확인용"으로만 둔다.
 - `slides.md`에는 설명 30분 분량의 핵심만 두고 긴 설명은 강의 대본(비공개)으로 분리한다.
 - 예제는 한 번에 한 개념만 보여 주는 최소 코드로 만든다.
 - `lab.md`에는 정답 전체 대신 완료 조건과 단계별 힌트를 둔다. "막혔을 때" 항목은 실제로 재현해 본 Console·터미널 문구를 그대로 적는다.
 - **표준 API·표준 용어만 쓴다**: `document.querySelector`, `textContent`, `addEventListener`, `classList`, `createElement`/`append`, `localStorage`, `JSON`, `fetch`/`await`. 클릭·제출 리스너 안에서 화면을 직접 바꾼다. 목록을 다시 그리는 함수 이름은 `showList()`로 통일한다.
-- **학기 범위 밖**: ES Module(`type="module"`·`import`/`export`), 번들러, npm, Node 서버, 서버 DB·로그인, 화살표 함수, `map`·`filter`·`forEach`, 클래스, 구조 분해, spread, `git rebase`. 필요하면 "이 과목 범위 밖" 한 줄로만 말한다.
+- **학기 범위 밖**: 번들러, npm 패키지, 서버 DB·로그인, 화살표 함수, `map`·`filter`·`forEach`, 클래스, 구조 분해, spread, `git rebase`. 필요하면 "이 과목 범위 밖" 한 줄로만 말한다.
 - 표준 입문 교재에 없는 설계 틀과 용어는 들여오지 않는다. 금지 목록은 강의자 설계 문서가 관리하며, 주차 검사 스크립트가 공개·비공개 문서를 모두 검사한다.
 - **문법·API는 한 주에 몰아넣지 않고 쓰는 주에 5분**으로 도입한다.
 
@@ -124,7 +141,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | `try / catch`, `response.ok` | 12주 2일차 | 정식 항목 |
 | `Number()`, `isNaN()`, `new Date().getFullYear()` | 13주 1일차 | 오늘 문법 5분 |
 
-- **개인정보**: 예시 아이디는 `student01`, 이메일은 `student01@example.com`, 저장소는 `my-web`, 공개 주소는 `https://student01.github.io/my-web/`이다. 공개 저장소·캡처·예제에 실명·학번·전화번호·실제 이메일을 넣지 않는다.
+- **개인정보**: 예시 아이디는 `student01`, 이메일은 `student01@example.com`, 저장소는 3주차까지 `my-web`, 4주차부터 `web-week04`·`web-week05`…, 공개 주소는 `https://student01.github.io/web-week05/`이다. 공개 저장소·캡처·예제에 실명·학번·전화번호·실제 이메일을 넣지 않는다.
 - 시험 폴더에는 문제 구조·starter·채점표만 두고 학기별 실제 문제와 정답은 별도 비공개 공간에서 관리한다.
 
 ## README "이번 주 용어" 표
