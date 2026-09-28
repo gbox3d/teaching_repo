@@ -110,7 +110,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | `<script src="app.js" defer>`, `console.log`, Console 오류 줄(파일:줄) 읽기 | 5주 1일차 | 정식 항목 |
 | `let`·`const`, 숫자·문자열, 템플릿 문자열 `` `${}` `` | 5주 1일차 | 정식 항목 |
 | `if / else`, 비교 `===`·`>=`, `function` 정의·호출·`return` | 5주 2일차 | 정식 항목 |
-| `document.querySelector('#greeting').textContent = …` | 5주 2일차 | 복붙 틀 1줄("6주에 배운다") |
+| `document.querySelector('#greeting').textContent = …` | 5주 2일차 | 정식 항목(ex09) |
 | `addEventListener('click', function () { })` | 6주 1일차 | 정식 항목 |
 | `classList.add / remove / toggle` | 6주 2일차 | 정식 항목 |
 | `addEventListener('submit', function (event) { })`, `event.preventDefault()`, `input.value`, `trim()` | 7주 1일차 | 정식 항목 |

@@ -32,7 +32,7 @@ cd my-web
 **예상 결과** — `Cloning into 'my-web'...`로 시작하고 `my-web` 폴더가 생긴다. **File › Open Folder**로 그 폴더를 연다.
 
 - `fatal: destination path 'my-web' already exists and is not an empty directory.`가 나오면 이미 받아 둔 것이다. 그 폴더를 열고 `git pull`을 한다.
-- 로그인이 막혀 clone이 안 되면 조교에게 5주차 `examples/day2` 파일을 받아 새 폴더에서 작업하고, 끝 루틴에서 `git remote add origin <URL>` 뒤에 push한다.
+- 로그인이 막혀 clone이 안 되면 조교에게 5주차 `examples/build` 파일을 받아 새 폴더에서 작업하고, 끝 루틴에서 `git remote add origin <URL>` 뒤에 push한다.
 
 ### 2. dark-mode 브랜치 만들기
 
@@ -165,7 +165,7 @@ greeting.textContent = `${greet(name)} ${hello(hour)}`;
 
 **예상 결과** — 화면은 5주차와 똑같다. 인사말 카드에 `안녕하세요, student01님! 좋은 아침입니다.`가 보인다.
 
-- 5주차의 복붙 틀 한 줄이 오늘 둘로 나뉘었다. 4단계에서 **찾아 두고**(`querySelector`), 여기서 **바꾼다**(`textContent`).
+- 5주차 마지막 줄이 5주차 ex09 2번처럼 둘로 나뉘었다. 4단계에서 **찾아 두고**(`querySelector`), 여기서 **바꾼다**(`textContent`).
 - `.textContent`는 요소 안의 글자다. `=` 왼쪽에 두면 바꿔 넣는다는 뜻이다.
 - `greet`·`hello` 두 함수는 5주차 그대로 쓴다. 지우지 않는다.
 
@@ -183,7 +183,7 @@ helloButton.addEventListener('click', function () {
 
 - "이 버튼을 **클릭하면** 이 함수를 실행하라"고 브라우저에 맡겨 두는 줄이다.
 - 맡기는 순간에는 실행되지 않는다. 누를 때마다 중괄호 안이 실행된다.
-- 리스너는 `function () { }` 모양으로 쓴다. 2주차 `app.js`에 있던 `() =>`는 틀로만 본 것이다.
+- 리스너는 `function () { }` 모양으로 쓴다. 5주차 ex01 2번처럼 `() => { }`로 써도 같은 뜻이다.
 - 새로고침하면 HTML에 적힌 글자로 돌아간다. 화면만 바뀌었지 파일은 그대로이기 때문이다.
 
 ### 7. 클릭 횟수 세기
@@ -239,7 +239,7 @@ helloButton.addEventListener('click', function () {
 ```
 
 - `let count = 0;`은 리스너 **밖**에 둔다. 안에 두면 누를 때마다 0에서 다시 시작해 계속 `클릭 1회`만 나온다.
-- `count = count + 1;`은 "지금 값에 1을 더해 다시 넣어라"는 뜻이다. 5주차의 `hour = 15;`와 같은 모양이다.
+- `count = count + 1;`은 "지금 값에 1을 더해 다시 넣어라"는 뜻이다. 5주차 ex03의 `a = a + 1`과 같은 모양이다. 그래서 `count`는 `const`가 아니라 `let`이다.
 - 숫자를 문장에 넣을 때는 5주차의 템플릿 문자열을 쓴다. 백틱은 영문 입력 상태에서 친다.
 - 새로고침하면 `클릭 0회`로 돌아간다. 새로고침해도 남게 하는 것은 11주차에 배운다.
 
@@ -273,7 +273,7 @@ Uncaught TypeError: Cannot set properties of null (setting 'textContent')      a
 
 - 두 줄 모두 원인은 하나다. **찾지 못해서 `null`이 나왔다.** `null`에는 아무것도 붙일 수 없다.
 - 첫 번째는 철자가 틀려서 못 찾았다. 두 번째는 `defer`가 없어 HTML을 다 읽기 전에 찾으러 갔기 때문이다.
-- `defer`는 "HTML을 다 읽은 뒤에 실행하라"는 뜻이다. 5주차에 예고한 그 단어다.
+- `defer`는 "HTML을 다 읽은 뒤에 실행하라"는 뜻이다. 5주차 ex02에서 `defer`를 지웠을 때 3번이 `null`이 된 것과 같은 일이다.
 - 확인했으면 **반드시 원래대로 되돌린다.** 오류가 있는 채로 commit하지 않는다.
 
 ### 9. 나머지 파일은 그대로 둔다

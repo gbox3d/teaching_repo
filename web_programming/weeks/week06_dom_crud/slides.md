@@ -95,7 +95,7 @@ greeting.textContent = `${greet(name)} ${hello(hour)}`;
 
 - `.textContent`는 요소 안의 **글자**입니다.
 - `=` 오른쪽에 두면 읽고, **왼쪽에 두면 바꿔 넣습니다.**
-- 5주차의 복붙 틀 한 줄이 오늘 두 줄로 나뉩니다. 먼저 **찾아 두고**(`querySelector`), 그다음 **바꿉니다**(`textContent`).
+- 5주차 마지막 줄이 5주차 ex09 2번처럼 두 줄로 나뉩니다. 먼저 **찾아 두고**(`querySelector`), 그다음 **바꿉니다**(`textContent`).
 - 바뀌는 것은 화면(DOM)이지 HTML 파일이 아닙니다. 새로고침하면 파일의 글자로 돌아갑니다.
 
 ---

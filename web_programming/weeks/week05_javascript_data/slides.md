@@ -3,239 +3,312 @@ marp: true
 theme: default
 paginate: true
 header: "웹프로그래밍 · 5주차"
-footer: "JavaScript 데이터와 함수 · 변수, if, 함수"
+footer: "JavaScript 데이터와 함수 · 비교 예제로 원리를 보고 마지막에 조립"
 ---
 
 # JavaScript 데이터와 함수
 
-4주차까지는 HTML과 CSS로 **보이는 것**을 만들었습니다.
-이번 주에는 `app.js`를 되살려 **값을 만들고 문장을 조립**합니다.
+4주차까지 `my-web` 은 **보이는 것**만 바뀌었습니다. 이번 주는 JavaScript 입니다.
 
-```text
-my-web/
-  index.html   ← script 줄 되살리기 (+ 2일차에 <p id="greeting">)
-  app.js       ← 비우고 다시 쓴다 (변수 · 템플릿 문자열 · if · 함수)
-  styles.css   ← 4주차 그대로
-```
+이번 주 방식: **비교 예제 10개**를 하나씩 보고, 마지막에 `my-web` 의 `index.html`·`app.js` 를 **조립**합니다.
 
-1일차는 **Console만** 봅니다. 화면에 띄우는 것은 2일차입니다.
+- JavaScript 는 **브라우저가** 실행합니다. 페이지를 열면 그때 돕니다.
+- 결과는 두 곳에서 봅니다: **화면**과 **F12 › Console**.
+- 파일 하나 = 개념 하나. 같은 일을 다르게 한 형제를 나란히 놓고 차이를 봅니다.
+- 실습은 **값을 바꿔 보는 것**입니다. 무엇이 달라질지 먼저 말해 보고 확인합니다.
+
+작년 수업 예제와 같은 순서입니다: 버튼과 `console.log` → 카운터 → 덧셈기(입력 칸 + 버튼으로 두 수를 더하는 페이지).
 
 ---
 
-# 1일차 — 값을 만들고 Console에서 확인하기
+# 1일차 — 스크립트와 값
 
 `30분 설명·시연 → 60분 실습`
 
-1. `script` 줄 되살리기와 `console.log`
-2. Console의 빨간 오류 줄 읽기 (`app.js:6`)
-3. `const`·`let`에 문자열·숫자 담기
-4. 템플릿 문자열로 문장 만들기
+1. ex01 — 열 때 실행되는 줄과 클릭할 때 실행되는 줄
+2. ex02 — script 위치: 읽는 순간 실행, `defer` 는 다 읽은 뒤
+3. ex03 — `let` · `const` · `var`: 다시 담을 수 있나
+4. ex04 — `+` 는 더하기와 잇기, 입력 칸의 `value` 는 문자열
+5. ex05 — 템플릿 문자열: 백틱 안의 `${}` 만 계산된다
 
 ---
 
-## 1일차 · 0–5분 — JS는 어디서 실행되나, script 줄 되살리기
-
-```html
-<link rel="stylesheet" href="styles.css">
-<script src="app.js" defer></script>
-```
-
-- 1주차 세 언어: HTML은 **내용**, CSS는 **모양**, JavaScript는 **동작**입니다.
-- JavaScript는 **브라우저 안에서** 실행됩니다. 페이지를 열면 그때 돕니다.
-- 3주차에 뺐던 `script` 줄을 `index.html`의 `</head>` 앞에 되살립니다.
-- `defer`는 "HTML을 다 읽은 **뒤에** 실행하라"는 뜻입니다.
-- 2주차 `app.js`의 카운터 코드는 **전부 지우고** 오늘 새로 씁니다.
-
----
-
-## 1일차 · 5–12분 — console.log와 Console 오류 줄
-
-```js
-console.log('app.js가 실행되었습니다');
-```
+## 1일차 · 0–4분 — JavaScript는 브라우저가 실행한다: 화면과 Console
 
 ```text
-Uncaught ReferenceError: nmae is not defined      app.js:6
+화면     ← 요소를 찾아 글자를 바꾼다 (innerText · textContent)
+Console  ← console.log(값) 이 찍힌다. 오류는 빨간 줄 + 파일:줄
+document ← 브라우저가 읽어 들인 이 페이지 전체
+  document.getElementById('output')   ← id 가 output 인 요소 찾기
+  output.innerText = inputName.value + '님 (function)';   ← 글자 바꾸기
 ```
 
-- `console.log(값)`은 괄호 안의 값을 **Console 탭**에 찍습니다. 화면은 바뀌지 않습니다.
-- Console은 **F12**(또는 우클릭 › 검사) → **Console** 탭입니다.
-- 빨간 줄 오른쪽의 `app.js:6`이 **파일 이름과 줄 번호**입니다. 거기부터 봅니다.
-- `is not defined`는 "그런 이름이 없다"는 뜻이며 대개 오타입니다.
-- 오류가 난 줄에서 멈춥니다. 그 아래 `console.log`는 찍히지 않습니다.
+- 1주차 세 언어: HTML 은 **내용**, CSS 는 **모양**, JavaScript 는 **동작**.
+- `<script>` 안의 코드는 브라우저가 위에서 아래로 한 줄씩 실행합니다.
+- `console.log` 는 Console 에만 찍습니다. 화면은 그대로입니다.
+- Console: 오른쪽 클릭 › 검사 → Console 탭. 또는 F12(노트북 Fn+F12, macOS ⌘+Option(⌥)+I).
+
+**문법이 틀리거나 없는 것을 쓰면 빨간 줄이 뜬다. 결과만 다른 경우(ex04 12)는 조용하다. 그래서 화면과 Console 을 둘 다 본다.**
 
 ---
 
-## 1일차 · 12–20분 — let과 const, 숫자와 문자열
+## 1일차 · 4–10분 — ex01 지금 실행 vs 클릭할 때 실행
+
+[examples/ex01_click.html](examples/ex01_click.html)
+형제: Console A(열자마자) / D(A 다음) / B(1번 버튼 `function`) / C(2번 버튼 `() =>`)
 
 ```js
-const name = 'student01';
-let hour = 9;
-
-hour = 15;
+console.log('A. 페이지를 열자마자 실행된다');
+btn1.addEventListener('click', function () {
+    console.log('B. 1번 버튼을 누를 때마다 실행된다');
+    output.innerText = inputName.value + '님 (function)';
+});
 ```
 
-- 변수는 값에 이름을 붙여 두는 것입니다. `const`로 시작하고, 다시 넣어야 할 때만 `let`.
-- 다시 넣을 때는 `let`을 또 쓰지 않습니다. 이름만 적고 `=` 오른쪽에 새 값을 둡니다.
-- `const`에 다시 넣으면 `Uncaught TypeError: Assignment to constant variable.`
-- 따옴표 안은 문자열, 따옴표 없는 것은 숫자입니다. `'9'`와 `9`는 다릅니다.
-- `=`는 "같다"가 아니라 **"넣는다"**입니다.
+- 열면 Console 에 A → D. B·C 는 누를 때마다. 2번 `() => {}` 는 작년 예제 모양, 뜻은 같다.
+- 바꿔 보기: 이름 칸에 `student01` → 두 버튼 → 화면 `student01님 (function)` / `(화살표)`.
+
+**스크립트는 위에서 아래로 한 번 실행된다. `addEventListener` 안쪽은 등록만 했다가 클릭할 때 실행된다.**
 
 ---
 
-## 1일차 · 20–27분 — 템플릿 문자열로 문장 만들기
+## 1일차 · 10–16분 — ex02 script 위치: 읽는 순간 실행된다, defer는 다 읽은 뒤
 
-```js
-const greeting = `안녕하세요, ${name}님!`;
-console.log(greeting);
-console.log(`지금은 ${hour}시입니다.`);
-```
+[examples/ex02_script_position.html](examples/ex02_script_position.html) · [ex02_script_position.js](examples/ex02_script_position.js)
+형제: 1. head 안 script / 2. body 끝 script / 3. head 에 `defer` 로 연결한 파일
 
 ```text
-안녕하세요, student01님!
-지금은 15시입니다.
+head <script> 안     console.log('1. …', document.getElementById('msg'));
+head                 <script src="ex02_script_position.js" defer></script>
+body                 <p id="msg">p#msg — 이 글자가 바뀌면 …</p>
+body 끝 <script> 안  console.log('2. …', document.getElementById('msg'));
 ```
 
-- **백틱**(`` ` ``)으로 감싸면 문장 안에 `${변수}`를 끼워 넣을 수 있습니다.
-- 작은따옴표로 감싸면 `${name}`이 **글자 그대로** 찍힙니다. 따옴표 종류를 먼저 봅니다.
-- 백틱은 키보드 `1` 왼쪽, `Esc` 아래 키입니다. 한글 입력 상태에서는 다른 글자가 들어갑니다.
+- Console 순서 1(`null` = 찾은 것이 없다) → 2 → 3. 1번 때는 아직 `<p id="msg">` 를 읽기 전.
+- 바꿔 보기: head 주석 줄 풀기 → 빨간 오류, `파일:줄` 읽기. `defer` 지우기 → 3번도 `null`, 순서 1→3→2.
+
+**스크립트는 브라우저가 그 줄을 읽는 순간 실행된다. `defer` 는 HTML 을 끝까지 읽은 뒤 실행한다.**
 
 ---
 
-## 1일차 · 27–30분 — 이제 직접 해 보기
+## 1일차 · 16–21분 — ex03 let · const · var: 다시 담을 수 있나
 
-[1일차 실습](lab.md#1일차--값을-만들어-console에-찍기-60분) · [따라하기](walkthrough.md#1일차)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data
+[examples/ex03_let_const.html](examples/ex03_let_const.html)
+형제: 1. `let` / 2. `const` / 3. `var` — 버튼마다 1 더하기
 
-1. `index.html`에 `script` 줄을 되살리고 `app.js`를 비웁니다.
-2. `console.log`, `const name`, `let hour`를 만들어 Console에서 확인합니다.
-3. 템플릿 문자열로 인사 문장을 만들고, 일부러 오타를 내 빨간 줄을 읽어 봅니다.
+```js
+const b = 0;    // 한 번 담으면 다시 담을 수 없다 (let a · var c 는 다시 담을 수 있다)
+document.getElementById('btn-const').addEventListener('click', function () {
+    b = b + 1;  // 누를 때 이 줄이 실행되고 여기서 멈춘다
+});
+```
 
-**설명 합계: 5+7+8+7+3 = 30분**
+- 2번 → `Uncaught TypeError: Assignment to constant variable.` `ex03_let_const.html:30`. 화면은 0.
+- 바꿔 보기: `const b` 를 `let b` 로 → 2번도 오른다. 열 때는 오류가 없었다는 것도 봅니다.
 
-오늘은 **화면을 건드리지 않습니다.** 확인은 모두 Console에서 합니다.
+**`let`·`var` 는 다시 담을 수 있고 `const` 는 안 된다. 오류는 그 줄이 실행될 때 나고, 그 아래 줄은 실행되지 않는다.**
 
 ---
 
-# 2일차 — if와 함수로 인사말 만들기
+## 1일차 · 21–26분 — ex04 +는 두 가지 일을 한다: 더하기와 잇기
+
+[examples/ex04_plus.html](examples/ex04_plus.html)
+형제: `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1` / 입력 칸 6·7번
+
+```js
+1 + 2                                     // 숫자 + 숫자 → 더한다
+'1' + 2                                   // 한쪽만 문자열이어도 잇는다
+num1.value + num2.value                   // 입력 칸의 value 는 늘 문자열
+Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
+```
+
+- 표: 3 · 12 · 12 · 3 · 13. 종류: number(숫자) · string(문자열) · string · number · number.
+- 바꿔 보기: 입력 칸 1·2 → 6번 `12`, 7번 `3`. 5번을 `Number('12px')` 로 → `NaN`. 숫자로 못 바꿨다는 숫자 값이라 종류는 number.
+
+**`+` 는 둘 다 숫자면 더하고, 한쪽이라도 문자열이면 잇는다. 입력 칸은 친 글자라 `value` 는 늘 문자열.**
+
+---
+
+## 1일차 · 26–28분 — ex05 템플릿 문자열: 백틱 안의 ${}만 계산된다
+
+[examples/ex05_template.html](examples/ex05_template.html)
+형제: 1. `+` 로 잇기 / 2. 백틱 / 3. 작은따옴표 안 `${}` / 4. `${hour + 1}`
+
+```js
+'안녕하세요, ' + name + '님! 지금은 ' + hour + '시입니다.'   // 1
+`안녕하세요, ${name}님! 지금은 ${hour}시입니다.`   // ` 로 감싼다
+'안녕하세요, ${name}님!'     // ' 로 감싸면 ${} 가 글자 그대로
+`한 시간 뒤는 ${hour + 1}시입니다.`   // ${} 안은 계산된다
+```
+
+- 1·2번은 같은 문장. 3번은 `${name}` 이 글자 그대로, 4번은 `10시`.
+- 바꿔 보기: 3번의 `'` 를 백틱으로. 백틱은 `Esc` 아래 키. `₩` 가 들어가면 영문 입력으로 바꿔 친다.
+
+**백틱(`` ` ``)으로 감싼 문자열만 `${}` 안을 계산해 넣는다. 따옴표면 글자 그대로.**
+
+---
+
+## 1일차 · 28–30분 — 이제 직접 해 보기
+
+[1일차 실습](lab.md#1일차--스크립트와-값-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
+
+1. `my-web/week05/` 폴더를 만들고 ex01~ex05 를 **Raw** 로 저장합니다(ex02 는 `.js` 까지).
+2. 파일마다 값을 하나 이상 바꿔 보고, 화면과 Console 이 어떻게 달라지는지 봅니다.
+3. push 하고 `https://student01.github.io/my-web/week05/ex01_click.html` 을 엽니다.
+
+Git 은 0–5분 `git pull`, 55–60분 `git add .` → `git commit` → `git push` 입니다.
+결과가 이상하면 **Console 을 먼저** 엽니다. 빨간 줄 오른쪽 `파일:줄` 로 갑니다.
+
+**설명 합계: 4+6+6+5+5+2+2 = 30분**
+
+---
+
+# 2일차 — 조건과 함수, 그리고 조립
 
 `30분 설명·시연 → 60분 실습`
 
-1. 되돌리기 `git revert HEAD`
-2. `if / else`와 비교 `>=`·`===`
-3. `function` 정의·호출과 `return`
-4. 화면 한 줄 틀로 `#greeting`에 띄우기
+1. 오늘 Git — `restore` 는 commit 전, `revert` 는 commit 뒤
+2. ex06·ex07 — 비교는 `true`/`false`, `if` 는 처음 맞는 한 곳만
+3. ex08 — `function` 정의 · 호출 · `return`
+4. ex09·ex10 — 먼저 찾고 바꾼다, `new Date()` 는 지금 시각
+5. 조립 — `my-web` 의 `index.html` 두 줄과 `app.js` 를 ex 에서 모은다
 
 ---
 
-## 2일차 · 0–5분 — 오늘 Git 5분: git revert HEAD
+## 2일차 · 0–4분 — 오늘 Git: restore는 commit 전, revert는 commit 뒤
 
 ```bash
-git revert HEAD
+git restore app.js   # 저장만 한 잘못 → 마지막 commit 상태로
+git revert HEAD      # commit 한 잘못 → 되돌리는 commit 을 새로 만든다
 ```
 
 ```text
-[main a519cac] Revert "인사말 문구 바꾸기"
- Date: Wed Sep 16 10:24:31 2026 +0900
+[main e9f3b26] Revert "인사말 문구 바꾸기"
+ Date: Wed Sep 30 10:41:07 2026 +0900
  1 file changed, 1 insertion(+), 1 deletion(-)
 ```
 
-- 가운데 `Date:` 줄은 `git revert`가 늘 붙이는 줄입니다. 날짜·시각과 해시는 각자 다릅니다.
-- 잘못 commit했을 때 **되돌리는 commit을 새로 하나 더** 만드는 명령입니다.
-- 되돌릴 것이 한 줄이 되도록 **오늘 작업을 먼저 commit**하고, 틀린 문장은 그 뒤에 따로 commit합니다.
+- `revert` 는 새 commit 이 생기고, `git log --oneline` 에 원래 commit 과 둘 다 남습니다.
 - 편집기 창이 뜨면 기본 메시지 `Revert "…"` 그대로 저장하고 닫습니다.
-- `git log --oneline`에 원래 commit과 되돌린 commit이 **둘 다** 남습니다.
-- `git reset HEAD^`는 기록 자체를 지웁니다. **push해서 공유한 commit엔 쓰지 않습니다.**
+- `git reset HEAD^` 는 기록을 지웁니다. push 한 뒤 지우면 내 PC 기록이 GitHub 기록과 어긋나 다음 `git push` 가 거부(rejected)됩니다. 그래서 push 한 뒤에는 기록을 더하는 `revert` 를 씁니다.
 
 ---
 
-## 2일차 · 5–12분 — if / else와 비교 연산
+## 2일차 · 4–9분 — ex06 비교: 결과는 true 아니면 false
+
+[examples/ex06_compare.html](examples/ex06_compare.html)
+형제: `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')`
 
 ```js
-const hour = new Date().getHours();
+1 == '1'                     // 값만 맞춰 보고 같다고 한다
+1 === '1'                    // 종류(숫자·문자열)까지 같아야 true
+12 >= 12                     // 크거나 같다
+'10' > '9'                   // 문자열끼리는 첫 글자부터: '1' < '9'
+```
 
+- 결과 true · false · true · false · false · true. `=` 하나는 비교가 아니라 담기(ex03).
+- 바꿔 보기: 2번을 `1 === 1` 로, 4번을 `12 > 11` 로 → 무엇이 true 로 바뀌나. 표 왼쪽 글자도 같이.
+
+**비교의 결과는 `true`/`false` 값이다. `===` 는 종류까지 같아야 참. 문자열끼리는 첫 글자부터.**
+
+---
+
+## 2일차 · 9–14분 — ex07 if / else: 처음 맞는 한 곳만 실행된다
+
+[examples/ex07_if_else.html](examples/ex07_if_else.html)
+형제: 1. `if` 만 / 2. `if/else` / 3. `else if`(큰 수부터) / 4. 3번과 같은 조건, 순서만 거꾸로
+
+```js
 if (hour >= 12) {
-  console.log('좋은 오후입니다.');
-} else {
-  console.log('좋은 아침입니다.');
+    m4 = '오후';     // 20 도 여기서 true → 아래는 보지 않는다
+} else if (hour >= 18) {
+    m4 = '저녁';     // 이 줄에는 영영 오지 못한다
 }
 ```
 
-- `if (조건) { } else { }`: 조건이 맞으면 위, 아니면 아래 중괄호 안이 실행됩니다.
-- 비교: `>=` 크거나 같다 · `<=` 작거나 같다 · `===` 값이 같다. `=` 하나는 "넣는다"입니다.
-- `new Date().getHours()`는 **오늘 복붙 틀 한 줄**입니다. 지금 시각을 0~23 숫자로 줍니다.
-- 두 갈래를 다 보려면 `const hour = 9;`처럼 숫자를 직접 넣어 확인합니다.
+- 20시: 3번 **저녁**, 4번 **오후**. 9시: 1번 `(담긴 것 없음)`, `else` 는 위가 모두 false 일 때만.
+- 바꿔 보기: 9 · 12 · 15 · 20 입력 → 네 줄이 언제 갈리나.
+
+**위에서부터 보다가 처음 참인 한 곳만 실행한다. 그래서 조건 순서가 결과를 바꾼다.**
 
 ---
 
-## 2일차 · 12–19분 — function 정의와 호출
+## 2일차 · 14–19분 — ex08 function: 정의 · 호출 · return
+
+[examples/ex08_function.html](examples/ex08_function.html)
+형제: 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3·4. 다른 값으로 부르기
 
 ```js
-function hello(hour) {
-  if (hour >= 12) {
-    return '좋은 오후입니다.';
-  } else {
-    return '좋은 아침입니다.';
-  }
-}
-
-console.log(hello(15));
+function greetLog(name) { console.log('안녕하세요, ' + name + '님!'); }  // return 없음
+function greet(name) { return `안녕하세요, ${name}님!`; }             // 돌려준다
+const a = greetLog('student01');    // 호출: Console 에 찍히고, a 에는 undefined
+const b = greet('student01');       // 호출: Console 에는 없고, b 에 문장이 담긴다
 ```
 
-- `function 이름(매개변수) { }`로 하는 일에 이름을 붙입니다. 정의만으로는 실행되지 않습니다.
-- `hello(15)`처럼 이름 뒤에 괄호를 붙여야 **그때** 실행됩니다(호출).
-- 괄호 안의 `hour`는 함수가 받는 값입니다. 호출할 때 준 값이 그 자리에 들어갑니다.
+- 화면 1번 `undefined`(아직 담긴 값이 없다는 값), 2번 문장. 괄호 안 `name` = 부를 때 넣은 값(매개변수).
+- 바꿔 보기: `greetLog` 에 `return` 넣기. `neverCalled();` 부르기 → Console 한 줄.
+
+**정의는 이름만 붙이고, 괄호를 붙여 부를 때 실행된다. `return` 이 없으면 `undefined` 가 돌아간다.**
 
 ---
 
-## 2일차 · 19–25분 — return과 greet(name)
+## 2일차 · 19–24분 — ex09 화면에 쓰기: 먼저 찾고, 그다음 바꾼다
+
+[examples/ex09_dom_write.html](examples/ex09_dom_write.html)
+형제: 1. `getElementById` + `innerText` / 2. `querySelector` + `textContent` / 3. 태그 넣기 / 4. `value`
 
 ```js
-function greet(name) {
-  return `안녕하세요, ${name}님!`;
-}
-
-const message = `${greet(name)} ${hello(hour)}`;
-console.log(message);
+const p1 = document.getElementById('p1');   // id 로 찾는다('#' 없이)
+const p2 = document.querySelector('#p2');   // CSS 선택자로 찾는다
+p2.textContent = '2. textContent 로 바꿨다';
+p3.textContent = '<b>3. 굵게 될까?</b>';        // 태그가 아니라 글자 그대로 보인다
 ```
+
+- 버튼 → 1·2번 둘 다 글자가 바뀐다(찾는 법·바꾸는 법만 다르다). `#` 은 id(4주차 ex01). 3번은 `<b>` 까지 글자 그대로, 4번은 `value`.
+- 바꿔 보기: 없는 `#p9` 에 `.textContent` 쓰기 → `Cannot set properties of null`.
+
+**먼저 찾고(요소를 받아) 그다음 바꾼다. 없는 것을 찾으면 `null` 이고, `null` 은 바꿀 수 없다.**
+
+---
+
+## 2일차 · 24–27분 — ex10 new Date(): 지금 시각을 담은 값
+
+[examples/ex10_date.html](examples/ex10_date.html)
+형제: `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()`
+
+```js
+const now = new Date();     // 이 줄이 실행된 순간의 날짜·시각을 담은 값
+now.getHours()              // 값에게 "몇 시야?"를 묻는다
+now.getMonth()              // 월 — 0부터 센다(1월이 0)
+now.getMonth() + 1          // 사람이 읽는 월
+```
+
+- 9월 28일 8시 47분에 열면 8 · 47 · 2026 · 8 · 9 · 1. `getDay()` 는 0 = 일요일.
+- 바꿔 보기: 새로고침 → 다시 잰다. `getSeconds()` 줄 더하기. my-web 의 `new Date().getHours()` 는 위 두 줄을 이어 쓴 것.
+
+**`new Date()` 는 실행된 순간의 시각을 담은 값이고, `.getHours()` 는 그 값에게 묻는 것이다.**
+
+---
+
+## 2일차 · 27–30분 — 조립: my-web app.js, 그리고 실습 인계
 
 ```text
-안녕하세요, student01님! 좋은 아침입니다.
+<script src="app.js" defer>  <p class="card" id="greeting">  ← ex02 · ex09
+const name · const hour = new Date().getHours();  ← ex03 · ex10
+function greet(name) { return `안녕하세요, ${name}님!`; }  ← ex08 · ex05
+function hello(hour) { if (hour >= 12) … else … }  ← ex07 · ex06
+const message = `${greet(name)} ${hello(hour)}`;  ← ex05 · ex08
+console.log(hour); console.log(message);  ← ex01
+document.querySelector('#greeting').textContent = message;  ← ex09 2번
 ```
 
-- `return`은 함수가 **돌려주는 값**입니다. 돌려받은 값은 변수에 담아 다시 씁니다.
-- `return` 없이 `console.log`만 한 함수의 결과는 `undefined`입니다.
-- 함수 두 개의 결과를 템플릿 문자열로 이어 붙여 한 문장을 만듭니다.
+[2일차 실습](lab.md#2일차--조건과-함수-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
----
+1. ex06~ex10 을 `week05/` 에 저장하고 값을 바꿔 봅니다(33분까지).
+2. 조립: `index.html` 에 두 줄, `app.js` 는 비우고 조립표 순서로.
+3. 되돌리기 두 가지 → `git push` → 공개 주소에서 카드·Console 두 줄 캡처.
 
-## 2일차 · 25–28분 — 화면 한 줄 틀
-
-```html
-<p class="card" id="greeting">인사말을 준비 중입니다.</p>
-```
-
-```js
-document.querySelector('#greeting').textContent = message;
-```
-
-- `index.html`의 `<main>` 첫 줄에 `id="greeting"` 문단을 하나 둡니다.
-- 마지막 줄은 **복붙 틀**입니다. "`#greeting`인 자리의 글자를 `message`로 바꿔라".
-- 이 줄이 무엇인지는 **6주차**에 배웁니다. 오늘은 모양 그대로 씁니다.
-- 글자가 안 바뀌고 `인사말을 준비 중입니다.`가 남아 있으면 그 위 줄에서 오류가 난 것입니다.
-
----
-
-## 2일차 · 28–30분 — 이제 직접 해 보기
-
-[2일차 실습](lab.md#2일차--if와-함수로-인사말-만들기-60분) · [따라하기](walkthrough.md#2일차)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data
-
-1. `index.html`에 `#greeting` 문단을 넣고 `if`로 오전·오후 인사를 고릅니다.
-2. `greet(name)`·`hello(hour)` 두 함수를 만들어 문장을 조립합니다.
-3. 틀 한 줄로 화면에 띄워 commit하고, 틀린 문장을 다시 commit한 뒤 `git revert HEAD`로 되돌립니다.
-
-**설명 합계: 5+7+7+6+3+2 = 30분**
+**설명 합계: 4+5+5+5+5+3+3 = 30분**
 
 ---
 
@@ -245,20 +318,21 @@ document.querySelector('#greeting').textContent = message;
 
 ```text
 https://student01.github.io/my-web/
-카드 한 줄: 안녕하세요, student01님! 좋은 아침입니다.
-F12 Console: 10 / 안녕하세요, student01님! 좋은 아침입니다.
-주소창과 Console이 함께 보이게 찍습니다
+카드: 안녕하세요, student01님! 좋은 아침입니다.
+F12 Console: console.log 두 줄 (hour 숫자 / message 문장)
+주소창·카드·Console 이 한 화면에 보이게 찍습니다
 ```
 
-12시 이후에 열면 `좋은 오후입니다.`가 나옵니다. 둘 다 정답입니다.
-2일차를 끝내지 못했으면 1일차 Console 캡처로 인정합니다.
+12시 이후에 열면 `좋은 오후입니다.` 가 나옵니다. 둘 다 정답입니다.
+2일차를 끝내지 못했으면 `…/my-web/week05/ex01_click.html` 에서 Console 에 A·D·B 가 찍힌 화면으로 대신합니다.
+캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
 
 ---
 
 ## 다음 주 미리 보기
 
-오늘 코드는 페이지를 열 때 **한 번** 실행됩니다.
+오늘 `app.js` 는 페이지를 열 때 **한 번** 실행됩니다.
 
-6주차에는 **버튼을 눌렀을 때** 실행되는 코드를 씁니다.
-오늘 복붙 틀로 쓴 `document.querySelector`와 `textContent`가 정식 항목이 되고,
-`#greeting`과 `greet(name)`·`hello(hour)`를 그대로 이어받아 클릭 횟수와 다크 모드를 만듭니다.
+6주차에는 ex01 에서 본 `addEventListener` 를 `my-web` 에 씁니다. 누를 때마다 실행되는 코드입니다.
+오늘 조립한 `#greeting`·`greet(name)`·`hello(hour)` 를 이어받아 "인사 바꾸기" 버튼과 클릭 횟수를 만듭니다.
+다크 모드도 더합니다. 4주차에 정한 `.card` 색을 그때 다시 씁니다.

@@ -216,7 +216,7 @@
       "description": "브라우저와 Git의 기초에서 시작해 저장소 하나에 페이지를 쌓아 공개 사이트를 만들고, 목록·브라우저 저장·JSON 불러오기까지 다루는 15주 입문 과정입니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 2개 특강 · 302장",
+      "summary": "15개 주차 + 2개 특강 · 305장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
@@ -271,24 +271,24 @@
           "id": "week05_javascript_data",
           "label": "5주차",
           "title": "JavaScript 데이터와 함수",
-          "description": "3주차에 연결을 뺐던 `app.js`를 되살려, 변수와 함수로 만든 인사말을 `index.html`에 띄울 수 있을까?",
+          "description": "버튼을 누르면 글자가 바뀌고, 열 때마다 시각에 맞는 인사가 나오게 하려면 무엇을 알아야 하나?",
           "type": "week",
           "en": {
             "label": "Week 5",
             "title": "JavaScript Data and Functions",
-            "description": "Can you bring back `app.js`, which you left unlinked in Week 3, and show a greeting built from variables and functions on `index.html`?"
+            "description": "What do you need to know to make text change on a button click and show a greeting that fits the time each time the page opens?"
           }
         },
         {
           "id": "week06_dom_crud",
           "label": "6주차",
           "title": "DOM·이벤트·브라우저 CRUD",
-          "description": "5주차에 복붙 틀로 쓴 `document.querySelector('#greeting').textContent = …` 한 줄은 무엇이었을까? 버튼을 눌렀을 때 화면을 바꾸려면 무엇이 더 필요할까?",
+          "description": "5주차 ex09에서 본 \"먼저 찾고 그다음 바꾼다\"를 버튼과 함께 쓰려면 무엇이 더 필요할까?",
           "type": "week",
           "en": {
             "label": "Week 6",
             "title": "DOM, Events, and Browser CRUD",
-            "description": "That one line you copy-pasted in Week 5, `document.querySelector('#greeting').textContent = …` — what was it, really? What more do you need to change the screen when a button is clicked?"
+            "description": "In Week 5, ex09 showed \"find it first, then change it.\" What more do you need to use that together with a button?"
           }
         },
         {

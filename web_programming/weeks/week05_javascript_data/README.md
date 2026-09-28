@@ -1,22 +1,27 @@
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
+
 # 5주차 — JavaScript 데이터와 함수
 
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data
+이번 주도 부품을 하나씩 본다. 비교 파일 10개를 열어 값을 바꿔 보고, 마지막에 `my-web`의 `index.html`·`app.js`를 그 부품으로 조립한다.
+작년 수업 예제(버튼과 `console.log` → 카운터 → 입력 칸 + 버튼으로 두 수를 더하는 페이지)와 같은 방식이다. 첫 파일부터 입력 칸·버튼·클릭·화면 글자·Console 이 함께 나온다. 파일 하나에 개념 하나. 같은 일을 다르게 한 형제를 나란히 놓고 차이를 본다.
+JavaScript 는 브라우저가 실행한다. 결과는 **화면**과 **F12 › Console** 두 곳에서 본다.
 
 ## 이번 주 질문
 
-> 3주차에 연결을 뺐던 `app.js`를 되살려, 변수와 함수로 만든 인사말을 `index.html`에 띄울 수 있을까?
+> 버튼을 누르면 글자가 바뀌고, 열 때마다 시각에 맞는 인사가 나오게 하려면 무엇을 알아야 하나?
 
-4주차에는 `styles.css`로 세 페이지를 꾸몄다. 화면은 달라졌지만 페이지는 아직 아무 값도 만들지 않는다.
-이번 주에는 `index.html`에 `<script src="app.js" defer></script>` 한 줄을 되살리고 `app.js`를 비운 뒤 새로 쓴다.
-1일차에는 **화면을 건드리지 않고 Console에만 값을 찍는다.** 2일차에 `if`와 함수로 인사말을 만들어 화면 한 줄에 띄운다.
+답은 명령 이름 몇 개가 아니다. 세 가지 원리다.
+스크립트는 브라우저가 그 줄을 **읽는 순간** 위에서 아래로 한 번 실행되고, `addEventListener` 안쪽은 등록만 했다가 **클릭할 때** 실행된다.
+`if` 는 **처음 참인 한 곳만** 실행한다. 화면은 **먼저 찾고, 그다음 바꾼다.**
+이 세 줄을 이해하면 조합은 스스로 만들 수 있다.
 
 ## 학습 목표
 
-1. `<script src="app.js" defer></script>`로 JS 파일을 연결하고 `console.log`로 값을 Console에 찍는다.
-2. Console의 빨간 오류 줄에서 `app.js:6` 같은 **파일 이름과 줄 번호**를 읽어 고친다.
-3. `const`·`let`에 문자열과 숫자를 담고, 템플릿 문자열 `` `${}` ``로 문장을 만든다.
-4. `if / else`와 비교 연산 `>=`·`===`로 두 문장 중 하나를 고른다.
-5. `function`으로 하는 일에 이름을 붙이고, `return`한 값을 화면 한 줄에 띄운다.
+1. 스크립트는 브라우저가 그 줄을 읽는 순간 실행된다. 아직 읽지 않은 요소는 `null` 이고, `defer` 는 HTML 을 끝까지 읽은 뒤 실행한다. `addEventListener` 안쪽은 클릭할 때마다 실행된다. 화면은 먼저 요소를 찾고 그다음 글자를 바꾼다. 못 찾으면 `null` 이다.
+2. `let`·`var` 는 다시 담을 수 있고 `const` 는 안 된다. 다시 담을 일이 없는 값을 `const` 로 두면, 실수로 다시 담을 때 Console 이 알려 준다. 오류는 그 줄이 실행될 때 나고, 오류 난 줄 아래는 실행되지 않는다. Console 빨간 줄 오른쪽의 `파일:줄` 에서 찾기 시작한다. 문법 오류(SyntaxError)는 파일 전체가 실행되지 않고, 표시된 줄보다 위에 실수가 있을 수 있다.
+3. `+` 는 둘 다 숫자면 더하고 한쪽이라도 문자열이면 잇는다. 입력 칸의 `value` 는 늘 문자열이다. 백틱(`` ` ``)으로 감싼 문자열만 `${}` 안을 계산해 넣는다. `new Date()` 는 그 줄이 실행된 순간의 시각을 담는다.
+4. 비교의 결과는 `true`/`false` 값이다. `if / else if / else` 는 위에서부터 보다가 처음 참인 한 곳만 실행한다. 그래서 조건 순서가 결과를 바꾼다.
+5. 함수는 정의만으로는 실행되지 않고, 괄호를 붙여 부를 때 실행된다. `return` 이 부른 곳에 값을 돌려주고, 없으면 `undefined` 가 돌아간다.
 
 ## 이번 주 결과물
 
@@ -25,97 +30,100 @@
          카드 한 줄 ─ 안녕하세요, student01님! 좋은 아침입니다.
          F12 Console ─ 10
                        안녕하세요, student01님! 좋은 아침입니다.
-         ← 주소창과 Console이 한 화면에 보이게 찍는다
+         ← 주소창과 Console 두 줄이 한 화면에 보이게 찍는다
 ```
 
-`student01`은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다. 제출은 이 캡처 **한 장**이다.
-12시가 지난 시간에 열면 `좋은 오후입니다.`가 나온다. 둘 다 정답이다.
-2일차를 끝내지 못했다면 1일차 Console 캡처(여섯 줄)로 인정한다. JavaScript를 처음 쓰는 주여서 두는 완화다.
+- 제출은 이 캡처 **한 장**이다. 12시가 지난 시간에 열면 `좋은 오후입니다.` 가 나온다. 둘 다 정답이다.
+- 2일차를 끝내지 못했다면 `https://student01.github.io/my-web/week05/ex01_click.html` 을 열고 Console 에 A·D·B 가 찍힌 화면으로 대신한다. JavaScript 를 처음 쓰는 주여서 두는 완화다.
+- `my-web/week05/` 에 비교 파일을 저장하고 값을 바꾼 것은 push 로 남긴다. 기록물·표는 없다. 산출물은 push 된 파일과 화면이다.
+- `student01` 은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다.
 
 ## 2일 수업 흐름
 
-| 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
+| 일차 | 설명 30분 | 실습 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | `script` 줄 되살리기, `console.log`와 Console 오류 줄, `let`·`const`, 템플릿 문자열 | `app.js`를 비우고 값 만들기 → Console 확인 → 오타 내고 고치기 | 확인용 Console 화면 |
-| 2일차 | `git revert HEAD`, `if / else`와 비교, `function`·`return`, 화면 한 줄 틀 | `if`로 인사 고르기 → 함수 두 개 → `#greeting`에 표시 → revert | 캡처 1 |
+| 1일차 | 화면과 Console → ex01 지금 실행 vs 클릭할 때 → ex02 script 위치 → ex03 let·const·var → ex04 `+` → ex05 템플릿 문자열 | `my-web/week05/` 에 다섯 파일(ex02 는 `.js` 까지 여섯 개) 저장 → 값 바꿔 보기 → push | `week05/` 비교 파일(확인용) |
+| 2일차 | Git restore·revert → ex06 비교 → ex07 if / else → ex08 function → ex09 화면에 쓰기 → ex10 `new Date()` → 조립표 | 다섯 파일 값 바꿔 보기 → `index.html` 두 줄, `app.js` 조립 → 되돌리기 두 가지 → push | 캡처 1 |
 
-각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
-시간이 필요한 학생은 따라하기 문서의 단계를 하나씩 반복한다.
+각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
 
 ## 준비
 
-- 4주차까지 push한 `my-web` 저장소. 같은 PC면 `git pull`, 다른 PC면 `git clone https://github.com/<아이디>/my-web.git`
-- VS Code, 브라우저, Git (`git --version`으로 확인)
-- 브라우저 개발자 도구를 여는 키 **F12**(또는 우클릭 › 검사)와 **Console** 탭 위치
-- 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com`이다
+- 4주차까지 push 한 `my-web` 저장소. 같은 PC 면 `git pull`, 다른 PC 면 `git clone https://github.com/<아이디>/my-web.git`
+- VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
+- 개발자 도구를 여는 법(오른쪽 클릭 › **검사**, 또는 **F12**. 노트북에서 안 열리면 Fn+F12, macOS 는 ⌘+Option(⌥)+I)과 **Console** 탭 위치
+- 4주차 flex 비교 파일 [ex06](../week04_responsive_css/examples/ex06_flex_direction.html) · [ex07](../week04_responsive_css/examples/ex07_justify_content.html) · [ex08](../week04_responsive_css/examples/ex08_align_items.html) · [ex09](../week04_responsive_css/examples/ex09_flex_wrap_gap.html) · [ex10](../week04_responsive_css/examples/ex10_flex_grow.html) · [ex11](../week04_responsive_css/examples/ex11_media.html) 을 아직 열어 보지 않았다면 **먼저 열어 본다**. `my-web` 의 메뉴가 좁은 화면에서 세로로 서는 이유가 거기 있다
+- 이번 주에 만드는 폴더는 `my-web/week05/` 하나. 고치는 파일은 `index.html` 두 줄과 `app.js` 전체
+- 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
 
 ## 이번 주 용어
 
 | 한국어 | English | 中文 |
 |---|---|---|
 | 변수 | variable | 变量 |
-| 상수 | const (constant) | 常量 |
+| 상수 | const | 常量 |
 | 문자열 · 숫자 | string · number | 字符串 · 数字 |
 | 템플릿 문자열 | template literal | 模板字符串 |
 | 조건문 | if / else | 条件语句 |
-| 비교 연산자 | comparison operator | 比较运算符 |
 | 함수 | function | 函数 |
 | 돌려주기 | return | 返回 |
+| 이벤트 | event | 事件 |
 
-## 이번 주 범위
+## 이번 주 비교 파일
 
-| 태그·명령·API | 이번 주에 알아둘 뜻 |
-|---|---|
-| `<script src="app.js" defer></script>` | `index.html`이 `app.js`를 불러온다. `defer`는 HTML을 다 읽은 뒤 실행하라는 뜻 |
-| `console.log(값)` | 괄호 안의 값을 **Console 탭**에 찍는다. 화면은 바뀌지 않는다 |
-| `app.js:6` | Console 오류 줄 오른쪽에 보이는 파일 이름과 줄 번호. 고칠 자리를 알려 준다 |
-| `const name = 'student01';` | 값에 이름을 붙인다. `const`는 다시 넣지 않는 값 |
-| `let hour = 9;` | 나중에 다른 값을 다시 넣을 값. `hour = 15;`처럼 이름만 적고 다시 넣는다 |
-| `'글자'` · `9` | 따옴표 안은 문자열, 따옴표 없는 것은 숫자. `'9'`와 `9`는 다르다 |
-| `` `안녕하세요, ${name}님!` `` | 백틱으로 감싼 문장. `${이름}` 자리에 변수 값이 들어간다 |
-| `if (조건) { } else { }` | 조건이 맞으면 위, 아니면 아래 중괄호 안을 실행한다 |
-| `>=` · `<=` · `===` | 크거나 같다 / 작거나 같다 / 값이 같다. `=` 하나는 "넣는다" |
-| `new Date().getHours()` | 지금 시각을 0~23 숫자로 준다. 이번 주는 **복붙 틀 한 줄** |
-| `function greet(name) { … }` | 하는 일에 이름을 붙인다. 정의만으로는 실행되지 않는다 |
-| `greet('student01')` | 이름 뒤에 괄호를 붙여야 그때 실행된다(호출) |
-| `return 값` | 함수가 돌려주는 값. `return`이 없으면 결과는 `undefined` |
-| `document.querySelector('#greeting').textContent = message;` | `id="greeting"`인 자리의 글자를 바꾼다. **복붙 틀 한 줄**이며 뜻은 6주차에 배운다 |
-| `git revert HEAD` | 마지막 commit을 되돌리는 commit을 새로 만든다. 기록은 둘 다 남는다 |
+모두 HTML 파일 하나에 `<script>` 가 들어 있다(ex02 만 보조 파일 `.js` 가 하나 더 있다). 화면의 번호와 Console 의 번호가 코드의 형제 번호와 같다. 값이나 주석을 바꾸고 저장 → 새로고침으로 차이를 본다.
 
-배열·반복문(10주차), 버튼 클릭 같은 이벤트(6주차), 입력 칸 값 읽기(7주차)는 이번 주에 다루지 않는다.
-화살표 함수(`() =>`), `map`·`filter`, 클래스는 이 과목에서 쓰지 않는다. 2주차 `app.js`에 있던 `() =>`는 틀로만 본 것이다.
+| 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
+|---|---|---|---|
+| [ex01_click.html](examples/ex01_click.html) | Console A(열자마자) / D(A 다음) / B(1번 버튼 `function`) / C(2번 버튼 화살표 `() =>`) | 스크립트는 위에서 아래로 한 번 실행되고, `addEventListener` 안쪽은 등록만 했다가 클릭할 때마다 실행된다. `function () {}` 와 `() => {}` 는 여기서 같은 뜻 | 이름을 넣고 두 버튼 누르기. Console 순서가 A·D → B·C 인지 |
+| [ex02_script_position.html](examples/ex02_script_position.html) + [ex02_script_position.js](examples/ex02_script_position.js) | 1. head 안 script / 2. body 끝 script / 3. head 에 `defer` 로 연결한 파일 | 스크립트는 브라우저가 그 줄을 읽는 순간 실행된다. 아직 읽지 않은 요소는 없어서 `null`. `defer` 는 HTML 을 끝까지 읽은 뒤 실행한다 | head script 의 `// document.getElementById('msg').innerText = …` 주석 풀기 → 빨간 오류의 `파일:줄` 읽기. js 연결 줄에서 `defer` 지우기 |
+| [ex03_let_const.html](examples/ex03_let_const.html) | 1. `let` / 2. `const` / 3. `var` 에 버튼으로 1 더하기 | `let`·`var` 는 다시 담을 수 있고 `const` 는 안 된다. 오류는 그 줄이 실행될 때(클릭할 때) 나고, 오류 난 줄 아래는 실행되지 않는다 | 2번 버튼 → Console `Assignment to constant variable.`. `const b = 0;` 을 `let b = 0;` 으로 바꿔 다시 |
+| [ex04_plus.html](examples/ex04_plus.html) | `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1`, 입력 칸 두 개로 6. 그냥 더하기 / 7. `Number` 로 바꿔 더하기 | `+` 는 둘 다 숫자면 더하고 한쪽이라도 문자열이면 잇는다. 입력 칸의 `value` 는 늘 문자열이라 `Number()` 로 바꿔야 더해진다 | 입력 칸 값 바꾸기, 표의 식 바꾸기(표 왼쪽 식 글자도 같이, `typeof` 줄도 같이) |
+| [ex05_template.html](examples/ex05_template.html) | 1. `+` 로 잇기 / 2. 백틱 템플릿 / 3. 작은따옴표 안 `${}` / 4. `${hour + 1}` | 백틱으로 감싼 문자열만 `${}` 안을 계산해 넣는다. 따옴표면 글자 그대로 | `name`·`hour` 값 바꾸기, 3번의 `'` 를 백틱으로 |
+| [ex06_compare.html](examples/ex06_compare.html) | `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')` | 비교의 결과는 `true`/`false` 값이다. `===` 는 종류(숫자·문자열)까지 같아야 참. 문자열끼리는 첫 글자부터 비교한다 | 식의 숫자·따옴표 바꾸기(표 왼쪽 식 글자도 같이) |
+| [ex07_if_else.html](examples/ex07_if_else.html) | 입력한 시각으로 1. `if` 만 / 2. `if / else` / 3. `if / else if / else`(큰 수부터) / 4. 같은 조건, 순서만 거꾸로 | 위에서부터 보다가 처음 참인 한 곳만 실행하고 나머지는 보지 않는다. `else` 는 위가 모두 거짓일 때. 그래서 조건 순서가 결과를 바꾼다 | 9 · 12 · 15 · 20 입력 |
+| [ex08_function.html](examples/ex08_function.html) | 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3. 같은 함수, 다른 값 / 4. 입력한 이름으로 부르기, 정의만 한 `neverCalled` | 정의는 이름을 붙여 두기만 하고, 괄호를 붙여 부를 때 실행된다. `return` 이 부른 곳에 값을 돌려준다. 없으면 `undefined` | 이름 입력, `greetLog` 에 `return` 넣기, `neverCalled()` 부르기 |
+| [ex09_dom_write.html](examples/ex09_dom_write.html) | 1. `getElementById` + `innerText` / 2. `querySelector('#p2')` + `textContent` / 3. `textContent` 에 `<b>…</b>` / 4. 입력 칸 `value`, Console 에 없는 id → `null` | 화면을 바꾸려면 먼저 찾고 그다음 바꾼다. 두 찾기 방법은 같은 id 면 같은 요소를 준다. 글자만 바꿀 때 `innerText`·`textContent` 결과는 같다. 넣은 글자는 태그가 아니라 글자 그대로다. 입력 칸은 `value` | `#p9` 에 `.textContent` 를 써서 오류 보기, 찾는 id 바꾸기 |
+| [ex10_date.html](examples/ex10_date.html) | `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()` | `new Date()` 는 그 줄이 실행된 순간의 날짜·시각을 담은 값이고, `.getHours()` 는 그 값에게 "몇 시야?" 묻는 것이다. 월은 0부터 센다 | 새로고침, `getSeconds()` 줄 더하기 |
 
 ## 수업 자료
 
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week05_javascript_data/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md)
-- 1일차 완성 코드: [index.html](examples/day1/index.html) · [app.js](examples/day1/app.js) · [about.html](examples/day1/about.html) · [guestbook.html](examples/day1/guestbook.html) · [styles.css](examples/day1/styles.css)
-- 2일차 완성 코드: [index.html](examples/day2/index.html) · [app.js](examples/day2/app.js)
+- [예제 설명](examples/README.md) — 비교 파일 10개와 `build/`
+- 2일차 끝의 `my-web`(조립 결과): [index.html](examples/build/index.html) · [app.js](examples/build/app.js) · [about.html](examples/build/about.html) · [guestbook.html](examples/build/guestbook.html) · [styles.css](examples/build/styles.css) · [images/profile.png](examples/build/images/profile.png)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data
 
 ## 완료 기준
 
-- [ ] 공개 주소 `https://<아이디>.github.io/my-web/`을 열면 카드 한 줄에 인사말이 보인다.
-- [ ] 인사말에 본인 아이디와 오전·오후 인사가 함께 들어 있다.
-- [ ] F12 Console에 오류(빨간 줄)가 없고 `console.log`로 찍은 값이 보인다.
-- [ ] `app.js`에 `const`·`let`·템플릿 문자열·`if / else`·함수 두 개가 있다.
-- [ ] 주소창과 Console이 함께 보이는 캡처 1장을 제출한다.
+- [ ] `my-web/week05/` 에 비교 파일이 있고, 각 파일에서 값을 하나 이상 바꿔 push 했다.
+- [ ] `index.html` 의 `<head>` 에 `<script src="app.js" defer></script>` 가 있고, `<main>` 첫 줄이 `<p class="card" id="greeting">` 이다.
+- [ ] 공개 주소 `https://student01.github.io/my-web/` 을 열면 카드 한 줄에 본인 아이디와 오전·오후 인사가 함께 보인다.
+- [ ] F12 Console 에 빨간 줄이 없고, `console.log` 로 찍은 `hour` 와 인사말 두 줄이 보인다.
+- [ ] `git restore app.js` 와 `git revert HEAD` 를 한 번씩 해 보고, 무엇이 다른지 한 줄로 말할 수 있다.
+- [ ] 주소창과 Console 이 함께 보이는 캡처 1장을 제출한다.
 
 ## 다음 수업 연결
 
-오늘은 페이지를 열 때 **한 번** 실행되는 코드를 썼다. 6주차에는 버튼을 눌렀을 때 실행되는 코드를 쓴다.
-`document.querySelector`와 `textContent`가 정식 항목이 되고, 오늘 만든 `#greeting`과 `greet(name)`·`hello(hour)`를
-그대로 이어받아 "인사 바꾸기" 버튼과 클릭 횟수, 다크 모드를 만든다. 결과는 같은 공개 주소에서 확인한다.
+오늘 `my-web` 에 쓴 코드는 페이지를 열 때 **한 번** 실행된다. 6주차에는 ex01 에서 본 `addEventListener` 를 `my-web` 에 쓴다.
+오늘 조립한 `#greeting` 과 `greet(name)`·`hello(hour)` 를 이어받아 "인사 바꾸기" 버튼과 클릭 횟수, 다크 모드를 만든다.
+두 함수와 `#greeting` 의 이름은 바꾸지 않는다. 결과는 같은 공개 주소 `https://student01.github.io/my-web/` 에서 확인한다.
 
 ## 공식 참고 자료
 
 - [JavaScript 첫걸음 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Scripting/What_is_JavaScript)
 - [변수에 필요한 정보 저장하기 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Scripting/Variables)
 - [문자열 다루기 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Scripting/Strings)
+- [템플릿 리터럴 — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Template_literals)
 - [조건문 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Scripting/Conditionals)
 - [함수 — 코드 재사용하기 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Scripting/Functions)
 - [나만의 함수 만들기(return 포함) — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Scripting/Build_your_own_function)
+- [EventTarget.addEventListener() — MDN](https://developer.mozilla.org/ko/docs/Web/API/EventTarget/addEventListener)
+- [Document.querySelector() — MDN](https://developer.mozilla.org/ko/docs/Web/API/Document/querySelector)
+- [Node.textContent — MDN](https://developer.mozilla.org/ko/docs/Web/API/Node/textContent)
+- [Date — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Date)
 - [console.log() — MDN](https://developer.mozilla.org/ko/docs/Web/API/console/log_static)
+- [Console 개요 — Chrome DevTools](https://developer.chrome.com/docs/devtools/console?hl=ko)
+- [git restore — Git 공식 문서](https://git-scm.com/docs/git-restore)
 - [git revert — Git 공식 문서](https://git-scm.com/docs/git-revert)
