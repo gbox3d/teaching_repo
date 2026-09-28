@@ -1,6 +1,6 @@
 # 2주차 예제 — LinearLayout과 findViewById
 
-Android Studio에서 **Empty Views Activity**로 만든 `StudentCard` 프로젝트를 기준으로 한다.
+1주차에 **Empty Views Activity**로 만든 `StudentCard` 프로젝트를 기준으로 한다. 2주차에는 이 프로젝트를 열어 이어 쓴다.
 아래 파일은 해당 날짜의 **완성본**이다. 먼저 [따라하기](../walkthrough.md)를 순서대로 하고, 막히면 내 코드와 비교한다.
 학번 `20260001`, 이름 `홍길동`, 전공 `컴퓨터공학과`는 연습용 값이다.
 

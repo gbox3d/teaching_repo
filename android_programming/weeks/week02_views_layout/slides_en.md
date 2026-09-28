@@ -27,20 +27,22 @@ Major: Computer Engineering
 
 `30 min explanation & demo → 60 min lab`
 
-1. Create a new project in Android Studio.
+1. Open the project you made in Week 1 and run it on the emulator.
 2. Stack text top to bottom with LinearLayout.
 3. Show student ID, name, and major with TextView.
 
 ---
 
-## Day 1 · 0–5 min — Create a New Project
+## Day 1 · 0–5 min — Open Last Week's Project
 
-1. Select **New Project** → **Empty Views Activity**.
-2. Name: `StudentCard` · Language: **Kotlin**
-3. Click **Finish**, then wait for the progress bar at the bottom to finish.
+You already made the `StudentCard` project in Week 1. Today you add a **screen** to it — no new project.
+
+1. Pick `StudentCard` from the recent projects on the welcome screen.
+2. Not on the list? **File › Open** → the `StudentCard` folder you made in Week 1.
+3. Wait for the progress bar at the bottom (Gradle sync) to finish.
 4. Pick a device and press **Run ▶** → check `Hello World!`.
 
-Pick **Empty Views Activity**, not the similarly named **Empty Activity**.
+No project? Make one again following the create-project step in the [Week 1 walkthrough](../week01_android_kotlin/walkthrough.md#5-새-프로젝트-만들기) (**Empty Views Activity**, Name `StudentCard`).
 
 ---
 
@@ -132,7 +134,7 @@ Major: Computer Engineering
 
 [Day 1 lab](lab.md#1일차--linearlayout으로-내-정보-화면-만들기-60분) · [Walkthrough](walkthrough.md#1일차)
 
-1. Create the `StudentCard` project and run `Hello World!`.
+1. Open the `StudentCard` project and run `Hello World!`.
 2. Turn `activity_main.xml` into a LinearLayout.
 3. Show your own student ID, name, and major, then take a screenshot.
 

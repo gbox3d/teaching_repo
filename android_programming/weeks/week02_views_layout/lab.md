@@ -1,6 +1,6 @@
 # 2주차 실습 — 내 정보 화면과 카운터 만들기
 
-이번 주에는 처음으로 Android Studio에서 앱을 만든다. 처음에는 예제를 그대로 옮기고,
+이번 주에는 1주차에 만든 `StudentCard` 프로젝트를 열어 처음으로 앱 화면을 만든다. 처음에는 예제를 그대로 옮기고,
 실행에 성공하면 학번·이름·전공을 본인 것으로 바꾼다.
 모든 단계와 전체 코드는 [따라하기](walkthrough.md)에 있다.
 
@@ -8,25 +8,22 @@
 
 | 시간 | 할 일 |
 |---|---|
-| 0–15분 | 새 프로젝트 `StudentCard`를 만들고 `Hello World!`를 실행한다 |
+| 0–15분 | 1주차에 만든 `StudentCard` 프로젝트를 열고 `Hello World!`를 실행한다 |
 | 15–30분 | `activity_main.xml`을 LinearLayout으로 바꾸고 제목 `내 정보`를 띄운다 |
 | 30–45분 | 학번·이름·전공 TextView 세 개를 추가한다 |
 | 45–55분 | 속성을 하나씩 바꿔 보고 결과를 적는다 |
 | 55–60분 | 실행 화면을 캡처하고 프로젝트를 저장한다 |
 
-### 1. 새 프로젝트 만들고 실행하기
+### 1. 프로젝트 열고 실행하기
 
-Android Studio에서 **New Project → Empty Views Activity**를 고른다.
+Android Studio 시작 화면의 최근 프로젝트에서 `StudentCard`를 고른다.
+목록에 없으면 **File › Open**으로 1주차에 만든 `StudentCard` 폴더를 연다.
 
-| 항목 | 입력 |
-|---|---|
-| Name | `StudentCard` |
-| Package name | `com.example.studentcard` (자동으로 채워진 값) |
-| Language | `Kotlin` |
-| Minimum SDK | 수업 공지 값 |
+아래쪽 진행 표시(Gradle 동기화)가 끝날 때까지 기다린 뒤 `Run ▶`을 누른다.
+에뮬레이터에 `Hello World!`가 보이면 성공이다. 에뮬레이터는 이번 주에 처음 쓰므로 첫 부팅이 느릴 수 있다.
 
-**Finish**를 누르고 아래쪽 진행 표시가 끝날 때까지 기다린 뒤 `Run ▶`을 누른다.
-에뮬레이터에 `Hello World!`가 보이면 성공이다.
+프로젝트가 없거나 폴더를 잃어버렸으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#5-새-프로젝트-만들기)의
+프로젝트 만들기 단계대로 새로 만든다(`Empty Views Activity`, Name `StudentCard`).
 
 ### 2. 화면을 LinearLayout으로 바꾸기
 
@@ -65,7 +62,7 @@ Android Studio에서 **New Project → Empty Views Activity**를 고른다.
 
 ### 5. 오늘 확인할 것
 
-- [ ] `Empty Views Activity`로 만든 `StudentCard` 프로젝트가 실행된다.
+- [ ] 1주차에 만든 `StudentCard` 프로젝트가 에뮬레이터에서 실행된다.
 - [ ] 화면에 본인의 학번·이름·전공이 세 줄로 보인다.
 - [ ] 속성을 바꿔 본 결과를 표에 적었다.
 - [ ] 실행 화면을 캡처했다.
@@ -140,7 +137,7 @@ plusButton.setOnClickListener {
 
 | 상황 | 확인할 것 |
 |---|---|
-| 프로젝트에 `activity_main.xml`이 없다 | `Empty Activity`로 만들었는지 본다. `Empty Views Activity`로 새로 만든다 |
+| 프로젝트에 `activity_main.xml`이 없다 | 1주차에 `Empty Views Activity` 대신 `Empty Activity`로 만들었는지 본다. `Empty Views Activity`로 `StudentCard`를 새로 만들고 시작한다 |
 | `Unresolved reference 'id'` 또는 `Unresolved reference 'main'` 오류 | 가장 바깥 `LinearLayout`에 `android:id="@+id/main"`이 있는지 본다 |
 | `Unresolved reference 'nameText'` 오류 | XML의 `@+id/nameText`와 코드의 `R.id.nameText` 철자가 같은지 본다 |
 | `TextView`, `Button`이 빨간색이다. 빌드하면 `Unresolved reference 'TextView'` | 그 글자에 커서를 두고 **Alt+Enter**(맥 ⌥+Enter) → **Import class** |

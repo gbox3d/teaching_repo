@@ -4,12 +4,13 @@
 
 > XML로 그린 앱 화면에 내 정보를 띄우고, Kotlin 코드로 그 화면을 바꿀 수 있을까?
 
-1주차에는 Kotlin Playground에서 학번과 이름을 콘솔에 출력했다. 이번 주에는 Android Studio로
-처음 앱을 만들어 같은 정보를 휴대폰 화면에 띄우고, 버튼을 누르면 숫자가 바뀌는 카운터를 만든다.
+1주차에는 학번과 이름을 콘솔에 출력했다. 1일차는 Kotlin Playground에서, 2일차는 Android Studio에 만든
+`StudentCard` 프로젝트의 Run 창에서 확인했다. 이번 주에는 그 프로젝트를 다시 열어 같은 정보를
+휴대폰 화면에 띄우고, 버튼을 누르면 숫자가 바뀌는 카운터를 만든다.
 
 ## 학습 목표
 
-1. `Empty Views Activity` 템플릿으로 새 프로젝트를 만들고 에뮬레이터에서 실행한다.
+1. 1주차에 만든 `StudentCard` 프로젝트를 열어 에뮬레이터에서 실행한다.
 2. `activity_main.xml`과 `MainActivity.kt`가 각각 무엇을 맡는지 한 문장으로 말한다.
 3. LinearLayout의 `orientation`·`gravity`와 TextView의 `text`·`textSize`·`layout_marginTop`으로 학번·이름·전공 화면을 만든다.
 4. `android:id`와 `findViewById`로 View를 찾아 글자를 바꾼다.
@@ -33,7 +34,7 @@
 
 | 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | 새 프로젝트, Project 창의 세 폴더, 화면 파일 두 개, LinearLayout, TextView 속성 | 프로젝트 실행 → LinearLayout으로 바꾸기 → 학번·이름·전공 표시 → 속성 바꿔 보기 | 내 정보 화면 |
+| 1일차 | 지난주 프로젝트 열기, Project 창의 세 폴더, 화면 파일 두 개, LinearLayout, TextView 속성 | 프로젝트 열어 실행 → LinearLayout으로 바꾸기 → 학번·이름·전공 표시 → 속성 바꿔 보기 | 내 정보 화면 |
 | 2일차 | `android:id`, 템플릿 틀은 그대로 두기, `findViewById`, `setOnClickListener`, `var` 카운터 | 코드로 이름 바꾸기 → `+1` 버튼 → `-1`·`초기화` 직접 완성 → 회전 관찰 → 제출 | 버튼 카운터 앱 |
 
 각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
@@ -42,7 +43,8 @@
 ## 준비
 
 - 실습실 PC의 Android Studio와 에뮬레이터 (버전은 수업 공지와 [설치 안내](../../ta_setup_guide.md)를 따른다)
-- 1주차에 만든 `StudentCard.kt`의 학번·이름 출력 코드
+- 1주차에 만든 `StudentCard` 프로젝트. 없거나 폴더를 잃어버렸으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#5-새-프로젝트-만들기)의
+  프로젝트 만들기 단계대로 새로 만든다(`Empty Views Activity`, Name `StudentCard`)
 - 본인의 학번·이름·전공
 
 ## 이번 주 범위
@@ -75,7 +77,7 @@
 
 ## 완료 기준
 
-- [ ] `Empty Views Activity`로 만든 `StudentCard` 앱이 에뮬레이터에서 실행된다.
+- [ ] 1주차에 만든 `StudentCard` 프로젝트를 열어 에뮬레이터에서 실행한다.
 - [ ] LinearLayout 안에 본인의 학번·이름·전공이 세 줄로 보인다.
 - [ ] 코드에서 `findViewById`로 이름 TextView의 글자를 바꾼다.
 - [ ] `+1`·`-1`·`초기화` 버튼으로 숫자가 바뀐다.

@@ -167,6 +167,7 @@ If you get stuck, check for missing quotes, parentheses, or braces together.
 
 Today's result is **student ID and name on two lines + one pass/fail line**.
 
+- **Android Studio**: run `main()` in the `StudentCard` project
 - `val`: give a value a name
 - `String` and `Int`: distinguish text from whole numbers
 - `$`: put a stored value into a sentence
@@ -176,7 +177,24 @@ Today's result is **student ID and name on two lines + one pass/fail line**.
 
 ---
 
-## Day 2 · 0–5 min — Give Values Names with val
+## Day 2 · 0–5 min — Running Kotlin in Android Studio
+
+Today you run the same code in **Android Studio** instead of the browser. Next week's app uses this same project.
+
+| Step | What you do |
+|---|---|
+| 1 | **New Project** → **Empty Views Activity** → Name `StudentCard` → **Finish** |
+| 2 | In the **Project** pane, select `app` → `kotlin+java` → `com.example.studentcard` |
+| 3 | **File › New › Kotlin Class/File** → name `StudentCard`, kind **File** |
+| 4 | Write `fun main() { }`, then click **▶** in the left gutter → **Run 'StudentCardKt'** |
+
+Output appears in the **Run** pane at the bottom. You do not use the emulator today.
+
+The first build takes a few minutes; wait until the progress bar at the bottom finishes.
+
+---
+
+## Day 2 · 5–10 min — Give Values Names with val
 
 ```kotlin
 fun main() {
@@ -194,7 +212,7 @@ Use `val name = value` to store a value. `=` assigns the value on its right.
 
 ---
 
-## Day 2 · 5–13 min ① — Text and Whole Numbers
+## Day 2 · 10–17 min ① — Text and Whole Numbers
 
 ```kotlin
 val studentId = "20260001"  // String: text
@@ -210,7 +228,7 @@ Text after `//` is a **comment**. It is not executed.
 
 ---
 
-## Day 2 · 5–13 min ② — Put Values into Text with $
+## Day 2 · 10–17 min ② — Put Values into Text with $
 
 ```kotlin
 fun main() {
@@ -228,7 +246,7 @@ This is a **string template**. Without `$`, the word `name` itself is printed.
 
 ---
 
-## Day 2 · 13–18 min — val and var
+## Day 2 · 17–21 min — val and var
 
 ```kotlin
 fun main() {
@@ -247,7 +265,7 @@ You can still edit the name in `val name = "Hong Gildong"` and **run it again**.
 
 ---
 
-## Day 2 · 18–23 min — if/else: A Value That Depends on a Condition
+## Day 2 · 21–25 min — if/else: A Value That Depends on a Condition
 
 ```kotlin
 val score = 85
@@ -266,7 +284,7 @@ Result: Pass
 
 ---
 
-## Day 2 · 23–27 min — fun: Name a Piece of Work and Call It
+## Day 2 · 25–28 min — fun: Name a Piece of Work and Call It
 
 ```kotlin
 fun intro(name: String) {
@@ -286,9 +304,9 @@ fun main() {
 
 ---
 
-## Day 2 · 27–30 min — Today's Finished Code and Lab Handoff
+## Day 2 · 28–30 min — Today's Finished Code and Lab Handoff
 
-[Day 2 lab](lab.md#2일차--변수와-if-fun으로-자기소개-완성하기-60분) · [Walkthrough](walkthrough.md#2일차) · **Explanation total: 5+8+5+5+4+3 = 30 min**
+[Day 2 lab](lab.md#2일차--변수와-if-fun으로-자기소개-완성하기-60분) · [Walkthrough](walkthrough.md#2일차) · **Explanation total: 5+5+7+4+4+3+2 = 30 min**
 
 ```kotlin
 fun intro(name: String) {
@@ -314,8 +332,8 @@ fun main() {
 
 Submit these two items once, at the end of Day 2.
 
-1. **Your finished Kotlin code, `StudentCard.kt`**
-2. **One screenshot showing the three printed lines: ID, name, result**
+1. **Your finished Kotlin code, `StudentCard.kt`** — inside `app` → `kotlin+java` → `com.example.studentcard`
+2. **One screenshot of the Run pane showing the three printed lines: ID, name, result**
 
 ```text
 Student ID: 20260001
@@ -329,8 +347,8 @@ Check that your student ID and name are correct, and you are done.
 
 ## Next Week Preview
 
-Next week you build your **first app** in Android Studio.
-The same ID and name go on the **phone screen** instead of the console.
+Next week you add a screen to the `StudentCard` project you made today and build your **first app**.
+The same ID and name go on the **phone screen** instead of the Run pane.
 
 - Android Studio is installed on the lab PCs.
 - To install it on your own laptop, have a TA check it in the last 15 minutes of today's lab.

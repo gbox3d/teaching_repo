@@ -1,19 +1,26 @@
 # 1주차 예제 — Kotlin 기초 문법
 
-[Kotlin Playground](https://play.kotlinlang.org/)의 편집 영역에 코드를 넣고 `Run ▶`을 누른다.
+실행하는 곳이 날마다 다르다. **1일차(1·2번)**는 [Kotlin Playground](https://play.kotlinlang.org/)의
+편집 영역에 코드를 넣고 `Run ▶`을 누른다. **2일차(3번부터)**는 `StudentCard` 프로젝트의
+`StudentCard.kt`에 코드를 넣고 `fun main()` 줄 **왼쪽 여백의 ▶** → **Run 'StudentCardKt'**를 눌러
+아래쪽 **Run** 창에서 결과를 본다.
+
 아래 예제는 **한 번에 하나씩** 실행한다. 새 예제를 넣을 때는 이전 코드를 지운다.
 학번 `20260001`, 이름 `홍길동`, 점수 `85`는 연습용 값이다.
+오류 문장은 도구와 버전에 따라 첫 글자의 대소문자나 자료형 표기가 조금 다를 수 있다.
+실측한 문구는 [실습지의 막혔을 때](../lab.md#막혔을-때)에 있다.
 
 ## 이번 주에 사용할 파일
 
-| 파일 | 용도 | 실행 결과 |
-|---|---|---|
-| [Hello.kt](Hello.kt) | 1일차: 큰따옴표 안의 학번과 이름 바꾸기 | 학번·이름 두 줄 |
-| [Intro.kt](Intro.kt) | 2일차: `if/else`와 `fun` 연습 | 결과 한 줄 + 이름 두 줄 |
-| [StudentCard.kt](StudentCard.kt) | 2일차 완성본: 변수·`if`·`fun`으로 자기소개 출력. **제출 형태** | 학번·이름·결과 세 줄 |
+| 파일 | 용도 | 실행할 곳 | 실행 결과 |
+|---|---|---|---|
+| [Hello.kt](Hello.kt) | 1일차: 큰따옴표 안의 학번과 이름 바꾸기 | Playground | 학번·이름 두 줄 |
+| [Intro.kt](Intro.kt) | 2일차: `if/else`와 `fun` 연습 | 프로젝트의 `StudentCard.kt` | 결과 한 줄 + 이름 두 줄 |
+| [StudentCard.kt](StudentCard.kt) | 2일차 완성본: 변수·`if`·`fun`으로 자기소개 출력. **제출 형태** | 프로젝트의 `StudentCard.kt` | 학번·이름·결과 세 줄 |
 
-세 파일은 각각 독립된 예제다. Playground에는 한 파일의 코드만 넣는다.
-코드를 보관할 때는 텍스트 편집기에 복사해 해당 이름으로 저장한다.
+세 파일은 각각 독립된 예제다. 편집 영역이나 `StudentCard.kt`에는 한 파일의 코드만 넣는다.
+한 파일에 `fun main()`이 두 개가 되면 `Conflicting overloads:` 오류가 나고, 아래 두 줄이 그 두 위치를 가리킨다.
+1일차 코드는 텍스트 편집기에 복사해 `Hello.kt`로 저장하고, 2일차 코드는 프로젝트의 `StudentCard.kt`에 그대로 둔다.
 
 ## 1. 시작하는 틀과 `println`
 
@@ -52,6 +59,9 @@ fun main() {
 
 ## 3. `val` — 값에 이름 붙이기
 
+여기부터 2일차다. 아래 코드는 `StudentCard` 프로젝트의 `StudentCard.kt`에 넣고
+왼쪽 여백의 ▶으로 실행한다. 맨 위의 `package com.example.studentcard` 줄은 그대로 둔다.
+
 ```kotlin
 fun main() {
     val name = "홍길동"
@@ -88,9 +98,13 @@ fun main() {
 
 `"이름: $name"`에서 `$name` 자리에 변수의 값이 들어간다. 이를 **문자열 템플릿**이라고 한다.
 `studentId`의 `I`는 대문자다. 변수를 만들 때와 사용할 때 철자를 같게 쓴다.
+철자가 다르면 `Unresolved reference 'nmae'.`처럼 그 이름을 찾을 수 없다는 오류가 난다.
 2일차 실습의 앞부분(학번·이름 두 줄)은 여기까지다.
 
 ## 5. `var` — 실행 중 값 바꾸기
+
+5·6·7번은 `StudentCard.kt`의 `fun main() {`와 마지막 `}`를 그대로 두고
+**중괄호 안의 내용만** 바꿔 실행한다. 그러면 파일에 `fun main()`이 하나만 남는다.
 
 ```kotlin
 fun main() {
@@ -204,12 +218,14 @@ fun main() {
 - `fun intro(name: String) { ... }`: `intro`라는 **함수**를 정의한다. `main` 바깥, 위쪽에 적는다.
 - `name: String`: 글자 하나를 받아서 함수 안에서 `name`이라고 부른다.
 - `intro("홍길동")`: 함수를 **호출**한다. 괄호 안의 값이 `name`에 들어가고 `{ }` 안의 코드가 실행된다.
-- `main`도 함수다. 실행 버튼을 누르면 `main`이 먼저 불린다.
+- `main`도 함수다. 왼쪽 여백의 ▶을 누르면 `main`이 먼저 불린다.
 - `intro()`처럼 괄호를 비우면 `no value passed for parameter 'name'.` 오류가 난다.
 
 ## 10. 2일차 연습 — if와 fun 한 번에
 
 [Intro.kt](Intro.kt)의 전체 코드다. 8번과 9번을 한 파일에 모았다.
+`StudentCard.kt`의 `package` 줄 아래를 모두 지우고 이 코드를 넣는다. 앞 예제를 남겨 두면
+`fun main()`이 두 개가 되어 `Conflicting overloads:` 오류가 난다.
 
 ```kotlin
 // 이름을 받아 한 줄을 출력하는 함수. main 바깥에 정의한다.
@@ -238,6 +254,7 @@ fun main() {
 ## 11. 2일차 완성 — 자기소개 세 줄
 
 [StudentCard.kt](StudentCard.kt)의 전체 코드다. **2일차 최종 실습과 제출 형태는 여기까지다.**
+제출물은 이 코드가 담긴 `StudentCard.kt`와 세 줄이 보이는 Run 창 캡처 1장이다.
 
 ```kotlin
 // 이름을 받아 "이름: ..." 한 줄을 출력하는 함수

@@ -8,23 +8,19 @@ Android Studio와 에뮬레이터는 실습실 PC에 설치된 것을 사용하�
 
 ## 1일차
 
-### 1. 새 프로젝트 만들기
+### 1. 1주차에 만든 프로젝트 열기
 
-1. Android Studio를 실행하고 **New Project**를 누른다. 이미 열린 프로젝트가 있으면 **File › New › New Project**를 누른다.
-2. **Phone and Tablet**에서 **Empty Views Activity**를 고르고 **Next**를 누른다.
-   이름이 비슷한 **Empty Activity**는 고르지 않는다. 오늘 사용할 `activity_main.xml`이 만들어지지 않는다.
-3. 아래처럼 입력하고 **Finish**를 누른다.
+이번 주에는 프로젝트를 새로 만들지 않는다. 1주차에 만든 `StudentCard` 프로젝트를 다시 열어 화면을 붙인다.
 
-| 항목 | 입력 |
-|---|---|
-| Name | `StudentCard` |
-| Package name | `com.example.studentcard` (Name을 쓰면 자동으로 채워진다) |
-| Save location | 기본값 또는 강의자가 안내한 폴더 |
-| Language | `Kotlin` |
-| Minimum SDK | 수업 공지 값 |
-| Build configuration language | 기본값 |
+1. Android Studio를 실행한다. 시작 화면의 최근 프로젝트 목록에서 `StudentCard`를 고른다.
+2. 목록에 없으면 **File › Open**으로 1주차에 만든 `StudentCard` 폴더를 고르고 **Open**을 누른다.
+   이미 다른 프로젝트가 열려 있어도 같은 방법으로 연다.
+3. 창 아래쪽 진행 표시(Gradle 동기화)가 모두 끝날 때까지 기다린다. 처음 여는 PC에서는 몇 분 걸릴 수 있다.
+4. 1주차에 쓴 `StudentCard.kt`가 그대로 보이면 제대로 연 것이다.
 
-4. 창 아래쪽 진행 표시가 모두 끝날 때까지 기다린다. 처음 만들 때는 몇 분 걸릴 수 있다.
+프로젝트가 없거나 폴더를 잃어버렸으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#5-새-프로젝트-만들기)의 프로젝트 만들기 단계대로
+새로 만든다(**Empty Views Activity**, Name `StudentCard`). 이름이 비슷한 **Empty Activity**로 만들면
+오늘 사용할 `activity_main.xml`이 없다.
 
 ### 2. 처음 실행하기
 

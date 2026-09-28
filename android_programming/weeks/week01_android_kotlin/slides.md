@@ -167,6 +167,7 @@ fun main() {
 
 오늘 결과는 **학번·이름 두 줄 + 합격/불합격 한 줄**입니다.
 
+- **Android Studio**: `StudentCard` 프로젝트에서 `main()` 실행하기
 - `val`: 값에 이름 붙이기
 - `String`과 `Int`: 글자와 정수 구별하기
 - `$`: 저장한 값을 문장에 넣기
@@ -176,7 +177,24 @@ fun main() {
 
 ---
 
-## 2일차 · 0–5분 — val로 값에 이름 붙이기
+## 2일차 · 0–5분 — Android Studio에서 Kotlin 실행하기
+
+오늘은 브라우저 대신 **Android Studio**에서 같은 코드를 실행합니다. 다음 주 앱도 이 프로젝트에서 만듭니다.
+
+| 순서 | 하는 일 |
+|---|---|
+| 1 | **New Project** → **Empty Views Activity** → Name `StudentCard` → **Finish** |
+| 2 | **Project** 창에서 `app` → `kotlin+java` → `com.example.studentcard` 고르기 |
+| 3 | **File › New › Kotlin Class/File** → 이름 `StudentCard`, 종류 **File** |
+| 4 | `fun main() { }`을 쓰고 왼쪽 여백의 **▶** → **Run 'StudentCardKt'** |
+
+출력은 아래쪽 **Run** 창에 나옵니다. 에뮬레이터는 쓰지 않습니다.
+
+프로젝트를 처음 만들면 아래쪽 진행 표시가 끝날 때까지 몇 분 걸립니다.
+
+---
+
+## 2일차 · 5–10분 — val로 값에 이름 붙이기
 
 ```kotlin
 fun main() {
@@ -194,7 +212,7 @@ fun main() {
 
 ---
 
-## 2일차 · 5–13분 ① — 글자와 정수
+## 2일차 · 10–17분 ① — 글자와 정수
 
 ```kotlin
 val studentId = "20260001"  // String: 글자
@@ -210,7 +228,7 @@ val score = 85              // Int: 정수
 
 ---
 
-## 2일차 · 5–13분 ② — $로 문장에 값 넣기
+## 2일차 · 10–17분 ② — $로 문장에 값 넣기
 
 ```kotlin
 fun main() {
@@ -228,7 +246,7 @@ fun main() {
 
 ---
 
-## 2일차 · 13–18분 — val과 var
+## 2일차 · 17–21분 — val과 var
 
 ```kotlin
 fun main() {
@@ -247,7 +265,7 @@ fun main() {
 
 ---
 
-## 2일차 · 18–23분 — if/else: 조건에 따라 다른 값
+## 2일차 · 21–25분 — if/else: 조건에 따라 다른 값
 
 ```kotlin
 val score = 85
@@ -266,7 +284,7 @@ println("결과: $result")
 
 ---
 
-## 2일차 · 23–27분 — fun: 같은 일을 이름 붙여 부르기
+## 2일차 · 25–28분 — fun: 같은 일을 이름 붙여 부르기
 
 ```kotlin
 fun intro(name: String) {
@@ -286,9 +304,9 @@ fun main() {
 
 ---
 
-## 2일차 · 27–30분 — 오늘의 완성 코드·실습 인계
+## 2일차 · 28–30분 — 오늘의 완성 코드·실습 인계
 
-[2일차 실습](lab.md#2일차--변수와-if-fun으로-자기소개-완성하기-60분) · [따라하기](walkthrough.md#2일차) · **설명 합계: 5+8+5+5+4+3 = 30분**
+[2일차 실습](lab.md#2일차--변수와-if-fun으로-자기소개-완성하기-60분) · [따라하기](walkthrough.md#2일차) · **설명 합계: 5+5+7+4+4+3+2 = 30분**
 
 ```kotlin
 fun intro(name: String) {
@@ -314,8 +332,8 @@ fun main() {
 
 2일차가 끝나면 두 가지를 한 번 제출합니다.
 
-1. **완성한 Kotlin 코드 `StudentCard.kt`**
-2. **학번·이름·결과 세 줄이 출력된 화면 캡처 1장**
+1. **완성한 Kotlin 코드 `StudentCard.kt`** — 프로젝트의 `app` → `kotlin+java` → `com.example.studentcard` 안
+2. **Run 창에 세 줄이 출력된 화면 캡처 1장**
 
 ```text
 학번: 20260001
@@ -329,8 +347,8 @@ fun main() {
 
 ## 다음 주 미리 보기
 
-다음 주에는 Android Studio에서 **첫 앱**을 만듭니다.
-같은 학번과 이름을 콘솔이 아니라 **폰 화면**에 띄웁니다.
+다음 주에는 오늘 만든 `StudentCard` 프로젝트에 화면을 붙여 **첫 앱**을 만듭니다.
+같은 학번과 이름을 Run 창이 아니라 **폰 화면**에 띄웁니다.
 
 - 실습실 PC에는 Android Studio가 설치되어 있습니다.
 - 개인 노트북에 설치하려면 오늘 실습 마지막 15분에 조교에게 확인받습니다.

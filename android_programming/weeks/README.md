@@ -6,7 +6,7 @@
 - 매 수업: 설명·시연 30분 + 직접 해결 실습 60분
 - 주당 합계: 이론·시연 60분 + 실습 120분
 - 8주 중간고사, 9주 1차 과제 발표, 14주 2차 과제 발표, 15주 기말고사는 고정이다.
-- 1주차는 Kotlin Playground에서 출력·변수·`if`·`fun`을 연습한다. 2~3주차는 `StudentCard` 앱을 만들고, 4주차부터 15주차까지는 `SmartIO` 한 앱(앱 이름 "Smart I/O Controller")을 매주 키운다.
+- 1주차는 1일차에 Kotlin Playground, 2일차에 Android Studio에서 출력·변수·`if`·`fun`을 연습한다(2일차에 `StudentCard` 프로젝트를 만든다). 2~3주차는 그 프로젝트로 `StudentCard` 앱을 만들고, 4주차부터 15주차까지는 `SmartIO` 한 앱(앱 이름 "Smart I/O Controller")을 매주 키운다.
 - 매주 시작점은 전주 `examples/day2` 완성본이다. 자기 코드로 이어 가도 되고, 막히면 전주 완성본을 받아 이어 간다.
 - 기본 문제를 먼저 완성하고 남는 시간에 확장 문제를 수행한다.
 
@@ -23,7 +23,7 @@
 | `walkthrough.md` | 모든 주차. 처음부터 그대로 따라 하는 단계(할 일 → 예상 결과). 전체 코드 블록은 `examples/` 파일과 글자 단위로 같다 |
 | `lab.md` | 일차별 60분 시간표, 단계별 문제와 힌트, 막혔을 때 표(실제 오류 메시지), 제출물, 먼저 끝났다면 |
 | `examples/README.md` | 예제 파일 ↔ 프로젝트 위치 표, 개념별 최소 코드와 실행 결과 |
-| `examples/dayN/` | 그날 수업이 끝났을 때의 **완성본 전체 파일**(2~7주·10~13주는 `day1`·`day2`, 14주는 `day1`). 1주차는 Playground용 `.kt` 파일, 8·15주는 `rehearsal_starter`·`rehearsal_solution`, 9주는 시연용 `service_demo`·`fragment_demo`·`fake_request`를 같은 규칙으로 둔다 |
+| `examples/dayN/` | 그날 수업이 끝났을 때의 **완성본 전체 파일**(2~7주·10~13주는 `day1`·`day2`, 14주는 `day1`). 1주차는 Playground와 프로젝트에 넣어 실행하는 `.kt` 파일, 8·15주는 `rehearsal_starter`·`rehearsal_solution`, 9주는 시연용 `service_demo`·`fragment_demo`·`fake_request`를 같은 규칙으로 둔다 |
 | `exam_structure.md`·`project_brief.md`·`rubric.md` | 시험·과제 주차만. 8주 시험 구조·채점표, 9·14주 과제 안내·채점표, 15주 채점표 |
 
 `examples/dayN/`의 파일은 Android Studio의 **Empty Views Activity** 템플릿 프로젝트에 다음 규칙으로 넣으면 그대로 빌드된다.
@@ -36,7 +36,7 @@
 | `res/…` | `app/src/main/res/…` 같은 경로 |
 | `AndroidManifest.xml`·`build.gradle.kts` | 있으면 `app/src/main/AndroidManifest.xml`·`app/build.gradle.kts`를 교체 |
 
-package는 2~3주 `com.example.studentcard`, 4~15주 `com.example.smartio`다(8주 리허설·9주 Fragment·요청 시연처럼 새 프로젝트로 만드는 예제는 그 폴더의 `examples/README.md`에 적었다).
+package는 1주 2일차~3주 `com.example.studentcard`, 4~15주 `com.example.smartio`다(8주 리허설·9주 Fragment·요청 시연처럼 새 프로젝트로 만드는 예제는 그 폴더의 `examples/README.md`에 적었다).
 
 12~15주는 제공 라이브러리 [`../bleuno/`](../bleuno/README.md)를 쓴다. `bleuno/src/`의 파일을 `app/src/main/java/com/example/smartio/bleuno/`로 복사하며(package `com.example.smartio.bleuno`), 12~15주 `examples/`의 `bleuno/` 폴더에 같은 파일이 들어 있다. 보드 명령·응답 규약과 라이브러리 사용법은 [bleuno README](../bleuno/README.md)에 있다.
 
@@ -46,7 +46,7 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 
 | 주차 | 주제 | 누적 산출물 | 폴더 |
 |---:|---|---|---|
-| 1 | Kotlin 첫걸음: 학번과 이름 출력하기 | Playground에서 학번·이름·합격 여부 출력(`StudentCard.kt`) | [`week01_android_kotlin`](week01_android_kotlin/) |
+| 1 | Kotlin 첫걸음: 학번과 이름 출력하기 | 1일차 Playground, 2일차 Android Studio Run 창에 학번·이름·합격 여부 출력(`StudentCard.kt`) | [`week01_android_kotlin`](week01_android_kotlin/) |
 | 2 | 첫 Android 앱: 내 정보 화면과 카운터 | `StudentCard`: 내 정보 화면과 [-1]·[초기화]·[+1] 카운터 | [`week02_views_layout`](week02_views_layout/) |
 | 3 | Activity 생명주기와 상태 보존 | 회전해도 숫자 3이 남는 화면, 생명주기 콜백 순서 Logcat | [`week03_activity_lifecycle`](week03_activity_lifecycle/) |
 | 4 | SmartIO 시작: ViewBinding·입력 위젯·두 번째 화면 | `SmartIO`: 장치 이름 입력 → 제어 화면에 이름과 `on 3`·`off 3` 명령 로그 | [`week04_fragments_navigation`](week04_fragments_navigation/) |
@@ -64,7 +64,7 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 
 ## 자료 작성 원칙
 
-- **학생 기준선**: 프로그래밍 경험이 거의 없는 대학생이다. 1주차는 Kotlin Playground에서 `println`·`val`/`var`·문자열 템플릿·`if/else`·`fun`, 2주차는 Empty Views Activity·LinearLayout·TextView·`findViewById`·`setOnClickListener`·`var` 카운터까지 배웠다. 그 밖의 것은 모른다고 전제한다.
+- **학생 기준선**: 프로그래밍 경험이 거의 없는 대학생이다. 1주차는 Kotlin Playground(1일차)와 Android Studio(2일차)에서 `println`·`val`/`var`·문자열 템플릿·`if/else`·`fun`, 2주차는 Empty Views Activity·LinearLayout·TextView·`findViewById`·`setOnClickListener`·`var` 카운터까지 배웠다. 그 밖의 것은 모른다고 전제한다.
 - **기준 자료 우선순위**: (1) 강의자 작년 슬라이드(1강~7장, 특강 1 BLE) → (2) 구글 "Android Kotlin Fundamentals"(View 기반) → (3) 국내 입문 교재 관례. 순서·용어·API는 이 셋과 같게 쓴다.
 - **한 주 새 개념은 3~5개**다. 앞 주에서 배운 것만 전제하고, 난이도가 한 주에 두 단계 뛰지 않는다.
 - **매주 캡처로 보여 줄 앱·화면 하나로 끝난다.** 산출물이 보고서·로그 문장·회고여서는 안 된다.
@@ -74,7 +74,7 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 
 | 문법 | 처음 쓰는 주 | 형태 |
 |---|---|---|
-| `if/else`, `fun` 정의·호출 | 1주 2일차 | Playground 두 장 |
+| `if/else`, `fun` 정의·호출 | 1주 2일차 | Android Studio 두 장 |
 | null 안전성 `?`, `?.`, `?:` (`!!` 금지 한 줄) | 3주 2일차 | 정식 항목, 8주 채점 범위 |
 | 문자열 붙이기 `"on $pin"`, `.toInt()`, `isEmpty()` | 4주 1일차 | 오늘 문법 5분 |
 | `getStringExtra(...) ?: ""` | 4주 2일차 | 오늘 문법 5분 |

@@ -10,7 +10,7 @@
 ## 범위
 
 프로그래밍 경험이 거의 없는 학생을 기준으로, Kotlin 출력문에서 시작해 BLE 입출력 제어 앱까지 15주 동안 한 걸음씩 쌓는 공용 교재다.
-1주차는 Kotlin Playground, 2~3주차는 첫 앱 `StudentCard`(화면·카운터·생명주기)를 만든다.
+1주차는 Kotlin Playground(1일차)와 Android Studio(2일차)에서 Kotlin을 연습하며 `StudentCard` 프로젝트를 만들고, 2~3주차는 그 프로젝트로 첫 앱(화면·카운터·생명주기)을 만든다.
 4주차부터는 `SmartIO`(Smart I/O Controller) 한 앱을 매주 키우며 ViewBinding·두 번째 화면(4주), Thread·Handler(5주),
 코루틴(6주), ViewModel·StateFlow(7주), BroadcastReceiver·런타임 권한(10주), ListView·SharedPreferences(11주)를 배운다.
 12~15주차에는 제공 라이브러리 `bleuno`로 사전 플래시된 ESP32-C3 보드를 검색·연결하고, LED 명령과 응답·온습도 입력·끊김과 재연결을 다룬다.
@@ -25,7 +25,7 @@
 - 공통 설치 프로그램: [`../ta_lab_setup_guide.md`](../ta_lab_setup_guide.md)
 - 환경 기준표: [`../environment_baseline_template.md`](../environment_baseline_template.md)
 
-1주차는 [Kotlin Playground](https://play.kotlinlang.org/)에서 학번·이름을 출력하며
+1주차는 [Kotlin Playground](https://play.kotlinlang.org/)(1일차)와 Android Studio의 `StudentCard` 프로젝트(2일차)에서 학번·이름을 출력하며
 출력문, 변수, 문자열·숫자, `if`와 `fun`을 연습한다. 실행할 수 있는 짧은 `.kt` 예제 세 개가 포함되어 있다.
 2주차부터 `examples/dayN`은 그날 수업이 끝났을 때의 완성본 전체 파일이며 Empty Views Activity 템플릿 프로젝트에 넣으면 빌드된다.
 파일을 넣는 위치 규칙은 [`weeks/README.md`](weeks/README.md#주차-폴더-구성)에 있다.

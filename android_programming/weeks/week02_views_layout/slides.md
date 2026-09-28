@@ -27,20 +27,22 @@ footer: 첫 Android 앱 · LinearLayout과 findViewById
 
 `30분 설명·시연 → 60분 실습`
 
-1. Android Studio에서 새 프로젝트 만들기
+1. 1주차에 만든 프로젝트를 열어 에뮬레이터에서 실행하기
 2. LinearLayout으로 글자를 위에서 아래로 쌓기
 3. TextView로 학번·이름·전공 표시하기
 
 ---
 
-## 1일차 · 0–5분 — 새 프로젝트 만들기
+## 1일차 · 0–5분 — 지난주 프로젝트 열기
 
-1. **New Project** → **Empty Views Activity** 선택
-2. Name: `StudentCard` · Language: **Kotlin**
-3. **Finish** → 아래쪽 진행 표시가 끝날 때까지 기다리기
+1주차에 만든 `StudentCard` 프로젝트에 오늘은 **화면**을 붙입니다. 새로 만들지 않습니다.
+
+1. 시작 화면의 최근 프로젝트에서 `StudentCard` 선택
+2. 목록에 없으면 **File › Open** → 1주차에 만든 `StudentCard` 폴더
+3. 아래쪽 진행 표시(Gradle 동기화)가 끝날 때까지 기다리기
 4. 기기를 고르고 **Run ▶** → `Hello World!` 확인
 
-이름이 비슷한 **Empty Activity**가 아니라 **Empty Views Activity**를 고릅니다.
+프로젝트가 없으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#5-새-프로젝트-만들기)의 프로젝트 만들기 단계대로 새로 만듭니다(**Empty Views Activity**, Name `StudentCard`).
 
 ---
 
@@ -132,7 +134,7 @@ vertical (세로)            horizontal (가로)
 
 [1일차 실습](lab.md#1일차--linearlayout으로-내-정보-화면-만들기-60분) · [따라하기](walkthrough.md#1일차)
 
-1. `StudentCard` 프로젝트를 만들고 `Hello World!`를 실행합니다.
+1. `StudentCard` 프로젝트를 열고 `Hello World!`를 실행합니다.
 2. `activity_main.xml`을 LinearLayout으로 바꿉니다.
 3. 학번·이름·전공을 본인 정보로 띄우고 캡처합니다.
 
