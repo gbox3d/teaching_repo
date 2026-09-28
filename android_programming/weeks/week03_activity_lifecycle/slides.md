@@ -35,7 +35,7 @@ footer: Activity 생명주기 · Logcat · 저장과 복원
 Log.d("Life", "onCreate")
 ```
 
-| 1주차 (Playground) | 3주차 (앱) |
+| 1주차 (Run 창) | 3주차 (앱) |
 |---|---|
 | `println("onCreate")` | `Log.d("Life", "onCreate")` |
 

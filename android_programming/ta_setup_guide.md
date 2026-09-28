@@ -9,9 +9,10 @@
 
 ## 필수 설치
 
-**1주차는 웹 브라우저와 [Kotlin Playground](https://play.kotlinlang.org/)만 사용한다.**
-수업 전에 접속과 `println("안녕하세요")` 예제 실행을 확인한다. 아래 설치 목록은
-이후 Android 앱 실습을 위한 준비이며 1주차 학생 실습의 완료 조건이 아니다.
+**1주차 1일차부터 Android Studio를 사용한다.** 실습실 PC에 Android Studio가 설치되어 있어야 한다.
+수업 전에 한 대에서 `Empty Views Activity`로 새 프로젝트를 만들어 첫 Gradle 동기화 시간을 재 보고,
+`fun main()`이 있는 Kotlin 파일을 왼쪽 여백 ▶으로 실행해 Run 창에 출력이 나오는지 확인한다.
+1주차에는 에뮬레이터를 쓰지 않으므로 AVD 준비는 2주차 전까지 끝내면 된다.
 
 | 프로그램·구성요소 | 공식 경로 | 비고 |
 |---|---|---|

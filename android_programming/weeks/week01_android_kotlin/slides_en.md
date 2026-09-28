@@ -25,7 +25,7 @@ The ID and name above are examples for practice.
 `30 min explanation & demo → 60 min lab`
 
 1. See what this course builds over 15 weeks.
-2. Open Kotlin Playground in your browser.
+2. Create a project in Android Studio and run it for the first time.
 3. Print text with `println`.
 4. Replace the example with your student ID and name.
 
@@ -35,7 +35,7 @@ The ID and name above are examples for practice.
 
 | Week | What we do |
 |---|---|
-| 1 | First steps in Kotlin — print text in the browser |
+| 1 | First steps in Kotlin — print text in Android Studio |
 | 2–3 | First app `StudentCard` — my info screen, buttons, screen rotation |
 | 4–7 | `Smart I/O Controller` screens — input fields, a second screen, an app that keeps responding while waiting |
 | 8 | Midterm (hands-on) |
@@ -80,20 +80,38 @@ Each week's screenshot counts directly, so **submit each week's work in that wee
 
 ---
 
-## Day 1 · 5–10 min — Open the Playground
+## Day 1 · 5–13 min ① — Create the Project
 
-Open [Kotlin Playground](https://play.kotlinlang.org/) in your browser.
+You start in **Android Studio** on the lab PC. You keep this project through Week 3.
 
-1. Type the code shown by your instructor in the code editor.
-2. Press **Run (▶)**.
-3. Check the text in the output area.
+1. **New Project** → **Empty Views Activity** under **Phone and Tablet** → **Next**
+2. Do not pick **Empty Activity**, which has a similar name.
 
-After editing the text, **press Run again** to update the output.
-Use the lab PCs. A TA checks personal-laptop installs at the end of the Day 2 lab.
+| Field | Value |
+|---|---|
+| Name | `StudentCard` |
+| Package name | `com.example.studentcard` (filled in from Name) |
+| Language | `Kotlin` |
+| Minimum SDK · Build configuration language | As announced in class · default |
+
+Click **Finish** and wait for the progress bar at the bottom. The first time takes a few minutes.
 
 ---
 
-## Day 1 · 10–20 min ① — Starting Code and First Output
+## Day 1 · 5–13 min ② — Create StudentCard.kt and Run It
+
+1. In the **Project** pane, select `app` → `kotlin+java` → `com.example.studentcard`.
+2. **File › New › Kotlin Class/File** → name `StudentCard`, kind **File**
+3. Write `fun main() { }`, then click **▶** in the left gutter → **Run 'StudentCardKt'**
+4. Check the output in the **Run** pane at the bottom.
+
+- The `Run ▶` button in the top toolbar **runs the app**: it opens the emulator, and `println` output does not appear in the Run pane.
+- After editing the code, **click ▶ again** to update the output.
+- Use the lab PCs. A TA checks personal-laptop installs at the end of the Day 2 lab.
+
+---
+
+## Day 1 · 13–21 min ① — Starting Code and First Output
 
 Type this code and run it.
 
@@ -109,7 +127,7 @@ fun main() {
 
 ---
 
-## Day 1 · 10–20 min ② — Put Text in Double Quotes
+## Day 1 · 13–21 min ② — Put Text in Double Quotes
 
 ```kotlin
 fun main() {
@@ -124,11 +142,11 @@ Nice to meet you
 ```
 
 Put text inside `" "`. Match each opening parenthesis and quote with a closing one.
-A missing closing quote gives the error `Expecting '"'.`
+A missing closing quote shows `Syntax error: Expecting '"'.` in the Build pane.
 
 ---
 
-## Day 1 · 20–27 min — Use Your Student ID and Name
+## Day 1 · 21–27 min — Use Your Student ID and Name
 
 ```kotlin
 fun main() {
@@ -149,13 +167,13 @@ Start by changing **only the text inside the double quotes**.
 
 [Day 1 lab](lab.md#1일차--글자-두-줄-출력하기-60분) · [Walkthrough](walkthrough.md#1일차)
 
-**Explanation total: 5+5+10+7+3 = 30 min**
+**Explanation total: 5+8+8+6+3 = 30 min**
 
 Take your time during the following 60-minute lab.
 
 1. Run the example code.
 2. Change it to your student ID and name, then run it again.
-3. Save your code as `Hello.kt`.
+3. Keep writing in the same `StudentCard.kt` next class.
 
 If you get stuck, check for missing quotes, parentheses, or braces together.
 
@@ -167,34 +185,17 @@ If you get stuck, check for missing quotes, parentheses, or braces together.
 
 Today's result is **student ID and name on two lines + one pass/fail line**.
 
-- **Android Studio**: run `main()` in the `StudentCard` project
 - `val`: give a value a name
 - `String` and `Int`: distinguish text from whole numbers
 - `$`: put a stored value into a sentence
 - `var`: a variable that can be assigned a new value later
 - `if/else`: choose a value depending on a condition
 - `fun`: give a piece of work a name and call it
+- Create and run the example files `Vars.kt`, `Types.kt`, `Branch.kt`, and `Functions.kt` one at a time
 
 ---
 
-## Day 2 · 0–5 min — Running Kotlin in Android Studio
-
-Today you run the same code in **Android Studio** instead of the browser. Next week's app uses this same project.
-
-| Step | What you do |
-|---|---|
-| 1 | **New Project** → **Empty Views Activity** → Name `StudentCard` → **Finish** |
-| 2 | In the **Project** pane, select `app` → `kotlin+java` → `com.example.studentcard` |
-| 3 | **File › New › Kotlin Class/File** → name `StudentCard`, kind **File** |
-| 4 | Write `fun main() { }`, then click **▶** in the left gutter → **Run 'StudentCardKt'** |
-
-Output appears in the **Run** pane at the bottom. You do not use the emulator today.
-
-The first build takes a few minutes; wait until the progress bar at the bottom finishes.
-
----
-
-## Day 2 · 5–10 min — Give Values Names with val
+## Day 2 · 0–5 min — Give Values Names with val
 
 ```kotlin
 fun main() {
@@ -212,7 +213,7 @@ Use `val name = value` to store a value. `=` assigns the value on its right.
 
 ---
 
-## Day 2 · 10–17 min ① — Text and Whole Numbers
+## Day 2 · 5–13 min ① — Text and Whole Numbers
 
 ```kotlin
 val studentId = "20260001"  // String: text
@@ -228,7 +229,7 @@ Text after `//` is a **comment**. It is not executed.
 
 ---
 
-## Day 2 · 10–17 min ② — Put Values into Text with $
+## Day 2 · 5–13 min ② — Put Values into Text with $
 
 ```kotlin
 fun main() {
@@ -246,7 +247,7 @@ This is a **string template**. Without `$`, the word `name` itself is printed.
 
 ---
 
-## Day 2 · 17–21 min — val and var
+## Day 2 · 13–18 min — val and var
 
 ```kotlin
 fun main() {
@@ -265,7 +266,7 @@ You can still edit the name in `val name = "Hong Gildong"` and **run it again**.
 
 ---
 
-## Day 2 · 21–25 min — if/else: A Value That Depends on a Condition
+## Day 2 · 18–23 min — if/else: A Value That Depends on a Condition
 
 ```kotlin
 val score = 85
@@ -284,7 +285,7 @@ Result: Pass
 
 ---
 
-## Day 2 · 25–28 min — fun: Name a Piece of Work and Call It
+## Day 2 · 23–27 min — fun: Name a Piece of Work and Call It
 
 ```kotlin
 fun intro(name: String) {
@@ -304,9 +305,9 @@ fun main() {
 
 ---
 
-## Day 2 · 28–30 min — Today's Finished Code and Lab Handoff
+## Day 2 · 27–30 min — Today's Finished Code and Lab Handoff
 
-[Day 2 lab](lab.md#2일차--변수와-if-fun으로-자기소개-완성하기-60분) · [Walkthrough](walkthrough.md#2일차) · **Explanation total: 5+5+7+4+4+3+2 = 30 min**
+[Day 2 lab](lab.md#2일차--변수와-if-fun으로-자기소개-완성하기-60분) · [Walkthrough](walkthrough.md#2일차) · **Explanation total: 5+8+5+5+4+3 = 30 min**
 
 ```kotlin
 fun intro(name: String) {

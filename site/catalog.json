@@ -26,12 +26,12 @@
           "id": "week01_android_kotlin",
           "label": "1주차",
           "title": "Kotlin 첫걸음: 학번과 이름 출력하기",
-          "description": "코드를 조금 바꿔서 내 학번과 이름을 출력할 수 있을까? 1일차는 Kotlin Playground, 2일차는 Android Studio에서 println·val·var·if·fun을 연습합니다.",
+          "description": "코드를 조금 바꿔서 내 학번과 이름을 출력할 수 있을까? Android Studio에서 StudentCard 프로젝트를 만들어 println·val·var·if·fun을 연습합니다.",
           "type": "week",
           "en": {
             "label": "Week 1",
             "title": "First Steps in Kotlin: Print Your Student ID and Name",
-            "description": "Can you change a little code to print your own student ID and name? Practice println, val, var, if, and fun — in Kotlin Playground on Day 1, then in Android Studio on Day 2."
+            "description": "Can you change a little code to print your own student ID and name? Create a StudentCard project in Android Studio and practice println, val, var, if, and fun."
           }
         },
         {

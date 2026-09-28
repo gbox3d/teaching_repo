@@ -40,7 +40,7 @@ fun main() {
 
 | 실행 결과 | 출력 |
 |---|---|
-| Kotlin Playground에서 실행 | `2` |
+| 프로젝트에서 `main()`으로 실행 | `2` |
 
 - `class`는 설계도다. `Counter()`로 객체를 하나 만들고, 객체 안의 변수(**프로퍼티**)와 함수는 `a.count`, `a.plus()`처럼 점으로 부른다.
 - `ConnViewModel`도 클래스다. `MainActivity`는 `viewModel.resultText`처럼 점으로 프로퍼티를 읽는다.

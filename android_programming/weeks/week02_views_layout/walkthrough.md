@@ -18,7 +18,7 @@ Android Studio와 에뮬레이터는 실습실 PC에 설치된 것을 사용하�
 3. 창 아래쪽 진행 표시(Gradle 동기화)가 모두 끝날 때까지 기다린다. 처음 여는 PC에서는 몇 분 걸릴 수 있다.
 4. 1주차에 쓴 `StudentCard.kt`가 그대로 보이면 제대로 연 것이다.
 
-프로젝트가 없거나 폴더를 잃어버렸으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#5-새-프로젝트-만들기)의 프로젝트 만들기 단계대로
+프로젝트가 없거나 폴더를 잃어버렸으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#1-새-프로젝트-만들기)의 프로젝트 만들기 단계대로
 새로 만든다(**Empty Views Activity**, Name `StudentCard`). 이름이 비슷한 **Empty Activity**로 만들면
 오늘 사용할 `activity_main.xml`이 없다.
 

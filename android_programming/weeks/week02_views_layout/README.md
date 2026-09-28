@@ -4,8 +4,8 @@
 
 > XML로 그린 앱 화면에 내 정보를 띄우고, Kotlin 코드로 그 화면을 바꿀 수 있을까?
 
-1주차에는 학번과 이름을 콘솔에 출력했다. 1일차는 Kotlin Playground에서, 2일차는 Android Studio에 만든
-`StudentCard` 프로젝트의 Run 창에서 확인했다. 이번 주에는 그 프로젝트를 다시 열어 같은 정보를
+1주차에는 Android Studio에서 `StudentCard` 프로젝트를 만들고 학번·이름·합격 여부를
+`StudentCard.kt`의 Run 창에 출력했다. 이번 주에는 그 프로젝트를 다시 열어 같은 정보를
 휴대폰 화면에 띄우고, 버튼을 누르면 숫자가 바뀌는 카운터를 만든다.
 
 ## 학습 목표
@@ -43,7 +43,7 @@
 ## 준비
 
 - 실습실 PC의 Android Studio와 에뮬레이터 (버전은 수업 공지와 [설치 안내](../../ta_setup_guide.md)를 따른다)
-- 1주차에 만든 `StudentCard` 프로젝트. 없거나 폴더를 잃어버렸으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#5-새-프로젝트-만들기)의
+- 1주차에 만든 `StudentCard` 프로젝트. 없거나 폴더를 잃어버렸으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#1-새-프로젝트-만들기)의
   프로젝트 만들기 단계대로 새로 만든다(`Empty Views Activity`, Name `StudentCard`)
 - 본인의 학번·이름·전공
 

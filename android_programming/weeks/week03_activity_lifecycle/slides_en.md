@@ -35,7 +35,7 @@ Before rotation          After rotation
 Log.d("Life", "onCreate")
 ```
 
-| Week 1 (Playground) | Week 3 (app) |
+| Week 1 (Run pane) | Week 3 (app) |
 |---|---|
 | `println("onCreate")` | `Log.d("Life", "onCreate")` |
 

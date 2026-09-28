@@ -42,7 +42,7 @@ footer: 첫 Android 앱 · LinearLayout과 findViewById
 3. 아래쪽 진행 표시(Gradle 동기화)가 끝날 때까지 기다리기
 4. 기기를 고르고 **Run ▶** → `Hello World!` 확인
 
-프로젝트가 없으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#5-새-프로젝트-만들기)의 프로젝트 만들기 단계대로 새로 만듭니다(**Empty Views Activity**, Name `StudentCard`).
+프로젝트가 없으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#1-새-프로젝트-만들기)의 프로젝트 만들기 단계대로 새로 만듭니다(**Empty Views Activity**, Name `StudentCard`).
 
 ---
 

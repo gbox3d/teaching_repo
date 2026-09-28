@@ -42,7 +42,7 @@ You already made the `StudentCard` project in Week 1. Today you add a **screen**
 3. Wait for the progress bar at the bottom (Gradle sync) to finish.
 4. Pick a device and press **Run ▶** → check `Hello World!`.
 
-No project? Make one again following the create-project step in the [Week 1 walkthrough](../week01_android_kotlin/walkthrough.md#5-새-프로젝트-만들기) (**Empty Views Activity**, Name `StudentCard`).
+No project? Make one again following the create-project step in the [Week 1 walkthrough](../week01_android_kotlin/walkthrough.md#1-새-프로젝트-만들기) (**Empty Views Activity**, Name `StudentCard`).
 
 ---
 

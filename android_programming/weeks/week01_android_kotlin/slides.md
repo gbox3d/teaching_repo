@@ -25,7 +25,7 @@ footer: Kotlin 기초 문법 실습
 `30분 설명·시연 → 60분 실습`
 
 1. 이 과목에서 15주 동안 무엇을 만드는지 보기
-2. 브라우저에서 Kotlin Playground 열기
+2. Android Studio에서 프로젝트 만들고 첫 실행하기
 3. `println`으로 글자 출력하기
 4. 예시를 내 학번과 이름으로 바꾸기
 
@@ -35,7 +35,7 @@ footer: Kotlin 기초 문법 실습
 
 | 주 | 무엇을 하나 |
 |---|---|
-| 1 | Kotlin 첫걸음 — 브라우저에서 글자 출력 |
+| 1 | Kotlin 첫걸음 — Android Studio에서 글자 출력 |
 | 2–3 | 첫 앱 `StudentCard` — 내 정보 화면, 버튼, 화면 회전 |
 | 4–7 | `Smart I/O Controller` 화면 — 입력 칸, 두 번째 화면, 기다리는 동안 멈추지 않는 앱 |
 | 8 | 중간고사 (실기) |
@@ -80,20 +80,38 @@ LED 0 [켜짐]   LED 1 [꺼짐]    <------>     LED가 켜진다
 
 ---
 
-## 1일차 · 5–10분 — 실행할 곳 열기
+## 1일차 · 5–13분 ① — 프로젝트 만들기
 
-브라우저에서 [Kotlin Playground](https://play.kotlinlang.org/)를 엽니다.
+실습실 PC의 **Android Studio**로 시작합니다. 이 프로젝트는 3주차까지 씁니다.
 
-1. 코드 입력 칸에 선생님이 보여 주는 코드를 적습니다.
-2. **Run(▶)** 버튼을 누릅니다.
-3. 출력 영역에 나타난 글자를 확인합니다.
+1. **New Project** → **Phone and Tablet**의 **Empty Views Activity** → **Next**
+2. 이름이 비슷한 **Empty Activity**는 고르지 않습니다.
 
-글자를 바꾼 뒤에는 **Run을 다시 눌러야** 결과가 바뀝니다.
-실습실 PC를 씁니다. 개인 노트북 설치는 2일차 실습 마지막에 조교가 봐 줍니다.
+| 항목 | 입력 |
+|---|---|
+| Name | `StudentCard` |
+| Package name | `com.example.studentcard` (Name을 쓰면 자동으로 채워집니다) |
+| Language | `Kotlin` |
+| Minimum SDK · Build configuration language | 수업 공지 값 · 기본값 |
+
+**Finish**를 누르고 아래쪽 진행 표시가 끝날 때까지 기다립니다. 처음에는 몇 분 걸립니다.
 
 ---
 
-## 1일차 · 10–20분 ① — 시작 틀과 첫 출력
+## 1일차 · 5–13분 ② — StudentCard.kt 만들고 실행하기
+
+1. **Project** 창에서 `app` → `kotlin+java` → `com.example.studentcard`를 고릅니다.
+2. **File › New › Kotlin Class/File** → 이름 `StudentCard`, 종류 **File**
+3. `fun main() { }`을 쓰고 왼쪽 여백의 **▶** → **Run 'StudentCardKt'**
+4. 아래쪽 **Run** 창에서 출력을 확인합니다.
+
+- 위쪽 도구 막대의 `Run ▶`은 **앱을 실행하는 버튼**입니다. 누르면 에뮬레이터가 뜨고 `println` 결과는 Run 창에 보이지 않습니다.
+- 코드를 고친 뒤에는 **▶을 다시 눌러야** 결과가 바뀝니다.
+- 실습실 PC를 씁니다. 개인 노트북 설치는 2일차 실습 마지막에 조교가 봐 줍니다.
+
+---
+
+## 1일차 · 13–21분 ① — 시작 틀과 첫 출력
 
 아래 코드를 그대로 적고 실행합니다.
 
@@ -109,7 +127,7 @@ fun main() {
 
 ---
 
-## 1일차 · 10–20분 ② — 글자는 큰따옴표 안에
+## 1일차 · 13–21분 ② — 글자는 큰따옴표 안에
 
 ```kotlin
 fun main() {
@@ -124,11 +142,11 @@ fun main() {
 ```
 
 글자는 `" "`로 감쌉니다. 괄호 `(`와 `)`, 큰따옴표는 짝을 맞춥니다.
-닫는 큰따옴표가 빠지면 `Expecting '"'.` 오류가 납니다.
+닫는 큰따옴표가 빠지면 Build 창에 `Syntax error: Expecting '"'.`가 나옵니다.
 
 ---
 
-## 1일차 · 20–27분 — 학번과 이름으로 바꾸기
+## 1일차 · 21–27분 — 학번과 이름으로 바꾸기
 
 ```kotlin
 fun main() {
@@ -149,13 +167,13 @@ fun main() {
 
 [1일차 실습](lab.md#1일차--글자-두-줄-출력하기-60분) · [따라하기](walkthrough.md#1일차)
 
-**설명 합계: 5+5+10+7+3 = 30분**
+**설명 합계: 5+8+8+6+3 = 30분**
 
 이어지는 60분 동안 천천히 연습합니다.
 
 1. 예시 코드를 실행합니다.
 2. 내 학번과 이름으로 바꾸고 다시 실행합니다.
-3. 코드를 `Hello.kt`로 저장해 둡니다.
+3. 다음 시간에도 같은 `StudentCard.kt`에 이어서 씁니다.
 
 막히면 큰따옴표, 괄호, 중괄호가 빠졌는지 함께 확인합니다.
 
@@ -167,34 +185,17 @@ fun main() {
 
 오늘 결과는 **학번·이름 두 줄 + 합격/불합격 한 줄**입니다.
 
-- **Android Studio**: `StudentCard` 프로젝트에서 `main()` 실행하기
 - `val`: 값에 이름 붙이기
 - `String`과 `Int`: 글자와 정수 구별하기
 - `$`: 저장한 값을 문장에 넣기
 - `var`: 나중에 다른 값을 넣을 수 있는 변수
 - `if/else`: 조건에 따라 다른 값 고르기
 - `fun`: 같은 일에 이름을 붙여 부르기
+- 예제 파일 `Vars.kt`·`Types.kt`·`Branch.kt`·`Functions.kt`를 하나씩 만들어 실행
 
 ---
 
-## 2일차 · 0–5분 — Android Studio에서 Kotlin 실행하기
-
-오늘은 브라우저 대신 **Android Studio**에서 같은 코드를 실행합니다. 다음 주 앱도 이 프로젝트에서 만듭니다.
-
-| 순서 | 하는 일 |
-|---|---|
-| 1 | **New Project** → **Empty Views Activity** → Name `StudentCard` → **Finish** |
-| 2 | **Project** 창에서 `app` → `kotlin+java` → `com.example.studentcard` 고르기 |
-| 3 | **File › New › Kotlin Class/File** → 이름 `StudentCard`, 종류 **File** |
-| 4 | `fun main() { }`을 쓰고 왼쪽 여백의 **▶** → **Run 'StudentCardKt'** |
-
-출력은 아래쪽 **Run** 창에 나옵니다. 에뮬레이터는 쓰지 않습니다.
-
-프로젝트를 처음 만들면 아래쪽 진행 표시가 끝날 때까지 몇 분 걸립니다.
-
----
-
-## 2일차 · 5–10분 — val로 값에 이름 붙이기
+## 2일차 · 0–5분 — val로 값에 이름 붙이기
 
 ```kotlin
 fun main() {
@@ -212,7 +213,7 @@ fun main() {
 
 ---
 
-## 2일차 · 10–17분 ① — 글자와 정수
+## 2일차 · 5–13분 ① — 글자와 정수
 
 ```kotlin
 val studentId = "20260001"  // String: 글자
@@ -228,7 +229,7 @@ val score = 85              // Int: 정수
 
 ---
 
-## 2일차 · 10–17분 ② — $로 문장에 값 넣기
+## 2일차 · 5–13분 ② — $로 문장에 값 넣기
 
 ```kotlin
 fun main() {
@@ -246,7 +247,7 @@ fun main() {
 
 ---
 
-## 2일차 · 17–21분 — val과 var
+## 2일차 · 13–18분 — val과 var
 
 ```kotlin
 fun main() {
@@ -265,7 +266,7 @@ fun main() {
 
 ---
 
-## 2일차 · 21–25분 — if/else: 조건에 따라 다른 값
+## 2일차 · 18–23분 — if/else: 조건에 따라 다른 값
 
 ```kotlin
 val score = 85
@@ -284,7 +285,7 @@ println("결과: $result")
 
 ---
 
-## 2일차 · 25–28분 — fun: 같은 일을 이름 붙여 부르기
+## 2일차 · 23–27분 — fun: 같은 일을 이름 붙여 부르기
 
 ```kotlin
 fun intro(name: String) {
@@ -304,9 +305,9 @@ fun main() {
 
 ---
 
-## 2일차 · 28–30분 — 오늘의 완성 코드·실습 인계
+## 2일차 · 27–30분 — 오늘의 완성 코드·실습 인계
 
-[2일차 실습](lab.md#2일차--변수와-if-fun으로-자기소개-완성하기-60분) · [따라하기](walkthrough.md#2일차) · **설명 합계: 5+5+7+4+4+3+2 = 30분**
+[2일차 실습](lab.md#2일차--변수와-if-fun으로-자기소개-완성하기-60분) · [따라하기](walkthrough.md#2일차) · **설명 합계: 5+8+5+5+4+3 = 30분**
 
 ```kotlin
 fun intro(name: String) {

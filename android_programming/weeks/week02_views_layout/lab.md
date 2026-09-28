@@ -22,7 +22,7 @@ Android Studio 시작 화면의 최근 프로젝트에서 `StudentCard`를 고�
 아래쪽 진행 표시(Gradle 동기화)가 끝날 때까지 기다린 뒤 `Run ▶`을 누른다.
 에뮬레이터에 `Hello World!`가 보이면 성공이다. 에뮬레이터는 이번 주에 처음 쓰므로 첫 부팅이 느릴 수 있다.
 
-프로젝트가 없거나 폴더를 잃어버렸으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#5-새-프로젝트-만들기)의
+프로젝트가 없거나 폴더를 잃어버렸으면 [1주차 따라하기](../week01_android_kotlin/walkthrough.md#1-새-프로젝트-만들기)의
 프로젝트 만들기 단계대로 새로 만든다(`Empty Views Activity`, Name `StudentCard`).
 
 ### 2. 화면을 LinearLayout으로 바꾸기
