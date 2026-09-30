@@ -27,6 +27,7 @@
   // 본문이 아래 여백을 넘는 슬라이드는 글자 크기를 줄여 한 화면에 맞춘다.
   // 테마가 em 단위를 쓰므로 section 글자 크기만 줄이면 제목·표·코드가 함께 줄어든다.
   const MIN_FIT_RATIO = 0.62;
+  const baseFontSizes = new WeakMap();
 
   function contentBottom(section) {
     let bottom = 0;
@@ -40,12 +41,15 @@
   function fitSlide(slide) {
     const section = slide.querySelector("foreignObject > section");
     if (!section) return;
-    section.style.fontSize = "";
     const style = window.getComputedStyle(section);
-    const base = parseFloat(style.fontSize);
+    const sizeNow = parseFloat(style.fontSize);
+    if (!baseFontSizes.has(section)) baseFontSizes.set(section, sizeNow);
+    const minimum = Math.ceil(baseFontSizes.get(section) * MIN_FIT_RATIO);
     const limit = section.clientHeight - parseFloat(style.paddingBottom) + 1;
-    let size = base;
-    while (contentBottom(section) > limit && size > base * MIN_FIT_RATIO) {
+    // Marp 코드 블록도 비동기로 크기를 조절한다. 감시 알림마다 원래 크기로
+    // 되돌리면 확대·축소가 반복되므로 현재 크기에서 필요한 만큼만 줄인다.
+    let size = sizeNow;
+    while (contentBottom(section) > limit && size > minimum) {
       size -= 1;
       section.style.fontSize = `${size}px`;
     }
