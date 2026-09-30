@@ -12,6 +12,8 @@
 
 ## 1교시 실습 — 원격 연결과 충돌 1회 해결
 
+**이 시간 예제:** [period1 — 파일·실행·예상 결과](examples/period1/README.md). 실습 시간표의 각 단계와 대응한다.
+
 ### 상황
 
 1주차에 만든 개인 연습 저장소는 아직 내 PC에만 있다. 팀 동료가 "GitHub에 올려 두면 README를 보고 제안하겠다"고 했다. 저장소를 GitHub에 올리고, 두 branch가 README의 같은 줄을 다르게 고쳤을 때 무슨 일이 생기는지 한 번 재현해 해결하라.
@@ -187,9 +189,11 @@ rejected는 원격에 로컬이 모르는 commit이 있다는 뜻이다. 저장�
 
 1. 다른 줄만 고친 branch `feature/title`을 만들어 merge하고, 충돌 없이 합쳐진 이유를 graph와 함께 설명한다.
 2. 짝이 GitHub 웹에서 내 README를 한 줄 고쳐 commit해 주면(짝이 collaborator가 아니면 2교시 뒤에 한다) `git fetch origin` 뒤 `git log --oneline main..origin/main`으로 원격에만 있는 commit을 확인하고 `git pull`로 가져온다.
-3. `examples/merge_conflict_demo.ps1`을 별도 연습 폴더에서 실행해 같은 충돌을 스크립트로 재현하고, 실습에서 손으로 한 순서와 단계별로 대응시킨다.
+3. `examples/period1/merge_conflict_demo.ps1`을 별도 연습 폴더에서 실행해 같은 충돌을 스크립트로 재현하고, 실습에서 손으로 한 순서와 단계별로 대응시킨다.
 
 ## 2교시 실습 — 짝 저장소에 제안하고 리뷰 받기
+
+**이 시간 예제:** [period2 — 파일·실행·예상 결과](examples/period2/README.md). 실습 시간표의 각 단계와 대응한다.
 
 ### 상황
 
@@ -213,7 +217,7 @@ rejected는 원격에 로컬이 모르는 commit이 있다는 뜻이다. 저장�
 
 ```powershell
 git status
-Copy-Item -Recurse <수업자료>\open_source_ai\weeks\week02_git_github_license\examples\pr_template\.github .\.github
+Copy-Item -Recurse <수업자료>\open_source_ai\weeks\week02_git_github_license\examples\period2\.github .\.github
 git add .github
 git commit -m "Add issue and PR templates"
 git push
@@ -295,7 +299,7 @@ git log --oneline -3
 <details>
 <summary>힌트 1 — Issue 템플릿이나 PR 템플릿이 보이지 않는다</summary>
 
-템플릿은 **base 저장소(짝 저장소)의 기본 branch(`main`)**에 push되어 있어야 적용된다. 짝의 저장소 페이지에서 `.github` 폴더가 보이는지 확인한다. fork에만 넣은 템플릿은 원본으로 보내는 PR에 적용되지 않는다. 템플릿 push 전에 Issue나 PR을 열었다면 `examples/pr_template/` 파일 내용을 본문에 붙여넣는다.
+템플릿은 **base 저장소(짝 저장소)의 기본 branch(`main`)**에 push되어 있어야 적용된다. 짝의 저장소 페이지에서 `.github` 폴더가 보이는지 확인한다. fork에만 넣은 템플릿은 원본으로 보내는 PR에 적용되지 않는다. 템플릿 push 전에 Issue나 PR을 열었다면 `examples/period2/` 파일 내용을 본문에 붙여넣는다.
 </details>
 
 <details>
@@ -320,9 +324,11 @@ Draft 상태면 Ready for review를 누른다. "This branch has conflicts"가 �
 
 1. fork의 `main`을 원본과 맞춘다. GitHub 웹의 Sync fork, 또는 `git remote add upstream <짝 저장소 HTTPS URL>` → `git fetch upstream` → `git merge upstream/main`. `git remote -v`가 4줄이 되는 이유를 설명한다.
 2. Draft PR을 하나 열어 Merge 버튼이 비활성인 것을 확인하고 Ready for review로 바꾼 뒤 merge하지 않고 닫는다.
-3. `examples/CONTRIBUTING_sample.md`를 참고해 개인 저장소에 `CONTRIBUTING.md`를 추가하는 PR을 같은 저장소 안의 branch에서 스스로에게 보내고 merge한다.
+3. `examples/period2/CONTRIBUTING_sample.md`를 참고해 개인 저장소에 `CONTRIBUTING.md`를 추가하는 PR을 같은 저장소 안의 branch에서 스스로에게 보내고 merge한다.
 
 ## 3교시 실습 — 라이선스 판별과 LICENSE 추가
+
+**이 시간 예제:** [period3 — 파일·실행·예상 결과](examples/period3/README.md). 실습 시간표의 각 단계와 대응한다.
 
 ### 상황
 
@@ -346,8 +352,8 @@ Draft 상태면 Ready for review를 누른다. "This branch has conflicts"가 �
 Set-Location <개인 저장소 폴더>
 git pull
 git status
-Copy-Item <수업자료>\open_source_ai\weeks\week02_git_github_license\examples\license_cards.md .\license_cards_answers.md
-Copy-Item <수업자료>\open_source_ai\weeks\week02_git_github_license\examples\license_matrix_template.md .\license_matrix.md
+Copy-Item <수업자료>\open_source_ai\weeks\week02_git_github_license\examples\period3\license_cards.md .\license_cards_answers.md
+Copy-Item <수업자료>\open_source_ai\weeks\week02_git_github_license\examples\period3\license_matrix_template.md .\license_matrix.md
 ```
 
 ### 문제 1 · 판별 카드 10문항
@@ -417,7 +423,7 @@ Get-Content LICENSE -TotalCount 3
 
 1. 개인 저장소의 라이선스를 MIT에서 Apache-2.0으로(또는 반대로) 바꾸려면 무엇을 확인해야 하는지 적는다. 이미 merge된 짝의 기여가 있다는 점을 고려한다.
 2. `license_matrix.md`에 "호환성" 열을 추가하고, 각 항목을 내 저장소 LICENSE와 함께 배포할 수 있는지 방향(permissive → copyleft 가능, 역방향 불가)을 표시한다.
-3. `examples/CONTRIBUTING_sample.md`의 "기여물의 라이선스" 절을 읽고 내 저장소 `CONTRIBUTING.md`에 넣을 문장 초안을 쓴다.
+3. `examples/period3/CONTRIBUTING_sample.md`의 "기여물의 라이선스" 절을 읽고 내 저장소 `CONTRIBUTING.md`에 넣을 문장 초안을 쓴다.
 
 ## 제출 체크
 

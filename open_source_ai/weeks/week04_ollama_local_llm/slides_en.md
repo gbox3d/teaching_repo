@@ -133,7 +133,7 @@ A slow first reply from `ollama run` is **load time**. It's fast from the second
 
 ## 17–20 min · Lab Handoff
 
-[Block 1 Lab — Run Two Models and Measure Them](lab.md#1교시-실습--모델-두-개를-실행하고-측정하기)
+[Block 1 Lab — Run Two Models and Measure Them](lab.md#1교시-실습--모델-두-개를-실행하고-측정하기) · [Block 1 files](examples/period1/README.md)
 
 Completion criteria:
 
@@ -188,7 +188,7 @@ There's also an OpenAI-compatible path (`/v1/chat/completions`), but we don't us
    {"role": "system",    "content": "Answer in Korean, in three sentences or fewer."},
    {"role": "user",      "content": "What is uv?"},
    {"role": "assistant", "content": "uv is …"},
-   {"role": "user",      "content": "How is it different from pip?"}
+   {"role": "user",      "content": "Show an example using uv run."}
  ],
  "stream": false, "think": false, "options": {"temperature": 0.2}}
 ```
@@ -258,7 +258,7 @@ tokens/s = eval_count ÷ (eval_duration ÷ 1e9)      duration is in nanoseconds
 
 ## 17–20 min · Lab Handoff
 
-[Block 2 Lab — Talk Over the REST API and Handle Failures](lab.md#2교시-실습--rest-api로-대화하고-실패를-다루기)
+[Block 2 Lab — Talk Over the REST API and Handle Failures](lab.md#2교시-실습--rest-api로-대화하고-실패를-다루기) · [Block 2 files](examples/period2/README.md)
 
 Completion criteria:
 
@@ -362,7 +362,7 @@ Submit **the repo URL + the final commit id + the README's reproduction steps**.
 
 ## 17–20 min · Lab Handoff
 
-[Block 3 Lab — Build a Class-Assistant Model and Check the Project](lab.md#3교시-실습--수업-도우미-모델-만들기와-과제-점검)
+[Block 3 Lab — Build a Class-Assistant Model and Check the Project](lab.md#3교시-실습--수업-도우미-모델-만들기와-과제-점검) · [Block 3 files](examples/period3/README.md)
 
 Completion criteria:
 

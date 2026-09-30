@@ -21,9 +21,15 @@
 
 아래 두 절은 실습실 PC에 설치할 때의 절차이며, 개인 노트북으로 수강하는 학생에게 그대로 안내해도 된다.
 **uv와 Ollama는 둘 다 관리자 권한 없이 사용자 계정에만 설치된다.**
-명령과 경로는 2026-09-10에 공식 문서로 확인한 값이다(uv 0.12.11, Ollama 0.33.3 기준). 버전이 올라가면 다시 확인한다.
+uv 설치·갱신 명령은 2026-09-30에 [공식 문서](https://docs.astral.sh/uv/getting-started/installation/)로 확인했다. 최신 버전 번호를 본문에 고정하지 않고, 실제 `uv --version` 출력과 확인 날짜를 환경 기준표에 남긴다. 아래 Ollama 절의 기존 확인 기준은 2026-09-10이다.
 
 ## 설치 절차 — uv
+
+uv는 **Python 설치·프로젝트 가상환경·패키지·잠금 파일·명령 실행**을 함께 관리한다. 도구 자체 설치에는 Python이 필요 없다. 수업에서는 프로젝트 폴더의 `pyproject.toml`을 기준으로 `uv run`을 사용한다. 개념과 학생용 실습은 [uv 사용 가이드](uv_guide.md)를 참고한다.
+
+### Windows
+
+아래 중 **한 가지 방식만** 선택한다. 버전을 지정하지 않은 설치 명령은 해당 배포 경로에서 제공하는 최신 uv를 설치한다. 학기 기준 버전이 정해졌으면 그 기준을 먼저 따른다.
 
 ```powershell
 # 방법 1 · 공식 설치 스크립트 (기본)
@@ -38,9 +44,64 @@ winget install --id=astral-sh.uv -e
 | 관리자 권한 | 필요 없음 |
 | 설치 위치 | `%USERPROFILE%\.local\bin\uv.exe` (winget으로 설치하면 다름) |
 | PATH | 설치 프로그램이 사용자 PATH에 추가한다. **이미 열려 있던 창에는 반영되지 않는다** |
-| Python | 따로 설치하지 않는다. `requires-python`을 보고 uv가 가져온다 |
+| Python | 별도 설치 관리자는 필요 없다. uv로 수업 기준 Python을 준비한다 |
 
-확인은 **새 PowerShell 창**에서 한다. `Get-Command uv | Select-Object -ExpandProperty Source`로 실제 경로를 함께 남긴다.
+확인은 **새 PowerShell 창**에서 한다. VS Code 터미널이면 VS Code도 완전히 종료 후 다시 연다.
+
+```powershell
+uv --version
+Get-Command uv -All | Select-Object -ExpandProperty Source
+```
+
+경로가 여러 개이면 이전 설치가 PATH 앞에 남아 있을 수 있다. 새로 설치한 uv의 경로와 실제 실행되는 경로가 같은지 확인한다.
+
+### macOS·Linux 개인 노트북
+
+```bash
+# 공식 독립 설치 프로그램
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# macOS에서 Homebrew를 이미 쓰는 경우의 대안 — 위 명령과 중복 설치하지 않는다
+brew install uv
+```
+
+설치 안내에 따라 새 터미널을 연 뒤 확인한다. 독립 설치의 기본 위치는 `~/.local/bin`이며 Homebrew는 경로가 다르다.
+
+```bash
+uv --version
+command -v uv
+```
+
+### 최신 uv로 갱신
+
+**설치에 쓴 도구로 갱신한다.** 학생 PC를 수업 도중 개별적으로 갱신하기보다 기준 PC에서 먼저 검증한다.
+
+| 설치 방법 | 갱신 명령 |
+|---|---|
+| 공식 독립 설치 프로그램 | `uv self update` |
+| WinGet | `winget upgrade --id=astral-sh.uv -e` |
+| Homebrew | `brew update` 다음 `brew upgrade uv` |
+
+패키지 관리자로 설치한 uv는 `uv self update`를 지원하지 않는다. 갱신 후 새 터미널에서 `uv --version`과 실행 경로를 다시 기록한다. 이 명령들은 **uv 자체**를 갱신하며 프로젝트 Python·패키지를 모두 최신으로 바꾸는 명령이 아니다. 근거: [uv 갱신](https://docs.astral.sh/uv/getting-started/installation/#upgrading-uv), [WinGet upgrade](https://learn.microsoft.com/en-us/windows/package-manager/winget/upgrade), [Homebrew 명령](https://docs.brew.sh/Manpage).
+
+### 수업용 Python과 첫 실행 확인
+
+Python은 [학기별 환경 기준표](../environment_baseline_template.md)가 확정된 뒤 준비한다. 다음 `3.12`는 교재의 `requires-python = ">=3.12"`와 호환되는 **명령 예시**이며, 실제로는 확정된 버전으로 바꾼다. `requires-python`은 허용 범위여서 정확한 실행 버전을 고정하지 않는다.
+
+```powershell
+uv python list
+uv python install 3.12
+# 개인 복사본의 first_run 폴더로 이동한 뒤
+uv python pin 3.12
+uv run python --version
+uv run python sysinfo.py
+```
+
+`uv python pin`은 프로젝트에 `.python-version`을 기록한다. `uv run`은 가상환경 활성화 없이 `.venv`의 Python을 실행한다. 첫 실행은 Python·패키지 다운로드가 필요할 수 있으므로 기준 PC에서 미리 준비한다.
+
+개인 학습용 최신 Python이 필요한 경우에는 **수업 프로젝트 밖에서** uv를 갱신하고 `uv python list`로 지원하는 최신 안정 버전을 확인한 뒤 `uv python install <확인한 버전>`으로 설치한다(꺾쇠 부분을 실제 번호로 교체). 인자 없는 `uv python install`은 버전 파일·환경변수·기존 관리 Python 상태의 영향을 받으므로 항상 최신 버전으로 업그레이드하는 명령은 아니다. 최신 Python이 수업 패키지·GPU 조합과 호환되는지도 별도로 검증한다. 근거: [Python 설치 명령](https://docs.astral.sh/uv/reference/cli/#uv-python-install).
+
+배포본에 승인된 `uv.lock`이 포함되면 `uv sync --locked`와 `uv run --locked python sysinfo.py`로 재현을 확인한다. 현재 교재의 lock 없는 원본은 기준 확정 후 기준 PC에서 생성·검증해 배포한다. 상세 절차는 [GitHub 소스 배포 가이드](github_distribution.md)에 있다.
 
 ## 설치 절차 — Ollama
 
@@ -119,7 +180,7 @@ ollama list
 
 ## 별도 설치하지 않는 항목
 
-- 전역 `pip install`
+- 프로젝트 밖의 전역 Python 패키지
 - 임의 CUDA Toolkit
 - 임의 PyTorch·TensorFlow 버전
 - 검색해서 고른 대체 모델

@@ -3,7 +3,7 @@
 ## 공통 규칙
 
 - 완성 코드를 보기 전에 예상을 적는다.
-- 명령은 현재 폴더를 확인한 뒤 실행한다.
+- 현재 교시의 `period1`·`period2`·`period3` 폴더 안에서 실행한다. 코드·데이터는 각 폴더에 있고, 보고서는 상위 주차 실습 폴더에 누적한다. [교시별 파일 선택](examples/README.md)을 따른다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
 - 캡처보다 원인과 근거를 적은 짧은 문장이 더 중요한 증거다.
 - 기본 문제 완료 후 확장 문제를 수행한다.
@@ -28,21 +28,22 @@
 
 ### 준비
 
-원본을 두고 개인 저장소 안의 폴더에 복사한다. `$src`와 `$dst`는 예시이며 교재 저장소 위치는 실습실 안내를 따른다.
+[현재 1교시 폴더](examples/period1/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
 
 ```powershell
-$src = "C:\teaching_repo\open_source_ai\weeks\week07_embeddings_rag\examples"
-$dst = "$HOME\osa-practice\week07"   # 6주차까지 쓴 개인 저장소 안의 폴더로 바꾼다
+$src = "<교재 저장소>\open_source_ai\weeks\week07_embeddings_rag\examples"
+$dst = "$HOME\osa-practice\week07"
 New-Item -ItemType Directory -Force $dst | Out-Null
-Copy-Item -Recurse "$src\mini_rag" "$dst\mini_rag"
-Set-Location "$dst\mini_rag"
-Copy-Item .env.example .env
-uv sync
-uv run python chunk.py --help
-New-Item -ItemType File -Force ..\search_note.md | Out-Null
+if (-not (Test-Path "$dst\period1")) { Copy-Item -Recurse "$src\period1" "$dst\period1" }
+Set-Location "$dst\period1"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\search_note.md)) { New-Item -ItemType File ..\search_note.md | Out-Null }
 ```
 
-`uv sync`는 수업 전에 한 번 실행해 두면 실습 중 네트워크가 필요 없다. `--help`가 옵션 목록을 출력하면 시작한다.
+```powershell
+uv run python chunk.py --help
+```
 
 ### 문제 1 · 300자 청크로 인덱스를 만들고 검색하기
 
@@ -125,17 +126,31 @@ e5 계열은 점수가 전체적으로 높게 나오는 편이다. 절대값이 
 
 ### 준비
 
-1교시에 복사한 `mini_rag` 폴더에서 계속한다. 새로 시작하는 날이면 1교시의 준비 명령과 `chunk.py` → `embed.py`를 먼저 실행해 `outputs/index.json`을 만든다.
+[현재 2교시 폴더](examples/period2/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
 
 ```powershell
-Set-Location "$HOME\osa-practice\week07\mini_rag"
+$src = "<교재 저장소>\open_source_ai\weeks\week07_embeddings_rag\examples"
+$dst = "$HOME\osa-practice\week07"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period2")) { Copy-Item -Recurse "$src\period2" "$dst\period2" }
+Set-Location "$dst\period2"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\rag_note.md)) { New-Item -ItemType File ..\rag_note.md | Out-Null }
+```
+
+교시 실습 시간 전에 이 폴더의 `docs/`로 인덱스를 준비한다. 앞 교시 산출물을 요구하지 않으며, 문서를 직접 수정했다면 그 내용도 이 폴더에 반영한다.
+
+```powershell
+uv run python chunk.py --size 300 --overlap 50
+uv run python embed.py --chunks outputs/chunks-300.json
+```
+
+```powershell
 Invoke-RestMethod http://localhost:11434/api/tags | Select-Object -ExpandProperty models | Format-Table name, size
 Test-Path outputs\index.npy
 uv run python rag_answer.py --help
-New-Item -ItemType File -Force ..\rag_note.md | Out-Null
 ```
-
-모델 목록에 `.env`의 `OLLAMA_MODEL`이 보이고 `Test-Path`가 `True`이면 시작한다. GPU가 없는 PC는 `.env`의 `OLLAMA_MODEL`을 캐시된 소형 모델(`qwen3:0.6b`)로 바꾼다.
 
 ### 문제 1 · 출처가 붙은 답 2건
 
@@ -215,14 +230,32 @@ New-Item -ItemType File -Force ..\rag_note.md | Out-Null
 
 ### 준비
 
-1교시 인덱스 2개(`outputs/index`, `outputs/index-150`)가 있어야 한다. 새로 시작하는 날이면 1교시의 준비 명령과 `chunk.py`·`embed.py`를 300자·150자로 먼저 실행한다.
+[현재 3교시 폴더](examples/period3/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
 
 ```powershell
-Set-Location "$HOME\osa-practice\week07\mini_rag"
+$src = "<교재 저장소>\open_source_ai\weeks\week07_embeddings_rag\examples"
+$dst = "$HOME\osa-practice\week07"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period3")) { Copy-Item -Recurse "$src\period3" "$dst\period3" }
+Set-Location "$dst\period3"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\eval_note.md)) { New-Item -ItemType File ..\eval_note.md | Out-Null }
+```
+
+교시 실습 시간 전에 이 폴더의 `docs/`로 인덱스를 준비한다. 앞 교시 산출물을 요구하지 않으며, 문서를 직접 수정했다면 그 내용도 이 폴더에 반영한다.
+
+```powershell
+uv run python chunk.py --size 300 --overlap 50
+uv run python embed.py --chunks outputs/chunks-300.json
+uv run python chunk.py --size 150 --overlap 30
+uv run python embed.py --chunks outputs/chunks-150.json --out outputs/index-150
+```
+
+```powershell
 Test-Path outputs\index.npy
 Test-Path outputs\index-150.npy
 uv run python eval.py --help
-New-Item -ItemType File -Force ..\eval_note.md | Out-Null
 ```
 
 ### 문제 1 · 세 조건의 hit rate

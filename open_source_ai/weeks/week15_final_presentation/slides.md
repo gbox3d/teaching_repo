@@ -86,7 +86,7 @@ footer: "기말평가와 프로젝트 발표"
 
 ## 13–16분 · 질문 카드와 답하는 순서
 
-카드 예시(`examples/question_cards.md`):
+카드 예시(`examples/period1/question_cards.md`):
 
 - 처음 보는 PC에서 README만 보면 어디서 먼저 막히는가?
 - 오픈 웨이트 모델을 썼는데 "오픈소스 AI"라 부를 수 있는가?
@@ -110,7 +110,7 @@ footer: "기말평가와 프로젝트 발표"
 
 ## 18–20분 · 실습 인계
 
-[1교시 실습 — 최종 발표 라운드](lab.md#1교시-실습--최종-발표-라운드)
+[1교시 실습 — 최종 발표 라운드](lab.md#1교시-실습--최종-발표-라운드) · [1교시 파일](examples/period1/README.md)
 
 완료 조건:
 
@@ -212,7 +212,7 @@ uv run python verify_release.py --repo .\review\team-b --team team-b
 
 ## 18–20분 · 실습 인계
 
-[2교시 실습 — 교차 재현 검증](lab.md#2교시-실습--교차-재현-검증)
+[2교시 실습 — 교차 재현 검증](lab.md#2교시-실습--교차-재현-검증) · [2교시 파일](examples/period2/README.md)
 
 완료 조건:
 
@@ -281,7 +281,7 @@ uv run python verify_release.py --repo .\review\team-b --team team-b
 
 ## 13–16분 · 4차 과제 제출 점검
 
-`examples/submission_checklist.md`의 여덟 묶음:
+`examples/period3/submission_checklist.md`의 여덟 묶음:
 
 - 기준본: 태그 → commit id, URL이 로그아웃 상태에서 열림
 - 실행·재현: 깨끗한 폴더 clone → `uv sync --frozen` → 절차 → pytest
@@ -308,7 +308,7 @@ uv run python verify_release.py --repo .\review\team-b --team team-b
 
 ## 18–20분 · 실습 인계
 
-[3교시 실습 — 회고와 최종 제출 점검](lab.md#3교시-실습--회고와-최종-제출-점검)
+[3교시 실습 — 회고와 최종 제출 점검](lab.md#3교시-실습--회고와-최종-제출-점검) · [3교시 파일](examples/period3/README.md)
 
 완료 조건:
 

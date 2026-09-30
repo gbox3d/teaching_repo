@@ -132,7 +132,7 @@ uv run python repo_health.py --repo huggingface/transformers --repo ollama/ollam
 
 ## 17–20분 · 실습 인계
 
-[1교시 실습 — 거버넌스 문서 분석표](lab.md#1교시-실습--거버넌스-문서-분석표)
+[1교시 실습 — 거버넌스 문서 분석표](lab.md#1교시-실습--거버넌스-문서-분석표) · [교시별 예제](examples/period1/README.md)
 
 완료 조건:
 
@@ -245,7 +245,7 @@ uv run python vram_estimate.py --candidate "qwen3:8b,8.2B,4" --candidate "qwen3:
 
 ## 17–20분 · 실습 인계
 
-[2교시 실습 — 팀 제안서 초안](lab.md#2교시-실습--팀-제안서-초안)
+[2교시 실습 — 팀 제안서 초안](lab.md#2교시-실습--팀-제안서-초안) · [교시별 예제](examples/period2/README.md)
 
 완료 조건:
 
@@ -359,7 +359,7 @@ Issues (assignee:@me) · Pull requests (author:@me) · Reviews (reviewed-by:@me)
 
 ## 17–20분 · 실습 인계
 
-[3교시 실습 — 팀 저장소와 이슈 분해](lab.md#3교시-실습--팀-저장소와-이슈-분해)
+[3교시 실습 — 팀 저장소와 이슈 분해](lab.md#3교시-실습--팀-저장소와-이슈-분해) · [교시별 예제](examples/period3/README.md)
 
 완료 조건:
 

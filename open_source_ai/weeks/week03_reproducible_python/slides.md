@@ -36,8 +36,8 @@ footer: "재현 가능한 Python 오픈소스 프로젝트"
 ## 0–3분 · "내 PC에서는 됩니다"의 정체
 
 ```text
-A: pip install requests transformers      (전역, 작년에 설치)
-B: pip install transformers               (전역, 오늘 최신)
+A: 작년에 설치한 Python·패키지 버전, 기록 없음
+B: 오늘 새로 준비한 Python·패키지 버전, lock 없음
 같은 코드 → A는 동작, B는 ImportError 또는 다른 결과
 ```
 
@@ -65,31 +65,31 @@ C:\classwork\
 
 ## 6–9분 · uv 하나가 맡는 네 가지 일
 
-| 일 | 예전 방식 | uv |
-|---|---|---|
-| Python 준비 | 설치 프로그램, PATH 수정 | `.python-version`을 읽어 자동 준비 |
-| 가상환경 | `python -m venv`, activate | `.venv` 자동 생성·자동 사용 |
-| 의존성 선언 | `requirements.txt` 손으로 편집 | `uv add`가 `pyproject.toml` 갱신 |
-| 정확한 버전 고정 | `pip freeze` | `uv.lock` 자동 생성 |
+| 일 | uv 명령·파일 |
+|---|---|
+| Python 준비 | `uv python install`, `uv python pin` → `.python-version` |
+| 가상환경 준비·실행 | `uv run` → `.venv` 자동 생성·사용 |
+| 의존성 선언 | `uv add` → `pyproject.toml` 갱신 |
+| 버전 고정·설치 | `uv lock` → `uv.lock`, `uv sync` → 환경 설치 |
 
-activate를 외우지 않는다. **`uv run`이 항상 이 프로젝트의 `.venv`로 실행**한다.
+`pyproject.toml`이 있는 폴더에서 **`uv run`이 환경 준비 뒤 실행**한다.
+activate 불필요. 실제 Python 확인: `uv run python -c "import sys; print(sys.executable)"`
 
 ---
 
 ## 9–12분 · 다섯 명령의 흐름
 
 ```powershell
-uv init                  # pyproject.toml, .python-version 생성
-uv add httpx             # 의존성 추가 + .venv 생성 + uv.lock 갱신
-uv lock                  # pyproject → uv.lock 해석 (add가 이미 했다면 변화 없음)
-uv sync --frozen         # uv.lock 그대로 .venv 설치 (받는 사람 쪽)
-uv run python main.py    # .venv의 Python으로 실행
+uv init --no-package     # 2교시에서 패키지 구조를 직접 구성
+uv add httpx             # 선언 + lock + 환경 갱신
+uv lock                  # lock만 생성·갱신 (add가 이미 했다면 변화 없음)
+uv sync --locked         # 배포된 lock 검증 + 환경 설치
+uv run --locked python -c "import httpx; print(httpx.__version__)"
 ```
 
-- 만드는 사람: `init → add → (lock) → run`
-- 받는 사람: `clone → sync --frozen → run`
-
-**질문:** `uv sync --frozen`은 `pyproject.toml`과 `uv.lock` 중 어느 것을 읽는가?
+- 일반 `uv run`: 필요하면 lock·환경을 자동 갱신한다
+- `--locked`: lock 누락·갱신 필요 시 실패 → clone·CI 검증
+- `--frozen`: 기존 lock 사용, 선언과의 일치 검사는 생략한다
 
 ---
 
@@ -118,10 +118,11 @@ httpx <정확한 버전> ← anyio, certifi, h11, httpcore, idna, ...
 |---|---|
 | `pyproject.toml` | `.venv/` (프로젝트마다 수 MB~수 GB) |
 | `uv.lock` | `__pycache__/`, `*.pyc` |
-| `.python-version` | `.env` (3교시) |
-| `src/`, `README.md`, `.gitignore` | `outputs/` (실행 결과) |
+| `.python-version`, `.env.example` | `.env`, `.env.local` (비밀·개인 설정) |
+| `src/`, `README.md`, `.gitignore` | `outputs/`, 캐시·모델 가중치 |
 
-기준은 하나다. **"다시 만들 수 있는 것은 빼고, 다시 만들 수 없는 것은 넣는다."**
+**`uv.lock`은 제외하지 않는다.** `git diff --cached`로 실제 업로드 대상을 읽는다.
+배포 전 [공통 uv 가이드](../../uv_guide.md)의 ignore 규칙·clone 검증을 확인한다.
 
 ---
 
@@ -129,11 +130,13 @@ httpx <정확한 버전> ← anyio, certifi, h11, httpcore, idna, ...
 
 [1교시 실습 — uv 프로젝트를 만들고 깨끗한 폴더에서 재현하기](lab.md#1교시-실습--uv-프로젝트를-만들고-깨끗한-폴더에서-재현하기)
 
+[period1: 실습 단계별 예제](examples/period1/README.md)
+
 완료 조건:
 
 1. `pyproject.toml`과 `uv.lock`이 commit되고 `.venv/`는 `git status`에 보이지 않는다
-2. 깨끗한 폴더에 clone → `uv sync --frozen` → `import httpx`가 성공한 로그가 있다
-3. `uv.lock`을 지우면 `--frozen`이 왜 실패하는지 한 문장으로 적었다
+2. 깨끗한 폴더에 clone → `uv sync --locked` → `import httpx`가 성공한 로그가 있다
+3. `uv.lock`을 지우면 `--locked`이 왜 실패하는지 한 문장으로 적었다
 
 실습 30분 뒤 휴식 10분. 휴식 후 2교시.
 
@@ -150,7 +153,7 @@ httpx <정확한 버전> ← anyio, certifi, h11, httpcore, idna, ...
 
 ```text
 지금:  uv run python sysinfo.py           # 파일 위치를 알아야 실행된다
-목표:  uv run oss-tool sysinfo --json     # 어디서든 이름으로 실행된다
+목표:  uv run oss-tool sysinfo --json     # 프로젝트 환경에서 이름으로 실행한다
 ```
 
 - 파일이 셋만 넘어도 `from sysinfo import ...`가 현재 폴더에 따라 깨진다
@@ -241,12 +244,13 @@ print(json.dumps(result))        # 결과 → stdout
 
 ```markdown
 ## 실행
-1. `uv sync --frozen`
-2. `uv run oss-tool greet --name student01`
-3. `uv run oss-tool sysinfo --json`   (결과는 outputs/ 에 저장)
+프로젝트 루트(pyproject.toml이 있는 폴더)에서 실행:
+1. `uv sync --locked`
+2. `uv run --locked oss-tool greet --name student01`
+3. `uv run --locked oss-tool sysinfo --json`
 ```
 
-- 처음 보는 사람이 **복사해서 붙여넣기만** 하면 되는 형태
+- lock을 함께 배포한 프로젝트의 재현 절차다(결과는 `outputs/`에 저장)
 - 옵션 목록은 `--help`에 맡기고 README에는 흐름만 적는다
 
 ---
@@ -254,6 +258,8 @@ print(json.dumps(result))        # 결과 → stdout
 ## 17–20분 · 실습 인계
 
 [2교시 실습 — oss-tool CLI 완성하기](lab.md#2교시-실습--oss-tool-cli-완성하기)
+
+[period2: 실습 단계별 예제](examples/period2/README.md)
 
 완료 조건:
 
@@ -356,21 +362,23 @@ commit 1  .env 추가 (토큰)    ← git log -p 로 누구나 읽는다
 ## 15–17분 · 실수 복구 흐름
 
 ```powershell
-git add .                          # 실수: .env 가 staged
+git add -f .env                    # 실습용 가짜 값만! ignore 우회 재현
 git status                         # "new file: .env" 발견
-git restore --staged .env          # stage 에서만 내림 (파일은 그대로)
-code .gitignore                    # .env 줄 추가: 앞으로 막기
-git log --all --oneline -- .env    # 비어 있으면 이력에 없다
-git log --all -p -S "fake-token"   # 문자열로도 검사
+git restore --staged .env          # stage만 취소, 파일은 그대로
+git check-ignore -v .env           # 기존 ignore가 다시 적용됨
+git ls-files -- .env .env.example  # .env.example만 보여야 함
+git log --all --oneline -- .env    # 이력도 검사
 ```
 
-commit 전에 잡으면 이력에 남지 않는다. **`git status`를 읽는 습관**이 첫 번째 방어선이다
+일반 배포에는 `-f`를 쓰지 않는다. `.env.*` 제외 뒤 `!.env.example`로 예외를 둔다.
 
 ---
 
 ## 17–20분 · 실습 인계
 
 [3교시 실습 — 설정 로더와 비밀정보 분리](lab.md#3교시-실습--설정-로더와-비밀정보-분리)
+
+[period3: 실습 단계별 예제](examples/period3/README.md)
 
 완료 조건:
 
@@ -385,7 +393,7 @@ commit 전에 잡으면 이력에 남지 않는다. **`git status`를 읽는 습
 ## 이번 주 정리
 
 ```text
-재현:  pyproject.toml(의도) + uv.lock(결과) 커밋, .venv 제외 → uv sync --frozen
+재현:  pyproject.toml(의도) + uv.lock(결과) 커밋, .venv 제외 → uv sync --locked
 구조:  src/oss_tool + [project.scripts] → uv run oss-tool <서브커맨드>
 설정:  기본값 < .env < 환경변수 < 인자, .env.example 만 커밋
 ```

@@ -3,7 +3,7 @@
 ## 공통 규칙
 
 - 완성 코드를 보기 전에 예상을 적는다.
-- 명령은 현재 폴더를 확인한 뒤 실행한다.
+- 현재 교시의 `period1`·`period2`·`period3` 폴더 안에서 실행한다. 코드·데이터는 각 폴더에 있고, 보고서는 상위 주차 실습 폴더에 누적한다. [교시별 파일 선택](examples/README.md)을 따른다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
 - 캡처보다 원인과 근거를 적은 짧은 문장이 더 중요한 증거다.
 - 기본 문제 완료 후 확장 문제를 수행한다.
@@ -29,20 +29,22 @@
 
 ### 준비
 
-원본 `examples/`를 훼손하지 않도록 개인 저장소 안의 실습 폴더에 복사한다. `$src`·`$dst`는 예시이며 실습실 안내에 따라 바꾼다.
+[현재 1교시 폴더](examples/period1/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
 
 ```powershell
-$src = "C:\teaching_repo\open_source_ai\weeks\week06_pytorch_models\examples"
-$dst = "$HOME\osa-practice\week06"   # 5주차까지 쓴 개인 저장소 안의 폴더로 바꾼다
+$src = "<교재 저장소>\open_source_ai\weeks\week06_pytorch_models\examples"
+$dst = "$HOME\osa-practice\week06"
 New-Item -ItemType Directory -Force $dst | Out-Null
-Copy-Item -Recurse "$src\torch_lab" "$dst\torch_lab"
-Set-Location "$dst\torch_lab"
-Copy-Item .env.example .env
+if (-not (Test-Path "$dst\period1")) { Copy-Item -Recurse "$src\period1" "$dst\period1" }
+Set-Location "$dst\period1"
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\tensor_compare.md)) { New-Item -ItemType File ..\tensor_compare.md | Out-Null }
+```
+
+```powershell
 uv run python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
 uv run python tensor_basics.py --help
 ```
-
-`uv sync`(첫 실행 시 torch 설치)는 수업 전에 마쳐 둔다. 위 확인 명령이 `True`를 출력하면 GPU 경로, `False`면 CPU 경로로 진행한다. 두 경우 모두 같은 문제를 푼다.
 
 ### 문제 1 · 행렬 크기에 따른 CPU/GPU 시간
 
@@ -125,7 +127,7 @@ uv run python tensor_basics.py --help
 
 ### 상황
 
-팀 회의에서 "epoch을 많이 돌릴수록 모델이 좋아지는 것 아니냐"는 의견이 나왔다. 외부 데이터 없이 스크립트가 만드는 2차원 분류 데이터로 소형 MLP를 학습해 val loss가 다시 오르는 시점을 찾고, "몇 epoch에서 멈춰야 하는가"를 곡선 수치로 답하라. 이어받는 것: 1교시 `torch_lab` 폴더와 `tensor_report.json`의 `device` 값(이번 교시 기록에도 같은 값이 남아야 한다).
+팀 회의에서 "epoch을 많이 돌릴수록 모델이 좋아지는 것 아니냐"는 의견이 나왔다. 외부 데이터 없이 스크립트가 만드는 2차원 분류 데이터로 소형 MLP를 학습해 val loss가 다시 오르는 시점을 찾고, "몇 epoch에서 멈춰야 하는가"를 곡선 수치로 답하라. 이어받는 것: 1교시 `period1/outputs/tensor_report.json`에 기록한 `device` 값(이번 교시 기록에도 같은 값이 남아야 한다).
 
 ### 시간 배분
 
@@ -139,12 +141,20 @@ uv run python tensor_basics.py --help
 
 ### 준비
 
-1교시에 복사한 `torch_lab` 폴더에서 계속한다. 새로 시작하는 날이면 1교시의 준비 명령을 먼저 실행한다.
+[현재 2교시 폴더](examples/period2/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
 
 ```powershell
-Set-Location "$HOME\osa-practice\week06\torch_lab"
+$src = "<교재 저장소>\open_source_ai\weeks\week06_pytorch_models\examples"
+$dst = "$HOME\osa-practice\week06"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period2")) { Copy-Item -Recurse "$src\period2" "$dst\period2" }
+Set-Location "$dst\period2"
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\overfit_note.md)) { New-Item -ItemType File ..\overfit_note.md | Out-Null }
+```
+
+```powershell
 uv run python train_loop.py --help
-New-Item -ItemType File -Force ..\overfit_note.md | Out-Null
 ```
 
 ### 문제 1 · 기준 학습 곡선
@@ -246,14 +256,24 @@ uv run python -c "import json,sys; r=json.load(open(sys.argv[1],encoding='utf-8'
 
 ### 준비
 
+[현재 3교시 폴더](examples/period3/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
+
 ```powershell
-Set-Location "$HOME\osa-practice\week06\torch_lab"
-Get-Content .env                      # HF_EMBED_MODEL, HF_HOME 값 확인
-uv run python pretrained_embed.py --help
-New-Item -ItemType File -Force ..\experiment_note.md | Out-Null
+$src = "<교재 저장소>\open_source_ai\weeks\week06_pytorch_models\examples"
+$dst = "$HOME\osa-practice\week06"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period3")) { Copy-Item -Recurse "$src\period3" "$dst\period3" }
+Set-Location "$dst\period3"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\experiment_note.md)) { New-Item -ItemType File ..\experiment_note.md | Out-Null }
 ```
 
-`.env`의 `HF_EMBED_MODEL`은 5주차 `SOURCES.md`에 적은 임베딩 모델 ID와 같아야 한다. 실습실 공용 캐시를 쓴다면 `HF_HOME` 줄에 안내받은 경로를 적는다. 모델은 이미 캐시에 있어야 하며 실습 중 내려받지 않는다.
+```powershell
+uv run python pretrained_embed.py --help
+```
+
+`.env`의 `HF_EMBED_MODEL`은 5주차 `SOURCES.md`에 적은 모델 ID와 같아야 한다. 공용 캐시가 있으면 `HF_HOME`을 설정한다. 모델은 수업 전에 준비하고 실습 중 다운로드하지 않는다.
 
 ### 문제 1 · 유사도 행렬 읽기
 
@@ -308,7 +328,7 @@ e5 계열은 코사인 값이 전체적으로 높게 나오는 특성이 있다.
 <details>
 <summary>힌트 3 — runlog.py 표가 비어 있다</summary>
 
-`RunLog.finish()`는 현재 폴더 기준 `outputs/runs/`에 쓴다. `Get-Location`으로 `torch_lab` 안인지 확인하고, 다른 곳에서 실행했다면 `--run-dir`로 그 경로를 가리킨다. `pretrained_embed.py`가 실패로 끝난 실행은 기록을 남기지 않는다.
+`RunLog.finish()`는 현재 폴더 기준 `outputs/runs/`에 쓴다. `Get-Location`으로 `period3` 안인지 확인하고, 다른 곳에서 실행했다면 `--run-dir`로 그 경로를 가리킨다. `pretrained_embed.py`가 실패로 끝난 실행은 기록을 남기지 않는다.
 </details>
 
 ### 검증

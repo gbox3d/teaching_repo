@@ -124,7 +124,7 @@ uv run python release_check.py --repo C:\classwork\team-a-repo --tag v0.1.0
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 1 lab — Fill out the release document set](lab.md#1교시-실습--릴리스-문서-세트-보완)
+[Block 1 lab — Fill out the release document set](lab.md#1교시-실습--릴리스-문서-세트-보완) · [Block 1 files](examples/period1/README.md)
 
 Done when:
 
@@ -229,7 +229,7 @@ git show v0.1.0 --stat | Select-Object -First 8
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 2 lab — Create a release and cross-reproduce it](lab.md#2교시-실습--릴리스-생성과-교차-재현)
+[Block 2 lab — Create a release and cross-reproduce it](lab.md#2교시-실습--릴리스-생성과-교차-재현) · [Block 2 files](examples/period2/README.md)
 
 Done when:
 
@@ -332,7 +332,7 @@ Don't label from the title alone. If there's not enough information, don't decid
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 3 lab — Respond to feedback and rehearse the demo](lab.md#3교시-실습--피드백-응답과-시연-리허설)
+[Block 3 lab — Respond to feedback and rehearse the demo](lab.md#3교시-실습--피드백-응답과-시연-리허설) · [Block 3 files](examples/period3/README.md)
 
 Done when:
 

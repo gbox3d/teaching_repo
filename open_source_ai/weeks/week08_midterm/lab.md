@@ -2,6 +2,8 @@
 
 ## 공통 규칙
 
+준비 절의 폴더 복사·설정 생성은 최초 1회만 한다. 대상 폴더에서 이미 실습 중이면 복사를 생략하고 이어서 실행한다. 개인 코드·답안·설정·산출물을 보존한다.
+
 - 완성 코드를 보기 전에 예상을 적는다.
 - 명령은 현재 폴더를 확인한 뒤 실행한다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
@@ -12,6 +14,8 @@
 - 1·2교시 모의 실기는 공개 동형 문제다. 3교시 개인 실기는 비공개 패킷을 쓰며 허용 자료·AI 도구 범위·제출 경로는 학교 운영 문서를 따른다.
 
 ## 1교시 실습 — 모의 실기 A 프로젝트 복구와 판별 문항
+
+> 이 교시의 파일·시간 대응: [examples/period1](examples/period1/README.md).
 
 ### 상황
 
@@ -31,14 +35,14 @@
 `examples/` 원본은 수정하지 않는다. 아래 스크립트가 `broken_project/`를 개인 실습 폴더에 복사하고, `.env`가 커밋된 Git 이력을 만들어 준다.
 
 ```powershell
-Set-Location <교재 폴더>\open_source_ai\weeks\week08_midterm\examples\mock_exam
+Set-Location <교재 폴더>\open_source_ai\weeks\week08_midterm\examples\period1
 .\make_broken_repo.ps1 -Destination $HOME\osa-practice\week08-mock-a
 Set-Location $HOME\osa-practice\week08-mock-a
 git log --oneline
 git ls-files
 ```
 
-스크립트 실행이 막히면 `powershell -ExecutionPolicy Bypass -File .\make_broken_repo.ps1 -Destination $HOME\osa-practice\week08-mock-a`로 실행한다. 문제는 `examples/mock_exam/tasks_A.md`를 그대로 읽고, 답안은 실습 폴더의 `answers_A.md`에 쓴다.
+스크립트 실행이 막히면 `powershell -ExecutionPolicy Bypass -File .\make_broken_repo.ps1 -Destination $HOME\osa-practice\week08-mock-a`로 실행한다. 문제는 `examples/period1/tasks_A.md`를 그대로 읽고, 답안은 실습 폴더의 `answers_A.md`에 쓴다.
 
 ### 문제 1 · 깨진 프로젝트 복구
 
@@ -102,6 +106,8 @@ git ls-files
 
 ## 2교시 실습 — 모의 실기 B 클라이언트 기능 추가와 결과 해석
 
+> 이 교시의 파일·시간 대응: [examples/period2](examples/period2/README.md).
+
 ### 상황
 
 팀의 최소 Ollama 클라이언트에 사용자가 "역할을 지정하는 system 프롬프트를 넣고 싶다"와 "답이 느린지 숫자로 알고 싶다"는 요청을 보냈다. 시작 코드의 `TODO(B-1)`을 채워 두 기능을 추가하고, 같은 패킷에 들어 있는 pipeline 실행 결과 샘플을 해석한다.
@@ -118,15 +124,15 @@ git ls-files
 ### 준비
 
 ```powershell
-Copy-Item -Recurse <교재 폴더>\open_source_ai\weeks\week08_midterm\examples\mock_exam\client_starter $HOME\osa-practice\week08-mock-b
+if (-not (Test-Path $HOME\osa-practice\week08-mock-b)) { Copy-Item -Recurse <교재 폴더>\open_source_ai\weeks\week08_midterm\examples\period2\client_starter $HOME\osa-practice\week08-mock-b }
 Set-Location $HOME\osa-practice\week08-mock-b
-Copy-Item .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv sync
 uv run python check_env.py
 uv run python chat.py --prompt "uv sync 가 하는 일을 한 문장으로 설명하라."
 ```
 
-`check_env.py`가 `[실패]`를 보이면 `ollama serve`와 `ollama list`를 먼저 확인한다. GPU가 없는 PC는 `.env`의 `OLLAMA_MODEL`을 `qwen3:0.6b`로 바꾼다. 해석 문항의 샘플은 `examples/mock_exam/fixtures/pipeline_output.json`을 그대로 읽는다.
+`check_env.py`가 `[실패]`를 보이면 `ollama serve`와 `ollama list`를 먼저 확인한다. GPU가 없는 PC는 `.env`의 `OLLAMA_MODEL`을 `qwen3:0.6b`로 바꾼다. 해석 문항의 샘플은 `examples/period2/fixtures/pipeline_output.json`을 그대로 읽는다.
 
 ### 문제 1 · 클라이언트 기능 추가
 
@@ -190,6 +196,8 @@ uv run python chat.py --prompt "uv sync 가 하는 일을 한 문장으로 설�
 
 ## 3교시 실습 — 개인 실기평가와 대체 운영
 
+> 이 교시의 파일·시간 대응: [examples/period3](examples/period3/README.md).
+
 ### 상황
 
 실기평가 당일이다. 비공개 패킷(요구사항·starter·fixture·제출 파일명)을 받으면 1·2교시에 연습한 순서 — 환경 점검 → 완료 조건 표시 → 해결 → 검증 → 제출 — 를 그대로 밟는다. 분반 시간표상 실기가 다른 슬롯에 있으면 같은 30분을 2차 종합과제 최종 점검(문제 2)에 쓴다.
@@ -208,7 +216,10 @@ uv run python chat.py --prompt "uv sync 가 하는 일을 한 문장으로 설�
 ### 준비
 
 ```powershell
-Set-Location $HOME\osa-practice\week08-mock-b
+if (-not (Test-Path $HOME\osa-practice\week08-period3)) { Copy-Item -Recurse <교재 폴더>\open_source_ai\weeks\week08_midterm\examples\period3 $HOME\osa-practice\week08-period3 }
+Set-Location $HOME\osa-practice\week08-period3
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync
 uv run python check_env.py
 Get-Content outputs\env-check.json
 Set-Location <지정 저장 경로>
@@ -217,7 +228,7 @@ ollama list
 ```
 
 - 비공개 패킷을 지정 폴더에 풀고 파일 목록이 패킷 문서와 같은지 확인한다.
-- `check_env.py`는 2교시 `client_starter` 복사본(`week08-mock-b`)의 것을 그대로 쓴다. 패킷에 별도 점검 스크립트가 있으면 그것을 우선하고, 없으면 `week08-mock-b\outputs\env-check.json`이 시작 전 점검 증거다.
+- `check_env.py`는 `period3`에 실제 사본이 있다. 패킷에 별도 점검기가 있으면 우선하고, 없으면 `week08-period3\outputs\env-check.json`이 시작 전 증거다.
 - 허용 자료·AI 도구 범위·제출 경로는 시험 공지(학교 운영 문서)를 따른다.
 
 ### 문제 1 · 개인 실기 응시 절차
@@ -238,7 +249,7 @@ ollama list
 
 실기가 다른 슬롯에 있는 분반은 이 문제를 수행한다. 시간 배분은 위 표를 그대로 쓰되 "문항 해결"을 "재현 점검"으로 읽는다.
 
-1. `examples/assignment_check.ps1 -RepoPath <내 과제 저장소>`를 실행해 파일 존재·`.gitignore`·추적 파일·비밀 흔적을 훑는다.
+1. `examples/period3/assignment_check.ps1 -RepoPath <내 과제 저장소>`를 실행해 파일 존재·`.gitignore`·추적 파일·비밀 흔적을 훑는다.
 2. 새 폴더에 `git clone`하고 README의 명령을 **그대로** 실행한다(`uv sync --frozen` → 인덱스 생성(`chunk.py`·`embed.py`) → `eval.py`). `outputs/`는 커밋하지 않으므로 인덱스는 clone에 없다.
 3. README에 없는 조작이 필요했던 지점을 README에 추가한다.
 4. [assignment_brief.md](assignment_brief.md)의 제출 전 검사 목록을 순서대로 체크한다.

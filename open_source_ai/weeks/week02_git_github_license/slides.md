@@ -145,6 +145,8 @@ Related to #3
 
 [1교시 실습 — 원격 연결과 충돌 1회 해결](lab.md#1교시-실습--원격-연결과-충돌-1회-해결)
 
+[period1: 실습 단계별 예제](examples/period1/README.md)
+
 완료 조건:
 
 1. `git branch -vv`에서 `main`이 `origin/main`을 추적하고 같은 commit이다
@@ -251,6 +253,8 @@ CONTRIBUTING.md                  # 기여 절차·규칙 안내
 ## 18–20분 · 실습 인계
 
 [2교시 실습 — 짝 저장소에 제안하고 리뷰 받기](lab.md#2교시-실습--짝-저장소에-제안하고-리뷰-받기)
+
+[period2: 실습 단계별 예제](examples/period2/README.md)
 
 완료 조건:
 
@@ -370,6 +374,8 @@ Apache-2.0 ──▶ GPL-2.0     : 불가
 ## 18–20분 · 실습 인계
 
 [3교시 실습 — 라이선스 판별과 LICENSE 추가](lab.md#3교시-실습--라이선스-판별과-license-추가)
+
+[period3: 실습 단계별 예제](examples/period3/README.md)
 
 완료 조건:
 

@@ -86,7 +86,7 @@ Start the server, load the model, and open the repo **before** presenting. The l
 
 ## 13–16 min · Question Cards and How to Answer
 
-Sample cards (`examples/question_cards.md`):
+Sample cards (`examples/period1/question_cards.md`):
 
 - On a brand-new PC, reading only the README, where does it first get stuck?
 - The model is open-weight — can we still call this "open source AI"?
@@ -110,7 +110,7 @@ Answering order: **restate the question → current facts (file/number) → why 
 
 ## 18–20 min · Handing Off to the Lab
 
-[Block 1 lab — Final presentation round](lab.md#1교시-실습--최종-발표-라운드)
+[Block 1 lab — Final presentation round](lab.md#1교시-실습--최종-발표-라운드) · [Block 1 files](examples/period1/README.md)
 
 Done when:
 
@@ -212,7 +212,7 @@ uv run python verify_release.py --repo .\review\team-b --team team-b
 
 ## 18–20 min · Handing Off to the Lab
 
-[Block 2 lab — Cross-reproduction verification](lab.md#2교시-실습--교차-재현-검증)
+[Block 2 lab — Cross-reproduction verification](lab.md#2교시-실습--교차-재현-검증) · [Block 2 files](examples/period2/README.md)
 
 Done when:
 
@@ -281,7 +281,7 @@ Done when:
 
 ## 13–16 min · 4th Assignment Submission Check
 
-The eight groups in `examples/submission_checklist.md`:
+The eight groups in `examples/period3/submission_checklist.md`:
 
 - Reference build: tag → commit id, the URL opens while logged out
 - Run/reproduction: clean-folder clone → `uv sync --frozen` → steps → pytest
@@ -308,7 +308,7 @@ There's no folder for next week. The repository doesn't close.
 
 ## 18–20 min · Handing Off to the Lab
 
-[Block 3 lab — Retrospective and final submission check](lab.md#3교시-실습--회고와-최종-제출-점검)
+[Block 3 lab — Retrospective and final submission check](lab.md#3교시-실습--회고와-최종-제출-점검) · [Block 3 files](examples/period3/README.md)
 
 Done when:
 

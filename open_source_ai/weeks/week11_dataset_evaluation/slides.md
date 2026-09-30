@@ -127,7 +127,7 @@ uv run python split.py                      # train 20 / val 4 / test 20, 누수
 
 ## 17–20분 · 실습 인계
 
-[1교시 실습 — 원시 데이터를 정제·마스킹·분할하기](lab.md#1교시-실습--원시-데이터를-정제마스킹분할하기)
+[1교시 실습 — 원시 데이터를 정제·마스킹·분할하기](lab.md#1교시-실습--원시-데이터를-정제마스킹분할하기) · [교시별 예제](examples/period1/README.md)
 
 완료 조건:
 
@@ -239,7 +239,7 @@ uv run python evaluate.py --predictions data/sample_predictions/base.json data/s
 
 ## 17–20분 · 실습 인계
 
-[2교시 실습 — 기준선 vs LoRA 정량 비교](lab.md#2교시-실습--기준선-vs-lora-정량-비교)
+[2교시 실습 — 기준선 vs LoRA 정량 비교](lab.md#2교시-실습--기준선-vs-lora-정량-비교) · [교시별 예제](examples/period2/README.md)
 
 완료 조건:
 
@@ -350,7 +350,7 @@ lora: 핵심: 커밋 로그를 그대로 복사하면 된다.
 
 ## 17–20분 · 실습 인계
 
-[3교시 실습 — 수동 채점과 실패 분석 보고](lab.md#3교시-실습--수동-채점과-실패-분석-보고)
+[3교시 실습 — 수동 채점과 실패 분석 보고](lab.md#3교시-실습--수동-채점과-실패-분석-보고) · [교시별 예제](examples/period3/README.md)
 
 완료 조건:
 

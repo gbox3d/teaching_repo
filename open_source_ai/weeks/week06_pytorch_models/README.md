@@ -33,7 +33,7 @@
 
 - Git, VS Code, uv, PowerShell. NVIDIA GPU가 있으면 `nvidia-smi`가 동작해야 한다(없어도 CPU 경로로 진행한다).
 - 3교시 임베딩 모델(`HF_EMBED_MODEL`, 교재 검증용 기본값 `intfloat/multilingual-e5-small`)이 수업 전에 Hugging Face 캐시에 들어 있어야 한다. 실습 시간에 내려받지 않는다.
-- `examples/torch_lab`을 개인 저장소에 복사한 폴더에서 `uv sync`를 수업 전에 마쳐 둔다(첫 sync는 torch 설치로 오래 걸린다). 1·2교시는 모델 파일이 필요 없다.
+- `examples/period1`·`period2`·`period3`을 개인 저장소에 복사한 폴더에서 `uv sync`를 수업 전에 마쳐 둔다(첫 sync는 torch 설치로 오래 걸린다). 1·2교시는 모델 파일이 필요 없다.
 - 5주차 산출물: `model_cards.md`·`SOURCES.md`의 임베딩 모델 행(모델 ID·commit hash·라이선스), `pipeline_report.md`의 CPU/GPU 시간 비교표.
 - 정확한 도구 버전과 CUDA 태그는 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
 - 실제 이름, 학번, 토큰, 비밀번호를 실습 파일과 공개 저장소에 넣지 않는다. `.env`는 커밋하지 않고 `.env.example`만 둔다.
@@ -42,7 +42,7 @@
 
 - [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료
 - [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
-- [실행 예제](examples/README.md): `torch_lab/` uv 프로젝트 — 텐서 관찰, 학습 루프, 임베딩, 실험 기록 헬퍼
+- [실행 예제](examples/README.md): 실습지와 대응하는 `period1` → `period2` → `period3`. 각 폴더에 실제 코드·데이터·환경 파일과 단계별 안내가 있다.
 - 강의 대본: 강의자 별도 관리(비공개)
 
 ## 권장 진행 방식

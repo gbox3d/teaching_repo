@@ -2,6 +2,7 @@
 
 ## 공통 규칙
 
+- 교시 폴더·설정·양식 복사는 처음 준비할 때만 한다. 이미 작업한 폴더는 이어 쓰며 개인 코드·기록·Git 이력을 보존한다.
 - 완성 코드를 보기 전에 예상을 적는다.
 - 명령은 현재 폴더를 확인한 뒤 실행한다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
@@ -11,6 +12,8 @@
 - 실습 시간에 모델을 내려받지 않는다. 다른 팀 저장소에는 Issue 외의 쓰기(push)를 하지 않으며, 코드를 실행하는 검증(`uv sync`·`uv run pytest`)은 수업에서 서로 공개한 팀 저장소에만 한다.
 
 ## 1교시 실습 — 최종 발표 라운드
+
+자료: [period1 — 시간별 파일·명령](examples/period1/README.md)
 
 ### 상황
 
@@ -31,13 +34,16 @@
 
 ### 준비
 
-`examples/`를 개인 실습 폴더에 복사한다. 원본은 수정하지 않는다.
+이번 교시 `examples/period1/`만 개인 실습 폴더에 복사한다. 원본은 수정하지 않는다.
 
 ```powershell
-New-Item -ItemType Directory week15-practice
-Copy-Item -Recurse <교재 경로>\week15_final_presentation\examples\* .\week15-practice\
-Set-Location week15-practice
-Copy-Item .\presentation_log_template.md .\presentation_log.md   # 청중용 발표 기록표
+$src = "<교재 저장소>\open_source_ai\weeks\week15_final_presentation\examples"
+New-Item -ItemType Directory -Force C:\classwork\week15-practice | Out-Null
+if (-not (Test-Path C:\classwork\week15-practice\period1)) {
+    Copy-Item -Recurse -Force "$src\period1" C:\classwork\week15-practice\period1
+}
+Set-Location C:\classwork\week15-practice\period1
+if (-not (Test-Path .\presentation_log.md)) { Copy-Item .\presentation_log_template.md .\presentation_log.md }
 ```
 
 발표 PC의 팀 저장소 clone본에서 기준본을 확인한다.
@@ -50,7 +56,7 @@ ollama list                # 시연 모델이 캐시되어 있는지
 
 ### 문제 1 · 발표 실행(발표 팀)
 
-1. `demo_outline.md`의 표를 우리 팀 값으로 채우고, 시연 명령을 순서대로 한 파일에 적어 둔다.
+1. 14주차에 작성한 팀 저장소 `docs/demo_outline.md`의 표와 시연 명령을 확인한다. 아직 없다면 이번 교시 양식을 복사해 우리 팀 값으로 채운다.
 2. 기준본에서 시작한다. `git status`가 clean이고 `git describe --tags`가 제출 태그인지 화면에 보인다.
 3. 문제 → 시연 → 한계 → 다음 순서로 3분 안에 끝낸다. 시연 구간에서는 핵심 기능 1개를 **실제로 실행**하고, 오류 처리 1개(예: Ollama 연결 실패 메시지)를 보여 준다.
 4. 질의 2분에는 질문을 다시 말하고 → 사실 → 이유 → 한계·다음 조치 순으로 답한다. 모르면 모른다고 말하고 확인 방법을 말한다.
@@ -113,11 +119,13 @@ ollama list                # 시연 모델이 캐시되어 있는지
 
 ## 2교시 실습 — 교차 재현 검증
 
+자료: [period2 — 시간별 파일·명령](examples/period2/README.md)
+
 ### 상황
 
 기말평가는 평가자가 제출된 릴리스를 깨끗한 PC에서 체크리스트대로 검증하는 방식이다. 같은 절차를 다른 팀 저장소에 먼저 적용해 본다. 처음 보는 사람처럼 README만 읽고 시작하고, 막히면 재시도 1회 뒤 기록한다.
 
-이어받는 것: 1교시 `presentation_log.md`에 적은 검증 대상 팀의 저장소 URL과 태그, `release_verify/` 복사본.
+이어받는 것: 1교시 `presentation_log.md`에 적은 검증 대상 팀의 저장소 URL과 태그, 이번 교시 `period2/` 검증 도구.
 
 ### 시간 배분
 
@@ -130,11 +138,15 @@ ollama list                # 시연 모델이 캐시되어 있는지
 
 ### 준비
 
-1교시와 다른 날이라 새 터미널을 열었다면 `week15-practice`의 상위 폴더에서 시작한다.
+1교시 발표 기록은 `period1/presentation_log.md`에 보존하고, 이번 교시 도구를 새 폴더로 복사한다.
 
 ```powershell
-Set-Location .\week15-practice\release_verify
-Copy-Item .env.example .env
+$src = "<교재 저장소>\open_source_ai\weeks\week15_final_presentation\examples"
+if (-not (Test-Path C:\classwork\week15-practice\period2)) {
+    Copy-Item -Recurse -Force "$src\period2" C:\classwork\week15-practice\period2
+}
+Set-Location C:\classwork\week15-practice\period2
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv sync
 .\cross_review.ps1 -RepoUrl <대상 팀 저장소 URL> -Team team-b -Tag v0.1.0
 ```
@@ -146,7 +158,7 @@ uv sync
 `reviewer_checklist.md`를 `review-team-b.md`로 복사해 채운다.
 
 1. 0단계: 저장소 URL·태그·commit id를 적는다. `git -C .\review\team-b describe --tags --exact-match`로 태그가 HEAD를 가리키는지 본다.
-2. 1~2단계: 로그에서 clone과 `uv sync --frozen` 결과를 옮겨 적는다. sync가 실패했으면 메시지 첫 줄로 lock 불일치(릴리스 결함)인지 네트워크·캐시(환경)인지 판단한다.
+2. 1~2단계: 로그에서 clone과 `uv sync --frozen` 결과를 옮겨 적는다. sync가 실패했으면 메시지 첫 줄로 lock 누락(릴리스 결함)인지 네트워크·캐시(환경)인지 판단한다. 선언 불일치는 대상 폴더의 `uv lock --check`로 별도 확인한다.
 3. 3단계: `.\review\team-b`로 이동해 README 재현 절차대로 핵심 기능 1개를 직접 실행한다. README의 예시 출력과 형태가 같은지 적는다. 모델이 없으면 내려받지 않고 "환경"으로 기록한다.
 4. 4~7단계: pytest 결과, `outputs\verify-team-b-<시각>.md`의 FAIL·WARN 항목을 옮겨 적고, WARN은 파일을 직접 열어 통과/실패를 판단한다. LICENSE와 `SOURCES.md`의 모델·데이터 라이선스가 호환되는지 한 문장으로 적는다.
 5. 8~9단계: 평가 결과 파일의 수치가 README·발표와 같은지, `git -C .\review\team-b shortlog -sn --no-merges HEAD`에 팀원 전원이 있는지 적는다(태그를 checkout한 상태라 `HEAD`를 빼면 명령이 입력을 기다린다).
@@ -175,7 +187,7 @@ uv sync
 <details>
 <summary>힌트 1 — `uv sync --frozen`이 실패한다</summary>
 
-메시지에 `uv.lock`이 없다거나 `pyproject.toml`과 맞지 않는다는 내용이 있으면 릴리스 결함이다. 패키지 다운로드 실패·프록시·타임아웃이면 환경 문제다. `--frozen`을 빼고 성공하는지는 참고만 하고, 기록에는 "`--frozen` 실패"로 남긴다.
+메시지에 `uv.lock`이 없다는 내용이 있으면 릴리스 결함이다. `--frozen`은 선언 일치를 검사하지 않으므로 `pyproject.toml`과의 불일치는 대상 폴더에서 `uv lock --check`로 확인한다. 패키지 다운로드 실패·프록시·타임아웃이면 환경 문제다. `--frozen`을 빼고 성공하는지는 참고만 하고, 기록에는 "`--frozen` 실패"로 남긴다.
 </details>
 
 <details>
@@ -203,6 +215,8 @@ uv sync
 
 ## 3교시 실습 — 회고와 최종 제출 점검
 
+자료: [period3 — 시간별 파일·명령](examples/period3/README.md)
+
 ### 상황
 
 발표와 교차 검증이 끝났다. 우리 팀도 다른 팀의 검증 Issue를 받았다. 이제 동료에게 실행 가능한 피드백을 전달하고, 학기 동안의 작업을 근거와 함께 회고하고, 4차 종합과제 제출 정보를 확정한다. 릴리스 뒤에 고친 것이 있다면 패치 태그로 기준본을 다시 찍는다.
@@ -221,11 +235,18 @@ uv sync
 ### 준비
 
 ```powershell
-Set-Location .\week15-practice
-Copy-Item .\peer_feedback_form.md .\peer_feedback-team-b.md
-Copy-Item .\retrospective_template.md .\retrospective.md
-Copy-Item .\submission_checklist.md .\submission.md
+$src = "<교재 저장소>\open_source_ai\weeks\week15_final_presentation\examples"
+if (-not (Test-Path C:\classwork\week15-practice\period3)) {
+    Copy-Item -Recurse -Force "$src\period3" C:\classwork\week15-practice\period3
+}
+Set-Location C:\classwork\week15-practice\period3
+if (-not (Test-Path .\peer_feedback-team-b.md)) { Copy-Item .\peer_feedback_form.md .\peer_feedback-team-b.md }
+if (-not (Test-Path .\retrospective.md)) { Copy-Item .\retrospective_template.md .\retrospective.md }
+if (-not (Test-Path .\submission.md)) { Copy-Item .\submission_checklist.md .\submission.md }
+uv sync
 ```
+
+1교시 `../period1/presentation_log.md`와 2교시 `../period2/review-team-b.md`·검증 보고서는 원래 폴더에 보존한 채 근거로 읽는다. 최종 제출 때 이 기록을 회고·제출 문서와 함께 모은다.
 
 팀 저장소 clone본에서:
 
@@ -251,10 +272,10 @@ git shortlog -sn --no-merges HEAD     # 팀원별 commit 수(태그 checkout 상
 
 ### 문제 2 · 최종 제출 점검
 
-1. 팀 저장소에서 `verify_release.py`를 실행한다.
+1. 이번 교시 도구 폴더에서 `verify_release.py`를 실행하고 `--repo`에 팀 저장소 경로를 지정한다. 보고서는 이 도구 폴더의 `outputs/`에 생긴다.
 
    ```powershell
-   Set-Location .\release_verify
+   Set-Location C:\classwork\week15-practice\period3
    uv run python verify_release.py --repo <팀 저장소 경로> --team team-a --check-ollama
    ```
 
@@ -262,6 +283,7 @@ git shortlog -sn --no-merges HEAD     # 팀원별 commit 수(태그 checkout 상
 3. 릴리스 뒤 고친 commit이 있으면 CHANGELOG에 적고 패치 태그를 찍는다.
 
    ```powershell
+   Set-Location <팀 저장소 경로>
    git tag -a v0.1.1 -m "Fix reproduction issues found in cross review"
    git push origin v0.1.1
    ```

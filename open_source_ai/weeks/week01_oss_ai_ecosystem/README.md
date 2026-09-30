@@ -1,5 +1,15 @@
 # 1주차 — 오리엔테이션과 오픈소스 AI 생태계
 
+## 교시별 실습 예제
+
+| 시간 | 먼저 열 예제 | 연결 |
+|---|---|---|
+| 1교시 | [period1](examples/period1/README.md) | 실습지 1교시의 준비·문제·완료 조건 |
+| 2교시 | [period2](examples/period2/README.md) | 실습지 2교시의 준비·문제·완료 조건 |
+| 3교시 | [period3](examples/period3/README.md) | 실습지 3교시의 준비·문제·완료 조건 |
+
+예제의 시간은 실습 30분 기준이다. 해당 폴더 README에서 단계별 파일과 출력을 확인한다.
+
 ## 이번 주 질문
 
 > 오픈소스 AI 프로젝트는 누가, 왜, 어떤 규칙으로 만들고 공개하며, 내 PC는 그것을 돌릴 준비가 되었는가?
@@ -47,6 +57,8 @@
 - [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
 - [실행 예제](examples/README.md): 환경 점검 스크립트, 점검표·탐색표 양식, 첫 uv 프로젝트 `first_run/`
 - [따라하기 절차](walkthrough.md): 시연·실습을 `할 일 → 예상 결과 → 확인` 순으로 재현하는 절차서
+- [uv 사용 가이드](../../uv_guide.md): Windows·macOS·Linux 최신 설치와 갱신, Python 선택, `uv run` 명령 예제
+- [GitHub 소스 배포 가이드](../../github_distribution.md): `.venv`·`.env` 제외와 `pyproject.toml`·`uv.lock` 보관 기준
 - 강의 대본: 강의자 별도 관리(비공개)
 
 ## 권장 진행 방식

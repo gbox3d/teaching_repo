@@ -133,7 +133,7 @@ ollama pull qwen3:0.6b   # 다운로드 — 수업 시간에는 쓰지 않는다
 
 ## 17–20분 · 실습 인계
 
-[1교시 실습 — 모델 두 개를 실행하고 측정하기](lab.md#1교시-실습--모델-두-개를-실행하고-측정하기)
+[1교시 실습 — 모델 두 개를 실행하고 측정하기](lab.md#1교시-실습--모델-두-개를-실행하고-측정하기) · [1교시 코드](examples/period1/README.md)
 
 완료 조건:
 
@@ -188,7 +188,7 @@ OpenAI 호환 경로(`/v1/chat/completions`)도 있지만 이번 주는 쓰지 �
    {"role": "system",    "content": "한국어로 세 문장 이내로 답한다."},
    {"role": "user",      "content": "uv가 무엇인가?"},
    {"role": "assistant", "content": "uv는 …"},
-   {"role": "user",      "content": "pip와 무엇이 다른가?"}
+   {"role": "user",      "content": "uv run으로 실행하는 예를 보여줘."}
  ],
  "stream": false, "think": false, "options": {"temperature": 0.2}}
 ```
@@ -258,7 +258,7 @@ tokens/s = eval_count ÷ (eval_duration ÷ 1e9)      duration 단위는 나노�
 
 ## 17–20분 · 실습 인계
 
-[2교시 실습 — REST API로 대화하고 실패를 다루기](lab.md#2교시-실습--rest-api로-대화하고-실패를-다루기)
+[2교시 실습 — REST API로 대화하고 실패를 다루기](lab.md#2교시-실습--rest-api로-대화하고-실패를-다루기) · [2교시 코드](examples/period2/README.md)
 
 완료 조건:
 
@@ -362,7 +362,7 @@ ollama rm osa-helper        # 지우기 — 기준 모델은 남는다
 
 ## 17–20분 · 실습 인계
 
-[3교시 실습 — 수업 도우미 모델 만들기와 과제 점검](lab.md#3교시-실습--수업-도우미-모델-만들기와-과제-점검)
+[3교시 실습 — 수업 도우미 모델 만들기와 과제 점검](lab.md#3교시-실습--수업-도우미-모델-만들기와-과제-점검) · [3교시 코드](examples/period3/README.md)
 
 완료 조건:
 

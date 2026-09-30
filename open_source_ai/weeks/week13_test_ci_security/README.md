@@ -39,6 +39,16 @@
 - 정확한 도구 버전은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
 - 실제 이름, 학번, 전화번호, 비밀번호나 API 토큰은 실습 파일과 공개 저장소에 넣지 않는다. 3교시에 심어 두는 "가짜 토큰"은 커밋하지 않고 검출 확인 뒤 즉시 삭제한다. 표시 이름은 `student01`, 팀명은 `team-a` 같은 수업용 값을 쓴다.
 
+## 교시별 예제
+
+| 교시 | 실습 코드·자료 |
+|---|---|
+| 1교시 | [period1](examples/period1/README.md) |
+| 2교시 | [period2](examples/period2/README.md) |
+| 3교시 | [period3](examples/period3/README.md) |
+
+각 폴더의 README에 실습 시간별 파일, 실행 위치, 예상 출력과 이전 산출물을 적었다. 학생이 추가하는 기능·테스트와 팀별 기록은 실습지대로 작성한다.
+
 ## 자료 안내
 
 - [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료

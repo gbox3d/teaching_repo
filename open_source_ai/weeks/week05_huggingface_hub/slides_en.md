@@ -135,7 +135,7 @@ HF_HOME/hub/models--Qwen--Qwen2.5-0.5B-Instruct/
 
 ## 17–20 min · Lab Handoff
 
-[Block 1 Lab — Model Card Analysis Table and a Cache Report](lab.md#1교시-실습--모델-카드-분석표와-캐시-보고)
+[Block 1 Lab — Model Card Analysis Table and a Cache Report](lab.md#1교시-실습--모델-카드-분석표와-캐시-보고) · [Block 1 files](examples/period1/README.md)
 
 Completion criteria:
 
@@ -258,7 +258,7 @@ out[0]["generated_text"]
 
 ## 17–20 min · Lab Handoff
 
-[Block 2 Lab — Run Classification and Generation with a Pipeline](lab.md#2교시-실습--pipeline으로-분류와-생성-실행하기)
+[Block 2 Lab — Run Classification and Generation with a Pipeline](lab.md#2교시-실습--pipeline으로-분류와-생성-실행하기) · [Block 2 files](examples/period2/README.md)
 
 Completion criteria:
 
@@ -376,7 +376,7 @@ If the card's row count differs from `dataset_peek.py`'s, **the version differs*
 
 ## 17–20 min · Lab Handoff
 
-[Block 3 Lab — Explore a Dataset and Record Its Sources](lab.md#3교시-실습--데이터셋-살펴보기와-출처-기록표)
+[Block 3 Lab — Explore a Dataset and Record Its Sources](lab.md#3교시-실습--데이터셋-살펴보기와-출처-기록표) · [Block 3 files](examples/period3/README.md)
 
 Completion criteria:
 

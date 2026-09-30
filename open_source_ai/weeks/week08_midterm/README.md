@@ -42,7 +42,7 @@
 
 - [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료
 - [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
-- [실행 예제](examples/README.md): 공개 동형 모의 실기 starter(깨진 프로젝트, 클라이언트 시작 코드, 해석용 샘플), 2차 과제 제출 전 검사 스크립트
+- [실행 예제](examples/README.md): 실습에 맞춘 [1교시](examples/period1/README.md) · [2교시](examples/period2/README.md) · [3교시](examples/period3/README.md). 코드·양식·입력과 실행 위치는 각 교시 안내를 따른다. 기존 통합본은 호환 참고용이다.
 - 강의 대본: 강의자 별도 관리(비공개)
 - [수시 실기평가 구조](exam_structure.md): 평가 범위, 권장 운영, 패킷 구성, 공정성 경계
 - [수시 실기평가 채점표](exam_rubric.md): 100점 상대 배점과 수준별 판단

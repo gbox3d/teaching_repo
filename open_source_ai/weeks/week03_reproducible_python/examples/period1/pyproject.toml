@@ -1,0 +1,9 @@
+[project]
+name = "osa-practice"
+version = "0.1.0"
+description = "오픈소스 AI 응용 3주차 예제 — 재현 가능한 CLI 프로젝트 골격"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "httpx",
+]

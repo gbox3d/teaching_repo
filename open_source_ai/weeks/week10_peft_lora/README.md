@@ -41,14 +41,14 @@
 
 - [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료
 - [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
-- [실행 예제](examples/README.md): `lora_lab/` uv 프로젝트 — LoRA 설정·학습·비교·병합 스크립트, 자체 작성 SFT 데이터, 실험 기록 양식
+- [실행 예제](examples/README.md): 실습에 맞춘 [1교시](examples/period1/README.md) · [2교시](examples/period2/README.md) · [3교시](examples/period3/README.md). 코드·양식·입력과 실행 위치는 각 교시 안내를 따른다. 기존 통합본은 호환 참고용이다.
 - [따라하기 절차](walkthrough.md): 시연·실습을 단계대로 재현하는 절차서
 - 강의 대본: 강의자 별도 관리(비공개)
 
 ## 권장 진행 방식
 
 1. 스크립트를 실행하기 전에 학습 파라미터 비율, loss 변화, 전후 출력 차이를 먼저 예상해 적는다.
-2. 원본 `examples/lora_lab/`은 그대로 두고 개인 실습 폴더에 복사해 실행한다.
+2. 원본 `examples/period1/`·`period2/`·`period3/`을 해당 교시 준비 단계에서 개인 폴더로 복사한다. 이전 산출물과 개인 코드 변경을 보존하며 다음 교시로 넘긴다.
 3. 매 실행의 `outputs/` 기록을 지우지 않고 run 이름을 바꿔 쌓는다. 실패한 실행도 기록에 남긴다.
 4. 조건을 한 번에 하나만 바꾼다(rank, learning rate, epoch 중 하나).
 5. 기본 문제를 마친 뒤에만 확장 문제(병합, rank 비교, 데이터 추가)를 수행한다.

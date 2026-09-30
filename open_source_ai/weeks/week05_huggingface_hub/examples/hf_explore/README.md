@@ -1,5 +1,7 @@
 # hf_explore — 5주차 예제 uv 프로젝트
 
+> 기존 링크 호환용 통합 참조다. 수업은 [교시별 예제 선택](../README.md)의 `period1` → `period2` → `period3`을 사용한다. 전체 설명은 [통합 상세 안내](reference_guide.md)에 있다.
+
 Hugging Face 캐시를 스캔하고(`cache_report.py`), Transformers `pipeline`으로 분류·생성을 실행하고(`pipeline_demo.py`), `datasets`로 로컬 파일과 Hub 데이터셋을 같은 API로 여는(`dataset_peek.py`) 최소 예제다. 설명과 관찰 지점은 상위 [`../README.md`](../README.md)에 있다.
 
 ## 실행

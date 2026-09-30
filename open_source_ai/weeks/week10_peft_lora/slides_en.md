@@ -122,7 +122,7 @@ trainable params: 1,081,344 || all params: 495,114,112 || trainable%: 0.2184
 
 ## 18–20 min · Handoff to Lab
 
-[Block 1 lab — Attaching an Adapter and Counting Trainable Parameters](lab.md#1교시-실습--어댑터-붙이고-학습-파라미터-세기)
+[Block 1 lab — Attaching an Adapter and Counting Trainable Parameters](lab.md#1교시-실습--어댑터-붙이고-학습-파라미터-세기) · [Period files](examples/period1/README.md)
 
 Completion criteria:
 
@@ -236,7 +236,7 @@ uv run python train_lora.py --seed 42 --run-name run-001
 
 ## 18–20 min · Handoff to Lab
 
-[Block 2 lab — LoRA-Training a Class-Assistant Tone](lab.md#2교시-실습--수업-도우미-말투로-lora-학습하기)
+[Block 2 lab — LoRA-Training a Class-Assistant Tone](lab.md#2교시-실습--수업-도우미-말투로-lora-학습하기) · [Period files](examples/period2/README.md)
 
 Completion criteria:
 
@@ -346,7 +346,7 @@ merge.py  →  models/merged-run-001/ (safetensors)
 
 ## 18–20 min · Handoff to Lab
 
-[Block 3 lab — Before/After Comparison and the run-001 Experiment Log](lab.md#3교시-실습--전후-비교와-실험-기록-run-001)
+[Block 3 lab — Before/After Comparison and the run-001 Experiment Log](lab.md#3교시-실습--전후-비교와-실험-기록-run-001) · [Period files](examples/period3/README.md)
 
 Completion criteria:
 

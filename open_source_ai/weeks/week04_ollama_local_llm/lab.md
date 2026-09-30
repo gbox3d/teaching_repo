@@ -3,7 +3,7 @@
 ## 공통 규칙
 
 - 완성 코드를 보기 전에 예상을 적는다.
-- 명령은 현재 폴더를 확인한 뒤 실행한다.
+- 현재 교시의 `period1`·`period2`·`period3` 폴더 안에서 실행한다. 코드·데이터는 각 폴더에 있고, 보고서는 상위 주차 실습 폴더에 누적한다. [교시별 파일 선택](examples/README.md)을 따른다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
 - 캡처보다 원인과 근거를 적은 짧은 문장이 더 중요한 증거다.
 - 기본 문제 완료 후 확장 문제를 수행한다.
@@ -28,18 +28,20 @@
 
 ### 준비
 
-원본을 두고 개인 실습 폴더에 복사한다. `$src`에는 교재 저장소의 `examples` 폴더 경로를 넣는다.
+[현재 1교시 폴더](examples/period1/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
 
 ```powershell
 $src = "<교재 저장소>\open_source_ai\weeks\week04_ollama_local_llm\examples"
-New-Item -ItemType Directory -Force C:\classwork\week04 | Out-Null
-Copy-Item "$src\model_report_template.md" C:\classwork\week04\model_report.md
-Copy-Item "$src\ollama_probe.ps1" C:\classwork\week04\
-Set-Location C:\classwork\week04
-ollama list
+$dst = "C:\classwork\week04"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period1")) { Copy-Item -Recurse "$src\period1" "$dst\period1" }
+Set-Location "$dst\period1"
+if (-not (Test-Path ..\model_report.md)) { Copy-Item model_report_template.md ..\model_report.md }
 ```
 
-`ollama list`에 기본 모델과 소형 모델 두 줄이 보여야 시작한다. 보이지 않으면 힌트 1로 간다.
+```powershell
+ollama list
+```
 
 ### 문제 1 · 기본 모델 실측
 
@@ -118,16 +120,26 @@ ollama list
 
 ### 준비
 
+[현재 2교시 폴더](examples/period2/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
+
 ```powershell
 $src = "<교재 저장소>\open_source_ai\weeks\week04_ollama_local_llm\examples"
-Copy-Item -Recurse "$src\ollama_client" C:\classwork\week04\ollama_client
-Set-Location C:\classwork\week04\ollama_client
-Copy-Item .env.example .env
-uv sync
+$dst = "C:\classwork\week04"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period2")) { Copy-Item -Recurse "$src\period2" "$dst\period2" }
+Set-Location "$dst\period2"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\model_report.md)) { Copy-Item model_report_template.md ..\model_report.md }
+if (-not (Test-Path ..\failures.md)) { New-Item -ItemType File ..\failures.md | Out-Null }
+if (-not (Test-Path ..\temperature_compare.md)) { New-Item -ItemType File ..\temperature_compare.md | Out-Null }
+```
+
+```powershell
 uv run python config.py
 ```
 
-`config.py` 출력의 `host`와 `model`이 `.env` 값과 같으면 시작한다. 하루가 바뀌어 서버에 모델이 올라와 있지 않아도 된다. 첫 호출이 느린 것은 로드 시간이다.
+이 폴더는 실습 시작 코드다. `--seed`는 아직 없으며 문제 2에서 직접 추가한다. `.env`의 host·model이 `config.py` 출력과 같은지 확인한다.
 
 ### 문제 1 · chat.py와 stream.py, 메타 읽기
 
@@ -163,7 +175,7 @@ uv run python config.py
 <details>
 <summary>힌트 1 — `uv sync`가 실패한다</summary>
 
-네트워크가 막혀 있으면 의존성을 받을 수 없다. 수업 전 캐시가 준비된 PC라면 `uv sync --offline`을 시도하고, 안 되면 강의자에게 uv 캐시 경로를 확인한다. `pip install`은 쓰지 않는다.
+네트워크가 막혀 있으면 의존성을 받을 수 없다. 수업 전 캐시가 준비된 PC라면 `uv sync --offline`을 시도하고, 안 되면 강의자에게 uv 캐시 경로를 확인한다.
 </details>
 
 <details>
@@ -208,13 +220,26 @@ uv run python config.py
 
 ### 준비
 
+[현재 3교시 폴더](examples/period3/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
+
 ```powershell
-Set-Location C:\classwork\week04\ollama_client
+$src = "<교재 저장소>\open_source_ai\weeks\week04_ollama_local_llm\examples"
+$dst = "C:\classwork\week04"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period3")) { Copy-Item -Recurse "$src\period3" "$dst\period3" }
+Set-Location "$dst\period3"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\model_report.md)) { Copy-Item model_report_template.md ..\model_report.md }
+if (-not (Test-Path ..\assignment_check.md)) { New-Item -ItemType File ..\assignment_check.md | Out-Null }
+```
+
+```powershell
 Get-Content Modelfile
 ollama show qwen3:8b --modelfile | Select-Object -First 30
 ```
 
-두 번째 명령으로 기준 모델의 Modelfile(특히 `TEMPLATE`)이 어떻게 생겼는지 훑어본다. 우리 Modelfile에는 `TEMPLATE`을 쓰지 않는다.
+기존 `..\model_report.md`의 1~4절을 보존하고 `custom_model_report_section.md`의 5절을 뒤에 추가한다. 이미 5절이 있으면 다시 붙이지 않는다. 2교시에서 구현한 `--seed`를 이어 쓰려면 자신의 변경만 `period3/chat.py`에 반영한다. 기본 문제는 이 폴더 코드만으로 실행된다.
 
 ### 문제 1 · 커스텀 모델 생성과 전후 비교
 
@@ -286,5 +311,5 @@ ollama show qwen3:8b --modelfile | Select-Object -First 30
 - `temperature_compare.md`: temperature 0과 1, seed에 대한 비교 문단
 - `Modelfile`: 팀명이 들어간 SYSTEM, 바꾼 한 줄 표시. 커스텀 모델이 보이는 `ollama list` 출력을 텍스트로 함께 둔다
 - `assignment_check.md`: 1차 과제 체크리스트 점검 결과와 계획
-- 개인 저장소(1차 과제 저장소): 위 파일을 `C:\classwork\week04`에서 복사해 commit한다. `outputs/` 전체는 커밋하지 않고 `evidence/`에 고른 JSON만 남긴다. 예제 `ollama_client/`의 `chat`·`stream`을 3주차 `oss-tool` 서브커맨드로 옮기는 것은 [1차 종합과제 안내](assignment_brief.md)의 필수 산출물이며 다음 수업 전까지 끝낸다.
+- 개인 저장소(1차 과제 저장소): 위 파일을 `C:\classwork\week04`에서 복사해 commit한다. `outputs/` 전체는 커밋하지 않고 `evidence/`에 고른 JSON만 남긴다. 자신이 수정한 `period2/`의 `chat`·`stream`을 3주차 `oss-tool` 서브커맨드로 옮기는 것은 [1차 종합과제 안내](assignment_brief.md)의 필수 산출물이며 다음 수업 전까지 끝낸다.
 - 선택: 확장 문제 결과

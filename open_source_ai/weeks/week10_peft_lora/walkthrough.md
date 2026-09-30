@@ -6,15 +6,19 @@
 
 ## 시작 전 준비
 
+교시 시작의 `Copy-Item -Recurse`는 새 실습 폴더를 만드는 최초 1회 명령이다. 이미 해당 period를 작업 중이면 복사를 생략해 수정한 코드·결과를 보존한다. 다음 교시에는 코드 완성본을 새 폴더로 받고, 개인 변경은 diff로 확인해 옮기며 결과는 아래 준비 명령대로 복사한다.
+
 - uv, Git, VS Code, PowerShell을 사용한다. GPU 실습은 NVIDIA GPU(기준 12 GB VRAM)가 전제이며, 없으면 각 단계의 CPU 대체 명령을 쓴다.
 - `HF_TEXT_MODEL`(교재 검증용 기본값 `Qwen/Qwen2.5-0.5B-Instruct`)이 수업 전에 캐시되어 있다. 실제 모델 ID·revision은 환경 기준표가 정한다. 실습 중 모델을 내려받지 않는다.
-- [`examples/`](examples/README.md)의 `lora_lab/`을 개인 실습 폴더(`C:\classwork\week10\lora_lab`)에 **복사**해서 사용한다. 수업 자료 원본은 수정하지 않는다. `uv sync`는 수업 전에 한 번 실행해 둔다.
+- [교시별 예제](examples/README.md)의 `period1/`·`period2/`·`period3/`을 각 준비 단계에서 개인 `C:\classwork\week10\periodN`으로 복사한다. 수업 전 각 환경에서 `uv sync`해 캐시한다. 원본은 수정하지 않는다.
 - 이 문서의 숫자(파라미터 수, MB, loss)는 기본 모델·기본 옵션 기준의 예다. 모델이나 옵션이 다르면 값이 달라지며, 그 값을 기록하는 것이 실습이다.
 - 터미널 명령은 복사한 폴더 안에서 실행한다. 현재 경로를 먼저 확인하는 습관을 들인다.
 
 ---
 
 ## 1교시 — 어댑터 붙이고 학습 파라미터 세기
+
+> 이 교시의 코드·입력·시간 대응: [period1](examples/period1/README.md).
 
 ### 단계 1. 복사·환경·캐시 확인
 
@@ -23,9 +27,9 @@
 ```powershell
 $src = "<교재 저장소>\open_source_ai\weeks\week10_peft_lora\examples"
 New-Item -ItemType Directory -Force C:\classwork\week10 | Out-Null
-Copy-Item -Recurse "$src\lora_lab" C:\classwork\week10\lora_lab
-Set-Location C:\classwork\week10\lora_lab
-Copy-Item .env.example .env
+if (-not (Test-Path C:\classwork\week10\period1)) { Copy-Item -Recurse "$src\period1" C:\classwork\week10\period1 }
+Set-Location C:\classwork\week10\period1
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv sync
 uv run python -c "import torch, transformers, peft; print('cuda', torch.cuda.is_available(), torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'cpu')"
 uv run python -c "from huggingface_hub import scan_cache_dir; print([r.repo_id for r in scan_cache_dir().repos])"
@@ -101,12 +105,22 @@ $LASTEXITCODE
 
 ## 2교시 — 수업 도우미 말투로 LoRA 학습하기
 
+> 이 교시의 코드·입력·시간 대응: [period2](examples/period2/README.md).
+
 ### 단계 1. 템플릿과 라벨 마스킹 확인
 
 **할 일** — 실행 전에 "첫 샘플에서 가려지는 토큰이 절반보다 많은가"를 적고 실행한다.
 
 ```powershell
-Set-Location C:\classwork\week10\lora_lab
+$src = "<교재 저장소>\open_source_ai\weeks\week10_peft_lora\examples"
+if (-not (Test-Path C:\classwork\week10\period2)) { Copy-Item -Recurse "$src\period2" C:\classwork\week10\period2 }
+Set-Location C:\classwork\week10\period2
+if (-not (Test-Path .env)) {
+    if (Test-Path ..\period1\.env) { Copy-Item ..\period1\.env .env } else { Copy-Item .env.example .env }
+}
+if ((Test-Path ..\period1\outputs) -and -not (Test-Path outputs)) { Copy-Item -Recurse ..\period1\outputs outputs }
+New-Item -ItemType Directory -Force outputs | Out-Null
+uv sync
 uv run python train_lora.py --inspect
 ```
 
@@ -175,6 +189,8 @@ git status
 
 ## 3교시 — 전후 비교와 실험 기록 run-001
 
+> 이 교시의 코드·입력·시간 대응: [period3](examples/period3/README.md).
+
 `adapters/run-001/`이 없으면(하루가 바뀌었거나 학습 실패) `uv run python train_lora.py --run-name run-001 --max-steps 5`로 다시 만들거나 강의자가 배포한 어댑터를 복사한 뒤 시작한다.
 
 ### 단계 1. 같은 조건으로 전후 비교
@@ -182,7 +198,16 @@ git status
 **할 일** — 형식 준수 수(기본/어댑터)와 p4·p5의 결과를 예상해 적고 실행한다.
 
 ```powershell
-Set-Location C:\classwork\week10\lora_lab
+$src = "<교재 저장소>\open_source_ai\weeks\week10_peft_lora\examples"
+if (-not (Test-Path C:\classwork\week10\period3)) { Copy-Item -Recurse "$src\period3" C:\classwork\week10\period3 }
+Set-Location C:\classwork\week10\period3
+if (-not (Test-Path .env)) {
+    if (Test-Path ..\period2\.env) { Copy-Item ..\period2\.env .env } else { Copy-Item .env.example .env }
+}
+if ((Test-Path ..\period2\outputs) -and -not (Test-Path outputs)) { Copy-Item -Recurse ..\period2\outputs outputs }
+if ((Test-Path ..\period2\adapters) -and -not (Test-Path adapters)) { Copy-Item -Recurse ..\period2\adapters adapters }
+New-Item -ItemType Directory -Force outputs, adapters | Out-Null
+uv sync
 Get-ChildItem adapters\run-001\adapter_config.json
 uv run python compare.py --adapter adapters/run-001
 ```
@@ -222,8 +247,10 @@ $LASTEXITCODE
 ```powershell
 $repo = "<개인 저장소 경로>"
 New-Item -ItemType Directory -Force "$repo\experiments\run-001" | Out-Null
-Copy-Item EXPERIMENT_TEMPLATE.md "$repo\experiments\run-001.md"
-(Get-FileHash data\sample_sft.jsonl -Algorithm SHA256).Hash.Substring(0, 12)
+if (-not (Test-Path "$repo\experiments\run-001.md")) { Copy-Item EXPERIMENT_TEMPLATE.md "$repo\experiments\run-001.md" }
+# 2교시 기본 명령으로 실제 학습한 파일을 해시한다.
+$trainData = "C:\classwork\week10\period2\data\sample_sft.jsonl"
+(Get-FileHash $trainData -Algorithm SHA256).Hash.Substring(0, 12)
 Get-Content adapters\run-001\run_config.json
 ```
 
@@ -258,7 +285,7 @@ git ls-files | Select-String safetensors
 **할 일**
 
 ```powershell
-Set-Location C:\classwork\week10\lora_lab
+Set-Location C:\classwork\week10\period3
 uv run python merge.py --check
 Get-ChildItem models\merged-run-001
 ```
@@ -274,7 +301,7 @@ Get-ChildItem models\merged-run-001
 | 증상 | 이 문서에서 돌아갈 단계 |
 |---|---|
 | `[오류] 모델을 불러오지 못했다` | 1교시 단계 1 (캐시 목록·`.env`의 `HF_TEXT_MODEL`·`HF_HUB_OFFLINE` 확인, 실습 중 다운로드 금지) |
-| `uv sync`가 실패하거나 torch를 못 찾는다 | 1교시 단계 1 (네트워크·CUDA 인덱스 확인, `pip install` 금지, 강의자에게 문의) |
+| `uv sync`가 실패하거나 torch를 못 찾는다 | 1교시 단계 1 (네트워크·CUDA 인덱스·uv 환경 확인, 강의자에게 문의) |
 | `[오류] target_modules … 찾지 못했다` | 1교시 단계 6 (모델 구조에서 계층 이름 확인, `lab.md` 1교시 힌트 2) |
 | `lora_setup.py`가 CPU에서 너무 느리다 | 1교시 단계 2 (`--ranks 8` 하나만 실행, 나머지는 비례식으로) |
 | `--inspect` 학습 대상이 0이다 | 2교시 단계 2 (`--max-len`이 프롬프트보다 짧다. 기본값 512로) |

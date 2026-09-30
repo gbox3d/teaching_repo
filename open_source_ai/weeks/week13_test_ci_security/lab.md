@@ -2,6 +2,7 @@
 
 ## 공통 규칙
 
+- 교시 폴더·설정·양식 복사는 처음 준비할 때만 한다. 이미 작업한 폴더는 이어 쓰며 개인 코드·기록·Git 이력을 보존한다.
 - 완성 코드를 보기 전에 예상을 적는다.
 - 명령은 현재 폴더를 확인한 뒤 실행한다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
@@ -12,6 +13,8 @@
 - 실패 재현(테스트 깨기, 비밀 심기)은 예제 원본이 아니라 **개인 복사본**에서만 한다.
 
 ## 1교시 실습 — 가짜 클라이언트로 서비스 테스트 만들기
+
+자료: [period1 — 시간별 파일·명령](examples/period1/README.md)
 
 ### 상황
 
@@ -34,14 +37,16 @@
 ```powershell
 $src = "<교재 저장소>\open_source_ai\weeks\week13_test_ci_security\examples"
 New-Item -ItemType Directory -Force C:\classwork\week13 | Out-Null
-Copy-Item -Recurse "$src\ci_lab" C:\classwork\week13\ci_lab
+if (-not (Test-Path C:\classwork\week13\ci_lab)) {
+    Copy-Item -Recurse -Force "$src\period1" C:\classwork\week13\ci_lab
+}
 Set-Location C:\classwork\week13\ci_lab
-Copy-Item .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv sync
 uv run pytest -q
 ```
 
-마지막 줄이 `19 passed, 2 deselected`로 끝나야 한다. `tests/conftest.py`를 열어 `FakeOllamaClient`의 네 속성(`reply`·`models`·`fail_with`·`calls`)과 fixture 세 개(`service`·`make_service`·`api_for`)를 확인한다.
+배포된 period1 시작 코드는 마지막 줄이 `19 passed, 2 deselected`로 끝나야 한다. 아래 세 테스트를 직접 추가한 뒤에만 `22 passed, 2 deselected`가 된다. `tests/conftest.py`를 열어 `FakeOllamaClient`의 네 속성(`reply`·`models`·`fail_with`·`calls`)과 fixture 세 개(`service`·`make_service`·`api_for`)를 확인한다.
 
 `ci_lab`은 12주차 서비스를 줄여 다시 쓴 것이라 요청 필드(`prompt`·`system`)와 예외→상태 코드(503·404·502)가 12주차(502·503·504)와 다르다. 아래 문제는 `ci_lab`의 매핑을 기준으로 풀고, 이 테스트를 팀 저장소로 옮길 때는 팀 코드가 정한 코드값으로 바꾼다.
 
@@ -85,7 +90,7 @@ Remove-Item Env:RUN_INTEGRATION
 git init
 git add -A
 git status --short
-git commit -m "Add unit tests, ruff config and CI workflow"
+git commit -m "단위 테스트와 ruff 설정 추가"
 ```
 
 완료 조건:
@@ -128,11 +133,13 @@ git commit -m "Add unit tests, ruff config and CI workflow"
 
 ## 2교시 실습 — GitHub Actions로 초록불과 빨간불 만들기
 
+자료: [period2 — 시간별 파일·명령](examples/period2/README.md)
+
 ### 상황
 
 팀 저장소에 "테스트 다 통과했어요"라는 PR 설명만 있고 아무도 그것을 확인할 수 없다. 저장소에 workflow를 붙여 push·PR마다 GitHub가 깨끗한 머신에서 `ruff`·`pytest`를 돌리게 하고, 리뷰어가 로그 대신 상태 체크를 보게 만들어라. 빨간불이 켜졌을 때 로그에서 첫 오류를 찾는 순서까지 몸에 익힌다.
 
-이어받는 것: 1교시의 `C:\classwork\week13\ci_lab`(테스트 22개 통과, 첫 commit 완료). 없으면 준비 절의 명령으로 예제를 복사하고 `git init`·commit부터 한다.
+이어받는 것: 1교시의 `C:\classwork\week13\ci_lab`(테스트 22개 통과, 첫 commit 완료). 없으면 1교시 준비·실습을 마친 뒤 이 절로 돌아온다.
 
 ### 시간 배분
 
@@ -146,7 +153,23 @@ git commit -m "Add unit tests, ruff config and CI workflow"
 
 ### 준비
 
-GitHub에 로그인한 뒤 새 저장소 `week13-ci-lab`을 **빈 상태로**(README·.gitignore·라이선스 추가 없이) 만든다. 그다음 로컬에서:
+1교시 개인 저장소의 테스트·수정본·Git 이력은 유지한다. 2교시에 처음 필요한 workflow만 복사하고 감사 도구를 dev 의존성에 추가한다. 이미 수정한 `ci.yml`이 있으면 파일을 비교해 필요한 설정을 반영한다.
+
+```powershell
+$src = "<교재 저장소>\open_source_ai\weeks\week13_test_ci_security\examples"
+Set-Location C:\classwork\week13\ci_lab
+New-Item -ItemType Directory -Force .\.github\workflows | Out-Null
+if (-not (Test-Path .\.github\workflows\ci.yml)) {
+    Copy-Item "$src\period2\.github\workflows\ci.yml" .\.github\workflows\ci.yml
+}
+uv add --dev pip-audit
+uv sync
+uv run pytest -q          # 개인 실습본: 22 passed, 2 deselected
+git add .github pyproject.toml uv.lock
+git commit -m "교시 2 CI workflow 추가"
+```
+
+period2 폴더 전체를 새로 복사하면 19개 시작 테스트로 돌아간다. 위 명령으로 본인이 추가한 3개를 보존한다. 이제 GitHub에 로그인한 뒤 새 저장소 `week13-ci-lab`을 **빈 상태로**(README·.gitignore·라이선스 추가 없이) 만든다. 그다음 로컬에서:
 
 ```powershell
 Set-Location C:\classwork\week13\ci_lab
@@ -233,6 +256,8 @@ git push -u origin main
 
 ## 3교시 실습 — 의존성 감사와 비밀 검색, 교차 리뷰
 
+자료: [period3 — 시간별 파일·명령](examples/period3/README.md)
+
 ### 상황
 
 릴리스(14주차)를 앞두고 팀 저장소를 외부에 공개하기 전 점검을 맡았다. 의존성에 알려진 취약점이 있는지, 비밀이나 위험한 모델 파일이 저장소에 들어 있지 않은지 도구로 확인하고, 다른 팀의 PR 하나를 체크리스트로 리뷰해 근거 있는 판정을 남겨라.
@@ -256,6 +281,18 @@ Set-Location C:\classwork\week13\ci_lab
 git switch main
 git pull
 git status --short          # 비어 있어야 한다
+```
+
+기존 코드는 유지하고 3교시 점검 도구·리뷰 양식만 추가한 뒤 준비 commit을 만든다. 이 뒤부터 시작하는 가짜 토큰 실험은 커밋하지 않는다.
+
+```powershell
+$src = "<교재 저장소>\open_source_ai\weeks\week13_test_ci_security\examples"
+foreach ($file in @("audit_report.py", "security_check.ps1", "REVIEW_CHECKLIST.md")) {
+    if (-not (Test-Path ".\$file")) { Copy-Item "$src\period3\$file" ".\$file" }
+}
+git add audit_report.py security_check.ps1 REVIEW_CHECKLIST.md
+git commit -m "교시 3 감사와 보안 리뷰 도구 추가"
+uv sync
 ```
 
 ### 문제 1 · 감사와 비밀 검색
@@ -303,7 +340,7 @@ git status --short          # 비어 있어야 한다
 
 ### 문제 2 · 교차 코드리뷰
 
-1. `examples/ci_lab/REVIEW_CHECKLIST.md`를 열고, 리뷰 대상 PR의 설명·연결 Issue·상태 체크를 먼저 본다(0절·1절).
+1. `REVIEW_CHECKLIST.md`를 열고, 리뷰 대상 PR의 설명·연결 Issue·상태 체크를 먼저 본다(0절·1절).
 2. 변경 파일을 읽으며 2~4절의 항목 중 **근거가 있는 것만** 골라 코멘트를 남긴다. 코멘트는 `[근거] → [문제] → [제안]` 구조이며 최소 2개다. 좋은 점 1개도 구체적으로 적는다.
 3. `Review changes`에서 `Approve` 또는 `Request changes`를 고른다. 수정 요청이면 무엇이 되면 승인할지 함께 적는다.
 4. 자기 저장소(또는 팀 저장소)의 PR에 받은 리뷰가 있으면 응답 1개를 남긴다(수용·반박·질문 중 하나, 근거 포함).

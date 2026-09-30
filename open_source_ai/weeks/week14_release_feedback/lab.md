@@ -2,6 +2,7 @@
 
 ## 공통 규칙
 
+- 교시 폴더·설정·양식 복사는 처음 준비할 때만 한다. 이미 작업한 폴더는 이어 쓰며 개인 코드·기록·Git 이력을 보존한다.
 - 완성 코드를 보기 전에 예상을 적는다.
 - 명령은 현재 폴더를 확인한 뒤 실행한다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
@@ -11,6 +12,8 @@
 - 실습 시간에 모델을 내려받지 않는다. 이번 주 예제는 모델·GPU 없이 동작하며, 3교시 시연 리허설에서만 사전 캐시된 모델을 쓴다.
 
 ## 1교시 실습 — 릴리스 문서 세트 보완
+
+자료: [period1 — 시간별 파일·명령](examples/period1/README.md)
 
 ### 상황
 
@@ -30,13 +33,16 @@
 
 ### 준비
 
-원본을 훼손하지 않도록 `examples/`를 개인 실습 폴더에 복사한다. 팀 저장소 clone본은 `C:\classwork\team-a-repo`처럼 별도 폴더에 있다고 가정한다.
+원본을 훼손하지 않도록 이번 교시 `examples/period1/`만 개인 실습 폴더에 복사한다. 팀 저장소 clone본은 `C:\classwork\team-a-repo`처럼 별도 폴더에 있다고 가정한다.
 
 ```powershell
-New-Item -ItemType Directory week14-practice
-Copy-Item -Recurse <교재 경로>\week14_release_feedback\examples\* .\week14-practice\
-Set-Location .\week14-practice\release_check
-Copy-Item .env.example .env
+$src = "<교재 저장소>\open_source_ai\weeks\week14_release_feedback\examples"
+New-Item -ItemType Directory -Force C:\classwork\week14-practice | Out-Null
+if (-not (Test-Path C:\classwork\week14-practice\period1)) {
+    Copy-Item -Recurse -Force "$src\period1" C:\classwork\week14-practice\period1
+}
+Set-Location C:\classwork\week14-practice\period1
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv sync
 ```
 
@@ -109,6 +115,8 @@ SPDX ID로 본다. `GPL-*`·`AGPL-*`·`LGPL-*`는 copyleft, `CC-BY-NC-*`는 비�
 
 ## 2교시 실습 — 릴리스 생성과 교차 재현
 
+자료: [period2 — 시간별 파일·명령](examples/period2/README.md)
+
 ### 상황
 
 문서 세트가 갖춰졌다. 팀 저장소를 `v0.1.0`으로 릴리스하고, 짝 팀은 우리 README만 보고 새 폴더에서 10분 안에 재현한다. 우리도 짝 팀 릴리스를 같은 방식으로 재현한다. 막힌 곳이 곧 README의 결함이며, 그것을 Issue로 보고한다.
@@ -127,10 +135,18 @@ SPDX ID로 본다. `GPL-*`·`AGPL-*`·`LGPL-*`는 copyleft, `CC-BY-NC-*`는 비�
 ### 준비
 
 ```powershell
-Set-Location .\week14-practice\release_check
+$src = "<교재 저장소>\open_source_ai\weeks\week14_release_feedback\examples"
+if (-not (Test-Path C:\classwork\week14-practice\period2)) {
+    Copy-Item -Recurse -Force "$src\period2" C:\classwork\week14-practice\period2
+}
+Set-Location C:\classwork\week14-practice\period2
+if (-not (Test-Path .env)) { Copy-Item ..\period1\.env .env }
+uv sync
 uv run python tag_notes.py --repo C:\classwork\team-a-repo --version 0.1.0
 New-Item -ItemType Directory -Force C:\classwork\repro | Out-Null
 ```
+
+팀 저장소에서 채운 README·SOURCES·CHANGELOG와 점검표 1·2절은 보존한다. 이 교시 `release_kit/release_checklist.md`의 새 3~5절만 팀 점검표 뒤에 추가한다.
 
 `--promote` 없이 먼저 실행해 `outputs/release-notes-v0.1.0.md` 초안을 읽는다. 재현용 폴더 `C:\classwork\repro`는 이전 clone·가상환경이 없는 새 폴더여야 한다.
 
@@ -170,7 +186,7 @@ New-Item -ItemType Directory -Force C:\classwork\repro | Out-Null
 
    ```powershell
    Set-Location C:\classwork\repro
-   <실습 폴더>\week14-practice\release_kit\reproduce_by_stranger.ps1 -Source <짝 팀 저장소 URL> -Tag v0.1.0
+   C:\classwork\week14-practice\period2\release_kit\reproduce_by_stranger.ps1 -Source <짝 팀 저장소 URL> -Tag v0.1.0
    ```
 
 2. clone·checkout·`uv sync --frozen`·pytest 단계의 초와 결과가 `repro-log-<시각>.md`에 남는다. `.env`는 짝 팀 README가 시키는 대로만 채운다.
@@ -196,7 +212,7 @@ New-Item -ItemType Directory -Force C:\classwork\repro | Out-Null
 <details>
 <summary>힌트 2 — `uv sync --frozen`이 실패하거나 네트워크가 없다</summary>
 
-메시지 첫 줄을 본다. `uv.lock`이 없다거나 `pyproject.toml`과 맞지 않는다는 내용이면 릴리스 결함이다(Issue, `bug`). 패키지 다운로드·프록시·타임아웃이면 환경 문제로 기록만 한다. 우리 저장소도 `git ls-files uv.lock`으로 lock 파일이 커밋되어 있는지 지금 확인한다. 이번 주 가장 흔한 Issue다.
+메시지 첫 줄을 본다. `uv.lock`이 없으면 릴리스 결함이다(Issue, `bug`). `--frozen`은 선언과 lock의 일치를 검사하지 않는다. 불일치 진단은 대상 저장소에서 `uv lock --check`로 별도 확인한다. 패키지 다운로드·프록시·타임아웃이면 환경 문제로 기록만 한다. 우리 저장소도 `git ls-files uv.lock`으로 lock 파일이 커밋되어 있는지 지금 확인한다. 이번 주 가장 흔한 Issue다.
 
 네트워크 자체가 없으면 `-Source`에 짝 팀 저장소의 로컬 경로(USB·공유 폴더)를 준다. GitHub Release는 네트워크가 돌아온 뒤 만들고, 지금은 `git tag -a`와 `outputs/release-notes-v0.1.0.md`까지 한다. Issue는 `docs/issues/<번호>.md`로 적어 두었다가 옮긴다.
 </details>
@@ -220,6 +236,8 @@ push 전이면 `git tag -d v0.1.0`으로 지우고 다시 만든다. push한 뒤
 
 ## 3교시 실습 — 피드백 응답과 시연 리허설
 
+자료: [period3 — 시간별 파일·명령](examples/period3/README.md)
+
 ### 상황
 
 우리 릴리스에 짝 팀의 Issue가 도착했다. 메인테이너로서 분류하고, 재현을 시도하고, 응답하고, 결정을 기록한다. 그리고 다음 주 발표를 위해 문제 → 시연 → 한계 → 다음 순서의 3분 시연을 리허설한다.
@@ -239,10 +257,19 @@ push 전이면 `git tag -d v0.1.0`으로 지우고 다시 만든다. push한 뒤
 ### 준비
 
 ```powershell
-Set-Location .\week14-practice\release_kit
-Get-Content .\triage_labels.md
-Copy-Item .\demo_outline.md C:\classwork\team-a-repo\docs\demo_outline.md
+$src = "<교재 저장소>\open_source_ai\weeks\week14_release_feedback\examples"
+if (-not (Test-Path C:\classwork\week14-practice\period3)) {
+    Copy-Item -Recurse -Force "$src\period3" C:\classwork\week14-practice\period3
+}
+Set-Location C:\classwork\week14-practice\period3
+Get-Content .\release_kit\triage_labels.md
+New-Item -ItemType Directory -Force C:\classwork\team-a-repo\docs | Out-Null
+if (-not (Test-Path C:\classwork\team-a-repo\docs\demo_outline.md)) {
+    Copy-Item .\release_kit\demo_outline.md C:\classwork\team-a-repo\docs\demo_outline.md
+}
 ```
+
+팀 저장소 `DECISIONS.md`는 `release_kit/DECISIONS_TEMPLATE.md`를 참고해 만든다(이미 있으면 이어 쓴다). 점검표의 기존 결과는 유지하고 `release_checklist.md`의 6절만 추가한다. 1·2교시 도구를 다시 실행하려면 이 폴더에서 `uv sync` 후 실행한다.
 
 GitHub 팀 저장소 → Issues → Labels에서 `docs`·`needs-repro`를 추가한다(색은 `triage_labels.md`). 시연 리허설을 위해 Ollama 서버와 12주차 서비스를 켜고 `ollama list`로 시연 모델이 캐시되어 있는지 확인한다. 없으면 내려받지 말고 실패 대비 경로로 리허설한다.
 

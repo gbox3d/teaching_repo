@@ -13,6 +13,8 @@
 
 ## 1교시 실습 — 앱 서버 세우기와 오류 응답 확인
 
+자료: [period1 — 시간별 파일·명령](examples/period1/README.md)
+
 ### 상황
 
 팀원이 "LoRA 실험 결과를 내 PC 밖에서도 써 보고 싶다. HTTP로 열어 달라"고 요청했다. 모델 서버(Ollama) 앞에 앱 서버(FastAPI)를 세우고, 모델 서버가 꺼졌거나 모델이 없거나 느릴 때 앱 서버가 **상태 코드로 원인을 말하는지** 확인하라. 팀원은 캡처가 아니라 상태 코드와 `detail`이 담긴 JSON을 원한다.
@@ -32,13 +34,16 @@
 ### 준비
 
 원본을 두고 개인 실습 폴더에 복사한다. `$src`에는 교재 저장소의 `examples` 폴더 경로를 넣는다. 저장 경로는 학기별 환경 기준표를 따른다(아래는 예시).
+이미 만든 교시 폴더가 있으면 그 안에서 이어 한다. 아래 명령은 폴더와 `.env`가 없을 때만 복사하므로 개인 코드·설정을 보존한다.
 
 ```powershell
 $src = "<교재 저장소>\open_source_ai\weeks\week12_ai_service_deploy\examples"
 New-Item -ItemType Directory -Force C:\classwork\week12 | Out-Null
-Copy-Item -Recurse "$src\ai_service" C:\classwork\week12\ai_service
-Set-Location C:\classwork\week12\ai_service
-Copy-Item .env.example .env
+if (-not (Test-Path C:\classwork\week12\period1)) {
+    Copy-Item -Recurse -Force "$src\period1" C:\classwork\week12\period1
+}
+Set-Location C:\classwork\week12\period1
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv sync
 ollama list
 ```
@@ -66,7 +71,7 @@ uv run uvicorn app.main:app --port 8000 --reload
 4. 터미널 B(같은 폴더)에서 점검 스크립트를 실행하고 `outputs/smoke-*.json`이 생겼는지 확인한다.
 
 ```powershell
-uv run python smoke_test.py --skip-stream
+uv run python smoke_test.py
 ```
 
 5. `/chat` 응답의 `eval_count`와 `eval_duration_ms`로 초당 토큰 수를 계산해 4주차 `model_report.md`의 값과 비교한다.
@@ -81,7 +86,7 @@ uv run python smoke_test.py --skip-stream
 
 환경변수는 `.env`보다 우선하며, `--reload`는 코드 변경만 감지한다. **환경변수를 바꿀 때마다 터미널 A에서 `Ctrl+C` 후 다시 실행**한다.
 
-1. 없는 포트: 터미널 A에서 아래를 실행한 뒤 터미널 B에서 `smoke_test.py --skip-stream`을 실행한다. `/health`의 `status`와 `/chat`의 코드를 예상표에 적는다.
+1. 없는 포트: 터미널 A에서 아래를 실행한 뒤 터미널 B에서 `smoke_test.py`을 실행한다. `/health`의 `status`와 `/chat`의 코드를 예상표에 적는다.
 
 ```powershell
 $env:OLLAMA_HOST = "http://localhost:11435"
@@ -133,11 +138,13 @@ uv run uvicorn app.main:app --port 8000
 
 ## 2교시 실습 — 스트리밍 채팅 UI 연결
 
+자료: [period2 — 시간별 파일·명령](examples/period2/README.md)
+
 ### 상황
 
 팀원이 "답이 나올 때까지 10초 넘게 화면이 멈춰 보여서 사용자가 새로고침을 누른다"고 보고했다. 전체 시간을 줄일 수는 없다. 대신 첫 글자를 빨리 보여 주고, 중간에 멈출 수 있게 하고, 끊겼을 때 무엇을 해야 하는지 화면이 말하게 하라.
 
-이어받는 것: 1교시의 `C:\classwork\week12\ai_service` 폴더. 환경변수를 모두 원복하고(`Remove-Item Env:OLLAMA_*`) 터미널 A에서 앱 서버를 정상 실행해 둔다.
+이어받는 것: 1교시 개인 `period1`의 실패 기록과 직접 추가한 `GET /models`. 1교시 서버를 끄고 환경변수를 원복한 뒤, 아래 `period2`에서 API와 UI를 새로 실행한다.
 
 ### 시간 배분
 
@@ -152,8 +159,19 @@ uv run uvicorn app.main:app --port 8000
 ### 준비
 
 ```powershell
-Set-Location C:\classwork\week12\ai_service
+$src = "<교재 저장소>\open_source_ai\weeks\week12_ai_service_deploy\examples"
+if (-not (Test-Path C:\classwork\week12\period2)) {
+    Copy-Item -Recurse -Force "$src\period2" C:\classwork\week12\period2
+}
+Set-Location C:\classwork\week12\period2
+if (-not (Test-Path .env)) { Copy-Item ..\period1\.env .env }
+uv sync
 Get-ChildItem Env:OLLAMA_*        # 비어 있어야 한다
+```
+
+처음 넘어왔을 때만 1교시 개인 `app/main.py`에서 직접 작성한 `GET /models` 함수와 데코레이터를 이 폴더의 `app/main.py`에 옮긴다. 이미 옮겼으면 같은 함수를 다시 추가하지 않는다. 이 교시 파일에는 SSE 구현이 추가되어 있으므로 이전 파일 전체로 덮어쓰지 않는다. 1교시 `outputs/`와 예상표는 `period1`에 보존한다.
+
+```powershell
 uv run uvicorn app.main:app --port 8000 --reload   # 터미널 A
 ```
 
@@ -238,11 +256,13 @@ UI 상단 설명줄의 `모드 stream`을 확인한다. 그다음 `smoke_test.py
 
 ## 3교시 실습 — Dockerfile과 재현 절차 검증
 
+자료: [period3 — 시간별 파일·명령](examples/period3/README.md)
+
 ### 상황
 
 다른 팀이 "너희 서비스를 우리 PC에서 돌려 보고 싶다"고 했다. 그 PC에 Docker가 있을 수도, 없을 수도 있다. 설정이 코드 밖으로 나와 있는지 확인하고, Docker 경로와 uv 경로 두 가지 실행 절차를 README에 적은 뒤, 짝이 README만 보고 `/health`가 `ok`가 될 때까지 따라 하게 하라. 마지막으로 3차 종합과제 점검표를 채운다.
 
-이어받는 것: 1교시 폴더. 개인 실습 폴더가 Git 저장소가 아니면 `git init` 후 첫 commit을 만든다(`.env`가 목록에 없어야 한다). 터미널 A의 앱 서버는 끈다(8000 포트를 비운다).
+이어받는 것: 2교시 개인 `period2`의 API·UI 수정본과 기록. 서버·UI를 끄고 아래 준비 절에서 `period3`로 이어간다. 복사 후 이 폴더가 Git 저장소가 아니면 `git init` 후 첫 commit을 만든다(`.env`가 목록에 없어야 한다).
 
 ### 시간 배분
 
@@ -257,10 +277,19 @@ UI 상단 설명줄의 `모드 stream`을 확인한다. 그다음 `smoke_test.py
 ### 준비
 
 ```powershell
-Set-Location C:\classwork\week12\ai_service
+$src = "<교재 저장소>\open_source_ai\weeks\week12_ai_service_deploy\examples"
+if (-not (Test-Path C:\classwork\week12\period3)) {
+    Copy-Item -Recurse -Force "$src\period3" C:\classwork\week12\period3
+    Copy-Item C:\classwork\week12\period2\app\*.py C:\classwork\week12\period3\app\ -Force
+    Copy-Item C:\classwork\week12\period2\ui\*.py C:\classwork\week12\period3\ui\ -Force
+}
+Set-Location C:\classwork\week12\period3
+if (-not (Test-Path .env)) { Copy-Item ..\period2\.env .env }
+uv sync
 docker --version        # 있으면 경로 A, 없거나 오류면 경로 B
-git status --short
 ```
+
+`GET /models`와 수정한 `ERROR_HINTS`가 남았는지 확인한다. 이미 `period3`에서 작업했다면 그 코드를 유지하고, 이후 바뀐 `period2` 내용은 파일을 비교해 필요한 부분만 반영한다. 앞 교시의 `outputs/`는 기존 폴더에 보존한다. 이어서 이 폴더에서 Git 초기화·첫 commit을 마친 뒤 `git status --short`를 확인한다. 개인 저장소가 이미 있으면 그 저장소로 변경을 옮겨 기존 이력을 이어간다.
 
 ### 문제 1 · 설정 외부화와 이미지 경계
 
@@ -284,7 +313,7 @@ uv run python smoke_test.py --api http://localhost:8001 --skip-stream     # 다�
 5. 경로 B(Docker 없음): 깨끗한 폴더에 `.venv`·`.env`·`outputs`를 뺀 파일만 복사(또는 `git clone`)하고 처음부터 실행한다.
 
 ```powershell
-git clone C:\classwork\week12\ai_service C:\classwork\week12\clean
+git clone C:\classwork\week12\period3 C:\classwork\week12\clean
 Set-Location C:\classwork\week12\clean
 Copy-Item .env.example .env
 uv sync

@@ -12,6 +12,8 @@
 
 ## 1교시 실습 — 실습환경 점검표 만들기
 
+**이 시간 예제:** [period1 — 파일·실행·예상 결과](examples/period1/README.md). 실습 시간표의 각 단계와 대응한다.
+
 **이어받는 것:** 없음(첫 블록). 실습실 PC는 조교가 환경 기준표에 따라 설치를 마친 상태다. **개인 노트북으로 수강하는 경우 설치도 이 블록에서 직접 한다**(문제 2).
 
 ### 상황
@@ -38,12 +40,14 @@
 
 ```powershell
 New-Item -ItemType Directory -Force C:\classwork\osa-week01
-Copy-Item -Recurse "<교재 폴더>\open_source_ai\weeks\week01_oss_ai_ecosystem\examples\*" C:\classwork\osa-week01\
+$src = "<교재 폴더>\open_source_ai\weeks\week01_oss_ai_ecosystem\examples"
+Copy-Item "$src\period1\env_check.ps1" C:\classwork\osa-week01\
+Copy-Item "$src\period1\env_check_template.md" C:\classwork\osa-week01\
 Set-Location C:\classwork\osa-week01
 Get-ChildItem
 ```
 
-`README.md`(예제 안내), `env_check.ps1`, `env_check_template.md`, `oss_survey_template.md`, `first_run` 폴더가 보여야 한다.
+`env_check.ps1`과 `env_check_template.md`가 보여야 한다. 2·3교시 자료는 해당 교시에 추가한다.
 
 ### 문제 1 · 도구 5개 점검
 
@@ -258,6 +262,8 @@ ollama --version
 
 ## 2교시 실습 — 공개 AI 프로젝트 탐색표
 
+**이 시간 예제:** [period2 — 파일·실행·예상 결과](examples/period2/README.md). 실습 시간표의 각 단계와 대응한다.
+
 **이어받는 것:** 1교시의 개인 실습 폴더 `C:\classwork\osa-week01`과 브라우저의 GitHub 로그인 상태.
 
 ### 상황
@@ -277,6 +283,8 @@ ollama --version
 
 ```powershell
 Set-Location C:\classwork\osa-week01
+$src = "<교재 폴더>\open_source_ai\weeks\week01_oss_ai_ecosystem\examples"
+Copy-Item "$src\period2\oss_survey_template.md" .\oss_survey_template.md
 Copy-Item oss_survey_template.md oss_survey.md
 code oss_survey.md
 ```
@@ -345,11 +353,15 @@ Tags 화면의 날짜 간격으로 대신한다. 둘 다 없으면 "릴리스 �
 
 ## 3교시 실습 — 첫 uv 실행과 첫 commit
 
+**이 시간 예제:** [period3 — 파일·실행·예상 결과](examples/period3/README.md). 실습 시간표의 각 단계와 대응한다.
+
 **이어받는 것:** 1·2교시에서 만든 `env_check.md`, `oss_survey.md`가 있는 개인 실습 폴더 `C:\classwork\osa-week01`.
 
 ### 상황
 
 3주차부터 모든 실습은 uv 프로젝트로 배포된다. 그 전에 "복사 → `uv run` → 결과 파일 → commit" 한 바퀴를 혼자 돌려 보라는 요청이다. 오늘 만드는 개인 저장소는 학기 내내 자라며 2주차에 GitHub와 연결된다.
+
+설치·최신 갱신·Python 선택은 [uv 사용 가이드](../../uv_guide.md), 커밋 제외 여부는 [GitHub 소스 배포 가이드](../../github_distribution.md)를 참고한다. `uv run`은 프로젝트 환경을 선택하므로 가상환경을 따로 활성화하지 않는다.
 
 ### 시간 배분
 
@@ -363,9 +375,11 @@ Tags 화면의 날짜 간격으로 대신한다. 둘 다 없으면 "릴리스 �
 
 ### 준비
 
-`first_run/`은 1교시에 복사한 폴더 안에 이미 있다.
+이제 [3교시 제공 코드](examples/period3/README.md)를 기존 개인 폴더의 `first_run`으로 복사한다. 대상 폴더가 이미 있으면 덮어쓰지 말고 내용을 먼저 확인한다.
 
 ```powershell
+$src = "<교재 폴더>\open_source_ai\weeks\week01_oss_ai_ecosystem\examples"
+Copy-Item -Recurse "$src\period3" C:\classwork\osa-week01\first_run
 Set-Location C:\classwork\osa-week01\first_run
 Get-ChildItem -Force
 uv --version
@@ -382,7 +396,7 @@ uv --version
    uv run python sysinfo.py
    ```
 
-3. `outputs\sysinfo.json`을 열어 `os`, `cpu`, `memory`, `disk`, `gpu`, `python`, `env` 항목을 읽는다. `python.in_project_venv`가 `true`인지, `python.venv_location`이 `.venv`인지 본다.
+3. `outputs\sysinfo.json`을 열어 `os`, `cpu`, `memory`, `disk`, `gpu`, `python`, `env` 항목을 읽는다. `python.in_project_venv`가 `true`인지, `python.venv_location`이 `.venv`인지 본다. `uv run python --version`으로 실제 실행 버전도 확인한다. `requires-python = ">=3.12"`는 허용 범위이므로 수업 기준 Python을 골랐는지 환경 기준표와 대조한다.
 4. `.env.example`을 `.env`로 복사하고 `OLLAMA_MODEL=qwen3:0.6b`로 바꾼 뒤 다시 실행한다. `env.OLLAMA_MODEL.source`가 `기본값`에서 `.env 또는 환경변수`로 바뀌는지 확인한다.
 
    ```powershell
@@ -427,6 +441,7 @@ uv --version
    ```powershell
    git add .
    git status
+   git diff --cached --name-only
    git commit -m "Add environment report"
    git log --oneline -1
    git status
@@ -464,7 +479,7 @@ uv run --no-project python sysinfo.py
 <details>
 <summary>힌트 3 — git status에 .venv/가 보인다</summary>
 
-현재 폴더가 어디인지, `first_run\.gitignore`가 있는지(`Get-ChildItem first_run -Force`) 확인한다. 파일이 없으면 교재의 `examples\first_run\.gitignore`를 다시 복사한다. 이미 `git add`했다면 `git restore --staged first_run/.venv`로 내린다.
+현재 폴더가 어디인지, `first_run\.gitignore`가 있는지(`Get-ChildItem first_run -Force`) 확인한다. 파일이 없으면 교재의 `examples\period3\.gitignore`를 다시 복사한다. 이미 `git add`했다면 `git rm -r --cached -- first_run/.venv`로 Git 등록만 해제한다. 로컬 `.venv`는 남고, 아직 첫 commit이 없는 저장소에서도 사용할 수 있다. `.gitignore`를 추가하는 것만으로 이미 등록한 파일이 빠지지는 않는다.
 </details>
 
 ### 검증

@@ -127,7 +127,7 @@ uv run python split.py                      # train 20 / val 4 / test 20, leakag
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 1 lab — Clean, mask, and split raw data](lab.md#1교시-실습--원시-데이터를-정제마스킹분할하기)
+[Block 1 lab — Clean, mask, and split raw data](lab.md#1교시-실습--원시-데이터를-정제마스킹분할하기) · [Period files](examples/period1/README.md)
 
 Done when:
 
@@ -239,7 +239,7 @@ uv run python evaluate.py --predictions data/sample_predictions/base.json data/s
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 2 lab — Baseline vs. LoRA quantitative comparison](lab.md#2교시-실습--기준선-vs-lora-정량-비교)
+[Block 2 lab — Baseline vs. LoRA quantitative comparison](lab.md#2교시-실습--기준선-vs-lora-정량-비교) · [Period files](examples/period2/README.md)
 
 Done when:
 
@@ -350,7 +350,7 @@ Evaluate (run-001) ──▶ Failure analysis: counts per type + 3 cases (sympto
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 3 lab — Manual scoring and a failure analysis report](lab.md#3교시-실습--수동-채점과-실패-분석-보고)
+[Block 3 lab — Manual scoring and a failure analysis report](lab.md#3교시-실습--수동-채점과-실패-분석-보고) · [Period files](examples/period3/README.md)
 
 Done when:
 

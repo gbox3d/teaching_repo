@@ -1,0 +1,18 @@
+[project]
+name = "osa-week06-period1"
+version = "0.1.0"
+description = "오픈소스 AI 응용 6주차 1교시 실습"
+requires-python = ">=3.12"
+dependencies = [
+  "torch",
+  "numpy",
+]
+
+# CUDA 휠 인덱스. 정확한 CUDA 태그(cu128 등)와 버전은 학기별 환경 기준표에서 확정한다.
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cuda", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]

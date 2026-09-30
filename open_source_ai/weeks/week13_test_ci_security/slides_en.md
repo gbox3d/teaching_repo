@@ -139,7 +139,7 @@ uv run ruff format .            # actually fix it
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 1 lab — Build service tests with a fake client](lab.md#1교시-실습--가짜-클라이언트로-서비스-테스트-만들기)
+[Block 1 lab — Build service tests with a fake client](lab.md#1교시-실습--가짜-클라이언트로-서비스-테스트-만들기) · [Block 1 files](examples/period1/README.md)
 
 Done when:
 
@@ -253,7 +253,7 @@ These are **the same commands** you'd type locally. Only the machine is differen
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 2 lab — Turn GitHub Actions green, then red](lab.md#2교시-실습--github-actions로-초록불과-빨간불-만들기)
+[Block 2 lab — Turn GitHub Actions green, then red](lab.md#2교시-실습--github-actions로-초록불과-빨간불-만들기) · [Block 2 files](examples/period2/README.md)
 
 Done when:
 
@@ -365,7 +365,7 @@ Order: description/Issue → green CI → tests present? → error paths → sec
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 3 lab — Dependency audit, secret scanning, cross-review](lab.md#3교시-실습--의존성-감사와-비밀-검색-교차-리뷰)
+[Block 3 lab — Dependency audit, secret scanning, cross-review](lab.md#3교시-실습--의존성-감사와-비밀-검색-교차-리뷰) · [Block 3 files](examples/period3/README.md)
 
 Done when:
 

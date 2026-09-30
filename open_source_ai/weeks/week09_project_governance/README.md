@@ -41,7 +41,7 @@
 
 - [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료
 - [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
-- [실행 예제](examples/README.md): 팀 저장소 뼈대(`project_template/`), 제안 도구(`proposal_tools/`: VRAM 추정·저장소 건강 조사·이슈 계획 검사·이슈 등록), 조사표·마일스톤 템플릿
+- [실행 예제](examples/README.md): 실습에 맞춘 [1교시](examples/period1/README.md) · [2교시](examples/period2/README.md) · [3교시](examples/period3/README.md). 코드·양식·입력과 실행 위치는 각 교시 안내를 따른다. 기존 통합본은 호환 참고용이다.
 - 강의 대본: 강의자 별도 관리(비공개)
 - [제안서 양식](proposal_template.md): 팀 제안서 `proposal.md`의 항목과 작성 기준
 - [제안 발표 채점표](proposal_rubric.md): 3분 제안 발표 100점 상대 배점

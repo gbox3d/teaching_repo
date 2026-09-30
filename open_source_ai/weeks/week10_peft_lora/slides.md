@@ -122,7 +122,7 @@ trainable params: 1,081,344 || all params: 495,114,112 || trainable%: 0.2184
 
 ## 18–20분 · 실습 인계
 
-[1교시 실습 — 어댑터 붙이고 학습 파라미터 세기](lab.md#1교시-실습--어댑터-붙이고-학습-파라미터-세기)
+[1교시 실습 — 어댑터 붙이고 학습 파라미터 세기](lab.md#1교시-실습--어댑터-붙이고-학습-파라미터-세기) · [교시별 예제](examples/period1/README.md)
 
 완료 조건:
 
@@ -236,7 +236,7 @@ uv run python train_lora.py --seed 42 --run-name run-001
 
 ## 18–20분 · 실습 인계
 
-[2교시 실습 — 수업 도우미 말투로 LoRA 학습하기](lab.md#2교시-실습--수업-도우미-말투로-lora-학습하기)
+[2교시 실습 — 수업 도우미 말투로 LoRA 학습하기](lab.md#2교시-실습--수업-도우미-말투로-lora-학습하기) · [교시별 예제](examples/period2/README.md)
 
 완료 조건:
 
@@ -346,7 +346,7 @@ merge.py  →  models/merged-run-001/ (safetensors)
 
 ## 18–20분 · 실습 인계
 
-[3교시 실습 — 전후 비교와 실험 기록 run-001](lab.md#3교시-실습--전후-비교와-실험-기록-run-001)
+[3교시 실습 — 전후 비교와 실험 기록 run-001](lab.md#3교시-실습--전후-비교와-실험-기록-run-001) · [교시별 예제](examples/period3/README.md)
 
 완료 조건:
 

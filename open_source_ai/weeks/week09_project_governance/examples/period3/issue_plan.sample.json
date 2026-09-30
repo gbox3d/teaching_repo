@@ -1,0 +1,113 @@
+{
+  "team": "team-a",
+  "project": "수업 도우미 — 실습 오류 메시지를 수업 문서 출처와 함께 설명하는 로컬 AI 도우미",
+  "milestones": [
+    {
+      "name": "M1 첫 실험 기록",
+      "week": 11,
+      "done_when": "experiments/run-001.md, data/DATA_CARD.md, 평가셋 10문항이 main 에 있고 기준선 대비 결과표가 있다"
+    },
+    {
+      "name": "M2 서비스 베타",
+      "week": 12,
+      "done_when": "FastAPI /health·/chat 이 동작하고 UI 1종과 README 실행 절차로 다른 팀원이 재현한다 (3차 과제)"
+    },
+    {
+      "name": "M3 v0.1.0 릴리스",
+      "week": 15,
+      "done_when": "CI 초록불, v0.1.0 태그, CHANGELOG, 교차 재현 Issue 처리, 3분 시연 준비 완료 (4차 과제)"
+    }
+  ],
+  "issues": [
+    {
+      "title": "SFT 샘플 50건 작성 (수업 도우미 말투, 오류 메시지→조치)",
+      "milestone": "M1 첫 실험 기록",
+      "assignee": "student02",
+      "days": 3,
+      "labels": ["data"],
+      "done_when": "data/sft.jsonl 50건, pii_check 통과, 평가용 10건은 data/eval.jsonl 로 분리",
+      "body": "Must 1(오류 메시지 입력 → 출처 있는 조치)의 학습 데이터. 실제 인물·기관 정보 없음."
+    },
+    {
+      "title": "LoRA run-001 학습 후 loss 로그와 어댑터 저장",
+      "milestone": "M1 첫 실험 기록",
+      "assignee": "student01",
+      "days": 2,
+      "labels": ["experiment"],
+      "done_when": "adapters/run-001/ 생성, experiments/run-001.md 에 config·seed·시간·VRAM·loss 기록",
+      "body": "10주차 train_lora.py 를 팀 데이터로 실행한다."
+    },
+    {
+      "title": "기준 모델 vs run-001 출력 5개 비교표 작성",
+      "milestone": "M1 첫 실험 기록",
+      "assignee": "student01",
+      "days": 1,
+      "labels": ["experiment"],
+      "done_when": "experiments/run-001.md 에 같은 프롬프트 5개의 전후 출력과 한 줄 판정이 있다",
+      "body": "compare.py 결과를 그대로 붙이고 형식 준수 여부를 표시한다."
+    },
+    {
+      "title": "평가셋 10문항으로 키워드 일치율·형식 준수율 측정",
+      "milestone": "M1 첫 실험 기록",
+      "assignee": "student02",
+      "days": 2,
+      "labels": ["evaluation"],
+      "done_when": "outputs/eval-run-001.json 과 experiments/run-001.md 의 결과표가 일치한다",
+      "body": "11주차 evaluate.py 사용. 평가셋은 학습에 쓰지 않는다."
+    },
+    {
+      "title": "FastAPI /health 엔드포인트 (Ollama 연결 확인)",
+      "milestone": "M2 서비스 베타",
+      "assignee": "student03",
+      "days": 1,
+      "labels": ["service"],
+      "done_when": "uv run uvicorn 후 /health 가 Ollama 상태를 JSON 으로 반환하고 서버가 꺼지면 503 을 준다",
+      "body": "12주차 ai_service 구조를 따른다."
+    },
+    {
+      "title": "FastAPI /chat 엔드포인트 (요청 검증·Ollama 호출·오류 응답)",
+      "milestone": "M2 서비스 베타",
+      "assignee": "student03",
+      "days": 3,
+      "labels": ["service"],
+      "done_when": "정상 요청은 출처 필드가 있는 답을, 빈 입력은 422 를, Ollama 미기동은 502 를 반환한다",
+      "body": "Must 1·2 를 서비스로 노출한다."
+    },
+    {
+      "title": "Gradio 채팅 UI 를 /chat 에 연결",
+      "milestone": "M2 서비스 베타",
+      "assignee": "student01",
+      "days": 2,
+      "labels": ["service"],
+      "done_when": "ui/gradio_app.py 실행 시 오류 메시지를 넣으면 출처가 표시된 답이 화면에 나온다",
+      "body": "Must 3(수강생이 쓸 수 있는 UI)."
+    },
+    {
+      "title": "README 실행 절차를 다른 팀원이 새 폴더에서 재현",
+      "milestone": "M2 서비스 베타",
+      "assignee": "student02",
+      "days": 1,
+      "labels": ["docs"],
+      "done_when": "clone → uv sync → 실행까지 10분 안에 되고 실패 항목이 Issue 로 남았다",
+      "body": "3차 과제 제출 전 재현 검증."
+    },
+    {
+      "title": "pytest 3개와 GitHub Actions CI 워크플로 추가",
+      "milestone": "M3 v0.1.0 릴리스",
+      "assignee": "student03",
+      "days": 2,
+      "labels": ["ci"],
+      "done_when": ".github/workflows/ci.yml 이 PR 에서 pytest·ruff 를 실행하고 초록불이다",
+      "body": "13주차 내용. 모델 호출은 fake client 로 격리한다."
+    },
+    {
+      "title": "v0.1.0 태그·CHANGELOG·릴리스 노트 작성",
+      "milestone": "M3 v0.1.0 릴리스",
+      "assignee": "student01",
+      "days": 1,
+      "labels": ["release"],
+      "done_when": "GitHub Release v0.1.0 이 있고 CHANGELOG 의 Unreleased 가 비어 있다",
+      "body": "14주차 내용. 릴리스 담당이 수행한다."
+    }
+  ]
+}

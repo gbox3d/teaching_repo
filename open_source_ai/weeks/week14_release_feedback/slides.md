@@ -124,7 +124,7 @@ uv run python release_check.py --repo C:\classwork\team-a-repo --tag v0.1.0
 
 ## 17–20분 · 실습 인계
 
-[1교시 실습 — 릴리스 문서 세트 보완](lab.md#1교시-실습--릴리스-문서-세트-보완)
+[1교시 실습 — 릴리스 문서 세트 보완](lab.md#1교시-실습--릴리스-문서-세트-보완) · [1교시 파일](examples/period1/README.md)
 
 완료 조건:
 
@@ -229,7 +229,7 @@ git show v0.1.0 --stat | Select-Object -First 8
 
 ## 17–20분 · 실습 인계
 
-[2교시 실습 — 릴리스 생성과 교차 재현](lab.md#2교시-실습--릴리스-생성과-교차-재현)
+[2교시 실습 — 릴리스 생성과 교차 재현](lab.md#2교시-실습--릴리스-생성과-교차-재현) · [2교시 파일](examples/period2/README.md)
 
 완료 조건:
 
@@ -332,7 +332,7 @@ git show v0.1.0 --stat | Select-Object -First 8
 
 ## 17–20분 · 실습 인계
 
-[3교시 실습 — 피드백 응답과 시연 리허설](lab.md#3교시-실습--피드백-응답과-시연-리허설)
+[3교시 실습 — 피드백 응답과 시연 리허설](lab.md#3교시-실습--피드백-응답과-시연-리허설) · [3교시 파일](examples/period3/README.md)
 
 완료 조건:
 

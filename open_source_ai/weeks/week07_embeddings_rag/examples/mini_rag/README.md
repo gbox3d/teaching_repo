@@ -1,5 +1,7 @@
 # mini_rag — 7주차 예제 프로젝트
 
+> 기존 링크 호환용 통합 참조다. 수업은 [교시별 예제 선택](../README.md)의 `period1` → `period2` → `period3`을 사용한다. 전체 설명은 [통합 상세 안내](reference_guide.md)에 있다.
+
 문서 분할 → 임베딩 인덱스 → 코사인 검색 → 출처 있는 답 생성 → 평가셋 측정까지를 스크립트 다섯 개(`chunk.py`·`embed.py`·`search.py`·`rag_answer.py`·`eval.py`)와 공통 모듈 `ragcore.py`로 나눈 최소 RAG다.
 자세한 실행 순서·관찰 지점·대체 경로는 상위 [`../README.md`](../README.md)에 있다.
 

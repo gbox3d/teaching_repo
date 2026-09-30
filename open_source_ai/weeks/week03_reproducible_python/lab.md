@@ -3,15 +3,17 @@
 ## 공통 규칙
 
 - 완성 코드를 보기 전에 예상을 적는다.
-- 명령은 현재 폴더를 확인한 뒤 실행한다.
+- 명령은 `pyproject.toml`이 있는 프로젝트 루트에서 실행한다. `uv run`은 환경 생성·동기화 뒤 명령을 실행하므로 activate가 필요 없다. 최신 설치·Python 선택은 [공통 uv 가이드](../../uv_guide.md)를 참고한다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
 - 캡처보다 원인과 근거를 적은 짧은 문장이 더 중요한 증거다.
 - 기본 문제 완료 후 확장 문제를 수행한다.
-- 실습 시간에 새 패키지를 찾아 추가하지 않는다. 이번 주에 쓰는 `httpx`·`python-dotenv`·`hatchling`은 수업 전 예제 `uv sync`로 캐시되어 있다. 전역 `pip install`은 쓰지 않는다.
+- 실습 시간에 새 패키지를 찾아 추가하지 않는다. 이번 주에 쓰는 `httpx`·`python-dotenv`·`hatchling`은 수업 전 예제 `uv sync`로 캐시되어 있다. Python 환경과 패키지는 uv로 관리한다.
 - 실제 토큰·비밀번호는 `.env`에도 쓰지 않는다. 실습에서 쓰는 가짜 토큰은 `hf_fake_token_for_class_only`처럼 가짜임이 드러나는 문자열만 쓴다.
 - `git push --force`, `git reset --hard`처럼 기록을 지우는 명령은 쓰지 않는다. 막히면 힌트를 읽고, 그래도 안 되면 강의자를 부른다.
 
 ## 1교시 실습 — uv 프로젝트를 만들고 깨끗한 폴더에서 재현하기
+
+**이 시간 예제:** [period1 — 파일·실행·예상 결과](examples/period1/README.md). 실습 시간표의 각 단계와 대응한다.
 
 **이어받는 것:** 2주차까지 쓴 개인 저장소(GitHub 원격 연결, `LICENSE`, 1주차의 `first_run/`·`reports/` 포함). 이 문서는 그 폴더를 `C:\classwork\osa-practice`로 적는다. 1주차에 만든 이름이 `osa-week01`이면 그 경로를 그대로 쓴다.
 
@@ -25,8 +27,8 @@
 |---|---:|---|
 | 문제·예상 | 0–5분 | 저장소 상태 확인, 예제 복사, 예상표 작성 |
 | 프로젝트 만들기 | 5–13분 | `uv init` → `uv add httpx` → 루트 `.gitignore` → commit → `uv lock` |
-| 깨끗한 폴더 재현 | 13–20분 | `reproduce_check.ps1`로 clone → `uv sync --frozen` → `import httpx` |
-| 실패 경로 | 20–25분 | 복제본에서 `uv.lock` 삭제 → `--frozen` 실패 → 플래그 없는 `uv sync` |
+| 깨끗한 폴더 재현 | 13–20분 | `reproduce_check.ps1`로 clone → `uv sync --locked` → `import httpx` |
+| 실패 경로 | 20–25분 | 복제본에서 `uv.lock` 삭제 → `--locked` 실패 → 플래그 없는 `uv sync` |
 | 검증·기록 | 25–30분 | 재현 로그를 `notes/`로 복사, 오류 첫 줄·설명 문장 기록, push |
 
 ### 준비
@@ -48,7 +50,7 @@ uv --version
 ```powershell
 $src = "<교재 저장소>\open_source_ai\weeks\week03_reproducible_python\examples"
 New-Item -ItemType Directory -Force C:\classwork\week03 | Out-Null
-Copy-Item "$src\reproduce_check.ps1" C:\classwork\week03\
+Copy-Item "$src\period1\reproduce_check.ps1" C:\classwork\week03\
 New-Item -ItemType Directory -Force C:\classwork\osa-practice\notes | Out-Null
 Copy-Item "$src\week03_notes_template.md" C:\classwork\osa-practice\notes\week03.md
 ```
@@ -63,14 +65,16 @@ Copy-Item "$src\week03_notes_template.md" C:\classwork\osa-practice\notes\week03
 | `uv add httpx` 뒤 새로 생기는 파일·폴더 |  |  |
 | `uv add httpx` 뒤 `git status`에 `.venv/`가 보이는가 |  |  |
 | clone한 복제본에 있는 것과 없는 것 |  |  |
-| 복제본에서 `uv.lock`을 지우고 `uv sync --frozen`하면 |  |  |
+| 복제본에서 `uv.lock`을 지우고 `uv sync --locked`하면 |  |  |
 
-2. 저장소 루트에서 `uv init`을 실행하고 `git status --short`로 새로 생긴 파일을 확인한다. `README.md`와 `LICENSE`는 그대로 남는다. 샘플 스크립트 `main.py`는 지운다(2교시에서 `src/` 아래에 진짜 코드를 만든다).
+2. 저장소 루트에서 `uv init --no-package`를 실행한다. 기존 `README.md`·`LICENSE`는 보존한다. 생성 파일은 uv 버전에 따라 다를 수 있다. `main.py`가 이번 명령으로 생성된 샘플인 경우에만 지운다(기존 코드가 있다면 보존한다). `--no-package`는 2교시에 패키지 구조를 직접 만드는 실습용이다.
 
 ```powershell
-uv init
+# 3.12는 교재 호환 예시. 환경 기준표가 다르면 그 버전으로 바꾼다.
+uv init --no-package --python 3.12
 git status --short
-Remove-Item main.py
+# 새로 생성된 샘플임을 확인한 경우에만 실행
+if (Test-Path main.py) { Remove-Item main.py }
 Get-Content pyproject.toml
 ```
 
@@ -81,15 +85,21 @@ uv add httpx
 Get-ChildItem -Force
 git status --short
 Get-Content .venv\.gitignore
+uv run python -c "import sys, httpx; print(sys.executable); print(httpx.__version__)"
 ```
 
-4. 루트 `.gitignore`를 VS Code로 만든다(`code .gitignore`). PowerShell의 `Out-File`·`Set-Content`는 BOM·줄 끝 문제가 생길 수 있으므로 편집기로 만든다. `.env`는 3교시에서 실수를 재현한 뒤 넣는다.
+출력된 실행 파일이 이 프로젝트의 `.venv` 아래인지 확인한다. 이후 스크립트는 `uv run first_run/sysinfo.py`, 모듈은 `uv run python -m <모듈>`, 설치된 CLI는 `uv run <명령>`으로 실행한다. 각각 해당 코드와 의존성이 현재 프로젝트에 준비되어 있어야 한다.
+
+4. 루트 `.gitignore`를 VS Code로 열어 아래 누락된 규칙을 추가한다(`code .gitignore`). 기존 규칙을 덮어쓰지 않는다. `uv.lock`은 제외하지 않는다. PowerShell의 `Out-File`·`Set-Content`는 BOM·줄 끝 문제가 생길 수 있으므로 편집기로 수정한다. `.env`는 처음부터 보호하고, 3교시에는 가짜 값만 넣어 강제 stage 상황을 재현한다.
 
 ```text
 .venv/
 __pycache__/
 *.pyc
 outputs/
+.env
+.env.*
+!.env.example
 ```
 
 5. 네 파일만 stage하고 stage 목록을 읽은 뒤 commit한다. commit 뒤 `uv lock`을 한 번 더 실행해 tracked 파일이 그대로인지 본다(준비 절에서 복사한 `notes/`는 아직 untracked로 남아 있는 것이 정상이다).
@@ -114,7 +124,7 @@ git status
 
 ```powershell
 Set-Location C:\classwork\week03
-.\reproduce_check.ps1 -Source C:\classwork\osa-practice -Dest C:\classwork\_repro\osa-practice -Check 'uv run python -c "import httpx; print(httpx.__version__)"' -Keep
+.\reproduce_check.ps1 -Source C:\classwork\osa-practice -Dest C:\classwork\_repro\osa-practice -Check 'uv run --locked python -c "import httpx; print(httpx.__version__)"' -Keep
 ```
 
 2. `C:\classwork\week03\outputs\reproduce-<시각>.md`를 열어 네 단계가 모두 OK인지, 2단계 표에서 복제본에 `.venv`·`.env`가 없고 `uv.lock`이 있는지, 3단계에 설치된 패키지 목록이 있는지, 4단계에 `httpx` 버전이 찍혔는지 확인한다. 로그를 저장소의 `notes/`로 복사한다(사용자 홈 경로가 들어 있으면 지운다).
@@ -123,12 +133,12 @@ Set-Location C:\classwork\week03
 Copy-Item (Get-ChildItem outputs\reproduce-*.md | Select-Object -Last 1) C:\classwork\osa-practice\notes\week03_reproduce.md
 ```
 
-3. 실패 경로. 복제본에서 `uv.lock`을 지우고 `--frozen`으로 sync한다. 오류 첫 줄과 종료 코드를 `notes/week03.md`에 적는다.
+3. 실패 경로. 복제본에서 `uv.lock`을 지우고 `--locked`로 sync한다. 오류 첫 줄과 종료 코드를 `notes/week03.md`에 적는다.
 
 ```powershell
 Set-Location C:\classwork\_repro\osa-practice
 Remove-Item uv.lock
-uv sync --frozen
+uv sync --locked
 $LASTEXITCODE
 ```
 
@@ -151,8 +161,8 @@ Remove-Item -Recurse -Force C:\classwork\_repro
 완료 조건:
 
 - [ ] `notes/week03_reproduce.md`에 네 단계가 모두 OK인 로그가 있다.
-- [ ] `uv.lock`이 없을 때 `uv sync --frozen`의 오류 첫 줄과 종료 코드를 적었다.
-- [ ] `--frozen`이 `pyproject.toml`이 아니라 `uv.lock`을 읽는다는 것을 한 문장으로 적었다.
+- [ ] `uv.lock`이 없을 때 `uv sync --locked`의 오류 첫 줄과 종료 코드를 적었다.
+- [ ] `--locked`는 lock 누락·갱신 필요 시 실패하며, `--frozen`은 기존 lock과 프로젝트 선언의 일치 여부를 검사하지 않는다는 차이를 적었다.
 
 ### 단계별 힌트
 
@@ -165,11 +175,11 @@ Remove-Item -Recurse -Force C:\classwork\_repro
 <details>
 <summary>힌트 2 — `uv add httpx`가 다운로드하려다 실패한다(네트워크 없음)</summary>
 
-캐시에 있는 것만 쓰도록 `--offline`을 붙인다. 수업 전에 예제 `oss_tool`에서 `uv sync`를 했다면 `httpx`와 그 의존성은 캐시에 있다.
+캐시에 있는 것만 쓰도록 `--offline`을 붙인다. 수업 전에 예제 `examples/period3`에서 `uv sync`를 했다면 `httpx`와 그 의존성은 캐시에 있다.
 
 ```powershell
 uv add --offline httpx
-uv sync --frozen --offline
+uv sync --locked --offline
 ```
 
 캐시에도 없으면 조교에게 알리고, 기다리는 동안 `.gitignore`와 예상표를 먼저 끝낸다.
@@ -183,17 +193,19 @@ uv sync --frozen --offline
 
 ### 검증
 
-- 정상: 복제본에서 `uv run python -c "import httpx"`가 성공하고 로그의 네 단계가 모두 OK다. 복제본에는 `.venv`가 없었다가 `uv sync --frozen` 뒤 생긴다.
-- 경계 또는 실패: 복제본에서 `uv.lock`을 지우면 `--frozen`이 0이 아닌 종료 코드로 실패하고, 플래그 없는 `uv sync`는 새 lock을 만든다.
+- 정상: 복제본에서 `uv run --locked python -c "import httpx"`가 성공하고 로그의 네 단계가 모두 OK다. 복제본에는 `.venv`가 없었다가 `uv sync --locked` 뒤 생긴다.
+- 경계 또는 실패: 복제본에서 `uv.lock`을 지우면 `--locked`이 0이 아닌 종료 코드로 실패하고, 플래그 없는 `uv sync`는 새 lock을 만든다.
 - 설명: "`pyproject.toml`만 커밋하면 왜 재현이 아닌가"를 한 문장으로 적는다.
 
 ### 확장 문제
 
-1. `pyproject.toml`의 `dependencies`에 `"python-dotenv"`를 손으로 추가하고 `uv sync --locked`를 실행해 lock이 낡았다는 오류를 관찰한다. `uv lock` 뒤 다시 실행해 통과하는지 본 다음 `git restore pyproject.toml uv.lock`으로 되돌린다(3교시에서 `uv add`로 제대로 추가한다).
+1. 원본 저장소에서 `git status`로 미커밋 변경이 없는지 확인한 뒤 `pyproject.toml`의 `dependencies`에 `"python-dotenv"`를 손으로 추가한다. `uv sync --locked`는 갱신이 필요한 lock을 거부한다. 반면 `uv sync --frozen`은 일치 여부 검사를 생략하므로 새 의존성이 설치됐다고 보장하지 않는다. `uv lock` → `uv sync --locked`로 해결한 뒤 `git restore pyproject.toml uv.lock`으로 되돌린다(원본은 3교시에 `uv add`로 추가한다).
 2. `uv tree`로 `httpx`가 끌어온 패키지 트리를 보고 `uv.lock`의 `[[package]]` 개수와 비교한다.
 3. `uv python list`로 이 PC에 있는 Python과 `.python-version`이 가리키는 것을 대조하고, `.python-version`을 커밋하는 이유를 적는다.
 
 ## 2교시 실습 — oss-tool CLI 완성하기
+
+**이 시간 예제:** [period2 — 파일·실행·예상 결과](examples/period2/README.md). 실습 시간표의 각 단계와 대응한다.
 
 **이어받는 것:** 1교시의 uv 프로젝트(`pyproject.toml`, `uv.lock`, 루트 `.gitignore`)와 1주차 `first_run/sysinfo.py`. 하루가 바뀌었으면 `uv sync`를 한 번 실행하고 시작한다.
 
@@ -220,7 +232,7 @@ uv run python -c "import httpx; print('ok')"
 $src = "<교재 저장소>\open_source_ai\weeks\week03_reproducible_python\examples"
 ```
 
-`ok`가 출력되면 시작한다. 예제 `oss_tool`은 참조 구현이다. 막혔을 때 파일 단위로 열어 비교하고, 통째로 복사하지 않는다.
+`ok`가 출력되면 시작한다. 문제 1(5–13분)은 [greet만 있는 코드](examples/period2/step1_greet/src/oss_tool/cli.py), 문제 2(13–21분)는 [sysinfo까지 있는 코드](examples/period2/src/oss_tool/cli.py)와 비교한다. 설정 코드는 3교시에서 연다.
 
 ### 문제 1 · greet 서브커맨드와 엔트리포인트
 
@@ -264,7 +276,7 @@ uv run oss-tool --help
 
 ### 문제 2 · sysinfo 서브커맨드, 실패 경로, README
 
-1. `src/oss_tool/sysinfo.py`를 만든다. 1주차 `first_run/sysinfo.py`에서 수집 함수들을 옮기고 `argparse`·`main()`을 빼서 `collect() -> dict` 하나로 정리하거나, 예제 `$src\oss_tool\src\oss_tool\sysinfo.py`를 그대로 복사한다. GPU가 없으면 예외 대신 `available: false`와 이유를 담아 돌려줘야 한다.
+1. `src/oss_tool/sysinfo.py`를 만든다. 1주차 `first_run/sysinfo.py`에서 수집 함수들을 옮기고 `argparse`·`main()`을 빼서 `collect() -> dict` 하나로 정리하거나, 예제 `$src\period2\src\oss_tool\sysinfo.py`를 그대로 복사한다. GPU가 없으면 예외 대신 `available: false`와 이유를 담아 돌려줘야 한다.
 2. `cli.py`에 `sysinfo` 서브커맨드를 추가한다. `--json`이 있으면 `json.dumps(info, ensure_ascii=True, indent=2)`를 stdout에, 없으면 사람이 읽을 요약을 출력한다. 결과는 항상 `outputs/sysinfo-<시각>.json`에 저장하고, 저장 경로는 `print`가 아니라 `logging`으로 남긴다. `main()`에서 `logging.basicConfig(level=logging.INFO, stream=sys.stderr, ...)`를 설정한다.
 3. 실행하고 stdout과 stderr가 분리되는지 확인한다. Windows PowerShell 5.1은 여러 줄 입력을 바로 받지 못하므로 `Out-String`으로 한 문자열로 합쳐 넘긴다.
 
@@ -284,9 +296,11 @@ git status --short
 ```markdown
 ## 실행
 
-1. `uv sync --frozen`
-2. `uv run oss-tool greet --name student01`
-3. `uv run oss-tool sysinfo --json` (결과는 `outputs/`에 저장된다)
+프로젝트 루트(`pyproject.toml`이 있는 폴더)에서 실행한다.
+
+1. `uv sync --locked`
+2. `uv run --locked oss-tool greet --name student01`
+3. `uv run --locked oss-tool sysinfo --json` (결과는 `outputs/`에 저장된다)
 ```
 
 6. `git diff --stat`으로 `uv.lock`도 바뀌었는지 본 뒤 commit·push한다. 빌드 백엔드를 추가하면 프로젝트 자신이 lock에 들어간다.
@@ -335,11 +349,13 @@ stdout에 JSON 외의 글자가 섞였다. 진행 메시지를 `print`로 쓰지
 
 1. 최상위 옵션 `-v/--verbose`를 추가해 DEBUG 로그를 켜고, 파싱된 인자를 `log.debug`로 남긴다. 켜지 않았을 때 stderr에 아무것도 늘지 않는지 확인한다.
 2. `--version` 옵션이 `__init__.py`의 `__version__`을 출력하게 한다.
-3. `Set-Location C:\classwork` 뒤 `uv run --project C:\classwork\osa-practice oss-tool greet`를 실행하고, 저장소 밖에서도 동작하는 이유를 적는다.
+3. `Set-Location C:\classwork` 뒤 `uv run --directory C:\classwork\osa-practice oss-tool greet`를 실행해 본다. `--directory`는 작업 폴더도 바꾸므로 `.env`·`outputs/` 상대 경로가 일관된다. `--project`는 프로젝트 선택만 바꾸고 작업 폴더는 유지한다는 차이를 [공통 가이드](../../uv_guide.md)에서 확인한다.
 
 ## 3교시 실습 — 설정 로더와 비밀정보 분리
 
-**이어받는 것:** 2교시의 `oss-tool`(`greet`·`sysinfo`)과 루트 `.gitignore`(아직 `.env`가 없다). 하루가 바뀌었으면 `uv sync` 뒤 `uv run oss-tool greet`로 확인하고 시작한다.
+**이 시간 예제:** [period3 — 파일·실행·예상 결과](examples/period3/README.md). 실습 시간표의 각 단계와 대응한다.
+
+**이어받는 것:** 2교시의 `oss-tool`(`greet`·`sysinfo`)과 루트 `.gitignore`(`.env`·`.env.*` 제외, `.env.example` 예외). 하루가 바뀌었으면 `uv sync` 뒤 `uv run oss-tool greet`로 확인하고 시작한다.
 
 ### 상황
 
@@ -352,7 +368,7 @@ stdout에 JSON 외의 글자가 섞였다. 진행 메시지를 `print`로 쓰지
 | 문제·예상 | 0–5분 | `uv add python-dotenv`, 예상표(이기는 출처, 토큰 표시, staged `.env`) |
 | 설정 로더 | 5–13분 | `config.py`(기본값 < `.env` < 환경변수 < 인자, 출처 기록), `config` 서브커맨드 |
 | 계층 확인 | 13–19분 | `.env.example` commit → `.env` → 셸 변수 → `--model`로 출처 변화 관찰 |
-| 실수 재현·복구 | 19–25분 | 가짜 토큰 `.env` → `git add .` → `restore --staged` → `.gitignore` → 이력 검사 |
+| 실수 재현·복구 | 19–25분 | 가짜 토큰 `.env` → `git add -f .env` → `restore --staged` → ignore 확인 → 이력 검사 |
 | 검증·기록 | 25–30분 | 검사 결과 문장, commit·push, `config --json`으로 4주차 연결 확인 |
 
 ### 준비
@@ -368,8 +384,8 @@ git diff --stat
 
 ### 문제 1 · config.py와 config 서브커맨드
 
-1. `notes/week03.md` 3절의 예상표를 채운다. `.env`에 `OLLAMA_MODEL=qwen3:0.6b`, 셸에 `$env:OLLAMA_MODEL="qwen3:1.7b"`, 인자로 `--model qwen3:14b`를 동시에 주면 무엇이 이기는가. `HF_TOKEN` 값은 화면에 그대로 보여야 하는가. `.gitignore`에 `.env`가 없을 때 `git add .`를 하면 `.env`는 어디에 가는가.
-2. `src/oss_tool/config.py`를 만든다. 예제 `$src\oss_tool\src\oss_tool\config.py`를 읽고 가져와도 되지만, 우선순위 4단계를 자기 말로 설명할 수 있어야 한다.
+1. `notes/week03.md` 3절의 예상표를 채운다. `.env`에 `OLLAMA_MODEL=qwen3:0.6b`, 셸에 `$env:OLLAMA_MODEL="qwen3:1.7b"`, 인자로 `--model qwen3:14b`를 동시에 주면 무엇이 이기는가. `HF_TOKEN` 값은 화면에 그대로 보여야 하는가. `.env`가 ignored인데 `git add -f .env`를 하면 어디에 가는가.
+2. `src/oss_tool/config.py`를 만든다. 예제 `$src\period3\src\oss_tool\config.py`를 읽고 가져와도 되지만, 우선순위 4단계를 자기 말로 설명할 수 있어야 한다.
    - `DEFAULTS = {"OLLAMA_HOST": "http://localhost:11434", "OLLAMA_MODEL": "qwen3:8b"}`. 교재 검증용 기본값이며 실제 값은 환경 기준표가 정한다.
    - `load_settings(overrides, env_file=".env")`: 키마다 기본값 → `dotenv_values(env_file)` → `os.environ` → `overrides`(명령 인자) 순서로 덮어쓰고, 값과 함께 출처(`default`·`.env`·`env`·`arg`)를 기록한다. `load_dotenv()` 대신 `dotenv_values()`를 쓰는 이유는 `.env` 값과 셸 변수를 구분하기 위해서다.
    - 키 이름에 `TOKEN`·`KEY`·`SECRET`·`PASSWORD`가 들어가면 값을 가려서 표시한다(`(설정됨, 가려짐)`). 파일로 저장할 때도 가린 값만 저장한다.
@@ -419,16 +435,16 @@ uv run oss-tool config --model qwen3:14b
 Remove-Item Env:OLLAMA_MODEL
 ```
 
-4. 실수를 재현한다. `.gitignore`에 아직 `.env`가 없으므로 `git add .`는 `.env`를 stage한다. `git status`에서 `new file: .env`를 확인한 뒤 stage에서 내리고, `.gitignore`에 `.env` 줄을 VS Code로 추가하고(`Add-Content`는 마지막 줄에 개행이 없으면 앞 줄에 붙는다), `git status`에서 `.env`가 사라졌는지 본다.
+4. **가짜 토큰만 들어 있는지 먼저 확인하고**, `git add -f .env`로 ignore를 우회한 실수 상황을 재현한다. `-f`는 평소 업로드 절차에 쓰지 않는다. `git status`의 `new file: .env`를 확인한 뒤 바로 stage에서 내린다. 기존 `.gitignore`가 다시 적용되어 `.env`는 ignored가 된다. 아직 commit하지 않는다.
 
 ```powershell
-git add .
+git check-ignore -v .env
+git add -f .env
 git status
 git restore --staged .env
 git status
-code .gitignore
-git status
 git check-ignore -v .env
+git ls-files -- .env .env.example
 ```
 
 5. 이력을 검사한다. 두 명령이 모두 아무것도 출력하지 않으면 `.env`도 가짜 토큰도 이력에 없다. 결과를 문장으로 `notes/week03.md`에 적는다.
@@ -451,7 +467,7 @@ uv run oss-tool config --json
 완료 조건:
 
 - [ ] 같은 키를 `.env`, 셸 환경변수, `--model` 인자로 주었을 때 출처가 `.env` → `env` → `arg`로 바뀌는 것을 보았다.
-- [ ] `.env`가 staged → `restore --staged` → `.gitignore` 추가 순으로 `git status`에서 사라졌고, `git check-ignore -v .env`가 `.gitignore`의 줄을 가리킨다.
+- [ ] `.env`가 강제 staged → `restore --staged` → ignored 순으로 `git status`에서 사라졌고, `git check-ignore -v .env`가 `.gitignore`의 줄을 가리킨다.
 - [ ] 이력 검사 두 명령이 비어 있다는 문장을 `notes/week03.md`에 적었고, `.env.example`만 commit·push되었다.
 
 ### 단계별 힌트
@@ -471,13 +487,13 @@ uv run oss-tool config --json
 <details>
 <summary>힌트 3 — `.gitignore`에 `.env`를 넣었는데 `git status`에 여전히 보이거나, 반대로 `.env.example`까지 사라졌다</summary>
 
-여전히 보이면 이미 stage되었거나 commit된 것이다. staged면 `git restore --staged .env`, 이미 commit되었으면 `git rm --cached .env` 뒤 commit한다. push까지 되었다면 이력에 남으므로 그 토큰은 폐기하고 새로 발급한다(이력 재작성은 강의자와 상의). `.env.example`까지 사라졌다면 `.env*` 같은 패턴을 쓴 것이다. 정확히 `.env` 한 줄만 쓴다.
+여전히 보이면 이미 stage되었거나 commit된 것이다. staged면 `git restore --staged .env`, 이미 commit되었으면 `git rm --cached .env` 뒤 commit한다. push까지 되었다면 이력에 남으므로 그 토큰은 폐기하고 새로 발급한다(이력 재작성은 강의자와 상의). `.env.example`까지 사라졌다면 `.env.*` 규칙 뒤에 `!.env.example` 예외가 있는지 확인한다. `git ls-files -- .env .env.example`에는 예제 파일만 보여야 한다.
 </details>
 
 ### 검증
 
 - 정상: `config`의 출처가 `default` → `.env` → `env` → `arg`로 바뀌고, `.env.example`은 tracked, `.env`는 ignored다.
-- 경계 또는 실패: `git add .`로 `.env`가 staged된 상태를 실제로 보고 되돌렸다. 이력 검사 두 명령이 비어 있다.
+- 경계 또는 실패: `git add -f .env`로 가짜 `.env`가 staged된 상태를 실제로 보고 되돌렸다. 이력 검사 두 명령이 비어 있다.
 - 설명: "`.gitignore`가 막지 못하는 경우"를 한 문장으로 적는다.
 
 ### 확장 문제

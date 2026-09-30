@@ -1,0 +1,9 @@
+[project]
+name = "osa-week05-period1"
+version = "0.1.0"
+description = "오픈소스 AI 응용 5주차 1교시 실습"
+requires-python = ">=3.12"
+dependencies = [
+  "huggingface_hub",
+  "python-dotenv",
+]

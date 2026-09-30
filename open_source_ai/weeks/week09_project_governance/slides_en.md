@@ -132,7 +132,7 @@ The output `outputs/health-*.json` records whether community files exist, releas
 
 ## 17–20 min · Handoff to Lab
 
-[Block 1 lab — Governance Document Analysis Table](lab.md#1교시-실습--거버넌스-문서-분석표)
+[Block 1 lab — Governance Document Analysis Table](lab.md#1교시-실습--거버넌스-문서-분석표) · [Period files](examples/period1/README.md)
 
 Completion criteria:
 
@@ -245,7 +245,7 @@ Don't write a risk as "none." **The team that writes "none" is the one most stuc
 
 ## 17–20 min · Handoff to Lab
 
-[Block 2 lab — Team Proposal Draft](lab.md#2교시-실습--팀-제안서-초안)
+[Block 2 lab — Team Proposal Draft](lab.md#2교시-실습--팀-제안서-초안) · [Period files](examples/period2/README.md)
 
 Completion criteria:
 
@@ -359,7 +359,7 @@ Issues (assignee:@me) · Pull requests (author:@me) · Reviews (reviewed-by:@me)
 
 ## 17–20 min · Handoff to Lab
 
-[Block 3 lab — Team Repository and Issue Breakdown](lab.md#3교시-실습--팀-저장소와-이슈-분해)
+[Block 3 lab — Team Repository and Issue Breakdown](lab.md#3교시-실습--팀-저장소와-이슈-분해) · [Period files](examples/period3/README.md)
 
 Completion criteria:
 

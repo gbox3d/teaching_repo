@@ -1,0 +1,17 @@
+# 환경·캐시·실행 산출물은 GitHub 소스 배포에서 제외한다.
+.venv/
+__pycache__/
+*.pyc
+.ruff_cache/
+.pytest_cache/
+.uv-cache/
+.cache/
+outputs/
+models/
+.env
+.env.*
+!.env.example
+build/
+dist/
+*.egg-info/
+# pyproject.toml, uv.lock, .python-version, 소스·샘플 데이터는 포함한다.

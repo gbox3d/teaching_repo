@@ -124,9 +124,10 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 winget install --id=astral-sh.uv -e
 ```
 
-- 설치 위치는 `%USERPROFILE%\.local\bin\uv.exe`. 시스템 폴더를 건드리지 않는다
-- **Python을 먼저 깔지 않는다.** 필요한 Python은 uv가 스스로 가져온다
+- 공식 스크립트의 기본 위치는 `%USERPROFILE%\.local\bin\uv.exe`(winget은 다름)
+- **Python 설치 관리자는 불필요.** 수업 기준 Python은 uv로 준비한다
 - macOS·Linux 노트북: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- 갱신: 독립 설치는 `uv self update`, winget은 `winget upgrade --id=astral-sh.uv -e`
 
 **질문:** 설치가 끝난 바로 그 창에서 `uv --version`을 치면 될까?
 
@@ -156,6 +157,8 @@ $env:Path -split ';' | Select-String '\.local'    # 아무것도 안 나오면 P
 ## 18–20분 · 실습 인계
 
 [1교시 실습 — 실습환경 점검표 만들기](lab.md#1교시-실습--실습환경-점검표-만들기)
+
+[period1: 실습 단계별 예제](examples/period1/README.md)
 
 완료 조건:
 
@@ -258,6 +261,8 @@ AI 시스템에 네 가지 자유(사용·연구·수정·공유)를 보장하�
 ## 17–20분 · 실습 인계
 
 [2교시 실습 — 공개 AI 프로젝트 탐색표](lab.md#2교시-실습--공개-ai-프로젝트-탐색표)
+
+[period2: 실습 단계별 예제](examples/period2/README.md)
 
 완료 조건:
 
@@ -362,15 +367,15 @@ AI 시스템에 네 가지 자유(사용·연구·수정·공유)를 보장하�
 
 ## 13–15분 · uv는 무엇을 대신하는가
 
-| 예전에 따로 하던 일 | 도구 | uv |
+| 할 일 | uv 명령·파일 | 결과 |
 |---|---|---|
-| Python 버전 설치 | python.org 설치 관리자 | `uv python install` |
-| 프로젝트 격리 환경 | `python -m venv .venv` | 자동으로 만든다 |
-| 패키지 설치 | `pip install` | `uv add` |
-| 버전 고정 | `pip freeze > requirements.txt` | `uv.lock`(자동) |
+| Python 버전 설치 | `uv python install 버전` | 선택한 Python 준비 |
+| 프로젝트 환경과 실행 | `uv run python sysinfo.py` | `.venv` 준비 후 실행 |
+| 의존성 추가 | `uv add 패키지명` | 선언·잠금·환경 갱신 |
+| 잠금 환경 복원 | `uv sync --locked` | 검증된 `uv.lock` 사용 |
 
 - 실행 파일 **하나**가 Python 버전 + 가상환경 + 패키지 + 잠금을 모두 맡는다
-- 전역 `pip install`을 쓰지 않는다. 노트북의 Python을 오염시키지 않는다
+- 최신 uv·최신 Python·최신 패키지는 별개다. [설치·환경 가이드](../../uv_guide.md)
 
 **질문:** 같은 노트북에서 Python 3.11이 필요한 과목과 3.12가 필요한 과목을 동시에 들으면?
 
@@ -381,14 +386,14 @@ AI 시스템에 네 가지 자유(사용·연구·수정·공유)를 보장하�
 ```text
 uv run python sysinfo.py
   ① 현재 폴더에서 위로 올라가며 pyproject.toml 을 찾는다
-  ② requires-python = ">=3.12" 를 만족하는 Python 이 없으면 내려받는다
+  ② Python 지정과 requires-python 조건에 맞는 Python 을 찾거나 내려받는다
   ③ .venv 가 없으면 만든다
-  ④ dependencies(python-dotenv) 를 .venv 에 맞춘다 → uv.lock 생성
+  ④ uv.lock 을 확인·생성하고 의존성(python-dotenv)을 .venv 에 맞춘다
   ⑤ 그 .venv 의 python 으로 sysinfo.py 를 실행한다
 ```
 
 - `activate`를 치지 않는다. 매번 그 프로젝트의 환경이 자동으로 선택된다
-- 그래서 **다른 PC에서도 같은 한 줄이 같은 환경을 만든다.** 이것이 재현성이다
+- 다른 PC에서도 재현하려면 **검증된 `uv.lock`과 Python 기준**을 함께 전달한다
 - 오늘 확인할 증거: `sysinfo.json`의 `python.in_project_venv`
 
 **질문:** uv 없이 `python sysinfo.py`로 실행하면 어느 Python이 쓰이는가?
@@ -398,6 +403,8 @@ uv run python sysinfo.py
 ## 18–20분 · 실습 인계
 
 [3교시 실습 — 첫 uv 실행과 첫 commit](lab.md#3교시-실습--첫-uv-실행과-첫-commit)
+
+[period3: 실습 단계별 예제](examples/period3/README.md)
 
 완료 조건:
 

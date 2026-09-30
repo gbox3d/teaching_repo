@@ -124,7 +124,7 @@ Answer format: **judgment + reasoning + (if any) source**. Never more than three
 
 ## 17–20 min · Handoff to Lab
 
-[Block 1 lab — Mock Exam A: Recovering a Project and Discriminating Questions](lab.md#1교시-실습--모의-실기-a-프로젝트-복구와-판별-문항)
+[Block 1 lab — Mock Exam A: Recovering a Project and Discriminating Questions](lab.md#1교시-실습--모의-실기-a-프로젝트-복구와-판별-문항) · [Period files](examples/period1/README.md)
 
 Completion criteria:
 
@@ -229,7 +229,7 @@ Out of 100, weighted. Three levels — full, partial, not met — see [exam_rubr
 
 ## 17–20 min · Handoff to Lab
 
-[Block 2 lab — Mock Exam B: Adding a Client Feature and Interpreting Results](lab.md#2교시-실습--모의-실기-b-클라이언트-기능-추가와-결과-해석)
+[Block 2 lab — Mock Exam B: Adding a Client Feature and Interpreting Results](lab.md#2교시-실습--모의-실기-b-클라이언트-기능-추가와-결과-해석) · [Period files](examples/period2/README.md)
 
 Completion criteria:
 
@@ -335,7 +335,7 @@ git log --all -p -S "hf_" | Select-String "hf_"
 
 ## 17–20 min · Handoff to Lab
 
-[Block 3 lab — Individual Hands-On Exam and Fallback Procedures](lab.md#3교시-실습--개인-실기평가와-대체-운영)
+[Block 3 lab — Individual Hands-On Exam and Fallback Procedures](lab.md#3교시-실습--개인-실기평가와-대체-운영) · [Period files](examples/period3/README.md)
 
 Completion criteria:
 

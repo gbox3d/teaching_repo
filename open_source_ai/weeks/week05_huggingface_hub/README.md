@@ -32,8 +32,8 @@
 ## 준비물
 
 - Git, VS Code, uv, PowerShell. 브라우저에서 `huggingface.co`의 모델·데이터 카드 페이지를 열 수 있어야 한다(카드 열람은 계정 없이 가능하다).
-- 사전 캐시된 모델: 생성용 `HF_TEXT_MODEL`(교재 검증용 기본값 `Qwen/Qwen2.5-0.5B-Instruct`)과 분류용 `HF_CLS_MODEL`(기본값은 [실행 예제](examples/README.md)의 기본값 표 참고). 실습 시간에 새로 내려받지 않는다.
-- `examples/hf_explore`를 개인 저장소에 복사한 폴더에서 `uv sync`를 수업 전에 마쳐 둔다(첫 sync는 torch 설치로 오래 걸린다).
+- 사전 캐시된 모델: 생성용 `HF_TEXT_MODEL`(교재 검증용 기본값 `Qwen/Qwen2.5-0.5B-Instruct`)과 분류용 `HF_CLS_MODEL`(기본값은 [2교시 설정 예시](examples/period2/.env.example) 참고). 실습 시간에 새로 내려받지 않는다.
+- `examples/period1`·`period2`·`period3`를 개인 저장소에 복사한 폴더에서 `uv sync`를 수업 전에 마쳐 둔다(1교시는 캐시 조회 의존성만, 2·3교시는 torch 포함).
 - 4주차 산출물: 개인 저장소와 `.env`·`config.py` 패턴. 이번 주 파일은 같은 저장소에 누적한다.
 - 정확한 도구 버전, 모델 ID·revision·용량은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
 - Hugging Face 토큰, 비밀번호, 실명, 학번을 실습 파일과 공개 저장소에 넣지 않는다. gated 모델의 파일 다운로드는 이번 주 실습 범위 밖이며, 토큰을 쓰더라도 `.env`에만 둔다. 표시 이름은 `student01`, 팀명은 `team-a` 같은 수업용 값을 쓴다.
@@ -42,7 +42,7 @@
 
 - [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료
 - [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
-- [실행 예제](examples/README.md): `hf_explore/` uv 프로젝트(`cache_report.py`·`pipeline_demo.py`·`dataset_peek.py`·자체 샘플 데이터), 모델 카드 분석표·출처 기록표 템플릿
+- [실행 예제](examples/README.md): 실습지와 대응하는 `period1` → `period2` → `period3`. 각 폴더에 실제 코드·데이터·환경 파일과 단계별 안내가 있다.
 - 강의 대본: 강의자 별도 관리(비공개)
 
 ## 권장 진행 방식

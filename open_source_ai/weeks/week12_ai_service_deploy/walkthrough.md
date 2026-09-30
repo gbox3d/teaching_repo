@@ -7,7 +7,7 @@
 ## 시작 전 준비
 
 - Git, uv, Ollama가 설치되어 있고 기본 모델이 캐시되어 있다. (`uv --version`, `ollama list`로 확인)
-- [`examples/ai_service/`](examples/ai_service/) 폴더를 개인 실습 폴더에 **복사**해서 사용한다. 수업 자료 원본은 수정하지 않는다.
+- [교시별 예제](examples/README.md) 폴더를 개인 실습 폴더에 **복사**해서 사용한다. 수업 자료 원본은 수정하지 않는다.
 - 수업 전에 복사본에서 `uv sync`를 한 번 실행해 패키지 캐시를 채워 두었다. 1교시 단계 1의 `uv sync`는 캐시에서 몇 초 안에 끝나야 하며, 수 분이 걸리면 캐시가 없는 것이므로 강의자에게 알린다.
 - 터미널은 두 개를 쓴다. 터미널 A는 서버(앱 서버 또는 UI), 터미널 B는 점검 명령용이다. 둘 다 복사한 폴더 안에서 실행한다.
 - Docker Desktop은 3교시 경로 A에만 필요하다. 없으면 경로 B(uv)로 진행한다.
@@ -16,6 +16,8 @@
 
 ## 1교시 — 앱 서버 세우기와 오류 응답 확인
 
+[이 교시 코드·자료](examples/period1/README.md)
+
 ### 단계 1. 예제 복사와 의존성 설치
 
 **할 일** — `$src`에는 교재 저장소의 `examples` 폴더 경로를 넣는다.
@@ -23,9 +25,11 @@
 ```powershell
 $src = "<교재 저장소>\open_source_ai\weeks\week12_ai_service_deploy\examples"
 New-Item -ItemType Directory -Force C:\classwork\week12 | Out-Null
-Copy-Item -Recurse "$src\ai_service" C:\classwork\week12\ai_service
-Set-Location C:\classwork\week12\ai_service
-Copy-Item .env.example .env
+if (-not (Test-Path C:\classwork\week12\period1)) {
+    Copy-Item -Recurse -Force "$src\period1" C:\classwork\week12\period1
+}
+Set-Location C:\classwork\week12\period1
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv sync
 ollama list
 ```
@@ -46,7 +50,7 @@ uv run uvicorn app.main:app --port 8000 --reload
 
 2. 브라우저에서 `http://localhost:8000/docs`를 연다.
 
-**예상 결과** — 터미널 A에 `모델 서버 http://localhost:11434, 기본 모델 qwen3:8b`와 `Uvicorn running on http://127.0.0.1:8000`이 보이고 명령이 끝나지 않은 채 대기한다. `/docs`에 `GET /health`, `POST /chat`, `POST /chat/stream` 세 항목이 있다.
+**예상 결과** — 터미널 A에 `모델 서버 http://localhost:11434, 기본 모델 qwen3:8b`와 `Uvicorn running on http://127.0.0.1:8000`이 보이고 명령이 끝나지 않은 채 대기한다. `/docs`에 `GET /health`, `POST /chat` 두 항목이 있다. 스트리밍은 2교시에 추가된다.
 
 **확인** — [ ] `/docs`에서 `POST /chat`을 펼쳐 요청 예시(`messages`, `temperature`, `max_tokens`)와 응답 코드 목록(200·422·502·503·504)을 봤다.
 
@@ -55,7 +59,7 @@ uv run uvicorn app.main:app --port 8000 --reload
 **할 일** — 터미널 B에서 실행한다.
 
 ```powershell
-uv run python smoke_test.py --skip-stream
+uv run python smoke_test.py
 ```
 
 **예상 결과** — `[health] 200 status=ok`, `[chat] 200 …ms '…'`가 출력되고 `기록: outputs\smoke-….json`이 보인다. 터미널 A에는 `GET /health -> 200`, `POST /chat -> 200 …ms` 로그가 남는다. JSON 안의 `chat.eval_count`와 `chat.eval_duration_ms`가 숫자다.
@@ -74,7 +78,7 @@ $env:OLLAMA_HOST = "http://localhost:11435"
 uv run uvicorn app.main:app --port 8000
 ```
 
-3. 터미널 B에서 `uv run python smoke_test.py --skip-stream`을 다시 실행한다.
+3. 터미널 B에서 `uv run python smoke_test.py`을 다시 실행한다.
 
 **예상 결과** — `/health`는 200이지만 `status=degraded`이고 `ollama.reachable`이 `false`, `detail`에 "연결할 수 없다"가 있다. `/chat`은 **502**이며 본문은 `{"request_id", "error": "OllamaUnavailable", "detail": …}`다. 터미널 A에 `WARNING … OllamaUnavailable` 한 줄이 남는다.
 
@@ -82,7 +86,7 @@ uv run uvicorn app.main:app --port 8000
 
 ### 단계 5. 실패 경로 — 없는 모델(503), 짧은 타임아웃(504), 잘못된 요청(422)
 
-**할 일** — 각 항목마다 터미널 A를 `Ctrl+C` → 환경변수 설정 → 재실행하고, 터미널 B에서 `smoke_test.py --skip-stream`을 돌린다.
+**할 일** — 각 항목마다 터미널 A를 `Ctrl+C` → 환경변수 설정 → 재실행하고, 터미널 B에서 `smoke_test.py`을 돌린다.
 
 1. `$env:OLLAMA_MODEL = "no-such-model"` → 실행 → 기록 → `Remove-Item Env:OLLAMA_MODEL`
 2. `$env:OLLAMA_TIMEOUT = "0.5"` → 실행 → 기록 → `Remove-Item Env:OLLAMA_TIMEOUT`
@@ -108,7 +112,9 @@ uv run uvicorn app.main:app --port 8000
 
 ## 2교시 — 스트리밍 채팅 UI 연결
 
-이어받는 것: 1교시 폴더, 정상 실행 중인 앱 서버(터미널 A). 환경변수는 비어 있어야 한다.
+[이 교시 코드·자료](examples/period2/README.md)
+
+이어받는 것: 1교시 period1의 GET /models와 기록. 이전 서버를 끄고 [실습지 2교시 준비](lab.md#2교시-실습--스트리밍-채팅-ui-연결)대로 period2를 복사하고 직접 작성한 엔드포인트를 옮긴다. period2에서 uv sync 후 API를 새로 켠다. 아래 터미널도 period2에서 실행한다.
 
 ### 단계 1. SSE 원문 관찰
 
@@ -178,7 +184,9 @@ uv run python ui/gradio_app.py
 
 ## 3교시 — Dockerfile과 재현 절차 검증
 
-이어받는 것: 1교시 폴더. 앱 서버와 UI를 모두 끈다(8000·7860 포트를 비운다). 폴더가 Git 저장소가 아니면 `git init` 후 첫 commit을 만든다.
+[이 교시 코드·자료](examples/period3/README.md)
+
+이어받는 것: 2교시 period2의 API·UI. 앱 서버와 UI를 끈 뒤 [실습지 3교시 준비](lab.md#3교시-실습--dockerfile과-재현-절차-검증)대로 period3를 준비하고 개인 app/·ui/ 수정본을 옮긴다. 아래 명령은 period3에서 실행한다. Git 저장소가 아니면 이 폴더에서 git init 후 첫 commit을 만든다.
 
 ### 단계 1. 설정 외부화 점검
 
@@ -226,7 +234,7 @@ uv run python smoke_test.py --api http://localhost:8001 --skip-stream
 **할 일**
 
 ```powershell
-git clone C:\classwork\week12\ai_service C:\classwork\week12\clean
+git clone C:\classwork\week12\period3 C:\classwork\week12\clean
 Set-Location C:\classwork\week12\clean
 Copy-Item .env.example .env
 uv sync

@@ -149,7 +149,7 @@ An `nn.Module` holds the parameters, and `forward` defines the order of computat
 
 ## 17–20 min · Handoff to Lab
 
-[Block 1 lab — Observing Tensor Movement and Autograd](lab.md#1교시-실습--텐서-이동과-자동미분-관찰)
+[Block 1 lab — Observing Tensor Movement and Autograd](lab.md#1교시-실습--텐서-이동과-자동미분-관찰) · [Block 1 files](examples/period1/README.md)
 
 Completion criteria:
 
@@ -266,7 +266,7 @@ json.dump({"config": vars(args), "history": history}, f)
 
 ## 17–20 min · Handoff to Lab
 
-[Block 2 lab — Small MLP Training Loop and Overfitting](lab.md#2교시-실습--소형-mlp-학습-루프와-과적합)
+[Block 2 lab — Small MLP Training Loop and Overfitting](lab.md#2교시-실습--소형-mlp-학습-루프와-과적합) · [Block 2 files](examples/period2/README.md)
 
 Completion criteria:
 
@@ -382,7 +382,7 @@ run.finish({"infer_ms": 12.3})       # outputs/runs/timestamp-embed.json
 
 ## 17–20 min · Handoff to Lab
 
-[Block 3 lab — Sentence Embeddings and Experiment Logging](lab.md#3교시-실습--문장-임베딩과-실험-기록)
+[Block 3 lab — Sentence Embeddings and Experiment Logging](lab.md#3교시-실습--문장-임베딩과-실험-기록) · [Block 3 files](examples/period3/README.md)
 
 Completion criteria:
 

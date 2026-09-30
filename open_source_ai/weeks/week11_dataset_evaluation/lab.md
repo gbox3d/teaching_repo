@@ -2,6 +2,8 @@
 
 ## 공통 규칙
 
+교시 시작 복사는 새 period 폴더를 만드는 최초 1회만 한다. 이미 작업 중이면 복사를 생략한다. 다음 교시로 개인 코드 변경은 비교해 옮기고, 데이터 카드·보고서·분할·평가 결과는 준비 명령대로 복사한다. 가상환경은 복사하지 않는다.
+
 - 완성 코드를 보기 전에 예상을 적는다.
 - 명령은 현재 폴더를 확인한 뒤 실행한다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
@@ -11,6 +13,8 @@
 - 실제 개인정보를 데이터·보고서에 넣지 않는다. 예제의 전화번호·이메일·주민등록번호는 모두 가짜 값이다. 팀 데이터에서 진짜 개인정보가 검출되면 마스킹이 아니라 삭제한다.
 
 ## 1교시 실습 — 원시 데이터를 정제·마스킹·분할하기
+
+> 이 교시의 코드·입력·시간 대응: [period1](examples/period1/README.md).
 
 ### 상황
 
@@ -31,14 +35,15 @@
 교재 주차 폴더에서 예제를 개인 실습 폴더로 복사한다. 저장 경로는 학기별 환경 기준표를 따른다(아래는 예시).
 
 ```powershell
-Copy-Item -Recurse .\examples\eval_lab C:\classwork\week11\eval_lab
-Set-Location C:\classwork\week11\eval_lab
-Copy-Item .env.example .env
+New-Item -ItemType Directory -Force C:\classwork\week11 | Out-Null
+if (-not (Test-Path C:\classwork\week11\period1)) { Copy-Item -Recurse .\examples\period1 C:\classwork\week11\period1 }
+Set-Location C:\classwork\week11\period1
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv sync
 Get-Content data\raw.jsonl -TotalCount 3
 ```
 
-10주차 실습 폴더(`C:\classwork\week10\lora_lab`)가 있으면 `.env`의 `LORA_ADAPTER_DIR`에 `adapters\run-001` 전체 경로를 적어 둔다. 없으면 비워 둔다.
+10주차 실습 폴더(`C:\classwork\week10\period2`)가 있으면 `.env`의 `LORA_ADAPTER_DIR`에 `adapters\run-001` 전체 경로를 적어 둔다. 없으면 비워 둔다.
 
 ### 문제 1 · 정제와 중복 제거
 
@@ -95,16 +100,17 @@ uv run python split.py
 uv run python split.py --seed 7 --out-dir outputs/split_seed7 --report outputs/split_report_seed7.json
 ```
 
-4. 10주차 학습 데이터와 test 문항이 겹치는지 검사한다. 겹치는 문항 수와 id, 유사도를 적는다. 10주차 실습 폴더가 없으면 교재의 `week10_peft_lora\examples\lora_lab\data\sample_sft.jsonl` 경로를 준다.
+4. 10주차 학습 데이터와 test 문항이 겹치는지 검사한다. 겹치는 문항 수와 id, 유사도를 적는다. 10주차 실습 폴더가 없으면 이 폴더에 실제 복사해 둔 `data/week10_sample_sft.jsonl` 경로를 준다.
 
 ```powershell
-uv run python split.py --against C:\classwork\week10\lora_lab\data\sample_sft.jsonl
+uv run python split.py --against data/week10_sample_sft.jsonl
+# 개인 학습본을 검사할 때는 --against 뒤 경로를 그 파일로 바꾼다
 ```
 
 5. `DATA_CARD_TEMPLATE.md`를 `DATA_CARD.md`로 복사해 7개 절을 채운다. 숫자는 `clean_report.json`·`pii_report.json`·`split_report.json`에서 옮기고, 출처별 건수는 아래 명령으로 센다.
 
 ```powershell
-Copy-Item DATA_CARD_TEMPLATE.md DATA_CARD.md
+if (-not (Test-Path DATA_CARD.md)) { Copy-Item DATA_CARD_TEMPLATE.md DATA_CARD.md }
 Get-Content outputs\masked.jsonl | ConvertFrom-Json | Group-Object source | Select-Object Name, Count
 ```
 
@@ -148,11 +154,13 @@ Get-Content outputs\masked.jsonl | ConvertFrom-Json | Group-Object source | Sele
 
 ## 2교시 실습 — 기준선 vs LoRA 정량 비교
 
+> 이 교시의 코드·입력·시간 대응: [period2](examples/period2/README.md).
+
 ### 상황
 
 10주차 `run-001.md`에 "어댑터 적용 후 형식 준수 5/5"라고 적었더니 팀 리뷰어가 되물었다. "그 프롬프트 5개는 학습 데이터에 있던 질문 아닌가? 기준선은 몇 점인가?" 1교시에서 봉인한 test 20문항으로 기준선과 LoRA를 같은 조건에서 채점해 숫자로 답하라. 단, 숫자마다 그 숫자가 놓치는 것을 함께 적어야 한다.
 
-이어받는 것: 1교시 폴더 `C:\classwork\week11\eval_lab`과 `outputs/split/test.jsonl`. 없으면 `clean.py → pii_check.py → split.py`를 기본 옵션으로 다시 실행한다(1분). 10주차 어댑터가 있으면 `.env`의 `LORA_ADAPTER_DIR`를 확인한다.
+이어받는 것: 1교시 `C:\classwork\week11\period1`의 데이터 카드·보고서와 `outputs/split/test.jsonl`. 없으면 `clean.py → pii_check.py → split.py`를 기본 옵션으로 다시 실행한다(1분). 10주차 어댑터가 있으면 `.env`의 `LORA_ADAPTER_DIR`를 확인한다.
 
 ### 시간 배분
 
@@ -167,7 +175,16 @@ Get-Content outputs\masked.jsonl | ConvertFrom-Json | Group-Object source | Sele
 ### 준비
 
 ```powershell
-Set-Location C:\classwork\week11\eval_lab
+$src = "<교재 저장소>\open_source_ai\weeks\week11_dataset_evaluation\examples"
+if (-not (Test-Path C:\classwork\week11\period2)) { Copy-Item -Recurse "$src\period2" C:\classwork\week11\period2 }
+Set-Location C:\classwork\week11\period2
+if ((Test-Path ..\period1\outputs) -and -not (Test-Path outputs)) { Copy-Item -Recurse ..\period1\outputs outputs }
+if ((Test-Path ..\period1\DATA_CARD.md) -and -not (Test-Path DATA_CARD.md)) { Copy-Item ..\period1\DATA_CARD.md DATA_CARD.md }
+if (-not (Test-Path .env)) {
+    if (Test-Path ..\period1\.env) { Copy-Item ..\period1\.env .env } else { Copy-Item .env.example .env }
+}
+New-Item -ItemType Directory -Force outputs | Out-Null
+uv sync
 Test-Path outputs\split\test.jsonl        # True 여야 한다
 Get-Content .env                          # LORA_ADAPTER_DIR 확인
 ```
@@ -278,6 +295,8 @@ Ollama가 모델을 VRAM에 올려 둔 채일 수 있다. `ollama ps`로 확인�
 
 ## 3교시 실습 — 수동 채점과 실패 분석 보고
 
+> 이 교시의 코드·입력·시간 대응: [period3](examples/period3/README.md).
+
 ### 상황
 
 자동 지표에서 LoRA가 앞섰다. 그런데 팀 리뷰어가 "q043은 형식이 완벽한데 없는 명령을 알려 준다"고 지적했다. 20개 출력을 사람이 3단계로 채점하고 오류 유형을 붙인 뒤, 실패 사례 3개의 원인 가설과 개선안을 보고서로 만들어 run-002에서 무엇을 바꿀지 정하라.
@@ -297,7 +316,17 @@ Ollama가 모델을 VRAM에 올려 둔 채일 수 있다. `ollama ps`로 확인�
 ### 준비
 
 ```powershell
-Set-Location C:\classwork\week11\eval_lab
+$src = "<교재 저장소>\open_source_ai\weeks\week11_dataset_evaluation\examples"
+if (-not (Test-Path C:\classwork\week11\period3)) { Copy-Item -Recurse "$src\period3" C:\classwork\week11\period3 }
+Set-Location C:\classwork\week11\period3
+if ((Test-Path ..\period2\outputs) -and -not (Test-Path outputs)) { Copy-Item -Recurse ..\period2\outputs outputs }
+if ((Test-Path ..\period2\DATA_CARD.md) -and -not (Test-Path DATA_CARD.md)) { Copy-Item ..\period2\DATA_CARD.md DATA_CARD.md }
+if (-not (Test-Path .env)) {
+    if (Test-Path ..\period2\.env) { Copy-Item ..\period2\.env .env } else { Copy-Item .env.example .env }
+}
+if ((Test-Path ..\period2\evidence) -and -not (Test-Path evidence)) { Copy-Item -Recurse ..\period2\evidence evidence }
+New-Item -ItemType Directory -Force outputs, evidence\week11 | Out-Null
+uv sync
 uv run python make_sheet.py --run lora      # 최근 eval-*.json → outputs/scoring-*.md
 code outputs\scoring-*.md
 ```
@@ -323,7 +352,7 @@ code outputs\scoring-*.md
 1. `FAILURE_ANALYSIS_TEMPLATE.md`를 `FAILURE_ANALYSIS.md`로 복사하고 1절(개요)과 2절(유형별 집계)을 채점표에서 옮겨 채운다.
 
 ```powershell
-Copy-Item FAILURE_ANALYSIS_TEMPLATE.md FAILURE_ANALYSIS.md
+if (-not (Test-Path FAILURE_ANALYSIS.md)) { Copy-Item FAILURE_ANALYSIS_TEMPLATE.md FAILURE_ANALYSIS.md }
 ```
 
 2. 사례 3개를 **서로 다른 오류 유형**에서 고른다(예: H, R, P 또는 F). 사례마다 9개 항목을 채운다. 원인 가설은 데이터·학습 설정·디코딩·프롬프트 중 하나를 고르고, 근거는 학습 데이터(`outputs/split/train.jsonl` 또는 10주차 `sample_sft.jsonl`)에서 비슷한 질문을 찾아 적거나 기준선 출력과 비교해 적는다.

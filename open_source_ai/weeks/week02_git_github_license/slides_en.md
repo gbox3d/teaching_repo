@@ -145,6 +145,8 @@ Related to #3
 
 [Block 1 Lab — Connect a Remote and Resolve One Conflict](lab.md#1교시-실습--원격-연결과-충돌-1회-해결)
 
+[period1: examples for this lab](examples/period1/README.md)
+
 Completion criteria:
 
 1. In `git branch -vv`, `main` tracks `origin/main` and is at the same commit
@@ -251,6 +253,8 @@ CONTRIBUTING.md                  # contribution process and rules
 ## 18–20 min · Lab Handoff
 
 [Block 2 Lab — Propose a Change to a Partner's Repo and Get Reviewed](lab.md#2교시-실습--짝-저장소에-제안하고-리뷰-받기)
+
+[period2: examples for this lab](examples/period2/README.md)
 
 Completion criteria:
 
@@ -370,6 +374,8 @@ Apache-2.0 ──▶ GPL-2.0     : not possible
 ## 18–20 min · Lab Handoff
 
 [Block 3 Lab — Determine a License and Add a LICENSE File](lab.md#3교시-실습--라이선스-판별과-license-추가)
+
+[period3: examples for this lab](examples/period3/README.md)
 
 Completion criteria:
 

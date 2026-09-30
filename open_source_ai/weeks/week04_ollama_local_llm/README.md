@@ -43,7 +43,7 @@
 
 - [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료
 - [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
-- [실행 예제](examples/README.md): `ollama_client/` uv 프로젝트(`config.py`·`chat.py`·`stream.py`·`Modelfile`), 모델 보고서 양식, 측정 기록 스크립트
+- [실행 예제](examples/README.md): 실습지와 대응하는 `period1` → `period2` → `period3`. 각 폴더에 실제 코드·데이터·환경 파일과 단계별 안내가 있다.
 - [따라하기 절차](walkthrough.md): 시연·실습을 단계대로 재현하는 절차서
 - 강의 대본: 강의자 별도 관리(비공개)
 - [1차 종합과제 안내](assignment_brief.md) · [1차 종합과제 루브릭](assignment_rubric.md)

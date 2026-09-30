@@ -1,5 +1,7 @@
 .venv/
 .env
+.env.*
+!.env.example
 outputs/
 __pycache__/
 *.pyc
@@ -7,3 +9,10 @@ models/
 adapters/
 .ruff_cache/
 .pytest_cache/
+.uv-cache/
+.cache/
+
+# uv build 등으로 다시 만드는 배포 산출물
+build/
+dist/
+*.egg-info/

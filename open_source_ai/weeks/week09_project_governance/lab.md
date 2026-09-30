@@ -2,6 +2,8 @@
 
 ## 공통 규칙
 
+준비 절의 폴더 복사·설정 생성은 최초 1회만 한다. 대상 폴더에서 이미 실습 중이면 복사를 생략하고 이어서 실행한다. 개인 코드·답안·설정·산출물을 보존한다.
+
 - 완성 코드를 보기 전에 예상을 적는다.
 - 명령은 현재 폴더를 확인한 뒤 실행한다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
@@ -11,6 +13,8 @@
 - GitHub 토큰은 `.env`에만 둔다. 제안서·조사표·Issue 본문에 실명·학번·토큰을 쓰지 않는다. 팀명은 `team-a`, 팀원 표시는 `student01` 같은 수업용 값을 쓴다.
 
 ## 1교시 실습 — 거버넌스 문서 분석표
+
+> 이 교시의 파일·시간 대응: [examples/period1](examples/period1/README.md).
 
 ### 상황
 
@@ -33,10 +37,11 @@
 원본 `examples/`를 훼손하지 않도록 개인 실습 폴더에 복사한다. 아래 명령은 주차 폴더(`week09_project_governance`)에서 실행한다.
 
 ```powershell
-Copy-Item -Recurse examples\proposal_tools C:\classwork\week09\proposal_tools
-Copy-Item examples\governance_survey_template.md C:\classwork\week09\governance_survey.md
-Set-Location C:\classwork\week09\proposal_tools
-Copy-Item .env.example .env
+New-Item -ItemType Directory -Force C:\classwork\week09 | Out-Null
+if (-not (Test-Path C:\classwork\week09\period1)) { Copy-Item -Recurse examples\period1 C:\classwork\week09\period1 }
+if (-not (Test-Path C:\classwork\week09\period1\governance_survey.md)) { Copy-Item examples\period1\governance_survey_template.md C:\classwork\week09\period1\governance_survey.md }
+Set-Location C:\classwork\week09\period1
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 ```
 
 조사 대상은 기본값 `huggingface/transformers`, `ollama/ollama`다. 강의자가 다른 저장소를 지정하면 `.env`의 `SURVEY_REPOS`를 바꾼다.
@@ -105,6 +110,8 @@ uv run python repo_health.py
 
 ## 2교시 실습 — 팀 제안서 초안
 
+> 이 교시의 파일·시간 대응: [examples/period2](examples/period2/README.md).
+
 ### 상황
 
 팀은 "로컬 AI 도우미"를 만들기로 했지만 아직 아이디어 수준이다. 12주차 베타와 15주차 릴리스를 심사할 사람이 읽을 제안서를 써야 한다. 문제 한 문장부터 시작해 사용자, Must 3개, 모델·데이터 후보, 위험 2개를 근거와 함께 채우라.
@@ -121,15 +128,18 @@ uv run python repo_health.py
 
 ### 준비
 
-이어받는 것: 1교시 `governance_survey.md`의 "우리 팀이 가져올 규칙 3개"와 `C:\classwork\week09\proposal_tools` 복사본(`.env` 포함).
+이어받는 것: 1교시 `governance_survey.md`의 "우리 팀이 가져올 규칙 3개"를 이어받는다. 도구는 이번 교시 `period2`의 실제 사본을 쓴다.
 
 팀원 중 한 명이 제안서 파일을 만들고 나머지는 같은 문서를 나누어 채운다. 아직 팀 저장소가 없으므로 이번 교시에는 한 사람의 개인 저장소 브랜치나 공유 문서에 두고, 3교시에 팀 저장소 `docs/proposal.md`로 옮긴다.
 
 주차 폴더(`week09_project_governance`)에서 양식을 복사한 뒤 도구 폴더로 이동한다.
 
 ```powershell
-Copy-Item proposal_template.md C:\classwork\week09\proposal.md
-Set-Location C:\classwork\week09\proposal_tools
+if (-not (Test-Path C:\classwork\week09\period2)) { Copy-Item -Recurse examples\period2 C:\classwork\week09\period2 }
+Set-Location C:\classwork\week09\period2
+if (-not (Test-Path proposal.md)) { Copy-Item proposal_template.md proposal.md }
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync
 ```
 
 5주차 `model_cards.md`·`SOURCES.md`, 4주차 `model_report.md`, 7주차 `evalset.json`을 열어 둔다. 모델·데이터 후보는 여기서 가져온다.
@@ -198,6 +208,8 @@ SPDX ID(`Apache-2.0`, `MIT`)나 약관 이름(예: 커뮤니티 라이선스, RA
 
 ## 3교시 실습 — 팀 저장소와 이슈 분해
 
+> 이 교시의 파일·시간 대응: [examples/period3](examples/period3/README.md).
+
 ### 상황
 
 제안서가 있으니 이제 저장소가 필요하다. 팀 저장소를 만들고 거버넌스 문서를 배치한 뒤, 10~15주 일정을 마일스톤 3개와 Issue 8~10개로 분해하라. 마지막에는 3분 제안 발표를 타이머로 리허설한다.
@@ -214,19 +226,20 @@ SPDX ID(`Apache-2.0`, `MIT`)나 약관 이름(예: 커뮤니티 라이선스, RA
 
 ### 준비
 
-이어받는 것: 2교시 `proposal.md`, 1교시 `governance_survey.md`, `C:\classwork\week09\proposal_tools` 복사본. 아래 복사 명령은 주차 폴더(`week09_project_governance`)에서 실행한다.
+이어받는 것: 2교시 `proposal.md`, 1교시 `governance_survey.md`, 이번 교시 `period3`의 도구·양식. 아래 복사 명령은 주차 폴더(`week09_project_governance`)에서 실행한다.
 
 팀원 한 명이 GitHub에서 빈 저장소(`team-a-local-helper` 같은 이름)를 만들고 나머지 팀원을 collaborator로 추가한다. 그 사람이 템플릿을 복사해 첫 commit을 올리고, 나머지는 clone한다.
 
 ```powershell
-Copy-Item -Recurse examples\project_template C:\classwork\week09\team-repo
+if (-not (Test-Path C:\classwork\week09\period3)) { Copy-Item -Recurse examples\period3 C:\classwork\week09\period3 }
+if (-not (Test-Path C:\classwork\week09\team-repo)) { Copy-Item -Recurse examples\period3\project_template C:\classwork\week09\team-repo }
 Set-Location C:\classwork\week09\team-repo
-Copy-Item .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 git init
 git branch -M main
 ```
 
-2교시의 `proposal.md`는 `docs/proposal.md`로 복사한다. 1교시의 규칙 3개는 `CONTRIBUTING.md`의 "팀 규칙" 절에 넣는다.
+2교시 `C:\classwork\week09\period2\proposal.md`는 팀 저장소의 `docs/proposal.md`로 복사한다. 1교시의 규칙 3개는 `CONTRIBUTING.md`의 "팀 규칙" 절에 넣는다.
 
 ### 문제 1 · 거버넌스 문서를 갖춘 저장소 골격
 
@@ -249,12 +262,14 @@ uv run team-project doctor
 
 ### 문제 2 · 마일스톤 3개와 Issue 8~10개, 그리고 3분 리허설
 
-1. `examples/milestone_plan_template.md`를 `docs/milestones.md`로 복사해 M1(11주)·M2(12주)·M3(15주)의 "닫히는 조건"을 적는다.
-2. `proposal_tools/issue_plan.sample.json`을 `issue_plan.json`으로 복사해 팀의 Issue 8~10개로 바꾼다. 각 Issue에 제목, 마일스톤, 담당(`student01` 등 수업용 GitHub 계정), 예상 일수(3일 이하), 완료 조건이 있어야 한다.
+1. `C:\classwork\week09\period3\milestone_plan_template.md`를 팀 저장소의 `docs/milestones.md`로 복사해 M1(11주)·M2(12주)·M3(15주)의 "닫히는 조건"을 적는다.
+2. `C:\classwork\week09\period3\issue_plan.sample.json`을 **같은 폴더의** `issue_plan.json`으로 복사해 팀의 Issue 8~10개로 바꾼다. 각 Issue에 제목, 마일스톤, 담당(`student01` 등 수업용 GitHub 계정), 예상 일수(3일 이하), 완료 조건이 있어야 한다.
 3. 검사 스크립트를 돌려 경고를 0개로 만든다.
 
 ```powershell
-Set-Location C:\classwork\week09\proposal_tools
+Set-Location C:\classwork\week09\period3
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync
 uv run python issue_plan_check.py --plan issue_plan.json
 ```
 
@@ -265,7 +280,7 @@ uv run python issue_plan_push.py --plan issue_plan.json --repo team-a/team-a-loc
 uv run python issue_plan_push.py --plan issue_plan.json --repo team-a/team-a-local-helper
 ```
 
-5. 타이머 3분을 켜고 제안 발표를 한 번 한다. 발표자 1명, 나머지는 `proposal_rubric.md`를 보며 빠진 항목을 적는다. `docs/rehearsal.md`에 소요 시간, 빠진 항목, 예상 질문 2개를 기록한다.
+5. 타이머 3분을 켜고 제안 발표를 한 번 한다. 발표자 1명, 나머지는 `period3/proposal_rubric.md`를 보며 빠진 항목을 적는다. `period3/rehearsal_template.md`를 팀 저장소의 `docs/rehearsal.md`로 복사하고 그 안에 소요 시간, 빠진 항목, 예상 질문 2개를 기록한다.
 
 완료 조건:
 

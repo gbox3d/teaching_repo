@@ -1,5 +1,7 @@
 # torch_lab — 6주차 예제 uv 프로젝트
 
+> 기존 링크 호환용 통합 참조다. 수업은 [교시별 예제 선택](../README.md)의 `period1` → `period2` → `period3`을 사용한다. 전체 설명은 [통합 상세 안내](reference_guide.md)에 있다.
+
 pipeline 한 줄 안쪽을 세 스크립트로 나눈 최소 예제다. 텐서·자동미분 관찰(`tensor_basics.py`), 소형 MLP 학습 루프(`train_loop.py`), 사전학습 모델 직접 호출과 문장 임베딩(`pretrained_embed.py`), 그리고 셋이 함께 쓰는 실험 기록 헬퍼(`runlog.py`)로 구성된다. 설명과 관찰 지점, 대체 경로는 상위 [`../README.md`](../README.md)에 있다.
 
 ## 실행

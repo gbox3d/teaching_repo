@@ -19,6 +19,8 @@ Hugging Face 공개 모델·데이터, PyTorch, 임베딩·RAG, PEFT/LoRA 경량
 - 15주 교재 색인: [`weeks/README.md`](weeks/README.md)
 - 제작 계획과 품질 검수 기준: [`materials_plan.md`](materials_plan.md)
 - 과목별 설치 프로그램: [`ta_setup_guide.md`](ta_setup_guide.md)
+- uv 설치·갱신·Python 환경·`uv run` 실습: [`uv_guide.md`](uv_guide.md)
+- GitHub 소스 배포와 `.gitignore` 주의사항: [`github_distribution.md`](github_distribution.md)
 - 공통 설치 프로그램: [`../ta_lab_setup_guide.md`](../ta_lab_setup_guide.md)
 - 환경 기준표: [`../environment_baseline_template.md`](../environment_baseline_template.md)
 
@@ -37,7 +39,7 @@ Hugging Face 공개 모델·데이터, PyTorch, 임베딩·RAG, PEFT/LoRA 경량
 
 ## 환경 원칙
 
-- Python 패키지는 전역 `pip`가 아니라 `uv` 기반 격리환경과 lock 파일로 재현한다.
+- Python 패키지는 `uv` 기반 격리환경과 lock 파일로 재현한다.
 - Python·PyTorch·Ollama·모델 ID·양자화·GPU 드라이버·VRAM 기준은 환경 기준표에서 확정한다. 교재 예제는 환경변수 기본값([`weeks/README.md`](weeks/README.md#교재-검증용-기본값))으로 검증했다.
 - 모델 다운로드 크기와 캐시 위치를 먼저 계산하고, 수업 직전 여러 PC에서 동시에 내려받지 않는다.
 - GPU 실패 때 사용할 CPU 또는 소형 모델 대체 경로를 함께 검증한다.

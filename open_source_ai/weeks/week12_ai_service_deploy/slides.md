@@ -132,7 +132,7 @@ WARNING a875afe1 OllamaModelMissing: 모델 'x' 이(가) ... 에 없다
 
 ## 17–20분 · 실습 인계
 
-[1교시 실습 — 앱 서버 세우기와 오류 응답 확인](lab.md#1교시-실습--앱-서버-세우기와-오류-응답-확인)
+[1교시 실습 — 앱 서버 세우기와 오류 응답 확인](lab.md#1교시-실습--앱-서버-세우기와-오류-응답-확인) · [1교시 파일](examples/period1/README.md)
 
 완료 조건:
 
@@ -255,7 +255,7 @@ const reader = resp.body.getReader();   // 청크를 직접 읽는다
 
 ## 17–20분 · 실습 인계
 
-[2교시 실습 — 스트리밍 채팅 UI 연결](lab.md#2교시-실습--스트리밍-채팅-ui-연결)
+[2교시 실습 — 스트리밍 채팅 UI 연결](lab.md#2교시-실습--스트리밍-채팅-ui-연결) · [2교시 파일](examples/period2/README.md)
 
 완료 조건:
 
@@ -372,7 +372,7 @@ docker run ... -e OLLAMA_HOST=...     uv sync
 
 ## 17–20분 · 실습 인계
 
-[3교시 실습 — Dockerfile과 재현 절차 검증](lab.md#3교시-실습--dockerfile과-재현-절차-검증)
+[3교시 실습 — Dockerfile과 재현 절차 검증](lab.md#3교시-실습--dockerfile과-재현-절차-검증) · [3교시 파일](examples/period3/README.md)
 
 완료 조건:
 

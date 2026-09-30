@@ -132,7 +132,7 @@ WARNING a875afe1 OllamaModelMissing: 모델 'x' 이(가) ... 에 없다
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 1 lab — Set up the app server and verify error responses](lab.md#1교시-실습--앱-서버-세우기와-오류-응답-확인)
+[Block 1 lab — Set up the app server and verify error responses](lab.md#1교시-실습--앱-서버-세우기와-오류-응답-확인) · [Block 1 files](examples/period1/README.md)
 
 Done when:
 
@@ -255,7 +255,7 @@ const reader = resp.body.getReader();   // read chunks directly
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 2 lab — Wire up a streaming chat UI](lab.md#2교시-실습--스트리밍-채팅-ui-연결)
+[Block 2 lab — Wire up a streaming chat UI](lab.md#2교시-실습--스트리밍-채팅-ui-연결) · [Block 2 files](examples/period2/README.md)
 
 Done when:
 
@@ -372,7 +372,7 @@ Cumulative from weeks 9–12. In the team repository:
 
 ## 17–20 min · Handing Off to the Lab
 
-[Block 3 lab — Verify the Dockerfile and reproduction steps](lab.md#3교시-실습--dockerfile과-재현-절차-검증)
+[Block 3 lab — Verify the Dockerfile and reproduction steps](lab.md#3교시-실습--dockerfile과-재현-절차-검증) · [Block 3 files](examples/period3/README.md)
 
 Done when:
 

@@ -9,25 +9,33 @@
 - Ollama가 설치되어 있고 서버가 켜져 있다(`ollama list`가 오류 없이 출력된다).
 - 기본 모델과 소형 모델이 수업 전에 캐시되어 있다. 이 문서의 `qwen3:8b`·`qwen3:0.6b`는 교재 검증용 기본값이며 실제 이름은 환경 기준표가 정한다. 실습 중 `ollama pull`을 하지 않는다.
 - uv, Git, VS Code, PowerShell을 사용한다. `uv sync`는 수업 전에 한 번 실행해 둔다.
-- [`examples/`](examples/README.md) 폴더를 개인 실습 폴더(`C:\classwork\week04`)에 **복사**해서 사용한다. 수업 자료 원본은 수정하지 않는다.
+- [교시별 예제](examples/README.md)의 현재 `periodN`만 개인 실습 폴더에 복사한다. 수업 자료 원본은 수정하지 않는다.
 - 터미널 명령은 복사한 폴더 안에서 실행한다. 현재 경로를 먼저 확인하는 습관을 들인다.
 
 ---
 
 ## 1교시 — 모델 두 개를 실행하고 측정하기
 
-### 단계 1. 서버와 캐시 확인
+### 교시 시작 준비
 
-**할 일**
+[현재 1교시 폴더](examples/period1/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
 
 ```powershell
 $src = "<교재 저장소>\open_source_ai\weeks\week04_ollama_local_llm\examples"
-New-Item -ItemType Directory -Force C:\classwork\week04 | Out-Null
-Copy-Item "$src\model_report_template.md" C:\classwork\week04\model_report.md
-Copy-Item "$src\ollama_probe.ps1" C:\classwork\week04\
-Set-Location C:\classwork\week04
+$dst = "C:\classwork\week04"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period1")) { Copy-Item -Recurse "$src\period1" "$dst\period1" }
+Set-Location "$dst\period1"
+if (-not (Test-Path ..\model_report.md)) { Copy-Item model_report_template.md ..\model_report.md }
+```
+
+```powershell
 ollama list
 ```
+
+### 단계 1. 서버와 캐시 확인
+
+**할 일** — 위 교시 시작 준비의 명령을 실행하고 현재 폴더와 출력을 확인한다.
 
 **예상 결과** — `NAME`, `ID`, `SIZE`, `MODIFIED` 열이 있는 표에 `qwen3:8b`와 `qwen3:0.6b`가 보인다. SIZE는 파일 크기다(8b는 5 GB 안팎, 0.6b는 1 GB 미만).
 
@@ -82,18 +90,35 @@ ollama list
 
 ## 2교시 — REST API로 대화하고 실패를 다루기
 
+### 교시 시작 준비
+
+[현재 2교시 폴더](examples/period2/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
+
+```powershell
+$src = "<교재 저장소>\open_source_ai\weeks\week04_ollama_local_llm\examples"
+$dst = "C:\classwork\week04"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period2")) { Copy-Item -Recurse "$src\period2" "$dst\period2" }
+Set-Location "$dst\period2"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\model_report.md)) { Copy-Item model_report_template.md ..\model_report.md }
+if (-not (Test-Path ..\failures.md)) { New-Item -ItemType File ..\failures.md | Out-Null }
+if (-not (Test-Path ..\temperature_compare.md)) { New-Item -ItemType File ..\temperature_compare.md | Out-Null }
+```
+
+```powershell
+uv run python config.py
+```
+
+이 폴더는 실습 시작 코드다. `--seed`는 아직 없으며 문제 2에서 직접 추가한다. `.env`의 host·model이 `config.py` 출력과 같은지 확인한다.
+
 ### 단계 1. `/api/tags`로 서버 확인과 프로젝트 준비
 
-**할 일**
+**할 일** — 위 준비 명령 뒤 서버 목록도 확인한다.
 
 ```powershell
 Invoke-RestMethod http://localhost:11434/api/tags | Select-Object -ExpandProperty models | Format-Table name, size
-$src = "<교재 저장소>\open_source_ai\weeks\week04_ollama_local_llm\examples"   # 새 창이면 다시 지정
-Copy-Item -Recurse "$src\ollama_client" C:\classwork\week04\ollama_client
-Set-Location C:\classwork\week04\ollama_client
-Copy-Item .env.example .env
-uv sync
-uv run python config.py
 ```
 
 **예상 결과** — 첫 줄에 캐시된 모델 이름과 바이트 단위 크기가 표로 나온다. `uv sync`가 `.venv`를 만들고, `config.py`가 `host = http://localhost:11434`, `model = qwen3:8b`를 출력한다.
@@ -168,15 +193,32 @@ uv run python chat.py --prompt $q --temperature 1 --seed 7 --tag t1b
 
 ## 3교시 — 수업 도우미 모델 만들기와 과제 점검
 
-### 단계 1. 기준 모델의 Modelfile 훑어보기
+### 교시 시작 준비
 
-**할 일**
+[현재 3교시 폴더](examples/period3/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
 
 ```powershell
-Set-Location C:\classwork\week04\ollama_client
-ollama show qwen3:8b --modelfile | Select-Object -First 30
-Get-Content Modelfile
+$src = "<교재 저장소>\open_source_ai\weeks\week04_ollama_local_llm\examples"
+$dst = "C:\classwork\week04"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period3")) { Copy-Item -Recurse "$src\period3" "$dst\period3" }
+Set-Location "$dst\period3"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\model_report.md)) { Copy-Item model_report_template.md ..\model_report.md }
+if (-not (Test-Path ..\assignment_check.md)) { New-Item -ItemType File ..\assignment_check.md | Out-Null }
 ```
+
+```powershell
+Get-Content Modelfile
+ollama show qwen3:8b --modelfile | Select-Object -First 30
+```
+
+기존 `..\model_report.md`의 1~4절을 보존하고 `custom_model_report_section.md`의 5절을 뒤에 추가한다. 이미 5절이 있으면 다시 붙이지 않는다. 2교시에서 구현한 `--seed`를 이어 쓰려면 자신의 변경만 `period3/chat.py`에 반영한다. 기본 문제는 이 폴더 코드만으로 실행된다.
+
+### 단계 1. 기준 모델의 Modelfile 훑어보기
+
+**할 일** — 위 교시 시작 준비의 명령을 실행하고 현재 폴더와 출력을 확인한다.
 
 **예상 결과** — 기준 모델의 Modelfile에는 `FROM`(blob 경로), 긴 `TEMPLATE`, `PARAMETER`, `LICENSE`가 있다. 우리 Modelfile에는 `FROM qwen3:8b`, `SYSTEM """…"""`, `PARAMETER` 두 줄만 있고 `TEMPLATE`은 없다.
 
@@ -246,7 +288,7 @@ uv run python chat.py --model student01-helper --prompt $q1 --tag helper-1
 | `/set verbose`를 쳤는데 속도가 안 나온다 | 1교시 단계 3 (`>>>` 프롬프트에서 슬래시 포함해 입력) |
 | `ollama ps`가 비어 있다 | 1교시 단계 4 (모델이 내려감. `run`으로 다시 올린 뒤 5분 안에 실행) |
 | `ollama_probe.ps1`이 "스크립트를 실행할 수 없으므로"로 멈춘다 | 1교시 단계 4 (`powershell -ExecutionPolicy Bypass -File .\ollama_probe.ps1 -Model qwen3:8b`로 이번 실행만 우회) |
-| `uv sync`가 실패한다 | 2교시 단계 1 (네트워크·uv 캐시 확인. `pip install` 금지) |
+| `uv sync`가 실패한다 | 2교시 단계 1 (네트워크·uv 캐시와 수업 전 동기화 여부 확인) |
 | 연결 실패 대신 시간 초과가 난다 | 2교시 단계 4 (재현용 포트는 비어 있는 것으로. 정상 호출이면 `OLLAMA_TIMEOUT` 증가) |
 | `--seed`가 요청 JSON에 안 보인다 | 2교시 단계 5 (`build_payload()`의 `options`에 넣었는지, `--show-request`로 확인) |
 | `ollama create`가 다운로드를 시작한다 | 3교시 단계 2 (`Ctrl+C` 후 `FROM`을 `ollama list`의 이름으로) |

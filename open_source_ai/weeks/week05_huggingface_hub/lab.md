@@ -3,7 +3,7 @@
 ## 공통 규칙
 
 - 완성 코드를 보기 전에 예상을 적는다.
-- 명령은 현재 폴더를 확인한 뒤 실행한다.
+- 현재 교시의 `period1`·`period2`·`period3` 폴더 안에서 실행한다. 코드·데이터는 각 폴더에 있고, 보고서는 상위 주차 실습 폴더에 누적한다. [교시별 파일 선택](examples/README.md)을 따른다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
 - 캡처보다 원인과 근거를 적은 짧은 문장이 더 중요한 증거다.
 - 기본 문제 완료 후 확장 문제를 수행한다.
@@ -27,21 +27,22 @@
 
 ### 준비
 
+[현재 1교시 폴더](examples/period1/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
+
 ```powershell
-# 교재 저장소 위치는 실습실 안내를 따른다. $src 와 $dst 는 예시다.
-$src = "C:\teaching_repo\open_source_ai\weeks\week05_huggingface_hub\examples"
-$dst = "$HOME\osa-practice\week05"   # 4주차까지 쓴 개인 저장소 안의 폴더로 바꾼다
+$src = "<교재 저장소>\open_source_ai\weeks\week05_huggingface_hub\examples"
+$dst = "$HOME\osa-practice\week05"
 New-Item -ItemType Directory -Force $dst | Out-Null
-# 이미 있으면 건너뛴다. 하루가 바뀌어 이 블록을 다시 실행해도 채워 둔 문서가 템플릿으로 되돌아가지 않는다.
-if (-not (Test-Path "$dst\hf_explore"))     { Copy-Item -Recurse "$src\hf_explore" "$dst\hf_explore" }
-if (-not (Test-Path "$dst\model_cards.md")) { Copy-Item "$src\model_cards_template.md" "$dst\model_cards.md" }
-if (-not (Test-Path "$dst\SOURCES.md"))     { Copy-Item "$src\SOURCES_template.md" "$dst\SOURCES.md" }
-Set-Location "$dst\hf_explore"
+if (-not (Test-Path "$dst\period1")) { Copy-Item -Recurse "$src\period1" "$dst\period1" }
+Set-Location "$dst\period1"
 if (-not (Test-Path .env)) { Copy-Item .env.example .env }
-uv run python cache_report.py --help
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\model_cards.md)) { Copy-Item model_cards_template.md ..\model_cards.md }
 ```
 
-`uv sync`(첫 실행 시 torch 설치)는 수업 전에 마쳐 둔다. 실습실 공용 캐시를 쓴다면 `.env`의 `HF_HOME` 줄의 주석을 풀고 안내받은 경로를 적는다.
+```powershell
+uv run python cache_report.py --help
+```
 
 ### 문제 1 · 모델 카드 분석표
 
@@ -120,13 +121,22 @@ uv run python cache_report.py --help
 
 ### 준비
 
-1교시에 복사한 `hf_explore` 폴더에서 계속한다. 새로 시작하는 날이면 1교시의 준비 명령을 먼저 실행한다.
+[현재 2교시 폴더](examples/period2/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
 
 ```powershell
-Set-Location "$HOME\osa-practice\week05\hf_explore"
-uv run python pipeline_demo.py --help
-# -Force 는 이미 있는 파일을 빈 파일로 덮어쓴다. 없을 때만 만든다.
+$src = "<교재 저장소>\open_source_ai\weeks\week05_huggingface_hub\examples"
+$dst = "$HOME\osa-practice\week05"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period2")) { Copy-Item -Recurse "$src\period2" "$dst\period2" }
+Set-Location "$dst\period2"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\model_cards.md)) { Copy-Item model_cards_template.md ..\model_cards.md }
 if (-not (Test-Path ..\pipeline_report.md)) { New-Item -ItemType File ..\pipeline_report.md | Out-Null }
+```
+
+```powershell
+uv run python pipeline_demo.py --help
 ```
 
 ### 문제 1 · 감성 분류를 두 장치에서
@@ -213,12 +223,23 @@ if (-not (Test-Path ..\pipeline_report.md)) { New-Item -ItemType File ..\pipelin
 
 ### 준비
 
+[현재 3교시 폴더](examples/period3/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
+
 ```powershell
-Set-Location "$HOME\osa-practice\week05\hf_explore"
-uv run python dataset_peek.py --help
+$src = "<교재 저장소>\open_source_ai\weeks\week05_huggingface_hub\examples"
+$dst = "$HOME\osa-practice\week05"
+New-Item -ItemType Directory -Force $dst | Out-Null
+if (-not (Test-Path "$dst\period3")) { Copy-Item -Recurse "$src\period3" "$dst\period3" }
+Set-Location "$dst\period3"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+uv sync                    # 수업 전에 설치·캐시한다
+if (-not (Test-Path ..\model_cards.md)) { Copy-Item model_cards_template.md ..\model_cards.md }
+if (-not (Test-Path ..\SOURCES.md)) { Copy-Item SOURCES_template.md ..\SOURCES.md }
 ```
 
-새로 시작하는 날이면 1교시의 준비 명령을 먼저 실행한다.
+```powershell
+uv run python dataset_peek.py --help
+```
 
 ### 문제 1 · 로컬 샘플의 구조 기록
 

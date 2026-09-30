@@ -1,0 +1,65 @@
+{
+  "description": "docs/ 문서 6개를 읽고 사람이 만든 10문항. expected_source는 정답이 들어 있는 파일명, keywords는 답에 있어야 할 핵심어다. 문서 표현을 그대로 옮긴 문항과 바꿔 말한 문항이 섞여 있다.",
+  "items": [
+    {
+      "id": "q01",
+      "question": "uv.lock 파일을 커밋해야 하는 이유는 무엇인가?",
+      "expected_source": "uv_basics.md",
+      "keywords": ["재현", "고정"]
+    },
+    {
+      "id": "q02",
+      "question": "가상환경 폴더를 저장소에 올리지 않는 까닭은?",
+      "expected_source": "uv_basics.md",
+      "keywords": ["gitignore", "용량", "다시 만들"]
+    },
+    {
+      "id": "q03",
+      "question": "Ollama의 /api/generate와 /api/chat은 무엇이 다른가?",
+      "expected_source": "ollama_api.md",
+      "keywords": ["메시지", "역할", "단발"]
+    },
+    {
+      "id": "q04",
+      "question": "모델의 생각(thinking) 출력을 끄려면 요청에 무엇을 넣는가?",
+      "expected_source": "ollama_api.md",
+      "keywords": ["think", "false"]
+    },
+    {
+      "id": "q05",
+      "question": "Apache-2.0 라이선스가 MIT와 다른 점은?",
+      "expected_source": "oss_license.md",
+      "keywords": ["특허"]
+    },
+    {
+      "id": "q06",
+      "question": "소스를 배포하지 않고 웹 서비스로만 제공해도 공개 의무가 생기는 라이선스는?",
+      "expected_source": "oss_license.md",
+      "keywords": ["AGPL", "네트워크"]
+    },
+    {
+      "id": "q07",
+      "question": "PR에 수정 요청이 오면 어떻게 반영하는가?",
+      "expected_source": "git_flow.md",
+      "keywords": ["브랜치", "push", "커밋"]
+    },
+    {
+      "id": "q08",
+      "question": "인터넷이 끊긴 실습실에서 이미 받아 둔 모델만 쓰게 하는 설정은?",
+      "expected_source": "hf_model_card.md",
+      "keywords": ["HF_HUB_OFFLINE", "캐시"]
+    },
+    {
+      "id": "q09",
+      "question": "기본값, 환경변수, 명령행 인자 중 무엇이 가장 우선하는가?",
+      "expected_source": "env_secrets.md",
+      "keywords": ["인자", "우선"]
+    },
+    {
+      "id": "q10",
+      "question": "토큰을 실수로 커밋했을 때 안전한 조치는 무엇인가?",
+      "expected_source": "env_secrets.md",
+      "keywords": ["회전", "발급", "무효"]
+    }
+  ]
+}

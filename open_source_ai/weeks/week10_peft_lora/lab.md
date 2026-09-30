@@ -2,6 +2,8 @@
 
 ## 공통 규칙
 
+교시 시작의 `Copy-Item -Recurse`는 새 실습 폴더를 만드는 최초 1회 명령이다. 이미 해당 period를 작업 중이면 복사를 생략해 수정한 코드·결과를 보존한다. 다음 교시에는 코드 완성본을 새 폴더로 받고, 개인 변경은 diff로 확인해 옮기며 결과는 아래 준비 명령대로 복사한다.
+
 - 완성 코드를 보기 전에 예상을 적는다.
 - 명령은 현재 폴더를 확인한 뒤 실행한다.
 - 각 교시에서 정상 경로와 실패·경계 경로를 최소 한 번씩 재현한다.
@@ -12,6 +14,8 @@
 - Hugging Face 토큰은 `.env`에만 둔다. 어댑터(`adapters/`)·병합본(`models/`)은 저장소에 커밋하지 않는다. 학습 데이터와 기록에 실제 인물·기관 정보를 넣지 않는다.
 
 ## 1교시 실습 — 어댑터 붙이고 학습 파라미터 세기
+
+> 이 교시의 코드·입력·시간 대응: [period1](examples/period1/README.md).
 
 ### 상황
 
@@ -33,9 +37,9 @@
 ```powershell
 $src = "<교재 저장소>\open_source_ai\weeks\week10_peft_lora\examples"
 New-Item -ItemType Directory -Force C:\classwork\week10 | Out-Null
-Copy-Item -Recurse "$src\lora_lab" C:\classwork\week10\lora_lab
-Set-Location C:\classwork\week10\lora_lab
-Copy-Item .env.example .env
+if (-not (Test-Path C:\classwork\week10\period1)) { Copy-Item -Recurse "$src\period1" C:\classwork\week10\period1 }
+Set-Location C:\classwork\week10\period1
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv sync
 uv run python -c "import torch; print('cuda', torch.cuda.is_available())"
 ```
@@ -125,6 +129,8 @@ rank마다 모델을 한 번씩 읽는다. `--ranks 8`처럼 하나만 주면 1�
 
 ## 2교시 실습 — 수업 도우미 말투로 LoRA 학습하기
 
+> 이 교시의 코드·입력·시간 대응: [period2](examples/period2/README.md).
+
 ### 상황
 
 팀 도우미가 항상 "핵심 · 이유 · 다음 할 일" 세 줄 형식으로 답하게 만들고 싶다. 4주차의 system 프롬프트만으로는 형식이 자주 깨졌다. 자체 작성 Q&A 57건으로 LoRA 어댑터를 학습해 `adapters/run-001/`로 저장하고 step별 loss를 기록하라.
@@ -142,10 +148,18 @@ rank마다 모델을 한 번씩 읽는다. `--ranks 8`처럼 하나만 주면 1�
 
 ### 준비
 
-1교시와 같은 폴더에서 진행한다.
+2교시 폴더를 새로 복사하고 1교시의 `.env`·setup 기록을 넘긴다. 이전 출력이 없으면 예측 없음으로 기록한다.
 
 ```powershell
-Set-Location C:\classwork\week10\lora_lab
+$src = "<교재 저장소>\open_source_ai\weeks\week10_peft_lora\examples"
+if (-not (Test-Path C:\classwork\week10\period2)) { Copy-Item -Recurse "$src\period2" C:\classwork\week10\period2 }
+Set-Location C:\classwork\week10\period2
+if (-not (Test-Path .env)) {
+    if (Test-Path ..\period1\.env) { Copy-Item ..\period1\.env .env } else { Copy-Item .env.example .env }
+}
+if ((Test-Path ..\period1\outputs) -and -not (Test-Path outputs)) { Copy-Item -Recurse ..\period1\outputs outputs }
+New-Item -ItemType Directory -Force outputs | Out-Null
+uv sync
 Get-Location
 uv run python train_lora.py --help
 ```
@@ -234,6 +248,8 @@ Get-Content outputs\train-run-001.json | Select-Object -First 40
 
 ## 3교시 실습 — 전후 비교와 실험 기록 run-001
 
+> 이 교시의 코드·입력·시간 대응: [period3](examples/period3/README.md).
+
 ### 상황
 
 팀 리뷰어가 "어댑터가 정말 효과가 있느냐, 다음 주에 같은 결과를 다시 낼 수 있느냐"고 물었다. 같은 프롬프트 5개로 기본 모델과 어댑터 모델을 나란히 비교하고, 3차 종합과제의 첫 실험 기록 `experiments/run-001.md`를 작성해 개인 저장소에 커밋하라.
@@ -254,11 +270,20 @@ Get-Content outputs\train-run-001.json | Select-Object -First 40
 `$repo`는 3주차부터 키워 온 개인 저장소 경로다. 기록은 실습 폴더가 아니라 개인 저장소의 `experiments/`에 둔다.
 
 ```powershell
-Set-Location C:\classwork\week10\lora_lab
+$src = "<교재 저장소>\open_source_ai\weeks\week10_peft_lora\examples"
+if (-not (Test-Path C:\classwork\week10\period3)) { Copy-Item -Recurse "$src\period3" C:\classwork\week10\period3 }
+Set-Location C:\classwork\week10\period3
+if (-not (Test-Path .env)) {
+    if (Test-Path ..\period2\.env) { Copy-Item ..\period2\.env .env } else { Copy-Item .env.example .env }
+}
+if ((Test-Path ..\period2\outputs) -and -not (Test-Path outputs)) { Copy-Item -Recurse ..\period2\outputs outputs }
+if ((Test-Path ..\period2\adapters) -and -not (Test-Path adapters)) { Copy-Item -Recurse ..\period2\adapters adapters }
+New-Item -ItemType Directory -Force outputs, adapters | Out-Null
+uv sync
 Get-ChildItem adapters\run-001
 $repo = "<개인 저장소 경로>"
 New-Item -ItemType Directory -Force "$repo\experiments\run-001" | Out-Null
-Copy-Item EXPERIMENT_TEMPLATE.md "$repo\experiments\run-001.md"
+if (-not (Test-Path "$repo\experiments\run-001.md")) { Copy-Item EXPERIMENT_TEMPLATE.md "$repo\experiments\run-001.md" }
 ```
 
 ### 문제 1 · 같은 조건 전후 비교
@@ -287,8 +312,12 @@ GPU가 없으면 `--device cpu --max-new-tokens 60`을 붙인다.
 2. 2절 「고정한 것」의 데이터 버전은 파일 해시로 적는다. 모델 ID·revision은 5주차 `SOURCES.md`의 값을 쓴다.
 
 ```powershell
-(Get-FileHash data\sample_sft.jsonl -Algorithm SHA256).Hash.Substring(0, 12)
+# 2교시 기본 명령으로 실제 학습한 파일을 해시한다.
+$trainData = "C:\classwork\week10\period2\data\sample_sft.jsonl"
+(Get-FileHash $trainData -Algorithm SHA256).Hash.Substring(0, 12)
 ```
+
+`--data`를 바꿨거나 3교시 폴더에서 다시 학습했다면 `$trainData`를 그 실행에 사용한 파일의 전체 경로로 바꾼다. `adapters/run-001/run_config.json`의 `data` 경로와 학습 당시 작업 폴더를 함께 확인한다. 배포 어댑터의 원본 데이터가 없으면 해시는 “미확인”으로 적는다.
 
 3. 4절 「결과」에 1교시 VRAM 예측과 2교시 실측을 나란히 적고, 6절 「관찰과 실패」에 2교시 경계(`--max-len 32`)와 실패한 실행의 오류 첫 줄을 적는다.
 4. 7절 「다음 실험」에 바꿀 변수 하나(예: rank 16, epoch 3, 데이터 추가)와 성공 기준(형식 준수 수 또는 11주차 평가 지표)을 적는다.

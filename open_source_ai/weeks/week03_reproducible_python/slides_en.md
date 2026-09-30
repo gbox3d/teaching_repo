@@ -36,8 +36,8 @@ This week's question: **what do you include and what do you leave out, so the sa
 ## 0–3 min · What "It Works on My PC" Really Means
 
 ```text
-A: pip install requests transformers      (global, installed last year)
-B: pip install transformers               (global, latest today)
+A: last year's Python and packages, versions not recorded
+B: Python and packages prepared today, no shared lock
 Same code → A works, B gets ImportError or a different result
 ```
 
@@ -65,31 +65,31 @@ C:\classwork\
 
 ## 6–9 min · Four Jobs uv Handles at Once
 
-| Task | Old way | uv |
-|---|---|---|
-| Prepare Python | Installer, editing PATH | Reads `.python-version` and prepares it automatically |
-| Virtual environment | `python -m venv`, activate | Creates and uses `.venv` automatically |
-| Declare dependencies | Hand-edit `requirements.txt` | `uv add` updates `pyproject.toml` |
-| Pin exact versions | `pip freeze` | `uv.lock` generated automatically |
+| Task | uv commands and files |
+|---|---|
+| Prepare Python | `uv python install`, `uv python pin` → `.python-version` |
+| Prepare environment and run | `uv run` → creates and uses `.venv` |
+| Declare dependencies | `uv add` → updates `pyproject.toml` |
+| Lock and install | `uv lock` → `uv.lock`; `uv sync` → environment |
 
-You don't need to memorize `activate`. **`uv run` always runs inside this project's `.venv`.**
+Run from the folder containing `pyproject.toml`: **`uv run` prepares the environment, then runs.**
+No activation needed. Check: `uv run python -c "import sys; print(sys.executable)"`
 
 ---
 
 ## 9–12 min · The Flow of Five Commands
 
 ```powershell
-uv init                  # creates pyproject.toml, .python-version
-uv add httpx             # adds the dependency + creates .venv + updates uv.lock
-uv lock                  # resolves pyproject → uv.lock (no change if add already did it)
-uv sync --frozen          # installs .venv exactly as uv.lock says (for the recipient)
-uv run python main.py    # runs with .venv's Python
+uv init --no-package     # build the package layout ourselves in Block 2
+uv add httpx             # update declaration + lock + environment
+uv lock                  # update lock only (add may have already done it)
+uv sync --locked         # verify the shared lock, install its packages
+uv run --locked python -c "import httpx; print(httpx.__version__)"
 ```
 
-- The author: `init → add → (lock) → run`
-- The recipient: `clone → sync --frozen → run`
-
-**Question:** Does `uv sync --frozen` read `pyproject.toml` or `uv.lock`?
+- Plain `uv run`: automatically updates the lock and environment when needed
+- `--locked`: fails if the lock is missing or needs an update → clone/CI checks
+- `--frozen`: uses the existing lock without checking project consistency
 
 ---
 
@@ -118,10 +118,11 @@ each package's exact version + file hash (the count varies by resolution)
 |---|---|
 | `pyproject.toml` | `.venv/` (a few MB to a few GB per project) |
 | `uv.lock` | `__pycache__/`, `*.pyc` |
-| `.python-version` | `.env` (Block 3) |
-| `src/`, `README.md`, `.gitignore` | `outputs/` (run results) |
+| `.python-version`, `.env.example` | `.env`, `.env.local` (private settings) |
+| `src/`, `README.md`, `.gitignore` | `outputs/`, caches, model weights |
 
-One rule: **leave out what can be rebuilt, keep what can't.**
+**Keep `uv.lock` tracked.** Read `git diff --cached` before publishing.
+See the [uv guide](../../uv_guide.md) for ignore rules and a clean-clone check.
 
 ---
 
@@ -129,11 +130,13 @@ One rule: **leave out what can be rebuilt, keep what can't.**
 
 [Block 1 Lab — Create a uv Project and Reproduce It in a Clean Folder](lab.md#1교시-실습--uv-프로젝트를-만들고-깨끗한-폴더에서-재현하기)
 
+[period1: examples for this lab](examples/period1/README.md)
+
 Completion criteria:
 
 1. `pyproject.toml` and `uv.lock` are committed, and `.venv/` doesn't show up in `git status`
-2. There's a log showing: clone into a clean folder → `uv sync --frozen` → `import httpx` succeeded
-3. You wrote one sentence explaining why `--frozen` fails when `uv.lock` is deleted
+2. There's a log showing: clone into a clean folder → `uv sync --locked` → `import httpx` succeeded
+3. You wrote one sentence explaining why `--locked` fails when `uv.lock` is deleted
 
 30-minute lab, then a 10-minute break. Block 2 after the break.
 
@@ -150,7 +153,7 @@ Completion criteria:
 
 ```text
 Now:   uv run python sysinfo.py           # only runs if you know where the file is
-Goal:  uv run oss-tool sysinfo --json     # runs by name from anywhere
+Goal:  uv run oss-tool sysinfo --json     # runs by name in the project environment
 ```
 
 - Once you're past three files, `from sysinfo import ...` breaks depending on the current folder
@@ -241,12 +244,13 @@ print(json.dumps(result))        # result → stdout
 
 ```markdown
 ## Run
-1. `uv sync --frozen`
-2. `uv run oss-tool greet --name student01`
-3. `uv run oss-tool sysinfo --json`   (result saved under outputs/)
+From the project root (containing pyproject.toml):
+1. `uv sync --locked`
+2. `uv run --locked oss-tool greet --name student01`
+3. `uv run --locked oss-tool sysinfo --json`
 ```
 
-- A form where a first-time reader can just **copy and paste**
+- Reproduction steps for a project shared with its lock (results in `outputs/`)
 - Leave the option list to `--help`; the README only states the flow
 
 ---
@@ -254,6 +258,8 @@ print(json.dumps(result))        # result → stdout
 ## 17–20 min · Lab Handoff
 
 [Block 2 Lab — Finish the oss-tool CLI](lab.md#2교시-실습--oss-tool-cli-완성하기)
+
+[period2: examples for this lab](examples/period2/README.md)
 
 Completion criteria:
 
@@ -356,21 +362,23 @@ commit 1  add .env (with a token)    ← anyone can read it with git log -p
 ## 15–17 min · A Mistake-Recovery Flow
 
 ```powershell
-git add .                          # mistake: .env got staged
+git add -f .env                    # fake lab values only! simulate bypassing ignore
 git status                         # notice "new file: .env"
-git restore --staged .env          # unstage only (the file itself stays)
-code .gitignore                    # add a .env line: block it going forward
-git log --all --oneline -- .env    # empty means it's not in history
-git log --all -p -S "fake-token"   # search by string too
+git restore --staged .env          # unstage only; keep the local file
+git check-ignore -v .env           # the existing ignore applies again
+git ls-files -- .env .env.example  # only .env.example should appear
+git log --all --oneline -- .env    # also inspect history
 ```
 
-Catch it before the commit and it never enters history. **Reading `git status`** is your first line of defense.
+Avoid `-f` in normal publishing. After ignoring `.env.*`, add the exception `!.env.example`.
 
 ---
 
 ## 17–20 min · Lab Handoff
 
 [Block 3 Lab — A Config Loader and Separating Secrets](lab.md#3교시-실습--설정-로더와-비밀정보-분리)
+
+[period3: examples for this lab](examples/period3/README.md)
 
 Completion criteria:
 
@@ -385,7 +393,7 @@ Completion criteria:
 ## This Week's Summary
 
 ```text
-Reproducibility: commit pyproject.toml (intent) + uv.lock (result), exclude .venv → uv sync --frozen
+Reproducibility: commit pyproject.toml (intent) + uv.lock (result), exclude .venv → uv sync --locked
 Structure:       src/oss_tool + [project.scripts] → uv run oss-tool <subcommand>
 Config:          default < .env < environment variable < argument; commit only .env.example
 ```

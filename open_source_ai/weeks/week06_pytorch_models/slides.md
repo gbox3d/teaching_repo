@@ -149,7 +149,7 @@ out = model(torch.randn(3, 4))               # forward → [3, 2]
 
 ## 17–20분 · 실습 인계
 
-[1교시 실습 — 텐서 이동과 자동미분 관찰](lab.md#1교시-실습--텐서-이동과-자동미분-관찰)
+[1교시 실습 — 텐서 이동과 자동미분 관찰](lab.md#1교시-실습--텐서-이동과-자동미분-관찰) · [1교시 코드](examples/period1/README.md)
 
 완료 조건:
 
@@ -266,7 +266,7 @@ json.dump({"config": vars(args), "history": history}, f)
 
 ## 17–20분 · 실습 인계
 
-[2교시 실습 — 소형 MLP 학습 루프와 과적합](lab.md#2교시-실습--소형-mlp-학습-루프와-과적합)
+[2교시 실습 — 소형 MLP 학습 루프와 과적합](lab.md#2교시-실습--소형-mlp-학습-루프와-과적합) · [2교시 코드](examples/period2/README.md)
 
 완료 조건:
 
@@ -382,7 +382,7 @@ run.finish({"infer_ms": 12.3})       # outputs/runs/시각-embed.json
 
 ## 17–20분 · 실습 인계
 
-[3교시 실습 — 문장 임베딩과 실험 기록](lab.md#3교시-실습--문장-임베딩과-실험-기록)
+[3교시 실습 — 문장 임베딩과 실험 기록](lab.md#3교시-실습--문장-임베딩과-실험-기록) · [3교시 코드](examples/period3/README.md)
 
 완료 조건:
 

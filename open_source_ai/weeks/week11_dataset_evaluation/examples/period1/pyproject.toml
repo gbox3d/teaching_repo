@@ -1,0 +1,6 @@
+[project]
+name = "osa-week11-period1-data"
+version = "0.1.0"
+description = "11주차 1교시 — 정제·마스킹·분할"
+requires-python = ">=3.12"
+dependencies = ["datasets"]

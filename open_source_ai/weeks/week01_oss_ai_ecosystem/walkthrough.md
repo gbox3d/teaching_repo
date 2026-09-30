@@ -12,10 +12,13 @@
 - [`examples/`](examples/README.md) 폴더를 개인 실습 폴더에 **복사**해서 사용한다. 수업 자료 원본은 수정하지 않는다.
 - 이 문서는 개인 실습 폴더를 `C:\classwork\osa-week01`로 쓴다. 강의자가 다른 경로를 안내하면 그 경로로 바꾼다.
 - 명령은 **새 PowerShell 창**에서 현재 경로를 확인한 뒤 실행한다. 이번 주에는 모델을 내려받지 않는다.
+- macOS·Linux에서의 uv 설치·갱신과 셸별 명령은 [uv 사용 가이드](../../uv_guide.md)에 있다. 이 절차서의 폴더 복사·환경 점검 명령은 Windows PowerShell 기준이다.
 
 ---
 
 ## 1교시 — 실습환경 점검표 만들기
+
+**이 시간 예제:** [period1 — 파일·실행·예상 결과](examples/period1/README.md). 실습 시간표의 각 단계와 대응한다.
 
 **이어받는 것:** 없음(첫 블록).
 
@@ -28,12 +31,14 @@
 
 ```powershell
 New-Item -ItemType Directory -Force C:\classwork\osa-week01
-Copy-Item -Recurse "<교재 폴더>\open_source_ai\weeks\week01_oss_ai_ecosystem\examples\*" C:\classwork\osa-week01\
+$src = "<교재 폴더>\open_source_ai\weeks\week01_oss_ai_ecosystem\examples"
+Copy-Item "$src\period1\env_check.ps1" C:\classwork\osa-week01\
+Copy-Item "$src\period1\env_check_template.md" C:\classwork\osa-week01\
 Set-Location C:\classwork\osa-week01
 Get-ChildItem
 ```
 
-**예상 결과** — `README.md`(예제 안내), `env_check.ps1`, `env_check_template.md`, `oss_survey_template.md`, `first_run` 다섯 항목이 보인다. `Get-Location`의 결과가 `C:\classwork\osa-week01`이다.
+**예상 결과** — `env_check.ps1`과 `env_check_template.md`가 보인다. 아직 2·3교시 파일은 복사하지 않는다. `Get-Location`의 결과가 `C:\classwork\osa-week01`이다.
 
 **확인** — [ ] 교재 원본 폴더가 아니라 복사본 안에 있다.
 
@@ -92,7 +97,7 @@ powershell -ExecutionPolicy Bypass -File .\env_check.ps1 -OutFile env_check_raw.
 **할 일**
 
 1. 설치 전에 예상을 적는다: 설치가 끝난 바로 그 창에서 `uv --version`을 치면 될 것 같은가, 그 이유는 무엇인가.
-2. 둘 중 하나로 설치한다. 방법 1이 기본이고, 정책으로 막히면 방법 2를 쓴다.
+2. 둘 중 하나로 설치한다. 방법 1이 기본이고, 정책으로 막히면 방법 2를 쓴다. 버전을 지정하지 않으면 해당 경로가 제공하는 최신 uv를 설치한다. 수업용 버전이 확정된 PC는 그 기준을 따른다. 두 방법을 중복 실행하지 않는다.
 
 ```powershell
 # 방법 1 · 공식 설치 스크립트
@@ -110,7 +115,7 @@ winget install --id=astral-sh.uv -e
 uv --version
 ```
 
-4. **PowerShell 창을 완전히 닫고 새 창을 연 뒤** 실습 폴더로 돌아가 다시 확인한다.
+4. **PowerShell 창을 완전히 닫고 새 창을 연 뒤** 실습 폴더로 돌아가 다시 확인한다. VS Code 터미널이면 VS Code도 완전히 종료하고 다시 연다.
 
 ```powershell
 Set-Location C:\classwork\osa-week01
@@ -126,7 +131,7 @@ Get-Command uv | Select-Object -ExpandProperty Source
 
 **예상 결과** — 방법 1은 내려받기 줄 몇 개를 찍고 `uv` 와 `uvx` 를 `%USERPROFILE%\.local\bin` 에 두었다는 안내로 끝난다.
 
-3번(설치한 창)에서는 `uv : 'uv' 용어가 cmdlet … 이름으로 인식되지 않습니다` 가 나오는 것이 정상이다. 설치 프로그램이 PATH를 바꿔도 **이미 열려 있던 창은 열리던 순간의 PATH를 그대로 들고 있기 때문**이다.
+3번(설치한 창)에서는 `uv : 'uv' 용어가 cmdlet … 이름으로 인식되지 않습니다`가 나올 수 있다. 설치 프로그램이 PATH를 바꿔도 **이미 열려 있던 창은 열리던 순간의 PATH를 그대로 들고 있기 때문**이다. 기존 uv가 있으면 옛 버전이 실행될 수도 있으므로 버전과 경로를 함께 본다.
 
 4번(새 창)에서 `uv 0.x.y` 같은 버전 문자열이 나온다. `Get-Command` 는 방법 1이면 `C:\Users\<사용자>\.local\bin\uv.exe`, 방법 2(winget)면 `…\WinGet\Links\uv.exe` 계열 경로를 출력한다. 경로는 설치 방법에 따라 다른 것이 정상이다.
 
@@ -137,6 +142,8 @@ Get-Command uv | Select-Object -ExpandProperty Source
 **확인** — [ ] 새 창에서 `uv --version`이 버전 문자열을 출력한다.
 **확인** — [ ] 3번과 4번의 결과가 왜 달랐는지(또는 왜 같았는지) 한 문장으로 적었다.
 **확인** — [ ] `uv`의 설치 경로를 점검표에 적었다.
+
+**복습 · 최신 버전으로 갱신할 때** — 공식 스크립트로 설치했으면 `uv self update`, WinGet이면 `winget upgrade --id=astral-sh.uv -e`를 쓴다. macOS Homebrew는 `brew update` 다음 `brew upgrade uv`다. 갱신 후 새 창에서 `uv --version`을 다시 기록한다. 수업 PC는 기준 버전을 먼저 확인하며, uv를 갱신한다고 Python과 프로젝트 패키지까지 최신이 되는 것은 아니다. [설치·갱신 상세](../../ta_setup_guide.md#최신-uv로-갱신)
 
 > **올라마는 오늘 설치하지 않는다.** 바이너리만 4 GB이고 모델은 그보다 커서 실습 30분에 맞지 않는다.
 > Ollama 행이 `실패`면 점검표에 "미설치 → 4주차 전까지 설치"를 적고 넘어간다.
@@ -186,6 +193,8 @@ code env_check.md
 
 ## 2교시 — 공개 AI 프로젝트 탐색표
 
+**이 시간 예제:** [period2 — 파일·실행·예상 결과](examples/period2/README.md). 실습 시간표의 각 단계와 대응한다.
+
 **이어받는 것:** 1교시의 개인 실습 폴더 `C:\classwork\osa-week01`과 브라우저의 GitHub 로그인 상태. 하루가 바뀌었으면 단계 1에서 폴더가 그대로 있는지 먼저 확인한다.
 
 ### 단계 1. 템플릿 복사와 예상 적기
@@ -194,6 +203,8 @@ code env_check.md
 
 ```powershell
 Set-Location C:\classwork\osa-week01
+$src = "<교재 폴더>\open_source_ai\weeks\week01_oss_ai_ecosystem\examples"
+Copy-Item "$src\period2\oss_survey_template.md" .\oss_survey_template.md
 Copy-Item oss_survey_template.md oss_survey.md
 code oss_survey.md
 ```
@@ -273,6 +284,8 @@ code oss_survey.md
 
 ## 3교시 — 첫 uv 실행과 첫 commit
 
+**이 시간 예제:** [period3 — 파일·실행·예상 결과](examples/period3/README.md). 실습 시간표의 각 단계와 대응한다.
+
 **이어받는 것:** 1·2교시에서 만든 `env_check.md`, `oss_survey.md`가 있는 개인 실습 폴더 `C:\classwork\osa-week01`. 두 파일이 없어도 이 교시의 단계는 진행할 수 있으며, 단계 5에서 있는 파일만 `reports\`로 옮긴다.
 
 ### 단계 1. first_run 폴더 확인과 예상
@@ -280,6 +293,8 @@ code oss_survey.md
 **할 일**
 
 ```powershell
+$src = "<교재 폴더>\open_source_ai\weeks\week01_oss_ai_ecosystem\examples"
+Copy-Item -Recurse "$src\period3" C:\classwork\osa-week01\first_run
 Set-Location C:\classwork\osa-week01\first_run
 Get-ChildItem -Force
 Get-Content pyproject.toml
@@ -295,10 +310,14 @@ Get-Content pyproject.toml
 
 **할 일**
 
+`first_run`처럼 **`pyproject.toml`이 있는 폴더**에서 실행한다. 프로젝트 환경이 자동 선택되므로 `.venv`를 `activate`할 필요가 없다. `python sysinfo.py`만 실행하면 셸 PATH의 다른 Python이 쓰일 수 있다.
+
 ```powershell
 uv run python sysinfo.py
 Get-ChildItem -Force
 ```
+
+Python 선택 기준은 학기별 환경 기준표다. `requires-python = ">=3.12"`는 최소 조건이지 `3.12` 고정이 아니다. 기준표가 3.12 계열을 지정한 경우 첫 실행을 `uv run --python 3.12 python sysinfo.py`로 할 수 있다(3.12는 명령 예시). 설치와 지속적인 버전 지정은 [uv 사용 가이드](../../uv_guide.md)를 따른다.
 
 **예상 결과** — 첫 실행에서 uv가 `.venv`를 만들고 `python-dotenv`를 설치하는 메시지가 지나간 뒤, 다음 형태의 요약 7줄과 `저장: outputs/sysinfo.json`이 출력된다.
 
@@ -314,7 +333,17 @@ Python   : 3.x.y @ .venv
 
 폴더에 `.venv`, `outputs`, 그리고 잠금 파일 `uv.lock`이 새로 생겼다. `uv.lock`은 지우지 않는다(역할은 3주차에 다룬다). `outputs\sysinfo.json`을 열면 `python.in_project_venv`가 `true`, `python.venv_location`이 `.venv`다. 두 번째 실행부터는 설치 메시지 없이 바로 요약이 나온다.
 
+다음 명령으로 실행 버전과 실행 파일 경로를 직접 대조한다. 경로에 사용자 이름이 들어갈 수 있으므로 원문을 공개 저장소에 넣지 않고 `.venv 사용 여부`만 기록한다.
+
+```powershell
+uv run python --version
+uv run python -c "import sys; print(sys.executable)"
+```
+
+Windows는 `.venv\Scripts\python.exe`, macOS·Linux는 `.venv/bin/python`을 가리킨다. lock 없는 첫 실행은 그날 의존성을 결정하므로, 다른 PC에서 같은 환경을 재현하려면 검증된 `uv.lock`과 Python 기준을 함께 전달해야 한다.
+
 **확인** — [ ] GPU 줄에 이름과 VRAM(MiB)이 있거나, GPU 없는 PC라면 `GPU 없음: …` 사유가 있다.
+**확인** — [ ] `uv run`으로 확인한 Python이 이 프로젝트의 `.venv` 안에 있다.
 
 ### 단계 3. .env로 값 바꾸기
 
@@ -376,7 +405,7 @@ git check-ignore -v first_run\.venv first_run\outputs first_run\.env
 git status
 ```
 
-**예상 결과** — 첫 `git status`는 `On branch main`, `No commits yet`과 untracked 목록이다. `git check-ignore -v`는 세 경로마다 `first_run/.gitignore:N:패턴` 형태로 어느 줄이 무시했는지 한 줄씩 출력한다. 두 번째 `git status`의 untracked 목록에 `reports/`, `README.md`, `env_check.ps1`, `env_check_raw.md`, 템플릿 2개, `first_run/`이 보인다. identity 오류가 나면 강의자 안내에 따라 수업용 `user.name`/`user.email`을 설정한다(공유 PC에서 전역 설정을 임의로 바꾸지 않는다).
+**예상 결과** — 첫 `git status`는 `On branch main`, `No commits yet`과 untracked 목록이다. `git check-ignore -v`는 세 경로마다 `first_run/.gitignore:N:패턴` 형태로 어느 줄이 무시했는지 한 줄씩 출력한다. 두 번째 `git status`의 untracked 목록에 `reports/`, `env_check.ps1`, `env_check_raw.md`, 템플릿 2개, `first_run/`이 보인다. identity 오류가 나면 강의자 안내에 따라 수업용 `user.name`/`user.email`을 설정한다(공유 PC에서 전역 설정을 임의로 바꾸지 않는다).
 
 **확인** — [ ] `reports\week01_sysinfo.json`을 열어 사용자 이름·홈 경로가 없는 것을 확인했다.
 
@@ -387,14 +416,15 @@ git status
 ```powershell
 git add .
 git status
+git diff --cached --name-only
 git commit -m "Add environment report"
 git log --oneline -1
 git status
 ```
 
-`git commit` 전의 `git status`에서 `Changes to be committed` 목록을 읽고 `.venv`·`outputs`·`.env`가 없는지 확인한 뒤 commit한다.
+`git commit` 전의 `git status`와 `git diff --cached --name-only`에서 `.venv`·`outputs`·`.env`가 없는지 확인한다. 반대로 `pyproject.toml`, `uv.lock`, `.env.example`은 있어야 한다. `.gitignore`는 이미 stage하거나 추적한 파일을 자동 제거하지 않는다. 판별·복구 절차는 [GitHub 소스 배포 가이드](../../github_distribution.md)를 따른다.
 
-**예상 결과** — `Changes to be committed`에는 `first_run/` 아래 여섯 파일(원본 다섯 + 첫 실행이 만든 `uv.lock`), `reports/` 아래 세 파일, 예제 안내 `README.md`, `env_check.ps1`, `env_check_raw.md`, 템플릿 2개, 모두 14개만 있다. `git log --oneline -1`에 해시와 `Add environment report`가 한 줄로 보인다. 마지막 `git status`는 `nothing to commit, working tree clean`이다. 이 commit이 학기 내내 자랄 개인 저장소의 첫 기록이며, 2주차에 GitHub 원격과 연결된다.
+**예상 결과** — stage 목록에는 first_run의 소스·설정 양식·uv.lock, reports의 증거, 점검 스크립트와 작성한 표가 있다. .venv·.env·outputs는 없어야 한다. `git log --oneline -1`에 해시와 `Add environment report`가 한 줄로 보인다. 마지막 `git status`는 `nothing to commit, working tree clean`이다. 이 commit이 학기 내내 자랄 개인 저장소의 첫 기록이며, 2주차에 GitHub 원격과 연결된다.
 
 **확인** — [ ] [`lab.md`의 3교시 완료 조건](lab.md#3교시-실습--첫-uv-실행과-첫-commit)을 모두 체크했다. 실습 30분 뒤 휴식 10분.
 
@@ -415,7 +445,7 @@ git status
 | `python-dotenv` 설치가 실패한다(네트워크 없음) | 3교시 단계 2 (`uv run --no-project python sysinfo.py`, 값은 `$env:OLLAMA_MODEL`로 준다) |
 | `.env`를 만들었는데 `source`가 `기본값`이다 | 3교시 단계 3 (`.env`가 `first_run` 안에 있는지, 변수 이름 오타·앞뒤 공백이 없는지) |
 | `git check-ignore`가 아무것도 출력하지 않는다 | 3교시 단계 5 (`first_run\.gitignore`가 복사되었는지 `Get-ChildItem first_run -Force`로 확인) |
-| `Changes to be committed`에 `.venv/`가 보인다 | 3교시 단계 6 (`git restore --staged first_run/.venv` 후 `.gitignore` 확인) |
+| `Changes to be committed`에 `.venv/`가 보인다 | 3교시 단계 6 (`git rm -r --cached -- first_run/.venv`로 Git 등록만 해제한 뒤 `.gitignore` 확인. 로컬 파일은 남는다) |
 | commit이 identity 오류로 실패한다 | 3교시 단계 5 (오류 첫 문장을 읽고 강의자 안내에 따라 수업용 설정) |
 
 세부 판정 기준과 힌트는 [`lab.md`](lab.md)에 있다. 정답과 해설은 실습이 끝난 뒤 강의자가 별도로 안내한다.

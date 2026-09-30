@@ -1,0 +1,9 @@
+[project]
+name = "osa-week09-proposal-tools"
+version = "0.1.0"
+description = "오픈소스 AI 응용 9주차 예제 — 제안·거버넌스 도구"
+requires-python = ">=3.12"
+dependencies = [
+  "httpx",
+  "python-dotenv",
+]

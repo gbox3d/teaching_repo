@@ -1,0 +1,11 @@
+# 이미지에 들어가면 안 되는 것: 로컬 가상환경, 비밀, 실행 기록, 캐시, Git 이력
+.venv/
+.env
+outputs/
+__pycache__/
+*.pyc
+.git/
+.ruff_cache/
+.pytest_cache/
+models/
+adapters/

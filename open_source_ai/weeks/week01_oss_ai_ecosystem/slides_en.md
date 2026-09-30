@@ -124,9 +124,10 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 winget install --id=astral-sh.uv -e
 ```
 
-- Install location: `%USERPROFILE%\.local\bin\uv.exe`. It never touches system folders
-- **Don't install Python first.** uv fetches whatever Python it needs on its own
+- Standalone default: `%USERPROFILE%\.local\bin\uv.exe` (winget uses a different path)
+- **No separate Python installer.** Use uv to prepare the course Python version
 - macOS/Linux laptop: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- Update: standalone → `uv self update`; winget → `winget upgrade --id=astral-sh.uv -e`
 
 **Question:** Can you just type `uv --version` in the same window right after installing?
 
@@ -156,6 +157,8 @@ $env:Path -split ';' | Select-String '\.local'    # Nothing shown means PATH was
 ## 18–20 min · Lab Handoff
 
 [Block 1 Lab — Build a Lab-Environment Checklist](lab.md#1교시-실습--실습환경-점검표-만들기)
+
+[period1: examples for this lab](examples/period1/README.md)
 
 Completion criteria:
 
@@ -258,6 +261,8 @@ Also notice **what isn't released** (training data, training code, the largest m
 ## 17–20 min · Lab Handoff
 
 [Block 2 Lab — Explore Public AI Projects](lab.md#2교시-실습--공개-ai-프로젝트-탐색표)
+
+[period2: examples for this lab](examples/period2/README.md)
 
 Completion criteria:
 
@@ -362,15 +367,15 @@ The `qwen3:4b` tag is a reasoning-only build that can't turn off its thinking pr
 
 ## 13–15 min · What uv Replaces
 
-| Used to be its own step | Old tool | uv |
+| Task | uv command or file | Result |
 |---|---|---|
-| Install a Python version | python.org installer | `uv python install` |
-| Isolate the project | `python -m venv .venv` | Created automatically |
-| Install packages | `pip install` | `uv add` |
-| Pin exact versions | `pip freeze > requirements.txt` | `uv.lock` (automatic) |
+| Install Python | `uv python install VERSION` | Prepare the chosen Python |
+| Prepare and run | `uv run python sysinfo.py` | Run inside project `.venv` |
+| Add a dependency | `uv add PACKAGE` | Update declaration, lock, environment |
+| Restore a locked environment | `uv sync --locked` | Use a verified `uv.lock` |
 
 - **One executable** handles the Python version, virtual environment, packages, and lock file together
-- No global `pip install`. Your laptop's Python stays clean
+- Latest uv, Python, and packages are separate choices. [Environment guide](../../uv_guide.md)
 
 **Question:** What happens if two courses on the same laptop need Python 3.11 and 3.12 at the same time?
 
@@ -381,14 +386,14 @@ The `qwen3:4b` tag is a reasoning-only build that can't turn off its thinking pr
 ```text
 uv run python sysinfo.py
   ① Walk up from the current folder looking for pyproject.toml
-  ② If no Python satisfies requires-python = ">=3.12", download one
+  ② Find or download Python matching the request and requires-python
   ③ Create .venv if it doesn't exist
-  ④ Sync dependencies (python-dotenv) into .venv → generates uv.lock
+  ④ Check/create uv.lock and sync dependencies (python-dotenv) into .venv
   ⑤ Run sysinfo.py with that .venv's python
 ```
 
 - No `activate` to type. The right project environment is picked automatically, every time
-- That's why **the same one line builds the same environment on a different PC.** This is reproducibility
+- To reproduce on another PC, share a **verified uv.lock and the Python baseline**
 - Today's evidence to check: `python.in_project_venv` in `sysinfo.json`
 
 **Question:** If you run `python sysinfo.py` without uv, which Python gets used?
@@ -398,6 +403,8 @@ uv run python sysinfo.py
 ## 18–20 min · Lab Handoff
 
 [Block 3 Lab — First uv Run, First Commit](lab.md#3교시-실습--첫-uv-실행과-첫-commit)
+
+[period3: examples for this lab](examples/period3/README.md)
 
 Completion criteria:
 

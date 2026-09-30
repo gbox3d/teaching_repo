@@ -139,7 +139,7 @@ No GPU: use `--device cpu`. Model won't load: use `--backend ollama`.
 
 ## 17–20 min · Handoff to Lab
 
-[Block 1 lab — Splitting Documents and Searching with Embeddings](lab.md#1교시-실습--문서를-나누고-임베딩으로-찾기)
+[Block 1 lab — Splitting Documents and Searching with Embeddings](lab.md#1교시-실습--문서를-나누고-임베딩으로-찾기) · [Block 1 files](examples/period1/README.md)
 
 Completion criteria:
 
@@ -256,7 +256,7 @@ uv run python rag_answer.py --query "Why commit uv.lock?" --show-prompt
 
 ## 17–20 min · Handoff to Lab
 
-[Block 2 lab — Generating Sourced Answers and a Refusal Path](lab.md#2교시-실습--출처-있는-답-생성과-거부-경로)
+[Block 2 lab — Generating Sourced Answers and a Refusal Path](lab.md#2교시-실습--출처-있는-답-생성과-거부-경로) · [Block 2 files](examples/period2/README.md)
 
 Completion criteria:
 
@@ -367,7 +367,7 @@ uv run python eval.py --evalset evalset.json --ids q05,q10 --generate
 
 ## 17–20 min · Handoff to Lab
 
-[Block 3 lab — Measuring Quality and Analyzing Failures with an Eval Set](lab.md#3교시-실습--평가셋으로-품질-재기와-실패-분석)
+[Block 3 lab — Measuring Quality and Analyzing Failures with an Eval Set](lab.md#3교시-실습--평가셋으로-품질-재기와-실패-분석) · [Block 3 files](examples/period3/README.md)
 
 Completion criteria:
 
