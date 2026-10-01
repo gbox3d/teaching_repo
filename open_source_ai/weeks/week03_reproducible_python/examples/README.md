@@ -6,7 +6,7 @@
 | 교시 | 예제 폴더 | 지금 볼 파일·자료 | 실습 |
 |---|---|---|---|
 | 1교시 · uv 프로젝트와 재현 | [period1](period1/README.md) | `pyproject.toml · .gitignore · reproduce_check.ps1` | [실습 1교시](../lab.md#1교시-실습--uv-프로젝트를-만들고-깨끗한-폴더에서-재현하기) |
-| 2교시 · greet 다음 sysinfo | [period2](period2/README.md) | `step1_greet/ → src/oss_tool/cli.py` | [실습 2교시](../lab.md#2교시-실습--oss-tool-cli-완성하기) |
+| 2교시 · greet 다음 sysinfo | [period2](period2/README.md) | README의 greet 시작 코드 → 같은 `src/oss_tool/cli.py`에 sysinfo 추가 | [실습 2교시](../lab.md#2교시-실습--oss-tool-cli-완성하기) |
 | 3교시 · 설정 로더와 비밀정보 분리 | [period3](period3/README.md) | `src/oss_tool/config.py · .env.example` | [실습 3교시](../lab.md#3교시-실습--설정-로더와-비밀정보-분리) |
 
 ## 사용 순서
@@ -18,7 +18,7 @@
 
 ## 2교시 안의 코드 구분
 
-- **5–13분, 문제 1:** [greet만 있는 cli.py](period2/step1_greet/src/oss_tool/cli.py). argparse 인자와 엔트리포인트만 본다.
+- **5–13분, 문제 1:** [README의 greet 시작 코드](period2/README.md#문제-1--greet만-작성하기). 개인 프로젝트의 `src/oss_tool/cli.py`를 작성한다.
 - **13–21분, 문제 2:** [sysinfo를 더한 cli.py](period2/src/oss_tool/cli.py). JSON·저장·logging을 연결한다.
 - **3교시 5–13분:** [config를 더한 cli.py](period3/src/oss_tool/cli.py). 설정 로더를 추가한다.
 

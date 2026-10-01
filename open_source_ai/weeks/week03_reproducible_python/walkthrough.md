@@ -6,7 +6,7 @@
 
 ## 시작 전 준비
 
-- [공통 uv 가이드](../../uv_guide.md)로 최신 uv 설치·업데이트, 수업용 Python 선택을 확인한다. Git, VS Code, uv, PowerShell(7 권장)이 설치되어 있다. 정확한 버전은 환경 기준표가 정한다. Python 환경과 패키지는 uv로 관리한다.
+- [이 주차의 uv 설치·업데이트 명령](README.md#시작-전-uv-설치와-최신-버전-업데이트)에서 자기 설치 상태에 맞게 준비하고 `uv --version`을 확인한다. 공식 설치본의 최신 갱신은 `uv self update`, WinGet 설치본은 `winget upgrade --id astral-sh.uv -e`다. 기준 버전이 정해진 PC는 그 버전을 유지한다. Git, VS Code, PowerShell(7 권장)도 준비한다. 수업용 Python 선택은 [공통 uv 가이드](../../uv_guide.md)를 따른다.
 - 2주차까지 쓴 개인 저장소가 GitHub와 연결되어 있고 `git status`가 clean이다. 이 문서는 그 폴더를 `C:\classwork\osa-practice`로 적는다(1주차 이름이 `osa-week01`이면 그 경로).
 - 수업 전에 [`examples/period3`](examples/README.md)에서 `uv sync`를 한 번 실행해 `httpx`·`python-dotenv`·`hatchling`을 캐시해 둔다. 실습 중 새 패키지를 내려받지 않는다.
 - 예제는 개인 실습 폴더 `C:\classwork\week03`에 **복사**해서 쓴다. 수업 자료 원본은 수정하지 않는다.
@@ -125,6 +125,8 @@ git push
 
 1. `src\oss_tool\__init__.py`를 만들고 `__version__ = "0.1.0"`을 적는다.
 2. `src\oss_tool\cli.py`를 만든다. `build_parser()`(`ArgumentParser(prog="oss-tool")`, `add_subparsers(dest="command", required=True)`, `greet` 서브파서와 `--name` 기본값 `student01`), `cmd_greet(args)`(인사말 출력, `0` 반환), `main()`(`parse_args()` 뒤 `args.func(args)` 반환), 파일 끝의 `if __name__ == "__main__": sys.exit(main())`.
+
+[2교시 README의 greet 시작 코드](examples/period2/README.md#문제-1--greet만-작성하기)와 비교한다.
 아직 실행하지 않는다. `src` 안의 `oss_tool`을 import하려면 다음 단계에서 빌드 설정을 추가하고 프로젝트를 설치해야 한다.
 
 **예상 결과** — `src\oss_tool\`에 `__init__.py`와 greet만 있는 `cli.py`가 있다. sysinfo는 단계 3에서 추가한다.

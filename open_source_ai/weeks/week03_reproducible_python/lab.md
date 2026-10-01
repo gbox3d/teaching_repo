@@ -33,6 +33,17 @@
 
 ### 준비
 
+먼저 uv를 확인한다. 아직 없다면 Windows PowerShell에서 설치한다.
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+이미 설치한 uv를 최신 버전으로 갱신하려면 공식 설치본은 `uv self update`, WinGet 설치본은
+`winget upgrade --id astral-sh.uv -e`를 사용한다. 수업의 기준 버전이 정해져 있으면 그대로 사용한다.
+설치 후 터미널을 새로 열고 아래 `uv --version`으로 확인한다. VS Code 통합 터미널이면 VS Code도 다시 시작한다.
+다른 OS와 설치 방식은 [설치·업데이트 안내](README.md#시작-전-uv-설치와-최신-버전-업데이트)를 따른다.
+
 개인 저장소로 이동해 상태를 확인한다. `git status`가 clean이고 `git remote -v`에 원격이 보여야 시작한다.
 
 ```powershell
@@ -232,7 +243,7 @@ uv run python -c "import httpx; print('ok')"
 $src = "<교재 저장소>\open_source_ai\weeks\week03_reproducible_python\examples"
 ```
 
-`ok`가 출력되면 시작한다. 문제 1(5–13분)은 [greet만 있는 코드](examples/period2/step1_greet/src/oss_tool/cli.py), 문제 2(13–21분)는 [sysinfo까지 있는 코드](examples/period2/src/oss_tool/cli.py)와 비교한다. 설정 코드는 3교시에서 연다.
+`ok`가 출력되면 시작한다. 문제 1(5–13분)은 [README의 greet 시작 코드](examples/period2/README.md#문제-1--greet만-작성하기)와 비교해 개인 프로젝트의 `src/oss_tool/cli.py`를 작성한다. 문제 2(13–21분)는 같은 파일에 sysinfo를 추가하며 [완료 참조 코드](examples/period2/src/oss_tool/cli.py)와 비교한다. 설정 코드는 3교시에서 연다.
 
 ### 문제 1 · greet 서브커맨드와 엔트리포인트
 

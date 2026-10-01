@@ -5,15 +5,74 @@
 
 | 실습 시간·단계 | 지금 열 파일 | 이때 있는 기능 |
 |---|---|---|
-| 5–13분 · 문제 1 | [step1_greet/src/oss_tool/cli.py](step1_greet/src/oss_tool/cli.py), [pyproject.toml](pyproject.toml) | greet 하나 |
+| 5–13분 · 문제 1 | [아래 greet 시작 코드](#문제-1--greet만-작성하기), [pyproject.toml](pyproject.toml) | greet 하나 |
 | 13–21분 · 문제 2 | [src/oss_tool/cli.py](src/oss_tool/cli.py), [sysinfo.py](src/oss_tool/sysinfo.py) | greet + sysinfo |
 | 21–25분 · 실패/README | [pyproject.toml](pyproject.toml) | 엔트리포인트 오타 관찰·복구 |
 
-`step1_greet`는 문제 1 완료 시점의 독립 프로젝트다. 문제 2까지 한 뒤에는 이 폴더 루트가 비교 대상이다.
+2교시의 예제 프로젝트는 `period2` 하나다. 실습은 1교시에 만든 개인 프로젝트에서 같은 `src/oss_tool/cli.py`를 이어서 편집한다.
+이 폴더의 `src/`는 문제 2까지 완료한 참조 코드이며, 문제 1의 시작 코드는 아래에 따로 제시한다.
 `sysinfo.py`는 1주차 수집 함수를 옮겨 둔 제공 모듈이다. 이번 시간에는 `collect()` 결과를 CLI에 연결하는 부분을 본다.
 설정 로더·HTTP 요청·`config`·`--ping`은 아직 없다. `--verbose`·`--version`은 실습지의 선택 확장으로 직접 추가한다.
 
-참조본을 교재 밖에 복사했다면 `pyproject.toml` 옆에서:
+## 문제 1 · greet만 작성하기
+
+**5–13분:** 개인 프로젝트 `C:\classwork\osa-practice`에서 `src/oss_tool/__init__.py`에 `__version__ = "0.1.0"`을 적고,
+처음 만드는 `src/oss_tool/cli.py`를 아래 코드와 비교한다.
+
+```python
+import argparse
+import sys
+
+from oss_tool import __version__
+
+
+def cmd_greet(args):
+    print(f"안녕하세요, {args.name}. oss-tool {__version__} 입니다.")
+    return 0
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(prog="oss-tool")
+    sub = parser.add_subparsers(dest="command", required=True)
+    greet = sub.add_parser("greet", help="인사말 출력")
+    greet.add_argument("--name", default="student01")
+    greet.set_defaults(func=cmd_greet)
+    return parser
+
+
+def main():
+    args = build_parser().parse_args()
+    return args.func(args)
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+```
+
+[실습지 문제 1](../../lab.md#문제-1--greet-서브커맨드와-엔트리포인트)의 `[project.scripts]`, `[build-system]`,
+`[tool.hatch.build.targets.wheel]` 세 블록을 개인 `pyproject.toml`에 추가한 뒤, 그 파일이 있는 프로젝트 루트에서 실행한다.
+
+```powershell
+Set-Location C:\classwork\osa-practice
+uv sync
+uv run oss-tool greet --name student01
+uv run oss-tool --help
+```
+
+이름이 들어간 인사말이 출력되고, 이 단계의 `--help`에는 `greet`만 보인다.
+
+## 문제 2 · 같은 CLI에 sysinfo 추가하기
+
+**13–21분:** 같은 개인 프로젝트에 [sysinfo.py](src/oss_tool/sysinfo.py)를 추가하고,
+[cli.py 참조본](src/oss_tool/cli.py)과 비교해 `sysinfo` 서브커맨드·JSON 저장·logging을 연결한다.
+실행 위치는 계속 개인 프로젝트 루트다.
+
+```text
+uv run oss-tool greet --name student01
+uv run oss-tool sysinfo --json
+```
+
+문제 2 완료 참조본을 따로 실행해 비교하려면, 교재 밖에 복사한 `period2`의 `pyproject.toml` 옆에서:
 ```text
 uv sync
 uv run oss-tool greet --name student01

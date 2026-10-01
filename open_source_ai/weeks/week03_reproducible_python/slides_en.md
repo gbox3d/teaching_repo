@@ -65,6 +65,8 @@ C:\classwork\
 
 ## 6–9 min · Four Jobs uv Handles at Once
 
+Prepare uv: [first install](README.md#시작-전-uv-설치와-최신-버전-업데이트) / update a standalone install: `uv self update` → `uv --version`
+
 | Task | uv commands and files |
 |---|---|
 | Prepare Python | `uv python install`, `uv python pin` → `.python-version` |

@@ -65,6 +65,8 @@ C:\classwork\
 
 ## 6–9분 · uv 하나가 맡는 네 가지 일
 
+uv 준비: [최초 설치](README.md#시작-전-uv-설치와-최신-버전-업데이트) / 공식 설치본 최신 갱신 `uv self update` → `uv --version`
+
 | 일 | uv 명령·파일 |
 |---|---|
 | Python 준비 | `uv python install`, `uv python pin` → `.python-version` |

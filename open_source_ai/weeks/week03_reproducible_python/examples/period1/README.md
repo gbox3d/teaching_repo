@@ -3,6 +3,34 @@
 [실습지 1교시](../../lab.md#1교시-실습--uv-프로젝트를-만들고-깨끗한-폴더에서-재현하기)에 대응하는 **프로젝트 설정 참조본**이다.
 아직 `src/`나 `oss-tool` 명령은 없다. 개인 저장소에서는 실습지대로 `uv init`·`uv add httpx`를 실행한다.
 
+## 먼저 uv 설치·업데이트 확인
+
+uv가 없는 Windows PC에서는 PowerShell로 설치한다.
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+공식 설치 프로그램으로 설치한 uv를 최신 버전으로 갱신할 때는:
+
+```powershell
+uv self update
+```
+
+WinGet 설치본은 대신 `winget upgrade --id astral-sh.uv -e`를 사용한다.
+수업 PC에 지정된 기준 버전이 있으면 그 버전을 유지한다. 설치 후 터미널을 새로 열고 확인한다.
+
+```powershell
+uv --version
+Get-Command uv -All
+```
+
+VS Code 통합 터미널이면 VS Code도 다시 시작한다. 버전과 실행 파일 위치를 확인한 뒤 실습을 시작한다.
+macOS·Linux 설치와 Homebrew 업데이트는 [주차별 설치 안내](../../README.md#시작-전-uv-설치와-최신-버전-업데이트)에 있다.
+`uv self update`는 uv 자체의 갱신이며, 아래 `uv sync`는 프로젝트 패키지를 설치하는 명령이다.
+
+## 프로젝트 파일과 실행
+
 | 실습 단계 | 파일 | 비교할 것 |
 |---|---|---|
 | 문제 1 · init/add | [pyproject.toml](pyproject.toml), [.python-version](.python-version) | httpx 선언·Python 선택 |

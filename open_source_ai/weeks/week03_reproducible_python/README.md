@@ -10,6 +10,40 @@
 
 예제의 시간은 실습 30분 기준이다. 해당 폴더 README에서 단계별 파일과 출력을 확인한다.
 
+## 시작 전 uv 설치와 최신 버전 업데이트
+
+아직 uv가 없다면 Windows PowerShell에서 공식 설치 프로그램을 실행한다. Python은 미리 설치하지 않아도 된다.
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+macOS·Linux 터미널에서는:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+이미 설치한 uv를 최신 버전으로 갱신할 때는 **자신이 설치한 방식의 명령 하나**를 사용한다.
+
+| 설치 방식 | 최신 버전 업데이트 |
+|---|---|
+| 위의 공식 설치 프로그램 | `uv self update` |
+| Windows WinGet | `winget upgrade --id astral-sh.uv -e` |
+| macOS Homebrew | `brew update` 다음 `brew upgrade uv` |
+
+설치 후 터미널을 새로 열고 확인한다. VS Code 통합 터미널이면 VS Code도 다시 시작한다.
+
+```powershell
+uv --version
+Get-Command uv -All
+```
+
+macOS·Linux에서는 실행 위치를 `command -v uv`로 확인한다. 버전과 설치 방식을 환경 점검표에 기록한다.
+수업 PC의 기준 버전이 정해져 있으면 그 버전을 유지하고, 기준 PC의 최신 버전 검증은 수업 전에 진행한다.
+`uv self update`는 uv 도구의 갱신이다. 프로젝트 패키지 갱신(`uv lock --upgrade`)과는 별개다.
+[공식 설치·업데이트 안내](https://docs.astral.sh/uv/getting-started/installation/) · [Python 선택과 uv 실행 가이드](../../uv_guide.md)
+
 ## 이번 주 질문
 
 > 다른 PC에서 내 코드를 같은 결과로 실행하게 만들려면 무엇을 저장소에 넣고 무엇을 빼야 하는가?
@@ -53,14 +87,14 @@
 - [uv 설치·실행·Git 배포 가이드](../../uv_guide.md): 최신 설치·업데이트, Python 선택, `uv run`, lock 검증과 배포 점검
 - [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료
 - [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
-- [실행 예제](examples/README.md): 교시별 `period1/`·`period2/`·`period3/`, 2교시 문제 1 전용 `step1_greet/`, 기록 양식 `week03_notes_template.md`
+- [실행 예제](examples/README.md): 교시별 `period1/`·`period2/`·`period3/`, 2교시 README의 greet 시작 코드, 기록 양식 `week03_notes_template.md`
 - [따라하기 절차](walkthrough.md): 시연·실습을 단계대로 재현하는 절차서
 - 강의 대본: 강의자 별도 관리(비공개)
 
 ## 권장 진행 방식
 
 1. 실습 문제의 완료 조건을 먼저 읽고, 명령을 실행하기 전에 "무엇이 생기고 무엇이 없을지"를 예상표에 적는다.
-2. 1교시는 `period1`, 2교시 문제 1은 `period2/step1_greet`, 문제 2는 `period2`, 3교시는 `period3`와 비교한다. 해당 단계 파일만 연다.
+2. 1교시는 `period1`, 2교시는 `period2`, 3교시는 `period3`와 비교한다. 2교시는 README의 greet 시작 코드에서 출발해 같은 `cli.py`에 sysinfo를 추가한다.
 3. 매 교시 실패·경계 경로(`uv.lock` 없음, 엔트리포인트 오타, `.env` 스테이지)를 한 번씩 재현하고 오류의 첫 줄을 기록한다.
 4. `git status`를 commit 직전마다 읽는다. `.venv/`·`.env`·`outputs/`가 보이면 `.gitignore`부터 고친다.
 5. 3교시가 끝나면 4주차에서 `config.py`가 그대로 쓰인다는 전제로 `uv run oss-tool config`가 기본값을 출력하는지 마지막으로 확인한다.
