@@ -84,7 +84,7 @@ Node.js는 조교 빌드 PC에서만 `node --version`·`npm --version`으로 확
 
 ### clone·로그인이 막힌 학생
 
-교재의 지난주 완성본(`examples/build/`, 3주차 이전은 `examples/day2/`)을 받아 그 폴더에서 작업하게 한다. 4주차부터는 매주 새 저장소라 실습 끝의 `git init` → `git remote add origin <URL>` → `git push -u origin main` 순서가 그대로 적용된다. 2일차에 clone이 막히면 1일차에 올린 저장소를 **Code › Download ZIP**으로 받아 작업하고, 끝에 조교와 함께 push한다.
+교재의 지난주 완성본(4주차부터 `examples/day2/build/`, 3주차까지는 `examples/day2/`)을 받아 그 폴더에서 작업하게 한다. 4주차부터는 매주 새 저장소라 실습 끝의 `git init` → `git remote add origin <URL>` → `git push -u origin main` 순서가 그대로 적용된다. 2일차에 clone이 막히면 1일차에 올린 저장소를 **Code › Download ZIP**으로 받아 작업하고, 끝에 조교와 함께 push한다.
 
 ### 개인 노트북
 

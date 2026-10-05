@@ -32,7 +32,7 @@ cd my-web
 **예상 결과** — `Cloning into 'my-web'...`로 시작하고 `my-web` 폴더가 생긴다. **File › Open Folder**로 그 폴더를 연다.
 
 - `fatal: destination path 'my-web' already exists and is not an empty directory.`가 나오면 이미 받아 둔 것이다. 그 폴더를 열고 `git pull`을 한다.
-- 로그인이 막혀 clone이 안 되면 조교에게 5주차 `examples/build` 파일을 받아 새 폴더에서 작업하고, 끝 루틴에서 `git remote add origin <URL>` 뒤에 push한다.
+- 로그인이 막혀 clone이 안 되면 조교에게 5주차 `examples/day2/build` 파일을 받아 새 폴더에서 작업하고, 끝 루틴에서 `git remote add origin <URL>` 뒤에 push한다.
 
 ### 2. dark-mode 브랜치 만들기
 

@@ -16,7 +16,7 @@ DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 새 폴더 `web-week05` 를 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/` 를 넣는다. 못 받으면 교재 [4주차 `examples/build/`](../week04_responsive_css/examples/build/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 다섯 파일(ex01~ex05, ex02 는 `.js` 까지 여섯 개)을 **Raw** 로 저장한다. 5분 안에 다 못 받았으면 ex01 부터 시작하고, 나머지는 각 문항을 시작할 때 저장한다 |
+| 0–5분 | 새 폴더 `web-week05` 를 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/` 를 넣는다. 못 받으면 교재 [4주차 `examples/day2/build/`](../week04_responsive_css/examples/day2/build/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 다섯 파일(ex01~ex05, ex02 는 `.js` 까지 여섯 개)을 **Raw** 로 저장한다. 5분 안에 다 못 받았으면 ex01 부터 시작하고, 나머지는 각 문항을 시작할 때 저장한다 |
 | 5–14분 | ex01 지금 실행 vs 클릭할 때 실행 |
 | 14–23분 | ex02 script 위치 |
 | 23–32분 | ex03 let · const · var |
@@ -29,7 +29,7 @@ DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새
 
 ### 1. ex01 지금 실행 vs 클릭할 때 실행 (`console.log` · `addEventListener`)
 
-[examples/ex01_click.html](examples/ex01_click.html) 을 `ex/ex01_click.html` 로 저장한다. [따라하기 1일차](walkthrough.md#1일차)의 3단계(여는 법과 Console 여는 법)를 본다.
+[examples/day1/ex01_click.html](examples/day1/ex01_click.html) 을 `ex/ex01_click.html` 로 저장한다. [따라하기 1일차](walkthrough.md#1일차)의 3단계(여는 법과 Console 여는 법)를 본다.
 
 - 바꿔 보기: 파일을 열고 버튼을 누르기 전에 Console 을 본다. A·B·C·D 중 무엇이 찍혀 있나? `console.log('D. …')` 는 파일 맨 아래에 있는데 왜 B 보다 먼저 찍히나?
 - 바꿔 보기: 이름 칸에 `student01` 을 넣고 1번·2번 버튼을 번갈아 두 번씩 누른다. B 와 C 는 각각 몇 번 찍히나? `function () {}` 로 쓴 1번과 `() => {}` 로 쓴 2번은 하는 일이 다른가?
@@ -38,7 +38,7 @@ DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새
 
 ### 2. ex02 script 위치 (`<script>` · `defer`)
 
-[examples/ex02_script_position.html](examples/ex02_script_position.html) 과 [ex02_script_position.js](examples/ex02_script_position.js) 를 둘 다 `ex/` 에 저장한다. 두 파일이 같은 폴더에 있어야 한다.
+[examples/day1/ex02_script_position.html](examples/day1/ex02_script_position.html) 과 [ex02_script_position.js](examples/day1/ex02_script_position.js) 를 둘 다 `ex/` 에 저장한다. 두 파일이 같은 폴더에 있어야 한다.
 
 - 바꿔 보기: Console 에 찍힌 세 줄의 **순서**와 **값**을 읽는다. 1번만 `null`(찾은 것이 없다는 값)인 이유는 무엇인가? 3번 파일도 `<head>` 에서 연결했는데 왜 `p#msg`(id 가 `msg` 인 `p`)를 찾았나?
 - Console 은 찍힌 요소를 **지금 모습**으로 보여 준다. 2번 줄 안의 글자가 3번이 바꾼 글자여도 2번이 먼저 실행된 것이다. 순서는 줄 순서와 오른쪽 `파일:줄` 로 본다.
@@ -48,7 +48,7 @@ DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새
 
 ### 3. ex03 let · const · var (`let` · `const` · `var`)
 
-[examples/ex03_let_const.html](examples/ex03_let_const.html) 을 `ex/ex03_let_const.html` 로 저장한다.
+[examples/day1/ex03_let_const.html](examples/day1/ex03_let_const.html) 을 `ex/ex03_let_const.html` 로 저장한다.
 
 - 바꿔 보기: 파일을 열자마자 Console 에 빨간 줄이 있나? 2번 버튼을 누른 뒤에는? 오류는 언제 생기나?
 - 바꿔 보기: 세 버튼을 두 번씩 누른다. 1번·3번 숫자는 어떻게 되나? 2번은 왜 `0` 에서 움직이지 않나? 빨간 줄의 `파일:줄` 이 가리키는 줄과 그 바로 아래 줄을 읽는다.
@@ -57,7 +57,7 @@ DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새
 
 ### 4. ex04 +는 두 가지 일을 한다 (`+` · `Number()` · `parseInt()`)
 
-[examples/ex04_plus.html](examples/ex04_plus.html) 을 `ex/ex04_plus.html` 로 저장한다.
+[examples/day1/ex04_plus.html](examples/day1/ex04_plus.html) 을 `ex/ex04_plus.html` 로 저장한다.
 표 셋째 칸의 `typeof 값` 은 그 값의 종류를 글자로 알려 준다. number 는 숫자, string 은 문자열이다.
 
 - 바꿔 보기: 입력 칸 `1`·`2` 그대로 6번·7번 버튼을 누른다. 결과가 왜 다른가? 입력 칸을 `10`·`5` 로 바꿔 다시 누르면?
@@ -69,7 +69,7 @@ DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새
 
 ### 5. ex05 템플릿 문자열 (`` ` `` · `${}`)
 
-[examples/ex05_template.html](examples/ex05_template.html) 을 `ex/ex05_template.html` 로 저장한다.
+[examples/day1/ex05_template.html](examples/day1/ex05_template.html) 을 `ex/ex05_template.html` 로 저장한다.
 
 - 바꿔 보기: `const name = 'student01';` 과 `const hour = 9;` 를 `'student02'` 와 `14` 로 바꾼다. 네 줄 중 어느 줄이 바뀌나? 3번은 왜 안 바뀌나?
 - 바꿔 보기: 3번 줄 `'안녕하세요, ${name}님!'` 의 작은따옴표 두 개를 백틱으로 바꾼다. 3번이 어떻게 되나?
@@ -96,7 +96,7 @@ git push -u origin main
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 같은 PC에 `web-week05` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week05.git` 뒤 **File › Open Folder**. 다섯 파일(ex06~ex10)을 **Raw** 로 `ex/` 에 먼저 저장하고, [server.mjs](../../tools/static-server/server.mjs) 를 **Raw** 로 저장소 맨 위(`index.html` 옆)에 저장한다. 5분 안에 다 못 받았으면 ex06 부터 시작하고, 나머지는 각 문항을 시작할 때 저장한다 |
+| 0–5분 | 같은 PC에 `web-week05` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week05.git` 뒤 **File › Open Folder**. 교재 [`examples/day2/`](examples/day2/) 의 다섯 파일(ex06~ex10)을 **Raw** 로 `ex/` 에 먼저 저장하고, [server.mjs](../../tools/static-server/server.mjs) 를 **Raw** 로 저장소 맨 위(`index.html` 옆)에 저장한다. 5분 안에 다 못 받았으면 ex06 부터 시작하고, 나머지는 각 문항을 시작할 때 저장한다 |
 | 5–11분 | ex06 비교 |
 | 11–17분 | ex07 if / else |
 | 17–23분 | ex08 function |
@@ -111,7 +111,7 @@ git push -u origin main
 
 ### 6. ex06 비교 (`==` · `===` · `>=` · `>`)
 
-[examples/ex06_compare.html](examples/ex06_compare.html) 을 `ex/ex06_compare.html` 로 저장한다.
+[examples/day2/ex06_compare.html](examples/day2/ex06_compare.html) 을 `ex/ex06_compare.html` 로 저장한다.
 
 - 바꿔 보기: 열기 전에 여섯 식의 결과를 `true`·`false` 로 먼저 말해 본다. 몇 개가 맞았나? 1번과 2번은 왜 다른가?
 - 바꿔 보기: 5번 식 `'10' > '9'`(25행)를 `'2' > '10'` 으로 바꾼다. 표 왼쪽 칸(16행 `<td>`)의 식 글자도 같이 바꾼다. 숫자라면 `false` 인데 결과는? 문자열은 무엇부터 비교하나?
@@ -120,7 +120,7 @@ git push -u origin main
 
 ### 7. ex07 if / else (`if` · `else if` · `else`)
 
-[examples/ex07_if_else.html](examples/ex07_if_else.html) 을 `ex/ex07_if_else.html` 로 저장한다.
+[examples/day2/ex07_if_else.html](examples/day2/ex07_if_else.html) 을 `ex/ex07_if_else.html` 로 저장한다.
 
 - 바꿔 보기: 입력 칸에 `9`·`12`·`15`·`20` 을 차례로 넣고 **판단하기**를 누른다. 3번과 4번이 다르게 나오는 시각은 어느 것인가? 조건은 같은데 왜 다른가?
 - 바꿔 보기: 4번의 `m4 = '저녁';` 옆 주석은 "이 줄에는 영영 오지 못한다"이다. 0~23 중 그 줄에 오는 값이 있나? 없다면 왜인가? 4번이 `저녁` 을 내려면 조건 두 줄을 어떻게 바꿔야 하나?
@@ -129,7 +129,7 @@ git push -u origin main
 
 ### 8. ex08 function (`function` · `return`)
 
-[examples/ex08_function.html](examples/ex08_function.html) 을 `ex/ex08_function.html` 로 저장한다.
+[examples/day2/ex08_function.html](examples/day2/ex08_function.html) 을 `ex/ex08_function.html` 로 저장한다.
 괄호 안 `name` 은 부를 때 넣은 값을 받는 이름이다(**매개변수**). `greet('student02')` 로 부르면 그 안의 `name` 에 `'student02'` 가 담긴다.
 `undefined` 는 아직 담긴 값이 없다는 값이다. 값 없이 만든 변수(ex07 의 `let m1;`)도, `return` 이 없는 함수를 부른 결과도 `undefined` 다.
 
@@ -141,7 +141,7 @@ git push -u origin main
 
 ### 9. ex09 화면에 쓰기 (`querySelector` · `textContent` · `value`)
 
-[examples/ex09_dom_write.html](examples/ex09_dom_write.html) 을 `ex/ex09_dom_write.html` 로 저장한다.
+[examples/day2/ex09_dom_write.html](examples/day2/ex09_dom_write.html) 을 `ex/ex09_dom_write.html` 로 저장한다.
 
 - 바꿔 보기: `console.log(document.querySelector('#p9'));` 줄(23행) 아래에 `document.querySelector('#p9').textContent = '9';` 한 줄을 더한다. 빨간 줄은 무엇이라고 하나? 그 뒤에 **바꾸기** 버튼은 동작하나? 조립 마지막 줄에서 id 를 틀리면 이 빨간 줄이 뜬다. 확인했으면 더한 줄을 지운다. 남겨 두면 다음 바꿔 보기에서 바꾸기 버튼이 동작하지 않는다.
 - 바꿔 보기: **바꾸기**를 누르기 전에 Console 두 줄을 읽는다. 둘째 줄이 `null` 인 이유는 무엇인가? 버튼을 누른 뒤 3번에 `<b>` 가 굵게 되나, 글자로 보이나?
@@ -151,7 +151,7 @@ git push -u origin main
 
 ### 10. ex10 new Date() (`new Date()` · `getHours()`)
 
-[examples/ex10_date.html](examples/ex10_date.html) 을 `ex/ex10_date.html` 로 저장한다.
+[examples/day2/ex10_date.html](examples/day2/ex10_date.html) 을 `ex/ex10_date.html` 로 저장한다.
 
 - 바꿔 보기: 25행 `now.getHours()` 를 `new Date().getHours()` 로 바꾼다. 1번 숫자가 바꾸기 전과 같은가? 조립의 `hour` 줄이 이 모양이다.
 - 바꿔 보기: 표 여섯 줄을 오늘 날짜·시각과 맞춰 본다. 4번과 5번은 왜 1 차이가 나나? 6번 숫자는 무슨 요일인가?

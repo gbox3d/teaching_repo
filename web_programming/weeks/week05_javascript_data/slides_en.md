@@ -8,9 +8,9 @@ footer: "JavaScript Data and Functions · see the principle through comparison e
 
 # JavaScript Data and Functions
 
-Through Week 4, `my-web` changed only in **what you see**. This week is JavaScript.
+The pages you made through Week 4 changed only in **what you see**. This week is JavaScript.
 
-This week: look at **10 comparison examples** one at a time, then **assemble** `my-web`'s `index.html` and `app.js` at the end.
+This week: look at **10 comparison examples** one at a time, then **assemble** `index.html` and `app.js` in a new repository, `web-week05`, built on last week's files.
 
 - JavaScript runs **inside the browser**. It starts running the moment you open the page.
 - Check results in two places: the **screen** and **F12 › Console**.
@@ -54,7 +54,7 @@ document ← the whole page the browser has loaded
 
 ## Day 1 · 4–10 min — ex01: Run Now vs. Run on Click
 
-[examples/ex01_click.html](examples/ex01_click.html)
+[examples/day1/ex01_click.html](examples/day1/ex01_click.html)
 Siblings: Console A (open) / D (after A) / B (btn 1, `function`) / C (btn 2, `() =>`)
 
 ```js
@@ -74,7 +74,7 @@ btn1.addEventListener('click', function () {
 
 ## Day 1 · 10–16 min — ex02 Script Position: Read Now, defer Later
 
-[examples/ex02_script_position.html](examples/ex02_script_position.html) · [ex02_script_position.js](examples/ex02_script_position.js)
+[examples/day1/ex02_script_position.html](examples/day1/ex02_script_position.html) · [ex02_script_position.js](examples/day1/ex02_script_position.js)
 Siblings: 1. script in head / 2. script at end of body / 3. file in head with `defer`
 
 ```text
@@ -93,7 +93,7 @@ body-end <script>    console.log('2. …', document.getElementById('msg'));
 
 ## Day 1 · 16–21 min — ex03 let · const · var: Reassignable?
 
-[examples/ex03_let_const.html](examples/ex03_let_const.html)
+[examples/day1/ex03_let_const.html](examples/day1/ex03_let_const.html)
 Siblings: 1. `let` / 2. `const` / 3. `var` — each button adds 1
 
 ```js
@@ -112,7 +112,7 @@ document.getElementById('btn-const').addEventListener('click', function () {
 
 ## Day 1 · 21–26 min — ex04 +: Add or Join?
 
-[examples/ex04_plus.html](examples/ex04_plus.html)
+[examples/day1/ex04_plus.html](examples/day1/ex04_plus.html)
 Siblings: `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1` / inputs No. 6·7
 
 ```js
@@ -131,7 +131,7 @@ Number(num1.value) + Number(num2.value)   // convert to numbers, then add
 
 ## Day 1 · 26–28 min — ex05 Template Strings: ${} Works Only in Backticks
 
-[examples/ex05_template.html](examples/ex05_template.html)
+[examples/day1/ex05_template.html](examples/day1/ex05_template.html)
 Siblings: 1. `+` joins / 2. backticks / 3. `${}` in single quotes / 4. `${hour + 1}`
 
 ```js
@@ -152,11 +152,10 @@ Siblings: 1. `+` joins / 2. backticks / 3. `${}` in single quotes / 4. `${hour +
 
 [Day 1 lab](lab.md#1일차--스크립트와-값-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
-1. Create `my-web/week05/` and save ex01–ex05 as **Raw** (ex02 needs its `.js` file too).
+1. Put last week's finished files in a new folder `web-week05`, and save ex01–ex05 in `ex/` as **Raw** (ex02 needs its `.js` file too).
 2. Change at least one value per file and watch how the screen and Console change.
-3. Push, then open `https://student01.github.io/my-web/week05/ex01_click.html`.
+3. Minutes 50–60: create a new repository `web-week05`, push in the same order you learned in Week 2, turn on Pages, and open `…/web-week05/ex/ex01_click.html`.
 
-Git: `git pull` at 0–5 min, `git add .` → `git commit` → `git push` at 55–60 min.
 If a result looks wrong, **open the Console first**. Follow the `file:line` to the right of the red line.
 
 **Explanation total: 4+6+6+5+5+2+2 = 30 min**
@@ -167,36 +166,36 @@ If a result looks wrong, **open the Console first**. Follow the `file:line` to t
 
 `30 min explanation & demo → 60 min lab`
 
-1. Today's Git — `restore` before a commit, `revert` after one
+1. Open it from a web server on your PC: file:// vs. http://localhost
 2. ex06 · ex07 — a comparison is `true`/`false`; `if` runs only the first match
 3. ex08 — `function`: define · call · `return`
 4. ex09 · ex10 — find first, then change; `new Date()` holds the current time
-5. Assembly — gather two lines of `my-web`'s `index.html` and `app.js` from the ex files
+5. Assembly — gather two lines of `index.html` and the `app.js` of `web-week05` from the ex files
 
 ---
 
-## Day 2 · 0–4 min — Today's Git: restore vs. revert
+## Day 2 · 0–4 min — A Web Server on Your PC: file:// vs. localhost
 
-```bash
-git restore app.js   # a mistake only saved, not committed → back to the last commit
-git revert HEAD      # a mistake already committed → makes a new commit that undoes it
-```
+Save [server.mjs](../../tools/static-server/server.mjs) in `web-week05` → `node server.mjs` → `http://localhost:8000/` · [How to use](../../tools/static-server/README.md)
 
 ```text
-[main e9f3b26] Revert "change greeting text"
- Date: Wed Sep 30 10:41:07 2026 +0900
- 1 file changed, 1 insertion(+), 1 deletion(-)
+200 GET /
+200 GET /styles.css
+200 GET /app.js
+200 GET /images/profile.png
+404 GET /favicon.ico        ← tab-icon request. Fine if missing
 ```
 
-- `revert` makes a new commit; `git log --oneline` keeps both.
-- If an editor window opens, save and close it with the default message `Revert "…"` as-is.
-- `git reset HEAD^` erases history. Doing that after a push makes your local history disagree with GitHub's, so your next `git push` is rejected. After pushing, use `revert` instead.
+- Double-click → `file:///…`. This week's files behave the same either way. Stop: Ctrl+C.
+- Later, `fetch` and `type="module"` need a server or a public address.
+
+**The browser gets the HTML, then requests each CSS, JS, and image file separately (Week 1).**
 
 ---
 
 ## Day 2 · 4–9 min — ex06 Comparisons: true or false
 
-[examples/ex06_compare.html](examples/ex06_compare.html)
+[examples/day2/ex06_compare.html](examples/day2/ex06_compare.html)
 Siblings: `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')`
 
 ```js
@@ -215,7 +214,7 @@ Siblings: `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Nu
 
 ## Day 2 · 9–14 min — ex07 if / else: First Match Wins
 
-[examples/ex07_if_else.html](examples/ex07_if_else.html)
+[examples/day2/ex07_if_else.html](examples/day2/ex07_if_else.html)
 Siblings: 1. `if` alone / 2. `if/else` / 3. `else if` (largest first) / 4. No. 3, reordered
 
 ```js
@@ -235,7 +234,7 @@ if (hour >= 12) {
 
 ## Day 2 · 14–19 min — ex08 function: Define · Call · return
 
-[examples/ex08_function.html](examples/ex08_function.html)
+[examples/day2/ex08_function.html](examples/day2/ex08_function.html)
 Siblings: 1. `greetLog`, no `return` / 2. `greet`, has `return` / 3·4. called with different values
 
 ```js
@@ -254,7 +253,7 @@ const b = greet('student01');       // call: nothing in the Console, b holds the
 
 ## Day 2 · 19–24 min — ex09: Find, Then Change
 
-[examples/ex09_dom_write.html](examples/ex09_dom_write.html)
+[examples/day2/ex09_dom_write.html](examples/day2/ex09_dom_write.html)
 Siblings: 1. `getElementById`+`innerText` / 2. `querySelector`+`textContent` / 3. a tag / 4. `value`
 
 ```js
@@ -273,7 +272,7 @@ p3.textContent = '<b>3. 굵게 될까?</b>';        // shown as literal text, no
 
 ## Day 2 · 24–27 min — ex10 new Date(): The Current Moment
 
-[examples/ex10_date.html](examples/ex10_date.html)
+[examples/day2/ex10_date.html](examples/day2/ex10_date.html)
 Siblings: `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()`
 
 ```js
@@ -284,13 +283,13 @@ now.getMonth() + 1          // the month number people actually read
 ```
 
 - Opened at 8:47 on Sep 28: 8 · 47 · 2026 · 8 · 9 · 1. `getDay()` gives 0 = Sunday.
-- Try it: refresh → new reading. Add a `getSeconds()` line. `my-web`'s `new Date().getHours()` chains the two lines above.
+- Try it: refresh → new reading. Add a `getSeconds()` line. The assembly's `new Date().getHours()` chains the two lines above.
 
 **`new Date()` holds the moment it ran. `.getHours()` is a question you ask that value.**
 
 ---
 
-## Day 2 · 27–30 min — Assembly: my-web app.js
+## Day 2 · 27–30 min — Assembly: web-week05 app.js → Lab
 
 ```text
 <script src="app.js" defer>  <p class="card" id="greeting">  ← ex02 · ex09
@@ -304,9 +303,9 @@ document.querySelector('#greeting').textContent = message;  ← ex09 No. 2
 
 [Day 2 lab](lab.md#2일차--조건과-함수-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
-1. Save ex06–ex10 in `week05/`, change values (until minute 33).
+1. Save ex06–ex10 in `ex/` and change values (until minute 33).
 2. Assemble: two lines in `index.html`; empty and rebuild `app.js` in table order.
-3. Try both ways to undo → `git push` → capture the card and Console lines.
+3. Check via the server → push (Week 2 steps) → capture card + Console at the public URL.
 
 **Explanation total: 4+5+5+5+5+3+3 = 30 min**
 
@@ -317,14 +316,14 @@ document.querySelector('#greeting').textContent = message;  ← ex09 No. 2
 Submit **one** screenshot at the end of Day 2.
 
 ```text
-https://student01.github.io/my-web/
+https://student01.github.io/web-week05/
 Card: 안녕하세요, student01님! 좋은 아침입니다. (Hello, student01! Good morning.)
 F12 Console: two console.log lines (hour as a number / message as a sentence)
 Capture it with the address bar, the card, and the Console all visible
 ```
 
 If you open it after 12:00, you'll see `좋은 오후입니다.` (Good afternoon.) instead. Either one is correct.
-If you couldn't finish Day 2, submit a screenshot from `…/my-web/week05/ex01_click.html` showing A, D, B printed in the Console instead.
+If you couldn't finish Day 2, submit a screenshot from `…/web-week05/ex/ex01_click.html` showing A, D, B printed in the Console instead.
 Keep your real name, student ID, and real email out of the screenshot.
 
 ---
@@ -333,6 +332,6 @@ Keep your real name, student ID, and real email out of the screenshot.
 
 Today's `app.js` runs **once**, when the page loads.
 
-In Week 6, you'll bring `addEventListener` from ex01 into `my-web` — code that runs on every click.
+Week 6 starts a new repository, `web-week06`, from today's finished files, and uses the `addEventListener` you saw in ex01 — code that runs on every click.
 It builds on today's `#greeting`, `greet(name)`, and `hello(hour)` to add a "Change Greeting" button and a click counter.
 Dark mode joins too, reusing the `.card` color you picked in Week 4.

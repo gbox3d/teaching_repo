@@ -51,7 +51,7 @@ footer: "CSS와 반응형 UI · 부품을 하나씩 비교하고 마지막에 �
 
 ## 1일차 · 4–10분 — ex01 선택자: 맞아야 적용되고, 겹치면 클래스가 이긴다
 
-[examples/ex01_selector.html](examples/ex01_selector.html)
+[examples/day1/ex01_selector.html](examples/day1/ex01_selector.html)
 형제: `p` / `p.red` / `div.red` / `p.Red`(오타) / `nav a` / nav 밖 `a`
 
 ```css
@@ -70,7 +70,7 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 
 ## 1일차 · 10–15분 — ex02 display: 줄을 차지하는지는 태그가 아니라 display
 
-[examples/ex02_display.html](examples/ex02_display.html)
+[examples/day1/ex02_display.html](examples/day1/ex02_display.html)
 형제: div 3개 / span 3개 / span + `display: block` / div + `display: inline`
 
 ```css
@@ -87,7 +87,7 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 
 ## 1일차 · 15–21분 — ex03 박스모델: padding·border·margin 세 층
 
-[examples/ex03_box_model.html](examples/ex03_box_model.html)
+[examples/day1/ex03_box_model.html](examples/day1/ex03_box_model.html)
 형제: 기본 / `padding` / `border` / `margin` / 셋 다 (흰 frame 위의 하늘색 box)
 
 ```css
@@ -105,7 +105,7 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 
 ## 1일차 · 21–26분 — ex04 width와 max-width, margin auto
 
-[examples/ex04_width.html](examples/ex04_width.html)
+[examples/day1/ex04_width.html](examples/day1/ex04_width.html)
 형제: 기본(부모 폭) / `width: 640px` / `max-width: 640px` / `max-width` + `margin` 좌우 `auto`
 
 ```css
@@ -123,7 +123,7 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 
 ## 1일차 · 26–28분 — ex05 text-align, 그리고 안 되는 세로 가운데
 
-[examples/ex05_text_align.html](examples/ex05_text_align.html)
+[examples/day1/ex05_text_align.html](examples/day1/ex05_text_align.html)
 형제: 기본 / `text-align: center` / `right` / `vertical-align: middle`(블록 상자엔 효과 없음)
 
 ```css
@@ -186,7 +186,7 @@ ex06~ex10 은 이 다섯 줄을 한 줄씩 눈으로 확인하는 파일입니�
 
 ## 2일차 · 4–9분 — ex06 flex-direction: 주축을 정한다
 
-[examples/ex06_flex_direction.html](examples/ex06_flex_direction.html)
+[examples/day2/ex06_flex_direction.html](examples/day2/ex06_flex_direction.html)
 형제: flex 없음 / row / row-reverse / column / column-reverse / row + center / column + center
 
 ```css
@@ -204,7 +204,7 @@ ex06~ex10 은 이 다섯 줄을 한 줄씩 눈으로 확인하는 파일입니�
 
 ## 2일차 · 9–13분 — ex07 justify-content: 주축 위의 남는 공간
 
-[examples/ex07_justify_content.html](examples/ex07_justify_content.html)
+[examples/day2/ex07_justify_content.html](examples/day2/ex07_justify_content.html)
 형제: `flex-start` / `center` / `flex-end` / `space-between` / `space-around`, 주석 `space-evenly`
 
 ```css
@@ -223,7 +223,7 @@ ex06~ex10 은 이 다섯 줄을 한 줄씩 눈으로 확인하는 파일입니�
 
 ## 2일차 · 13–17분 — ex08 align-items: 교차축, ex05의 답
 
-[examples/ex08_align_items.html](examples/ex08_align_items.html)
+[examples/day2/ex08_align_items.html](examples/day2/ex08_align_items.html)
 형제: `stretch`(기본) / `flex-start` / `center` / `flex-end`, frame 주석 `column`
 
 ```css
@@ -242,7 +242,7 @@ ex06~ex10 은 이 다섯 줄을 한 줄씩 눈으로 확인하는 파일입니�
 
 ## 2일차 · 17–21분 — ex09 flex-wrap과 gap: 넘기기와 간격
 
-[examples/ex09_flex_wrap_gap.html](examples/ex09_flex_wrap_gap.html)
+[examples/day2/ex09_flex_wrap_gap.html](examples/day2/ex09_flex_wrap_gap.html)
 형제: `nowrap`(64px×6 이 300px 안에 찌그러짐) / `wrap` / `wrap` + `gap: 16px`
 
 ```css
@@ -260,7 +260,7 @@ ex06~ex10 은 이 다섯 줄을 한 줄씩 눈으로 확인하는 파일입니�
 
 ## 2일차 · 21–24분 — ex10 flex: 1 — 남는 공간을 차지한다
 
-[examples/ex10_flex_grow.html](examples/ex10_flex_grow.html)
+[examples/day2/ex10_flex_grow.html](examples/day2/ex10_flex_grow.html)
 형제: 기본 / 가운데만 `flex: 1` / 셋 다 `flex: 1` / column 화면(header · main `flex: 1` · footer)
 
 ```css
@@ -277,7 +277,7 @@ ex06~ex10 은 이 다섯 줄을 한 줄씩 눈으로 확인하는 파일입니�
 
 ## 2일차 · 24–27분 — ex11 @media: 조건이 맞을 때만 뒤 규칙이 산다
 
-[examples/ex11_media.html](examples/ex11_media.html)
+[examples/day2/ex11_media.html](examples/day2/ex11_media.html)
 형제: `@media (max-width: 600px)` 규칙이 있는 frame(`.narrow`) / 없는 frame
 
 ```css
@@ -315,7 +315,7 @@ nav   { display: flex; gap: 16px; flex-wrap: wrap }            ← ex06 + ex09 (
 
 ## 부록 — ex12 position (선택, 설명 없음)
 
-[examples/ex12_position.html](examples/ex12_position.html)
+[examples/day2/ex12_position.html](examples/day2/ex12_position.html)
 형제: `static`(기본) / `relative; top: 20px; left: 40px` / `absolute; right: 4px; bottom: 4px`
 
 ```css

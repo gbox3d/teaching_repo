@@ -65,7 +65,7 @@ Full criteria are in the [rubric](rubric.md).
 
 ## Day 1 · 12–18 min — The 8-Line, 3-Minute Demo Flow
 
-Copy the [3-minute demo flow table](examples/demo_outline.md) onto paper, and rewrite only the **What to say** column in your own words.
+Copy the [3-minute demo flow table](demo_outline.md) onto paper, and rewrite only the **What to say** column in your own words.
 
 | Time | Screen / action | What to say |
 |---|---|---|

@@ -49,11 +49,11 @@ JavaScript 는 브라우저가 실행한다. 결과는 **화면**과 **F12 › C
 
 ## 준비
 
-- 지난주 완성본. 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [4주차 `examples/build/`](../week04_responsive_css/examples/build/) 파일을 **Raw** 로 받는다. 4주차를 옛 저장소 `my-web` 으로 수업한 분반은 내 `my-web` 을 같은 방법으로 받아 맨 위 파일과 `images/` 만 넣는다
+- 지난주 완성본. 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [4주차 `examples/day2/build/`](../week04_responsive_css/examples/day2/build/) 파일을 **Raw** 로 받는다. 4주차를 옛 저장소 `my-web` 으로 수업한 분반은 내 `my-web` 을 같은 방법으로 받아 맨 위 파일과 `images/` 만 넣는다
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS(선택). `node -v` 로 확인한다. 2일차에 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에 받아 `node server.mjs` 로 띄운다([사용 안내](../../tools/static-server/README.md)). Node 가 없는 PC 는 파일을 두 번 눌러 열어도 이번 주 결과는 같다
 - 개발자 도구를 여는 법(오른쪽 클릭 › **검사**, 또는 **F12**. 노트북에서 안 열리면 Fn+F12, macOS 는 ⌘+Option(⌥)+I)과 **Console** 탭 위치
-- 4주차 flex 비교 파일 [ex06](../week04_responsive_css/examples/ex06_flex_direction.html) · [ex07](../week04_responsive_css/examples/ex07_justify_content.html) · [ex08](../week04_responsive_css/examples/ex08_align_items.html) · [ex09](../week04_responsive_css/examples/ex09_flex_wrap_gap.html) · [ex10](../week04_responsive_css/examples/ex10_flex_grow.html) · [ex11](../week04_responsive_css/examples/ex11_media.html) 을 아직 열어 보지 않았다면 **먼저 열어 본다**. 지난주 완성본의 메뉴가 좁은 화면에서 세로로 서는 이유가 거기 있다
+- 4주차 flex 비교 파일 [ex06](../week04_responsive_css/examples/day2/ex06_flex_direction.html) · [ex07](../week04_responsive_css/examples/day2/ex07_justify_content.html) · [ex08](../week04_responsive_css/examples/day2/ex08_align_items.html) · [ex09](../week04_responsive_css/examples/day2/ex09_flex_wrap_gap.html) · [ex10](../week04_responsive_css/examples/day2/ex10_flex_grow.html) · [ex11](../week04_responsive_css/examples/day2/ex11_media.html) 을 아직 열어 보지 않았다면 **먼저 열어 본다**. 지난주 완성본의 메뉴가 좁은 화면에서 세로로 서는 이유가 거기 있다
 - 이번 주에 만드는 것은 새 저장소 `web-week05` 와 그 안의 `ex/` 폴더. 고치는 파일은 `index.html` 두 줄과 `app.js` 전체
 - 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
 
@@ -76,16 +76,16 @@ JavaScript 는 브라우저가 실행한다. 결과는 **화면**과 **F12 › C
 
 | 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
-| [ex01_click.html](examples/ex01_click.html) | Console A(열자마자) / D(A 다음) / B(1번 버튼 `function`) / C(2번 버튼 화살표 `() =>`) | 스크립트는 위에서 아래로 한 번 실행되고, `addEventListener` 안쪽은 등록만 했다가 클릭할 때마다 실행된다. `function () {}` 와 `() => {}` 는 여기서 같은 뜻 | 이름을 넣고 두 버튼 누르기. Console 순서가 A·D → B·C 인지 |
-| [ex02_script_position.html](examples/ex02_script_position.html) + [ex02_script_position.js](examples/ex02_script_position.js) | 1. head 안 script / 2. body 끝 script / 3. head 에 `defer` 로 연결한 파일 | 스크립트는 브라우저가 그 줄을 읽는 순간 실행된다. 아직 읽지 않은 요소는 없어서 `null`. `defer` 는 HTML 을 끝까지 읽은 뒤 실행한다 | head script 의 `// document.getElementById('msg').innerText = …` 주석 풀기 → 빨간 오류의 `파일:줄` 읽기. js 연결 줄에서 `defer` 지우기 |
-| [ex03_let_const.html](examples/ex03_let_const.html) | 1. `let` / 2. `const` / 3. `var` 에 버튼으로 1 더하기 | `let`·`var` 는 다시 담을 수 있고 `const` 는 안 된다. 오류는 그 줄이 실행될 때(클릭할 때) 나고, 오류 난 줄 아래는 실행되지 않는다 | 2번 버튼 → Console `Assignment to constant variable.`. `const b = 0;` 을 `let b = 0;` 으로 바꿔 다시 |
-| [ex04_plus.html](examples/ex04_plus.html) | `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1`, 입력 칸 두 개로 6. 그냥 더하기 / 7. `Number` 로 바꿔 더하기 | `+` 는 둘 다 숫자면 더하고 한쪽이라도 문자열이면 잇는다. 입력 칸의 `value` 는 늘 문자열이라 `Number()` 로 바꿔야 더해진다 | 입력 칸 값 바꾸기, 표의 식 바꾸기(표 왼쪽 식 글자도 같이, `typeof` 줄도 같이) |
-| [ex05_template.html](examples/ex05_template.html) | 1. `+` 로 잇기 / 2. 백틱 템플릿 / 3. 작은따옴표 안 `${}` / 4. `${hour + 1}` | 백틱으로 감싼 문자열만 `${}` 안을 계산해 넣는다. 따옴표면 글자 그대로 | `name`·`hour` 값 바꾸기, 3번의 `'` 를 백틱으로 |
-| [ex06_compare.html](examples/ex06_compare.html) | `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')` | 비교의 결과는 `true`/`false` 값이다. `===` 는 종류(숫자·문자열)까지 같아야 참. 문자열끼리는 첫 글자부터 비교한다 | 식의 숫자·따옴표 바꾸기(표 왼쪽 식 글자도 같이) |
-| [ex07_if_else.html](examples/ex07_if_else.html) | 입력한 시각으로 1. `if` 만 / 2. `if / else` / 3. `if / else if / else`(큰 수부터) / 4. 같은 조건, 순서만 거꾸로 | 위에서부터 보다가 처음 참인 한 곳만 실행하고 나머지는 보지 않는다. `else` 는 위가 모두 거짓일 때. 그래서 조건 순서가 결과를 바꾼다 | 9 · 12 · 15 · 20 입력 |
-| [ex08_function.html](examples/ex08_function.html) | 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3. 같은 함수, 다른 값 / 4. 입력한 이름으로 부르기, 정의만 한 `neverCalled` | 정의는 이름을 붙여 두기만 하고, 괄호를 붙여 부를 때 실행된다. `return` 이 부른 곳에 값을 돌려준다. 없으면 `undefined` | 이름 입력, `greetLog` 에 `return` 넣기, `neverCalled()` 부르기 |
-| [ex09_dom_write.html](examples/ex09_dom_write.html) | 1. `getElementById` + `innerText` / 2. `querySelector('#p2')` + `textContent` / 3. `textContent` 에 `<b>…</b>` / 4. 입력 칸 `value`, Console 에 없는 id → `null` | 화면을 바꾸려면 먼저 찾고 그다음 바꾼다. 두 찾기 방법은 같은 id 면 같은 요소를 준다. 글자만 바꿀 때 `innerText`·`textContent` 결과는 같다. 넣은 글자는 태그가 아니라 글자 그대로다. 입력 칸은 `value` | `#p9` 에 `.textContent` 를 써서 오류 보기, 찾는 id 바꾸기 |
-| [ex10_date.html](examples/ex10_date.html) | `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()` | `new Date()` 는 그 줄이 실행된 순간의 날짜·시각을 담은 값이고, `.getHours()` 는 그 값에게 "몇 시야?" 묻는 것이다. 월은 0부터 센다 | 새로고침, `getSeconds()` 줄 더하기 |
+| [ex01_click.html](examples/day1/ex01_click.html) | Console A(열자마자) / D(A 다음) / B(1번 버튼 `function`) / C(2번 버튼 화살표 `() =>`) | 스크립트는 위에서 아래로 한 번 실행되고, `addEventListener` 안쪽은 등록만 했다가 클릭할 때마다 실행된다. `function () {}` 와 `() => {}` 는 여기서 같은 뜻 | 이름을 넣고 두 버튼 누르기. Console 순서가 A·D → B·C 인지 |
+| [ex02_script_position.html](examples/day1/ex02_script_position.html) + [ex02_script_position.js](examples/day1/ex02_script_position.js) | 1. head 안 script / 2. body 끝 script / 3. head 에 `defer` 로 연결한 파일 | 스크립트는 브라우저가 그 줄을 읽는 순간 실행된다. 아직 읽지 않은 요소는 없어서 `null`. `defer` 는 HTML 을 끝까지 읽은 뒤 실행한다 | head script 의 `// document.getElementById('msg').innerText = …` 주석 풀기 → 빨간 오류의 `파일:줄` 읽기. js 연결 줄에서 `defer` 지우기 |
+| [ex03_let_const.html](examples/day1/ex03_let_const.html) | 1. `let` / 2. `const` / 3. `var` 에 버튼으로 1 더하기 | `let`·`var` 는 다시 담을 수 있고 `const` 는 안 된다. 오류는 그 줄이 실행될 때(클릭할 때) 나고, 오류 난 줄 아래는 실행되지 않는다 | 2번 버튼 → Console `Assignment to constant variable.`. `const b = 0;` 을 `let b = 0;` 으로 바꿔 다시 |
+| [ex04_plus.html](examples/day1/ex04_plus.html) | `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1`, 입력 칸 두 개로 6. 그냥 더하기 / 7. `Number` 로 바꿔 더하기 | `+` 는 둘 다 숫자면 더하고 한쪽이라도 문자열이면 잇는다. 입력 칸의 `value` 는 늘 문자열이라 `Number()` 로 바꿔야 더해진다 | 입력 칸 값 바꾸기, 표의 식 바꾸기(표 왼쪽 식 글자도 같이, `typeof` 줄도 같이) |
+| [ex05_template.html](examples/day1/ex05_template.html) | 1. `+` 로 잇기 / 2. 백틱 템플릿 / 3. 작은따옴표 안 `${}` / 4. `${hour + 1}` | 백틱으로 감싼 문자열만 `${}` 안을 계산해 넣는다. 따옴표면 글자 그대로 | `name`·`hour` 값 바꾸기, 3번의 `'` 를 백틱으로 |
+| [ex06_compare.html](examples/day2/ex06_compare.html) | `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')` | 비교의 결과는 `true`/`false` 값이다. `===` 는 종류(숫자·문자열)까지 같아야 참. 문자열끼리는 첫 글자부터 비교한다 | 식의 숫자·따옴표 바꾸기(표 왼쪽 식 글자도 같이) |
+| [ex07_if_else.html](examples/day2/ex07_if_else.html) | 입력한 시각으로 1. `if` 만 / 2. `if / else` / 3. `if / else if / else`(큰 수부터) / 4. 같은 조건, 순서만 거꾸로 | 위에서부터 보다가 처음 참인 한 곳만 실행하고 나머지는 보지 않는다. `else` 는 위가 모두 거짓일 때. 그래서 조건 순서가 결과를 바꾼다 | 9 · 12 · 15 · 20 입력 |
+| [ex08_function.html](examples/day2/ex08_function.html) | 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3. 같은 함수, 다른 값 / 4. 입력한 이름으로 부르기, 정의만 한 `neverCalled` | 정의는 이름을 붙여 두기만 하고, 괄호를 붙여 부를 때 실행된다. `return` 이 부른 곳에 값을 돌려준다. 없으면 `undefined` | 이름 입력, `greetLog` 에 `return` 넣기, `neverCalled()` 부르기 |
+| [ex09_dom_write.html](examples/day2/ex09_dom_write.html) | 1. `getElementById` + `innerText` / 2. `querySelector('#p2')` + `textContent` / 3. `textContent` 에 `<b>…</b>` / 4. 입력 칸 `value`, Console 에 없는 id → `null` | 화면을 바꾸려면 먼저 찾고 그다음 바꾼다. 두 찾기 방법은 같은 id 면 같은 요소를 준다. 글자만 바꿀 때 `innerText`·`textContent` 결과는 같다. 넣은 글자는 태그가 아니라 글자 그대로다. 입력 칸은 `value` | `#p9` 에 `.textContent` 를 써서 오류 보기, 찾는 id 바꾸기 |
+| [ex10_date.html](examples/day2/ex10_date.html) | `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()` | `new Date()` 는 그 줄이 실행된 순간의 날짜·시각을 담은 값이고, `.getHours()` 는 그 값에게 "몇 시야?" 묻는 것이다. 월은 0부터 센다 | 새로고침, `getSeconds()` 줄 더하기 |
 | [server.mjs](../../tools/static-server/server.mjs)(서버) | 두 번 눌러 연 `file:///…` / `node server.mjs` 로 연 `http://localhost:8000/` | 브라우저는 HTML 을 받은 뒤 그 안의 CSS·JS·그림을 하나씩 따로 요청한다(1주차 요청과 응답). 터미널에 한 줄씩 찍힌다 | 새로고침하며 요청 줄 세기, 없는 파일 이름을 주소창에 쳐서 `404` 보기 |
 
 마지막 줄은 비교 파일이 아니라 2일차 0–4분에 쓰는 정적 서버다. 한 학기 내내 같은 파일을 쓴다.
@@ -95,8 +95,8 @@ JavaScript 는 브라우저가 실행한다. 결과는 **화면**과 **F12 › C
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week05_javascript_data/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 비교 파일 10개와 `build/`
-- 2일차 끝의 `web-week05`(조립 결과): [index.html](examples/build/index.html) · [app.js](examples/build/app.js) · [about.html](examples/build/about.html) · [guestbook.html](examples/build/guestbook.html) · [styles.css](examples/build/styles.css) · [images/profile.png](examples/build/images/profile.png)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(ex01~ex05), 2일차 `day2/`(ex06~ex10과 조립 `build/`)
+- 2일차 끝의 `web-week05`(조립 결과): [index.html](examples/day2/build/index.html) · [app.js](examples/day2/build/app.js) · [about.html](examples/day2/build/about.html) · [guestbook.html](examples/day2/build/guestbook.html) · [styles.css](examples/day2/build/styles.css) · [images/profile.png](examples/day2/build/images/profile.png)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data
 
@@ -111,7 +111,7 @@ JavaScript 는 브라우저가 실행한다. 결과는 **화면**과 **F12 › C
 
 ## 다음 수업 연결
 
-오늘 `app.js` 에 쓴 코드는 페이지를 열 때 **한 번** 실행된다. 6주차에는 새 저장소 `web-week06` 을 만들고, 오늘 `web-week05` 의 파일에서 시작한다(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/build/`](examples/build/)).
+오늘 `app.js` 에 쓴 코드는 페이지를 열 때 **한 번** 실행된다. 6주차에는 새 저장소 `web-week06` 을 만들고, 오늘 `web-week05` 의 파일에서 시작한다(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/build/`](examples/day2/build/)).
 그 위에 ex01 에서 본 `addEventListener` 를 쓴다. 오늘 조립한 `#greeting` 과 `greet(name)`·`hello(hour)` 를 이어받아 "인사 바꾸기" 버튼과 클릭 횟수, 다크 모드를 만든다.
 두 함수와 `#greeting` 의 이름은 바꾸지 않는다. 결과는 6주차 공개 주소 `https://student01.github.io/web-week06/` 에서 확인한다. 서버 `server.mjs` 도 새 폴더로 옮겨 그대로 쓴다.
 

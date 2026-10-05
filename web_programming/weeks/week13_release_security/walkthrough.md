@@ -156,7 +156,7 @@ yearForm.addEventListener('submit', function (event) {
 ### 4. 글자로 넣기와 HTML로 넣기 비교하기
 
 이 두 파일은 강의자가 보여 주는 **시연용 예제**다. 내 `my-web` 폴더에는 넣지 않는다.
-교재 저장소의 [examples/security-demo.html](examples/security-demo.html)을 내려받아 바탕화면 등 다른 폴더에서 열어 본다.
+교재 저장소의 [examples/day1/security-demo.html](examples/day1/security-demo.html)을 내려받아 바탕화면 등 다른 폴더에서 열어 본다.
 
 ```html
 <!doctype html>
@@ -193,7 +193,7 @@ yearForm.addEventListener('submit', function (event) {
 </html>
 ```
 
-같은 폴더에 [examples/security-demo.js](examples/security-demo.js)를 함께 둔다.
+같은 폴더에 [examples/day1/security-demo.js](examples/day1/security-demo.js)를 함께 둔다.
 
 ```js
 const input = document.querySelector('#input');

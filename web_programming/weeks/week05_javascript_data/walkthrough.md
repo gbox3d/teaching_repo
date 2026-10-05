@@ -8,7 +8,7 @@
 명령은 VS Code의 터미널(**Terminal › New Terminal**, Windows는 PowerShell)에서 실행한다. macOS 터미널도 같은 명령이다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-비교 파일 10개는 [교재 저장소의 examples 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples)에 있다.
+비교 파일 10개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day1)(1일차 ex01~ex05)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day2)(2일차 ex06~ex10) 폴더에 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
@@ -18,7 +18,7 @@
 저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week05`를 만들고 VS Code **File › Open Folder**로 연다.
 
 지난주 완성본을 넣는다. 내 `web-week04` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`)과 `images/`를 `web-week05`로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
-ZIP을 못 받았으면 교재 [4주차 `examples/build/`](../week04_responsive_css/examples/build/)의 파일을 2단계와 같은 **Raw** 방법으로 받는다. 4주차를 옛 저장소 `my-web`으로 수업한 분반은 내 `my-web`을 같은 방법으로 받아 맨 위 파일과 `images/`만 옮긴다.
+ZIP을 못 받았으면 교재 [4주차 `examples/day2/build/`](../week04_responsive_css/examples/day2/build/)의 파일을 2단계와 같은 **Raw** 방법으로 받는다. 4주차를 옛 저장소 `my-web`으로 수업한 분반은 내 `my-web`을 같은 방법으로 받아 맨 위 파일과 `images/`만 옮긴다.
 
 이어서 `web-week05` 안에 `ex` 폴더를 만든다. VS Code 탐색기에서 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week05`
 
@@ -50,15 +50,15 @@ web-week05/
 
 | 파일 | 비교하는 것 |
 |---|---|
-| [ex01_click.html](examples/ex01_click.html) | 열자마자 실행(A·D) / 클릭할 때 실행(B·C), `function () {}` / `() => {}` |
-| [ex02_script_position.html](examples/ex02_script_position.html) + [ex02_script_position.js](examples/ex02_script_position.js) | `script` 위치: head 안 / body 끝 / head에 `defer`로 연결한 파일 |
-| [ex03_let_const.html](examples/ex03_let_const.html) | `let` / `const` / `var`에 1 더하기 |
-| [ex04_plus.html](examples/ex04_plus.html) | `+`: 숫자 + 숫자 / 문자열 + 문자열 / 섞인 것 / `Number()`·`parseInt()`로 바꾼 것, 입력 칸 두 개 |
-| [ex05_template.html](examples/ex05_template.html) | `+`로 잇기 / 백틱 템플릿 / 작은따옴표 안의 `${}` / `${}` 안의 계산 |
+| [ex01_click.html](examples/day1/ex01_click.html) | 열자마자 실행(A·D) / 클릭할 때 실행(B·C), `function () {}` / `() => {}` |
+| [ex02_script_position.html](examples/day1/ex02_script_position.html) + [ex02_script_position.js](examples/day1/ex02_script_position.js) | `script` 위치: head 안 / body 끝 / head에 `defer`로 연결한 파일 |
+| [ex03_let_const.html](examples/day1/ex03_let_const.html) | `let` / `const` / `var`에 1 더하기 |
+| [ex04_plus.html](examples/day1/ex04_plus.html) | `+`: 숫자 + 숫자 / 문자열 + 문자열 / 섞인 것 / `Number()`·`parseInt()`로 바꾼 것, 입력 칸 두 개 |
+| [ex05_template.html](examples/day1/ex05_template.html) | `+`로 잇기 / 백틱 템플릿 / 작은따옴표 안의 `${}` / `${}` 안의 계산 |
 
 가져오는 방법은 둘 중 하나다.
 
-1. **Raw로 저장** — [교재 저장소 examples 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week05/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다.
+1. **Raw로 저장** — [교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week05/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다.
 2. **타이핑** — Raw가 열리지 않을 때만 쓴다. VS Code에서 `ex/ex01_click.html`을 새로 만들고 교재 화면을 보며 친다. 1일차 파일은 25~49줄이다. **주석 줄도 그대로 친다.** 주석에 원리와 실험 거리가 있고(ex02 11행처럼 `//`를 지워 실험하는 줄), 줄 번호가 교재와 같아야 오류 줄의 `파일:줄`을 교재와 맞춰 볼 수 있다.
 
 `ex02`는 `ex02_script_position.html`과 `ex02_script_position.js`를 **둘 다** 받아 **같은 폴더**에 둔다.
@@ -183,16 +183,16 @@ git clone https://github.com/student01/web-week05.git
 
 내려받은 `web-week05`를 **File › Open Folder**로 연다.
 
-오늘 파일은 다섯 개다. 2단계의 **Raw** → 저장으로 `web-week05/ex/`에 넣는다(파일이 29~57줄이라 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 다섯 개를 다 받아 둔다. 5분 안에 다 못 받았으면 ex06부터 시작하고, 나머지는 각 문항을 시작할 때 받는다.
+오늘 파일은 다섯 개다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day2)에서 2단계의 **Raw** → 저장으로 `web-week05/ex/`에 넣는다(파일이 29~57줄이라 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 다섯 개를 다 받아 둔다. 5분 안에 다 못 받았으면 ex06부터 시작하고, 나머지는 각 문항을 시작할 때 받는다.
 같은 방법으로 [server.mjs](../../tools/static-server/server.mjs)를 받아 `web-week05` 맨 위(`index.html` 옆)에 저장한다. 12단계에서 쓴다.
 
 | 파일 | 비교하는 것 |
 |---|---|
-| [ex06_compare.html](examples/ex06_compare.html) | `==` / `===`, `>=` / `>`, 문자열끼리 비교 / 숫자로 바꿔 비교 |
-| [ex07_if_else.html](examples/ex07_if_else.html) | `if`만 / `if` · `else` / `if` · `else if` · `else` / 같은 조건을 순서만 거꾸로 |
-| [ex08_function.html](examples/ex08_function.html) | `return` 없는 함수 / `return` 하는 함수 / 같은 함수에 다른 값 / 정의만 하고 부르지 않은 함수 |
-| [ex09_dom_write.html](examples/ex09_dom_write.html) | `getElementById` + `innerText` / `querySelector` + `textContent` / 태그를 넣은 글자 / 입력 칸 `value` |
-| [ex10_date.html](examples/ex10_date.html) | `new Date()`의 `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getDay()` |
+| [ex06_compare.html](examples/day2/ex06_compare.html) | `==` / `===`, `>=` / `>`, 문자열끼리 비교 / 숫자로 바꿔 비교 |
+| [ex07_if_else.html](examples/day2/ex07_if_else.html) | `if`만 / `if` · `else` / `if` · `else if` · `else` / 같은 조건을 순서만 거꾸로 |
+| [ex08_function.html](examples/day2/ex08_function.html) | `return` 없는 함수 / `return` 하는 함수 / 같은 함수에 다른 값 / 정의만 하고 부르지 않은 함수 |
+| [ex09_dom_write.html](examples/day2/ex09_dom_write.html) | `getElementById` + `innerText` / `querySelector` + `textContent` / 태그를 넣은 글자 / 입력 칸 `value` |
+| [ex10_date.html](examples/day2/ex10_date.html) | `new Date()`의 `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getDay()` |
 
 **예상 결과** — 다섯 개를 다 받으면 `ex/`에 파일이 열한 개 있다(1일차 여섯 + 오늘 다섯). 맨 위에는 `server.mjs`가 하나 늘었다.
 `ex06_compare.html`을 열면 표의 결과 칸이 위에서부터 `true` `false` `true` `false` `false` `true`다.
@@ -208,15 +208,15 @@ git clone https://github.com/student01/web-week05.git
 
 | 조립할 줄 | 어느 ex에서 본 것 |
 |---|---|
-| `index.html` `<head>`의 `<script src="app.js" defer></script>` | [ex02](examples/ex02_script_position.html) 3번. `defer`는 HTML을 다 읽은 뒤 실행한다 → `#greeting`을 찾을 수 있다 |
-| `index.html`의 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` | [ex09](examples/ex09_dom_write.html) 찾을 자리에 `id`, [4주차 ex01](../week04_responsive_css/examples/ex01_selector.html) 클래스 선택자(`.red`와 같은 원리), `.card` 규칙은 [4주차 styles.css](../week04_responsive_css/examples/build/styles.css) |
-| `const name = 'student01';` | [ex03](examples/ex03_let_const.html) `const` |
-| `const hour = new Date().getHours();` | [ex10](examples/ex10_date.html) 지금 시각 → 시, [ex03](examples/ex03_let_const.html) `const` |
-| `` function greet(name) { return `안녕하세요, ${name}님!`; } `` | [ex08](examples/ex08_function.html) 정의·`return`, [ex05](examples/ex05_template.html) 템플릿 문자열 |
-| `function hello(hour) { if (hour >= 12) { return … } else { return … } }` | [ex07](examples/ex07_if_else.html) `if` · `else`, [ex06](examples/ex06_compare.html) `>=`, [ex08](examples/ex08_function.html) `return` |
-| `` const message = `${greet(name)} ${hello(hour)}`; `` | [ex05](examples/ex05_template.html) `${}` 안은 계산된다(함수 호출도), [ex08](examples/ex08_function.html) 호출 |
-| `console.log(hour);` `console.log(message);` | [ex01](examples/ex01_click.html) Console |
-| `document.querySelector('#greeting').textContent = message;` | [ex09](examples/ex09_dom_write.html) 2번. 먼저 찾고 → 그다음 바꾼다 |
+| `index.html` `<head>`의 `<script src="app.js" defer></script>` | [ex02](examples/day1/ex02_script_position.html) 3번. `defer`는 HTML을 다 읽은 뒤 실행한다 → `#greeting`을 찾을 수 있다 |
+| `index.html`의 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` | [ex09](examples/day2/ex09_dom_write.html) 찾을 자리에 `id`, [4주차 ex01](../week04_responsive_css/examples/day1/ex01_selector.html) 클래스 선택자(`.red`와 같은 원리), `.card` 규칙은 [4주차 styles.css](../week04_responsive_css/examples/day2/build/styles.css) |
+| `const name = 'student01';` | [ex03](examples/day1/ex03_let_const.html) `const` |
+| `const hour = new Date().getHours();` | [ex10](examples/day2/ex10_date.html) 지금 시각 → 시, [ex03](examples/day1/ex03_let_const.html) `const` |
+| `` function greet(name) { return `안녕하세요, ${name}님!`; } `` | [ex08](examples/day2/ex08_function.html) 정의·`return`, [ex05](examples/day1/ex05_template.html) 템플릿 문자열 |
+| `function hello(hour) { if (hour >= 12) { return … } else { return … } }` | [ex07](examples/day2/ex07_if_else.html) `if` · `else`, [ex06](examples/day2/ex06_compare.html) `>=`, [ex08](examples/day2/ex08_function.html) `return` |
+| `` const message = `${greet(name)} ${hello(hour)}`; `` | [ex05](examples/day1/ex05_template.html) `${}` 안은 계산된다(함수 호출도), [ex08](examples/day2/ex08_function.html) 호출 |
+| `console.log(hour);` `console.log(message);` | [ex01](examples/day1/ex01_click.html) Console |
+| `document.querySelector('#greeting').textContent = message;` | [ex09](examples/day2/ex09_dom_write.html) 2번. 먼저 찾고 → 그다음 바꾼다 |
 
 **예상 결과** — 표의 위 두 줄이 8단계, 나머지 일곱 줄이 9단계에서 쓰는 순서와 같다. 표에 없는 문법은 `app.js`에도 없다.
 
@@ -283,7 +283,7 @@ Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') 
 ### 10. index.html 전문
 
 8단계를 마친 `index.html` 전체다. 내 파일과 한 줄씩 비교한다. 4주차 파일에서 늘어난 것은 `script` 한 줄과 `#greeting` 카드 한 줄뿐이다.
-같은 파일이 [examples/build/index.html](examples/build/index.html)에 있다.
+같은 파일이 [examples/day2/build/index.html](examples/day2/build/index.html)에 있다.
 
 ```html
 <!doctype html>
@@ -324,7 +324,7 @@ Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') 
 </html>
 ```
 
-`about.html`·`guestbook.html`·`styles.css`·`images/profile.png`는 4주차 그대로다. 이번 주에 손대지 않는다. `examples/build/`의 같은 이름 파일도 4주차와 같다.
+`about.html`·`guestbook.html`·`styles.css`·`images/profile.png`는 4주차 그대로다. 이번 주에 손대지 않는다. `examples/day2/build/`의 같은 이름 파일도 4주차와 같다.
 
 **예상 결과** — `index.html`의 `<head>`에 `link` 줄과 `script` 줄이 나란히 있고, `<main>`의 첫 요소가 `#greeting` 카드다.
 `about.html`·`guestbook.html`을 열면 모양은 4주차와 같고 Console은 비어 있다. 두 페이지에는 `script` 줄이 없어서 `app.js`가 실행되지 않는다.
@@ -332,7 +332,7 @@ Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') 
 ### 11. app.js 전문
 
 9단계를 마친 `app.js` 전체다. 21줄이다. 내 파일과 한 줄씩 비교한다. 1행의 `student01`만 내 아이디로 다르고 나머지는 글자 단위로 같아야 한다.
-같은 파일이 [examples/build/app.js](examples/build/app.js)에 있다.
+같은 파일이 [examples/day2/build/app.js](examples/day2/build/app.js)에 있다.
 
 ```js
 const name = 'student01';

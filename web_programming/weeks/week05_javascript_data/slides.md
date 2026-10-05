@@ -54,7 +54,7 @@ document ← 브라우저가 읽어 들인 이 페이지 전체
 
 ## 1일차 · 4–10분 — ex01 지금 실행 vs 클릭할 때 실행
 
-[examples/ex01_click.html](examples/ex01_click.html)
+[examples/day1/ex01_click.html](examples/day1/ex01_click.html)
 형제: Console A(열자마자) / D(A 다음) / B(1번 버튼 `function`) / C(2번 버튼 `() =>`)
 
 ```js
@@ -74,7 +74,7 @@ btn1.addEventListener('click', function () {
 
 ## 1일차 · 10–16분 — ex02 script 위치: 읽는 순간 실행된다, defer는 다 읽은 뒤
 
-[examples/ex02_script_position.html](examples/ex02_script_position.html) · [ex02_script_position.js](examples/ex02_script_position.js)
+[examples/day1/ex02_script_position.html](examples/day1/ex02_script_position.html) · [ex02_script_position.js](examples/day1/ex02_script_position.js)
 형제: 1. head 안 script / 2. body 끝 script / 3. head 에 `defer` 로 연결한 파일
 
 ```text
@@ -93,7 +93,7 @@ body 끝 <script> 안  console.log('2. …', document.getElementById('msg'));
 
 ## 1일차 · 16–21분 — ex03 let · const · var: 다시 담을 수 있나
 
-[examples/ex03_let_const.html](examples/ex03_let_const.html)
+[examples/day1/ex03_let_const.html](examples/day1/ex03_let_const.html)
 형제: 1. `let` / 2. `const` / 3. `var` — 버튼마다 1 더하기
 
 ```js
@@ -112,7 +112,7 @@ document.getElementById('btn-const').addEventListener('click', function () {
 
 ## 1일차 · 21–26분 — ex04 +는 두 가지 일을 한다: 더하기와 잇기
 
-[examples/ex04_plus.html](examples/ex04_plus.html)
+[examples/day1/ex04_plus.html](examples/day1/ex04_plus.html)
 형제: `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1` / 입력 칸 6·7번
 
 ```js
@@ -131,7 +131,7 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 
 ## 1일차 · 26–28분 — ex05 템플릿 문자열: 백틱 안의 ${}만 계산된다
 
-[examples/ex05_template.html](examples/ex05_template.html)
+[examples/day1/ex05_template.html](examples/day1/ex05_template.html)
 형제: 1. `+` 로 잇기 / 2. 백틱 / 3. 작은따옴표 안 `${}` / 4. `${hour + 1}`
 
 ```js
@@ -195,7 +195,7 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 
 ## 2일차 · 4–9분 — ex06 비교: 결과는 true 아니면 false
 
-[examples/ex06_compare.html](examples/ex06_compare.html)
+[examples/day2/ex06_compare.html](examples/day2/ex06_compare.html)
 형제: `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')`
 
 ```js
@@ -214,7 +214,7 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 
 ## 2일차 · 9–14분 — ex07 if / else: 처음 맞는 한 곳만 실행된다
 
-[examples/ex07_if_else.html](examples/ex07_if_else.html)
+[examples/day2/ex07_if_else.html](examples/day2/ex07_if_else.html)
 형제: 1. `if` 만 / 2. `if/else` / 3. `else if`(큰 수부터) / 4. 3번과 같은 조건, 순서만 거꾸로
 
 ```js
@@ -234,7 +234,7 @@ if (hour >= 12) {
 
 ## 2일차 · 14–19분 — ex08 function: 정의 · 호출 · return
 
-[examples/ex08_function.html](examples/ex08_function.html)
+[examples/day2/ex08_function.html](examples/day2/ex08_function.html)
 형제: 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3·4. 다른 값으로 부르기
 
 ```js
@@ -253,7 +253,7 @@ const b = greet('student01');       // 호출: Console 에는 없고, b 에 문�
 
 ## 2일차 · 19–24분 — ex09 화면에 쓰기: 먼저 찾고, 그다음 바꾼다
 
-[examples/ex09_dom_write.html](examples/ex09_dom_write.html)
+[examples/day2/ex09_dom_write.html](examples/day2/ex09_dom_write.html)
 형제: 1. `getElementById` + `innerText` / 2. `querySelector` + `textContent` / 3. 태그 넣기 / 4. `value`
 
 ```js
@@ -272,7 +272,7 @@ p3.textContent = '<b>3. 굵게 될까?</b>';        // 태그가 아니라 글�
 
 ## 2일차 · 24–27분 — ex10 new Date(): 지금 시각을 담은 값
 
-[examples/ex10_date.html](examples/ex10_date.html)
+[examples/day2/ex10_date.html](examples/day2/ex10_date.html)
 형제: `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()`
 
 ```js

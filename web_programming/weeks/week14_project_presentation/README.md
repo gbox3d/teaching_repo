@@ -13,7 +13,7 @@
 ## 학습 목표
 
 1. 공개 주소 → 페이지 이동 → 버튼 → 폼 빈값 안내 → 목록 추가·삭제 → 새로고침 유지 → JSON 카드 → **Commits** 탭 순서로 3분 발표를 한다.
-2. 발표 순서를 `examples/demo_outline.md`의 8줄 표로 미리 정하고, 그 순서를 홈 화면의 목록으로도 적어 둔다.
+2. 발표 순서를 `demo_outline.md`의 8줄 표로 미리 정하고, 그 순서를 홈 화면의 목록으로도 적어 둔다.
 3. 내 정보 표에 채점자가 열 **공개 주소**를 한 줄 적는다.
 4. 13주차 `README.md` 최종판에 이번 주 commit 한 줄을 더해 레포트를 마무리한다.
 5. 공개 주소가 열리지 않을 때 쓰는 대체 절차(시크릿 창 → 로컬 시연)를 말할 수 있다.
@@ -49,7 +49,7 @@
 - VS Code, 브라우저, Git (`git --version`으로 확인)
 - 네 페이지(`index.html`·`about.html`·`guestbook.html`·`projects.html`)와 `styles.css`·`app.js`·`about.js`·`guestbook.js`·`projects.js`·`data/projects.json`·`images/`·`screenshots/`
 - 빠진 파일이 있으면 [따라하기의 이번 주에 고치지 않는 파일](walkthrough.md#이번-주에-고치지-않는-파일)에서 그대로 가져온다
-- 과제 안내와 채점 기준을 미리 읽는다: [2차 과제 안내](project_brief.md) · [채점표](rubric.md) · [3분 시연 흐름 표](examples/demo_outline.md)
+- 과제 안내와 채점 기준을 미리 읽는다: [2차 과제 안내](project_brief.md) · [채점표](rubric.md) · [3분 시연 흐름 표](demo_outline.md)
 - **확인과 캡처는 공개 주소에서 한다.** 방명록 목록은 내 PC에서 파일을 더블클릭해 연 화면과 공개 주소가 서로 다른 곳에 저장된다
 - 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com`이다
 
@@ -71,7 +71,7 @@
 | 명령·용어 | 이번 주에 알아둘 뜻 |
 |---|---|
 | 3분 시연 | 공개 주소에서 여덟 가지를 순서대로 보여 주는 것. 코드 파일은 띄우지 않는다 |
-| `examples/demo_outline.md` | 시간 · 화면·동작 · 말할 것 세 칸으로 된 8줄 표. 발표 순서를 미리 적어 두는 종이다 |
+| `demo_outline.md` | 시간 · 화면·동작 · 말할 것 세 칸으로 된 8줄 표. 발표 순서를 미리 적어 두는 종이다 |
 | `<h2>`·`<ol>`·`<li>` | 홈에 "이 사이트에서 할 수 있는 것" 다섯 줄을 넣을 때 쓴다. 3주차에 배운 태그다 |
 | `<tr>`·`<td>` | 내 정보 표에 "공개 주소" 한 행을 더할 때 쓴다. 3주차에 배운 태그다 |
 | GitHub **Commits** 탭 | 저장소에 쌓인 commit 목록. 발표 마지막 25초에 보여 준다 |
@@ -91,7 +91,7 @@
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 발표 안내](lab.md)
 - [2차 과제 안내](project_brief.md) · [채점표 20점](rubric.md)
-- [3분 시연 흐름 표](examples/demo_outline.md)
+- [3분 시연 흐름 표](demo_outline.md)
 - [예제 설명](examples/README.md)
 - README 최종판 예: [examples/day1/README.md](examples/day1/README.md)
 - 캡처 3장 예: [home.png](examples/day1/screenshots/home.png) · [guestbook.png](examples/day1/screenshots/guestbook.png) · [projects.png](examples/day1/screenshots/projects.png)

@@ -95,7 +95,7 @@ greeting.textContent = `${greet(name)} ${hello(hour)}`;
 
 - `.textContent` is the **text** inside an element.
 - Put it on the right of `=` to read it, and **on the left to replace it.**
-- The one-line copy-paste template from Week 5 splits into two lines today: first **find it** (`querySelector`), then **change it** (`textContent`).
+- Week 5's last line splits into two lines, just like Week 5 ex09 No. 2: first **find it** (`querySelector`), then **change it** (`textContent`).
 - What changes is the screen (the DOM), not the HTML file. Reloading brings back the file's original text.
 
 ---

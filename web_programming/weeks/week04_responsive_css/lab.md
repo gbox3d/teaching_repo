@@ -15,7 +15,7 @@
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 새 폴더 `web-week04` 를 만들어 **File › Open Folder** 로 연다. 지난주 완성본을 넣는다: 내 3주차 저장소 GitHub 화면 › **Code › Download ZIP**, 못 하면 교재 [3주차 examples/day2/](../week03_semantic_html/examples/day2/) 를 **Raw** 로. `ex/` 폴더를 만들고 ex01~ex05 를 **Raw** 로 저장한다(다 못 받으면 ex01 부터 시작하고 나머지는 문항을 시작할 때) |
+| 0–5분 | 새 폴더 `web-week04` 를 만들어 **File › Open Folder** 로 연다. 지난주 완성본을 넣는다: 내 3주차 저장소 GitHub 화면 › **Code › Download ZIP**, 못 하면 교재 [3주차 examples/day2/](../week03_semantic_html/examples/day2/) 를 **Raw** 로. `ex/` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 ex01~ex05 를 **Raw** 로 저장한다(다 못 받으면 ex01 부터 시작하고 나머지는 문항을 시작할 때) |
 | 5–14분 | ex01 선택자 — 저장하고 값 바꿔 보기 |
 | 14–22분 | ex02 display |
 | 22–31분 | ex03 박스모델 |
@@ -26,7 +26,7 @@
 
 ### 1. ex01 선택자 (`p` · `.red` · `nav a`)
 
-[examples/ex01_selector.html](examples/ex01_selector.html) 을 `ex/ex01_selector.html` 로 저장한다. [따라하기 1일차](walkthrough.md#1일차)의 2단계를 본다.
+[examples/day1/ex01_selector.html](examples/day1/ex01_selector.html) 을 `ex/ex01_selector.html` 로 저장한다. [따라하기 1일차](walkthrough.md#1일차)의 2단계를 본다.
 
 - 바꿔 보기: 주석 `/* p { color: gray; } */` 를 푼다. 1번만 바뀌나, 2번도 바뀌나? 파랑 규칙이 위에 있는데 왜 그런가?
 - 바꿔 보기: 4번의 `class="Red"` 를 `class="red"` 로 고친다. 고치기 전에는 왜 파랑이었나?
@@ -35,7 +35,7 @@
 
 ### 2. ex02 display (`display: block` · `display: inline`)
 
-[examples/ex02_display.html](examples/ex02_display.html) 을 `ex/ex02_display.html` 로 저장한다.
+[examples/day1/ex02_display.html](examples/day1/ex02_display.html) 을 `ex/ex02_display.html` 로 저장한다.
 
 - 바꿔 보기: `.as-block` 의 `block` 을 `inline` 으로, `.as-inline` 의 `inline` 을 `block` 으로 바꾼다. 3번·4번이 각각 어느 모양이 되나?
 - 바꿔 보기: 1번 `div` 세 개에 `class="box as-inline"` 을 준다. `div` 인데도 옆으로 붙는가?
@@ -43,7 +43,7 @@
 
 ### 3. ex03 박스모델 (`padding` · `border` · `margin`)
 
-[examples/ex03_box_model.html](examples/ex03_box_model.html) 을 `ex/ex03_box_model.html` 로 저장한다.
+[examples/day1/ex03_box_model.html](examples/day1/ex03_box_model.html) 을 `ex/ex03_box_model.html` 로 저장한다.
 
 - 바꿔 보기: `.pad` 의 `16px` 을 `0` → `32px` 로 바꾼다. 하늘색이 어디까지 칠해지나?
 - 바꿔 보기: `.mg` 의 `16px` 을 `0` → `32px` 로 바꾼다. 흰 frame 위에서 벌어지는 자리는 하늘색인가, 흰색인가?
@@ -52,7 +52,7 @@
 
 ### 4. ex04 width (`width` · `max-width` · `margin: 0 auto`)
 
-[examples/ex04_width.html](examples/ex04_width.html) 을 `ex/ex04_width.html` 로 저장한다.
+[examples/day1/ex04_width.html](examples/day1/ex04_width.html) 을 `ex/ex04_width.html` 로 저장한다.
 
 - 바꿔 보기: 창 폭을 400px 까지 천천히 줄인다. 네 상자 중 어느 것만 삐져나가나? 가로 스크롤 막대는 언제 생기나?
 - 바꿔 보기: `.center` 의 `margin-right: auto` 한 줄을 지운다. 4번 상자가 어느 쪽에 붙나?
@@ -61,7 +61,7 @@
 
 ### 5. ex05 text-align (`text-align` · `vertical-align`)
 
-[examples/ex05_text_align.html](examples/ex05_text_align.html) 을 `ex/ex05_text_align.html` 로 저장한다.
+[examples/day1/ex05_text_align.html](examples/day1/ex05_text_align.html) 을 `ex/ex05_text_align.html` 로 저장한다.
 
 - 바꿔 보기: `.middle` 의 `middle` 을 `bottom` → `top` 으로 바꾼다. 4번 글자가 움직이는가?
 - 바꿔 보기: `.right` 의 `right` 을 `center` 로 바꾼다. 3번이 어떻게 되나?
@@ -93,7 +93,7 @@ git push -u origin main
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 같은 PC에 `web-week04` 폴더가 남아 있으면 **File › Open Folder** 로 연다. 없으면 `git clone https://github.com/student01/web-week04.git` 뒤 **File › Open Folder**. 여섯 파일(ex06~ex11)을 **Raw** 로 `ex/` 에 먼저 저장한다 |
+| 0–5분 | 같은 PC에 `web-week04` 폴더가 남아 있으면 **File › Open Folder** 로 연다. 없으면 `git clone https://github.com/student01/web-week04.git` 뒤 **File › Open Folder**. 교재 [`examples/day2/`](examples/day2/) 의 여섯 파일(ex06~ex11)을 **Raw** 로 `ex/` 에 먼저 저장한다 |
 | 5–11분 | ex06 flex-direction |
 | 11–16분 | ex07 justify-content |
 | 16–21분 | ex08 align-items |
@@ -112,7 +112,7 @@ flex 는 세 낱말로 읽는다. **부모**(`display: flex` 를 쓰는 곳), **
 
 ### 6. ex06 flex-direction (`display: flex` · `flex-direction`)
 
-[examples/ex06_flex_direction.html](examples/ex06_flex_direction.html) 을 `ex/ex06_flex_direction.html` 로 저장한다.
+[examples/day2/ex06_flex_direction.html](examples/day2/ex06_flex_direction.html) 을 `ex/ex06_flex_direction.html` 로 저장한다.
 
 - 바꿔 보기: 6번 frame 의 `row` 를 `column` 으로, 7번의 `column` 을 `row` 로 바꾼다. 같은 `justify-content: center` 인데 상자가 어느 방향으로 움직이나?
 - 바꿔 보기: 1번 frame 은 그대로 두고, 그 안의 `.box` 세 개에 `style="display: flex"` 를 준다. 무엇이 달라지나?
@@ -121,7 +121,7 @@ flex 는 세 낱말로 읽는다. **부모**(`display: flex` 를 쓰는 곳), **
 
 ### 7. ex07 justify-content (`justify-content`)
 
-[examples/ex07_justify_content.html](examples/ex07_justify_content.html) 을 `ex/ex07_justify_content.html` 로 저장한다.
+[examples/day2/ex07_justify_content.html](examples/day2/ex07_justify_content.html) 을 `ex/ex07_justify_content.html` 로 저장한다.
 
 - 바꿔 보기: `.frame` 안의 주석 `/* flex-direction: column; */` 을 푼다. 다섯 frame 의 상자가 어느 방향으로 움직이나? `.frame` 의 `height` 를 `160px` 로 늘리면 더 잘 보인다.
 - 바꿔 보기: 4번 `space-between` 과 5번 `space-around` 에서 양 끝 여백을 비교한다. 어느 쪽이 벽에 붙나?
@@ -130,7 +130,7 @@ flex 는 세 낱말로 읽는다. **부모**(`display: flex` 를 쓰는 곳), **
 
 ### 8. ex08 align-items (`align-items`)
 
-[examples/ex08_align_items.html](examples/ex08_align_items.html) 을 `ex/ex08_align_items.html` 로 저장한다.
+[examples/day2/ex08_align_items.html](examples/day2/ex08_align_items.html) 을 `ex/ex08_align_items.html` 로 저장한다.
 
 - 바꿔 보기: `.frame` 의 주석 `/* flex-direction: column; */` 을 푼다. 네 frame 의 상자가 어느 방향으로 움직이나? ex07 과 반대인가?
 - 바꿔 보기: `.box` 에 `height: 32px;` 한 줄을 더한다. 1번 `stretch` 가 어떻게 되나? 왜 늘어나지 않나?
@@ -139,7 +139,7 @@ flex 는 세 낱말로 읽는다. **부모**(`display: flex` 를 쓰는 곳), **
 
 ### 9. ex09 flex-wrap과 gap (`flex-wrap` · `gap`)
 
-[examples/ex09_flex_wrap_gap.html](examples/ex09_flex_wrap_gap.html) 을 `ex/ex09_flex_wrap_gap.html` 로 저장한다.
+[examples/day2/ex09_flex_wrap_gap.html](examples/day2/ex09_flex_wrap_gap.html) 을 `ex/ex09_flex_wrap_gap.html` 로 저장한다.
 
 - 바꿔 보기: 1번 frame 의 자식을 6개에서 3개로 줄인다. 찌그러짐이 사라지나? 왜 그런가?
 - 바꿔 보기: `.gap` 의 `16px` 을 `0` → `32px` 로 바꾼다. 3번 frame 에서 한 줄에 들어가는 상자 수가 달라지나?
@@ -148,7 +148,7 @@ flex 는 세 낱말로 읽는다. **부모**(`display: flex` 를 쓰는 곳), **
 
 ### 10. ex10 flex: 1 (`flex`)
 
-[examples/ex10_flex_grow.html](examples/ex10_flex_grow.html) 을 `ex/ex10_flex_grow.html` 로 저장한다.
+[examples/day2/ex10_flex_grow.html](examples/day2/ex10_flex_grow.html) 을 `ex/ex10_flex_grow.html` 로 저장한다.
 
 - 바꿔 보기: `.grow` 안의 주석 `/* flex: 2; */` 를 푼다. 3번 frame 의 세 상자 폭이 어떻게 되나? 2번은?
 - 바꿔 보기: 4번 `.screen` 에서 `main` 의 `class="grow"` 를 `header` 로 옮긴다. 어느 칸이 커지나?
@@ -157,7 +157,7 @@ flex 는 세 낱말로 읽는다. **부모**(`display: flex` 를 쓰는 곳), **
 
 ### 11. ex11 @media (`@media (max-width: 600px)`)
 
-[examples/ex11_media.html](examples/ex11_media.html) 을 `ex/ex11_media.html` 로 저장한다.
+[examples/day2/ex11_media.html](examples/day2/ex11_media.html) 을 `ex/ex11_media.html` 로 저장한다.
 
 - 바꿔 보기: F12 › 기기 모드(**Ctrl+Shift+M**, macOS **⌘+⇧+M**) 에서 폭을 `375` 로 한다. 1번·2번 중 어느 것이 세로로 서나?
 - 바꿔 보기: `600px` 을 `900px` 으로 바꾼다. 기기 모드 폭 `800` 에서 무엇이 달라지나?
@@ -222,7 +222,7 @@ flex 는 세 낱말로 읽는다. **부모**(`display: flex` 를 쓰는 곳), **
 - ex07: 주석 `.evenly` 를 풀어 `space-evenly` 를 써 본다. `space-around` 와 양 끝 여백을 비교한다.
 - ex10: `/* flex: 2; */` 주석을 풀고 2번·3번 frame 의 폭 비율을 본다.
 - ex06: 한 frame 에 `column-reverse` 와 `center` 를 같이 준다. 숫자 순서와 위치가 어떻게 되나?
-- ex12: [examples/ex12_position.html](examples/ex12_position.html) 을 열어 `top`·`left`·`right`·`bottom` 값을 바꿔 본다. 부록이며 설명하지 않는다.
+- ex12: [examples/day2/ex12_position.html](examples/day2/ex12_position.html) 을 열어 `top`·`left`·`right`·`bottom` 값을 바꿔 본다. 부록이며 설명하지 않는다.
 - ex10 의 4번 `.screen` 을 `width: 100%; height: 100vh` 로 바꿔 창 전체를 header·main·footer 로 나누는 타이틀 화면을 만들어 본다.
 - 선택: 정적 서버 [`server.mjs`](../../tools/static-server/README.md) 를 `web-week04` 에 받아 `http://localhost:8000/` 으로 열어 본다. 설명은 5주차에 한다.
 

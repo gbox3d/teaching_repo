@@ -1,6 +1,7 @@
 # 13주차 예제 — 점검을 마친 네 페이지와 README 최종판
 
 `day1/`·`day2/`는 그날 수업이 끝났을 때의 **`my-web` 폴더 전체**다. 그 주에 고치지 않은 파일도 함께 들어 있다.
+`day1/`의 `security-demo.html`·`security-demo.js` 두 파일만 예외다. 1일차 4단계 시연용이라 `my-web`에 넣지 않는다.
 먼저 [따라하기](../walkthrough.md)를 순서대로 하고, 막히면 내 파일과 한 줄씩 비교한다.
 `student01`은 연습용 아이디다. 본인 아이디로 바꿔 쓴다.
 
@@ -15,7 +16,7 @@
 |---|---|---|
 | [day1/about.html](day1/about.html) | [2단계](../walkthrough.md#2-abouthtml에-입학-연도-폼-넣기) — `script` 줄과 입학 연도 폼이 늘어난다 | `about.html` |
 | [day1/about.js](day1/about.js) | [3단계](../walkthrough.md#3-aboutjs로-몇-년차인지-계산하기) — 이번 주에 새로 만드는 파일 | `about.js` |
-| [security-demo.html](security-demo.html) · [security-demo.js](security-demo.js) | [4단계](../walkthrough.md#4-글자로-넣기와-html로-넣기-비교하기) — **시연용**. `my-web`에 넣지 않는다 | (넣지 않는다) |
+| [security-demo.html](day1/security-demo.html) · [security-demo.js](day1/security-demo.js) | [4단계](../walkthrough.md#4-글자로-넣기와-html로-넣기-비교하기) — **시연용**. `my-web`에 넣지 않는다 | (넣지 않는다) |
 | [day1/guestbook.js](day1/guestbook.js) | [5단계](../walkthrough.md#5-방명록에-b안녕b-남겨-보기) — 눈으로 확인만 하고 고치지 않는다 | `guestbook.js` |
 | [day1/projects.js](day1/projects.js) | [7단계](../walkthrough.md#7-카드-링크-글자-고치기-projectsjs) — 링크 글자 한 줄이 바뀐다 | `projects.js` |
 | [day2/README.md](day2/README.md) | [11단계](../walkthrough.md#11-readmemd-최종판-쓰기) — 9주차 1차판을 지우고 다시 쓴다 | `README.md` |

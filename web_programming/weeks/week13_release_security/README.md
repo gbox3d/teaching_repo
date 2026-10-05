@@ -103,7 +103,7 @@
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
 - [예제 설명](examples/README.md)
-- 시연용 예제: [security-demo.html](examples/security-demo.html) · [security-demo.js](examples/security-demo.js)
+- 시연용 예제: [security-demo.html](examples/day1/security-demo.html) · [security-demo.js](examples/day1/security-demo.js)
 - 1일차 완성 코드: [about.html](examples/day1/about.html) · [about.js](examples/day1/about.js) · [projects.js](examples/day1/projects.js) · [guestbook.js](examples/day1/guestbook.js)
 - 2일차 완성 코드: [README.md](examples/day2/README.md) · [screenshots/home.png](examples/day2/screenshots/home.png) · [guestbook.png](examples/day2/screenshots/guestbook.png) · [projects.png](examples/day2/screenshots/projects.png)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security

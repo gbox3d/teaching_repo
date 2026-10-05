@@ -78,26 +78,26 @@ web-week04/
 
 | 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
-| [ex01_selector.html](examples/ex01_selector.html) | `p` / `p.red` / `div.red` / `p.Red`(오타) / `nav a` / nav 밖 `a` | 선택자가 맞아야 적용된다. 클래스가 태그를 이긴다. 같은 선택자 두 번이면 뒤가 이긴다 | `/* p { color: gray; } */` 주석 풀기, 4번의 `class="Red"` 를 `class="red"` 로 |
-| [ex02_display.html](examples/ex02_display.html) | div 3 / span 3 / span + `display: block` / div + `display: inline` | 줄을 차지하는지는 태그가 아니라 `display` 가 정한다 | `block` ↔ `inline` |
-| [ex03_box_model.html](examples/ex03_box_model.html) | 기본 / `padding` / `border` / `margin` / 셋 다 | 안쪽 여백·테두리·바깥 여백은 서로 다른 층. 흰 frame 위에서 margin 이 벌린 자리가 보인다 | 세 값을 `0` / `16px` / `32px` 로 |
-| [ex04_width.html](examples/ex04_width.html) | 기본(부모 폭) / `width: 640px` / `max-width: 640px` / `max-width` + `margin` 좌우 `auto` | `max-width` 는 창이 좁으면 같이 줄고, `margin: auto` 는 남는 폭을 반씩 나눈다 | 창을 400px 로 줄여 2번만 삐져나가는지 |
-| [ex05_text_align.html](examples/ex05_text_align.html) | 기본 / `center` / `right` / `vertical-align: middle` | 가로 정렬은 `text-align`. `vertical-align` 은 줄 안에서 글자끼리 맞추는 속성이라 상자 안 세로 가운데는 안 된다 → 답은 ex08 | `vertical-align` 값을 바꿔도 안 움직임 확인 |
-| [ex06_flex_direction.html](examples/ex06_flex_direction.html) | flex 없음 / `row` / `row-reverse` / `column` / `column-reverse` / `row` + `center` / `column` + `center` | `display: flex` 는 부모에 쓴다. `flex-direction` 이 주축을 정한다. 같은 `justify-content: center` 가 row 에선 가로, column 에선 세로 가운데 | 6·7번의 direction 서로 바꾸기, 자식에 `display: flex` 를 잘못 줘 보기(상자 배치는 그대로, 숫자만 왼쪽 끝으로) |
-| [ex07_justify_content.html](examples/ex07_justify_content.html) | `flex-start` / `center` / `flex-end` / `space-between` / `space-around` | 주축 위에서 남는 공간을 어떻게 나누나 | `.frame` 의 `height` 를 `160px` 로 늘리고 `flex-direction: column` 주석 풀기 → 다섯 개가 전부 세로로 움직임, `.evenly` 주석 풀고 5번 frame 의 class 를 `evenly` 로 |
-| [ex08_align_items.html](examples/ex08_align_items.html) | `stretch`(기본) / `flex-start` / `center` / `flex-end` | 교차축 정렬. ex05 에서 안 되던 세로 가운데가 여기서 된다 | `column` 주석 풀기 → 가로로 움직임 |
-| [ex09_flex_wrap_gap.html](examples/ex09_flex_wrap_gap.html) | `nowrap` / `wrap` / `wrap` + `gap: 16px` | 주축에 다 안 들어가면 넘길지는 `flex-wrap`, 사이 간격은 `gap`. 둘 다 부모에 쓴다 | 자식 수 6 → 3, `gap` `0` / `16px` / `32px` |
-| [ex10_flex_grow.html](examples/ex10_flex_grow.html) | 기본 / 가운데만 `flex: 1` / 셋 다 `flex: 1` / column 화면(header · main `flex: 1` · footer) | 주축의 남는 공간을 누가 차지하나. 세로에서도 같다 | `flex: 2` 주석 풀기 |
-| [ex11_media.html](examples/ex11_media.html) | `@media (max-width: 600px)` 가 있는 frame / 없는 frame | 조건이 맞을 때만 뒤 규칙이 살아난다. 같은 선택자 두 번 → 뒤가 이김(ex01) | `600px` → `900px`, 기기 모드 375 |
-| [ex12_position.html](examples/ex12_position.html) (부록, 설명 없음) | `static` / `relative; top; left` / `absolute; right; bottom` | 문서 흐름에서 빼는 두 방법 | `top`·`left`·`right`·`bottom` 값 바꾸기 |
+| [ex01_selector.html](examples/day1/ex01_selector.html) | `p` / `p.red` / `div.red` / `p.Red`(오타) / `nav a` / nav 밖 `a` | 선택자가 맞아야 적용된다. 클래스가 태그를 이긴다. 같은 선택자 두 번이면 뒤가 이긴다 | `/* p { color: gray; } */` 주석 풀기, 4번의 `class="Red"` 를 `class="red"` 로 |
+| [ex02_display.html](examples/day1/ex02_display.html) | div 3 / span 3 / span + `display: block` / div + `display: inline` | 줄을 차지하는지는 태그가 아니라 `display` 가 정한다 | `block` ↔ `inline` |
+| [ex03_box_model.html](examples/day1/ex03_box_model.html) | 기본 / `padding` / `border` / `margin` / 셋 다 | 안쪽 여백·테두리·바깥 여백은 서로 다른 층. 흰 frame 위에서 margin 이 벌린 자리가 보인다 | 세 값을 `0` / `16px` / `32px` 로 |
+| [ex04_width.html](examples/day1/ex04_width.html) | 기본(부모 폭) / `width: 640px` / `max-width: 640px` / `max-width` + `margin` 좌우 `auto` | `max-width` 는 창이 좁으면 같이 줄고, `margin: auto` 는 남는 폭을 반씩 나눈다 | 창을 400px 로 줄여 2번만 삐져나가는지 |
+| [ex05_text_align.html](examples/day1/ex05_text_align.html) | 기본 / `center` / `right` / `vertical-align: middle` | 가로 정렬은 `text-align`. `vertical-align` 은 줄 안에서 글자끼리 맞추는 속성이라 상자 안 세로 가운데는 안 된다 → 답은 ex08 | `vertical-align` 값을 바꿔도 안 움직임 확인 |
+| [ex06_flex_direction.html](examples/day2/ex06_flex_direction.html) | flex 없음 / `row` / `row-reverse` / `column` / `column-reverse` / `row` + `center` / `column` + `center` | `display: flex` 는 부모에 쓴다. `flex-direction` 이 주축을 정한다. 같은 `justify-content: center` 가 row 에선 가로, column 에선 세로 가운데 | 6·7번의 direction 서로 바꾸기, 자식에 `display: flex` 를 잘못 줘 보기(상자 배치는 그대로, 숫자만 왼쪽 끝으로) |
+| [ex07_justify_content.html](examples/day2/ex07_justify_content.html) | `flex-start` / `center` / `flex-end` / `space-between` / `space-around` | 주축 위에서 남는 공간을 어떻게 나누나 | `.frame` 의 `height` 를 `160px` 로 늘리고 `flex-direction: column` 주석 풀기 → 다섯 개가 전부 세로로 움직임, `.evenly` 주석 풀고 5번 frame 의 class 를 `evenly` 로 |
+| [ex08_align_items.html](examples/day2/ex08_align_items.html) | `stretch`(기본) / `flex-start` / `center` / `flex-end` | 교차축 정렬. ex05 에서 안 되던 세로 가운데가 여기서 된다 | `column` 주석 풀기 → 가로로 움직임 |
+| [ex09_flex_wrap_gap.html](examples/day2/ex09_flex_wrap_gap.html) | `nowrap` / `wrap` / `wrap` + `gap: 16px` | 주축에 다 안 들어가면 넘길지는 `flex-wrap`, 사이 간격은 `gap`. 둘 다 부모에 쓴다 | 자식 수 6 → 3, `gap` `0` / `16px` / `32px` |
+| [ex10_flex_grow.html](examples/day2/ex10_flex_grow.html) | 기본 / 가운데만 `flex: 1` / 셋 다 `flex: 1` / column 화면(header · main `flex: 1` · footer) | 주축의 남는 공간을 누가 차지하나. 세로에서도 같다 | `flex: 2` 주석 풀기 |
+| [ex11_media.html](examples/day2/ex11_media.html) | `@media (max-width: 600px)` 가 있는 frame / 없는 frame | 조건이 맞을 때만 뒤 규칙이 살아난다. 같은 선택자 두 번 → 뒤가 이김(ex01) | `600px` → `900px`, 기기 모드 375 |
+| [ex12_position.html](examples/day2/ex12_position.html) (부록, 설명 없음) | `static` / `relative; top; left` / `absolute; right; bottom` | 문서 흐름에서 빼는 두 방법 | `top`·`left`·`right`·`bottom` 값 바꾸기 |
 
 ## 수업 자료
 
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week04_responsive_css/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 비교 파일 12개와 `build/`
-- 2일차 끝의 `web-week04`(조립 결과): [styles.css](examples/build/styles.css) · [index.html](examples/build/index.html) · [about.html](examples/build/about.html) · [guestbook.html](examples/build/guestbook.html) · [app.js](examples/build/app.js) · [images/profile.png](examples/build/images/profile.png)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(ex01~ex05), 2일차 `day2/`(ex06~ex12와 조립 `build/`)
+- 2일차 끝의 `web-week04`(조립 결과): [styles.css](examples/day2/build/styles.css) · [index.html](examples/day2/build/index.html) · [about.html](examples/day2/build/about.html) · [guestbook.html](examples/day2/build/guestbook.html) · [app.js](examples/day2/build/app.js) · [images/profile.png](examples/day2/build/images/profile.png)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css
 
 ## 완료 기준

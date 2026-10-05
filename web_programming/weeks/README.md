@@ -6,7 +6,7 @@
 - 매 수업: 설명·시연 30분 + 직접 해결 실습 60분
 - 주당 합계: 설명·시연 60분 + 실습 120분
 - 1주차는 연습용 폴더 `week01`에서 로컬 Git을, 2주차는 GitHub 저장소 `my-web`과 Pages 등록을 배운다. **Git 설명은 2주차까지다.** 3주차는 `my-web`을 이어 쓰고, **4주차부터는 매주 새 저장소 `web-weekNN`을 만들어 올린다**(아래 실습 루틴).
-- 매주 시작점은 지난주 완성본이다(4주차부터 `examples/build/`, 그 전은 `examples/day2/`). 자기 코드로 이어 가도 되고, 막히면 교재의 지난주 완성본을 받아 이어 간다.
+- 매주 시작점은 지난주 완성본이다(4주차부터 `examples/day2/build/`, 그 전은 `examples/day2/`). 자기 코드로 이어 가도 되고, 막히면 교재의 지난주 완성본을 받아 이어 간다.
 - **매주 캡처 1장으로 끝난다.** 그 캡처가 README "완료 기준"의 화면이고 주차별 실습 점수의 근거다. 산출물이 보고서·표여서는 안 된다.
 - 주차별 실습 점수는 1~7주·10~13주 캡처로 산정한다(2주차는 고정본의 캡처 4장). 8·9·14·15주는 실습 점수 대상이 아니다.
 - 고정 평가 주: 8주 중간 개인 실기, 9주 1차 과제 발표, 14주 최종 프로젝트 발표, 15주 기말 개인 실기.
@@ -26,7 +26,7 @@ web-week05/
   server.mjs                                                           ← 정적 서버(5주차부터)
 ```
 
-**1일차 시작 0–5분** — 새 폴더 `web-weekNN`을 VS Code로 연다. 지난주 완성본을 넣는다: 내 지난주 저장소 GitHub 화면 **Code › Download ZIP**, 또는 교재의 지난주 `examples/build/`. `ex/` 폴더에 오늘 비교 파일을 **Raw**로 저장한다.
+**1일차 시작 0–5분** — 새 폴더 `web-weekNN`을 VS Code로 연다. 지난주 완성본을 넣는다: 내 지난주 저장소 GitHub 화면 **Code › Download ZIP**, 또는 교재의 지난주 `examples/day2/build/`. `ex/` 폴더에 오늘 비교 파일(교재 `examples/day1/`)을 **Raw**로 저장한다. 내 저장소의 `ex/`에는 날짜 폴더 없이 그 주 비교 파일을 모두 모은다.
 
 **1일차 끝 50–60분** — GitHub에서 새 저장소 `web-weekNN`을 만든다(Public, README 추가하지 않음). 터미널에서:
 
@@ -63,17 +63,18 @@ git push -u origin main
 |---|---|
 | `README.md` | 첫 줄에 실습 페이지 링크. 이번 주 질문 · 학습 목표 · 결과물(캡처 예) / 2일 수업 흐름 · 준비 / **이번 주 용어**(한국어 · English · 中文) · 이번 주 범위 / 수업 자료(덱 주소) / 완료 기준(캡처 1장) · 다음 수업 연결 · 공식 참고 자료 |
 | `slides.md` | Marp 원고. `---`가 슬라이드 구분자. 일차마다 설명 30분을 `N일차 · A–B분 — 제목` 구간으로 나누고 일차 끝에 설명 합계를 적는다. 슬라이드 한 장은 비어 있지 않은 줄 16줄 이하, 태그·명령·속성·GitHub 화면 이름은 영문 원어를 그대로 쓴다 |
-| `walkthrough.md` | 처음부터 그대로 따라 하는 단계(할 일 → 예상 결과). 명령 앞에 "현재 폴더"를 적는다. 전체 코드 블록은 `examples/` 파일과 글자 단위로 같다 |
+| `walkthrough.md` | 처음부터 그대로 따라 하는 단계(할 일 → 예상 결과). 명령 앞에 "현재 폴더"를 적는다. 만들기 파일(`build/`, 3주차까지는 `dayN/`)의 전체 코드 블록은 예제 파일과 글자 단위로 같다 |
 | `lab.md` | 실습 페이지 링크, 일차별 60분 시간표(`A–B분` 표기, 3주차부터 0–5 시작 루틴·55–60 끝 루틴, 마지막 구간이 60분에서 끝난다), 단계별 문제와 힌트, 막혔을 때 표(첫 줄 Pages 지연 규칙, 나머지는 실제로 재현한 오류 문구), 제출물(캡처 1장), 먼저 끝났다면 |
-| `examples/README.md` | 예제 파일 ↔ `my-web` 안 위치 ↔ 따라하기 단계 표, 개념별 최소 코드와 실행 결과 |
-| `examples/dayN/` | 그날 수업이 끝났을 때의 **`my-web` 전체 파일**(그 주에 바뀌지 않은 파일도 포함) |
+| `examples/README.md` | 비교 파일 표(열면 보이는 것 · 보여 주는 원리 · 바꿔 볼 값)와 조립표(만들기 파일의 줄이 어느 비교 파일에서 왔나) |
+| `examples/day1/` · `examples/day2/` | 그날 쓰는 예제. `examples/` 바로 아래에는 `README.md`와 이 두 폴더만 둔다 |
 
 `examples/dayN/`의 규칙은 다음과 같다.
 
-- 파일 하나는 60줄 이하로 두고, 학생이 직접 타이핑할 수 있는 크기를 넘지 않는다.
-- 클래식 `<script src="app.js" defer>`만 쓴다. CDN·라이브러리·`type="module"`은 쓰지 않는다.
-- 페이지마다 자기 `.js` 파일 하나를 연결한다.
-- 모든 `dayN/index.html`은 브라우저 Console 오류 0으로 열린다.
+- 4주차부터 `dayN/exNN_*.html`은 **비교 파일**이다. 파일 하나 = 개념 하나이고, 값 하나만 다른 형제를 나란히 둔다. 번호는 한 주 안에서 이어 센다(1일차 ex01부터, 2일차는 그다음 번호부터). `<style>`·`<script>`가 파일 안에 있고, 보조 파일이 필요하면 같은 폴더에 같은 번호로 둔다.
+- 만들기는 마지막 하나, `day2/build/`뿐이다. 2일차 끝의 `web-weekNN` 저장소 맨 위 전체이고 다음 주의 시작점이다.
+- 3주차까지는 `dayN/`이 그날 수업이 끝났을 때의 **`my-web` 전체 파일**이다(그 주에 바뀌지 않은 파일도 포함).
+- 만들기 파일은 하나에 60줄 이하로 두고, 학생이 직접 타이핑할 수 있는 크기를 넘지 않는다. 클래식 `<script src="app.js" defer>`만 쓰고(CDN·라이브러리·`type="module"` 없음), 페이지마다 자기 `.js` 파일 하나를 연결한다.
+- 모든 `dayN/index.html`(4주차부터는 `day2/build/index.html`)은 브라우저 Console 오류 0으로 열린다. 비교 파일의 오류는 주석을 풀거나 버튼을 눌러 일부러 낼 때만 난다.
 
 시험·과제 주차는 같은 파일 세트에 다음을 더한다. 이 네 주차도 `README.md`·`slides.md`·`walkthrough.md`·`lab.md`는 똑같이 두며, `lab.md`에는 1일차 리허설 시간표와 2일차 시험·발표 운영 시간표 2개를 둔다.
 
@@ -81,7 +82,7 @@ git push -u origin main
 |---:|---|
 | 8 | `exam_structure.md`, `rubric.md`, `examples/rehearsal_starter/`, `examples/rehearsal_solution/` |
 | 9 | `project_brief.md`, `rubric.md` |
-| 14 | `project_brief.md`, `rubric.md`, `examples/demo_outline.md` |
+| 14 | `project_brief.md`, `rubric.md`, `demo_outline.md` |
 | 15 | `rubric.md`, `examples/rehearsal_starter/`, `examples/rehearsal_solution/` |
 
 PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code Marp 확장으로 HTML, PDF, PPTX로 내보낼 수 있다.
