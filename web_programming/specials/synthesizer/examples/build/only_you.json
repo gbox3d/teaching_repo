@@ -1,0 +1,63 @@
+{
+  "track_info": {
+    "title": "Only You",
+    "artist": "Savage",
+    "key": "Am",
+    "time_signature": "4/4",
+    "bpm": 109
+  },
+  "sections": [
+    {
+      "section": "Intro / Synth Lead",
+      "bars_count": 8,
+      "progression": [
+        { "bar": 1, "chord": "Am" },
+        { "bar": 2, "chord": "Dm" },
+        { "bar": 3, "chord": "G" },
+        { "bar": 4, "chord": "C" },
+        { "bar": 5, "chord": "Am" },
+        { "bar": 6, "chord": "Dm" },
+        { "bar": 7, "chord": "G" },
+        { "bar": 8, "chord": "Am" }
+      ]
+    },
+    {
+      "section": "Verse",
+      "bars_count": 8,
+      "progression": [
+        { "bar": 1, "chord": "Am" },
+        { "bar": 2, "chord": "F" },
+        { "bar": 3, "chord": "G" },
+        { "bar": 4, "chord": "C" },
+        { "bar": 5, "chord": "Am" },
+        { "bar": 6, "chord": "F" },
+        { "bar": 7, "chord": "G" },
+        { "bar": 8, "chord": "C" }
+      ]
+    },
+    {
+      "section": "Pre-Chorus",
+      "bars_count": 4,
+      "progression": [
+        { "bar": 1, "chord": "Am" },
+        { "bar": 2, "chord": "F" },
+        { "bar": 3, "chord": "Dm" },
+        { "bar": 4, "chord": "G" }
+      ]
+    },
+    {
+      "section": "Chorus",
+      "bars_count": 8,
+      "progression": [
+        { "bar": 1, "chord": "F" },
+        { "bar": 2, "chord": "G" },
+        { "bar": 3, "chord": "C" },
+        { "bar": 4, "chord": "Am" },
+        { "bar": 5, "chord": "F" },
+        { "bar": 6, "chord": "G" },
+        { "bar": 7, "chord": "C" },
+        { "bar": 8, "chord": "Am" }
+      ]
+    }
+  ]
+}

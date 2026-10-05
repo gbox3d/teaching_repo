@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex07 timing</title>
+</head>
+<body>
+    <h1>ex07 박자: 타이머로 치기 vs 오디오 시계로 예약하기</h1>
+    <p>BPM <input id="bpm" type="number" value="109" min="60" max="180">
+        → 한 박 <b id="beat"></b>초, 16분음표 한 칸 <b id="sixteenth"></b>초</p>
+    <p><label><input id="busy" type="checkbox"> 브라우저를 바쁘게 만들기(0.1초마다 0.06초 동안 계산만 한다)</label></p>
+    <button id="b1">1. setTimeout 으로 16번 치기</button>
+    <button id="b2">2. 오디오 시계에 16번 예약하기</button>
+    <p id="result">간격(ms)이 여기에 나온다. 고르면 박자가 맞는 것이다.</p>
+
+    <script>
+        let ctx = null;
+
+        function secondsPerStep() {
+            const bpm = Number(document.getElementById('bpm').value);
+            return 60 / bpm / 4;                         // 한 박 = 60/BPM 초, 16분음표 = 그 4분의 1
+        }
+
+        function showLength() {
+            document.getElementById('beat').innerText = (secondsPerStep() * 4).toFixed(3);
+            document.getElementById('sixteenth').innerText = secondsPerStep().toFixed(3);
+        }
+        document.getElementById('bpm').addEventListener('input', showLength);
+        showLength();
+
+        function click(time) {                           // 짧은 '틱'. time 에 소리가 나도록 예약한다
+            const osc = ctx.createOscillator();
+            const amp = ctx.createGain();
+            osc.frequency.value = 1500;
+            amp.gain.setValueAtTime(0.2, time);
+            amp.gain.exponentialRampToValueAtTime(0.001, time + 0.03);
+            osc.connect(amp).connect(ctx.destination);
+            osc.start(time);
+            osc.stop(time + 0.04);
+        }
+
+        function report(times) {
+            const gaps = [];
+            for (let i = 1; i < times.length; i++) gaps.push(Math.round((times[i] - times[i - 1]) * 1000));
+            document.getElementById('result').innerText =
+                `간격(ms): ${gaps.join(' ')} — 가장 짧은 ${Math.min(...gaps)}, 가장 긴 ${Math.max(...gaps)}`;
+        }
+
+        // 1. 칠 때가 되면 JavaScript 가 '지금' 친다. 브라우저가 바쁘면 늦게 깨어나 그만큼 늦게 친다
+        document.getElementById('b1').addEventListener('click', function () {
+            if (!ctx) ctx = new AudioContext();
+            const times = [];
+            function hit() {
+                click(ctx.currentTime);
+                times.push(ctx.currentTime);
+                if (times.length < 16) setTimeout(hit, secondsPerStep() * 1000);
+                else report(times);
+            }
+            hit();
+        });
+
+        // 2. 25ms 마다 깨어나 앞으로 0.1초 안에 올 칸의 '시각'을 오디오 시계에 적어 둔다
+        //    소리는 오디오 쪽이 그 시각에 정확히 낸다. JavaScript 가 조금 늦게 깨어나도 상관없다
+        document.getElementById('b2').addEventListener('click', function () {
+            if (!ctx) ctx = new AudioContext();
+            const times = [];
+            let next = ctx.currentTime + 0.05;
+            const timer = setInterval(function () {
+                while (next < ctx.currentTime + 0.1 && times.length < 16) {
+                    click(next);
+                    times.push(next);
+                    next += secondsPerStep();
+                }
+                if (times.length === 16) {
+                    clearInterval(timer);
+                    report(times);
+                }
+            }, 25);
+        });
+
+        // 바쁜 브라우저 흉내: 0.1초마다 0.06초 동안 아무 일도 못 하게 붙잡는다
+        setInterval(function () {
+            if (!document.getElementById('busy').checked) return;
+            const end = performance.now() + 60;
+            while (performance.now() < end) { /* 계산만 한다 */ }
+        }, 100);
+    </script>
+</body>
+</html>

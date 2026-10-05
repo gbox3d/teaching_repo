@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex01 wave</title>
+</head>
+<body>
+    <h1>ex01 파형: 같은 높이, 다른 모양</h1>
+    <p>이어폰을 끼고 차례로 누른다. 높이(220Hz)·길이(1초)·크기는 같고 <b>type</b> 만 다르다.</p>
+    <button data-type="sine">1. sine</button>
+    <button data-type="square">2. square</button>
+    <button data-type="sawtooth">3. sawtooth</button>
+    <button data-type="triangle">4. triangle</button>
+    <p>AudioContext 상태: <b id="state">아직 만들지 않음</b></p>
+    <canvas id="scope" width="480" height="120" style="background: #111"></canvas>
+
+    <script>
+        let ctx = null;          // 소리를 만드는 작업대. 버튼을 처음 누를 때 만든다
+        let analyser = null;     // 나가는 소리를 그림으로 보여 주는 보조 부품(이 파일의 주제는 아니다)
+
+        function play(type) {
+            if (!ctx) {
+                ctx = new AudioContext();     // 브라우저는 사용자가 누르기 전에는 소리를 내 주지 않는다
+                analyser = ctx.createAnalyser();
+                analyser.fftSize = 1024;
+                analyser.connect(ctx.destination);
+                drawScope();
+            }
+            const osc = ctx.createOscillator();     // 같은 모양의 떨림을 계속 만들어 내는 부품
+            const amp = ctx.createGain();            // 소리 크기
+            osc.type = type;                         // 'sine' | 'square' | 'sawtooth' | 'triangle'
+            osc.frequency.value = 220;               // 1초에 220번 떨린다
+            amp.gain.value = 0.2;
+            osc.connect(amp).connect(analyser);      // 오실레이터 → 게인 → (그림) → 스피커
+            osc.start();
+            osc.stop(ctx.currentTime + 1);           // 끝에 '딱' 소리가 나는 이유는 ex03
+            document.getElementById('state').innerText = ctx.state;
+        }
+
+        for (const button of document.querySelectorAll('button')) {
+            button.addEventListener('click', function () {
+                play(button.dataset.type);           // data-type 에 적은 글자
+            });
+        }
+
+        const canvas = document.getElementById('scope');
+        const pen = canvas.getContext('2d');
+        const wave = new Uint8Array(1024);
+        function drawScope() {
+            analyser.getByteTimeDomainData(wave);    // 지금 나가는 소리의 모양(0~255, 가운데 128)
+            pen.clearRect(0, 0, canvas.width, canvas.height);
+            pen.strokeStyle = '#7CFFB2';
+            pen.beginPath();
+            for (let x = 0; x < canvas.width; x++) {
+                pen.lineTo(x, wave[x] / 255 * canvas.height);
+            }
+            pen.stroke();
+            requestAnimationFrame(drawScope);
+        }
+    </script>
+</body>
+</html>

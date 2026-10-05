@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex03 envelope</title>
+</head>
+<body>
+    <h1>ex03 엔벨로프: 소리 크기가 시간에 따라 어떻게 변하나</h1>
+    <p>같은 sawtooth 220Hz 다. 크기를 바꾸는 방법만 다르다.</p>
+    <table border="1">
+        <tr><th>형제</th><th>attack(커지는 시간)</th><th>release(사라지는 시간)</th><th></th></tr>
+        <tr><td>1. 켰다 끄기만</td><td>0</td><td>0</td><td><button id="b1">재생</button></td></tr>
+        <tr><td>2. 짧게 — 뜯는 소리</td><td>0.005초</td><td>0.3초 (linear)</td><td><button id="b2">재생</button></td></tr>
+        <tr><td>3. 길게 — 깔리는 소리</td><td>0.3초</td><td>0.8초</td><td><button id="b3">재생</button></td></tr>
+        <tr><td>4. 천천히 커지기</td><td>1.2초</td><td>0.3초</td><td><button id="b4">재생</button></td></tr>
+        <tr><td>5. 2번을 exponential 로</td><td>0.005초</td><td>0.3초 (exponential)</td><td><button id="b5">재생</button></td></tr>
+    </table>
+    <canvas id="shape" width="480" height="100" style="background: #111"></canvas>
+
+    <script>
+        let ctx = null;
+        const PEAK = 0.2;
+
+        function play(attack, hold, release, curve) {
+            if (!ctx) ctx = new AudioContext();
+            const t = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const amp = ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.value = 220;
+
+            if (attack === 0) {
+                amp.gain.setValueAtTime(PEAK, t);                 // 0 → 최대로 한 번에. 시작과 끝에 '딱'
+            } else {
+                amp.gain.setValueAtTime(0.0001, t);
+                amp.gain.linearRampToValueAtTime(PEAK, t + attack);                  // attack
+                amp.gain.setValueAtTime(PEAK, t + attack + hold);                     // 유지
+                if (curve === 'exp') {
+                    amp.gain.exponentialRampToValueAtTime(0.0001, t + attack + hold + release);
+                } else {
+                    amp.gain.linearRampToValueAtTime(0.0001, t + attack + hold + release);
+                }
+            }
+            osc.connect(amp).connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + attack + hold + release);
+            drawShape(attack, hold, release, curve);
+        }
+
+        document.getElementById('b1').addEventListener('click', function () { play(0, 0.6, 0, 'linear'); });
+        document.getElementById('b2').addEventListener('click', function () { play(0.005, 0.02, 0.3, 'linear'); });
+        document.getElementById('b3').addEventListener('click', function () { play(0.3, 0.6, 0.8, 'linear'); });
+        document.getElementById('b4').addEventListener('click', function () { play(1.2, 0.2, 0.3, 'linear'); });
+        document.getElementById('b5').addEventListener('click', function () { play(0.005, 0.02, 0.3, 'exp'); });
+
+        // 방금 누른 소리의 크기 변화를 그린다(가로 2초)
+        function drawShape(attack, hold, release, curve) {
+            const canvas = document.getElementById('shape');
+            const pen = canvas.getContext('2d');
+            const end = attack + hold + release;
+            pen.clearRect(0, 0, canvas.width, canvas.height);
+            pen.strokeStyle = '#FFD23F';
+            pen.beginPath();
+            for (let x = 0; x < canvas.width; x++) {
+                const s = x / canvas.width * 2;
+                let g = 0;
+                if (s < attack) g = s / attack;
+                else if (s < attack + hold) g = 1;
+                else if (s < end) {
+                    const r = (s - attack - hold) / release;
+                    g = curve === 'exp' ? Math.pow(0.0005, r) : 1 - r;
+                }
+                pen.lineTo(x, canvas.height - g * (canvas.height - 10));
+            }
+            pen.stroke();
+        }
+    </script>
+</body>
+</html>

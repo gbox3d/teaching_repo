@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex08 pattern</title>
+    <style>
+        .row { display: flex; gap: 4px; align-items: center; margin: 4px 0; }
+        .row b { width: 64px; }
+        .row input:nth-of-type(4n + 1) { outline: 2px solid #999; }   /* 박의 첫 칸 */
+    </style>
+</head>
+<body>
+    <h1>ex08 리듬은 배열이다: 한 마디 16칸 중 어디를 치나</h1>
+    <button id="disco">1. 디스코</button>
+    <button id="rock">2. 록</button>
+    <button id="clear">3. 비우기</button>
+    <button id="play">▶ 재생</button>
+    <button id="stop">■ 정지</button>
+    <div id="grid"></div>
+    <pre id="arrays"></pre>
+
+    <script>
+        const ROWS = ['kick', 'snare', 'hat', 'open'];
+        const PRESETS = {
+            disco: {
+                kick:  [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],   // 박마다 킥(four on the floor)
+                snare: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],   // 2박·4박
+                hat:   [1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1],
+                open:  [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],   // 엇박에 열린 하이햇
+            },
+            rock: {
+                kick:  [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+                snare: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+                hat:   [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+                open:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            },
+        };
+        const pattern = { kick: [], snare: [], hat: [], open: [] };   // 지금 칠 배열(체크 칸과 같다)
+        const boxes = {};
+
+        // 줄마다 체크 칸 16개를 만든다
+        for (const name of ROWS) {
+            const row = document.createElement('div');
+            row.className = 'row';
+            row.innerHTML = `<b>${name}</b>`;
+            boxes[name] = [];
+            for (let i = 0; i < 16; i++) {
+                const box = document.createElement('input');
+                box.type = 'checkbox';
+                box.addEventListener('change', function () {
+                    pattern[name][i] = box.checked ? 1 : 0;
+                    showArrays();
+                });
+                row.append(box);
+                boxes[name].push(box);
+            }
+            document.getElementById('grid').append(row);
+        }
+
+        function load(preset) {
+            for (const name of ROWS) {
+                for (let i = 0; i < 16; i++) {
+                    pattern[name][i] = preset ? preset[name][i] : 0;
+                    boxes[name][i].checked = pattern[name][i] === 1;
+                }
+            }
+            showArrays();
+        }
+
+        function showArrays() {
+            let text = '';
+            for (const name of ROWS) text += `${name.padEnd(5)}: [${pattern[name].join(', ')}]\n`;
+            document.getElementById('arrays').innerText = text;
+        }
+
+        document.getElementById('disco').addEventListener('click', function () { load(PRESETS.disco); });
+        document.getElementById('rock').addEventListener('click', function () { load(PRESETS.rock); });
+        document.getElementById('clear').addEventListener('click', function () { load(null); });
+        load(PRESETS.disco);
+
+        // ---- 소리(ex06)와 예약(ex07) ----
+        let ctx = null;
+        let noise = null;
+        let timer = null;
+        let next = 0;
+        let step = 0;
+
+        function kick(t) {
+            const osc = ctx.createOscillator();
+            const amp = ctx.createGain();
+            osc.frequency.setValueAtTime(150, t);
+            osc.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+            amp.gain.setValueAtTime(0.5, t);
+            amp.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+            osc.connect(amp).connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + 0.45);
+        }
+
+        function noiseHit(t, highpass, volume, decay) {
+            const src = ctx.createBufferSource();
+            const filter = ctx.createBiquadFilter();
+            const amp = ctx.createGain();
+            src.buffer = noise;
+            filter.type = 'highpass';
+            filter.frequency.value = highpass;
+            amp.gain.setValueAtTime(volume, t);
+            amp.gain.exponentialRampToValueAtTime(0.001, t + decay);
+            src.connect(filter).connect(amp).connect(ctx.destination);
+            src.start(t);
+            src.stop(t + decay + 0.02);
+        }
+
+        function scheduleStep(i, t) {                          // 배열의 i 번째 칸이 1 이면 그 소리를 예약
+            if (pattern.kick[i]) kick(t);
+            if (pattern.snare[i]) noiseHit(t, 1200, 0.3, 0.18);     // 여러 소리가 겹쳐도 1 을 넘지 않게 작게
+            if (pattern.hat[i]) noiseHit(t, 7000, 0.08, 0.05);
+            if (pattern.open[i]) noiseHit(t, 7000, 0.1, 0.28);
+        }
+
+        document.getElementById('play').addEventListener('click', function () {
+            if (!ctx) {
+                ctx = new AudioContext();
+                noise = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+                const data = noise.getChannelData(0);
+                for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+            }
+            if (timer) return;
+            next = ctx.currentTime + 0.05;
+            step = 0;
+            timer = setInterval(function () {
+                while (next < ctx.currentTime + 0.1) {
+                    scheduleStep(step % 16, next);
+                    next += 60 / 109 / 4;                      // 109 BPM 의 16분음표
+                    step += 1;
+                }
+            }, 25);
+        });
+        document.getElementById('stop').addEventListener('click', function () {
+            clearInterval(timer);
+            timer = null;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>디스코 연주기</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <h1>디스코 연주기</h1>
+        <p id="track">곡을 불러오는 중…</p>
+    </header>
+
+    <main>
+        <section class="panel">
+            <button id="play">▶ 재생</button>
+            <button id="stop">■ 정지</button>
+            <label>곡
+                <select id="song">
+                    <option value="only_you.json">only_you.json</option>
+                    <option value="my_song.json">my_song.json</option>
+                </select>
+            </label>
+            <label>리듬
+                <select id="pattern">
+                    <option value="disco">디스코</option>
+                    <option value="rock">록</option>
+                </select>
+            </label>
+            <label>BPM <input id="bpm" type="range" min="80" max="140" value="109"> <b id="bpm-value">109</b></label>
+        </section>
+
+        <section class="panel">
+            <label><input id="use-kick" type="checkbox" checked> 킥</label>
+            <label><input id="use-snare" type="checkbox" checked> 스네어</label>
+            <label><input id="use-hat" type="checkbox" checked> 하이햇</label>
+            <label><input id="use-bass" type="checkbox" checked> 베이스</label>
+            <label><input id="use-chord" type="checkbox" checked> 코드</label>
+            <label><input id="use-arp" type="checkbox"> 아르페지오</label>
+            <label>코드 파형
+                <select id="wave">
+                    <option value="sawtooth">sawtooth</option>
+                    <option value="square">square</option>
+                    <option value="triangle">triangle</option>
+                    <option value="sine">sine</option>
+                </select>
+            </label>
+            <label>필터 <input id="cutoff" type="range" min="200" max="5000" step="100" value="1800"> <b id="cutoff-value">1800</b> Hz</label>
+        </section>
+
+        <section class="panel">
+            <div id="steps" class="steps"></div>
+            <p id="where">정지</p>
+        </section>
+
+        <section id="sheet" class="sheet"></section>
+        <p id="message"></p>
+    </main>
+
+    <footer>Web Audio API · 곡 데이터는 코드 진행만 담는다(멜로디·음원 없음)</footer>
+
+    <script>
+        // file:// 로 열면 아래 type="module" 스크립트를 브라우저가 막아 아무것도 돌지 않는다.
+        // 그래서 이 안내만은 보통 script 로 둔다(보통 script 는 file:// 에서도 돈다 — ex01~ex08)
+        if (location.protocol === 'file:') {
+            document.getElementById('track').innerText = '곡 없음';
+            document.getElementById('message').innerText =
+                '주소가 file:// 입니다. 연주기는 서버로 엽니다: 이 폴더에서 node server.mjs 를 띄우고 http://localhost:8000/ 을 여세요.';
+        }
+    </script>
+    <script type="module">
+        import main from './index.js';
+        main();
+    </script>
+</body>
+</html>

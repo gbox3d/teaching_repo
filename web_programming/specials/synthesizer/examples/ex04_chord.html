@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex04 chord</title>
+</head>
+<body>
+    <h1>ex04 화음: 여러 음을 한꺼번에</h1>
+    <h2>1. 곡(only_you.json)에 나오는 코드 다섯 개</h2>
+    <button data-chord="Am">Am</button>
+    <button data-chord="Dm">Dm</button>
+    <button data-chord="G">G</button>
+    <button data-chord="C">C</button>
+    <button data-chord="F">F</button>
+    <h2>2. 장(밝다) vs 단(어둡다) — 가운데 음 하나만 반음 다르다</h2>
+    <button data-chord="C">C</button>
+    <button data-chord="Cm">Cm</button>
+    <button data-chord="A">A</button>
+    <button data-chord="Am">Am</button>
+    <h2>3. 같은 세 음을 차례로 — 아르페지오</h2>
+    <button id="arp">Am 차례로</button>
+    <p id="info">누른 코드가 여기에 나온다</p>
+
+    <script>
+        let ctx = null;
+        const NOTE_INDEX = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+        const SHAPES = { '': [0, 4, 7], m: [0, 3, 7] };     // 근음에서 몇 반음 위의 음을 함께 치나
+
+        function midiToFreq(midi) {
+            return 440 * 2 ** ((midi - 69) / 12);          // ex02
+        }
+
+        function chordToMidis(name) {
+            let base = 60 + NOTE_INDEX[name[0]];            // 'Am' 의 첫 글자 'A' → 근음
+            if (base > 66) base -= 12;                      // 너무 높지 않게(G3~F#4)
+            const shape = SHAPES[name.slice(1)];            // 'Am' → 'm',  'C' → ''
+            const midis = [];
+            for (const step of shape) midis.push(base + step);
+            return midis;
+        }
+
+        function note(midi, time, length) {
+            const osc = ctx.createOscillator();
+            const amp = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.value = midiToFreq(midi);
+            amp.gain.setValueAtTime(0, time);
+            amp.gain.linearRampToValueAtTime(0.15, time + 0.02);
+            amp.gain.linearRampToValueAtTime(0, time + length);
+            osc.connect(amp).connect(ctx.destination);
+            osc.start(time);
+            osc.stop(time + length);
+        }
+
+        function playChord(name) {
+            if (!ctx) ctx = new AudioContext();
+            const midis = chordToMidis(name);
+            for (const midi of midis) note(midi, ctx.currentTime, 1.2);   // 같은 시각에 세 개 → 화음
+            document.getElementById('info').innerText =
+                `${name} = MIDI ${midis.join(' · ')} — 근음에서 ${SHAPES[name.slice(1)].join(' · ')} 반음 위`;
+        }
+
+        for (const button of document.querySelectorAll('button[data-chord]')) {
+            button.addEventListener('click', function () { playChord(button.dataset.chord); });
+        }
+
+        document.getElementById('arp').addEventListener('click', function () {
+            if (!ctx) ctx = new AudioContext();
+            const midis = chordToMidis('Am');
+            for (let i = 0; i < 8; i++) {                   // 시각을 0.15초씩 늦춰 하나씩
+                note(midis[i % 3] + 12, ctx.currentTime + i * 0.15, 0.14);
+            }
+            document.getElementById('info').innerText = `Am 차례로 = ${midis.join(' · ')} 를 0.15초 간격으로`;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex02 pitch</title>
+</head>
+<body>
+    <h1>ex02 음 높이: 1초에 몇 번 떨리나</h1>
+    <h2>1. 같은 '라'(A) 세 개</h2>
+    <button data-midi="57">A3</button>
+    <button data-midi="69">A4</button>
+    <button data-midi="81">A5</button>
+    <h2>2. 도(C4)부터 도(C5)까지 — 키보드 A S D F G H J K 로도 친다</h2>
+    <button data-midi="60">C4 도</button>
+    <button data-midi="62">D4 레</button>
+    <button data-midi="64">E4 미</button>
+    <button data-midi="65">F4 파</button>
+    <button data-midi="67">G4 솔</button>
+    <button data-midi="69">A4 라</button>
+    <button data-midi="71">B4 시</button>
+    <button data-midi="72">C5 도</button>
+    <p id="info">누른 음이 여기에 나온다</p>
+
+    <script>
+        let ctx = null;
+
+        // MIDI 번호: 피아노 건반에 붙인 번호. 가운데 도(C4) = 60, 라(A4) = 69
+        function midiToFreq(midi) {
+            return 440 * 2 ** ((midi - 69) / 12);    // A4 = 440Hz. 반음 하나 오를 때마다 2^(1/12)배
+        }
+
+        function play(midi) {
+            if (!ctx) ctx = new AudioContext();
+            const t = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const amp = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.value = midiToFreq(midi);
+            amp.gain.setValueAtTime(0, t);
+            amp.gain.linearRampToValueAtTime(0.3, t + 0.01);    // 짧게 켜고 끈다(ex03)
+            amp.gain.linearRampToValueAtTime(0, t + 0.5);
+            osc.connect(amp).connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + 0.5);
+            document.getElementById('info').innerText = `MIDI ${midi} → ${midiToFreq(midi).toFixed(1)} Hz`;
+        }
+
+        const buttons = document.querySelectorAll('button');
+        for (const button of buttons) {
+            const midi = Number(button.dataset.midi);
+            button.innerText += ` (${midiToFreq(midi).toFixed(1)} Hz)`;     // 단추에 진동수를 적어 둔다
+            button.addEventListener('click', function () { play(midi); });
+        }
+
+        const KEYS = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k'];
+        const WHITE = [60, 62, 64, 65, 67, 69, 71, 72];
+        window.addEventListener('keydown', function (e) {
+            const i = KEYS.indexOf(e.key);
+            if (i >= 0) play(WHITE[i]);
+        });
+    </script>
+</body>
+</html>

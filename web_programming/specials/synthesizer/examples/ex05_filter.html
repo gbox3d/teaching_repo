@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex05 filter</title>
+</head>
+<body>
+    <h1>ex05 필터: 높은 성분을 깎는다</h1>
+    <p>모두 같은 Am 화음(sawtooth)이다. 소리가 지나가는 길에 lowpass 필터를 끼우고 기준(cutoff)만 바꾼다.</p>
+    <button data-cutoff="20000">1. 필터 없음(20000Hz)</button>
+    <button data-cutoff="3000">2. 3000Hz</button>
+    <button data-cutoff="800">3. 800Hz</button>
+    <button data-cutoff="200">4. 200Hz</button>
+    <button id="q">5. 800Hz + Q 15(공명)</button>
+    <button id="sweep">6. 200 → 4000Hz 로 쓸기</button>
+    <p><canvas id="spectrum" width="480" height="120" style="background: #111"></canvas></p>
+    <p>그림: 왼쪽이 낮은 소리, 오른쪽이 높은 소리. 막대가 높을수록 그 높이의 성분이 많다.</p>
+
+    <script>
+        let ctx = null;
+        let analyser = null;
+        const CHORD = [57, 60, 64];     // Am = A3 C4 E4 (ex04)
+
+        function midiToFreq(midi) {
+            return 440 * 2 ** ((midi - 69) / 12);
+        }
+
+        // 화음 → 필터 → 게인 → 스피커. 필터를 돌려준다(쓸기에서 기준을 움직이려고)
+        function playThrough(cutoff, q) {
+            if (!ctx) {
+                ctx = new AudioContext();
+                analyser = ctx.createAnalyser();
+                analyser.connect(ctx.destination);
+                drawSpectrum();
+            }
+            const t = ctx.currentTime;
+            const filter = ctx.createBiquadFilter();
+            const amp = ctx.createGain();
+            filter.type = 'lowpass';          // 기준보다 높은 쪽을 깎고 낮은 쪽은 통과시킨다
+            filter.frequency.value = cutoff;
+            filter.Q.value = q;               // 기준 근처를 얼마나 도드라지게 하나
+            amp.gain.setValueAtTime(0, t);
+            amp.gain.linearRampToValueAtTime(0.12, t + 0.02);
+            amp.gain.setValueAtTime(0.12, t + 1.8);
+            amp.gain.linearRampToValueAtTime(0, t + 2);
+            filter.connect(amp).connect(analyser);
+            for (const midi of CHORD) {
+                const osc = ctx.createOscillator();
+                osc.type = 'sawtooth';        // 높은 성분이 많은 파형이라 깎이는 것이 잘 들린다
+                osc.frequency.value = midiToFreq(midi);
+                osc.connect(filter);
+                osc.start(t);
+                osc.stop(t + 2);
+            }
+            return filter;
+        }
+
+        for (const button of document.querySelectorAll('button[data-cutoff]')) {
+            button.addEventListener('click', function () { playThrough(Number(button.dataset.cutoff), 1); });
+        }
+        document.getElementById('q').addEventListener('click', function () { playThrough(800, 15); });
+        document.getElementById('sweep').addEventListener('click', function () {
+            const filter = playThrough(200, 5);
+            filter.frequency.exponentialRampToValueAtTime(4000, ctx.currentTime + 2);   // 기준을 2초 동안 올린다
+        });
+
+        const data = new Uint8Array(1024);
+        function drawSpectrum() {
+            const canvas = document.getElementById('spectrum');
+            const pen = canvas.getContext('2d');
+            analyser.getByteFrequencyData(data);     // 높이별 성분의 크기(0~255)
+            pen.clearRect(0, 0, canvas.width, canvas.height);
+            pen.fillStyle = '#7CFFB2';
+            for (let x = 0; x < canvas.width; x++) {
+                const h = data[Math.floor(x / canvas.width * 256)] / 255 * canvas.height;   // 낮은 쪽 256칸(약 0~6kHz)만 그린다
+                pen.fillRect(x, canvas.height - h, 1, h);
+            }
+            requestAnimationFrame(drawSpectrum);
+        }
+    </script>
+</body>
+</html>

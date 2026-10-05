@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex09 fetch song</title>
+</head>
+<body>
+    <h1>ex09 곡은 데이터다: JSON 을 불러와 마디로 펼치기</h1>
+    <p>주소가 <code>file:///…</code> 일 때와 <code>http://localhost:8000/…</code> 일 때를 비교한다(node server.mjs).</p>
+    <button id="load">ex09_song.json 불러오기</button>
+    <p id="message"></p>
+    <table border="1">
+        <tr><th>식</th><th>값</th></tr>
+        <tr><td>1. song.track_info.title</td><td id="v1"></td></tr>
+        <tr><td>2. song.track_info.bpm</td><td id="v2"></td></tr>
+        <tr><td>3. song.sections.length</td><td id="v3"></td></tr>
+        <tr><td>4. song.sections[0].section</td><td id="v4"></td></tr>
+        <tr><td>5. song.sections[0].progression[0].chord</td><td id="v5"></td></tr>
+        <tr><td>6. song.sections[1].progression.length</td><td id="v6"></td></tr>
+    </table>
+    <p>마디를 한 줄로 펼치면: <b id="bars"></b></p>
+
+    <script>
+        document.getElementById('load').addEventListener('click', async function () {
+            const message = document.getElementById('message');
+            try {
+                const response = await fetch('ex09_song.json');      // 같은 폴더의 파일을 '요청'한다
+                const song = await response.json();                  // 글자(JSON) → 객체
+                document.getElementById('v1').innerText = song.track_info.title;
+                document.getElementById('v2').innerText = song.track_info.bpm;
+                document.getElementById('v3').innerText = song.sections.length;
+                document.getElementById('v4').innerText = song.sections[0].section;
+                document.getElementById('v5').innerText = song.sections[0].progression[0].chord;
+                document.getElementById('v6').innerText = song.sections[1].progression.length;
+
+                const bars = [];                                     // 구간마다, 마디마다 → 한 줄
+                for (const section of song.sections) {
+                    for (const bar of section.progression) bars.push(`${section.section}:${bar.chord}`);
+                }
+                document.getElementById('bars').innerText = bars.join('  ');
+                message.innerText = `불러왔다 — 주소: ${location.protocol}//…`;
+            } catch (error) {
+                message.innerText = `불러오지 못했다: ${error.message} — 주소가 file:// 이면 브라우저가 막는다. node server.mjs 로 띄워 http://localhost:8000/ 으로 연다`;
+            }
+        });
+    </script>
+</body>
+</html>

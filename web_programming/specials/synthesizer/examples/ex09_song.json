@@ -1,0 +1,29 @@
+{
+  "track_info": {
+    "title": "연습곡",
+    "artist": "student01",
+    "key": "Am",
+    "time_signature": "4/4",
+    "bpm": 109
+  },
+  "sections": [
+    {
+      "section": "A",
+      "bars_count": 4,
+      "progression": [
+        { "bar": 1, "chord": "Am" },
+        { "bar": 2, "chord": "F" },
+        { "bar": 3, "chord": "C" },
+        { "bar": 4, "chord": "G" }
+      ]
+    },
+    {
+      "section": "B",
+      "bars_count": 2,
+      "progression": [
+        { "bar": 1, "chord": "Dm" },
+        { "bar": 2, "chord": "Am" }
+      ]
+    }
+  ]
+}

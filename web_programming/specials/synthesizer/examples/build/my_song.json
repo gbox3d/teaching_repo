@@ -1,0 +1,31 @@
+{
+  "track_info": {
+    "title": "내 노래",
+    "artist": "student01",
+    "key": "C",
+    "time_signature": "4/4",
+    "bpm": 118
+  },
+  "sections": [
+    {
+      "section": "A",
+      "bars_count": 4,
+      "progression": [
+        { "bar": 1, "chord": "C" },
+        { "bar": 2, "chord": "G" },
+        { "bar": 3, "chord": "Am" },
+        { "bar": 4, "chord": "F" }
+      ]
+    },
+    {
+      "section": "B",
+      "bars_count": 4,
+      "progression": [
+        { "bar": 1, "chord": "Dm7" },
+        { "bar": 2, "chord": "G7" },
+        { "bar": 3, "chord": "Cmaj7" },
+        { "bar": 4, "chord": "Am7" }
+      ]
+    }
+  ]
+}

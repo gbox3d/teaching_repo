@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex06 drums</title>
+</head>
+<body>
+    <h1>ex06 북소리도 만든다: 높이가 떨어지는 사인파와 잡음</h1>
+    <h2>킥(쿵)</h2>
+    <button id="kick1">1. 사인파 50Hz 그대로</button>
+    <button id="kick2">2. 150Hz → 45Hz 로 떨어뜨리기</button>
+    <h2>스네어(딱)</h2>
+    <button id="snare1">3. 잡음만</button>
+    <button id="snare2">4. 잡음 + 짧은 톤</button>
+    <h2>하이햇(칙)</h2>
+    <button id="hat1">5. 닫힘 — 0.05초</button>
+    <button id="hat2">6. 열림 — 0.3초</button>
+
+    <script>
+        let ctx = null;
+        let noise = null;
+
+        function start() {
+            if (!ctx) {
+                ctx = new AudioContext();
+                // 잡음 1초: 아무 규칙 없이 -1~1 사이 값을 늘어놓는다. 모든 높이가 섞인 '쉬익'
+                noise = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+                const data = noise.getChannelData(0);
+                for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+            }
+            return ctx.currentTime;
+        }
+
+        function kick(fromFreq, toFreq) {
+            const t = start();
+            const osc = ctx.createOscillator();
+            const amp = ctx.createGain();
+            osc.frequency.setValueAtTime(fromFreq, t);
+            osc.frequency.exponentialRampToValueAtTime(toFreq, t + 0.12);   // 높이가 빠르게 떨어지면 '퍽'
+            amp.gain.setValueAtTime(0.9, t);
+            amp.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+            osc.connect(amp).connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + 0.45);
+        }
+
+        // 잡음 → highpass 필터(이 높이보다 낮은 쪽을 깎는다) → 짧은 엔벨로프
+        function noiseHit(highpass, volume, decay) {
+            const t = start();
+            const src = ctx.createBufferSource();
+            const filter = ctx.createBiquadFilter();
+            const amp = ctx.createGain();
+            src.buffer = noise;
+            filter.type = 'highpass';
+            filter.frequency.value = highpass;
+            amp.gain.setValueAtTime(volume, t);
+            amp.gain.exponentialRampToValueAtTime(0.001, t + decay);
+            src.connect(filter).connect(amp).connect(ctx.destination);
+            src.start(t);
+            src.stop(t + decay + 0.02);
+        }
+
+        function body() {                                  // 스네어의 몸통: 190Hz 를 아주 짧게
+            const t = start();
+            const osc = ctx.createOscillator();
+            const amp = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.value = 190;
+            amp.gain.setValueAtTime(0.25, t);
+            amp.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+            osc.connect(amp).connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + 0.1);
+        }
+
+        document.getElementById('kick1').addEventListener('click', function () { kick(50, 50); });
+        document.getElementById('kick2').addEventListener('click', function () { kick(150, 45); });
+        document.getElementById('snare1').addEventListener('click', function () { noiseHit(1200, 0.45, 0.18); });
+        document.getElementById('snare2').addEventListener('click', function () { noiseHit(1200, 0.45, 0.18); body(); });
+        document.getElementById('hat1').addEventListener('click', function () { noiseHit(7000, 0.12, 0.05); });
+        document.getElementById('hat2').addEventListener('click', function () { noiseHit(7000, 0.16, 0.3); });
+    </script>
+</body>
+</html>

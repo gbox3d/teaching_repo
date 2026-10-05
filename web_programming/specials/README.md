@@ -18,6 +18,7 @@
 |---|---:|---|---|
 | Supabase로 만드는 서버 방명록 | 110분 | 11주차(객체·`localStorage`)까지 | [supabase_guestbook](supabase_guestbook/) |
 | Kakao 항공 지도와 Canvas 이미지 편집 | 110분 | 별도 안내 | [kakao_aerial_map](kakao_aerial_map/) |
+| 웹 신시사이저 만들어 보기 — 디스코 연주기 | 110분 | 12주차(fetch)까지 권장 | [synthesizer](synthesizer/) |
 
 ## 폴더 구성
 

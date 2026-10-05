@@ -34,6 +34,8 @@ dist/
 node_modules/
 .gradle/
 build/
+# 웹 교재 예제의 만들기 폴더(web_programming/…/examples/…/build/)는 교재 파일이다. Gradle 산출물과 이름만 같다
+!web_programming/**/examples/**/build/
 
 # ------------------------------------------------------------
 # 4. OS · 편집기
