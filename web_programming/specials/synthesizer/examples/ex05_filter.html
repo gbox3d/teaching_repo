@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>ex05 필터: 높은 성분을 깎는다</h1>
-    <p>모두 같은 Am 화음(sawtooth)이다. 소리가 지나가는 길에 lowpass 필터를 끼우고 기준(cutoff)만 바꾼다.</p>
+    <p>모두 같은 sawtooth 220Hz 다. 소리가 지나가는 길에 lowpass 필터를 끼우고 기준(cutoff)만 바꾼다.</p>
     <button data-cutoff="20000">1. 필터 없음(20000Hz)</button>
     <button data-cutoff="3000">2. 3000Hz</button>
     <button data-cutoff="800">3. 800Hz</button>
@@ -20,13 +20,8 @@
     <script>
         let ctx = null;
         let analyser = null;
-        const CHORD = [57, 60, 64];     // Am = A3 C4 E4 (ex04)
 
-        function midiToFreq(midi) {
-            return 440 * 2 ** ((midi - 69) / 12);
-        }
-
-        // 화음 → 필터 → 게인 → 스피커. 필터를 돌려준다(쓸기에서 기준을 움직이려고)
+        // 오실레이터 → 필터 → 게인 → 스피커. 필터를 돌려준다(쓸기에서 기준을 움직이려고)
         function playThrough(cutoff, q) {
             if (!ctx) {
                 ctx = new AudioContext();
@@ -34,25 +29,18 @@
                 analyser.connect(ctx.destination);
                 drawSpectrum();
             }
-            const t = ctx.currentTime;
+            const osc = ctx.createOscillator();
             const filter = ctx.createBiquadFilter();
             const amp = ctx.createGain();
+            osc.type = 'sawtooth';            // ex01: 높은 성분이 많은 파형이라 깎이는 것이 잘 들린다
+            osc.frequency.value = 220;
             filter.type = 'lowpass';          // 기준보다 높은 쪽을 깎고 낮은 쪽은 통과시킨다
             filter.frequency.value = cutoff;
             filter.Q.value = q;               // 기준 근처를 얼마나 도드라지게 하나
-            amp.gain.setValueAtTime(0, t);
-            amp.gain.linearRampToValueAtTime(0.12, t + 0.02);
-            amp.gain.setValueAtTime(0.12, t + 1.8);
-            amp.gain.linearRampToValueAtTime(0, t + 2);
-            filter.connect(amp).connect(analyser);
-            for (const midi of CHORD) {
-                const osc = ctx.createOscillator();
-                osc.type = 'sawtooth';        // 높은 성분이 많은 파형이라 깎이는 것이 잘 들린다
-                osc.frequency.value = midiToFreq(midi);
-                osc.connect(filter);
-                osc.start(t);
-                osc.stop(t + 2);
-            }
+            amp.gain.value = 0.2;
+            osc.connect(filter).connect(amp).connect(analyser);
+            osc.start();
+            osc.stop(ctx.currentTime + 2);
             return filter;
         }
 
@@ -62,7 +50,7 @@
         document.getElementById('q').addEventListener('click', function () { playThrough(800, 15); });
         document.getElementById('sweep').addEventListener('click', function () {
             const filter = playThrough(200, 5);
-            filter.frequency.exponentialRampToValueAtTime(4000, ctx.currentTime + 2);   // 기준을 2초 동안 올린다
+            filter.frequency.exponentialRampToValueAtTime(4000, ctx.currentTime + 2);   // 기준을 2초 동안 올린다(값을 시간에 따라 바꾸기는 ex03)
         });
 
         const data = new Uint8Array(1024);

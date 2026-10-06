@@ -38,17 +38,16 @@
 [examples/ex03_envelope.html](examples/ex03_envelope.html) 을 덱에서 듣는다. 숫자를 바꿀 때는 `ex/ex03_envelope.html` 로 저장해 `http://localhost:8000/ex/ex03_envelope.html` 로 연다.
 
 - 바꿔 보기: 1번과 2번을 번갈아 누른다. 1번의 시작과 끝에서 들리는 '딱' 은 2번에서 왜 사라졌나? 아래 그림의 시작과 끝을 비교한다.
-- 바꿔 보기: 2번과 5번은 attack · release 숫자가 같다. 무엇이 다르게 들리나? 52행과 55행에서 다른 글자는 무엇인가?
-- 바꿔 보기: 53행 3번의 `play(0.3, 0.6, 0.8, 'linear')` 에서 첫 숫자(attack)를 `0.005` 로 바꾸면 '깔리는 소리' 가 어떻게 되나? 마지막 숫자(release)를 `2` 로 바꾸면 그림은 어떻게 되나?
-- 흔한 실수: exponential 의 목표값에 `0` 을 쓴다(40행의 `0.0001` 을 `0` 으로). 5번을 누르면 Console 에 `Uncaught RangeError: Failed to execute 'exponentialRampToValueAtTime' on 'AudioParam': The float target value provided (0) should not be in the range (-1.40130e-45, 1.40130e-45).` 가 뜨고 소리가 나지 않는다. exponential 은 0 에 닿을 수 없다. `0.0001` 처럼 아주 작은 수를 쓴다.
+- 바꿔 보기: 2번과 5번은 attack · release 숫자가 같다. 무엇이 다르게 들리나? 51행과 54행에서 다른 글자는 무엇인가?
+- 바꿔 보기: 52행 3번의 `play(0.3, 0.6, 0.8, 'linear')` 에서 첫 숫자(attack)를 `0.005` 로 바꾸면 '깔리는 소리' 가 어떻게 되나? 마지막 숫자(release)를 `2` 로 바꾸면 그림은 어떻게 되나?
+- 흔한 실수: exponential 의 목표값에 `0` 을 쓴다(39행의 `0.0001` 을 `0` 으로). 5번을 누르면 Console 에 `Uncaught RangeError: Failed to execute 'exponentialRampToValueAtTime' on 'AudioParam': The float target value provided (0) should not be in the range (-1.40130e-45, 1.40130e-45).` 가 뜨고 소리가 나지 않는다. exponential 은 0 에 닿을 수 없다. `0.0001` 처럼 아주 작은 수를 쓴다.
 
 ### 3. ex04 화음 (`SHAPES` · 같은 시각)
 
 [examples/ex04_chord.html](examples/ex04_chord.html) 을 `ex/ex04_chord.html` 로 저장한다.
 
 - 바꿔 보기: 2번의 C 와 Cm 을 번갈아 누른다. 화면의 MIDI 세 숫자 중 어느 것이 몇만큼 다른가? A 와 Am 도 같은 자리가 다른가?
-- 바꿔 보기: 먼저 28행을 `const SHAPES = { '': [0, 4, 7], m: [0, 3, 7], 7: [0, 4, 7, 10] };` 으로 바꾼다. 그다음 15행 F 단추 아래에 `<button data-chord="G7">G7</button>` 한 줄을 더한다. G7 을 누르면 화면에 무엇이 적히나? G 와 어떻게 다르게 들리나?
-- 바꿔 보기: 72행 아르페지오의 `0.15` 를 `0.1` 로 바꾼다(74행 글자도 같이). 무엇이 빨라지나? 71행 `i < 8` 을 `i < 16` 으로 바꾸면?
+- 바꿔 보기: 먼저 26행을 `const SHAPES = { '': [0, 4, 7], m: [0, 3, 7], 7: [0, 4, 7, 10] };` 으로 바꾼다. 그다음 15행 F 단추 아래에 `<button data-chord="G7">G7</button>` 한 줄을 더한다. G7 을 누르면 화면에 무엇이 적히나? G 와 어떻게 다르게 들리나?
 - 흔한 실수: `SHAPES` 에 `7` 을 더하지 않고 G7 단추만 만든다. G7 을 누르면 Console 에 `Uncaught TypeError: shape is not iterable` 가 뜨고 소리가 나지 않는다. 없는 모양을 꺼내면 `undefined` 이기 때문이다. 연주기의 `chordToMidis` 는 같은 경우를 화면 문구로 알려 준다(6번).
 
 ### 4. ex08 리듬은 배열이다 (`PRESETS` · 16칸)
@@ -65,8 +64,8 @@
 덱에서 듣고, 바꿔 보고 싶은 파일만 `ex/` 에 저장한다. 파일마다 바꿔 볼 값은 [예제 설명](examples/README.md#비교-파일) 표에 있다.
 
 - ex01: 33행의 `220` 을 `440` 으로 바꾼다. 그림의 물결과 소리는 어떻게 달라지나? 네 단추의 높이는 서로 같은가?
-- ex02: 30행의 `440` 을 `432` 로 바꾼다. 단추 숫자가 모두 바뀌는 이유는 무엇인가? 키보드 A S D F G H J K 로 '도레미파솔라시도' 를 친다. 한글 입력 상태면 왜 소리가 안 나나(56행)?
-- ex05: 음량을 줄이고 5번(Q 15)을 누른다. 62행의 `15` 를 `5` 로 바꾸면? 65행의 `+ 2` 를 `+ 0.5` 로 바꾸면 쓸기가 어떻게 되나?
+- ex02: 30행의 `440` 을 `432` 로 바꾼다. 단추 숫자가 모두 바뀌는 이유는 무엇인가? 13행 A5 단추의 `data-midi` 를 `93` 으로 바꾸면 단추에 무엇이 적히고 어떻게 들리나?
+- ex05: 음량을 줄이고 5번(Q 15)을 누른다. 50행의 `15` 를 `5` 로 바꾸면? 53행의 `+ 2` 를 `+ 0.5` 로 바꾸면 쓸기가 어떻게 되나?
 - ex06: 78행 `kick(150, 45)` 의 `45` 를 `100` 으로 바꾸면 '퍽' 이 어떻게 되나? 40행의 `0.12` 를 `0.4` 로 바꾸면?
 - ex07: "바쁘게" 를 켜고 1번 · 2번을 번갈아 누른다. 간격의 가장 짧은 값과 가장 긴 값은? BPM 칸을 `130` 으로 바꾸면 한 칸은 몇 초인가?
 - ex09: `ex09_fetch_song.html` 과 `ex09_song.json` 을 둘 다 `ex/` 에 둔다. `http://localhost:8000/ex/ex09_fetch_song.html` 과 두 번 눌러 연 `file:///…` 을 비교한다. JSON 의 B 구간에 `{ "bar": 3, "chord": "E7" }` 를 더하면 표 6번과 펼친 마디는 어떻게 되나? 앞 마디 `}` 뒤에 무엇을 붙여야 하나?
@@ -184,7 +183,16 @@ git push -u origin main
 
 - 아르페지오: 체크 상자 `아르페지오` 를 켜고 듣는다. `PATTERNS.disco.arp`(14행)의 1 을 몇 개 0 으로 바꾸면 내 노래에 어울리나?
 - 리듬 하나 더: `PATTERNS` 에 `funk: { … }` 를 더하고, `index.html` 의 리듬 선택(26~29행)에 `<option value="funk">펑크</option>` 한 줄을 더한다. 줄 일곱 개(kick · snare · hat · open · bass · chord · arp)를 모두 둔다. `rock` 을 본보기로 하고 kick · snare · hat 부터 바꾼다.
-- 키보드로 연주: 연주기 창과 ex02 창을 나란히 띄운다. 연주기를 재생해 둔 채 ex02 창을 누르고 A S D F G H J K 로 친다. 멜로디는 **직접 만든 것만** 친다.
+- 키보드로 연주: `ex/ex02_pitch.html` 의 `</script>` 바로 위에 아래 여섯 줄을 더한다. 키를 누를 때(`keydown`) 그 키의 자리를 `KEYS` 에서 찾아 같은 자리의 MIDI 번호를 친다. 연주기 창과 ex02 창을 나란히 띄우고, 연주기를 재생해 둔 채 ex02 창을 누르고 A S D F G H J K 로 친다. 한글 입력 상태면 소리가 나지 않는다(`e.key` 가 영문 소문자로 오지 않는다). 멜로디는 **직접 만든 것만** 친다.
+
+```js
+        const KEYS = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k'];
+        const WHITE = [60, 62, 64, 65, 67, 69, 71, 72];       // 도레미파솔라시도
+        window.addEventListener('keydown', function (e) {
+            const i = KEYS.indexOf(e.key);
+            if (i >= 0) play(WHITE[i]);
+        });
+```
 - 곡 하나 더: `song2.json` 을 만들고 `index.html` 의 곡 선택(20~23행)에 `<option value="song2.json">song2.json</option>` 을 더한다. 코드 진행만 담는다.
 
 추가 과제는 선택 사항이며 채점하지 않는다.

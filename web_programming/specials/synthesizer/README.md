@@ -87,10 +87,10 @@
 | 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
 | [ex01_wave.html](examples/ex01_wave.html) | 1. sine / 2. square / 3. sawtooth / 4. triangle — 같은 220Hz · 1초 · 크기 0.2. 파형 그림 | 오실레이터는 같은 모양의 떨림을 계속 만든다. **모양(type)이 음색**을 정한다. 브라우저는 누르기 전에는 소리를 내 주지 않아서 `AudioContext` 는 클릭할 때 만든다 | `frequency.value` 220 → 440, `gain.value` 0.2 → 0.05 |
-| [ex02_pitch.html](examples/ex02_pitch.html) | 1. A3 · A4 · A5(옥타브) / 2. C4~C5 여덟 음(키보드 A S D F G H J K). 단추에 진동수가 적힌다 | 음 높이 = 1초에 떨리는 횟수. **한 옥타브 = 2배, 반음 = 2^(1/12)배**. MIDI 번호(가운데 도 C4 = 60, 라 A4 = 69 = 440Hz)로 계산한다 | `midiToFreq` 의 440 을 432 로, 버튼의 `data-midi` |
-| [ex03_envelope.html](examples/ex03_envelope.html) | sawtooth 220Hz 로 1. 켰다 끄기만 / 2. 짧게 / 3. 길게 / 4. 천천히 커지기 / 5. 2번을 exponential 로. 크기 변화 그림 | 소리 크기가 시간에 따라 변하는 모양(엔벨로프)이 성격을 정한다. 0 에서 시작해 0 으로 끝나지 않으면 '딱' 소리가 난다. exponential 은 귀에 고르게 줄어든다 | attack · release 숫자, 2번과 5번 비교 |
-| [ex04_chord.html](examples/ex04_chord.html) | 1. 곡의 코드 Am · Dm · G · C · F / 2. C vs Cm, A vs Am / 3. Am 을 차례로(아르페지오) | 화음 = 오실레이터 여러 개를 같은 시각에. 근음에서 몇 반음 위를 함께 치나: 장 [0, 4, 7], 단 [0, 3, 7] — **가운데 음 하나가 반음 차이**. 시각을 조금씩 늦추면 아르페지오 | `SHAPES` 에 `7: [0, 4, 7, 10]` 더하기, 아르페지오 간격 0.15 |
-| [ex05_filter.html](examples/ex05_filter.html) | Am sawtooth 화음을 lowpass 로 1. 없음(20000Hz) / 2. 3000 / 3. 800 / 4. 200 / 5. 800 + Q 15 / 6. 200 → 4000 쓸기. 주파수 그림 | sawtooth 는 높은 성분이 많다. lowpass 는 기준(cutoff)보다 높은 쪽을 깎아 **어둡게** 한다. 기준을 움직이면 쓸기 소리가 난다 | cutoff, Q, 쓸기 시간 |
+| [ex02_pitch.html](examples/ex02_pitch.html) | 1. A3 · A4 · A5(옥타브) / 2. C4~C5 여덟 음(도레미파솔라시도). 단추에 진동수가 적힌다 | 음 높이 = 1초에 떨리는 횟수. **한 옥타브 = 2배, 반음 = 2^(1/12)배**. MIDI 번호(가운데 도 C4 = 60, 라 A4 = 69 = 440Hz)로 계산한다 | `midiToFreq` 의 440 을 432 로, 버튼의 `data-midi` |
+| [ex03_envelope.html](examples/ex03_envelope.html) | 220Hz 사인파로 1. 켰다 끄기만 / 2. 짧게 / 3. 길게 / 4. 천천히 커지기 / 5. 2번을 exponential 로. 크기 변화 그림 | 소리 크기가 시간에 따라 변하는 모양(엔벨로프)이 성격을 정한다. 0 에서 시작해 0 으로 끝나지 않으면 '딱' 소리가 난다. exponential 은 귀에 고르게 줄어든다 | attack · release 숫자, 2번과 5번 비교 |
+| [ex04_chord.html](examples/ex04_chord.html) | 1. 곡의 코드 Am · Dm · G · C · F / 2. C vs Cm, A vs Am | 화음 = 오실레이터 여러 개를 같은 시각에. 근음에서 몇 반음 위를 함께 치나: 장 [0, 4, 7], 단 [0, 3, 7] — **가운데 음 하나가 반음 차이** | `SHAPES` 에 `7: [0, 4, 7, 10]` 더하기 |
+| [ex05_filter.html](examples/ex05_filter.html) | sawtooth 220Hz 를 lowpass 로 1. 없음(20000Hz) / 2. 3000 / 3. 800 / 4. 200 / 5. 800 + Q 15 / 6. 200 → 4000 쓸기. 주파수 그림 | sawtooth 는 높은 성분이 많다. lowpass 는 기준(cutoff)보다 높은 쪽을 깎아 **어둡게** 한다. 기준을 움직이면 쓸기 소리가 난다 | cutoff, Q, 쓸기 시간 |
 | [ex06_drums.html](examples/ex06_drums.html) | 킥 1. 사인파 50Hz 그대로 / 2. 150 → 45Hz, 스네어 3. 잡음만 / 4. 잡음 + 짧은 톤, 하이햇 5. 닫힘 0.05초 / 6. 열림 0.3초 | 북소리도 오실레이터 · 잡음 + 아주 짧은 엔벨로프다. **높이가 빠르게 떨어지는 사인파 = 킥**, **잡음의 높은 쪽 = 하이햇**, 길이가 닫힘 · 열림을 가른다 | 150 · 45 · 0.12, highpass 7000, 길이(decay) |
 | [ex07_timing.html](examples/ex07_timing.html) | 1. `setTimeout` 으로 16번 치기 / 2. 오디오 시계에 16번 예약하기, "브라우저를 바쁘게" 체크 | 한 박 = 60/BPM 초, 16분음표 = 그 4분의 1(109 BPM → 0.550 / 0.138초). **JavaScript 타이머는 브라우저가 바쁘면 늦는다. 오디오 시계에 시각을 미리 적어 두면 정확하다** | BPM, 바쁘게 체크 |
 | [ex08_pattern.html](examples/ex08_pattern.html) | 1. 디스코 / 2. 록 / 3. 비우기 — 줄 4개(kick · snare · hat · open) × 16칸 체크 상자, 아래에 배열이 바로 보인다. ▶ 재생(109 BPM) | **리듬은 배열이다**(16칸 중 1 인 칸에서 친다). 디스코 = 박마다 킥(four on the floor) + 2 · 4박 스네어 + 엇박 열린 하이햇 | 칸 누르기, 프리셋 바꾸기 |
@@ -127,7 +127,7 @@
 ## 특강이 끝나면
 
 - 연주기에서 정규 수업의 문법이 쓰인 곳: `fetch` · JSON(12주차)은 `loadSong`, 배열(10주차)은 `PATTERNS` 와 `bars`, 객체(11주차)는 `song.track_info` 와 마디 하나 `{ section, chord, midis }`, `createElement` · `append`(10주차)는 악보의 구간 줄과 마디 칸이다.
-- 더 해 볼 것: 아르페지오 층을 켜고 내 노래에 맞게 고치기, 리듬 하나 더(`PATTERNS.funk`), 멜로디 층을 직접 만들기(내가 지은 멜로디만), ex02 키보드로 연주기 위에서 연주하기. 방법은 [실습지의 먼저 끝났다면](lab.md#먼저-끝났다면)에 있다.
+- 더 해 볼 것: 아르페지오 층을 켜고 내 노래에 맞게 고치기, 리듬 하나 더(`PATTERNS.funk`), 멜로디 층을 직접 만들기(내가 지은 멜로디만), ex02 에 키보드 입력을 더해 연주기 위에서 연주하기. 방법은 [실습지의 먼저 끝났다면](lab.md#먼저-끝났다면)에 있다.
 - `web-synth` 저장소는 남겨 두어도 된다. 정규 주차 과제와는 따로다.
 
 ## 공식 참고 자료

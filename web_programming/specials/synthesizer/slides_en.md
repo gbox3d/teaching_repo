@@ -72,7 +72,7 @@ amp.gain.value = 0.2;
 ## Part 1 · 7–11 min — ex02 Pitch: Octave ×2, Semitone ×2^(1/12)
 
 [examples/ex02_pitch.html](examples/ex02_pitch.html)
-Siblings: 1. A3 · A4 · A5 (three A's) / 2. eight notes C4–C5 (keys A S D F G H J K)
+Siblings: 1. A3 · A4 · A5 (three A's) / 2. eight notes C4–C5 (do re mi fa sol la ti do)
 
 ```js
 // MIDI number: a number for each piano key. Middle C (C4) = 60, A4 = 69
@@ -81,7 +81,7 @@ function midiToFreq(midi) {
 }
 ```
 
-- Buttons show frequencies: A3 `220.0` · A4 `440.0` · A5 `880.0`. Key H → `MIDI 69 → 440.0 Hz`.
+- Buttons show frequencies: A3 `220.0` · A4 `440.0` · A5 `880.0`. Pressing one shows `MIDI 69 → 440.0 Hz` below.
 - Try changing: 440 on line 30 → 432 (all numbers change). A button's `data-midi`.
 
 **Pitch = vibrations per second. Octave ×2, semitone ×2^(1/12). Computed from MIDI numbers.**
@@ -101,7 +101,7 @@ amp.gain.exponentialRampToValueAtTime(0.0001, t + attack + hold + release);
 ```
 
 - No. 1 clicks at start and end. No. 2 plucks, No. 3 pads. The picture is the loudness change.
-- Try changing: alternate No. 2 and No. 5 (same numbers). attack · release on lines 51–55.
+- Try changing: alternate No. 2 and No. 5 (same numbers). attack · release on lines 50–54.
 
 **The envelope (loudness over time) sets the sound's character. Start at 0 and end at 0, or it clicks.**
 
@@ -110,16 +110,16 @@ amp.gain.exponentialRampToValueAtTime(0.0001, t + attack + hold + release);
 ## Part 1 · 16–21 min — ex04 Chords: Semitones Above the Root
 
 [examples/ex04_chord.html](examples/ex04_chord.html)
-Siblings: 1. song chords Am · Dm · G · C · F / 2. C vs Cm, A vs Am / 3. `Am 차례로` (Am in turn)
+Siblings: 1. song chords Am · Dm · G · C · F / 2. C vs Cm, A vs Am
 
 ```js
 const SHAPES = { '': [0, 4, 7], m: [0, 3, 7] };   // semitones above the root
-for (const midi of midis) note(midi, ctx.currentTime, 1.2);   // same time
-note(midis[i % 3] + 12, ctx.currentTime + i * 0.15, 0.14);  // 0.15 s later each
+let base = 60 + NOTE_INDEX[name[0]];              // first letter 'A' of 'Am' → root
+for (const midi of midis) note(midi);             // three at the same time → chord
 ```
 
 - Am shows `MIDI 57 · 60 · 64`. C is 60 · 64 · 67, Cm is 60 · 63 · 67 — only the middle differs.
-- Try changing: add `7: [0, 4, 7, 10]` to `SHAPES` and play G7. Arpeggio gap 0.15 → 0.1.
+- Try changing: alternate C and Cm. Add `7: [0, 4, 7, 10]` to `SHAPES` and play G7.
 
 **Chord = several oscillators at once. Major [0, 4, 7], minor [0, 3, 7] — the middle differs by one.**
 
@@ -128,7 +128,7 @@ note(midis[i % 3] + 12, ctx.currentTime + i * 0.15, 0.14);  // 0.15 s later each
 ## Part 1 · 21–25 min — ex05 Filter: Cut the Highs, Get Darker
 
 [examples/ex05_filter.html](examples/ex05_filter.html)
-Siblings: Am chord (sawtooth) + lowpass 1. none / 2. 3000 / 3. 800 / 4. 200 / 5. Q 15 / 6. sweep
+Siblings: sawtooth 220Hz + lowpass 1. none / 2. 3000 / 3. 800 / 4. 200 / 5. Q 15 / 6. sweep
 
 ```js
 filter.type = 'lowpass';   // cuts above the cutoff, lets the low side through
@@ -240,7 +240,7 @@ document.getElementById('v1').innerText = song.track_info.title;
 ```text
 new AudioContext() ← ex01    playTone's envelope ← ex03 · lowpass ← ex05
 midiToFreq ← ex02            playKick · playSnare · playHat ← ex06
-chordToMidis ← ex04          chord layer ← ex04 1·2 · arpeggio layer ← ex04 3
+chordToMidis ← ex04          chord layer ← ex04 · arpeggio layer ← ex04 + ex08 step index
 PATTERNS ← ex08              secondsPerStep · tick ← ex07 · loadSong ← ex09
 ```
 
@@ -279,5 +279,5 @@ Where regular-course syntax is used inside the player.
 - Objects (Week 11) — `song.track_info.title`, one bar `{ section, chord, midis }`.
 - `createElement` · `append` (Week 10) — the section rows and bar cells of the sheet.
 
-More to try: build a melody layer yourself (only melodies you wrote), play on top with the ex02 keyboard.
+More to try: build a melody layer yourself (only melodies you wrote), add keyboard input to ex02 and play on top.
 Recording to an audio file is outside this special lecture.

@@ -18,8 +18,6 @@
     <button data-chord="Cm">Cm</button>
     <button data-chord="A">A</button>
     <button data-chord="Am">Am</button>
-    <h2>3. 같은 세 음을 차례로 — 아르페지오</h2>
-    <button id="arp">Am 차례로</button>
     <p id="info">누른 코드가 여기에 나온다</p>
 
     <script>
@@ -40,23 +38,20 @@
             return midis;
         }
 
-        function note(midi, time, length) {
+        function note(midi) {
             const osc = ctx.createOscillator();
             const amp = ctx.createGain();
-            osc.type = 'triangle';
             osc.frequency.value = midiToFreq(midi);
-            amp.gain.setValueAtTime(0, time);
-            amp.gain.linearRampToValueAtTime(0.15, time + 0.02);
-            amp.gain.linearRampToValueAtTime(0, time + length);
+            amp.gain.value = 0.15;                          // 세 개가 겹쳐도 1 을 넘지 않게 작게
             osc.connect(amp).connect(ctx.destination);
-            osc.start(time);
-            osc.stop(time + length);
+            osc.start();
+            osc.stop(ctx.currentTime + 1.2);
         }
 
         function playChord(name) {
             if (!ctx) ctx = new AudioContext();
             const midis = chordToMidis(name);
-            for (const midi of midis) note(midi, ctx.currentTime, 1.2);   // 같은 시각에 세 개 → 화음
+            for (const midi of midis) note(midi);           // 같은 시각에 세 개 → 화음
             document.getElementById('info').innerText =
                 `${name} = MIDI ${midis.join(' · ')} — 근음에서 ${SHAPES[name.slice(1)].join(' · ')} 반음 위`;
         }
@@ -64,15 +59,6 @@
         for (const button of document.querySelectorAll('button[data-chord]')) {
             button.addEventListener('click', function () { playChord(button.dataset.chord); });
         }
-
-        document.getElementById('arp').addEventListener('click', function () {
-            if (!ctx) ctx = new AudioContext();
-            const midis = chordToMidis('Am');
-            for (let i = 0; i < 8; i++) {                   // 시각을 0.15초씩 늦춰 하나씩
-                note(midis[i % 3] + 12, ctx.currentTime + i * 0.15, 0.14);
-            }
-            document.getElementById('info').innerText = `Am 차례로 = ${midis.join(' · ')} 를 0.15초 간격으로`;
-        });
     </script>
 </body>
 </html>

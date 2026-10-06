@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>ex03 엔벨로프: 소리 크기가 시간에 따라 어떻게 변하나</h1>
-    <p>같은 sawtooth 220Hz 다. 크기를 바꾸는 방법만 다르다.</p>
+    <p>같은 220Hz 사인파(파형을 정하지 않으면 sine)다. 크기를 바꾸는 방법만 다르다.</p>
     <table border="1">
         <tr><th>형제</th><th>attack(커지는 시간)</th><th>release(사라지는 시간)</th><th></th></tr>
         <tr><td>1. 켰다 끄기만</td><td>0</td><td>0</td><td><button id="b1">재생</button></td></tr>
@@ -27,7 +27,6 @@
             const t = ctx.currentTime;
             const osc = ctx.createOscillator();
             const amp = ctx.createGain();
-            osc.type = 'sawtooth';
             osc.frequency.value = 220;
 
             if (attack === 0) {

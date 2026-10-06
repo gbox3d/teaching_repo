@@ -37,7 +37,7 @@
             const osc = ctx.createOscillator();
             const amp = ctx.createGain();
             osc.frequency.setValueAtTime(fromFreq, t);
-            osc.frequency.exponentialRampToValueAtTime(toFreq, t + 0.12);   // 높이가 빠르게 떨어지면 '퍽'
+            osc.frequency.exponentialRampToValueAtTime(toFreq, t + 0.12);   // 높이가 빠르게 떨어지면 '퍽'(값을 시간에 따라 바꾸기는 ex03)
             amp.gain.setValueAtTime(0.9, t);
             amp.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
             osc.connect(amp).connect(ctx.destination);
@@ -45,7 +45,7 @@
             osc.stop(t + 0.45);
         }
 
-        // 잡음 → highpass 필터(이 높이보다 낮은 쪽을 깎는다) → 짧은 엔벨로프
+        // 잡음 → highpass 필터(ex05 lowpass 의 반대. 이 높이보다 낮은 쪽을 깎는다) → 짧은 엔벨로프(ex03)
         function noiseHit(highpass, volume, decay) {
             const t = start();
             const src = ctx.createBufferSource();

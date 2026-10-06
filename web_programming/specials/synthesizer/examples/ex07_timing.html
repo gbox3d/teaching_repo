@@ -33,11 +33,10 @@
             const osc = ctx.createOscillator();
             const amp = ctx.createGain();
             osc.frequency.value = 1500;
-            amp.gain.setValueAtTime(0.2, time);
-            amp.gain.exponentialRampToValueAtTime(0.001, time + 0.03);
+            amp.gain.value = 0.2;
             osc.connect(amp).connect(ctx.destination);
             osc.start(time);
-            osc.stop(time + 0.04);
+            osc.stop(time + 0.03);
         }
 
         function report(times) {

@@ -72,7 +72,7 @@ amp.gain.value = 0.2;
 ## 1부 · 7–11분 — ex02 음 높이: 옥타브는 2배, 반음은 2^(1/12)배
 
 [examples/ex02_pitch.html](examples/ex02_pitch.html)
-형제: 1. A3 · A4 · A5(같은 '라' 세 개) / 2. C4~C5 여덟 음(키보드 A S D F G H J K)
+형제: 1. A3 · A4 · A5(같은 '라' 세 개) / 2. C4~C5 여덟 음(도레미파솔라시도)
 
 ```js
 // MIDI 번호: 피아노 건반에 붙인 번호. 가운데 도(C4) = 60, 라(A4) = 69
@@ -81,7 +81,7 @@ function midiToFreq(midi) {
 }
 ```
 
-- 단추에 진동수가 적힙니다: A3 `220.0` · A4 `440.0` · A5 `880.0`. 키 H → `MIDI 69 → 440.0 Hz`.
+- 단추에 진동수가 적힙니다: A3 `220.0` · A4 `440.0` · A5 `880.0`. 누르면 아래에 `MIDI 69 → 440.0 Hz`.
 - 바꿔 보기: 30행의 440 을 432 로 → 단추 숫자가 모두 바뀝니다. 버튼의 `data-midi` 값 바꾸기.
 
 **음 높이 = 1초에 떨리는 횟수. 한 옥타브는 2배, 반음은 2^(1/12)배. MIDI 번호로 계산한다.**
@@ -101,7 +101,7 @@ amp.gain.exponentialRampToValueAtTime(0.0001, t + attack + hold + release);
 ```
 
 - 1번은 시작과 끝에 '딱'. 2번은 뜯는 소리, 3번은 깔리는 소리. 그림이 크기 변화입니다.
-- 바꿔 보기: 2번과 5번을 번갈아 듣기(숫자는 같다). 51~55행의 attack · release 숫자.
+- 바꿔 보기: 2번과 5번을 번갈아 듣기(숫자는 같다). 50~54행의 attack · release 숫자.
 
 **엔벨로프(크기가 시간에 따라 변하는 모양)가 소리의 성격을 정한다. 0 에서 시작해 0 으로 끝나야 '딱' 소리가 없다.**
 
@@ -110,16 +110,16 @@ amp.gain.exponentialRampToValueAtTime(0.0001, t + attack + hold + release);
 ## 1부 · 16–21분 — ex04 화음: 근음에서 몇 반음 위를 함께 치나
 
 [examples/ex04_chord.html](examples/ex04_chord.html)
-형제: 1. 곡의 코드 Am · Dm · G · C · F / 2. C vs Cm, A vs Am / 3. Am 차례로
+형제: 1. 곡의 코드 Am · Dm · G · C · F / 2. C vs Cm, A vs Am
 
 ```js
 const SHAPES = { '': [0, 4, 7], m: [0, 3, 7] };   // 근음에서 몇 반음 위
-for (const midi of midis) note(midi, ctx.currentTime, 1.2);   // 같은 시각
-note(midis[i % 3] + 12, ctx.currentTime + i * 0.15, 0.14);  // 0.15초씩 늦게
+let base = 60 + NOTE_INDEX[name[0]];              // 'Am' 의 첫 글자 'A' → 근음
+for (const midi of midis) note(midi);             // 같은 시각에 세 개 → 화음
 ```
 
 - Am 을 누르면 `MIDI 57 · 60 · 64`. C 는 60 · 64 · 67, Cm 은 60 · 63 · 67 — 가운데만 다릅니다.
-- 바꿔 보기: `SHAPES` 에 `7: [0, 4, 7, 10]` 을 더해 G7 치기. 아르페지오 간격 0.15 → 0.1.
+- 바꿔 보기: C 와 Cm 번갈아 듣기. `SHAPES` 에 `7: [0, 4, 7, 10]` 을 더해 G7 치기.
 
 **화음 = 오실레이터 여러 개를 같은 시각에. 장 [0, 4, 7], 단 [0, 3, 7] — 가운데 음 하나가 반음 차이다.**
 
@@ -128,7 +128,7 @@ note(midis[i % 3] + 12, ctx.currentTime + i * 0.15, 0.14);  // 0.15초씩 늦게
 ## 1부 · 21–25분 — ex05 필터: 높은 성분을 깎으면 어두워진다
 
 [examples/ex05_filter.html](examples/ex05_filter.html)
-형제: Am 화음(sawtooth) + lowpass 1. 없음 / 2. 3000 / 3. 800 / 4. 200 / 5. Q 15 / 6. 쓸기
+형제: sawtooth 220Hz + lowpass 1. 없음 / 2. 3000 / 3. 800 / 4. 200 / 5. Q 15 / 6. 쓸기
 
 ```js
 filter.type = 'lowpass';   // 기준보다 높은 쪽을 깎고 낮은 쪽은 통과시킨다
@@ -240,7 +240,7 @@ document.getElementById('v1').innerText = song.track_info.title;
 ```text
 new AudioContext() ← ex01    playTone 의 엔벨로프 ← ex03 · lowpass ← ex05
 midiToFreq ← ex02            playKick · playSnare · playHat ← ex06
-chordToMidis ← ex04          코드 층 ← ex04 1·2번 · 아르페지오 층 ← ex04 3번
+chordToMidis ← ex04          코드 층 ← ex04 · 아르페지오 층 ← ex04 + ex08 칸 번호
 PATTERNS ← ex08              secondsPerStep · tick ← ex07 · loadSong ← ex09
 ```
 
@@ -279,5 +279,5 @@ https://student01.github.io/web-synth/
 - 객체(11주차) — `song.track_info.title`, 마디 하나 `{ section, chord, midis }`.
 - `createElement` · `append`(10주차) — 악보의 구간 줄과 마디 칸.
 
-더 해 볼 것: 멜로디 층을 직접 만들기(내가 지은 멜로디만), ex02 키보드로 연주기 위에서 연주하기.
+더 해 볼 것: 멜로디 층을 직접 만들기(내가 지은 멜로디만), ex02 에 키보드 입력을 더해 연주기 위에서 연주하기.
 녹음해서 음원 파일로 만드는 것은 이 특강의 범위 밖입니다.

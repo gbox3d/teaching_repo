@@ -11,7 +11,7 @@
     <button data-midi="57">A3</button>
     <button data-midi="69">A4</button>
     <button data-midi="81">A5</button>
-    <h2>2. 도(C4)부터 도(C5)까지 — 키보드 A S D F G H J K 로도 친다</h2>
+    <h2>2. 도(C4)부터 도(C5)까지</h2>
     <button data-midi="60">C4 도</button>
     <button data-midi="62">D4 레</button>
     <button data-midi="64">E4 미</button>
@@ -32,17 +32,13 @@
 
         function play(midi) {
             if (!ctx) ctx = new AudioContext();
-            const t = ctx.currentTime;
             const osc = ctx.createOscillator();
             const amp = ctx.createGain();
-            osc.type = 'triangle';
-            osc.frequency.value = midiToFreq(midi);
-            amp.gain.setValueAtTime(0, t);
-            amp.gain.linearRampToValueAtTime(0.3, t + 0.01);    // 짧게 켜고 끈다(ex03)
-            amp.gain.linearRampToValueAtTime(0, t + 0.5);
+            osc.frequency.value = midiToFreq(midi);     // 이 파일에서 바꾸는 것은 높이 하나다
+            amp.gain.value = 0.2;
             osc.connect(amp).connect(ctx.destination);
-            osc.start(t);
-            osc.stop(t + 0.5);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.5);
             document.getElementById('info').innerText = `MIDI ${midi} → ${midiToFreq(midi).toFixed(1)} Hz`;
         }
 
@@ -52,13 +48,6 @@
             button.innerText += ` (${midiToFreq(midi).toFixed(1)} Hz)`;     // 단추에 진동수를 적어 둔다
             button.addEventListener('click', function () { play(midi); });
         }
-
-        const KEYS = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k'];
-        const WHITE = [60, 62, 64, 65, 67, 69, 71, 72];
-        window.addEventListener('keydown', function (e) {
-            const i = KEYS.indexOf(e.key);
-            if (i >= 0) play(WHITE[i]);
-        });
     </script>
 </body>
 </html>
