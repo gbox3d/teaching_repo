@@ -7,42 +7,25 @@
 </head>
 <body>
     <h1>ex04 + 는 두 가지 일을 한다</h1>
-    <table border="1">
-        <tr><th>식</th><th>결과</th><th>typeof (종류)</th></tr>
-        <tr><td>1. 1 + 2</td><td id="r1"></td><td id="t1"></td></tr>
-        <tr><td>2. '1' + '2'</td><td id="r2"></td><td id="t2"></td></tr>
-        <tr><td>3. '1' + 2</td><td id="r3"></td><td id="t3"></td></tr>
-        <tr><td>4. Number('1') + 2</td><td id="r4"></td><td id="t4"></td></tr>
-        <tr><td>5. parseInt('12px') + 1</td><td id="r5"></td><td id="t5"></td></tr>
-    </table>
+    <p>F12 › Console 에 1~5번이 찍힌다. 결과와 종류(typeof)를 본다.</p>
     <p>
         <input id="num1" value="1" size="4"> + <input id="num2" value="2" size="4">
         <button id="btn-plain">6. 그냥 더하기</button>
         <button id="btn-number">7. Number 로 바꿔 더하기</button>
-        = <b id="sum"></b>
     </p>
-
     <script>
-        document.getElementById('r1').innerText = 1 + 2;           // 숫자 + 숫자 → 더한다
-        document.getElementById('t1').innerText = typeof (1 + 2);
-        document.getElementById('r2').innerText = '1' + '2';       // 문자열 + 문자열 → 잇는다
-        document.getElementById('t2').innerText = typeof ('1' + '2');
-        document.getElementById('r3').innerText = '1' + 2;         // 한쪽만 문자열이어도 잇는다
-        document.getElementById('t3').innerText = typeof ('1' + 2);
-        document.getElementById('r4').innerText = Number('1') + 2; // 숫자로 바꾼 뒤 더한다
-        document.getElementById('t4').innerText = typeof (Number('1') + 2);
-        document.getElementById('r5').innerText = parseInt('12px') + 1;  // 앞의 숫자만 읽는다(작년 day03)
-        document.getElementById('t5').innerText = typeof (parseInt('12px') + 1);
-
-        const num1 = document.getElementById('num1');
+        console.log('1. 1 + 2 →', 1 + 2, typeof (1 + 2));                              // 숫자 + 숫자 → 더한다
+        console.log("2. '1' + '2' →", '1' + '2', typeof ('1' + '2'));                   // 문자열 + 문자열 → 잇는다
+        console.log("3. '1' + 2 →", '1' + 2, typeof ('1' + 2));                        // 한쪽만 문자열이어도 잇는다
+        console.log("4. Number('1') + 2 →", Number('1') + 2, typeof (Number('1') + 2)); // 숫자로 바꾼 뒤 더한다
+        console.log("5. parseInt('12px') + 1 →", parseInt('12px') + 1, typeof (parseInt('12px') + 1));   // 앞의 숫자만 읽는다(작년 day03)
+        const num1 = document.getElementById('num1');   // 입력 칸(찾는 법은 ex09)
         const num2 = document.getElementById('num2');
-        const sum = document.getElementById('sum');
-
         document.getElementById('btn-plain').addEventListener('click', function () {
-            sum.innerText = num1.value + num2.value;                  // 입력 칸의 value 는 늘 문자열
+            console.log('6. 그냥 더하기 →', num1.value + num2.value);                    // 입력 칸의 value 는 늘 문자열
         });
         document.getElementById('btn-number').addEventListener('click', function () {
-            sum.innerText = Number(num1.value) + Number(num2.value);  // 숫자로 바꿔서 더한다
+            console.log('7. Number 로 바꿔 더하기 →', Number(num1.value) + Number(num2.value));   // 숫자로 바꿔서 더한다
         });
     </script>
 </body>

@@ -7,23 +7,14 @@
 </head>
 <body>
     <h1>ex06 비교: 결과는 true 아니면 false</h1>
-    <table border="1">
-        <tr><th>식</th><th>결과</th></tr>
-        <tr><td>1. 1 == '1'</td><td id="c1"></td></tr>
-        <tr><td>2. 1 === '1'</td><td id="c2"></td></tr>
-        <tr><td>3. 12 >= 12</td><td id="c3"></td></tr>
-        <tr><td>4. 12 > 12</td><td id="c4"></td></tr>
-        <tr><td>5. '10' > '9'</td><td id="c5"></td></tr>
-        <tr><td>6. Number('10') > Number('9')</td><td id="c6"></td></tr>
-    </table>
-
+    <p>F12 › Console 에 1~6번이 찍힌다.</p>
     <script>
-        document.getElementById('c1').innerText = 1 == '1';     // 값만 맞춰 보고 같다고 한다
-        document.getElementById('c2').innerText = 1 === '1';    // 종류(숫자·문자열)까지 같아야 true
-        document.getElementById('c3').innerText = 12 >= 12;     // 크거나 같다
-        document.getElementById('c4').innerText = 12 > 12;      // 크다(같으면 false)
-        document.getElementById('c5').innerText = '10' > '9';   // 문자열끼리는 첫 글자부터: '1' < '9'
-        document.getElementById('c6').innerText = Number('10') > Number('9');  // 숫자로 바꾸면 10 > 9
+        console.log("1. 1 == '1' →", 1 == '1');          // 값만 맞춰 보고 같다고 한다
+        console.log("2. 1 === '1' →", 1 === '1');        // 종류(숫자·문자열)까지 같아야 true
+        console.log('3. 12 >= 12 →', 12 >= 12);          // 크거나 같다
+        console.log('4. 12 > 12 →', 12 > 12);            // 크다(같으면 false)
+        console.log("5. '10' > '9' →", '10' > '9');      // 문자열끼리는 첫 글자부터: '1' < '9'
+        console.log("6. Number('10') > Number('9') →", Number('10') > Number('9'));  // 숫자로 바꾸면 10 > 9
     </script>
 </body>
 </html>

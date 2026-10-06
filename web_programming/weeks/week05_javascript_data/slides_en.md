@@ -13,7 +13,7 @@ The pages you made through Week 4 changed only in **what you see**. This week is
 This week: look at **10 comparison examples** one at a time, then **assemble** `index.html` and `app.js` in a new repository, `web-week05`, built on last week's files.
 
 - JavaScript runs **inside the browser**. It starts running the moment you open the page.
-- Check results in two places: the **screen** and **F12 › Console**.
+- Comparison results show in **F12 › Console** (writing on screen is ex09).
 - One file = one idea. Siblings that do the same thing a different way sit side by side.
 - The lab is about **changing values** and watching. Guess what will change first, then check.
 
@@ -36,37 +36,35 @@ Same order as last year's examples: a button and `console.log` → a counter →
 ## Day 1 · 0–4 min — Where JS Runs: Screen and Console
 
 ```text
-Screen   ← find an element and change its text (innerText · textContent)
+Screen   ← where the buttons and inputs are. Changing its text is Day 2 ex09
 Console  ← console.log(value) prints here. Errors show a red line + file:line
 document ← the whole page the browser has loaded
-  document.getElementById('output')   ← find the element with id output
-  output.innerText = inputName.value + '님 (function)';   ← change the text
 ```
 
 - Week 1's three languages: HTML is **content**, CSS is **appearance**, JS is **behavior**.
 - Code inside `<script>` runs top to bottom, one line at a time.
-- `console.log` prints to the Console only. The screen doesn't change.
+- Today's comparison files print every result to the Console with `console.log`. The screen doesn't change.
 - Console: right-click › Inspect, or F12 (laptop: Fn+F12; macOS: ⌘+Option(⌥)+I).
 
-**A syntax mistake or undefined name shows a red line. A wrong result alone (ex04's 12) stays silent — check both the screen and the Console.**
+**A syntax mistake or undefined name shows a red line. A wrong result alone (ex04's 12) stays silent — so read the values in the Console too.**
 
 ---
 
 ## Day 1 · 4–10 min — ex01: Run Now vs. Run on Click
 
 [examples/day1/ex01_click.html](examples/day1/ex01_click.html)
-Siblings: Console A (open) / D (after A) / B (btn 1, `function`) / C (btn 2, `() =>`)
+Siblings: Console A (on open) / B (every click) / C (right after A)
 
 ```js
 console.log('A. 페이지를 열자마자 실행된다');
-btn1.addEventListener('click', function () {
-    console.log('B. 1번 버튼을 누를 때마다 실행된다');
-    output.innerText = inputName.value + '님 (function)';
+document.getElementById('btn').addEventListener('click', function () {
+    console.log('B. 버튼을 누를 때마다 실행된다');
 });
+console.log('C. A 바로 다음에 실행된다. B 보다 먼저');
 ```
 
-- On open: A → D. B, C print per click. Button 2's `() => {}` = last year's style.
-- Try it: type `student01`, click both buttons → `student01님 (function)` / `(화살표)`.
+- On open: A → C; B on every click. Last year's `() => {}` means the same (comment).
+- Try it: click 3 times → only B grows. Move C inside `{ }` → C prints per click.
 
 **A script runs top to bottom, once. `addEventListener`'s code is only registered — it runs later, per click.**
 
@@ -78,14 +76,14 @@ btn1.addEventListener('click', function () {
 Siblings: 1. script in head / 2. script at end of body / 3. file in head with `defer`
 
 ```text
-head <script>        console.log('1. …', document.getElementById('msg'));
+head <script>        console.log('1. …', document.body);
 head                 <script src="ex02_script_position.js" defer></script>
-body                 <p id="msg">p#msg — this text changes if …</p>
-body-end <script>    console.log('2. …', document.getElementById('msg'));
+body                 <h1>…</h1> <p>…</p>
+body-end <script>    console.log('2. …', document.body);
 ```
 
-- Console order: 1 (`null` = found nothing) → 2 → 3. `<p id="msg">` isn't read yet at step 1.
-- Try it: uncomment the head line → red error, read `file:line`. Remove `defer` → order becomes 1→3→2.
+- Console order: 1 (`null` = not there yet) → 2 → 3. The body isn't read yet at step 1.
+- Try it: remove `defer` → No. 3 prints `null` too, order 1→3→2. It runs the instant the head reads it.
 
 **A script runs the instant the browser reads that line. `defer` waits until the HTML is fully read.**
 
@@ -97,14 +95,14 @@ body-end <script>    console.log('2. …', document.getElementById('msg'));
 Siblings: 1. `let` / 2. `const` / 3. `var` — each button adds 1
 
 ```js
-const b = 0;    // once assigned, cannot be assigned again (let a and var c can)
+const b = 0;    // can't be reassigned (let a, var c can)
 document.getElementById('btn-const').addEventListener('click', function () {
     b = b + 1;  // this line runs on click, and execution stops right here
 });
 ```
 
-- No. 2 → `Uncaught TypeError: Assignment to constant variable.` `ex03_let_const.html:30`. Still shows 0.
-- Try it: `const b` → `let b` → No. 2 counts up too. No error when it opened.
+- No. 2 → `Uncaught TypeError: Assignment to constant variable.` `ex03_let_const.html:24`.
+- Try it: `const b` → `let b` → No. 2 counts up. No error on open.
 
 **`let` and `var` can be reassigned; `const` can't. The error hits when that line runs; the lines below it never run.**
 
@@ -122,7 +120,7 @@ num1.value + num2.value                   // an input's value is always a string
 Number(num1.value) + Number(num2.value)   // convert to numbers, then add
 ```
 
-- Results: 3 · 12 · 12 · 3 · 13. Types: number · string · string · number · number.
+- Console: 3 · 12 · 12 · 3 · 13. Types: number · string · string · number · number.
 - Try it: fields 1·2 → No. 6 `12`, No. 7 `3`. No. 5 → `Number('12px')` → `NaN` (still a number).
 
 **`+` adds numbers, joins strings. An input's `value` is always a string.**
@@ -153,7 +151,7 @@ Siblings: 1. `+` joins / 2. backticks / 3. `${}` in single quotes / 4. `${hour +
 [Day 1 lab](lab.md#1일차--스크립트와-값-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
 1. Put last week's finished files in a new folder `web-week05`, and save ex01–ex05 in `ex/` as **Raw** (ex02 needs its `.js` file too).
-2. Change at least one value per file and watch how the screen and Console change.
+2. Change at least one value per file and watch how the Console changes.
 3. Minutes 50–60: create a new repository `web-week05`, push in the same order you learned in Week 2, turn on Pages, and open `…/web-week05/ex/ex01_click.html`.
 
 If a result looks wrong, **open the Console first**. Follow the `file:line` to the right of the red line.
@@ -226,7 +224,7 @@ if (hour >= 12) {
 ```
 
 - At 20:00: No. 3 **저녁**, No. 4 **오후**. At 9:00: No. 1 `(담긴 것 없음)`; `else` needs all above false.
-- Try it: enter 9 · 12 · 15 · 20 → when do the lines disagree?
+- Try it: change the top `const hour = 20;` to 9 · 12 · 15 → when do the lines disagree?
 
 **Conditions are checked top-down; only the first true one runs, so order matters.**
 
@@ -235,7 +233,7 @@ if (hour >= 12) {
 ## Day 2 · 14–19 min — ex08 function: Define · Call · return
 
 [examples/day2/ex08_function.html](examples/day2/ex08_function.html)
-Siblings: 1. `greetLog`, no `return` / 2. `greet`, has `return` / 3·4. called with different values
+Siblings: 1. `greetLog`, no `return` / 2. `greet`, has `return` / 3. called with different values
 
 ```js
 function greetLog(name) { console.log('안녕하세요, ' + name + '님!'); }  // no return
@@ -244,7 +242,7 @@ const a = greetLog('student01');    // call: prints to the Console, a becomes un
 const b = greet('student01');       // call: nothing in the Console, b holds the sentence
 ```
 
-- Screen No. 1 shows `undefined` ("nothing stored yet"); No. 2 shows the sentence. `name` is the value passed in at the call.
+- Console No. 1 shows `undefined` ("nothing stored yet"); No. 2 shows the sentence. `name` is the value passed in at the call.
 - Try it: add a `return` to `greetLog`. Call `neverCalled();` → one line in the Console.
 
 **Defining just gives a function a name. Calling it with parentheses is what runs it. No `return` means `undefined` comes back.**
@@ -323,7 +321,7 @@ Capture it with the address bar, the card, and the Console all visible
 ```
 
 If you open it after 12:00, you'll see `좋은 오후입니다.` (Good afternoon.) instead. Either one is correct.
-If you couldn't finish Day 2, submit a screenshot from `…/web-week05/ex/ex01_click.html` showing A, D, B printed in the Console instead.
+If you couldn't finish Day 2, click the button in `…/web-week05/ex/ex01_click.html` and submit a screenshot with A, C, B printed in the Console instead.
 Keep your real name, student ID, and real email out of the screenshot.
 
 ---

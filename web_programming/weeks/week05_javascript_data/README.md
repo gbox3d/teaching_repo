@@ -3,8 +3,8 @@
 # 5주차 — JavaScript 데이터와 함수
 
 이번 주도 부품을 하나씩 본다. 비교 파일 10개를 열어 값을 바꿔 보고, 마지막에 이번 주 새 저장소 `web-week05`의 `index.html`·`app.js`를 그 부품으로 조립한다.
-작년 수업 예제(버튼과 `console.log` → 카운터 → 입력 칸 + 버튼으로 두 수를 더하는 페이지)와 같은 방식이다. 첫 파일부터 입력 칸·버튼·클릭·화면 글자·Console 이 함께 나온다. 파일 하나에 개념 하나. 같은 일을 다르게 한 형제를 나란히 놓고 차이를 본다.
-JavaScript 는 브라우저가 실행한다. 결과는 **화면**과 **F12 › Console** 두 곳에서 본다.
+작년 수업 예제(버튼과 `console.log` → 카운터 → 입력 칸 + 버튼으로 두 수를 더하는 페이지)와 같은 순서다. 파일 하나에 개념 하나. 같은 일을 다르게 한 형제를 나란히 놓고 차이를 보며, 다른 파일의 개념은 섞지 않는다.
+JavaScript 는 브라우저가 실행한다. 비교 파일의 결과는 **F12 › Console** 에서 본다. 화면 글자를 바꾸는 것은 ex09 의 주제라서 ex09 와 조립에서만 화면이 바뀐다.
 
 ## 이번 주 질문
 
@@ -34,7 +34,7 @@ JavaScript 는 브라우저가 실행한다. 결과는 **화면**과 **F12 › C
 ```
 
 - 제출은 이 캡처 **한 장**이다. 12시가 지난 시간에 열면 `좋은 오후입니다.` 가 나온다. 둘 다 정답이다.
-- 2일차를 끝내지 못했다면 `https://student01.github.io/web-week05/ex/ex01_click.html` 을 열고 Console 에 A·D·B 가 찍힌 화면으로 대신한다. JavaScript 를 처음 쓰는 주여서 두는 완화다.
+- 2일차를 끝내지 못했다면 `https://student01.github.io/web-week05/ex/ex01_click.html` 을 열고 버튼을 눌러 Console 에 A·C·B 가 찍힌 화면으로 대신한다. JavaScript 를 처음 쓰는 주여서 두는 완화다.
 - `web-week05/ex/` 에 비교 파일을 저장하고 값을 바꾼 것은 push 로 남긴다. 기록물·표는 없다. 산출물은 push 된 파일과 화면이다.
 - `student01` 은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다.
 
@@ -72,18 +72,18 @@ JavaScript 는 브라우저가 실행한다. 결과는 **화면**과 **F12 › C
 
 ## 이번 주 비교 파일
 
-모두 HTML 파일 하나에 `<script>` 가 들어 있다(ex02 만 보조 파일 `.js` 가 하나 더 있다). 화면의 번호와 Console 의 번호가 코드의 형제 번호와 같다. 값이나 주석을 바꾸고 저장 → 새로고침으로 차이를 본다.
+모두 HTML 파일 하나에 `<script>` 가 들어 있다(ex02 만 보조 파일 `.js` 가 하나 더 있다). Console 의 번호가 코드의 형제 번호와 같다. 값이나 주석을 바꾸고 저장 → 새로고침으로 차이를 본다.
 
 | 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
-| [ex01_click.html](examples/day1/ex01_click.html) | Console A(열자마자) / D(A 다음) / B(1번 버튼 `function`) / C(2번 버튼 화살표 `() =>`) | 스크립트는 위에서 아래로 한 번 실행되고, `addEventListener` 안쪽은 등록만 했다가 클릭할 때마다 실행된다. `function () {}` 와 `() => {}` 는 여기서 같은 뜻 | 이름을 넣고 두 버튼 누르기. Console 순서가 A·D → B·C 인지 |
-| [ex02_script_position.html](examples/day1/ex02_script_position.html) + [ex02_script_position.js](examples/day1/ex02_script_position.js) | 1. head 안 script / 2. body 끝 script / 3. head 에 `defer` 로 연결한 파일 | 스크립트는 브라우저가 그 줄을 읽는 순간 실행된다. 아직 읽지 않은 요소는 없어서 `null`. `defer` 는 HTML 을 끝까지 읽은 뒤 실행한다 | head script 의 `// document.getElementById('msg').innerText = …` 주석 풀기 → 빨간 오류의 `파일:줄` 읽기. js 연결 줄에서 `defer` 지우기 |
+| [ex01_click.html](examples/day1/ex01_click.html) | Console A(열자마자) / B(버튼을 누를 때마다) / C(A 다음) | 스크립트는 위에서 아래로 한 번 실행되고, `addEventListener` 안쪽은 등록만 했다가 클릭할 때마다 실행된다 | 버튼을 여러 번 누르기. Console 순서가 A·C → B·B… 인지 |
+| [ex02_script_position.html](examples/day1/ex02_script_position.html) + [ex02_script_position.js](examples/day1/ex02_script_position.js) | 1. head 안 script / 2. body 끝 script / 3. head 에 `defer` 로 연결한 파일 — 셋 다 `document.body` 를 찍는다 | 스크립트는 브라우저가 그 줄을 읽는 순간 실행된다. 아직 읽지 않은 body 는 없어서 `null`. `defer` 는 HTML 을 끝까지 읽은 뒤 실행한다 | js 연결 줄에서 `defer` 지우기 → 3번도 `null`, 순서 1 → 3 → 2 |
 | [ex03_let_const.html](examples/day1/ex03_let_const.html) | 1. `let` / 2. `const` / 3. `var` 에 버튼으로 1 더하기 | `let`·`var` 는 다시 담을 수 있고 `const` 는 안 된다. 오류는 그 줄이 실행될 때(클릭할 때) 나고, 오류 난 줄 아래는 실행되지 않는다 | 2번 버튼 → Console `Assignment to constant variable.`. `const b = 0;` 을 `let b = 0;` 으로 바꿔 다시 |
-| [ex04_plus.html](examples/day1/ex04_plus.html) | `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1`, 입력 칸 두 개로 6. 그냥 더하기 / 7. `Number` 로 바꿔 더하기 | `+` 는 둘 다 숫자면 더하고 한쪽이라도 문자열이면 잇는다. 입력 칸의 `value` 는 늘 문자열이라 `Number()` 로 바꿔야 더해진다 | 입력 칸 값 바꾸기, 표의 식 바꾸기(표 왼쪽 식 글자도 같이, `typeof` 줄도 같이) |
+| [ex04_plus.html](examples/day1/ex04_plus.html) | `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1`, 입력 칸 두 개로 6. 그냥 더하기 / 7. `Number` 로 바꿔 더하기 | `+` 는 둘 다 숫자면 더하고 한쪽이라도 문자열이면 잇는다. 입력 칸의 `value` 는 늘 문자열이라 `Number()` 로 바꿔야 더해진다 | 입력 칸 값 바꾸기, 식 바꾸기(값과 `typeof` 괄호 안 두 곳, 줄 앞 글자도 같이) |
 | [ex05_template.html](examples/day1/ex05_template.html) | 1. `+` 로 잇기 / 2. 백틱 템플릿 / 3. 작은따옴표 안 `${}` / 4. `${hour + 1}` | 백틱으로 감싼 문자열만 `${}` 안을 계산해 넣는다. 따옴표면 글자 그대로 | `name`·`hour` 값 바꾸기, 3번의 `'` 를 백틱으로 |
-| [ex06_compare.html](examples/day2/ex06_compare.html) | `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')` | 비교의 결과는 `true`/`false` 값이다. `===` 는 종류(숫자·문자열)까지 같아야 참. 문자열끼리는 첫 글자부터 비교한다 | 식의 숫자·따옴표 바꾸기(표 왼쪽 식 글자도 같이) |
-| [ex07_if_else.html](examples/day2/ex07_if_else.html) | 입력한 시각으로 1. `if` 만 / 2. `if / else` / 3. `if / else if / else`(큰 수부터) / 4. 같은 조건, 순서만 거꾸로 | 위에서부터 보다가 처음 참인 한 곳만 실행하고 나머지는 보지 않는다. `else` 는 위가 모두 거짓일 때. 그래서 조건 순서가 결과를 바꾼다 | 9 · 12 · 15 · 20 입력 |
-| [ex08_function.html](examples/day2/ex08_function.html) | 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3. 같은 함수, 다른 값 / 4. 입력한 이름으로 부르기, 정의만 한 `neverCalled` | 정의는 이름을 붙여 두기만 하고, 괄호를 붙여 부를 때 실행된다. `return` 이 부른 곳에 값을 돌려준다. 없으면 `undefined` | 이름 입력, `greetLog` 에 `return` 넣기, `neverCalled()` 부르기 |
+| [ex06_compare.html](examples/day2/ex06_compare.html) | `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')` | 비교의 결과는 `true`/`false` 값이다. `===` 는 종류(숫자·문자열)까지 같아야 참. 문자열끼리는 첫 글자부터 비교한다 | 식의 숫자·따옴표 바꾸기(줄 앞 글자도 같이) |
+| [ex07_if_else.html](examples/day2/ex07_if_else.html) | 맨 위 `const hour = 20;` 으로 1. `if` 만 / 2. `if / else` / 3. `if / else if / else`(큰 수부터) / 4. 같은 조건, 순서만 거꾸로 | 위에서부터 보다가 처음 참인 한 곳만 실행하고 나머지는 보지 않는다. `else` 는 위가 모두 거짓일 때. 그래서 조건 순서가 결과를 바꾼다 | `hour` 를 9 · 12 · 15 · 20 으로 바꿔 새로고침 |
+| [ex08_function.html](examples/day2/ex08_function.html) | 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3. 같은 함수, 다른 값, 정의만 한 `neverCalled` | 정의는 이름을 붙여 두기만 하고, 괄호를 붙여 부를 때 실행된다. `return` 이 부른 곳에 값을 돌려준다. 없으면 `undefined` | `greetLog` 에 `return` 넣기, `neverCalled()` 부르기 |
 | [ex09_dom_write.html](examples/day2/ex09_dom_write.html) | 1. `getElementById` + `innerText` / 2. `querySelector('#p2')` + `textContent` / 3. `textContent` 에 `<b>…</b>` / 4. 입력 칸 `value`, Console 에 없는 id → `null` | 화면을 바꾸려면 먼저 찾고 그다음 바꾼다. 두 찾기 방법은 같은 id 면 같은 요소를 준다. 글자만 바꿀 때 `innerText`·`textContent` 결과는 같다. 넣은 글자는 태그가 아니라 글자 그대로다. 입력 칸은 `value` | `#p9` 에 `.textContent` 를 써서 오류 보기, 찾는 id 바꾸기 |
 | [ex10_date.html](examples/day2/ex10_date.html) | `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()` | `new Date()` 는 그 줄이 실행된 순간의 날짜·시각을 담은 값이고, `.getHours()` 는 그 값에게 "몇 시야?" 묻는 것이다. 월은 0부터 센다 | 새로고침, `getSeconds()` 줄 더하기 |
 | [server.mjs](../../tools/static-server/server.mjs)(서버) | 두 번 눌러 연 `file:///…` / `node server.mjs` 로 연 `http://localhost:8000/` | 브라우저는 HTML 을 받은 뒤 그 안의 CSS·JS·그림을 하나씩 따로 요청한다(1주차 요청과 응답). 터미널에 한 줄씩 찍힌다 | 새로고침하며 요청 줄 세기, 없는 파일 이름을 주소창에 쳐서 `404` 보기 |

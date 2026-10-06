@@ -7,31 +7,16 @@
 </head>
 <body>
     <h1>ex01 지금 실행 vs 클릭할 때 실행</h1>
-    <input id="input-name" placeholder="이름">
-    <button id="btn-1">1. function 으로</button>
-    <button id="btn-2">2. 화살표로</button>
-    <p id="output">버튼을 눌러 보세요</p>
-    <p>F12 › Console 을 열고 A·B·C·D 가 찍히는 순서를 본다.</p>
-
+    <button id="btn">버튼</button>
+    <p>F12 › Console 을 열고 A·B·C 가 찍히는 순서를 본다. 버튼을 여러 번 눌러 본다.</p>
     <script>
         console.log('A. 페이지를 열자마자 실행된다');
-
-        var inputName = document.getElementById('input-name');
-        var btn1 = document.getElementById('btn-1');
-        var btn2 = document.getElementById('btn-2');
-        var output = document.getElementById('output');
-
-        btn1.addEventListener('click', function () {
-            console.log('B. 1번 버튼을 누를 때마다 실행된다');
-            output.innerText = inputName.value + '님 (function)';
+        // 버튼을 찾아(찾는 법은 ex09) 클릭할 때 할 일을 등록만 해 둔다
+        document.getElementById('btn').addEventListener('click', function () {
+            console.log('B. 버튼을 누를 때마다 실행된다');
         });
-
-        btn2.addEventListener('click', () => {         // 작년 예제의 모양. 뜻은 1번과 같다
-            console.log('C. 2번 버튼을 누를 때마다 실행된다');
-            output.innerText = inputName.value + '님 (화살표)';
-        });
-
-        console.log('D. A 바로 다음에 실행된다. B·C 보다 먼저');
+        console.log('C. A 바로 다음에 실행된다. B 보다 먼저');
+        // 작년 예제는 function () { } 대신 () => { } 로 썼다. 여기서는 뜻이 같다
     </script>
 </body>
 </html>

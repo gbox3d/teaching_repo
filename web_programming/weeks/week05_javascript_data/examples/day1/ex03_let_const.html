@@ -3,37 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex03 let const var</title>
+    <title>ex03 let const</title>
 </head>
 <body>
     <h1>ex03 let · const · var</h1>
-    <p>1. let : <b id="out-let"></b> <button id="btn-let">let 에 1 더하기</button></p>
-    <p>2. const : <b id="out-const"></b> <button id="btn-const">const 에 1 더하기</button></p>
-    <p>3. var : <b id="out-var"></b> <button id="btn-var">var 에 1 더하기</button></p>
-    <p>세 버튼을 차례로 누르고 F12 › Console 을 본다.</p>
-
+    <button id="btn-let">1. let 에 1 더하기</button>
+    <button id="btn-const">2. const 에 1 더하기</button>
+    <button id="btn-var">3. var 에 1 더하기</button>
+    <p>F12 › Console 을 열고 세 버튼을 차례로 누른다.</p>
     <script>
         let a = 0;      // 다시 담을 수 있다
         const b = 0;    // 한 번 담으면 다시 담을 수 없다
         var c = 0;      // 옛 방식(작년 예제). 다시 담을 수 있는 것은 let 과 같다
-
-        document.getElementById('out-let').innerText = a;
-        document.getElementById('out-const').innerText = b;
-        document.getElementById('out-var').innerText = c;
-
+        console.log('처음 값 :', a, b, c);
         document.getElementById('btn-let').addEventListener('click', function () {
             a = a + 1;
-            document.getElementById('out-let').innerText = a;
+            console.log('1. let a =', a);
         });
-
         document.getElementById('btn-const').addEventListener('click', function () {
             b = b + 1;  // 여기서 멈춘다 → Console: Assignment to constant variable.
-            document.getElementById('out-const').innerText = b;   // 이 줄은 실행되지 않는다
+            console.log('2. const b =', b);     // 이 줄은 실행되지 않는다
         });
-
         document.getElementById('btn-var').addEventListener('click', function () {
             c = c + 1;
-            document.getElementById('out-var').innerText = c;
+            console.log('3. var c =', c);
         });
     </script>
 </body>

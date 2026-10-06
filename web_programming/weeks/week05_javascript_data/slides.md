@@ -13,7 +13,7 @@ footer: "JavaScript 데이터와 함수 · 비교 예제로 원리를 보고 마
 이번 주 방식: **비교 예제 10개**를 하나씩 보고, 마지막에 새 저장소 `web-week05` 의 `index.html`·`app.js` 를 **조립**합니다(지난주 완성본에서 시작).
 
 - JavaScript 는 **브라우저가** 실행합니다. 페이지를 열면 그때 돕니다.
-- 결과는 두 곳에서 봅니다: **화면**과 **F12 › Console**.
+- 비교 파일의 결과는 **F12 › Console** 에서 봅니다(화면 쓰기는 ex09).
 - 파일 하나 = 개념 하나. 같은 일을 다르게 한 형제를 나란히 놓고 차이를 봅니다.
 - 실습은 **값을 바꿔 보는 것**입니다. 무엇이 달라질지 먼저 말해 보고 확인합니다.
 
@@ -36,37 +36,35 @@ footer: "JavaScript 데이터와 함수 · 비교 예제로 원리를 보고 마
 ## 1일차 · 0–4분 — JavaScript는 브라우저가 실행한다: 화면과 Console
 
 ```text
-화면     ← 요소를 찾아 글자를 바꾼다 (innerText · textContent)
+화면     ← 버튼·입력 칸이 있는 곳. 화면 글자를 바꾸는 것은 2일차 ex09
 Console  ← console.log(값) 이 찍힌다. 오류는 빨간 줄 + 파일:줄
 document ← 브라우저가 읽어 들인 이 페이지 전체
-  document.getElementById('output')   ← id 가 output 인 요소 찾기
-  output.innerText = inputName.value + '님 (function)';   ← 글자 바꾸기
 ```
 
 - 1주차 세 언어: HTML 은 **내용**, CSS 는 **모양**, JavaScript 는 **동작**.
 - `<script>` 안의 코드는 브라우저가 위에서 아래로 한 줄씩 실행합니다.
-- `console.log` 는 Console 에만 찍습니다. 화면은 그대로입니다.
+- 오늘 비교 파일은 결과를 전부 `console.log` 로 Console 에 찍습니다. 화면은 그대로입니다.
 - Console: 오른쪽 클릭 › 검사 → Console 탭. 또는 F12(노트북 Fn+F12, macOS ⌘+Option(⌥)+I).
 
-**문법이 틀리거나 없는 것을 쓰면 빨간 줄이 뜬다. 결과만 다른 경우(ex04 12)는 조용하다. 그래서 화면과 Console 을 둘 다 본다.**
+**문법이 틀리거나 없는 것을 쓰면 빨간 줄이 뜬다. 결과만 다른 경우(ex04 12)는 조용하다. 그래서 Console 의 값까지 읽는다.**
 
 ---
 
 ## 1일차 · 4–10분 — ex01 지금 실행 vs 클릭할 때 실행
 
 [examples/day1/ex01_click.html](examples/day1/ex01_click.html)
-형제: Console A(열자마자) / D(A 다음) / B(1번 버튼 `function`) / C(2번 버튼 `() =>`)
+형제: Console A(열자마자) / B(버튼을 누를 때마다) / C(A 다음)
 
 ```js
 console.log('A. 페이지를 열자마자 실행된다');
-btn1.addEventListener('click', function () {
-    console.log('B. 1번 버튼을 누를 때마다 실행된다');
-    output.innerText = inputName.value + '님 (function)';
+document.getElementById('btn').addEventListener('click', function () {
+    console.log('B. 버튼을 누를 때마다 실행된다');
 });
+console.log('C. A 바로 다음에 실행된다. B 보다 먼저');
 ```
 
-- 열면 Console 에 A → D. B·C 는 누를 때마다. 2번 `() => {}` 는 작년 예제 모양, 뜻은 같다.
-- 바꿔 보기: 이름 칸에 `student01` → 두 버튼 → 화면 `student01님 (function)` / `(화살표)`.
+- 열면 A → C. B 는 누를 때마다. 작년의 `() => {}` 도 같은 뜻(주석).
+- 바꿔 보기: 세 번 누르기 → B 만 는다. C 줄을 `{ }` 안으로 → C 도 누를 때마다.
 
 **스크립트는 위에서 아래로 한 번 실행된다. `addEventListener` 안쪽은 등록만 했다가 클릭할 때 실행된다.**
 
@@ -78,14 +76,14 @@ btn1.addEventListener('click', function () {
 형제: 1. head 안 script / 2. body 끝 script / 3. head 에 `defer` 로 연결한 파일
 
 ```text
-head <script> 안     console.log('1. …', document.getElementById('msg'));
+head <script> 안     console.log('1. …', document.body);
 head                 <script src="ex02_script_position.js" defer></script>
-body                 <p id="msg">p#msg — 이 글자가 바뀌면 …</p>
-body 끝 <script> 안  console.log('2. …', document.getElementById('msg'));
+body                 <h1>…</h1> <p>…</p>
+body 끝 <script> 안  console.log('2. …', document.body);
 ```
 
-- Console 순서 1(`null` = 찾은 것이 없다) → 2 → 3. 1번 때는 아직 `<p id="msg">` 를 읽기 전.
-- 바꿔 보기: head 주석 줄 풀기 → 빨간 오류, `파일:줄` 읽기. `defer` 지우기 → 3번도 `null`, 순서 1→3→2.
+- Console 순서 1(`null` = 아직 없다) → 2 → 3. 1번 때는 아직 body 를 읽기 전이다.
+- 바꿔 보기: `defer` 지우기 → 3번도 `null`, 순서 1→3→2. head 에서 읽는 순간 실행되기 때문.
 
 **스크립트는 브라우저가 그 줄을 읽는 순간 실행된다. `defer` 는 HTML 을 끝까지 읽은 뒤 실행한다.**
 
@@ -97,14 +95,14 @@ body 끝 <script> 안  console.log('2. …', document.getElementById('msg'));
 형제: 1. `let` / 2. `const` / 3. `var` — 버튼마다 1 더하기
 
 ```js
-const b = 0;    // 한 번 담으면 다시 담을 수 없다 (let a · var c 는 다시 담을 수 있다)
+const b = 0;    // 다시 담을 수 없다(let a · var c 는 된다)
 document.getElementById('btn-const').addEventListener('click', function () {
     b = b + 1;  // 누를 때 이 줄이 실행되고 여기서 멈춘다
 });
 ```
 
-- 2번 → `Uncaught TypeError: Assignment to constant variable.` `ex03_let_const.html:30`. 화면은 0.
-- 바꿔 보기: `const b` 를 `let b` 로 → 2번도 오른다. 열 때는 오류가 없었다는 것도 봅니다.
+- 2번 → `Uncaught TypeError: Assignment to constant variable.` `ex03_let_const.html:24`.
+- 바꿔 보기: `const b` → `let b` → 2번도 오른다. 열 때는 오류가 없었다.
 
 **`let`·`var` 는 다시 담을 수 있고 `const` 는 안 된다. 오류는 그 줄이 실행될 때 나고, 그 아래 줄은 실행되지 않는다.**
 
@@ -122,7 +120,7 @@ num1.value + num2.value                   // 입력 칸의 value 는 늘 문자�
 Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 ```
 
-- 표: 3 · 12 · 12 · 3 · 13. 종류: number(숫자) · string(문자열) · string · number · number.
+- Console: 3 · 12 · 12 · 3 · 13. 종류: number(숫자) · string(문자열) · string · number · number.
 - 바꿔 보기: 입력 칸 1·2 → 6번 `12`, 7번 `3`. 5번을 `Number('12px')` 로 → `NaN`. 숫자로 못 바꿨다는 숫자 값이라 종류는 number.
 
 **`+` 는 둘 다 숫자면 더하고, 한쪽이라도 문자열이면 잇는다. 입력 칸은 친 글자라 `value` 는 늘 문자열.**
@@ -153,7 +151,7 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 [1일차 실습](lab.md#1일차--스크립트와-값-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
 1. 새 폴더 `web-week05` 에 지난주 완성본을 넣고, `ex/` 에 ex01~ex05 를 **Raw** 로 저장합니다(ex02 는 `.js` 까지).
-2. 파일마다 값을 하나 이상 바꿔 보고, 화면과 Console 이 어떻게 달라지는지 봅니다.
+2. 파일마다 값을 하나 이상 바꿔 보고, Console 이 어떻게 달라지는지 봅니다.
 3. 50–60분: 새 저장소 `web-week05` 를 만들어 2주차에 배운 순서 그대로 올리고, Pages 를 켜서 `…/web-week05/ex/ex01_click.html` 을 엽니다.
 
 결과가 이상하면 **Console 을 먼저** 엽니다. 빨간 줄 오른쪽 `파일:줄` 로 갑니다.
@@ -206,7 +204,7 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 ```
 
 - 결과 true · false · true · false · false · true. `=` 하나는 비교가 아니라 담기(ex03).
-- 바꿔 보기: 2번을 `1 === 1` 로, 4번을 `12 > 11` 로 → 무엇이 true 로 바뀌나. 표 왼쪽 글자도 같이.
+- 바꿔 보기: 2번을 `1 === 1` 로, 4번을 `12 > 11` 로 → 무엇이 true 로 바뀌나. 줄 앞 글자도 같이.
 
 **비교의 결과는 `true`/`false` 값이다. `===` 는 종류까지 같아야 참. 문자열끼리는 첫 글자부터.**
 
@@ -226,7 +224,7 @@ if (hour >= 12) {
 ```
 
 - 20시: 3번 **저녁**, 4번 **오후**. 9시: 1번 `(담긴 것 없음)`, `else` 는 위가 모두 false 일 때만.
-- 바꿔 보기: 9 · 12 · 15 · 20 입력 → 네 줄이 언제 갈리나.
+- 바꿔 보기: 맨 위 `const hour = 20;` 을 9 · 12 · 15 로 → 네 줄이 언제 갈리나.
 
 **위에서부터 보다가 처음 참인 한 곳만 실행한다. 그래서 조건 순서가 결과를 바꾼다.**
 
@@ -235,7 +233,7 @@ if (hour >= 12) {
 ## 2일차 · 14–19분 — ex08 function: 정의 · 호출 · return
 
 [examples/day2/ex08_function.html](examples/day2/ex08_function.html)
-형제: 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3·4. 다른 값으로 부르기
+형제: 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3. 다른 값으로 부르기
 
 ```js
 function greetLog(name) { console.log('안녕하세요, ' + name + '님!'); }  // return 없음
@@ -244,7 +242,7 @@ const a = greetLog('student01');    // 호출: Console 에 찍히고, a 에는 u
 const b = greet('student01');       // 호출: Console 에는 없고, b 에 문장이 담긴다
 ```
 
-- 화면 1번 `undefined`(아직 담긴 값이 없다는 값), 2번 문장. 괄호 안 `name` = 부를 때 넣은 값(매개변수).
+- Console 1번 `undefined`(아직 담긴 값이 없다는 값), 2번 문장. 괄호 안 `name` = 부를 때 넣은 값(매개변수).
 - 바꿔 보기: `greetLog` 에 `return` 넣기. `neverCalled();` 부르기 → Console 한 줄.
 
 **정의는 이름만 붙이고, 괄호를 붙여 부를 때 실행된다. `return` 이 없으면 `undefined` 가 돌아간다.**
@@ -323,7 +321,7 @@ F12 Console: console.log 두 줄 (hour 숫자 / message 문장)
 ```
 
 12시 이후에 열면 `좋은 오후입니다.` 가 나옵니다. 둘 다 정답입니다.
-2일차를 끝내지 못했으면 `…/web-week05/ex/ex01_click.html` 에서 Console 에 A·D·B 가 찍힌 화면으로 대신합니다.
+2일차를 끝내지 못했으면 `…/web-week05/ex/ex01_click.html` 에서 버튼을 눌러 Console 에 A·C·B 가 찍힌 화면으로 대신합니다.
 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
 
 ---

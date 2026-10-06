@@ -4,7 +4,7 @@
 
 이번 주 실습은 코드를 새로 쓰는 것이 아니라 **값을 바꿔 보는 것**이다.
 비교 파일 10개(ex02 는 `.js` 파일까지 11개)를 이번 주 새 저장소 `web-week05` 의 `ex/` 폴더에 저장하고, 값이나 주석 하나를 바꾼 뒤 결과가 어떻게 달라지는지 본다.
-결과는 **화면과 F12 › Console 두 곳**에서 본다. Console 은 실습 내내 열어 둔다.
+비교 파일의 결과는 **F12 › Console** 에서 본다(화면에 쓰는 것은 ex09 의 주제라 ex09 만 화면을 바꾼다). Console 은 실습 내내 열어 둔다.
 DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새 탭이라 F12 를 다시 누른다. 열린 탭의 주소창에서 파일 이름만 바꿔 Enter 하면 Console 이 열린 채로 남는다.
 2일차 끝에 그 부품으로 `web-week05` 맨 위의 `index.html` 두 줄과 `app.js` 를 조립한다. 두 파일은 지난주 완성본에서 가져온다. 채점 대상은 2일차 캡처 1장이다.
 `student01` 은 예시 아이디이므로 본인 아이디로 바꾼다.
@@ -31,19 +31,18 @@ DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새
 
 [examples/day1/ex01_click.html](examples/day1/ex01_click.html) 을 `ex/ex01_click.html` 로 저장한다. [따라하기 1일차](walkthrough.md#1일차)의 3단계(여는 법과 Console 여는 법)를 본다.
 
-- 바꿔 보기: 파일을 열고 버튼을 누르기 전에 Console 을 본다. A·B·C·D 중 무엇이 찍혀 있나? `console.log('D. …')` 는 파일 맨 아래에 있는데 왜 B 보다 먼저 찍히나?
-- 바꿔 보기: 이름 칸에 `student01` 을 넣고 1번·2번 버튼을 번갈아 두 번씩 누른다. B 와 C 는 각각 몇 번 찍히나? `function () {}` 로 쓴 1번과 `() => {}` 로 쓴 2번은 하는 일이 다른가?
-- 바꿔 보기: `console.log('D. …');` 줄을 1번 버튼의 `{ }` 안, `output.innerText = …` 아래로 옮긴다. 이제 D 는 언제 찍히나? 확인했으면 D 줄을 원래 자리(맨 아래)로 되돌린다.
+- 바꿔 보기: 파일을 열고 버튼을 누르기 전에 Console 을 본다. A·B·C 중 무엇이 찍혀 있나? `console.log('C. …')` 는 파일 맨 아래에 있는데 왜 B 보다 먼저 찍히나?
+- 바꿔 보기: 버튼을 세 번 누른다. B 는 몇 번 찍히나? A·C 는 늘어나나? 새로고침하면 어떻게 되나?
+- 바꿔 보기: `console.log('C. …');` 줄을 버튼의 `{ }` 안, B 줄 아래로 옮긴다. 이제 C 는 언제 찍히나? 확인했으면 C 줄을 원래 자리(맨 아래)로 되돌린다.
 - 흔한 실수: `addEventListener` 줄에서 안쪽 코드가 바로 실행된다고 본다. 안쪽은 **등록만** 해 두고 클릭할 때마다 실행된다.
 
 ### 2. ex02 script 위치 (`<script>` · `defer`)
 
 [examples/day1/ex02_script_position.html](examples/day1/ex02_script_position.html) 과 [ex02_script_position.js](examples/day1/ex02_script_position.js) 를 둘 다 `ex/` 에 저장한다. 두 파일이 같은 폴더에 있어야 한다.
 
-- 바꿔 보기: Console 에 찍힌 세 줄의 **순서**와 **값**을 읽는다. 1번만 `null`(찾은 것이 없다는 값)인 이유는 무엇인가? 3번 파일도 `<head>` 에서 연결했는데 왜 `p#msg`(id 가 `msg` 인 `p`)를 찾았나?
-- Console 은 찍힌 요소를 **지금 모습**으로 보여 준다. 2번 줄 안의 글자가 3번이 바꾼 글자여도 2번이 먼저 실행된 것이다. 순서는 줄 순서와 오른쪽 `파일:줄` 로 본다.
-- 바꿔 보기: head 안 `// document.getElementById('msg').innerText = 'head 에서 바꿈';` 의 `//` 를 지운다. 빨간 줄 오른쪽의 `파일:줄` 은 몇 번째 줄을 가리키나? 2번·3번 줄은 여전히 찍히나?
-- 바꿔 보기: 위 주석을 되돌린 뒤, `<script src="ex02_script_position.js" defer></script>` 에서 `defer` 만 지운다. 3번 줄에 무엇이 찍히나? `p#msg` 글자는 바뀌나? 세 줄의 순서도 바뀌나? 바뀌었다면 왜인가?
+- 바꿔 보기: Console 에 찍힌 세 줄의 **순서**와 **값**을 읽는다. 1번만 `null`(없다는 값)인 이유는 무엇인가? 3번 파일도 `<head>` 에서 연결했는데 왜 `body` 가 있나?
+- 바꿔 보기: `<script src="ex02_script_position.js" defer></script>` 에서 `defer` 만 지운다. 3번 줄에 무엇이 찍히나? 세 줄의 순서도 바뀌나? 바뀌었다면 왜인가? 확인했으면 `defer` 를 되돌린다.
+- 바꿔 보기: head 안의 1번 `<script>` 덩어리(세 줄)를 잘라 `<body>` 안, 2번 `<script>` 바로 위에 붙인다. 1번 값은 어떻게 되나? 확인했으면 되돌린다.
 - 흔한 실수: `.js` 파일을 저장하지 않았거나 다른 폴더에 저장했다. 그러면 Console 에 3번 줄이 없고, 파일을 못 불러왔다는 빨간 줄이 뜬다.
 
 ### 3. ex03 let · const · var (`let` · `const` · `var`)
@@ -51,19 +50,18 @@ DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새
 [examples/day1/ex03_let_const.html](examples/day1/ex03_let_const.html) 을 `ex/ex03_let_const.html` 로 저장한다.
 
 - 바꿔 보기: 파일을 열자마자 Console 에 빨간 줄이 있나? 2번 버튼을 누른 뒤에는? 오류는 언제 생기나?
-- 바꿔 보기: 세 버튼을 두 번씩 누른다. 1번·3번 숫자는 어떻게 되나? 2번은 왜 `0` 에서 움직이지 않나? 빨간 줄의 `파일:줄` 이 가리키는 줄과 그 바로 아래 줄을 읽는다.
+- 바꿔 보기: 세 버튼을 두 번씩 누른다. 1번·3번 줄의 숫자는 어떻게 되나? 2번 버튼을 눌러도 `2. const b =` 줄이 한 번도 안 찍히는 이유는? 빨간 줄의 `파일:줄`(24행)이 가리키는 줄과 그 바로 아래 줄을 읽는다.
 - 바꿔 보기: `const b = 0;` 의 `const` 를 `let` 으로 바꾼다. 2번 버튼이 어떻게 되나?
 - 흔한 실수: "`const` 는 다시 담을 수 없으니 파일을 열 때 오류가 난다"고 본다. 오류는 **그 줄이 실행될 때** 나고, 오류 난 줄 아래는 실행되지 않는다.
 
 ### 4. ex04 +는 두 가지 일을 한다 (`+` · `Number()` · `parseInt()`)
 
 [examples/day1/ex04_plus.html](examples/day1/ex04_plus.html) 을 `ex/ex04_plus.html` 로 저장한다.
-표 셋째 칸의 `typeof 값` 은 그 값의 종류를 글자로 알려 준다. number 는 숫자, string 은 문자열이다.
+Console 줄 끝의 `number`·`string` 은 `typeof` 가 알려 주는 값의 종류다. number 는 숫자, string 은 문자열이다.
 
 - 바꿔 보기: 입력 칸 `1`·`2` 그대로 6번·7번 버튼을 누른다. 결과가 왜 다른가? 입력 칸을 `10`·`5` 로 바꿔 다시 누르면?
-- 바꿔 보기: 3번 식 `'1' + 2` 를 결과 줄(30행)과 `typeof` 줄(31행) 둘 다 `1 + '2'` 로 바꾼다. 결과와 종류가 달라지나? 숫자가 앞에 있으면 더할까?
-- 바꿔 보기: 5번의 `parseInt('12px')` 를 결과 줄(34행)과 `typeof` 줄(35행) 둘 다 `Number('12px')` 로 바꾼다. 무엇이 찍히나? 종류 칸은? `parseInt` 와 `Number` 는 `'12px'` 의 어디까지를 읽나?
-- 식을 바꿀 때는 표 왼쪽 칸(3번은 14행, 5번은 16행의 `<td>`)의 글자도 같이 바꾼다. 그 칸은 HTML 글자라서 안 바꾸면 옛 식이 그대로 남아 식과 결과가 어긋나 보인다.
+- 바꿔 보기: 3번 줄의 `'1' + 2` 두 곳(값과 `typeof` 괄호 안)을 `1 + '2'` 로 바꾼다. 결과와 종류가 달라지나? 숫자가 앞에 있으면 더할까? 줄 앞 글자 `"3. '1' + 2 →"` 도 같이 고쳐야 Console 글자가 맞다.
+- 바꿔 보기: 5번 줄의 `parseInt('12px')` 두 곳을 `Number('12px')` 로 바꾼다. 무엇이 찍히나? 종류는? `parseInt` 와 `Number` 는 `'12px'` 의 어디까지를 읽나?
 - 흔한 실수: 결과에 `NaN`(Not a Number)이 보이면 숫자로 바꾸지 못한 것이다. `NaN` 은 숫자로 바꾸지 못했다는 뜻의 특별한 숫자 값이라 `typeof` 는 number 로 나온다.
 - 흔한 실수: 입력 칸 두 개를 그냥 `+` 로 더해 `12` 가 나온다. 입력 칸의 `value` 는 **늘 문자열**이다. `Number()` 로 바꾼 뒤 더한다.
 
@@ -73,7 +71,7 @@ DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새
 
 - 바꿔 보기: `const name = 'student01';` 과 `const hour = 9;` 를 `'student02'` 와 `14` 로 바꾼다. 네 줄 중 어느 줄이 바뀌나? 3번은 왜 안 바뀌나?
 - 바꿔 보기: 3번 줄 `'안녕하세요, ${name}님!'` 의 작은따옴표 두 개를 백틱으로 바꾼다. 3번이 어떻게 되나?
-- 바꿔 보기: 4번 줄 `${hour + 1}` 을 `${hour} + 1` 로 바꾼다. 무엇이 보이나? `+ 1` 은 어디서 계산되고 어디서 글자가 되나?
+- 바꿔 보기: 4번 줄 `${hour + 1}` 을 `${hour} + 1` 로 바꾼다. 무엇이 찍히나? `+ 1` 은 어디서 계산되고 어디서 글자가 되나?
 - 흔한 실수: 백틱 대신 작은따옴표를 쓴다. 백틱은 키보드 `1` 왼쪽, `Esc` 아래 키다. 그 키를 쳤는데 다른 글자(macOS 한글 입력이면 `₩`)가 들어가면 영문 입력으로 바꾼 뒤 다시 친다.
 
 ### 이번 주 저장소 만들어 올리기
@@ -89,7 +87,7 @@ git remote add origin https://github.com/student01/web-week05.git
 git push -u origin main
 ```
 
-저장소 **Settings › Pages › Branch: main, /(root) › Save** → 1~3분 뒤 `https://student01.github.io/web-week05/ex/ex01_click.html` 을 연다. Console 에 A·D 가 찍히면 된 것이다. 공용 PC면 자격 증명을 지우고 나간다.
+저장소 **Settings › Pages › Branch: main, /(root) › Save** → 1~3분 뒤 `https://student01.github.io/web-week05/ex/ex01_click.html` 을 연다. Console 에 A·C 가 찍히면 된 것이다. 공용 PC면 자격 증명을 지우고 나간다.
 오늘 올린 것은 확인용이다. 제출은 2일차에 캡처 한 장만 한다.
 
 ## 2일차 — 조건과 함수, 그리고 조립 (60분)
@@ -114,17 +112,17 @@ git push -u origin main
 [examples/day2/ex06_compare.html](examples/day2/ex06_compare.html) 을 `ex/ex06_compare.html` 로 저장한다.
 
 - 바꿔 보기: 열기 전에 여섯 식의 결과를 `true`·`false` 로 먼저 말해 본다. 몇 개가 맞았나? 1번과 2번은 왜 다른가?
-- 바꿔 보기: 5번 식 `'10' > '9'`(25행)를 `'2' > '10'` 으로 바꾼다. 표 왼쪽 칸(16행 `<td>`)의 식 글자도 같이 바꾼다. 숫자라면 `false` 인데 결과는? 문자열은 무엇부터 비교하나?
-- 바꿔 보기: 3번 `12 >= 12` 와 4번 `12 > 12` 는 숫자가 같은데 결과가 왜 다른가? 23·24행 식의 앞 숫자를 `13` 으로 바꾸고 표 왼쪽 칸(14·15행 `<td>`)도 같이 바꾸면? 12시 정각에 `hour >= 12` 는 참인가, `hour > 12` 는?
+- 바꿔 보기: 5번 줄의 `'10' > '9'` 두 곳(앞 글자와 식)을 `'2' > '10'` 으로 바꾼다. 숫자라면 `false` 인데 결과는? 문자열은 무엇부터 비교하나?
+- 바꿔 보기: 3번 `12 >= 12` 와 4번 `12 > 12` 는 숫자가 같은데 결과가 왜 다른가? 두 줄 식의 앞 숫자를 `13` 으로 바꾸면? 12시 정각에 `hour >= 12` 는 참인가, `hour > 12` 는?
 - 흔한 실수: `=` 와 `===` 를 같은 것으로 본다. `=` 는 담는 것, `===` 는 같은지 비교하는 것이다. `if (hour = 12)` 는 비교가 아니라 12 를 담는다. 담은 12 가 참으로 읽혀 늘 그 갈래로 간다(조립할 `hello` 라면 9시에도 오후). 오류가 나지 않으니 화면과 Console 숫자를 비교해 찾는다.
 
 ### 7. ex07 if / else (`if` · `else if` · `else`)
 
 [examples/day2/ex07_if_else.html](examples/day2/ex07_if_else.html) 을 `ex/ex07_if_else.html` 로 저장한다.
 
-- 바꿔 보기: 입력 칸에 `9`·`12`·`15`·`20` 을 차례로 넣고 **판단하기**를 누른다. 3번과 4번이 다르게 나오는 시각은 어느 것인가? 조건은 같은데 왜 다른가?
+- 바꿔 보기: 코드 맨 위 `const hour = 20;` 의 `20` 을 `9`·`12`·`15` 로 차례로 바꿔 저장 → 새로고침한다. 3번과 4번이 다르게 나오는 시각은 어느 것인가? 조건은 같은데 왜 다른가?
 - 바꿔 보기: 4번의 `m4 = '저녁';` 옆 주석은 "이 줄에는 영영 오지 못한다"이다. 0~23 중 그 줄에 오는 값이 있나? 없다면 왜인가? 4번이 `저녁` 을 내려면 조건 두 줄을 어떻게 바꿔야 하나?
-- 바꿔 보기: 1번의 `let m1 = '(담긴 것 없음)';` 을 `let m1;` 으로 바꾸고 `9` 를 넣는다. 1번 자리에 무엇이 보이나? 그 글자는 무슨 뜻일까? 25행 `let m2;` 도 값 없이 만든 변수다. 같은 글자를 ex08 에서 다시 본다.
+- 바꿔 보기: 1번의 `let m1 = '(담긴 것 없음)';` 을 `let m1;` 으로 바꾸고 `hour` 를 `9` 로 한다. 1번 줄에 무엇이 찍히나? 그 글자는 무슨 뜻일까? `let m2;` 도 값 없이 만든 변수다. 같은 글자를 ex08 에서 다시 본다.
 - 흔한 실수: `if` 사슬에서 작은 기준(`>= 12`)을 먼저 쓴다. 위에서부터 **처음 참인 한 곳만** 실행되므로 큰 기준(`>= 18`)이 먼저 와야 한다.
 
 ### 8. ex08 function (`function` · `return`)
@@ -133,9 +131,9 @@ git push -u origin main
 괄호 안 `name` 은 부를 때 넣은 값을 받는 이름이다(**매개변수**). `greet('student02')` 로 부르면 그 안의 `name` 에 `'student02'` 가 담긴다.
 `undefined` 는 아직 담긴 값이 없다는 값이다. 값 없이 만든 변수(ex07 의 `let m1;`)도, `return` 이 없는 함수를 부른 결과도 `undefined` 다.
 
-- 바꿔 보기: 33행 `= greet('student02');` 의 오른쪽을 `` `${greet('student02')} 반가워요` `` 로 바꾼다(끝의 `;` 는 둔다). `${}` 안에서 함수를 불러도 되나? 화면 3번 첫 칸은 어떻게 되나? 조립의 `message` 줄이 이 모양이다.
-- 바꿔 보기: 화면 1번과 2번은 왜 다른가? Console 에 찍힌 한 줄은 어느 함수에서 나왔나? 2번 문장은 왜 Console 에 없나?
-- 바꿔 보기: `greetLog` 안의 `console.log('안녕하세요, ' + name + '님!');` 을 `return '안녕하세요, ' + name + '님!';` 으로 바꾼다. 화면 1번과 Console 이 각각 어떻게 달라지나?
+- 바꿔 보기: 3번 줄의 `greet('student02')` 를 `` `${greet('student02')} 반가워요` `` 로 바꾼다. `${}` 안에서 함수를 불러도 되나? 3번 줄이 어떻게 되나? 조립의 `message` 줄이 이 모양이다.
+- 바꿔 보기: Console 1번과 2번은 왜 다른가? 맨 위에 혼자 찍힌 `안녕하세요, student01님!` 은 어느 함수에서 나왔나? `greet` 가 만든 문장은 왜 2번 줄에만 있나?
+- 바꿔 보기: `greetLog` 안의 `console.log('안녕하세요, ' + name + '님!');` 을 `return '안녕하세요, ' + name + '님!';` 으로 바꾼다. 맨 위 한 줄과 1번 줄이 각각 어떻게 달라지나?
 - 바꿔 보기: `const a = greetLog('student01');` 줄 위에 `neverCalled();` 한 줄을 더한다. Console 에 무엇이 더 찍히나? 더하기 전에는 왜 없었나?
 - 흔한 실수: 함수를 정의만 하고 부르지 않는다. 정의는 이름을 붙여 두기만 한다. `greet('student01')` 처럼 **괄호를 붙여 불러야** 실행된다.
 
@@ -153,10 +151,10 @@ git push -u origin main
 
 [examples/day2/ex10_date.html](examples/day2/ex10_date.html) 을 `ex/ex10_date.html` 로 저장한다.
 
-- 바꿔 보기: 25행 `now.getHours()` 를 `new Date().getHours()` 로 바꾼다. 1번 숫자가 바꾸기 전과 같은가? 조립의 `hour` 줄이 이 모양이다.
-- 바꿔 보기: 표 여섯 줄을 오늘 날짜·시각과 맞춰 본다. 4번과 5번은 왜 1 차이가 나나? 6번 숫자는 무슨 요일인가?
+- 바꿔 보기: 1번 줄 끝의 값 `now.getHours()` 를 `new Date().getHours()` 로 바꾼다. 1번 숫자가 바꾸기 전과 같은가? 조립의 `hour` 줄이 이 모양이다.
+- 바꿔 보기: Console 여섯 줄을 오늘 날짜·시각과 맞춰 본다. 4번과 5번은 왜 1 차이가 나나? 6번 숫자는 무슨 요일인가?
 - 바꿔 보기: 1분 기다렸다가 새로고침한다. 무엇이 바뀌나? 파일을 고치지 않았는데 왜 바뀌나?
-- 바꿔 보기: 마지막 `innerText` 줄 아래에 `console.log(now.getSeconds());` 한 줄을 더한다. 새로고침할 때마다 Console 이 어떻게 되나?
+- 바꿔 보기: 6번 줄 아래에 `console.log('7. now.getSeconds() →', now.getSeconds());` 한 줄을 더한다. 새로고침할 때마다 7번이 어떻게 되나?
 - 흔한 실수: `getMonth()` 를 그대로 월로 쓴다. 월은 0부터 센다. 사람이 읽는 월은 `getMonth() + 1` 이다.
 
 ### 11. 조립 — `index.html` 두 줄과 `app.js` (`defer` · `id="greeting"`)
@@ -197,7 +195,7 @@ node server.mjs
 주소창에 `http://localhost:8000/` 을 친다. 카드와 Console 이 11번 확인과 같으면 된 것이다.
 
 - 바꿔 보기: 터미널에 찍힌 줄을 센다. `index.html` 을 한 번 열었는데 왜 여러 줄인가? `/styles.css`·`/app.js`·`/images/profile.png` 는 `index.html` 의 어느 줄이 부른 것인가? `404 GET /favicon.ico` 는 누가 요청했나?
-- 바꿔 보기: 주소창을 `http://localhost:8000/ex/ex01_click.html` 로 바꾼다. 두 번 눌러 열었을 때(`file:///…`)와 화면·Console A·D 가 같은가? 터미널에는 무엇이 한 줄 늘었나?
+- 바꿔 보기: 주소창을 `http://localhost:8000/ex/ex01_click.html` 로 바꾼다. 두 번 눌러 열었을 때(`file:///…`)와 Console A·C 가 같은가? 터미널에는 무엇이 한 줄 늘었나?
 - 바꿔 보기: 주소창에 없는 파일 `http://localhost:8000/hello.html` 을 친다. 화면과 터미널 줄의 앞 숫자는?
 - 확인이 끝나면 터미널에서 **Ctrl+C** 로 서버를 멈추고 끝 루틴으로 간다. Node 가 없는 PC 는 `index.html` 을 두 번 눌러 연다. 이번 주 결과는 같다.
 - 흔한 실수: 터미널이 다른 폴더에 있다. `Cannot find module …server.mjs` 가 뜨면 `server.mjs` 가 `index.html` 옆에 있는지, 터미널이 `web-week05` 인지 본다.
@@ -216,7 +214,6 @@ node server.mjs
 | `Uncaught SyntaxError: missing ) after argument list` | 괄호를 닫지 않았다. `console.log(greet('student01'));`처럼 괄호 짝을 맞춘다 |
 | `Uncaught TypeError: Assignment to constant variable.` | `const`로 만든 값에 다시 넣었다. 다시 넣어야 하면 `let`으로 만든다. ex03 의 2번 버튼은 일부러 이 오류를 보이는 것이다 |
 | `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` | 지난주 완성본의 `app.js`에 2주차 카운터 코드가 남아 있다. 그 버튼은 3주차에 사라졌다. [따라하기 2일차](walkthrough.md#2일차)처럼 전체를 지우고 조립표 순서로 새로 쓴다 |
-| `Uncaught TypeError: Cannot set properties of null (setting 'innerText')` | ex02 에서 head 주석을 풀었거나 `defer` 를 지웠다. 그 script 가 실행될 때 `p#msg` 를 아직 읽지 않아 `null` 이다. 확인했으면 되돌린다 |
 | `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` | `#greeting`을 못 찾았다. `id="greeting"` 철자, 그리고 `script` 줄에 `defer`가 있는지 본다. ex09 에서는 없는 id(`#p9`)에 쓴 것이다 |
 | 더했는데 `3` 이 아니라 `12` 가 나온다 | 문자열을 이은 것이다. 입력 칸의 `value` 는 늘 문자열이다. `Number()` 로 바꾼 뒤 더한다(ex04 7번) |
 | Console에 `${name}`이 글자 그대로 찍힌다 | 작은따옴표로 감쌌다. 백틱(`` ` ``)으로 바꾼다. 백틱 자리에 다른 글자가 들어가지 않았는지도 본다 |
@@ -239,15 +236,15 @@ node server.mjs
 - Console 에 `console.log` 두 줄(시각 숫자와 같은 문장)이 찍혀 있고 빨간 줄이 없다.
 - **주소창이 함께 보이게** 찍는다.
 
-2일차를 끝내지 못했다면 `https://student01.github.io/web-week05/ex/ex01_click.html` 을 열고 1번 버튼을 누른 뒤, Console 에 A·D·B 가 찍힌 화면을 대신 낸다.
+2일차를 끝내지 못했다면 `https://student01.github.io/web-week05/ex/ex01_click.html` 을 열고 버튼을 누른 뒤, Console 에 A·C·B 가 찍힌 화면을 대신 낸다.
 1일차 push 와 `ex/` 실험 파일은 확인용이며 따로 제출하지 않는다.
 캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 제출 위치와 마감은 수업 공지를 따른다.
 
 ## 먼저 끝났다면
 
-- ex04: 표 아래 입력 칸 두 개와 7번 버튼처럼 `−`·`×`·`÷` 버튼 세 개를 더한다. 식에서는 `-`·`*`·`/` 를 쓴다. 7번 버튼처럼 `Number()` 로 바꿔야 하나? 빼기도 `12` 처럼 이어 붙을까?
-- ex07: 3번에 "새벽"(`hour < 6`) 갈래를 더한다. 사슬 맨 위에 넣을 때와 맨 아래 `else` 바로 위에 넣을 때, `3` 을 넣은 결과를 비교한다. 4번처럼 순서가 결과를 바꾸나? 왜 그런가?
-- ex10 + ex07: `now.getDay()` 가 `0` 이면 "일요일", 아니면 "평일" 을 화면에 보이게 한다.
+- ex04: 7번 버튼처럼 `−`·`×`·`÷` 버튼 세 개를 더해 Console 에 결과를 찍는다. 식에서는 `-`·`*`·`/` 를 쓴다. 7번 버튼처럼 `Number()` 로 바꿔야 하나? 빼기도 `12` 처럼 이어 붙을까?
+- ex07: 3번에 "새벽"(`hour < 6`) 갈래를 더한다. 사슬 맨 위에 넣을 때와 맨 아래 `else` 바로 위에 넣을 때, `hour` 를 `3` 으로 한 결과를 비교한다. 4번처럼 순서가 결과를 바꾸나? 왜 그런가?
+- ex10 + ex07: `now.getDay()` 가 `0` 이면 "일요일", 아니면 "평일" 을 Console 에 찍는다.
 - ex08: `greet` 에 두 번째 매개변수(함수 괄호 안에서 받는 값의 이름. `greet(name)` 의 `name`) `hour` 를 더해 `안녕하세요, student01님! 지금은 9시입니다.` 를 돌려주게 한다. 부르는 쪽 괄호에는 무엇을 더 넣어야 하나?
 
 추가 과제는 선택 사항이며 채점하지 않는다.
