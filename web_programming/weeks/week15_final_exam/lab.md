@@ -1,174 +1,220 @@
-# 15주차 실습 — 기말 실기 리허설과 본시험
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week15_final_exam)
 
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week15_final_exam
+# 15주차 실습 — 문제 은행으로 연습하고 기말 실기 보기
 
-1일차는 시험과 **같은 형태의 리허설**이다. 점수에 들어가지 않는다. 2일차가 본시험 60분이다.
-모든 단계와 전체 코드는 [따라하기](walkthrough.md)에 있다. `student01`은 예시 아이디이므로 본인 아이디로 바꾼다.
-**완료 확인·캡처는 공개 주소에서만 한다.** `localStorage`와 `fetch`는 `file://`로 열면 결과가 다르다(11·12주차와 같다).
-작업 중 미리 보기가 필요하면 VS Code 확장 **Live Server**(**Go Live** → `http://127.0.0.1:5500/`)를 쓰고,
-설치가 막히면 터미널에서 `python3 -m http.server 8000`을 쓴다. 둘 다 없으면 **한 번에 한 가지만 고쳐 push**하고 공개 주소에서 본다.
+이번 주 실습은 새로 배우는 것이 아니라 **1~14주 실습 제출을 다시 풀어 보는 것**이다.
+문제는 [문제 은행 목록](examples/README.md)에 13개 있다. 문제마다 그 주에 배운 것만 쓰고, 나머지 파일은 다 주어진다. 1~7주 문제는 [8주차 문제 은행](../week08_midterm/examples/README.md)과 같은 문제다.
+해답은 공개하지 않는다. 문제 문장의 **"확인할 것"이 모두 맞으면 된 것이다.** 확인은 서버로 연 화면과 F12(Console·Network·Elements·Application), 기기 모드로 한다.
+1일차는 연습이다(점수에 들어가지 않는다). 2일차는 기말 실기 60분이다. 시험은 이 은행에서 영역(A~E)마다 한 문제씩, **같은 문제를 값만 바꿔서** 낸다. 8주에 나온 문제가 다시 나오면 8주와 다른 값으로 나온다.
+`student01` 은 예시 아이디이므로 본인 아이디로 바꾼다.
 
-## 1일차 — 리허설과 시험용 저장소 준비 (60분)
+받는 법, 서버로 여는 법, 확인하는 법은 [따라하기 1일차](walkthrough.md#1일차)에 `w12_fetch_cards` 를 예로 들어 있다. 시험 날 절차는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
 
-| 시간 | 할 일 |
-|---|---|
-| 0–5분 | GitHub에서 저장소 `web-final`(Public, README 끄기)을 만들고 `git clone https://github.com/<아이디>/web-final.git` → **File › Open Folder** |
-| 5–15분 | starter 네 파일을 넣고 `git add .` → `git commit` → `git push -u origin main` → **Settings › Pages**(`main` · `/(root)`) |
-| 15–28분 | TODO 1 — 폼 제출로 한 권 추가하고 빈값이면 안내 |
-| 28–38분 | TODO 2 — 항목마다 [지우기] 버튼 |
-| 38–46분 | TODO 3 — `final-items` 키로 저장·복원(미리 보기로 확인하고, 최종 확인은 끝 루틴 push 뒤 공개 주소에서) |
-| 46–55분 | TODO 4 — `data/items.json` 불러오기와 오류 안내(미리 보기로 확인하고, 최종 확인은 끝 루틴 push 뒤 공개 주소에서) |
-| 55–60분 | 끝 루틴: `git add .` → `git commit` → `git push` → 공개 주소 새로고침 → 확인용 캡처 → 공용 PC면 자격 증명 삭제 |
-
-### 1. 시험용 저장소와 Pages (`git clone` · **Settings › Pages**)
-
-`my-web`은 그대로 두고 새 저장소 `web-final`을 만든다. [따라하기 1~3단계](walkthrough.md#1-시험용-저장소-web-final-만들기)를 본다.
-
-- 저장소는 **Public**, **Add a README file**은 체크하지 않는다. 2주차와 같은 절차다.
-- clone 직후 `warning: You appear to have cloned an empty repository.`가 나오면 맞게 된 것이다. README를 체크해 버렸다면 이 줄이 나오지 않지만 그대로 이어서 하면 된다.
-- 집에서 미리 만들어 왔다면 clone 대신 그 폴더에서 `git pull`을 한다.
-- **오늘 안에 공개 주소가 열려야 한다.** 시험 당일에는 저장소도 Pages도 만들지 않는다.
-
-### 2. TODO 1 — 폼 제출 (`submit` · `value` · `trim`)
-
-`app.js`의 submit 리스너 안을 채운다. [따라하기 4단계](walkthrough.md#4-todo-1--폼으로-한-권-추가하기)를 본다.
-
-- 순서는 7주차와 같다. 값 읽기 → 빈값이면 안내하고 `return` → 아니면 배열에 넣고 `showList()`.
-- 목록 한 줄은 `제목 (날짜)` 모양이다. 날짜는 `new Date().toLocaleDateString()` 틀 한 줄이다(11주차).
-- 빈 칸으로 눌렀을 때 빨간 글씨가 나오고, 다시 제대로 넣으면 그 글씨가 사라져야 한다.
-
-### 3. TODO 2 — 지우기 버튼 (`createElement` · `splice`)
-
-목록의 줄마다 버튼을 붙인다. [따라하기 5단계](walkthrough.md#5-todo-2--지우기-버튼-붙이기)를 본다.
-
-- 10주차에 쓴 틀과 같다. `createElement('button')` → `textContent` → click 안에서 `splice(i, 1)` → `showList()`.
-- `showList()`가 다시 그릴 때 버튼마다 번호를 새로 붙인다. 가운데 줄을 지워도 번호가 밀리지 않는다.
-- 눌렀는데 목록이 그대로면 `splice` 뒤에 `showList()`를 부르지 않은 것이다.
-
-### 4. TODO 3 — 저장과 복원 (`localStorage` · `JSON`)
-
-두 줄이 짝이다. [따라하기 6단계](walkthrough.md#6-todo-3--localstorage로-남기기)를 본다.
-
-- 저장은 `setItem('final-items', JSON.stringify(books))`, 복원은 `JSON.parse(localStorage.getItem('final-items')) || []`.
-- 키 이름은 `final-items`다. `my-web`의 `guestbook`과 달라야 두 페이지의 목록이 섞이지 않는다.
-- **확인은 공개 주소에서 한다.** `file://`에서 넣은 항목은 공개 페이지에 나타나지 않는다.
-- DevTools **Application › Local Storage**에서 키와 값이 보이는지 함께 본다.
-
-### 5. TODO 4 — 불러오기 (`fetch` · `response.ok` · `try / catch`)
-
-`loadRecommend()` 안을 채운다. [따라하기 7단계](walkthrough.md#7-todo-4--추천-목록-불러오기)를 본다.
-
-- 경로는 `'data/items.json'`처럼 **상대 경로**로 쓴다. `/`로 시작하면 공개 주소에서 404가 난다.
-- 성공하면 `추천 3권`과 세 줄이 보이고, 실패하면 `불러오지 못했습니다.`가 보인다.
-- 실패 화면을 꼭 한 번 만들어 본다. 파일 이름을 잠깐 `item.json`으로 바꿨다가 되돌린다.
-- `file://`로 열면 항상 실패한다. 오류가 아니라 브라우저 규칙이다. 미리 보기 서버(**Go Live**·`python3 -m http.server 8000`)나 공개 주소에서는 나온다.
-
-### 6. 오늘 확인할 것
-
-- [ ] 공개 주소 `https://<아이디>.github.io/web-final/`이 열린다.
-- [ ] 제목을 넣고 **추가** → 한 줄이 생기고, 빈 칸으로 누르면 안내 문구가 나온다.
-- [ ] **지우기**로 그 줄만 사라진다.
-- [ ] 공개 주소에서 새로고침해도 목록이 남아 있다.
-- [ ] 추천 목록 3권이 보이고, 파일 이름을 틀리면 `불러오지 못했습니다.`가 보인다.
-- [ ] Console에 빨간 줄이 없다.
-
-1일차 캡처는 확인용이며 제출하지 않는다. 제출은 2일차에 한 번만 한다.
-
-## 2일차 — 본시험 구현과 제출 (60분)
+## 1일차 — 문제 은행으로 연습하기 (60분)
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 같은 PC면 `git pull`, 폴더가 없으면 `git clone https://github.com/<아이디>/web-final.git` → **File › Open Folder** → 시험 파일 네 개를 덮어쓰고 `git status`와 브라우저로 실행 확인 |
-| 5–15분 | HTML·CSS 문항 |
-| 15–35분 | 폼·목록 추가·삭제 문항 |
-| 35–45분 | localStorage 문항 |
-| 45–52분 | fetch·오류 안내 문항 |
-| 52–57분 | `git add .` → `git commit` → `git push` → `git log -1 --format=%H` → 공개 주소 확인·캡처 |
-| 57–60분 | 예비: Pages 반영 대기와 제출 확인 |
+| 0–5분 | 새 폴더 `web-week15` 를 만들어 VS Code 로 연다(**File › Open Folder**). [server.mjs](../../tools/static-server/server.mjs) 를 **Raw** 로 맨 위에 저장한다. [은행 목록](examples/README.md)에서 영역마다 한 문제씩, 자신 없는 영역부터 세 문제를 고른다. 9~14주 문제(`w09`~`w14`)를 하나 이상 넣는다 |
+| 5–20분 | 첫 문제: 받기(**Raw** → `web-week15/<문제 id>/`) → `node server.mjs` 로 열기 → 할 일 → "확인할 것" 맞추기 |
+| 20–35분 | 둘째 문제(같은 순서) |
+| 35–50분 | 셋째 문제(같은 순서). 앞의 두 문제에 9~14주 문제가 없었다면 여기서 하나 넣는다 |
+| 50–60분 | 이번 주 저장소 만들어 올리기: GitHub 에 새 저장소 `web-week15` → [올리기 명령](#이번-주-저장소-만들어-올리기) → **Settings › Pages** → 1~3분 뒤 공개 주소 `https://student01.github.io/web-week15/<문제 id>/` 에서 "확인할 것" 다시 보기 → 공용 PC면 자격 증명 삭제 |
 
-### 1. 시작 전 3분
+세 문제를 다 못 끝냈어도 50분이 되면 올리기로 간다. 저장소와 Pages 는 오늘 만들어야 2일차 시험에 쓸 수 있다.
 
-시험 파일을 덮어쓰고 **구현을 시작하기 전에** 실행을 확인한다. [따라하기 9단계](walkthrough.md#9-본시험-시작-전-3분)를 본다.
+### 1. 문제 고르기
 
-- 폴더가 남아 있는 PC면 `git pull`, 폴더가 없으면 `git clone https://github.com/<아이디>/web-final.git`으로 먼저 받는다. 저장소와 Pages는 어제 그대로 살아 있다.
-- `git status`에 바뀐 파일이 `modified:`로 보이는지 본다. 네 파일 중 몇 개가 보이면 정상이다.
-- `index.html`을 브라우저로 한 번 열어 화면이 뜨고 Console 오류가 0인지 본다.
-- 여기서 오류가 나면 손을 든다. 시간은 기록되며 손해가 없다.
-- 어제 리허설 commit은 저장소에 남아 있다. 덮어써도 사라지지 않는다.
+[은행 목록](examples/README.md)의 표에서 고른다. [따라하기 2단계](walkthrough.md#2-은행-목록에서-세-문제-고르기)를 본다. 영역마다 이런 문제가 있다.
 
-### 2. 문항 푸는 순서
+| 영역 | 은행 문제 |
+|---|---|
+| A 화면(HTML·CSS·README) | `w01_link_fix` · `w02_about_page` · `w03_guestbook_form` · `w04_responsive_css` · `w09_readme_links` · `w14_readme_images` |
+| B DOM | `w05_greeting_card` · `w06_dark_mode` · `w13_text_safe` |
+| C 폼·목록 | `w07_form_result` · `w10_list_delete` |
+| D 저장(localStorage) | `w11_local_storage` |
+| E 불러오기(fetch) | `w12_fetch_cards` |
 
-- 문항을 끝까지 읽고 어느 TODO 자리를 고치는지 먼저 표시한다.
-- 한 문항에서 10분 넘게 막히면 다음 문항으로 넘어간다. 문항끼리 서로 막지 않는다.
-- **한 번에 한 곳만 고치고** 브라우저에서 확인한다. 여러 곳을 동시에 고치면 원인을 찾을 수 없다.
-- 중간에 한 번 `git add .` → `git commit`을 해 두면 마지막에 몰리지 않는다.
+- 영역이 서로 다른 세 문제를 고른다. 시험은 다섯 영역에서 한 문제씩 나온다. 오늘 못 한 두 영역은 집에서 같은 방법으로 푼다.
+- 자신 없는 영역부터 고른다. 그 주 캡처를 못 냈거나 오래 걸린 주의 문제가 좋다.
+- 9~14주 문제를 하나 이상 넣는다. 8주에는 없었고 기말에 처음 나오는 문제다.
+- 표의 권장 분은 시험에서 그 문제에 쓸 시간이다. 오늘은 한 문제에 15분이라 받기와 확인까지 넣어도 된다.
 
-### 3. 제출 (공개 주소 · 저장소 주소 · commit 번호)
+### 2. 문제 하나 풀기 (받기 · 서버 · 할 일 · 확인할 것)
 
-[따라하기 11단계](walkthrough.md#11-마지막-5분--push와-제출-세-가지)를 본다.
+[따라하기 3~6단계](walkthrough.md#3-문제-폴더-받기--w12_fetch_cards)에 공개 문제 `w12_fetch_cards` 로 같은 순서를 보였다. 문제 문장은 절이 다섯이고 모든 문제가 같은 차례다.
 
-1. 공개 주소 `https://<아이디>.github.io/web-final/`
-2. 저장소 주소 `https://github.com/<아이디>/web-final`
-3. 마지막 commit 번호 — `git log -1 --format=%H`의 40자
+- **받기**: `web-week15` 안에 문제 id 와 같은 이름의 폴더를 만들고, 시작 파일을 **Raw** 로 받아 같은 이름으로 저장한다. 하위 폴더(`data/`·`images/`·`screenshots/`)도 같은 모양으로 만든다. 문제 문장인 `README.md` 는 받지 않는다. 교재 화면에서 읽는다.
+- **서버로 열기**: 터미널(현재 폴더 `web-week15`)에서 `node server.mjs` → 문제 문장 끝 "받기와 올리기"의 주소(`http://localhost:8000/<문제 id>/`. 첫 페이지가 `index.html` 이 아닌 문제는 파일 이름까지)를 연다. 맨 위 `http://localhost:8000/` 은 `index.html` 이 없어서 파일 목록이 보인다. Node 가 없는 PC 는 두 번 눌러 연다. `w12_fetch_cards` 는 그렇게 열면 요청이 막혀서, 올린 뒤 공개 주소에서 확인한다.
+- 먼저 받은 그대로 열어 본다. "확인할 것" 가운데 맞지 않는 것이 있어야 정상이다. 받자마자 Console 에 빨간 줄이 있으면 받은 파일 이름과 폴더부터 본다(`w01_link_fix` 는 그 404 를 고치는 문제라 처음부터 빨간 줄이 있다).
+- **시작 파일**: 고칠 파일과 "고치지 않는다" 파일을 가른다. 고치지 않는 파일은 열어 보기만 한다.
+- **할 일**: 적힌 차례대로 한다. 하나를 쓸 때마다 저장 → 새로고침 → Console 을 본다.
+- **확인할 것**: 위에서부터 하나씩 화면이나 F12 로 직접 해 본다. 넣으라는 입력도 적힌 글자 그대로 넣는다. 모두 맞으면 그 문제는 끝이다. 해답과 비교하지 않는다.
+- **이 문제의 값**: 시험에서 바뀌는 값이다. 문장·할 일·확인하는 방법은 그대로다. 값은 표에서 복사해 붙여 넣는다. 한 글자만 달라도 확인할 것이 맞지 않는다.
+- 쓸 말이 떠오르지 않으면 문제 문장 맨 위 "출처" 링크로 그 주의 실습지를 연다. 시험에서도 교재 사이트는 볼 수 있다. 5분 넘게 막히면 다음 할 일이나 다음 문제로 간다. 시험과 같은 습관이다.
+- 흔한 실수: 문제 폴더를 만들지 않고 맨 위에 바로 저장한다. 다음 문제의 `index.html`·`app.js` 가 덮어쓴다.
 
-- **저장하고 push해서 공개 주소에 보이는 것이 제출본이다.** VS Code 화면이 아니다.
-- 캡처 1장(주소창이 보이게)을 함께 낸다.
-- 채점 기준은 [채점표](rubric.md)에 있다.
+### 3. 영역마다 확인하는 곳 (F12 · 기기 모드)
 
-### 4. 시험 중 규칙
+| 영역 | 주로 보는 곳 |
+|---|---|
+| A 화면(HTML·CSS·README) | 화면, F12 › Network(CSS·JS·새 페이지 요청이 200), F12 › Elements(태그·속성·계산된 스타일), 기기 모드 폭. README 문제는 VS Code **Open Preview** 와 올린 뒤 GitHub 의 그 폴더 화면 |
+| B DOM | 화면 글자, F12 › Console 의 빨간 줄과 찍힌 값, Console 에 문제에 적힌 식을 쳐서 나오는 값 |
+| C 폼·목록 | 빈칸이나 공백만 넣어 제출하기, Enter 로 제출하기, 줄 수와 개수 문장, Console 의 `items.length` |
+| D 저장(localStorage) | F12 › Application › Local Storage 에서 지금 주소의 키와 값, 새로고침한 뒤의 목록 |
+| E 불러오기(fetch) | F12 › Network 의 요청 주소와 Status(200·404), Console 의 `Uncaught` 줄. 서버 주소나 공개 주소에서 본다 |
 
-- 허용: 교재 사이트, 본인 저장소(`my-web`), MDN. 검색·AI 도구의 범위는 수업 공지를 따른다.
-- 금지: 다른 학생의 코드, 메신저, 남의 저장소 답안.
-- 장애는 혼자 해결하지 않는다. 손을 들면 시각이 기록된다.
-- 다 못 했어도 **코드를 지우고 내지 않는다.** 시도 흔적은 점수로 인정된다.
+- 저장 칸(Local Storage)은 주소의 앞부분(`http://localhost:8000` 과 `https://student01.github.io`)마다 따로다. 서버 주소에서 넣은 목록은 공개 주소에 없다.
+- 확인할 것은 코드 모양이 아니라 결과다. 같은 결과를 내면 다른 방법으로 써도 된다.
+
+### 이번 주 저장소 만들어 올리기
+
+GitHub 에서 **New repository** → 이름 `web-week15`, **Public**, README 는 추가하지 않는다. VS Code 터미널(현재 폴더 `web-week15`)에서 2주차에 배운 순서 그대로 친다. 서버를 띄운 터미널이면 **Ctrl+C** 로 멈추거나 새 터미널을 연다.
+
+```bash
+git init
+git add .
+git commit -m "15주차 1일차"
+git branch -M main
+git remote add origin https://github.com/student01/web-week15.git
+git push -u origin main
+```
+
+저장소 **Settings › Pages › Branch: main, /(root) › Save** → 1~3분 뒤 `https://student01.github.io/web-week15/w12_fetch_cards/`(내가 푼 문제 id)를 연다. "확인할 것"을 공개 주소에서 다시 본다. 공용 PC면 자격 증명을 지우고 나간다.
+
+- `https://student01.github.io/web-week15/` 는 맨 위에 `index.html` 이 없어서 404 다. 문제 폴더 주소로 연다.
+- 이 저장소와 Pages 를 2일차 시험에 그대로 쓴다. 2일차에는 저장소를 새로 만들지 않는다.
+- 오늘 올린 것은 확인용이다. 제출은 2일차에 한 번만 한다.
+
+### 오늘 확인할 것
+
+- [ ] 영역이 다른 문제 셋(9~14주 문제 하나 이상)의 "확인할 것"을 스스로 맞춰 봤고, 맞추지 못한 항목이 무엇인지 안다.
+- [ ] 저장소 `web-week15` 가 있고 **Settings › Pages** 가 켜져 있다.
+- [ ] 연습한 문제 폴더의 공개 주소에서 로컬과 같은 결과가 보인다.
+
+1일차 결과는 점수에 들어가지 않는다. **어디서 막혔는지 알고 가는 것**이 목적이다.
+
+## 2일차 — 기말 실기 (60분)
+
+| 시간 | 할 일 |
+|---|---|
+| 0–3분 | 읽기: 받은 `exam` 폴더를 저장소 맨 위에 그대로 넣고, 목차 `http://localhost:8000/exam/` 이 열리면 바로 올린다(`git add .` → `git commit -m "기말 실기 시작"` → `git push`). `exam/README.md` 를 **Open Preview** 로 열어 훑고, 문제마다 제목·권장 분·고칠 파일만 본다(문장 전체는 그 문제를 풀 때 읽는다). 아직 코드를 쓰지 않는다 |
+| 3–51분 | 문제 다섯(A~E). 문제마다 적힌 권장 분을 보고 시간을 나눈다. 한 문제에 5분 넘게 막히면 다음 문제로 간다. 고친 문제는 목차 `http://localhost:8000/exam/` 에서 열어 "확인할 것"을 본다 |
+| 51–56분 | 마지막 올리기: `git add .` → `git commit -m "기말 실기 끝"` → `git push` → 공개 주소 `https://student01.github.io/web-week15/exam/` 새로고침 → GitHub **Commits** 탭 캡처 |
+| 56–60분 | 예비: Pages 반영 기다리기, 제출 세 가지 확인, 공용 PC면 자격 증명 삭제 |
+
+시험 후반 30분 동안 강의자가 좌석을 돌며 한 사람에 1분씩 구술을 묻는다([구술 1분](#구술-1분)). 구술 때문에 푸는 시간이 줄지 않는다. 시험 시간 안에 구술을 받은 사람은 마감이 1분 늦다.
+
+### 시작 전
+
+시험 60분이 시작되기 전에 한다. [따라하기 9단계](walkthrough.md#9-시작-전--폴더-열고-서버-띄우기)를 본다.
+
+- 같은 PC에 `web-week15` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week15.git` 뒤 **File › Open Folder**.
+- `node server.mjs` 로 서버를 띄우고 `http://localhost:8000/` 에 1일차 연습 폴더가 보이는지 본다. 올리기는 서버를 띄운 터미널이 아니라 새 터미널에서 한다.
+- 공개 주소 `https://student01.github.io/web-week15/<연습한 문제 id>/` 가 열리는지 본다. 열리지 않으면 시험 전에 손을 든다.
+- 1일차에 저장소를 만들지 못했으면 시험 전에 [이번 주 저장소 만들어 올리기](#이번-주-저장소-만들어-올리기)를 먼저 한다. 시험 시간에는 저장소를 만들지 않는다.
+- 볼 수 있는 것을 탭으로 열어 둔다: 교재 사이트, 본인 저장소, MDN.
+
+시험이 시작되면 맨 먼저 한다(읽기 3분 안). [따라하기 10~12단계](walkthrough.md#10-exam-폴더-받아-맨-위에-넣기)를 본다.
+
+1. **exam 폴더 받기**: 강의자가 나눠 주는 `exam` 폴더를 받는다. 받는 곳은 강의자가 공지한다. 압축 파일이면 푼다.
+2. **저장소 맨 위에 넣기**: `exam` 폴더를 통째로 `web-week15` 맨 위에 넣는다. `web-week15/exam/index.html` 이 되어야 한다(`exam/exam/` 이 되면 안 된다).
+3. **목차 열기**: `http://localhost:8000/exam/` 을 연다. 목차의 링크로 문제마다 화면이 열린다.
+4. **시작 올리기**: 아직 아무것도 고치지 않은 채로 한 번 올린다.
+
+```bash
+git add .
+git commit -m "기말 실기 시작"
+git push
+```
+
+```text
+web-week15/
+  exam/
+    README.md            ← 문제 문장 다섯. 문제 문장은 여기에만 있다
+    index.html           ← 목차. 문제 A~E 로 가는 링크
+    a/  b/  c/  d/  e/   ← 문제 폴더. 시작 파일만 있다
+  w12_fetch_cards/ …     ← 1일차 연습 폴더. 그대로 둔다
+  server.mjs
+```
+
+### 시험 중 규칙
+
+- 볼 수 있는 것: 교재 사이트, 본인 저장소, MDN. 그 밖은 강의자 공지를 따른다. 다른 학생의 코드와 메신저는 보지 않는다.
+- `exam` 폴더는 이름과 구조를 바꾸지 않는다. 문제마다 그 문제의 폴더(`exam/a/` 등) 안의 파일만 고친다. `exam/index.html`·`exam/README.md` 와 다른 문제의 폴더는 고치지 않는다.
+- 문제끼리 이어지지 않는다. 한 문제에 5분 넘게 막히면 다음 문제로 가고, 남는 시간에 돌아온다.
+- 한 번에 한 곳만 고치고 확인한다. 여러 곳을 한꺼번에 고치면 어디가 원인인지 알 수 없다.
+- 문제를 하나 끝낼 때마다 `git add .` → `git commit -m "기말 실기 A"`(메시지는 자유) → `git push` 로 올려 두어도 된다. 마지막에 몰리지 않는다.
+- 질문은 문제 문장의 뜻·파일 위치·제출 방법·장애만 받는다. 코드가 맞는지는 답하지 않는다.
+- 장애(서버·push·Pages)는 혼자 붙잡고 있지 않는다. 손을 들면 시각을 기록한다.
+- 다 못 했어도 쓴 코드를 지우지 않고 올린다. 실행되는 부분 결과는 부분 충족으로 본다([채점표](rubric.md)).
+- 범위 밖 기능은 가점하지 않는다. 새 기능을 더 만들지 않는다.
+
+### 구술 1분
+
+- 시험 후반 30분 동안 강의자가 좌석을 돌며 한 사람에 1분씩 묻는다. 발표가 아니다.
+- 강의자가 화면의 **본인 코드**에서 한 줄을 가리킨다. 그 줄이 하는 일을 말한다. 예: `event.preventDefault();` 를 가리키면 "폼을 제출할 때 페이지가 새로고침되지 않게 막는다."
+- 답한 뒤 이어서 푼다. 구술 때문에 시험 시간이 줄지 않는다. 구술에 쓴 1분은 마감 때 돌려준다(구술을 받은 사람은 마감이 1분 늦다).
+- 2점이다. 기준은 [채점표의 시연 5점](rubric.md#시연-5점)에 있다.
+
+### 끝내기 전
+
+[따라하기 14단계](walkthrough.md#14-마지막-올리기와-commits-탭-캡처)를 본다.
+
+- 51분이 되면 고치던 것을 멈추고 마지막으로 올린다(`기말 실기 끝`). 저장하지 않은 파일은 올라가지 않는다. VS Code 탭 제목의 ● 표시를 본다.
+- 1~3분 뒤 `https://student01.github.io/web-week15/exam/` 를 새로고침하고 목차에서 문제마다 연다. **여기 보이는 것이 제출본이다.** VS Code 화면이 아니다.
+- GitHub 저장소 화면에서 파일 목록 위 오른쪽의 **Commits**(시계 아이콘과 commit 수)를 눌러 Commits 탭을 연다. 맨 위 commit 이 `기말 실기 끝` 이고 그 줄의 번호(일곱 글자)와 시각이 보이게 캡처한다.
+- [제출 세 가지](#제출--세-가지)를 낸다. 공용 PC면 자격 증명을 지우고 나간다.
+- 마감은 시험 60분이 끝나는 시각이다(시험 시간 안에 구술을 받은 사람은 1분 뒤). 마감 전 마지막 commit 이 제출본이고, 마감 뒤에는 이 저장소에 올리지 않는다.
 
 ## 막혔을 때
 
 | 증상 | 확인할 것 |
 |---|---|
-| 공개 주소에 방금 push한 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다. `git status`에 `Your branch is ahead of 'origin/main' by 1 commit.`이 있으면 push를 안 한 것이다 |
-| `warning: You appear to have cloned an empty repository.` | 정상이다. 빈 저장소를 받았다는 뜻이며 이어서 파일을 넣고 commit한다 |
-| `fatal: destination path 'web-final' already exists and is not an empty directory.` | 그 자리에 이미 폴더가 있다. clone 대신 그 폴더를 열고 `git pull`을 한다 |
-| 2일차인데 `web-final` 폴더가 없거나 `git status`가 `fatal: not a git repository (or any of the parent directories): .git`으로 끝난다 | 어제 만든 저장소는 GitHub에 그대로 있다. `git clone https://github.com/<아이디>/web-final.git`으로 다시 받아 **File › Open Folder**로 열고, 그 폴더에 시험 파일을 덮어쓴다 |
-| `nothing to commit, working tree clean` | 파일을 저장하지 않았거나 이미 commit했다. VS Code 탭 제목의 ● 표시와 `git log --oneline`을 본다 |
-| `file://`로 열었더니 추천 목록이 늘 `불러오지 못했습니다.`이고 Console에 `Access to fetch at 'file:///…/data/items.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-extension, chrome-untrusted, data, http, https, isolated-app.` | 오류가 아니라 브라우저 규칙이다. `file://`에서는 파일을 불러올 수 없다. 공개 주소에서 확인한다 |
-| Live Server 확장이 설치되지 않는다 | 터미널에서 `python3 -m http.server 8000`을 실행하고 `http://127.0.0.1:8000/`을 연다. 둘 다 막히면 한 번에 한 가지만 고쳐 push하고 공개 주소에서 확인한다 |
-| `file://`에서 넣은 목록이 공개 주소에 없다 | 로컬과 공개 주소는 브라우저 저장소가 서로 다르다. 공개 주소에서 다시 넣어 확인하고 캡처한다 |
-| 새로고침하면 목록이 사라진다 | `saveList()`를 부르지 않았거나 복원 줄(`JSON.parse(...) || []`)을 넣지 않았다. 두 줄이 짝이다 |
-| **지우기**를 눌렀는데 새로고침하면 되살아난다 | `splice` 뒤에 `saveList()`가 없다. 화면만 바꾸고 저장하지 않았다 |
-| `Uncaught SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)` | 저장해 둔 값이 JSON이 아니다. DevTools **Application › Local Storage**에서 `final-items`를 지우고 새로고침한다 |
-| 공개 주소인데도 추천 목록이 `불러오지 못했습니다.`로 뜬다 | 파일 이름과 폴더 이름을 본다. `data/items.json`이 저장소에 push되어 있는지 GitHub 화면에서 확인한다. 이름이 하나라도 다르면 서버가 404로 답한다 |
-| 내 PC에서는 추천 목록이 나오는데 공개 주소에서만 `불러오지 못했습니다.` | 경로를 `/data/items.json`처럼 `/`로 시작하게 썼다. 공개 주소에는 저장소 이름이 앞에 붙어 그 자리에 파일이 없다. `'data/items.json'`으로 고친다 |
-| 추천 목록만 `불러오지 못했습니다.`인데 Console에는 빨간 줄이 없다 | `data/items.json`의 따옴표·쉼표가 틀려 읽다가 멈춘 것이다. `try / catch`가 잡아 주기 때문에 빨간 줄이 안 보인다. **Network** 탭에서 `items.json`을 열어 큰따옴표를 본다 |
-| `Uncaught TypeError: Cannot set properties of null (setting 'innerHTML')` | `document.querySelector`가 그 자리를 못 찾았다. 오류 줄의 `app.js:줄번호`를 열어 그 줄의 `id`를 `index.html`과 대조한다(대소문자까지) |
-| 추천 목록이 `불러오는 중…`에서 멈춰 있다 | `loadRecommend()` 안이 비어 있거나 `loadStatus`에 아무것도 쓰지 않았다. Console과 **Network** 탭을 함께 본다 |
+| 공개 주소에 방금 올린 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다. 반영 지연은 감점하지 않는다. 시험 날에는 채점자가 다음 날 공개 주소를 다시 연다 |
+| push 가 거부되거나 로그인 창이 안 뜬다 | [2주차 막혔을 때](../week02_github_pages/lab.md#막혔을-때) 표를 본다. 시험 중이면 손을 든다 |
+| 공개 주소 `https://student01.github.io/web-week15/` 가 404 다 | 맨 위에 `index.html` 이 없어서다. 문제 폴더 주소(`…/web-week15/w12_fetch_cards/`)나 시험 목차(`…/web-week15/exam/`)로 연다 |
+| `http://localhost:8000/exam/` 에 목차 대신 파일 목록(`exam/` 한 줄)이 보이거나 404 다 | 압축을 풀다 `exam/exam/` 으로 한 겹 더 들어갔다(안쪽 `exam` 을 맨 위로 옮긴다). 또는 서버를 다른 폴더에서 띄웠다(터미널의 `폴더:` 줄이 `web-week15` 인지 본다) |
+| 공개 주소 `…/web-week15/exam/` 이 404 다 | ① `exam` 폴더를 맨 위에 넣었는지(`web-week15/exam/index.html`). `exam/exam/` 처럼 한 겹 더 들어가 있으면 안쪽을 꺼낸다 ② 폴더 이름이 소문자 `exam` 인지 ③ GitHub 저장소 화면에 `exam/` 이 올라가 있는지 ④ 올린 뒤 1~3분 기다렸는지 본다 |
+| 받은 문제를 열었더니 모양이 깨지고 Console 에 404 줄이 있다 | 받은 파일 이름이나 폴더가 문제와 다르다. 이름 끝에 `.txt` 가 붙지 않았는지, `data/`·`images/`·`screenshots/` 하위 폴더를 만들었는지, 대소문자까지 같은지 본다. `w01_link_fix` 는 처음부터 404 가 있고 그것을 고치는 문제다 |
+| 둘째 문제를 받았더니 첫 문제 화면이 바뀌었다 | 같은 자리에 저장해 덮어썼다. 문제마다 `web-week15/<문제 id>/` 폴더를 따로 만든다 |
+| `fetch` 문제가 늘 안내 문장만 보이고 Console 에 `Access to fetch at 'file:///…' from origin 'null' has been blocked by CORS policy` 줄이 있다 | 두 번 눌러 연 `file://` 화면이다. 오류가 아니라 브라우저 규칙이다. `node server.mjs` 로 연 주소나 공개 주소에서 확인한다 |
+| 서버 주소에서도 공개 주소에서도 카드 대신 안내 문장이 나오고 F12 › Network 의 데이터 파일 요청이 404 다 | 404 난 요청 주소를 본다. `http://localhost:8000/data/…` 처럼 문제 폴더 이름이 빠져 있으면 요청 경로를 `/data/…` 처럼 `/` 로 시작하게 쓴 것이다. `/` 로 시작하면 문제 폴더가 아니라 맨 위에서 찾는다(공개 주소도 같다). 폴더 이름이 들어 있는데 404 면 `data/` 폴더와 파일 이름을 문제와 대소문자까지 맞춘다 |
+| 내 PC 에서는 그림이 보이는데 GitHub 와 공개 주소에서는 깨진다 | 파일 이름 대소문자가 다르다. 내 PC(Windows·macOS)는 대소문자를 가리지 않지만 GitHub 와 공개 주소는 가린다. 폴더의 파일 이름과 한 글자씩 맞춘다 |
+| 새로고침하면 목록이 사라진다 | F12 › Application › Local Storage 에서 지금 주소를 골라 문제에 적힌 키가 생기는지, 추가·삭제 때마다 값이 바뀌는지 본다 |
+| 열자마자 `Uncaught SyntaxError` 가 있고 줄에 `JSON` 이 보인다 | 저장 칸에 JSON 이 아닌 값이 남아 있다. Application › Local Storage 에서 그 키를 지우고 새로고침한다. 추가한 뒤 다시 생기면 저장하는 자리를 문제의 할 일과 다시 맞춰 본다 |
+| 화면이 생각과 다른데 이유를 모르겠다 | **Console 을 먼저 연다.** 빨간 줄 오른쪽 `파일:줄` 로 간다. 오류 난 줄 아래는 실행되지 않는다 |
+| `'node' is not recognized` / `command not found: node` | Node.js 가 없거나 설치 뒤 터미널을 새로 열지 않았다. 두 번 눌러 열어 확인하고, `fetch` 문제는 올린 뒤 공개 주소에서 확인한다 |
+| `8000 번 포트를 이미 다른 프로그램이 쓰고 있습니다` | 다른 터미널에 서버가 떠 있다. 그 터미널에서 Ctrl+C 하거나 `node server.mjs . 8001` 로 띄우고 `http://localhost:8001/` 을 연다 |
 
-한 번에 한 곳만 고치고 다시 확인한다. 해결되지 않으면 화면을 그대로 보여 주고 감독에게 말한다.
+한 번에 한 곳만 고치고 새로고침한다. 해결되지 않으면 화면을 그대로 보여 주고 도움을 받는다. 시험 중이면 손을 든다.
 
-## 제출 — 캡처 한 장
+## 제출 — 세 가지
 
-`https://<아이디>.github.io/web-final/`을 열고 **주소창이 함께 보이게** 화면을 캡처한다.
+2일차 시험이 끝나면 한 번 낸다. 1일차에 올린 연습 폴더는 확인용이며 따로 내지 않는다.
 
-- 목록에 내가 넣은 줄이 보이고 **지우기** 버튼이 붙어 있다.
-- 추천 목록이 보이거나, 실패했다면 `불러오지 못했습니다.` 안내가 보인다.
+1. 공개 주소 `https://student01.github.io/web-week15/exam/`(본인 아이디) — 목차가 열리는 주소
+2. 저장소 주소 `https://github.com/student01/web-week15`
+3. GitHub **Commits** 탭 캡처 1장 — 맨 위 commit(`기말 실기 끝`)의 번호(일곱 글자)와 시각이 보이게, 주소창과 함께 찍는다
 
-캡처와 함께 공개 주소·저장소 주소·마지막 commit 번호 세 가지를 낸다.
-캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 제출 위치와 마감은 수업 공지를 따른다.
+- 제출본은 **마감 전 마지막 commit 을 공개 주소에서 연 화면**이다. 채점은 `exam/` 폴더만 본다.
+- Pages 반영이 늦어도 감점하지 않는다. 채점자가 다음 날 공개 주소를 다시 연다. 로컬 화면 캡처와 Commits 탭 캡처도 인정한다.
+- 채점이 끝날 때까지 저장소 `web-week15` 를 지우거나 이름을 바꾸지 않는다. **Settings › Pages** 도 끄지 않는다. 마감 뒤에는 올리지 않는다.
+- 채점 기준은 [채점표](rubric.md)에 있다.
+- 캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 아이디는 보여도 된다. 세 가지를 내는 곳과 내는 기한은 수업 공지를 따른다(commit 마감은 시험이 끝나는 시각이다).
 
 ## 먼저 끝났다면
 
-1일차 리허설을 일찍 끝냈을 때만 한다. 채점하지 않는다.
+1일차:
 
-- 목록 위에 `${books.length}권`을 표시해 본다(10주차 항목 수).
-- **[전체 지우기]** 버튼을 만들어 `books = []` → `showList()` → `saveList()`를 해 본다.
-- `styles.css`의 색을 바꿔 push하고 공개 주소가 따라 바뀌는지 본다.
-- 375px 기기 모드에서 폼이 세로로 접히는지 확인한다.
+- 남은 영역에서 한 문제를 더 푼다. 다섯 영역을 한 번씩 풀어 보는 것이 목표다.
+- 푼 문제의 "이 문제의 값" 표에서 값 두세 개(안내 문장·키 이름·버튼 글자 등)를 스스로 바꿔 다시 풀고, "확인할 것"도 바뀐 값으로 맞춰 본다. 시험이 이 모양이다.
+- 올린 공개 주소를 새 시크릿 창으로 열어 "확인할 것"을 다시 본다. 시크릿 창은 저장 칸이 빈 채로 시작한다.
 
-## 확장 대신 할 일
+2일차(시험이 일찍 끝났을 때) — 새 기능을 더 만들지 않는다:
 
-2일차 본시험에서 일찍 끝났을 때 하는 것이다. 새 기능을 더 만들지 않는다.
+- 목차에서 다섯 문제를 차례로 열어 "확인할 것"을 처음부터 다시 맞춘다.
+- 문제 문장을 다시 읽고 값(글자·id·키 이름·파일 이름)을 한 글자씩 대조한다.
+- 문제마다 Console 에 빨간 줄이 없는지 본다.
+- Commits 탭에서 마지막으로 올린 commit 이 맨 위인지 본다.
 
-- 공개 주소를 **새 시크릿 창**으로 열어 처음 보는 사람의 화면에서도 동작하는지 본다.
-- 문항을 다시 읽고 빠뜨린 조건(안내 문구, 키 이름, 파일 이름)이 없는지 대조한다.
-- Console을 열어 빨간 줄이 0인지 확인한다.
-- `git log --oneline`으로 오늘 commit이 올라갔는지 보고, 제출한 commit 번호와 같은지 대조한다.
+추가 과제는 선택 사항이며 채점하지 않는다.

@@ -25,7 +25,7 @@
 
 - 시작 전 `git status`가 `nothing to commit, working tree clean`이어야 한다. 아니면 먼저 commit한다.
 - `Switched to a new branch 'readme'`가 보이고 `git branch`에 `* readme`가 있으면 된다.
-- 8주차 `exam/` 폴더는 그대로 둔다. 이번 주에 보여 주는 것은 `my-web` 본체다.
+- 8주차 시험 저장소 `web-week08`은 열지 않는다. 이번 주에 보여 주는 것은 `my-web` 본체다.
 
 ### 2. 세 페이지 점검과 화면 캡처 (`screenshots/`)
 

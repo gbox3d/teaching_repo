@@ -216,7 +216,7 @@
       "description": "브라우저와 Git의 기초에서 시작해 저장소 하나에 페이지를 쌓아 공개 사이트를 만들고, 목록·브라우저 저장·JSON 불러오기까지 다루는 15주 입문 과정입니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 3개 특강 · 323장",
+      "summary": "15개 주차 + 3개 특강 · 319장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
@@ -307,12 +307,12 @@
           "id": "week08_midterm",
           "label": "8주차",
           "title": "중간 개인 실기",
-          "description": "2~7주에 한 주씩 쌓아 온 것을, 문제지를 보고 **혼자 60분 안에** 만들어 공개 주소까지 올릴 수 있을까?",
+          "description": "1~7주 실습 제출로 만든 문제 은행으로 연습하고, **값만 바뀐 같은 문제**를 혼자 60분 안에 풀어 공개 주소까지 올릴 수 있을까?",
           "type": "week",
           "en": {
             "label": "Week 8",
             "title": "Midterm Hands-on Exam",
-            "description": "Can you take what you built week by week in Weeks 2–7, work from a question sheet alone in 60 minutes, and get it up at a public URL?"
+            "description": "Can you practice with a problem bank built from the Weeks 1–7 lab submissions, then solve the same problems with changed values alone in 60 minutes and get them up at a public URL?"
           }
         },
         {
@@ -391,12 +391,12 @@
           "id": "week15_final_exam",
           "label": "15주차",
           "title": "기말 개인 실기",
-          "description": "2~13주에 배운 것을 처음 보는 starter 위에서 60분 안에 다시 만들고, 공개 주소로 제출할 수 있을까?",
+          "description": "1~14주 실습 제출을 모은 문제 은행으로 연습하고, **값만 바뀐 같은 문제**를 60분 안에 풀어 공개 주소로 제출할 수 있을까?",
           "type": "week",
           "en": {
             "label": "Week 15",
             "title": "Final Individual Exam",
-            "description": "Can we rebuild what we learned in Weeks 2–13 on a starter we've never seen, in 60 minutes, and submit it at a public address?"
+            "description": "Can you practice with a problem bank built from the lab submissions of Weeks 1–14, then solve the same problems with changed values in 60 minutes and submit them at a public URL?"
           }
         },
         {

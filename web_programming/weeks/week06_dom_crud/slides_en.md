@@ -225,14 +225,14 @@ function countUp() {
 
 | Item | Details |
 |---|---|
-| Scope | Weeks 2–7 — GitHub Pages, HTML, CSS, DOM, forms |
-| Weight | 20 points. 3 points for form input and the empty-value message |
-| Where you work | Not a new repository — build it in `my-web/exam/` and push |
-| Released | The rehearsal starter and rubric are released on **Week 7, Day 1** |
+| Scope | Weeks 1–7 lab submissions — HTML, CSS, JavaScript & DOM, forms |
+| Weight | 20 points (draft). 3 points for form input and the empty-value message |
+| Where you work | A new Week 8 repository, `web-week08` (created on Day 1) |
+| Published | The [problem bank](../week08_midterm/examples/README.md) of lab submissions. No published solutions |
 
-- Today's `querySelector`, `textContent`, and `addEventListener` all appear on the exam as-is.
-- List **add/remove is Week 10**, and **storage that survives a reload is Week 11**. Neither is in the midterm scope.
-- Once you read form input and display it in Week 7, the whole midterm scope is covered.
+- Day 1 is bank practice; Day 2 is the midterm. The exam reuses bank problems with **only the values changed**.
+- This week's lab submission (dark mode, click count) is a bank problem too.
+- List **add/remove (Week 10)** and **storage (Week 11)** are out of scope. The scope ends with the Week 7 form.
 
 ---
 

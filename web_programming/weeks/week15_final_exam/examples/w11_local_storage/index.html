@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>w11 메모장</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>메모장</h1>
+    </header>
+    <main>
+      <form id="memo-form">
+        <p>
+          <label for="title-input">제목</label>
+          <input id="title-input" type="text">
+        </p>
+        <p>
+          <label for="memo-input">내용</label>
+          <input id="memo-input" type="text">
+        </p>
+        <button type="submit">추가</button>
+      </form>
+      <p id="notice"></p>
+      <h2>목록</h2>
+      <ul class="card" id="memos"></ul>
+      <p id="memo-count">저장된 메모가 없습니다.</p>
+      <p><button id="clear-memos" type="button">모두 지우기</button></p>
+    </main>
+    <footer>
+      <p>수업용 연습 페이지 · student01</p>
+    </footer>
+  </body>
+</html>

@@ -115,8 +115,8 @@ Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/week
 
 Today's lab touches only three files: `index.html`, `about.html`, `README.md`.
 
-The Week 15 final exam covers **Weeks 2–13**. It's not today's `my-web` —
-you build the form, list, saving, and fetch solo, in a fresh test folder in a new repository. Implementation 15 + demo 5.
+The Week 15 final exam covers **Weeks 1–14, cumulatively**. It's not today's `my-web` —
+you solve problems from the [problem bank](../week15_final_exam/examples/README.md) built from our lab submissions, solo, in a new repository `web-week15`. Implementation 15 + demo 5.
 
 **Explanation total: 5+7+6+6+3+3 = 30 min**
 
@@ -207,6 +207,6 @@ The assignment scope is in the [Project 2 brief](project_brief.md).
 
 Week 15 is the **final individual exam**.
 
-Its scope is Weeks 2–13, and you build it solo in a **new repository**, not today's `my-web`.
-On Day 1, you create the repository, turn on Pages, and rehearse; Day 2's 60 minutes is the actual exam.
+Its scope is Weeks 1–14, cumulatively, and you solve it solo in a **new repository, `web-week15`**, not today's `my-web`.
+On Day 1, you practice with the problem bank, create the repository, and turn on Pages. Day 2's 60 minutes is the final exam: one bank problem per area, with only the values changed.
 Implementation 15 + demo 5, where the demo 5 comes from the grader opening your submitted public address directly plus one spoken question.

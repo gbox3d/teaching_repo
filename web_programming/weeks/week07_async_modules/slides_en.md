@@ -30,7 +30,7 @@ The form you built in Week 3 — the one where we wrote "clicking it only change
 2. `addEventListener('submit')` and `event.preventDefault()`
 3. Reading values with `value` and `trim()`
 4. Displaying results, empty-value messages, `focus()`, `reset()`
-5. Week 8 midterm hands-on exam released
+5. The Week 8 midterm and the problem bank
 
 ---
 
@@ -103,17 +103,17 @@ const name = nameInput.value.trim();
 
 ---
 
-## Day 1 · 24–30 min ① — Week 8 Midterm Hands-on Exam Released
+## Day 1 · 24–30 min ① — The Week 8 Midterm and the Problem Bank
 
 | Item | Details |
 |---|---|
-| Scope | Weeks 2–7 — GitHub Pages, HTML, CSS, DOM, forms |
-| Weight | 20 points. 3 points for today's form input and empty-value message |
-| Where you work | Not a new repository — build it in `my-web/exam/` and push |
-| Released today | [Rubric](../week08_midterm/rubric.md) · [Exam structure](../week08_midterm/exam_structure.md) · [Rehearsal starter](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week08_midterm/examples/rehearsal_starter) |
+| Scope | Weeks 1–7 lab submissions — HTML, CSS, JavaScript & DOM, forms |
+| Weight | 20 points (draft). 3 points for today's form input and empty-value message |
+| Format | Day 1 bank practice → Day 2 exam. Repository: `web-week08` |
+| Published | [Problem bank](../week08_midterm/examples/README.md) · [Rubric](../week08_midterm/rubric.md). No published solutions |
 
-- List **add/remove is Week 10**, storage that **survives a reload is Week 11**, and `fetch` is **Week 12** — none of these are in scope.
-- Today, during minutes 48–55 of the lab, just open the rehearsal starter to look at it. You solve the questions on Day 2 and on Week 8, Day 1.
+- The exam reuses bank problems with **only the values changed**. Lists (Week 10), storage (Week 11), and `fetch` (Week 12) are out of scope.
+- The bank's form problem, `w07_form_result`: download and open it at minutes 48–55 today; solve it on Day 2.
 
 ---
 
@@ -140,7 +140,7 @@ If you get stuck, start with the **first red line** in the Console and a line nu
 2. One SSH key (optional, personal laptops)
 3. Validating both fields and clearing the message
 4. Using `reset` and `focus` to prepare for the next entry
-5. Time budget for the rehearsal and the actual exam (60 min)
+5. Time budget for the 60-minute midterm
 
 ---
 
@@ -217,19 +217,19 @@ nameInput.addEventListener('input', clearNotice);
 
 ---
 
-## Day 2 · 21–26 min ① — Time Budget for the Rehearsal and the Actual Exam (60 min)
+## Day 2 · 21–26 min ① — Time Budget for the 60-Minute Midterm
 
 | Time | What you do |
 |---|---|
-| 0–5 | Read the whole question sheet |
-| 5–15 | HTML: skeleton, list, table, form |
-| 15–25 | CSS: selectors, the box model, flex, `@media` |
-| 25–50 | DOM & forms: click, submit, empty-value message |
-| 50–55 | `add → commit → push` |
-| 55–60 | Buffer (Pages propagation delay, re-login) |
+| 0–5 | Read the problem statements (`exam/README.md`) to the end |
+| 5–15 | A HTML (Weeks 1–3) |
+| 15–27 | B CSS (Week 4) |
+| 27–39 | C JavaScript & DOM (Weeks 5–6) |
+| 39–50 | D Forms (Week 7 — what you built this week) |
+| 50–60 | `add → commit → push` 5 min · buffer 5 min (Pages delay, re-login) |
 
-- On Week 8, Day 1, you solve four rehearsal questions, and **creating the new repository and turning on Pages are also finished that day.**
-- On exam day, you just build inside the `my-web/exam/` folder and push.
+- Day 1: practice with the bank, then **create `web-week08` and turn on Pages**.
+- Exam day: add the handed-out `exam` folder and push. Stuck 5+ min? Move on.
 
 ---
 
@@ -255,7 +255,7 @@ Practice page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming
 
 1. Create `README.md` on the GitHub web UI and pull it down with `git pull`.
 2. Add validation for the message field, and clear the message as soon as the user types again.
-3. Solve one rehearsal question (the form one), push, and take your screenshot from the public URL.
+3. Solve the bank's form problem (`w07_form_result`), push, and take your screenshot from the public URL.
 
 **Explanation total: 8+7+6+5+4 = 30 min**
 
@@ -281,8 +281,8 @@ Make sure your real name, student ID, and real email address are not visible in 
 
 ## Next Week Preview
 
-This week fills in the last piece of the **Week 8 midterm scope (Weeks 2–7)**.
+This week fills in the last piece of the **Week 8 midterm scope (Weeks 1–7 lab submissions)**.
 
-Week 8, Day 1 is a **rehearsal** shaped just like the real exam, and Day 2 is the **actual 60-minute exam**.
-For the actual exam, you don't create a new repository — you work inside the `my-web/exam/` folder and push.
-The rubric and rehearsal starter were released today, so read them before you come.
+Week 8, Day 1 is **practice with the problem bank**, and Day 2 is the **60-minute midterm**.
+The exam gives one bank problem per area with **only the values changed**. Your repository is `web-week08`, created on Day 1.
+The [problem bank](../week08_midterm/examples/README.md) is already published. There are no published solutions — check your work against each problem's "확인할 것" (what to check) before you come.

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>나의 웹 연습장 · 방명록</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="guestbook.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>방명록</h1>
+      <nav>
+        <a href="index.html">홈</a>
+        <a href="about.html">내 정보</a>
+        <a href="guestbook.html">방명록</a>
+      </nav>
+    </header>
+    <main>
+      <h2>한 줄 남기기</h2>
+      <form id="guestbook-form">
+        <p>
+          <label for="name">이름</label>
+          <input id="name" type="text">
+        </p>
+        <p>
+          <label for="message">메시지</label>
+          <textarea id="message" rows="3"></textarea>
+        </p>
+        <button type="submit">남기기</button>
+      </form>
+      <p id="notice"></p>
+      <h3>마지막으로 남긴 글</h3>
+      <p class="card" id="last">아직 남긴 글이 없습니다.</p>
+    </main>
+    <footer>
+      <p>수업용 연습 페이지 · student01</p>
+    </footer>
+  </body>
+</html>

@@ -8,7 +8,7 @@ footer: "Project 1 Presentation and Branch Review · 2-Minute Demo and README"
 
 # Project 1 Presentation and Branch Review
 
-The Week 8 midterm was built alone, inside the `exam/` folder.
+The Week 8 midterm was solved alone, inside the `exam/` folder of a new repository, `web-week08`.
 What you show this week is the **main `my-web` site** you built in Weeks 3–7.
 
 ```text

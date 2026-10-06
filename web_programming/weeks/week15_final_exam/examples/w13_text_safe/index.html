@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>w13 한 줄 게시판</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>이야기 게시판</h1>
+    </header>
+    <main>
+      <p class="card" id="thanks">글을 남기면 여기에 인사가 나옵니다.</p>
+      <h2>한 줄 남기기</h2>
+      <form id="board-form">
+        <p>
+          <label for="name">이름</label>
+          <input id="name" type="text">
+        </p>
+        <p>
+          <label for="message">메시지</label>
+          <textarea id="message" rows="3"></textarea>
+        </p>
+        <button type="submit">남기기</button>
+      </form>
+      <p id="notice"></p>
+      <h2>남긴 글</h2>
+      <p id="last"></p>
+      <ul class="card" id="list"></ul>
+      <p id="count">아직 남긴 글이 없습니다.</p>
+      <p><button id="clear-button" type="button">전체 지우기</button></p>
+    </main>
+    <footer>
+      <p>수업용 연습 페이지 · student01</p>
+    </footer>
+  </body>
+</html>

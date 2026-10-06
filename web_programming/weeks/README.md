@@ -9,7 +9,7 @@
 - 매주 시작점은 지난주 완성본이다(4주차부터 `examples/day2/build/`, 그 전은 `examples/day2/`). 자기 코드로 이어 가도 되고, 막히면 교재의 지난주 완성본을 받아 이어 간다.
 - **매주 캡처 1장으로 끝난다.** 그 캡처가 README "완료 기준"의 화면이고 주차별 실습 점수의 근거다. 산출물이 보고서·표여서는 안 된다.
 - 주차별 실습 점수는 1~7주·10~13주 캡처로 산정한다(2주차는 고정본의 캡처 4장). 8·9·14·15주는 실습 점수 대상이 아니다.
-- 고정 평가 주: 8주 중간 개인 실기, 9주 1차 과제 발표, 14주 최종 프로젝트 발표, 15주 기말 개인 실기.
+- 고정 평가 주: 8주 중간 개인 실기, 9주 1차 과제 발표, 14주 최종 프로젝트 발표, 15주 기말 개인 실기. 두 실기는 그때까지의 실습 제출로 만든 문제 은행에서 낸다(8주 1~7주, 15주 1~14주 누적).
 - 기본 문제를 먼저 완성하고 남는 시간에 확장 문제를 수행한다.
 
 시험과 발표 주차는 대학 일정과 분반 인원에 따라 실제 평가 시간이 달라질 수 있다. 공개 자료에는 평가 구조와 연습 절차만 두며, 학기별 실제 문항·정답·학생 정보는 별도 비공개 공간에서 관리한다.
@@ -66,7 +66,7 @@ git push -u origin main
 | `walkthrough.md` | 처음부터 그대로 따라 하는 단계(할 일 → 예상 결과). 명령 앞에 "현재 폴더"를 적는다. 만들기 파일(`build/`, 3주차까지는 `dayN/`)의 전체 코드 블록은 예제 파일과 글자 단위로 같다 |
 | `lab.md` | 실습 페이지 링크, 일차별 60분 시간표(`A–B분` 표기, 3주차부터 0–5 시작 루틴·55–60 끝 루틴, 마지막 구간이 60분에서 끝난다), 단계별 문제와 힌트, 막혔을 때 표(첫 줄 Pages 지연 규칙, 나머지는 실제로 재현한 오류 문구), 제출물(캡처 1장), 먼저 끝났다면 |
 | `examples/README.md` | 비교 파일 표(열면 보이는 것 · 보여 주는 원리 · 바꿔 볼 값)와 조립표(만들기 파일의 줄이 어느 비교 파일에서 왔나) |
-| `examples/day1/` · `examples/day2/` | 그날 쓰는 예제. `examples/` 바로 아래에는 `README.md`와 이 두 폴더만 둔다 |
+| `examples/day1/` · `examples/day2/` | 그날 쓰는 예제. `examples/` 바로 아래에는 `README.md`와 이 두 폴더만 둔다(8·15주는 문제 은행 — 아래 시험·과제 주차) |
 
 `examples/dayN/`의 규칙은 다음과 같다.
 
@@ -76,14 +76,15 @@ git push -u origin main
 - 만들기 파일은 하나에 60줄 이하로 두고, 학생이 직접 타이핑할 수 있는 크기를 넘지 않는다. 클래식 `<script src="app.js" defer>`만 쓰고(CDN·라이브러리·`type="module"` 없음), 페이지마다 자기 `.js` 파일 하나를 연결한다.
 - 모든 `dayN/index.html`(4주차부터는 `day2/build/index.html`)은 브라우저 Console 오류 0으로 열린다. 비교 파일의 오류는 주석을 풀거나 버튼을 눌러 일부러 낼 때만 난다.
 
-시험·과제 주차는 같은 파일 세트에 다음을 더한다. 이 네 주차도 `README.md`·`slides.md`·`walkthrough.md`·`lab.md`는 똑같이 두며, `lab.md`에는 1일차 리허설 시간표와 2일차 시험·발표 운영 시간표 2개를 둔다.
+시험·과제 주차는 같은 파일 세트에 다음을 더한다. 이 네 주차도 `README.md`·`slides.md`·`walkthrough.md`·`lab.md`는 똑같이 두며, `lab.md`에는 1일차 시간표(8·15주는 문제 은행 연습, 9·14주는 발표 준비)와 2일차 시험·발표 운영 시간표 2개를 둔다.
+8·15주 `examples/`에는 날짜 폴더 대신 은행 목록 `README.md`와 문제 폴더 `wNN_*`를 둔다. 문제 하나는 한 주의 실습 제출이고, 시험은 같은 문제를 값만 바꿔 낸다. 해답은 공개하지 않는다.
 
 | 주차 | 추가 파일 |
 |---:|---|
-| 8 | `exam_structure.md`, `rubric.md`, `examples/rehearsal_starter/`, `examples/rehearsal_solution/` |
+| 8 | `exam_structure.md`, `rubric.md`, `examples/README.md`(1~7주 문제 은행 목록), `examples/w01_*`~`w07_*`(문제 폴더) |
 | 9 | `project_brief.md`, `rubric.md` |
 | 14 | `project_brief.md`, `rubric.md`, `demo_outline.md` |
-| 15 | `rubric.md`, `examples/rehearsal_starter/`, `examples/rehearsal_solution/` |
+| 15 | `rubric.md`, `examples/README.md`(1~14주 누적 문제 은행 목록), `examples/w09_*`~`w14_*`(문제 폴더. 1~7주 문제는 8주 폴더의 것을 함께 쓴다) |
 
 PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code Marp 확장으로 HTML, PDF, PPTX로 내보낼 수 있다.
 
@@ -98,14 +99,14 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 5 | JavaScript 데이터와 함수 | 함수가 만든 인사말이 페이지에 보이고 Console에 값이 찍힌 화면 | [`week05_javascript_data`](week05_javascript_data/) |
 | 6 | DOM·이벤트·브라우저 CRUD | [다크 모드]로 배경이 바뀌고 "클릭 N회"가 표시된 `index.html` | [`week06_dom_crud`](week06_dom_crud/) |
 | 7 | 폼 입력 읽기와 결과 표시 | 이름·메시지를 넣고 [남기기]를 누르면 아래에 한 줄이 표시되는 `guestbook.html` | [`week07_async_modules`](week07_async_modules/) |
-| 8 | 중간 개인 실기 | `my-web/exam/` 공개 URL · 저장소 URL · 마지막 commit SHA · 완성 화면 캡처 | [`week08_midterm`](week08_midterm/) |
+| 8 | 중간 개인 실기 | 1일차 [1~7주 문제 은행](week08_midterm/examples/README.md) 연습, 2일차 중간 실기 — `web-week08/exam/` 공개 주소 · 저장소 주소 · Commits 탭 캡처 | [`week08_midterm`](week08_midterm/) |
 | 9 | 1차 과제 발표와 브랜치 복습 | 2분 시연과 저장소 `README.md` 1차판 | [`week09_architecture_project`](week09_architecture_project/) |
 | 10 | 배열 데이터를 목록으로 그리기 | 항목 3개를 쌓고 1개를 지운 뒤 "2개"가 표시된 방명록 | [`week10_supabase_data`](week10_supabase_data/) |
 | 11 | 객체와 localStorage | 새로고침해도 남는 방명록 3개와 Application › Local Storage의 `guestbook` 키 | [`week11_auth_rls`](week11_auth_rls/) |
 | 12 | fetch로 JSON 불러오기 | JSON에서 읽은 카드 3개와 Network 탭의 `projects.json` 200 | [`week12_persistent_crud`](week12_persistent_crud/) |
 | 13 | 보안·접근성·릴리스 점검 | 태그를 입력해도 글자 그대로 보이고 Console 오류가 0인 375px 화면 | [`week13_release_security`](week13_release_security/) |
 | 14 | 최종 프로젝트 발표 | 3분 시연과 README 최종판 | [`week14_project_presentation`](week14_project_presentation/) |
-| 15 | 기말 개인 실기 | 본시험 공개 URL · 저장소 URL · 마지막 commit SHA | [`week15_final_exam`](week15_final_exam/) |
+| 15 | 기말 개인 실기 | 1일차 [1~14주 누적 문제 은행](week15_final_exam/examples/README.md) 연습, 2일차 기말 실기 — `web-week15/exam/` 공개 주소 · 저장소 주소 · Commits 탭 캡처 | [`week15_final_exam`](week15_final_exam/) |
 
 폴더 이름은 이미 배포된 슬라이드 주소(`.../webprg/decks/<폴더명>/`)를 깨뜨리지 않기 위해 그대로 둔다. 주차의 실제 주제는 위 표의 제목을 따른다.
 
@@ -143,7 +144,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | `Number()`, `isNaN()`, `new Date().getFullYear()` | 13주 1일차 | 오늘 문법 5분 |
 
 - **개인정보**: 예시 아이디는 `student01`, 이메일은 `student01@example.com`, 저장소는 3주차까지 `my-web`, 4주차부터 `web-week04`·`web-week05`…, 공개 주소는 `https://student01.github.io/web-week05/`이다. 공개 저장소·캡처·예제에 실명·학번·전화번호·실제 이메일을 넣지 않는다.
-- 시험 폴더에는 문제 구조·starter·채점표만 두고 학기별 실제 문제와 정답은 별도 비공개 공간에서 관리한다.
+- 시험 주(8·15주) 폴더에는 문제 은행(문제 문장·시작 파일)과 채점표만 두고, 시험에 내는 값과 해답은 별도 비공개 공간에서 관리한다.
 
 ## README "이번 주 용어" 표
 

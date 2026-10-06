@@ -1,0 +1,30 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  font-family: system-ui, sans-serif;
+  color: #17213a;
+  background: #eef2ff;
+}
+
+.card {
+  width: min(36rem, calc(100% - 2rem));
+  padding: 2rem;
+  border-radius: 1rem;
+  background: white;
+  box-shadow: 0 1rem 2.5rem rgb(30 50 100 / 12%);
+}
+
+.eyebrow {
+  color: #3157d5;
+  font-weight: 700;
+}
+
+button {
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 0.5rem;
+  color: white;
+  background: #3157d5;
+}

@@ -1,73 +1,68 @@
-# 8주차 실습 — 리허설과 중간 실기
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week08_midterm)
 
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week08_midterm
+# 8주차 실습 — 문제 은행으로 연습하고 중간 실기 보기
 
-1일차는 시험과 같은 모양의 **리허설**이다. 문제 네 개를 60분 안에 풀고, 새 저장소를 만들어 Pages로 배포하는 절차까지 오늘 끝낸다.
-2일차 60분이 **본시험**이다. 문제지는 시험 시간에 받는다. 작업 폴더는 `my-web/exam/` 하나다.
-모든 단계와 전체 코드는 [따라하기](walkthrough.md)에 있다. `student01`은 예시 아이디이므로 본인 아이디로 바꾼다.
+이번 주 실습은 새로 배우는 것이 아니라 **1~7주에 만든 것을 혼자 다시 만들어 보는 것**이다.
+1일차에는 [문제 은행](examples/README.md)에서 영역이 다른 문제 셋을 골라 풀고, 2일차에는 같은 문제를 값만 바꾼 중간 실기를 본다.
+문제마다 해답 대신 **확인할 것**이 있다. 화면과 F12(Console·Network·Elements)·기기 모드로 그 항목을 하나씩 맞춰 보는 것이 이번 주 실습이다.
+이번 주 새 저장소는 `web-week08` 이다. 1일차 끝에 만들어 Pages 를 켜 두고, 2일차에는 그 저장소에 시험 폴더 `exam` 을 넣는다. 2일차에는 저장소를 새로 만들지 않는다.
+받는 법·여는 법·올리는 법은 [따라하기](walkthrough.md)에 있다. `student01` 은 예시 아이디이므로 본인 아이디로 바꾼다.
 
-## 1일차 — 리허설과 저장소 준비 (60분)
+## 1일차 — 문제 은행으로 연습하기 (60분)
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 새 폴더 `midterm-practice`를 만들어 **File › Open Folder**로 열고, 리허설 starter 세 파일을 넣는다 |
-| 5–15분 | 문제 1: `활동` 아래에 `ul`·`li` 세 줄과 2열 3행 `table`을 넣는다 |
-| 15–25분 | 문제 2: `.card` 규칙, `nav`를 `display: flex`, `@media (max-width: 600px)`에서 세로 |
-| 25–37분 | 문제 3: 버튼 두 개 — 글자 바꾸기(`textContent`)와 다크 모드(`classList.toggle`) |
-| 37–45분 | 문제 4: 신청하기 → `#result`에 `이름: 신청 이유`, 이름이 비면 안내하고 커서 이동 |
-| 45–50분 | [해답](examples/rehearsal_solution)과 한 줄씩 맞춰 본다. 먼저 끝났으면 더 일찍 시작한다 |
-| 50–60분 | `git init` → `git branch -M main` → `git config` 두 줄 → `git add .` → `git commit` → GitHub에 새 저장소 `midterm-practice` 만들기 → `git remote add origin <HTTPS URL>` → `git push -u origin main`(첫 push는 브라우저 로그인) → **Settings › Pages**(`main`·`/(root)`) → 공개 주소 열기 → 공용 PC면 자격 증명 삭제 |
+| 0–5분 | 새 폴더 `web-week08` 을 만들어(7주차에 만든 `web-week08` 이 같은 PC에 있으면 그 폴더를) VS Code 로 열고(**File › Open Folder**) [server.mjs](../../tools/static-server/server.mjs) 를 맨 위에 **Raw** 로 저장한다. 은행 목록([examples/README.md](examples/README.md))에서 영역마다 한 문제씩, 자신 없는 영역부터 고른다 |
+| 5–20분 | 첫 문제: 받기 → 서버로 열기 → 할 일 → "확인할 것" 맞추기 |
+| 20–35분 | 둘째 문제 |
+| 35–50분 | 셋째 문제 |
+| 50–60분 | 이번 주 저장소(`web-week08`) 만들기 → 연습 폴더 올리기 → Pages 켜기 → 공개 주소에서 "확인할 것" 다시 보기 → 공용 PC면 자격 증명 삭제. [올리기 명령](#이번-주-저장소-만들어-올리기) |
 
-시험 당일에는 이 마지막 줄(저장소 만들기·Pages 켜기)을 **하지 않는다.** 오늘 한 번 해 두는 것이 목적이다.
+문제마다 15분을 잡았다. 권장 분(8~12분) 안에 끝나는지 재 본다. 15분이 되면 남은 항목은 두고 다음 문제로 간다. 2일차의 "5분 넘게 막히면 넘어가기"를 미리 연습하는 것이다.
 
-### 1. starter 세 파일 넣기 (`index.html` · `styles.css` · `app.js`)
+### 1. 문제 고르기
 
-[examples/rehearsal_starter](examples/rehearsal_starter)의 세 파일을 새 폴더에 그대로 넣는다. [따라하기 2단계](walkthrough.md#2-starter-세-파일-넣기)를 본다.
+[은행 목록](examples/README.md)을 연다. 1~7주 실습 제출이 문제 일곱 개로 정리돼 있다. [따라하기 2단계](walkthrough.md#2-문제-고르기)를 본다.
 
-- `index.html`을 더블클릭해 열고 F12 **Console**에 `리허설 starter 준비 완료`가 보이면 준비가 끝난 것이다.
-- 지금은 꾸며지지 않은 화면이 정상이다. 버튼을 눌러도 아무 일도 일어나지 않는다.
-- 세 파일은 **같은 폴더에 나란히** 둔다. 폴더를 하나 더 만들지 않는다.
+- 영역은 넷이다. A HTML(w01·w02·w03 중 하나), B CSS(w04), C JavaScript·DOM(w05·w06 중 하나), D 폼(w07). 오늘은 그중 **셋**을 푼다. 넷째는 "먼저 끝났다면"에서 한다.
+- 자신 없는 영역부터 고른다. 그 주 실습을 끝내지 못했거나 제출 캡처를 못 낸 주가 먼저다.
+- 문제 문장 제목 아래 줄의 출처 링크로 그 주 실습지를 열어 둔다. 그 주에 같은 것을 다른 값으로 만든 과정이 있다.
+- 시험에는 영역마다 한 문제가 나온다. 어느 문제가 나올지는 미리 알려 주지 않는다.
 
-### 2. 문제 1 — 목록과 표 (`ul` · `li` · `table` · `tr` · `th` · `td`)
+### 2. 문제 하나 풀기 (받기 · 서버 · 할 일 · 확인할 것)
 
-`index.html`의 `문제 1-1`·`문제 1-2` 주석을 지우고 그 자리에 넣는다. [따라하기 3단계](walkthrough.md#3-문제-1-목록과-표-넣기)를 본다.
+[따라하기 3~6단계](walkthrough.md#3-w05_greeting_card-로-문제-읽는-법-보기)에 공개 문제 w05_greeting_card 로 같은 순서를 보였다.
 
-- `li` 세 줄 앞에 점(•)이 붙으면 `ul` 안에 있는 것이다.
-- 표는 줄(`tr`)을 세 개 쌓고, 첫 줄만 `th` 두 개로 만든다. 나머지 두 줄은 `td` 두 개다.
-- 선이 없는 것이 정상이다. 선은 문제 2에서 `.card`의 `border`로 한 번만 그린다.
+- 받기: `web-week08` 안에 문제 id 와 같은 이름의 폴더를 만들고, 문제 폴더의 시작 파일을 **Raw** 로 받아 같은 이름으로 저장한다. 하위 폴더(그림)도 같은 모양으로 만든다. 문제 문장 `README.md` 는 받지 않는다.
+- 서버로 열기: `web-week08` 맨 위에서 `node server.mjs` → 문제 문장 끝 "받기와 올리기"의 주소(`http://localhost:8000/<문제 id>/`. w03·w07 은 파일 이름까지)를 연다. Node 가 없으면 두 번 눌러 연다.
+- 할 일: "시작 파일" 표에서 고칠 파일과 고치지 않을 파일을 먼저 본다. 할 일을 위에서부터 한 덩어리씩 하고, 덩어리마다 저장 → 새로고침 → Console 을 본다.
+- 확인할 것: 항목마다 화면이나 F12 로 직접 해 본다. 모두 맞으면 된 것이다. 맞지 않는 항목이 있으면 그 항목이 가리키는 할 일로 돌아간다.
+- 흔한 실수: 값을 손으로 옮겨 적다가 글자 하나·빈칸 하나·마침표 하나가 달라진다. 값은 문제 문장에서 **복사해 붙인다**.
+- 흔한 실수: 할 일에 없는 것까지 고친다. "고치지 않는다"고 적힌 파일은 열어 보기만 한다. 고치면 다른 확인 항목이 틀어진다.
+- 흔한 실수: Network 의 Status 번호를 두 번 눌러 연 `file://` 화면에서 찾는다. 번호는 서버로 연 주소나 공개 주소에서만 보인다.
 
-### 3. 문제 2 — 카드 색과 nav 가로 배치 (`.class` · `flex` · `@media`)
+### 이번 주 저장소 만들어 올리기
 
-`styles.css`의 `문제 2-1`~`2-3` 주석 자리에 규칙 세 개를 쓴다. [따라하기 4단계](walkthrough.md#4-문제-2-카드-색과-nav-가로-배치)를 본다.
+GitHub 에서 **New repository** → 이름 `web-week08`, **Public**, README 는 추가하지 않는다. VS Code 터미널(현재 폴더 `web-week08`)에서 2주차에 배운 순서 그대로 친다. 서버가 떠 있는 터미널에서는 칠 수 없으니 **Terminal › New Terminal** 로 하나 더 연다.
 
-- `.card`는 `main`에 이미 붙어 있다. class 이름 앞의 점(`.`)을 빠뜨리면 아무 일도 일어나지 않는다.
-- `nav`에 `display: flex`를 주면 링크 세 개가 가로로 선다. `gap`으로 사이를 벌린다.
-- F12 → 기기 모드에서 **375px**로 줄여 링크가 세로로 서면 `@media`가 맞은 것이다. 1280px에서는 다시 가로다.
+```bash
+git init
+git add .
+git commit -m "8주차 1일차"
+git branch -M main
+git remote add origin https://github.com/student01/web-week08.git
+git push -u origin main
+```
 
-### 4. 문제 3 — 버튼 두 개 (`addEventListener` · `textContent` · `classList`)
+저장소 **Settings › Pages › Branch: main, /(root) › Save** → 1~3분 뒤 연습한 문제 폴더의 공개 주소(예: `https://student01.github.io/web-week08/w05_greeting_card/`)를 연다. "확인할 것"이 로컬과 같게 맞으면 된 것이다. 공용 PC면 자격 증명을 지우고 나간다.
+저장소 맨 위에는 `index.html` 이 없어서 `https://student01.github.io/web-week08/` 만 치면 404 다. 문제 폴더 이름까지 붙인다.
+오늘 올린 것은 연습이다. 점수에 들어가지 않는다. 이 저장소와 Pages 는 2일차 시험에 그대로 쓴다.
 
-`app.js`의 `문제 3-1`·`3-2` 주석 자리에 쓴다. [따라하기 5단계](walkthrough.md#5-문제-3-버튼으로-글자와-색-바꾸기)를 본다.
+### 오늘 확인할 것
 
-- 변수 `noticeButton`·`noticeText`·`darkButton`은 파일 맨 위에 이미 만들어져 있다. 다시 만들지 않는다.
-- 클릭할 때마다 할 일은 `function () { }` 안에 쓴다. 5·6주에 쓴 그 모양이다.
-- 다크 모드 CSS(`body.dark`)는 `styles.css`에 이미 있다. JavaScript는 class를 붙였다 떼기만 한다.
-- 빨간 줄에 `null`이 보이면 선택자 철자와 `#`을 본다.
-
-### 5. 문제 4 — 폼 입력 표시와 빈값 안내 (`submit` · `value` · `trim` · `focus`)
-
-`app.js`의 `문제 4-1`·`4-2` 주석 자리에 쓴다. [따라하기 6단계](walkthrough.md#6-문제-4-폼-입력-표시와-빈값-안내)를 본다.
-
-- **신청하기**를 눌렀을 때 화면이 처음으로 돌아가고 주소 끝에 `?`가 붙으면 `event.preventDefault()`가 빠진 것이다.
-- 이름 칸이 비었는지는 `trim()` 한 값이 `''`인지로 본다. 빈칸만 넣은 경우도 걸러야 한다.
-- 안내를 띄운 뒤에는 `return`으로 멈춘다. 멈추지 않으면 빈 이름이 그대로 표시된다.
-
-### 6. 오늘 확인할 것
-
-- [ ] 리허설 화면에 목록·표·카드 테두리가 보이고 375px에서 메뉴가 세로로 선다.
-- [ ] 버튼 두 개가 각각 글자와 배경을 바꾼다.
-- [ ] 이름을 비우고 누르면 안내가 뜨고, 채워서 누르면 `이름: 신청 이유`가 뜬다.
-- [ ] Console에 빨간 줄이 없다.
-- [ ] `https://<아이디>.github.io/midterm-practice/`가 열린다.
+- [ ] 영역이 다른 문제 셋의 "확인할 것"을 스스로 맞춰 봤고, 맞추지 못한 항목이 무엇인지 안다.
+- [ ] 저장소 `web-week08` 이 있고 **Settings › Pages** 가 켜져 있다.
+- [ ] 연습한 문제 폴더의 공개 주소에서 로컬과 같은 결과가 보인다.
 
 1일차 결과는 점수에 들어가지 않는다. **어디서 막혔는지 알고 가는 것**이 목적이다.
 
@@ -75,61 +70,123 @@
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 문제지를 끝까지 읽고 요구 사항에 번호를 매긴다. 아직 코드를 쓰지 않는다 |
-| 5–15분 | HTML: 뼈대·목록·표·폼 |
-| 15–25분 | CSS: 선택자·박스·`flex`·`@media` |
-| 25–50분 | DOM과 폼: 클릭 → `textContent`·`classList`, 제출 → 표시·빈값 안내 |
-| 50–55분 | `git add .` → `git commit -m "중간 실기"` → `git push` |
-| 55–60분 | 예비: 공개 주소 새로고침·캡처·`git log -1 --oneline` 적기 |
+| 0–5분 | 읽기. 받은 `exam` 폴더를 저장소 맨 위에 넣고 시작 올리기를 한 뒤, `exam/README.md` 를 훑어 문제마다 제목·권장 분·고칠 파일만 본다(문장 전체는 그 문제를 풀 때 읽는다). 아직 코드를 쓰지 않는다 |
+| 5–15분 | 문제 A — HTML (4점) |
+| 15–27분 | 문제 B — CSS (4점) |
+| 27–39분 | 문제 C — JavaScript·DOM (5점) |
+| 39–50분 | 문제 D — 폼 (3점) |
+| 50–55분 | 올리기: 저장 → `git add .` → `git commit -m "중간 실기 끝"` → `git push` |
+| 55–60분 | 예비: 공개 주소 `https://student01.github.io/web-week08/exam/` 새로고침 → Commits 탭 캡처 → 공용 PC면 자격 증명 삭제 |
 
-시작 전 `my-web`에서 `git pull`을 하고 `exam` 폴더를 만든 뒤, 받은 starter 세 파일을 넣고 첫 commit(`중간 실기 시작`)까지 해 둔다. [따라하기 9단계](walkthrough.md#9-my-web에-exam-폴더-만들기)와 [10단계](walkthrough.md#10-starter-세-파일-넣고-첫-commit-하기)를 본다.
+시간표는 권장 배분이다. 문제마다 권장 분은 `exam/README.md` 에 적혀 있다. 단계별 화면은 [따라하기 2일차](walkthrough.md#2일차)에 있다.
 
-### 시험 규칙
+### 시작 전
 
-- 작업 폴더는 `my-web/exam/` 하나다. 파일은 `index.html`·`styles.css`·`app.js` 세 개다.
-- **저장 → push → 공개 주소를 새로고침해서 보이는 것이 제출본**이다. 저장하지 않은 파일은 commit되지 않는다.
-- commit은 두 번 이상 한다. 시작 전 starter를 넣은 첫 commit(`중간 실기 시작`)과 마지막 commit(`중간 실기`)이면 된다.
-- 범위 밖(배열 목록·`localStorage`·`fetch`·모듈·외부 라이브러리)은 쓰지 않는다. 가점이 없고, 화면이 멈추면 감점이다.
-- 볼 수 있는 것: 교재 사이트, 본인 `my-web` 저장소, MDN. 그 밖은 강의자 공지를 따른다.
-- 한 문제에 5분 넘게 막히면 다음 문제로 간다. 문제끼리 이어져 있지 않다.
+시험 전에 해 둔다.
+
+- 같은 PC에 `web-week08` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week08.git` 뒤 **File › Open Folder**.
+- 터미널(현재 폴더 `web-week08`)에서 `node server.mjs` 를 띄워 두고, 올리기 명령을 칠 터미널을 하나 더 연다.
+- 1일차에 올린 공개 주소(`https://student01.github.io/web-week08/<연습한 문제 id>/`)가 열리는지 본다. 열리지 않으면 시험 전에 손을 든다.
+- 1일차에 저장소를 만들지 못했으면 시험 전에 [이번 주 저장소 만들어 올리기](#이번-주-저장소-만들어-올리기)를 먼저 한다. 시험 시간에는 저장소를 만들지 않는다.
+
+시험이 시작되면 맨 먼저 한다(읽기 5분 안). [따라하기 10~12단계](walkthrough.md#10-exam-폴더-받아-맨-위에-넣기)를 본다.
+
+1. **exam 폴더 받기**: 강의자가 나눠 주는 `exam` 폴더를 받는다. 받는 곳은 강의자가 공지한다. 압축 파일이면 푼다.
+2. **저장소 맨 위에 넣기**: `exam` 폴더를 통째로 `web-week08` 맨 위에 넣는다. `web-week08/exam/index.html` 이 되어야 한다(`exam/exam/` 이 되면 안 된다).
+3. **목차 열기**: `http://localhost:8000/exam/` 을 연다. 목차의 링크로 문제마다 첫 페이지가 열린다. 문제 문장은 VS Code 에서 `exam/README.md` 를 열어 읽는다(**Ctrl+Shift+V**, macOS ⌘+Shift+V 로 미리 보기).
+4. **시작 올리기**: 아직 아무것도 고치지 않은 채로 한 번 올린다.
+
+```bash
+git add .
+git commit -m "중간 실기 시작"
+git push
+```
+
+넣은 뒤 `web-week08` 은 아래 모양이다.
+
+```text
+web-week08/
+  exam/
+    README.md            ← 문제 문장 넷. 문제 문장은 여기에만 있다
+    index.html           ← 목차. 문제마다 첫 페이지로 가는 링크
+    a/  b/  c/  d/       ← 문제 폴더. 시작 파일만 있다
+  w05_greeting_card/ …   ← 1일차 연습 폴더. 그대로 둔다
+  server.mjs
+```
+
+### 시험 중 규칙
+
+- 볼 수 있는 것: 교재 사이트, 본인 저장소, MDN. 그 밖은 강의자 공지를 따른다.
+- 범위: 1~7주에 배운 것으로 푼다. 범위 밖 기능은 가점하지 않는다. 그 때문에 요구 동작이 멈추면 그 영역에서 감점한다.
+- 막히면 넘어가기: 한 문제에 5분 넘게 막히면 다음 문제로 간다. 문제끼리 이어지지 않는다. 넘긴 문제는 남는 시간에 돌아와 푼다.
+- 문제 폴더 밖은 고치지 않는다: 문제마다 그 문제의 폴더(`exam/a/`~`exam/d/`) 안의 파일만 고친다. 문제 문장의 "이 폴더"는 그 문제의 폴더다. 문제가 새 파일을 만들라고 하면 그 폴더 안에 만든다. 목차 `exam/index.html`, 문제 문장 `exam/README.md`, 1일차 연습 폴더는 고치지 않는다.
+- 확인은 1일차와 같다. 저장 → 새로고침 → "확인할 것". 채점도 그 항목으로 하고, 어떤 방법으로 썼는지는 보지 않는다.
+- 문제 하나를 끝낼 때마다 올려 두어도 된다. commit 이 많아도 괜찮다.
+- 다 못 했어도 쓴 코드를 지우지 않고 올린다. 실행되는 부분 결과는 부분 충족으로 본다([채점표](rubric.md)).
+- 시험 중에는 문제 문장의 뜻·파일 위치·제출 방법·환경 장애만 안내한다. 코드가 맞는지는 알려 주지 않는다.
+- 장애(서버·push·Pages)는 혼자 붙잡고 있지 않는다. 손을 들면 감독이 시각을 기록한다.
+
+### 끝내기 전
+
+50–55분에 마지막으로 올린다. 저장하지 않은 파일은 올라가지 않는다. VS Code 탭 제목에 ● 표시가 없는지 먼저 본다.
+
+```bash
+git add .
+git commit -m "중간 실기 끝"
+git push
+```
+
+1. 1~3분 뒤 공개 주소 `https://student01.github.io/web-week08/exam/` 을 새로고침한다. 목차에서 문제마다 눌러 연다.
+2. GitHub 저장소 화면에서 파일 목록 위 오른쪽의 **Commits**(시계 아이콘)를 누른다. 맨 위 commit 이 `중간 실기 끝` 이고, 그 줄의 번호(일곱 글자)와 시각이 보이게 주소창과 함께 캡처한다.
+3. [제출 세 가지](#제출--세-가지)를 낸다.
+4. 공용 PC면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com` 을 지우고 나간다.
+
+- 공개 주소가 시험 시간 안에 안 바뀌어도 감점하지 않는다. [막혔을 때](#막혔을-때) 첫 줄을 본다.
+- 마감은 시험 60분이 끝나는 시각이다. 마감 전 마지막 commit 이 제출본이고, 마감 뒤에는 이 저장소에 올리지 않는다.
+- 남는 시간에는 새 기능을 넣지 않는다. "확인할 것"을 공개 주소에서 다시 본다.
 
 ## 막혔을 때
 
 | 증상 | 확인할 것 |
 |---|---|
-| 공개 주소에 방금 push한 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 5분 안에 안 보이면 로컬 화면 캡처와 `git log -1 --oneline` 출력을 같은 점수로 인정한다. `git status`에 `Your branch is ahead`가 있으면 push를 안 한 것이다 |
-| `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` | `querySelector`가 아무것도 못 찾았다. 선택자의 `#`과 철자를 `index.html`의 `id`와 대소문자까지 비교한다. `<script src="app.js" defer>`에서 `defer`가 빠져도 같은 줄이 나온다 |
-| `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` | 글을 넣을 곳을 못 찾았다. `#result`·`#notice-text` 같은 `id`의 철자를 본다 |
-| `Uncaught ReferenceError: nameinput is not defined` | 변수 이름의 대소문자가 다르다. 만든 이름은 `nameInput`이다 |
-| `Uncaught TypeError: Cannot read properties of undefined (reading 'toggle')` | `classList`를 `classlist`로 썼다. 가운데 `L`이 대문자다 |
-| **신청하기**를 누르면 화면이 처음으로 돌아가고 주소 끝에 `?`가 붙는다 | `event.preventDefault()`가 없다. `function (event) { event.preventDefault(); … }` |
-| 이름을 비우고 눌렀는데 `: 사진이 좋아서`가 표시된다 | 안내 뒤에 `return`이 없다. `if` 블록 안에서 멈춰야 한다 |
-| 화면이 전혀 꾸며지지 않는다 | `Uncaught`로 시작하는 JS 빨간 줄은 없고, 대신 `Failed to load resource: net::ERR_FILE_NOT_FOUND`(공개 주소에서는 404) 한 줄이 뜬다. 이 줄은 파일을 못 찾았다는 뜻이므로 `<link rel="stylesheet" href="styles.css">` 줄의 파일 이름과 파일 위치를 본다 |
-| `! [rejected]        main -> main (fetch first)` | GitHub에 내가 모르는 commit이 있다. `git pull` 뒤 다시 `git push` |
-| `fatal: 'origin' does not appear to be a git repository` | 주소를 아직 안 적었다. `git remote -v`가 비어 있으면 `git remote add origin <HTTPS URL>`을 먼저 하고 다시 push한다 |
-| `error: remote origin already exists.` | 주소가 이미 적혀 있다. `git remote -v`의 주소가 맞으면 그대로 push한다 |
-| `nothing to commit, working tree clean` | 파일을 저장하지 않았거나 이미 commit했다. VS Code 탭 제목의 ● 표시를 본다 |
-| `Everything up-to-date` | 새 commit이 없다. `git log -1 --oneline`으로 마지막 commit이 방금 것인지 본다 |
-| `remote: Permission to student01/my-web.git denied to <다른 아이디>` | 공용 PC에 이전 사용자의 로그인이 남아 있다. **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 제거하고 다시 push한다 |
-| 공개 주소 `…/my-web/exam/`이 404 | GitHub `main`의 `exam/` 폴더에 `index.html`이 있는지 본다. 파일 이름은 소문자 `index.html`이다 |
+| 공개 주소에 방금 push한 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 시험 시간 안에 안 보여도 감점하지 않는다. 채점자가 다음 날 다시 연다. 로컬 화면 캡처와 GitHub **Commits** 탭 캡처도 인정한다 |
+| commit 이나 push 가 거부되거나 로그인 창이 안 뜬다 | [2주차 막혔을 때](../week02_github_pages/lab.md#막혔을-때) 표를 본다. 시험 중이면 손을 든다. 네트워크나 GitHub 가 끊겨 올릴 수 없을 때도 손을 든다. 감독이 시각을 기록하고 대신 내는 방법을 안내한다 |
+| GitHub 저장소 화면에 `exam` 폴더가 안 보인다 | 탐색기에서 `exam` 폴더가 `web-week08` 바로 안에 있는지, 올리기 세 줄을 끝까지 쳤는지 본다. 터미널의 마지막 줄을 읽는다 |
+| 공개 주소 `…/web-week08/exam/` 이 404 다 | ① GitHub 저장소 화면 맨 위에 `exam` 폴더가 있는지 ② 그 바로 안에 `index.html` 이 있는지(`exam/exam/` 이면 안 된다) ③ 폴더 이름이 소문자 `exam` 인지 ④ **Settings › Pages** 가 켜져 있는지 본다 |
+| 공개 주소 `…/web-week08/` 이 404 다 | 저장소 맨 위에는 `index.html` 이 없다. 문제 폴더 이름까지 붙인다(연습은 `…/web-week08/w05_greeting_card/`, 시험은 `…/web-week08/exam/`) |
+| 문제 폴더 주소가 404 거나 파일 목록만 보인다 | 첫 페이지가 `index.html` 이 아닌 문제가 있다(w03 `join.html`, w07 `comment.html`). 문제 문장 끝 "받기와 올리기"의 주소대로 파일 이름까지 붙인다. 시험에서는 목차의 링크를 누른다 |
+| `http://localhost:8000/exam/` 에 목차 대신 파일 목록(`exam/` 한 줄)이 보이거나 404 다 | 압축을 풀다 `exam/exam/` 으로 한 겹 더 들어갔다(안쪽 `exam` 을 맨 위로 옮긴다). 또는 서버를 다른 폴더에서 띄웠다(터미널의 `폴더:` 줄이 `web-week08` 인지 본다) |
+| `http://localhost:8000/` 에 파일 목록만 보인다 | 저장소 맨 위에는 `index.html` 이 없어서 정상이다. 목록에서 문제 폴더(시험은 `exam/`)를 누른다 |
+| 저장한 파일 이름이 `index.html.txt` 처럼 `.txt` 로 끝난다 | 브라우저가 붙인 것이다. VS Code 탐색기에서 이름을 고친다 |
+| 받은 문제를 열었더니 모양이 깨지고 Console 에 404 줄이 있다 | 받은 파일 이름이나 폴더가 문제와 다르다. 이름 끝에 `.txt` 가 붙지 않았는지, `images/` 같은 하위 폴더를 만들었는지, 대소문자까지 같은지 본다. w01_link_fix 는 처음부터 404 가 있고 그것을 고치는 문제다 |
+| 둘째 문제를 받았더니 첫 문제 화면이 바뀌었다 | 같은 자리에 저장해 덮어썼다. 문제마다 `web-week08/<문제 id>/` 폴더를 따로 만든다 |
+| 내 PC 에서는 열리는데 공개 주소에서는 404 거나 그림이 깨진다 | 파일 이름 대소문자가 다르다. 내 PC(Windows·macOS)는 대소문자를 가리지 않지만 GitHub 와 공개 주소는 가린다. 문제 문장의 파일 이름과 한 글자씩 맞춘다 |
+| "확인할 것"의 Status 번호(`200`·`404`)가 안 보인다 | 두 번 눌러 연 `file://` 화면이다. `node server.mjs` 로 연 주소나 공개 주소에서 F12 › Network 를 연 채 새로고침한다 |
+| 화면이 생각과 다른데 이유를 모르겠다 | **Console 을 먼저 연다.** 빨간 줄 오른쪽 `파일:줄` 로 간다. 그 문제의 출처 주 실습지 "막혔을 때" 표에 같은 줄이 있는지 본다 |
+| `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` | `querySelector` 가 아무것도 못 찾았다. 선택자의 `#` 과 철자를 HTML 의 `id` 와 대소문자까지 비교한다. `script` 줄에 `defer` 가 없어도 같은 줄이 나온다 |
+| `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` | 글자를 넣을 요소를 못 찾았다. 문제 문장의 id 와 철자를 비교한다 |
+| 버튼을 누르면 페이지가 다시 열리고 주소 끝에 `?` 가 붙는다 | 보낼 곳이 없는 폼을 그대로 제출한 것이다. w03 처럼 HTML 만 쓰는 문제는 그것이 맞다. "페이지가 다시 열리지 않게" 하라는 문제(w07)라면 제출을 막는 줄이 빠졌거나, 그 줄까지 가기 전에 오류가 났다(Console 을 본다) |
+| `'node' is not recognized` / `command not found: node` | Node.js 가 없거나 설치 뒤 터미널을 새로 열지 않았다. 페이지를 두 번 눌러 연다. Status 번호가 필요한 확인은 올린 뒤 공개 주소에서 한다 |
+| `8000 번 포트를 이미 다른 프로그램이 쓰고 있습니다` | 다른 터미널에 서버가 떠 있다. 그 터미널에서 Ctrl+C 하거나 `node server.mjs . 8001` 로 띄우고 `http://localhost:8001/` 을 연다 |
 
-한 번에 한 곳만 고치고 다시 확인한다. 10분 넘게 같은 자리에 있으면 손을 든다. 환경·제출 문제는 함께 본다.
+한 번에 한 곳만 고치고 새로고침한다. 1일차에는 10분 넘게 같은 자리에 있으면 손을 든다. 시험 중에는 환경·제출 문제만 함께 본다.
 
-## 제출 — 네 가지
+## 제출 — 세 가지
 
-1. **공개 URL**: `https://<아이디>.github.io/my-web/exam/`
-2. **저장소 URL**: `https://github.com/<아이디>/my-web`
-3. **마지막 commit SHA**: `git log -1 --oneline`의 앞 일곱 글자 (예: `1ea3c2e`)
-4. **캡처 1장**: 완성 화면과 **주소창**이 함께 보이게 찍는다
+1. **공개 주소**: `https://student01.github.io/web-week08/exam/` (본인 아이디)
+2. **저장소 주소**: `https://github.com/student01/web-week08`
+3. **Commits 탭 캡처 1장**: GitHub 저장소 화면 › **Commits** 에서 맨 위 commit(`중간 실기 끝`)의 번호(일곱 글자)와 시각이 보이게, 주소창과 함께 찍는다
 
-캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 제출 위치와 마감은 수업 공지를 따른다.
-Pages가 늦어 1번을 만들 수 없으면 로컬 화면 캡처 + 3번으로 대신 인정한다.
+- 제출본은 마감 전 마지막 commit 을 공개 주소에서 연 화면이다. 그래서 Commits 탭 캡처에 맨 위 commit 의 시각이 보여야 한다. 채점은 `exam` 폴더만 본다.
+- Pages 가 늦어 시험 시간 안에 공개 주소가 바뀌지 않아도 감점하지 않는다. 채점자가 다음 날 다시 연다. 로컬 화면 캡처와 Commits 탭 캡처도 인정한다.
+- 채점이 끝날 때까지 저장소 `web-week08` 을 지우거나 이름을 바꾸지 않는다. **Settings › Pages** 도 끄지 않는다.
+- 캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 아이디는 보여도 된다. 세 가지를 내는 곳과 내는 기한은 수업 공지를 따른다(commit 마감은 시험이 끝나는 시각이다).
+- 1일차 연습(연습 폴더와 그 공개 주소)은 제출하지 않는다. 점수에 들어가지 않는다.
 
 ## 먼저 끝났다면
 
-- 1일차: 리허설 페이지의 `@media` 폭을 `600px` 대신 다른 값으로 바꿔 보고, 기기 모드에서 언제 세로로 바뀌는지 확인한다.
-- 1일차: 다크 모드를 켠 채 375px로 줄여 두 가지가 같이 동작하는지 본다.
-- 1일차: `이름` 칸에 빈칸만 넣고 눌러 본다. `trim()`이 없으면 어떻게 되는지 지우고 확인한 뒤 되돌린다.
-- 2일차: 남는 시간에는 새 기능을 넣지 않는다. 링크를 모두 눌러 404가 없는지, Console이 깨끗한지, 캡처가 찍혔는지만 본다.
+- 1일차: 안 푼 영역의 문제 하나를 더 푼다. 네 영역을 다 풀었으면 같은 영역의 다른 문제(A 는 셋, C 는 둘)를 푼다. 더 푼 폴더는 `git add .` → `git commit -m "8주차 연습"` → `git push` 로 올린다.
+- 1일차: 푼 문제의 "이 문제의 값" 표에서 값 두세 개(이름·문장·id 등)를 스스로 바꿔 다시 풀고, "확인할 것"도 바뀐 값으로 맞춰 본다. 시험이 이 모양이다.
+- 2일차: 남는 시간에는 새 기능을 넣지 않는다. 목차의 링크를 모두 눌러 404 가 없는지, 문제마다 "확인할 것"이 공개 주소에서도 맞는지, Console 에 빨간 줄이 없는지, Commits 탭 맨 위가 마지막으로 올린 commit 인지, 캡처를 찍었는지만 본다.
 
-1일차 확장 과제는 채점하지 않는다.
+1일차 추가 문제는 채점하지 않는다.

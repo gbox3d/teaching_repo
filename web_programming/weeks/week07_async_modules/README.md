@@ -37,8 +37,8 @@
 
 | 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | 3주차 폼 다시 보기, `submit`과 `preventDefault`, `value`와 `trim`, 결과 표시·빈값 안내·`focus`·`reset`, 8주차 중간 실기 공개 | `guestbook.js` 연결 → 제출 값 읽기 → `#last`에 한 줄 표시 → 이름 빈값 안내 → `reset` → 리허설 starter 열어 보기 | 확인용 캡처 |
-| 2일차 | GitHub 웹에서 `README.md` 만들고 `git pull`, SSH 키 한 장(선택), 두 칸 검사와 안내 문구 지우기, 다음 입력 준비, 리허설·본시험 안내 | README 받아오기 → 메시지 빈값 안내 → 안내 문구 지우기 → 리허설 문항 하나 → push·캡처 | 캡처 1 |
+| 1일차 | 3주차 폼 다시 보기, `submit`과 `preventDefault`, `value`와 `trim`, 결과 표시·빈값 안내·`focus`·`reset`, 8주차 중간 실기와 문제 은행 | `guestbook.js` 연결 → 제출 값 읽기 → `#last`에 한 줄 표시 → 이름 빈값 안내 → `reset` → 은행 폼 문제 받아 열어 보기 | 확인용 캡처 |
+| 2일차 | GitHub 웹에서 `README.md` 만들고 `git pull`, SSH 키 한 장(선택), 두 칸 검사와 안내 문구 지우기, 다음 입력 준비, 중간 실기 60분 배분 | README 받아오기 → 메시지 빈값 안내 → 안내 문구 지우기 → 은행 폼 문제 하나 → push·캡처 | 캡처 1 |
 
 각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
 시간이 필요한 학생은 따라하기 문서의 단계를 하나씩 반복한다.
@@ -92,7 +92,7 @@ ES Module과 번들러는 이 과목 범위 밖이다. `innerHTML`로 입력 글
 - [예제 설명](examples/README.md)
 - 1일차 완성 코드: [guestbook.html](examples/day1/guestbook.html) · [guestbook.js](examples/day1/guestbook.js) · [index.html](examples/day1/index.html) · [about.html](examples/day1/about.html) · [app.js](examples/day1/app.js) · [styles.css](examples/day1/styles.css)
 - 2일차 완성 코드: [guestbook.js](examples/day2/guestbook.js) · [README.md](examples/day2/README.md)
-- 8주차 중간 실기 자료(1일차에 공개): [채점표](../week08_midterm/rubric.md) · [시험 구조](../week08_midterm/exam_structure.md) · [리허설 starter](../week08_midterm/examples/rehearsal_starter)
+- 8주차 중간 실기 자료: [문제 은행](../week08_midterm/examples/README.md) · [8주차 안내](../week08_midterm/README.md) · [채점표](../week08_midterm/rubric.md) · [시험 구조](../week08_midterm/exam_structure.md)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules
 
 ## 완료 기준
@@ -107,9 +107,9 @@ ES Module과 번들러는 이 과목 범위 밖이다. `innerHTML`로 입력 글
 
 ## 다음 수업 연결
 
-이번 주로 8주차 중간 실기 범위(2~7주차 — Pages·HTML·CSS·DOM·폼)가 모두 채워졌다.
-8주차 1일차는 시험과 같은 모양의 **리허설**이고, 2일차가 **본시험**이다. 본시험은 새 저장소를 만들지 않고 `my-web/exam/` 폴더에서 작업한다.
-채점표와 리허설 starter는 이번 주 1일차에 공개하므로 미리 읽고 와도 된다.
+이번 주로 8주차 중간 실기 범위(1~7주차 실습 제출 — HTML·CSS·JavaScript·DOM·폼)가 모두 채워졌다.
+8주차 1일차는 1~7주 실습 제출을 한 문제씩으로 정리한 [문제 은행](../week08_midterm/examples/README.md)으로 연습하고, 2일차가 **중간 실기 60분**이다. 시험은 영역(A HTML·B CSS·C JavaScript·DOM·D 폼)마다 은행 문제 하나를 **값만 바꿔** 낸다.
+해답은 공개하지 않는다. 문제마다 있는 "확인할 것"이 모두 맞으면 된 것이다. 8주차에도 새 저장소 `web-week08`을 1일차에 만들고, 시험 날에는 나눠 주는 `exam` 폴더를 그 저장소에 넣어 올린다. 자세한 것은 [8주차 안내](../week08_midterm/README.md)에 있다.
 
 지금은 두 번째로 글을 남기면 앞 글이 사라진다. 글을 **쌓아** 목록으로 보여 주는 것은 10주차,
 새로고침해도 남게 하는 것은 11주차다.

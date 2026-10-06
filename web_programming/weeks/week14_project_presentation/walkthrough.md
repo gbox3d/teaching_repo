@@ -698,7 +698,7 @@ loadProjects();
 ```
 **예상 결과** — 여덟 파일을 그대로 두고 공개 주소를 열면 2단계의 여섯 가지가 모두 동작한다.
 
-- `guestbook.js`의 저장 이름은 `guestbook`이다. 15주차 기말 starter는 다른 이름(`final-items`)을 쓴다.
+- `guestbook.js`의 저장 이름은 `guestbook`이다. 15주차 문제 은행의 저장 문제([w11_local_storage](../week15_final_exam/examples/w11_local_storage/))는 다른 이름을 쓴다.
 - `projects.js`는 `data/projects.json`을 상대 경로로 부른다. 앞에 `/`를 붙이면 공개 주소에서 404가 난다.
 - 함수 이름·id 이름을 바꾸지 않는다. 구술 질문이 이 이름으로 나온다.
 

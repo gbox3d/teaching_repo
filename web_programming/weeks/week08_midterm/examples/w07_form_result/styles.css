@@ -1,0 +1,53 @@
+body {
+  background-color: #eef2ff;
+  color: #17213a;
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h1 {
+  color: #1f3a93;
+  font-size: 28px;
+}
+
+h2 {
+  color: #3157d5;
+}
+
+nav {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: #3157d5;
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 16px;
+  margin: 12px 0;
+  border: 1px solid #c3cbe6;
+}
+
+input,
+textarea {
+  width: 280px;
+  max-width: 100%;
+}
+
+footer {
+  color: #5a6478;
+  text-align: center;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+  }
+}

@@ -103,7 +103,7 @@ Value   [{"name":"하늘","message":"안녕하세요","date":"2026. 9. 16."}]
 - 저장 칸에는 **문자열만** 들어간다. 그래서 넣기 전에 `JSON.stringify`, 꺼낸 뒤에 `JSON.parse`를 쓴다.
 - `JSON.stringify` 없이 배열을 그대로 넣으면 값이 `[object Object]`로 적히고, 다음에 열 때 `JSON.parse`가 오류를 낸다.
 - `|| []`가 없으면 처음 여는 사람은 `null`을 받아 `Cannot read properties of null (reading 'length')`로 멈춘다.
-- 키 이름 `guestbook`은 12주차·15주차와 이어지는 이름이다. 바꾸지 않는다(15주차 기말 starter만 다른 키를 쓴다).
+- 키 이름 `guestbook`은 12주차와 이어지는 이름이다. 바꾸지 않는다(이번 주 실습 제출을 정리한 15주차 문제 은행의 [w11_local_storage](../../week15_final_exam/examples/w11_local_storage/)는 다른 키를 쓴다. 키 이름도 그 문제의 값이다).
 
 ## 3. 두 날의 guestbook.js 비교
 

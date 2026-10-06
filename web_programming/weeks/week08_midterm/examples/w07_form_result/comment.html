@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>w07 한마디 게시판</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>한마디 게시판</h1>
+    </header>
+    <main>
+      <form id="comment-form">
+        <p>
+          <label for="nickname">닉네임</label>
+          <input id="nickname" type="text">
+        </p>
+        <p>
+          <label for="comment">한마디</label>
+          <textarea id="comment" rows="4"></textarea>
+        </p>
+        <button type="submit">올리기</button>
+      </form>
+      <p id="hint"></p>
+      <h2>방금 남긴 한마디</h2>
+      <p class="card" id="latest">아직 남긴 한마디가 없습니다.</p>
+    </main>
+    <footer>
+      <p>수업용 연습 페이지 · student01</p>
+    </footer>
+  </body>
+</html>

@@ -130,7 +130,7 @@ link.textContent = `${projects[i].title} 열기`;  ← 13주차: 어디로 가�
 2. `screenshots/`에 그림 넣기
 3. `git log --oneline`으로 만든 과정 붙이기
 4. Pages 주소가 만들어지는 두 가지 방식
-5. 14주차 발표 3분 흐름과 15주차 리허설 공개
+5. 14주차 발표 3분 흐름과 15주차 문제 은행
 
 ---
 
@@ -217,7 +217,7 @@ git log --oneline
 
 ---
 
-## 2일차 · 26–30분 — 15주차 리허설 공개 · 이제 직접 해 보기
+## 2일차 · 26–30분 — 15주차 문제 은행 · 이제 직접 해 보기
 
 [2일차 실습](lab.md#2일차--readme-최종판과-발표-준비-60분) · [따라하기](walkthrough.md#2일차)
 실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security
@@ -226,7 +226,8 @@ git log --oneline
 2. push한 뒤 저장소 첫 화면에서 그림이 깨지지 않는지 봅니다.
 3. 짝과 3분 리허설을 한 번 합니다.
 
-15주차 기말 리허설 자료(`rehearsal_starter`)와 채점표는 오늘 공개합니다.
+15주차 기말 실기는 1~14주 실습 제출로 만든 [문제 은행](../week15_final_exam/examples/README.md)에서 나옵니다.
+이번 주 제출도 그 안의 [w13_text_safe](../week15_final_exam/examples/w13_text_safe/README.md) 문제입니다.
 
 **설명 합계: 8+5+5+4+4+4 = 30분**
 
@@ -252,4 +253,4 @@ git log --oneline
 
 14주차에는 이 공개 주소를 그대로 열어 **3분 시연**을 합니다.
 레포트는 오늘 쓴 `README.md` 최종판이고, 새로 만드는 기능은 없습니다.
-15주차 기말은 같은 구조의 새 폴더에서 혼자 처음부터 만드는 시험입니다.
+15주차 기말은 1~14주 실습 제출로 만든 문제 은행에서 영역마다 한 문제씩, 값만 바꿔 내는 시험입니다.

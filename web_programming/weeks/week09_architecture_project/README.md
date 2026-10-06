@@ -6,7 +6,7 @@
 
 > 3~7주에 한 주씩 쌓아 온 내 사이트를, 공개 주소를 열어 **2분 안에** 남에게 보여 줄 수 있을까? 그리고 그 설명을 저장소 첫 화면에 한 장으로 남길 수 있을까?
 
-8주차 중간 실기는 `my-web/exam/` 폴더에서 혼자 만들었다. 이번 주에 보여 주는 것은 그 `exam/`이 아니라 3~7주에 만든 **`my-web` 본체**다.
+8주차 중간 실기는 새 저장소 `web-week08`의 `exam/` 폴더에서 혼자 풀었다. 이번 주에 보여 주는 것은 그 시험이 아니라 3~7주에 만든 **`my-web` 본체**다.
 홈·내 정보·방명록 세 페이지, CSS로 꾸민 화면, 버튼 하나, 폼 하나가 그 자리에 있다. 1일차에는 발표 순서를 정하고 저장소 `README.md` 1차판을 쓰며,
 그 작업을 `readme` 브랜치에서 해 main에 합치는 것으로 2·3·6주에 배운 브랜치를 한 바퀴 복습한다. 2일차가 발표다.
 
@@ -43,7 +43,7 @@
 
 ## 준비
 
-- 8주차까지 push한 `my-web` 저장소. 같은 PC면 `git pull`, 다른 PC면 `git clone https://github.com/<아이디>/my-web.git`
+- 7주차까지 push한 `my-web` 저장소. 같은 PC면 `git pull`, 다른 PC면 `git clone https://github.com/<아이디>/my-web.git`
 - VS Code, 브라우저, Git (`git --version`으로 확인)
 - 3~7주에 만든 세 페이지(`index.html`·`about.html`·`guestbook.html`)와 `styles.css`·`app.js`·`guestbook.js`. 빠진 파일이 있으면 [따라하기 3~4단계](walkthrough.md#3-홈-화면-세-파일-확인하기)에서 채운다
 - 화면 캡처 단축키: Windows **Win+Shift+S**, macOS **⌘+Shift+4**
@@ -109,6 +109,7 @@ Pull Request로 합치기, 충돌(conflict) 해결, `rebase`는 이 과목에서
 지금 방명록은 두 번째 글을 남기면 앞 글이 사라진다. 10주차에는 배열에 글을 **쌓아** 목록으로 그리고 항목을 지운다.
 11주차에는 그 목록이 새로고침해도 남게 하고, 12주차에는 JSON 파일에서 데이터를 불러온다.
 오늘 쓴 README는 13주차에 최종판으로 다시 쓰고, 14주차 최종 발표의 레포트가 된다.
+README 1차판 쓰기는 15주차 기말 [문제 은행](../week15_final_exam/examples/README.md)에도 [w09_readme_links](../week15_final_exam/examples/w09_readme_links/) 문제로 들어 있다.
 
 ## 공식 참고 자료
 

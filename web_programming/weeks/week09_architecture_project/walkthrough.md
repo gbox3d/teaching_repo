@@ -32,7 +32,7 @@ cd my-web
 **예상 결과** — `Cloning into 'my-web'...`로 시작하고 `my-web` 폴더가 생긴다. **File › Open Folder**로 그 폴더를 연다.
 
 - `fatal: destination path 'my-web' already exists and is not an empty directory.`가 나오면 이미 받아 둔 것이다. 그 폴더를 열고 `git pull`을 한다.
-- 8주차에 만든 `exam/` 폴더도 함께 받아진다. 이번 주에는 열지 않는다.
+- 8주차 시험은 다른 저장소 `web-week08`에 있다. 이번 주에는 열지 않는다.
 
 ### 2. readme 브랜치 만들기
 

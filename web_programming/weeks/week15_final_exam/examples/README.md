@@ -1,79 +1,25 @@
-# 15주차 예제 — 기말 실기 공개 starter와 리허설 완성본
+[15주차 실습](../lab.md) · [따라하기](../walkthrough.md) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week15_final_exam)
 
-이 폴더에는 **시험과 같은 구조의 연습 파일**만 있다. 실제 시험 문항과 값은 없다.
-먼저 [따라하기](../walkthrough.md)를 순서대로 하고, 막히면 완성본과 한 줄씩 비교한다.
-`student01`은 연습용 아이디다. 본인 아이디로 바꿔 쓴다.
+# 15주차 문제 은행 — 1~14주 누적
 
-## 파일과 단계
+1~14주 실습의 제출을 한 문제씩으로 정리했다. 1~7주 문제는 [8주차 문제 은행](../../week08_midterm/examples/README.md)과 같은 문제다. 문제마다 그 주에 배운 것만 쓰고, 나머지 파일은 다 주어진다. 문제끼리는 이어지지 않는다.
 
-| 예제 파일 | 따라하기 단계 | 내 `web-final` 폴더의 파일 |
-|---|---|---|
-| [rehearsal_starter/index.html](rehearsal_starter/index.html) | [2단계](../walkthrough.md#2-starter-네-파일-넣기) — 그대로 넣고 고치지 않는다 | `index.html` |
-| [rehearsal_starter/styles.css](rehearsal_starter/styles.css) | [2단계](../walkthrough.md#2-starter-네-파일-넣기) | `styles.css` |
-| [rehearsal_starter/app.js](rehearsal_starter/app.js) | [2단계](../walkthrough.md#2-starter-네-파일-넣기) — TODO 네 자리가 들어 있다 | `app.js` |
-| [rehearsal_starter/data/items.json](rehearsal_starter/data/items.json) | [2단계](../walkthrough.md#2-starter-네-파일-넣기) — `data` 폴더를 만들어 넣는다 | `data/items.json` |
-| [rehearsal_solution/app.js](rehearsal_solution/app.js) | [7단계](../walkthrough.md#7-todo-4--추천-목록-불러오기) — TODO 네 개를 다 채운 모습 | `app.js` (리허설을 끝낸 뒤) |
-| [rehearsal_solution/index.html](rehearsal_solution/index.html) · [styles.css](rehearsal_solution/styles.css) · [data/items.json](rehearsal_solution/data/items.json) | starter와 **같은 파일**이다. 리허설에서 고치지 않는다 | 그대로 |
+- 2일차 기말 실기는 이 은행에서 영역(A~E)마다 한 문제씩 낸다. 시험 문제는 문장·할 일·확인하는 방법이 같고, "이 문제의 값" 표의 값만 바뀐다. 8주에 나온 문제가 다시 나오면 8주와 다른 값으로 나온다.
+- 해답은 공개하지 않는다. 문제 문장의 "확인할 것"이 모두 맞으면 된 것이다.
+- 연습은 문제 폴더의 시작 파일을 `web-week15/<문제 id>/` 폴더에 받아서 한다. 받는 법과 올리는 법은 문제 문장 끝의 "받기와 올리기"와 [따라하기](../walkthrough.md)에 있다.
 
-`app.js` 한 파일만 starter와 완성본이 다르다. 나머지 세 파일은 글자 단위로 같다.
-
-## 1. 공개 starter — 지금 되는 것과 안 되는 것
-
-`rehearsal_starter`를 공개 주소에 올리고 열면 이렇게 보인다.
-
-```text
-읽은 책 기록            [다크 모드]     ← header, 버튼은 지금도 동작한다
-한 권 남기기
-제목 [          ] [추가]               ← 눌러도 아무 일이 없다 (TODO 1)
-                                        ← 목록 자리는 비어 있다 (TODO 2)
-추천 목록
-불러오는 중…                            ← 문구가 그대로 멈춰 있다 (TODO 4)
-```
-
-- **되는 것**: `[다크 모드]` 버튼(`classList.toggle`), 화면 꾸미기, 375px에서 폼이 세로로 접히는 `@media`.
-- **안 되는 것**: 추가(TODO 1), 지우기(TODO 2), 저장·복원(TODO 3), 추천 목록(TODO 4).
-- Console 오류는 **0개**다. 기능이 없을 뿐 깨져 있지 않다. 시험도 이 상태에서 시작한다.
-
-## 2. TODO 네 자리
-
-| TODO | 자리 | 하는 일 | 처음 배운 주 |
-|---|---|---|---|
-| 1 | `form.addEventListener('submit', …)` 안 | 빈값 안내 → `books.push` → `showList()` | 7주 · 10주 |
-| 2 | `showList()`의 `for` 안 | 항목마다 [지우기] 버튼(`splice(i, 1)`) | 10주 |
-| 3 | `let books` 윗줄과 `saveList()` 안 | `final-items` 키로 저장·복원 | 11주 |
-| 4 | `loadRecommend()` 안 | `data/items.json` 불러오기와 오류 안내 | 12주 |
-
-## 3. 개념별 최소 코드
-
-목록 한 줄 만들기(10주):
-
-```html
-<ul id="book-list"></ul>
-```
-
-저장과 복원은 두 줄이 짝이다(11주). 키 이름 `final-items`는 문항이 정한 것이며 `my-web`의 `guestbook`과 다르다.
-
-불러오기는 **상대 경로**로 쓴다(12주). `/data/items.json`처럼 `/`로 시작하면 공개 주소에서 404가 난다.
-
-```json
-[
-  {
-    "title": "처음 만나는 웹",
-    "comment": "HTML과 CSS를 그림으로 설명한다."
-  }
-]
-```
-
-## 4. 완성본을 보는 방법
-
-`rehearsal_solution/app.js`는 **1일차 리허설에서만** 연다. 막힌 TODO의 그 부분만 보고, 전체를 복사해 붙여 넣지 않는다.
-2일차 본시험에서는 이 폴더를 열어 두어도 되지만 문항의 값과 화면 주제가 달라 그대로 쓸 수 없다.
-
-`app.js`만 72줄로 다른 주차 예제보다 길다. 한 페이지에 폼·목록·저장·불러오기 네 기능이 모여 있기 때문이다.
-시험에서는 이 파일을 처음부터 타이핑하지 않고 starter의 TODO 자리만 채운다.
-
-## 공식 참고 자료
-
-- [이벤트 입문 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Scripting/Events)
-- [Window.localStorage — MDN](https://developer.mozilla.org/ko/docs/Web/API/Window/localStorage)
-- [Fetch API 사용하기 — MDN](https://developer.mozilla.org/ko/docs/Web/API/Fetch_API/Using_Fetch)
+| 영역 | 문제 | 출처 | 권장 |
+|---|---|---|---:|
+| A 화면(HTML·CSS·README) (3점) | [w01_link_fix](../../week08_midterm/examples/w01_link_fix/) 세 파일 연결 고치기 | [1주차 실습 제출](../../week01_web_git/lab.md#제출--캡처-두-장) | 8분 |
+| A 화면(HTML·CSS·README) (3점) | [w02_about_page](../../week08_midterm/examples/w02_about_page/) 새 페이지와 상대 링크 | [2주차 실습 제출](../../week02_github_pages/lab.md#제출--캡처-네-장) | 10분 |
+| A 화면(HTML·CSS·README) (3점) | [w03_guestbook_form](../../week08_midterm/examples/w03_guestbook_form/) 신청 폼 페이지 | [3주차 실습 제출](../../week03_semantic_html/lab.md#제출--캡처-한-장) | 10분 |
+| A 화면(HTML·CSS·README) (3점) | [w04_responsive_css](../../week08_midterm/examples/w04_responsive_css/) 반응형 메뉴와 카드 | [4주차 실습 제출](../../week04_responsive_css/lab.md#제출--캡처-한-장) | 12분 |
+| A 화면(HTML·CSS·README) (3점) | [w09_readme_links](w09_readme_links/) README 1차판 | [9주차 실습 제출](../../week09_architecture_project/lab.md#제출--캡처-한-장과-발표) | 9분 |
+| A 화면(HTML·CSS·README) (3점) | [w14_readme_images](w14_readme_images/) README 최종판과 그림 세 장 | [14주차 실습 제출](../../week14_project_presentation/lab.md#제출--캡처-한-장과-발표) | 9분 |
+| B DOM (3점) | [w05_greeting_card](../../week08_midterm/examples/w05_greeting_card/) 인사 카드 | [5주차 실습 제출](../../week05_javascript_data/lab.md#제출--캡처-한-장) | 12분 |
+| B DOM (3점) | [w06_dark_mode](../../week08_midterm/examples/w06_dark_mode/) 문구 바꾸기·다크 모드·클릭 횟수 | [6주차 실습 제출](../../week06_dom_crud/lab.md#제출--캡처-한-장) | 12분 |
+| B DOM (3점) | [w13_text_safe](w13_text_safe/) 입력한 글을 글자 그대로 | [13주차 실습 제출](../../week13_release_security/lab.md#제출--캡처-한-장) | 9분 |
+| C 폼·목록 (4점) | [w07_form_result](../../week08_midterm/examples/w07_form_result/) 폼 제출을 한 줄로, 빈값 안내 | [7주차 실습 제출](../../week07_async_modules/lab.md#제출--캡처-한-장) | 11분 |
+| C 폼·목록 (4점) | [w10_list_delete](w10_list_delete/) 목록 쌓기와 줄마다 삭제 | [10주차 실습 제출](../../week10_supabase_data/lab.md#제출--캡처-한-장) | 11분 |
+| D 저장(localStorage) (2점) | [w11_local_storage](w11_local_storage/) 새로고침해도 남는 목록 | [11주차 실습 제출](../../week11_auth_rls/lab.md#제출--캡처-한-장) | 10분 |
+| E 불러오기(fetch) (3점) | [w12_fetch_cards](w12_fetch_cards/) JSON 카드 불러오기 | [12주차 실습 제출](../../week12_persistent_crud/lab.md#제출--캡처-한-장) | 9분 |

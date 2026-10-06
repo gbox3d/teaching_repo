@@ -130,7 +130,7 @@ If you get stuck, start with the first red line in the Console and the `file (li
 2. Adding images to `screenshots/`
 3. Pasting your history in with `git log --oneline`
 4. Two ways a Pages address gets built
-5. The Week 14 3-minute flow and the Week 15 rehearsal announcement
+5. The Week 14 3-minute flow and the Week 15 problem bank
 
 ---
 
@@ -217,7 +217,7 @@ Open the public address → move between pages (nav) → dark mode → form empt
 
 ---
 
-## Day 2 · 26–30 min — Announcing the Week 15 Rehearsal · Try It Yourself
+## Day 2 · 26–30 min — The Week 15 Problem Bank · Try It Yourself
 
 [Day 2 lab](lab.md#2일차--readme-최종판과-발표-준비-60분) · [Walkthrough](walkthrough.md#2일차)
 Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security
@@ -226,7 +226,8 @@ Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/week
 2. Push it, then check the repository's front page for broken images.
 3. Do one 3-minute rehearsal with a partner.
 
-The Week 15 final-exam rehearsal materials (`rehearsal_starter`) and rubric are released today.
+The Week 15 final exam draws from a [problem bank](../week15_final_exam/examples/README.md) built from the Weeks 1–14 lab submissions.
+This week's submission is in it too, as the [w13_text_safe](../week15_final_exam/examples/w13_text_safe/README.md) problem.
 
 **Explanation total: 8+5+5+4+4+4 = 30 min**
 
@@ -252,4 +253,4 @@ Make sure your screenshot shows no email or real name. Your ID may be visible.
 
 In Week 14, you open this same public address for a **3-minute demo**.
 Your report is the final `README.md` you wrote today — there's nothing new to build.
-The Week 15 final exam is a solo test that builds the same structure from scratch, in a new folder.
+The Week 15 final exam gives one problem per area from the problem bank built from the Weeks 1–14 lab submissions, with only the values changed.
