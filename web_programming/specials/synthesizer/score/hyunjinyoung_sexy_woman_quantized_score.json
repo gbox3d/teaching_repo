@@ -1,0 +1,593 @@
+{
+  "track_info": {
+    "title": "야한 여자 (Sexy Woman)",
+    "artist": "현진영과 와와 (Hyun Jin-young and WAWA)",
+    "year": 1990,
+    "key": "Fm",
+    "bpm": 112,
+    "time_signature": "4/4",
+    "grid_resolution": "16th_notes",
+    "steps_per_bar": 16,
+    "source_video": {
+      "url": "https://www.youtube.com/watch?v=dBIwjicLKs8",
+      "channel": "Again 가요톱10 : KBS KPOP Classic",
+      "description": "현진영과 와와 - '야한여자' (1990) | KBS 쇼 토요특급"
+    }
+  },
+  "master_templates": {
+    "drum_patterns": {
+      "new_jack_swing_beat": {
+        "kick": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "snare_clap": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "closed_hihat": [
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        "open_hihat": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      }
+    },
+    "synth_bass_groove": {
+      "description": "Funky syncopated synth bass for New Jack Swing",
+      "trigger_steps": [
+        1,
+        4,
+        7,
+        10,
+        13
+      ]
+    }
+  },
+  "score": [
+    {
+      "bar_index": 1,
+      "section": "Verse 1",
+      "lyrics": "비틀거리는",
+      "chord": {
+        "name": "Fm",
+        "root_midi": 41,
+        "notes": [
+          "F2",
+          "C3",
+          "F3",
+          "Ab3"
+        ]
+      },
+      "melody": [
+        {
+          "step": 1,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "비-"
+        },
+        {
+          "step": 3,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "틀-"
+        },
+        {
+          "step": 5,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "거-"
+        },
+        {
+          "step": 7,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "리-"
+        },
+        {
+          "step": 9,
+          "note": "Ab3",
+          "midi": 56,
+          "duration_steps": 4,
+          "lyric": "는"
+        }
+      ]
+    },
+    {
+      "bar_index": 2,
+      "section": "Verse 1",
+      "lyrics": "황홀한 저 불빛",
+      "chord": {
+        "name": "Bbm",
+        "root_midi": 46,
+        "notes": [
+          "Bb2",
+          "F3",
+          "Bb3",
+          "Db4"
+        ]
+      },
+      "melody": [
+        {
+          "step": 1,
+          "note": "Bb3",
+          "midi": 58,
+          "duration_steps": 2,
+          "lyric": "황-"
+        },
+        {
+          "step": 3,
+          "note": "Db4",
+          "midi": 61,
+          "duration_steps": 2,
+          "lyric": "홀-"
+        },
+        {
+          "step": 5,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "한"
+        },
+        {
+          "step": 7,
+          "note": "Bb3",
+          "midi": 58,
+          "duration_steps": 2,
+          "lyric": "저"
+        },
+        {
+          "step": 9,
+          "note": "Ab3",
+          "midi": 56,
+          "duration_steps": 4,
+          "lyric": "불-"
+        },
+        {
+          "step": 13,
+          "note": "F3",
+          "midi": 53,
+          "duration_steps": 4,
+          "lyric": "빛"
+        }
+      ]
+    },
+    {
+      "bar_index": 3,
+      "section": "Verse 1",
+      "lyrics": "불빛 아래 여인",
+      "chord": {
+        "name": "Eb",
+        "root_midi": 39,
+        "notes": [
+          "Eb2",
+          "Bb2",
+          "Eb3",
+          "G3"
+        ]
+      },
+      "melody": [
+        {
+          "step": 1,
+          "note": "Eb4",
+          "midi": 63,
+          "duration_steps": 2,
+          "lyric": "불-"
+        },
+        {
+          "step": 3,
+          "note": "Eb4",
+          "midi": 63,
+          "duration_steps": 2,
+          "lyric": "빛"
+        },
+        {
+          "step": 5,
+          "note": "Db4",
+          "midi": 61,
+          "duration_steps": 2,
+          "lyric": "아-"
+        },
+        {
+          "step": 7,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "래"
+        },
+        {
+          "step": 9,
+          "note": "Bb3",
+          "midi": 58,
+          "duration_steps": 4,
+          "lyric": "여-"
+        },
+        {
+          "step": 13,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 4,
+          "lyric": "인"
+        }
+      ]
+    },
+    {
+      "bar_index": 4,
+      "section": "Verse 1",
+      "lyrics": "너무나 예뻐요",
+      "chord": {
+        "name": "Ab",
+        "root_midi": 44,
+        "notes": [
+          "Ab2",
+          "Eb3",
+          "Ab3",
+          "C4"
+        ]
+      },
+      "melody": [
+        {
+          "step": 1,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "너-"
+        },
+        {
+          "step": 3,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "무-"
+        },
+        {
+          "step": 5,
+          "note": "Db4",
+          "midi": 61,
+          "duration_steps": 2,
+          "lyric": "나"
+        },
+        {
+          "step": 7,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "예-"
+        },
+        {
+          "step": 9,
+          "note": "Bb3",
+          "midi": 58,
+          "duration_steps": 2,
+          "lyric": "뻐-"
+        },
+        {
+          "step": 11,
+          "note": "Ab3",
+          "midi": 56,
+          "duration_steps": 6,
+          "lyric": "요"
+        }
+      ]
+    },
+    {
+      "bar_index": 5,
+      "section": "Chorus (Hook)",
+      "lyrics": "그때 난 정말 난",
+      "chord": {
+        "name": "Db",
+        "root_midi": 49,
+        "notes": [
+          "Db3",
+          "Ab3",
+          "Db4",
+          "F4"
+        ]
+      },
+      "melody": [
+        {
+          "step": 1,
+          "note": "F4",
+          "midi": 65,
+          "duration_steps": 2,
+          "lyric": "그-"
+        },
+        {
+          "step": 3,
+          "note": "F4",
+          "midi": 65,
+          "duration_steps": 4,
+          "lyric": "때-"
+        },
+        {
+          "step": 7,
+          "note": "F4",
+          "midi": 65,
+          "duration_steps": 2,
+          "lyric": "난-"
+        },
+        {
+          "step": 9,
+          "note": "Eb4",
+          "midi": 63,
+          "duration_steps": 2,
+          "lyric": "정-"
+        },
+        {
+          "step": 11,
+          "note": "F4",
+          "midi": 65,
+          "duration_steps": 4,
+          "lyric": "말-"
+        },
+        {
+          "step": 15,
+          "note": "Eb4",
+          "midi": 63,
+          "duration_steps": 2,
+          "lyric": "난"
+        }
+      ]
+    },
+    {
+      "bar_index": 6,
+      "section": "Chorus (Hook)",
+      "lyrics": "외면하면 나는 어떡해",
+      "chord": {
+        "name": "Eb",
+        "root_midi": 39,
+        "notes": [
+          "Eb2",
+          "Bb2",
+          "Eb3",
+          "G3"
+        ]
+      },
+      "melody": [
+        {
+          "step": 1,
+          "note": "Db4",
+          "midi": 61,
+          "duration_steps": 2,
+          "lyric": "외-"
+        },
+        {
+          "step": 3,
+          "note": "Db4",
+          "midi": 61,
+          "duration_steps": 2,
+          "lyric": "면-"
+        },
+        {
+          "step": 5,
+          "note": "Db4",
+          "midi": 61,
+          "duration_steps": 2,
+          "lyric": "하-"
+        },
+        {
+          "step": 7,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "면"
+        },
+        {
+          "step": 9,
+          "note": "Bb3",
+          "midi": 58,
+          "duration_steps": 2,
+          "lyric": "나-"
+        },
+        {
+          "step": 11,
+          "note": "Ab3",
+          "midi": 56,
+          "duration_steps": 2,
+          "lyric": "는"
+        },
+        {
+          "step": 13,
+          "note": "Bb3",
+          "midi": 58,
+          "duration_steps": 2,
+          "lyric": "어-"
+        },
+        {
+          "step": 15,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "떡-"
+        }
+      ]
+    },
+    {
+      "bar_index": 7,
+      "section": "Chorus (Hook)",
+      "lyrics": "그대 내게 이리 와",
+      "chord": {
+        "name": "C7",
+        "root_midi": 36,
+        "notes": [
+          "C2",
+          "G2",
+          "Bb2",
+          "E3"
+        ]
+      },
+      "melody": [
+        {
+          "step": 1,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 6,
+          "lyric": "해-"
+        },
+        {
+          "step": 7,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "그-"
+        },
+        {
+          "step": 9,
+          "note": "Db4",
+          "midi": 61,
+          "duration_steps": 2,
+          "lyric": "대"
+        },
+        {
+          "step": 11,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "내-"
+        },
+        {
+          "step": 13,
+          "note": "Bb3",
+          "midi": 58,
+          "duration_steps": 2,
+          "lyric": "게"
+        },
+        {
+          "step": 15,
+          "note": "C4",
+          "midi": 60,
+          "duration_steps": 2,
+          "lyric": "이-"
+        }
+      ]
+    },
+    {
+      "bar_index": 8,
+      "section": "Chorus (Hook)",
+      "lyrics": "나와 함께 춤을 춰봐요",
+      "chord": {
+        "name": "Fm",
+        "root_midi": 41,
+        "notes": [
+          "F2",
+          "C3",
+          "F3",
+          "Ab3"
+        ]
+      },
+      "melody": [
+        {
+          "step": 1,
+          "note": "Ab3",
+          "midi": 56,
+          "duration_steps": 2,
+          "lyric": "리-"
+        },
+        {
+          "step": 3,
+          "note": "F3",
+          "midi": 53,
+          "duration_steps": 4,
+          "lyric": "와-"
+        },
+        {
+          "step": 7,
+          "note": "F3",
+          "midi": 53,
+          "duration_steps": 2,
+          "lyric": "나-"
+        },
+        {
+          "step": 9,
+          "note": "Ab3",
+          "midi": 56,
+          "duration_steps": 2,
+          "lyric": "와"
+        },
+        {
+          "step": 11,
+          "note": "Bb3",
+          "midi": 58,
+          "duration_steps": 2,
+          "lyric": "함-"
+        },
+        {
+          "step": 13,
+          "note": "Ab3",
+          "midi": 56,
+          "duration_steps": 2,
+          "lyric": "께"
+        },
+        {
+          "step": 15,
+          "note": "F3",
+          "midi": 53,
+          "duration_steps": 2,
+          "lyric": "춤-"
+        }
+      ]
+    }
+  ]
+}

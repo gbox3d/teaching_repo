@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex10 melody</title>
+</head>
+<body>
+    <h1>ex10 멜로디: 음 하나 = 높이 · 시작 칸 · 길이</h1>
+    <p>Only You 벌스 "On-ly you" — 이끔 마디 하나 + 8마디(109 BPM, 16분음표 한 칸 0.138초). 마디 뒤쪽 11 · 13 · 15칸에서 당겨 들어온다. 같은 음 높이(midi)를 쓰고, 시작 칸(step)과 길이(duration_steps)를 쓰는 방법만 다르다.</p>
+    <button id="b1">1. 악보 그대로 — step 칸에서 duration_steps 칸 동안</button>
+    <button id="b2">2. 길이만 모두 1칸</button>
+    <button id="b3">3. 시작 칸 무시 — 2칸마다 차례로(당김이 사라진다)</button>
+    <p id="result">누르면 2마디의 음이 여기에 적힌다.</p>
+    <canvas id="roll" width="720" height="130" style="background: #111"></canvas>
+
+    <script>
+        // 마디마다 음 목록. step 은 1~16(마디의 몇 번째 칸에서 시작), duration_steps 는 몇 칸 동안 소리를 내나
+        const MELODY = [
+            [{ step: 11, note: 'A4', midi: 69, duration_steps: 2 }, { step: 13, note: 'B4', midi: 71, duration_steps: 2 }, { step: 15, note: 'C5', midi: 72, duration_steps: 2 }], // G — 이끔
+            [{ step: 11, note: 'B4', midi: 71, duration_steps: 2 }, { step: 13, note: 'A4', midi: 69, duration_steps: 2 }, { step: 15, note: 'C5', midi: 72, duration_steps: 2 }], // Am
+            [{ step: 3, note: 'B4', midi: 71, duration_steps: 2 }, { step: 5, note: 'A4', midi: 69, duration_steps: 2 }, { step: 7, note: 'C5', midi: 72, duration_steps: 4 }, { step: 11, note: 'B4', midi: 71, duration_steps: 2 }, { step: 13, note: 'A4', midi: 69, duration_steps: 2 }, { step: 15, note: 'B4', midi: 71, duration_steps: 2 }], // F
+            [{ step: 11, note: 'A4', midi: 69, duration_steps: 2 }, { step: 13, note: 'G4', midi: 67, duration_steps: 2 }, { step: 15, note: 'E4', midi: 64, duration_steps: 2 }], // G
+            [{ step: 11, note: 'A4', midi: 69, duration_steps: 2 }, { step: 13, note: 'B4', midi: 71, duration_steps: 2 }, { step: 15, note: 'C5', midi: 72, duration_steps: 2 }], // C
+            [{ step: 11, note: 'B4', midi: 71, duration_steps: 2 }, { step: 13, note: 'A4', midi: 69, duration_steps: 2 }, { step: 15, note: 'C5', midi: 72, duration_steps: 2 }], // Am
+            [{ step: 3, note: 'B4', midi: 71, duration_steps: 2 }, { step: 5, note: 'A4', midi: 69, duration_steps: 2 }, { step: 7, note: 'C5', midi: 72, duration_steps: 4 }, { step: 11, note: 'B4', midi: 71, duration_steps: 2 }, { step: 13, note: 'A4', midi: 69, duration_steps: 2 }, { step: 15, note: 'B4', midi: 71, duration_steps: 2 }], // F
+            [{ step: 11, note: 'B4', midi: 71, duration_steps: 2 }, { step: 13, note: 'D5', midi: 74, duration_steps: 2 }, { step: 15, note: 'G4', midi: 67, duration_steps: 2 }], // G
+            [],                                                                                     // C
+        ];
+        const STEP = 60 / 109 / 4;                       // ex07: 16분음표 한 칸(초)
+
+        let ctx = null;
+        let playing = [];                                // 지금 울리는 오실레이터. 다른 단추를 누르면 멈춘다
+
+        function midiToFreq(midi) {                      // ex02
+            return 440 * 2 ** ((midi - 69) / 12);
+        }
+
+        // 곡 처음부터 몇 번째 칸인가(0부터). 2마디 1칸 = 16, step 이 1부터라서 1을 뺀다
+        function startOf(bar, n) {
+            return bar * 16 + (n.step - 1);
+        }
+
+        // 1. 악보 그대로
+        function asWritten(bar, n, k) {
+            return { start: startOf(bar, n), length: n.duration_steps };
+        }
+        // 2. 시작 칸은 그대로, 길이만 1칸
+        function oneStep(bar, n, k) {
+            return { start: startOf(bar, n), length: 1 };
+        }
+        // 3. 시작 칸을 쓰지 않고 음 순서(k)대로 2칸마다. 높이는 같아도 리듬이 사라진다
+        function everyTwo(bar, n, k) {
+            return { start: k * 2, length: 2 };
+        }
+
+        function play(rule) {
+            if (!ctx) ctx = new AudioContext();
+            for (const osc of playing) osc.stop();
+            playing = [];
+            const t0 = ctx.currentTime + 0.1;
+            const notes = [];
+            let k = 0;
+            MELODY.forEach(function (bar, b) {
+                for (const n of bar) {
+                    notes.push(Object.assign({ midi: n.midi, note: n.note, bar: b }, rule(b, n, k)));
+                    k += 1;
+                }
+            });
+            for (const n of notes) {
+                tone(midiToFreq(n.midi), t0 + n.start * STEP, n.length * STEP);    // ex07 2번: 미래 시각에 예약
+            }
+            report(notes);
+            drawRoll(notes);
+        }
+
+        // time 에 시작해 seconds 동안 나는 음 하나
+        function tone(freq, time, seconds) {
+            const osc = ctx.createOscillator();
+            const amp = ctx.createGain();
+            osc.frequency.value = freq;
+            amp.gain.setValueAtTime(0.0001, time);                                 // ex03 5번
+            amp.gain.exponentialRampToValueAtTime(0.2, time + 0.005);
+            amp.gain.setValueAtTime(0.2, time + seconds - 0.03);
+            amp.gain.exponentialRampToValueAtTime(0.0001, time + seconds);
+            osc.connect(amp).connect(ctx.destination);
+            osc.start(time);
+            osc.stop(time + seconds);
+            playing.push(osc);
+        }
+
+        document.getElementById('b1').addEventListener('click', function () { play(asWritten); });
+        document.getElementById('b2').addEventListener('click', function () { play(oneStep); });
+        document.getElementById('b3').addEventListener('click', function () { play(everyTwo); });
+
+        // 2마디의 음을 칸과 초로 적는다. 칸은 악보처럼 1부터 센다(2마디 1칸 = 곡의 17번째 칸)
+        function report(notes) {
+            const lines = notes.filter(function (n) { return n.bar === 1; }).map(function (n) {
+                return `${n.note}(${n.midi}) ${n.start + 1}번째 칸부터 ${n.length}칸 = ${(n.start * STEP).toFixed(3)}초 ~ ${((n.start + n.length) * STEP).toFixed(3)}초`;
+            });
+            document.getElementById('result').innerText = `2마디 — ${lines.join(' / ')} · 전체 ${notes.length}음`;
+        }
+
+        // 가로 = 칸(마디 수 × 16칸, 굵은 세로줄이 마디), 세로 = 높이(위로 갈수록 높다). 막대 길이가 음 길이다
+        function drawRoll(notes) {
+            const canvas = document.getElementById('roll');
+            const pen = canvas.getContext('2d');
+            const total = MELODY.length * 16;
+            const w = canvas.width / total;
+            const h = 8;
+            pen.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i <= total; i += 4) {
+                pen.fillStyle = i % 16 === 0 ? '#888' : '#333';
+                pen.fillRect(i * w, 0, 1, canvas.height);
+            }
+            pen.fillStyle = '#FFD23F';
+            for (const n of notes) {
+                const y = canvas.height - (n.midi - 62) * h;
+                pen.fillRect(n.start * w + 1, y, n.length * w - 2, h - 1);
+            }
+        }
+    </script>
+</body>
+</html>

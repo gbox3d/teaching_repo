@@ -11,52 +11,214 @@
       "section": "Intro / Synth Lead",
       "bars_count": 8,
       "progression": [
-        { "bar": 1, "chord": "Am" },
-        { "bar": 2, "chord": "Dm" },
-        { "bar": 3, "chord": "G" },
-        { "bar": 4, "chord": "C" },
-        { "bar": 5, "chord": "Am" },
-        { "bar": 6, "chord": "Dm" },
-        { "bar": 7, "chord": "G" },
-        { "bar": 8, "chord": "Am" }
+        { "bar": 1, "chord": "Am", "melody": [
+            { "step": 1, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 3, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 5, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 7, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 9, "note": "A5", "midi": 81, "duration_steps": 2 },
+            { "step": 11, "note": "G5", "midi": 79, "duration_steps": 2 },
+            { "step": 13, "note": "F5", "midi": 77, "duration_steps": 2 },
+            { "step": 15, "note": "E5", "midi": 76, "duration_steps": 2 }
+        ] },
+        { "bar": 2, "chord": "Dm", "melody": [
+            { "step": 1, "note": "F5", "midi": 77, "duration_steps": 2 },
+            { "step": 3, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 5, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 7, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 9, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 11, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 13, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 15, "note": "A4", "midi": 69, "duration_steps": 2 }
+        ] },
+        { "bar": 3, "chord": "G", "melody": [
+            { "step": 1, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 3, "note": "G4", "midi": 67, "duration_steps": 2 },
+            { "step": 5, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 7, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 9, "note": "G5", "midi": 79, "duration_steps": 2 },
+            { "step": 11, "note": "F5", "midi": 77, "duration_steps": 2 },
+            { "step": 13, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 15, "note": "D5", "midi": 74, "duration_steps": 2 }
+        ] },
+        { "bar": 4, "chord": "C", "melody": [
+            { "step": 1, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 3, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 5, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 7, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 9, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 11, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 13, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 15, "note": "B4", "midi": 71, "duration_steps": 2 }
+        ] },
+        { "bar": 5, "chord": "Am", "melody": [
+            { "step": 1, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 3, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 5, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 7, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 9, "note": "A5", "midi": 81, "duration_steps": 2 },
+            { "step": 11, "note": "G5", "midi": 79, "duration_steps": 2 },
+            { "step": 13, "note": "F5", "midi": 77, "duration_steps": 2 },
+            { "step": 15, "note": "E5", "midi": 76, "duration_steps": 2 }
+        ] },
+        { "bar": 6, "chord": "Dm", "melody": [
+            { "step": 1, "note": "F5", "midi": 77, "duration_steps": 2 },
+            { "step": 3, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 5, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 7, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 9, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 11, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 13, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 15, "note": "A4", "midi": 69, "duration_steps": 2 }
+        ] },
+        { "bar": 7, "chord": "G", "melody": [
+            { "step": 1, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 3, "note": "G4", "midi": 67, "duration_steps": 2 },
+            { "step": 5, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 7, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 9, "note": "G5", "midi": 79, "duration_steps": 2 },
+            { "step": 11, "note": "F5", "midi": 77, "duration_steps": 2 },
+            { "step": 13, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 15, "note": "D5", "midi": 74, "duration_steps": 2 }
+        ] },
+        { "bar": 8, "chord": "G", "melody": [
+            { "step": 1, "note": "G5", "midi": 79, "duration_steps": 2 },
+            { "step": 3, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 5, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 7, "note": "G4", "midi": 67, "duration_steps": 2 },
+            { "step": 9, "note": "G5", "midi": 79, "duration_steps": 2 },
+            { "step": 11, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 13, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 15, "note": "C5", "midi": 72, "duration_steps": 2 }
+        ] }
       ]
     },
     {
       "section": "Verse",
       "bars_count": 8,
       "progression": [
-        { "bar": 1, "chord": "Am" },
-        { "bar": 2, "chord": "F" },
-        { "bar": 3, "chord": "G" },
-        { "bar": 4, "chord": "C" },
-        { "bar": 5, "chord": "Am" },
-        { "bar": 6, "chord": "F" },
-        { "bar": 7, "chord": "G" },
-        { "bar": 8, "chord": "C" }
+        { "bar": 1, "chord": "Am", "melody": [
+            { "step": 11, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 13, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 15, "note": "C5", "midi": 72, "duration_steps": 2 }
+        ] },
+        { "bar": 2, "chord": "F", "melody": [
+            { "step": 3, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 5, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 7, "note": "C5", "midi": 72, "duration_steps": 4 },
+            { "step": 11, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 13, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 15, "note": "B4", "midi": 71, "duration_steps": 2 }
+        ] },
+        { "bar": 3, "chord": "G", "melody": [
+            { "step": 11, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 13, "note": "G4", "midi": 67, "duration_steps": 2 },
+            { "step": 15, "note": "E4", "midi": 64, "duration_steps": 2 }
+        ] },
+        { "bar": 4, "chord": "C", "melody": [
+            { "step": 11, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 13, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 15, "note": "C5", "midi": 72, "duration_steps": 2 }
+        ] },
+        { "bar": 5, "chord": "Am", "melody": [
+            { "step": 11, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 13, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 15, "note": "C5", "midi": 72, "duration_steps": 2 }
+        ] },
+        { "bar": 6, "chord": "F", "melody": [
+            { "step": 3, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 5, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 7, "note": "C5", "midi": 72, "duration_steps": 4 },
+            { "step": 11, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 13, "note": "A4", "midi": 69, "duration_steps": 2 },
+            { "step": 15, "note": "B4", "midi": 71, "duration_steps": 2 }
+        ] },
+        { "bar": 7, "chord": "G", "melody": [
+            { "step": 11, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 13, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 15, "note": "G4", "midi": 67, "duration_steps": 2 }
+        ] },
+        { "bar": 8, "chord": "C", "melody": [
+            { "step": 11, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 13, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 15, "note": "E5", "midi": 76, "duration_steps": 4 }
+        ] }
       ]
     },
     {
       "section": "Pre-Chorus",
       "bars_count": 4,
       "progression": [
-        { "bar": 1, "chord": "Am" },
-        { "bar": 2, "chord": "F" },
-        { "bar": 3, "chord": "Dm" },
-        { "bar": 4, "chord": "G" }
+        { "bar": 1, "chord": "Am", "melody": [
+            { "step": 3, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 5, "note": "C5", "midi": 72, "duration_steps": 4 },
+            { "step": 11, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 13, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 15, "note": "E5", "midi": 76, "duration_steps": 4 }
+        ] },
+        { "bar": 2, "chord": "F", "melody": [
+            { "step": 3, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 5, "note": "C5", "midi": 72, "duration_steps": 4 },
+            { "step": 11, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 13, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 15, "note": "E5", "midi": 76, "duration_steps": 4 }
+        ] },
+        { "bar": 3, "chord": "Dm", "melody": [
+            { "step": 3, "note": "D5", "midi": 74, "duration_steps": 2 },
+            { "step": 5, "note": "C5", "midi": 72, "duration_steps": 4 },
+            { "step": 11, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 13, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 15, "note": "D5", "midi": 74, "duration_steps": 4 }
+        ] },
+        { "bar": 4, "chord": "G", "melody": [
+            { "step": 15, "note": "B4", "midi": 71, "duration_steps": 2 }
+        ] }
       ]
     },
     {
       "section": "Chorus",
       "bars_count": 8,
       "progression": [
-        { "bar": 1, "chord": "F" },
-        { "bar": 2, "chord": "G" },
-        { "bar": 3, "chord": "C" },
-        { "bar": 4, "chord": "Am" },
-        { "bar": 5, "chord": "F" },
-        { "bar": 6, "chord": "G" },
-        { "bar": 7, "chord": "C" },
-        { "bar": 8, "chord": "Am" }
+        { "bar": 1, "chord": "F G", "melody": [
+            { "step": 1, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 3, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 5, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 7, "note": "C5", "midi": 72, "duration_steps": 4 },
+            { "step": 15, "note": "D5", "midi": 74, "duration_steps": 2 }
+        ] },
+        { "bar": 2, "chord": "C Am", "melody": [
+            { "step": 1, "note": "D5", "midi": 74, "duration_steps": 4 },
+            { "step": 5, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 7, "note": "C5", "midi": 72, "duration_steps": 4 },
+            { "step": 15, "note": "B4", "midi": 71, "duration_steps": 2 }
+        ] },
+        { "bar": 3, "chord": "F G", "melody": [
+            { "step": 1, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 3, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 5, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 7, "note": "C5", "midi": 72, "duration_steps": 4 },
+            { "step": 15, "note": "D5", "midi": 74, "duration_steps": 2 }
+        ] },
+        { "bar": 4, "chord": "C Am", "melody": [
+            { "step": 1, "note": "D5", "midi": 74, "duration_steps": 4 },
+            { "step": 5, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 7, "note": "E5", "midi": 76, "duration_steps": 4 },
+            { "step": 15, "note": "B4", "midi": 71, "duration_steps": 2 }
+        ] },
+        { "bar": 5, "chord": "F G", "melody": [
+            { "step": 1, "note": "B4", "midi": 71, "duration_steps": 2 },
+            { "step": 3, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 5, "note": "C5", "midi": 72, "duration_steps": 2 },
+            { "step": 7, "note": "C5", "midi": 72, "duration_steps": 4 },
+            { "step": 15, "note": "D5", "midi": 74, "duration_steps": 2 }
+        ] },
+        { "bar": 6, "chord": "C Am", "melody": [
+            { "step": 1, "note": "D5", "midi": 74, "duration_steps": 4 },
+            { "step": 5, "note": "E5", "midi": 76, "duration_steps": 2 },
+            { "step": 7, "note": "C5", "midi": 72, "duration_steps": 4 }
+        ] },
+        { "bar": 7, "chord": "F" },
+        { "bar": 8, "chord": "G" }
       ]
     }
   ]

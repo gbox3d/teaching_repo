@@ -1,5 +1,6 @@
 // index.js — 디스코 연주기. 곡(JSON)을 불러와 16분음표 한 칸마다 소리 부품(synth.js)을 예약한다.
 import { midiToFreq, chordToMidis, createNoise, playTone, playKick, playSnare, playHat } from './synth.js';
+import { tagMelodies, tagColor } from './song.js';
 
 // ex08 — 리듬은 배열이다. 한 마디 = 16칸(16분음표). 1 이면 그 칸에서 친다
 // bass 는 1 = 낮은 근음, 2 = 한 옥타브 위 근음(디스코 베이스의 '둥-둥' 오르내림)
@@ -31,7 +32,7 @@ const $ = function (id) { return document.getElementById(id); };
 let ctx = null;        // AudioContext — 재생을 처음 누를 때 만든다(ex01)
 let out = null;        // 모든 소리가 모이는 곳 → 압축기 → 스피커
 let noise = null;
-let bars = [];         // 곡 전체 마디를 한 줄로 편 것 [{ section, chord, midis }]
+let bars = [];         // 곡 전체 마디를 한 줄로 편 것 [{ section, chord, chords, melody, tag }]
 let cells = [];        // bars 와 같은 순서의 화면 칸
 let timer = null;
 let nextTime = 0;      // 다음 칸을 칠 시각(ctx.currentTime 기준)
@@ -64,23 +65,29 @@ function scheduleStep(n, time) {
     const len = secondsPerStep();
     const wave = $('wave').value;
     const cutoff = Number($('cutoff').value);
+    const midis = bar.chords[Math.floor(i * bar.chords.length / 16)];   // 'F G' 처럼 코드가 둘이면 마디를 반씩 나눈다
 
     if (on('use-kick') && p.kick[i]) playKick(ctx, out, time);
     if (on('use-snare') && p.snare[i]) playSnare(ctx, out, noise, time);
     if (on('use-hat') && p.hat[i]) playHat(ctx, out, noise, time, false);
     if (on('use-hat') && p.open[i]) playHat(ctx, out, noise, time, true);
     if (on('use-bass') && p.bass[i]) {
-        const root = bar.midis[0] - 24 + (p.bass[i] === 2 ? 12 : 0);      // 코드 근음을 두 옥타브 아래로
+        const root = midis[0] - 24 + (p.bass[i] === 2 ? 12 : 0);      // 코드 근음을 두 옥타브 아래로
         playTone(ctx, out, { freq: midiToFreq(root), time: time, type: 'square', cutoff: 700, attack: 0.003, length: len * 0.6, release: 0.06, volume: 0.3 });
     }
     if (on('use-chord') && p.chord[i]) {
-        for (const midi of bar.midis) {                                   // ex04 — 음 수만큼 동시에
-            playTone(ctx, out, { freq: midiToFreq(midi), time: time, type: wave, cutoff: cutoff, attack: 0.005, length: len, release: 0.15, volume: 0.24 / bar.midis.length });
+        for (const midi of midis) {                                   // ex04 — 음 수만큼 동시에
+            playTone(ctx, out, { freq: midiToFreq(midi), time: time, type: wave, cutoff: cutoff, attack: 0.005, length: len, release: 0.15, volume: 0.24 / midis.length });
         }
     }
     if (on('use-arp') && p.arp[i]) {
-        const notes = bar.midis.concat(bar.midis[0] + 12);                // 코드 음 + 한 옥타브 위 근음
+        const notes = midis.concat(midis[0] + 12);                // 코드 음 + 한 옥타브 위 근음
         playTone(ctx, out, { freq: midiToFreq(notes[i % notes.length] + 12), time: time, type: 'square', cutoff: cutoff, attack: 0.002, length: len * 0.4, release: 0.05, volume: 0.06 });
+    }
+    if (on('use-melody')) {
+        for (const note of bar.melody) {                                  // ex10 — 이 칸(i + 1)에서 시작하는 음만, duration_steps 칸 동안
+            if (note.step === i + 1) playTone(ctx, out, { freq: midiToFreq(note.midi), time: time, type: 'square', cutoff: 3000, attack: 0.01, length: note.duration_steps * len - 0.06, release: 0.05, volume: 0.12 });
+        }
     }
     queue.push({ step: n, time: time });
 }
@@ -107,7 +114,7 @@ function show(n) {
     const b = Math.floor(n / 16) % bars.length;
     document.querySelectorAll('.step').forEach(function (el, k) { el.classList.toggle('on', k === i); });
     cells.forEach(function (el, k) { el.classList.toggle('now', k === b); });
-    $('where').innerText = `${bars[b].section} · ${b + 1}/${bars.length}마디 · ${bars[b].chord}`;
+    $('where').innerText = `${bars[b].section} · ${b + 1}/${bars.length}마디 · ${bars[b].chord}` + (bars[b].tag ? ` · 멜로디 ${bars[b].tag.name}` : '');
 }
 
 async function play() {
@@ -153,9 +160,12 @@ async function loadSong(file) {
     bars = [];
     for (const section of song.sections) {
         for (const bar of section.progression) {
-            bars.push({ section: section.section, chord: bar.chord, midis: chordToMidis(bar.chord) });
+            bars.push({ section: section.section, chord: bar.chord, chords: bar.chord.trim().split(/\s+/).map(chordToMidis), melody: bar.melody || [] });   // 멜로디가 없는 마디는 빈 배열
         }
     }
+
+    const tags = tagMelodies(bars.map(function (bar) { return bar.melody; }));
+    bars.forEach(function (bar, k) { bar.tag = tags[k]; });
 
     $('track').innerText = `${info.title} — ${info.artist} · ${info.key} · ${info.time_signature} · ${info.bpm} BPM`;
     $('bpm').value = info.bpm;                           // 80~140 밖이면 슬라이더가 끝값으로 맞춘다
@@ -175,6 +185,14 @@ async function loadSong(file) {
             const cell = document.createElement('div');
             cell.className = 'bar';
             cell.textContent = bar.chord;
+            const tag = bars[cells.length].tag;                // cells 와 bars 는 같은 순서
+            if (tag) {
+                const mark = document.createElement('small');
+                mark.className = 'tag';
+                mark.textContent = `♪${tag.name}`;
+                mark.style.color = tagColor(tag);   // 같은 글자 = 같은 색
+                cell.append(mark);
+            }
             row.append(cell);
             cells.push(cell);
         }

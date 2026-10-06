@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>멜로디 조합기</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <h1>멜로디 조합기</h1>
+        <p>라이브러리의 멜로디 조각(♪A, ♪B …)을 골라 마디로 이어 붙인다. 저장한 파일은 <a href="index.html">디스코 연주기</a>에서도 열린다.</p>
+    </header>
+
+    <main>
+        <section class="panel">
+            <button id="play">▶ 재생</button>
+            <button id="stop">■ 정지</button>
+            <label><input id="loop" type="checkbox" checked> 반복</label>
+            <label>BPM <input id="bpm" type="range" min="80" max="140" value="109"> <b id="bpm-value">109</b></label>
+            <label><input id="use-drums" type="checkbox" checked> 드럼</label>
+            <label><input id="use-bass" type="checkbox" checked> 베이스</label>
+            <label><input id="use-chord" type="checkbox" checked> 코드</label>
+            <label><input id="use-melody" type="checkbox" checked> 멜로디</label>
+        </section>
+
+        <section class="panel">
+            <label>제목 <input id="title" type="text" value="내 편곡"></label>
+            <label>불러올 곡
+                <select id="song">
+                    <option value="only_you.json">only_you.json</option>
+                    <option value="my_song.json">my_song.json</option>
+                </select>
+            </label>
+            <button id="open-song">곡으로 열기</button>
+            <button id="add-song">라이브러리에 더하기</button>
+            <label class="file">내 파일로 열기 <input id="file-open" type="file" accept=".json,application/json"></label>
+            <label class="file">내 파일을 라이브러리에 <input id="file-add" type="file" accept=".json,application/json"></label>
+            <button id="export">내보내기(.json)</button>
+        </section>
+
+        <section class="panel column">
+            <h2>라이브러리 <small>— 이름을 누르면 한 마디 미리 듣기, + 는 편곡 줄에 더하기(고른 마디 뒤, 없으면 맨 끝)</small></h2>
+            <div id="library" class="library"></div>
+        </section>
+
+        <section class="panel column">
+            <h2>편곡 <small id="arrangement-info"></small></h2>
+            <div id="arrangement" class="arrangement"></div>
+            <div id="editor" class="editor">
+                <label>구간 <input id="ed-section" type="text" size="10"></label>
+                <label>코드 <input id="ed-chord" type="text" size="7"></label>
+                <label>멜로디 <select id="ed-melody"></select></label>
+                <label>옮김 <input id="ed-shift" type="number" min="-12" max="12" value="0"> 반음</label>
+                <button id="ed-left">◀</button>
+                <button id="ed-right">▶</button>
+                <button id="ed-copy">복제</button>
+                <button id="ed-delete">삭제</button>
+                <button id="ed-empty">+ 빈 마디</button>
+            </div>
+            <p id="where">정지</p>
+        </section>
+
+        <p id="message"></p>
+    </main>
+
+    <footer>Web Audio API · 저장 파일 = 연주기 곡 JSON 과 같은 모양(구간 · 마디마다 코드와 멜로디) · 코드 'F G' 처럼 띄어 쓰면 마디를 반씩 나눈다</footer>
+
+    <script>
+        if (location.protocol === 'file:') {
+            document.getElementById('message').innerText =
+                '주소가 file:// 입니다. 조합기는 서버로 엽니다: 이 폴더에서 node server.mjs 를 띄우고 http://localhost:8000/compose.html 을 여세요.';
+        }
+    </script>
+    <script type="module">
+        import main from './compose.js';
+        main();
+    </script>
+</body>
+</html>

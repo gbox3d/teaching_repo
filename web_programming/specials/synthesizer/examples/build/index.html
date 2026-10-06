@@ -9,6 +9,7 @@
 <body>
     <header>
         <h1>디스코 연주기</h1>
+        <p><a href="compose.html">멜로디 조합기 →</a> 라이브러리의 멜로디 조각을 이어 붙여 편곡한다</p>
         <p id="track">곡을 불러오는 중…</p>
     </header>
 
@@ -38,6 +39,7 @@
             <label><input id="use-bass" type="checkbox" checked> 베이스</label>
             <label><input id="use-chord" type="checkbox" checked> 코드</label>
             <label><input id="use-arp" type="checkbox"> 아르페지오</label>
+            <label><input id="use-melody" type="checkbox" checked> 멜로디</label>
             <label>코드 파형
                 <select id="wave">
                     <option value="sawtooth">sawtooth</option>
@@ -58,7 +60,7 @@
         <p id="message"></p>
     </main>
 
-    <footer>Web Audio API · 곡 데이터는 코드 진행만 담는다(멜로디·음원 없음)</footer>
+    <footer>Web Audio API · 곡 데이터는 코드 진행과 멜로디(음 높이 · 시작 칸 · 길이)만 담는다(음원 없음) · ♪글자 = 같은 멜로디, ′ = 조금 바꾼 것</footer>
 
     <script>
         // file:// 로 열면 아래 type="module" 스크립트를 브라우저가 막아 아무것도 돌지 않는다.

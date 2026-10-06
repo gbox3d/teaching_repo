@@ -1,0 +1,695 @@
+{
+  "track_info": {
+    "title": "Only You",
+    "artist": "Savage",
+    "key": "Am",
+    "time_signature": "4/4",
+    "bpm": 109,
+    "grid_resolution": "16th_notes",
+    "steps_per_bar": 16
+  },
+  "master_templates": {
+    "drum_patterns": {
+      "four_on_the_floor_disco": {
+        "kick": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "snare_clap": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "closed_hihat": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "open_hihat": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      }
+    },
+    "synth_bass_pattern": {
+      "description": "16th-note running octave bass pulse",
+      "sequence": [
+        {
+          "step": 1,
+          "offset": 0,
+          "accent": true
+        },
+        {
+          "step": 2,
+          "offset": 0,
+          "accent": false
+        },
+        {
+          "step": 3,
+          "offset": 12,
+          "accent": true
+        },
+        {
+          "step": 4,
+          "offset": 12,
+          "accent": false
+        },
+        {
+          "step": 5,
+          "offset": 0,
+          "accent": true
+        },
+        {
+          "step": 6,
+          "offset": 0,
+          "accent": false
+        },
+        {
+          "step": 7,
+          "offset": 12,
+          "accent": true
+        },
+        {
+          "step": 8,
+          "offset": 12,
+          "accent": false
+        },
+        {
+          "step": 9,
+          "offset": 0,
+          "accent": true
+        },
+        {
+          "step": 10,
+          "offset": 0,
+          "accent": false
+        },
+        {
+          "step": 11,
+          "offset": 12,
+          "accent": true
+        },
+        {
+          "step": 12,
+          "offset": 12,
+          "accent": false
+        },
+        {
+          "step": 13,
+          "offset": 0,
+          "accent": true
+        },
+        {
+          "step": 14,
+          "offset": 0,
+          "accent": false
+        },
+        {
+          "step": 15,
+          "offset": 12,
+          "accent": true
+        },
+        {
+          "step": 16,
+          "offset": 12,
+          "accent": false
+        }
+      ]
+    },
+    "chord_stab_pattern": {
+      "description": "8th-note offbeat staccato brass/synth hits",
+      "trigger_steps": [
+        3,
+        7,
+        11,
+        15
+      ]
+    }
+  },
+  "score": [
+    {
+      "section": "Intro / Synth Hook",
+      "bars": [
+        {
+          "bar_index": 1,
+          "chord": {
+            "name": "Am",
+            "root": "A2",
+            "midi_root": 45,
+            "notes": [
+              "A2",
+              "E3",
+              "A3",
+              "C4"
+            ]
+          },
+          "drum_pattern_ref": "four_on_the_floor_disco",
+          "bass_track": {
+            "root_midi": 45,
+            "pattern_ref": "synth_bass_pattern"
+          },
+          "comping_track": {
+            "chord_midi": [
+              57,
+              60,
+              64
+            ],
+            "trigger_steps": [
+              3,
+              7,
+              11,
+              15
+            ]
+          },
+          "lead_track": [
+            {
+              "step": 1,
+              "note": "E5",
+              "midi": 76,
+              "duration_steps": 2
+            },
+            {
+              "step": 3,
+              "note": "E5",
+              "midi": 76,
+              "duration_steps": 2
+            },
+            {
+              "step": 5,
+              "note": "D5",
+              "midi": 74,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "C5",
+              "midi": 72,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 2
+            },
+            {
+              "step": 11,
+              "note": "C5",
+              "midi": 72,
+              "duration_steps": 2
+            },
+            {
+              "step": 13,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 4
+            }
+          ]
+        },
+        {
+          "bar_index": 2,
+          "chord": {
+            "name": "Dm",
+            "root": "D2",
+            "midi_root": 38,
+            "notes": [
+              "D2",
+              "A2",
+              "D3",
+              "F3"
+            ]
+          },
+          "drum_pattern_ref": "four_on_the_floor_disco",
+          "bass_track": {
+            "root_midi": 38,
+            "pattern_ref": "synth_bass_pattern"
+          },
+          "comping_track": {
+            "chord_midi": [
+              57,
+              62,
+              65
+            ],
+            "trigger_steps": [
+              3,
+              7,
+              11,
+              15
+            ]
+          },
+          "lead_track": [
+            {
+              "step": 1,
+              "note": "F5",
+              "midi": 77,
+              "duration_steps": 3
+            },
+            {
+              "step": 4,
+              "note": "E5",
+              "midi": 76,
+              "duration_steps": 1
+            },
+            {
+              "step": 5,
+              "note": "D5",
+              "midi": 74,
+              "duration_steps": 4
+            },
+            {
+              "step": 9,
+              "note": "C5",
+              "midi": 72,
+              "duration_steps": 2
+            },
+            {
+              "step": 11,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 2
+            },
+            {
+              "step": 13,
+              "note": "G4",
+              "midi": 67,
+              "duration_steps": 4
+            }
+          ]
+        },
+        {
+          "bar_index": 3,
+          "chord": {
+            "name": "G",
+            "root": "G2",
+            "midi_root": 43,
+            "notes": [
+              "G2",
+              "D3",
+              "G3",
+              "B3"
+            ]
+          },
+          "drum_pattern_ref": "four_on_the_floor_disco",
+          "bass_track": {
+            "root_midi": 43,
+            "pattern_ref": "synth_bass_pattern"
+          },
+          "comping_track": {
+            "chord_midi": [
+              55,
+              59,
+              62
+            ],
+            "trigger_steps": [
+              3,
+              7,
+              11,
+              15
+            ]
+          },
+          "lead_track": [
+            {
+              "step": 1,
+              "note": "D5",
+              "midi": 74,
+              "duration_steps": 2
+            },
+            {
+              "step": 3,
+              "note": "D5",
+              "midi": 74,
+              "duration_steps": 2
+            },
+            {
+              "step": 5,
+              "note": "C5",
+              "midi": 72,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 11,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 2
+            },
+            {
+              "step": 13,
+              "note": "G4",
+              "midi": 67,
+              "duration_steps": 4
+            }
+          ]
+        },
+        {
+          "bar_index": 4,
+          "chord": {
+            "name": "C",
+            "root": "C2",
+            "midi_root": 36,
+            "notes": [
+              "C2",
+              "G2",
+              "C3",
+              "E3"
+            ]
+          },
+          "drum_pattern_ref": "four_on_the_floor_disco",
+          "bass_track": {
+            "root_midi": 36,
+            "pattern_ref": "synth_bass_pattern"
+          },
+          "comping_track": {
+            "chord_midi": [
+              52,
+              55,
+              60
+            ],
+            "trigger_steps": [
+              3,
+              7,
+              11,
+              15
+            ]
+          },
+          "lead_track": [
+            {
+              "step": 1,
+              "note": "E5",
+              "midi": 76,
+              "duration_steps": 4
+            },
+            {
+              "step": 5,
+              "note": "D5",
+              "midi": 74,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "C5",
+              "midi": 72,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "E5",
+              "midi": 76,
+              "duration_steps": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "section": "Chorus (Hook)",
+      "bars": [
+        {
+          "bar_index": 5,
+          "chord": {
+            "name": "F",
+            "root": "F2",
+            "midi_root": 41,
+            "notes": [
+              "F2",
+              "C3",
+              "F3",
+              "A3"
+            ]
+          },
+          "drum_pattern_ref": "four_on_the_floor_disco",
+          "bass_track": {
+            "root_midi": 41,
+            "pattern_ref": "synth_bass_pattern"
+          },
+          "comping_track": {
+            "chord_midi": [
+              53,
+              57,
+              60
+            ],
+            "trigger_steps": [
+              3,
+              7,
+              11,
+              15
+            ]
+          },
+          "vocal_melody": [
+            {
+              "step": 1,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 6
+            },
+            {
+              "step": 7,
+              "note": "C5",
+              "midi": 72,
+              "duration_steps": 4
+            },
+            {
+              "step": 11,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 6
+            }
+          ]
+        },
+        {
+          "bar_index": 6,
+          "chord": {
+            "name": "G",
+            "root": "G2",
+            "midi_root": 43,
+            "notes": [
+              "G2",
+              "D3",
+              "G3",
+              "B3"
+            ]
+          },
+          "drum_pattern_ref": "four_on_the_floor_disco",
+          "bass_track": {
+            "root_midi": 43,
+            "pattern_ref": "synth_bass_pattern"
+          },
+          "comping_track": {
+            "chord_midi": [
+              55,
+              59,
+              62
+            ],
+            "trigger_steps": [
+              3,
+              7,
+              11,
+              15
+            ]
+          },
+          "vocal_melody": [
+            {
+              "step": 1,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 4
+            },
+            {
+              "step": 5,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "G4",
+              "midi": 67,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 8
+            }
+          ]
+        },
+        {
+          "bar_index": 7,
+          "chord": {
+            "name": "C",
+            "root": "C2",
+            "midi_root": 36,
+            "notes": [
+              "C2",
+              "G2",
+              "C3",
+              "E3"
+            ]
+          },
+          "drum_pattern_ref": "four_on_the_floor_disco",
+          "bass_track": {
+            "root_midi": 36,
+            "pattern_ref": "synth_bass_pattern"
+          },
+          "comping_track": {
+            "chord_midi": [
+              52,
+              55,
+              60
+            ],
+            "trigger_steps": [
+              3,
+              7,
+              11,
+              15
+            ]
+          },
+          "vocal_melody": [
+            {
+              "step": 1,
+              "note": "G4",
+              "midi": 67,
+              "duration_steps": 6
+            },
+            {
+              "step": 7,
+              "note": "C5",
+              "midi": 72,
+              "duration_steps": 4
+            },
+            {
+              "step": 11,
+              "note": "G4",
+              "midi": 67,
+              "duration_steps": 6
+            }
+          ]
+        },
+        {
+          "bar_index": 8,
+          "chord": {
+            "name": "Am",
+            "root": "A2",
+            "midi_root": 45,
+            "notes": [
+              "A2",
+              "E3",
+              "A3",
+              "C4"
+            ]
+          },
+          "drum_pattern_ref": "four_on_the_floor_disco",
+          "bass_track": {
+            "root_midi": 45,
+            "pattern_ref": "synth_bass_pattern"
+          },
+          "comping_track": {
+            "chord_midi": [
+              57,
+              60,
+              64
+            ],
+            "trigger_steps": [
+              3,
+              7,
+              11,
+              15
+            ]
+          },
+          "vocal_melody": [
+            {
+              "step": 1,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 4
+            },
+            {
+              "step": 5,
+              "note": "G4",
+              "midi": 67,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "E4",
+              "midi": 64,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 8
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

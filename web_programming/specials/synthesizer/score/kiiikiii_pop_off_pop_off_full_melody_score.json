@@ -1,0 +1,514 @@
+{
+  "track_info": {
+    "title": "Pop Off Pop Off",
+    "artist": "KiiiKiii (키키)",
+    "key": "F#m",
+    "time_signature": "4/4",
+    "bpm": 128,
+    "grid_resolution": "16th_notes",
+    "steps_per_bar": 16
+  },
+  "score": [
+    {
+      "section": "Intro / Synth Lead Riff",
+      "bars": [
+        {
+          "bar_index": 1,
+          "chord": {
+            "name": "F#m",
+            "root": "F#2",
+            "midi_root": 42
+          },
+          "bass_notes": [
+            42,
+            42,
+            54,
+            54,
+            42,
+            42,
+            54,
+            54,
+            42,
+            42,
+            54,
+            54,
+            42,
+            42,
+            54,
+            54
+          ],
+          "melody_line": [
+            {
+              "step": 1,
+              "note": "C#5",
+              "midi": 73,
+              "duration_steps": 2,
+              "description": "리드 신스 인트로 모티브"
+            },
+            {
+              "step": 3,
+              "note": "F#5",
+              "midi": 78,
+              "duration_steps": 2
+            },
+            {
+              "step": 5,
+              "note": "E5",
+              "midi": 76,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "C#5",
+              "midi": 73,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 2
+            },
+            {
+              "step": 11,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 13,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 4
+            }
+          ]
+        },
+        {
+          "bar_index": 2,
+          "chord": {
+            "name": "D",
+            "root": "D2",
+            "midi_root": 38
+          },
+          "bass_notes": [
+            38,
+            38,
+            50,
+            50,
+            38,
+            38,
+            50,
+            50,
+            38,
+            38,
+            50,
+            50,
+            38,
+            38,
+            50,
+            50
+          ],
+          "melody_line": [
+            {
+              "step": 1,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 2
+            },
+            {
+              "step": 3,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 5,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "C#5",
+              "midi": 73,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 4
+            },
+            {
+              "step": 13,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "section": "Verse - 'Catch me fly gently Baby...'",
+      "bars": [
+        {
+          "bar_index": 3,
+          "lyrics": "Catch me fly gently Baby",
+          "chord": {
+            "name": "F#m",
+            "root": "F#2",
+            "midi_root": 42
+          },
+          "melody_line": [
+            {
+              "step": 1,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 3,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 5,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 4
+            },
+            {
+              "step": 13,
+              "note": "E4",
+              "midi": 64,
+              "duration_steps": 4
+            }
+          ]
+        },
+        {
+          "bar_index": 4,
+          "lyrics": "Say that we first baby",
+          "chord": {
+            "name": "D",
+            "root": "D2",
+            "midi_root": 38
+          },
+          "melody_line": [
+            {
+              "step": 1,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 2
+            },
+            {
+              "step": 3,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 2
+            },
+            {
+              "step": 5,
+              "note": "E4",
+              "midi": 64,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "D4",
+              "midi": 62,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "section": "Chorus (Hook) - 'Flip flop Party's up...'",
+      "bars": [
+        {
+          "bar_index": 5,
+          "lyrics": "Flip flop Party's up",
+          "chord": {
+            "name": "F#m",
+            "root": "F#2",
+            "midi_root": 42
+          },
+          "melody_line": [
+            {
+              "step": 1,
+              "note": "C#5",
+              "midi": 73,
+              "duration_steps": 2
+            },
+            {
+              "step": 3,
+              "note": "C#5",
+              "midi": 73,
+              "duration_steps": 2
+            },
+            {
+              "step": 5,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 6
+            }
+          ]
+        },
+        {
+          "bar_index": 6,
+          "lyrics": "Pop pop pop off lipsy baby",
+          "chord": {
+            "name": "D",
+            "root": "D2",
+            "midi_root": 38
+          },
+          "melody_line": [
+            {
+              "step": 1,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 1
+            },
+            {
+              "step": 3,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 1
+            },
+            {
+              "step": 5,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "E4",
+              "midi": 64,
+              "duration_steps": 2
+            },
+            {
+              "step": 11,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 4
+            }
+          ]
+        },
+        {
+          "bar_index": 7,
+          "lyrics": "제일 뜨거운 걸 태우듯이 핫뜨거",
+          "chord": {
+            "name": "A",
+            "root": "A2",
+            "midi_root": 45
+          },
+          "melody_line": [
+            {
+              "step": 1,
+              "note": "C#5",
+              "midi": 73,
+              "duration_steps": 2
+            },
+            {
+              "step": 3,
+              "note": "E5",
+              "midi": 76,
+              "duration_steps": 2
+            },
+            {
+              "step": 5,
+              "note": "C#5",
+              "midi": 73,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 6
+            }
+          ]
+        },
+        {
+          "bar_index": 8,
+          "lyrics": "Push me till the tipsy baby",
+          "chord": {
+            "name": "E",
+            "root": "E2",
+            "midi_root": 40
+          },
+          "melody_line": [
+            {
+              "step": 1,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 2
+            },
+            {
+              "step": 3,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 2
+            },
+            {
+              "step": 5,
+              "note": "C#5",
+              "midi": 73,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "B4",
+              "midi": 71,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 11,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "section": "Post-Chorus / Hook - 'Flip flop messy...'",
+      "bars": [
+        {
+          "bar_index": 9,
+          "lyrics": "Flip flop messy 우리끼리 또 Crazy",
+          "chord": {
+            "name": "F#m",
+            "root": "F#2",
+            "midi_root": 42
+          },
+          "melody_line": [
+            {
+              "step": 1,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 2
+            },
+            {
+              "step": 3,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 5,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "E4",
+              "midi": 64,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 6
+            }
+          ]
+        },
+        {
+          "bar_index": 10,
+          "lyrics": "Hot phone sticky 이상한 포즈 Snap see",
+          "chord": {
+            "name": "D",
+            "root": "D2",
+            "midi_root": 38
+          },
+          "melody_line": [
+            {
+              "step": 1,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 2
+            },
+            {
+              "step": 3,
+              "note": "A4",
+              "midi": 69,
+              "duration_steps": 2
+            },
+            {
+              "step": 5,
+              "note": "F#4",
+              "midi": 66,
+              "duration_steps": 2
+            },
+            {
+              "step": 7,
+              "note": "E4",
+              "midi": 64,
+              "duration_steps": 2
+            },
+            {
+              "step": 9,
+              "note": "D4",
+              "midi": 62,
+              "duration_steps": 6
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
