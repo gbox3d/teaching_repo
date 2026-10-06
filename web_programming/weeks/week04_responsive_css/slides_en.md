@@ -11,11 +11,11 @@ footer: "CSS and Responsive UI · compare the parts one at a time, then assemble
 Week 3's three pages are still unstyled. This week is CSS.
 New repository this week: `web-week04` → `https://student01.github.io/web-week04/`
 
-This week: **compare 12 parts one at a time**, then **assemble** `styles.css` at the end.
+This week: **compare 13 parts one at a time** (plus one appendix), then **assemble** `styles.css` at the end.
 
-- One file = one property. Siblings that differ in a single value sit side by side.
-- The first sibling is the default. Comments hold the other values. Uncomment or change them.
-- The lab is not about creating files but about **changing values** and watching.
+- One file = one topic. Siblings that differ in a single value sit side by side.
+- No other topic is mixed in; boxes differ **only by background color**.
+- The first sibling is the default; comments hold other values. You **change values** in the lab.
 - Building happens once, at the end of Day 2. We note which rule came from which file.
 
 Same approach as last year's class (dayNN/exNN comparison files → build at the end).
@@ -30,7 +30,8 @@ Same approach as last year's class (dayNN/exNN comparison files → build at the
 2. ex02 display — whether an element takes a whole line is decided by display, not the tag
 3. ex03 box model — padding · border · margin, three layers
 4. ex04 width · max-width — which one shrinks when the window narrows
-5. ex05 text-align — horizontal works, vertical centering doesn't
+5. ex05 margin auto — split the leftover width to center a box
+6. ex06 text-align — where the text sits horizontally inside a box
 
 ---
 
@@ -49,7 +50,7 @@ selector {
 
 ---
 
-## Day 1 · 4–10 min — ex01 Selectors: Must Match; the Class Wins
+## Day 1 · 4–9 min — ex01 Selectors: Must Match; the Class Wins
 
 [examples/day1/ex01_selector.html](examples/day1/ex01_selector.html)
 Siblings: `p` / `p.red` / `div.red` / `p.Red` (typo) / `nav a` / `a` outside nav
@@ -68,7 +69,7 @@ nav a { color: green; }   /* descendant selector: a inside nav */
 
 ---
 
-## Day 1 · 10–15 min — ex02 display: The Tag Doesn't Decide, display Does
+## Day 1 · 9–13 min — ex02 display: The Tag Doesn't Decide, display Does
 
 [examples/day1/ex02_display.html](examples/day1/ex02_display.html)
 Siblings: 3 divs / 3 spans / span + `display: block` / div + `display: inline`
@@ -78,17 +79,17 @@ Siblings: 3 divs / 3 spans / span + `display: block` / div + `display: inline`
 .as-inline { display: inline; }  /* flows sideways like text */
 ```
 
-- No. 1 divs stack; No. 2 spans flow sideways. Only the default differs, and No. 3·4 change it.
-- Try it: swap `block` and `inline` in the two classes → No. 3 and 4 swap shapes. Tomorrow's `flex` is another value.
+- No. 1 divs fill each line; No. 2 spans flow sideways, as wide as their text. A new color = a new box.
+- Try it: swap `block` and `inline` in the two classes → No. 3 and 4 swap shapes.
 
 **Whether an element takes a whole line is decided by `display`, not by the tag.**
 
 ---
 
-## Day 1 · 15–21 min — ex03 Box Model: Three Layers
+## Day 1 · 13–18 min — ex03 Box Model: Three Layers
 
 [examples/day1/ex03_box_model.html](examples/day1/ex03_box_model.html)
-Siblings: default / `padding` / `border` / `margin` / all three (sky-blue box on a white frame)
+Siblings: default / `padding` / `border` / `margin` / all three (sky-blue box inside a gray frame)
 
 ```css
 .pad { padding: 16px; }           /* inside the border */
@@ -96,46 +97,62 @@ Siblings: default / `padding` / `border` / `margin` / all three (sky-blue box on
 .mg  { margin: 16px; }            /* outside the border */
 ```
 
-- The blue background is painted up to the `padding`; the gap `margin` opens shows the white frame.
+- The blue background is painted up to the `padding`; the gap `margin` opens shows the gray frame.
 - Try it: set the three values to 0 / 16 / 32 → which layer grows in box No. 5?
 
 **Inner space (padding), border, and outer space (margin) are three different layers.**
 
 ---
 
-## Day 1 · 21–26 min — ex04 width vs max-width, and margin auto
+## Day 1 · 18–22 min — ex04 width vs max-width: Which One Shrinks
 
 [examples/day1/ex04_width.html](examples/day1/ex04_width.html)
-Siblings: default (parent width) / `width: 640px` / `max-width: 640px` / `max-width` + `margin: auto`
+Siblings: default (parent width) / `width: 640px` / `max-width: 640px`
 
 ```css
-.w      { width: 640px; }        /* stays 640px, sticks out of a narrow window */
-.mw     { max-width: 640px; }    /* at most 640px, shrinks with the window */
-.center { max-width: 640px; margin-left: auto; margin-right: auto; }
+.w  { width: 640px; }        /* stays 640px, sticks out of a narrow window */
+.mw { max-width: 640px; }    /* at most 640px, shrinks with the window */
 ```
 
-- Left and right `margin: auto` split the leftover width in half. Shorthand: `margin: 0 auto`.
+- In a wide window No. 2 and 3 are both 640px. The difference shows only below 640px.
 - Try it: narrow the window to 400px → only No. 2 sticks out and a scrollbar appears.
 
 **`width` pins the width; `max-width` only sets a ceiling, so it shrinks with the window.**
 
 ---
 
-## Day 1 · 26–28 min — ex05 text-align vs vertical-align
+## Day 1 · 22–25 min — ex05 margin auto: Split the Leftover Width to Center
 
-[examples/day1/ex05_text_align.html](examples/day1/ex05_text_align.html)
-Siblings: default / `center` / `right` / `vertical-align: middle` (no effect on a block)
+[examples/day1/ex05_margin_auto.html](examples/day1/ex05_margin_auto.html)
+Siblings: default / `margin-left: auto` / both sides `auto` / `margin: 0 auto`
+
+```css
+.left-auto { margin-left: auto; }                      /* left takes it all → right side */
+.both-auto { margin-left: auto; margin-right: auto; }  /* half each → center */
+.short     { margin: 0 auto; }                         /* same as No. 3 */
+```
+
+- Leftover width exists only if the box is narrower than the window (ex04). `auto` takes it.
+- Try it: drop No. 3's `margin-right: auto` → like No. 2. Drop `max-width` → all four alike.
+
+**`auto` on `margin` takes the leftover width. When both sides share it, the box stands in the middle.**
+
+---
+
+## Day 1 · 25–28 min — ex06 text-align: Where the Text Sits Inside a Box
+
+[examples/day1/ex06_text_align.html](examples/day1/ex06_text_align.html)
+Siblings: default (left) / `text-align: center` / `text-align: right`
 
 ```css
 .center { text-align: center; }
 .right  { text-align: right; }
-.middle { vertical-align: middle; }  /* nothing happens on a block box */
 ```
 
-- Horizontal alignment is one `text-align` line. In No. 4 the text stays at the top, no error.
-- Try it: change `.middle` to `bottom` → still nothing. The answer is ex08.
+- The box stays the full window width; only the **text inside** moves. ex05 moved the box itself.
+- Try it: change No. 3's `right` to `center`. The assembly uses this line to center the footer text.
 
-**`vertical-align` aligns text within a line, not a box's content. Vertical alignment is the parent's job → ex08.**
+**`text-align` sets where text sits horizontally inside a box. The box itself doesn't move.**
 
 ---
 
@@ -143,13 +160,13 @@ Siblings: default / `center` / `right` / `vertical-align: middle` (no effect on 
 
 [Day 1 lab](lab.md#1일차--선택자와-박스-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
 
-1. Put last week's files in a new folder `web-week04`, and save ex01–ex05 in `ex/`.
+1. Put last week's files in a new folder `web-week04`, and save ex01–ex06 in `ex/`.
 2. Change at least one value per file and watch the screen.
 3. End: push to the `web-week04` repository and turn on Pages — steps are in the lab sheet
 
 If nothing changes, check the **selector spelling** and **semicolons** first.
 
-**Explanation total: 4+6+5+6+5+2+2 = 30 min**
+**Explanation total: 4+5+4+5+4+3+3+2 = 30 min**
 
 ---
 
@@ -158,9 +175,9 @@ If nothing changes, check the **selector spelling** and **semicolons** first.
 `30 min explanation & demo → 60 min lab`
 
 1. Five lines of flex principle — parent, main axis, cross axis
-2. ex06 · ex07 · ex08 — direction sets the main axis; justify is main axis, align is cross axis
-3. ex09 · ex10 — wrap and gap go on the parent; flex: 1 takes the leftover space
-4. ex11 — @media applies only when the condition holds
+2. ex07 · ex08 · ex09 — direction sets the main axis; justify is main axis, align is cross axis
+3. ex10 · ex11 · ex12 — wrap and gap go on the parent; flex: 1 goes on the child
+4. ex13 — @media applies only when the condition holds
 5. Assembly — gather `styles.css` from the parts
 
 ---
@@ -176,55 +193,56 @@ parent (container) display: flex, flex-direction: row
 
 1. `display: flex` goes on the **parent**. Its children get laid out.
 2. `flex-direction` sets the **main axis**: `row` horizontal, `column` vertical.
-3. `justify-content` aligns along the **main axis**. Not "horizontal".
-4. `align-items` aligns along the **cross axis**: vertical in `row`, horizontal in `column`.
+3. `justify-content` aligns along the **main axis**: horizontal in `row`.
+4. `align-items` aligns along the **cross axis**: vertical in `row`.
 5. `flex: 1` makes that child take the **leftover space** on the main axis.
 
-ex06–ex10 let you see these five lines one at a time.
+ex07–ex12 check these five lines one per file. Gray is the parent; colored boxes are the children.
 
 ---
 
-## Day 2 · 4–9 min — ex06 flex-direction: Sets the Main Axis
+## Day 2 · 4–8 min — ex07 flex-direction: Sets the Main Axis
 
-[examples/day2/ex06_flex_direction.html](examples/day2/ex06_flex_direction.html)
-Siblings: none / row / row-reverse / column / column-reverse / row+center / column+center
+[examples/day2/ex07_flex_direction.html](examples/day2/ex07_flex_direction.html)
+Siblings: no flex / `display: flex` (default row) / `row-reverse` / `column` / `column-reverse`
 
 ```css
-.flex   { display: flex; }               /* on the parent */
-.column { flex-direction: column; }      /* main axis ↓ (default row: →) */
-.center { justify-content: center; }     /* centered along the main axis */
+.flex           { display: flex; }                   /* on the parent; default row (→) */
+.row-reverse    { flex-direction: row-reverse; }     /* ← */
+.column         { flex-direction: column; }          /* ↓ */
+.column-reverse { flex-direction: column-reverse; }  /* ↑ */
 ```
 
-- 6 and 7 share `justify-content: center`: horizontal center in row, vertical in column.
-- Try it: swap 6 and 7's direction → the centering flips. `display: flex` on a child → the boxes don't move.
+- No. 2: side by side, as wide as their text; the leftover is gray. No. 4 (column) looks like No. 1.
+- Try it: add class `flex` to `상자 1` in No. 2 → nothing moves. flex works on the parent.
 
-**The parent gets `display: flex`. `flex-direction` sets the main axis; `justify-content` follows it.**
+**`display: flex` goes on the parent; `flex-direction` sets the main axis.**
 
 ---
 
-## Day 2 · 9–13 min — ex07 justify-content: Leftover Space on the Main Axis
+## Day 2 · 8–12 min — ex08 justify-content: Leftover Space on the Main Axis
 
-[examples/day2/ex07_justify_content.html](examples/day2/ex07_justify_content.html)
+[examples/day2/ex08_justify_content.html](examples/day2/ex08_justify_content.html)
 Siblings: flex-start / center / flex-end / space-between / space-around, comment space-evenly
 
 ```css
 .start   { justify-content: flex-start; }    /* default: packed at the start */
 .between { justify-content: space-between; } /* pinned to both ends */
 .around  { justify-content: space-around; }  /* equal space on both sides of each box */
-/* .evenly { justify-content: space-evenly; } */
+/* .evenly { justify-content: space-evenly; } */ /* every gap equal */
 ```
 
-- Three 48px boxes in a 300px frame. Each value puts the leftover space somewhere else.
-- Try it: `height: 160px` on `.frame`, uncomment `column` → all five move vertically. Uncomment `.evenly` for frame 5.
+- Gray is the leftover space. Each value puts it in a different place: front, back, or between.
+- Try it: uncomment `.evenly` and set frame 5's class to `evenly` → how does it differ from around?
 
 **`justify-content` is how the leftover space on the main axis is divided.**
 
 ---
 
-## Day 2 · 13–17 min — ex08 align-items: Cross Axis, ex05's Answer
+## Day 2 · 12–16 min — ex09 align-items: Position on the Cross Axis
 
-[examples/day2/ex08_align_items.html](examples/day2/ex08_align_items.html)
-Siblings: `stretch` (default) / `flex-start` / `center` / `flex-end`, frame comment `column`
+[examples/day2/ex09_align_items.html](examples/day2/ex09_align_items.html)
+Siblings: `stretch` (default) / `flex-start` / `center` / `flex-end` — frame 100px tall
 
 ```css
 .stretch { align-items: stretch; }     /* default: no-height child stretches */
@@ -233,99 +251,115 @@ Siblings: `stretch` (default) / `flex-start` / `center` / `flex-end`, frame comm
 .end     { align-items: flex-end; }    /* bottom */
 ```
 
-- `.box` has no height, so No. 1 stretches. No. 3 does the centering ex05 couldn't.
-- Try it: uncomment `column` in `.frame` → all four move horizontally (cross axis now horizontal).
+- The boxes have no height, so No. 1 stretches to the frame's height. No. 3 is vertically centered.
+- Try it: remove `height: 100px` from `.frame` → no vertical space left, so all four look the same.
 
-**`align-items` aligns along the cross axis: vertical in row, horizontal in column.**
+**`align-items` aligns along the cross axis: vertical for children standing in a row.**
 
 ---
 
-## Day 2 · 17–21 min — ex09 flex-wrap and gap: Wrapping and Spacing
+## Day 2 · 16–18 min — ex10 flex-wrap: Wrap When They Don't Fit
 
-[examples/day2/ex09_flex_wrap_gap.html](examples/day2/ex09_flex_wrap_gap.html)
-Siblings: `nowrap` (six 64px boxes squeezed into 300px) / `wrap` / `wrap` + `gap: 16px`
+[examples/day2/ex10_flex_wrap.html](examples/day2/ex10_flex_wrap.html)
+Siblings: `nowrap` (default) / `wrap` — six 80px children in a 300px frame
 
 ```css
 .nowrap { flex-wrap: nowrap; }  /* default: forces one line */
 .wrap   { flex-wrap: wrap; }    /* moves the rest to the next line */
-.gap    { gap: 16px; }          /* space between children; on the parent */
 ```
 
-- 64 × 6 = 384px in 300px: No. 1 squeezes, No. 2 wraps. `gap` on a child does nothing.
-- Try it: 6 children → 3: no squeezing, no wrapping. Set `gap` to 0 / 16 / 32.
+- 80 × 6 = 480px. No. 1 shrinks all six to 50px; No. 2 wraps them into two lines of three.
+- Try it: 6 children → 3 → no shrinking, no wrapping.
 
-**`flex-wrap` decides wrapping; `gap` sets spacing. Both go on the parent.**
+**Whether children wrap when they don't fit is decided by `flex-wrap`, on the parent.**
 
 ---
 
-## Day 2 · 21–24 min — ex10 flex: 1 — Takes the Leftover Space
+## Day 2 · 18–20 min — ex11 gap: Space Between Children
 
-[examples/day2/ex10_flex_grow.html](examples/day2/ex10_flex_grow.html)
-Siblings: default / middle only `flex: 1` / all three `flex: 1` / column screen (header · main `flex: 1` · footer)
+[examples/day2/ex11_gap.html](examples/day2/ex11_gap.html)
+Siblings: no gap / `gap: 16px` / `gap: 32px`
 
 ```css
-.grow   { flex: 1; }   /* this child takes the leftover space; flex: 2 = double share */
-.screen { display: flex; flex-direction: column; height: 200px; }
+.gap16 { gap: 16px; }   /* space between children; goes on the parent */
+.gap32 { gap: 32px; }
 ```
 
-- The one property that goes on the **child**: "I take the leftover space" is the child's claim. No. 4 shows it vertically — last year's title screen.
+- Only the spaces between open up; the first and last box stay at the edges.
+- Try it: move `gap16` from the frame to `상자 1`'s class → nothing happens.
+
+**A gap between children can't be set by one child, so `gap` goes on the parent.**
+
+---
+
+## Day 2 · 20–23 min — ex12 flex: 1 — Takes the Leftover Space
+
+[examples/day2/ex12_flex_grow.html](examples/day2/ex12_flex_grow.html)
+Siblings: default / middle only `flex: 1` / all three `flex: 1`, comment `flex: 2`
+
+```css
+.grow { flex: 1; }   /* this child takes the leftover space on the main axis */
+/* flex: 2; */       /* 2:1 when two share */
+```
+
+- The one property that goes on the **child**: "I take the leftover space" is the child's claim.
 - Try it: `style="flex: 2"` on the middle `<div>` of No. 3 → double share. Uncommenting `flex: 2` in `.grow` changes nothing (all three become 2).
 
 **`flex: 1` makes the child take the leftover space. Several children split it by their numbers.**
 
 ---
 
-## Day 2 · 24–27 min — ex11 @media: Conditional Rules
+## Day 2 · 23–26 min — ex13 @media: Conditional Rules
 
-[examples/day2/ex11_media.html](examples/day2/ex11_media.html)
-Siblings: frame with `@media (max-width: 600px)` (`.narrow`) / frame without
+[examples/day2/ex13_media.html](examples/day2/ex13_media.html)
+Siblings: a box with an `@media (max-width: 600px)` rule / a box without
 
 ```css
-.frame { display: flex; flex-direction: row; }   /* horizontal normally */
-@media (max-width: 600px) {                      /* try 900px */
-    .narrow { flex-direction: column; }
+.with-media { background-color: lightskyblue; }   /* normal color */
+@media (max-width: 600px) {                        /* try 900px */
+    .with-media { background-color: orange; }
 }
 ```
 
-- At 600px or less the inner rule comes alive; `.narrow` then has both, and the later wins (ex01).
-- Try it: 600 → 900 → No. 1 goes vertical in a normal window. Drop the colon → block ignored, no error.
+- At ≤ 600px the inner rule lives; same selector twice → the later wins (ex01). Check at 375.
+- Try it: 600 → 900 → orange even in a normal window. Drop the colon → ignored, no error.
 
-**The later rule lives only when the condition holds. At equal strength, the later wins.**
+**The inner rule lives only when the condition holds. Any property can change.**
 
 ---
 
-## Day 2 · 27–30 min — Assembly: web-week04 styles.css → Lab
+## Day 2 · 26–30 min — Assembly: web-week04 styles.css → Lab
 
 ```text
-body  { max-width: 640px; margin: 0 auto; padding: 16px }      ← ex04 + ex03
-nav   { display: flex; gap: 16px; flex-wrap: wrap }            ← ex06 + ex09 (on the parent)
+body  { max-width: 640px; margin: 0 auto; padding: 16px }      ← ex04 + ex05 + ex03
+nav   { display: flex; gap: 16px; flex-wrap: wrap }            ← ex07 + ex11 + ex10 (all on the parent)
 .card { background-color; padding; margin: 12px 0; border }    ← ex01 class + ex03 three layers
-@media (max-width: 600px) { nav { flex-direction: column } }   ← ex11 + ex06
+@media (max-width: 600px) { nav { flex-direction: column } }   ← ex13 + ex07
 ```
 
 [Day 2 lab](lab.md#2일차--flex와-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
 
-1. Save ex06–ex11 in `ex/` and change values (until minute 35).
+1. Save ex07–ex13 in `ex/` and change values (until minute 35).
 2. Assemble: `styles.css` in the table order, the `link` line on all three pages, `class="card"` in three places in `index.html`.
 3. Check at 1280 and 375 (device mode) → push to `web-week04` → screenshot (steps: lab sheet)
 
-**Explanation total: 4+5+4+4+4+3+3+3 = 30 min**
+**Explanation total: 4+4+4+4+2+2+3+3+4 = 30 min**
 
 ---
 
-## Appendix — ex12 position (Optional, Not Explained)
+## Appendix — ex14 position (Optional, Not Explained)
 
-[examples/day2/ex12_position.html](examples/day2/ex12_position.html)
-Siblings: `static` (default) / `relative; top: 20px; left: 40px` / `absolute; right: 4px; bottom: 4px`
+[examples/day2/ex14_position.html](examples/day2/ex14_position.html)
+Siblings: `static` (default) / `relative; top: 40px; left: 40px` / `absolute; right: 0; bottom: 0`
 
 ```css
 .frame    { position: relative; }                           /* anchor for absolute children */
-.relative { position: relative; top: 20px; left: 40px; }    /* nudged; its slot stays */
-.absolute { position: absolute; right: 4px; bottom: 4px; }  /* out of the flow, placed by the frame's corner */
+.relative { position: relative; top: 40px; left: 40px; }    /* nudged; its slot stays */
+.absolute { position: absolute; right: 0; bottom: 0; }      /* out of the flow, placed by the frame's corner */
 ```
 
 - Not covered in class. If you finish early, open it and change the values.
-- Why B moves up into A's place in No. 3: A has left the document flow.
+- In No. 2 A's original slot (the top) stays empty; in No. 3 B moves up into A's place because `absolute` took A out of the document flow.
 
 **Two ways to leave the document flow. `relative` keeps its slot; `absolute` doesn't.**
 

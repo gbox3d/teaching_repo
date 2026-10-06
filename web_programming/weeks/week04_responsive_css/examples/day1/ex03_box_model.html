@@ -5,16 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ex03 box model</title>
     <style>
-        body {
-            background-color: #dddddd;
-        }
+        /* 두 배경색은 층을 보이게 하는 칠이다(이 파일의 주제는 아니다) */
         .frame {
-            background-color: white;    /* 흰 바탕: margin 이 벌린 자리가 보인다 */
-            width: 300px;
-            margin-bottom: 8px;
+            background-color: lightgray;    /* 회색: 부모(frame). 상자 바깥이 회색으로 보인다 */
         }
         .box {
-            background-color: skyblue;  /* 하늘색: padding 까지 배경이 칠해진다 */
+            background-color: lightskyblue; /* 하늘색: padding 까지 배경이 칠해진다 */
         }
         .pad {
             padding: 16px;              /* 테두리 안쪽, 글자와 테두리 사이 */
@@ -28,11 +24,16 @@
     </style>
 </head>
 <body>
-    <div class="frame"><div class="box">1. 기본</div></div>
-    <div class="frame"><div class="box pad">2. padding 16px</div></div>
-    <div class="frame"><div class="box bd">3. border 4px</div></div>
-    <div class="frame"><div class="box mg">4. margin 16px</div></div>
-    <div class="frame"><div class="box pad bd mg">5. padding + border + margin</div></div>
+    <p>1. 기본</p>
+    <div class="frame">frame<div class="box">box</div>frame</div>
+    <p>2. padding 16px</p>
+    <div class="frame">frame<div class="box pad">box</div>frame</div>
+    <p>3. border 4px</p>
+    <div class="frame">frame<div class="box bd">box</div>frame</div>
+    <p>4. margin 16px</p>
+    <div class="frame">frame<div class="box mg">box</div>frame</div>
+    <p>5. padding + border + margin</p>
+    <div class="frame">frame<div class="box pad bd mg">box</div>frame</div>
     <p>안쪽 여백 · 테두리 · 바깥 여백은 서로 다른 층이다. F12 › Elements › Styles 맨 아래 상자 그림에서 네 값을 볼 수 있다.</p>
 </body>
 </html>

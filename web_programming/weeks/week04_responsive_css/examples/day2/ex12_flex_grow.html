@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex12 flex grow</title>
+    <style>
+        .frame {
+            display: flex;                  /* ex07: 자식이 가로(→)로 선다 */
+            background-color: lightgray;    /* 회색이 보이면 남는 공간이다 */
+        }
+        /* 자식을 구분하려고 배경색만 칠한다(이 파일의 주제는 아니다) */
+        .c1 { background-color: gold; }
+        .c2 { background-color: lightskyblue; }
+        .c3 { background-color: lightgreen; }
+
+        .grow {
+            flex: 1;                    /* 주축의 남는 공간을 이 자식이 차지한다 */
+            /* flex: 2; */              /* 둘이 나눠 가질 때 2:1 로 */
+        }
+    </style>
+</head>
+<body>
+    <p>1. 기본 — 남는 공간은 비어 있다</p>
+    <div class="frame">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>2. 가운데만 flex: 1</p>
+    <div class="frame">
+        <div class="c1">상자 1</div><div class="c2 grow">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>3. 셋 다 flex: 1 → 똑같이 나눈다</p>
+    <div class="frame">
+        <div class="c1 grow">상자 1</div><div class="c2 grow">상자 2</div><div class="c3 grow">상자 3</div>
+    </div>
+    <p>flex: 1 은 자식에 쓴다. 주축에 남는 공간(회색)을 그 자식이 가져간다.</p>
+</body>
+</html>

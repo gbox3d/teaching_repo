@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex07 flex-direction</title>
+    <style>
+        .frame {
+            background-color: lightgray;    /* 부모(컨테이너). 회색이 보이면 남는 공간이다 */
+        }
+        /* 자식을 구분하려고 배경색만 칠한다(이 파일의 주제는 아니다) */
+        .c1 { background-color: gold; }
+        .c2 { background-color: lightskyblue; }
+        .c3 { background-color: lightgreen; }
+
+        .flex {
+            display: flex;              /* 부모에 쓴다. 자식들이 한 줄로 선다. flex-direction 을 안 쓰면 row(가로 →) */
+        }
+        .row-reverse    { flex-direction: row-reverse; }    /* 주축이 가로 ← */
+        .column         { flex-direction: column; }         /* 주축이 세로 ↓ */
+        .column-reverse { flex-direction: column-reverse; } /* 주축이 세로 ↑ */
+    </style>
+</head>
+<body>
+    <p>1. flex 없음 (div 는 block, 세로로 쌓인다)</p>
+    <div class="frame">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>2. display: flex (flex-direction 기본값 row)</p>
+    <div class="frame flex">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>3. flex + row-reverse</p>
+    <div class="frame flex row-reverse">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>4. flex + column</p>
+    <div class="frame flex column">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>5. flex + column-reverse</p>
+    <div class="frame flex column-reverse">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>flex-direction 이 자식이 서는 방향(주축)을 정한다. display: flex 와 함께 부모에 쓴다.</p>
+</body>
+</html>

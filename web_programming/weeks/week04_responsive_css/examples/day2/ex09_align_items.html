@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex09 align-items</title>
+    <style>
+        .frame {
+            display: flex;                  /* ex07: 자식이 가로(→)로 선다 */
+            background-color: lightgray;    /* 회색이 보이면 남는 공간이다 */
+            height: 100px;                  /* 세로(교차축)에 남는 공간을 만든다. 높이가 없으면 정렬할 자리가 없다 */
+        }
+        /* 자식을 구분하려고 배경색만 칠한다(이 파일의 주제는 아니다) */
+        .c1 { background-color: gold; }
+        .c2 { background-color: lightskyblue; }
+        .c3 { background-color: lightgreen; }
+
+        /* 교차축(세로) 위에서 자식을 어디에 두나 */
+        .stretch { align-items: stretch; }     /* 기본값: 높이를 안 정한 자식은 끝까지 늘어난다 */
+        .start   { align-items: flex-start; }  /* 위 */
+        .center  { align-items: center; }      /* 세로 가운데 */
+        .end     { align-items: flex-end; }    /* 아래 */
+    </style>
+</head>
+<body>
+    <p>1. stretch (기본값)</p>
+    <div class="frame stretch">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>2. flex-start</p>
+    <div class="frame start">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>3. center</p>
+    <div class="frame center">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>4. flex-end</p>
+    <div class="frame end">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>align-items 는 교차축(가로로 선 자식에게는 세로)에서 자식을 어디에 둘지 정한다. 부모에 쓴다.</p>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex13 media</title>
+    <style>
+        .with-media {
+            background-color: lightskyblue;     /* 평소 색 */
+        }
+        .without-media {
+            background-color: lightskyblue;
+        }
+        /* 창 폭이 600px 이하일 때만 안쪽 규칙이 살아난다.
+           같은 선택자를 두 번 쓰면 뒤가 이기므로(ex01) 이 규칙이 위의 색을 덮는다 */
+        @media (max-width: 600px) {     /* 900px 으로 바꿔 보기 */
+            .with-media {
+                background-color: orange;
+            }
+        }
+    </style>
+</head>
+<body>
+    <p>1. @media 규칙이 있는 상자 — 창을 600px 보다 좁히면 주황</p>
+    <div class="with-media">상자 1</div>
+    <p>2. @media 규칙이 없는 상자 — 창을 아무리 좁혀도 하늘색</p>
+    <div class="without-media">상자 2</div>
+    <p>F12 › 기기 모드(Ctrl+Shift+M) 에서 폭을 375 로 바꿔 본다. 1번만 색이 바뀐다.</p>
+</body>
+</html>

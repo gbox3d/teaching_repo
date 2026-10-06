@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex10 flex-wrap</title>
+    <style>
+        .frame {
+            display: flex;                  /* ex07: 자식이 가로(→)로 선다 */
+            background-color: lightgray;    /* 회색이 보이면 남는 공간이다 */
+            width: 300px;                   /* ex04: 부모를 좁게 해서 자식이 다 안 들어가게 한다 */
+        }
+        .box {
+            width: 80px;                    /* ex04: 자식 80px × 6 = 480px. 300px 안에 다 안 들어간다 */
+        }
+        /* 자식을 구분하려고 두 색을 번갈아 칠한다(이 파일의 주제는 아니다). 줄이 넘어가도 위아래 색이 다르다 */
+        .c1 { background-color: gold; }
+        .c2 { background-color: lightskyblue; }
+
+        .nowrap { flex-wrap: nowrap; }  /* 기본값: 한 줄에 억지로 넣는다. 80px 여섯 개가 50px 로 줄어든다 */
+        .wrap   { flex-wrap: wrap; }    /* 안 들어가면 다음 줄로 넘긴다 */
+    </style>
+</head>
+<body>
+    <p>1. nowrap (기본값) — 80px × 6 = 480px 를 300px 안에</p>
+    <div class="frame nowrap">
+        <div class="box c1">1</div><div class="box c2">2</div><div class="box c1">3</div><div class="box c2">4</div><div class="box c1">5</div><div class="box c2">6</div>
+    </div>
+    <p>2. wrap</p>
+    <div class="frame wrap">
+        <div class="box c1">1</div><div class="box c2">2</div><div class="box c1">3</div><div class="box c2">4</div><div class="box c1">5</div><div class="box c2">6</div>
+    </div>
+    <p>주축에 다 안 들어갈 때 다음 줄로 넘길지는 flex-wrap 이 정한다. 부모에 쓴다.</p>
+</body>
+</html>

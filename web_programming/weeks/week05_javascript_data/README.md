@@ -53,7 +53,7 @@ JavaScript 는 브라우저가 실행한다. 결과는 **화면**과 **F12 › C
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS(선택). `node -v` 로 확인한다. 2일차에 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에 받아 `node server.mjs` 로 띄운다([사용 안내](../../tools/static-server/README.md)). Node 가 없는 PC 는 파일을 두 번 눌러 열어도 이번 주 결과는 같다
 - 개발자 도구를 여는 법(오른쪽 클릭 › **검사**, 또는 **F12**. 노트북에서 안 열리면 Fn+F12, macOS 는 ⌘+Option(⌥)+I)과 **Console** 탭 위치
-- 4주차 flex 비교 파일 [ex06](../week04_responsive_css/examples/day2/ex06_flex_direction.html) · [ex07](../week04_responsive_css/examples/day2/ex07_justify_content.html) · [ex08](../week04_responsive_css/examples/day2/ex08_align_items.html) · [ex09](../week04_responsive_css/examples/day2/ex09_flex_wrap_gap.html) · [ex10](../week04_responsive_css/examples/day2/ex10_flex_grow.html) · [ex11](../week04_responsive_css/examples/day2/ex11_media.html) 을 아직 열어 보지 않았다면 **먼저 열어 본다**. 지난주 완성본의 메뉴가 좁은 화면에서 세로로 서는 이유가 거기 있다
+- 4주차 flex 비교 파일 [ex07](../week04_responsive_css/examples/day2/ex07_flex_direction.html) · [ex08](../week04_responsive_css/examples/day2/ex08_justify_content.html) · [ex09](../week04_responsive_css/examples/day2/ex09_align_items.html) · [ex10](../week04_responsive_css/examples/day2/ex10_flex_wrap.html) · [ex11](../week04_responsive_css/examples/day2/ex11_gap.html) · [ex12](../week04_responsive_css/examples/day2/ex12_flex_grow.html) · [ex13](../week04_responsive_css/examples/day2/ex13_media.html) 을 아직 열어 보지 않았다면 **먼저 열어 본다**. 지난주 완성본의 메뉴가 좁은 화면에서 세로로 서는 이유가 거기 있다
 - 이번 주에 만드는 것은 새 저장소 `web-week05` 와 그 안의 `ex/` 폴더. 고치는 파일은 `index.html` 두 줄과 `app.js` 전체
 - 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
 

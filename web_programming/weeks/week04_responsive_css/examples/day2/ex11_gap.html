@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex11 gap</title>
+    <style>
+        .frame {
+            display: flex;                  /* ex07: 자식이 가로(→)로 선다 */
+            background-color: lightgray;    /* 회색이 보이면 상자 사이 간격이다 */
+        }
+        /* 자식을 구분하려고 배경색만 칠한다(이 파일의 주제는 아니다) */
+        .c1 { background-color: gold; }
+        .c2 { background-color: lightskyblue; }
+        .c3 { background-color: lightgreen; }
+
+        .gap16 { gap: 16px; }   /* 자식과 자식 사이를 16px 벌린다. 부모에 쓴다 */
+        .gap32 { gap: 32px; }
+    </style>
+</head>
+<body>
+    <p>1. gap 없음 (기본값 0)</p>
+    <div class="frame">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>2. gap: 16px</p>
+    <div class="frame gap16">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>3. gap: 32px</p>
+    <div class="frame gap32">
+        <div class="c1">상자 1</div><div class="c2">상자 2</div><div class="c3">상자 3</div>
+    </div>
+    <p>gap 은 자식과 자식 사이만 벌린다. 맨 앞과 맨 뒤는 벌리지 않는다. 부모에 쓴다.</p>
+</body>
+</html>

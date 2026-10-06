@@ -9,7 +9,7 @@
 명령은 VS Code의 터미널(**Terminal › New Terminal**, Windows는 PowerShell)에서 실행한다. macOS 터미널도 같은 명령이다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-비교 파일 12개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples/day1)(1일차 ex01~ex05)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples/day2)(2일차 ex06~ex12) 폴더에 있다.
+비교 파일 14개(부록 포함)는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples/day1)(1일차 ex01~ex06)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples/day2)(2일차 ex07~ex14) 폴더에 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
@@ -34,30 +34,31 @@ mkdir ex
 - 폴더 이름은 `ex`다. `Ex`·`examples`로 만들면 공개 주소가 달라져 4단계에서 404가 난다.
 - 빈 폴더는 GitHub에 올라가지 않는다. 2단계에서 파일을 넣으면 함께 올라간다.
 
-### 2. 비교 파일 다섯 개 가져오기
+### 2. 비교 파일 여섯 개 가져오기
 
-오늘 파일은 다섯 개다. 각 파일은 속성 하나만 비교한다.
+오늘 파일은 여섯 개다. 각 파일은 주제 하나만 비교하고, 상자는 배경색으로만 구분한다.
 
 | 파일 | 비교하는 것 |
 |---|---|
 | [ex01_selector.html](examples/day1/ex01_selector.html) | 선택자 `p` / `.red` / `nav a` |
 | [ex02_display.html](examples/day1/ex02_display.html) | `display: block` / `inline` |
 | [ex03_box_model.html](examples/day1/ex03_box_model.html) | `padding` / `border` / `margin` |
-| [ex04_width.html](examples/day1/ex04_width.html) | `width` / `max-width` / `margin` 좌우 `auto` |
-| [ex05_text_align.html](examples/day1/ex05_text_align.html) | `text-align` / `vertical-align` |
+| [ex04_width.html](examples/day1/ex04_width.html) | `width` / `max-width` |
+| [ex05_margin_auto.html](examples/day1/ex05_margin_auto.html) | `margin-left`·`margin-right` 의 `auto` |
+| [ex06_text_align.html](examples/day1/ex06_text_align.html) | `text-align` |
 
 가져오는 방법은 둘 중 하나다.
 
 1. **Raw로 저장** — [교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week04/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다.
-2. **타이핑** — VS Code에서 `ex/ex01_selector.html`을 새로 만들고 교재 화면을 보며 친다. 1일차 파일은 31~45줄이다. 주석은 빼도 된다.
+2. **타이핑** — VS Code에서 `ex/ex01_selector.html`을 새로 만들고 교재 화면을 보며 친다. 1일차 파일은 28~44줄이다. 주석은 빼도 된다.
 
 저장한 파일은 VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**(macOS는 **Reveal in Finder**)로 찾아 두 번 눌러 브라우저로 연다.
 
 **예상 결과** — `ex01_selector.html`을 열면 여섯 줄이 보인다. 1번 파랑, 2·3번 빨강, 4번 파랑, 5번 초록, 6번 기본 링크색이다.
-`ex/` 안에 파일 다섯 개가 있다.
+`ex/` 안에 파일 여섯 개가 있다.
 
 - 저장한 파일 이름이 `ex01_selector.html.txt`처럼 `.txt`로 끝나면 이름을 고친다. 브라우저가 붙인 것이다.
-- 다섯 파일을 한 번에 다 받고 시작해도 되고, 하나씩 받아 실험하고 다음으로 가도 된다.
+- 여섯 파일을 한 번에 다 받고 시작해도 되고, 하나씩 받아 실험하고 다음으로 가도 된다.
 
 ### 3. 값 바꾸는 요령
 
@@ -107,7 +108,7 @@ git push -u origin main
 
 ## 2일차
 
-### 5. flex 파일 여섯 개 가져오기
+### 5. flex 파일 일곱 개 가져오기
 
 같은 PC에 `web-week04` 폴더가 남아 있으면 **File › Open Folder**로 연다.
 없으면 저장소를 내려받은 뒤 **File › Open Folder**로 연다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
@@ -116,22 +117,23 @@ git push -u origin main
 git clone https://github.com/student01/web-week04.git
 ```
 
-오늘 파일은 여섯 개다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples/day2)에서 2단계의 **Raw** → 저장으로 `web-week04/ex/`에 넣는다(파일이 47~68줄이라 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 여섯 개를 다 받아 둔다.
+오늘 파일은 일곱 개다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples/day2)에서 2단계의 **Raw** → 저장으로 `web-week04/ex/`에 넣는다(일곱 파일을 합치면 280줄이 넘어 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 일곱 개를 다 받아 둔다.
 
 | 파일 | 비교하는 것 |
 |---|---|
-| [ex06_flex_direction.html](examples/day2/ex06_flex_direction.html) | `flex-direction` `row` / `row-reverse` / `column` / `column-reverse`, 같은 `justify-content: center`를 row와 column에서 |
-| [ex07_justify_content.html](examples/day2/ex07_justify_content.html) | `justify-content` 다섯 값 |
-| [ex08_align_items.html](examples/day2/ex08_align_items.html) | `align-items` 네 값 |
-| [ex09_flex_wrap_gap.html](examples/day2/ex09_flex_wrap_gap.html) | `flex-wrap` / `gap` |
-| [ex10_flex_grow.html](examples/day2/ex10_flex_grow.html) | `flex: 1` |
-| [ex11_media.html](examples/day2/ex11_media.html) | `@media (max-width: 600px)` |
+| [ex07_flex_direction.html](examples/day2/ex07_flex_direction.html) | `flex-direction` `row` / `row-reverse` / `column` / `column-reverse` |
+| [ex08_justify_content.html](examples/day2/ex08_justify_content.html) | `justify-content` 다섯 값 |
+| [ex09_align_items.html](examples/day2/ex09_align_items.html) | `align-items` 네 값 |
+| [ex10_flex_wrap.html](examples/day2/ex10_flex_wrap.html) | `flex-wrap` |
+| [ex11_gap.html](examples/day2/ex11_gap.html) | `gap` |
+| [ex12_flex_grow.html](examples/day2/ex12_flex_grow.html) | `flex: 1` |
+| [ex13_media.html](examples/day2/ex13_media.html) | `@media (max-width: 600px)` |
 
-[ex12_position.html](examples/day2/ex12_position.html)은 부록이다. 시간이 남으면 열어 본다.
+[ex14_position.html](examples/day2/ex14_position.html)은 부록이다. 시간이 남으면 열어 본다.
 
-**예상 결과** — `ex/`에 파일이 열한 개(부록까지 열두 개) 있다. `ex06_flex_direction.html`을 열면 검은 바탕에 흰 테두리 상자 일곱 개가 보인다. 1번은 세로로 쌓여 있고 2번부터 flex로 배치된다(2·3·6번은 가로, 4·5·7번은 세로).
+**예상 결과** — `ex/`에 파일이 열세 개(부록까지 열네 개) 있다. `ex07_flex_direction.html`을 열면 회색 frame 다섯 개 안에 색 상자 셋이 보인다. 1번은 세로로 쌓여 있고 2번부터 flex로 배치된다(2·3번은 가로, 4·5번은 세로).
 
-- flex 파일은 같은 틀을 쓴다. 부모 `.frame`에 `display: flex`, 자식은 `.box`. frame에 붙인 클래스 하나로 형제를 만든다.
+- flex 파일은 같은 틀을 쓴다. 부모는 회색 `.frame`, 자식은 색 상자(`.c1`·`.c2`·`.c3`)다. frame에 붙인 클래스 하나로 형제를 만든다.
 - 파일마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--flex와-조립-60분)에 있다.
 
 ### 6. 조립표
@@ -142,19 +144,19 @@ git clone https://github.com/student01/web-week04.git
 | `styles.css` 규칙 | 어느 ex에서 본 것 |
 |---|---|
 | `body { background-color; color; font-family; font-size }` | [ex01](examples/day1/ex01_selector.html) 태그 선택자. 색·글꼴 네 속성은 3주차 HTML에 없던 새 속성이다 |
-| `body { max-width: 640px; margin: 0 auto; padding: 16px }` | [ex04](examples/day1/ex04_width.html) `max-width`·`margin` 좌우 `auto`, [ex03](examples/day1/ex03_box_model.html) `padding` |
+| `body { max-width: 640px; margin: 0 auto; padding: 16px }` | [ex04](examples/day1/ex04_width.html) `max-width`, [ex05](examples/day1/ex05_margin_auto.html) `margin: 0 auto`, [ex03](examples/day1/ex03_box_model.html) `padding` |
 | `h1`·`h2` `{ color … }` | [ex01](examples/day1/ex01_selector.html) 태그 선택자 |
-| `nav { display: flex; gap: 16px; flex-wrap: wrap }` | [ex06](examples/day2/ex06_flex_direction.html) flex는 부모에, [ex09](examples/day2/ex09_flex_wrap_gap.html) `gap`·`wrap`도 부모에 |
+| `nav { display: flex; gap: 16px; flex-wrap: wrap }` | [ex07](examples/day2/ex07_flex_direction.html) flex는 부모에, [ex11](examples/day2/ex11_gap.html) `gap`, [ex10](examples/day2/ex10_flex_wrap.html) `flex-wrap` — 셋 다 부모에 |
 | `nav a { color }` | [ex01](examples/day1/ex01_selector.html) 자손 선택자 |
 | `.card { background-color; padding; margin: 12px 0; border }` | [ex01](examples/day1/ex01_selector.html) 클래스 선택자, [ex03](examples/day1/ex03_box_model.html) 세 층 |
-| `input, textarea { width: 280px; max-width: 100% }` | [ex04](examples/day1/ex04_width.html) 3번 `max-width` 로 좁은 화면 대비. `width: 280px` 은 평소 폭, `max-width: 100%` 는 부모보다 못 커지게 하는 상한. 쉼표 = 두 대상에 같은 규칙 |
-| `footer { text-align: center; … }` | [ex05](examples/day1/ex05_text_align.html) |
-| `@media (max-width: 600px) { nav { flex-direction: column } }` | [ex11](examples/day2/ex11_media.html) 조건 + [ex06](examples/day2/ex06_flex_direction.html) `column` |
+| `input, textarea { width: 280px; max-width: 100% }` | [ex04](examples/day1/ex04_width.html) 의 `width` 와 `max-width` 를 함께 쓴 것. `width: 280px` 은 평소 폭, `max-width: 100%` 는 부모보다 못 커지게 하는 상한. 쉼표 = 두 대상에 같은 규칙 |
+| `footer { text-align: center; … }` | [ex06](examples/day1/ex06_text_align.html) |
+| `@media (max-width: 600px) { nav { flex-direction: column } }` | [ex13](examples/day2/ex13_media.html) 조건 + [ex07](examples/day2/ex07_flex_direction.html) `column` |
 
 **예상 결과** — 표의 아홉 줄이 9단계 `styles.css`의 규칙 순서와 같다. 표에 없는 속성은 `styles.css`에도 없다.
 
-- `nav`의 `display: flex`·`gap`·`flex-wrap`은 셋 다 **부모** `nav`에 쓴다. `nav a`에 쓰면 아무 일도 없다(ex06·ex09).
-- `@media` 안의 `nav { flex-direction: column }`은 위의 `nav` 규칙과 같은 선택자다. 조건이 맞을 때만 뒤 규칙이 살아나 앞을 덮는다(ex11, ex01).
+- `nav`의 `display: flex`·`gap`·`flex-wrap`은 셋 다 **부모** `nav`에 쓴다. `nav a`에 쓰면 아무 일도 없다(ex07·ex10·ex11).
+- `@media` 안의 `nav { flex-direction: column }`은 위의 `nav` 규칙과 같은 선택자다. 조건이 맞을 때만 뒤 규칙이 살아나 앞을 덮는다(ex13, ex01).
 
 ### 7. 세 페이지 head에 link 줄 넣기
 
@@ -258,7 +260,7 @@ footer {
 4. 문단 두 개와 취미 목록이 테두리 있는 흰 상자가 된다(`.card`).
 5. 맨 아래 한 줄이 회색·가운데로 간다(`footer`).
 
-- `margin: 0 auto`는 위아래 0, 좌우 `auto`다. `auto`가 남는 폭을 반씩 나눠 가운데로 간다(ex04). `width: 640px`로 쓰면 좁은 화면에서 삐져나간다.
+- `margin: 0 auto`는 위아래 0, 좌우 `auto`다. `auto`가 남는 폭을 반씩 나눠 가운데로 간다(ex05). `width: 640px`로 쓰면 좁은 화면에서 삐져나간다.
 - `margin: 12px 0`은 위아래 12px, 좌우 0이다. `border: 1px solid #c3cbe6`은 두께·모양·색을 한 줄에 적은 것이다(ex03).
 - `input, textarea`의 `width: 280px`은 평소 폭, `max-width: 100%`는 부모보다 커지지 않는 상한이다. ex04의 2번(`width`)과 3번(`max-width`)을 한 상자에 합친 것이라 375에서도 삐져나가지 않는다.
 - `input, textarea`의 쉼표를 빠뜨리면 `input textarea`(input 안의 textarea)가 되어 아무것도 고르지 못한다.
@@ -449,7 +451,7 @@ console.info('my-web ready');
 **예상 결과** — 1280에서는 메뉴 세 개가 한 줄이고 본문이 가운데 640px 안에 있다.
 375에서는 메뉴가 `홈`·`내 정보`·`방명록` **세 줄로 세로로 선다.** 카드 테두리는 두 폭 모두 화면 안에 들어오고 가로 스크롤 막대는 생기지 않는다.
 
-- 375는 600보다 작으므로 `@media (max-width: 600px)` 안의 규칙이 산다. 1280에서는 죽어 있다(ex11).
+- 375는 600보다 작으므로 `@media (max-width: 600px)` 안의 규칙이 산다. 1280에서는 죽어 있다(ex13).
 - 375에서도 메뉴가 가로 그대로면 `@media (max-width 600px)`처럼 콜론이 빠졌는지, 중괄호 `}`가 두 개 다 있는지 본다. 틀려도 오류 없이 덩어리 전체가 무시된다.
 
 두 폭이 맞으면 올린다. 2주차에 배운 순서 그대로다. 현재 폴더: `web-week04`
@@ -460,7 +462,7 @@ git commit -m "4주차 2일차"
 git push
 ```
 
-**예상 결과** — GitHub의 `web-week04` 저장소 화면에서 `ex/`에 비교 파일이 열한 개(부록까지 열두 개) 보이고, `styles.css`를 누르면 9단계의 내용이 보인다.
+**예상 결과** — GitHub의 `web-week04` 저장소 화면에서 `ex/`에 비교 파일이 열세 개(부록까지 열네 개) 보이고, `styles.css`를 누르면 9단계의 내용이 보인다.
 
 1. 1분쯤 뒤 `https://student01.github.io/web-week04/`을 새로고침한다.
 2. F12 → 기기 모드(**Ctrl+Shift+M**) → 폭 `375`.

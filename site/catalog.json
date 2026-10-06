@@ -216,7 +216,7 @@
       "description": "브라우저와 Git의 기초에서 시작해 저장소 하나에 페이지를 쌓아 공개 사이트를 만들고, 목록·브라우저 저장·JSON 불러오기까지 다루는 15주 입문 과정입니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 3개 특강 · 321장",
+      "summary": "15개 주차 + 3개 특강 · 323장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {

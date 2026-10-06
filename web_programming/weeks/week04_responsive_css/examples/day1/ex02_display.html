@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ex02 display</title>
     <style>
-        .box {
-            background-color: yellow;
-            border: 1px solid black;
-            margin: 4px;
-            padding: 4px;
-        }
+        /* 상자가 어디까지인지 보이게 배경색만 칠한다(이 파일의 주제는 아니다). 색이 바뀌면 다른 상자다 */
+        .c1 { background-color: gold; }
+        .c2 { background-color: lightskyblue; }
+        .c3 { background-color: lightgreen; }
+
         .as-block {
             display: block;         /* 한 줄을 다 차지한다 */
         }
@@ -21,24 +20,24 @@
 </head>
 <body>
     <p>1. div 세 개 (기본값 display: block)</p>
-    <div class="box">div</div>
-    <div class="box">div</div>
-    <div class="box">div</div>
+    <div class="c1">div 1</div>
+    <div class="c2">div 2</div>
+    <div class="c3">div 3</div>
 
     <p>2. span 세 개 (기본값 display: inline)</p>
-    <span class="box">span</span>
-    <span class="box">span</span>
-    <span class="box">span</span>
+    <span class="c1">span 1</span>
+    <span class="c2">span 2</span>
+    <span class="c3">span 3</span>
 
     <p>3. span 에 display: block</p>
-    <span class="box as-block">span</span>
-    <span class="box as-block">span</span>
-    <span class="box as-block">span</span>
+    <span class="c1 as-block">span 1</span>
+    <span class="c2 as-block">span 2</span>
+    <span class="c3 as-block">span 3</span>
 
     <p>4. div 에 display: inline</p>
-    <div class="box as-inline">div</div>
-    <div class="box as-inline">div</div>
-    <div class="box as-inline">div</div>
+    <div class="c1 as-inline">div 1</div>
+    <div class="c2 as-inline">div 2</div>
+    <div class="c3 as-inline">div 3</div>
 
     <p>줄을 차지하는지는 태그가 아니라 display 가 정한다.</p>
 </body>

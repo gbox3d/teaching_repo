@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex05 margin auto</title>
+    <style>
+        .box {
+            background-color: lightgreen;   /* 자리가 보이게 칠한다(이 파일의 주제는 아니다) */
+            max-width: 300px;               /* ex04: 상자가 창보다 좁아야 남는 폭이 생긴다 */
+        }
+        .left-auto {
+            margin-left: auto;          /* 왼쪽 바깥 여백이 남는 폭을 다 가져간다 → 오른쪽에 붙는다 */
+        }
+        .both-auto {
+            margin-left: auto;          /* 남는 폭을 왼쪽·오른쪽이 반씩 → 가운데 */
+            margin-right: auto;
+        }
+        .short {
+            margin: 0 auto;             /* 위아래 0, 좌우 auto. 3번을 한 줄로 쓴 것 */
+        }
+    </style>
+</head>
+<body>
+    <p>1. 기본 → 왼쪽에 붙는다</p>
+    <div class="box">상자 1</div>
+    <p>2. margin-left: auto</p>
+    <div class="box left-auto">상자 2</div>
+    <p>3. margin-left: auto + margin-right: auto</p>
+    <div class="box both-auto">상자 3</div>
+    <p>4. margin: 0 auto</p>
+    <div class="box short">상자 4</div>
+    <p>auto 는 "남는 폭을 가져간다"는 값이다. 양쪽이 auto 면 반씩 가져가서 상자가 가운데에 선다.</p>
+</body>
+</html>

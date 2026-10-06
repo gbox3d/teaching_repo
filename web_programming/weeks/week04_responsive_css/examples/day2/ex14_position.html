@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex14 position</title>
+    <style>
+        .frame {
+            position: relative;             /* absolute 자식의 기준점이 된다 */
+            background-color: lightgray;    /* 회색: 부모(frame) */
+            height: 100px;                  /* 아래 모서리가 보이게 높이를 준다 */
+        }
+        /* 두 자식을 구분하려고 배경색을 칠하고, 움직임이 창 안에서 보이게 폭을 줄인다(이 파일의 주제는 아니다) */
+        .box { width: 80px; }           /* ex04 */
+        .c1 { background-color: gold; }
+        .c2 { background-color: lightskyblue; }
+
+        .relative {
+            position: relative;         /* 원래 자리에서 밀어낸다. 자리는 남는다 */
+            top: 40px;                  /* B 아래까지 내려간다. 원래 자리(맨 위)는 비어 회색으로 남는다 */
+            left: 40px;
+        }
+        .absolute {
+            position: absolute;         /* 흐름에서 빠져 frame 의 모서리 기준으로 놓인다 */
+            right: 0;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <p>1. static (기본값)</p>
+    <div class="frame">
+        <div class="box c1">A</div><div class="box c2">B</div>
+    </div>
+    <p>2. A 에 position: relative; top: 40px; left: 40px</p>
+    <div class="frame">
+        <div class="box c1 relative">A</div><div class="box c2">B</div>
+    </div>
+    <p>3. A 에 position: absolute; right: 0; bottom: 0 → B 가 A 자리로 올라온다</p>
+    <div class="frame">
+        <div class="box c1 absolute">A</div><div class="box c2">B</div>
+    </div>
+</body>
+</html>
