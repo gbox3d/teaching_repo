@@ -178,22 +178,33 @@ git clone https://github.com/student01/web-week05.git
 
 내려받은 `web-week05`를 **File › Open Folder**로 연다.
 
-오늘 파일은 다섯 개다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day2)에서 2단계의 **Raw** → 저장으로 `web-week05/ex/`에 넣는다(다섯 파일을 합치면 150줄이 넘어 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 다섯 개를 다 받아 둔다. 5분 안에 다 못 받았으면 ex06부터 시작하고, 나머지는 각 문항을 시작할 때 받는다.
+오늘 파일은 여섯 개다. 고르기 페이지 `index.html` 하나와 예제 코드 `.js` 다섯 개다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day2)에서 2단계의 **Raw** → 저장으로 `web-week05/ex/`에 넣는다(여섯 파일을 합치면 100줄이 넘어 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 여섯 개를 다 받아 둔다. 5분 안에 다 못 받았으면 ex06부터 시작하고, 나머지는 각 문항을 시작할 때 받는다.
 같은 방법으로 [server.mjs](../../tools/static-server/server.mjs)를 받아 `web-week05` 맨 위(`index.html` 옆)에 저장한다. 12단계에서 쓴다.
 
 | 파일 | 비교하는 것 |
 |---|---|
-| [ex06_compare.html](examples/day2/ex06_compare.html) | `==` / `===`, `>=` / `>`, 문자열끼리 비교 / 숫자로 바꿔 비교 |
-| [ex07_if_else.html](examples/day2/ex07_if_else.html) | `if`만 / `if` · `else` / `if` · `else if` · `else` / 같은 조건을 순서만 거꾸로 |
-| [ex08_function.html](examples/day2/ex08_function.html) | `return` 없는 함수 / `return` 하는 함수 / 같은 함수에 다른 값 / 정의만 하고 부르지 않은 함수 |
-| [ex09_dom_write.html](examples/day2/ex09_dom_write.html) | `getElementById` + `innerText` / `querySelector` + `textContent` / 태그를 넣은 글자 / 입력 칸 `value` |
-| [ex10_date.html](examples/day2/ex10_date.html) | `new Date()`의 `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getDay()` |
+| [index.html](examples/day2/index.html) | 고르기 페이지. 맨 아래 `<script src>` 다섯 줄 중 하나만 켠다. ex09 가 찾아 바꿀 자리(`#out1`~`#out3`, 입력 칸, 버튼)도 여기 있다 |
+| [ex06_compare.js](examples/day2/ex06_compare.js) | `==` / `===`, `>=` / `>`, 문자열끼리 비교 / 숫자로 바꿔 비교 |
+| [ex07_if_else.js](examples/day2/ex07_if_else.js) | `if`만 / `if` · `else` / `if` · `else if` · `else` / 같은 조건을 순서만 거꾸로 |
+| [ex08_function.js](examples/day2/ex08_function.js) | `return` 없는 함수 / `return` 하는 함수 / 같은 함수에 다른 값 / 정의만 하고 부르지 않은 함수 |
+| [ex09_dom_write.js](examples/day2/ex09_dom_write.js) | `getElementById` + `innerText` / `querySelector` + `textContent` / 태그를 넣은 글자 / 입력 칸 `value` |
+| [ex10_date.js](examples/day2/ex10_date.js) | `new Date()`의 `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getDay()` |
 
-**예상 결과** — 다섯 개를 다 받으면 `ex/`에 파일이 열한 개 있다(1일차 여섯 + 오늘 다섯). 맨 위에는 `server.mjs`가 하나 늘었다.
-`ex06_compare.html`을 열면 Console의 1~6번 결과가 위에서부터 `true` `false` `true` `false` `false` `true`다.
+**예상 결과** — 여섯 개를 다 받으면 `ex/`에 파일이 열두 개 있다(1일차 여섯 + 오늘 여섯). 맨 위에는 `server.mjs`가 하나 늘었다.
+`ex/index.html`을 열면 처음에는 맨 아래 `ex06_compare.js` 줄만 켜져 있다. Console의 1~6번 결과가 위에서부터 `true` `false` `true` `false` `false` `true`다.
+
+다른 예제로 바꿀 때는 `ex/index.html` 맨 아래에서 켜 둔 줄에 커서를 두고 **Ctrl+/**(macOS **⌘+/**)로 주석으로 만들고, 볼 줄에서 다시 **Ctrl+/** 로 주석을 푼다. 저장 → 새로고침한다.
+
+```html
+<!-- <script src="ex06_compare.js"></script> -->
+<script src="ex07_if_else.js"></script>
+<!-- <script src="ex08_function.js"></script> -->
+```
+
+코드를 고칠 때는 `.js` 파일을 고치고, 결과는 `ex/index.html` 을 새로고침해 본다. 한 번에 한 줄만 켠다. 둘 이상 켜면 Console 에 여러 예제의 줄이 섞인다.
 
 - `ex07`은 맨 위 `const hour = 20;`의 숫자를 바꿔 저장 → 새로고침해 비교한다.
-- `ex09`만 화면 글자를 바꾼다(이번 주에 화면에 쓰는 법을 배우는 파일). **바꾸기** 버튼을 누르기 전과 누른 뒤를 비교한다.
+- `ex09`만 화면 글자를 바꾼다(이번 주에 화면에 쓰는 법을 배우는 파일). 바꾸는 자리는 `index.html`의 "ex09 가 쓰는 자리"다. **바꾸기** 버튼을 누르기 전과 누른 뒤를 비교한다. 다른 줄을 켜 두었을 때는 버튼을 눌러도 아무 일이 없다.
 - `ex10`은 연 순간의 시각을 Console에 찍는다. 새로고침하면 다시 잰다.
 - 파일마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--조건과-함수-그리고-조립-60분)에 있다.
 
@@ -205,14 +216,14 @@ git clone https://github.com/student01/web-week05.git
 | 조립할 줄 | 어느 ex에서 본 것 |
 |---|---|
 | `index.html` `<head>`의 `<script src="app.js" defer></script>` | [ex02](examples/day1/ex02_script_position.html) 3번. `defer`는 HTML을 다 읽은 뒤 실행한다 → `#greeting`을 찾을 수 있다 |
-| `index.html`의 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` | [ex09](examples/day2/ex09_dom_write.html) 찾을 자리에 `id`, [4주차 ex01](../week04_responsive_css/examples/day1/ex01_selector.html) 클래스 선택자(`.red`와 같은 원리), `.card` 규칙은 [4주차 styles.css](../week04_responsive_css/examples/day2/build/styles.css) |
+| `index.html`의 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` | [ex09](examples/day2/ex09_dom_write.js) 찾을 자리에 `id`, [4주차 ex01](../week04_responsive_css/examples/day1/ex01_selector.html) 클래스 선택자(`.red`와 같은 원리), `.card` 규칙은 [4주차 styles.css](../week04_responsive_css/examples/day2/build/styles.css) |
 | `const name = 'student01';` | [ex03](examples/day1/ex03_let_const.html) `const` |
-| `const hour = new Date().getHours();` | [ex10](examples/day2/ex10_date.html) 지금 시각 → 시, [ex03](examples/day1/ex03_let_const.html) `const` |
-| `` function greet(name) { return `안녕하세요, ${name}님!`; } `` | [ex08](examples/day2/ex08_function.html) 정의·`return`, [ex05](examples/day1/ex05_template.html) 템플릿 문자열 |
-| `function hello(hour) { if (hour >= 12) { return … } else { return … } }` | [ex07](examples/day2/ex07_if_else.html) `if` · `else`, [ex06](examples/day2/ex06_compare.html) `>=`, [ex08](examples/day2/ex08_function.html) `return` |
-| `` const message = `${greet(name)} ${hello(hour)}`; `` | [ex05](examples/day1/ex05_template.html) `${}` 안은 계산된다(함수 호출도), [ex08](examples/day2/ex08_function.html) 호출 |
+| `const hour = new Date().getHours();` | [ex10](examples/day2/ex10_date.js) 지금 시각 → 시, [ex03](examples/day1/ex03_let_const.html) `const` |
+| `` function greet(name) { return `안녕하세요, ${name}님!`; } `` | [ex08](examples/day2/ex08_function.js) 정의·`return`, [ex05](examples/day1/ex05_template.html) 템플릿 문자열 |
+| `function hello(hour) { if (hour >= 12) { return … } else { return … } }` | [ex07](examples/day2/ex07_if_else.js) `if` · `else`, [ex06](examples/day2/ex06_compare.js) `>=`, [ex08](examples/day2/ex08_function.js) `return` |
+| `` const message = `${greet(name)} ${hello(hour)}`; `` | [ex05](examples/day1/ex05_template.html) `${}` 안은 계산된다(함수 호출도), [ex08](examples/day2/ex08_function.js) 호출 |
 | `console.log(hour);` `console.log(message);` | [ex01](examples/day1/ex01_click.html) Console |
-| `document.querySelector('#greeting').textContent = message;` | [ex09](examples/day2/ex09_dom_write.html) 2번. 먼저 찾고 → 그다음 바꾼다 |
+| `document.querySelector('#greeting').textContent = message;` | [ex09](examples/day2/ex09_dom_write.js) 2번. 먼저 찾고 → 그다음 바꾼다 |
 
 **예상 결과** — 표의 위 두 줄이 8단계, 나머지 일곱 줄이 9단계에서 쓰는 순서와 같다. 표에 없는 문법은 `app.js`에도 없다.
 

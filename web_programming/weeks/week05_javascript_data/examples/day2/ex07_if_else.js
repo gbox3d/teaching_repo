@@ -1,0 +1,35 @@
+// ex07 if / else: 처음 맞는 한 곳만 실행된다
+// Console 에 1~4번이 찍힌다. 바로 아래 const hour = 20; 의 숫자를 9 · 12 · 15 로 바꿔 저장 → 새로고침해 본다.
+
+const hour = 20;
+let m1 = '(담긴 것 없음)';
+if (hour >= 12) {
+    m1 = '오후';
+}                               // 12 보다 작으면 아무 일도 없다
+let m2;
+if (hour >= 12) {
+    m2 = '오후';
+} else {
+    m2 = '오전';                 // 위가 false 일 때만
+}
+let m3;
+if (hour >= 18) {
+    m3 = '저녁';
+} else if (hour >= 12) {
+    m3 = '오후';
+} else {
+    m3 = '아침';
+}
+let m4;
+if (hour >= 12) {
+    m4 = '오후';                 // 20 도 여기서 true → 아래는 보지 않는다
+} else if (hour >= 18) {
+    m4 = '저녁';                 // 이 줄에는 영영 오지 못한다
+} else {
+    m4 = '아침';
+}
+console.log('hour =', hour);
+console.log('1. if 만 :', m1);
+console.log('2. if / else :', m2);
+console.log('3. if / else if / else (큰 수부터) :', m3);
+console.log('4. 3번과 같은 조건, 순서만 거꾸로 :', m4);

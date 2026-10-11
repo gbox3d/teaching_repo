@@ -72,7 +72,7 @@ JavaScript 는 브라우저가 실행한다. 비교 파일의 결과는 **F12 �
 
 ## 이번 주 비교 파일
 
-모두 HTML 파일 하나에 `<script>` 가 들어 있다(ex02 만 보조 파일 `.js` 가 하나 더 있다). Console 의 번호가 코드의 형제 번호와 같다. 값이나 주석을 바꾸고 저장 → 새로고침으로 차이를 본다.
+1일차 ex01~ex05 는 HTML 파일 하나에 `<script>` 가 들어 있다(ex02 만 보조 파일 `.js` 가 하나 더 있다). 2일차 ex06~ex10 은 코드가 `.js` 파일에 따로 있고, 고르기 페이지 [day2/index.html](examples/day2/index.html) 맨 아래 `<script src>` 다섯 줄 중 하나만 켜서 연다. Console 의 번호가 코드의 형제 번호와 같다. 값이나 주석을 바꾸고 저장 → 새로고침으로 차이를 본다.
 
 | 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
@@ -81,11 +81,11 @@ JavaScript 는 브라우저가 실행한다. 비교 파일의 결과는 **F12 �
 | [ex03_let_const.html](examples/day1/ex03_let_const.html) | 1. `let` / 2. `const` / 3. `var` 에 버튼으로 1 더하기 | `let`·`var` 는 다시 담을 수 있고 `const` 는 안 된다. 오류는 그 줄이 실행될 때(클릭할 때) 나고, 오류 난 줄 아래는 실행되지 않는다 | 2번 버튼 → Console `Assignment to constant variable.`. `const b = 0;` 을 `let b = 0;` 으로 바꿔 다시 |
 | [ex04_plus.html](examples/day1/ex04_plus.html) | `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1`, 입력 칸 두 개로 6. 그냥 더하기 / 7. `Number` 로 바꿔 더하기 | `+` 는 둘 다 숫자면 더하고 한쪽이라도 문자열이면 잇는다. 입력 칸의 `value` 는 늘 문자열이라 `Number()` 로 바꿔야 더해진다 | 입력 칸 값 바꾸기, 식 바꾸기(값과 `typeof` 괄호 안 두 곳, 줄 앞 글자도 같이) |
 | [ex05_template.html](examples/day1/ex05_template.html) | 1. `+` 로 잇기 / 2. 백틱 템플릿 / 3. 작은따옴표 안 `${}` / 4. `${hour + 1}` | 백틱으로 감싼 문자열만 `${}` 안을 계산해 넣는다. 따옴표면 글자 그대로 | `name`·`hour` 값 바꾸기, 3번의 `'` 를 백틱으로 |
-| [ex06_compare.html](examples/day2/ex06_compare.html) | `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')` | 비교의 결과는 `true`/`false` 값이다. `===` 는 종류(숫자·문자열)까지 같아야 참. 문자열끼리는 첫 글자부터 비교한다 | 식의 숫자·따옴표 바꾸기(줄 앞 글자도 같이) |
-| [ex07_if_else.html](examples/day2/ex07_if_else.html) | 맨 위 `const hour = 20;` 으로 1. `if` 만 / 2. `if / else` / 3. `if / else if / else`(큰 수부터) / 4. 같은 조건, 순서만 거꾸로 | 위에서부터 보다가 처음 참인 한 곳만 실행하고 나머지는 보지 않는다. `else` 는 위가 모두 거짓일 때. 그래서 조건 순서가 결과를 바꾼다 | `hour` 를 9 · 12 · 15 · 20 으로 바꿔 새로고침 |
-| [ex08_function.html](examples/day2/ex08_function.html) | 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3. 같은 함수, 다른 값, 정의만 한 `neverCalled` | 정의는 이름을 붙여 두기만 하고, 괄호를 붙여 부를 때 실행된다. `return` 이 부른 곳에 값을 돌려준다. 없으면 `undefined` | `greetLog` 에 `return` 넣기, `neverCalled()` 부르기 |
-| [ex09_dom_write.html](examples/day2/ex09_dom_write.html) | 1. `getElementById` + `innerText` / 2. `querySelector('#out2')` + `textContent` / 3. `textContent` 에 `<b>…</b>` / 4. 입력 칸 `value`, Console 에 없는 id → `null` | 화면을 바꾸려면 먼저 찾고 그다음 바꾼다. 두 찾기 방법은 같은 id 면 같은 요소를 준다. 글자만 바꿀 때 `innerText`·`textContent` 결과는 같다. 넣은 글자는 태그가 아니라 글자 그대로다. 입력 칸은 `value` | `#out9` 에 `.textContent` 를 써서 오류 보기, 찾는 id 바꾸기 |
-| [ex10_date.html](examples/day2/ex10_date.html) | `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()` | `new Date()` 는 그 줄이 실행된 순간의 날짜·시각을 담은 값이고, `.getHours()` 는 그 값에게 "몇 시야?" 묻는 것이다. 월은 0부터 센다 | 새로고침, `getSeconds()` 줄 더하기 |
+| [ex06_compare.js](examples/day2/ex06_compare.js) | `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')` | 비교의 결과는 `true`/`false` 값이다. `===` 는 종류(숫자·문자열)까지 같아야 참. 문자열끼리는 첫 글자부터 비교한다 | 식의 숫자·따옴표 바꾸기(줄 앞 글자도 같이) |
+| [ex07_if_else.js](examples/day2/ex07_if_else.js) | 맨 위 `const hour = 20;` 으로 1. `if` 만 / 2. `if / else` / 3. `if / else if / else`(큰 수부터) / 4. 같은 조건, 순서만 거꾸로 | 위에서부터 보다가 처음 참인 한 곳만 실행하고 나머지는 보지 않는다. `else` 는 위가 모두 거짓일 때. 그래서 조건 순서가 결과를 바꾼다 | `hour` 를 9 · 12 · 15 · 20 으로 바꿔 새로고침 |
+| [ex08_function.js](examples/day2/ex08_function.js) | 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3. 같은 함수, 다른 값, 정의만 한 `neverCalled` | 정의는 이름을 붙여 두기만 하고, 괄호를 붙여 부를 때 실행된다. `return` 이 부른 곳에 값을 돌려준다. 없으면 `undefined` | `greetLog` 에 `return` 넣기, `neverCalled()` 부르기 |
+| [ex09_dom_write.js](examples/day2/ex09_dom_write.js) | 1. `getElementById` + `innerText` / 2. `querySelector('#out2')` + `textContent` / 3. `textContent` 에 `<b>…</b>` / 4. 입력 칸 `value`, Console 에 없는 id → `null` | 화면을 바꾸려면 먼저 찾고 그다음 바꾼다. 두 찾기 방법은 같은 id 면 같은 요소를 준다. 글자만 바꿀 때 `innerText`·`textContent` 결과는 같다. 넣은 글자는 태그가 아니라 글자 그대로다. 입력 칸은 `value` | `#out9` 에 `.textContent` 를 써서 오류 보기, 찾는 id 바꾸기 |
+| [ex10_date.js](examples/day2/ex10_date.js) | `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()` | `new Date()` 는 그 줄이 실행된 순간의 날짜·시각을 담은 값이고, `.getHours()` 는 그 값에게 "몇 시야?" 묻는 것이다. 월은 0부터 센다 | 새로고침, `getSeconds()` 줄 더하기 |
 | [server.mjs](../../tools/static-server/server.mjs)(서버) | 두 번 눌러 연 `file:///…` / `node server.mjs` 로 연 `http://localhost:8000/` | 브라우저는 HTML 을 받은 뒤 그 안의 CSS·JS·그림을 하나씩 따로 요청한다(1주차 요청과 응답). 터미널에 한 줄씩 찍힌다 | 새로고침하며 요청 줄 세기, 없는 파일 이름을 주소창에 쳐서 `404` 보기 |
 
 마지막 줄은 비교 파일이 아니라 2일차 0–4분에 쓰는 정적 서버다. 한 학기 내내 같은 파일을 쓴다.
@@ -95,7 +95,7 @@ JavaScript 는 브라우저가 실행한다. 비교 파일의 결과는 **F12 �
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week05_javascript_data/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(ex01~ex05), 2일차 `day2/`(ex06~ex10과 조립 `build/`)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(ex01~ex05), 2일차 `day2/`(고르기 페이지 `index.html`, ex06~ex10 의 `.js`, 조립 `build/`)
 - 2일차 끝의 `web-week05`(조립 결과): [index.html](examples/day2/build/index.html) · [app.js](examples/day2/build/app.js) · [about.html](examples/day2/build/about.html) · [guestbook.html](examples/day2/build/guestbook.html) · [styles.css](examples/day2/build/styles.css) · [images/profile.png](examples/day2/build/images/profile.png)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data

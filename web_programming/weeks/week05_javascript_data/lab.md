@@ -3,7 +3,7 @@
 # 5주차 실습 — 값을 바꿔 보고 마지막에 조립하기
 
 이번 주 실습은 코드를 새로 쓰는 것이 아니라 **값을 바꿔 보는 것**이다.
-비교 파일 10개(ex02 는 `.js` 파일까지 11개)를 이번 주 새 저장소 `web-week05` 의 `ex/` 폴더에 저장하고, 값이나 주석 하나를 바꾼 뒤 결과가 어떻게 달라지는지 본다.
+비교 예제 10개를 이번 주 새 저장소 `web-week05` 의 `ex/` 폴더에 저장하고(1일차는 HTML 파일, 2일차는 고르기 페이지 `index.html` 하나와 `.js` 다섯 개), 값이나 주석 하나를 바꾼 뒤 결과가 어떻게 달라지는지 본다.
 비교 파일의 결과는 **F12 › Console** 에서 본다(화면에 쓰는 것은 ex09 의 주제라 ex09 만 화면을 바꾼다). Console 은 실습 내내 열어 둔다.
 DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새 탭이라 F12 를 다시 누른다. 열린 탭의 주소창에서 파일 이름만 바꿔 Enter 하면 Console 이 열린 채로 남는다.
 2일차 끝에 그 부품으로 `web-week05` 맨 위의 `index.html` 두 줄과 `app.js` 를 조립한다. 두 파일은 지난주 완성본에서 가져온다. 채점 대상은 2일차 캡처 1장이다.
@@ -94,7 +94,7 @@ git push -u origin main
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 같은 PC에 `web-week05` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week05.git` 뒤 **File › Open Folder**. 교재 [`examples/day2/`](examples/day2/) 의 다섯 파일(ex06~ex10)을 **Raw** 로 `ex/` 에 먼저 저장하고, [server.mjs](../../tools/static-server/server.mjs) 를 **Raw** 로 저장소 맨 위(`index.html` 옆)에 저장한다. 5분 안에 다 못 받았으면 ex06 부터 시작하고, 나머지는 각 문항을 시작할 때 저장한다 |
+| 0–5분 | 같은 PC에 `web-week05` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week05.git` 뒤 **File › Open Folder**. 교재 [`examples/day2/`](examples/day2/) 의 여섯 파일(고르기 페이지 `index.html` 과 ex06~ex10 의 `.js`)을 **Raw** 로 `ex/` 에 먼저 저장하고, [server.mjs](../../tools/static-server/server.mjs) 를 **Raw** 로 저장소 맨 위(`index.html` 옆)에 저장한다. 5분 안에 다 못 받았으면 ex06 부터 시작하고, 나머지는 각 문항을 시작할 때 저장한다 |
 | 5–11분 | ex06 비교 |
 | 11–17분 | ex07 if / else |
 | 17–23분 | ex08 function |
@@ -104,12 +104,13 @@ git push -u origin main
 | 48–55분 | 서버로 열어 확인: `node server.mjs` → `http://localhost:8000/` → 인사말 카드와 Console 두 줄 → 터미널의 요청 줄 읽기. Node 가 없으면 `index.html` 을 두 번 눌러 연다 |
 | 55–60분 | 끝 루틴: `git add .` → `git commit -m "5주차 2일차"` → `git push` → 공개 주소 `https://student01.github.io/web-week05/` 에서 Console 을 연 **캡처 1장** → 공용 PC면 자격 증명 삭제 |
 
-다섯 파일을 받는 법과 조립 전문은 [따라하기 2일차](walkthrough.md#2일차)에 있다.
+여섯 파일을 받는 법과 조립 전문은 [따라하기 2일차](walkthrough.md#2일차)에 있다.
+2일차 예제는 모두 `ex/index.html` 하나로 연다. 그 파일 맨 아래 `<script src="exNN_….js">` 다섯 줄 중 **지금 문항의 줄 하나만** 주석 밖에 둔다(줄에서 **Ctrl+/**, macOS **⌘+/**). 코드는 각 `.js` 파일에서 고치고, 저장 → `ex/index.html` 새로고침으로 본다. 1일차 ex02 에서 본 `<script src>` 가 이 모양이다.
 파일마다 **코드를 고치는 바꿔 보기를 하나 이상** 하고 넘어간다. 조립과 이어지는 것(ex08 `${greet()}`, ex09 `#out9`, ex10 `new Date().getHours()`)을 각 문항 맨 앞에 두었다. 33분이 되면 남은 것은 두고 조립을 시작한다. 조립 전에 고친 `ex/` 파일은 끝 루틴에 함께 올라가도 된다. 남은 바꿔 보기는 캡처까지 끝낸 뒤 한다.
 
 ### 6. ex06 비교 (`==` · `===` · `>=` · `>`)
 
-[examples/day2/ex06_compare.html](examples/day2/ex06_compare.html) 을 `ex/ex06_compare.html` 로 저장한다.
+[examples/day2/ex06_compare.js](examples/day2/ex06_compare.js) 를 `ex/ex06_compare.js` 로 저장한다. `ex/index.html` 맨 아래에서 `ex06_compare.js` 줄만 켠다(처음 받은 상태가 이렇다).
 
 - 바꿔 보기: 열기 전에 여섯 식의 결과를 `true`·`false` 로 먼저 말해 본다. 몇 개가 맞았나? 1번과 2번은 왜 다른가?
 - 바꿔 보기: 5번 줄의 `'10' > '9'` 두 곳(앞 글자와 식)을 `'2' > '10'` 으로 바꾼다. 숫자라면 `false` 인데 결과는? 문자열은 무엇부터 비교하나?
@@ -118,7 +119,7 @@ git push -u origin main
 
 ### 7. ex07 if / else (`if` · `else if` · `else`)
 
-[examples/day2/ex07_if_else.html](examples/day2/ex07_if_else.html) 을 `ex/ex07_if_else.html` 로 저장한다.
+[examples/day2/ex07_if_else.js](examples/day2/ex07_if_else.js) 를 `ex/ex07_if_else.js` 로 저장한다. `ex/index.html` 맨 아래에서 ex06 줄을 끄고 `ex07_if_else.js` 줄만 켠다.
 
 - 바꿔 보기: 코드 맨 위 `const hour = 20;` 의 `20` 을 `9`·`12`·`15` 로 차례로 바꿔 저장 → 새로고침한다. 3번과 4번이 다르게 나오는 시각은 어느 것인가? 조건은 같은데 왜 다른가?
 - 바꿔 보기: 4번의 `m4 = '저녁';` 옆 주석은 "이 줄에는 영영 오지 못한다"이다. 0~23 중 그 줄에 오는 값이 있나? 없다면 왜인가? 4번이 `저녁` 을 내려면 조건 두 줄을 어떻게 바꿔야 하나?
@@ -127,7 +128,7 @@ git push -u origin main
 
 ### 8. ex08 function (`function` · `return`)
 
-[examples/day2/ex08_function.html](examples/day2/ex08_function.html) 을 `ex/ex08_function.html` 로 저장한다.
+[examples/day2/ex08_function.js](examples/day2/ex08_function.js) 를 `ex/ex08_function.js` 로 저장한다. `ex/index.html` 에서 `ex08_function.js` 줄만 켠다.
 괄호 안 `name` 은 부를 때 넣은 값을 받는 이름이다(**매개변수**). `greet('student02')` 로 부르면 그 안의 `name` 에 `'student02'` 가 담긴다.
 `undefined` 는 아직 담긴 값이 없다는 값이다. 값 없이 만든 변수(ex07 의 `let m1;`)도, `return` 이 없는 함수를 부른 결과도 `undefined` 다.
 
@@ -139,17 +140,17 @@ git push -u origin main
 
 ### 9. ex09 화면에 쓰기 (`querySelector` · `textContent` · `value`)
 
-[examples/day2/ex09_dom_write.html](examples/day2/ex09_dom_write.html) 을 `ex/ex09_dom_write.html` 로 저장한다.
+[examples/day2/ex09_dom_write.js](examples/day2/ex09_dom_write.js) 를 `ex/ex09_dom_write.js` 로 저장한다. `ex/index.html` 에서 `ex09_dom_write.js` 줄만 켠다. 찾아서 바꿀 자리(`#out1`~`#out3`, 입력 칸, **바꾸기** 버튼)는 `index.html` 의 "ex09 가 쓰는 자리" 에 있다.
 
-- 바꿔 보기: `console.log(document.querySelector('#out9'));` 줄(23행) 아래에 `document.querySelector('#out9').textContent = '9';` 한 줄을 더한다. 빨간 줄은 무엇이라고 하나? 그 뒤에 **바꾸기** 버튼은 동작하나? 조립 마지막 줄에서 id 를 틀리면 이 빨간 줄이 뜬다. 확인했으면 더한 줄을 지운다. 남겨 두면 다음 바꿔 보기에서 바꾸기 버튼이 동작하지 않는다.
+- 바꿔 보기: `console.log(document.querySelector('#out9'));` 줄(10행) 아래에 `document.querySelector('#out9').textContent = '9';` 한 줄을 더한다. 빨간 줄은 무엇이라고 하나? 그 뒤에 **바꾸기** 버튼은 동작하나? 조립 마지막 줄에서 id 를 틀리면 이 빨간 줄이 뜬다. 확인했으면 더한 줄을 지운다. 남겨 두면 다음 바꿔 보기에서 바꾸기 버튼이 동작하지 않는다.
 - 바꿔 보기: **바꾸기**를 누르기 전에 Console 두 줄을 읽는다. 둘째 줄이 `null` 인 이유는 무엇인가? 버튼을 누른 뒤 3번에 `<b>` 가 굵게 되나, 글자로 보이나?
-- 바꿔 보기: 26행 `out1.innerText` 를 `out1.textContent` 로 바꾼다. 1번 화면이 달라지나? 글자만 바꿀 때 두 방법의 결과가 같은지 이것으로 확인한다.
-- 바꿔 보기: 18행 `document.querySelector('#out2')` 를 `document.querySelector('#out3')` 으로 바꾼다. Console 첫 줄의 둘째 요소가 out3 로 바뀌었는지 먼저 본다. 버튼을 누르면 2번은 왜 그대로인가? 27행이 쓴 글자는 어디로 갔나?
+- 바꿔 보기: 13행 `out1.innerText` 를 `out1.textContent` 로 바꾼다. 1번 화면이 달라지나? 글자만 바꿀 때 두 방법의 결과가 같은지 이것으로 확인한다.
+- 바꿔 보기: 5행 `document.querySelector('#out2')` 를 `document.querySelector('#out3')` 으로 바꾼다. Console 첫 줄의 둘째 요소가 out3 로 바뀌었는지 먼저 본다. 버튼을 누르면 2번은 왜 그대로인가? 14행이 쓴 글자는 어디로 갔나?
 - 흔한 실수: `getElementById('#out1')` 처럼 `#` 을 붙이거나 `querySelector('out2')` 처럼 `#` 을 빠뜨린다. 둘 다 `null` 이 된다. `querySelector` 는 CSS 선택자를 받는다(4주차 ex01 의 `.red`·`nav a` 와 같은 글자). `#` 은 id 를 뜻해서, id 로 찾을 때는 앞에 `#` 을 붙인다 — 2주차 `app.js` 의 `querySelector('#count-button')` 모양. `getElementById` 는 이름부터 'id 로 찾기'라서 id 글자만 받는다.
 
 ### 10. ex10 new Date() (`new Date()` · `getHours()`)
 
-[examples/day2/ex10_date.html](examples/day2/ex10_date.html) 을 `ex/ex10_date.html` 로 저장한다.
+[examples/day2/ex10_date.js](examples/day2/ex10_date.js) 를 `ex/ex10_date.js` 로 저장한다. `ex/index.html` 에서 `ex10_date.js` 줄만 켠다. 여섯 식의 뜻은 파일 맨 위 주석에 있다.
 
 - 바꿔 보기: 1번 줄 끝의 값 `now.getHours()` 를 `new Date().getHours()` 로 바꾼다. 1번 숫자가 바꾸기 전과 같은가? 조립의 `hour` 줄이 이 모양이다.
 - 바꿔 보기: Console 여섯 줄을 오늘 날짜·시각과 맞춰 본다. 4번과 5번은 왜 1 차이가 나나? 6번 숫자는 무슨 요일인가?
@@ -159,7 +160,7 @@ git push -u origin main
 
 ### 11. 조립 — `index.html` 두 줄과 `app.js` (`defer` · `id="greeting"`)
 
-이제 `ex/` 가 아니라 `web-week05` 맨 위의 `index.html`·`app.js` 를 연다. 전문과 단계는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
+이제 `ex/` 가 아니라 `web-week05` 맨 위의 `index.html`·`app.js` 를 연다. `ex/index.html` 은 예제 고르기 페이지라서 조립에 쓰지 않는다. 탭 이름 옆 폴더 경로로 구분한다. 전문과 단계는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
 
 - `index.html` 의 `<head>` 에서 `<link rel="stylesheet" href="styles.css">` 아래에 `<script src="app.js" defer></script>` 한 줄을 넣는다.
 - `<main>` 첫 줄에 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` 한 줄을 넣는다. JavaScript 가 이 자리에 오지 못하면 이 글자가 그대로 남는다.
@@ -207,7 +208,7 @@ node server.mjs
 | 공개 주소에 방금 push한 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다. 다음 수업 시작 5분에 다시 확인해도 된다 |
 | push 가 거부되거나 로그인 창이 안 뜬다 | [2주차 막혔을 때](../week02_github_pages/lab.md#막혔을-때) 표를 본다 |
 | 화면이 생각과 다른데 이유를 모르겠다 | **Console 을 먼저 연다.** 빨간 줄 오른쪽 `파일:줄` 로 간다. 오류 난 줄 아래는 실행되지 않으므로 그 줄부터 본다 |
-| Console 에 내가 쓴 `console.log` 줄이 하나도 없다 | ① 줄이 정말 하나도 없으면 `index.html`에 `<script src="app.js" defer></script>`가 없다. ② `Failed to load resource` 줄이 있으면 파일 이름 철자가 틀린 것이다. `app.js` 안의 오류가 아니라 **파일을 못 불러왔다**는 줄이다(공개 주소와 `http://localhost` 에서는 `404`, `file://`에서는 `net::ERR_FILE_NOT_FOUND`). ex02 는 `.js` 파일이 같은 `ex/` 폴더에 있는지 본다. 파일을 저장했는지도 본다 |
+| Console 에 내가 쓴 `console.log` 줄이 하나도 없다 | ① 줄이 정말 하나도 없으면 `index.html`에 `<script src="app.js" defer></script>`가 없다. ② `Failed to load resource` 줄이 있으면 파일 이름 철자가 틀린 것이다. `app.js` 안의 오류가 아니라 **파일을 못 불러왔다**는 줄이다(공개 주소와 `http://localhost` 에서는 `404`, `file://`에서는 `net::ERR_FILE_NOT_FOUND`). ex02 는 `.js` 파일이 같은 `ex/` 폴더에 있는지 본다. 2일차 예제는 `ex/index.html` 맨 아래에서 그 문항의 `script` 줄을 켰는지(주석 밖인지) 본다. 파일을 저장했는지도 본다 |
 | `Uncaught ReferenceError: nmae is not defined` | 없는 이름을 썼다. 오른쪽 `파일:줄`의 줄로 가 철자를 고친다 |
 | `Uncaught ReferenceError: helo is not defined` | 함수 이름 오타다. 정의한 이름(`hello`)과 부른 이름을 비교한다 |
 | `Uncaught SyntaxError: Unexpected end of input` | 백틱이나 중괄호를 닫지 않았다. 문장 끝의 `` ` ``와 `}`를 세어 본다. 닫지 않은 백틱 **뒤에 백틱이 더 있으면** `Uncaught SyntaxError: Unexpected identifier '…'`로 나온다. 어느 쪽이든 백틱 짝부터 센다. SyntaxError 는 그 파일의 한 줄도 실행하지 않아 `console.log` 도 안 찍힌다. 표시된 줄보다 위를 본다 |

@@ -193,7 +193,7 @@ Save [server.mjs](../../tools/static-server/server.mjs) in `web-week05` → `nod
 
 ## Day 2 · 4–9 min — ex06 Comparisons: true or false
 
-[examples/day2/ex06_compare.html](examples/day2/ex06_compare.html)
+[examples/day2/ex06_compare.js](examples/day2/ex06_compare.js)
 Siblings: `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')`
 
 ```js
@@ -212,7 +212,7 @@ Siblings: `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Nu
 
 ## Day 2 · 9–14 min — ex07 if / else: First Match Wins
 
-[examples/day2/ex07_if_else.html](examples/day2/ex07_if_else.html)
+[examples/day2/ex07_if_else.js](examples/day2/ex07_if_else.js)
 Siblings: 1. `if` alone / 2. `if/else` / 3. `else if` (largest first) / 4. No. 3, reordered
 
 ```js
@@ -232,7 +232,7 @@ if (hour >= 12) {
 
 ## Day 2 · 14–19 min — ex08 function: Define · Call · return
 
-[examples/day2/ex08_function.html](examples/day2/ex08_function.html)
+[examples/day2/ex08_function.js](examples/day2/ex08_function.js)
 Siblings: 1. `greetLog`, no `return` / 2. `greet`, has `return` / 3. called with different values
 
 ```js
@@ -251,7 +251,7 @@ const b = greet('student01');       // call: nothing in the Console, b holds the
 
 ## Day 2 · 19–24 min — ex09: Find, Then Change
 
-[examples/day2/ex09_dom_write.html](examples/day2/ex09_dom_write.html)
+[examples/day2/ex09_dom_write.js](examples/day2/ex09_dom_write.js)
 Siblings: 1. `getElementById`+`innerText` / 2. `querySelector`+`textContent` / 3. a tag / 4. `value`
 
 ```js
@@ -270,7 +270,7 @@ out3.textContent = '<b>3. 굵게 될까?</b>';        // shown as literal text, 
 
 ## Day 2 · 24–27 min — ex10 new Date(): The Current Moment
 
-[examples/day2/ex10_date.html](examples/day2/ex10_date.html)
+[examples/day2/ex10_date.js](examples/day2/ex10_date.js)
 Siblings: `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()`
 
 ```js
@@ -301,7 +301,7 @@ document.querySelector('#greeting').textContent = message;  ← ex09 No. 2
 
 [Day 2 lab](lab.md#2일차--조건과-함수-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
-1. Save ex06–ex10 in `ex/` and change values (until minute 33).
+1. Save [index.html](examples/day2/index.html) + `.js` in `ex/`, turn on one line, change values (until 33).
 2. Assemble: two lines in `index.html`; empty and rebuild `app.js` in table order.
 3. Check via the server → push (Week 2 steps) → capture card + Console at the public URL.
 

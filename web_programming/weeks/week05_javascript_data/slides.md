@@ -193,7 +193,7 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 
 ## 2일차 · 4–9분 — ex06 비교: 결과는 true 아니면 false
 
-[examples/day2/ex06_compare.html](examples/day2/ex06_compare.html)
+[examples/day2/ex06_compare.js](examples/day2/ex06_compare.js)
 형제: `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')`
 
 ```js
@@ -212,7 +212,7 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 
 ## 2일차 · 9–14분 — ex07 if / else: 처음 맞는 한 곳만 실행된다
 
-[examples/day2/ex07_if_else.html](examples/day2/ex07_if_else.html)
+[examples/day2/ex07_if_else.js](examples/day2/ex07_if_else.js)
 형제: 1. `if` 만 / 2. `if/else` / 3. `else if`(큰 수부터) / 4. 3번과 같은 조건, 순서만 거꾸로
 
 ```js
@@ -232,7 +232,7 @@ if (hour >= 12) {
 
 ## 2일차 · 14–19분 — ex08 function: 정의 · 호출 · return
 
-[examples/day2/ex08_function.html](examples/day2/ex08_function.html)
+[examples/day2/ex08_function.js](examples/day2/ex08_function.js)
 형제: 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3. 다른 값으로 부르기
 
 ```js
@@ -251,7 +251,7 @@ const b = greet('student01');       // 호출: Console 에는 없고, b 에 문�
 
 ## 2일차 · 19–24분 — ex09 화면에 쓰기: 먼저 찾고, 그다음 바꾼다
 
-[examples/day2/ex09_dom_write.html](examples/day2/ex09_dom_write.html)
+[examples/day2/ex09_dom_write.js](examples/day2/ex09_dom_write.js)
 형제: 1. `getElementById` + `innerText` / 2. `querySelector` + `textContent` / 3. 태그 넣기 / 4. `value`
 
 ```js
@@ -270,7 +270,7 @@ out3.textContent = '<b>3. 굵게 될까?</b>';        // 태그가 아니라 글
 
 ## 2일차 · 24–27분 — ex10 new Date(): 지금 시각을 담은 값
 
-[examples/day2/ex10_date.html](examples/day2/ex10_date.html)
+[examples/day2/ex10_date.js](examples/day2/ex10_date.js)
 형제: `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()`
 
 ```js
@@ -301,7 +301,7 @@ document.querySelector('#greeting').textContent = message;  ← ex09 2번
 
 [2일차 실습](lab.md#2일차--조건과-함수-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
-1. ex06~ex10 을 `ex/` 에 저장하고 값을 바꿔 봅니다(33분까지).
+1. [index.html](examples/day2/index.html)·`.js` 를 `ex/` 에 저장, 줄 하나만 켜고 값 바꾸기(33분까지).
 2. 조립: `index.html` 에 두 줄, `app.js` 는 비우고 조립표 순서로.
 3. 서버로 열어 확인 → 2주차에 배운 순서 그대로 push → 공개 주소에서 카드·Console 캡처.
 
