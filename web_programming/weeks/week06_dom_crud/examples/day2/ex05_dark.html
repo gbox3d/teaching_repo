@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex05 dark</title>
+    <style>
+        .card {
+            background-color: #ffffff;
+        }
+        /* 1. body 에 class="dark" 가 붙은 동안만 */
+        body.dark {
+            background-color: #222222;
+            color: #eeeeee;
+        }
+        /* 2. 어두운 body 안의 .card 도 함께. 이 규칙을 지우면 카드만 흰 채로 남는다 */
+        body.dark .card {
+            background-color: #222222;
+        }
+    </style>
+</head>
+<body>
+    <h1>ex05 다크 모드: body 에 class 하나</h1>
+    <p>버튼을 누를 때마다 <code>&lt;body&gt;</code> 에 <code>class="dark"</code> 가 붙었다 떨어진다. F12 › Elements 의 body 줄을 본다.</p>
+    <div class="card">카드 — 흰 배경 상자</div>
+    <div><button id="btn-dark">다크 모드</button></div>
+    <script src="ex05_dark.js"></script>
+</body>
+</html>

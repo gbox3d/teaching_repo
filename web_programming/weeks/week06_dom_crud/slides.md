@@ -3,249 +3,230 @@ marp: true
 theme: default
 paginate: true
 header: "웹프로그래밍 · 6주차"
-footer: "DOM·이벤트·브라우저 CRUD · 클릭 카운터와 다크 모드"
+footer: "DOM·이벤트 · 비교 예제로 원리를 보고 마지막에 조립"
 ---
 
 # DOM·이벤트·브라우저 CRUD
 
-5주차 코드는 페이지를 열 때 **한 번** 실행됐습니다.
-이번 주에는 **버튼을 눌렀을 때** 실행되는 코드를 씁니다.
+5주차 코드는 페이지를 열 때 **한 번** 실행됐습니다. 이번 주는 **누를 때마다** 바뀌는 페이지입니다.
 
-```text
-my-web/
-  index.html   ← 버튼 2개와 <p id="count">
-  app.js       ← querySelector · textContent · addEventListener
-  styles.css   ← body.dark 규칙 (2일차)
-```
+이번 주 방식도 같습니다: **비교 예제 6개**를 하나씩 보고, 마지막에 새 저장소 `web-week06` 의 `index.html`·`styles.css`·`app.js` 를 **조립**합니다(지난주 완성본에서 시작).
 
-작업은 `dark-mode` 브랜치에서 하고 2일차 끝에 main에 합칩니다.
+- 브라우저는 HTML 파일을 읽어 **DOM**(요소 상자)을 만들고, JS 는 그 상자를 찾아서 바꿉니다.
+- 결과는 화면, **Console**, 그리고 새로 쓰는 **Elements** 탭에서 봅니다.
+- 파일 하나 = 개념 하나. 실습은 **값을 바꿔 보는 것**입니다.
 
 ---
 
-# 1일차 — 클릭하면 바뀌는 페이지
+# 1일차 — DOM 과 클릭
 
 `30분 설명·시연 → 60분 실습`
 
-1. 기능 브랜치 `dark-mode` 만들기
-2. HTML과 DOM은 같은가
-3. `querySelector`로 요소 찾기
-4. `textContent`로 글자 바꾸기
-5. `addEventListener('click')`과 클릭 횟수
+1. 고르기 페이지 — `index.html` 하나, script 줄 하나만 켠다
+2. ex01 — HTML 파일과 DOM: Elements 와 페이지 소스
+3. ex02 — 열 때 바꾸기 vs 클릭할 때 바꾸기
+4. ex03 — 클릭 횟수: 변수는 함수 밖에
 
 ---
 
-## 1일차 · 0–5분 — 오늘 Git 5분: 기능 브랜치 dark-mode
+## 1일차 · 0–4분 — 고르기 페이지: script 줄 하나만 켠다
 
-```bash
-git pull
-git switch -c dark-mode
-```
-
-```text
-Switched to a new branch 'dark-mode'
-```
-
-- 3주차 `guestbook` 브랜치와 같은 방법입니다. `-c`는 "만들면서 옮겨 가라"는 뜻입니다.
-- 이번 주 작업은 이 브랜치에 쌓입니다. main은 그대로이고 **공개 페이지도 그대로**입니다.
-- 2일차 끝에 main으로 돌아가 `merge`로 합칩니다. 그때 공개 페이지가 바뀝니다.
-- 새 기능을 만드는 동안 공개 페이지를 건드리지 않는 것이 브랜치를 쓰는 이유입니다.
-
----
-
-## 1일차 · 5–11분 — HTML과 DOM은 같은가
+[examples/day1/index.html](examples/day1/index.html) — 세 예제가 같은 화면(글자 자리·버튼·횟수 자리)을 씁니다.
 
 ```html
-<p class="card" id="greeting">인사말을 준비 중입니다.</p>
+<script src="ex01_dom.js"></script>
+<!-- <script src="ex02_click_write.js"></script> -->
+<!-- <script src="ex03_counter.js"></script> -->
 ```
+
+- 코드는 `.js` 파일에, 화면은 `index.html` 하나에. 5주차 2일차와 같은 방법입니다.
+- 줄에 커서를 두고 **Ctrl+/**(macOS ⌘+/)로 켜고 끕니다. **한 줄만** 켭니다.
+- 코드는 `.js` 에서 고치고, 결과는 `index.html` 을 새로고침해 봅니다.
+
+**어느 코드를 불러올지는 `script` 줄 하나가 정한다.**
+
+---
+
+## 1일차 · 4–12분 — ex01 HTML 파일과 DOM
+
+[examples/day1/ex01_dom.js](examples/day1/ex01_dom.js)
 
 ```text
-내가 쓴 HTML 파일  ──읽기──▶  브라우저가 만든 요소 상자들(DOM)
-                                        │
-                          JavaScript가 찾아서 글자를 바꾼다
+HTML 파일(페이지 소스)  ──읽기──▶  요소 상자들(DOM)  ──▶  화면
+     그대로                       JS 가 찾아서 바꾼다
 ```
 
-- **HTML**: 내가 파일에 적어 둔 글자입니다. 저장하면 그대로 남습니다.
-- **DOM**: 브라우저가 그 글자를 읽어 만든 **요소 상자들**입니다. 화면에 보이는 것은 이쪽입니다.
-- DevTools **Elements** 탭이 보여 주는 것이 DOM입니다. 여기서 바꾼 것은 파일에 저장되지 않습니다.
-- 새로고침하면 브라우저가 파일을 다시 읽어 DOM을 새로 만듭니다. 그래서 `클릭 0회`로 돌아갑니다.
+```js
+const message = document.querySelector('#message');
+message.textContent = '3. JavaScript 가 바꾼 글자';
+```
+
+- **Elements** 탭: 지금의 DOM. 바뀐 글자가 보입니다.
+- **페이지 소스**(Ctrl+U): 파일. 원래 글자 그대로입니다.
+- 바꿔 보기: `'#message'` 를 `'#msg'` 로 → `null`, 빨간 줄.
+
+**JS 가 바꾸는 것은 파일이 아니라 브라우저가 만든 DOM 이다.**
 
 ---
 
-## 1일차 · 11–17분 — querySelector로 요소 찾기
+## 1일차 · 12–20분 — ex02 열 때 바꾸기 vs 클릭할 때 바꾸기
+
+[examples/day1/ex02_click_write.js](examples/day1/ex02_click_write.js)
 
 ```js
-const greeting = document.querySelector('#greeting');
+message.textContent = '1. 열자마자 바꾼 글자';        // 1. 열 때 한 번
 
-console.log(greeting);
-```
-
-- `document`는 **페이지 전체**입니다. 브라우저가 미리 만들어 둡니다.
-- `querySelector('#greeting')`은 `id`가 `greeting`인 요소 **하나**를 찾아 돌려줍니다.
-- `#`은 `id`를 찾으라는 표시입니다. 4주차 CSS 선택자와 같은 모양입니다.
-- 찾은 것을 `const`에 담아 두면 그다음부터는 그 이름으로 씁니다.
-- 못 찾으면 `null`입니다. 5주차에 본 `Cannot set properties of null`이 그것입니다.
-
----
-
-## 1일차 · 17–22분 — textContent로 글자 바꾸기
-
-```js
-greeting.textContent = `${greet(name)} ${hello(hour)}`;
-```
-
-- `.textContent`는 요소 안의 **글자**입니다.
-- `=` 오른쪽에 두면 읽고, **왼쪽에 두면 바꿔 넣습니다.**
-- 5주차 마지막 줄이 5주차 ex09 2번처럼 두 줄로 나뉩니다. 먼저 **찾아 두고**(`querySelector`), 그다음 **바꿉니다**(`textContent`).
-- 바뀌는 것은 화면(DOM)이지 HTML 파일이 아닙니다. 새로고침하면 파일의 글자로 돌아갑니다.
-
----
-
-## 1일차 · 22–28분 — addEventListener('click')과 클릭 횟수
-
-```js
-let count = 0;
-
-helloButton.addEventListener('click', function () {
-  greeting.textContent = '반갑습니다. 오늘도 좋은 하루 되세요.';
-  count = count + 1;
-  countBox.textContent = `클릭 ${count}회`;
+btn.addEventListener('click', function () {
+    message.textContent = '2. 버튼을 눌러 바꾼 글자';  // 2. 누를 때마다
 });
 ```
 
-- "이 버튼을 **클릭하면** 이 함수를 실행하라"고 브라우저에 맡겨 둡니다.
-- 맡기는 순간에는 실행되지 않습니다. 누를 때마다 중괄호 안이 실행됩니다.
-- `let count`는 함수 **밖**에 둡니다. 안에 두면 누를 때마다 0에서 다시 시작합니다.
-- 2주차 `app.js`의 `() =>`는 틀로만 본 것입니다. 수업 코드는 `function () { }`로 씁니다.
+- 열자마자 1번, 누를 때마다 2번. 5주차 ex01 의 A·C 와 B 와 같습니다.
+- 바꿔 보기: 2번 줄을 `});` 아래로 옮기면? 열자마자 2번 글자, 버튼은 할 일이 없습니다.
+
+**바꾸는 줄을 `addEventListener` 안에 넣으면 누를 때마다 실행된다.**
+
+---
+
+## 1일차 · 20–28분 — ex03 클릭 횟수: 변수는 함수 밖에
+
+[examples/day1/ex03_counter.js](examples/day1/ex03_counter.js)
+
+```js
+let count = 0;                     // 1. 함수 밖
+btn.addEventListener('click', function () {
+    count = count + 1;
+    countBox.textContent = `클릭 ${count}회`;
+    let inside = 0;                // 2. 함수 안
+    inside = inside + 1;
+});
+```
+
+- 세 번 누르면 1번 1·2·3, 2번은 1·1·1. `+ 1` 하는 줄은 같습니다.
+- 새로고침하면 `클릭 0회`. 파일을 다시 읽어 DOM 과 변수를 새로 만듭니다.
+
+**누를 때마다 이어서 세려면 변수를 함수 밖에 둔다.**
 
 ---
 
 ## 1일차 · 28–30분 — 이제 직접 해 보기
 
-[1일차 실습](lab.md#1일차--클릭하면-바뀌는-페이지-만들기-60분) · [따라하기](walkthrough.md#1일차)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud
+[1일차 실습](lab.md#1일차--dom-과-클릭-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud)
 
-1. `git switch -c dark-mode`로 오늘 작업할 브랜치를 만듭니다.
-2. `index.html`에 버튼과 `<p id="count">`를 넣고, `app.js`에서 찾아 글자를 바꿉니다.
-3. 클릭 횟수를 세고, `null` 오류 두 가지를 일부러 만들어 고쳐 봅니다.
+1. 새 폴더 `web-week06` 에 지난주 완성본, `ex/` 에 오늘 네 파일.
+2. ex01~ex03 — 줄 하나만 켜고 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
+3. 새 저장소 `web-week06` 만들어 올리기 · Pages 켜기.
 
-**설명 합계: 5+6+6+5+6+2 = 30분**
-
-오늘 commit은 `dark-mode`에 쌓입니다. 공개 페이지는 아직 5주차 화면 그대로입니다.
+**설명 합계: 4+8+8+8+2 = 30분**
 
 ---
 
-# 2일차 — 다크 모드와 함수 재사용
+# 2일차 — class 와 함수, 그리고 조립
 
 `30분 설명·시연 → 60분 실습`
 
-1. `merge`와 브랜치 정리
-2. `classList.add / remove / toggle`
-3. `body.dark` 규칙과 `classList.toggle('dark')`
-4. 같은 함수를 두 버튼에
-5. 8주차 중간 실기 예고
+1. ex04 — `classList.add / remove / toggle`
+2. ex05 — 다크 모드: `body.dark` 규칙과 `toggle('dark')`
+3. ex06 — 함수 하나를 두 버튼에
+4. 8주차 중간 실기 안내
+5. 조립 — `web-week06` 의 `index.html`·`styles.css`·`app.js`
 
 ---
 
-## 2일차 · 0–5분 — 오늘 Git 5분: merge와 브랜치 정리
+## 2일차 · 0–7분 — ex04 classList: class 를 붙이고 떼기
 
-```bash
-git switch main
-git merge dark-mode
-git push
-git branch -d dark-mode
-```
-
-```text
-Updating e1bf03b..9a76325
-Fast-forward
- app.js     | 23 +++++++++++++++++++----
-```
-
-- 2주차 `about` 브랜치와 같은 순서입니다. main으로 **돌아가서** 합칩니다.
-- 합치기 전에 `dark-mode`를 먼저 push해 둡니다. 그래야 마지막 `branch -d`가 깨끗하게 지워집니다.
-- merge 뒤 push해야 **공개 페이지**가 바뀝니다. 오늘 캡처는 그 화면입니다.
-
----
-
-## 2일차 · 5–11분 — classList.add / remove / toggle
-
-```js
-document.body.classList.add('dark');
-document.body.classList.remove('dark');
-document.body.classList.toggle('dark');
-```
-
-- 요소가 달고 있는 **class 이름 목록**을 다루는 도구입니다.
-- `add`는 붙이기만, `remove`는 떼기만 합니다.
-- `toggle`은 **없으면 붙이고 있으면 뗍니다.** 버튼 하나로 켜고 끄기에 맞습니다.
-- class를 붙였다고 모양이 바뀌지는 않습니다. 그 class를 쓰는 **CSS 규칙이 있어야** 바뀝니다.
-- DevTools **Elements**에서 `<body class="dark">`로 바뀌는 것을 눈으로 볼 수 있습니다.
-
----
-
-## 2일차 · 11–17분 — body.dark 규칙과 classList.toggle('dark')
+[examples/day2/ex04_classlist.html](examples/day2/ex04_classlist.html) · [ex04_classlist.js](examples/day2/ex04_classlist.js)
 
 ```css
-body.dark,
-body.dark .card {
-  background-color: #222222;
-  color: #eeeeee;
-}
+.on { background-color: gold; }
+```
+
+```js
+box.classList.add('on');      // 1. 붙인다. 이미 있으면 그대로
+box.classList.remove('on');   // 2. 뗀다. 없으면 그대로
+box.classList.toggle('on');   // 3. 있으면 떼고, 없으면 붙인다
+```
+
+- Elements 의 `<div id="box">` 줄에 `class="on"` 이 생겼다 사라집니다.
+- 바꿔 보기: `.on` 의 색만 바꾸면? JS 는 그대로인데 색이 바뀝니다.
+
+**모양은 CSS 규칙이 정하고, JS 는 class 이름만 붙였다 뗀다.**
+
+---
+
+## 2일차 · 7–14분 — ex05 다크 모드: body 에 class 하나
+
+[examples/day2/ex05_dark.html](examples/day2/ex05_dark.html) · [ex05_dark.js](examples/day2/ex05_dark.js)
+
+```css
+body.dark { background-color: #222222; color: #eeeeee; }   /* 1 */
+body.dark .card { background-color: #222222; }             /* 2 */
 ```
 
 ```js
 darkButton.addEventListener('click', function () {
-  document.body.classList.toggle('dark');
+    document.body.classList.toggle('dark');
 });
 ```
 
-- `body.dark`는 "`<body>`에 class `dark`가 붙었을 때"라는 뜻입니다. 사이를 띄우지 않습니다.
-- `body.dark .card`는 그 안의 카드들입니다. 띄어 쓰면 "안에 있는"이라는 뜻입니다(4주차 선택자).
-- JavaScript는 class 하나만 붙였다 뗍니다. 색을 정하는 것은 CSS입니다.
+- `document.body` 는 `<body>` 요소입니다. 찾지 않고 바로 씁니다.
+- 바꿔 보기: 2번 규칙을 지우면? 카드만 흰 채로 남습니다(4주차 `nav a` 같은 자손 선택자).
+
+**색은 CSS 에 미리 적어 두고, JS 는 `toggle('dark')` 한 줄이다.**
 
 ---
 
-## 2일차 · 17–22분 — 같은 함수를 두 버튼에
+## 2일차 · 14–20분 — ex06 함수 하나를 두 버튼에
+
+[examples/day2/ex06_reuse.html](examples/day2/ex06_reuse.html) · [ex06_reuse.js](examples/day2/ex06_reuse.js)
 
 ```js
 function countUp() {
-  count = count + 1;
-  countBox.textContent = `클릭 ${count}회`;
+    count = count + 1;
+    countBox.textContent = `클릭 ${count}회`;
 }
+// A 버튼과 B 버튼의 클릭 함수 안에서 둘 다
+countUp();
 ```
 
-- 두 버튼이 똑같이 "횟수를 1 올리고 화면에 쓴다"를 합니다. 같은 코드를 두 번 쓰지 않습니다.
-- 5주차에 배운 `function`으로 묶고, 두 리스너에서 `countUp()`으로 **부릅니다.**
-- 고칠 일이 생기면 한 곳만 고칩니다. 예를 들어 `클릭 ${count}번`으로 바꾸려면 한 줄만 고칩니다.
-- 돌려줄 값이 없으므로 `return`은 쓰지 않습니다. 하는 일만 있는 함수입니다.
+- A·B 를 섞어 눌러도 횟수는 하나로 이어집니다. 고칠 일이 생기면 함수 한 곳만 고칩니다.
+- 바꿔 보기: `countUp;`(괄호 없음) → 오류도 없이 아무 일도 안 합니다. 부를 때는 괄호.
+
+**같은 일은 함수 하나에 적고, 여러 곳에서 부른다.**
 
 ---
 
-## 2일차 · 22–27분 — 8주차 중간 실기 예고
+## 2일차 · 20–25분 — 8주차 중간 실기 안내
 
-| 항목 | 내용 |
-|---|---|
-| 범위 | 1~7주차 실습 제출 — HTML, CSS, JavaScript·DOM, 폼 |
-| 배점 | 20점(안). 폼 입력·빈값 안내 3점이 들어갑니다 |
-| 작업 위치 | 8주차 새 저장소 `web-week08`(1일차에 만듭니다) |
-| 공개 | 실습 제출을 문제로 정리한 [문제 은행](../week08_midterm/examples/README.md). 해답은 비공개 |
+- 8주차는 **중간 개인 실기**입니다. 1~7주 실습 제출을 정리한 **문제 은행**에서 **값을 바꿔** 출제합니다.
+- 문제 은행은 미리 공개되어 있습니다: [8주차 예제](../week08_midterm/examples/README.md). 문제마다 시작 파일·할 일·확인할 것이 있습니다.
+- 해답은 공개하지 않습니다. 매주 실습을 **직접** 해 본 것이 연습입니다.
+- 시험 중 교재 열람은 됩니다. 범위는 Pages·HTML·CSS·DOM·폼(7주차까지)입니다.
+- 목록 추가·삭제는 10주차, 새로고침해도 남기기는 11주차입니다.
 
-- 1일차는 은행 문제로 연습, 2일차가 중간 실기입니다. 시험은 은행 문제를 **값만 바꿔** 냅니다.
-- 이번 주 실습 제출(다크 모드·클릭 횟수)도 은행 문제입니다.
-- 목록 **추가·삭제는 10주차**, **저장은 11주차**라 범위가 아닙니다. 7주차 폼까지가 범위입니다.
+**매주 실습이 곧 시험 준비다.**
 
 ---
 
-## 2일차 · 27–30분 — 이제 직접 해 보기
+## 2일차 · 25–30분 — 조립: web-week06, 그리고 실습 인계
 
-[2일차 실습](lab.md#2일차--다크-모드와-함수-재사용-60분) · [따라하기](walkthrough.md#2일차)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud
+```text
+index.html  버튼 두 개 · #count 카드             ← ex02 · ex03
+styles.css  body.dark, body.dark .card { … }     ← ex05
+app.js      const … = querySelector('#…') 네 줄   ← ex01
+            let count = 0;                        ← ex03 1번
+            function countUp() { … }              ← ex06
+            greeting.textContent = `…`;           ← ex02 1번
+            hello 버튼: 문장 바꾸기 + countUp()   ← ex02 2번 · ex06
+            dark 버튼: toggle('dark') + countUp() ← ex05 · ex06
+```
 
-1. `[다크 모드]` 버튼과 `body.dark` 규칙을 만들어 `classList.toggle('dark')`로 켜고 끕니다.
-2. 두 버튼이 `countUp()` 한 함수를 쓰게 정리합니다.
-3. `dark-mode`를 push한 뒤 main에서 `merge` → `push` → `branch -d`를 합니다.
+[2일차 실습](lab.md#2일차--class-와-함수-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud)
 
-**설명 합계: 5+6+6+5+5+3 = 30분**
+1. ex04~ex06 `.html`·`.js` 를 `ex/` 에 저장, 값 바꾸기(29분까지).
+2. 조립 → 375·1280 폭과 서버로 확인 → push → 다크 모드 캡처.
+
+**설명 합계: 7+7+6+5+5 = 30분**
 
 ---
 
@@ -254,22 +235,20 @@ function countUp() {
 2일차가 끝나면 캡처 **한 장**을 제출합니다.
 
 ```text
-https://student01.github.io/my-web/
-배경이 어두운 화면 · [인사 바꾸기] [다크 모드]
+https://student01.github.io/web-week06/
+어두운 화면 ─ [인사 바꾸기] [다크 모드]
 카드: 반갑습니다. 오늘도 좋은 하루 되세요.
-카드: 클릭 3회
+카드: 클릭 2회 (1 이상이면 됩니다)
 주소창이 함께 보이게 찍습니다
 ```
 
-`클릭 0회`가 아니라 **1 이상**이어야 눌러 본 것이 보입니다.
 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
 
 ---
 
 ## 다음 주 미리 보기
 
-이번 주에는 **버튼**을 눌렀을 때 화면을 바꿨습니다.
+오늘은 버튼을 눌렀을 때 **정해 둔 글자**를 띄웠습니다.
 
-7주차에는 **폼을 제출했을 때** 화면을 바꿉니다.
-3주차에 만들어 두고 "눌러도 주소창만 바뀐다"고 적어 둔 `guestbook.html`의 [남기기]가 그 자리입니다.
-`addEventListener`는 그대로 쓰고 `'click'` 대신 `'submit'`을, 그리고 입력 칸을 읽는 `input.value`를 배웁니다.
+7주차에는 새 저장소 `web-week07` 을 오늘 완성본에서 시작하고, 방명록 폼에 **사용자가 입력한 글자**를 읽어 화면에 띄웁니다.
+오늘 쓴 `addEventListener` 와 `textContent` 를 그대로 쓰고, `click` 대신 폼의 `submit` 을 듣습니다.

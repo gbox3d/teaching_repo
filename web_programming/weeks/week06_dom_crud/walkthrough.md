@@ -1,501 +1,247 @@
-# 6주차 따라하기 — 클릭 카운터와 다크 모드
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud)
 
-처음에는 그대로 따라 하고, 결과가 나오면 본인 아이디와 문구로 바꾼다.
-각 단계의 예상 결과가 화면이나 Console에 보이면 다음 단계로 넘어간다.
+# 6주차 따라하기 — 비교 예제로 원리를 보고 마지막에 조립
 
-`student01`은 연습용 아이디다. 명령과 주소에 있는 `student01`은 본인 GitHub 아이디로 바꾼다.
-명령은 VS Code의 터미널(**Terminal › New Terminal**, Windows는 PowerShell)에서 실행한다. macOS 터미널도 같은 명령이다.
+이번 주는 새 저장소 `web-week06`을 만든다. 지난주 완성본을 넣고, 비교 예제는 그 안의 `ex/` 폴더에 저장한다. 값·줄을 바꾼 뒤 결과를 화면과 **F12 › Console**, **F12 › Elements**에서 본다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-이번 주 확인 도구는 **Elements**와 **Console** 두 탭이다. 브라우저에서 **F12**(또는 우클릭 › 검사)를 누른다.
-이번 주 작업은 `dark-mode` 브랜치에 쌓인다. 공개 페이지는 2일차 마지막에 한 번만 바뀐다.
+비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud/examples/day1)(1일차 ex01~ex03과 고르기 페이지)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud/examples/day2)(2일차 ex04~ex06) 폴더에 있다.
+각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
 
-### 1. 저장소 받아오기
+### 1. web-week06 폴더 만들고 지난주 완성본 넣기
 
-지난주에 쓰던 PC라면 폴더를 열고 새 commit만 받아 온다. 현재 폴더: `my-web`
+저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week06`을 만들고 VS Code **File › Open Folder**로 연다.
 
-```bash
-git pull
-```
+지난주 완성본을 넣는다. 내 `web-week05` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`server.mjs`)과 `images/`를 `web-week06`으로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
+ZIP을 못 받았으면 교재 [5주차 `examples/day2/web-week05/`](../week05_javascript_data/examples/day2/web-week05/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
 
-**예상 결과** — 집에서 push한 것이 없으면 `Already up to date.` 한 줄이다.
-
-처음 쓰는 PC라면 저장소를 통째로 내려받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
+이어서 `web-week06` 안에 `ex` 폴더를 만든다. 현재 폴더: `web-week06`
 
 ```bash
-git clone https://github.com/student01/my-web.git
-cd my-web
+mkdir ex
 ```
 
-**예상 결과** — `Cloning into 'my-web'...`로 시작하고 `my-web` 폴더가 생긴다. **File › Open Folder**로 그 폴더를 연다.
+**예상 결과** — VS Code 탐색기가 아래 모양이다.
 
-- `fatal: destination path 'my-web' already exists and is not an empty directory.`가 나오면 이미 받아 둔 것이다. 그 폴더를 열고 `git pull`을 한다.
-- 로그인이 막혀 clone이 안 되면 조교에게 5주차 `examples/day2/web-week05` 파일을 받아 새 폴더에서 작업하고, 끝 루틴에서 `git remote add origin <URL>` 뒤에 push한다.
+```text
+web-week06/
+  ex/            ← 아직 비어 있다
+  images/
+  about.html
+  app.js
+  guestbook.html
+  index.html
+  server.mjs
+  styles.css
+```
 
-### 2. dark-mode 브랜치 만들기
+- `index.html`을 두 번 눌러 열면 5주차 완성 화면(인사말 카드)이 보인다. 이번 주는 여기서 시작한다.
+- `index.html`·`styles.css`·`app.js`는 오늘 건드리지 않는다. 2일차 끝에 조립한다.
 
-오늘 작업할 브랜치를 만들면서 그 브랜치로 옮겨 간다. 현재 폴더: `my-web`
+### 2. 비교 예제 가져오기
+
+오늘 파일은 네 개다. 고르기 페이지 `index.html` 하나와 예제 코드 `.js` 세 개다. 세 예제가 같은 화면(글자 자리 하나, 버튼 하나, 횟수 자리 하나)을 쓰기 때문에 화면은 `index.html` 하나에 두고 코드만 따로 뗐다.
+
+| 파일 | 비교하는 것 |
+|---|---|
+| [index.html](examples/day1/index.html) | 고르기 페이지. 맨 아래 `<script src>` 세 줄 중 하나만 켠다. 예제가 쓰는 자리(`#message`·`#btn`·`#count`)가 여기 있다 |
+| [ex01_dom.js](examples/day1/ex01_dom.js) | `document` / 찾은 요소 / JS 가 바꾼 글자 — 화면·Elements·페이지 소스에서 비교 |
+| [ex02_click_write.js](examples/day1/ex02_click_write.js) | 열 때 바꾸기 / 클릭할 때 바꾸기 |
+| [ex03_counter.js](examples/day1/ex03_counter.js) | 함수 밖의 `let count` / 함수 안의 `let inside` |
+
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week06/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+
+**예상 결과** — `ex/` 안에 파일 네 개가 있다.
+
+```text
+ex/
+  ex01_dom.js
+  ex02_click_write.js
+  ex03_counter.js
+  index.html
+```
+
+- 저장한 파일 이름이 `.txt`로 끝나면 이름을 고친다. 이름은 VS Code 탐색기에서 확인한다.
+- `ex/index.html`은 예제를 고르는 페이지다. 맨 위 `index.html`(내 사이트)과 이름이 같지만 다른 파일이다. 탭 이름 옆 폴더 경로로 구분한다.
+
+### 3. 고르기 페이지와 Elements 탭
+
+`ex/index.html`을 Chrome으로 연다(VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**, macOS는 **Reveal in Finder** → 두 번 누르기). `.js` 파일은 두 번 누르지 않는다. `.js`는 `index.html`이 불러온다.
+
+VS Code에서 `ex/index.html`도 열어 맨 아래를 본다.
+
+```html
+<script src="ex01_dom.js"></script>
+<!-- <script src="ex02_click_write.js"></script> -->
+<!-- <script src="ex03_counter.js"></script> -->
+```
+
+지금은 ex01 줄만 켜져 있다. 다른 예제로 바꿀 때는 켜 둔 줄에 커서를 두고 **Ctrl+/**(macOS **⌘+/**)로 주석으로 만들고, 볼 줄에서 다시 **Ctrl+/**로 주석을 푼다. 저장 → 새로고침한다. 한 번에 한 줄만 켠다.
+
+**예상 결과** — 화면의 "예제가 쓰는 자리" 첫 줄이 `3. JavaScript 가 바꾼 글자`다. F12 › **Console**에 두 줄이 찍혀 있다.
+
+```text
+1. document : #document          ex01_dom.js:6
+2. message : <div id="message">…  ex01_dom.js:7
+```
+
+이번 주에는 **Elements** 탭도 쓴다. DevTools 위쪽 탭에서 **Elements**를 누른다. 브라우저가 지금 보여 주는 요소 상자(DOM)가 들여쓰기로 보인다. `<body>` 앞의 ▶를 눌러 펼치고 `<div id="message">` 줄을 찾는다.
+
+**예상 결과** — Elements의 그 줄 글자는 `3. JavaScript 가 바꾼 글자`다. 페이지 소스 보기(**Ctrl+U**, macOS **⌘+Option+U**)의 같은 줄은 `원래 글자 — HTML 파일에 적힌 글자`다.
+
+- 페이지 소스는 **파일**이고, Elements는 브라우저가 그 파일을 읽어 만든 뒤 JavaScript가 바꾼 **DOM**이다. 화면은 DOM을 보여 준다.
+- Elements에서 줄 위에 마우스를 올리면 화면의 그 요소가 파랗게 표시된다. 화면과 줄을 맞춰 볼 때 쓴다.
+- Elements에서 고친 것은 파일에 저장되지 않는다. 새로고침하면 사라진다.
+
+### 4. 값 바꾸는 요령
+
+실험은 늘 같은 순서다. **VS Code에서 고치고 저장**(Ctrl+S, macOS는 ⌘+S) → **브라우저에서 새로고침**(F5, macOS는 ⌘+R) → **화면·Console·Elements**를 본다.
+바꾸기 전에 무엇이 달라질지 먼저 말해 보고 확인한다.
+
+**클릭해 보기** — `ex/index.html` 맨 아래에서 ex01 줄을 끄고 `ex03_counter.js` 줄을 켠 뒤 저장 → 새로고침한다. **눌러 보기**를 세 번 누른다.
+
+**예상 결과** — 화면의 횟수가 `클릭 3회`가 되고, Console에 두 줄씩 세 번 찍힌다.
+
+```text
+1. 밖에 둔 count : 1     ex03_counter.js:12
+2. 안에 둔 inside : 1    ex03_counter.js:16
+1. 밖에 둔 count : 2     ex03_counter.js:12
+2. 안에 둔 inside : 1    ex03_counter.js:16
+1. 밖에 둔 count : 3     ex03_counter.js:12
+2. 안에 둔 inside : 1    ex03_counter.js:16
+```
+
+`+ 1` 하는 줄은 똑같은데 1번만 는다. `let count = 0;`은 함수 밖이라 열 때 한 번만 실행되고, `let inside = 0;`은 함수 안이라 누를 때마다 다시 실행된다.
+
+- 새로고침하면 `클릭 0회`로 돌아간다. 브라우저가 파일을 다시 읽어 DOM과 변수를 새로 만들기 때문이다.
+- 값을 원래대로 못 돌리겠으면 교재에서 그 파일을 다시 **Raw**로 받아 덮어쓴다.
+- 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--dom-과-클릭-60분)에 있다.
+
+### 5. 이번 주 저장소 만들어 올리기
+
+1일차 50–60분에 한다. 세 예제에서 각각 값 하나 이상을 바꿔 봤으면 올린다.
+
+GitHub에서 **New repository**를 누르고 이름 `web-week06`, **Public**으로 만든다. README는 추가하지 않는다.
+터미널에서 2주차에 배운 순서 그대로 친다. 현재 폴더: `web-week06`
 
 ```bash
-git status
-git switch -c dark-mode
-git branch
-```
-
-**예상 결과**
-
-```text
-Switched to a new branch 'dark-mode'
-* dark-mode
-  main
-```
-
-- 시작 전 `git status`가 `nothing to commit, working tree clean`이어야 한다. 아니면 먼저 commit한다.
-- `-c`는 "만들면서 옮겨 가라"는 뜻이다. 3주차 `guestbook` 브랜치를 만들 때와 같은 명령이다.
-- 폴더의 파일은 그대로 보인다. 지금부터의 commit이 `dark-mode`에 쌓인다.
-- `*`가 지금 있는 브랜치다. main은 그대로 남아 있고 공개 페이지도 그대로다.
-
-### 3. 버튼과 카운터 자리 만들기
-
-`index.html`을 열고 `#greeting` 카드 **바로 아래**에 두 문단을 넣는다.
-
-```html
-      <p>
-        <button id="hello-button" type="button">인사 바꾸기</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
-```
-
-여기까지 하면 `index.html` 전체가 아래와 같다. 5주차 파일에서 이 네 줄만 늘었다.
-같은 파일이 [examples/day1/index.html](examples/day1/index.html)에 있다.
-
-```html
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>my-web</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="app.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <h1>student01의 웹 연습장</h1>
-      <nav>
-        <a href="index.html">홈</a>
-        <a href="about.html">내 정보</a>
-        <a href="guestbook.html">방명록</a>
-      </nav>
-    </header>
-    <main>
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
-      <p>
-        <button id="hello-button" type="button">인사 바꾸기</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
-      <h2>소개</h2>
-      <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
-      <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>
-      <p class="card">이 페이지는 수업 시간에 한 주씩 늘려 갑니다.</p>
-      <h2>취미</h2>
-      <ul class="card">
-        <li>사진 찍기</li>
-        <li>보드게임</li>
-        <li>저녁 산책</li>
-      </ul>
-    </main>
-    <footer>
-      <p>수업용 연습 페이지 · student01</p>
-    </footer>
-  </body>
-</html>
-```
-
-**예상 결과** — 새로고침하면 인사말 카드 아래에 `인사 바꾸기` 버튼과 `클릭 0회` 카드가 보인다. 눌러도 아직 아무 일도 없다.
-
-- `type="button"`을 꼭 붙인다. 지금은 폼 밖이라 붙이지 않아도 새로고침되지 않지만, 7주차 폼 안의 버튼과 습관을 맞추려고 지금부터 붙인다.
-- `id`는 한 페이지에 하나씩만 쓴다. 지금 `index.html`에는 `greeting`·`count`·`hello-button` 세 개가 있다.
-- 버튼은 꾸미지 않는다. 브라우저 기본 모양 그대로 둔다.
-
-### 4. 요소를 찾아 두기
-
-`app.js`를 연다. 5주차에 쓴 코드가 그대로 있다. **맨 위 두 줄 아래**에 찾아 두는 줄 세 개를 넣는다.
-
-```js
-const greeting = document.querySelector('#greeting');
-const countBox = document.querySelector('#count');
-const helloButton = document.querySelector('#hello-button');
-
-console.log(greeting);
-```
-
-**예상 결과** — Console에 요소가 통째로 한 줄 찍힌다. 삼각형을 누르면 펼쳐진다.
-
-```text
-<p class="card" id="greeting">인사말을 준비 중입니다.</p>
-```
-
-- `document`는 **페이지 전체**다. 브라우저가 미리 만들어 둔다.
-- `querySelector('#greeting')`은 `id`가 `greeting`인 요소 **하나**를 찾아 돌려준다. `#`은 `id`를 찾으라는 표시다.
-- 찾은 것을 `const`에 담아 두면 그다음부터는 `greeting`이라는 짧은 이름으로 쓴다.
-- `null`이 찍히면 못 찾은 것이다. `index.html`의 `id` 철자와 비교한다.
-- 확인했으면 `console.log(greeting);` 줄은 지운다.
-
-### 5. 5주차 두 줄을 한 줄로 합치기
-
-`app.js` 아래쪽에 5주차에 쓴 네 줄이 있다. 이 네 줄을 지운다.
-
-```js
-const message = `${greet(name)} ${hello(hour)}`;
-
-console.log(hour);
-console.log(message);
-
-document.querySelector('#greeting').textContent = message;
-```
-
-대신 한 줄로 쓴다.
-
-```js
-greeting.textContent = `${greet(name)} ${hello(hour)}`;
-```
-
-**예상 결과** — 화면은 5주차와 똑같다. 인사말 카드에 `안녕하세요, student01님! 좋은 아침입니다.`가 보인다.
-
-- 5주차 마지막 줄이 5주차 ex09 2번처럼 둘로 나뉘었다. 4단계에서 **찾아 두고**(`querySelector`), 여기서 **바꾼다**(`textContent`).
-- `.textContent`는 요소 안의 글자다. `=` 왼쪽에 두면 바꿔 넣는다는 뜻이다.
-- `greet`·`hello` 두 함수는 5주차 그대로 쓴다. 지우지 않는다.
-
-### 6. 클릭하면 인사말 바꾸기
-
-`app.js` 맨 아래에 클릭했을 때 실행될 코드를 맡겨 둔다.
-
-```js
-helloButton.addEventListener('click', function () {
-  greeting.textContent = '반갑습니다. 오늘도 좋은 하루 되세요.';
-});
-```
-
-**예상 결과** — 새로고침한 뒤 `인사 바꾸기`를 누르면 카드 글자가 `반갑습니다. 오늘도 좋은 하루 되세요.`로 바뀐다.
-
-- "이 버튼을 **클릭하면** 이 함수를 실행하라"고 브라우저에 맡겨 두는 줄이다.
-- 맡기는 순간에는 실행되지 않는다. 누를 때마다 중괄호 안이 실행된다.
-- 리스너는 `function () { }` 모양으로 쓴다. 5주차 ex01 주석에 적은 대로 `() => { }`로 써도 같은 뜻이다.
-- 새로고침하면 HTML에 적힌 글자로 돌아간다. 화면만 바뀌었지 파일은 그대로이기 때문이다.
-
-### 7. 클릭 횟수 세기
-
-찾아 두는 줄 아래에 `let count = 0;`을 넣고, 리스너 안에서 1씩 올린다.
-
-```js
-let count = 0;
-```
-
-```js
-  count = count + 1;
-  countBox.textContent = `클릭 ${count}회`;
-```
-
-여기까지 하면 `app.js` 전체가 아래와 같다. 같은 파일이 [examples/day1/app.js](examples/day1/app.js)에 있다.
-
-```js
-const name = 'student01';
-const hour = new Date().getHours();
-const greeting = document.querySelector('#greeting');
-const countBox = document.querySelector('#count');
-const helloButton = document.querySelector('#hello-button');
-let count = 0;
-
-function greet(name) {
-  return `안녕하세요, ${name}님!`;
-}
-
-function hello(hour) {
-  if (hour >= 12) {
-    return '좋은 오후입니다.';
-  } else {
-    return '좋은 아침입니다.';
-  }
-}
-
-greeting.textContent = `${greet(name)} ${hello(hour)}`;
-
-helloButton.addEventListener('click', function () {
-  greeting.textContent = '반갑습니다. 오늘도 좋은 하루 되세요.';
-  count = count + 1;
-  countBox.textContent = `클릭 ${count}회`;
-});
-```
-
-**예상 결과** — 버튼을 누를 때마다 숫자가 오른다.
-
-```text
-1번 누름: 클릭 1회
-2번 누름: 클릭 2회
-3번 누름: 클릭 3회
-```
-
-- `let count = 0;`은 리스너 **밖**에 둔다. 안에 두면 누를 때마다 0에서 다시 시작해 계속 `클릭 1회`만 나온다.
-- `count = count + 1;`은 "지금 값에 1을 더해 다시 넣어라"는 뜻이다. 5주차 ex03의 `a = a + 1`과 같은 모양이다. 그래서 `count`는 `const`가 아니라 `let`이다.
-- 숫자를 문장에 넣을 때는 5주차의 템플릿 문자열을 쓴다. 백틱은 영문 입력 상태에서 친다.
-- 새로고침하면 `클릭 0회`로 돌아간다. 새로고침해도 남게 하는 것은 11주차에 배운다.
-
-### 8. null 오류 두 가지 만들어 보기
-
-같은 오류가 나는 두 가지 원인을 직접 만들어 본다. 하나씩 만들고, 읽고, **바로 되돌린다.**
-
-먼저 `app.js`의 선택자에 오타를 낸다.
-
-```js
-const helloButton = document.querySelector('#hello-buton');
-```
-
-**예상 결과** — Console에 빨간 줄이 뜨고 버튼이 동작하지 않는다.
-
-```text
-Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')      app.js:22
-```
-
-되돌린 뒤, 이번에는 `index.html`의 `script` 줄에서 `defer`만 지운다.
-
-```html
-    <script src="app.js"></script>
-```
-
-**예상 결과** — 이번에는 인사말조차 표시되지 않고 다른 빨간 줄이 뜬다.
-
-```text
-Uncaught TypeError: Cannot set properties of null (setting 'textContent')      app.js:20
-```
-
-- 두 줄 모두 원인은 하나다. **찾지 못해서 `null`이 나왔다.** `null`에는 아무것도 붙일 수 없다.
-- 첫 번째는 철자가 틀려서 못 찾았다. 두 번째는 `defer`가 없어 HTML을 다 읽기 전에 찾으러 갔기 때문이다.
-- `defer`는 "HTML을 다 읽은 뒤에 실행하라"는 뜻이다. 5주차 ex02에서 `defer`를 지웠을 때 3번이 `null`이 된 것과 같은 일이다.
-- 확인했으면 **반드시 원래대로 되돌린다.** 오류가 있는 채로 commit하지 않는다.
-
-### 9. 나머지 파일은 그대로 둔다
-
-`styles.css`·`about.html`·`guestbook.html`은 1일차에 **한 글자도 고치지 않는다.** 폴더에 그대로 있는지만 확인한다.
-
-`styles.css` — 같은 파일이 [examples/day1/styles.css](examples/day1/styles.css)에 있다.
-
-```css
-body {
-  background-color: #eef2ff;
-  color: #17213a;
-  font-family: system-ui, sans-serif;
-  font-size: 16px;
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 16px;
-}
-
-h1 {
-  color: #1f3a93;
-  font-size: 28px;
-}
-
-h2 {
-  color: #3157d5;
-}
-
-nav {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-nav a {
-  color: #3157d5;
-}
-
-.card {
-  background-color: #ffffff;
-  padding: 16px;
-  margin: 12px 0;
-  border: 1px solid #c3cbe6;
-}
-
-input,
-textarea {
-  width: 280px;
-  max-width: 100%;
-}
-
-footer {
-  color: #5a6478;
-  text-align: center;
-  font-size: 14px;
-}
-
-@media (max-width: 600px) {
-  nav {
-    flex-direction: column;
-  }
-}
-```
-
-`about.html` — 같은 파일이 [examples/day1/about.html](examples/day1/about.html)에 있다.
-
-```html
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>my-web · 내 정보</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <header>
-      <h1>내 정보</h1>
-      <nav>
-        <a href="index.html">홈</a>
-        <a href="about.html">내 정보</a>
-        <a href="guestbook.html">방명록</a>
-      </nav>
-    </header>
-    <main>
-      <h2>한눈에 보기</h2>
-      <p>수업용 가상 정보입니다.</p>
-      <table>
-        <tr>
-          <th>항목</th>
-          <th>내용</th>
-        </tr>
-        <tr>
-          <td>아이디</td>
-          <td>student01</td>
-        </tr>
-        <tr>
-          <td>이메일</td>
-          <td>student01@example.com</td>
-        </tr>
-        <tr>
-          <td>관심 분야</td>
-          <td>웹 페이지 만들기</td>
-        </tr>
-      </table>
-    </main>
-    <footer>
-      <p>수업용 연습 페이지 · student01</p>
-    </footer>
-  </body>
-</html>
-```
-
-`guestbook.html` — 같은 파일이 [examples/day1/guestbook.html](examples/day1/guestbook.html)에 있다.
-
-```html
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>my-web · 방명록</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <header>
-      <h1>방명록</h1>
-      <nav>
-        <a href="index.html">홈</a>
-        <a href="about.html">내 정보</a>
-        <a href="guestbook.html">방명록</a>
-      </nav>
-    </header>
-    <main>
-      <h2>한 줄 남기기</h2>
-      <h3>쓰는 순서</h3>
-      <ol>
-        <li>이름을 적는다.</li>
-        <li>메시지를 적는다.</li>
-        <li>남기기 버튼을 누른다.</li>
-      </ol>
-      <form>
-        <p>
-          <label for="name">이름</label>
-          <input id="name" type="text">
-        </p>
-        <p>
-          <label for="email">이메일</label>
-          <input id="email" type="email">
-        </p>
-        <p>
-          <label for="message">메시지</label>
-          <textarea id="message" rows="4"></textarea>
-        </p>
-        <button type="submit">남기기</button>
-      </form>
-      <p>지금은 눌러도 주소창만 바뀐다. 화면에 띄우는 일은 7주에 한다.</p>
-    </main>
-    <footer>
-      <p>수업용 연습 페이지 · student01</p>
-    </footer>
-  </body>
-</html>
-```
-
-**예상 결과** — 세 페이지 모양은 5주차와 같다. `about.html`·`guestbook.html`을 열면 Console이 비어 있다.
-
-- 두 페이지에는 `script` 줄이 없어서 `app.js`가 실행되지 않는다. 방명록 동작은 7주차에 `guestbook.js`로 만든다.
-- `styles.css`의 `.card`는 2일차에 어두운 색 규칙이 함께 쓸 class다. 지우지 않는다.
-
-**1일차 끝 루틴** — 현재 폴더: `my-web`
-
-```bash
+git init
 git add .
-git commit -m "버튼을 누르면 인사말과 클릭 횟수가 바뀌게 만들기"
-git push -u origin dark-mode
+git commit -m "6주차 1일차"
+git branch -M main
+git remote add origin https://github.com/student01/web-week06.git
+git push -u origin main
 ```
 
-**예상 결과**
+저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
 
-```text
-[dark-mode 69b950c] 버튼을 누르면 인사말과 클릭 횟수가 바뀌게 만들기
- 2 files changed, 14 insertions(+), 5 deletions(-)
- * [new branch]      dark-mode -> dark-mode
-branch 'dark-mode' set up to track 'origin/dark-mode'.
-```
+**예상 결과** — GitHub 저장소 화면을 새로고침하면 `ex/`·`images/`와 맨 위 파일들이 보인다.
+1~3분 뒤 `https://student01.github.io/web-week06/ex/`를 연다. 고르기 페이지의 제목과 "예제가 쓰는 자리"가 보인다. 이 화면은 **확인용**이다.
+공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
 
-1. GitHub 저장소 화면의 브랜치 드롭다운(`main ▾`)에서 `dark-mode`가 보이는지 확인한다.
-2. **공개 페이지는 아직 그대로다.** Pages는 `main`만 배포하기 때문이며 정상이다.
-3. 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
-
-- 앞의 일곱 글자(`69b950c`)는 PC마다 다르다.
-- 처음 올리는 브랜치이므로 `-u origin dark-mode`가 필요하다. `git push`만 치면 `fatal: The current branch dark-mode has no upstream branch.`가 나온다.
+- 404가 나면 주소의 `web-week06/ex/`가 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다.
+- push가 거부되거나 로그인 창이 안 뜨면 [2주차 실습지의 막혔을 때](../week02_github_pages/lab.md#막혔을-때)를 본다.
 
 ## 2일차
 
-### 10. 저장소 받아와 브랜치로 돌아가기
+### 6. 폴더 열고 비교 예제 여섯 파일 가져오기
 
-현재 폴더: `my-web`
+같은 PC에 `web-week06` 폴더가 남아 있으면 VS Code로 그대로 연다. 없으면 받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
 
 ```bash
-git pull
-git switch dark-mode
-git branch
+git clone https://github.com/student01/web-week06.git
 ```
 
-**예상 결과** — `Switched to branch 'dark-mode'`가 보이고 `*`가 `dark-mode`에 있다.
+내려받은 `web-week06`을 **File › Open Folder**로 연다.
 
-- 1일차 끝에 `dark-mode`에 있었다면 이미 그 브랜치다. `Already on 'dark-mode'`가 나온다.
-- 다른 PC에서 clone한 학생은 `git switch dark-mode` 한 번으로 그 브랜치를 받아 온다.
-- `fatal: invalid reference: dark-mode`가 나오면 1일차 push를 안 한 것이다. `git switch -c dark-mode`로 새로 만들고 2단계부터 한다.
+오늘 예제는 세 개이고, 예제마다 `.html`과 `.js`가 한 쌍이라 파일은 여섯 개다. 오늘 예제는 화면이 서로 달라서 `.html`을 따로 둔다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week06/ex/`에 넣는다.
 
-### 11. 다크 모드 버튼 넣기
+| 파일 | 비교하는 것 |
+|---|---|
+| [ex04_classlist.html](examples/day2/ex04_classlist.html) + [ex04_classlist.js](examples/day2/ex04_classlist.js) | `classList.add` / `remove` / `toggle` 세 버튼과 상자 하나 |
+| [ex05_dark.html](examples/day2/ex05_dark.html) + [ex05_dark.js](examples/day2/ex05_dark.js) | `body.dark` 규칙 / `body.dark .card` 규칙, 다크 모드 버튼 하나 |
+| [ex06_reuse.html](examples/day2/ex06_reuse.html) + [ex06_reuse.js](examples/day2/ex06_reuse.js) | A 버튼 / B 버튼이 같은 함수 `countUp()`을 부른다 |
 
-`index.html`에서 3단계에 만든 `<p>` **안에** 버튼을 한 줄 더 넣는다.
+**예상 결과** — `ex/`에 파일이 열 개 있다(1일차 네 개 + 오늘 여섯 개).
+`ex/ex04_classlist.html`을 열고 **1. add**를 누르면 상자가 노랗게 된다. F12 › **Elements**의 `<div id="box">` 줄에 `class="on"`이 생긴다.
+
+- 오늘은 `.html`을 연다. `.js`는 같은 폴더에서 `.html`이 불러온다. 둘 중 하나를 빠뜨리면 버튼이 동작하지 않는다.
+- `ex05`는 버튼을 누를 때 `<body>` 줄에 `class="dark"`가 붙었다 떨어진다. 색을 바꾸는 JS 줄은 없다. 색은 `.html`의 `<style>` 규칙이 정한다.
+- `ex06`은 A·B를 섞어 눌러도 횟수가 하나로 이어진다.
+- 파일마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--class-와-함수-그리고-조립-60분)에 있다.
+
+### 7. 조립표
+
+29분부터 조립한다. 이제 `ex/`가 아니라 `web-week06` 맨 위의 `index.html`·`styles.css`·`app.js`를 연다.
+조립하는 줄은 모두 비교 예제와 5주차 완성본에서 본 것이다.
+
+| 조립할 줄 | 출처 |
+|---|---|
+| `index.html`에 버튼 두 개(`#hello-button`·`#dark-button`)와 `#count` 카드 | [ex02](examples/day1/ex02_click_write.js) 누를 버튼, [ex03](examples/day1/ex03_counter.js) 횟수 자리 |
+| `styles.css` 맨 아래 `body.dark, body.dark .card { … }` | [ex05](examples/day2/ex05_dark.html) 1·2번 규칙을 쉼표로 묶은 것 |
+| `app.js`의 `name`·`hour`·`greet`·`hello` | 5주차 완성본 그대로 |
+| `const greeting`·`countBox`·`helloButton`·`darkButton` | [ex01](examples/day1/ex01_dom.js) 찾아서 `const`에 담기 |
+| `let count = 0;` | [ex03](examples/day1/ex03_counter.js) 1번, 함수 밖 |
+| `function countUp() { … }` | [ex06](examples/day2/ex06_reuse.js) |
+| `` greeting.textContent = `${greet(name)} ${hello(hour)}`; `` | [ex02](examples/day1/ex02_click_write.js) 1번, 열 때 바꾸기 |
+| `helloButton.addEventListener('click', function () { … countUp(); });` | [ex02](examples/day1/ex02_click_write.js) 2번 + [ex06](examples/day2/ex06_reuse.js) |
+| `darkButton.addEventListener('click', function () { document.body.classList.toggle('dark'); countUp(); });` | [ex05](examples/day2/ex05_dark.js) + [ex06](examples/day2/ex06_reuse.js) |
+
+옮겨 적을 때 출처 ex 파일을 옆에 열어 두고, 같은 줄이 거기서 무엇을 했는지 떠올린다.
+
+### 8. index.html에 다섯 줄 넣기
+
+`web-week06/index.html`을 연다. `<main>` 첫 줄 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` **바로 아래**에 다섯 줄을 넣는다.
 
 ```html
+      <p>
+        <button id="hello-button" type="button">인사 바꾸기</button>
         <button id="dark-button" type="button">다크 모드</button>
+      </p>
+      <p class="card" id="count">클릭 0회</p>
 ```
 
-여기까지 하면 `index.html` 전체가 아래와 같다. 1일차 파일에서 이 한 줄만 늘었다.
-같은 파일이 [examples/day2/index.html](examples/day2/index.html)에 있다.
+- 버튼 두 개를 한 줄에 두려고 `<p>`로 감쌌다. 두 번째 줄은 횟수를 쓸 카드다. 4주차 `.card` 모양을 그대로 쓴다.
+- `id`는 `app.js`가 찾을 이름이다. `hello-button`·`dark-button`·`count`를 글자 단위로 같게 쓴다.
+- `type="button"`은 보통 버튼이라는 뜻이다. 폼 안에 두어도 폼을 보내지 않는다(폼은 7주차).
+
+### 9. styles.css 맨 아래에 규칙 하나 넣기
+
+`web-week06/styles.css`를 열고 맨 아래(`@media` 덩어리 다음)에 규칙 하나를 넣는다.
+
+```css
+body.dark,
+body.dark .card {
+  background-color: #222222;
+  color: #eeeeee;
+}
+```
+
+- ex05의 두 규칙(`body.dark`·`body.dark .card`)을 쉼표로 묶어 하나로 썼다. 쉼표로 묶으면 두 선택자에 같은 선언이 붙는다(4주차 `input, textarea`와 같다).
+- 이 규칙은 `<body>`에 `class="dark"`가 붙었을 때만 맞는다. 붙이는 일은 `app.js`가 한다.
+
+### 10. app.js 다시 쓰기
+
+`web-week06/app.js`를 열어 **전부 지운다**. 5주차 코드를 지우는 이유: 마지막 줄 구조가 바뀌고, 찾은 요소를 `const`에 담아 두 번 이상 쓰기 때문이다. 5주차의 `name`·`hour`·`greet`·`hello` 네 덩어리는 그대로 다시 쓴다.
+
+조립표 순서로 쓴다.
+
+1. 값 두 개 — `name`(본인 아이디), `hour`. 5주차와 같다.
+2. 찾아 두기 네 줄 — `#greeting`·`#count`·`#hello-button`·`#dark-button`을 `querySelector`로 찾아 `const`에 담는다(ex01).
+3. `let count = 0;` — 함수 밖에 둔다(ex03 1번).
+4. 함수 `greet`·`hello` — 5주차와 같다.
+5. 함수 `countUp` — 횟수를 1 늘리고 `#count`에 쓴다(ex06).
+6. 열 때 한 번 — 인사말 카드에 5주차 인사를 쓴다(ex02 1번).
+7. 인사 바꾸기 버튼 — 누르면 문장을 바꾸고 `countUp()`을 부른다(ex02 2번 + ex06).
+8. 다크 모드 버튼 — 누르면 `body`의 `dark`를 뒤집고 `countUp()`을 부른다(ex05 + ex06).
+
+**예상 결과** — 저장하고 `index.html`을 새로고침한다. 첫 카드에 5주차 인사가 보이고, **인사 바꾸기**를 누르면 `반갑습니다. 오늘도 좋은 하루 되세요.`로 바뀐다. 두 버튼 어느 쪽을 눌러도 `클릭 N회`가 하나씩 늘고, **다크 모드**는 누를 때마다 배경과 카드가 어둡게 ↔ 원래대로 바뀐다. Console에 빨간 줄이 없다.
+
+### 11. index.html 전문
+
+10단계까지 마친 `index.html` 전체다. 내 파일과 한 줄씩 비교한다. 5주차 파일에서 늘어난 것은 8단계의 다섯 줄뿐이다.
 
 ```html
 <!doctype html>
@@ -541,24 +287,11 @@ git branch
 </html>
 ```
 
-**예상 결과** — 새로고침하면 `인사 바꾸기` 옆에 `다크 모드` 버튼이 나란히 보인다. 눌러도 아직 아무 일도 없다.
+같은 파일이 [examples/day2/web-week06/index.html](examples/day2/web-week06/index.html)에 있다.
 
-- 두 버튼을 같은 `<p>` 안에 두었으므로 한 줄에 나란히 보인다.
-- `id`는 `dark-button`이다. 3단계의 `hello-button`과 다른 이름이어야 한다.
+### 12. styles.css 전문
 
-### 12. 어두운 색 규칙 더하기
-
-`styles.css`를 열고 **맨 아래**에 규칙 하나를 더한다. 위의 53줄은 그대로 둔다.
-
-```css
-body.dark,
-body.dark .card {
-  background-color: #222222;
-  color: #eeeeee;
-}
-```
-
-여기까지 하면 `styles.css` 전체가 아래와 같다. 같은 파일이 [examples/day2/styles.css](examples/day2/styles.css)에 있다.
+5주차 파일에서 늘어난 것은 맨 아래 규칙 하나뿐이다.
 
 ```css
 body {
@@ -622,52 +355,11 @@ body.dark .card {
 }
 ```
 
-**예상 결과** — 화면은 아직 그대로다. `<body>`에 class `dark`가 없기 때문이다.
+같은 파일이 [examples/day2/web-week06/styles.css](examples/day2/web-week06/styles.css)에 있다.
 
-- `body.dark`는 "`<body>`에 class `dark`가 붙었을 때"라는 뜻이다. **사이를 띄우지 않는다.**
-- `body.dark .card`는 띄어 썼다. "그 안에 있는 `.card`"라는 뜻이다(4주차 선택자).
-- 쉼표로 이어 쓰면 두 대상에 같은 규칙을 준다.
-- 규칙을 미리 적어 두고, 다음 단계에서 JavaScript가 class를 붙인다.
+### 13. app.js 전문
 
-### 13. classList.toggle로 다크 모드 켜고 끄기
-
-`app.js`의 찾아 두는 줄에 버튼 하나를 더하고, 맨 아래에 리스너를 하나 더 맡긴다.
-
-```js
-const darkButton = document.querySelector('#dark-button');
-```
-
-```js
-darkButton.addEventListener('click', function () {
-  document.body.classList.toggle('dark');
-});
-```
-
-**예상 결과** — `다크 모드`를 누르면 배경과 카드가 어두워지고, 다시 누르면 돌아온다.
-
-- `classList`는 그 요소가 달고 있는 **class 이름 목록**이다.
-- `toggle('dark')`은 **없으면 붙이고 있으면 뗀다.** 버튼 하나로 켜고 끄기에 맞는다.
-- `add('dark')`를 쓰면 한 번 켜진 뒤 꺼지지 않는다. `remove('dark')`는 떼기만 한다.
-- DevTools **Elements** 탭에서 `<body>`가 `<body class="dark">`로 바뀌는 것을 눈으로 확인한다.
-- class는 붙는데 색이 그대로면 12단계의 CSS 철자를 본다. JavaScript는 class만 붙이고 색은 CSS가 정한다.
-
-### 14. 두 버튼이 한 함수를 쓰게 정리하기
-
-두 버튼이 똑같이 하는 일("횟수를 1 올리고 화면에 쓴다")을 함수로 빼낸다.
-`hello`·`greet` 함수 아래에 `countUp`을 만들고, 두 리스너에서 부른다.
-
-```js
-function countUp() {
-  count = count + 1;
-  countBox.textContent = `클릭 ${count}회`;
-}
-```
-
-```js
-  countUp();
-```
-
-여기까지 하면 `app.js` 전체가 아래와 같다. 같은 파일이 [examples/day2/app.js](examples/day2/app.js)에 있다.
+1행의 `student01`만 본인 아이디로 다르고 나머지는 글자 단위로 같아야 한다.
 
 ```js
 const name = 'student01';
@@ -708,84 +400,43 @@ darkButton.addEventListener('click', function () {
 });
 ```
 
-**예상 결과** — `인사 바꾸기` 2번, `다크 모드` 1번을 누르면 두 버튼의 합계가 세어진다.
+같은 파일이 [examples/day2/web-week06/app.js](examples/day2/web-week06/app.js)에 있다.
 
-```text
-클릭 3회
+- 3~6행은 찾은 요소를 `const`에 담아 둔다. 두 번 이상 쓰는 요소를 매번 다시 찾지 않는다(ex01).
+- 7행 `let count = 0;`은 함수 밖이다. 함수 안에 두면 늘 `클릭 1회`다(ex03).
+- 21~24행 `countUp`은 두 버튼이 같이 쓰는 일이다. 고칠 일이 생기면 여기 한 곳만 고친다(ex06).
+- 26행은 열 때 한 번 실행된다. 28~36행의 안쪽은 누를 때마다 실행된다(ex02).
+- 34행 `document.body`는 `<body>` 요소다. 찾지 않고 바로 쓴다(ex05).
+
+### 14. 375·1280 폭과 서버로 확인
+
+DevTools의 기기 툴바(**Ctrl+Shift+M**, macOS **⌘+Shift+M**)를 켜고 폭을 375와 1280으로 바꿔 가며 **다크 모드**를 켜 본다.
+
+**예상 결과** — 두 폭 모두 배경과 카드가 어두워진다. 375에서는 메뉴가 세로로 선다(4주차 `@media`).
+
+이어서 서버로 연다. 현재 폴더: `web-week06`
+
+```bash
+node server.mjs
 ```
 
-- 같은 두 줄을 두 곳에 쓰지 않는다. 한 곳에 두고 두 리스너가 **부른다.**
-- 부를 때는 괄호를 붙인다. `countUp;`이라고만 쓰면 아무 일도 일어나지 않는다.
-- 돌려줄 값이 없으므로 `return`은 쓰지 않는다. 하는 일만 있는 함수다.
-- 나중에 `클릭 ${count}번`으로 바꾸고 싶으면 이 함수 한 곳만 고치면 된다.
+주소창에 `http://localhost:8000/`을 친다. 두 번 눌러 연 것과 결과가 같으면 된 것이다. 확인이 끝나면 터미널에서 **Ctrl+C**로 서버를 멈춘다.
+쓰는 법은 [서버 사용 안내](../../tools/static-server/README.md)에 있다. Node가 없는 PC는 `index.html`을 두 번 눌러 연 것으로 대신한다.
 
-### 15. 오늘 작업 commit하고 push 하기
+### 15. push와 캡처
 
-현재 폴더: `my-web`
+현재 폴더: `web-week06`
 
 ```bash
 git add .
-git commit -m "다크 모드 버튼과 countUp 함수 추가"
+git commit -m "6주차 2일차"
 git push
 ```
 
-**예상 결과**
+1~3분 뒤 `https://student01.github.io/web-week06/`을 연다. **인사 바꾸기**를 한 번 누르고 **다크 모드**를 켠다.
 
-```text
-[dark-mode 9a76325] 다크 모드 버튼과 countUp 함수 추가
- 3 files changed, 19 insertions(+), 2 deletions(-)
-   69b950c..9a76325  dark-mode -> dark-mode
-```
+**예상 결과** — 어두운 화면에 `반갑습니다. 오늘도 좋은 하루 되세요.`와 `클릭 2회`가 보인다. 주소창이 함께 보이게 캡처한다. 이 캡처 한 장이 제출이다.
+공용 PC라면 자격 증명을 지우고 나간다.
 
-- 1일차에 `-u`로 올려 두었으므로 이번에는 `git push`만 친다.
-- **이 push를 건너뛰지 않는다.** 1일차에 push해 둔 브랜치라, 건너뛰면 16단계의 `git branch -d`가 `error: the branch 'dark-mode' is not fully merged`로 거부된다.
-
-### 16. main에 합치고 브랜치 지우기
-
-현재 폴더: `my-web`
-
-```bash
-git switch main
-git merge dark-mode
-git push
-git branch -d dark-mode
-```
-
-**예상 결과**
-
-```text
-Switched to branch 'main'
-Updating e1bf03b..9a76325
-Fast-forward
- app.js     | 23 +++++++++++++++++++----
- index.html |  5 +++++
- styles.css |  6 ++++++
- 3 files changed, 30 insertions(+), 4 deletions(-)
-   e1bf03b..9a76325  main -> main
-Deleted branch dark-mode (was 9a76325).
-```
-
-- `git switch main` 직후 화면이 5주차로 돌아간다. 버튼이 사라져 보이지만 정상이다. merge하면 돌아온다.
-- main에 다른 commit이 없으므로 항상 `Fast-forward`다. 합칠 것을 고르라는 창이 뜨지 않는다.
-- merge만 하고 push하지 않으면 공개 페이지는 그대로다. **push까지 해야** 바뀐다.
-- `git branch`를 치면 `* main` 하나만 남는다. GitHub에 올라간 브랜치도 지우려면 `git push origin --delete dark-mode`를 한다(선택).
-
-### 17. 2일차 끝 루틴과 제출
-
-1. 1분쯤 뒤 `https://student01.github.io/my-web/`을 새로고침한다.
-2. `인사 바꾸기`와 `다크 모드`를 눌러 **다크 모드가 켜진 화면**을 만든다.
-3. 주소창이 함께 보이게 한 화면을 캡처한다. 이 한 장이 이번 주 제출물이다.
-4. DevTools 기기 모드(**Ctrl+Shift+M**)로 375px과 1280px에서도 확인한다.
-5. 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
-
-- 오늘 작업은 15단계에서 이미 commit했다. 끝 루틴에서 `git commit`을 다시 하면 `nothing to commit, working tree clean`이 나오는데 그것도 정상이다.
-- `클릭 0회`인 채로 찍지 않는다. 눌러 본 것이 보이도록 **1 이상**으로 만든다.
-- 375px에서는 4주차 `@media` 규칙이 살아 있어 nav가 세로로 접힌다.
-- 캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 아이디는 보여도 된다.
-
-## 오류가 나면
-
-먼저 Console의 **첫 빨간 줄**을 읽는다. 오른쪽의 `app.js:22`가 고칠 자리다.
-이번 주 오류는 대부분 `null`이다. **찾지 못했다**는 뜻이므로 `id` 철자와 `script` 줄의 `defer`를 차례로 본다.
-자주 나오는 메시지와 확인할 것은 [실습지의 막혔을 때](lab.md#막혔을-때)에 있다.
-한 곳을 고친 다음 새로고침하고, 해결되지 않으면 Console 화면을 그대로 보여 주고 도움을 요청한다.
+- 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
+- 막히면 [실습지의 막혔을 때](lab.md#막혔을-때)를 본다.
