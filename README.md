@@ -89,6 +89,8 @@ Java, 프로그래밍기초, AR/VR, Unreal 과목은 아직 공용 교재가 없
 | 웹프로그래밍 | [`web_programming/ta_setup_guide.md`](web_programming/ta_setup_guide.md) | Git, VS Code, Node.js, 브라우저 |
 | 오픈소스 AI 응용 | [`open_source_ai/ta_setup_guide.md`](open_source_ai/ta_setup_guide.md) | Git, VS Code, uv, Ollama |
 
+수업이 끝난 실습실 PC 의 GitHub 로그인 정리(모든 과목 공통, Windows·macOS·Linux): [`tools/github-classroom-pc-reset/`](tools/github-classroom-pc-reset/README.md)
+
 과목 안내서의 `TBD` 항목은 미비점이 아니라 교수 승인이 필요한 값이다. 조교가 임의 버전이나 장치 규약을 정하지 않는다.
 
 ## 공용 교재와 학교 운영자료의 경계

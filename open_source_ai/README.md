@@ -21,6 +21,7 @@ Hugging Face 공개 모델·데이터, PyTorch, 임베딩·RAG, PEFT/LoRA 경량
 - 과목별 설치 프로그램: [`ta_setup_guide.md`](ta_setup_guide.md)
 - uv 설치·갱신·Python 환경·`uv run` 실습: [`uv_guide.md`](uv_guide.md)
 - GitHub 소스 배포와 `.gitignore` 주의사항: [`github_distribution.md`](github_distribution.md)
+- 실습실 PC 의 GitHub 로그인 정리(공통 도구): [`../tools/github-classroom-pc-reset/`](../tools/github-classroom-pc-reset/README.md)
 - 공통 설치 프로그램: [`../ta_lab_setup_guide.md`](../ta_lab_setup_guide.md)
 - 환경 기준표: [`../environment_baseline_template.md`](../environment_baseline_template.md)
 

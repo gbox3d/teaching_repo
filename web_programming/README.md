@@ -27,7 +27,7 @@
 - 15주 교재 색인: [`weeks/README.md`](weeks/README.md)
 - 선택 특강: [`specials/README.md`](specials/README.md)
 - 수업용 정적 웹 서버(Node.js): [`tools/static-server/`](tools/static-server/README.md)
-- 실습실 PC 의 GitHub 로그인 정리(Windows·macOS·Linux): [`tools/github-classroom-pc-reset/`](tools/github-classroom-pc-reset/README.md)
+- 실습실 PC 의 GitHub 로그인 정리(Windows·macOS·Linux): [`../tools/github-classroom-pc-reset/`](../tools/github-classroom-pc-reset/README.md)
 - 과목별 설치 프로그램: [`ta_setup_guide.md`](ta_setup_guide.md)
 - 공통 설치 프로그램: [`../ta_lab_setup_guide.md`](../ta_lab_setup_guide.md)
 - 환경 기준표: [`../environment_baseline_template.md`](../environment_baseline_template.md)
