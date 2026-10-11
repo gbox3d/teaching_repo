@@ -9,7 +9,7 @@
 | 예제 파일 | 따라하기 단계 | 내 `my-web` 폴더의 파일 |
 |---|---|---|
 | [day1/guestbook.js](day1/guestbook.js) | [2~5단계](../walkthrough.md#2-남긴-글을-객체로-바꾸기) — 항목이 객체가 되고, 안내 문구와 빈 목록 안내가 한 자리로 모인다 | `guestbook.js` |
-| [day1/guestbook.html](day1/guestbook.html) | [5단계](../walkthrough.md#5-빈-목록-안내를-개수-자리로-옮기기) — `<p id="empty">` 한 줄이 사라지고 `<p id="count">`의 처음 글자가 바뀐다 | `guestbook.html` |
+| [day1/guestbook.html](day1/guestbook.html) | [5단계](../walkthrough.md#5-빈-목록-안내를-개수-자리로-옮기기) — `<div id="empty">` 한 줄이 사라지고 `<div id="count">`의 처음 글자가 바뀐다 | `guestbook.html` |
 | [day1/index.html](day1/index.html) · [day1/about.html](day1/about.html) · [day1/app.js](day1/app.js) · [day1/styles.css](day1/styles.css) · [day1/README.md](day1/README.md) | [이번 주에 고치지 않는 파일](../walkthrough.md#이번-주에-고치지-않는-파일) — 열지 않는다. 10주차와 같다 | `index.html` · `about.html` · `app.js` · `styles.css` · `README.md` |
 | [day2/guestbook.js](day2/guestbook.js) | [8~11단계](../walkthrough.md#8-저장하는-함수-savelist-만들기) — `saveList()`·복원 한 줄·전체 지우기가 들어온다 | `guestbook.js` |
 | [day2/guestbook.html](day2/guestbook.html) | [11단계](../walkthrough.md#11-전체-지우기-버튼-붙이기) — **[전체 지우기]** 버튼 한 줄이 늘어난다 | `guestbook.html` |

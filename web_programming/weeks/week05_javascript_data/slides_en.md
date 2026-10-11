@@ -290,7 +290,7 @@ now.getMonth() + 1          // the month number people actually read
 ## Day 2 · 27–30 min — Assembly: web-week05 app.js → Lab
 
 ```text
-<script src="app.js" defer>  <p class="card" id="greeting">  ← ex02 · ex09
+<script src="app.js" defer>  <div class="card" id="greeting">  ← ex02 · ex09
 const name · const hour = new Date().getHours();  ← ex03 · ex10
 function greet(name) { return `안녕하세요, ${name}님!`; }  ← ex08 · ex05
 function hello(hour) { if (hour >= 12) … else … }  ← ex07 · ex06

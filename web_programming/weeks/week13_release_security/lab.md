@@ -28,7 +28,7 @@
 
 - `id`는 세 개다. 폼은 `year-form`, 입력 칸은 `year`, 결과가 보일 자리는 `year-result`.
 - `label for="year"`의 값과 `input`의 `id`를 **글자까지 같게** 둔다. 이름표를 눌러 커서가 가면 맞다.
-- 결과가 보일 `<p>`에는 `class="card"`를 붙인다. `styles.css`는 이번 주에 고치지 않는다.
+- 결과가 보일 `<div>`에는 `class="card"`를 붙인다. `styles.css`는 이번 주에 고치지 않는다.
 
 ### 2. `about.js`로 계산하기 (`Number` · `isNaN` · `getFullYear`)
 
@@ -160,7 +160,7 @@ push한 뒤 `https://github.com/<아이디>/my-web`을 새로고침한다. [따�
 |---|---|
 | push했는데 공개 페이지가 그대로다 | **Pages 반영은 1~3분 늦다.** 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다. 다음 수업 시작 5분에 Pages 확인을 해도 된다 |
 | `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` (`about.js:5`) | `#year-form`을 찾지 못했다. `about.html`의 `<form id="year-form">` 철자와 `about.js`의 `querySelector('#year-form')`를 맞춘다. `<script src="about.js" defer></script>`에 `defer`가 있는지도 본다 |
-| `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` (`about.js:16`) | `#year-result`를 찾지 못했다. 결과가 보일 `<p class="card" id="year-result">`의 `id` 철자를 본다 |
+| `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` (`about.js:16`) | `#year-result`를 찾지 못했다. 결과가 보일 `<div class="card" id="year-result">`의 `id` 철자를 본다 |
 | **계산하기**를 눌렀더니 화면이 깜빡이고 주소창 끝에 `?`가 붙어 `about.html?`이 된다 | `event.preventDefault()`가 빠졌거나 `about.js`가 연결되지 않았다. 폼은 원래 눌리면 주소로 보내며 화면이 새로 열린다(3주차). `head`의 `script` 줄과 리스너 첫 줄을 본다 |
 | 숫자를 적었는데 `입학 연도를 숫자로 적어 주세요.`가 나온다 | `2023년`처럼 글자가 섞여 있으면 `Number()`가 `NaN`이 된다. 숫자만 적는다 |
 | `const years = thisYear - year + 1;`의 `year`를 `text`로 바꿔도 숫자만 적으면 `4년차`가 그대로 나온다 | 뺄셈이 글자를 숫자로 바꿔 주기 때문이다. 반대로 `const year = Number(text);` 줄 자체를 지우면 `2023`을 적어도 늘 `입학 연도를 숫자로 적어 주세요.`가 뜬다. `year`가 입력 칸을 가리키게 되기 때문이다 |

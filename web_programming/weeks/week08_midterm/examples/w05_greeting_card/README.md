@@ -17,7 +17,7 @@
 ## 할 일
 
 1. `index.html` 의 `<head>` 에서 `styles.css` 연결 줄 아래에 `app.js` 를 연결한다. HTML 을 끝까지 읽은 뒤 실행되게 한다.
-2. `<main>` 의 첫 줄에 `<p class="card" id="welcome">인사말을 준비 중입니다.</p>` 를 넣는다.
+2. `<main>` 의 첫 줄에 `<div class="card" id="welcome">인사말을 준비 중입니다.</div>` 를 넣는다.
 3. `app.js` 에 차례로 쓴다. 다시 담지 않는 값은 `const` 로 둔다.
    - 이름 `name` 에 `'guest07'`, 시각 `hour` 에 `15` 를 담는다. 실제 앱은 `new Date().getHours()` 지만 채점을 위해 시각을 정해 둔다.
    - 함수 `greet(name)` 은 `` `반가워요, ${name}님.` `` 문장을 돌려준다.
@@ -29,7 +29,7 @@
 ## 확인할 것
 
 - [ ] 페이지를 열면 카드에 `반가워요, guest07님. 즐거운 오후예요.` 가 보인다. `인사말을 준비 중입니다.` 는 남아 있지 않다.
-- [ ] F12 › Elements 에서 `app.js` 를 연결한 줄이 보인다. 카드 `<p>` 의 class 는 `card`, id 는 `welcome` 이고, 아래 소개 카드와 같은 흰 상자로 보인다.
+- [ ] F12 › Elements 에서 `app.js` 를 연결한 줄이 보인다. 카드 `<div>` 의 class 는 `card`, id 는 `welcome` 이고, 아래 소개 카드와 같은 흰 상자로 보인다.
 - [ ] F12 › Console 에 `15` 만 있는 줄과 `반가워요, guest07님. 즐거운 오후예요.` 만 있는 줄이 이 순서로 찍히고 빨간 줄이 없다.
 - [ ] Console 에 쳐 보면 `hello(11)` 의 결과는 `'상쾌한 아침이에요.'`, `hello(12)`·`hello(17)` 의 결과는 `'즐거운 오후예요.'`, `hello(18)` 의 결과는 `'편안한 저녁 되세요.'` 이다.
 - [ ] Console 에 쳐 보면 `greet('student99')` 의 결과는 `'반가워요, student99님.'` 이다.

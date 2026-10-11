@@ -37,7 +37,7 @@ cd my-web
 `git status`는 `On branch main`과 `nothing to commit, working tree clean`이다. VS Code **File › Open Folder**로 `my-web`을 연다.
 
 - 10주차와 같이 브랜치를 만들지 않고 `main`에서 바로 작업한다.
-- `guestbook.html`을 열었을 때 `<p id="empty">`와 `<p id="count">0개</p>` 두 줄이 보이면 10주차 끝 상태가 맞다.
+- `guestbook.html`을 열었을 때 `<div id="empty">`와 `<div id="count">0개</div>` 두 줄이 보이면 10주차 끝 상태가 맞다.
 - clone이 로그인 문제로 막히면 조교에게 10주차 `examples/day2` 폴더를 받아 그 폴더에서 작업하고, 7단계에서 remote를 연결한다.
 
 ### 2. 남긴 글을 객체로 바꾸기
@@ -135,13 +135,13 @@ messageInput.addEventListener('input', clearNotice);
 먼저 `guestbook.html`에서 아래 한 줄을 지운다.
 
 ```html
-      <p id="empty">아직 남긴 글이 없습니다.</p>
+      <div id="empty">아직 남긴 글이 없습니다.</div>
 ```
 
 그리고 바로 아래 줄의 처음 글자를 바꾼다.
 
 ```html
-      <p id="count">아직 남긴 글이 없습니다.</p>
+      <div id="count">아직 남긴 글이 없습니다.</div>
 ```
 
 1일차 `guestbook.html` 전체는 아래와 같다. 같은 파일이 [examples/day1/guestbook.html](examples/day1/guestbook.html)에 있다.
@@ -188,10 +188,10 @@ messageInput.addEventListener('input', clearNotice);
         </p>
         <button type="submit">남기기</button>
       </form>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <h3>남긴 글</h3>
       <ul class="card" id="list"></ul>
-      <p id="count">아직 남긴 글이 없습니다.</p>
+      <div id="count">아직 남긴 글이 없습니다.</div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>
@@ -380,10 +380,10 @@ let items = JSON.parse(localStorage.getItem('guestbook')) || [];
 
 ### 11. 전체 지우기 버튼 붙이기
 
-먼저 `guestbook.html`의 `<p id="count">…</p>` 줄 **아래**에 한 줄을 넣는다.
+먼저 `guestbook.html`의 `<div id="count">…</div>` 줄 **아래**에 한 줄을 넣는다.
 
 ```html
-      <p><button id="clear-button" type="button">전체 지우기</button></p>
+      <div><button id="clear-button" type="button">전체 지우기</button></div>
 ```
 
 2일차 `guestbook.html` 전체는 아래와 같다. 같은 파일이 [examples/day2/guestbook.html](examples/day2/guestbook.html)에 있다.
@@ -430,11 +430,11 @@ let items = JSON.parse(localStorage.getItem('guestbook')) || [];
         </p>
         <button type="submit">남기기</button>
       </form>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <h3>남긴 글</h3>
       <ul class="card" id="list"></ul>
-      <p id="count">아직 남긴 글이 없습니다.</p>
-      <p><button id="clear-button" type="button">전체 지우기</button></p>
+      <div id="count">아직 남긴 글이 없습니다.</div>
+      <div><button id="clear-button" type="button">전체 지우기</button></div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>
@@ -586,12 +586,12 @@ push 뒤 1분쯤 기다렸다가 아래 순서로 제출 캡처를 만든다.
       </nav>
     </header>
     <main>
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
-      <p>
+      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
+      <div>
         <button id="hello-button" type="button">인사 바꾸기</button>
         <button id="dark-button" type="button">다크 모드</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
+      </div>
+      <div class="card" id="count">클릭 0회</div>
       <h2>소개</h2>
       <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
       <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>

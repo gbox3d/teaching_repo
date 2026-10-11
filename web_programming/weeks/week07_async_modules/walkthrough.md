@@ -43,9 +43,9 @@ cd my-web
 3. `</form>` 아래의 `<p>지금은 눌러도 주소창만 바뀐다. 화면에 띄우는 일은 7주에 한다.</p>` 한 줄을 지우고, 그 자리에 세 줄을 넣는다.
 
 ```html
-      <p id="notice"></p>
+      <div id="notice"></div>
       <h3>마지막으로 남긴 글</h3>
-      <p class="card" id="last">아직 남긴 글이 없습니다.</p>
+      <div class="card" id="last">아직 남긴 글이 없습니다.</div>
 ```
 
 전체 파일은 아래와 같다. 같은 파일이 [examples/day1/guestbook.html](examples/day1/guestbook.html)에 있다.
@@ -92,9 +92,9 @@ cd my-web
         </p>
         <button type="submit">남기기</button>
       </form>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <h3>마지막으로 남긴 글</h3>
-      <p class="card" id="last">아직 남긴 글이 없습니다.</p>
+      <div class="card" id="last">아직 남긴 글이 없습니다.</div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>
@@ -107,7 +107,7 @@ cd my-web
 아직 **[남기기]**를 누르면 화면이 처음으로 돌아가고 주소 끝에 `?`가 붙는다. F12 **Console**에 빨간 줄이 하나 보이는 것도 정상이다. `guestbook.js`를 아직 만들지 않았기 때문이다.
 
 - `id`는 `guestbook-form`·`notice`·`last` 세 개다. `name`·`email`·`message`는 3주차에 붙여 둔 것을 그대로 쓴다.
-- `<p id="notice"></p>`는 **비어 있는 문단**이다. 안내할 일이 있을 때만 글자가 들어간다.
+- `<div id="notice"></div>`는 **비어 있는 자리**다. 안내할 일이 있을 때만 글자가 들어간다.
 - `index.html`은 `app.js`를, `guestbook.html`은 `guestbook.js`를 부른다. **페이지마다 자기 js 하나**다.
 
 ### 3. guestbook.js 만들고 요소 찾아 두기
@@ -472,12 +472,12 @@ git push
       </nav>
     </header>
     <main>
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
-      <p>
+      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
+      <div>
         <button id="hello-button" type="button">인사 바꾸기</button>
         <button id="dark-button" type="button">다크 모드</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
+      </div>
+      <div class="card" id="count">클릭 0회</div>
       <h2>소개</h2>
       <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
       <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>

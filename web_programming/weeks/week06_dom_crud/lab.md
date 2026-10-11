@@ -114,14 +114,14 @@ git push -u origin main
 
 이제 `ex/` 가 아니라 `web-week06` 맨 위의 `index.html`·`styles.css`·`app.js` 를 연다. `ex/index.html` 은 1일차 예제 고르기 페이지라서 조립에 쓰지 않는다. 전문과 단계는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
 
-- `index.html` 의 `<p class="card" id="greeting">…</p>` 바로 아래에 버튼 두 개를 감싼 줄과 `<p class="card" id="count">클릭 0회</p>` 를 넣는다(다섯 줄).
+- `index.html` 의 `<div class="card" id="greeting">…</div>` 바로 아래에 버튼 두 개를 감싼 줄과 `<div class="card" id="count">클릭 0회</div>` 를 넣는다(다섯 줄).
 - `styles.css` 맨 아래에 `body.dark, body.dark .card { background-color: #222222; color: #eeeeee; }` 규칙을 넣는다.
 - `app.js` 는 **전부 지우고** 아래 조립표 순서로 다시 쓴다. 5주차 줄 중 `name`·`hour`·`greet`·`hello` 는 그대로 옮긴다.
 
 | 조립할 줄 | 어느 ex 에서 본 것 |
 |---|---|
 | `index.html` 의 `<button id="hello-button" type="button">인사 바꾸기</button>` · `<button id="dark-button" type="button">다크 모드</button>` | ex02 (누를 버튼에 `id`). `type="button"` 은 폼 안에서 눌러도 폼을 보내지 않는 보통 버튼이라는 뜻이다(폼은 7주차) |
-| `index.html` 의 `<p class="card" id="count">클릭 0회</p>` | ex03 (횟수를 쓸 자리), 4주차 `.card` |
+| `index.html` 의 `<div class="card" id="count">클릭 0회</div>` | ex03 (횟수를 쓸 자리), 4주차 `.card` |
 | `styles.css` 의 `body.dark, body.dark .card { … }` | ex05 1·2번 (두 선택자를 쉼표로 묶어 규칙 하나로) |
 | `const name = 'student01';` · `const hour = new Date().getHours();` | 5주차 그대로 |
 | `const greeting = document.querySelector('#greeting');` · `const countBox = document.querySelector('#count');` | ex01 (찾아서 `const` 에 담기), ex03 |

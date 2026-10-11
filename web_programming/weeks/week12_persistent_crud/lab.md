@@ -71,14 +71,14 @@
 | 시간 | 할 일 |
 |---|---|
 | 0–5분 | `git pull`. 미리 보기를 쓸 수 있으면 **Go Live**까지 켠다 |
-| 5–20분 | `projects.html`에 `<p id="notice"></p>`를 넣고 `try / catch`·`response.ok`로 안내 문구를 띄운다 |
+| 5–20분 | `projects.html`에 `<div id="notice"></div>`를 넣고 `try / catch`·`response.ok`로 안내 문구를 띄운다 |
 | 20–40분 | 카드에 `img`와 **페이지 열기** 링크를 넣고, 네 페이지 nav에 `projects.html` 링크를 넣는다 |
 | 40–55분 | 공개 주소에서 카드 3장을 확인하고 **F12 › Network**에서 `projects.json` 200을 확인한다 |
 | 55–60분 | `git add .` → `git commit` → `git push` → 공개 주소 새로고침 → 제출 캡처 → 자격 증명 삭제 |
 
-### 1. 안내 문구 자리 만들기 (`<p id="notice">`)
+### 1. 안내 문구 자리 만들기 (`<div id="notice">`)
 
-`projects.html`의 안내 문장 아래에 `<p id="notice"></p>`를 넣고, `projects.js` 위쪽에 `const notice = document.querySelector('#notice');`를 넣는다.
+`projects.html`의 안내 문장 아래에 `<div id="notice"></div>`를 넣고, `projects.js` 위쪽에 `const notice = document.querySelector('#notice');`를 넣는다.
 [따라하기 8단계](walkthrough.md#8-안내-문구-자리-만들기)를 본다.
 
 - 11주차 방명록의 `#notice`와 같은 방식이다. 비어 있으면 화면에 보이지 않는다.

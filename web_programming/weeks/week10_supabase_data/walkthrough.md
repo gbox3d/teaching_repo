@@ -38,11 +38,11 @@ cd my-web
 
 ### 2. 목록 자리 만들기
 
-`guestbook.html`을 열고 `</form>` 아래 `<p id="notice"></p>` **다음** 두 줄을 찾는다.
+`guestbook.html`을 열고 `</form>` 아래 `<div id="notice"></div>` **다음** 두 줄을 찾는다.
 
 ```html
       <h3>마지막으로 남긴 글</h3>
-      <p class="card" id="last">아직 남긴 글이 없습니다.</p>
+      <div class="card" id="last">아직 남긴 글이 없습니다.</div>
 ```
 
 이 두 줄을 지우고 아래 세 줄을 넣는다.
@@ -50,7 +50,7 @@ cd my-web
 ```html
       <h3>남긴 글</h3>
       <ul class="card" id="list"></ul>
-      <p id="count">0개</p>
+      <div id="count">0개</div>
 ```
 
 전체 파일은 아래와 같다. 같은 파일이 [examples/day1/guestbook.html](examples/day1/guestbook.html)에 있다.
@@ -97,10 +97,10 @@ cd my-web
         </p>
         <button type="submit">남기기</button>
       </form>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <h3>남긴 글</h3>
       <ul class="card" id="list"></ul>
-      <p id="count">0개</p>
+      <div id="count">0개</div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>
@@ -114,7 +114,7 @@ cd my-web
 
 - `<ul>` 안은 **비워 둔다.** 목록 줄은 JavaScript가 만들어 넣는다.
 - `id`는 `list`와 `count` 둘이다. `guestbook-form`·`name`·`email`·`message`·`notice`는 그대로 쓴다.
-- `<p id="count">0개</p>`의 `0개`는 처음 화면에 보일 글자다. 글을 남기면 JavaScript가 바꾼다.
+- `<div id="count">0개</div>`의 `0개`는 처음 화면에 보일 글자다. 글을 남기면 JavaScript가 바꾼다.
 
 ### 3. 배열과 목록 상자 찾아 두기
 
@@ -129,7 +129,7 @@ let items = [];
 **예상 결과** — 새로고침하면 Console의 빨간 줄이 사라진다. 화면은 아직 그대로다.
 
 - `items`는 남긴 글을 담아 둘 **배열**이다. 값이 늘었다 줄었다 하므로 `const`가 아니라 `let`으로 선언한다.
-- `list`는 `<ul>`, `count`는 `<p>`다. 7주차에 `#last`를 찾아 두었던 자리에 두 개가 들어온 것이다.
+- `list`는 `<ul>`, `count`는 `<div>`다. 7주차에 `#last`를 찾아 두었던 자리에 두 개가 들어온 것이다.
 - Console에 `items`를 쳐 보면 `[]`가 보인다. 아직 비어 있다.
 
 ### 4. 제출한 글을 배열에 쌓기
@@ -324,7 +324,7 @@ function showList() {
 먼저 `guestbook.html`의 `<ul class="card" id="list"></ul>` 줄 **아래**에 한 줄을 넣는다.
 
 ```html
-      <p id="empty">아직 남긴 글이 없습니다.</p>
+      <div id="empty">아직 남긴 글이 없습니다.</div>
 ```
 
 전체 파일은 아래와 같다. 같은 파일이 [examples/day2/guestbook.html](examples/day2/guestbook.html)에 있다.
@@ -371,11 +371,11 @@ function showList() {
         </p>
         <button type="submit">남기기</button>
       </form>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <h3>남긴 글</h3>
       <ul class="card" id="list"></ul>
-      <p id="empty">아직 남긴 글이 없습니다.</p>
-      <p id="count">0개</p>
+      <div id="empty">아직 남긴 글이 없습니다.</div>
+      <div id="count">0개</div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>
@@ -529,12 +529,12 @@ git push
       </nav>
     </header>
     <main>
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
-      <p>
+      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
+      <div>
         <button id="hello-button" type="button">인사 바꾸기</button>
         <button id="dark-button" type="button">다크 모드</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
+      </div>
+      <div class="card" id="count">클릭 0회</div>
       <h2>소개</h2>
       <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
       <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>

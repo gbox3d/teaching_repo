@@ -12,7 +12,7 @@ footer: "배열 데이터를 목록으로 그리기 · push, createElement, show
 카드가 한 줄이었기 때문입니다. 이번 주에는 글을 배열에 쌓아 목록으로 그립니다.
 
 ```text
-guestbook.html   <ul id="list"></ul> · <p id="count">0개</p>   ← 목록 자리
+guestbook.html   <ul id="list"></ul> · <div id="count">0개</div>   ← 목록 자리
 guestbook.js     let items = []  →  push  →  <li>를 만들어 append
 ```
 
@@ -84,7 +84,7 @@ list.append(li);
 - 7주차의 `last.textContent = …` 한 줄을 지우고 그 자리에 다섯 줄을 넣습니다.
 - 같은 문장을 배열과 화면 **두 곳**에 넣습니다. 그래서 `const text`로 한 번만 만듭니다.
 - 빈값 검사·`focus()`·`form.reset()`은 7주차 그대로 둡니다.
-- `<p id="last">` 두 줄은 HTML에서 지우고 `<ul id="list">`로 바꿉니다.
+- `<div id="last">` 두 줄은 HTML에서 지우고 `<ul id="list">`로 바꿉니다.
 
 ---
 
@@ -111,7 +111,7 @@ list.append(li);
 [1일차 실습](lab.md#1일차--배열에-쌓아-목록으로-그리기-60분) · [따라하기](walkthrough.md#1일차)
 실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data
 
-1. `guestbook.html`의 마지막 글 두 줄을 `<ul id="list">`와 `<p id="count">`로 바꿉니다.
+1. `guestbook.html`의 마지막 글 두 줄을 `<ul id="list">`와 `<div id="count">`로 바꿉니다.
 2. `let items = []`에 쌓고, `<li>`를 만들어 목록에 붙입니다.
 3. 남길 때마다 `N개`가 오르는지 보고, 이름을 비우고 눌러 7주차 안내가 그대로인지 봅니다.
 

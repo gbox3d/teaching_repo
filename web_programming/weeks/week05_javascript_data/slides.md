@@ -290,7 +290,7 @@ now.getMonth() + 1          // 사람이 읽는 월
 ## 2일차 · 27–30분 — 조립: web-week05 app.js, 그리고 실습 인계
 
 ```text
-<script src="app.js" defer>  <p class="card" id="greeting">  ← ex02 · ex09
+<script src="app.js" defer>  <div class="card" id="greeting">  ← ex02 · ex09
 const name · const hour = new Date().getHours();  ← ex03 · ex10
 function greet(name) { return `안녕하세요, ${name}님!`; }  ← ex08 · ex05
 function hello(hour) { if (hour >= 12) … else … }  ← ex07 · ex06

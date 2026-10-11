@@ -25,7 +25,7 @@
 지난 시간과 같은 PC면 `git pull`, 다른 PC에서 처음이면 `git clone`부터 한다. [따라하기 1단계](walkthrough.md#1-저장소-받아오기)를 본다.
 
 - 시작 전 `git status`가 `On branch main`, `nothing to commit, working tree clean`이어야 한다.
-- `guestbook.html`에 `<p id="empty">`와 `<p id="count">0개</p>` 두 줄이 보이면 10주차 끝 상태가 맞다.
+- `guestbook.html`에 `<div id="empty">`와 `<div id="count">0개</div>` 두 줄이 보이면 10주차 끝 상태가 맞다.
 - 파일이 없거나 이어 하기 어려우면 조교에게 10주차 `examples/day2` 폴더를 받아 그 폴더에서 시작한다.
 
 ### 2. 남긴 글을 객체로 바꾸기 (`{ name: …, message: …, date: … }`)
@@ -59,11 +59,11 @@ submit 리스너 안의 `items.push(\`${name}: ${message}\`);` 한 줄을 날짜
 
 ### 5. 빈 목록 안내를 개수 자리로 옮기기 (`#count`)
 
-`guestbook.html`에서 `<p id="empty">` 줄을 지우고, `guestbook.js`에서 `empty`를 없앤 뒤 `showList()` 끝을 다섯 줄로 줄인다.
+`guestbook.html`에서 `<div id="empty">` 줄을 지우고, `guestbook.js`에서 `empty`를 없앤 뒤 `showList()` 끝을 다섯 줄로 줄인다.
 [따라하기 5단계](walkthrough.md#5-빈-목록-안내를-개수-자리로-옮기기)를 본다.
 
 - 한 자리(`#count`)가 두 가지 일을 한다. 목록이 비면 안내 문장, 아니면 `3개`다.
-- `<p id="count">`의 처음 글자도 `0개`에서 `아직 남긴 글이 없습니다.`로 바꾼다.
+- `<div id="count">`의 처음 글자도 `0개`에서 `아직 남긴 글이 없습니다.`로 바꾼다.
 - `guestbook.js`에 `empty`가 한 줄이라도 남으면 Console에 빨간 줄이 뜬다. 찾기(Ctrl+F)로 확인한다.
 - 여기까지 하면 1일차 `guestbook.js`가 47줄이 된다. 줄 수가 크게 다르면 지울 줄이 남은 것이다.
 
@@ -152,7 +152,7 @@ submit 리스너 안의 `items.push(\`${name}: ${message}\`);` 한 줄을 날짜
 | 목록 한 줄이 `[object Object]`로 보인다 | 점 표기를 쓰지 않았다. `li.textContent = items[i];`를 [3단계](walkthrough.md#3-목록-한-줄을-점-표기로-고치기)의 한 줄로 바꾼다. Console은 조용하다 |
 | 이름 자리에 `undefined: 안녕하세요 (2026. 9. 16.)`처럼 보인다 | 이름표 철자가 다르다. `items.push`에 적은 `name`·`message`·`date`와 `items[i].name`을 나란히 놓고 비교한다 |
 | `Uncaught ReferenceError: today is not defined` | `const today = new Date().toLocaleDateString();` 한 줄이 빠졌다. `items.push` **위**에 넣는다 |
-| `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` | `guestbook.html`에서 `<p id="empty">`를 지웠는데 `guestbook.js`에 `empty`가 남아 있다. [5단계](walkthrough.md#5-빈-목록-안내를-개수-자리로-옮기기)대로 `const empty = …` 줄과 `empty.textContent` 줄을 없앤다 |
+| `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` | `guestbook.html`에서 `<div id="empty">`를 지웠는데 `guestbook.js`에 `empty`가 남아 있다. [5단계](walkthrough.md#5-빈-목록-안내를-개수-자리로-옮기기)대로 `const empty = …` 줄과 `empty.textContent` 줄을 없앤다 |
 | `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` | `#clear-button`을 못 찾았다. `guestbook.html`에 **[전체 지우기]** 버튼 줄을 먼저 넣는다 |
 | `Uncaught TypeError: Cannot read properties of null (reading 'length')` | 복원 줄 끝의 `\|\| []`가 빠졌다. 저장 칸이 비어 있으면 `null`이 들어와 목록을 그리다 멈춘다 |
 | `Uncaught SyntaxError: Unexpected token 'h', "hello" is not valid JSON` | 저장 칸에 JSON이 아닌 글자가 들어 있다. Application 탭에서 값을 손으로 고쳤을 때 난다. `guestbook` 키를 지우고 새로고침한다 |

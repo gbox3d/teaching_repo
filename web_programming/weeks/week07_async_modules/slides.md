@@ -13,7 +13,7 @@ footer: "폼 입력 읽기와 결과 표시 · submit, value, 빈값 안내"
 
 ```text
 my-web/
-  guestbook.html  ← <form id="guestbook-form"> · <p id="notice"> · <p id="last">
+  guestbook.html  ← <form id="guestbook-form"> · <div id="notice"> · <div id="last">
   guestbook.js    ← 새 파일. submit · preventDefault · value · trim
   README.md       ← GitHub 웹에서 만들어 pull (2일차)
 ```

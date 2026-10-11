@@ -88,12 +88,12 @@ Switched to a new branch 'readme'
       </nav>
     </header>
     <main>
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
-      <p>
+      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
+      <div>
         <button id="hello-button" type="button">인사 바꾸기</button>
         <button id="dark-button" type="button">다크 모드</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
+      </div>
+      <div class="card" id="count">클릭 0회</div>
       <h2>소개</h2>
       <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
       <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>
@@ -322,9 +322,9 @@ darkButton.addEventListener('click', function () {
         </p>
         <button type="submit">남기기</button>
       </form>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <h3>마지막으로 남긴 글</h3>
-      <p class="card" id="last">아직 남긴 글이 없습니다.</p>
+      <div class="card" id="last">아직 남긴 글이 없습니다.</div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>

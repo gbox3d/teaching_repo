@@ -61,7 +61,7 @@ htmlButton.addEventListener('click', function () {
     <button type="submit">계산하기</button>
   </p>
 </form>
-<p class="card" id="year-result">입학 연도를 적고 계산하기를 누르세요.</p>
+<div class="card" id="year-result">입학 연도를 적고 계산하기를 누르세요.</div>
 ```
 
 `day1/about.js`는 18줄이고 이름 붙인 함수 정의는 없다. 제출 리스너 하나가 전부다.

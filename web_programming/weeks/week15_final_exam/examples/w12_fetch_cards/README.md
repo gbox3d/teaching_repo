@@ -10,7 +10,7 @@
 
 | 파일 | 지금 상태 |
 |---|---|
-| `index.html` | 제목, 안내 자리 `<p id="notice">`(처음 글자 `자료를 불러오는 중입니다.`), 빈 카드 상자 `<div id="doc-list">` 가 있다. `app.js` 는 `defer` 로 연결돼 있다. 고치지 않는다 |
+| `index.html` | 제목, 안내 자리 `<div id="notice">`(처음 글자 `자료를 불러오는 중입니다.`), 빈 카드 상자 `<div id="doc-list">` 가 있다. `app.js` 는 `defer` 로 연결돼 있다. 고치지 않는다 |
 | `styles.css` | 완성본이다(`.card` 규칙이 있다). 고치지 않는다 |
 | `data/html-docs.json` | 항목 3개가 들어 있다. 이름표는 `title`(제목)·`description`(설명)·`link`(링크)다. 고치지 않는다 |
 | `app.js` | 안내 자리(`#notice`)를 담은 변수 `notice` 와 카드 상자(`#doc-list`)를 담은 변수 `cardBox` 를 만드는 두 줄, 카드를 그리는 `showCards(items)`(완성), 속이 빈 `async function loadCards()`, 마지막 줄 `loadCards();` 가 있다 |

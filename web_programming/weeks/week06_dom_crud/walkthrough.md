@@ -193,17 +193,17 @@ git clone https://github.com/student01/web-week06.git
 
 ### 8. index.html에 다섯 줄 넣기
 
-`web-week06/index.html`을 연다. `<main>` 첫 줄 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` **바로 아래**에 다섯 줄을 넣는다.
+`web-week06/index.html`을 연다. `<main>` 첫 줄 `<div class="card" id="greeting">인사말을 준비 중입니다.</div>` **바로 아래**에 다섯 줄을 넣는다.
 
 ```html
-      <p>
+      <div>
         <button id="hello-button" type="button">인사 바꾸기</button>
         <button id="dark-button" type="button">다크 모드</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
+      </div>
+      <div class="card" id="count">클릭 0회</div>
 ```
 
-- 버튼 두 개를 한 줄에 두려고 `<p>`로 감쌌다. 두 번째 줄은 횟수를 쓸 카드다. 4주차 `.card` 모양을 그대로 쓴다.
+- 버튼 두 개를 한 줄에 두려고 `<div>`로 감쌌다. 두 번째 줄은 횟수를 쓸 카드다. 4주차 `.card` 모양을 그대로 쓴다.
 - `id`는 `app.js`가 찾을 이름이다. `hello-button`·`dark-button`·`count`를 글자 단위로 같게 쓴다.
 - `type="button"`은 보통 버튼이라는 뜻이다. 폼 안에 두어도 폼을 보내지 않는다(폼은 7주차).
 
@@ -263,12 +263,12 @@ body.dark .card {
       </nav>
     </header>
     <main>
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
-      <p>
+      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
+      <div>
         <button id="hello-button" type="button">인사 바꾸기</button>
         <button id="dark-button" type="button">다크 모드</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
+      </div>
+      <div class="card" id="count">클릭 0회</div>
       <h2>소개</h2>
       <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
       <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>

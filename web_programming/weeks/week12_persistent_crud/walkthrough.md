@@ -194,7 +194,7 @@ git push
 
 ### 8. 안내 문구 자리 만들기
 
-`projects.html`에 두 줄을 더한다. nav에 `<a href="projects.html">프로젝트</a>`, 안내 문장 아래에 `<p id="notice"></p>`다.
+`projects.html`에 두 줄을 더한다. nav에 `<a href="projects.html">프로젝트</a>`, 안내 문장 아래에 `<div id="notice"></div>`다.
 전체 파일은 아래와 같다. 같은 파일이 [examples/day2/projects.html](examples/day2/projects.html)에 있다.
 
 ```html
@@ -220,7 +220,7 @@ git push
     <main>
       <h2>지금까지 만든 것</h2>
       <p>아래 카드는 data/projects.json 파일에서 읽어 옵니다.</p>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <div id="project-list"></div>
     </main>
     <footer>
@@ -230,7 +230,7 @@ git push
 </html>
 ```
 
-**예상 결과** — 화면은 아직 그대로다. `<p id="notice"></p>`는 안이 비어 있어서 보이지 않는다.
+**예상 결과** — 화면은 아직 그대로다. `<div id="notice"></div>`는 안이 비어 있어서 보이지 않는다.
 9단계부터 이 자리에 안내 문장이 들어간다.
 
 ### 9. try / catch로 오류 받기
@@ -359,12 +359,12 @@ loadProjects();
       </nav>
     </header>
     <main>
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
-      <p>
+      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
+      <div>
         <button id="hello-button" type="button">인사 바꾸기</button>
         <button id="dark-button" type="button">다크 모드</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
+      </div>
+      <div class="card" id="count">클릭 0회</div>
       <h2>소개</h2>
       <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
       <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>
@@ -474,11 +474,11 @@ loadProjects();
         </p>
         <button type="submit">남기기</button>
       </form>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <h3>남긴 글</h3>
       <ul class="card" id="list"></ul>
-      <p id="count">아직 남긴 글이 없습니다.</p>
-      <p><button id="clear-button" type="button">전체 지우기</button></p>
+      <div id="count">아직 남긴 글이 없습니다.</div>
+      <div><button id="clear-button" type="button">전체 지우기</button></div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>
@@ -537,12 +537,12 @@ git push
       </nav>
     </header>
     <main>
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
-      <p>
+      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
+      <div>
         <button id="hello-button" type="button">인사 바꾸기</button>
         <button id="dark-button" type="button">다크 모드</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
+      </div>
+      <div class="card" id="count">클릭 0회</div>
       <h2>소개</h2>
       <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
       <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>
@@ -654,11 +654,11 @@ git push
         </p>
         <button type="submit">남기기</button>
       </form>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <h3>남긴 글</h3>
       <ul class="card" id="list"></ul>
-      <p id="count">아직 남긴 글이 없습니다.</p>
-      <p><button id="clear-button" type="button">전체 지우기</button></p>
+      <div id="count">아직 남긴 글이 없습니다.</div>
+      <div><button id="clear-button" type="button">전체 지우기</button></div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>

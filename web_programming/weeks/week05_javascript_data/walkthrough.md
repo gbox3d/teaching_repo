@@ -216,7 +216,7 @@ git clone https://github.com/student01/web-week05.git
 | 조립할 줄 | 어느 ex에서 본 것 |
 |---|---|
 | `index.html` `<head>`의 `<script src="app.js" defer></script>` | [ex02](examples/day1/ex02_script_position.html) 3번. `defer`는 HTML을 다 읽은 뒤 실행한다 → `#greeting`을 찾을 수 있다 |
-| `index.html`의 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` | [ex09](examples/day2/ex09_dom_write.js) 찾을 자리에 `id`, [4주차 ex01](../week04_responsive_css/examples/day1/ex01_selector.html) 클래스 선택자(`.red`와 같은 원리), `.card` 규칙은 [4주차 styles.css](../week04_responsive_css/examples/day2/web-week04/styles.css) |
+| `index.html`의 `<div class="card" id="greeting">인사말을 준비 중입니다.</div>` | [ex09](examples/day2/ex09_dom_write.js) 찾을 자리에 `id`, [4주차 ex01](../week04_responsive_css/examples/day1/ex01_selector.html) 클래스 선택자(`.red`와 같은 원리), `.card` 규칙은 [4주차 styles.css](../week04_responsive_css/examples/day2/web-week04/styles.css) |
 | `const name = 'student01';` | [ex03](examples/day1/ex03_let_const.html) `const` |
 | `const hour = new Date().getHours();` | [ex10](examples/day2/ex10_date.js) 지금 시각 → 시, [ex03](examples/day1/ex03_let_const.html) `const` |
 | `` function greet(name) { return `안녕하세요, ${name}님!`; } `` | [ex08](examples/day2/ex08_function.js) 정의·`return`, [ex05](examples/day1/ex05_template.html) 템플릿 문자열 |
@@ -243,7 +243,7 @@ git clone https://github.com/student01/web-week05.git
 둘째, `<main>` **첫 줄**(`<h2>소개</h2>` 위)에 인사말 자리를 넣는다.
 
 ```html
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
+      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
 ```
 
 **예상 결과** — 저장하고 새로고침하면 소개 위에 `인사말을 준비 중입니다.`라는 흰 카드가 하나 더 보인다.
@@ -257,7 +257,7 @@ Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') 
 그 코드가 찾는 버튼 `#count-button`은 3주차에 사라졌다. 찾으면 `null`이고, `null`에는 `addEventListener`를 붙일 수 없다. 9단계에서 이 코드를 지운다.
 
 - `defer`를 빼면 `app.js`가 `<head>`에서 **읽는 순간** 실행된다. 그때는 `#greeting`이 아직 없어서 `null`이다(ex02 1번과 같다).
-- `id="greeting"`은 이 문단에만 붙인다. 한 페이지에 같은 `id`를 두 번 쓰지 않는다. `class="card"`는 4주차 카드 모양을 그대로 쓰려고 함께 둔다.
+- `id="greeting"`은 이 자리에만 붙인다. 한 페이지에 같은 `id`를 두 번 쓰지 않는다. `class="card"`는 4주차 카드 모양을 그대로 쓰려고 함께 둔다.
 - `about.html`·`guestbook.html`에는 넣지 않는다. 이번 주 JavaScript는 `index.html`만의 것이다.
 
 ### 9. app.js 비우고 조립하기
@@ -312,7 +312,7 @@ Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') 
       </nav>
     </header>
     <main>
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
+      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
       <h2>소개</h2>
       <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
       <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>

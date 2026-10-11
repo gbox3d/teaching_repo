@@ -103,7 +103,7 @@ JavaScript 는 브라우저가 실행한다. 비교 파일의 결과는 **F12 �
 ## 완료 기준
 
 - [ ] 새 저장소 `web-week05` 를 만들어 Pages 를 켰고, `ex/` 에 비교 파일이 있고, 각 파일에서 값을 하나 이상 바꿔 push 했다.
-- [ ] `index.html` 의 `<head>` 에 `<script src="app.js" defer></script>` 가 있고, `<main>` 첫 줄이 `<p class="card" id="greeting">` 이다.
+- [ ] `index.html` 의 `<head>` 에 `<script src="app.js" defer></script>` 가 있고, `<main>` 첫 줄이 `<div class="card" id="greeting">` 이다.
 - [ ] 공개 주소 `https://student01.github.io/web-week05/` 을 열면 카드 한 줄에 본인 아이디와 오전·오후 인사가 함께 보인다.
 - [ ] F12 Console 에 빨간 줄이 없고, `console.log` 로 찍은 `hour` 와 인사말 두 줄이 보인다.
 - [ ] `node server.mjs` 로 `http://localhost:8000/` 을 열고, 터미널의 요청 줄이 HTML·CSS·JS·그림마다 하나씩인 것을 봤다(Node 가 없는 PC 는 두 번 눌러 열기로 대신한다).

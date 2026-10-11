@@ -34,7 +34,7 @@
 
 - `<head>`의 `<link>` 줄 아래에 `<script src="guestbook.js" defer></script>`를 넣는다. `defer`를 빠뜨리지 않는다.
 - `<form>`에 `id="guestbook-form"`을 붙인다. 이름·이메일·메시지 칸의 `id`는 3주차에 붙여 둔 것을 그대로 쓴다.
-- 3주차에 적어 둔 `지금은 눌러도 주소창만 바뀐다…` 문단을 지우고 그 자리에 `<p id="notice"></p>`와 `마지막으로 남긴 글` 제목, `<p class="card" id="last">`를 넣는다.
+- 3주차에 적어 둔 `지금은 눌러도 주소창만 바뀐다…` 문단을 지우고 그 자리에 `<div id="notice"></div>`와 `마지막으로 남긴 글` 제목, `<div class="card" id="last">`를 넣는다.
 - `index.html`은 `app.js`를, `guestbook.html`은 `guestbook.js`를 부른다. 한 페이지에 자기 js 하나다.
 - 이메일 칸은 이번 주에 읽지 않는다. `guestbook.js`에서 찾아 두지 않는다.
 

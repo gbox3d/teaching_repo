@@ -89,7 +89,7 @@ if (hour >= 12) {
 | `web-week05` 의 줄 | 어느 ex 에서 본 것 |
 |---|---|
 | `index.html` `<head>` 의 `<script src="app.js" defer></script>` | ex02 3번. HTML 을 다 읽은 뒤 실행하므로 아래의 `#greeting` 을 찾을 수 있다 |
-| `index.html` 의 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` | ex09 (찾을 자리에 `id`), 4주차 ex01 (클래스 선택자, `.red` 와 같은 원리), `.card` 규칙은 4주차 `styles.css` |
+| `index.html` 의 `<div class="card" id="greeting">인사말을 준비 중입니다.</div>` | ex09 (찾을 자리에 `id`), 4주차 ex01 (클래스 선택자, `.red` 와 같은 원리), `.card` 규칙은 4주차 `styles.css` |
 | `const name = 'student01';` | ex03 (`const`) |
 | `const hour = new Date().getHours();` | ex10 (지금 시각 → 시) + ex03 |
 | `` function greet(name) { return `안녕하세요, ${name}님!`; } `` | ex08 (정의 · `return`) + ex05 (템플릿 문자열) |

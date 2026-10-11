@@ -8,10 +8,10 @@
 
 | 예제 파일 | 따라하기 단계 | 내 `my-web` 폴더의 파일 |
 |---|---|---|
-| [day1/guestbook.html](day1/guestbook.html) | [2단계](../walkthrough.md#2-목록-자리-만들기) — 마지막 글 두 줄이 `<ul id="list">`·`<p id="count">` 세 줄로 바뀐다 | `guestbook.html` |
+| [day1/guestbook.html](day1/guestbook.html) | [2단계](../walkthrough.md#2-목록-자리-만들기) — 마지막 글 두 줄이 `<ul id="list">`·`<div id="count">` 세 줄로 바뀐다 | `guestbook.html` |
 | [day1/guestbook.js](day1/guestbook.js) | [3~6단계](../walkthrough.md#3-배열과-목록-상자-찾아-두기) — `let items = []`와 목록에 붙이는 다섯 줄, 항목 수 한 줄이 늘어난다 | `guestbook.js` |
 | [day1/index.html](day1/index.html) · [day1/about.html](day1/about.html) · [day1/app.js](day1/app.js) · [day1/styles.css](day1/styles.css) · [day1/README.md](day1/README.md) | [이번 주에 고치지 않는 파일](../walkthrough.md#이번-주에-고치지-않는-파일) — 열지 않는다. 9주차와 같다 | `index.html` · `about.html` · `app.js` · `styles.css` · `README.md` |
-| [day2/guestbook.html](day2/guestbook.html) | [12단계](../walkthrough.md#12-빈-목록-안내-넣기) — `<p id="empty">` 한 줄이 늘어난다 | `guestbook.html` |
+| [day2/guestbook.html](day2/guestbook.html) | [12단계](../walkthrough.md#12-빈-목록-안내-넣기) — `<div id="empty">` 한 줄이 늘어난다 | `guestbook.html` |
 | [day2/guestbook.js](day2/guestbook.js) | [9~13단계](../walkthrough.md#9-다시-그리는-함수-showlist-만들기) — `showList()`와 삭제 버튼 틀이 들어온다 | `guestbook.js` |
 | `day2/`의 나머지 파일 | day1과 같다. 2일차에 고치지 않는다 | `index.html` · `about.html` · `app.js` · `styles.css` · `README.md` · `images/` · `screenshots/` |
 

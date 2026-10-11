@@ -62,7 +62,7 @@ https://student01.github.io/my-web/
 
 ### 3. 홈에 할 수 있는 것 목록 넣기
 
-`index.html`의 `<p class="card" id="count">클릭 0회</p>` 줄 **아래**에 여덟 줄을 넣는다.
+`index.html`의 `<div class="card" id="count">클릭 0회</div>` 줄 **아래**에 여덟 줄을 넣는다.
 다섯 줄의 순서가 곧 발표 순서다.
 
 ```html
@@ -99,12 +99,12 @@ https://student01.github.io/my-web/
       </nav>
     </header>
     <main>
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
-      <p>
+      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
+      <div>
         <button id="hello-button" type="button">인사 바꾸기</button>
         <button id="dark-button" type="button">다크 모드</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
+      </div>
+      <div class="card" id="count">클릭 0회</div>
       <h2>이 사이트에서 할 수 있는 것</h2>
       <ol class="card">
         <li>위 메뉴로 네 페이지를 오갑니다.</li>
@@ -204,7 +204,7 @@ https://student01.github.io/my-web/
           <button type="submit">계산하기</button>
         </p>
       </form>
-      <p class="card" id="year-result">입학 연도를 적고 계산하기를 누르세요.</p>
+      <div class="card" id="year-result">입학 연도를 적고 계산하기를 누르세요.</div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>
@@ -518,11 +518,11 @@ yearForm.addEventListener('submit', function (event) {
         </p>
         <button type="submit">남기기</button>
       </form>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <h3>남긴 글</h3>
       <ul class="card" id="list"></ul>
-      <p id="count">아직 남긴 글이 없습니다.</p>
-      <p><button id="clear-button" type="button">전체 지우기</button></p>
+      <div id="count">아직 남긴 글이 없습니다.</div>
+      <div><button id="clear-button" type="button">전체 지우기</button></div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>
@@ -619,7 +619,7 @@ showList();
     <main>
       <h2>지금까지 만든 것</h2>
       <p>아래 카드는 data/projects.json 파일에서 읽어 옵니다.</p>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <div id="project-list"></div>
     </main>
     <footer>

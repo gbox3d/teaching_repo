@@ -133,7 +133,7 @@ Chrome 주소창에 문제 문장 끝 "받기와 올리기"의 주소 `http://lo
 다 했으면 "확인할 것"을 위에서부터 하나씩 직접 해 본다. w05는 다섯이다.
 
 1. 화면 — 카드 글자를 문제 문장과 글자 단위로 비교한다.
-2. Elements — F12 › **Elements**에서 `app.js`를 연결한 줄과 카드 `<p>`의 class·id를 본다.
+2. Elements — F12 › **Elements**에서 `app.js`를 연결한 줄과 카드 `<div>`의 class·id를 본다.
 3. Console — 페이지를 열자마자 찍힌 두 줄을 읽는다. 빨간 줄이 없어야 한다.
 4. Console에 식 치기 — Console 맨 아래 `>` 옆을 누르고 `hello(11)`을 친 뒤 Enter. 이어서 `hello(12)`·`hello(17)`·`hello(18)`을 친다.
 5. 이어서 `greet('student99')`를 친다.

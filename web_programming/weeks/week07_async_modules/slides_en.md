@@ -13,7 +13,7 @@ This week, you change the screen **when a form is submitted**.
 
 ```text
 my-web/
-  guestbook.html  ← <form id="guestbook-form"> · <p id="notice"> · <p id="last">
+  guestbook.html  ← <form id="guestbook-form"> · <div id="notice"> · <div id="last">
   guestbook.js    ← New file. submit · preventDefault · value · trim
   README.md       ← Created on the GitHub web UI, then pulled (Day 2)
 ```

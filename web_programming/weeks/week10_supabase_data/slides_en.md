@@ -12,7 +12,7 @@ In Week 7, leaving a second guestbook entry made **the first one disappear.**
 That was because the card was a single line. This week, you stack entries in an array and draw them as a list.
 
 ```text
-guestbook.html   <ul id="list"></ul> · <p id="count">0개</p>   ← where the list goes
+guestbook.html   <ul id="list"></ul> · <div id="count">0개</div>   ← where the list goes
 guestbook.js     let items = []  →  push  →  build an <li> and append it
 ```
 
@@ -84,7 +84,7 @@ list.append(li);
 - Delete Week 7's single line, `last.textContent = …`, and put these five lines in its place.
 - The same sentence goes into **two places**: the array and the screen. That's why you build it once, with `const text`.
 - Leave the empty-value check, `focus()`, and `form.reset()` exactly as they were in Week 7.
-- Remove the two `<p id="last">` lines from the HTML and replace them with `<ul id="list">`.
+- Remove the two `<div id="last">` lines from the HTML and replace them with `<ul id="list">`.
 
 ---
 
@@ -111,7 +111,7 @@ list.append(li);
 [Day 1 lab](lab.md#1일차--배열에-쌓아-목록으로-그리기-60분) · [Walkthrough](walkthrough.md#1일차)
 Practice page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data
 
-1. Replace the last two lines of `guestbook.html` with `<ul id="list">` and `<p id="count">`.
+1. Replace the last two lines of `guestbook.html` with `<ul id="list">` and `<div id="count">`.
 2. Stack entries into `let items = []`, then create an `<li>` and append it to the list.
 3. Check that `N개` (N items) goes up with each entry, and that leaving the name blank still shows the Week 7 message.
 

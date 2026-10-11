@@ -163,14 +163,14 @@ git push -u origin main
 이제 `ex/` 가 아니라 `web-week05` 맨 위의 `index.html`·`app.js` 를 연다. `ex/index.html` 은 예제 고르기 페이지라서 조립에 쓰지 않는다. 탭 이름 옆 폴더 경로로 구분한다. 전문과 단계는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
 
 - `index.html` 의 `<head>` 에서 `<link rel="stylesheet" href="styles.css">` 아래에 `<script src="app.js" defer></script>` 한 줄을 넣는다.
-- `<main>` 첫 줄에 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` 한 줄을 넣는다. JavaScript 가 이 자리에 오지 못하면 이 글자가 그대로 남는다.
+- `<main>` 첫 줄에 `<div class="card" id="greeting">인사말을 준비 중입니다.</div>` 한 줄을 넣는다. JavaScript 가 이 자리에 오지 못하면 이 글자가 그대로 남는다.
 - `app.js` 는 **전부 지운다.** 지난주 완성본에 2주차 카운터 코드가 남아 있다. 그 버튼은 3주차에 사라져서 남겨 두면 `null` 오류가 난다.
 - 그다음 아래 조립표 순서로 `app.js` 를 쓴다. 줄마다 "어느 ex 에서 본 것"인지 적혀 있다.
 
 | 조립할 줄 | 어느 ex 에서 본 것 |
 |---|---|
 | `index.html` `<head>` 의 `<script src="app.js" defer></script>` | ex02 3번 (`defer`: HTML 을 다 읽은 뒤 실행 → `#greeting` 을 찾을 수 있다) |
-| `index.html` 의 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` | ex09 (찾을 자리에 `id`), 4주차 ex01 (클래스 선택자, `.red` 와 같은 원리), `.card` 규칙은 4주차 `styles.css` |
+| `index.html` 의 `<div class="card" id="greeting">인사말을 준비 중입니다.</div>` | ex09 (찾을 자리에 `id`), 4주차 ex01 (클래스 선택자, `.red` 와 같은 원리), `.card` 규칙은 4주차 `styles.css` |
 | `const name = 'student01';` | ex03 (`const`) |
 | `const hour = new Date().getHours();` | ex10 (지금 시각 → 시) + ex03 |
 | `` function greet(name) { return `안녕하세요, ${name}님!`; } `` | ex08 (정의·`return`) + ex05 (템플릿 문자열) |

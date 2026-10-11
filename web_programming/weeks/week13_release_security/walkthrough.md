@@ -51,7 +51,7 @@ cd my-web
     <button type="submit">계산하기</button>
   </p>
 </form>
-<p class="card" id="year-result">입학 연도를 적고 계산하기를 누르세요.</p>
+<div class="card" id="year-result">입학 연도를 적고 계산하기를 누르세요.</div>
 ```
 
 전체 파일은 아래와 같다. 같은 파일이 [examples/day1/about.html](examples/day1/about.html)에 있다.
@@ -105,7 +105,7 @@ cd my-web
           <button type="submit">계산하기</button>
         </p>
       </form>
-      <p class="card" id="year-result">입학 연도를 적고 계산하기를 누르세요.</p>
+      <div class="card" id="year-result">입학 연도를 적고 계산하기를 누르세요.</div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>
@@ -175,12 +175,12 @@ yearForm.addEventListener('submit', function (event) {
         <label for="input">입력</label>
         <input id="input" type="text">
       </p>
-      <p>
+      <div>
         <button id="text-button" type="button">textContent로 넣기</button>
         <button id="html-button" type="button">innerHTML로 넣기</button>
-      </p>
+      </div>
       <h2>결과</h2>
-      <p id="output">아직 아무것도 넣지 않았습니다.</p>
+      <div id="output">아직 아무것도 넣지 않았습니다.</div>
       <h2>무엇이 다른가</h2>
       <ul>
         <li>textContent로 넣으면 적은 글자가 그대로 보입니다.</li>
@@ -556,12 +556,12 @@ git push
       </nav>
     </header>
     <main>
-      <p class="card" id="greeting">인사말을 준비 중입니다.</p>
-      <p>
+      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
+      <div>
         <button id="hello-button" type="button">인사 바꾸기</button>
         <button id="dark-button" type="button">다크 모드</button>
-      </p>
-      <p class="card" id="count">클릭 0회</p>
+      </div>
+      <div class="card" id="count">클릭 0회</div>
       <h2>소개</h2>
       <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
       <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>
@@ -625,11 +625,11 @@ git push
         </p>
         <button type="submit">남기기</button>
       </form>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <h3>남긴 글</h3>
       <ul class="card" id="list"></ul>
-      <p id="count">아직 남긴 글이 없습니다.</p>
-      <p><button id="clear-button" type="button">전체 지우기</button></p>
+      <div id="count">아직 남긴 글이 없습니다.</div>
+      <div><button id="clear-button" type="button">전체 지우기</button></div>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>
@@ -663,7 +663,7 @@ git push
     <main>
       <h2>지금까지 만든 것</h2>
       <p>아래 카드는 data/projects.json 파일에서 읽어 옵니다.</p>
-      <p id="notice"></p>
+      <div id="notice"></div>
       <div id="project-list"></div>
     </main>
     <footer>

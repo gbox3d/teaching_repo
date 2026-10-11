@@ -77,7 +77,7 @@ console.log(items[1].message);   // Great to see this
 - `new Date().toLocaleDateString()` turns today's date into something like `2026. 9. 16.`. It's a **copy-paste template**, one line.
 - We also clean up the notice text today. Combine the two checks into one: `if (name === '' || message === '')`.
 - `||` means **or**. If either field is empty, show the notice and stop with `return`.
-- Remove `<p id="empty">`. Show the empty-list notice in the same spot as the count (`#count`).
+- Remove `<div id="empty">`. Show the empty-list notice in the same spot as the count (`#count`).
 
 ---
 

@@ -15,7 +15,7 @@
 | [day1/images/project1.png](day1/images/project1.png) · [project2.png](day1/images/project2.png) · [project3.png](day1/images/project3.png) | [3단계](../walkthrough.md#3-카드-그림-세-장-넣기) | `images/project1.png` · `project2.png` · `project3.png` |
 | [day1/projects.html](day1/projects.html) | [4단계](../walkthrough.md#4-projectshtml-만들기) | `projects.html` |
 | [day1/projects.js](day1/projects.js) | [5단계](../walkthrough.md#5-projectsjs로-json-불러오기) | `projects.js` |
-| [day2/projects.html](day2/projects.html) | [8단계](../walkthrough.md#8-안내-문구-자리-만들기) — day1에 `<p id="notice">`와 nav 링크가 늘어난다 | `projects.html` |
+| [day2/projects.html](day2/projects.html) | [8단계](../walkthrough.md#8-안내-문구-자리-만들기) — day1에 `<div id="notice">`와 nav 링크가 늘어난다 | `projects.html` |
 | [day2/projects.js](day2/projects.js) | [9~11단계](../walkthrough.md#11-카드에-그림과-링크-넣기) | `projects.js` |
 | [day2/index.html](day2/index.html) · [about.html](day2/about.html) · [guestbook.html](day2/guestbook.html) | [12단계](../walkthrough.md#12-nav에-프로젝트-링크-넣기) — nav에 한 줄씩만 늘어난다 | `index.html` · `about.html` · `guestbook.html` |
 | [day1/app.js](day1/app.js) · [day1/guestbook.js](day1/guestbook.js) · [day1/styles.css](day1/styles.css) · [day1/README.md](day1/README.md) · [day1/screenshots/](day1/screenshots) · [day1/images/profile.png](day1/images/profile.png) | 이번 주에 고치지 않는다 (11주차와 같다) | `app.js` · `guestbook.js` · `styles.css` · `README.md` · `screenshots/` · `images/profile.png` |
@@ -97,7 +97,7 @@ day1 코드로 같은 실험을 하면 화면에는 아무 안내도 없고 Cons
 
 | 파일 | day1 | day2 |
 |---|---|---|
-| `projects.html` | nav 세 링크, `<div id="project-list">` | nav 네 링크, `<p id="notice">`가 늘어난다 |
+| `projects.html` | nav 세 링크, `<div id="project-list">` | nav 네 링크, `<div id="notice">`가 늘어난다 |
 | `projects.js` | 24줄. fetch → json → 카드(제목·설명) | 40줄. `try / catch`·`response.ok`·그림·링크 |
 | `index.html` · `about.html` · `guestbook.html` | 11주차와 같다 | nav에 `<a href="projects.html">프로젝트</a>` 한 줄씩 |
 | `app.js` · `guestbook.js` · `styles.css` | 11주차와 같다 | day1과 같다 |

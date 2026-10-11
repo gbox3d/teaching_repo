@@ -24,12 +24,12 @@
 - 9주차 `readme` 브랜치가 남아 있으면 `git switch main` 뒤 `git merge readme`부터 끝낸다.
 - 파일이 없거나 이어 하기 어려우면 조교에게 9주차 `examples/day2` 폴더를 받아 그 폴더에서 시작한다.
 
-### 2. 목록 자리 만들기 (`<ul id="list">` · `<p id="count">`)
+### 2. 목록 자리 만들기 (`<ul id="list">` · `<div id="count">`)
 
 `guestbook.html`에서 마지막 글 두 줄을 지우고 목록 자리 세 줄을 넣는다. [따라하기 2단계](walkthrough.md#2-목록-자리-만들기)를 본다.
 
-- 지우는 것은 `<h3>마지막으로 남긴 글</h3>`과 `<p class="card" id="last">…</p>` 두 줄이다.
-- 넣는 것은 `<h3>남긴 글</h3>`, `<ul class="card" id="list"></ul>`, `<p id="count">0개</p>` 세 줄이다.
+- 지우는 것은 `<h3>마지막으로 남긴 글</h3>`과 `<div class="card" id="last">…</div>` 두 줄이다.
+- 넣는 것은 `<h3>남긴 글</h3>`, `<ul class="card" id="list"></ul>`, `<div id="count">0개</div>` 세 줄이다.
 - `<ul>` 안은 **비워 둔다.** 목록 줄은 JavaScript가 만들어 넣는다. 손으로 `<li>`를 적지 않는다.
 - 이 단계까지 하고 **[남기기]**를 누르면 Console에 빨간 줄이 하나 뜬다. 3번에서 `guestbook.js`를 고치면 사라진다.
 
@@ -109,7 +109,7 @@
 [따라하기 12~13단계](walkthrough.md#12-빈-목록-안내-넣기)를 본다.
 
 - 항목 수 줄은 함수 안 `for` **밖**에 둔다. 안에 두면 한 줄 그릴 때마다 다시 쓴다.
-- `guestbook.html`에 `<p id="empty">아직 남긴 글이 없습니다.</p>` 한 줄을 넣고, `guestbook.js` 위쪽에서 `#empty`를 찾아 둔다.
+- `guestbook.html`에 `<div id="empty">아직 남긴 글이 없습니다.</div>` 한 줄을 넣고, `guestbook.js` 위쪽에서 `#empty`를 찾아 둔다.
 - 함수 끝에 `if (items.length === 0) { … } else { … }`로 문장을 넣거나 지운다. `===`는 5주차에 배운 비교다.
 - 파일 **맨 끝**에 `showList();` 한 줄을 더해 페이지를 열 때 한 번 그린다.
 - 항목을 모두 지웠을 때 `0개`와 안내 문장이 함께 보이면 완성이다.

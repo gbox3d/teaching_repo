@@ -23,7 +23,7 @@
 
 ### 홈 — 할 수 있는 것 목록 (`index.html`, 42줄 → 50줄)
 
-`<p class="card" id="count">` 줄 아래에 여덟 줄을 더한다.
+`<div class="card" id="count">` 줄 아래에 여덟 줄을 더한다.
 
 ```html
 <h2>이 사이트에서 할 수 있는 것</h2>
