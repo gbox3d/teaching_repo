@@ -255,14 +255,14 @@ const b = greet('student01');       // 호출: Console 에는 없고, b 에 문�
 형제: 1. `getElementById` + `innerText` / 2. `querySelector` + `textContent` / 3. 태그 넣기 / 4. `value`
 
 ```js
-const p1 = document.getElementById('p1');   // id 로 찾는다('#' 없이)
-const p2 = document.querySelector('#p2');   // CSS 선택자로 찾는다
-p2.textContent = '2. textContent 로 바꿨다';
-p3.textContent = '<b>3. 굵게 될까?</b>';        // 태그가 아니라 글자 그대로 보인다
+const out1 = document.getElementById('out1');   // id 로 찾는다('#' 없이)
+const out2 = document.querySelector('#out2');   // CSS 선택자로 찾는다
+out2.textContent = '2. textContent 로 바꿨다';
+out3.textContent = '<b>3. 굵게 될까?</b>';        // 태그가 아니라 글자 그대로 보인다
 ```
 
 - 버튼 → 1·2번 둘 다 글자가 바뀐다(찾는 법·바꾸는 법만 다르다). `#` 은 id(4주차 ex01). 3번은 `<b>` 까지 글자 그대로, 4번은 `value`.
-- 바꿔 보기: 없는 `#p9` 에 `.textContent` 쓰기 → `Cannot set properties of null`.
+- 바꿔 보기: 없는 `#out9` 에 `.textContent` 쓰기 → `Cannot set properties of null`.
 
 **먼저 찾고(요소를 받아) 그다음 바꾼다. 없는 것을 찾으면 `null` 이고, `null` 은 바꿀 수 없다.**
 

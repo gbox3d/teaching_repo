@@ -105,7 +105,7 @@ git push -u origin main
 | 55–60분 | 끝 루틴: `git add .` → `git commit -m "5주차 2일차"` → `git push` → 공개 주소 `https://student01.github.io/web-week05/` 에서 Console 을 연 **캡처 1장** → 공용 PC면 자격 증명 삭제 |
 
 다섯 파일을 받는 법과 조립 전문은 [따라하기 2일차](walkthrough.md#2일차)에 있다.
-파일마다 **코드를 고치는 바꿔 보기를 하나 이상** 하고 넘어간다. 조립과 이어지는 것(ex08 `${greet()}`, ex09 `#p9`, ex10 `new Date().getHours()`)을 각 문항 맨 앞에 두었다. 33분이 되면 남은 것은 두고 조립을 시작한다. 조립 전에 고친 `ex/` 파일은 끝 루틴에 함께 올라가도 된다. 남은 바꿔 보기는 캡처까지 끝낸 뒤 한다.
+파일마다 **코드를 고치는 바꿔 보기를 하나 이상** 하고 넘어간다. 조립과 이어지는 것(ex08 `${greet()}`, ex09 `#out9`, ex10 `new Date().getHours()`)을 각 문항 맨 앞에 두었다. 33분이 되면 남은 것은 두고 조립을 시작한다. 조립 전에 고친 `ex/` 파일은 끝 루틴에 함께 올라가도 된다. 남은 바꿔 보기는 캡처까지 끝낸 뒤 한다.
 
 ### 6. ex06 비교 (`==` · `===` · `>=` · `>`)
 
@@ -141,11 +141,11 @@ git push -u origin main
 
 [examples/day2/ex09_dom_write.html](examples/day2/ex09_dom_write.html) 을 `ex/ex09_dom_write.html` 로 저장한다.
 
-- 바꿔 보기: `console.log(document.querySelector('#p9'));` 줄(23행) 아래에 `document.querySelector('#p9').textContent = '9';` 한 줄을 더한다. 빨간 줄은 무엇이라고 하나? 그 뒤에 **바꾸기** 버튼은 동작하나? 조립 마지막 줄에서 id 를 틀리면 이 빨간 줄이 뜬다. 확인했으면 더한 줄을 지운다. 남겨 두면 다음 바꿔 보기에서 바꾸기 버튼이 동작하지 않는다.
+- 바꿔 보기: `console.log(document.querySelector('#out9'));` 줄(23행) 아래에 `document.querySelector('#out9').textContent = '9';` 한 줄을 더한다. 빨간 줄은 무엇이라고 하나? 그 뒤에 **바꾸기** 버튼은 동작하나? 조립 마지막 줄에서 id 를 틀리면 이 빨간 줄이 뜬다. 확인했으면 더한 줄을 지운다. 남겨 두면 다음 바꿔 보기에서 바꾸기 버튼이 동작하지 않는다.
 - 바꿔 보기: **바꾸기**를 누르기 전에 Console 두 줄을 읽는다. 둘째 줄이 `null` 인 이유는 무엇인가? 버튼을 누른 뒤 3번에 `<b>` 가 굵게 되나, 글자로 보이나?
-- 바꿔 보기: 26행 `p1.innerText` 를 `p1.textContent` 로 바꾼다. 1번 화면이 달라지나? 글자만 바꿀 때 두 방법의 결과가 같은지 이것으로 확인한다.
-- 바꿔 보기: 18행 `document.querySelector('#p2')` 를 `document.querySelector('#p3')` 으로 바꾼다. Console 첫 줄의 둘째 요소가 p3 로 바뀌었는지 먼저 본다. 버튼을 누르면 2번은 왜 그대로인가? 27행이 쓴 글자는 어디로 갔나?
-- 흔한 실수: `getElementById('#p1')` 처럼 `#` 을 붙이거나 `querySelector('p2')` 처럼 `#` 을 빠뜨린다. 둘 다 `null` 이 된다. `querySelector` 는 CSS 선택자를 받는다(4주차 ex01 의 `.red`·`nav a` 와 같은 글자). `#` 은 id 를 뜻해서, id 로 찾을 때는 앞에 `#` 을 붙인다 — 2주차 `app.js` 의 `querySelector('#count-button')` 모양. `getElementById` 는 이름부터 'id 로 찾기'라서 id 글자만 받는다.
+- 바꿔 보기: 26행 `out1.innerText` 를 `out1.textContent` 로 바꾼다. 1번 화면이 달라지나? 글자만 바꿀 때 두 방법의 결과가 같은지 이것으로 확인한다.
+- 바꿔 보기: 18행 `document.querySelector('#out2')` 를 `document.querySelector('#out3')` 으로 바꾼다. Console 첫 줄의 둘째 요소가 out3 로 바뀌었는지 먼저 본다. 버튼을 누르면 2번은 왜 그대로인가? 27행이 쓴 글자는 어디로 갔나?
+- 흔한 실수: `getElementById('#out1')` 처럼 `#` 을 붙이거나 `querySelector('out2')` 처럼 `#` 을 빠뜨린다. 둘 다 `null` 이 된다. `querySelector` 는 CSS 선택자를 받는다(4주차 ex01 의 `.red`·`nav a` 와 같은 글자). `#` 은 id 를 뜻해서, id 로 찾을 때는 앞에 `#` 을 붙인다 — 2주차 `app.js` 의 `querySelector('#count-button')` 모양. `getElementById` 는 이름부터 'id 로 찾기'라서 id 글자만 받는다.
 
 ### 10. ex10 new Date() (`new Date()` · `getHours()`)
 
@@ -214,7 +214,7 @@ node server.mjs
 | `Uncaught SyntaxError: missing ) after argument list` | 괄호를 닫지 않았다. `console.log(greet('student01'));`처럼 괄호 짝을 맞춘다 |
 | `Uncaught TypeError: Assignment to constant variable.` | `const`로 만든 값에 다시 넣었다. 다시 넣어야 하면 `let`으로 만든다. ex03 의 2번 버튼은 일부러 이 오류를 보이는 것이다 |
 | `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` | 지난주 완성본의 `app.js`에 2주차 카운터 코드가 남아 있다. 그 버튼은 3주차에 사라졌다. [따라하기 2일차](walkthrough.md#2일차)처럼 전체를 지우고 조립표 순서로 새로 쓴다 |
-| `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` | `#greeting`을 못 찾았다. `id="greeting"` 철자, 그리고 `script` 줄에 `defer`가 있는지 본다. ex09 에서는 없는 id(`#p9`)에 쓴 것이다 |
+| `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` | `#greeting`을 못 찾았다. `id="greeting"` 철자, 그리고 `script` 줄에 `defer`가 있는지 본다. ex09 에서는 없는 id(`#out9`)에 쓴 것이다 |
 | 더했는데 `3` 이 아니라 `12` 가 나온다 | 문자열을 이은 것이다. 입력 칸의 `value` 는 늘 문자열이다. `Number()` 로 바꾼 뒤 더한다(ex04 7번) |
 | Console에 `${name}`이 글자 그대로 찍힌다 | 작은따옴표로 감쌌다. 백틱(`` ` ``)으로 바꾼다. 백틱 자리에 다른 글자가 들어가지 않았는지도 본다 |
 | 백틱을 쳤는데 다른 글자(macOS 한글 입력이면 `₩`)가 들어간다 | 입력 상태가 한글이다. 영문 입력으로 바꾼 뒤(Windows 는 한/영 키, macOS 는 Caps Lock 이나 Ctrl+Space) `1` 왼쪽 키를 다시 친다. `₩` 가 들어간 채 저장하면 `Uncaught SyntaxError: Invalid or unexpected token` 이 뜬다 |

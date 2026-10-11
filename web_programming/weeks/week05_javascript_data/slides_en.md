@@ -255,14 +255,14 @@ const b = greet('student01');       // call: nothing in the Console, b holds the
 Siblings: 1. `getElementById`+`innerText` / 2. `querySelector`+`textContent` / 3. a tag / 4. `value`
 
 ```js
-const p1 = document.getElementById('p1');   // find by id (no '#')
-const p2 = document.querySelector('#p2');   // find with a CSS selector
-p2.textContent = '2. textContent 로 바꿨다';
-p3.textContent = '<b>3. 굵게 될까?</b>';        // shown as literal text, not a tag
+const out1 = document.getElementById('out1');   // find by id (no '#')
+const out2 = document.querySelector('#out2');   // find with a CSS selector
+out2.textContent = '2. textContent 로 바꿨다';
+out3.textContent = '<b>3. 굵게 될까?</b>';        // shown as literal text, not a tag
 ```
 
 - Click → No. 1, 2 both change (finding method differs). `#` means id (Week 4 ex01). No. 3: `<b>` stays literal; No. 4 uses `value`.
-- Try it: `.textContent` on missing `#p9` → `Cannot set properties of null`.
+- Try it: `.textContent` on missing `#out9` → `Cannot set properties of null`.
 
 **Find first, then change it. A missing element gives `null`, and `null` can't be changed.**
 
