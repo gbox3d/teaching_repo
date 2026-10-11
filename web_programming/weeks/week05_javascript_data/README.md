@@ -49,7 +49,7 @@ JavaScript 는 브라우저가 실행한다. 비교 파일의 결과는 **F12 �
 
 ## 준비
 
-- 지난주 완성본. 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [4주차 `examples/day2/build/`](../week04_responsive_css/examples/day2/build/) 파일을 **Raw** 로 받는다. 4주차를 옛 저장소 `my-web` 으로 수업한 분반은 내 `my-web` 을 같은 방법으로 받아 맨 위 파일과 `images/` 만 넣는다
+- 지난주 완성본. 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [4주차 `examples/day2/web-week05/`](../week04_responsive_css/examples/day2/web-week04/) 파일을 **Raw** 로 받는다. 4주차를 옛 저장소 `my-web` 으로 수업한 분반은 내 `my-web` 을 같은 방법으로 받아 맨 위 파일과 `images/` 만 넣는다
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS(선택). `node -v` 로 확인한다. 2일차에 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에 받아 `node server.mjs` 로 띄운다([사용 안내](../../tools/static-server/README.md)). Node 가 없는 PC 는 파일을 두 번 눌러 열어도 이번 주 결과는 같다
 - 개발자 도구를 여는 법(오른쪽 클릭 › **검사**, 또는 **F12**. 노트북에서 안 열리면 Fn+F12, macOS 는 ⌘+Option(⌥)+I)과 **Console** 탭 위치
@@ -95,8 +95,8 @@ JavaScript 는 브라우저가 실행한다. 비교 파일의 결과는 **F12 �
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week05_javascript_data/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(ex01~ex05), 2일차 `day2/`(고르기 페이지 `index.html`, ex06~ex10 의 `.js`, 조립 `build/`)
-- 2일차 끝의 `web-week05`(조립 결과): [index.html](examples/day2/build/index.html) · [app.js](examples/day2/build/app.js) · [about.html](examples/day2/build/about.html) · [guestbook.html](examples/day2/build/guestbook.html) · [styles.css](examples/day2/build/styles.css) · [images/profile.png](examples/day2/build/images/profile.png)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(ex01~ex05), 2일차 `day2/`(고르기 페이지 `index.html`, ex06~ex10 의 `.js`, 조립 `web-week05/`)
+- 2일차 끝의 `web-week05`(조립 결과): [index.html](examples/day2/web-week05/index.html) · [app.js](examples/day2/web-week05/app.js) · [about.html](examples/day2/web-week05/about.html) · [guestbook.html](examples/day2/web-week05/guestbook.html) · [styles.css](examples/day2/web-week05/styles.css) · [images/profile.png](examples/day2/web-week05/images/profile.png)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data
 
@@ -111,7 +111,7 @@ JavaScript 는 브라우저가 실행한다. 비교 파일의 결과는 **F12 �
 
 ## 다음 수업 연결
 
-오늘 `app.js` 에 쓴 코드는 페이지를 열 때 **한 번** 실행된다. 6주차에는 새 저장소 `web-week06` 을 만들고, 오늘 `web-week05` 의 파일에서 시작한다(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/build/`](examples/day2/build/)).
+오늘 `app.js` 에 쓴 코드는 페이지를 열 때 **한 번** 실행된다. 6주차에는 새 저장소 `web-week06` 을 만들고, 오늘 `web-week05` 의 파일에서 시작한다(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/web-week05/`](examples/day2/web-week05/)).
 그 위에 ex01 에서 본 `addEventListener` 를 쓴다. 오늘 조립한 `#greeting` 과 `greet(name)`·`hello(hour)` 를 이어받아 "인사 바꾸기" 버튼과 클릭 횟수, 다크 모드를 만든다.
 두 함수와 `#greeting` 의 이름은 바꾸지 않는다. 결과는 6주차 공개 주소 `https://student01.github.io/web-week06/` 에서 확인한다. 서버 `server.mjs` 도 새 폴더로 옮겨 그대로 쓴다.
 

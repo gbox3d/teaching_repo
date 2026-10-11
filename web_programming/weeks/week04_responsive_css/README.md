@@ -98,8 +98,8 @@ web-week04/
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week04_responsive_css/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(ex01~ex06), 2일차 `day2/`(ex07~ex14와 조립 `build/`)
-- 2일차 끝의 `web-week04`(조립 결과): [styles.css](examples/day2/build/styles.css) · [index.html](examples/day2/build/index.html) · [about.html](examples/day2/build/about.html) · [guestbook.html](examples/day2/build/guestbook.html) · [app.js](examples/day2/build/app.js) · [images/profile.png](examples/day2/build/images/profile.png)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(ex01~ex06), 2일차 `day2/`(ex07~ex14와 조립 `web-week04/`)
+- 2일차 끝의 `web-week04`(조립 결과): [styles.css](examples/day2/web-week04/styles.css) · [index.html](examples/day2/web-week04/index.html) · [about.html](examples/day2/web-week04/about.html) · [guestbook.html](examples/day2/web-week04/guestbook.html) · [app.js](examples/day2/web-week04/app.js) · [images/profile.png](examples/day2/web-week04/images/profile.png)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css
 
 ## 완료 기준

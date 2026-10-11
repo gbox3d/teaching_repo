@@ -9,14 +9,14 @@ examples/
   day1/   ex01 ~ ex05     스크립트와 값 (ex02 는 보조 파일 ex02_script_position.js 까지)
   day2/   index.html      고르기 페이지 — 맨 아래 script 줄 하나만 켠다
           ex06 ~ ex10     조건과 함수, 화면에 쓰기, 날짜 (.js 파일)
-          build/          2일차 끝의 web-week05 — 비교 파일에서 본 줄을 모은 조립
+          web-week05/     2일차 끝의 web-week05 — 비교 파일에서 본 줄을 모은 조립
 ```
 
 `exNN_*` 파일은 **파일 하나 = 개념 하나**다. 파일마다 같은 일을 다르게 한 **형제**(1·2·3번…)를 나란히 놓는다.
 결과는 **F12 › Console** 에서 본다. Console 의 번호와 코드의 형제 번호가 같다. 값이나 주석을 바꾸고 저장 → 새로고침으로 무엇이 달라지는지 본다.
 **다른 파일의 개념은 섞지 않는다.** 화면 글자를 바꾸는 것(찾고 → 바꾸기)은 ex09 의 주제라서 ex01~ex08·ex10 은 화면에 쓰지 않고 `console.log` 로만 결과를 보인다. 버튼을 찾아 클릭을 등록하는 한 줄(`document.getElementById('…').addEventListener(…)`)만은 클릭을 보이는 데 꼭 필요해 ex01 부터 쓴다.
 작년 수업에서 JavaScript 를 시작한 순서다. 첫날은 버튼 + 클릭 + `console.log`, 다음은 버튼으로 숫자 바꾸기(`innerText`), 그다음은 `parseInt` 덧셈기(입력 칸 + 버튼으로 두 수를 더하는 페이지)였다.
-만들기는 마지막 하나, [`day2/build/`](day2/build/) 뿐이다.
+만들기는 마지막 하나, [`day2/web-week05/`](day2/web-week05/) 뿐이다.
 
 1일차 파일은 단일 HTML 이고 `<script>` 가 안에 있다. ex02 만 보조 파일 [ex02_script_position.js](day1/ex02_script_position.js) 를 같은 폴더에서 불러온다.
 2일차는 코드를 `.js` 파일로 떼어 두고, 고르기 페이지 [day2/index.html](day2/index.html) 하나로 연다. 그 파일 맨 아래 `<script src="exNN_….js">` 다섯 줄 중 **하나만** 주석 밖에 둔다(VS Code 에서 줄에 커서를 두고 **Ctrl+/**, macOS **⌘+/**). 처음에는 ex06 줄만 켜져 있다. ex09 가 찾아 바꿀 자리(`#out1`~`#out3`, 입력 칸, **바꾸기** 버튼)도 `index.html` 에 있다. 둘 이상 켜면 Console 에 여러 예제의 줄이 섞인다.
@@ -67,18 +67,18 @@ if (hour >= 12) {
 
 3번은 `hour >= 18` 을 먼저 본다. 그래서 20시에 3번은 `저녁`, 4번은 `오후` 다. 큰 수부터 물어야 하는 이유다.
 
-## `day2/build/` — 2일차 끝의 web-week05
+## `day2/web-week05/` — 2일차 끝의 web-week05
 
-[`day2/build/`](day2/build/) 는 2일차 끝의 `web-week05` 저장소 맨 위(`index.html` 등이 있는 자리) **전체**다. 6주차 새 저장소 `web-week06` 의 시작점이다. 비교 파일을 저장한 `ex/` 폴더와 서버 `server.mjs` 는 여기 넣지 않는다.
+[`day2/web-week05/`](day2/web-week05/) 는 2일차 끝의 `web-week05` 저장소 맨 위(`index.html` 등이 있는 자리) **전체**다. 6주차 새 저장소 `web-week06` 의 시작점이다. 비교 파일을 저장한 `ex/` 폴더와 서버 `server.mjs` 는 여기 넣지 않는다.
 
-| `day2/build/` 파일 | 내 `web-week05` 의 위치 | 따라하기 단계 |
+| `day2/web-week05/` 파일 | 내 `web-week05` 의 위치 | 따라하기 단계 |
 |---|---|---|
-| [index.html](day2/build/index.html) | `index.html` | [2일차 8·10단계](../walkthrough.md#2일차) — `<head>` 에 `<script src="app.js" defer></script>`, `<main>` 첫 줄에 `#greeting` 카드. 두 줄만 늘어난다 |
-| [app.js](day2/build/app.js) | `app.js` | [2일차 9·11단계](../walkthrough.md#2일차) — 2주차 카운터 코드를 지우고 조립표 순서로 쓴다. 1행의 아이디(`student01` 자리)만 다르고 나머지는 이 파일과 글자 단위로 같아진다 |
-| [about.html](day2/build/about.html) | `about.html` | 4주차 그대로. 이번 주에 열지 않는다 |
-| [guestbook.html](day2/build/guestbook.html) | `guestbook.html` | 4주차 그대로. 이번 주에 열지 않는다 |
-| [styles.css](day2/build/styles.css) | `styles.css` | 4주차 그대로. `.card` 가 인사말 카드에도 쓰인다 |
-| [images/profile.png](day2/build/images/profile.png) | `images/profile.png` | 3주차와 같은 파일. 바꾸지 않는다 |
+| [index.html](day2/web-week05/index.html) | `index.html` | [2일차 8·10단계](../walkthrough.md#2일차) — `<head>` 에 `<script src="app.js" defer></script>`, `<main>` 첫 줄에 `#greeting` 카드. 두 줄만 늘어난다 |
+| [app.js](day2/web-week05/app.js) | `app.js` | [2일차 9·11단계](../walkthrough.md#2일차) — 2주차 카운터 코드를 지우고 조립표 순서로 쓴다. 1행의 아이디(`student01` 자리)만 다르고 나머지는 이 파일과 글자 단위로 같아진다 |
+| [about.html](day2/web-week05/about.html) | `about.html` | 4주차 그대로. 이번 주에 열지 않는다 |
+| [guestbook.html](day2/web-week05/guestbook.html) | `guestbook.html` | 4주차 그대로. 이번 주에 열지 않는다 |
+| [styles.css](day2/web-week05/styles.css) | `styles.css` | 4주차 그대로. `.card` 가 인사말 카드에도 쓰인다 |
+| [images/profile.png](day2/web-week05/images/profile.png) | `images/profile.png` | 3주차와 같은 파일. 바꾸지 않는다 |
 
 `app.js` 에 남아 있던 2주차 카운터 코드를 지우는 이유: 그 코드가 찾던 버튼은 3주차에 `index.html` 에서 사라졌다. 찾으면 `null` 이 오고, `null` 에 `addEventListener` 를 쓰면 빨간 오류가 나서 그 아래 줄이 실행되지 않는다(없으면 `null` 은 ex02·ex09, 오류 난 줄 아래가 멈추는 것은 ex03 에서 본 것).
 
@@ -98,7 +98,7 @@ if (hour >= 12) {
 | `console.log(hour);` · `console.log(message);` | ex01 (Console) |
 | `document.querySelector('#greeting').textContent = message;` | ex09 2번 (찾고 → 바꾼다) |
 
-마지막 두 덩어리가 이번 주 질문의 답이다. [day2/build/app.js](day2/build/app.js)에서 인용:
+마지막 두 덩어리가 이번 주 질문의 답이다. [day2/web-week05/app.js](day2/web-week05/app.js)에서 인용:
 
 ```js
 function hello(hour) {
@@ -118,7 +118,7 @@ document.querySelector('#greeting').textContent = message;
 ```
 
 `hello(hour)` 는 처음 참인 한 갈래의 문장을 돌려준다. 백틱 안의 `${}` 가 두 함수를 부르고, 돌아온 두 문장을 이어 `message` 에 담는다. 마지막 줄이 `#greeting` 을 찾아 그 글자를 바꾼다.
-그래서 `day2/build/index.html` 을 열면 카드 글자가 `인사말을 준비 중입니다.` 에서 `안녕하세요, student01님! 좋은 아침입니다.` 로 바뀐다. 12시가 지나면 `좋은 오후입니다.` 다. 둘 다 정답이다.
+그래서 `day2/web-week05/index.html` 을 열면 카드 글자가 `인사말을 준비 중입니다.` 에서 `안녕하세요, student01님! 좋은 아침입니다.` 로 바뀐다. 12시가 지나면 `좋은 오후입니다.` 다. 둘 다 정답이다.
 카드 글자가 `인사말을 준비 중입니다.` 그대로면 마지막 줄까지 가지 못한 것이다. Console 의 빨간 줄과 오른쪽 `app.js:줄` 을 먼저 본다.
 
 ## 공식 참고 자료

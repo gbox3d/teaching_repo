@@ -16,7 +16,7 @@ DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 새 폴더 `web-week05` 를 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/` 를 넣는다. 못 받으면 교재 [4주차 `examples/day2/build/`](../week04_responsive_css/examples/day2/build/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 다섯 파일(ex01~ex05, ex02 는 `.js` 까지 여섯 개)을 **Raw** 로 저장한다. 5분 안에 다 못 받았으면 ex01 부터 시작하고, 나머지는 각 문항을 시작할 때 저장한다 |
+| 0–5분 | 새 폴더 `web-week05` 를 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/` 를 넣는다. 못 받으면 교재 [4주차 `examples/day2/web-week05/`](../week04_responsive_css/examples/day2/web-week04/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 다섯 파일(ex01~ex05, ex02 는 `.js` 까지 여섯 개)을 **Raw** 로 저장한다. 5분 안에 다 못 받았으면 ex01 부터 시작하고, 나머지는 각 문항을 시작할 때 저장한다 |
 | 5–14분 | ex01 지금 실행 vs 클릭할 때 실행 |
 | 14–23분 | ex02 script 위치 |
 | 23–32분 | ex03 let · const · var |

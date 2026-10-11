@@ -8,13 +8,13 @@
 examples/
   day1/   ex01 ~ ex06     선택자와 박스
   day2/   ex07 ~ ex14     flex 와 @media (ex14 는 부록)
-          build/          2일차 끝의 web-week04 — 비교 파일에서 본 규칙을 모은 조립
+          web-week04/     2일차 끝의 web-week04 — 비교 파일에서 본 규칙을 모은 조립
 ```
 
 `exNN_*.html` 은 **파일 하나 = 주제 하나**다. 파일마다 같은 상자를 여러 개 놓고 그 주제의 값 하나만 다르게 한 **형제**를 나란히 보여 준다.
 **다른 주제의 속성은 넣지 않는다.** 상자는 배경색으로만 구분한다(색이 바뀌면 다른 상자, 회색은 부모). 주제를 보이는 데 꼭 필요한 앞 예제의 속성만 쓰고(예: ex09 frame 의 높이, ex10 의 폭), 그 줄에는 주석으로 이유를 적었다.
 첫 형제는 **기본값**이다(ex13 만 1번이 `@media` 규칙이 있는 상자). 주석 처리된 줄은 **대안값**이다. 주석을 풀거나 값을 바꾸고 저장 → 새로고침으로 무엇이 달라지는지 본다.
-작년 수업에서 CSS 를 가르친 방식이다. 만들기는 마지막 하나, [`day2/build/`](day2/build/) 뿐이다.
+작년 수업에서 CSS 를 가르친 방식이다. 만들기는 마지막 하나, [`day2/web-week04/`](day2/web-week04/) 뿐이다.
 
 각 파일은 단일 HTML 이고 `<style>` 이 안에 있다. 내려받아 이번 주 저장소 폴더의 `web-week04/ex/` 에 파일 이름을 바꾸지 않고 저장한다(교재 저장소에서 **Raw** → 저장, 또는 타이핑). 내 저장소에서는 날짜 폴더 없이 `ex/` 한 곳에 모은다. 가져오는 방법은 [따라하기 1일차](../walkthrough.md#1일차)에 있다.
 
@@ -69,18 +69,18 @@ flex 파일(ex07~ex12)은 같은 틀을 쓴다. 회색 `.frame` 이 **부모(컨
 
 주석에 적힌 "가로"·"세로"는 자식이 가로로 서는(row) 경우의 이야기다. 정확한 낱말은 **주축**·**교차축**이다. `justify-content` 는 주축, `align-items` 는 교차축에서 정렬한다.
 
-## `day2/build/` — 2일차 끝의 web-week04
+## `day2/web-week04/` — 2일차 끝의 web-week04
 
-[`day2/build/`](day2/build/) 는 2일차 끝의 `web-week04` 저장소 **루트 전체**다. 5주차 새 저장소 `web-week05` 의 시작점이다. 비교 파일을 저장한 `ex/` 폴더는 여기 넣지 않는다.
+[`day2/web-week04/`](day2/web-week04/) 는 2일차 끝의 `web-week04` 저장소 **루트 전체**다. 5주차 새 저장소 `web-week05` 의 시작점이다. 비교 파일을 저장한 `ex/` 폴더는 여기 넣지 않는다.
 
-| `day2/build/` 파일 | 내 `web-week04` 의 위치 | 따라하기 단계 |
+| `day2/web-week04/` 파일 | 내 `web-week04` 의 위치 | 따라하기 단계 |
 |---|---|---|
-| [styles.css](day2/build/styles.css) | `styles.css` | [2일차 6·9단계](../walkthrough.md#2일차) — 조립표 순서로 규칙을 쓴다. 이 파일과 글자 단위로 같아진다 |
-| [index.html](day2/build/index.html) | `index.html` | [2일차 7·8·10단계](../walkthrough.md#2일차) — `<head>` 에 `link` 한 줄, `class="card"` 세 곳 |
-| [about.html](day2/build/about.html) | `about.html` | [2일차 7·10단계](../walkthrough.md#2일차) — `link` 한 줄만 늘어난다 |
-| [guestbook.html](day2/build/guestbook.html) | `guestbook.html` | [2일차 7·10단계](../walkthrough.md#2일차) — `link` 한 줄만 늘어난다 |
-| [app.js](day2/build/app.js) | `app.js` | [2일차 11단계](../walkthrough.md#2일차) — 열지 않는다. 5주차에 비우고 다시 쓴다 |
-| [images/profile.png](day2/build/images/profile.png) | `images/profile.png` | 3주차와 같은 파일. 바꾸지 않는다 |
+| [styles.css](day2/web-week04/styles.css) | `styles.css` | [2일차 6·9단계](../walkthrough.md#2일차) — 조립표 순서로 규칙을 쓴다. 이 파일과 글자 단위로 같아진다 |
+| [index.html](day2/web-week04/index.html) | `index.html` | [2일차 7·8·10단계](../walkthrough.md#2일차) — `<head>` 에 `link` 한 줄, `class="card"` 세 곳 |
+| [about.html](day2/web-week04/about.html) | `about.html` | [2일차 7·10단계](../walkthrough.md#2일차) — `link` 한 줄만 늘어난다 |
+| [guestbook.html](day2/web-week04/guestbook.html) | `guestbook.html` | [2일차 7·10단계](../walkthrough.md#2일차) — `link` 한 줄만 늘어난다 |
+| [app.js](day2/web-week04/app.js) | `app.js` | [2일차 11단계](../walkthrough.md#2일차) — 열지 않는다. 5주차에 비우고 다시 쓴다 |
+| [images/profile.png](day2/web-week04/images/profile.png) | `images/profile.png` | 3주차와 같은 파일. 바꾸지 않는다 |
 
 ### 조립표 — `styles.css` 의 규칙은 어느 ex 에서 본 것인가
 
@@ -98,7 +98,7 @@ flex 파일(ex07~ex12)은 같은 틀을 쓴다. 회색 `.frame` 이 **부모(컨
 | `footer { text-align: center; … }` | ex06 |
 | `@media (max-width: 600px) { nav { flex-direction: column } }` | ex13 (조건) + ex07 (`column`) |
 
-마지막 덩어리가 이번 주 질문의 답이다. [day2/build/styles.css](day2/build/styles.css)에서 인용:
+마지막 덩어리가 이번 주 질문의 답이다. [day2/web-week04/styles.css](day2/web-week04/styles.css)에서 인용:
 
 ```css
 nav {

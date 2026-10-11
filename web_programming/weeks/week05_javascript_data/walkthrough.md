@@ -18,7 +18,7 @@
 저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week05`를 만들고 VS Code **File › Open Folder**로 연다.
 
 지난주 완성본을 넣는다. 내 `web-week04` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`)과 `images/`를 `web-week05`로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
-ZIP을 못 받았으면 교재 [4주차 `examples/day2/build/`](../week04_responsive_css/examples/day2/build/)의 파일을 2단계와 같은 **Raw** 방법으로 받는다. 4주차를 옛 저장소 `my-web`으로 수업한 분반은 내 `my-web`을 같은 방법으로 받아 맨 위 파일과 `images/`만 옮긴다.
+ZIP을 못 받았으면 교재 [4주차 `examples/day2/web-week05/`](../week04_responsive_css/examples/day2/web-week04/)의 파일을 2단계와 같은 **Raw** 방법으로 받는다. 4주차를 옛 저장소 `my-web`으로 수업한 분반은 내 `my-web`을 같은 방법으로 받아 맨 위 파일과 `images/`만 옮긴다.
 
 이어서 `web-week05` 안에 `ex` 폴더를 만든다. VS Code 탐색기에서 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week05`
 
@@ -216,7 +216,7 @@ git clone https://github.com/student01/web-week05.git
 | 조립할 줄 | 어느 ex에서 본 것 |
 |---|---|
 | `index.html` `<head>`의 `<script src="app.js" defer></script>` | [ex02](examples/day1/ex02_script_position.html) 3번. `defer`는 HTML을 다 읽은 뒤 실행한다 → `#greeting`을 찾을 수 있다 |
-| `index.html`의 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` | [ex09](examples/day2/ex09_dom_write.js) 찾을 자리에 `id`, [4주차 ex01](../week04_responsive_css/examples/day1/ex01_selector.html) 클래스 선택자(`.red`와 같은 원리), `.card` 규칙은 [4주차 styles.css](../week04_responsive_css/examples/day2/build/styles.css) |
+| `index.html`의 `<p class="card" id="greeting">인사말을 준비 중입니다.</p>` | [ex09](examples/day2/ex09_dom_write.js) 찾을 자리에 `id`, [4주차 ex01](../week04_responsive_css/examples/day1/ex01_selector.html) 클래스 선택자(`.red`와 같은 원리), `.card` 규칙은 [4주차 styles.css](../week04_responsive_css/examples/day2/web-week04/styles.css) |
 | `const name = 'student01';` | [ex03](examples/day1/ex03_let_const.html) `const` |
 | `const hour = new Date().getHours();` | [ex10](examples/day2/ex10_date.js) 지금 시각 → 시, [ex03](examples/day1/ex03_let_const.html) `const` |
 | `` function greet(name) { return `안녕하세요, ${name}님!`; } `` | [ex08](examples/day2/ex08_function.js) 정의·`return`, [ex05](examples/day1/ex05_template.html) 템플릿 문자열 |
@@ -290,7 +290,7 @@ Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') 
 ### 10. index.html 전문
 
 8단계를 마친 `index.html` 전체다. 내 파일과 한 줄씩 비교한다. 4주차 파일에서 늘어난 것은 `script` 한 줄과 `#greeting` 카드 한 줄뿐이다.
-같은 파일이 [examples/day2/build/index.html](examples/day2/build/index.html)에 있다.
+같은 파일이 [examples/day2/web-week05/index.html](examples/day2/web-week05/index.html)에 있다.
 
 ```html
 <!doctype html>
@@ -331,7 +331,7 @@ Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') 
 </html>
 ```
 
-`about.html`·`guestbook.html`·`styles.css`·`images/profile.png`는 4주차 그대로다. 이번 주에 손대지 않는다. `examples/day2/build/`의 같은 이름 파일도 4주차와 같다.
+`about.html`·`guestbook.html`·`styles.css`·`images/profile.png`는 4주차 그대로다. 이번 주에 손대지 않는다. `examples/day2/web-week05/`의 같은 이름 파일도 4주차와 같다.
 
 **예상 결과** — `index.html`의 `<head>`에 `link` 줄과 `script` 줄이 나란히 있고, `<main>`의 첫 요소가 `#greeting` 카드다.
 `about.html`·`guestbook.html`을 열면 모양은 4주차와 같고 Console은 비어 있다. 두 페이지에는 `script` 줄이 없어서 `app.js`가 실행되지 않는다.
@@ -339,7 +339,7 @@ Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') 
 ### 11. app.js 전문
 
 9단계를 마친 `app.js` 전체다. 21줄이다. 내 파일과 한 줄씩 비교한다. 1행의 `student01`만 내 아이디로 다르고 나머지는 글자 단위로 같아야 한다.
-같은 파일이 [examples/day2/build/app.js](examples/day2/build/app.js)에 있다.
+같은 파일이 [examples/day2/web-week05/app.js](examples/day2/web-week05/app.js)에 있다.
 
 ```js
 const name = 'student01';

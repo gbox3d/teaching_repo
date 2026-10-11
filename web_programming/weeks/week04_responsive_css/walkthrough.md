@@ -194,7 +194,7 @@ git clone https://github.com/student01/web-week04.git
 ### 9. styles.css 전문
 
 `styles.css`를 연다. 2주차에 쓴 내용이 들어 있다. **전체를 지우고** 6단계 조립표 순서로 아래 규칙을 쓴다.
-같은 파일이 [examples/day2/build/styles.css](examples/day2/build/styles.css)에 있다.
+같은 파일이 [examples/day2/web-week04/styles.css](examples/day2/web-week04/styles.css)에 있다.
 
 ```css
 body {
@@ -271,7 +271,7 @@ footer {
 
 7·8단계를 마친 세 페이지 전체다. 내 파일과 한 줄씩 비교한다. 3주차 파일에서 늘어난 것은 `link` 한 줄과 `index.html`의 `class="card"` 세 곳뿐이다.
 
-`index.html` — 같은 파일이 [examples/day2/build/index.html](examples/day2/build/index.html)에 있다.
+`index.html` — 같은 파일이 [examples/day2/web-week04/index.html](examples/day2/web-week04/index.html)에 있다.
 
 ```html
 <!doctype html>
@@ -310,7 +310,7 @@ footer {
 </html>
 ```
 
-`about.html` — 같은 파일이 [examples/day2/build/about.html](examples/day2/build/about.html)에 있다. `link` 한 줄만 늘었다.
+`about.html` — 같은 파일이 [examples/day2/web-week04/about.html](examples/day2/web-week04/about.html)에 있다. `link` 한 줄만 늘었다.
 
 ```html
 <!doctype html>
@@ -359,7 +359,7 @@ footer {
 </html>
 ```
 
-`guestbook.html` — 같은 파일이 [examples/day2/build/guestbook.html](examples/day2/build/guestbook.html)에 있다. `link` 한 줄만 늘었다.
+`guestbook.html` — 같은 파일이 [examples/day2/web-week04/guestbook.html](examples/day2/web-week04/guestbook.html)에 있다. `link` 한 줄만 늘었다.
 
 ```html
 <!doctype html>
@@ -419,7 +419,7 @@ footer {
 ### 11. app.js는 열지 않는다
 
 `app.js`는 이번 주에 **한 글자도 고치지 않는다.** 폴더에 그대로 있는지만 확인한다. 내용은 2주차와 같다.
-같은 파일이 [examples/day2/build/app.js](examples/day2/build/app.js)에 있다.
+같은 파일이 [examples/day2/web-week04/app.js](examples/day2/web-week04/app.js)에 있다.
 
 ```js
 const countButton = document.querySelector('#count-button');
@@ -438,7 +438,7 @@ console.info('my-web ready');
 **예상 결과** — 세 페이지 어디에도 `<script>` 줄이 없으므로 이 파일은 실행되지 않는다. 그래서 오류도 나지 않는다.
 
 - 5주차에 이 파일을 비우고 다시 쓴다. 그때 `<script src="app.js" defer>` 줄을 되살린다.
-- 지우지 않는다. 지운 학생은 [examples/day2/build/app.js](examples/day2/build/app.js)를 **Raw**로 다시 받는다.
+- 지우지 않는다. 지운 학생은 [examples/day2/web-week04/app.js](examples/day2/web-week04/app.js)를 **Raw**로 다시 받는다.
 
 ### 12. 1280·기기 모드 375 확인 → push → 캡처
 
