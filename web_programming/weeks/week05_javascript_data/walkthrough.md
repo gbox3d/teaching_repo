@@ -18,7 +18,7 @@
 저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week05`를 만들고 VS Code **File › Open Folder**로 연다.
 
 지난주 완성본을 넣는다. 내 `web-week04` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`)과 `images/`를 `web-week05`로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
-ZIP을 못 받았으면 교재 [4주차 `examples/day2/web-week05/`](../week04_responsive_css/examples/day2/web-week04/)의 파일을 2단계와 같은 **Raw** 방법으로 받는다. 4주차를 옛 저장소 `my-web`으로 수업한 분반은 내 `my-web`을 같은 방법으로 받아 맨 위 파일과 `images/`만 옮긴다.
+ZIP을 못 받았으면 교재 [4주차 `examples/day2/web-week04/`](../week04_responsive_css/examples/day2/web-week04/)의 파일을 2단계와 같은 **Raw** 방법으로 받는다. 4주차를 옛 저장소 `my-web`으로 수업한 분반은 내 `my-web`을 같은 방법으로 받아 맨 위 파일과 `images/`만 옮긴다.
 
 이어서 `web-week05` 안에 `ex` 폴더를 만든다. VS Code 탐색기에서 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week05`
 

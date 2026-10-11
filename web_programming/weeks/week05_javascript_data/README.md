@@ -49,7 +49,7 @@ JavaScript 는 브라우저가 실행한다. 비교 파일의 결과는 **F12 �
 
 ## 준비
 
-- 지난주 완성본. 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [4주차 `examples/day2/web-week05/`](../week04_responsive_css/examples/day2/web-week04/) 파일을 **Raw** 로 받는다. 4주차를 옛 저장소 `my-web` 으로 수업한 분반은 내 `my-web` 을 같은 방법으로 받아 맨 위 파일과 `images/` 만 넣는다
+- 지난주 완성본. 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [4주차 `examples/day2/web-week04/`](../week04_responsive_css/examples/day2/web-week04/) 파일을 **Raw** 로 받는다. 4주차를 옛 저장소 `my-web` 으로 수업한 분반은 내 `my-web` 을 같은 방법으로 받아 맨 위 파일과 `images/` 만 넣는다
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS(선택). `node -v` 로 확인한다. 2일차에 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에 받아 `node server.mjs` 로 띄운다([사용 안내](../../tools/static-server/README.md)). Node 가 없는 PC 는 파일을 두 번 눌러 열어도 이번 주 결과는 같다
 - 개발자 도구를 여는 법(오른쪽 클릭 › **검사**, 또는 **F12**. 노트북에서 안 열리면 Fn+F12, macOS 는 ⌘+Option(⌥)+I)과 **Console** 탭 위치
