@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex05 label for</title>
+</head>
+<body>
+    <h1>ex05 label for: 이름표를 입력 칸에 잇는다</h1>
+    <p>세 줄의 "입학 연도" 글자를 하나씩 눌러 본다. 커서가 옆 칸으로 들어가면 이름표가 칸에 이어진 것이다.</p>
+    <p>F12 › Elements 에서 label 의 for 와 input 의 id 를 글자 하나씩 비교한다.</p>
+    <h2>1. for 와 id 가 같다</h2>
+    <div>
+        <label for="year1">입학 연도</label>
+        <input id="year1" type="text">
+    </div>
+    <h2>2. for 와 id 가 한 글자 다르다</h2>
+    <div>
+        <label for="year2">입학 연도</label>
+        <input id="years2" type="text">
+    </div>
+    <h2>3. label 없이 글자만 적었다</h2>
+    <div>
+        입학 연도
+        <input id="year3" type="text">
+    </div>
+</body>
+</html>

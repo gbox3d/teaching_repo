@@ -100,7 +100,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 6 | DOM·이벤트·브라우저 CRUD | [다크 모드]로 배경이 바뀌고 "클릭 N회"가 표시된 `index.html` | [`week06_dom_crud`](week06_dom_crud/) |
 | 7 | 폼 입력 읽기와 결과 표시 | 이름·메시지를 넣고 [남기기]를 누르면 아래에 한 줄이 표시되는 `guestbook.html` | [`week07_async_modules`](week07_async_modules/) |
 | 8 | 중간 개인 실기 | 1일차 [1~7주 문제 은행](week08_midterm/examples/README.md) 연습, 2일차 중간 실기 — `web-week08/exam/` 공개 주소 · 저장소 주소 · Commits 탭 캡처 | [`week08_midterm`](week08_midterm/) |
-| 9 | 1차 과제 발표와 브랜치 복습 | 2분 시연과 저장소 `README.md` 1차판 | [`week09_architecture_project`](week09_architecture_project/) |
+| 9 | 1차 과제 발표와 README | 2분 시연과 저장소 `README.md` 1차판 | [`week09_architecture_project`](week09_architecture_project/) |
 | 10 | 배열 데이터를 목록으로 그리기 | 항목 3개를 쌓고 1개를 지운 뒤 "2개"가 표시된 방명록 | [`week10_supabase_data`](week10_supabase_data/) |
 | 11 | 객체와 localStorage | 새로고침해도 남는 방명록 3개와 Application › Local Storage의 `guestbook` 키 | [`week11_auth_rls`](week11_auth_rls/) |
 | 12 | fetch로 JSON 불러오기 | JSON에서 읽은 카드 3개와 Network 탭의 `projects.json` 200 | [`week12_persistent_crud`](week12_persistent_crud/) |
@@ -133,12 +133,14 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | `addEventListener('click', function () { })` | 6주 1일차 | 정식 항목 |
 | `classList.add / remove / toggle` | 6주 2일차 | 정식 항목 |
 | `addEventListener('submit', function (event) { })`, `event.preventDefault()`, `input.value`, `trim()` | 7주 1일차 | 정식 항목 |
-| `focus()`, `form.reset()`, `if` 안의 `return` | 7주 1일차 | 오늘 문법 5분 |
+| `focus()`, `form.reset()`, `if` 안의 `return` | 7주 2일차 | 정식 항목(ex04·ex05) |
+| `addEventListener('input', …)`, 미리 만든 함수 이름만 맡기기 | 7주 2일차 | 정식 항목(ex06·ex07) |
 | 배열 `[ ]`·`push`·`length`·`[i]`·고전 `for` | 10주 1일차 | 오늘 문법 5분(정식 도입) |
 | `createElement`·`textContent`·`append`, `innerHTML = ''`(비우기 전용) | 10주 1·2일차 | 정식 항목 |
 | `splice(i, 1)` | 10주 2일차 | 복붙 틀(삭제 버튼 틀 안) |
 | 객체 `{ name: …, message: …, date: … }`, 점 표기 | 11주 1일차 | 오늘 문법 5분 |
 | `JSON.stringify` / `JSON.parse`, `localStorage.setItem / getItem / removeItem` | 11주 2일차 | 정식 항목 |
+| `||`(if 안의 "또는", 값 자리의 `JSON.parse(…) || []`) | 11주 2일차 | 정식 항목(ex06) |
 | `async function`·`await fetch(url)`·`await response.json()` | 12주 1일차 | 복붙 틀 |
 | `try / catch`, `response.ok` | 12주 2일차 | 정식 항목 |
 | `Number()`, `isNaN()`, `new Date().getFullYear()` | 13주 1일차 | 오늘 문법 5분 |

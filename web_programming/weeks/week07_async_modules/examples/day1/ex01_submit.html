@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex01 submit</title>
+</head>
+<body>
+    <h1>ex01 폼 제출과 preventDefault</h1>
+    <p>두 칸에 아무 글자나 넣고 2번 → 1번 순서로 보내기를 누른다. 주소창 끝, 입력 칸, 결과 자리, F12 › Console 을 본다.</p>
+    <form id="form1">
+        <label for="word1">1번 칸</label>
+        <input id="word1" type="text">
+        <button type="submit">1. 보내기</button>
+    </form>
+    <div id="out1">1번 결과 자리</div>
+    <form id="form2">
+        <label for="word2">2번 칸</label>
+        <input id="word2" type="text">
+        <button type="submit">2. 보내기</button>
+    </form>
+    <div id="out2">2번 결과 자리</div>
+    <script src="ex01_submit.js"></script>
+</body>
+</html>

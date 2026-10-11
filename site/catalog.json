@@ -318,12 +318,12 @@
         {
           "id": "week09_architecture_project",
           "label": "9주차",
-          "title": "1차 과제 발표와 브랜치 복습",
+          "title": "1차 과제 발표와 README",
           "description": "3~7주에 한 주씩 쌓아 온 내 사이트를, 공개 주소를 열어 **2분 안에** 남에게 보여 줄 수 있을까? 그리고 그 설명을 저장소 첫 화면에 한 장으로 남길 수 있을까?",
           "type": "week",
           "en": {
             "label": "Week 9",
-            "title": "Project 1 Presentation and Branch Review",
+            "title": "Project 1 Presentation and README",
             "description": "Can you open the public URL and show someone the site you built week by week in Weeks 3–7, in 2 minutes? And can you leave that description as a single page on the repository's front screen?"
           }
         },

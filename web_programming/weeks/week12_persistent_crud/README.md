@@ -1,123 +1,112 @@
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud)
+
 # 12주차 — fetch로 JSON 불러오기
 
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud
+이번 주도 부품을 하나씩 본다. 비교 예제 6개를 열어 값을 바꿔 보고, 마지막에 이번 주 새 저장소 `web-week12` 에 `data/projects.json`·`projects.html`·`projects.js` 를 그 부품으로 조립한다.
+11주차에는 방명록 글을 브라우저 저장소에 넣었다. 이번 주에는 화면에 쓸 내용을 **파일**에 적어 두고, `fetch` 로 그 파일을 읽어 와 카드로 그린다.
+결과는 화면과 **F12 › Console**, 그리고 이번 주에 처음 쓰는 **F12 › Network** 탭에서 본다. 파일 하나에 개념 하나. 다른 파일의 개념은 섞지 않는다.
 
 ## 이번 주 질문
 
-> 화면에 쓸 내용을 HTML 안에 직접 적지 않고, **따로 만든 파일에서 읽어 와** 카드로 그릴 수 있을까?
+> 화면에 쓸 내용을 HTML 에 직접 적지 않고, 따로 둔 파일에서 읽어 와 카드로 그리려면 무엇을 알아야 하나?
 
-11주차에는 방명록 항목을 객체로 만들고 `JSON.stringify`로 문자열로 바꿔 `localStorage`에 저장했다.
-그 저장 칸에 들어 있던 글자 모양(`[{"name":"하늘",…}]`)을 이번에는 **파일**로 만든다.
-`data/projects.json`에 프로젝트 3개를 적어 두고, `fetch`로 그 파일을 읽어 `projects.html`에 카드로 그린다.
-
-**이번 주도 확인과 캡처는 공개 주소에서만 한다.** 내 PC에서 파일을 직접 연 화면(`file://`)에서는 `fetch`가 막혀 카드가 하나도 보이지 않는다.
+답은 세 가지 원리다.
+JSON 은 **글자**다. 이름과 문자열 값을 큰따옴표로 감싸는 규칙을 지킨 글자만 배열·객체로 바뀐다(11주차 `JSON.parse` 와 같다).
+`fetch` 는 파일을 **요청**하고 응답을 기다린다. 요청을 받아 줄 서버가 있는 주소(`http://`·`https://`)에서만 된다. 두 번 눌러 연 화면(`file://`)에서는 막힌다.
+파일을 못 읽는 길은 둘이다. 요청이 막히거나 받은 글자를 JSON 으로 읽지 못하면 `catch` 로 가고, 파일이 없어 404 가 오면 `response.ok` 가 `false` 다. 둘 다 화면에 알린다.
 
 ## 학습 목표
 
-1. `data/projects.json` 파일에 `{ "title": …, "description": … }` 객체 3개를 적고 **큰따옴표 규칙**을 지킨다.
-2. `async function loadProjects()` 안에서 `await fetch('data/projects.json')`로 파일을 읽는다.
-3. `await response.json()`으로 읽어 온 값을 배열로 바꾸고 `console.log`로 확인한다.
-4. 10주차의 고전 `for`와 `createElement`로 `article` 카드를 만들어 그림·제목·설명·링크를 넣는다.
-5. `try / catch`와 `response.ok`로 파일을 못 읽었을 때 `프로젝트를 불러오지 못했습니다.`를 보여 준다.
+1. JSON 글자 규칙(이름과 문자열 값은 큰따옴표, 마지막 항목 뒤에 쉼표 없음)을 지켜 `data/projects.json` 에 객체 3개를 적는다. 규칙을 어기면 빨간 줄이 뜨는 것을 확인한다.
+2. `async function loadProjects()` 안에서 `await fetch('…')` 로 파일을 요청하고 `await response.json()` 으로 배열을 받는다. **Network** 탭에서 요청 한 줄과 Status 200 을 본다.
+3. 두 번 눌러 연 화면(`file://`)에서는 `fetch` 가 막히고, 서버 주소(`http://localhost:8000/`)와 공개 주소에서는 된다는 것을 주소창과 Console 문구로 구분한다.
+4. 10주차 `for` 와 `createElement` 로 `article` 카드를 만들어 `img`·`h3`·`p`·`a` 를 넣고 `.card` class 를 붙인다.
+5. `try / catch` 와 `response.ok` 로 파일을 못 읽었을 때 화면에 `프로젝트를 불러오지 못했습니다.` 를 보여 준다.
 
 ## 이번 주 결과물
 
 ```text
-[캡처 1] https://student01.github.io/my-web/projects.html
-         카드 3개가 보이고 F12 › Network 탭에 projects.json 200이 함께 보이는 화면
-
-         지금까지 만든 것
-         ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-         │ [그림]        │  │ [그림]        │  │ [그림]        │
-         │ 자기소개 페이지 │  │ 내 정보 표     │  │ 방명록        │
-         │ 홈 화면입니다… │  │ 아이디와 이메일… │  │ 이름과 메시지… │
-         │ 페이지 열기    │  │ 페이지 열기    │  │ 페이지 열기    │
-         └──────────────┘  └──────────────┘  └──────────────┘
-         Name: projects.json   Status: 200   Type: fetch
+[캡처 1] https://student01.github.io/web-week12/projects.html
+         프로젝트 ─ 지금까지 만든 것
+         카드 ─ [그림] 자기소개 페이지 · 홈 화면입니다. … · 페이지 열기
+         카드 ─ [그림] 내 정보 표 · 아이디와 이메일, … · 페이지 열기
+         카드 ─ [그림] 방명록 · 이름과 메시지를 남기면 … · 페이지 열기
+         F12 › Network ─ projects.json   200   fetch
          ← 주소창이 함께 보이게 찍는다
 ```
 
-`student01`은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다. 제출은 이 캡처 **한 장**이다.
+- 제출은 이 캡처 **한 장**이다. 카드 3장과 Network 탭의 `projects.json` **200** 이 한 화면에 보여야 한다.
+- 확인과 캡처는 **공개 주소에서** 한다. `web-week12/ex/` 에 비교 예제를 저장하고 값을 바꾼 것은 push 로 남긴다. 기록물·표는 없다.
+- `student01` 은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다.
 
 ## 2일 수업 흐름
 
-| 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
+| 일차 | 설명 30분 | 실습 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | 오늘 도구 5분(Pages에서 먼저 보기), JSON 파일과 큰따옴표, `loadProjects()` 틀, `file://`에서 나는 Console 오류 | `data/projects.json` 3개 → `projects.html`·`projects.js` → `console.log` → 카드 그리기 → push해서 공개 주소에서 확인 | 확인용 캡처 |
-| 2일차 | `try / catch`와 안내 문구, `response.ok`와 404, 카드에 `img`·`a`와 `.card` 재사용, 14주 최종 과제 공지 | 안내 문구 → 카드 완성 → nav에 프로젝트 링크 → Network 탭 확인 → push·캡처 | 캡처 1 |
+| 1일차 | 고르기 페이지와 서버로 열기 → ex01 JSON 글자 규칙 → ex02 fetch 틀과 Network 탭 → ex03 `file://` 과 `http://` | 새 폴더 `web-week12` 에 지난주 완성본과 `server.mjs` 넣기 → `ex/` 에 여섯 파일 저장 → 서버로 열어 값 바꿔 보기 → 새 저장소 만들어 올리기 · Pages 켜기 | `ex/` 비교 예제(확인용) |
+| 2일차 | ex04 카드 만들기 → ex05 `try / catch` → ex06 `response.ok` → 14주차 최종 과제 안내 → 조립표 | 아홉 파일 값 바꿔 보기 → `data/projects.json`·`projects.html`·`projects.js` 조립, nav 네 페이지 → 서버와 375·1280 폭으로 확인 → push → 공개 주소에서 Network 200 | 캡처 1 |
 
-각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
-시간이 필요한 학생은 따라하기 문서의 단계를 하나씩 반복한다.
+각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
 
 ## 준비
 
-- 11주차까지 push한 `my-web` 저장소. 같은 PC면 `git pull`, 다른 PC면 `git clone https://github.com/<아이디>/my-web.git`
-- VS Code, 브라우저, Git (`git --version`으로 확인)
-- 이번 주에 새로 만드는 파일은 `projects.html`·`projects.js`·`data/projects.json`과 카드 그림 세 장이다
-- 브라우저 개발자 도구의 **Console** 탭과 **Network** 탭 (**F12** 또는 우클릭 › 검사)
-- 본인 GitHub Pages 공개 주소. **확인과 캡처는 이 주소에서만 한다**
-- (선택) 로컬 미리보기용 VS Code 확장 **Live Server**. 설치가 막히면 미리보기 없이 push해서 공개 주소로 확인해도 이번 주 실습은 그대로 끝난다
-- 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com`이다
+- 지난주 완성본. 내 `web-week11` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [11주차 `examples/day2/web-week11/`](../week11_auth_rls/examples/day2/web-week11/) 파일을 **Raw** 로 받는다
+- VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
+- Node.js LTS(`node -v` 로 확인)와 [server.mjs](../../tools/static-server/server.mjs)([사용 안내](../../tools/static-server/README.md)). 이번 주 예제는 `fetch` 가 있어서 **서버로 연다**. Node 가 없는 PC 는 저장소를 먼저 올리고 공개 주소에서 확인한다(push 할 때마다 1~3분 기다린다)
+- 개발자 도구의 **Console** 탭과 **Network** 탭 위치(오른쪽 클릭 › **검사**, 또는 **F12**)
+- 11주차에 **Application › Local Storage** 에서 본 `guestbook` 값의 모양(`[{"name":…}]`)을 기억해 둔다. 이번 주 JSON 파일이 같은 모양이다
+- 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
 
 ## 이번 주 용어
 
 | 한국어 | English | 中文 |
 |---|---|---|
-| 데이터 파일 | JSON file | JSON 文件 |
-| 불러오기 | fetch | 获取 |
+| JSON 파일 | JSON file | JSON 文件 |
+| 파일 요청하기 | fetch | 获取（请求文件） |
 | 기다리기 | await | 等待 |
+| 비동기 함수 | async function | 异步函数 |
 | 응답 | response | 响应 |
-| 응답이 정상인가 | response.ok | 响应是否正常 |
-| 오류를 받아 두기 | try / catch | 捕获错误 |
-| 카드 | card (article) | 卡片 |
-| 로컬 서버 | local server | 本地服务器 |
+| 정상 응답인가 | response.ok | 响应是否正常 |
+| 오류 받기 | try / catch | 捕获错误 |
+| 네트워크 탭 | Network panel | 网络面板 |
 
-## 이번 주 범위
+## 이번 주 비교 예제
 
-| 태그·API | 이번 주에 알아둘 뜻 |
-|---|---|
-| `data/projects.json` | 화면에 쓸 내용만 따로 적어 둔 **데이터 파일**. 11주차 Application 탭에서 본 글자 모양과 같다 |
-| JSON의 큰따옴표 | 이름과 문자열 값에 **큰따옴표 `"`만** 쓴다. 작은따옴표와 마지막 쉼표는 오류가 된다 |
-| `async function loadProjects() { }` | 안에서 `await`를 쓸 수 있는 함수. **복붙 틀**이며 `async`와 `await`는 짝으로 쓴다 |
-| `await fetch('data/projects.json')` | 그 파일을 달라고 요청하고 **응답이 올 때까지 기다린다**. 경로는 `projects.html`이 있는 곳 기준의 상대 경로다 |
-| `await response.json()` | 응답의 내용을 배열·객체로 바꾼다. 여기서도 기다려야 한다 |
-| `console.log(projects)` | 읽어 온 값을 Console에 찍어 배열인지, 몇 개인지 눈으로 본다 |
-| `response.ok` | 응답이 정상(200)이면 `true`, 404 같으면 `false`다 |
-| `try { } catch (error) { }` | 안쪽에서 오류가 나면 멈추지 않고 `catch` 쪽으로 넘어간다. 안내 문구를 여기서 보여 준다 |
-| `<div id="project-list"></div>` | 카드를 담아 둘 **빈 상자**. 10주차 `<ul id="list">` 자리와 같은 역할이고, 목록이 아니라 카드를 넣으므로 `div`를 쓴다 |
-| `document.createElement('article')` | 카드 한 장이 될 요소를 만든다. `classList.add('card')`로 4주차 `.card` 모양을 그대로 쓴다 |
-| `image.src` · `image.alt` · `image.width` | 만든 `img`에 그림 주소·대체 글·너비를 넣는다 |
-| `link.href` · `link.textContent` | 만든 `a`에 이동할 주소와 보일 글자(`페이지 열기`)를 넣는다 |
-| **F12 › Network** | 페이지가 어떤 파일을 받아 왔는지 보는 탭. `projects.json`의 **Status 200**이 제출 캡처에 함께 들어간다 |
+1일차 ex01~ex03 은 같은 화면(글자 자리 하나)을 쓰므로 코드만 `.js` 파일에 두고, 고르기 페이지 [day1/index.html](examples/day1/index.html) 맨 아래 `<script src>` 세 줄 중 하나만 켜서 연다. 2일차 ex04~ex06 은 화면이 서로 달라서 `.html` 과 `.js` 를 한 쌍으로 둔다. `fetch` 가 읽는 `.json` 파일과 ex04 의 그림은 같은 폴더에 둔다. Console 의 번호가 코드의 형제 번호와 같다.
 
-`file://`로 연 화면에서는 `fetch`가 막힌다. 서버에 올라간 주소(공개 주소·Live Server)에서만 동작한다.
-서버에 저장해 여러 사람이 함께 고치는 것(데이터베이스·로그인)은 이 과목의 선택 특강이다. `Promise.then`·`import`/`export`는 쓰지 않는다.
+| 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
+|---|---|---|---|
+| [ex01_json_rule.js](examples/day1/ex01_json_rule.js) | 1. 큰따옴표 / 2. 작은따옴표 / 3. 마지막 쉼표 | JSON 은 글자다. 규칙을 지킨 글자만 `JSON.parse` 가 배열로 바꾼다 | 2·3번 주석 풀기 → 빨간 줄, `"title"` 의 따옴표 지우기 |
+| [ex02_fetch.js](examples/day1/ex02_fetch.js) + [ex02_projects.json](examples/day1/ex02_projects.json) | 1. `await fetch` 의 응답 / 2. `await response.json()` 의 배열 | `fetch` 는 파일을 요청해 응답을 받고, `json()` 은 그 글자를 배열로 바꾼다. 두 줄 모두 기다린다 | `.json` 의 제목 바꾸기, `await` 하나 지우기, 마지막 줄 `loadProjects();` 지우기 |
+| [ex03_file_http.js](examples/day1/ex03_file_http.js) + [ex03_projects.json](examples/day1/ex03_projects.json) | 서버 주소로 연 페이지 / 두 번 눌러 연 페이지 | 코드는 같고 주소가 다르다. `file://` 에서는 `fetch` 가 막혀 그 줄 아래가 실행되지 않는다 | 두 가지로 열어 화면 번호와 Console 비교 |
+| [ex04_cards.html](examples/day2/ex04_cards.html) + [.js](examples/day2/ex04_cards.js) | 카드 안의 1. `img` / 2. `h3` / 3. `p` / 4. `a` | 배열의 항목 하나가 `article` 카드 한 장이 된다. `append` 에 넣은 순서대로 쌓인다 | `append` 순서, `classList.add('card')` 지우기, 없는 그림 이름 |
+| [ex05_try_catch.html](examples/day2/ex05_try_catch.html) + [.js](examples/day2/ex05_try_catch.js) | 1. `try` 를 끝까지 / 2. `catch` 로 넘어감 | `try` 안에서 오류가 나면 페이지가 멈추지 않고 `catch` 로 가서 화면에 알린다 | 두 가지로 열기, `.json` 에 작은따옴표 넣기, `catch` 비우기 |
+| [ex06_response_ok.html](examples/day2/ex06_response_ok.html) + [.js](examples/day2/ex06_response_ok.js) | 1. 있는 파일(200) / 2. 없는 파일(404) | 파일이 없어도 서버는 404 를 답한다. 그래서 읽기 전에 `response.ok` 로 묻는다 | 2번 줄 켜기, `if` 블록 지우기, 파일 이름 앞에 `/` |
 
 ## 수업 자료
 
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week12_persistent_crud/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md)
-- 1일차 완성 코드: [projects.html](examples/day1/projects.html) · [projects.js](examples/day1/projects.js) · [data/projects.json](examples/day1/data/projects.json) · [index.html](examples/day1/index.html) · [styles.css](examples/day1/styles.css)
-- 2일차 완성 코드: [projects.html](examples/day2/projects.html) · [projects.js](examples/day2/projects.js) · [index.html](examples/day2/index.html) · [about.html](examples/day2/about.html) · [guestbook.html](examples/day2/guestbook.html)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(고르기 페이지 `index.html`, ex01~ex03 의 `.js`, ex02·ex03 의 `.json`), 2일차 `day2/`(ex04~ex06 의 `.html`·`.js`, 그림과 `.json`, 조립 `web-week12/`)
+- 2일차 끝의 `web-week12`(조립 결과): [projects.html](examples/day2/web-week12/projects.html) · [projects.js](examples/day2/web-week12/projects.js) · [data/projects.json](examples/day2/web-week12/data/projects.json) · [index.html](examples/day2/web-week12/index.html) · [about.html](examples/day2/web-week12/about.html) · [guestbook.html](examples/day2/web-week12/guestbook.html) · [images/](examples/day2/web-week12/images/)
+- 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud
 
 ## 완료 기준
 
-- [ ] 공개 주소 `https://<아이디>.github.io/my-web/projects.html`이 열린다.
-- [ ] 카드 3개에 그림·제목·설명과 **페이지 열기** 링크가 보이고, 링크를 누르면 그 페이지로 간다.
-- [ ] 네 페이지(`index.html`·`about.html`·`guestbook.html`·`projects.html`)의 nav에 링크 네 개가 모두 있다.
-- [ ] **F12 › Network**에 `projects.json`이 **200**으로 보인다.
-- [ ] `data/projects.json` 파일 이름을 일부러 틀리게 하면 `프로젝트를 불러오지 못했습니다.`가 화면에 보인다.
-- [ ] (파일 이름을 되돌린 뒤) F12 Console에 빨간 줄이 없다.
-- [ ] 카드 3개와 Network 탭이 함께 보이는 화면을 캡처 1장으로 제출한다.
+- [ ] 새 저장소 `web-week12` 를 만들어 Pages 를 켰고, `ex/` 에 비교 예제가 있고, 각 예제에서 값을 하나 이상 바꿔 push 했다.
+- [ ] `data/projects.json` 에 객체 3개가 있고 이름표가 `title`·`description`·`image`·`link` 다. VS Code 에 빨간 밑줄이 없다.
+- [ ] `projects.html` 에 `<div id="notice">` 와 `<div id="project-list">` 가 있고, 네 페이지(`index.html`·`about.html`·`guestbook.html`·`projects.html`)의 nav 에 링크 네 개가 있다.
+- [ ] 공개 주소 `https://student01.github.io/web-week12/projects.html` 에서 카드 3장에 그림·제목·설명·**페이지 열기**가 보이고, **F12 › Network** 에 `projects.json` 이 **200** 이다. Console 에 `Uncaught` 빨간 줄이 없다.
+- [ ] `data/projects.json` 의 이름을 잠깐 틀리게 하면 화면에 `프로젝트를 불러오지 못했습니다.` 가 보인다(확인한 뒤 되돌렸다).
+- [ ] 카드 3장과 Network 탭이 함께 보이고 주소창이 보이는 캡처 1장을 제출한다.
 
 ## 다음 수업 연결
 
-이제 화면에 쓸 내용이 HTML 밖의 파일에 있고, 그 파일을 읽어 카드로 그린다.
-13주차에는 지금까지 만든 네 페이지를 점검한다. 입력한 글자를 그대로 보여 주는 `textContent`, 그림의 `alt`, 폼의 `label for`를 다시 보고
-`about.js`로 입학 연도를 계산해 넣은 뒤 저장소 `README.md` 최종판과 `screenshots/` 3장을 정리한다.
+오늘은 HTML 밖의 파일에서 내용을 읽어 카드로 그렸다. 13주차에는 새 저장소 `web-week13` 을 오늘 `web-week12` 의 파일에서 시작하고(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/web-week12/`](examples/day2/web-week12/)), 지금까지 만든 네 페이지를 점검한다.
+입력한 글을 `textContent` 로 넣는지(보안), 그림의 `alt` 와 입력 칸의 `label for` 가 있는지(접근성)를 보고, 저장소 `README.md` 를 최종판으로 정리한다. 오늘 카드에 넣은 `alt` 를 13주차에 다시 본다.
+14주차는 최종 발표다. 2일차에 안내한 필수 기능이 그대로 발표 내용이 된다.
 
 ## 공식 참고 자료
 
@@ -130,4 +119,4 @@
 - [try...catch — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/try...catch)
 - [JSON — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/JSON)
 - [CORS 오류: Cross origin requests are only supported for HTTP — MDN](https://developer.mozilla.org/ko/docs/Web/HTTP/Guides/CORS/Errors/CORSRequestNotHttp)
-- [GitHub Pages 사이트 만들기 — GitHub Docs](https://docs.github.com/ko/pages/getting-started-with-github-pages/creating-a-github-pages-site)
+- [네트워크 활동 검사(Network 패널) — Chrome DevTools](https://developer.chrome.com/docs/devtools/network?hl=ko)

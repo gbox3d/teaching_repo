@@ -3,261 +3,262 @@ marp: true
 theme: default
 paginate: true
 header: "웹프로그래밍 · 7주차"
-footer: "폼 입력 읽기와 결과 표시 · submit, value, 빈값 안내"
+footer: "폼 입력 읽기와 결과 표시 · 비교 예제로 원리를 보고 마지막에 조립"
 ---
 
 # 폼 입력 읽기와 결과 표시
 
-6주차에는 **버튼을 클릭했을 때** 화면을 바꿨습니다.
-이번 주에는 **폼을 제출했을 때** 화면을 바꿉니다.
+6주차에는 버튼을 누르면 **정해 둔 글자**를 띄웠습니다. 이번 주는 방명록 폼에 **사용자가 입력한 글자**를 읽어 띄웁니다.
 
-```text
-my-web/
-  guestbook.html  ← <form id="guestbook-form"> · <div id="notice"> · <div id="last">
-  guestbook.js    ← 새 파일. submit · preventDefault · value · trim
-  README.md       ← GitHub 웹에서 만들어 pull (2일차)
-```
+이번 주 방식도 같습니다: **비교 예제 7개**를 하나씩 보고, 마지막에 새 저장소 `web-week07` 의 `guestbook.html`·`guestbook.js` 를 **조립**합니다(지난주 완성본에서 시작).
 
-3주차에 만들어 두고 "눌러도 주소창만 바뀐다"고 적어 둔 그 폼이 오늘 동작합니다.
+- 폼을 보내면 브라우저는 페이지를 **다시 엽니다**. 그것을 막아야 결과가 남습니다.
+- 결과는 화면, **주소창**, **Console** 에서 봅니다.
+- 파일 하나 = 개념 하나. 실습은 **값을 바꿔 보는 것**입니다.
 
 ---
 
-# 1일차 — 폼 제출을 내 코드로 받기
+# 1일차 — 폼 제출과 입력 값
 
 `30분 설명·시연 → 60분 실습`
 
-1. 3주차 폼 다시 보기
-2. `addEventListener('submit')`과 `event.preventDefault()`
-3. `value`와 `trim()`으로 값 읽기
-4. 결과 표시·빈값 안내·`focus()`·`reset()`
-5. 8주차 중간 실기와 문제 은행
+1. 3주차 폼 다시 보기 — 남기기를 누르면 주소 끝에 `?`
+2. ex01 — 폼 제출과 `event.preventDefault()`
+3. ex02 — 입력 칸의 `value`: 열 때 vs 누를 때
+4. ex03 — `trim()`: 앞뒤 빈칸 떼기
 
 ---
 
 ## 1일차 · 0–5분 — 3주차 폼 다시 보기
 
-```html
-<form>
-  <label for="name">이름</label> <input id="name" type="text">
-  <label for="email">이메일</label> <input id="email" type="email">
-  <textarea id="message" rows="4"></textarea>
-  <button type="submit">남기기</button>
-</form>
+지난주 완성본의 `guestbook.html` — 3주차에 만든 그 폼입니다.
+
+```text
+이름·메시지를 넣고 [남기기]
+  → 주소: …/guestbook.html?     ← 끝에 ? 가 붙는다
+  → 칸이 비고 화면이 처음으로     Console 빨간 줄 없음
 ```
 
-- 3주차에 만든 폼입니다. **[남기기]**를 누르면 지금은 주소 끝에 `?`가 붙고 화면이 처음으로 돌아갑니다.
-- 브라우저가 폼을 **보내려고** 하기 때문입니다. 보낼 곳(서버)이 없어도 일단 주소를 바꾸고 새로고침합니다.
-- 오늘 할 일은 두 가지입니다. 그 동작을 **멈추고**, 입력한 값을 **내 코드로 받는 것**입니다.
-- `<form>`에 `id="guestbook-form"`을 붙이는 것부터 시작합니다. 찾을 수 있어야 맡길 수 있습니다.
+- 오류가 아닙니다. 브라우저가 폼을 **보내려고** 같은 파일을 다시 연 것입니다.
+- 오늘 할 일: 이 동작을 **멈추고**, 입력한 글자를 **내 코드로 읽는 것**입니다.
+
+**폼을 보내면 브라우저는 페이지를 다시 연다.**
 
 ---
 
-## 1일차 · 5–12분 — addEventListener('submit')과 preventDefault
+## 1일차 · 5–13분 — ex01 폼 제출과 preventDefault
+
+[examples/day1/ex01_submit.html](examples/day1/ex01_submit.html) · [ex01_submit.js](examples/day1/ex01_submit.js)
 
 ```js
-form.addEventListener('submit', function (event) {
-  event.preventDefault();
+form2.addEventListener('submit', function (event) {
+    event.preventDefault();          // 2. 다시 열기를 막는다
+    out2.textContent = '2. 제출을 받았다';
 });
 ```
 
-- 6주차 `'click'` 자리에 `'submit'`이 들어갔습니다. 맡기는 방법은 똑같습니다.
-- `submit`은 **[남기기]**를 누를 때도, 입력 칸에서 **Enter**를 칠 때도 일어납니다.
-- 괄호 안의 `event`는 **방금 일어난 일**이 담겨 오는 이름입니다.
-- `event.preventDefault()`는 "브라우저가 원래 하려던 일(주소 바꾸고 새로고침)을 하지 마라"는 뜻입니다.
-- 이 한 줄이 없으면 아래 코드가 실행되더라도 화면이 곧바로 처음으로 돌아갑니다.
+- 1번 폼(막지 않음): 주소 끝 `?`, 바꾼 글자가 사라집니다. 2번 폼: 그대로 남습니다.
+- 6주차 `'click'` 자리에 `'submit'`. 버튼을 눌러도 **Enter** 를 쳐도 폼의 `submit` 입니다.
+- Console ⚙ › **Preserve log** 를 켜면 다시 열려도 Console 줄이 남습니다.
+
+**리스너 첫 줄에서 `event.preventDefault()` 로 막아야 결과가 남는다.**
 
 ---
 
-## 1일차 · 12–18분 — value와 trim으로 값 읽기
+## 1일차 · 13–21분 — ex02 입력 칸의 value
+
+[examples/day1/ex02_value.html](examples/day1/ex02_value.html) · [ex02_value.js](examples/day1/ex02_value.js)
 
 ```js
-const nameInput = document.querySelector('#name');
-
-const name = nameInput.value.trim();
+const atOpen = nameInput.value;             // 1. 열 때 한 번
+form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const atSubmit = nameInput.value;       // 2. 누를 때마다
+    const message = messageInput.value;     // 3. textarea 도 value
+});
 ```
 
-- `.value`는 그 입력 칸에 **지금 적혀 있는 글자**입니다. `textarea`도 같습니다.
-- `.trim()`은 앞뒤 공백을 떼어 낸 값을 돌려줍니다. 공백만 친 칸을 빈칸으로 보기 위해서입니다.
-- 값을 읽는 줄은 리스너 **안**에 둡니다. 누를 때마다 그때의 값을 새로 읽어야 합니다.
-- `.velue`처럼 철자를 틀리면 `Cannot read properties of undefined (reading 'trim')`이 뜹니다.
+- 처음 열면 1번은 빈 글자, 2번은 지금 적힌 글자. 6주차 ex02(열 때 vs 클릭할 때)와 같은 원리입니다.
+- textarea 에 친 글자도 `textContent` 가 아니라 `value` 에 있습니다.
+
+**칸의 글자는 `value`. 읽는 줄은 리스너 안에 둔다.**
 
 ---
 
-## 1일차 · 18–24분 — 표시·빈값 안내·focus·reset
+## 1일차 · 21–28분 — ex03 trim(): 앞뒤 빈칸 떼기
+
+[examples/day1/ex03_trim.html](examples/day1/ex03_trim.html) · [ex03_trim.js](examples/day1/ex03_trim.js)
 
 ```js
-  if (name === '') {
-    notice.textContent = '이름을 입력하세요.';
-    nameInput.focus();
-    return;
-  }
-
-  last.textContent = `${name}: ${message}`;
-  form.reset();
-  nameInput.focus();
+const raw = nameInput.value;              // 1. [  student01  ]
+const trimmed = nameInput.value.trim();   // 2. [student01]
 ```
 
-- **오늘 문법 5분**: `return`은 "여기서 이 함수를 끝내라". 없으면 안내를 띄운 뒤에도 아랫줄이 실행됩니다.
-- `focus()`는 그 칸으로 커서를 옮기고, `form.reset()`은 폼을 비웁니다. 값을 읽어 **표시한 뒤에** 비웁니다.
-- `guestbook.html`은 `guestbook.js`를, `index.html`은 `app.js`를 부릅니다. **페이지마다 자기 js 하나**입니다.
+- 빈칸만 넣으면 1번 `[   ]`, 2번 `[]`. 빈칸만 친 칸을 빈 글자 `''` 로 볼 수 있습니다.
+- 가운데 빈칸(`student 01`)은 그대로입니다. 빈칸은 Console 의 `[ ]` 안에서 셉니다.
+- `.trim` 처럼 괄호를 빼면 값이 아니라 함수가 들어갑니다. 부를 때는 괄호.
+
+**`trim()` 은 앞뒤 빈칸만 뗀 값을 돌려준다.**
 
 ---
 
-## 1일차 · 24–30분 ① — 8주차 중간 실기와 문제 은행
+## 1일차 · 28–30분 — 이제 직접 해 보기
 
-| 항목 | 내용 |
-|---|---|
-| 범위 | 1~7주차 실습 제출 — HTML, CSS, JavaScript·DOM, 폼 |
-| 배점 | 20점(안). 오늘 만든 폼 입력·빈값 안내가 3점 |
-| 모양 | 1일차 은행 연습 → 2일차 시험. 저장소는 `web-week08` |
-| 공개 | [문제 은행](../week08_midterm/examples/README.md) · [채점표](../week08_midterm/rubric.md). 해답은 비공개 |
+[1일차 실습](lab.md#1일차--폼-제출과-입력-값-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
 
-- 시험은 은행 문제를 **값만 바꿔** 냅니다. 목록(10주차)·저장(11주차)·`fetch`(12주차)는 범위가 아닙니다.
-- 은행의 폼 문제 `w07_form_result`는 오늘 실습 48–55분에 받아 열어만 보고, 2일차에 풉니다.
+1. 새 폴더 `web-week07` 에 지난주 완성본, `ex/` 에 오늘 여섯 파일(`.html`·`.js` 세 쌍).
+2. ex01~ex03 — 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다. Preserve log 를 켭니다.
+3. 새 저장소 `web-week07` 만들어 올리기 · Pages 켜기.
+
+**설명 합계: 5+8+8+7+2 = 30분**
 
 ---
 
-## 1일차 · 24–30분 ② — 이제 직접 해 보기
-
-[1일차 실습](lab.md#1일차--폼-제출을-받아-화면에-표시하기-60분) · [따라하기](walkthrough.md#1일차)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules
-
-1. `guestbook.html`에 `id`와 결과 자리를 만들고 `guestbook.js`를 연결합니다.
-2. 제출을 받아 새로고침을 막고, 값을 읽어 `이름: 메시지` 한 줄로 표시합니다.
-3. 이름이 비면 안내하고 커서를 옮긴 뒤, `form.reset()`으로 다음 입력을 준비합니다.
-
-**설명 합계: 5+7+6+6+6 = 30분**
-
-막히면 Console의 **첫 빨간 줄**과 `guestbook.js:7` 같은 줄 번호부터 읽습니다.
-
----
-
-# 2일차 — 두 칸을 끝까지 다듬기
+# 2일차 — 빈값 안내와 다음 입력, 그리고 조립
 
 `30분 설명·시연 → 60분 실습`
 
-1. GitHub 웹에서 `README.md` 만들고 `git pull`
-2. SSH 키 한 장 (개인 노트북 선택)
-3. 두 칸 검사와 안내 문구 지우기
-4. `reset`·`focus`로 다음 입력 준비
-5. 중간 실기 60분 배분
+1. 고르기 페이지 — 네 예제가 같은 폼을 쓴다
+2. ex04 — `form.reset()` 과 `focus()`: 다음 입력 준비
+3. ex05 — 빈값 검사와 `return`
+4. ex06 — `'input'` 이벤트: 글자가 바뀔 때마다
+5. ex07 — 함수 이름만 맡기기
+6. 조립 — `web-week07` 의 `guestbook.html`·`guestbook.js`
 
 ---
 
-## 2일차 · 0–8분 ① — 오늘 Git 8분: GitHub 웹에서 README 만들기
+## 2일차 · 0–3분 — 고르기 페이지: 네 예제가 같은 폼을 쓴다
 
-**저장소 화면 › Add file › Create new file › `README.md` › Commit changes**
+[examples/day2/index.html](examples/day2/index.html) — 방명록 모양 폼, 안내 자리 `#notice`, 결과 자리 `#last`.
 
-```bash
-git pull
+```html
+<script src="ex04_reset_focus.js"></script>
+<!-- <script src="ex05_empty.js"></script> -->
+<!-- <script src="ex06_input.js"></script> -->
+<!-- <script src="ex07_pass_name.js"></script> -->
 ```
+
+- 5·6주차와 같은 방법입니다. **Ctrl+/**(macOS ⌘+/)로 **한 줄만** 켭니다.
+- 두 줄을 켜면 같은 이름의 `const` 가 겹쳐 둘째 파일이 빨간 줄을 내고 멈춥니다.
+
+**어느 코드를 불러올지는 `script` 줄 하나가 정한다.**
+
+---
+
+## 2일차 · 3–9분 — ex04 reset 과 focus: 다음 입력 준비
+
+[examples/day2/ex04_reset_focus.js](examples/day2/ex04_reset_focus.js)
+
+```js
+// 1. 비우기 전에 읽으면 [student01]
+console.log(`1. 비우기 전 : [${nameInput.value}] …`);
+form.reset();            // 폼 안의 칸을 모두 비운다
+// 2. 비운 뒤에 읽으면 []
+console.log(`2. 비운 뒤 : [${nameInput.value}] …`);
+nameInput.focus();       // 3. 커서를 이름 칸으로
+```
+
+- `reset()` 뒤에 읽으면 빈 글자입니다. 그래서 **읽고 나서 비웁니다**.
+- `focus()` 는 커서를 옮깁니다. 바로 다음 글을 칠 수 있습니다.
+
+**`reset()` 은 칸을 비우고 `focus()` 는 커서를 옮긴다. 읽은 다음에 비운다.**
+
+---
+
+## 2일차 · 9–15분 — ex05 빈값 검사와 return
+
+[examples/day2/ex05_empty.js](examples/day2/ex05_empty.js)
+
+```js
+if (name === '') {
+    notice.textContent = '이름을 입력하세요.';
+    return;                                  // 1. 여기서 멈춘다
+}
+if (message === '') { … return; }            // 2.
+last.textContent = `${name}: ${message}`;    // 3. 둘 다 찼을 때만
+```
+
+- 검사는 위에서부터입니다. 둘 다 비면 1번 안내만 나옵니다.
+- `return` 이 없으면 아랫줄도 실행되어 `: 안녕하세요` 가 남습니다.
+
+**빈 칸이면 안내하고 `return` 으로 거기서 멈춘다.**
+
+---
+
+## 2일차 · 15–19분 — ex06 input 이벤트: 글자가 바뀔 때마다
+
+[examples/day2/ex06_input.js](examples/day2/ex06_input.js)
+
+```js
+// 1. 이름 칸 — 한 글자 칠 때마다, 지울 때도 (2. 메시지 칸도 같다)
+nameInput.addEventListener('input', function () {
+    notice.textContent = '';
+    console.log('1. 이름 칸 input :', nameInput.value);
+});
+```
+
+- `abc` 를 한 글자씩 치면 1번이 세 줄입니다. 첫 글자에서 안내가 사라집니다.
+- `'inptu'` 처럼 이름이 틀리면 빨간 줄 없이 아무 일도 일어나지 않습니다.
+
+**칸의 글자가 바뀔 때마다 `'input'` 이 일어난다.**
+
+---
+
+## 2일차 · 19–23분 — ex07 함수 이름만 맡기기
+
+[examples/day2/ex07_pass_name.js](examples/day2/ex07_pass_name.js)
+
+```js
+function clearNotice() { notice.textContent = ''; }
+// 1. function () { } 안에서 괄호를 붙여 부른다
+nameInput.addEventListener('input', function () { clearNotice(); });
+// 2. 이름만 맡긴다 — 칠 때마다 브라우저가 부른다
+messageInput.addEventListener('input', clearNotice);
+```
+
+- 1·2번은 하는 일이 같습니다. 이름 칸이든 메시지 칸이든 치면 안내가 사라집니다.
+- `clearNotice()` 로 맡기면 그 줄에서 한 번 불리고 끝입니다. 쳐도 안내가 남고 빨간 줄도 없습니다.
+
+**맡길 때는 함수 이름만, 부를 때는 괄호.**
+
+---
+
+## 2일차 · 23–26분 — 조립 ① guestbook.html
 
 ```text
-Updating a69bc37..3d51f0c
-Fast-forward
- README.md | 8 ++++++++
- 1 file changed, 8 insertions(+)
- create mode 100644 README.md
+<head>  <script src="guestbook.js" defer>   ← 6주 app.js 줄
+<form id="guestbook-form">                  ← ex01 · ex02
+<p>지금은 눌러도 …</p> 를 지우고 그 자리에
+  <div id="notice"></div>                   ← ex05 자리
+  <h3>마지막으로 남긴 글</h3>
+  <div class="card" id="last">…</div>       ← ex05 · .card
 ```
 
-- GitHub 화면에서 만든 파일은 **GitHub에만** 있습니다. `git pull`을 해야 내 PC에 생깁니다.
-- 2주차 부록에서 본 `clone`·`pull`의 복습입니다. 지금까지는 내가 올리기만 했습니다.
-- pull을 건너뛰고 commit하면 다음 push가 거부됩니다. **받아오는 것이 먼저**입니다.
+- 페이지마다 자기 js 하나: `index.html` 은 `app.js`, `guestbook.html` 은 `guestbook.js`.
+- `index.html`·`app.js`·`styles.css`·`about.html` 은 6주차 그대로입니다.
+
+**HTML 에는 찾을 `id` 와 결과를 쓸 자리만 만든다.**
 
 ---
 
-## 2일차 · 0–8분 ② — SSH 키로 로그인하기 (개인 노트북 선택)
-
-```bash
-ssh-keygen -t ed25519 -C "student01@example.com"
-```
-
-- 개인 노트북에서 push할 때마다 `Username for 'https://github.com':`가 뜨는 경우의 대안입니다.
-- `~/.ssh/id_ed25519.pub` 내용을 **Settings › SSH and GPG keys › New SSH key**에 붙여 넣습니다.
-- `git remote set-url origin git@github.com:student01/my-web.git`으로 주소를 바꿉니다.
-- 실습실 PC는 지금까지처럼 **HTTPS + 브라우저 로그인**으로 합니다. 이 장은 **채점하지 않습니다.**
-- 개인 키 파일(`id_ed25519`)은 누구에게도 보내지 않습니다. 화면에 띄우지도 않습니다.
-
----
-
-## 2일차 · 8–15분 — 두 칸 검사와 안내 문구 지우기
-
-```js
-  if (message === '') {
-    notice.textContent = '메시지를 입력하세요.';
-    messageInput.focus();
-    return;
-  }
-```
-
-```js
-nameInput.addEventListener('input', clearNotice);
-```
-
-- 검사는 **위에서부터** 차례로 합니다. 이름이 비면 거기서 끝나 메시지 검사까지 가지 않습니다.
-- 안내 문구는 칸마다 다르게 씁니다. 문구만 보고 어디를 고칠지 알 수 있어야 합니다.
-- `'input'`은 글자가 바뀔 때마다 일어납니다. 6주차 `addEventListener`에서 **이벤트 이름만** 바뀌었습니다.
-- 맡길 때 `clearNotice`에 괄호를 붙이지 않습니다. `clearNotice()`는 그 자리에서 한 번 실행하라는 뜻입니다.
-
----
-
-## 2일차 · 15–21분 — reset·focus로 다음 입력 준비
-
-```js
-  clearNotice();
-  last.textContent = `${name}: ${message}`;
-  form.reset();
-  nameInput.focus();
-```
-
-- 순서가 중요합니다. 값을 **읽어 표시한 뒤에** 비웁니다. 먼저 비우면 빈 값이 표시됩니다.
-- `form.reset()`은 이메일 칸까지 폼 전체를 비웁니다. `focus()`로 커서를 이름 칸에 돌려 둡니다.
-- 두 번째 글을 남기면 **앞 글이 사라집니다.** 카드가 한 줄이기 때문입니다.
-- 글을 쌓아 목록으로 보여 주는 것은 **10주차**, 새로고침해도 남게 하는 것은 **11주차**입니다.
-
----
-
-## 2일차 · 21–26분 ① — 중간 실기 60분 배분
-
-| 시각 | 하는 일 |
-|---|---|
-| 0–5 | 문제 문장(`exam/README.md`)을 끝까지 읽는다 |
-| 5–15 | A HTML(1~3주) |
-| 15–27 | B CSS(4주) |
-| 27–39 | C JavaScript·DOM(5·6주) |
-| 39–50 | D 폼(7주 — 이번 주에 만든 것) |
-| 50–60 | `add → commit → push` 5분 · 예비 5분(Pages 반영 지연·재로그인) |
-
-- 1일차에 은행 문제로 연습하고 **`web-week08` 만들기·Pages 켜기**까지 끝냅니다.
-- 시험 날에는 나눠 주는 `exam` 폴더를 넣어 올리기만 합니다. 5분 넘게 막히면 넘어갑니다.
-
----
-
-## 2일차 · 21–26분 ② — 이 과목에서 비동기와 모듈은 어디 있나
+## 2일차 · 26–30분 — 조립 ② guestbook.js, 그리고 실습 인계
 
 ```text
-7주차  폼 제출 → 값 읽기 → 화면에 표시   ← 오늘
-12주차 fetch로 JSON 파일 불러오기        ← 비동기는 여기
-—      ES Module(import/export)·번들러   ← 이 과목 범위 밖
+const form·nameInput·messageInput·notice·last     ← ex02 · ex05
+function clearNotice() { … }                      ← ex07
+submit 리스너 + event.preventDefault()            ← ex01 2번
+const name·message = … .value.trim()              ← ex02 · ex03
+if 이름 · if 메시지 { 안내 · focus() · return }   ← ex05 · ex04
+clearNotice() · 결과 한 줄 · reset() · focus()    ← ex07 · ex05 · ex04
+input 리스너 두 줄(clearNotice 이름만)            ← ex06 · ex07 2번
 ```
 
-- 화면에서 일어난 일을 받아 처리하는 오늘의 흐름이 12주차 `fetch`의 바탕입니다.
-- **비동기는 12주차 `fetch`에서** 다룹니다. 파일 하나를 불러와 카드로 그립니다.
-- **모듈(`import`/`export`)은 이 과목 범위 밖**입니다. 우리는 `<script src="…" defer>` 하나로만 씁니다.
-- 한 페이지에 자기 js 하나를 붙이는 지금 방식이 이 학기의 표준입니다.
+[2일차 실습](lab.md#2일차--빈값-안내와-다음-입력-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
 
----
+1. ex04~ex07 값 바꾸기(29분까지) → 조립 → 375·1280 과 서버로 확인 → push → 캡처.
+2. 8주차는 1~7주 [문제 은행](../week08_midterm/examples/README.md)에서 값을 바꿔 냅니다. 오늘 폼도 들어 있습니다.
 
-## 2일차 · 26–30분 — 이제 직접 해 보기
-
-[2일차 실습](lab.md#2일차--두-칸-검사와-안내-문구-다듬기-60분) · [따라하기](walkthrough.md#2일차)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules
-
-1. GitHub 웹에서 `README.md`를 만들고 `git pull`로 받아 옵니다.
-2. 메시지 칸 검사를 더하고, 다시 입력하면 안내 문구가 지워지게 합니다.
-3. 은행의 폼 문제(`w07_form_result`)를 풀어 보고, push한 뒤 공개 주소에서 캡처합니다.
-
-**설명 합계: 8+7+6+5+4 = 30분**
+**설명 합계: 3+6+6+4+4+3+4 = 30분**
 
 ---
 
@@ -266,23 +267,23 @@ nameInput.addEventListener('input', clearNotice);
 2일차가 끝나면 캡처 **한 장**을 제출합니다.
 
 ```text
-https://student01.github.io/my-web/guestbook.html
+https://student01.github.io/web-week07/guestbook.html
 이름 student01 · 메시지 안녕하세요 를 넣고 [남기기]
-
 마지막으로 남긴 글
-student01: 안녕하세요
+카드: student01: 안녕하세요
 주소창이 함께 보이게 찍습니다
 ```
 
-빈값 안내(`이름을 입력하세요.`)는 실습 중에 눈으로 확인하는 것이고 캡처에는 없어도 됩니다.
+빈값 안내(`이름을 입력하세요.`)는 실습 중에 확인하는 것이고 캡처에는 없어도 됩니다.
 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
 
 ---
 
 ## 다음 주 미리 보기
 
-이번 주로 **8주차 중간 실기 범위**(1~7주차 실습 제출)가 모두 채워졌습니다.
+8주차는 **중간 개인 실기**입니다. 1일차에 문제 은행으로 연습하고, 2일차에 실기를 봅니다. 저장소는 `web-week08` 입니다.
 
-8주차 1일차는 **문제 은행으로 연습**하고, 2일차가 **중간 실기 60분**입니다.
-시험은 영역마다 은행 문제 하나를 **값만 바꿔** 냅니다. 저장소는 1일차에 만드는 `web-week08`입니다.
 [문제 은행](../week08_midterm/examples/README.md)은 공개되어 있습니다. 해답 대신 문제마다 있는 "확인할 것"으로 맞춰 보고 옵니다.
+
+지금은 두 번째 글을 남기면 앞 글이 사라집니다. 글을 쌓는 목록은 10주차, 새로고침해도 남기기는 11주차입니다.
+이 주차 폴더 이름의 비동기(async)는 12주차 `fetch` 에서 다루고, 모듈(`import`/`export`)은 이 과목 범위 밖입니다.

@@ -1,89 +1,59 @@
-# 9주차 예제 — 발표할 사이트와 README 1차판
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_architecture_project)
 
-7주차 `my-web`에서 이어지는 파일이다. 아래 파일은 해당 날짜 끝의 **`my-web` 전체 파일**이다.
-8주차 시험은 다른 저장소(`web-week08`)에서 풀었으므로 예제에 없다.
-이번 주에는 HTML·CSS·JavaScript를 고치지 않는다. 늘어나는 것은 `README.md`와 `screenshots/` 폴더 두 가지다.
-먼저 [따라하기](../walkthrough.md)를 순서대로 하고, 막히면 내 파일과 한 줄씩 비교한다.
-`student01`은 연습용 아이디다. 본인 아이디로 바꿔 쓴다.
+# 9주차 예제 — 비교 예제 3개와 조립 하나
 
-## 파일과 단계
-
-| 예제 파일 | 따라하기 단계 | 내 `my-web` 폴더의 파일 |
-|---|---|---|
-| [day1/screenshots/home.png](day1/screenshots/home.png) · [day1/screenshots/guestbook.png](day1/screenshots/guestbook.png) | [5단계](../walkthrough.md#5-화면-두-장-캡처해-screenshots-폴더에-넣기) — 내 화면을 직접 찍어 넣는다 | `screenshots/home.png` · `screenshots/guestbook.png` |
-| [day1/README.md](day1/README.md) | [6단계](../walkthrough.md#6-readme-1차판-쓰기) — 저장소 루트에 새로 만든다 | `README.md` |
-| [day1/index.html](day1/index.html) · [day1/styles.css](day1/styles.css) · [day1/app.js](day1/app.js) | [3단계](../walkthrough.md#3-홈-화면-세-파일-확인하기) — 열어서 동작만 확인한다. 고치지 않는다 | `index.html` · `styles.css` · `app.js` |
-| [day1/about.html](day1/about.html) · [day1/guestbook.html](day1/guestbook.html) · [day1/guestbook.js](day1/guestbook.js) | [4단계](../walkthrough.md#4-내-정보와-방명록-확인하기) — 열어서 동작만 확인한다 | `about.html` · `guestbook.html` · `guestbook.js` |
-| [day2/](day2/)의 모든 파일 | day1과 같다. 2일차는 발표뿐이라 파일이 바뀌지 않는다 | 그대로 |
-
-`day1/images/profile.png`와 `day2/images/profile.png`는 3주차에 넣은 그림 그대로다.
-7주차에 GitHub 웹에서 만든 8줄짜리 `README.md`는 이번 주에 **지우고 1차판으로 다시 쓴다.**
-
-## 1. 발표에서 보여 줄 화면
-
-`day1/index.html`을 브라우저로 열고 **[인사 바꾸기]**를 한 번 누르면 아래와 같다. 이 화면이 캡처 1이다.
+예제는 쓰는 날짜별 폴더에 있다. 번호는 한 주 안에서 이어 센다.
 
 ```text
-student01의 웹 연습장
-홈  내 정보  방명록
-반갑습니다. 오늘도 좋은 하루 되세요.     ← 버튼을 눌러 바뀐 문장
-[인사 바꾸기] [다크 모드]
-클릭 1회                                 ← 눌러 본 것이 보인다
-소개 · 프로필 그림 · 취미 세 줄
+examples/
+  day1/   ex01 ~ ex03     마크다운 제목 #, 목록 -, 링크 [보이는 글](주소) (.md 파일)
+  day2/   web-week09/     2일차 끝의 web-week09 — 7주차 완성본에 README 1차판과 캡처 두 장을 더한 조립
 ```
 
-`day1/guestbook.html`에서 이름과 메시지를 넣고 **[남기기]**를 누르면 아래와 같다. 이 화면이 캡처 2다.
+`exNN_*` 파일은 **파일 하나 = 개념 하나**다. 같은 일을 다르게 한 **형제**(1·2·3번)를 나란히 놓는다.
+이번 주 예제는 마크다운 파일(`.md`)이다. JavaScript 가 없어서 고르기 페이지와 `.js` 파일이 없다. 결과는 **렌더된 모양**에서 본다. VS Code 에서 파일을 열고 미리 보기를 옆에 띄우거나(**Ctrl+K** 다음 **V**, macOS **⌘+K** 다음 **V**), 올린 뒤 GitHub 저장소 화면에서 파일을 연다(**Preview** 는 렌더된 모양, **Code** 는 원문).
+맨 위 `<!-- … -->` 두 줄은 HTML 주석이다. 원문에는 있지만 렌더된 모양에는 보이지 않는다(5·6주차 고르기 페이지의 주석과 같다).
+**다른 파일의 개념은 섞지 않는다.** 목록 `-` 는 ex02 의 주제라서 ex01·ex03 에는 없다. 형제 사이는 빈 줄로 나눴다.
+만들기는 마지막 하나, [`day2/web-week09/`](day2/web-week09/) 뿐이다. 이번 주는 2일차 60분이 발표라서 비교 예제와 조립을 모두 1일차에 한다. 2일차에는 파일이 바뀌지 않으므로 2일차 끝의 `web-week09` 는 1일차 끝과 같다.
+내려받아 이번 주 저장소 `web-week09` 의 `ex/` 폴더에 파일 이름 그대로 저장한다(교재 저장소에서 **Raw** → 저장). 가져오는 방법은 [따라하기 1일차](../walkthrough.md#1일차)에 있다.
 
-```text
-방명록
-한 줄 남기기 · 쓰는 순서 3줄
-[이름] [이메일] [메시지] [남기기]
-마지막으로 남긴 글
-student01: 첫 방명록입니다.              ← 제출 뒤에 보이는 한 줄
-```
+## 비교 예제
 
-- 두 캡처 모두 **동작한 뒤의 화면**이다. `클릭 0회`나 `아직 남긴 글이 없습니다.`인 채로 찍지 않는다.
-- 이메일 칸은 비워 두어도 된다. 빈값 안내는 이름과 메시지 두 칸에만 있다.
-- 새로고침하면 두 화면 모두 처음 상태로 돌아간다. 오늘 글은 화면에만 있기 때문이다.
+| 파일 | 열면 보이는 것(렌더된 모양) | 보여 주는 원리 | 바꿔 볼 값 |
+|---|---|---|---|
+| [day1/ex01_heading.md](day1/ex01_heading.md) | 같은 글자 `공개 주소` 가 1번 아래 큰 제목, 2번 아래 한 단계 작은 제목, 3번 아래 보통 글자 `#공개 주소` | 줄 맨 앞의 `#` 개수가 제목의 크기를 정한다(하나가 가장 크다). `#` 뒤에 띄어쓰기 한 칸이 있어야 제목이고, 없으면 `#` 까지 글자로 보인다 | 10행 `##` → `###`(더 작아진다). 14행 `#공개 주소` → `# 공개 주소`(6행과 같은 큰 제목) |
+| [day1/ex02_list.md](day1/ex02_list.md) | 1번은 점(•)이 붙은 목록 세 줄, 2번은 `홈 내 정보 방명록` 한 줄, 3번은 `-홈 -내 정보 -방명록` 한 줄 | `- `(하이픈과 띄어쓰기)로 시작하는 줄이 목록 한 줄이 된다. 기호 없는 줄은 원문에서 줄을 바꿔도 한 문단으로 이어진다 | 2번(12~14행) 사이에 빈 줄 → 세 줄(점 없음). 3번(18~20행) `-` 뒤에 띄어쓰기 → 1번과 같아진다 |
+| [day1/ex03_link.md](day1/ex03_link.md) | 1번 `MDN 웹 문서`·2번 `ex01 제목 예제` 는 누를 수 있는 링크, 2번과 한 칸만 다른 3번은 `[ex01 제목 예제] (ex01_heading.md)` 글자 그대로 | `[보이는 글](주소)`. 대괄호는 화면에 보이는 글, 소괄호는 누르면 가는 곳이다. 소괄호에는 인터넷 주소나 같은 저장소 안의 파일 이름(경로)을 쓴다. `]` 와 `(` 사이를 띄우면 링크가 아니다 | 6행 주소를 내 공개 주소로. 10행 소괄호를 `ex02_list.md` 로(보이는 글은 그대로인데 갈 곳만 바뀐다). 14행 띄어쓰기 지우기 → 2번과 같은 링크 |
 
-## 2. README 1차판 5항목
+### 파일 안의 모양
 
-`day1/README.md`가 1차판 예시다. 29줄이고 마크다운은 세 가지만 썼다.
+형제 번호는 원문과 렌더된 모양에 모두 보이는 `1번 — …` 줄에 있다. [ex02_list.md](day1/ex02_list.md) 에서 인용:
 
 ```markdown
-# my-web — student01의 웹 연습장
+1번 — 줄마다 맨 앞에 하이픈(-)과 띄어쓰기 한 칸:
 
-## 공개 주소
+- 홈
+- 내 정보
+- 방명록
 
-- [https://student01.github.io/my-web/](https://student01.github.io/my-web/)
+2번 — 기호 없이 줄만 바꿨다:
+
+홈
+내 정보
+방명록
 ```
 
-| 항목 | 쓰는 것 | 점수 |
-|---|---|---:|
-| `# 제목` | 사이트 이름 한 줄 | 레포트 5점에 포함 |
-| `## 공개 주소` | Pages 주소 링크 | 1 |
-| `## 페이지` | 세 페이지와 한 줄 설명 | 1 |
-| `## 기능` | 버튼과 폼, 두 줄 | 1 |
-| `## 화면` | `screenshots/` 캡처 2장 링크 | 1 |
-| `## 이번에 배운 것` | 3줄 | 1 |
+1번과 2번은 글자가 똑같다. 다른 것은 줄 맨 앞의 `- ` 하나다. 형제 사이의 빈 줄은 덩어리(문단·목록)를 나누는 줄이다.
+다른 두 파일도 같다. ex01 의 세 줄은 글자 `공개 주소` 가 같고 `#` 개수와 띄어쓰기만 다르다. ex03 의 2번과 3번은 `]` 와 `(` 사이 띄어쓰기 한 칸만 다르다.
 
-- 같은 저장소 안의 파일은 소괄호에 `index.html`이나 `screenshots/home.png`처럼 **파일 이름만** 적는다.
-- 굵게(`**`)나 이미지 문법(`![]()`)은 이번 주에 쓰지 않는다. 세 가지로 충분하다.
-- 캡처를 링크로 걸면 GitHub에서 눌러 열 수 있다. 화면에 그림으로 띄우는 문법은 13주차에 쓴다.
+## `day2/web-week09/` — 2일차 끝의 web-week09
 
-## 3. 두 날의 파일 비교
+[`day2/web-week09/`](day2/web-week09/) 는 2일차 끝의 `web-week09` 저장소 맨 위(`index.html` 등이 있는 자리) **전체**다. 10주차 새 저장소 `web-week10` 의 시작점이다. 비교 예제를 저장한 `ex/` 폴더와 서버 `server.mjs` 는 여기 넣지 않는다.
 
-| | 7주차 끝 | 9주차 1일차 끝 | 9주차 2일차 끝 |
-|---|---|---|---|
-| 세 페이지·CSS·JS | 있음 | 같음 (고치지 않음) | 같음 |
-| `README.md` | GitHub 웹에서 만든 8줄 | **1차판 29줄** | 같음 |
-| `screenshots/` | 없음 | **캡처 2장** | 같음 |
-
-`day2/`는 `day1/`과 파일이 모두 같다. 2일차는 발표만 하므로 `my-web`에 바뀌는 파일이 없다.
-13주차에 README를 최종판으로 다시 쓰고 캡처가 3장으로 늘어난다.
-
-## 공식 참고 자료
-
-- [README 정보 — GitHub Docs](https://docs.github.com/ko/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
-- [기본 쓰기 및 서식 지정 구문 — GitHub Docs](https://docs.github.com/ko/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
-- [리포지토리 내에서 분기 관리(브랜치 삭제) — GitHub Docs](https://docs.github.com/ko/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository)
+| `day2/web-week09/` 파일 | 내 `web-week09` 의 위치 | 따라하기 단계 |
+|---|---|---|
+| [README.md](day2/web-week09/README.md) | `README.md` | [1일차 7단계](../walkthrough.md#7-readme-1차판-조립하기) — 이번 주 조립. 사이트 이름·소개·기능·배운 것 문장은 내 것으로 쓰고, 공개 주소 줄은 내 `https://<아이디>.github.io/web-week09/` 로 쓴다 |
+| [screenshots/home.png](day2/web-week09/screenshots/home.png) · [screenshots/guestbook.png](day2/web-week09/screenshots/guestbook.png) | `screenshots/` | [1일차 5단계](../walkthrough.md#5-화면-두-장-캡처와-데이터가-가는-세-곳) — 내 화면을 직접 찍어 넣는다(동작한 뒤의 화면) |
+| [index.html](day2/web-week09/index.html) · [styles.css](day2/web-week09/styles.css) · [app.js](day2/web-week09/app.js) | 같은 이름 | 7주차 그대로. 이번 주에 고치지 않는다 |
+| [about.html](day2/web-week09/about.html) · [guestbook.html](day2/web-week09/guestbook.html) · [guestbook.js](day2/web-week09/guestbook.js) | 같은 이름 | 7주차 그대로. 방명록 글은 화면에만 있다(데이터가 가는 세 곳 ①) |
+| [images/profile.png](day2/web-week09/images/profile.png) | `images/profile.png` | 3주차와 같은 파일. 바꾸지 않는다 |

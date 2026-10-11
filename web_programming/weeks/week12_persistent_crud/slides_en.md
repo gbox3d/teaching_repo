@@ -3,241 +3,228 @@ marp: true
 theme: default
 paginate: true
 header: "Web Programming · Week 12"
-footer: "Loading JSON with fetch · data/projects.json, await, try/catch"
+footer: "Loading JSON with fetch · see the principle through comparison examples, then assemble at the end"
 ---
 
 # Loading JSON with fetch
 
-In Week 11, you put guestbook entries into a **browser storage box**.
-This week you keep the screen's content in a **file** and load it in.
+In Week 11 you put guestbook posts in **browser storage**. This week you write the page content in a **file** and load it with `fetch` to draw cards.
 
-```text
-data/projects.json ── fetch ──▶ projects.js ──▶ projects.html
-   title · description · image · link      read and turned into cards      3 cards
-```
+Same method as before: look at **6 comparison examples** one at a time, then **assemble** `data/projects.json`, `projects.html`, and `projects.js` in a new repository, `web-week12`, built on last week's files.
+
+- JSON is **text**. Only text that follows the double-quote rule becomes an array.
+- `fetch` **requests** a file. It is blocked on a page opened by double-clicking (`file://`) and works on a server address.
+- Results show on screen, in **Console**, and in the **Network** tab, which is new this week.
 
 ---
 
-# Day 1 — Read a JSON File and Draw Cards
+# Day 1 — JSON Files and fetch
 
 `30 min explanation & demo → 60 min lab`
 
-1. Check Pages first (today's 5-minute tool)
-2. JSON files and the double-quote rule
-3. The `loadProjects()` template — fetch · json · `console.log`
-4. The Console error you get from opening with `file://`
+1. The picker page and the server — this week's examples open at `http://localhost:8000/ex/`
+2. ex01 — JSON text rules: double quotes and the last comma
+3. ex02 — the fetch template: `await fetch` → `await response.json()`, the Network tab
+4. ex03 — `file://` vs. `http://`: double-clicking blocks it
 
 ---
 
-## Day 1 · 0–5 min — Today's Tool: Check Pages First
+## Day 1 · 0–4 min — The picker page and opening with the server
 
-```text
-My PC ── git push ──▶ GitHub ── Pages ──▶ https://student01.github.io/my-web/
+[examples/day1/index.html](examples/day1/index.html) — three examples, one screen (one text spot). Server: [server.mjs](../../tools/static-server/server.mjs)
+
+```html
+<script src="ex01_json_rule.js"></script>
+<!-- <script src="ex02_fetch.js"></script> -->
+<!-- <script src="ex03_file_http.js"></script> -->
 ```
 
-- This week, **checking and screenshotting is based on the public address**. `fetch` only works from a server address.
-- Optional preview while you work: VS Code extension **Live Server** → status bar **Go Live** → `http://127.0.0.1:5500/`
-- If the extension is blocked, use `python3 -m http.server 8000` in the terminal.
-- Neither is required. **Fix one thing at a time, push it**, and check the public address.
+- Turn on **one** `script` line at the bottom (Ctrl+/). Same as Week 6.
+- Open `http://localhost:8000/ex/` served by `node server.mjs`, because `fetch` requests a file (ex03).
+- Check and capture on the **public address**; the server is a preview.
+
+**Open pages that use fetch on a server address or the public address.**
 
 ---
 
-## Day 1 · 5–11 min — What Is a JSON File
+## Day 1 · 4–11 min — ex01 JSON text rules
 
-```json
-[
-  { "title": "About-Me Page", "description": "This is the home screen." },
-  { "title": "My Info Table", "description": "A table of my ID and email." }
-]
-```
-
-- This has the same shape you saw in **Application › Local Storage** in Week 11.
-- Use **only double quotes `"`** for names and string values. Single quotes are an error.
-- Don't leave a trailing comma after the last item.
-- Keep the file as `projects.json` inside the `data/` folder.
-
----
-
-## Day 1 · 11–19 min ① — Draw the Loaded Values as Cards
+[ex01_json_rule.js](examples/day1/ex01_json_rule.js) — lines 7–8 (No. 1) · 13–14 (No. 2) · 18–19 (No. 3)
 
 ```js
-function showProjects(projects) {
-  projectList.innerHTML = '';
-  for (let i = 0; i < projects.length; i++) {
-    const article = document.createElement('article');
-    article.classList.add('card');
-    const title = document.createElement('h3');
-    title.textContent = projects[i].title;
-    article.append(title);
-    projectList.append(article);
-  }
-}
+const text1 = `[{"title": "자기소개 페이지"}, {"title": "방명록"}]`;
+const projects1 = JSON.parse(text1);
+// const text2 = `[{'title': '자기소개 페이지'}, {'title': '방명록'}]`;
+// const projects2 = JSON.parse(text2);
+// const text3 = `[{"title": "자기소개 페이지"}, {"title": "방명록"},]`;
+// const projects3 = JSON.parse(text3);
 ```
 
-Same order as `showList()` in Week 10: clear it → classic `for` loop → build and append.
+- JSON is **text**. No. 1: **double quotes**. No. 2: single quotes. No. 3: comma after the last `}`.
+- Uncomment No. 2 or 3: `JSON.parse` fails with a red line; No. 1 stays.
+
+**Only text that follows the rules becomes an array.**
 
 ---
 
-## Day 1 · 11–19 min ② — The loadProjects() Template
+## Day 1 · 11–19 min — ex02 The fetch template and the Network tab
+
+[examples/day1/ex02_fetch.js](examples/day1/ex02_fetch.js) · [ex02_projects.json](examples/day1/ex02_projects.json)
 
 ```js
-async function loadProjects() {
-  const response = await fetch('data/projects.json');
-  const projects = await response.json();
-  console.log(projects);
-  showProjects(projects);
+async function loadProjects() {   // await works only inside async
+    const response = await fetch('ex02_projects.json');  // 1. request and wait
+    const projects = await response.json();              // 2. text → array
+    result.textContent = `2. ${projects.length}개를 불러왔다 …`;
 }
-
-loadProjects();
+loadProjects();                   // without this line, nothing happens
 ```
 
-- `async` and `await` come in pairs. This week, treat them as a **copy-paste template**.
-- `await` means "wait until it arrives." Both lines need to wait.
-- Use `console.log(projects)` to check first that the array arrived.
+- **F12 › Network**: one `ex02_projects.json` row, Status **200**, Type `fetch`.
+- Without `await` you get a value that has not arrived yet (`Promise`).
+
+**fetch requests the file; json() turns the text it got into an array.**
 
 ---
 
-## Day 1 · 19–25 min — Opening with file:// Gives No Cards
+## Day 1 · 19–26 min — ex03 file:// vs. http://
+
+[examples/day1/ex03_file_http.js](examples/day1/ex03_file_http.js) · [ex03_projects.json](examples/day1/ex03_projects.json)
 
 ```text
-Access to fetch at 'file:///…/data/projects.json' from origin 'null'
-has been blocked by CORS policy: Cross origin requests are only
-supported for protocol schemes: chrome, chrome-extension, …, http, https
-
-Uncaught (in promise) TypeError: Failed to fetch     projects.js:18
+http://localhost:8000/ex/   → screen 3. 2개를 불러왔다
+file:///…/ex/index.html     → screen 1. 불러오는 중 … (stuck)
+  Access to fetch at 'file:///…' … has been blocked by CORS policy …
+  Uncaught (in promise) TypeError: Failed to fetch
 ```
 
-- A page opened by double-clicking has a `file://` address, so `fetch` is blocked. The page looks empty.
-- It works as expected from a **public address (https)** or Live Server (`http://127.0.0.1:5500/`).
-- `projects.js:18` at the end of the error line is the **file name and line number** — read it the same way you read `app.js:6` in Week 5.
+- Same code, different **address**. On a page opened as `file://`, the browser blocks the request.
+- Lines below the failing line (No. 2) do not run, so the screen stays at No. 1.
+- "The code is the same but it doesn't work" → look at the **address bar** first.
+
+**fetch works only on a server address (http, https).**
 
 ---
 
-## Day 1 · 25–30 min — Try It Yourself
+## Day 1 · 26–30 min — Your turn
 
-[Day 1 lab](lab.md#1일차--json-파일을-만들어-카드로-그리기-60분) · [Walkthrough](walkthrough.md#1일차)
-Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud
+[Day 1 lab](lab.md#1일차--json-파일과-fetch-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud)
 
-1. Write three projects into `data/projects.json`.
-2. Create `projects.html` and `projects.js`, and check with `console.log`.
-3. Draw the cards, then push and check them at the **public address**.
+1. New folder `web-week12` with last week's files and `server.mjs`; today's six files in `ex/`.
+2. `node server.mjs` → turn on one line for ex01–ex03 and change values. Say what will change first.
+3. Create the new repository `web-week12`, push, turn on Pages → open `…/ex/` on the public address too.
 
-**Explanation total: 5+6+8+6+5 = 30 min**
-
-If you get stuck, start with the first red line in the Console and the `file name:line number` at its end.
+**Total explanation: 4+7+8+7+4 = 30 min**
 
 ---
 
-# Day 2 — Error Handling and Finishing the Cards
+# Day 2 — Cards, Error Messages, and Assembly
 
 `30 min explanation & demo → 60 min lab`
 
-1. Catch errors with `try / catch` and show a notice
-2. `response.ok` and 404
-3. Add an image and a **View page** link to each card
-4. Announce the Week 14 final project
+1. ex04 — building cards: `img`, `h3`, `p`, `a` inside an `article`
+2. ex05 — `try / catch`: catch the error and tell the user on screen
+3. ex06 — `response.ok`: a 404 is not an error
+4. About the Week 14 final project
+5. Assembly — `data/projects.json`, `projects.html`, `projects.js` in `web-week12`
 
 ---
 
-## Day 2 · 0–6 min — Catch Errors with try / catch
+## Day 2 · 0–7 min — ex04 Building cards
+
+[examples/day2/ex04_cards.html](examples/day2/ex04_cards.html) · [ex04_cards.js](examples/day2/ex04_cards.js) · [ex04_picture.png](examples/day2/ex04_picture.png)
 
 ```js
-async function loadProjects() {
-  try {
-    const response = await fetch('data/projects.json');
+const article = document.createElement('article');  // one card
+article.classList.add('card');                       // the .card rule (Week 6)
+const image = document.createElement('img');         // 1. src · alt · width
+const title = document.createElement('h3');          // 2. title
+const description = document.createElement('p');     // 3. a real sentence, so p
+const link = document.createElement('a');            // 4. href
+article.append(image, title, description, link);     // in the order given
+```
+
+- Same order as Week 10 `showList`: empty → `for` → create and append.
+- `alt` is the text shown when the picture cannot be found. Week 13 comes back to it.
+
+**One item in the array becomes one card.**
+
+---
+
+## Day 2 · 7–13 min — ex05 try / catch: tell the user
+
+[ex05_try_catch.html](examples/day2/ex05_try_catch.html) · [ex05_try_catch.js](examples/day2/ex05_try_catch.js) · [ex05_projects.json](examples/day2/ex05_projects.json)
+
+```js
+try {   // an error in here skips the lines below and goes to catch
+    const response = await fetch('ex05_projects.json');
     const projects = await response.json();
-    showProjects(projects);
-  } catch (error) {
-    notice.textContent = 'Could not load the projects.';
-  }
+    notice.textContent = `1. try: ${projects.length}개를 불러왔다`;
+} catch (error) {
+    notice.textContent = '2. catch: 프로젝트를 불러오지 못했습니다.';
 }
 ```
 
-- If an error happens inside `try`, execution doesn't stop — it jumps to `catch`.
-- The sentence shown on screen is fixed to one line: `Could not load the projects.`
+- Server: No. 1; `file://`: No. 2. Day 1 ex03's red `Uncaught` line is gone.
+
+**Catch the error and tell the user on screen.**
 
 ---
 
-## Day 2 · 6–12 min — response.ok and 404
+## Day 2 · 13–19 min — ex06 response.ok: a 404 is not an error
+
+[ex06_response_ok.html](examples/day2/ex06_response_ok.html) · [ex06_response_ok.js](examples/day2/ex06_response_ok.js) · [ex06_projects.json](examples/day2/ex06_projects.json)
 
 ```js
-if (!response.ok) {
-  notice.textContent = 'Could not load the projects.';
-  return;
+const response = await fetch(fileName);
+if (!response.ok) {                 // false for a 404
+    notice.textContent = '프로젝트를 불러오지 못했습니다.';
+    return;                         // do not go on to json()
 }
+const projects = await response.json();
 ```
+
+- Even a missing file gets an **answer** (404 + HTML), so `fetch` goes on.
+- Read it unchecked and `json()` fails on the HTML: `Unexpected token '<'`.
+
+**Before reading, ask response.ok whether the answer is normal.**
+
+---
+
+## Day 2 · 19–24 min — About the Week 14 final project
+
+Week 14 is the **final presentation**. Nothing new to build: you demo the site you have made so far. Three things are required.
+
+1. Three pages + CSS + a click feature + form input with an empty-input message
+2. Guestbook add/delete with a count (Week 10) · a guestbook that survives reload (Week 11)
+3. Cards drawn from `data/projects.json` (Week 12)
+
+- The report is the final `README.md` in your repository. We write it together in Week 13.
+- The syllabus phrase "persistent CRUD and relations" = Week 11 `localStorage` (persistent) + the card's **페이지 열기** link (relations).
+- A server database and login are covered in an optional special session.
+
+**Each week's finished files add up to the final project.**
+
+---
+
+## Day 2 · 24–30 min — Assembly: web-week12, then the lab
 
 ```text
-Uncaught (in promise) SyntaxError: Unexpected token '<',
-"<!DOCTYPE "... is not valid JSON
+data/projects.json  3 objects · double quotes   ← ex01 · ex02 · ex04
+projects.html       #notice · #project-list     ← last week's guestbook.html · ex04 · ex05
+projects.js         showProjects(projects)      ← ex04
+                    loadProjects: try · fetch   ← ex02 · ex05
+                    if (!response.ok) … return  ← ex06
+                    catch → message · loadProjects(); ← ex05 · ex02
+nav on four pages   <a href="projects.html">    ← last week's nav
 ```
 
-- If the file name is wrong, the server sends a 404 and an **HTML error page**.
-- `response.json()` tries to read that HTML and throws the error above. Check `response.ok` first to catch it early.
-- A path starting with `/`, like `/data/projects.json`, gives a 404 at the public address.
+[Day 2 lab](lab.md#2일차--카드와-오류-안내-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud)
 
----
+1. Save the nine ex04–ex06 files in `ex/`, change values (until minute 28).
+2. Assemble → check with the server at 375 and 1280 → push → screenshot of the cards and Network on the public address.
 
-## Day 2 · 12–19 min ① — Add an Image and a Link to Each Card
-
-```js
-const image = document.createElement('img');
-image.src = projects[i].image;
-image.alt = `${projects[i].title} screenshot`;
-image.width = 240;
-const link = document.createElement('a');
-link.href = projects[i].link;
-link.textContent = 'View page';
-article.append(image, title, description, link);
-```
-
-- Items stack inside the card **in the order** you pass them to `append`.
-- `alt` is the text read aloud when the image doesn't load. We revisit it in Week 13.
-
----
-
-## Day 2 · 12–19 min ② — Reuse .card As Is
-
-```css
-.card {
-  background-color: #ffffff;
-  padding: 16px;
-  margin: 12px 0;
-  border: 1px solid #c3cbe6;
-}
-```
-
-- This rule was made in Week 4. **Don't add a new rule** to `styles.css`.
-- One line, `article.classList.add('card')`, gives it the same look.
-- If the card doesn't look like a white box, check the spelling of `classList.add` first.
-
----
-
-## Day 2 · 19–25 min — Announcing the Week 14 Final Project
-
-**Required features** (the Week 9 site + Week 10–12 features)
-
-1. Three pages + CSS + click behavior + form input with empty-value notice
-2. Guestbook add/delete and count (Week 10)
-3. A guestbook that survives a refresh (Week 11)
-4. Cards drawn by reading `data/projects.json` (Week 12)
-
-**Final README**: public address · page list · features · three `screenshots/` · what you learned
-
-The presentation is a 3-minute demo. Full details come in Week 13.
-
----
-
-## Day 2 · 25–30 min — Try It Yourself
-
-[Day 2 lab](lab.md#2일차--오류-안내와-카드-완성-60분) · [Walkthrough](walkthrough.md#2일차)
-Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud
-
-1. Add a notice spot to `projects.html` and add `try / catch` and `response.ok`.
-2. Add an image and a **View page** link to each card.
-3. Add a `projects.html` link to all four pages' nav, and push.
-
-**Explanation total: 6+6+7+6+5 = 30 min**
+**Total explanation: 7+6+6+5+6 = 30 min**
 
 ---
 
@@ -245,31 +232,20 @@ Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/week
 
 Submit **one** screenshot at the end of Day 2.
 
-- Public address `https://<your-id>.github.io/my-web/projects.html`
-- Three cards are visible (image · title · description · **View page**)
-- `projects.json` shows **Status 200** in **F12 › Network**
-- Take the screenshot with the address bar visible
+```text
+https://student01.github.io/web-week12/projects.html
+3 cards ─ picture · title · description · 페이지 열기
+F12 › Network ─ projects.json   200
+Include the address bar in the screenshot
+```
 
-Make sure your screenshot shows no email or real name. Your ID may be visible.
+Check and capture on the public address. Keep your real name, student ID, and real email out of the screenshot.
 
 ---
 
 ## Next Week Preview
 
-Now the screen's content lives in a file outside your HTML.
+Today you loaded content from a file outside the HTML and drew cards.
 
-In Week 13, you audit all four pages: revisit `textContent` (which shows typed text as-is),
-image `alt`, and form `label for`, and compute an admission year with `about.js`.
-You'll also finalize the repository `README.md` and its three `screenshots/`.
-
----
-
-## Minimum Compliance — the Syllabus's "Persistent CRUD and Relational Features"
-
-| Syllabus wording | What this course does |
-|---|---|
-| Persistent | Week 11 `localStorage` — a guestbook that survives a refresh |
-| CRUD | Weeks 10–11 — add, list, delete, and clear all guestbook entries |
-| Relational features | Week 12 — card → detail page link (`link.href`) |
-
-Server databases and login are covered in this course's optional special lecture.
+In Week 13 you start a new repository, `web-week13`, from today's files and review your four pages.
+You check that typed text goes in with `textContent` (security) and that pictures have `alt` and inputs have `label for` (accessibility), then write the final `README.md`.

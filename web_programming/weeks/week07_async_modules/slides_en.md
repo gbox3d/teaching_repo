@@ -3,286 +3,287 @@ marp: true
 theme: default
 paginate: true
 header: "Web Programming · Week 7"
-footer: "Reading Form Input and Displaying Results · submit, value, empty-value message"
+footer: "Reading Form Input and Displaying Results · see the principle through comparison examples, then assemble at the end"
 ---
 
 # Reading Form Input and Displaying Results
 
-In Week 6, you changed the screen **when a button was clicked**.
-This week, you change the screen **when a form is submitted**.
+In Week 6 a button showed **text we wrote in advance**. This week the guestbook form shows **text the user types**.
 
-```text
-my-web/
-  guestbook.html  ← <form id="guestbook-form"> · <div id="notice"> · <div id="last">
-  guestbook.js    ← New file. submit · preventDefault · value · trim
-  README.md       ← Created on the GitHub web UI, then pulled (Day 2)
-```
+Same method as last week: look at **7 comparison examples** one at a time, then **assemble** `guestbook.html` and `guestbook.js` in a new repository, `web-week07`, built on last week's files.
 
-The form you built in Week 3 — the one where we wrote "clicking it only changes the address bar" — finally works today.
+- When a form is sent, the browser **opens the page again**. Stop that, or the result disappears.
+- Results show on screen, in the **address bar**, and in **Console**.
+- One file = one idea. The lab is about **changing values** and watching.
 
 ---
 
-# Day 1 — Handling Form Submission in Your Own Code
+# Day 1 — Form Submit and Input Values
 
 `30 min explanation & demo → 60 min lab`
 
-1. Revisit the Week 3 form
-2. `addEventListener('submit')` and `event.preventDefault()`
-3. Reading values with `value` and `trim()`
-4. Displaying results, empty-value messages, `focus()`, `reset()`
-5. The Week 8 midterm and the problem bank
+1. The Week 3 form again — press [남기기] and `?` appears at the end of the address
+2. ex01 — form submit and `event.preventDefault()`
+3. ex02 — the input's `value`: on open vs. on submit
+4. ex03 — `trim()`: cutting spaces at both ends
 
 ---
 
-## Day 1 · 0–5 min — Revisit the Week 3 Form
+## Day 1 · 0–5 min — The Week 3 form again
 
-```html
-<form>
-  <label for="name">이름</label> <input id="name" type="text">
-  <label for="email">이메일</label> <input id="email" type="email">
-  <textarea id="message" rows="4"></textarea>
-  <button type="submit">남기기</button>
-</form>
+`guestbook.html` from last week's files — the form you made in Week 3.
+
+```text
+Type a name and message, press [남기기]
+  → address: …/guestbook.html?   ← a ? at the end
+  → fields empty, page back to start   no red line in Console
 ```
 
-- This is the form you built in Week 3. Right now, pressing **[남기기]** appends a `?` to the address and reloads the page back to the top.
-- That happens because the browser tries to **send** the form. Even with no destination (no server), it still changes the address and reloads.
-- Today you do two things: **stop** that default behavior, and **capture the input values in your own code**.
-- Start by giving `<form>` an `id="guestbook-form"`. You have to be able to find it before you can hand it a listener.
+- It is not an error. The browser tried to **send** the form, so it opened the same file again.
+- Today: **stop** that, and **read** what was typed with our own code.
+
+**Sending a form makes the browser open the page again.**
 
 ---
 
-## Day 1 · 5–12 min — addEventListener('submit') and preventDefault
+## Day 1 · 5–13 min — ex01 Form submit and preventDefault
+
+[examples/day1/ex01_submit.html](examples/day1/ex01_submit.html) · [ex01_submit.js](examples/day1/ex01_submit.js)
 
 ```js
-form.addEventListener('submit', function (event) {
-  event.preventDefault();
+form2.addEventListener('submit', function (event) {
+    event.preventDefault();          // 2. stop the reopening
+    out2.textContent = '2. 제출을 받았다';
 });
 ```
 
-- `'submit'` takes the place of Week 6's `'click'`. The way you hand off the listener is exactly the same.
-- `submit` fires both when you press **[남기기]** and when you hit **Enter** inside an input field.
-- The `event` in the parentheses is a name carrying **whatever just happened**.
-- `event.preventDefault()` means "don't do what the browser was about to do (change the address and reload)."
-- Without this one line, even if the code below runs, the screen jumps straight back to the top.
+- Form 1 (not stopped): `?` at the end, the changed text is gone. Form 2: it stays.
+- `'submit'` takes the place of Week 6's `'click'`. A button press or **Enter** both fire the form's `submit`.
+- Turn on Console ⚙ › **Preserve log** and Console lines stay even when the page reopens.
+
+**Stop it with `event.preventDefault()` on the listener's first line, or the result won't stay.**
 
 ---
 
-## Day 1 · 12–18 min — Reading Values with value and trim
+## Day 1 · 13–21 min — ex02 The input's value
+
+[examples/day1/ex02_value.html](examples/day1/ex02_value.html) · [ex02_value.js](examples/day1/ex02_value.js)
 
 ```js
-const nameInput = document.querySelector('#name');
-
-const name = nameInput.value.trim();
+const atOpen = nameInput.value;             // 1. once, on open
+form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const atSubmit = nameInput.value;       // 2. on every submit
+    const message = messageInput.value;     // 3. textarea uses value too
+});
 ```
 
-- `.value` is **whatever text is currently typed** in that field. It works the same for `textarea`.
-- `.trim()` returns the value with leading and trailing spaces removed, so a field filled with only spaces still counts as empty.
-- Put the line that reads the value **inside** the listener. Each submission needs a fresh read of the current value.
-- Misspell it as `.velue` and you get `Cannot read properties of undefined (reading 'trim')`.
+- On first open No. 1 is empty; No. 2 is what is typed now. Same idea as Week 6 ex02 (on open vs. on click).
+- Text typed into a textarea is in `value`, not `textContent`.
+
+**The text in a field is `value`. Read it inside the listener.**
 
 ---
 
-## Day 1 · 18–24 min — Displaying Results, Empty-Value Messages, focus, reset
+## Day 1 · 21–28 min — ex03 trim(): cut spaces at both ends
+
+[examples/day1/ex03_trim.html](examples/day1/ex03_trim.html) · [ex03_trim.js](examples/day1/ex03_trim.js)
 
 ```js
-  if (name === '') {
-    notice.textContent = '이름을 입력하세요.';
-    nameInput.focus();
-    return;
-  }
-
-  last.textContent = `${name}: ${message}`;
-  form.reset();
-  nameInput.focus();
+const raw = nameInput.value;              // 1. [  student01  ]
+const trimmed = nameInput.value.trim();   // 2. [student01]
 ```
 
-- **Today's 5-minute grammar note**: `return` means "end this function right here." Without it, the lines below still run even after the message is shown.
-- `focus()` moves the cursor into that field, and `form.reset()` clears the form. You clear it **after** reading and displaying the value, not before.
-- `guestbook.html` loads `guestbook.js`, and `index.html` loads `app.js`. **Each page has its own single JS file.**
+- Spaces only: No. 1 is `[   ]`, No. 2 is `[]`. A field with only spaces becomes the empty string `''`.
+- A space in the middle (`student 01`) stays. Count spaces inside Console's `[ ]`.
+- Drop the parentheses (`.trim`) and you get the function, not a value. Call with parentheses.
+
+**`trim()` returns the value with only the end spaces cut.**
 
 ---
 
-## Day 1 · 24–30 min ① — The Week 8 Midterm and the Problem Bank
+## Day 1 · 28–30 min — Your turn
 
-| Item | Details |
-|---|---|
-| Scope | Weeks 1–7 lab submissions — HTML, CSS, JavaScript & DOM, forms |
-| Weight | 20 points (draft). 3 points for today's form input and empty-value message |
-| Format | Day 1 bank practice → Day 2 exam. Repository: `web-week08` |
-| Published | [Problem bank](../week08_midterm/examples/README.md) · [Rubric](../week08_midterm/rubric.md). No published solutions |
+[Day 1 lab](lab.md#1일차--폼-제출과-입력-값-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
 
-- The exam reuses bank problems with **only the values changed**. Lists (Week 10), storage (Week 11), and `fetch` (Week 12) are out of scope.
-- The bank's form problem, `w07_form_result`: download and open it at minutes 48–55 today; solve it on Day 2.
+1. New folder `web-week07` with last week's files; today's six files (three `.html`·`.js` pairs) in `ex/`.
+2. ex01–ex03 — change values. Say what will change first. Turn on Preserve log.
+3. Create the new repository `web-week07`, push, and turn on Pages.
+
+**Total explanation: 5+8+8+7+2 = 30 min**
 
 ---
 
-## Day 1 · 24–30 min ② — Try It Yourself
-
-[Day 1 lab](lab.md#1일차--폼-제출을-받아-화면에-표시하기-60분) · [Walkthrough](walkthrough.md#1일차)
-Practice page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules
-
-1. Add the `id`s and a spot for the result to `guestbook.html`, then link `guestbook.js`.
-2. Capture the submission, prevent the reload, read the values, and display them as one `이름: 메시지` line.
-3. Show a message and move the cursor if the name is empty, then use `form.reset()` to prepare for the next entry.
-
-**Explanation total: 5+7+6+6+6 = 30 min**
-
-If you get stuck, start with the **first red line** in the Console and a line number like `guestbook.js:7`.
-
----
-
-# Day 2 — Polishing Both Fields to the End
+# Day 2 — Empty-Field Notices, the Next Entry, and Assembly
 
 `30 min explanation & demo → 60 min lab`
 
-1. Create `README.md` on the GitHub web UI, then `git pull`
-2. One SSH key (optional, personal laptops)
-3. Validating both fields and clearing the message
-4. Using `reset` and `focus` to prepare for the next entry
-5. Time budget for the 60-minute midterm
+1. The picker page — four examples share one form
+2. ex04 — `form.reset()` and `focus()`: getting ready for the next entry
+3. ex05 — empty-field check and `return`
+4. ex06 — the `'input'` event: every time the text changes
+5. ex07 — hand over only the function's name
+6. Assembly — `guestbook.html` and `guestbook.js` in `web-week07`
 
 ---
 
-## Day 2 · 0–8 min ① — Today's 8-Minute Git: Creating README on the GitHub Web UI
+## Day 2 · 0–3 min — The picker page: four examples share one form
 
-**Repository page › Add file › Create new file › `README.md` › Commit changes**
+[examples/day2/index.html](examples/day2/index.html) — a guestbook-style form, the notice spot `#notice`, the result spot `#last`.
 
-```bash
-git pull
+```html
+<script src="ex04_reset_focus.js"></script>
+<!-- <script src="ex05_empty.js"></script> -->
+<!-- <script src="ex06_input.js"></script> -->
+<!-- <script src="ex07_pass_name.js"></script> -->
 ```
+
+- Same method as Weeks 5 and 6. Use **Ctrl+/** (macOS ⌘+/) and turn on **one line only**.
+- Two lines on: same `const` names clash; the second file errors and stops.
+
+**One `script` line decides which code is loaded.**
+
+---
+
+## Day 2 · 3–9 min — ex04 reset and focus: ready for the next entry
+
+[examples/day2/ex04_reset_focus.js](examples/day2/ex04_reset_focus.js)
+
+```js
+// 1. read before emptying → [student01]
+console.log(`1. 비우기 전 : [${nameInput.value}] …`);
+form.reset();            // empties every field in the form
+// 2. read after emptying → []
+console.log(`2. 비운 뒤 : [${nameInput.value}] …`);
+nameInput.focus();       // 3. cursor to the name field
+```
+
+- Read after `reset()` and you get empty text. So **read first, then empty**.
+- `focus()` moves the cursor. The next note can be typed right away.
+
+**`reset()` empties the fields and `focus()` moves the cursor. Read before you empty.**
+
+---
+
+## Day 2 · 9–15 min — ex05 Empty-field check and return
+
+[examples/day2/ex05_empty.js](examples/day2/ex05_empty.js)
+
+```js
+if (name === '') {
+    notice.textContent = '이름을 입력하세요.';
+    return;                                  // 1. stop here
+}
+if (message === '') { … return; }            // 2.
+last.textContent = `${name}: ${message}`;    // 3. only when both are filled
+```
+
+- Checks go from the top. If both are empty, only notice No. 1 shows.
+- Without `return`, the lines below run too and `: 안녕하세요` is left behind.
+
+**If a field is empty, show a notice and stop right there with `return`.**
+
+---
+
+## Day 2 · 15–19 min — ex06 The input event: every time the text changes
+
+[examples/day2/ex06_input.js](examples/day2/ex06_input.js)
+
+```js
+// 1. name field — every letter typed or deleted (2. textarea too)
+nameInput.addEventListener('input', function () {
+    notice.textContent = '';
+    console.log('1. 이름 칸 input :', nameInput.value);
+});
+```
+
+- Type `abc` letter by letter: three No. 1 lines; notice gone after `a`.
+- Misspell the event name (`'inptu'`): nothing happens, no red line.
+
+**`'input'` fires every time the text in a field changes.**
+
+---
+
+## Day 2 · 19–23 min — ex07 Hand over only the function's name
+
+[examples/day2/ex07_pass_name.js](examples/day2/ex07_pass_name.js)
+
+```js
+function clearNotice() { notice.textContent = ''; }
+// 1. call it with parentheses inside function () { }
+nameInput.addEventListener('input', function () { clearNotice(); });
+// 2. hand over the name only — the browser calls it on every change
+messageInput.addEventListener('input', clearNotice);
+```
+
+- No. 1 and No. 2 do the same job. Type in either field and the notice goes away.
+- Hand it over as `clearNotice()` and it runs once on that line, and that's all. Typing leaves the notice, with no red line.
+
+**To hand over a function, write only its name; to call it, add parentheses.**
+
+---
+
+## Day 2 · 23–26 min — Assembly ① guestbook.html
 
 ```text
-Updating a69bc37..3d51f0c
-Fast-forward
- README.md | 8 ++++++++
- 1 file changed, 8 insertions(+)
- create mode 100644 README.md
+<head>  <script src="guestbook.js" defer>   ← Week 6 app.js line
+<form id="guestbook-form">                  ← ex01 · ex02
+delete <p>지금은 눌러도 …</p>, and in its place
+  <div id="notice"></div>                   ← ex05 spot
+  <h3>마지막으로 남긴 글</h3>
+  <div class="card" id="last">…</div>       ← ex05 · .card
 ```
 
-- A file created on the GitHub website exists **only on GitHub**. You need `git pull` to get it onto your PC.
-- This is a review of the `clone`/`pull` you saw in the Week 2 appendix. Until now, you've only ever pushed.
-- Skip the pull and commit, and your next push gets rejected. **Pulling comes first.**
+- One js per page: `index.html` loads `app.js`, `guestbook.html` loads `guestbook.js`.
+- `index.html`, `app.js`, `styles.css`, and `about.html` stay as they were in Week 6.
+
+**In HTML, only add the `id`s to find and the spots to write results.**
 
 ---
 
-## Day 2 · 0–8 min ② — Logging In with an SSH Key (Optional, Personal Laptops)
-
-```bash
-ssh-keygen -t ed25519 -C "student01@example.com"
-```
-
-- An alternative if `Username for 'https://github.com':` pops up every time you push from your personal laptop.
-- Paste the contents of `~/.ssh/id_ed25519.pub` into **Settings › SSH and GPG keys › New SSH key**.
-- Change the remote address with `git remote set-url origin git@github.com:student01/my-web.git`.
-- On lab PCs, keep using **HTTPS + browser login** as before. This section is **not graded.**
-- Never send your private key file (`id_ed25519`) to anyone. Don't even display it on screen.
-
----
-
-## Day 2 · 8–15 min — Validating Both Fields and Clearing the Message
-
-```js
-  if (message === '') {
-    notice.textContent = '메시지를 입력하세요.';
-    messageInput.focus();
-    return;
-  }
-```
-
-```js
-nameInput.addEventListener('input', clearNotice);
-```
-
-- Validation runs **top to bottom, in order**. If the name is empty, it stops there and never reaches the message check.
-- Write a different message for each field. You should be able to tell which field to fix just from the message.
-- `'input'` fires every time the text changes. Only the **event name** changed from Week 6's `addEventListener`.
-- Don't add parentheses to `clearNotice` when you hand it off. Writing `clearNotice()` means "run this once, right here."
-
----
-
-## Day 2 · 15–21 min — Using reset and focus to Prepare for the Next Entry
-
-```js
-  clearNotice();
-  last.textContent = `${name}: ${message}`;
-  form.reset();
-  nameInput.focus();
-```
-
-- Order matters. You clear the form **after** reading and displaying the values. Clear it first, and you display empty values.
-- `form.reset()` clears the whole form, including the email field. Use `focus()` to send the cursor back to the name field.
-- Leave a second entry and **the first one disappears.** That's because the card is only one line.
-- Stacking entries into a list is **Week 10**; making them survive a reload is **Week 11**.
-
----
-
-## Day 2 · 21–26 min ① — Time Budget for the 60-Minute Midterm
-
-| Time | What you do |
-|---|---|
-| 0–5 | Read the problem statements (`exam/README.md`) to the end |
-| 5–15 | A HTML (Weeks 1–3) |
-| 15–27 | B CSS (Week 4) |
-| 27–39 | C JavaScript & DOM (Weeks 5–6) |
-| 39–50 | D Forms (Week 7 — what you built this week) |
-| 50–60 | `add → commit → push` 5 min · buffer 5 min (Pages delay, re-login) |
-
-- Day 1: practice with the bank, then **create `web-week08` and turn on Pages**.
-- Exam day: add the handed-out `exam` folder and push. Stuck 5+ min? Move on.
-
----
-
-## Day 2 · 21–26 min ② — Where Async and Modules Fit in This Course
+## Day 2 · 26–30 min — Assembly ② guestbook.js, then the lab
 
 ```text
-Week 7   Form submit → read values → display on screen   ← today
-Week 12  fetch a JSON file                                ← async lives here
-—        ES modules (import/export), bundlers             ← outside this course's scope
+const form·nameInput·messageInput·notice·last     ← ex02 · ex05
+function clearNotice() { … }                      ← ex07
+submit listener + event.preventDefault()          ← ex01 No. 2
+const name·message = … .value.trim()              ← ex02 · ex03
+if name · if message { notice · focus() · return } ← ex05 · ex04
+clearNotice() · one result line · reset() · focus() ← ex07 · ex05 · ex04
+two input listeners (clearNotice, name only)       ← ex06 · ex07 No. 2
 ```
 
-- Today's flow — reacting to something that happened on screen — is the foundation for Week 12's `fetch`.
-- **Async is covered in Week 12's `fetch`.** You load a single file and render it as cards.
-- **Modules (`import`/`export`) are outside this course's scope.** We only ever use a single `<script src="…" defer>`.
-- Attaching one JS file per page, the way we do now, is the standard for this semester.
+[Day 2 lab](lab.md#2일차--빈값-안내와-다음-입력-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
 
----
+1. ex04–ex07 (to min 29) → assemble → check → push → screenshot.
+2. Week 8 reuses the [problem bank](../week08_midterm/examples/README.md) with new values; today's form too.
 
-## Day 2 · 26–30 min — Try It Yourself
-
-[Day 2 lab](lab.md#2일차--두-칸-검사와-안내-문구-다듬기-60분) · [Walkthrough](walkthrough.md#2일차)
-Practice page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules
-
-1. Create `README.md` on the GitHub web UI and pull it down with `git pull`.
-2. Add validation for the message field, and clear the message as soon as the user types again.
-3. Solve the bank's form problem (`w07_form_result`), push, and take your screenshot from the public URL.
-
-**Explanation total: 8+7+6+5+4 = 30 min**
+**Total explanation: 3+6+6+4+4+3+4 = 30 min**
 
 ---
 
 ## What to Submit
 
-At the end of Day 2, submit **one** screenshot.
+Submit **one** screenshot at the end of Day 2.
 
 ```text
-https://student01.github.io/my-web/guestbook.html
-Name student01 · Message 안녕하세요, then press [남기기]
-
-Last entry left
-student01: 안녕하세요
-Capture it with the address bar visible
+https://student01.github.io/web-week07/guestbook.html
+Name student01 · message 안녕하세요, then [남기기]
+마지막으로 남긴 글
+Card: student01: 안녕하세요
+Include the address bar in the screenshot
 ```
 
-The empty-value message (`이름을 입력하세요.`) is something you verify visually during the lab — it doesn't need to be in the screenshot.
-Make sure your real name, student ID, and real email address are not visible in the screenshot.
+The empty-field notice (`이름을 입력하세요.`) is for checking during the lab; it need not be in the screenshot.
+Keep your real name, student ID, and real email out of the screenshot.
 
 ---
 
 ## Next Week Preview
 
-This week fills in the last piece of the **Week 8 midterm scope (Weeks 1–7 lab submissions)**.
+Week 8 is the **individual midterm practical**. Day 1 is practice with the problem bank; Day 2 is the practical. The repository is `web-week08`.
 
-Week 8, Day 1 is **practice with the problem bank**, and Day 2 is the **60-minute midterm**.
-The exam gives one bank problem per area with **only the values changed**. Your repository is `web-week08`, created on Day 1.
-The [problem bank](../week08_midterm/examples/README.md) is already published. There are no published solutions — check your work against each problem's "확인할 것" (what to check) before you come.
+The [problem bank](../week08_midterm/examples/README.md) is public. Instead of answers, each problem has a "what to check" list to test yourself.
+
+Right now a second note replaces the first. Keeping a list of notes is Week 10; keeping them after reload is Week 11.
+The "async" in this week's folder name is covered with `fetch` in Week 12; modules (`import`/`export`) are outside this course.

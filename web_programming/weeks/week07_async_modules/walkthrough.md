@@ -1,46 +1,221 @@
-# 7주차 따라하기 — 폼을 제출하면 화면에 한 줄 남기기
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
 
-처음에는 그대로 따라 하고, 결과가 나오면 본인 아이디와 문구로 바꾼다.
-각 단계의 예상 결과가 화면에 보이면 다음 단계로 넘어간다.
+# 7주차 따라하기 — 비교 예제로 원리를 보고 마지막에 조립
 
-`student01`은 연습용 아이디다. 명령과 주소에 있는 `student01`은 본인 GitHub 아이디로 바꾼다.
-명령은 VS Code의 터미널(**Terminal › New Terminal**, Windows는 PowerShell)에서 실행한다. macOS 터미널도 같은 명령이다.
+이번 주는 새 저장소 `web-week07`을 만든다. 지난주 완성본을 넣고, 비교 예제는 그 안의 `ex/` 폴더에 저장한다. 값·줄을 바꾼 뒤 결과를 화면과 주소창, **F12 › Console**에서 본다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-이번 주에 고치는 파일은 `guestbook.html`·`guestbook.js` 둘, 그리고 2일차에 GitHub 웹에서 만드는 `README.md` 하나다.
-`index.html`·`about.html`·`app.js`·`styles.css`는 6주차 그대로 둔다. 전체 내용은 [이번 주에 고치지 않는 파일](#이번-주에-고치지-않는-파일)에 있다.
+비교 예제 7개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules/examples/day1)(1일차 ex01~ex03)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules/examples/day2)(2일차 고르기 페이지와 ex04~ex07) 폴더에 있다.
+각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
 
-### 1. 저장소 받아오기
+### 1. web-week07 폴더 만들고 지난주 완성본 넣기
 
-지난 시간과 같은 PC면 `git pull`로 받아 온다. 현재 폴더: `my-web`
+저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week07`을 만들고 VS Code **File › Open Folder**로 연다.
 
-```bash
-git pull
-git status
-```
+지난주 완성본을 넣는다. 내 `web-week06` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`server.mjs`)과 `images/`를 `web-week07`로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
+ZIP을 못 받았으면 교재 [6주차 `examples/day2/web-week06/`](../week06_dom_crud/examples/day2/web-week06/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
 
-다른 PC에서 처음 여는 경우에는 clone부터 한다. 현재 폴더: 저장소를 둘 위치
+이어서 `web-week07` 안에 `ex` 폴더를 만든다. 현재 폴더: `web-week07`
 
 ```bash
-git clone https://github.com/student01/my-web.git
-cd my-web
+mkdir ex
 ```
 
-**예상 결과** — `git pull`은 새 commit이 없으면 `Already up to date.`, 있으면 `Updating …`과 `Fast-forward`가 보인다.
-`git status`는 `On branch main`과 `nothing to commit, working tree clean`이다. VS Code **File › Open Folder**로 `my-web`을 연다.
+**예상 결과** — VS Code 탐색기가 아래 모양이다.
 
-- 6주차 작업이 main에 merge되어 있어야 한다. `git branch`에 `* main`만 있으면 된다.
-- clone이 로그인 문제로 막히면 조교에게 6주차 `examples/day2` 폴더를 받아 그 폴더에서 작업하고, 10단계에서 remote를 연결한다.
+```text
+web-week07/
+  ex/            ← 아직 비어 있다
+  images/
+  about.html
+  app.js
+  guestbook.html
+  index.html
+  server.mjs
+  styles.css
+```
 
-### 2. guestbook.html에 결과 자리 만들기
+`guestbook.html`을 두 번 눌러 열고, 이름과 메시지를 아무렇게나 넣어 **남기기**를 누른다.
 
-`guestbook.html`을 열고 세 곳을 고친다. 3주차에 만든 폼은 그대로 두고 **자리만** 만드는 단계다.
+**예상 결과** — 주소창 끝에 `?`가 붙고(`…/guestbook.html?`) 칸이 모두 빈다. 화면 아래 문장은 3주차에 적어 둔 `지금은 눌러도 주소창만 바뀐다. 화면에 띄우는 일은 7주에 한다.` 그대로다. F12 › Console에 빨간 줄은 없다.
 
-1. `<head>` 안 `<link>` 줄 **아래**에 `<script src="guestbook.js" defer></script>`를 넣는다.
+- 오류가 아니다. 브라우저가 폼을 "보내려고" 같은 파일을 다시 연 것이다. 이번 주는 이 폼을 동작하게 한다.
+- `guestbook.html`은 오늘 고치지 않는다. 2일차 끝에 조립한다. `index.html`·`about.html`·`styles.css`·`app.js`는 이번 주에 고치지 않는다.
+
+### 2. 비교 예제 가져오기
+
+오늘 파일은 여섯 개다. 예제 세 개가 `.html`과 `.js` 한 쌍씩이다. 세 예제의 화면(폼과 결과 자리)이 서로 달라서 `.html`을 따로 둔다.
+
+| 파일 | 비교하는 것 |
+|---|---|
+| [ex01_submit.html](examples/day1/ex01_submit.html) + [ex01_submit.js](examples/day1/ex01_submit.js) | 1. 막지 않는 폼 / 2. `event.preventDefault()`로 막는 폼 |
+| [ex02_value.html](examples/day1/ex02_value.html) + [ex02_value.js](examples/day1/ex02_value.js) | 1. 열 때 읽은 `value` / 2. 누를 때 읽은 `value` / 3. textarea의 `value` |
+| [ex03_trim.html](examples/day1/ex03_trim.html) + [ex03_trim.js](examples/day1/ex03_trim.js) | 1. `value` 그대로 / 2. `trim()` 한 값 |
+
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week07/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+
+**예상 결과** — `ex/` 안에 파일 여섯 개가 있다.
+
+```text
+ex/
+  ex01_submit.html
+  ex01_submit.js
+  ex02_value.html
+  ex02_value.js
+  ex03_trim.html
+  ex03_trim.js
+```
+
+- 저장한 파일 이름이 `.txt`로 끝나면 이름을 고친다. 이름은 VS Code 탐색기에서 확인한다.
+- `.html`과 `.js`는 짝이다. `.html`이 같은 폴더의 `.js`를 불러온다. `.js`를 빠뜨리면 막는 코드가 없어서, 어느 폼이든 보내면 페이지가 다시 열린다.
+
+### 3. 여는 법과 Preserve log
+
+`ex/ex01_submit.html`을 Chrome으로 연다(VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**, macOS는 **Reveal in Finder** → 두 번 누르기). `.js` 파일은 두 번 누르지 않는다.
+
+F12 › **Console**을 연다. 이번 주에는 Console 설정을 하나 켠다. Console 위쪽 오른편의 ⚙(**Console settings**)를 누르고 **Preserve log**에 체크한다. 페이지가 다시 열려도 Console 줄이 지워지지 않고 남는다. 이번 주에는 폼이 페이지를 다시 여는 일이 많아서 켜 둔다.
+
+2번 칸에 `abc`를 넣고 **2. 보내기**를 누른다.
+
+**예상 결과** — 주소창은 그대로다. 2번 칸의 `abc`도 그대로고, 2번 결과 자리가 `2. 제출을 받았다`로 바뀐다. Console에 한 줄이 찍힌다.
+
+```text
+2. form2 에서 submit          ex01_submit.js:19
+```
+
+이어서 1번 칸에 `xyz`를 넣고 **1. 보내기**를 누른다.
+
+**예상 결과** — 주소창 끝에 `?`가 붙는다(`…/ex01_submit.html?`). 두 칸이 모두 비고(2번 칸의 `abc`도 사라진다), 1번·2번 결과 자리가 모두 처음 글자(`1번 결과 자리`·`2번 결과 자리`)로 돌아간다. Preserve log를 켰으므로 Console에 `1. form1 에서 submit`(`ex01_submit.js:12`) 줄이 남아 있다.
+
+- 1번 리스너도 실행됐다. 그런데 곧바로 페이지가 통째로 다시 열려 바꾼 글자가 사라졌다. 2번 결과까지 돌아간 것이 그 증거다.
+- 2번은 리스너 첫 줄 `event.preventDefault();`가 "다시 열기"를 막았다. 막아야 바꾼 화면이 남는다.
+- 줄이 너무 쌓이면 Console에서 오른쪽 클릭 › **Clear console**로 지운다. Preserve log는 이번 주 내내 켜 둔다.
+
+### 4. 값 바꾸는 요령
+
+실험은 늘 같은 순서다. **VS Code에서 고치고 저장**(Ctrl+S, macOS는 ⌘+S) → **브라우저에서 새로고침**(F5, macOS는 ⌘+R) → **화면·주소창·Console**을 본다.
+바꾸기 전에 무엇이 달라질지 먼저 말해 보고 확인한다.
+
+**입력해 보기** — `ex/ex02_value.html`을 연다. 이름 `student01`, 메시지 `안녕하세요`를 넣고 **남기기**를 누른다.
+
+**예상 결과** — 아래 세 줄이 화면에 보인다. 1번은 콜론 뒤가 비어 있다.
+
+```text
+1. 열 때 읽은 이름 : 
+2. 누를 때 읽은 이름 : student01
+3. 누를 때 읽은 메시지 : 안녕하세요
+```
+
+이름을 `student02`로 바꿔 한 번 더 누르면 2번만 `student02`로 바뀐다. 11행 `const atOpen = nameInput.value;`는 열 때 한 번, 15행 `const atSubmit = nameInput.value;`는 누를 때마다 실행되기 때문이다(6주차 ex02와 같은 원리).
+
+- `value`는 칸에 **지금** 적혀 있는 글자다. 그래서 누를 때 읽는다.
+- 값을 원래대로 못 돌리겠으면 교재에서 그 파일을 다시 **Raw**로 받아 덮어쓴다.
+- 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--폼-제출과-입력-값-60분)에 있다.
+
+### 5. 이번 주 저장소 만들어 올리기
+
+1일차 50–60분에 한다. 세 예제에서 각각 값 하나 이상을 바꿔 봤으면 올린다.
+
+GitHub에서 **New repository**를 누르고 이름 `web-week07`, **Public**으로 만든다. README는 추가하지 않는다.
+터미널에서 2주차에 배운 순서 그대로 친다. 현재 폴더: `web-week07`
+
+```bash
+git init
+git add .
+git commit -m "7주차 1일차"
+git branch -M main
+git remote add origin https://github.com/student01/web-week07.git
+git push -u origin main
+```
+
+저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
+
+**예상 결과** — GitHub 저장소 화면을 새로고침하면 `ex/`·`images/`와 맨 위 파일들이 보인다.
+1~3분 뒤 `https://student01.github.io/web-week07/ex/ex01_submit.html`을 연다. 두 폼이 보이고 **2. 보내기**는 주소를 바꾸지 않는다. 이 화면은 **확인용**이다.
+공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
+
+- 주소는 파일 이름까지 쓴다. 1일차 `ex/`에는 `index.html`이 없어서 `…/web-week07/ex/`까지만 치면 보여 줄 페이지가 없다. 404 화면이 나오면 [막혔을 때](lab.md#막혔을-때)의 마지막 줄을 본다.
+- push가 거부되거나 로그인 창이 안 뜨면 [2주차 실습지의 막혔을 때](../week02_github_pages/lab.md#막혔을-때)를 본다.
+
+## 2일차
+
+### 6. 폴더 열고 2일차 예제 다섯 파일 가져오기
+
+같은 PC에 `web-week07` 폴더가 남아 있으면 VS Code로 그대로 연다. 없으면 받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
+
+```bash
+git clone https://github.com/student01/web-week07.git
+```
+
+내려받은 `web-week07`을 **File › Open Folder**로 연다.
+
+오늘 파일은 다섯 개다. 고르기 페이지 `index.html` 하나와 예제 코드 `.js` 네 개다. 네 예제가 같은 화면(방명록 모양 폼, 안내 자리, 결과 자리)을 쓰기 때문에 화면은 `index.html` 하나에 두고 코드만 따로 뗐다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week07/ex/`에 넣는다. `web-week07/` 하위 폴더는 받지 않는다.
+
+| 파일 | 비교하는 것 |
+|---|---|
+| [index.html](examples/day2/index.html) | 고르기 페이지. 맨 아래 `<script src>` 네 줄 중 하나만 켠다. 폼 `#form`·이름 칸 `#name`·메시지 칸 `#message`·안내 자리 `#notice`·결과 자리 `#last`가 여기 있다 |
+| [ex04_reset_focus.js](examples/day2/ex04_reset_focus.js) | 다음 입력 준비 — 비우기 전에 읽은 값 / `form.reset()` 뒤에 읽은 값 / `focus()` 로 커서 옮기기 |
+| [ex05_empty.js](examples/day2/ex05_empty.js) | 이름이 빔 / 메시지가 빔 / 둘 다 찼음 — `if` 안의 `return` |
+| [ex06_input.js](examples/day2/ex06_input.js) | `'input'` 이벤트 — 이름 칸(`input`) / 메시지 칸(`textarea`) |
+| [ex07_pass_name.js](examples/day2/ex07_pass_name.js) | 함수 맡기기 — `function () { clearNotice(); }` / 이름만 맡긴 `clearNotice` |
+
+`ex/index.html`을 Chrome으로 열고, VS Code에서도 열어 맨 아래를 본다.
+
+```html
+<script src="ex04_reset_focus.js"></script>
+<!-- <script src="ex05_empty.js"></script> -->
+<!-- <script src="ex06_input.js"></script> -->
+<!-- <script src="ex07_pass_name.js"></script> -->
+```
+
+지금은 ex04 줄만 켜져 있다. 다른 예제로 바꿀 때는 켜 둔 줄에 커서를 두고 **Ctrl+/**(macOS **⌘+/**)로 주석으로 만들고, 볼 줄에서 다시 **Ctrl+/** 로 주석을 푼다. 저장 → 새로고침한다. 한 번에 한 줄만 켠다.
+
+**예상 결과** — `ex/`에 파일이 열한 개 있다(1일차 여섯 개 + 오늘 다섯 개). `ex/index.html`에서 이름 `student01`, 메시지 `안녕하세요`를 넣고 **남기기**를 누르면 두 칸이 비고 커서가 이름 칸에서 깜박인다. Console에 두 줄이 찍힌다.
+
+```text
+1. 비우기 전 : [student01] [안녕하세요]     ex04_reset_focus.js:12
+2. 비운 뒤 : [] []                          ex04_reset_focus.js:17
+```
+
+- 줄을 둘 이상 켜면 둘째 파일이 `Uncaught SyntaxError: Identifier '…' has already been declared` 빨간 줄을 내고 실행되지 않는다. 두 파일이 같은 이름의 `const`를 만들기 때문이다. 한 줄만 켠다.
+- 파일마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--빈값-안내와-다음-입력-그리고-조립-60분)에 있다.
+
+### 7. 조립표
+
+29분부터 조립한다. 이제 `ex/`가 아니라 `web-week07` 맨 위의 `guestbook.html`을 열고, 그 옆에 `guestbook.js`를 새로 만든다.
+조립하는 줄은 모두 비교 예제와 6주차 완성본에서 본 것이다.
+
+| 조립할 줄 | 출처 |
+|---|---|
+| `guestbook.html`의 `<script src="guestbook.js" defer></script>` | 6주차 완성본 `index.html`의 `<script src="app.js" defer></script>`, 파일 이름만 바꾼다 |
+| `<form id="guestbook-form">` | [ex01](examples/day1/ex01_submit.html)·[ex02](examples/day1/ex02_value.html) 폼에 `id` 붙이기 |
+| `#notice` 자리·`<h3>마지막으로 남긴 글</h3>`·`#last` 카드 | [고르기 페이지](examples/day2/index.html)의 `#notice`·`#last`, 6주차 `.card`·`<h3>` |
+| `const form`·`nameInput`·`messageInput`·`notice`·`last` | [ex02](examples/day1/ex02_value.js)·[ex05](examples/day2/ex05_empty.js) 찾아서 `const`에 담기 |
+| `function clearNotice() { notice.textContent = ''; }` | [ex07](examples/day2/ex07_pass_name.js) 안내를 지우는 함수(본문까지 같다) |
+| `form.addEventListener('submit', function (event) { event.preventDefault(); …` | [ex01](examples/day1/ex01_submit.js) 2번 |
+| `const name = nameInput.value.trim();`·`const message = messageInput.value.trim();` | [ex02](examples/day1/ex02_value.js) 2·3번 + [ex03](examples/day1/ex03_trim.js) 2번 |
+| `if (name === '') { … nameInput.focus(); return; }`·`if (message === '') { … messageInput.focus(); return; }` | [ex05](examples/day2/ex05_empty.js) 1·2번 + [ex04](examples/day2/ex04_reset_focus.js) `focus()` |
+| `clearNotice();`·`` last.textContent = `${name}: ${message}`; `` | [ex07](examples/day2/ex07_pass_name.js) 1번 괄호를 붙여 부르기 · [ex05](examples/day2/ex05_empty.js) 3번 |
+| `form.reset();`·`nameInput.focus();` | [ex04](examples/day2/ex04_reset_focus.js) |
+| `nameInput.addEventListener('input', clearNotice);`·`messageInput.addEventListener('input', clearNotice);` | [ex06](examples/day2/ex06_input.js) `'input'` 이벤트 + [ex07](examples/day2/ex07_pass_name.js) 2번 이름만 맡기기 |
+
+옮겨 적을 때 출처 ex 파일을 옆에 열어 두고, 같은 줄이 거기서 무엇을 했는지 떠올린다.
+
+### 8. guestbook.html 네 곳 고치기
+
+`web-week07/guestbook.html`을 연다. 3주차에 만든 폼은 그대로 두고 **찾을 이름과 결과 자리만** 만든다.
+
+1. `<head>`의 `<link rel="stylesheet" href="styles.css">` **바로 아래**에 한 줄을 넣는다.
+
+```html
+    <script src="guestbook.js" defer></script>
+```
+
 2. `<form>`을 `<form id="guestbook-form">`으로 바꾼다.
-3. `</form>` 아래의 `<p>지금은 눌러도 주소창만 바뀐다. 화면에 띄우는 일은 7주에 한다.</p>` 한 줄을 지우고, 그 자리에 세 줄을 넣는다.
+3. `</form>` 아래의 `<p>지금은 눌러도 주소창만 바뀐다. 화면에 띄우는 일은 7주에 한다.</p>` 한 줄을 지운다.
+4. 지운 자리에 세 줄을 넣는다.
 
 ```html
       <div id="notice"></div>
@@ -48,7 +223,32 @@ cd my-web
       <div class="card" id="last">아직 남긴 글이 없습니다.</div>
 ```
 
-전체 파일은 아래와 같다. 같은 파일이 [examples/day1/guestbook.html](examples/day1/guestbook.html)에 있다.
+- `defer`는 HTML을 끝까지 읽은 뒤 `guestbook.js`를 실행하라는 뜻이다(5주차 ex02). 빠뜨리면 폼을 찾지 못한다.
+- `index.html`은 `app.js`를, `guestbook.html`은 `guestbook.js`를 부른다. **페이지마다 자기 js 하나**다.
+- `id`는 `guestbook-form`·`notice`·`last` 세 개를 새로 붙인다. 이름·메시지 칸의 `id`(`name`·`message`)는 3주차에 붙여 둔 것을 그대로 쓴다.
+- `<div id="notice"></div>`는 **비어 있는 자리**다. 안내할 일이 있을 때만 글자가 들어간다.
+
+**예상 결과** — 저장하고 Console에서 오른쪽 클릭 › **Clear console**로 지운 뒤 `guestbook.html`을 새로고침하면 폼 아래에 **마지막으로 남긴 글** 제목과 `아직 남긴 글이 없습니다.` 카드가 보인다. Console에는 `guestbook.js`를 불러오지 못했다는 빨간 줄이 하나 있다(`guestbook.js`와 `net::ERR_FILE_NOT_FOUND`가 들어 있는 줄). 아직 파일을 만들지 않아서다. 9단계에서 파일을 만들면 이 줄은 더 나지 않는다.
+
+### 9. guestbook.js 새로 만들기
+
+VS Code 탐색기에서 `web-week07` 맨 위(`guestbook.html` 옆)에 **New File**로 `guestbook.js`를 만든다. 조립표 순서로 쓴다.
+
+1. 찾아 두기 다섯 줄 — `#guestbook-form`·`#name`·`#message`·`#notice`·`#last`를 `querySelector`로 찾아 `const`에 담는다(ex02·ex05).
+2. 함수 `clearNotice` — 안내 자리를 비운다(ex07).
+3. 제출 리스너 — 폼의 `'submit'`에 맡기고 첫 줄에서 `event.preventDefault();`(ex01 2번).
+4. 값 두 개 — 이름·메시지를 리스너 **안**에서 `.value.trim()`으로 읽는다(ex02·ex03).
+5. 이름 검사 — 비었으면 `이름을 입력하세요.`, 커서를 이름 칸으로, `return`(ex05 1번·ex04).
+6. 메시지 검사 — 비었으면 `메시지를 입력하세요.`, 커서를 메시지 칸으로, `return`(ex05 2번·ex04).
+7. 다 찼을 때 — 안내 지우기(`clearNotice();`, ex07 1번), 결과 한 줄 쓰기, 칸 비우기, 커서를 이름 칸으로(ex05 3번·ex04).
+8. 맨 끝 두 줄 — 두 칸의 `'input'`(ex06)에 `clearNotice`를 이름만 맡긴다(ex07 2번).
+
+**예상 결과** — 저장하고 Console을 다시 **Clear console**로 지운 뒤 `guestbook.html`을 새로고침한다. 빨간 줄이 새로 나지 않는다(Preserve log를 켜 두었으므로 지우지 않으면 8단계의 줄이 그대로 남아 있다). 이름 `student01`, 메시지 `안녕하세요`로 **남기기**를 누르면 주소가 그대로이고, 카드가 `student01: 안녕하세요`로 바뀌고, 세 칸이 비고, 커서가 이름 칸에 있다.
+이름을 비우고 누르면 폼 아래에 `이름을 입력하세요.`가 나타나고 커서가 이름 칸으로 간다. 이름 칸에 한 글자를 치면 안내가 사라진다.
+
+### 10. guestbook.html 전문
+
+8단계까지 마친 `guestbook.html` 전체다. 내 파일과 한 줄씩 비교한다. 6주차 파일과 다른 곳은 8단계의 네 곳뿐이다.
 
 ```html
 <!doctype html>
@@ -103,264 +303,11 @@ cd my-web
 </html>
 ```
 
-**예상 결과** — 폴더에서 `guestbook.html`을 더블클릭해 열면 폼 아래에 **마지막으로 남긴 글**과 `아직 남긴 글이 없습니다.` 카드가 보인다.
-아직 **[남기기]**를 누르면 화면이 처음으로 돌아가고 주소 끝에 `?`가 붙는다. F12 **Console**에 빨간 줄이 하나 보이는 것도 정상이다. `guestbook.js`를 아직 만들지 않았기 때문이다.
+같은 파일이 [examples/day2/web-week07/guestbook.html](examples/day2/web-week07/guestbook.html)에 있다.
 
-- `id`는 `guestbook-form`·`notice`·`last` 세 개다. `name`·`email`·`message`는 3주차에 붙여 둔 것을 그대로 쓴다.
-- `<div id="notice"></div>`는 **비어 있는 자리**다. 안내할 일이 있을 때만 글자가 들어간다.
-- `index.html`은 `app.js`를, `guestbook.html`은 `guestbook.js`를 부른다. **페이지마다 자기 js 하나**다.
+### 11. guestbook.js 전문
 
-### 3. guestbook.js 만들고 요소 찾아 두기
-
-VS Code 탐색기의 **New File**로 `my-web` 폴더에 `guestbook.js`를 새로 만들고 다섯 줄을 쓴다.
-
-```js
-const form = document.querySelector('#guestbook-form');
-const nameInput = document.querySelector('#name');
-const messageInput = document.querySelector('#message');
-const notice = document.querySelector('#notice');
-const last = document.querySelector('#last');
-```
-
-**예상 결과** — `guestbook.html`을 새로고침하면 Console의 빨간 줄이 사라진다. 화면은 아직 그대로다.
-
-- 6주차 `app.js` 맨 위와 같은 모양이다. 찾아 둔 것을 `const`에 담아 두고 아래에서 이름으로 쓴다.
-- `이메일` 칸은 이번 주에 읽지 않는다. 그래서 찾아 두지 않는다.
-- Console에 `form`을 쳐 보면 `<form id="guestbook-form">…</form>`이 보인다. `null`이면 철자가 틀린 것이다.
-
-### 4. 제출을 받아 새로고침 막기
-
-`guestbook.js` 아래에 빈 줄 하나를 두고 이어 쓴다.
-
-```js
-form.addEventListener('submit', function (event) {
-  event.preventDefault();
-});
-```
-
-**예상 결과** — 새로고침한 뒤 이름·메시지를 아무렇게나 넣고 **[남기기]**를 누르면 이제 **아무 일도 일어나지 않는다.**
-화면이 처음으로 돌아가지 않고 주소 끝에 `?`도 붙지 않는다. 입력한 글자도 그대로 남아 있다.
-
-- 6주차 `'click'` 자리에 `'submit'`이 들어갔다. 맡겨 두는 방법은 같다.
-- 괄호 안의 `event`는 **방금 일어난 일**이 담겨 오는 이름이다. `event.preventDefault()`는 "브라우저가 원래 하려던 일을 하지 마라"는 뜻이다.
-- `event`를 빠뜨리고 `preventDefault()`라고만 쓰면 `Uncaught ReferenceError: preventDefault is not defined`가 뜬다.
-
-### 5. 입력 칸의 값 읽기
-
-`event.preventDefault();` 아래에 빈 줄을 두고 세 줄을 더한다. 마지막 `console.log`는 값을 확인하는 줄이며 6단계에서 지운다.
-
-```js
-  const name = nameInput.value.trim();
-  const message = messageInput.value.trim();
-
-  console.log(name, message);
-```
-
-**예상 결과** — 이름에 `student01`, 메시지에 `안녕하세요`를 넣고 누르면 Console에 `student01 안녕하세요`가 찍힌다.
-이름 칸에 공백만 넣고 누르면 Console에 빈 값이 찍힌다.
-
-- `.value`는 입력 칸에 **지금 적혀 있는 글자**다. `textarea`도 같다.
-- `.trim()`은 앞뒤 공백을 떼어 낸 값을 돌려준다. 공백만 친 칸을 빈칸으로 보기 위해서다.
-- `const name`은 리스너 **안**에 둔다. 누를 때마다 그때의 값을 새로 읽어야 하기 때문이다.
-
-### 6. 마지막 글 한 줄로 표시하기
-
-`console.log(name, message);` 줄을 지우고 그 자리에 한 줄을 쓴다.
-
-```js
-  last.textContent = `${name}: ${message}`;
-```
-
-**예상 결과** — 이름 `student01`, 메시지 `안녕하세요`를 넣고 누르면 카드가 `student01: 안녕하세요`로 바뀐다.
-입력 칸의 글자는 아직 그대로 남아 있다.
-
-- 6주차의 `textContent`와 같다. 바뀌는 것은 화면이지 HTML 파일이 아니다. 새로고침하면 `아직 남긴 글이 없습니다.`로 돌아간다.
-- 이름과 메시지 사이는 **콜론과 공백**(`: `)이다. 5주차 템플릿 문자열 안에 그대로 적는다.
-
-### 7. 이름이 비면 안내하고 커서 옮기기
-
-`const message = …` 줄 아래, `last.textContent = …` 줄 **위**에 다섯 줄과 한 줄을 넣는다.
-
-```js
-  if (name === '') {
-    notice.textContent = '이름을 입력하세요.';
-    nameInput.focus();
-    return;
-  }
-
-  notice.textContent = '';
-```
-
-**예상 결과** — 이름을 비우고 누르면 폼 아래에 `이름을 입력하세요.`가 나타나고 커서가 이름 칸으로 간다.
-카드는 `아직 남긴 글이 없습니다.` 그대로다. 이름을 채워 누르면 안내 문구가 사라지고 카드에 글이 보인다.
-
-- `return`은 "여기서 이 함수를 끝내라"는 뜻이다. `return`이 없으면 안내를 띄운 **뒤에도** 아랫줄이 실행되어 `: 안녕하세요`가 표시된다.
-- `=== ''`는 "값이 빈 글자와 같은가"다. 5주차의 `===`와 같다.
-- `notice.textContent = '';`는 지난번 안내 문구를 지우는 줄이다. 이 줄이 없으면 안내가 계속 남는다.
-
-### 8. 폼 비우고 다음 입력 준비하기
-
-`last.textContent = …` 줄 아래에 두 줄을 더하면 1일차 `guestbook.js`가 끝난다.
-
-```js
-  form.reset();
-  nameInput.focus();
-```
-
-전체 파일은 아래와 같다. 같은 파일이 [examples/day1/guestbook.js](examples/day1/guestbook.js)에 있다.
-
-```js
-const form = document.querySelector('#guestbook-form');
-const nameInput = document.querySelector('#name');
-const messageInput = document.querySelector('#message');
-const notice = document.querySelector('#notice');
-const last = document.querySelector('#last');
-
-form.addEventListener('submit', function (event) {
-  event.preventDefault();
-
-  const name = nameInput.value.trim();
-  const message = messageInput.value.trim();
-
-  if (name === '') {
-    notice.textContent = '이름을 입력하세요.';
-    nameInput.focus();
-    return;
-  }
-
-  notice.textContent = '';
-  last.textContent = `${name}: ${message}`;
-  form.reset();
-  nameInput.focus();
-});
-```
-
-**예상 결과** — 이름 `student01`, 메시지 `안녕하세요`를 넣고 누르면 카드에 `student01: 안녕하세요`가 보이고,
-**입력 칸 세 개가 모두 비워지며** 커서가 이름 칸에 있다. 그대로 다음 글을 바로 칠 수 있다.
-
-- `form.reset()`은 폼 전체를 비운다. 이메일 칸도 함께 비워진다.
-- 순서가 중요하다. `form.reset()`을 **먼저** 하면 값이 지워지므로, 값을 읽어 표시한 **뒤에** 비운다.
-- Console에 빨간 줄이 없는지 확인한다. 여기까지가 1일차 목표다.
-
-### 9. 8주차 문제 은행 열어 보기
-
-8주차 중간 실기는 1~7주 실습 제출을 한 문제씩으로 정리한 [문제 은행](../week08_midterm/examples/README.md)에서 나온다. 목록을 열어 영역(A~D)과 문제를 훑어본 뒤,
-폼 문제 [w07_form_result](../week08_midterm/examples/w07_form_result/)의 시작 파일 세 개(`comment.html`·`styles.css`·`app.js`)를 **Raw** 로 받는다.
-`my-web` **밖**에 새 폴더 `web-week08`을 만들고, 그 안에 `w07_form_result` 폴더를 만들어 같은 이름으로 저장한 뒤 `comment.html`을 두 번 눌러 연다.
-
-**예상 결과** — 닉네임·한마디 칸과 **[올리기]** 버튼이 있는 페이지가 열린다. `app.js`는 주석 한 줄뿐이라 버튼을 누르면 주소 끝에 `?`가 붙고 처음으로 돌아간다.
-오늘 고치기 전의 `guestbook.html`과 같다.
-
-- 이 폴더는 `my-web` **밖**에 둔다. 저장소에 넣지 않는다. 8주차 연습 폴더(`web-week08/<문제 id>/`)와 같은 모양이라 8주차에 그대로 이어 쓴다.
-- 문제 문장(그 폴더의 `README.md`)은 받지 않고 교재에서 읽는다. 오늘은 열어 보기만 한다. 푸는 것은 2일차 15단계다.
-- [채점표](../week08_midterm/rubric.md)의 폼 영역(3점)이 오늘 만든 것이다.
-
-### 10. 오늘 작업 commit하고 push 하기
-
-현재 폴더: `my-web`
-
-```bash
-git add .
-git commit -m "방명록 폼 제출 받기"
-git push
-```
-
-**예상 결과**
-
-```text
-[main a69bc37] 방명록 폼 제출 받기
- 2 files changed, 28 insertions(+), 2 deletions(-)
- create mode 100644 guestbook.js
-```
-
-`git push` 뒤 1분쯤 기다렸다가 `https://student01.github.io/my-web/guestbook.html`을 새로고침하면 공개 페이지에서도 같은 동작이 된다.
-이 화면을 **확인용**으로 한 장 찍어 둔다. 제출 캡처는 2일차에 찍는다.
-
-- 앞의 일곱 글자(`a69bc37`)는 PC마다 다르다.
-- 공용 PC면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 자리를 뜬다.
-
-## 2일차
-
-### 11. GitHub 웹에서 README 만들고 받아오기
-
-저장소를 설명하는 `README.md`를 **GitHub 화면에서** 만들고 내 PC로 받아 온다.
-
-1. `https://github.com/student01/my-web`을 연다.
-2. **Add file › Create new file**을 누른다.
-3. 파일 이름에 `README.md`를 적는다.
-4. 아래 내용을 넣는다. 공개 주소의 아이디는 본인 것으로 바꾼다.
-5. 오른쪽 위 **Commit changes…** → **Commit changes**를 누른다.
-
-```markdown
-# my-web
-
-웹프로그래밍 수업에서 한 주씩 늘려 가는 연습 사이트입니다.
-
-- 공개 주소: https://student01.github.io/my-web/
-- 페이지: `index.html`(홈) · `about.html`(내 정보) · `guestbook.html`(방명록)
-
-이 파일은 GitHub 웹에서 만들고 `git pull`로 내 컴퓨터에 받았습니다.
-```
-
-현재 폴더: `my-web`
-
-```bash
-git pull
-```
-
-**예상 결과** — 저장소 첫 화면 아래쪽에 README 내용이 보인다. `git pull` 출력은 아래와 같고 VS Code 탐색기에 `README.md`가 나타난다.
-
-```text
-Updating a69bc37..3d51f0c
-Fast-forward
- README.md | 8 ++++++++
- 1 file changed, 8 insertions(+)
- create mode 100644 README.md
-```
-
-- GitHub 화면에서 만든 파일은 **GitHub에만** 있다. `git pull`을 해야 내 PC에 생긴다.
-- pull을 건너뛰고 작업하면 나중에 push가 거부된다. 2주차 부록에서 본 `clone`·`pull`의 복습이다.
-- README는 9주차 1차 과제에서 레포트로 쓴다. 오늘은 다섯 줄이면 된다.
-
-### 12. 메시지 칸도 검사하기
-
-`guestbook.js`의 이름 검사 블록 **아래**, `notice.textContent = '';` 줄 **위**에 다섯 줄과 빈 줄을 넣는다.
-
-```js
-  if (message === '') {
-    notice.textContent = '메시지를 입력하세요.';
-    messageInput.focus();
-    return;
-  }
-```
-
-**예상 결과** — 이름만 넣고 누르면 `메시지를 입력하세요.`가 보이고 커서가 메시지 칸으로 간다. 카드는 바뀌지 않는다.
-이름을 비우고 누르면 어제처럼 `이름을 입력하세요.`가 먼저 나온다.
-
-- 두 검사는 **위에서부터 차례로** 본다. 이름이 비면 거기서 `return`으로 끝나므로 메시지 검사까지 가지 않는다.
-- 안내 문구는 각각 다르게 쓴다. 학생이 어느 칸을 고쳐야 하는지 문구만 보고 알 수 있어야 한다.
-
-### 13. 다시 입력하면 안내 문구 지우기
-
-안내 문구를 지우는 일이 두 곳에서 필요해졌다. 그 한 줄을 함수로 묶고 입력 칸에 맡긴다.
-
-1. `const last = …` 줄 아래에 함수를 만든다.
-
-```js
-function clearNotice() {
-  notice.textContent = '';
-}
-```
-
-2. 리스너 안의 `notice.textContent = '';` 줄을 `clearNotice();`로 바꾼다.
-3. 파일 **맨 끝**에 두 줄을 더한다.
-
-```js
-nameInput.addEventListener('input', clearNotice);
-messageInput.addEventListener('input', clearNotice);
-```
-
-전체 파일은 아래와 같다. 같은 파일이 [examples/day2/guestbook.js](examples/day2/guestbook.js)에 있다.
+새로 만든 파일 전체다. 글자 단위로 같아야 한다.
 
 ```js
 const form = document.querySelector('#guestbook-form');
@@ -401,259 +348,47 @@ nameInput.addEventListener('input', clearNotice);
 messageInput.addEventListener('input', clearNotice);
 ```
 
-**예상 결과** — 이름을 비우고 눌러 `이름을 입력하세요.`가 뜬 뒤, 이름 칸에 **글자를 한 자만 쳐도** 안내 문구가 사라진다.
-메시지 칸도 같다. 제출은 어제와 똑같이 된다.
+같은 파일이 [examples/day2/web-week07/guestbook.js](examples/day2/web-week07/guestbook.js)에 있다.
 
-- `'input'`은 입력 칸의 글자가 바뀔 때마다 일어난다. 6주차에 배운 `addEventListener`에서 **이벤트 이름만** 바뀌었다.
-- 맡길 때는 `clearNotice`에 괄호를 붙이지 않는다. `clearNotice()`라고 쓰면 맡기는 순간 한 번 실행되고 만다.
-- 6주차 `countUp()`처럼 같은 일을 여러 곳에서 쓰면 함수로 묶는다.
+- 1~5행은 찾은 요소를 `const`에 담아 둔다. 리스너 안과 맨 끝에서 이름으로 쓴다.
+- 7~9행 `clearNotice`는 안내를 지우는 일이다(ex07). 29행(다 찼을 때)과 35~36행(다시 칠 때) 세 곳에서 쓴다. 고칠 일이 생기면 여기 한 곳만 고친다(6주차 ex06).
+- 12행 `event.preventDefault();`가 리스너 첫 줄이다. 이 줄이 없으면 아래가 다 맞아도 페이지가 다시 열린다(ex01).
+- 14~15행은 리스너 **안**에서 읽는다. 누를 때마다 그때의 글자를 읽는다(ex02 2번).
+- 17~27행은 위에서부터 차례로 본다. 이름이 비면 20행 `return`에서 끝나 메시지 검사까지 가지 않는다(ex05).
+- 29~32행은 두 칸이 다 찼을 때만 온다. 30행에서 결과를 쓴 **뒤** 31행에서 비운다. 이름과 메시지는 14~15행에서 이미 읽어 두었다(ex04).
+- 35~36행은 함수 이름만 맡긴다. `clearNotice()`처럼 괄호를 붙이면 맡기는 순간 한 번 실행되고 끝난다(ex07).
+- `index.html`·`about.html`·`app.js`·`styles.css`·`images/profile.png`는 6주차 완성본과 글자 하나까지 같다.
 
-### 14. 두 번째 글을 남겨 보기
+### 12. 375·1280 폭과 서버로 확인
 
-글을 하나 남긴 뒤 다른 이름·메시지로 한 번 더 남긴다.
+DevTools의 기기 툴바(**Ctrl+Shift+M**, macOS **⌘+Shift+M**)를 켜고 폭을 375와 1280으로 바꿔 가며 `guestbook.html`에서 글을 남겨 본다.
 
-**예상 결과** — 카드에는 **마지막 글 하나만** 보인다. 앞에 남긴 글은 사라진다.
+**예상 결과** — 두 폭 모두 폼과 카드가 화면 안에 들어오고 결과 줄이 같게 나온다. 375에서는 메뉴가 세로로 선다(4주차 `@media`). 입력 칸(폭 280px)은 375 폭 안에 그대로 들어간다. 4주차 `max-width: 100%`는 칸이 담긴 상자보다 넓어지지 않게 막는 규칙이라, 375에서는 칸을 줄이지 않는다.
 
-- 카드가 한 줄뿐이라 그렇다. 글을 쌓아 목록으로 보여 주는 것은 10주차, 새로고침해도 남게 하는 것은 11주차다.
-- 지금 단계에서 정상 동작이므로 고치지 않는다.
+이어서 서버로 연다. 현재 폴더: `web-week07`
 
-### 15. 은행 폼 문제 하나 풀어 보기
+```bash
+node server.mjs
+```
 
-9단계에서 받아 둔 `web-week08/w07_form_result/`의 `app.js`를 열고, 교재의 [문제 문장](../week08_midterm/examples/w07_form_result/README.md)에 있는 "할 일" 1~7을 쓴다.
-오늘 만든 `guestbook.js`와 같은 일을 다른 값으로 한다. `id`·안내 문장·결과 한 줄의 꼴은 문제의 "이 문제의 값" 표에 있다.
+주소창에 `http://localhost:8000/guestbook.html`을 친다. 두 번 눌러 연 것과 결과가 같으면 된 것이다. 터미널에는 브라우저가 받아 간 파일마다 한 줄씩 찍힌다(`guestbook.html`·`guestbook.js`·`styles.css`). **남기기**를 눌러도 새 줄이 생기지 않는다. 페이지를 다시 열지 않았기 때문이다. `404 GET /favicon.ico` 줄도 보일 수 있는데 괜찮다([서버 사용 안내](../../tools/static-server/README.md#터미널에-찍히는-줄-읽기) 참고). 그때 Console에도 `favicon.ico`를 받지 못했다는 빨간 줄(404)이 하나 보일 수 있다. 브라우저가 탭 아이콘을 찾은 것이라 내 코드와 관계없다. 확인이 끝나면 터미널에서 **Ctrl+C**로 서버를 멈춘다.
+쓰는 법은 [서버 사용 안내](../../tools/static-server/README.md)에 있다. Node가 없는 PC는 `guestbook.html`을 두 번 눌러 연 것으로 대신한다.
 
-**예상 결과** — 문제 문장의 "확인할 것"이 모두 맞는다. 예를 들어 두 칸에 `guest07`·`반갑습니다`를 넣고 **[올리기]** 버튼을 누르면 결과 카드에 `[guest07] 반갑습니다`가 보이고,
-닉네임 칸을 비우고 누르면 `닉네임을 적어 주세요.`가 보이며 커서가 닉네임 칸으로 간다.
+### 13. push와 캡처
 
-- 막히면 오늘 만든 `guestbook.js`를 옆에 두고 값만 바꿔 읽는다.
-- 해답은 공개하지 않는다. "확인할 것"이 모두 맞으면 된 것이다.
-- 이 폴더는 채점하지 않는다. 8주차 1일차에 다른 영역의 은행 문제와 함께 연습한다.
-
-### 16. push 하고 공개 페이지 캡처하기
-
-현재 폴더: `my-web`
+현재 폴더: `web-week07`
 
 ```bash
 git add .
-git commit -m "빈값 안내 다듬기"
+git commit -m "7주차 2일차"
 git push
 ```
 
-**예상 결과** — push 뒤 1분쯤 기다렸다가 `https://student01.github.io/my-web/guestbook.html`을 새로고침한다.
-이름 `student01`, 메시지 `안녕하세요`를 넣고 **[남기기]**를 누르면 카드에 `student01: 안녕하세요`가 보인다. 이 화면이 **제출 캡처**다.
+1~3분 뒤 `https://student01.github.io/web-week07/guestbook.html`을 연다. 이름 `student01`, 메시지 `안녕하세요`를 넣고 **남기기**를 누른다.
 
-- 주소창이 함께 보이게 찍는다. 실명·학번·실제 이메일이 보이지 않게 한다.
-- 공개 페이지가 옛 화면이면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
-- 공용 PC면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지운다.
+**예상 결과** — 주소는 그대로이고, **마지막으로 남긴 글** 아래 카드에 `student01: 안녕하세요`가 보인다. 주소창이 함께 보이게 캡처한다. 이 캡처 한 장이 제출이다.
+공용 PC라면 자격 증명을 지우고 나간다.
 
-## 이번 주에 고치지 않는 파일
-
-아래 네 파일은 6주차와 글자 하나까지 같다. 열지 않아도 되고, 조교에게 받은 폴더로 시작했거나 화면이 이상할 때만 비교한다.
-
-`index.html` — 같은 파일이 [examples/day1/index.html](examples/day1/index.html)에 있다.
-
-```html
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>my-web</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="app.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <h1>student01의 웹 연습장</h1>
-      <nav>
-        <a href="index.html">홈</a>
-        <a href="about.html">내 정보</a>
-        <a href="guestbook.html">방명록</a>
-      </nav>
-    </header>
-    <main>
-      <div class="card" id="greeting">인사말을 준비 중입니다.</div>
-      <div>
-        <button id="hello-button" type="button">인사 바꾸기</button>
-        <button id="dark-button" type="button">다크 모드</button>
-      </div>
-      <div class="card" id="count">클릭 0회</div>
-      <h2>소개</h2>
-      <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
-      <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>
-      <p class="card">이 페이지는 수업 시간에 한 주씩 늘려 갑니다.</p>
-      <h2>취미</h2>
-      <ul class="card">
-        <li>사진 찍기</li>
-        <li>보드게임</li>
-        <li>저녁 산책</li>
-      </ul>
-    </main>
-    <footer>
-      <p>수업용 연습 페이지 · student01</p>
-    </footer>
-  </body>
-</html>
-```
-
-`about.html` — 같은 파일이 [examples/day1/about.html](examples/day1/about.html)에 있다.
-
-```html
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>my-web · 내 정보</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <header>
-      <h1>내 정보</h1>
-      <nav>
-        <a href="index.html">홈</a>
-        <a href="about.html">내 정보</a>
-        <a href="guestbook.html">방명록</a>
-      </nav>
-    </header>
-    <main>
-      <h2>한눈에 보기</h2>
-      <p>수업용 가상 정보입니다.</p>
-      <table>
-        <tr>
-          <th>항목</th>
-          <th>내용</th>
-        </tr>
-        <tr>
-          <td>아이디</td>
-          <td>student01</td>
-        </tr>
-        <tr>
-          <td>이메일</td>
-          <td>student01@example.com</td>
-        </tr>
-        <tr>
-          <td>관심 분야</td>
-          <td>웹 페이지 만들기</td>
-        </tr>
-      </table>
-    </main>
-    <footer>
-      <p>수업용 연습 페이지 · student01</p>
-    </footer>
-  </body>
-</html>
-```
-
-`app.js` — 같은 파일이 [examples/day1/app.js](examples/day1/app.js)에 있다.
-
-```js
-const name = 'student01';
-const hour = new Date().getHours();
-const greeting = document.querySelector('#greeting');
-const countBox = document.querySelector('#count');
-const helloButton = document.querySelector('#hello-button');
-const darkButton = document.querySelector('#dark-button');
-let count = 0;
-
-function greet(name) {
-  return `안녕하세요, ${name}님!`;
-}
-
-function hello(hour) {
-  if (hour >= 12) {
-    return '좋은 오후입니다.';
-  } else {
-    return '좋은 아침입니다.';
-  }
-}
-
-function countUp() {
-  count = count + 1;
-  countBox.textContent = `클릭 ${count}회`;
-}
-
-greeting.textContent = `${greet(name)} ${hello(hour)}`;
-
-helloButton.addEventListener('click', function () {
-  greeting.textContent = '반갑습니다. 오늘도 좋은 하루 되세요.';
-  countUp();
-});
-
-darkButton.addEventListener('click', function () {
-  document.body.classList.toggle('dark');
-  countUp();
-});
-```
-
-`styles.css` — 같은 파일이 [examples/day1/styles.css](examples/day1/styles.css)에 있다.
-
-```css
-body {
-  background-color: #eef2ff;
-  color: #17213a;
-  font-family: system-ui, sans-serif;
-  font-size: 16px;
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 16px;
-}
-
-h1 {
-  color: #1f3a93;
-  font-size: 28px;
-}
-
-h2 {
-  color: #3157d5;
-}
-
-nav {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-nav a {
-  color: #3157d5;
-}
-
-.card {
-  background-color: #ffffff;
-  padding: 16px;
-  margin: 12px 0;
-  border: 1px solid #c3cbe6;
-}
-
-input,
-textarea {
-  width: 280px;
-  max-width: 100%;
-}
-
-footer {
-  color: #5a6478;
-  text-align: center;
-  font-size: 14px;
-}
-
-@media (max-width: 600px) {
-  nav {
-    flex-direction: column;
-  }
-}
-
-body.dark,
-body.dark .card {
-  background-color: #222222;
-  color: #eeeeee;
-}
-```
-
-`#notice`에는 따로 CSS 규칙을 주지 않았다. 기본 글자 그대로 보이는 것이 정상이다.
-
-## 오류가 나면
-
-먼저 F12 **Console**의 **첫 빨간 줄**을 읽는다. 줄 끝의 `guestbook.js:7`이 파일 이름과 줄 번호다.
-자주 나오는 메시지와 확인할 것은 [실습지의 막혔을 때](lab.md#막혔을-때)에 있다.
-한 곳을 고친 다음 새로고침하고, 해결되지 않으면 Console 화면을 그대로 보여 주고 도움을 요청한다.
+- 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
+- 이메일 칸은 비워 둔다. 캡처에 실제 이메일이 보이지 않게 한다.
+- 막히면 [실습지의 막혔을 때](lab.md#막혔을-때)를 본다.

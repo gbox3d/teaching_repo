@@ -3,217 +3,251 @@ marp: true
 theme: default
 paginate: true
 header: "웹프로그래밍 · 10주차"
-footer: "배열 데이터를 목록으로 그리기 · push, createElement, showList"
+footer: "배열 데이터를 목록으로 그리기 · 비교 예제로 원리를 보고 마지막에 조립"
 ---
 
 # 배열 데이터를 목록으로 그리기
 
-7주차 방명록은 두 번째 글을 남기면 **앞 글이 사라졌습니다.**
-카드가 한 줄이었기 때문입니다. 이번 주에는 글을 배열에 쌓아 목록으로 그립니다.
+7주차 방명록은 글을 남기면 카드 한 줄에 **마지막 글만** 보였습니다. 이번 주는 글을 **배열**에 쌓아 **목록**으로 그리고, 줄마다 **[삭제]** 를 붙입니다.
 
-```text
-guestbook.html   <ul id="list"></ul> · <div id="count">0개</div>   ← 목록 자리
-guestbook.js     let items = []  →  push  →  <li>를 만들어 append
-```
+이번 주 방식도 같습니다: **비교 예제 7개**를 하나씩 보고, 마지막에 새 저장소 `web-week10` 의 `guestbook.html`·`guestbook.js` 를 **조립**합니다(지난주 완성본에서 시작).
 
-고치는 파일은 `guestbook.html`·`guestbook.js` 둘뿐입니다.
+- 값 여러 개는 배열 하나에 담고, 화면의 줄은 만들어서 붙입니다.
+- 결과는 화면, **Console**(입력 칸에 `items` 치기), **Elements** 탭에서 봅니다.
+- 파일 하나 = 개념 하나. 실습은 **값을 바꿔 보는 것**입니다.
 
 ---
 
-# 1일차 — 배열에 쌓아 목록으로 그리기
+# 1일차 — 배열과 목록 한 줄
 
 `30분 설명·시연 → 60분 실습`
 
-1. 오늘 문법 — 배열 `push`·`length`·`[i]`·`for`
-2. `createElement`·`textContent`·`append`
-3. 7주차 코드에 다섯 줄 더하기
-4. 항목 수와 데이터가 가는 세 곳
+1. ex01 — 배열: `[]`·`push`·`length`·`items[i]` (오늘 문법)
+2. ex02 — `for`: 처음부터 끝까지 (오늘 문법)
+3. ex03 — 목록 한 줄: 만들고, 글자 넣고, 붙인다
+4. ex04 — 누를 때마다 쌓기와 개수
+5. 데이터가 가는 세 곳
 
 ---
 
-## 1일차 · 0–5분 — 오늘 문법: 배열에 쌓기
+## 1일차 · 0–5분 — ex01 배열: 값 여러 개를 순서대로
+
+[examples/day1/index.html](examples/day1/index.html) 고르기 페이지 · [ex01_array.js](examples/day1/ex01_array.js)
 
 ```js
-let items = [];
-items.push('student01: 안녕하세요');
-items.push('student02: 고맙습니다');
-console.log(items.length);   // 2
-console.log(items[0]);       // student01: 안녕하세요
+let items = [];                          // 1. 빈 배열, 개수 0
+items.push('student01: 안녕하세요');      // 2. push 로 맨 뒤에 더한다
+items.push('student02: 고맙습니다');      //    세 번 하면 개수 3
+items.push('student03: 반갑습니다');
+console.log('3. 첫 번째 items[0] :', items[0]);
+console.log('4. 마지막 items[2] :', items[2]);
+console.log('5. 없는 번호 items[3] :', items[3]);   // undefined
+```
 
-for (let i = 0; i < items.length; i++) {
-  console.log(i, items[i]);
+- 값이 셋이면 번호는 0·1·2, 개수는 3. **마지막 번호 = 개수 - 1**.
+- 6번 `['student01', 'student02']` 는 쉼표로 나눠 처음부터 값을 넣은 배열입니다.
+
+**배열은 값을 순서대로 담고, 번호는 0 부터 센다.**
+
+---
+
+## 1일차 · 5–10분 — ex02 for: 처음부터 끝까지
+
+[examples/day1/ex02_for.js](examples/day1/ex02_for.js)
+
+```js
+// 배열에 4개가 들어 있다
+for (let i = 0; i < 3; i++) {              // 1. 끝이 3 → 넷째를 빠뜨린다
+    console.log('1.', i, items[i]);
+}
+for (let i = 0; i < items.length; i++) {   // 2. 끝이 length → 끝까지
+    console.log('2.', i, items[i]);
 }
 ```
 
-- 배열 `[ ]`은 값을 **여러 개** 담는 상자, `push`는 그 뒤에 하나를 더하는 일입니다.
-- `length`는 개수, `items[0]`은 첫 번째 값입니다. 번호는 **0부터** 셉니다.
-- `for`는 **몇 번째인지(`i`)가 필요해서** 씁니다. 오늘은 만들어만 두고 2일차에 씁니다.
+- `let i = 0` 시작 · `i < items.length` 계속할 조건 · `i++` 한 바퀴마다 1 더하기.
+- **몇 번째인지(`i`)가 필요해서** 이 모양을 씁니다. `items[i]` 가 그 번째 값입니다.
+
+**끝은 숫자 대신 `items.length` 로 적는다.**
 
 ---
 
-## 1일차 · 5–12분 — createElement·textContent·append
+## 1일차 · 10–17분 — ex03 목록 한 줄: 만들고, 넣고, 붙인다
+
+[examples/day1/ex03_create_li.js](examples/day1/ex03_create_li.js)
 
 ```js
-const li = document.createElement('li');
-li.textContent = 'student01: 안녕하세요';
-list.append(li);
+const li2 = document.createElement('li');   // 만든다(아직 화면에 없다)
+li2.textContent = '2. 만들고 붙인 줄';       // 글자를 넣는다
+list.append(li2);                           // 목록 맨 뒤에 붙인다 → 보인다
 ```
 
-```html
-<ul class="card" id="list"></ul>   <!-- 비어 있는 채로 HTML에 둔다 -->
-```
+- 1번(`li1`)은 만들기만 해서 Console 에만 있고, 화면과 **Elements** 에는 없습니다.
+- `append` 는 늘 **맨 뒤**에 붙입니다. 3번이 2번 아래에 붙습니다.
+- `textContent` 는 6주차와 같습니다. 글자를 글자 그대로 넣습니다.
 
-- `createElement('li')`는 **아직 화면에 없는** 새 `<li>`를 만듭니다.
-- `textContent`는 그 안의 글자를 정합니다. 7주차에 쓴 것과 같습니다.
-- `append`로 `<ul>` 안에 **붙여야** 비로소 화면에 보입니다. 세 줄이 한 묶음입니다.
-- 만들기·글자 넣기·붙이기 순서를 바꾸지 않습니다.
+**만든 요소는 `append` 로 붙여야 화면에 보인다.**
 
 ---
 
-## 1일차 · 12–20분 — 7주차 코드에 다섯 줄 더하기
+## 1일차 · 17–23분 — ex04 누를 때마다 쌓기와 개수
+
+[examples/day1/ex04_push_add.js](examples/day1/ex04_push_add.js)
 
 ```js
-  clearNotice();
-  const text = `${name}: ${message}`;
-  items.push(text);
-  const li = document.createElement('li');
-  li.textContent = text;
-  list.append(li);
+addButton.addEventListener('click', function () {
+    const text = textInput.value;
+    items.push(text);                          // 1. 배열에 넣는다
+    const li = document.createElement('li');   // 2. 화면에 붙인다
+    li.textContent = text;
+    list.append(li);
+    count.textContent = `${items.length}개`;   // 3. 개수는 배열에서
+});
 ```
 
-- 7주차의 `last.textContent = …` 한 줄을 지우고 그 자리에 다섯 줄을 넣습니다.
-- 같은 문장을 배열과 화면 **두 곳**에 넣습니다. 그래서 `const text`로 한 번만 만듭니다.
-- 빈값 검사·`focus()`·`form.reset()`은 7주차 그대로 둡니다.
-- `<div id="last">` 두 줄은 HTML에서 지우고 `<ul id="list">`로 바꿉니다.
+- 배열과 화면은 **따로**입니다. 개수는 줄을 세지 않고 **`items.length`** 로 씁니다.
+
+**배열이 원본이고, 화면은 그 배열을 비춘 것이다.**
 
 ---
 
-## 1일차 · 20–25분 — 항목 수와 데이터가 가는 세 곳
-
-```js
-  count.textContent = `${items.length}개`;
-```
+## 1일차 · 23–27분 — 데이터가 가는 세 곳
 
 ```text
-① 화면              오늘 목록이 있는 곳. 새로고침하면 사라진다
-② 브라우저 저장소   내 브라우저에 남는다        → 11주차
-③ 인터넷 서버       여러 사람이 함께 본다       → 선택 특강
+① 화면(배열)        오늘     새로고침하면 사라진다
+② 브라우저 저장소   11주차   내 브라우저에 남는다
+③ 인터넷 서버 DB    특강     여러 사람이 함께 본다
 ```
 
-- 화면에 쓰는 숫자를 세지 않습니다. **배열의 개수**를 그대로 보여 줍니다(9주차 복습).
-- 오늘 목록은 **①**입니다. 새로고침하면 빈 목록으로 돌아갑니다.
-- 데이터가 배열에 있고 화면은 그 배열을 비추는 것뿐이라는 점이 오늘의 핵심입니다.
+- 9주차에 본 그림입니다. 오늘 목록은 **①** — 배열과 화면에만 있습니다.
+- 수업계획서의 "데이터 연결"은 이 순서로 갑니다: 오늘 ①, 다음 주 ②.
+- ③은 [Supabase 선택 특강](../../specials/supabase_guestbook/README.md)에서 다룹니다.
+
+**오늘 목록은 화면에만 있다. 새로고침하면 처음으로 돌아간다.**
 
 ---
 
-## 1일차 · 25–30분 — 이제 직접 해 보기
+## 1일차 · 27–30분 — 이제 직접 해 보기
 
-[1일차 실습](lab.md#1일차--배열에-쌓아-목록으로-그리기-60분) · [따라하기](walkthrough.md#1일차)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data
+[1일차 실습](lab.md#1일차--배열과-목록-한-줄-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data)
 
-1. `guestbook.html`의 마지막 글 두 줄을 `<ul id="list">`와 `<div id="count">`로 바꿉니다.
-2. `let items = []`에 쌓고, `<li>`를 만들어 목록에 붙입니다.
-3. 남길 때마다 `N개`가 오르는지 보고, 이름을 비우고 눌러 7주차 안내가 그대로인지 봅니다.
+1. 새 폴더 `web-week10` 에 지난주 완성본, `ex/` 에 오늘 다섯 파일.
+2. ex01~ex04 — 줄 하나만 켜고 값 바꿔 보기. Console 입력 칸에 `items` 를 쳐 봅니다.
+3. 새 저장소 `web-week10` 만들어 올리기 · Pages 켜기(2주차 순서 그대로).
 
-**설명 합계: 5+7+8+5+5 = 30분**
-
-막히면 Console의 **첫 빨간 줄**과 `guestbook.js:31` 같은 줄 번호부터 읽습니다.
+**설명 합계: 5+5+7+6+4+3 = 30분**
 
 ---
 
-# 2일차 — 다시 그리기와 삭제 버튼
+# 2일차 — 다시 그리기와 삭제 버튼, 그리고 조립
 
 `30분 설명·시연 → 60분 실습`
 
 1. 지우려면 두 곳을 바꿔야 한다
-2. `showList()` — 비우고 다시 그리기
-3. 삭제 버튼 복붙 틀
-4. 붙인 뒤 확인만
+2. ex05 — 비우고 다시 그리기: `list.innerHTML = ''`
+3. ex06 — `showList()`: 화면을 배열대로
+4. ex07 — 삭제 버튼 틀
+5. 조립 — `web-week10` 의 `guestbook.html`·`guestbook.js`
 
 ---
 
-## 2일차 · 0–5분 — 지우려면 두 곳을 바꿔야 한다
+## 2일차 · 0–4분 — 지우려면 두 곳을 바꿔야 한다
 
 ```text
-어제:  제출 → items에 push       + 화면에 <li> 하나 append
-오늘:  삭제 → items에서 하나 빼기 + 화면에서도 그 줄만 빼기
+1일차: 더하기 → 배열에 push         + 화면에 <li> 하나 append
+오늘:  지우기 → 배열에서 하나 빼기  + 화면에서도 그 줄 빼기
 ```
 
-- 어제는 **더하기**뿐이라 화면에 한 줄을 붙이면 끝이었습니다.
-- 지우기는 배열과 화면 **두 곳**을 맞춰야 합니다. 한쪽만 바꾸면 숫자와 화면이 어긋납니다.
-- 한 줄만 빼는 대신 **목록을 통째로 비우고 배열대로 다시 그리는** 방법을 씁니다.
-- 방법이 하나라서 추가할 때도, 지울 때도 같은 함수를 부르면 됩니다.
+- 한쪽만 바꾸면 배열과 화면이 어긋납니다. 1일차 ex04 에서 본 그대로입니다.
+- 그래서 한 줄만 빼지 않고, **목록을 통째로 비우고 배열대로 다시 그립니다.**
+- 더할 때도 지울 때도 같은 함수 하나를 부르면 됩니다.
+
+**배열을 바꾸면 화면은 다시 그린다.**
 
 ---
 
-## 2일차 · 5–12분 — showList(): 비우고 다시 그리기
+## 2일차 · 4–10분 — ex05 비우고 다시 그리기
+
+[examples/day2/ex05_redraw.html](examples/day2/ex05_redraw.html) · [ex05_redraw.js](examples/day2/ex05_redraw.js)
 
 ```js
-function showList() {
-  list.innerHTML = '';
-  for (let i = 0; i < items.length; i++) {
+// 2. 비우고 그리기
+list.innerHTML = '';                        // 목록을 통째로 비운다
+for (let i = 0; i < items.length; i++) {
     const li = document.createElement('li');
     li.textContent = items[i];
     list.append(li);
-  }
-  count.textContent = `${items.length}개`;
 }
 ```
 
-- `list.innerHTML = ''`는 목록을 **비웁니다.** 이 수업에서 `innerHTML`은 비우기에만 씁니다.
-- 어제 submit 안에 있던 다섯 줄이 이 함수로 옮겨 오고, submit에는 두 줄만 남습니다.
-- 목록 이름은 `showList`로 통일합니다. 추가·삭제 뒤에 이 함수를 부릅니다.
+- 1번(비우지 않고)은 누를 때마다 세 줄씩 늘고, 2번은 몇 번을 눌러도 세 줄입니다.
+- 이 수업에서 `innerHTML` 은 **비우기(`= ''`)에만** 씁니다. 글은 `textContent` 로 넣습니다.
+
+**다시 그리기 전에 먼저 비운다.**
 
 ---
 
-## 2일차 · 12–19분 — 삭제 버튼 복붙 틀
+## 2일차 · 10–17분 — ex06 showList(): 화면을 배열대로
+
+[examples/day2/ex06_show_list.html](examples/day2/ex06_show_list.html) · [ex06_show_list.js](examples/day2/ex06_show_list.js)
 
 ```js
-    const removeButton = document.createElement('button');
-    removeButton.textContent = '삭제';
-    removeButton.addEventListener('click', function () {
-      items.splice(i, 1);
-      showList();
-    });
-    li.append(removeButton);
+function showList() {
+    list.innerHTML = '';                       // 비우고
+    for (let i = 0; i < items.length; i++) {   // 줄마다 만들어 붙이고
+        …
+    }
+    count.textContent = `${items.length}개`;   // 개수와 안내 문장도
+    if (items.length === 0) { … } else { … }
+}
+showList();                                    // 1. 열 때 한 번
 ```
 
-- `splice(i, 1)`은 배열에서 `i`번째 값 **하나**를 뺍니다.
-- 뺀 다음 `showList()`를 부르면 화면이 새 배열대로 다시 그려집니다.
-- `showList()`가 다시 그릴 때 **버튼마다 번호를 새로 붙입니다.**
-- 이 일곱 줄은 **그대로 옮겨 쓰는 틀**입니다. 오늘은 안을 뜯어보지 않습니다.
+- 2번: **더하기**를 누르면 `items.push(…)` 뒤에 `showList();` 를 부릅니다. 안내가 사라지고 개수가 오릅니다.
+
+**화면에 보이는 것은 모두 배열에서 다시 만든다.**
 
 ---
 
-## 2일차 · 19–25분 — 붙인 뒤 확인만
+## 2일차 · 17–24분 — ex07 삭제 버튼 틀
 
-```text
-student01: 안녕하세요   [삭제]        3개
-student02: 고맙습니다   [삭제]   →   가운데 [삭제] 클릭
-student03: 반갑습니다   [삭제]
+[examples/day2/ex07_delete_button.html](examples/day2/ex07_delete_button.html) · [ex07_delete_button.js](examples/day2/ex07_delete_button.js)
+
+```js
+const removeButton = document.createElement('button');
+removeButton.textContent = '삭제';
+removeButton.addEventListener('click', function () {
+    items.splice(i, 1);     // 배열에서 i 번째 하나를 뺀다
+    showList();             // 바뀐 배열대로 다시 그린다
+});
+li.append(removeButton);    // 버튼을 그 줄 안에 붙인다
 ```
 
-```text
-student01: 안녕하세요   [삭제]        2개   ← 숫자도 함께 줄었다
-student03: 반갑습니다   [삭제]
-```
+- 이 일곱 줄은 **그대로 옮겨 쓰는 틀**입니다. `li.textContent` 줄과 `list.append(li)` 줄 사이에 넣습니다.
+- 가운데를 지우면 그 줄만 사라지고 개수도 `3개` → `2개` 로 함께 줄어듭니다.
 
-- 가운데를 지워도 남은 줄의 버튼이 **밀리지 않습니다.** 다시 그렸기 때문입니다.
-- 항목 수는 `items.length`를 그대로 쓰므로 따로 빼거나 더하지 않습니다.
-- 다 지우면 `아직 남긴 글이 없습니다.`가 보이게 한 줄을 더합니다.
+**`showList()` 가 다시 그릴 때 버튼마다 번호를 새로 붙인다.**
 
 ---
 
-## 2일차 · 25–30분 — 이제 직접 해 보기
+## 2일차 · 24–30분 — 조립: web-week10, 그리고 실습 인계
 
-[2일차 실습](lab.md#2일차--다시-그리기와-삭제-버튼-60분) · [따라하기](walkthrough.md#2일차)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data
+```text
+guestbook.html  두 줄 → 네 줄(#list · #empty · #count) ← ex03 · ex06
+guestbook.js    const list · empty · count             ← ex06
+                let items = [];                        ← ex01
+                showList(): 비우기 · for · li          ← ex05 · ex02 · ex03
+                  + 삭제 버튼 틀 · 개수 · 안내         ← ex07 · ex04 · ex06
+                submit: items.push(…); showList();     ← ex04 · ex06
+                맨 끝: showList();                     ← ex06
+```
 
-1. 어제 submit 안의 다섯 줄을 `showList()` 함수로 옮기고, submit에는 두 줄만 남깁니다.
-2. 삭제 버튼 틀을 붙여 가운데 항목을 지워 봅니다.
-3. 목록이 비면 `아직 남긴 글이 없습니다.`가 보이게 하고, push한 뒤 캡처합니다.
+[2일차 실습](lab.md#2일차--다시-그리기와-삭제-버튼-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data)
 
-**설명 합계: 5+7+7+6+5 = 30분**
+1. ex05~ex07 `.html`·`.js` 를 `ex/` 에 저장, 값 바꾸기(29분까지).
+2. 조립 → 375·1280 폭과 서버로 확인 → push → 3개 남기고 가운데 삭제, `2개` 캡처.
+
+**설명 합계: 4+6+7+7+6 = 30분**
 
 ---
 
@@ -222,23 +256,21 @@ student03: 반갑습니다   [삭제]
 2일차가 끝나면 캡처 **한 장**을 제출합니다.
 
 ```text
-https://student01.github.io/my-web/guestbook.html
-글 3개를 남기고 가운데 한 줄의 [삭제]를 누른 화면
-
-남긴 글
-· student01: 안녕하세요   [삭제]
-· student03: 반갑습니다   [삭제]
+https://student01.github.io/web-week10/guestbook.html
+글 3개를 남기고 가운데 줄의 [삭제]를 누른 화면
+· student01: 안녕하세요 [삭제]
+· student03: 반갑습니다 [삭제]
 2개
+주소창이 함께 보이게 찍습니다
 ```
 
-주소창이 함께 보이게 찍습니다. 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
+캡처에 실명·학번·실제 이메일이 보이지 않게 합니다. 새로고침하면 목록이 비므로 남긴 그 화면에서 바로 찍습니다.
 
 ---
 
 ## 다음 주 미리 보기
 
-지금 목록은 **화면에만** 있습니다. 새로고침하면 빈 목록으로 돌아갑니다.
+오늘 목록은 **화면에만** 있습니다. 새로고침하면 빈 목록으로 돌아갑니다.
 
-11주차에는 항목을 `{ 이름, 메시지, 날짜 }` **객체**로 바꾸고 `localStorage`에 저장해
-새로고침해도 남게 합니다. 그때부터 확인과 캡처는 **공개 주소에서만** 합니다.
-12주차에는 JSON 파일에서 데이터를 불러와 카드로 그립니다.
+11주차에는 새 저장소 `web-week11` 을 오늘 완성본에서 시작하고, 한 줄짜리 글을 이름·메시지·날짜를 담은 **객체**로 바꿉니다.
+그리고 브라우저 저장소 `localStorage` 에 남겨 **새로고침해도 목록이 남게** 합니다. 그때부터 확인과 캡처는 **공개 주소에서만** 합니다.

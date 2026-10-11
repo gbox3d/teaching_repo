@@ -3,210 +3,249 @@ marp: true
 theme: default
 paginate: true
 header: "Web Programming · Week 14"
-footer: "Final Project Presentation · 3-minute demo and README"
+footer: "Final Project Presentation · check with comparison examples, then a 3-minute demo"
 ---
 
 # Final Project Presentation
 
-In Week 9, you showed three pages in **2 minutes**.
-Since then you've added lists, saving, and JSON cards, and the site has grown to four pages.
+Put the site you built from Week 3 to Week 13 into a new repository, `web-week14`, and show it on Day 2 from one public address in **3 minutes**.
+
+Same method as before: look at **3 comparison examples**, then **assemble** the home list, the public-address row, and the README on top of last week's files.
 
 ```text
-Presentation, 3 min   public address → four pages → button → form notice → list → refresh → cards → Commits
-Report                the repository's final README.md
+3-min demo   public URL → four pages → button → form notice → list → reload → cards → Commits
+Report       README.md (final version) in the repository
 ```
 
-Total score is **20 points**: 12 for the presentation, 8 for the report.
+- No new syntax this week. All 90 minutes of Day 2 are presentations.
+- Worth **20 points**: presentation 12 + report 8.
 
 ---
 
-# Day 1 — Presentation Prep and Final Touches
+# Day 1 — Preparing the Talk and the Last Assembly
 
 `30 min explanation & demo → 60 min lab`
 
-1. Presentation order and the 3-minute rule
-2. The 20-point rubric
-3. The 8-line, 3-minute demo flow
-4. When the public address won't open
-5. A good opening vs. one to avoid
+1. Presentation order and the 3-minute rule · the 20-point rubric
+2. ex01 — the demo order as a numbered list on the home page
+3. ex02 — if the public URL won't open: local demo with the server
+4. ex03 — saved entries are separate for each address and window
+5. Good and bad openings · assembly
 
 ---
 
-## Day 1 · 0–5 min — Presentation Order and the 3-Minute Rule
+## Day 1 · 0–4 min — Presentation order and the 3-minute rule
 
 ```text
-0:00  open the public address, one-line intro     1:15  post an entry, delete one line
-0:20  four pages via nav                            1:45  refresh — the list is still there
-0:40  click **[Dark Mode]**                         2:05  project cards
-0:55  submit an empty form → notice                 2:35  Commits tab and README
+0:00  open the public URL, one-line intro     1:15  add an entry, delete one
+0:20  nav through the four pages              1:45  reload — the list stays
+0:40  click [다크 모드]                        2:05  project cards
+0:55  [남기기] with empty fields → notice      2:35  Commits tab and README
 ```
 
-- There are eight beats, about 20–30 seconds each.
-- Don't show your code. Show only **the screen working at the public address**.
-- Open your tabs ahead of time. Typing the address also counts against your 3 minutes.
-- One minute longer than Week 9 — that extra minute covers the list, saving, and cards.
+- Eight steps, 20–30 seconds each. One minute longer than Week 9 (list, saving, cards).
+- Don't show code. Show only **screens working at the public URL**.
+- Open your tabs in advance. Typing an address also uses up your 3 minutes.
+
+**A fixed order, followed as planned, is how you stay within 3 minutes.**
 
 ---
 
-## Day 1 · 5–12 min — The 20-Point Rubric (12 Presentation · 8 Report)
+## Day 1 · 4–10 min — The 20-point rubric (talk 12 · report 8)
 
-| Presentation, 12 | Points | Report, 8 | Points |
+| Presentation 12 | Pts | Report 8 | Pts |
 |---|---:|---|---:|
-| URL and page navigation | 2 | URL and one-line intro | 1 |
-| Click events and form notice | 3 | Feature list of 5 items | 2 |
-| Add/delete list, survives refresh | 3 | 3 screenshots | 2 |
-| JSON cards | 2 | Tech used and `git log` | 1 |
-| Timing and narration (including spoken answers) | 2 | 3-line problems-and-fixes | 2 |
+| URL & page navigation | 2 | URL & one-line intro | 1 |
+| Click event & form notice | 3 | Five features listed | 2 |
+| List add/delete & kept after reload | 3 | Three screenshots | 2 |
+| JSON cards | 2 | Technologies & build history | 1 |
+| Time & explanation (incl. oral) | 2 | Three lines of problems & fixes | 2 |
 
-The report is a single page: your repository's `README.md`. The final version you wrote in Week 13 **is** the report.
-Full criteria are in the [rubric](rubric.md).
-
----
-
-## Day 1 · 12–18 min — The 8-Line, 3-Minute Demo Flow
-
-Copy the [3-minute demo flow table](demo_outline.md) onto paper, and rewrite only the **What to say** column in your own words.
-
-| Time | Screen / action | What to say |
-|---|---|---|
-| 0:40–0:55 | **[Dark Mode]** | "Clicking this button changes the background color and raises the click count." |
-| 1:45–2:05 | Refresh | "The list is unchanged, because it's saved in the browser." |
-
-- **Also add the eight-line order as a list on your home page.** You'll add this in today's lab.
-- Then you can see what's coming next on screen while you present.
-- Actually click refresh. Just talking about it doesn't count for points.
+The report is your repo's `README.md`: change three spots from Week 13 ([rubric](rubric.md)).
+**Actually press reload. Saying it without doing it loses that point.**
 
 ---
 
-## Day 1 · 18–24 min — When the Public Address Won't Open
+## Day 1 · 10–15 min — ex01 The demo order as a numbered list
 
-| What happens | What to do |
-|---|---|
-| TA checks everyone (the day before) | Open every submitted URL, and notify any student whose page won't open |
-| Yours opens, but a friend's doesn't | Open it in a **new incognito window**. If the repository is Private, this is where it fails |
-| Still won't open in incognito | Switch to a local demo. **You get the same score** |
-| Pages shows an old screen | Deploys take 1–3 minutes. Past 5 minutes, also show the **Commits** tab |
+[examples/day1/ex01_order_list.html](examples/day1/ex01_order_list.html) · [3-minute demo outline](demo_outline.md)
 
-For a local demo, use Live Server (**Go Live**) or `python3 -m http.server 8000`.
-Don't try to fix it alone during your slot. Just raise your hand.
+```html
+<ol>                                          <!-- 1. numbered list -->
+    <li>위 메뉴로 네 페이지를 오갑니다.</li>    <!-- no number typed -->
+</ol>
+<ul> … the same five lines … </ul>            <!-- 2. bulleted list -->
+```
+
+- You don't write the numbers. The browser numbers the lines in order.
+- Rows 2–7 of the demo outline become five lines on the home page.
+- Try: delete `</ol>`. The heading and list after it move inside box 1.
+
+**If the order means something, use `<ol>`; otherwise use `<ul>`.**
 
 ---
 
-## Day 1 · 24–27 min — A Good Opening vs. One to Avoid
+## Day 1 · 15–20 min — ex02 If the public URL won't open: local demo with the server
+
+[ex02_server.html](examples/day1/ex02_server.html) · [ex02_server.js](examples/day1/ex02_server.js) · [ex02_message.json](examples/day1/ex02_message.json)
+
+```text
+① The day before, the TA opens every submitted public URL
+② Opens only on your own screen → open it in a new incognito window
+③ Still won't open → local demo: node server.mjs → http://localhost:8000/ (same points)
+```
+
+```js
+const response = await fetch('ex02_message.json');   // 1. opened through the server: it reads the file
+// 2. double-clicked file:// page: it can't read, so it goes to catch
+```
+
+- Double-click to open, and Console shows a red `… blocked by CORS policy` line. On your site, the cards don't appear.
+
+**`fetch` reads files only on pages opened through a server or a public URL.**
+
+---
+
+## Day 1 · 20–24 min — ex03 Saved per address and window
+
+[ex03_storage.html](examples/day1/ex03_storage.html) · [ex03_storage.js](examples/day1/ex03_storage.js)
+
+```js
+let countVar = 0;                                                      // 1. variable
+let countSaved = JSON.parse(localStorage.getItem('ex03-count')) || 0;  // 2. storage
+```
+
+- Three clicks, then reload: No. 1 is 0, No. 2 is 3. Storage (Week 11) survives.
+- Server address or new incognito window: No. 2 starts at 0. Same-ID `github.io` addresses (`web-week13`·`web-week14`) share one storage.
+- So add the entries right before your talk, **in the window you present in**.
+
+**Entries that survive a reload live in the storage of that address and that window.**
+
+---
+
+## Day 1 · 24–27 min — Good and bad openings
 
 A good opening:
 
-> This is `student01`'s web practice site. It has four pages, and guestbook entries survive a refresh.
+> `student01`의 웹 연습장입니다. 네 페이지가 있고, 방명록에 남긴 글이 새로고침해도 남습니다.
 
 An opening to avoid:
 
-> Um... the list usually works. Let me try again. The JSON isn't loading...
+> 어… 목록이 원래 되는데요. 다시 해 볼게요. JSON이 안 불러와져서…
 
 - In the first 20 seconds, say **what you built** in one sentence.
-- Don't lead with what's broken. Show what works first.
-- Read your opening out loud once, and you'll see how short 20 seconds really is.
+- Don't start with what's broken. Show what works first.
+- Read it aloud once and you'll feel how short 20 seconds is.
+
+**The first sentence says what you built.**
 
 ---
 
-## Day 1 · 27–30 min — Questions and a Preview of the Week 15 Final Scope
-
-[Day 1 lab](lab.md#1일차--최종-통합과-3분-리허설-60분) · [Walkthrough](walkthrough.md#1일차)
-Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation
-
-Today's lab touches only three files: `index.html`, `about.html`, `README.md`.
-
-The Week 15 final exam covers **Weeks 1–14, cumulatively**. It's not today's `my-web` —
-you solve problems from the [problem bank](../week15_final_exam/examples/README.md) built from our lab submissions, solo, in a new repository `web-week15`. Implementation 15 + demo 5.
-
-**Explanation total: 5+7+6+6+3+3 = 30 min**
-
----
-
-# Day 2 — The 3-Minute Presentations
-
-`All 90 minutes are presentation time`
+## Day 1 · 27–30 min — Assembly: web-week14, then your turn
 
 ```text
-0–5 min     instructions
-5–68 min    3-minute presentations × 21 students
-68–80 min   general feedback and a Week 15 preview
-80–90 min   buffer for delays
+index.html   <h2> + <ol class="card"> five lines     ← ex01 No. 1 · Week 13 .card
+about.html   <tr> public-address row (two <td>)     ← a row of the Week 13 table
+README.md    public URL · home line · Week 14 history ← same lines in Week 13 README
 ```
 
-This isn't split into 30 min explanation + 60 min lab. If the class size differs, the order and times will be announced again.
+[Day 1 lab](lab.md#1일차--비교-예제-조립-3분-리허설-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation)
+
+1. Last week's files in `web-week14`; today's six files in `ex/`. Change values.
+2. Assemble → push `web-week14` **at minute 31** and turn on Pages (Day 2 is the talk).
+3. Public URL check, new `home.png` → TA check, 3-minute rehearsal → end routine.
+
+**Total explanation: 4+6+5+5+4+3+3 = 30 min**
 
 ---
 
-## Day 2 · 0–2 min — Today's Order and Setup
+# Day 2 — 3-Minute Presentations
+
+`All 90 minutes are presentations`
 
 ```text
-Tab 1  https://student01.github.io/my-web/            ← open in an incognito window
-Tab 2  https://github.com/student01/my-web             ← the front page showing your README
-Tab 3  https://github.com/student01/my-web/commits      ← the Commits tab
+0–5 min    instructions
+5–68 min   presentations, 3 min × 21 students
+68–80 min  wrap-up and Week 15 preview
+80–90 min  buffer for delays
 ```
 
-- Open your three tabs **two people before** your turn.
-- Start with the guestbook holding **two or three existing entries**. During your slot, add one and delete one.
-- Start with dark mode off. Turn it on at 0:40 to show the change.
+Not split into 30 + 60. If the class size differs, the order and times are announced again.
 
 ---
 
-## Day 2 · 2–4 min — The Rubric and One Spoken Question
+## Day 2 · 0–2 min — Today's order and three tabs
 
-- Presentation, 12 points: URL/navigation 2 / click & form notice 3 / list/delete/refresh 3 / JSON cards 2 / timing & narration 2
-- Report, 8 points: the grader opens only the `README.md` on your repository's front page.
-- One spoken question, e.g.: "Which function runs when you click this button?"
+```text
+tab 1  https://student01.github.io/web-week14/            ← the window you present in
+tab 2  https://github.com/student01/web-week14            ← front page with the README
+tab 3  https://github.com/student01/web-week14/commits    ← Commits tab
+```
 
-Even if the answer doesn't come immediately, it only affects the 2 timing/narration points.
-Two spots lose the most points: **skipping the refresh**, and **a screenshot taken before the action happened**.
+- Open the three tabs **two turns before** yours.
+- Start with **two or three guestbook entries**. An incognito window forgets them when closed, so add them again in that window (ex03).
+- Start with dark mode off. Click it at 0:40 to show the change.
 
 ---
 
-## Day 2 · 4–5 min — If the Public Address Won't Open
+## Day 2 · 2–4 min — The rubric and one oral question
+
+- Presentation 12: URL & navigation 2 / click & form notice 3 / list, delete & reload 3 / JSON cards 2 / time & explanation 2
+- Report 8: the grader opens only the `README.md` on the repository front page.
+- The oral part is **one question**, e.g. "이 버튼을 누르면 어느 함수가 실행됩니까?"
+
+Follow it: button → its `id` in Elements → the line in `.js` that finds that `id` → the function inside `addEventListener`.
+
+The two places that lose the most points: **skipping the reload** and **screenshots taken before anything happened**.
+
+---
+
+## Day 2 · 4–5 min — If the public URL won't open
 
 | Symptom | What to do |
 |---|---|
-| 404 in an incognito window | Check whether `index.html` exists on the `main` branch |
-| Old screen | Also show the **Commits** tab. Past 5 minutes, switch to a local demo |
-| Cards don't render | The file was opened by double-clicking. Reopen it at the public address |
-| List is empty | Your PC's screen and the public address don't share storage. Add one entry right there |
+| 404 in an incognito window | Check that `index.html` is at the top of the `web-week14` repository |
+| Old version shows | Show the **Commits** tab too. After 5 minutes, switch to a local demo |
+| Cards don't appear | It was opened by double-click. Reopen at the public URL or with `node server.mjs` (ex02) |
+| The list is empty | Incognito and other addresses have their own storage. Add an entry right there (ex03) |
 
-Don't spend your presentation time trying to fix it alone. Raise your hand.
+Don't spend your presentation time fixing it alone. Raise your hand. A local demo earns **the same points**.
 
 ---
 
-## Day 2 · 5–29 min — Presentations Begin (1–8)
+## Day 2 · 5–30 min — Presentations begin (from No. 1)
 
-[Day 2 lab](lab.md#2일차--3분-발표-60분) · [Walkthrough](walkthrough.md#2일차)
-Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation
+[Day 2 lab](lab.md#2일차--3분-발표-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation)
 
-- Student 1 starts, 3 minutes each. A signal is given once at 1:45 and once at 2:35.
-- The next two students keep their three tabs open.
-- Listeners follow along with the rubric, and applaud once when each presentation ends.
-- Don't edit your own code during someone else's presentation.
+- Starting with No. 1, 3 minutes each. A signal at 1:45 and at 2:35.
+- The next two presenters keep their three tabs open.
+- Listeners follow the rubric too, and clap once at the end.
+- Don't edit your own code during someone else's talk.
 
-**Explanation total: 2+2+1 = 5 min** — the remaining 85 minutes are presentations (5–68), feedback (68–80), and buffer (80–90)
+From minute 30, presentations continue on the Day 2 schedule in the lab.
+
+**Total explanation: 2+2+1+25 = 30 min** (25 min are presentations No. 1–8)
 
 ---
 
 ## What to Submit
 
 ```text
-① 3-minute presentation (during the Day 2 class)
-② Public address    https://student01.github.io/my-web/
-③ Repository address https://github.com/student01/my-web
-④ 1 screenshot       the repository's front page — showing the final README and its 3 screenshots
+① 3-minute presentation (Day 2 class)
+② Public URL       https://student01.github.io/web-week14/
+③ Repository URL   https://github.com/student01/web-week14
+④ One screenshot   repository front page — README (final) and its three screenshots visible
 ```
 
-Make sure your screenshot shows no real name, student ID, or real email. Your ID may be visible.
-The assignment scope is in the [Project 2 brief](project_brief.md).
+Keep your real name, student ID, and real email out of the screenshot. Your ID may show.
+The project scope is in the [project brief](project_brief.md).
 
 ---
 
 ## Next Week Preview
 
-Week 15 is the **final individual exam**.
+Week 15 is the **individual final practical**.
 
-Its scope is Weeks 1–14, cumulatively, and you solve it solo in a **new repository, `web-week15`**, not today's `my-web`.
-On Day 1, you practice with the problem bank, create the repository, and turn on Pages. Day 2's 60 minutes is the final exam: one bank problem per area, with only the values changed.
-Implementation 15 + demo 5, where the demo 5 comes from the grader opening your submitted public address directly plus one spoken question.
+It covers Weeks 1–14, and you solve it alone in a **new repository**, `web-week15`.
+On Day 1 you practice with the [problem bank](../week15_final_exam/examples/README.md), create the repository, and turn on Pages. Day 2's 60 minutes are the practical: one bank problem per area, with only the values changed.
+Implementation 15 + demo 5; the demo 5 is the grader opening your submitted public URL plus one oral question.

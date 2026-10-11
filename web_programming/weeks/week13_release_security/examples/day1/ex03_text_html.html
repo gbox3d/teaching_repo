@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex03 textContent 와 innerHTML</title>
+</head>
+<body>
+    <h1>ex03 textContent 와 innerHTML: 입력한 글은 글자로 넣는다</h1>
+    <p>칸에는 b 태그로 감싼 글이 적혀 있다. 버튼 1·2·3 을 차례로 누르며 결과 자리와 F12 › Elements 의 <code>&lt;div id="output"&gt;</code> 줄을 본다.</p>
+    <div>
+        <label for="input">입력</label>   <!-- label for 는 3주차 폼. 이름표가 칸에 이어지는지는 ex05 -->
+        <input id="input" type="text" value="<b>안녕</b>">
+    </div>
+    <div>
+        <button id="btn-text">1. textContent 로 넣기</button>
+        <button id="btn-html">2. innerHTML 로 넣기</button>
+        <button id="btn-clear">3. innerHTML = '' 로 비우기</button>
+    </div>
+    <div id="output">결과 자리 — 아직 아무것도 넣지 않았다</div>
+    <script src="ex03_text_html.js"></script>
+</body>
+</html>

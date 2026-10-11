@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex02 value</title>
+</head>
+<body>
+    <h1>ex02 입력 칸의 value</h1>
+    <p>두 칸에 글자를 넣고 남기기를 누른다. 1번은 페이지를 열 때 읽은 값, 2·3번은 누를 때 읽은 값이다.</p>
+    <form id="form">
+        <div>
+            <label for="name">이름</label>
+            <input id="name" type="text">
+        </div>
+        <div>
+            <label for="message">메시지</label>
+            <textarea id="message" rows="3"></textarea>
+        </div>
+        <button type="submit">남기기</button>
+    </form>
+    <div id="out1">1번 자리</div>
+    <div id="out2">2번 자리</div>
+    <div id="out3">3번 자리</div>
+    <script src="ex02_value.js"></script>
+</body>
+</html>

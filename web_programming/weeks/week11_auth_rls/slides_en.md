@@ -3,220 +3,239 @@ marp: true
 theme: default
 paginate: true
 header: "Web Programming · Week 11"
-footer: "Objects and localStorage · object, JSON.stringify, localStorage"
+footer: "Objects and localStorage · see the principle through comparison examples, then assemble at the end"
 ---
 
 # Objects and localStorage
 
-In Week 10, the guestbook **list disappeared on refresh.** Each value was also a single string, like `student01: Hello`.
-This week we turn each entry into an object and write it to browser storage.
+In Week 10, each guestbook line was **one lump of text**, and the list disappeared on reload.
 
-```text
-guestbook.js   items = ['Haneul: Hello']                ← Week 10
-               items = [{ name, message, date }]        ← Day 1 today
-               saved & restored via localStorage['guestbook']  ← Day 2 today
-```
+Same method as last week: look at **7 comparison examples** one at a time, then **assemble** `guestbook.html` and `guestbook.js` in a new repository, `web-week11`, built on last week's files.
 
-You only edit two files: `guestbook.html` and `guestbook.js`.
+- Day 1: turn each line into an **object** with a name, a message, and a date.
+- Day 2: keep the list in the browser's **storage** (`localStorage`) so it survives a reload.
+- **From this week, check and capture on the public address only.** Your PC and the public address have different storage.
 
 ---
 
-# Day 1 — Turn Entries into Objects
+# Day 1 — Objects and Dot Notation
 
 `30 min explanation & demo → 60 min lab`
 
-1. Today's syntax — objects and dot notation
-2. Objects inside an array
-3. Turn a guestbook entry into an object
-4. Name, message, and date on one list line
+1. The picker page — one `index.html`, turn on one script line
+2. ex01 — objects `{ }` and dot notation (today's syntax)
+3. ex02 — objects inside an array · the date template line
+4. ex03 — an object as one list line
 
 ---
 
-## Day 1 · 0–5 min — Today's Syntax: Objects and Dot Notation
+## Day 1 · 0–4 min — The picker page: turn on one script line
 
-```js
-const item = { name: 'Haneul', message: 'Hello', date: '2026. 9. 16.' };
+[examples/day1/index.html](examples/day1/index.html) — all three examples use the same screen (two list spots).
 
-console.log(item.name);      // Haneul
-console.log(item.date);      // 2026. 9. 16.
+```html
+<script src="ex01_object.js"></script>
+<!-- <script src="ex02_array_objects.js"></script> -->
+<!-- <script src="ex03_list_line.js"></script> -->
 ```
 
-- An object `{ }` groups together **labeled values** as one unit.
-- Write `name: value` pairs separated by commas. Here there are three labels: `name`, `message`, `date`.
-- To read a value, use **dot notation**, like `item.name`. Don't put quotes around the label.
-- An array `[ ]` holds several values in order; an object `{ }` holds one labeled group.
+- Same as Week 6. Put the cursor on a line and press **Ctrl+/** (macOS ⌘+/) to turn it on or off.
+- Turn on **one line only**. Two lines mix the Console, or the same name clashes and a red line appears.
+- ex01 and ex02 write to the Console; ex03 writes to the two lists on screen.
+
+**One `script` line decides which code is loaded.**
 
 ---
 
-## Day 1 · 5–12 min — Objects Inside an Array
+## Day 1 · 4–11 min — ex01 Objects and dot notation
+
+[examples/day1/ex01_object.js](examples/day1/ex01_object.js)
 
 ```js
-let items = [];
-items.push({ name: 'Haneul', message: 'Hello', date: '2026. 9. 16.' });
-items.push({ name: 'Bada', message: 'Great to see this', date: '2026. 9. 16.' });
-
-console.log(items.length);       // 2
-console.log(items[0].name);      // Haneul
-console.log(items[1].message);   // Great to see this
+const item = { name: '하늘', message: '안녕하세요', date: '2026. 11. 11.' };
+console.log(item.name);    // 2. 하늘
+console.log(item.nmae);    // 4. undefined — no red line
+const item5 = { name: name, message: message, date: '…' };   // 5.
 ```
 
-- The array from Week 10 stays the same. Only what it holds changes, from strings to **objects**.
-- Use `items[i]` to get one group, then add `.name` to read one value inside it.
-- `items[0].name` means "the name in the first entry." Numbering starts **at 0**.
+- Inside `{ }`, join `label: value` pairs with commas. An array `[ ]` is ordered; an object `{ }` has labels.
+- Read a value with **dot notation**, `item.name`. No quotes around the label.
+- `name: name` — the left is the label, the right is the variable.
+
+**An object is a bundle of labeled values; write the label after the dot to get its value.**
 
 ---
 
-## Day 1 · 12–18 min — Turn a Guestbook Entry into an Object
+## Day 1 · 11–19 min — ex02 Objects in an array · date template
+
+[examples/day1/ex02_array_objects.js](examples/day1/ex02_array_objects.js)
 
 ```js
-  const today = new Date().toLocaleDateString();
-  items.push({ name: name, message: message, date: today });
+texts.push('하늘: 안녕하세요');                  // 1·2. Week 10: one lump
+const today = new Date().toLocaleDateString();  // the date template
+items.push({ name: '하늘', message: '안녕하세요', date: today });   // 3.
+console.log(items[0].name);                     // 4. 하늘
 ```
 
-- In Week 10 you stored one sentence. Now you store **three values, each with a label**.
-- `new Date().toLocaleDateString()` turns today's date into something like `2026. 9. 16.`. It's a **copy-paste template**, one line.
-- We also clean up the notice text today. Combine the two checks into one: `if (name === '' || message === '')`.
-- `||` means **or**. If either field is empty, show the notice and stop with `return`.
-- Remove `<div id="empty">`. Show the empty-list notice in the same spot as the count (`#count`).
+- `texts[0]` is one lump, `'하늘: 안녕하세요'`. You cannot take out just the name.
+- `items[0]` picks **which** bundle; `.name` picks **which value**. Brackets come first.
+- `toLocaleDateString()` is a **template**: today as text, like `2026. 11. 11.`.
+
+**Brackets pick which one; the dot picks which value.**
 
 ---
 
-## Day 1 · 18–25 min — Name, Message, and Date on One List Line
+## Day 1 · 19–27 min — ex03 An object as one list line
+
+[examples/day1/ex03_list_line.js](examples/day1/ex03_list_line.js)
 
 ```js
-    li.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`;
+li1.textContent = items[i];   // 1. the object as is
+li2.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`;
 ```
 
 ```text
-Haneul: Hello (2026. 9. 16.)             [Delete]
-Bada: Great to see this (2026. 9. 16.)   [Delete]
-2 items
+1. [object Object]       2. 하늘: 안녕하세요 (2026. 11. 11.)
 ```
 
-- In `showList()`, **this is the only line that changes**. Everything else stays as it was in Week 10.
-- Drop the dot notation and write only `items[i]`, and the screen shows `[object Object]`.
-- The count spot now does two jobs: an empty-list notice, or a count like `2 items`.
+- Put a whole object in a text spot and you get `[object Object]`. **It is not an error**, so the Console stays quiet.
+- Put dot-notation values inside backticks and `${ }` (Week 5) to write all three in one line.
+
+**Put dot-notation values in a text spot, not the object itself.**
 
 ---
 
-## Day 1 · 25–30 min — Try It Yourself
+## Day 1 · 27–30 min — Your turn
 
-[Day 1 lab](lab.md#1일차--항목을-객체로-바꾸기-60분) · [Walkthrough](walkthrough.md#1일차)
-Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_auth_rls
+[Day 1 lab](lab.md#1일차--객체와-점-표기-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_auth_rls)
 
-1. Change the value passed to `items.push` into a **name/message/date object**.
-2. Rewrite the list line with dot notation so all three values show together.
-3. Combine the notice checks into one line, and move the empty-list notice to the count spot.
+1. New folder `web-week11` with last week's files; today's four files in `ex/`.
+2. ex01–ex03 — turn on one line, change values. Say what will change first.
+3. Create the new repository `web-week11`, push, and turn on Pages.
 
-**Explanation total: 5+7+6+7+5 = 30 min**
-
-Today the list still disappears on refresh. We add saving tomorrow.
+**Total explanation: 4+7+8+8+3 = 30 min**
 
 ---
 
-# Day 2 — Save to the Browser and Restore It
+# Day 2 — Saving, Restoring, and Assembly
 
 `30 min explanation & demo → 60 min lab`
 
-1. Why the list disappears on refresh
-2. `JSON.stringify` and `saveList()`
-3. Restore the list when the page opens
-4. The Application tab and Clear All
+1. ex04 — `localStorage` storage and the **Application** tab
+2. ex05 — `JSON.stringify` / `JSON.parse`
+3. ex06 — `||` (or) (today's syntax)
+4. ex07 — `removeItem`
+5. My list lives only in my browser
+6. Assembly — `guestbook.html` and `guestbook.js` in `web-week11`
+
+As yesterday, open the examples from one picker page, `index.html` (turn on one of the four script lines).
 
 ---
 
-## Day 2 · 0–6 min — Why the List Disappears on Refresh
+## Day 2 · 0–7 min — ex04 localStorage storage
 
-```text
-① Screen (memory)      gone after a refresh                ← through yesterday
-② Browser storage       stays, same browser + same address  ← today
-③ Internet server DB    visible on other people's PCs too    ← optional special lecture
-```
-
-- `let items = [];` **starts over as an empty array** every time the page opens.
-- Each address has its own small storage box in the browser. This is `localStorage`.
-- Only **strings** can go in that storage box. An array can't go in as-is.
-- So today we do two things: turn the array into a string, and turn the string back into an array.
-
----
-
-## Day 2 · 6–13 min — JSON.stringify and saveList()
+[examples/day2/index.html](examples/day2/index.html) (picker page, ex04 line on) · [ex04_storage.js](examples/day2/ex04_storage.js)
 
 ```js
-function saveList() {
-  localStorage.setItem('guestbook', JSON.stringify(items));
-}
+let memo = '(처음 값)';                 // 1. variable: restarts on open
+localStorage.getItem('ex04-memo');      // 2. read; null if none
+localStorage.setItem('ex04-memo', '안녕하세요');   // write (key, value)
 ```
 
-```text
-Key     guestbook
-Value   [{"name":"Haneul","message":"Hello","date":"2026. 9. 16."}]
-```
+- Save → reload: No. 1 is `(처음 값)`, No. 2 is `안녕하세요`.
+- **F12 › Application › Local Storage** › the current address: keys and values in a table.
+- Storage is separate **for each address** and holds **text only**.
 
-- `JSON.stringify(items)` turns the array into **one string**.
-- `localStorage.setItem('key', 'value')` writes that string into the browser.
-- **Fix** the key name as `guestbook`. A different name would store it in a different box.
-- Call `saveList()` in **two places**: after adding and after deleting.
+**A variable starts over on reload; what you write in storage stays.**
 
 ---
 
-## Day 2 · 13–20 min — Restore the List When the Page Opens
+## Day 2 · 7–13 min — ex05 JSON: array to text, text to array
+
+[examples/day2/ex05_json.js](examples/day2/ex05_json.js) — turn on only the ex05 line in the picker page.
 
 ```js
-let items = JSON.parse(localStorage.getItem('guestbook')) || [];
+localStorage.setItem('ex05-raw', items);                      // 1.
+localStorage.setItem('ex05-json', JSON.stringify(items));     // 2.
+const back = JSON.parse(localStorage.getItem('ex05-json'));   // 3.
 ```
 
-- `getItem('guestbook')` returns the **string** you stored. If nothing was ever stored, it returns `null`.
-- `JSON.parse(...)` turns that string back into an **array**.
-- `|| []` means "if there's nothing, use an empty array." A first-time visitor lands here.
-- This one line is a **copy-paste template**. Swap it in for `let items = [];`.
-- `showList();` at the end of the file draws the restored array. It's the line you already added in Week 10.
+- No. 1 stores `[object Object],[object Object]`. Stored as is, the contents are lost.
+- No. 2 stores `[{"name":"하늘",…}]`. Bring it back with `JSON.parse` (No. 3); then `back[0].name` works.
+- Remember the double-quoted `"name"` shape. It matches the JSON file in Week 12.
+
+**stringify when you put it in, parse when you take it out.**
 
 ---
 
-## Day 2 · 20–25 min — The Application Tab and Clear All
+## Day 2 · 13–18 min — ex06 || (or) (today's syntax)
+
+[examples/day2/ex06_or.js](examples/day2/ex06_or.js) — turn on only the ex06 line in the picker page.
 
 ```js
-clearButton.addEventListener('click', function () {
-  items = [];
-  localStorage.removeItem('guestbook');
-  showList();
-});
+if (name === '' || message === '') { … }    // 1. either one is empty
+const items = JSON.parse(localStorage.getItem('ex06-none')) || [];   // 3.
 ```
 
-- In **F12 › Application › Local Storage**, look at the `guestbook` key and its value.
-- `removeItem('guestbook')` clears the storage box; `items = [];` empties the array on screen.
-- On a shared PC, the same `github.io` address under one ID **shares** the same storage box.
-- If you see a previous person's entries, click **[Clear All]** first, then screenshot **only your own entries**.
+- `||` means **or**. Inside an if: "true if either one is true".
+- In a value spot: "if the left is missing (`null`), use the right". A first visitor's storage is empty.
+- Without `|| []`, reading `length` of `null` gives a red line (comment No. 4).
+
+**For first visitors, end the restore line with `|| []`.**
 
 ---
 
-## Day 2 · 25–28 min — Your List Lives Only in Your Browser
+## Day 2 · 18–23 min — ex07 removeItem: clearing storage
+
+[examples/day2/ex07_remove.js](examples/day2/ex07_remove.js) — turn on only the ex07 line in the picker page.
+
+```js
+items = [];                             // 1. array emptied, storage kept
+localStorage.removeItem('ex07-list');   // 2. key removed → null
+```
+
+- Clear-all does **both**. Empty only the array and the list comes back on reload.
+- `removeItem` removes **one** key. Other keys (`ex07-other`) stay.
+- `github.io` addresses of the same ID **share** storage. That is why the example keys start with `ex07-`.
+
+**The array and the storage are separate. Clear both.**
+
+---
+
+## Day 2 · 23–26 min — My list lives only in my browser
 
 ```text
-My PC's browser    localStorage['guestbook']   visible only on my screen
-Neighbor's PC       empty                       has none of my entries
+Chrome on my PC    my posts in 'guestbook'   only I see them
+PC next to me      empty                     my posts are not there
+file:// on my PC   a different box           check on the public address
 ```
 
-- The list you save today lives **only inside your own browser**. You are the only owner of it.
-- Even if your neighbor opens the same public address, they won't see your entries.
-- To share the list across PCs, you'd need **an internet server database and login**.
-- Server databases and login are covered in the optional special lecture. This course's storage stops here.
+- **You alone** own the saved list. Someone opening the same address does not see it.
+- To share it across PCs you need **an internet server DB and login** (optional special session).
+- On a shared lab PC, the preview address (`localhost:8000`, etc.) may still hold the previous student's posts: same PC, same address, same storage.
+
+**localStorage is storage for this browser and this address only.**
 
 ---
 
-## Day 2 · 28–30 min — Try It Yourself
+## Day 2 · 26–30 min — Assembly: web-week11, then the lab
 
-[Day 2 lab](lab.md#2일차--브라우저에-저장하고-되살리기-60분) · [Walkthrough](walkthrough.md#2일차)
-Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_auth_rls
+```text
+guestbook.html  remove #empty · [전체 지우기] button   ← Week 10 · ex04
+guestbook.js    if (name === '' || message === '')     ← ex06 No. 1
+                const today · push({ name: name, … })  ← ex02 · ex01 No. 5
+                li.textContent = `${items[i].name}: …`  ← ex03 No. 2
+                saveList() — setItem + JSON.stringify   ← ex04 · ex05
+                let items = JSON.parse(getItem(…)) || [] ← ex05 · ex06 No. 3
+                clear-all: items = [] + removeItem      ← ex07
+```
 
-1. Write `saveList()` and call it after adding and after deleting.
-2. Replace the `let items = ...` line with the copy-paste template so the list survives a refresh.
-3. Add the **[Clear All]** button and take your screenshot at the public address.
+[Day 2 lab](lab.md#2일차--저장-칸에-남기고-되살리기-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_auth_rls)
 
-**Explanation total: 6+7+7+5+3+2 = 30 min**
+1. Save the picker page and the ex04–ex07 `.js` files in `ex/` (it replaces yesterday's `index.html`), change values (until minute 29).
+2. Assemble → push → check on the **public address** → screenshot.
 
-From today on, check and screenshot **only at the public address**.
+**Total explanation: 7+6+5+5+3+4 = 30 min**
 
 ---
 
@@ -225,23 +244,20 @@ From today on, check and screenshot **only at the public address**.
 Submit **one** screenshot at the end of Day 2.
 
 ```text
-https://student01.github.io/my-web/guestbook.html
-A screen with 3 entries left, refreshed, with F12 › Application › Local Storage open together
-
-Haneul: Hello (2026. 9. 16.)   [Delete]      3 items
-Key: guestbook
-Value: [{"name":"Haneul","message":"Hello","date":"2026. 9. 16."}, …]
+https://student01.github.io/web-week11/guestbook.html
+Three posts, reloaded, with F12 › Application › Local Storage open
+하늘: 안녕하세요 (2026. 11. 11.)  [삭제]   …   3개
+Key: guestbook   Value: [{"name":"하늘","message":"안녕하세요",…}, …]
 ```
 
-Take the screenshot with the address bar visible. If you see a previous person's entries, click **[Clear All]** first.
-Make sure your screenshot shows no real name, student ID, or real email.
+Include the address bar. If posts from your check are still there, press **[전체 지우기]** first.
+Keep your real name, student ID, and real email out of the screenshot.
 
 ---
 
 ## Next Week Preview
 
-The list now stays **inside your own browser**. But only you can see those entries.
+The list now stays **inside your browser**. But only you can see it.
 
-In Week 12, you create a `data/projects.json` file, load it with **fetch**, and draw the values as cards.
-The JSON file's format looks just like the value you saw in the Application tab today.
-In Week 12 too, you check and screenshot at the public address.
+In Week 12 you start a new repository, `web-week12`, from today's files, load `data/projects.json` with `fetch`, and draw cards.
+The JSON file looks just like the value you saw in the Application tab today. Check and capture on the public address in Week 12, too.
