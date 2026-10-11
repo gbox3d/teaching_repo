@@ -235,7 +235,7 @@ document.getElementById('v1').innerText = song.track_info.title;
 
 ## Part 2 · 19–25 min — Assembly: Disco Player, Then the Lab
 
-[index.html](examples/build/index.html) · [main.css](examples/build/main.css) · [index.js](examples/build/index.js) · [synth.js](examples/build/synth.js) · [only_you.json](examples/build/only_you.json) · [my_song.json](examples/build/my_song.json)
+[index.html](examples/build/index.html) · [main.css](examples/build/main.css) · [index.js](examples/build/index.js) · [synth.js](examples/build/synth.js) · [only_you.json](examples/build/only_you.json) · [my_song.json](examples/build/my_song.json) · [song.js](examples/build/song.js)
 
 ```text
 new AudioContext() ← ex01    playTone's envelope ← ex03 · lowpass ← ex05
@@ -281,3 +281,4 @@ Where regular-course syntax is used inside the player.
 
 More to try: build a melody layer yourself (only melodies you wrote), add keyboard input to ex02 and play on top.
 Recording to an audio file is outside this special lecture.
+The player's **멜로디 조합기 →** link opens [compose.html](examples/build/compose.html)·[compose.js](examples/build/compose.js): join melody pieces to arrange a song (optional).

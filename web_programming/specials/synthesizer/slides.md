@@ -235,7 +235,7 @@ document.getElementById('v1').innerText = song.track_info.title;
 
 ## 2부 · 19–25분 — 조립: 디스코 연주기, 그리고 실습 인계
 
-[index.html](examples/build/index.html) · [main.css](examples/build/main.css) · [index.js](examples/build/index.js) · [synth.js](examples/build/synth.js) · [only_you.json](examples/build/only_you.json) · [my_song.json](examples/build/my_song.json)
+[index.html](examples/build/index.html) · [main.css](examples/build/main.css) · [index.js](examples/build/index.js) · [synth.js](examples/build/synth.js) · [only_you.json](examples/build/only_you.json) · [my_song.json](examples/build/my_song.json) · [song.js](examples/build/song.js)
 
 ```text
 new AudioContext() ← ex01    playTone 의 엔벨로프 ← ex03 · lowpass ← ex05
@@ -281,3 +281,4 @@ https://student01.github.io/web-synth/
 
 더 해 볼 것: 멜로디 층을 직접 만들기(내가 지은 멜로디만), ex02 에 키보드 입력을 더해 연주기 위에서 연주하기.
 녹음해서 음원 파일로 만드는 것은 이 특강의 범위 밖입니다.
+연주기의 **멜로디 조합기 →** 링크는 [compose.html](examples/build/compose.html)·[compose.js](examples/build/compose.js) 입니다. 멜로디 조각을 이어 붙여 편곡해 봅니다(선택).
