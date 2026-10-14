@@ -18,11 +18,11 @@ footer: "Ollama와 로컬 LLM"
 
 | 교시 | 설명·시연 20분 | 직접 해결 실습 30분 |
 |---|---|---|
-| 1교시 | 모델은 어떻게 실행되는가 | 모델 두 개를 실행하고 측정하기 |
-| 2교시 | REST API로 대화하기 | REST API로 대화하고 실패를 다루기 |
-| 3교시 | Modelfile과 시스템 프롬프트, 1차 종합과제 | 수업 도우미 모델 만들기와 과제 점검 |
+| 1교시 | 모델은 어떻게 실행되는가 | 터미널에서 모델 실행하고 숫자 읽기 |
+| 2교시 | Python 라이브러리로 대화하기 | `ex01`~`ex05` 실행하고 바꿔 보기 |
+| 3교시 | 이미지 인식과 툴 콜링, Modelfile | `ex06`·`ex07`, 함수 추가, 내 도우미 모델 |
 
-이번 주 질문: **내 PC의 GPU에서 언어 모델이 실제로 어떻게 실행되고, 내 프로그램은 그것과 어떻게 대화하는가?**
+이번 주 질문: **공개된 오픈소스 모델을 내 PC에서 돌리고, 내 프로그램에서 가져다 쓰려면 무엇이 필요한가?**
 
 ---
 
@@ -33,17 +33,16 @@ footer: "Ollama와 로컬 LLM"
 
 ---
 
-## 0–3분 · 이어받는 것: 설정에서 호출로
+## 0–3분 · 오늘은 만들지 않고 가져다 쓴다
 
-3주차 `config.py`는 `OLLAMA_HOST`·`OLLAMA_MODEL`을 읽지만 아직 아무것도 호출하지 않았다.
+| 무엇 | 오픈소스 | 라이선스 |
+|---|---|---|
+| 모델을 돌리는 프로그램 | Ollama | MIT |
+| 모델(가중치) | Qwen3.5 2B | Apache-2.0 |
+| Python에서 부르는 도구 | `ollama` 라이브러리 | MIT |
 
-```text
-3주차: 설정 읽기    → config.py
-4주차: 실제 호출    → ollama run … → /api/chat → Modelfile
-```
-
-- 오늘 쓸 모델은 **수업 전에 이미 캐시**되어 있다. 실습 중 `ollama pull`을 하지 않는다.
-- 기본 모델 이름은 환경변수 `OLLAMA_MODEL`이 정한다(교재 기본값 `qwen3:8b`, CPU 대체 `qwen3:0.6b`).
+- 모델은 **수업 전에 받아 둔다**(`ollama pull qwen3.5:2b`, 약 2.7 GB).
+- 서버·HTTP·오류 처리는 직접 짜지 않는다. 남이 만들어 공개한 것을 **읽고, 돌리고, 바꿔 본다.**
 
 **질문:** "모델을 실행한다"고 할 때 디스크에서 메모리로 올라가는 것은 정확히 무엇인가?
 
@@ -61,7 +60,7 @@ footer: "Ollama와 로컬 LLM"
 |---|---|---|
 | 가중치 | 학습된 숫자 행렬 | 파라미터 수 × 파라미터당 바이트 |
 | 토크나이저 | 텍스트↔토큰 ID 변환표 | 어휘 크기 |
-| 컨텍스트 | 지금까지의 토큰과 계산 캐시(KV) | `num_ctx` × 층 수 |
+| 컨텍스트 | 지금까지의 토큰과 계산 캐시 | 대화 길이 |
 
 생성은 **토큰 하나씩 반복**이다. 그래서 속도 단위가 tokens/s다.
 
@@ -69,77 +68,76 @@ footer: "Ollama와 로컬 LLM"
 
 ## 6–9분 · 양자화: 같은 모델, 다른 바이트
 
-| 표기 | 파라미터당 바이트 | 8B 모델 가중치 |
+| 태그 | 파라미터당 바이트 | `qwen3.5:2b` 받는 크기 |
 |---|---:|---:|
-| FP16·BF16 | 2 | 약 16 GB |
-| Q8_0 | 약 1 | 약 8 GB |
-| Q4_K_M | 약 0.6 | 약 5 GB |
+| `2b-bf16` | 2 | 4.6 GB |
+| `2b` = `2b-q8_0` | 약 1 | 2.7 GB |
+| `2b-q4_K_M` | 약 0.6 | 2.0 GB |
 
-- GGUF는 llama.cpp 계열이 쓰는 파일 형식이며 Ollama 라이브러리 모델 대부분이 이 형식이다.
-- Q4로 내려가면 용량·속도는 좋아지고 **답의 품질은 조금 떨어진다**. 얼마나 떨어지는지는 모델·작업마다 다르다.
+- 숫자를 덜 정밀하게 저장할수록 작고 빨라지며 **답의 품질은 조금 떨어진다.**
+- 이 모델의 파일에는 그림을 읽는 부분(projector)도 함께 들어 있다(3교시).
 
-**질문:** 같은 `qwen3:8b`인데 `ollama list`의 SIZE와 `ollama ps`의 SIZE가 다르다면 무엇이 더해진 것인가?
+**질문:** `ollama list`의 SIZE와 `ollama ps`의 SIZE가 다르다면 무엇이 더해진 것인가?
 
 ---
 
-## 9–12분 · 파라미터 수 → VRAM 어림 계산
+## 9–12분 · 파라미터 수 → 메모리 어림
 
 ```text
-필요 메모리 ≈ 파라미터 수 × 파라미터당 바이트 + 컨텍스트(KV 캐시) + 여유
+필요 메모리 ≈ 가중치 크기 + 컨텍스트 + 여유
 ```
 
-| 모델 | Q4 가중치 | 12 GB GPU에서 |
+| 모델 (Qwen3.5) | 받는 크기 | 8 GB GPU에서 |
 |---|---:|---|
-| 0.6B | 약 0.5 GB | 여유. CPU로도 쓸 만함 |
-| 4B | 약 2.5 GB | 여유 |
-| 8B | 약 5.2 GB | 여유. 이번 주 기본 모델 |
-| 14B | 약 9 GB | `num_ctx`를 줄여야 함 |
-| 32B | 약 20 GB | 불가. CPU 분담 → 매우 느림 |
+| `0.8b` | 1.3 GB | 여유. CPU로도 쓸 만함 |
+| `2b` | 2.7 GB | 여유. **이번 주 모델** |
+| `4b` | 3.3 GB | 여유 |
+| `9b` | 6.6 GB | 빠듯함 |
+| `27b` | 17.5 GB | 불가. CPU 분담 → 매우 느림 |
 
 숫자는 어림값이고 **실측은 `ollama ps`가 한다.**
-
-**질문:** 14B를 12 GB에 올리려면 무엇을 희생해야 하는가?
 
 ---
 
 ## 12–15분 · Ollama의 네 부분
 
 ```text
-ollama serve (서버, :11434) ◀── ollama run/show/ps/list (CLI = 클라이언트)
-        │                   ◀── 내 프로그램 (HTTP, 2교시)
-        ├─ 모델 저장소  %USERPROFILE%\.ollama\models  (blobs + manifests)
-        └─ Modelfile  → ollama create (3교시)
+Ollama 서버 (:11434) ◀── ollama run/show/ps/list   (터미널, 1교시)
+        │            ◀── Python ollama 라이브러리   (내 프로그램, 2·3교시)
+        ├─ 모델 저장소  %USERPROFILE%\.ollama\models
+        └─ Modelfile → ollama create               (3교시)
 ```
 
-- CLI도 서버에 HTTP를 보내는 **클라이언트**다. 서버가 죽으면 CLI도 내 코드도 안 된다.
-- 저장 위치는 `OLLAMA_MODELS`로 옮길 수 있다. 실습실 PC는 환경 기준표가 정한 경로를 쓴다.
-- 라이브러리 이름 규칙은 `이름:태그`(`qwen3:8b`). 태그가 크기·양자화를 뜻한다.
+- 터미널 명령도, Python 라이브러리도 같은 서버에 묻는 **손님**이다. 서버가 꺼지면 둘 다 안 된다.
+- Windows에서는 Ollama 앱이 켜져 있으면 서버도 켜져 있다.
+- 모델 이름 규칙은 `이름:태그`(`qwen3.5:2b`). 태그가 크기·양자화를 뜻한다.
 
 ---
 
-## 15–17분 · 오늘 쓰는 CLI 다섯 개
+## 15–17분 · 오늘 쓰는 명령 다섯 개
 
 ```powershell
-ollama list              # 캐시된 모델과 파일 크기
-ollama show qwen3:8b     # 파라미터·양자화·컨텍스트 길이
-ollama run qwen3:8b      # 대화. /set verbose 로 속도 표시, /bye 로 종료
-ollama ps                # 메모리에 올라간 모델, SIZE, GPU 비율
-ollama pull qwen3:0.6b   # 다운로드 — 수업 시간에는 쓰지 않는다
+ollama list                            # 받아 둔 모델과 파일 크기
+ollama show qwen3.5:2b                 # 파라미터·양자화·Capabilities
+ollama run qwen3.5:2b --think=false    # 대화. /set verbose 로 속도 표시, /bye 로 종료
+ollama ps                              # 메모리에 올라간 모델, SIZE, GPU/CPU
+ollama pull qwen3.5:2b                 # 다운로드 — 수업 전에 한 번만
 ```
 
-`ollama run`의 첫 답이 늦은 것은 **로드 시간**이다. 두 번째부터는 빠르다.
+- `--think=false`: 답 전에 늘어놓는 생각 출력을 끈다.
+- 첫 답이 늦은 것은 모델을 메모리에 올리는 **로드 시간**이다. 두 번째부터는 빠르다.
 
 ---
 
 ## 17–20분 · 실습 인계
 
-[1교시 실습 — 모델 두 개를 실행하고 측정하기](lab.md#1교시-실습--모델-두-개를-실행하고-측정하기) · [1교시 코드](examples/period1/README.md)
+[1교시 실습 — 터미널에서 모델 실행하고 숫자 읽기](lab.md#1교시-실습--터미널에서-모델-실행하고-숫자-읽기) · [1교시 안내](examples/period1/README.md)
 
 완료 조건:
 
-1. 기본 모델의 파라미터 수·양자화·컨텍스트 길이·파일 크기를 `ollama show`·`ollama list`에서 옮겨 적었다.
-2. `/set verbose`의 eval rate와 `ollama ps`의 SIZE·PROCESSOR를 모델 2개에 대해 기록했다.
-3. 같은 질문 3개에 대한 두 모델의 답 차이를 `model_report.md`에 한 문장씩 적었다.
+1. `ollama show`에서 파라미터 수·양자화·Capabilities를 옮겨 적었다.
+2. `/set verbose`의 eval rate와 `ollama ps`의 SIZE·PROCESSOR를 적었다.
+3. `ollama list`의 SIZE와 `ollama ps`의 SIZE가 다른 이유를 한 문장으로 적었다.
 
 실습 30분 뒤 휴식 10분. 휴식 후 2교시.
 
@@ -148,123 +146,117 @@ ollama pull qwen3:0.6b   # 다운로드 — 수업 시간에는 쓰지 않는다
 <!-- _class: lead -->
 
 # 2교시 · 설명 20분
-## REST API로 대화하기
+## Python 라이브러리로 대화하기
 
 ---
 
-## 0–3분 · 이어받는 것: 서버는 살아 있는가
+## 0–3분 · 첫 질문은 한 줄
 
-1교시에서는 `ollama run`으로 대화했다. 이제 같은 서버에 **내 코드**가 말을 건다.
+```python
+import ollama
 
-```powershell
-Invoke-RestMethod http://localhost:11434/api/tags |
-  Select-Object -ExpandProperty models | Format-Table name, size
+MODEL = "qwen3.5:2b"
+
+response = ollama.chat(
+    model=MODEL,
+    messages=[{"role": "user", "content": "안녕. 한국어로 한 문장만 인사해 줘."}],
+    think=False,
+)
+print(response.message.content)
 ```
 
-- `/api/tags`는 캐시된 모델 목록이다. 이 한 줄이 되면 서버·포트·모델 이름 세 가지가 확인된다.
-- 하루가 바뀌었으면 모델이 메모리에 없다. 첫 호출이 느린 것은 정상이다.
+- 서버 주소, 요청 형식, 응답 해석은 **라이브러리가 한다.** 우리는 `ollama.chat()`만 부른다.
+- 서버가 꺼져 있으면 라이브러리가 `Failed to connect to Ollama`라고 알려 준다.
 
 ---
 
-## 3–6분 · `/api/generate`와 `/api/chat`
+## 3–6분 · 메시지 세 가지 역할
 
-| | `/api/generate` | `/api/chat` |
+| `role` | 누구의 말 | 예 |
 |---|---|---|
-| 입력 | `prompt` 문자열 하나 | `messages` 배열(역할 있음) |
-| 대화 이력 | 직접 이어 붙여야 함 | 배열에 쌓으면 됨 |
-| 응답 본문 | `response` | `message.content` |
-| 쓰임 | 한 번짜리 변환·요약 | 도우미·챗봇 |
+| `system` | 도우미의 역할과 답변 규칙 | "초보자용 Python 선생님. 비유 하나로 두 문장." |
+| `user` | 사용자가 지금 묻는 것 | "리스트가 무엇이야?" |
+| `assistant` | 모델이 앞서 한 답 | "리스트는 여러 값을 순서대로 담는…" |
 
-둘 다 같은 모델을 쓰고 같은 메타(`eval_count` 등)를 돌려준다. 이번 주 클라이언트는 **`/api/chat`**을 쓴다.<br>
-OpenAI 호환 경로(`/v1/chat/completions`)도 있지만 이번 주는 쓰지 않는다.
+`ex02_system_prompt.py`: `나>`에 입력한 **같은 질문에 system만 바꿔** 답을 비교한다. 답을 받은 뒤 다음 질문을 입력하고 `/bye`로 종료한다.
+
+**질문:** system에 "두 문장으로"라고 적었는데 다섯 문장이 나왔다. 무엇을 알 수 있는가?
 
 ---
 
-## 6–9분 · 메시지 역할과 이력
+## 6–9분 · 스트리밍: 도착하는 대로 보여 주기
 
-```json
-{"model": "qwen3:8b",
- "messages": [
-   {"role": "system",    "content": "한국어로 세 문장 이내로 답한다."},
-   {"role": "user",      "content": "uv가 무엇인가?"},
-   {"role": "assistant", "content": "uv는 …"},
-   {"role": "user",      "content": "uv run으로 실행하는 예를 보여줘."}
- ],
- "stream": false, "think": false, "options": {"temperature": 0.2}}
+```python
+stream = ollama.chat(model=MODEL, messages=[...], think=False, stream=True)
+for part in stream:
+    print(part.message.content, end="", flush=True)
 ```
 
-- `system`: 역할·제약. 대화 내내 유지된다.
-- 서버는 이력을 기억하지 않는다. **이력은 클라이언트가 매번 보낸다.**
-
-**질문:** 대화가 길어지면 무엇이 `num_ctx`를 넘게 되는가?
+- `stream=True`이면 답이 다 만들어질 때까지 기다리지 않고 **조각**이 차례로 온다.
+- 챗봇 화면에서 글자가 흘러나오는 것이 이것이다. 전체 시간은 같아도 **기다리는 느낌**이 줄어든다.
+- `ex03_stream.py`: `나>`에 질문 → 조각별 출력 → 다음 질문. 종료는 `/bye`.
 
 ---
 
-## 9–12분 · 스트리밍: 줄 단위 JSON
+## 9–12분 · options와 think
 
-`"stream": true`이면 응답이 한 번에 오지 않고 **한 줄에 JSON 하나(NDJSON)** 로 온다.
+```python
+ollama.chat(model=MODEL, messages=[...], think=False,
+            options={"temperature": 0})
+```
+
+| 키 | 뜻 |
+|---|---|
+| `temperature` | 0이면 가장 그럴듯한 답만, 클수록 다양한 답 |
+| `num_predict` | 답의 최대 길이(토큰 수) |
+| `think` | `False`면 생각 출력 없이 답만 받는다 |
+
+`ex04_temperature.py`: `나>`에 입력한 질문을 temperature 0과 1로 **두 번씩** 묻고 다음 입력을 기다린다. 종료는 `/bye`.
+
+**질문:** 시험 문제 채점 도우미와 소설 아이디어 도우미에는 각각 어떤 temperature가 맞는가?
+
+---
+
+## 12–15분 · 기억 = 메시지를 쌓아 다시 보내기
+
+```python
+messages = [{"role": "system", "content": "한국어로 짧게 답한다."}]
+while True:
+    messages.append({"role": "user", "content": input("나> ")})
+    response = ollama.chat(model=MODEL, messages=messages, think=False)
+    messages.append({"role": "assistant", "content": response.message.content})
+```
+
+- `ex02`~`ex04`는 입력을 반복해도 이번 질문만 보낸다. `ex05`는 지난 질문·답도 함께 보내며 `/bye`로 종료한다.
+- 대화가 길어지면 컨텍스트가 커지고 결국 한계를 넘는다. 긴 자료를 다루는 법은 7주차 RAG.
+
+---
+
+## 15–17분 · 응답 안의 숫자
+
+```python
+response.message.content   # 답
+response.eval_count        # 만든 토큰 수
+response.eval_duration     # 만드는 데 걸린 시간(나노초)
+```
 
 ```text
-{"message":{"role":"assistant","content":"uv"},"done":false}
-{"message":{"role":"assistant","content":"는 "},"done":false}
-…
-{"message":{"role":"assistant","content":""},"done":true,"eval_count":57,"eval_duration":812345678}
+tokens/s = eval_count ÷ (eval_duration ÷ 1e9)
 ```
 
-- 조각을 이어 붙이면 전체 답이 된다. 메타는 **마지막 줄**에만 있다.
-- 사용자에게는 첫 조각까지의 시간(로드 + 프롬프트 처리)이 체감 지연이다.
-
-**질문:** 조각을 화면에 찍기만 하고 모으지 않으면 무엇을 잃는가?
-
----
-
-## 12–15분 · options와 think
-
-| 키 | 뜻 | 실습 기본값 |
-|---|---|---|
-| `temperature` | 0이면 가장 확률 높은 토큰만, 클수록 다양 | 0.2 |
-| `num_ctx` | 컨텍스트 창 토큰 수(KV 캐시 크기) | 4096 |
-| `num_predict` | 최대 생성 토큰 수 | 256 |
-| `seed` | 같은 값이면 같은 표본 순서 | 없음 |
-
-```json
-"think": false
-```
-
-답만 표시하도록 **생각 텍스트**를 끄고, 코드에 이유를 주석으로 남긴다.
-
-- 기본 모델 `qwen3:8b`는 **하이브리드**라 이 한 줄로 생각 과정이 실제로 꺼진다.
-- 접미사 없는 `qwen3:4b`·`30b`·`235b`는 생각 전용 빌드라 꺼지지 않는다([태그 고르는 기준](../README.md#생성-모델-태그를-고를-때)).
-
----
-
-## 15–17분 · 응답 메타와 실패 두 가지
-
-```text
-tokens/s = eval_count ÷ (eval_duration ÷ 1e9)      duration 단위는 나노초
-```
-
-- `prompt_eval_count`·`eval_count`: 입력·출력 토큰 수
-- `done_reason`: `stop`(모델이 끝냄) 또는 `length`(`num_predict`에 걸림)
-
-| 실패 | 코드가 받는 것 | 사람에게 보여 줄 말 |
-|---|---|---|
-| 서버 꺼짐·포트 오류 | `ConnectError` | 서버·`OLLAMA_HOST` 확인 |
-| 모델 이름 오류 | HTTP 404 | `ollama list`로 이름 확인 |
-
-**질문:** `done_reason`이 `length`면 코드의 무엇을 바꿔야 하는가?
+1교시 `/set verbose`의 eval rate와 같은 값이다. 터미널과 Python이 **같은 서버의 같은 숫자**를 본다.
 
 ---
 
 ## 17–20분 · 실습 인계
 
-[2교시 실습 — REST API로 대화하고 실패를 다루기](lab.md#2교시-실습--rest-api로-대화하고-실패를-다루기) · [2교시 코드](examples/period2/README.md)
+[2교시 실습 — Python에서 대화하기](lab.md#2교시-실습--python에서-대화하기) · [2교시 예제](examples/period2/README.md)
 
 완료 조건:
 
-1. `chat.py`가 남긴 `outputs/chat-*.json`에서 `eval_count`·`eval_duration`을 찾아 tokens/s를 직접 계산했다.
-2. 연결 실패와 모델 없음 두 경우에 사람이 읽을 메시지와 0이 아닌 종료 코드가 나왔다.
-3. `--seed`를 추가한 뒤 temperature 0과 1의 답 차이를 한 문단으로 적었다.
+1. `ex02_system_prompt.py`에 내 역할을 추가하고 답의 차이를 적었다.
+2. temperature 0과 1의 차이를 한 문장으로 적었다.
+3. 기억 켜기·끄기의 "보내는 메시지" 개수와 답을 비교했다.
 
 실습 30분 뒤 휴식 10분. 휴식 후 3교시.
 
@@ -273,113 +265,133 @@ tokens/s = eval_count ÷ (eval_duration ÷ 1e9)      duration 단위는 나노�
 <!-- _class: lead -->
 
 # 3교시 · 설명 20분
-## Modelfile과 시스템 프롬프트, 1차 종합과제
+## 이미지 인식과 툴 콜링, Modelfile
 
 ---
 
-## 0–3분 · 이어받는 것: 역할은 어디에 두는가
-
-2교시 `chat.py`는 `--system`으로 역할을 매번 보냈다. 같은 역할을 **모델 이름 안에** 넣어 두면 어떤 클라이언트든 같은 도우미를 얻는다.
+## 0–3분 · 이 모델이 할 줄 아는 것
 
 ```text
-방법 A: 요청마다 system 메시지   → 클라이언트가 책임 (2교시)
-방법 B: Modelfile → ollama create → 서버가 책임 (오늘)
-방법 C: 파인튜닝(10주차)          → 가중치가 책임
+ollama show qwen3.5:2b
+
+  Capabilities
+    completion     글로 답하기
+    vision         그림 읽기
+    thinking       생각 과정 출력
+    tools          함수 불러 달라고 요청하기
 ```
 
-**질문:** 방법 B로 만든 모델은 디스크를 얼마나 더 차지할까?
+- 2교시는 `completion`만 썼다. 3교시는 **`vision`과 `tools`**를 쓴다.
+- 모델마다 Capabilities가 다르다. 쓰기 전에 `ollama show`로 확인한다.
 
 ---
 
-## 3–6분 · Modelfile 네 지시어
+## 3–6분 · 이미지 인식: 그림을 메시지에 붙인다
+
+```python
+response = ollama.chat(
+    model=MODEL,
+    messages=[{
+        "role": "user",
+        "content": "이 화면의 마지막 오류 줄을 그대로 옮겨 적고, 무슨 뜻인지 한 문장으로 설명해 줘.",
+        "images": ["error_screen.png"],
+    }],
+    think=False,
+)
+```
+
+- 글과 그림을 함께 읽는 모델을 **VLM**(Vision Language Model)이라 한다.
+- `ex06`은 `나>`의 첫 질문에 이미지를 붙이고, 다음 질문에는 그 대화 이력도 함께 보낸다. 종료는 `/bye`.
+
+---
+
+## 6–9분 · VLM이 잘하는 것과 조심할 것
+
+| 잘하는 것 | 조심할 것 |
+|---|---|
+| 화면·사진 속 글자 옮기기 | 작은 글씨, 손글씨 |
+| 무엇이 찍혔는지 설명하기 | 개수 세기, 위치 비교 |
+| 표·그래프 내용 요약 | 그림에 없는 내용을 지어내기 |
+
+시연: 오류 화면을 보여 주면 `ModuleNotFoundError: No module named 'ollama'`는 정확히 읽는다. "어떻게 고치나"를 물으면 **엉뚱한 해결책**을 말하기도 한다.
+
+**질문:** 읽기는 맞고 판단은 틀릴 때, 프로그램은 VLM의 답을 어디까지 믿어야 하는가?
+
+---
+
+## 9–12분 · 툴 콜링: 모델이 못 하는 일을 함수에 맡긴다
 
 ```text
-FROM qwen3:8b                          # 기준 모델(캐시된 이름 또는 GGUF 경로)
-SYSTEM """너는 수업 실습 도우미다. …"""   # 시스템 프롬프트
-PARAMETER temperature 0.3              # 기본 옵션. 요청의 options가 우선한다
-PARAMETER num_ctx 4096
-# TEMPLATE: 프롬프트 조립 틀. FROM에서 물려받으므로 보통 쓰지 않는다
+① 내 프로그램 → 모델     질문 + 함수 목록(get_current_time, multiply)
+② 모델 → 내 프로그램     "multiply(a=1234, b=5678)을 불러 줘"   ← tool_calls
+③ 내 프로그램            함수를 직접 실행 → 7006652
+④ 내 프로그램 → 모델     결과를 role "tool" 로 전달
+⑤ 모델 → 사람            "1234 × 5678 = 7,006,652 입니다"
 ```
 
-- `ollama show qwen3:8b --modelfile`로 기준 모델의 Modelfile 전체를 볼 수 있다.
-- 지시어는 대문자, 여러 줄 문자열은 `"""`로 감싼다. `#`은 주석이다.
+- 모델은 지금 시각을 모르고, 큰 수 계산도 자주 틀린다.
+- 모델은 **부탁만** 한다. 함수를 실행하는 것은 언제나 **내 프로그램**이다.
+- `ex07`에서 `그 계산 결과에 2를 곱해 줘.`라고 이어서 묻는다. 종료는 `/bye`.
 
 ---
 
-## 6–9분 · `ollama create`는 복사가 아니다
+## 12–14분 · 툴 콜링 코드: 함수를 그대로 넘긴다
+
+```python
+def multiply(a: float, b: float) -> float:
+    """두 수를 곱한다."""
+    return a * b
+
+response = ollama.chat(model=MODEL, messages=messages, tools=[multiply], think=False)
+for call in response.message.tool_calls or []:
+    result = multiply(**call.function.arguments)
+    messages.append({"role": "tool", "tool_name": call.function.name, "content": str(result)})
+```
+
+- 라이브러리가 함수 **이름·타입·docstring**을 읽어 모델에게 설명서로 보낸다.
+- 숫자를 받는 함수는 잘 맞고, 글자를 정확히 맞춰야 하는 함수는 작은 모델이 자주 틀린다.
+
+---
+
+## 14–17분 · Modelfile: 역할을 모델 이름에 담기
+
+```text
+FROM qwen3.5:2b
+SYSTEM """너는 '오픈소스 AI 응용' 수업의 실습 도우미다. 한국어로 다섯 문장 이내로 답한다."""
+PARAMETER temperature 0.3
+```
 
 ```powershell
-ollama create osa-helper -f Modelfile
-ollama list                 # osa-helper 가 보인다
-ollama show osa-helper      # System 항목이 붙어 있다
-ollama rm osa-helper        # 지우기 — 기준 모델은 남는다
+ollama create student01-helper -f Modelfile
+ollama run student01-helper --think=false
 ```
 
-- 가중치 blob은 **기준 모델과 공유**하고 시스템 프롬프트·파라미터 레이어만 새로 만든다.
-- 이름은 소문자·숫자·`-`로 쓴다. 팀명을 앞에 붙이면 겹치지 않는다(`team-a-helper`).
-
-**질문:** `ollama rm qwen3:8b`를 하면 `osa-helper`는 어떻게 되는가?
+- 가중치를 복사하거나 다시 학습시키지 않는다. 설정만 붙인 **새 이름**이다.
+- 시스템 프롬프트는 말투·형식을 바꿀 뿐 **모르는 지식을 채워 주지 않는다**(7주차 RAG, 10주차 LoRA).
 
 ---
 
-## 9–12분 · 시스템 프롬프트 설계
+## 17–20분 · 1차 종합과제와 실습 인계
 
-| 요소 | 나쁜 예 | 좋은 예 |
-|---|---|---|
-| 역할 | "친절한 AI" | "오픈소스 AI 응용 실습 도우미" |
-| 제약 | "잘 답해" | "5문장 이내, 한국어, 모르면 모른다고" |
-| 출력 형식 | 없음 | "명령은 PowerShell 코드 블록 하나로" |
-| 안전 | 없음 | "토큰·비밀번호를 묻지 않는다" |
-
-**한 번에 하나만 바꾸고 같은 질문으로 전후를 비교**해야 무엇이 효과를 냈는지 안다.
-
----
-
-## 12–14분 · 프롬프트로 되는 것과 안 되는 것
-
-- 되는 것: 말투, 길이, 언어, 출력 형식, 거절 규칙, 역할극
-- 잘 안 되는 것: 모델이 **모르는 지식**, 긴 규칙 수십 개의 동시 준수, 일관된 전문 용어
-- 지식은 7주차 RAG(문서를 넣어 준다), 말투·형식의 고정은 10주차 LoRA(가중치를 바꾼다)
-
-**질문:** "우리 수업의 과제 마감을 알려 줘"가 프롬프트만으로 안 되는 이유는 무엇인가?
-
----
-
-## 14–17분 · 1차 종합과제
-
-[안내서](assignment_brief.md) · [루브릭](assignment_rubric.md)
+[과제 안내](assignment_brief.md) · [루브릭](assignment_rubric.md) · [3교시 실습](lab.md#3교시-실습--이미지-인식-툴-콜링-내-도우미-모델) · [3교시 예제](examples/period3/README.md)
 
 | 산출물 | 어디서 왔는가 |
 |---|---|
 | 협업 저장소(LICENSE·README·Issue·PR·Review) | 2주차 |
-| uv 프로젝트(`pyproject.toml`·`uv.lock`·`.env.example`) | 3주차 |
-| `chat`·`stream` 서브커맨드 CLI + 오류 처리 + `outputs/` | 4주차 2교시 |
-| `model_report.md` + Modelfile 전후 비교 | 4주차 1·3교시 |
+| uv 프로젝트(`pyproject.toml`·`uv.lock`) | 3주차 |
+| 대화(기억)·이미지·툴 콜링 기능, `Modelfile`, `week04_report.md` | 4주차 |
 
-제출은 **저장소 URL + 최종 commit id + README 재현 절차**. 배점·마감은 학교 운영 문서가 정한다.
-
----
-
-## 17–20분 · 실습 인계
-
-[3교시 실습 — 수업 도우미 모델 만들기와 과제 점검](lab.md#3교시-실습--수업-도우미-모델-만들기와-과제-점검) · [3교시 코드](examples/period3/README.md)
-
-완료 조건:
-
-1. `ollama list`에 내 커스텀 모델이 보이고 `chat.py --model`에 그 이름을 주어 호출했다.
-2. 같은 질문 3개에 대해 기준 모델·커스텀 모델·SYSTEM 한 줄 변경 후의 답을 비교표로 남겼다.
-3. 1차 과제 체크리스트에서 비어 있는 항목과 채울 계획을 적었다.
-
-실습 30분 뒤 휴식 10분. 이번 주 종료.
+실습 완료 조건: 내 그림 결과, 내가 추가한 함수가 불린 기록, 내 모델과 기준 모델의 비교.
 
 ---
 
 ## 이번 주 정리
 
 ```text
-가중치 × 양자화 → VRAM        ollama show / ps 로 실측
-서버 :11434 ← CLI ← 내 코드    /api/chat + stream + think:false + options
-Modelfile → ollama create     역할은 서버에, 지식은 RAG에, 말투 고정은 LoRA에
+ollama show / run / ps        모델 크기·기능·속도·메모리를 숫자로 읽는다
+ollama.chat(messages=…)       system·user·assistant, stream, temperature, 기억 = 메시지 쌓기
+images=[…] / tools=[함수]      그림을 읽히고, 못 하는 일은 내 함수에 맡긴다
+Modelfile → ollama create     역할은 설정에, 지식은 RAG에, 말투 고정은 LoRA에
 ```
 
-숫자는 어림하고 **실측으로 확인**한다. 실패 메시지는 사람이 읽을 문장으로 바꾼다.
+만들기 전에 **이미 공개된 것을 찾아 가져다 쓴다.** 결과는 숫자와 비교로 확인한다.

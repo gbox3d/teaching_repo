@@ -1,298 +1,195 @@
-# 4주차 따라하기 — 모델 실측, REST API 호출, 커스텀 모델
+# 4주차 따라하기 — 터미널, Python 대화, 이미지·툴 콜링·Modelfile
 
-이 문서는 4주차 시연·실습을 **순서대로 그대로 재현**하기 위한 절차서다.
-강의자는 각 교시의 20분 시연을 이 순서로 진행하고, 학생은 실습·복습 때 같은 순서로 따라 한다.
-각 단계는 `할 일 → 예상 결과 → 확인` 순서로 되어 있다. 예상 결과가 다르면 다음 단계로 넘어가지 않는다.
+이 문서는 4주차 시연·실습을 **순서대로 그대로 재현**하기 위한 절차서다. 강의자는 20분 시연을 이 순서로 진행하고, 학생은 실습·복습 때 같은 순서로 따라 한다. 문제의 정본은 [실습지](lab.md)다.
+
+- 각 단계는 `할 일 → 예상 결과 → 확인` 순서다. 예상 결과와 다르면 다음 단계로 넘어가지 않는다.
+- 모델의 답 문장은 **매번 달라진다.** 예상 결과에는 문장 대신 "무엇이 보여야 하는지"를 적었다.
+- 괄호 안의 숫자는 2026-10-15 Mac(Apple GPU, Ollama 0.40.4, `qwen3.5:2b`)에서 잰 값이다. Windows PC의 크기·속도·표기는 다를 수 있으므로 자기 화면의 값을 적는다.
 
 ## 시작 전 준비
 
-- Ollama가 설치되어 있고 서버가 켜져 있다(`ollama list`가 오류 없이 출력된다).
-- 기본 모델과 소형 모델이 수업 전에 캐시되어 있다. 이 문서의 `qwen3:8b`·`qwen3:0.6b`는 교재 검증용 기본값이며 실제 이름은 환경 기준표가 정한다. 실습 중 `ollama pull`을 하지 않는다.
-- uv, Git, VS Code, PowerShell을 사용한다. `uv sync`는 수업 전에 한 번 실행해 둔다.
-- [교시별 예제](examples/README.md)의 현재 `periodN`만 개인 실습 폴더에 복사한다. 수업 자료 원본은 수정하지 않는다.
-- 터미널 명령은 복사한 폴더 안에서 실행한다. 현재 경로를 먼저 확인하는 습관을 들인다.
-
----
-
-## 1교시 — 모델 두 개를 실행하고 측정하기
-
-### 교시 시작 준비
-
-[현재 1교시 폴더](examples/period1/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
+- `ollama list`에 `qwen3.5:2b`가 보인다. 없으면 [설치 안내](windows_setup.md)를 먼저 한다. 실습 중에는 `pull`하지 않는다.
+- PowerShell에서 `uv --version`이 나온다.
+- 작업 폴더와 보고서를 만든다. 새 PowerShell 창을 열 때마다 `$src`·`$dst` 두 줄은 다시 입력한다.
 
 ```powershell
 $src = "<교재 저장소>\open_source_ai\weeks\week04_ollama_local_llm\examples"
 $dst = "C:\classwork\week04"
 New-Item -ItemType Directory -Force $dst | Out-Null
-if (-not (Test-Path "$dst\period1")) { Copy-Item -Recurse "$src\period1" "$dst\period1" }
-Set-Location "$dst\period1"
-if (-not (Test-Path ..\model_report.md)) { Copy-Item model_report_template.md ..\model_report.md }
+if (-not (Test-Path "$dst\week04_report.md")) { Copy-Item "$src\week04_report_template.md" "$dst\week04_report.md" }
 ```
 
-```powershell
-ollama list
+## 1교시 — 터미널에서 모델 실행하고 숫자 읽기
+
+### 시작 전 준비
+
+코드는 없다. 실행 전에 파라미터 수, 메모리 크기, tokens/s를 예상해 보고서 1절 "예상" 칸에 적는다.
+
+### 단계 1. 모델 정보 읽기
+
+**할 일** — `ollama list`, `ollama show qwen3.5:2b`를 실행한다.
+
+**예상 결과** — `list`에 `qwen3.5:2b`와 SIZE가 보인다. `show`의 `Model` 아래에 parameters(2B대, 이 Mac은 `2.2B`), context length, quantization이 있고, `Capabilities`에 `completion`, `vision`, `thinking`, `tools` 네 줄이 있다. quantization 표기는 실행 환경에 따라 다르다.
+
+**확인** — [ ] 파라미터 수·양자화·Capabilities를 보고서 1절 "실제" 칸에 옮겨 적었다.
+
+### 단계 2. 대화하면서 속도 보기
+
+**할 일** — `ollama run qwen3.5:2b --think=false`로 들어가 `>>>`에서 차례로 입력한다.
+
+```text
+/set verbose
+파이썬이 무엇인지 두 문장으로 설명해 줘.
+uv가 무엇인지 두 문장으로 설명해 줘.
 ```
 
-### 단계 1. 서버와 캐시 확인
+**예상 결과** — 첫 답은 모델을 올리느라 조금 늦게 시작한다. 각 답 아래에 `total duration`, `load duration`, `eval count`, `eval rate` 줄이 붙는다(이 Mac은 약 97 tokens/s). uv 설명은 틀리는 일이 많다(예: 자외선으로 설명).
 
-**할 일** — 위 교시 시작 준비의 명령을 실행하고 현재 폴더와 출력을 확인한다.
+**확인** — [ ] 두 답의 `eval rate`를 적었다. 각 답이 맞는지 한 줄씩 적었다.
 
-**예상 결과** — `NAME`, `ID`, `SIZE`, `MODIFIED` 열이 있는 표에 `qwen3:8b`와 `qwen3:0.6b`가 보인다. SIZE는 파일 크기다(8b는 5 GB 안팎, 0.6b는 1 GB 미만).
+### 단계 3. 메모리 확인
 
-**확인** — [ ] 두 모델의 SIZE를 `model_report.md` 1절 "파일 크기" 칸에 옮겨 적었다.
+**할 일** — `/bye`로 나온 직후 `ollama ps`를 실행한다.
 
-### 단계 2. `ollama show`로 모델 정보 읽기
+**예상 결과** — `qwen3.5:2b` 한 줄이 보이고 SIZE가 `ollama list`의 SIZE보다 크다(이 Mac은 3.1 GB → 5.3 GB). PROCESSOR는 GPU PC에서 `100% GPU`, GPU가 없으면 `CPU`가 들어간다. 목록이 비어 있으면 `ollama run`을 다시 한 뒤 바로 실행한다.
 
-**할 일** — `ollama show qwen3:8b`를 실행하고 `parameters`, `quantization`, `context length` 줄을 찾는다.
+**확인** — [ ] SIZE·PROCESSOR를 적고, 두 SIZE가 다른 이유(가중치 + 대화 내용을 담는 공간)를 한 문장으로 적었다. 실습 30분 뒤 휴식 10분.
 
-**예상 결과** — `Model` 항목 아래에 architecture, parameters(예: `8.2B`), context length, embedding length, quantization(예: `Q4_K_M`)이 보인다. `Capabilities`에 `completion`·`tools`와 함께 `thinking`이 보인다. 기본 모델은 하이브리드라 생각 모드를 켜고 끌 수 있다(2교시).
+## 2교시 — Python에서 대화하기
 
-**확인** — [ ] 파라미터 수 × 0.6바이트로 계산한 값이 단계 1의 파일 크기와 대략 맞는지 적었다.
-
-### 단계 3. `ollama run` + `/set verbose`로 속도 측정
-
-**할 일**
-
-1. `ollama run qwen3:8b`를 실행한다. 프롬프트 `>>>`가 나오면 `/set verbose`를 입력한다.
-2. `model_report.md` 2절의 질문 3개를 그대로 차례로 입력한다.
-3. 각 답 뒤에 붙는 `eval rate`와 첫 답의 `load duration`을 적는다.
-4. `/bye`로 나온다.
-
-**예상 결과** — 첫 답은 로드 때문에 몇 초 늦게 시작하고, 이후 답은 바로 시작한다. 답 뒤에 `total duration`, `load duration`, `prompt eval count`, `eval count`, `eval rate` 줄이 붙는다. Qwen3 계열은 답 앞에 생각 텍스트가 보일 수 있다.
-
-**확인** — [ ] eval rate 세 값의 평균을 1절에 적었다. 생각 텍스트가 보였다면 그 사실도 적었다.
-
-### 단계 4. `ollama ps`로 메모리 실측
-
-**할 일** — `/bye`로 나온 직후 `ollama ps`를 실행하고, 이어서 `.\ollama_probe.ps1 -Model qwen3:8b`를 실행한다.
-
-**예상 결과** — `ollama ps`에 `qwen3:8b`가 한 줄 보이고 SIZE는 단계 1의 파일 크기보다 크며, PROCESSOR는 GPU PC에서 `100% GPU`다. `outputs/probe-qwen3-8b-<날짜시각>.txt`가 생기고 안에 list/show/ps 출력이 모두 들어 있다.
-
-**확인** — [ ] 파일 크기와 메모리 크기의 차이를 "컨텍스트(KV 캐시)와 실행 버퍼"로 설명했다. 5분이 지나 `ps`가 비어 있었다면 다시 올린 뒤 측정했다.
-
-### 단계 5. 소형 모델로 반복
-
-**할 일** — `qwen3:0.6b`로 단계 2~4를 반복한다. 질문은 바꾸지 않는다.
-
-**예상 결과** — 파일·메모리 크기가 훨씬 작고 tokens/s는 몇 배 빠르다. 답은 짧거나 형식(표·JSON)을 덜 지키거나 틀릴 수 있다. GPU가 없는 PC에서는 PROCESSOR에 `CPU`가 포함된다.
-
-**확인** — [ ] 두 모델의 tokens/s 비율을 3절에 적고, 질문별 답 차이를 2절에 한 문장씩 적었다.
-
-### 단계 6. 보고서 마무리
-
-**할 일** — `model_report.md` 3절(계산과 실측)과 4절(결론)을 채운다.
-
-**예상 결과** — 계산값과 실측값이 같은 자릿수 안에서 맞고, 팀 도우미 기본 모델과 그 이유 두 가지, GPU 없는 팀원의 대체 모델이 적혀 있다.
-
-**확인** — [ ] [`lab.md`](lab.md) 1교시 완료 조건을 모두 표시했다. 실습 30분 뒤 휴식 10분.
-
----
-
-## 2교시 — REST API로 대화하고 실패를 다루기
-
-### 교시 시작 준비
-
-[현재 2교시 폴더](examples/period2/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
+### 시작 전 준비
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week04_ollama_local_llm\examples"
-$dst = "C:\classwork\week04"
-New-Item -ItemType Directory -Force $dst | Out-Null
-if (-not (Test-Path "$dst\period2")) { Copy-Item -Recurse "$src\period2" "$dst\period2" }
+Copy-Item -Recurse "$src\period2" "$dst\period2"
 Set-Location "$dst\period2"
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }
-uv sync                    # 수업 전에 설치·캐시한다
-if (-not (Test-Path ..\model_report.md)) { Copy-Item model_report_template.md ..\model_report.md }
-if (-not (Test-Path ..\failures.md)) { New-Item -ItemType File ..\failures.md | Out-Null }
-if (-not (Test-Path ..\temperature_compare.md)) { New-Item -ItemType File ..\temperature_compare.md | Out-Null }
+uv sync
 ```
 
-```powershell
-uv run python config.py
+`uv sync`가 `.venv`를 만들고 `ollama` 라이브러리를 설치한다. 이후 모든 실행은 `uv run python ...`으로 한다.
+
+`ex01`을 제외한 예제는 `나>`에 질문을 입력한다. 답이 끝나면 다음 질문을 입력할 수 있고, 빈 줄은 건너뛰며 `/bye`로 종료한다. `ex02`~`ex04`는 이번 질문만 보내고, `ex05`부터 이전 질문과 답도 함께 보낸다.
+
+### 단계 1. 첫 질문 — `ex01_hello.py`
+
+**할 일** — `uv run python ex01_hello.py`를 실행하고, 질문 문장을 바꿔 한 번 더 실행한다.
+
+**예상 결과** — 한국어 인사 한 문장이 나온다. 오류 메시지나 생각 출력은 없다.
+
+**확인** — [ ] `messages`(보내는 대화 목록)와 `response.message.content`(모델의 답 글자)를 보고서 2절에 한 줄씩 적었다.
+
+### 단계 2. 시스템 프롬프트 — `ex02_system_prompt.py`
+
+**할 일** — `SYSTEMS` 목록 끝에 자기 역할 문장을 하나 추가하고(예: `"너는 영어 회화 도우미다. ..."`) `uv run python ex02_system_prompt.py`를 실행한다. `나>`에 `리스트가 무엇이야?`를 입력한다. 답을 비교한 뒤 `리스트와 튜플의 차이는 무엇이야?`도 입력하고 `/bye`로 종료한다.
+
+**예상 결과** — 입력한 질문마다 `[system] ...` 줄과 답이 세 번 나오고 다시 `나>`가 보인다. 같은 질문인데 길이·말투·코드 유무가 역할마다 다르다. "두 문장으로"를 지키지 않거나 코드 주석이 틀리는 경우도 있다.
+
+**확인** — [ ] 내 시스템 프롬프트와 그 답, 세 답의 차이를 적었다.
+
+### 단계 3. 스트리밍 — `ex03_stream.py`
+
+**할 일** — `uv run python ex03_stream.py`를 실행하고 `파이썬 공부 계획을 세 문장으로 알려 줘.`를 입력한다. 답이 끝나면 `반복문을 한 문장으로 설명해 줘.`도 입력하고 `/bye`로 종료한다.
+
+**예상 결과** — `AI>` 뒤로 글자가 조금씩 흘러나오고 답이 끝나면 다시 `나>`가 보인다. 작은 모델이라 중국어 글자나 깨진 글자가 섞이기도 한다.
+
+**확인** — [ ] ex01(다 만든 뒤 한 번에 출력)과 화면에 나오는 방식의 차이를 적었다.
+
+### 단계 4. temperature — `ex04_temperature.py`
+
+**할 일** — `uv run python ex04_temperature.py`를 실행하고 `고양이 이름을 하나만 지어 줘. 이름만 답해.`를 입력한다. 시간이 되면 같은 질문을 한 번 더 입력한 뒤 `/bye`로 종료한다.
+
+**예상 결과** — 질문 하나마다 설정 표시와 `AI>` 답이 네 번 나온 뒤 다시 `나>`가 보인다. `temperature=0` 두 답은 같거나 비슷한 경우가 많고, `temperature=1.0`에서는 더 다양해질 수 있다. 반드시 서로 다른 답이 나오는 것은 아니므로 실제 결과를 기록한다.
+
+**확인** — [ ] 0과 1의 차이를 한 문장으로 적었다.
+
+### 단계 5. 대화 기억 켜기·끄기 — `ex05_memory.py`
+
+**할 일** — `uv run python ex05_memory.py`를 실행하고 `나>`에 차례로 입력한다. 그다음 `request = messages` 줄을 `request = [messages[0], messages[-1]]`로 바꿔 같은 대화를 다시 한다.
+
+```text
+수업용 이름은 student01이고 좋아하는 색은 파랑이야.
+내가 좋아하는 색은 무엇이야?
+/bye
 ```
 
-이 폴더는 실습 시작 코드다. `--seed`는 아직 없으며 문제 2에서 직접 추가한다. `.env`의 host·model이 `config.py` 출력과 같은지 확인한다.
+**예상 결과** — 켜기: 두 질문 앞에 `(보내는 메시지 2개)`, `(보내는 메시지 4개)`가 나오고 두 번째 답에 파랑이 나온다. 끄기: 두 질문 모두 `(보내는 메시지 2개)`이고 두 번째 답이 파랑을 맞히지 못한다(우연히 맞힐 수도 있다).
 
-### 단계 1. `/api/tags`로 서버 확인과 프로젝트 준비
+**확인** — [ ] 보고서 2절 표에 켜기(4개)·끄기(2개)의 개수와 답을 적었다. "모델이 기억한다"의 실제 뜻(프로그램이 지난 대화를 매번 함께 보낸다)을 한 문장으로 적었다. 실습 30분 뒤 휴식 10분.
 
-**할 일** — 위 준비 명령 뒤 서버 목록도 확인한다.
+## 3교시 — 이미지 인식, 툴 콜링, 내 도우미 모델
 
-```powershell
-Invoke-RestMethod http://localhost:11434/api/tags | Select-Object -ExpandProperty models | Format-Table name, size
-```
-
-**예상 결과** — 첫 줄에 캐시된 모델 이름과 바이트 단위 크기가 표로 나온다. `uv sync`가 `.venv`를 만들고, `config.py`가 `host = http://localhost:11434`, `model = qwen3:8b`를 출력한다.
-
-**확인** — [ ] `uv run python config.py --model qwen3:0.6b`로 인자가 환경변수를 이기는 것을 보았다.
-
-### 단계 2. `chat.py` 첫 호출과 메타 손계산
-
-**할 일**
+### 시작 전 준비
 
 ```powershell
-uv run python chat.py --prompt "uv가 무엇인지 두 문장으로 설명해 줘." --tag first
-```
-
-`outputs/chat-<날짜시각>-first.json`을 열어 `response.eval_count`와 `response.eval_duration`을 찾는다.
-
-**예상 결과** — 답 두 문장, 구분선, `model=… eval_tokens=… tokens/s=… load=…s total=…s done_reason=stop`, `saved: outputs\chat-…-first.json`이 차례로 나온다. JSON의 `request`에는 `"stream": false`, `"think": false`, `"options"`가 있다.
-
-**확인** — [ ] `eval_count ÷ (eval_duration ÷ 1e9)`를 계산기로 계산한 값이 화면의 `tokens/s`와 같다.
-
-### 단계 3. 두 번째 호출과 스트리밍
-
-**할 일**
-
-```powershell
-uv run python chat.py --prompt "uv가 무엇인지 두 문장으로 설명해 줘." --tag second
-uv run python stream.py --prompt "MIT 라이선스와 GPL의 차이를 표로 정리해 줘."
-uv run python chat.py --prompt "오픈소스의 정의를 설명해 줘." --num-predict 32 --tag short
-```
-
-**예상 결과** — 두 번째 호출의 `load`가 0에 가깝다. `stream.py`는 글자가 조각으로 찍히고 끝에 `chunks=…  first_piece=…s  wall=…s`가 나온다. `--num-predict 32`는 답이 중간에 끊기고 `done_reason=length`다.
-
-**확인** — [ ] `outputs/stream-*.json`의 `final_chunk`에만 `eval_count`가 있고 `answer`는 조각을 이어 붙인 전체 문장이다.
-
-### 단계 4. 실패 두 가지 재현
-
-**할 일**
-
-```powershell
-uv run python chat.py --host http://localhost:11435 --prompt "안녕"
-$LASTEXITCODE
-uv run python chat.py --model no-such-model --prompt "안녕"
-$LASTEXITCODE
-uv run python stream.py --model no-such-model --prompt "안녕"
-```
-
-**예상 결과** — 첫 번째는 `[연결 실패] http://localhost:11435 에 접속할 수 없다. …` 한 문장과 종료 코드 `2`. 두 번째는 `[모델 없음] 'no-such-model' … ollama list 로 …`와 종료 코드 `3`. 스택 트레이스는 나오지 않는다. `stream.py`도 같은 문장을 낸다.
-
-**확인** — [ ] 두 메시지에 "다음에 할 일"(`OLLAMA_HOST` 확인, `ollama list`)이 들어 있음을 확인하고 `failures.md`에 원문을 적었다.
-
-### 단계 5. `--seed` 추가와 temperature 비교
-
-**할 일**
-
-1. `chat.py`의 `build_parser()`에 정수 인자 `--seed`를 추가하고, `build_payload()`에서 값이 있을 때만 `options["seed"]`를 넣는다.
-2. `uv run python chat.py --prompt "안녕" --seed 7 --show-request`로 요청 JSON에 `"seed": 7`이 보이는지 확인한다.
-3. 같은 프롬프트로 네 번 실행한다.
-
-```powershell
-$q = "MIT 라이선스와 GPL의 차이를 표로 정리해 줘."
-uv run python chat.py --prompt $q --temperature 0 --seed 7 --tag t0a
-uv run python chat.py --prompt $q --temperature 0 --seed 7 --tag t0b
-uv run python chat.py --prompt $q --temperature 1 --seed 7 --tag t1a
-uv run python chat.py --prompt $q --temperature 1 --seed 7 --tag t1b
-```
-
-**예상 결과** — temperature 0의 두 답은 거의 또는 완전히 같다. temperature 1의 두 답은 seed가 같으므로 같거나 매우 비슷하되, GPU 연산 순서 때문에 조금 다를 수 있다. temperature 1 쪽이 0 쪽보다 표현이 다양하다.
-
-**확인** — [ ] `temperature_compare.md`에 temperature와 seed의 역할을 각각 한 문장으로 적었다. [`lab.md`](lab.md) 2교시 완료 조건을 모두 표시했다. 실습 30분 뒤 휴식 10분.
-
----
-
-## 3교시 — 수업 도우미 모델 만들기와 과제 점검
-
-### 교시 시작 준비
-
-[현재 3교시 폴더](examples/period3/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
-
-```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week04_ollama_local_llm\examples"
-$dst = "C:\classwork\week04"
-New-Item -ItemType Directory -Force $dst | Out-Null
-if (-not (Test-Path "$dst\period3")) { Copy-Item -Recurse "$src\period3" "$dst\period3" }
+Copy-Item -Recurse "$src\period3" "$dst\period3"
 Set-Location "$dst\period3"
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }
-uv sync                    # 수업 전에 설치·캐시한다
-if (-not (Test-Path ..\model_report.md)) { Copy-Item model_report_template.md ..\model_report.md }
-if (-not (Test-Path ..\assignment_check.md)) { New-Item -ItemType File ..\assignment_check.md | Out-Null }
+uv sync
+ollama show qwen3.5:2b
 ```
 
-```powershell
-Get-Content Modelfile
-ollama show qwen3:8b --modelfile | Select-Object -First 30
+`Capabilities`에 `vision`과 `tools`가 있는지 확인한다.
+
+### 단계 1. 이미지 인식 — `ex06_vision.py`
+
+**할 일** — `uv run python ex06_vision.py`를 실행하고 `나>`에 `이 화면의 마지막 오류 줄을 그대로 옮겨 적고, 무슨 뜻인지 한국어 한 문장으로 설명해 줘.`를 입력한다. `그 오류를 해결하려면 무엇부터 확인해야 해? 한 문장으로 답해 줘.`라고 이어서 묻고 `/bye`로 종료한다. 그다음 자기 화면 캡처나 사진을 `period3` 폴더에 복사하고, `IMAGE`를 그 파일 이름으로 바꿔 다시 실행해 그림에 맞는 질문을 입력한다. 관찰을 마치면 `/bye`로 종료한다.
+
+**예상 결과** — 예제 그림에서는 오류 줄 `ModuleNotFoundError: No module named 'ollama'`를 글자 그대로 옮기고 뜻을 한 문장으로 설명한다. "어떻게 고치나"를 물으면 엉뚱한 해결책이 나오기도 한다. 내 그림에서도 글자 옮기기는 대체로 맞고, 개수 세기·위치 비교·판단은 틀리거나 그림에 없는 내용을 지어내기도 한다.
+
+**확인** — [ ] 예제 그림과 내 그림(질문 포함)의 결과, "옮기기와 판단 중 어느 쪽이 정확했는가"를 보고서 3절에 적었다.
+
+### 단계 2. 툴 콜링 — `ex07_tools.py`
+
+**할 일** — `uv run python ex07_tools.py`를 실행하고 `나>`에 `지금 몇 시야? 그리고 1234 곱하기 5678은 얼마야?`를 입력한다. 답을 받은 뒤 `그 계산 결과에 2를 곱해 줘.`라고 이어서 묻고 `/bye`로 종료한다.
+
+**예상 결과** — 최종 답 앞에 두 줄이 먼저 나온다.
+
+```text
+[함수 실행] get_current_time({}) -> 2026-10-15 02:07
+[함수 실행] multiply({'a': 1234, 'b': 5678}) -> 7006652
 ```
 
-기존 `..\model_report.md`의 1~4절을 보존하고 `custom_model_report_section.md`의 5절을 뒤에 추가한다. 이미 5절이 있으면 다시 붙이지 않는다. 2교시에서 구현한 `--seed`를 이어 쓰려면 자신의 변경만 `period3/chat.py`에 반영한다. 기본 문제는 이 폴더 코드만으로 실행된다.
+시각은 실행한 때의 값이다. 최종 답은 이 결과를 옮겨 말하는데, 옮기면서 틀리기도 한다(예: 02:07을 "오후 2시"로 말함). 함수 결과가 정답이다. 다음 질문에서는 앞 계산 결과 `7006652`와 `2`로 `multiply`를 부르는지 확인한다. 답이 끝나면 다시 `나>`가 보인다.
 
-### 단계 1. 기준 모델의 Modelfile 훑어보기
+**확인** — [ ] 모델이 부른 함수와 값, 함수를 실제로 실행한 쪽(내 Python 프로그램)을 적었다.
 
-**할 일** — 위 교시 시작 준비의 명령을 실행하고 현재 폴더와 출력을 확인한다.
+### 단계 3. 함수 하나 추가하기
 
-**예상 결과** — 기준 모델의 Modelfile에는 `FROM`(blob 경로), 긴 `TEMPLATE`, `PARAMETER`, `LICENSE`가 있다. 우리 Modelfile에는 `FROM qwen3:8b`, `SYSTEM """…"""`, `PARAMETER` 두 줄만 있고 `TEMPLATE`은 없다.
+**할 일** — [실습지](lab.md#3교시-실습--이미지-인식-툴-콜링-내-도우미-모델) 문제 4의 `celsius_to_fahrenheit` 함수를 `multiply` 아래에 붙여 넣고 `TOOLS`에 추가한 뒤 실행한다.
 
-**확인** — [ ] `TEMPLATE`을 직접 쓰지 않아도 `FROM`에서 물려받는다는 것을 확인했다.
+```python
+TOOLS = {"get_current_time": get_current_time, "multiply": multiply, "celsius_to_fahrenheit": celsius_to_fahrenheit}
+```
 
-### 단계 2. SYSTEM 수정과 `ollama create`
+`나>`에 `섭씨 36.5도는 화씨로 몇 도야?`를 입력하고 결과를 확인한 뒤 `/bye`로 종료한다.
 
-**할 일**
+**예상 결과** — `[함수 실행] celsius_to_fahrenheit({'celsius': 36.5}) -> 97.7`이 나오고 최종 답에 97.7이 들어간다(이 Mac에서 5번 중 5번 호출). 함수를 부르지 않고 바로 답하면 질문을 docstring과 더 가깝게 바꾼다.
 
-1. `Modelfile`의 `FROM`이 `ollama list`에 있는 이름과 같은지 확인한다(GPU가 없으면 소형 모델 이름으로).
-2. `SYSTEM` 첫 줄에 팀명을 넣는다: `너는 'team-a'의 오픈소스 AI 응용 실습 도우미다.`
-3. 실행한다. 교재 예시 이름은 `osa-helper`이지만 공용 PC에서 겹치지 않도록 자기 표시 이름을 붙인다.
+**확인** — [ ] 새 함수가 불린 `[함수 실행]` 줄과 툴 콜링 세 단계(함수 목록 보내기 → 모델의 호출 요청 → 내 프로그램이 실행하고 결과 돌려주기)를 보고서에 적었다.
+
+### 단계 4. 내 도우미 모델 — `Modelfile`
+
+**할 일** — `Modelfile`의 `SYSTEM` 문장에 팀명을 넣고(예: `너는 'team-a' 팀의 ...`) 실행한다.
 
 ```powershell
 ollama create student01-helper -f Modelfile
 ollama list
-ollama show student01-helper
+ollama run student01-helper --think=false
 ```
 
-**예상 결과** — `create`가 몇 초 안에 `success`로 끝난다. `ollama list`에 `student01-helper:latest`가 생기고 SIZE는 기준 모델과 같아 보인다(가중치 blob 공유). `ollama show student01-helper`에 `System` 항목과 `Parameters`(temperature, num_ctx)가 보인다.
+`>>>`에서 질문 하나(예: `너는 누구야? uv가 무엇인지도 알려 줘.`)를 하고 `/bye`로 나온 뒤, 같은 질문을 `ollama run qwen3.5:2b --think=false`에도 한다.
 
-**확인** — [ ] `create`가 다운로드를 시작하지 않았다(시작했다면 `Ctrl+C` 후 `FROM` 이름을 고친다).
+**예상 결과** — `create`가 다운로드 없이 몇 초 만에 `success`로 끝난다. `ollama list`에 `student01-helper:latest`가 보이고 SIZE는 기준 모델과 같다(가중치를 공유한다). 내 모델은 팀의 실습 도우미라고 소개하며 짧게 답하고, 기준 모델은 Qwen이라고 소개하며 길게 답한다. 두 모델 모두 uv를 틀리게 설명할 수 있다. 시스템 프롬프트는 말투·형식을 바꿀 뿐 지식을 채우지 않는다.
 
-### 단계 3. 기준 모델과 커스텀 모델 전후 비교
-
-**할 일** — 질문 3개를 두 모델로 실행한다. Q1만 예로 든다.
-
-```powershell
-$q1 = "uv가 무엇인지 두 문장으로 설명해 줘."
-uv run python chat.py --prompt $q1 --tag base-1
-uv run python chat.py --model student01-helper --prompt $q1 --tag helper-1
-```
-
-**예상 결과** — 커스텀 모델의 답이 5문장 이내로 짧고, 명령이 나오면 PowerShell 코드 블록 하나로 온다. 기준 모델은 길이·형식이 자유롭다. JSON 6개(`base-1..3`, `helper-1..3`)가 `outputs/`에 쌓인다.
-
-**확인** — [ ] `model_report.md` 5절의 "기준 모델"·"커스텀 v1" 열을 길이·언어·형식·정확성 기준으로 채웠다.
-
-### 단계 4. SYSTEM 한 줄 변경과 재비교
-
-**할 일**
-
-1. `SYSTEM`에서 한 줄만 바꾼다(예: `5문장 이내` → `한 문장으로만`). 바꾼 줄을 5절 제목 칸에 적는다.
-2. 같은 이름으로 다시 `ollama create student01-helper -f Modelfile`을 실행한다.
-3. 질문 3개를 `--tag helper-2`로 다시 실행해 "커스텀 v2" 열을 채운다.
-4. 충돌 관찰: `uv run python chat.py --model student01-helper --system "영어로만 답한다." --prompt $q1 --tag conflict`
-
-**예상 결과** — `ollama show student01-helper`의 System이 바뀐 줄로 갱신되어 있다. v2의 답 길이가 바뀐 줄대로 달라진다(달라지지 않으면 그 사실이 관찰이다). 충돌 실행에서는 요청의 `--system`과 Modelfile SYSTEM 중 한쪽의 지시가 답에 드러난다.
-
-**확인** — [ ] 어느 쪽이 답에 나타났는지 5절 마지막 줄에 한 문장으로 적었다.
-
-### 단계 5. 1차 종합과제 점검
-
-**할 일** — [`assignment_brief.md`](assignment_brief.md)의 "제출 전 검사" 목록을 열어 자기 저장소 기준으로 하나씩 표시하고, 비어 있는 항목과 다음 수업 전까지 채울 계획을 `assignment_check.md`에 적는다.
-
-**예상 결과** — 2주차 LICENSE·PR·리뷰, 3주차 `pyproject.toml`·`uv.lock`·`.env.example`은 이미 있고, 이번 주의 `chat`·`stream` 서브커맨드 통합, `model_report.md`, `Modelfile`, `evidence/`가 남은 항목으로 드러난다.
-
-**확인** — [ ] [`lab.md`](lab.md) 3교시 완료 조건을 모두 표시했다. 실습 30분 뒤 휴식 10분. 이번 주 종료.
-
----
+**확인** — [ ] 두 모델의 답 비교를 보고서 3절에 적었다. [lab.md](lab.md) 3교시 완료 조건과 제출 체크를 표시했다. 공용 PC는 제출을 마친 뒤 `ollama rm student01-helper`로 지운다(`qwen3.5:2b`는 남는다).
 
 ## 문제가 생겼을 때
 
-| 증상 | 이 문서에서 돌아갈 단계 |
+| 증상 | 할 일 |
 |---|---|
-| `ollama list`가 오류를 낸다 | 1교시 단계 1 (서버 트레이 아이콘 확인, 새 창에서 `ollama serve`) |
-| 모델이 목록에 없다 | 1교시 단계 1 (사전 캐시 확인. 실습 중 `pull` 금지, 강의자에게 문의) |
-| `/set verbose`를 쳤는데 속도가 안 나온다 | 1교시 단계 3 (`>>>` 프롬프트에서 슬래시 포함해 입력) |
-| `ollama ps`가 비어 있다 | 1교시 단계 4 (모델이 내려감. `run`으로 다시 올린 뒤 5분 안에 실행) |
-| `ollama_probe.ps1`이 "스크립트를 실행할 수 없으므로"로 멈춘다 | 1교시 단계 4 (`powershell -ExecutionPolicy Bypass -File .\ollama_probe.ps1 -Model qwen3:8b`로 이번 실행만 우회) |
-| `uv sync`가 실패한다 | 2교시 단계 1 (네트워크·uv 캐시와 수업 전 동기화 여부 확인) |
-| 연결 실패 대신 시간 초과가 난다 | 2교시 단계 4 (재현용 포트는 비어 있는 것으로. 정상 호출이면 `OLLAMA_TIMEOUT` 증가) |
-| `--seed`가 요청 JSON에 안 보인다 | 2교시 단계 5 (`build_payload()`의 `options`에 넣었는지, `--show-request`로 확인) |
-| `ollama create`가 다운로드를 시작한다 | 3교시 단계 2 (`Ctrl+C` 후 `FROM`을 `ollama list`의 이름으로) |
-| 커스텀 모델 답에 생각 텍스트가 섞인다 | 3교시 단계 3 (`chat.py`로 호출하면 `think:false`. `ollama run`은 섞일 수 있음) |
-| v1과 v2 답이 거의 같다 | 3교시 단계 4 (`--temperature 0`으로 재실행. 그래도 같으면 "효과 없음"이 결론) |
+| `ollama` 명령을 찾을 수 없다 | PowerShell·VS Code를 완전히 닫고 다시 연다. [설치 안내 9절](windows_setup.md#9-막혔을-때-확인할-것) |
+| `Failed to connect to Ollama` | Ollama 앱을 켜고 `ollama list`가 되는지 본다 |
+| `model ... not found` | 파일 위 `MODEL`을 `ollama list`의 이름과 똑같이 맞춘다 |
+| `No module named 'ollama'` | 예제 폴더에서 `uv sync`를 했는지, `uv run python`으로 실행했는지 본다 |
+| `ollama ps`가 비어 있다 | 모델이 내려갔다. `ollama run`을 다시 한 뒤 바로 실행한다 |
+| `ollama create`가 다운로드를 시작한다 | `Ctrl+C` 후 `FROM`을 `ollama list`의 이름(`qwen3.5:2b`)으로 고친다 |
 
-세부 판정 기준과 힌트는 [`lab.md`](lab.md)에 있다. 정답과 해설은 실습이 끝난 뒤 강의자가 별도로 안내한다.
+세부 판정 기준과 힌트는 [lab.md](lab.md)에 있다.
