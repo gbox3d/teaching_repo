@@ -56,7 +56,7 @@ footer: "PyTorch 모델 활용"
 - 텐서는 CPU 메모리 또는 GPU 메모리 한 곳에 있다
 - 모델도 텐서(파라미터)의 묶음이다
 
-이어받는 것: 5주차 `pipeline_demo.py`의 CPU/GPU 시간 비교표.
+이어받는 것: 5주차 `ex04`·`ex05`(pipeline)의 CPU/GPU 시간 비교표.
 
 ---
 

@@ -18,9 +18,9 @@
 1. **저장소 문서**: `README.md`(무엇을 하는가, 준비할 것(`ollama pull qwen3.5:2b`), 설치, 실행 예시 3개(대화·이미지·툴 콜링), 재현 절차, 제한 사항, 라이선스), `LICENSE`(MIT 또는 Apache-2.0, 선택 이유 한 문장은 README에), `.env.example`, `.gitignore`(`.venv/`·`.env` 포함).
 2. **uv 프로젝트**: `pyproject.toml`(의존성 하한만), `uv.lock` 커밋, src 레이아웃, `[project.scripts]`로 등록된 CLI 이름 하나. 깨끗한 폴더에서 `git clone` → `uv sync --frozen` → 실행이 성공해야 한다.
 3. **Ollama 활용 기능** — 4주차 예제를 3주차 CLI의 서브커맨드로 옮긴다. 모델 호출은 `ollama.chat()`을 쓴다.
-   - `chat`: 시스템 프롬프트가 있고 대화를 기억하는 채팅(`ex05_memory.py` 바탕). 시스템 프롬프트는 내가 정한 역할로 바꾼다.
-   - `see <이미지 경로>`: 그림을 보내고 질문하는 기능(`ex06_vision.py` 바탕).
-   - `tool`: 툴 콜링(`ex07_tools.py` 바탕). 예제 함수 외에 **직접 만든 함수를 1개 이상** 넣는다.
+   - `chat`: 시스템 프롬프트가 있고 대화를 기억하는 채팅(`src/ex05/__init__.py` 바탕). 시스템 프롬프트는 내가 정한 역할로 바꾼다.
+   - `see <이미지 경로>`: 그림을 보내고 질문하는 기능(`src/ex06/__init__.py` 바탕).
+   - `tool`: 툴 콜링(`src/ex07/tools.py` 바탕). 예제 함수 외에 **직접 만든 함수를 1개 이상** 넣는다.
    - 모델 이름은 3주차 설정(`OLLAMA_MODEL`)에서 읽는다. 기본값은 `qwen3.5:2b`.
    - 예: `uv run oss-tool chat`, `uv run oss-tool see screen.png`, `uv run oss-tool tool`
 4. **`week04_report.md`**: 4주차 실습 보고서 1~3절(모델 숫자표, system·temperature·기억 비교, 이미지 결과, 툴 콜링 세 단계 설명과 내 함수의 호출 기록, 내 모델 비교). 각 관찰에 **왜 그렇게 되는지 내 말로 한 문장**을 붙인다.

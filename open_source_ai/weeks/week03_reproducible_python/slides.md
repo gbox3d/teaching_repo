@@ -83,6 +83,7 @@ activate 불필요. 실제 Python 확인: `uv run python -c "import sys; print(s
 
 ```powershell
 uv init --no-package     # 2교시에서 패키지 구조를 직접 구성
+uv init --python 3.11
 uv add httpx             # 선언 + lock + 환경 갱신
 uv lock                  # lock만 생성·갱신 (add가 이미 했다면 변화 없음)
 uv sync --locked         # 배포된 lock 검증 + 환경 설치

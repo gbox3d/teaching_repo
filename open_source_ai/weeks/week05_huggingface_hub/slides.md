@@ -35,7 +35,7 @@ footer: "Hugging Face Hub와 공개 자원 분석"
 
 ## 0–3분 · 이어받는 것: Ollama 라이브러리 밖으로
 
-4주차 `OLLAMA_MODEL`은 Ollama 라이브러리 안의 이름이었다. 오늘은 그 원본이 있는 곳으로 간다.
+4주차 `MODEL = "qwen3.5:2b"`는 Ollama 라이브러리 안의 이름이었다. 오늘은 그 원본이 있는 곳으로 간다.
 
 ```text
 huggingface.co/
@@ -47,7 +47,7 @@ huggingface.co/
 - 저장소 하나 = **Git 저장소**(큰 파일은 LFS). 주소는 `조직/이름`
 - 오늘 쓸 모델은 수업 전에 캐시되어 있다. 실습 중 새로 받지 않는다
 
-**질문:** `ollama pull qwen3:8b`가 받는 GGUF 파일의 원본 가중치는 어디에 있는가?
+**질문:** `ollama pull qwen3.5:2b`가 받는 파일의 원본 가중치는 어디에 있는가?
 
 ---
 
@@ -87,12 +87,12 @@ base_model: Qwen/Qwen2.5-0.5B
 
 ```text
 카드 열람      ── 누구나
-파일 내려받기  ── 약관 동의(gated) → 계정 토큰 → .env 의 HF_TOKEN
+파일 내려받기  ── 약관 동의(gated) → 계정 토큰 → hf auth login
 ```
 
 - Llama Community License, Gemma Terms of Use: **오픈 웨이트**지만 조건이 붙는다
 - SPDX 목록에 없는 라이선스는 `LicenseRef-이름`으로 적고 조건을 한 줄 요약한다
-- 토큰은 `.env`에만 둔다. 코드·슬라이드·커밋에 넣지 않는다
+- 토큰은 `hf auth login`으로 저장한다. 코드·슬라이드·커밋에 넣지 않는다
 - 토큰이 없어도 카드는 읽을 수 있다. 분석은 토큰 없이 시작한다
 
 **핵심:** 동의 버튼은 조건을 **읽었다는 서명**이다.
@@ -110,7 +110,7 @@ clf = pipeline("text-classification", model=MODEL_ID,
 
 - `main`은 움직인다. 카드가 바뀌고 가중치가 교체되기도 한다
 - 재현 가능한 기록 = 모델 ID + **commit hash**
-- 해시는 저장소의 Files and versions 탭, 또는 캐시의 snapshots 폴더 이름에 있다
+- 해시는 `uv run ex01`의 commit 줄, Files and versions 탭, 캐시의 snapshots 폴더 이름에 있다
 
 **질문:** 3주차 `uv.lock`과 같은 역할을 하는 것은 무엇인가?
 
@@ -129,7 +129,7 @@ HF_HOME/hub/models--Qwen--Qwen2.5-0.5B-Instruct/
 - Windows는 기본적으로 symlink를 못 써 **blobs 대신 snapshots에 파일을 그대로** 둔다(개발자 모드를 켜면 링크)
 - 용량 감: 파라미터 0.5B × 2바이트(fp16) ≈ 1 GB. 토크나이저·설정 파일은 덤
 - `HF_HUB_OFFLINE=1`이면 네트워크 없이 캐시만 쓴다. 없는 모델은 즉시 실패한다
-- `scan_cache_dir()`가 이 구조를 표로 돌려준다
+- `uv run ex03`(`scan_cache_dir()`)과 `uv run hf cache ls`가 이 구조를 표로 보여 준다
 
 ---
 
@@ -139,9 +139,9 @@ HF_HOME/hub/models--Qwen--Qwen2.5-0.5B-Instruct/
 
 완료 조건:
 
-1. 모델 3개의 라이선스·SPDX·용도·학습 데이터 공개 여부·한계를 `model_cards.md`에 채웠다
-2. `cache_report.py` 출력에서 캐시 위치·총 용량·commit hash를 기록했다
-3. "셋 중 우리 프로젝트에 못 쓰는 것과 이유"를 한 문장으로 적었다
+1. `uv init --package --python 3.12`로 만든 프로젝트와 `period1`의 구조를 비교했다
+2. `ex01`·`ex02`로 모델 3개의 라이선스·SPDX·용도·학습 데이터·한계를 `model_cards.md`에 채웠다
+3. `ex03`의 캐시 commit을 `ex01`과 대조하고, 셋 중 못 쓰는 것과 이유를 적었다
 
 실습 30분 뒤 휴식 10분. 휴식 후 2교시.
 
@@ -167,7 +167,9 @@ HF_HOME/hub/models--Qwen--Qwen2.5-0.5B-Instruct/
 
 ```python
 from transformers import pipeline
-clf = pipeline("text-classification", model=MODEL_ID, revision=COMMIT)
+from shared import CLS_MODEL, CLS_REVISION, pick_device   # src/shared/ 공용 패키지
+
+clf = pipeline("text-classification", model=CLS_MODEL, revision=CLS_REVISION, device=pick_device())
 clf("이 수업은 재미있다")
 ```
 
@@ -209,8 +211,7 @@ task 이름 하나가 전처리·모델 클래스·후처리를 한 벌로 고�
 ## 9–12분 · device와 dtype
 
 ```python
-pipeline(task, model=MODEL_ID, device=0)      # 0: 첫 GPU, -1: CPU
-model.to(device="cuda:0", dtype=torch.float16)
+pipeline(task, model=MODEL_ID, device="cuda", dtype=torch.float16)  # Mac "mps", 없으면 "cpu"
 ```
 
 | dtype | 파라미터당 | 0.5B 모델 | 특징 |
@@ -219,8 +220,8 @@ model.to(device="cuda:0", dtype=torch.float16)
 | float16 | 2바이트 | 약 1 GB | GPU 생성에 주로, 표현 범위 좁음 |
 | bfloat16 | 2바이트 | 약 1 GB | 범위 넓음, 최신 GPU |
 
-- `device_map="auto"`(accelerate)는 여러 장치에 나눌 때 쓴다. 12 GB 한 장이면 `device=0`이면 된다
-- dtype 인자 이름은 버전에 따라 `dtype` 또는 `torch_dtype`이다. 예제는 `.to()`로 통일했다
+- 예제는 `shared.pick_device()`가 cuda → mps → cpu 순으로 고른다. dtype은 적지 않고 기본값을 쓴다
+- `device_map="auto"`(accelerate)는 여러 장치에 나눌 때 쓴다. 옛 버전은 `dtype` 대신 `torch_dtype`이다
 
 ---
 
@@ -229,14 +230,11 @@ model.to(device="cuda:0", dtype=torch.float16)
 ```python
 messages = [{"role": "system", "content": "수업 도우미다. 한국어로 짧게 답한다."},
             {"role": "user", "content": "모델을 쓰기 전에 확인할 것은?"}]
-prompt = gen.tokenizer.apply_chat_template(
-    messages, tokenize=False, add_generation_prompt=True)
-out = gen(prompt, max_new_tokens=120, do_sample=False,
-          return_full_text=False)
-out[0]["generated_text"]
+out = gen(messages, max_new_tokens=120, do_sample=False)
+out[0]["generated_text"][-1]["content"]     # 마지막 메시지가 모델의 답
 ```
 
-- chat template이 4주차의 system/user 역할을 모델 고유의 특수 토큰 형식으로 바꾼다
+- pipeline이 4주차와 같은 `messages`를 모델의 chat template(특수 토큰 형식)으로 바꿔 넣는다
 - `do_sample=False`는 temperature 0과 같다. 비교 실험의 기준값이다
 - Ollama의 `think` 옵션 같은 스위치는 없다. 모델이 생각을 출력하면 그것도 답의 일부다
 
@@ -247,12 +245,12 @@ out[0]["generated_text"]
 | 메시지 | 뜻 | 조치 |
 |---|---|---|
 | `Some weights ... were not used` | 헤드 불일치 | task와 모델 짝을 확인 |
-| `Setting pad_token_id to eos_token_id` | 패딩 토큰 미정의 | 생성에는 대개 무해 |
+| `Both max_new_tokens ... and max_length` | 길이 설정이 겹침 | `max_new_tokens`가 쓰인다. 무해 |
 | `sequence length is longer than` | 입력 잘림 | 입력을 줄이거나 나눈다 |
-| `401`/`gated repo` | 약관·토큰 | 카드에서 동의, `.env` |
+| `401`/`gated repo` | 약관·토큰 | 카드에서 동의, `hf auth login` |
 
 - 첫 호출은 워밍업이다. **두 번째 호출부터** 시간을 잰다
-- GPU 시간은 `torch.cuda.synchronize()` 뒤에 멈춰야 정확하다
+- 오류는 Traceback **맨 아래 줄**이 이유다. 위쪽은 어디서 났는지의 경로다
 
 ---
 
@@ -262,9 +260,9 @@ out[0]["generated_text"]
 
 완료 조건:
 
-1. 분류 5문장·생성 1건의 출력이 `outputs/pipeline-*.json`에 남았다
-2. CPU와 GPU(또는 CPU 두 번)의 로드·워밍업·추론 시간을 표로 비교했다
-3. 잘못된 revision 또는 오프라인 상태의 실패 메시지를 한 줄로 요약했다
+1. `src/shared/`가 `ex04`·`ex05`에 무엇을 주는지 적었다
+2. `ex04`를 자동 장치와 CPU에서 실행해 시간을 표로 비교했다
+3. `ex05`를 revision 고정 전후로 실행하고 잘못된 revision의 오류 맨 아래 줄을 적었다
 
 실습 30분 뒤 휴식 10분. 휴식 후 3교시.
 
@@ -279,7 +277,7 @@ out[0]["generated_text"]
 
 ## 0–3분 · 이어받는 것: 모델에서 데이터로
 
-2교시 JSON의 commit hash는 `SOURCES.md`의 한 행이 된다. 이제 데이터 행을 채운다.
+1교시 `ex01`의 commit hash(2교시 `TEXT_REVISION` 값)는 `SOURCES.md`의 한 행이 된다. 이제 데이터 행을 채운다.
 
 ```python
 from datasets import load_dataset
@@ -299,14 +297,14 @@ ds.info.license    # 대개 비어 있다 — 어디에 있는지 확인할 것
 ## 3–6분 · 로컬 파일도 같은 API
 
 ```python
-ds = load_dataset("json", data_files="data/sample_qa.jsonl", split="train")
+ds = load_dataset("json", data_files=str(SAMPLE_QA), split="train")  # src/shared/data/
 ```
 
 - `json`·`csv`·`parquet`·`text`: 내 파일을 Hub 데이터셋과 **같은 객체**로 다룬다
-- 이번 주 예제는 자체 작성 한국어 Q&A 12건이다. 네트워크 없이 3교시가 돈다
+- 이번 주 예제는 자체 작성 한국어 Q&A 12건이다. 코드와 함께 `src/shared/data/`에 둔다
 - 10주차 LoRA 학습 데이터도 같은 형식(`jsonl`)으로 만든다
 
-**질문:** `features`에서 `Value('string')`으로 나온 필드와 `Sequence`로 나온 필드는 무엇이 다른가?
+**질문:** `features`에서 `Value('string')`으로 나온 필드와 `List`로 나온 필드는 무엇이 다른가?
 
 ---
 
@@ -338,7 +336,7 @@ for row in islice(ds, 5):
 | 개인정보·민감 정보 | 이름·연락처·계정이 들어 있나 |
 | 라이선스 | 데이터 자체와 주석의 라이선스가 다른가 |
 
-카드의 건수와 `dataset_peek.py`의 건수가 다르면 **버전이 다르거나** 카드가 낡은 것이다.
+카드의 건수와 `ex06`의 건수가 다르면 **버전이 다르거나** 카드가 낡은 것이다.
 
 ---
 
@@ -380,9 +378,9 @@ for row in islice(ds, 5):
 
 완료 조건:
 
-1. `dataset_peek.py` 출력으로 필드 구조·건수·샘플 5개를 기록했다
-2. 공개 데이터셋 1개의 Dataset Card에서 라이선스·수집 방법·개인정보 항목을 찾았다
-3. `SOURCES.md`에 모델 2개 + 데이터 1개를 revision·라이선스·용도와 함께 적었다
+1. `ex06`으로 필드·자료형·건수·카드 license를 기록했다
+2. `ex07`로 두 데이터셋의 카드 license와 앞 3행을 보고 조건 차이를 적었다
+3. `SOURCES.md`에 모델 2개 + 데이터 1개를 commit hash·SPDX·용도와 함께 적었다
 
 실습 30분 뒤 휴식 10분. 다음 주는 pipeline 안쪽의 텐서와 학습 루프다.
 
@@ -394,6 +392,7 @@ for row in islice(ds, 5):
 카드 읽기 → 라이선스·용도·데이터 판단 → revision 고정 → 캐시·오프라인
 pipeline(model=, revision=, device=) → 시간·경고·commit hash 기록
 load_dataset(streaming=) → 5개 보기 → Dataset Card → SOURCES.md
+uv init --package --python 3.12 → src/exNN · src/shared → uv run exNN
 ```
 
 공개되어 있다는 것과 **써도 된다**는 것은 다르다. 판단의 근거는 문서와 해시다.

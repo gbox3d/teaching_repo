@@ -20,6 +20,7 @@
 
 ## 2. Python에서 대화하기
 
+- `uv init --package --python 3.12`가 만든 파일과 `uv run my-ollama`가 부르는 함수:
 - `messages`는 무엇인가:
 - `response.message.content`는 무엇인가:
 - 내가 만든 시스템 프롬프트와 답:

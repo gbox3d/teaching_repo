@@ -16,7 +16,7 @@
 |---|---|---|---|---|---|---|
 | (분류 모델 ID) | 모델 | https://huggingface.co/… | (commit hash) |  | 5주차 감성 분류 실습 | 없음 |
 | (생성 모델 ID) | 모델 | https://huggingface.co/… | (commit hash) |  | 5주차 텍스트 생성 실습 | 없음 |
-| (데이터셋 이름) | 데이터 | (URL 또는 `examples/hf_explore/data/`) | (revision 또는 파일 해시) |  | 5주차 구조 확인 |  |
+| (데이터셋 이름) | 데이터 | (URL 또는 `period3/src/shared/data/`) | (revision 또는 파일 해시) |  | 5주차 구조 확인 |  |
 
 ## 조건 요약
 

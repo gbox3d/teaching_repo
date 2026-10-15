@@ -31,15 +31,16 @@
 | 블록 | 설명·시연 20분 | 직접 해결 실습 30분 | 핵심 증거 |
 |---|---|---|---|
 | 1교시 | 모델은 어떻게 실행되는가 — 가중치·토크나이저·컨텍스트, 양자화와 크기, Ollama 구조(서버·CLI·Python 라이브러리·Modelfile) | 터미널에서 모델 실행하고 숫자 읽기 — `ollama show`·`run --think=false`·`/set verbose`·`ps` | 보고서 1절(숫자표) |
-| 2교시 | Python 라이브러리로 대화하기 — `ollama.chat()`, 메시지 역할, `stream`, `temperature`, 기억은 메시지 쌓기 | `ex01_hello.py` ~ `ex05_memory.py` 실행하고 바꿔 보기 | 내 시스템 프롬프트, 기억 켜기·끄기 비교 |
-| 3교시 | 이미지 인식과 툴 콜링, Modelfile, 1차 종합과제 | `ex06_vision.py`·`ex07_tools.py` 실행, 함수 하나 추가, `ollama create` | 내 그림 결과, 내가 추가한 함수의 호출 기록, 내 모델 비교 |
+| 2교시 | Python 라이브러리로 대화하기 — `ollama.chat()`, 메시지 역할, `stream`, `temperature`, 기억은 메시지 쌓기 | `uv run ex01` ~ `uv run ex05` 실행하고 바꿔 보기 | 내 시스템 프롬프트, 기억 켜기·끄기 비교 |
+| 3교시 | 이미지 인식과 툴 콜링, Modelfile, 1차 종합과제 | `uv run ex06`·`uv run ex07` 실행, `src/ex07/tools.py`에 함수 하나 추가, `ollama create` | 내 그림 결과, 내가 추가한 함수의 호출 기록, 내 모델 비교 |
 
 각 블록은 설명·시연 20분, 실습 30분, 휴식 10분으로 운영한다. 분반 시간표에 따라 두 블록과 한 블록이 다른 날에 배치될 수 있으며, 블록 순서는 바꾸지 않는다.
 
 ## 준비물
 
 - Ollama가 설치되어 있고 `ollama list`에 `qwen3.5:2b`가 보인다. 모델(약 2.7 GB)은 **수업 전에** 받아 둔다. 여러 PC가 같은 네트워크에서 동시에 받지 않도록 조교가 시간을 나눈다.
-- uv, VS Code, PowerShell. 예제 의존성은 `ollama` 하나이며 수업 전 `uv sync`로 받아 둔다.
+- uv, VS Code, PowerShell. 예제 의존성은 `ollama`(3교시는 날씨 함수용 `httpx`도)이며 수업 전 `uv sync`로 받아 둔다. 프로젝트는 매번 `uv init --package --python 3.12`로 Python 버전을 고정해 만든다. 교재 예제 폴더에도 `.python-version`(3.12)이 있다.
+- 3교시 날씨 함수(`get_weather`)는 공개 날씨 API를 부르므로 인터넷이 필요하다. 막혀 있으면 시각·곱셈 함수로만 진행한다.
 - GPU가 없어도 된다. 2B 모델은 CPU에서도 느리지만 동작한다. `ollama ps`의 PROCESSOR로 어디서 도는지 확인한다.
 - 실명·개인정보를 보고서와 대화에 넣지 않는다. 표시 이름은 `student01` 같은 수업용 값을 쓴다.
 
@@ -55,10 +56,10 @@
 ## 완료 기준
 
 - [ ] `ollama show`·`/set verbose`·`ollama ps`에서 파라미터 수, 양자화, Capabilities, eval rate, SIZE, PROCESSOR를 옮겨 적었다.
-- [ ] `ex02_system_prompt.py`에 내 역할을 추가하고 답의 차이를 적었다.
+- [ ] `src/ex02/__init__.py`에 내 역할을 추가하고 답의 차이를 적었다.
 - [ ] temperature 0과 1의 차이, 기억 켜기·끄기의 차이를 같은 질문으로 비교했다.
 - [ ] 예제 그림과 내 그림으로 이미지 인식 결과를 적었다.
-- [ ] `ex07_tools.py`에 함수를 하나 추가하고 모델이 그 함수를 부른 기록을 남겼다.
+- [ ] `src/ex07/tools.py`에 함수를 하나 추가하고 모델이 그 함수를 부른 기록을 남겼다.
 - [ ] `ollama create`로 내 모델을 만들고 기준 모델과 답을 비교했다.
 
 ## 제출 증거
@@ -66,7 +67,7 @@
 이번 주는 1차 종합과제 주차다. 아래 증거를 개인 저장소에 누적하고, 과제 제출은 [1차 종합과제 안내](assignment_brief.md)를 따른다.
 
 1. `week04_report.md`(1~3절)
-2. 내 역할을 추가한 `ex02_system_prompt.py`, 내 함수를 추가한 `ex07_tools.py`
+2. 내 역할을 추가한 `src/ex02/__init__.py`, 내 함수를 추가한 `src/ex07/tools.py`
 3. 팀명을 넣은 `Modelfile`
 
 ## 다음 주 연결

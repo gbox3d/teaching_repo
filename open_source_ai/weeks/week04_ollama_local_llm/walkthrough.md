@@ -65,45 +65,62 @@ Set-Location "$dst\period2"
 uv sync
 ```
 
-`uv sync`가 `.venv`를 만들고 `ollama` 라이브러리를 설치한다. 이후 모든 실행은 `uv run python ...`으로 한다.
+`uv sync`가 `.python-version`의 Python 3.12로 `.venv`를 만들고, `ollama` 라이브러리와 이 프로젝트 자체를 설치하면서 `ex01`~`ex05` 명령을 만든다. 이후 모든 실행은 `uv run ex01`처럼 등록된 명령으로 한다.
 
 `ex01`을 제외한 예제는 `나>`에 질문을 입력한다. 답이 끝나면 다음 질문을 입력할 수 있고, 빈 줄은 건너뛰며 `/bye`로 종료한다. `ex02`~`ex04`는 이번 질문만 보내고, `ex05`부터 이전 질문과 답도 함께 보낸다.
 
-### 단계 1. 첫 질문 — `ex01_hello.py`
+### 단계 0. 내 프로젝트를 처음부터 만들기 — `uv init`
 
-**할 일** — `uv run python ex01_hello.py`를 실행하고, 질문 문장을 바꿔 한 번 더 실행한다.
+**할 일** — 교재 폴더를 쓰기 전에 같은 구조의 프로젝트를 Python 3.12로 직접 만든다.
+
+```powershell
+Set-Location $dst
+uv init --package --python 3.12 --vcs none my-ollama
+Set-Location my-ollama
+uv add ollama
+uv run my-ollama
+Set-Location "$dst\period2"
+```
+
+**예상 결과** — `Hello from my-ollama!`가 나온다. 폴더에 `.python-version`(내용 `3.12`), `pyproject.toml`, `src/my_ollama/__init__.py`가 생기고, `pyproject.toml`에 `[project.scripts] my-ollama = "my_ollama:main"`과 `[build-system]`(`uv_build`)이 들어 있다.
+
+**확인** — [ ] `uv run my-ollama`가 `src/my_ollama/__init__.py`의 `main()`을 부른다는 것을 보고서 2절에 적었다. [ ] 교재 `period2/pyproject.toml`에도 같은 세 부분(`[project.scripts]`·`[build-system]`·`.python-version`)이 있는 것을 확인했다.
+
+### 단계 1. 첫 질문 — `uv run ex01`
+
+**할 일** — `uv run ex01` 명령을 실행하고, 질문 문장을 바꿔 한 번 더 실행한다.
 
 **예상 결과** — 한국어 인사 한 문장이 나온다. 오류 메시지나 생각 출력은 없다.
 
 **확인** — [ ] `messages`(보내는 대화 목록)와 `response.message.content`(모델의 답 글자)를 보고서 2절에 한 줄씩 적었다.
 
-### 단계 2. 시스템 프롬프트 — `ex02_system_prompt.py`
+### 단계 2. 시스템 프롬프트 — `uv run ex02`
 
-**할 일** — `SYSTEMS` 목록 끝에 자기 역할 문장을 하나 추가하고(예: `"너는 영어 회화 도우미다. ..."`) `uv run python ex02_system_prompt.py`를 실행한다. `나>`에 `리스트가 무엇이야?`를 입력한다. 답을 비교한 뒤 `리스트와 튜플의 차이는 무엇이야?`도 입력하고 `/bye`로 종료한다.
+**할 일** — `SYSTEMS` 목록 끝에 자기 역할 문장을 하나 추가하고(예: `"너는 영어 회화 도우미다. ..."`) `uv run ex02` 명령을 실행한다. `나>`에 `리스트가 무엇이야?`를 입력한다. 답을 비교한 뒤 `리스트와 튜플의 차이는 무엇이야?`도 입력하고 `/bye`로 종료한다.
 
 **예상 결과** — 입력한 질문마다 `[system] ...` 줄과 답이 세 번 나오고 다시 `나>`가 보인다. 같은 질문인데 길이·말투·코드 유무가 역할마다 다르다. "두 문장으로"를 지키지 않거나 코드 주석이 틀리는 경우도 있다.
 
 **확인** — [ ] 내 시스템 프롬프트와 그 답, 세 답의 차이를 적었다.
 
-### 단계 3. 스트리밍 — `ex03_stream.py`
+### 단계 3. 스트리밍 — `uv run ex03`
 
-**할 일** — `uv run python ex03_stream.py`를 실행하고 `파이썬 공부 계획을 세 문장으로 알려 줘.`를 입력한다. 답이 끝나면 `반복문을 한 문장으로 설명해 줘.`도 입력하고 `/bye`로 종료한다.
+**할 일** — `uv run ex03` 명령을 실행하고 `파이썬 공부 계획을 세 문장으로 알려 줘.`를 입력한다. 답이 끝나면 `반복문을 한 문장으로 설명해 줘.`도 입력하고 `/bye`로 종료한다.
 
 **예상 결과** — `AI>` 뒤로 글자가 조금씩 흘러나오고 답이 끝나면 다시 `나>`가 보인다. 작은 모델이라 중국어 글자나 깨진 글자가 섞이기도 한다.
 
 **확인** — [ ] ex01(다 만든 뒤 한 번에 출력)과 화면에 나오는 방식의 차이를 적었다.
 
-### 단계 4. temperature — `ex04_temperature.py`
+### 단계 4. temperature — `uv run ex04`
 
-**할 일** — `uv run python ex04_temperature.py`를 실행하고 `고양이 이름을 하나만 지어 줘. 이름만 답해.`를 입력한다. 시간이 되면 같은 질문을 한 번 더 입력한 뒤 `/bye`로 종료한다.
+**할 일** — `uv run ex04` 명령을 실행하고 `고양이 이름을 하나만 지어 줘. 이름만 답해.`를 입력한다. 시간이 되면 같은 질문을 한 번 더 입력한 뒤 `/bye`로 종료한다.
 
 **예상 결과** — 질문 하나마다 설정 표시와 `AI>` 답이 네 번 나온 뒤 다시 `나>`가 보인다. `temperature=0` 두 답은 같거나 비슷한 경우가 많고, `temperature=1.0`에서는 더 다양해질 수 있다. 반드시 서로 다른 답이 나오는 것은 아니므로 실제 결과를 기록한다.
 
 **확인** — [ ] 0과 1의 차이를 한 문장으로 적었다.
 
-### 단계 5. 대화 기억 켜기·끄기 — `ex05_memory.py`
+### 단계 5. 대화 기억 켜기·끄기 — `uv run ex05`
 
-**할 일** — `uv run python ex05_memory.py`를 실행하고 `나>`에 차례로 입력한다. 그다음 `request = messages` 줄을 `request = [messages[0], messages[-1]]`로 바꿔 같은 대화를 다시 한다.
+**할 일** — `uv run ex05` 명령을 실행하고 `나>`에 차례로 입력한다. 그다음 `request = messages` 줄을 `request = [messages[0], messages[-1]]`로 바꿔 같은 대화를 다시 한다.
 
 ```text
 수업용 이름은 student01이고 좋아하는 색은 파랑이야.
@@ -128,17 +145,17 @@ ollama show qwen3.5:2b
 
 `Capabilities`에 `vision`과 `tools`가 있는지 확인한다.
 
-### 단계 1. 이미지 인식 — `ex06_vision.py`
+### 단계 1. 이미지 인식 — `uv run ex06`
 
-**할 일** — `uv run python ex06_vision.py`를 실행하고 `나>`에 `이 화면의 마지막 오류 줄을 그대로 옮겨 적고, 무슨 뜻인지 한국어 한 문장으로 설명해 줘.`를 입력한다. `그 오류를 해결하려면 무엇부터 확인해야 해? 한 문장으로 답해 줘.`라고 이어서 묻고 `/bye`로 종료한다. 그다음 자기 화면 캡처나 사진을 `period3` 폴더에 복사하고, `IMAGE`를 그 파일 이름으로 바꿔 다시 실행해 그림에 맞는 질문을 입력한다. 관찰을 마치면 `/bye`로 종료한다.
+**할 일** — `uv run ex06` 명령을 실행하고 `나>`에 `이 화면의 마지막 오류 줄을 그대로 옮겨 적고, 무슨 뜻인지 한국어 한 문장으로 설명해 줘.`를 입력한다. `그 오류를 해결하려면 무엇부터 확인해야 해? 한 문장으로 답해 줘.`라고 이어서 묻고 `/bye`로 종료한다. 그다음 자기 화면 캡처나 사진을 `period3` 폴더에 복사하고, `IMAGE`를 그 파일 이름으로 바꿔 다시 실행해 그림에 맞는 질문을 입력한다. 관찰을 마치면 `/bye`로 종료한다.
 
 **예상 결과** — 예제 그림에서는 오류 줄 `ModuleNotFoundError: No module named 'ollama'`를 글자 그대로 옮기고 뜻을 한 문장으로 설명한다. "어떻게 고치나"를 물으면 엉뚱한 해결책이 나오기도 한다. 내 그림에서도 글자 옮기기는 대체로 맞고, 개수 세기·위치 비교·판단은 틀리거나 그림에 없는 내용을 지어내기도 한다.
 
 **확인** — [ ] 예제 그림과 내 그림(질문 포함)의 결과, "옮기기와 판단 중 어느 쪽이 정확했는가"를 보고서 3절에 적었다.
 
-### 단계 2. 툴 콜링 — `ex07_tools.py`
+### 단계 2. 툴 콜링 — `uv run ex07`
 
-**할 일** — `uv run python ex07_tools.py`를 실행하고 `나>`에 `지금 몇 시야? 그리고 1234 곱하기 5678은 얼마야?`를 입력한다. 답을 받은 뒤 `그 계산 결과에 2를 곱해 줘.`라고 이어서 묻고 `/bye`로 종료한다.
+**할 일** — `uv run ex07` 명령을 실행하고 `나>`에 `지금 몇 시야? 그리고 1234 곱하기 5678은 얼마야?`를 입력한다. 답을 받은 뒤 `그 계산 결과에 2를 곱해 줘.`라고 이어서 묻고 `/bye`로 종료한다.
 
 **예상 결과** — 최종 답 앞에 두 줄이 먼저 나온다.
 
@@ -153,10 +170,11 @@ ollama show qwen3.5:2b
 
 ### 단계 3. 함수 하나 추가하기
 
-**할 일** — [실습지](lab.md#3교시-실습--이미지-인식-툴-콜링-내-도우미-모델) 문제 4의 `celsius_to_fahrenheit` 함수를 `multiply` 아래에 붙여 넣고 `TOOLS`에 추가한 뒤 실행한다.
+**할 일** — [실습지](lab.md#3교시-실습--이미지-인식-툴-콜링-내-도우미-모델) 문제 4의 `celsius_to_fahrenheit` 함수를 `src/ex07/tools.py`의 `get_weather` 아래에 붙여 넣고 `TOOLS`에 추가한 뒤 실행한다.
 
 ```python
-TOOLS = {"get_current_time": get_current_time, "multiply": multiply, "celsius_to_fahrenheit": celsius_to_fahrenheit}
+TOOLS = {"get_current_time": get_current_time, "multiply": multiply, "get_weather": get_weather,
+         "celsius_to_fahrenheit": celsius_to_fahrenheit}
 ```
 
 `나>`에 `섭씨 36.5도는 화씨로 몇 도야?`를 입력하고 결과를 확인한 뒤 `/bye`로 종료한다.
@@ -188,7 +206,8 @@ ollama run student01-helper --think=false
 | `ollama` 명령을 찾을 수 없다 | PowerShell·VS Code를 완전히 닫고 다시 연다. [설치 안내 9절](windows_setup.md#9-막혔을-때-확인할-것) |
 | `Failed to connect to Ollama` | Ollama 앱을 켜고 `ollama list`가 되는지 본다 |
 | `model ... not found` | 파일 위 `MODEL`을 `ollama list`의 이름과 똑같이 맞춘다 |
-| `No module named 'ollama'` | 예제 폴더에서 `uv sync`를 했는지, `uv run python`으로 실행했는지 본다 |
+| `No module named 'ollama'` | 예제 폴더에서 `uv sync`를 했는지, `uv run ex01`처럼 등록된 명령으로 실행했는지 본다 |
+| `Failed to spawn: ex01` | `pyproject.toml`의 `[project.scripts]`·`[build-system]`을 확인하고 `uv sync`를 다시 한다 |
 | `ollama ps`가 비어 있다 | 모델이 내려갔다. `ollama run`을 다시 한 뒤 바로 실행한다 |
 | `ollama create`가 다운로드를 시작한다 | `Ctrl+C` 후 `FROM`을 `ollama list`의 이름(`qwen3.5:2b`)으로 고친다 |
 

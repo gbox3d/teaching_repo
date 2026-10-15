@@ -6,3 +6,20 @@ requires-python = ">=3.12"
 dependencies = [
   "ollama>=0.5",
 ]
+
+# uv sync 가 .venv/bin 에 명령을 만든다: uv run ex01 → ex01 패키지의 main() 실행
+[project.scripts]
+ex01 = "ex01:main"
+ex02 = "ex02:main"
+ex03 = "ex03:main"
+ex04 = "ex04:main"
+ex05 = "ex05:main"
+
+# 이 프로젝트를 패키지로 빌드·설치하는 도구. 없으면 위 명령이 만들어지지 않는다.
+[build-system]
+requires = ["uv_build>=0.9,<1"]
+build-backend = "uv_build"
+
+# src/ 아래 패키지 이름. 기본값(프로젝트 이름 osa_week04_period2)과 다르므로 적는다.
+[tool.uv.build-backend]
+module-name = ["ex01", "ex02", "ex03", "ex04", "ex05"]

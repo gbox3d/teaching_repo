@@ -95,13 +95,17 @@ wheels = [
 [[package]]
 name = "osa-week04-period3"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
+    { name = "httpx" },
     { name = "ollama" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "ollama", specifier = ">=0.5" }]
+requires-dist = [
+    { name = "httpx", specifier = ">=0.27" },
+    { name = "ollama", specifier = ">=0.5" },
+]
 
 [[package]]
 name = "pydantic"

@@ -157,16 +157,17 @@ import ollama
 
 MODEL = "qwen3.5:2b"
 
-response = ollama.chat(
-    model=MODEL,
-    messages=[{"role": "user", "content": "안녕. 한국어로 한 문장만 인사해 줘."}],
-    think=False,
-)
-print(response.message.content)
+
+def main() -> None:
+    response = ollama.chat(
+        model=MODEL,
+        messages=[{"role": "user", "content": "안녕. 한국어로 한 문장만 인사해 줘."}],
+        think=False,
+    )
+    print(response.message.content)
 ```
 
-- The server address, request format, and reply parsing are **done by the library.** We only call `ollama.chat()`.
-- If the server is off, the library tells you `Failed to connect to Ollama`.
+- All of `src/ex01/__init__.py`; run `uv run ex01`. The library handles requests, replies, and errors.
 
 ---
 
@@ -178,7 +179,7 @@ print(response.message.content)
 | `user` | What the user is asking now | "What is a list?" |
 | `assistant` | The model's earlier answer | "A list holds several values in order…" |
 
-`ex02_system_prompt.py`: type at `나>` and compare answers, **changing only system**. Ask another question after the replies; `/bye` exits.
+`uv run ex02`: type at `나>` and compare answers, **changing only system**. Ask another question after the replies; `/bye` exits.
 
 **Question:** system says "in two sentences," but you got five. What does that tell you?
 
@@ -194,7 +195,7 @@ for part in stream:
 
 - With `stream=True`, you don't wait for the full answer. **Pieces** arrive one by one.
 - This is the text flowing out in a chatbot window. Total time is the same, but **waiting feels shorter**.
-- `ex03_stream.py`: question at `나>` → streamed reply → next question. Exit with `/bye`.
+- `uv run ex03`: question at `나>` → streamed reply → next question. Exit with `/bye`.
 
 ---
 
@@ -211,7 +212,7 @@ ollama.chat(model=MODEL, messages=[...], think=False,
 | `num_predict` | Max answer length (in tokens) |
 | `think` | `False` gives just the answer, no thinking text |
 
-`ex04_temperature.py`: type at `나>`; it asks that question **twice each** at temperature 0 and 1, then waits for more input. `/bye` exits.
+`uv run ex04`: type at `나>`; it asks that question **twice each** at temperature 0 and 1, then waits for more input. `/bye` exits.
 
 **Question:** Which temperature fits an exam-grading helper, and which fits a story-idea helper?
 
@@ -232,19 +233,24 @@ while True:
 
 ---
 
-## 15–17 min · The Numbers in the Response
+## 15–17 min · Start Projects in the Standard Package Layout
 
-```python
-response.message.content   # the answer
-response.eval_count        # tokens generated
-response.eval_duration     # time spent generating (nanoseconds)
+```powershell
+uv init --package --python 3.12 --vcs none my-ollama
+# → .python-version(3.12) · pyproject.toml · src/my_ollama/__init__.py(def main)
 ```
 
-```text
-tokens/s = eval_count ÷ (eval_duration ÷ 1e9)
+```toml
+[project.scripts]
+ex01 = "ex01:main"           # uv run ex01 → main() in package ex01
+
+[build-system]
+requires = ["uv_build>=0.9,<1"]
+build-backend = "uv_build"   # the tool that installs this project as a package
 ```
 
-Same value as the eval rate from Block 1's `/set verbose`. The terminal and Python see **the same numbers from the same server**.
+- `uv sync` installs it and creates the `ex01` command, like open-source tools such as `ruff`.
+- No `main` or `[build-system]`, no command. After editing scripts, rerun `uv sync`.
 
 ---
 
@@ -254,7 +260,7 @@ Same value as the eval rate from Block 1's `/set verbose`. The terminal and Pyth
 
 Completion criteria:
 
-1. You added your own role to `ex02_system_prompt.py` and wrote down how the answers differ.
+1. You added your own role to `src/ex02/__init__.py` and wrote down how the answers differ.
 2. You wrote one sentence on the difference between temperature 0 and 1.
 3. With memory on and off, you compared the number of "messages sent" and the answers.
 

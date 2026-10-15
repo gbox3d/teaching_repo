@@ -14,7 +14,7 @@ tags:
 
 # Dataset Card — sample_qa.jsonl
 
-교재 예제용으로 직접 작성한 한국어 Q&A 12건이다. 3교시 `dataset_peek.py`의 기본 입력이며, 이 카드는 학생이 Dataset Card의 항목을 실제 파일과 대조하는 연습 대상이다.
+교재 예제용으로 직접 작성한 한국어 Q&A 12건이다. 3교시 `uv run ex06`이 여는 데이터이며(`src/shared/data/`에 코드와 함께 둔다), 이 카드는 학생이 Dataset Card의 항목을 실제 파일과 대조하는 연습 대상이다.
 
 ## 요약·출처
 

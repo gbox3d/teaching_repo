@@ -157,16 +157,18 @@ import ollama
 
 MODEL = "qwen3.5:2b"
 
-response = ollama.chat(
-    model=MODEL,
-    messages=[{"role": "user", "content": "안녕. 한국어로 한 문장만 인사해 줘."}],
-    think=False,
-)
-print(response.message.content)
+
+def main() -> None:
+    response = ollama.chat(
+        model=MODEL,
+        messages=[{"role": "user", "content": "안녕. 한국어로 한 문장만 인사해 줘."}],
+        think=False,
+    )
+    print(response.message.content)
 ```
 
-- 서버 주소, 요청 형식, 응답 해석은 **라이브러리가 한다.** 우리는 `ollama.chat()`만 부른다.
-- 서버가 꺼져 있으면 라이브러리가 `Failed to connect to Ollama`라고 알려 준다.
+- `src/ex01/__init__.py`의 전부다. 실행은 `uv run ex01`.
+- 요청·응답·오류 안내(`Failed to connect to Ollama`)는 **라이브러리가 한다.**
 
 ---
 
@@ -178,7 +180,7 @@ print(response.message.content)
 | `user` | 사용자가 지금 묻는 것 | "리스트가 무엇이야?" |
 | `assistant` | 모델이 앞서 한 답 | "리스트는 여러 값을 순서대로 담는…" |
 
-`ex02_system_prompt.py`: `나>`에 입력한 **같은 질문에 system만 바꿔** 답을 비교한다. 답을 받은 뒤 다음 질문을 입력하고 `/bye`로 종료한다.
+`uv run ex02`: `나>`에 입력한 **같은 질문에 system만 바꿔** 답을 비교한다. 답을 받은 뒤 다음 질문을 입력하고 `/bye`로 종료한다.
 
 **질문:** system에 "두 문장으로"라고 적었는데 다섯 문장이 나왔다. 무엇을 알 수 있는가?
 
@@ -194,7 +196,7 @@ for part in stream:
 
 - `stream=True`이면 답이 다 만들어질 때까지 기다리지 않고 **조각**이 차례로 온다.
 - 챗봇 화면에서 글자가 흘러나오는 것이 이것이다. 전체 시간은 같아도 **기다리는 느낌**이 줄어든다.
-- `ex03_stream.py`: `나>`에 질문 → 조각별 출력 → 다음 질문. 종료는 `/bye`.
+- `uv run ex03`: `나>`에 질문 → 조각별 출력 → 다음 질문. 종료는 `/bye`.
 
 ---
 
@@ -211,7 +213,7 @@ ollama.chat(model=MODEL, messages=[...], think=False,
 | `num_predict` | 답의 최대 길이(토큰 수) |
 | `think` | `False`면 생각 출력 없이 답만 받는다 |
 
-`ex04_temperature.py`: `나>`에 입력한 질문을 temperature 0과 1로 **두 번씩** 묻고 다음 입력을 기다린다. 종료는 `/bye`.
+`uv run ex04`: `나>`에 입력한 질문을 temperature 0과 1로 **두 번씩** 묻고 다음 입력을 기다린다. 종료는 `/bye`.
 
 **질문:** 시험 문제 채점 도우미와 소설 아이디어 도우미에는 각각 어떤 temperature가 맞는가?
 
@@ -232,19 +234,24 @@ while True:
 
 ---
 
-## 15–17분 · 응답 안의 숫자
+## 15–17분 · 프로젝트는 배포 표준 구조로 만든다
 
-```python
-response.message.content   # 답
-response.eval_count        # 만든 토큰 수
-response.eval_duration     # 만드는 데 걸린 시간(나노초)
+```powershell
+uv init --package --python 3.12 --vcs none my-ollama
+# → .python-version(3.12) · pyproject.toml · src/my_ollama/__init__.py(def main)
 ```
 
-```text
-tokens/s = eval_count ÷ (eval_duration ÷ 1e9)
+```toml
+[project.scripts]
+ex01 = "ex01:main"           # uv run ex01 → ex01 패키지의 main()
+
+[build-system]
+requires = ["uv_build>=0.9,<1"]
+build-backend = "uv_build"   # 이 프로젝트를 패키지로 설치하는 도구
 ```
 
-1교시 `/set verbose`의 eval rate와 같은 값이다. 터미널과 Python이 **같은 서버의 같은 숫자**를 본다.
+- `uv sync`가 설치하며 `ex01` 명령을 만든다. `ruff` 같은 오픈소스 명령도 같은 방식이다.
+- `main`·`[build-system]`이 없으면 명령이 없다. scripts를 고치면 `uv sync`를 다시 한다.
 
 ---
 
@@ -254,7 +261,7 @@ tokens/s = eval_count ÷ (eval_duration ÷ 1e9)
 
 완료 조건:
 
-1. `ex02_system_prompt.py`에 내 역할을 추가하고 답의 차이를 적었다.
+1. `src/ex02/__init__.py`에 내 역할을 추가하고 답의 차이를 적었다.
 2. temperature 0과 1의 차이를 한 문장으로 적었다.
 3. 기억 켜기·끄기의 "보내는 메시지" 개수와 답을 비교했다.
 

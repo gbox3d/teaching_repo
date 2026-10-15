@@ -35,7 +35,7 @@ This week's question: **what documents and information tell you whether a public
 
 ## 0–3 min · Carrying Over: Beyond the Ollama Library
 
-Week 4's `OLLAMA_MODEL` was a name inside the Ollama library. Today we go to where the original lives.
+Week 4's `MODEL = "qwen3.5:2b"` was a name inside the Ollama library. Today we go to where the original lives.
 
 ```text
 huggingface.co/
@@ -47,7 +47,7 @@ huggingface.co/
 - One repo = a **Git repository** (large files via LFS). Addressed as `org/name`
 - Today's model is cached before class. Don't fetch a new one during the lab
 
-**Question:** Where does the original weights behind the GGUF file that `ollama pull qwen3:8b` downloads actually live?
+**Question:** Where do the original weights behind the file that `ollama pull qwen3.5:2b` downloads actually live?
 
 ---
 
@@ -87,12 +87,12 @@ base_model: Qwen/Qwen2.5-0.5B
 
 ```text
 Reading the card      ── anyone
-Downloading the files ── agree to terms (gated) → account token → HF_TOKEN in .env
+Downloading the files ── agree to terms (gated) → account token → hf auth login
 ```
 
 - Llama Community License, Gemma Terms of Use: **open weight**, but with conditions attached
 - For licenses not in the SPDX list, write `LicenseRef-name` and summarize the terms in one line
-- Keep the token only in `.env`. Never put it in code, slides, or a commit
+- Save the token with `hf auth login`. Never put it in code, slides, or a commit
 - You can read the card without a token. Start your analysis without one
 
 **Key point:** clicking "agree" is your signature that you **read the terms**.
@@ -110,7 +110,7 @@ clf = pipeline("text-classification", model=MODEL_ID,
 
 - `main` moves. The card changes and the weights sometimes get replaced
 - A reproducible record = model ID + **commit hash**
-- Find the hash on the repo's Files and Versions tab, or in the cache's snapshots folder name
+- Find the hash in the commit line of `uv run ex01`, the Files and Versions tab, or the cache's snapshots folder name
 
 **Question:** What plays the same role here that `uv.lock` played in Week 3?
 
@@ -126,10 +126,10 @@ HF_HOME/hub/models--Qwen--Qwen2.5-0.5B-Instruct/
 ```
 
 - Changing `HF_HOME` moves the cache location. Lab PCs may use a shared location
-- Windows can't use symlinks by default, so it **stores files directly in snapshots instead of blobs** (enable Developer Mode for links)
-- Rough size: 0.5B parameters × 2 bytes (fp16) ≈ 1 GB. Tokenizer/config files add a bit more
-- With `HF_HUB_OFFLINE=1`, only the cache is used, no network. A missing model fails immediately
-- `scan_cache_dir()` returns this structure as a table
+- Windows has no symlinks by default, so it **stores files in snapshots, not blobs** (Developer Mode enables links)
+- Rough size: 0.5B parameters × 2 bytes (fp16) ≈ 1 GB, plus small tokenizer/config files
+- With `HF_HUB_OFFLINE=1`, only the cache is used. A missing model fails at once
+- `uv run ex03` (`scan_cache_dir()`) and `uv run hf cache ls` show it as a table
 
 ---
 
@@ -139,9 +139,9 @@ HF_HOME/hub/models--Qwen--Qwen2.5-0.5B-Instruct/
 
 Completion criteria:
 
-1. `model_cards.md` has 3 models' license, SPDX, intended use, whether training data is public, and limits filled in
-2. You recorded the cache location, total size, and commit hash from `cache_report.py`'s output
-3. You wrote one sentence on "which of the three we can't use in our project, and why"
+1. You compared a project made with `uv init --package --python 3.12` against the structure of `period1`
+2. With `ex01` and `ex02`, you filled in 3 models' license, SPDX, use, training data, and limits in `model_cards.md`
+3. You matched `ex03`'s cache commit against `ex01`'s, and wrote which of the three we can't use and why
 
 30-minute lab, then a 10-minute break. Block 2 after the break.
 
@@ -167,7 +167,9 @@ The model ID and commit hash you picked in Block 1 are now arguments in code.
 
 ```python
 from transformers import pipeline
-clf = pipeline("text-classification", model=MODEL_ID, revision=COMMIT)
+from shared import CLS_MODEL, CLS_REVISION, pick_device   # shared package in src/shared/
+
+clf = pipeline("text-classification", model=CLS_MODEL, revision=CLS_REVISION, device=pick_device())
 clf("This class is fun")
 ```
 
@@ -209,8 +211,7 @@ Three lines to check on the card:
 ## 9–12 min · device and dtype
 
 ```python
-pipeline(task, model=MODEL_ID, device=0)      # 0: first GPU, -1: CPU
-model.to(device="cuda:0", dtype=torch.float16)
+pipeline(task, model=MODEL_ID, device="cuda", dtype=torch.float16)  # Mac "mps", otherwise "cpu"
 ```
 
 | dtype | Per parameter | 0.5B model | Notes |
@@ -219,8 +220,8 @@ model.to(device="cuda:0", dtype=torch.float16)
 | float16 | 2 bytes | about 1 GB | mainly for GPU generation, narrow range |
 | bfloat16 | 2 bytes | about 1 GB | wide range, recent GPUs |
 
-- `device_map="auto"` (accelerate) is for splitting across multiple devices. With one 12 GB card, `device=0` is enough
-- The dtype argument name is `dtype` or `torch_dtype` depending on version. The examples standardize on `.to()`
+- In the examples, `shared.pick_device()` picks cuda → mps → cpu in that order. dtype is left out, so the default is used
+- `device_map="auto"` (accelerate) is for splitting across multiple devices. Older versions use `torch_dtype` instead of `dtype`
 
 ---
 
@@ -229,14 +230,11 @@ model.to(device="cuda:0", dtype=torch.float16)
 ```python
 messages = [{"role": "system", "content": "You are a class assistant. Answer briefly in Korean."},
             {"role": "user", "content": "What should I check before using a model?"}]
-prompt = gen.tokenizer.apply_chat_template(
-    messages, tokenize=False, add_generation_prompt=True)
-out = gen(prompt, max_new_tokens=120, do_sample=False,
-          return_full_text=False)
-out[0]["generated_text"]
+out = gen(messages, max_new_tokens=120, do_sample=False)
+out[0]["generated_text"][-1]["content"]     # the last message is the model's answer
 ```
 
-- The chat template turns Week 4's system/user roles into the model's own special-token format
+- The pipeline turns the same `messages` as Week 4 into the model's chat template (special-token format)
 - `do_sample=False` is the same as temperature 0. It's the baseline for comparison experiments
 - There's no switch like Ollama's `think` option. If the model outputs its reasoning, that's part of the answer too
 
@@ -246,13 +244,13 @@ out[0]["generated_text"]
 
 | Message | Meaning | Action |
 |---|---|---|
-| `Some weights ... were not used` | Head mismatch | Check that the task and model match |
-| `Setting pad_token_id to eos_token_id` | No padding token defined | Usually harmless for generation |
-| `sequence length is longer than` | Input truncated | Shorten or split the input |
-| `401`/`gated repo` | Terms/token | Agree on the card, set `.env` |
+| `Some weights ... were not used` | Head mismatch | Check the task–model pair |
+| `Both max_new_tokens ... and max_length` | Lengths overlap | `max_new_tokens` wins; harmless |
+| `sequence length is longer than` | Input truncated | Shorten or split it |
+| `401`/`gated repo` | Terms/token | Agree, `hf auth login` |
 
 - The first call is a warm-up. **Time from the second call onward**
-- GPU timing is only accurate after `torch.cuda.synchronize()`
+- A Traceback's **last line** is the reason; the lines above show where
 
 ---
 
@@ -262,9 +260,9 @@ out[0]["generated_text"]
 
 Completion criteria:
 
-1. Outputs for 5 classification sentences and 1 generation are saved in `outputs/pipeline-*.json`
-2. You made a table comparing load/warm-up/inference time on CPU and GPU (or CPU twice)
-3. You summarized in one line the failure message for a wrong revision or being offline
+1. You wrote down what `src/shared/` provides to `ex04` and `ex05`
+2. You ran `ex04` on the auto-selected device and on CPU, and compared the times in a table
+3. You ran `ex05` before and after pinning the revision, and wrote the bottom error line for a wrong revision
 
 30-minute lab, then a 10-minute break. Block 3 after the break.
 
@@ -279,7 +277,7 @@ Completion criteria:
 
 ## 0–3 min · Carrying Over: From Model to Data
 
-The commit hash from Block 2's JSON becomes one row in `SOURCES.md`. Now let's fill in the data row.
+The commit hash from Block 1's `ex01` (your Block 2 `TEXT_REVISION`) becomes one row in `SOURCES.md`. Now let's fill in the data row.
 
 ```python
 from datasets import load_dataset
@@ -299,14 +297,14 @@ ds.info.license    # usually empty — check where it actually lives
 ## 3–6 min · Local Files Use the Same API
 
 ```python
-ds = load_dataset("json", data_files="data/sample_qa.jsonl", split="train")
+ds = load_dataset("json", data_files=str(SAMPLE_QA), split="train")  # src/shared/data/
 ```
 
 - `json`, `csv`, `parquet`, `text`: your own files become the **same kind of object** as a Hub dataset
-- This week's example is 12 hand-written Korean Q&A pairs. Block 3 runs with no network
+- This week's example is 12 hand-written Korean Q&A pairs, kept with the code in `src/shared/data/`
 - Week 10's LoRA training data uses the same format (`jsonl`) too
 
-**Question:** What's the difference between a field shown as `Value('string')` versus `Sequence` in `features`?
+**Question:** What's the difference between a field shown as `Value('string')` versus `List` in `features`?
 
 ---
 
@@ -338,7 +336,7 @@ for row in islice(ds, 5):
 | Personal/sensitive info | Does it contain names, contact info, accounts? |
 | License | Do the data itself and the annotations have different licenses? |
 
-If the card's row count differs from `dataset_peek.py`'s, **the version differs** or the card is out of date.
+If the card's row count differs from `ex06`'s, **the version differs** or the card is out of date.
 
 ---
 
@@ -348,14 +346,14 @@ If the card's row count differs from `dataset_peek.py`'s, **the version differs*
 |---|---|---|
 | CC0-1.0 | Allowed | None |
 | CC-BY-4.0 | Allowed | Attribution |
-| CC-BY-SA-4.0 | Allowed | Attribution + share derivatives under the same terms |
+| CC-BY-SA-4.0 | Allowed | Attribution + share alike |
 | CC-BY-NC-4.0 | **Not allowed** | Non-commercial only |
-| Research-only, `other` | Usually not allowed | Read the terms yourself |
+| Research-only, `other` | Usually not | Read the terms yourself |
 
 - Crawled data still carries **the original author's rights**, license or not
-- Data containing personal information can't be used regardless of license — this leads into Week 11's PII checks
+- Personal info rules data out, whatever the license (Week 11's PII checks)
 
-**Question:** What terms does a model trained on CC-BY-SA data inherit? (There isn't a single fixed answer)
+**Question:** What terms does a model trained on CC-BY-SA data inherit? (No single fixed answer)
 
 ---
 
@@ -380,9 +378,9 @@ If the card's row count differs from `dataset_peek.py`'s, **the version differs*
 
 Completion criteria:
 
-1. You recorded the field structure, row count, and 5 samples from `dataset_peek.py`'s output
-2. You found the license, collection method, and personal-info items in one public dataset's card
-3. `SOURCES.md` lists 2 models + 1 dataset, each with revision, license, and use
+1. With `ex06`, you recorded the fields, types, row count, and card license
+2. With `ex07`, you checked two datasets' card licenses and first 3 rows, and wrote how their terms differ
+3. `SOURCES.md` lists 2 models + 1 dataset, each with commit hash, SPDX, and use
 
 30-minute lab, then a 10-minute break. Next week: the tensors and training loop inside the pipeline.
 
@@ -394,6 +392,7 @@ Completion criteria:
 Read the card → judge license/use/data → pin a revision → cache and offline mode
 pipeline(model=, revision=, device=) → record timing, warnings, commit hash
 load_dataset(streaming=) → peek at 5 rows → dataset card → SOURCES.md
+uv init --package --python 3.12 → src/exNN · src/shared → uv run exNN
 ```
 
 Being public and **being usable** are different things. Documents and hashes are what you base that judgment on.

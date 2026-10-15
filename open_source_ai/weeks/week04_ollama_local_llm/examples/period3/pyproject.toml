@@ -4,5 +4,20 @@ version = "0.1.0"
 description = "오픈소스 AI 응용 4주차 3교시 실습"
 requires-python = ">=3.12"
 dependencies = [
+  "httpx>=0.27",
   "ollama>=0.5",
 ]
+
+# uv sync 가 .venv/bin 에 명령을 만든다: uv run ex06 → ex06 패키지의 main() 실행
+[project.scripts]
+ex06 = "ex06:main"
+ex07 = "ex07:main"
+
+# 이 프로젝트를 패키지로 빌드·설치하는 도구. 없으면 위 명령이 만들어지지 않는다.
+[build-system]
+requires = ["uv_build>=0.9,<1"]
+build-backend = "uv_build"
+
+# src/ 아래 패키지 이름. 기본값(프로젝트 이름 osa_week04_period3)과 다르므로 적는다.
+[tool.uv.build-backend]
+module-name = ["ex06", "ex07"]

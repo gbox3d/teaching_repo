@@ -56,7 +56,7 @@ string                  integer tensor         float tensor           probabilit
 - A tensor lives in one place: CPU memory or GPU memory.
 - A model is also just a bundle of tensors (parameters).
 
-Carried over from last week: the CPU/GPU timing table from `pipeline_demo.py` (Week 5).
+Carried over from last week: the CPU/GPU timing table from `ex04`·`ex05` (pipeline, Week 5).
 
 ---
 

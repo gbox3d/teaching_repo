@@ -6,11 +6,23 @@ requires-python = ">=3.12"
 dependencies = [
   "torch",
   "transformers",
-  "huggingface_hub",
-  "python-dotenv",
 ]
 
-# CUDA 휠 인덱스. 정확한 CUDA 태그(cu128 등)와 버전은 학기별 환경 기준표에서 확정한다.
+# uv sync 가 .venv 에 명령을 만든다: uv run ex04 → ex04 패키지의 main() 실행
+[project.scripts]
+ex04 = "ex04:main"
+ex05 = "ex05:main"
+
+# 이 프로젝트를 패키지로 빌드·설치하는 도구. 없으면 위 명령이 만들어지지 않는다.
+[build-system]
+requires = ["uv_build>=0.8,<1"]
+build-backend = "uv_build"
+
+# src/ 아래 패키지 이름. shared 는 명령 없이 ex04·ex05 가 import 해서 쓰는 공용 패키지다.
+[tool.uv.build-backend]
+module-name = ["ex04", "ex05", "shared"]
+
+# Windows·Linux 는 CUDA 휠을 받는다. 정확한 CUDA 태그(cu128 등)는 학기별 환경 기준표에서 확정한다.
 [[tool.uv.index]]
 name = "pytorch-cuda"
 url = "https://download.pytorch.org/whl/cu128"
