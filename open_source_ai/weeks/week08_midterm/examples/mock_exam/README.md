@@ -4,9 +4,9 @@
 
 | 경로 | 쓰는 교시 | 내용 |
 |---|---|---|
-| `tasks_A.md` | 1교시 | A-1(깨진 uv 프로젝트 복구), A-2(uv 명령과 두 파일), A-3(프로젝트 구조와 엔트리포인트), A-4(설정과 비밀 분리), `answers_A.md` 양식 |
+| `tasks_A.md` | 1교시 | A-1(깨진 uv 프로젝트 복구), A-2(표준 양식 프로젝트 만들기와 `uv run hello`), A-3(프로젝트 구조 읽기), A-4(설정 파일과 비밀값), `answers_A.md` 양식 |
 | `make_broken_repo.ps1` | 1교시 | `broken_project/` 복사 + `.env` 커밋 이력 생성 |
 | `broken_project/` | 1교시 | 복구 대상(원본에서 실행하지 않는다) |
-| `tasks_B.md` | 2교시 | B-1(Git 기록 흐름), B-2(Git 브랜치·원격·충돌), B-3(Ollama 사용법), B-4(툴 콜링 함수 추가 실기), `answers_B.md` 양식 |
+| `tasks_B.md` | 2교시 | B-1(Git 기록 흐름), B-2(GitHub에 올리기 실기), B-3(Ollama 사용법), B-4(툴 콜링 함수 추가 실기), `answers_B.md` 양식 |
 
 B-4 실기는 4주차 3교시 `period3` 프로젝트(`ex07`)를 쓴다. 시간 배분과 완료 조건은 [lab.md](../../lab.md)를 따른다.

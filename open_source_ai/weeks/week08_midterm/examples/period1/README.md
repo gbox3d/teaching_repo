@@ -8,10 +8,11 @@
 
 | 시간 | 실습 단계 | 읽거나 실행할 파일 |
 |---|---|---|
-| 0–5분 | A 요구사항·오류 순서 예상 | `tasks_A.md` |
-| 5–17분 | 프로젝트 복구 | `make_broken_repo.ps1`, `broken_project/` |
-| 17–26분 | uv 명령·파일, 프로젝트 구조, 설정·비밀 분리 개념 문항 | `tasks_A.md` A-2·A-3·A-4 |
-| 26–30분 | 실행·추적 확인, 답안 기록 | 개인 복사본 `report.py`, `answers_A.md` |
+| 0–3분 | A 요구사항·오류 순서 예상 | `tasks_A.md` |
+| 3–13분 | 프로젝트 복구 | `make_broken_repo.ps1`, `broken_project/` |
+| 13–22분 | 표준 양식 프로젝트 만들기·`uv run hello`·첫 commit | `tasks_A.md` A-2 |
+| 22–27분 | 프로젝트 구조, 설정 파일과 비밀값 개념 문항 | `tasks_A.md` A-3·A-4 |
+| 27–30분 | 실행·추적 확인, 답안 기록 | 개인 복사본 `report.py`, `answers_A.md` |
 
 ## 이전 산출물과 시작 위치
 

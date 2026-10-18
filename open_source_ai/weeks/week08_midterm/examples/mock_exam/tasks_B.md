@@ -2,17 +2,17 @@
 
 공개 동형 모의 문제다. 실제 실기 패킷의 문항·값·정답이 아니다. 제한 시간은 30분이며, 답안은 실습 폴더의 `answers_B.md`에 맨 아래 양식으로 쓴다. 허용 자료·AI 도구 범위는 실제 시험에서는 시험 공지를 따른다.
 
-B-1·B-2는 2·3주차 Git, B-3·B-4는 4주차 Ollama다. B-4는 실제로 실행하는 실기이고 나머지는 개념·읽기 문항이다. 명령은 실제로 입력하는 형태로 쓰고, 판단에는 근거를 붙인다. 확신이 없으면 "확인할 문서나 명령"을 적는다.
+B-1·B-2는 2주차 Git, B-3·B-4는 4주차 Ollama다. B-2와 B-4는 실제로 실행하는 실기이고 B-1·B-3은 개념 문항이다. 명령과 터미널 출력은 그대로 붙이고, 개념 문항은 한두 문장으로 답한다. 확신이 없으면 "확인할 명령이나 문서"를 적는다.
 
 ## B-1 · Git 기록 흐름: add·commit·push
 
-2·3주차에 본 기록 흐름이다.
+2주차에 본 기록 흐름이다.
 
 ```text
 working tree ──①──▶ staging area ──②──▶ repository(HEAD) ──③──▶ origin(GitHub)
 ```
 
-### B-1-1 · 네 영역
+### B-1-1 · 세 명령과 네 영역
 
 ①·②·③에 들어갈 명령을 쓰고, 네 영역(working tree, staging area, repository, origin)에 각각 무엇이 들어 있는지 한 줄씩 쓴다. "commit은 로컬에서 끝난다"는 말이 무슨 뜻인지도 쓴다.
 
@@ -40,7 +40,7 @@ Untracked files:
 
 ### B-1-3 · 명령 순서와 영역
 
-위 상태에서 `README.md`와 `memo.txt`의 변경까지 한 commit으로 기록하고 GitHub에 올리려 한다. 실행할 명령을 순서대로 쓰고, 각 명령이 바꾸는 영역을 괄호로 붙인다. 예: `git switch -c feature/x` (repository의 branch)
+위 상태에서 `README.md`와 `memo.txt`의 변경까지 한 commit으로 기록하고 GitHub에 올리려 한다. 실행할 명령을 순서대로 쓰고, 각 명령이 바꾸는 영역을 괄호로 붙인다.
 
 ### B-1-4 · `.gitignore`가 막지 못한 `.env`
 
@@ -48,30 +48,57 @@ Untracked files:
 
 - (a) 왜 `.gitignore`가 막아 주지 못했는가?
 - (b) `.env` 파일은 내 PC에 그대로 두고 기록 후보에서만 빼는 명령은?
-- (c) 이 파일이 이미 commit되어 GitHub에 push까지 된 뒤였다면, 파일을 지우는 것 말고 무엇을 꼭 해야 하는가? 이유도 쓴다.
 
-## B-2 · Git 브랜치·원격·충돌 상황
+<details>
+<summary>힌트</summary>
 
-팀 저장소 `origin`의 `main`은 보호되어 직접 push할 수 없다. 당신은 `feature/config-loader` 브랜치에서 `config.py`를 고쳐 push하고 PR을 열었다. 리뷰어가 두 가지를 알렸다.
+2주차 슬라이드의 세 영역 그림을 그대로 쓴다. `git status`의 `Changes to be committed`는 staging area, `Changes not staged for commit`은 working tree, `Untracked files`는 아직 추적하지 않는 파일이다. `.gitignore`는 아직 추적되지 않은 파일만 막으므로 이미 `git add`된 파일은 `git restore --staged`로 내린다(3주차 3교시).
+</details>
 
-1. PR diff에 `.env`가 들어 있다.
-2. 그 사이 다른 PR이 `main`에 merge되어 `config.py`에서 충돌이 난다.
+## B-2 · GitHub에 올리기 (실기)
 
-현재 위치는 `feature/config-loader`이고 working tree는 clean이다.
+모의 A의 `week8-hello`(없으면 아무 uv 프로젝트)를 GitHub에 올린다. 2주차 1교시 문제 1에서 한 것과 같다.
 
-- (a) 지금부터 실행할 Git 명령을 순서대로 쓰고, 각 명령이 바꾸는 영역(working tree / stage / commit / remote)을 괄호로 붙인다.
-- (b) `.env`를 지우는 commit을 추가로 push하면 리뷰어의 지적 1이 해결되는가? 판단과 근거.
-- (c) 충돌 표시(`<<<<<<<`, `=======`, `>>>>>>>`)를 만났을 때 하지 말아야 할 행동 1가지.
-- (d) 팀원이 "그냥 `git pull` 하면 되지 않나요?"라고 물었다. `git pull`이 실제로 실행하는 두 명령을 쓰고, 충돌이 났을 때 그것을 어디서(어느 영역에서) 푸는지 쓴다.
+### 요구사항
+
+1. GitHub에서 빈 공개 저장소 `week8-hello`를 만든다. README·`.gitignore`·license를 추가하지 않는다(로컬에 이미 commit이 있다).
+2. 저장소 페이지의 HTTPS URL로 원격을 연결하고 push한다.
+
+   ```powershell
+   git remote add origin <본인 저장소 HTTPS URL>
+   git remote -v
+   git push -u origin main
+   ```
+
+3. `README.md` 끝에 한 줄을 추가하고 `git status` → `git add README.md` → `git commit -m "Update README"` → `git push`를 실행한다.
+4. 브라우저에서 저장소 페이지를 새로고침해 commit 수가 2인지 확인한다.
+
+### 완료 조건
+
+- [ ] `git remote -v`에 fetch·push 두 줄이 같은 URL로 보인다.
+- [ ] GitHub 저장소 페이지의 commit 수가 2이고, 최신 commit 메시지가 `git log -1`과 같다.
+- [ ] `git status`가 clean이고 `ahead` 표시가 없다.
+
+### 답안에 적을 것
+
+- 저장소 URL, `git remote -v` 출력, 3번의 `git status` 출력(push 전), `git log --oneline` 출력.
+- (a) 첫 push에 `-u`를 붙인 이유와, 두 번째는 `git push`만으로 된 이유.
+- (b) `git log`에는 commit이 있는데 GitHub 페이지에는 없다면 무엇을 빠뜨린 것인가?
+- (c) 두 branch가 같은 파일의 같은 줄을 다르게 고친 뒤 merge하면 파일에 어떤 표시가 생기는가? 그때 해야 할 일을 순서대로 쓴다(파일 열기 → 결과 문장 쓰기 → ? → ?).
+
+<details>
+<summary>힌트</summary>
+
+2주차 1교시 문제 1·2와 같다. `-u`는 추적 관계를 기억해 다음부터 `git push`만으로 같은 곳에 보낸다. GitHub가 push를 거부하면 저장소를 만들 때 README나 `.gitignore`를 추가하지 않았는지 확인한다. 충돌 표시는 `<<<<<<<`, `=======`, `>>>>>>>`이고, 절차는 `git status` → 파일 열기 → 표시 지우고 결과 문장 쓰기 → `git add` → `git commit`이다.
+</details>
 
 ## B-3 · Ollama 사용법
 
-### B-3-1 · 터미널 명령이 알려 주는 것
+### B-3-1 · 터미널 명령
 
 - (a) `ollama list`, `ollama show qwen3.5:2b`, `ollama run qwen3.5:2b --think=false`, `ollama ps` 네 명령이 각각 알려 주는 것(또는 하는 일)을 한 줄씩 쓴다.
 - (b) `ollama list`의 SIZE와 `ollama ps`의 SIZE가 다른 이유는?
 - (c) `--think=false`가 끄는 것은 무엇인가? 첫 답만 늦게 나오는 이유는?
-- (d) `/set verbose` 뒤 답 아래에 보이는 `eval rate`의 단위와 뜻은?
 
 ### B-3-2 · 메시지 세 역할과 기억
 
@@ -85,14 +112,12 @@ messages.append(response.message)
 
 - (a) `system`, `user`, `assistant` 세 역할은 각각 누구의 말인가?
 - (b) `response.message.content`는 무엇인가? 마지막 줄 `messages.append(response.message)`가 없으면 다음 질문에서 무엇이 달라지는가?
-- (c) "모델이 기억한다"는 말이 실제로 뜻하는 것은 무엇인가? 기억을 끄고 싶으면 보내는 `messages`를 어떻게 바꾸는가?
-- (d) system에 "두 문장으로"라고 적었는데 다섯 문장이 나왔다. 무엇을 알 수 있는가?
+- (c) "모델이 기억한다"는 말이 실제로 뜻하는 것은 무엇인가?
 
-### B-3-3 · options와 think
+### B-3-3 · temperature
 
 - (a) `options={"temperature": 0}`과 `{"temperature": 1}`의 차이는? 같은 질문을 두 번 했을 때 답이 같은가?
 - (b) 시험 채점 도우미와 소설 아이디어 도우미에는 각각 어떤 temperature가 맞는가? 이유를 쓴다.
-- (c) `num_predict`가 정하는 것은? `think=False`를 어떤 모델에나 넣어도 되는 이유는?
 
 ### B-3-4 · 세 가지 "안 된다" 구분
 
@@ -105,6 +130,12 @@ messages.append(response.message)
 | `No module named 'ollama'` |  |  |
 
 그리고 Ollama 서버, 터미널 명령(`ollama run`), Python 라이브러리(`ollama.chat`) 셋의 관계를 "손님"이라는 말을 넣어 한 문장으로 쓴다.
+
+<details>
+<summary>힌트</summary>
+
+4주차 보고서 1·2절에 적은 것이다. `ollama ps`의 SIZE에는 대화 내용을 담는 공간(컨텍스트)이 더해진다. "기억"은 지난 질문·답을 `messages`에 쌓아 다시 보내는 것이다. 연결 실패는 서버(앱)가 꺼진 것, 모델 없음은 이름·태그, 모듈 없음은 `uv run`으로 실행하지 않은 것이다.
+</details>
 
 ## B-4 · Ollama 응용: 툴 콜링 함수 추가 (실기)
 
@@ -142,6 +173,12 @@ PARAMETER temperature 0.3
 - (b) 이 시스템 프롬프트가 바꿀 수 있는 것과 바꿀 수 없는 것은?
 - (c) `ollama rm student01-helper`를 하면 `qwen3.5:2b`도 지워지는가?
 
+<details>
+<summary>힌트</summary>
+
+4주차 3교시 문제 3·4·5와 같다. 함수를 `TOOLS`에 넣었는지 먼저 보고, 모델이 함수를 부르지 않으면 질문을 docstring과 비슷하게 바꿔 다시 묻는다. 함수 결과와 `AI>` 답이 다르면 함수 결과가 정답이다. `ollama create`는 가중치를 복사하지 않는다.
+</details>
+
 ## `answers_B.md` 양식
 
 ```markdown
@@ -167,19 +204,16 @@ working tree / staging area / repository / origin:
 ### B-1-4
 (a):
 (b):
-(c):
 
-## B-2 Git 상황
+## B-2 GitHub에 올리기
 
-(a) 명령 순서:
-1. `...` (영역)
-2. `...` (영역)
-3. `...` (영역)
-4. `...` (영역)
-
-(b) 판단 / 근거:
-(c):
-(d) 두 명령 / 푸는 곳:
+저장소 URL:
+git remote -v:
+push 전 git status:
+git log --oneline:
+(a):
+(b):
+(c) 표시 / 순서:
 
 ## B-3 Ollama 사용법
 
@@ -187,18 +221,15 @@ working tree / staging area / repository / origin:
 (a) list / show / run / ps:
 (b):
 (c):
-(d):
 
 ### B-3-2
 (a):
 (b):
 (c):
-(d):
 
 ### B-3-3
 (a):
 (b):
-(c):
 
 ### B-3-4
 | 메시지 | 원인 | 먼저 확인할 것 |

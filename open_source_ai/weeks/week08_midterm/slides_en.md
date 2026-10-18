@@ -129,7 +129,7 @@ Completion criteria:
 
 1. `uv run python report.py` produces `outputs/report.json`.
 2. `git ls-files` shows no `.env`, and `.gitignore` / `.env.example` are committed.
-3. `answers_A.md` has judgment and reasoning for the uv/project concept questions A-2 to A-4.
+3. `uv run hello` prints in `week8-hello` with a first commit, and `answers_A.md` answers A-3 and A-4.
 
 Timer: 30 min. 30 min lab, then a 10 min break; Block 2 follows.
 
@@ -145,7 +145,7 @@ Timer: 30 min. 30 min lab, then a 10 min break; Block 2 follows.
 ## 0–3 min · What Git and Ollama Questions Check
 
 - Can you read the three groups in `git status` as **areas** and pick the next command?
-- Do you distinguish "the file is deleted" from "it is gone from the history"?
+- Can you publish to GitHub with `remote add` and `push -u`, and explain why plain `git push` works afterwards?
 - Can you explain how the Ollama server, the terminal command, and the Python library relate, and the three message roles?
 - In tool calling, do you know **who executes** the function?
 
@@ -214,7 +214,7 @@ Out of 100, weighted. Three levels — full, partial, not met — see [exam_rubr
 ## 15–17 min · Common Reasons for Losing Points
 
 - The command is right, but there is no explanation of which area it changes.
-- Pushing a commit that deletes `.env` and writing "the secret is gone".
+- Forgetting `git add` before committing, so the change was never recorded, yet writing "I pushed it".
 - Writing only "it worked" with no `[함수 실행]` line — the run log is the evidence.
 - `.env`, `.venv`, or `outputs/` included in a commit.
 - Lumping connection failure, missing model, and missing module into one cause.
@@ -230,7 +230,7 @@ Out of 100, weighted. Three levels — full, partial, not met — see [exam_rubr
 
 Completion criteria:
 
-1. The Git questions B-1 and B-2 give the area of each of the three files and label the area each command changes.
+1. B-1 gives the area of each of the three files and labels the area each command changes, and the B-2 GitHub repository shows 2 commits.
 2. The B-3 table gives different causes and checks for the three "it doesn't work" messages.
 3. `answers_B.md` has the `[함수 실행]` line where the new function was called, plus the three-step explanation.
 

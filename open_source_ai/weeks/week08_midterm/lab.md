@@ -19,16 +19,17 @@
 
 ### 상황
 
-동료가 "급하게 커밋했는데 `uv sync`가 안 된다"며 프로젝트를 넘겼다. 열어 보니 `pyproject.toml`이 깨져 있고 `.gitignore`가 없으며 `.env`까지 커밋되어 있다. 복구해서 `report.py`가 돌아가게 만들고, 같은 패킷의 uv 사용법·프로젝트 관리법 개념 문항(A-2~A-4)에 판단과 근거를 적는다.
+동료가 "급하게 커밋했는데 `uv sync`가 안 된다"며 프로젝트를 넘겼다. 열어 보니 `pyproject.toml`이 깨져 있고 `.gitignore`가 없으며 `.env`까지 커밋되어 있다. 복구해서 `report.py`가 돌아가게 만든다. 그다음 표준 양식의 uv 프로젝트를 새로 만들어 `uv run hello`를 실행하고 첫 commit까지 남긴다(A-2). 구조·설정 개념 문항(A-3·A-4)은 한두 문장으로 답한다.
 
 ### 시간 배분
 
 | 단계 | 시간 | 활동 |
 |---|---:|---|
-| 문제·예상 | 0–5분 | `tasks_A.md`를 읽고 완료 조건에 체크 항목 표시, 오류 순서 예상 |
-| 프로젝트 복구 | 5–17분 | `uv sync` 오류를 하나씩 고치고 `.gitignore`·`.env`·`.env.example` 정리 |
-| 개념 문항 | 17–26분 | uv 명령·파일(A-2), 프로젝트 구조(A-3), 설정·비밀 분리(A-4) 답안 작성 |
-| 검증·기록 | 26–30분 | 실행 결과·`git ls-files` 확인, `answers_A.md` 마무리 |
+| 문제·예상 | 0–3분 | `tasks_A.md`를 읽고 완료 조건에 체크 항목 표시, 오류 순서 예상 |
+| 프로젝트 복구 | 3–13분 | `uv sync` 오류를 하나씩 고치고 `.gitignore`·`.env`·`.env.example` 정리 |
+| 표준 양식 프로젝트 | 13–22분 | `uv init --package` → `[project.scripts]` → `uv run hello` → `git init`·`add`·`commit`(A-2) |
+| 개념 문항 | 22–27분 | 프로젝트 구조(A-3), 설정 파일과 비밀값(A-4) |
+| 검증·기록 | 27–30분 | 실행 결과·`git ls-files` 확인, `answers_A.md` 마무리 |
 
 ### 준비
 
@@ -60,19 +61,19 @@ git ls-files
 - [ ] `git ls-files`에 `.env`가 없고 `.gitignore`·`.env.example`이 있다.
 - [ ] `answers_A.md`에 고친 항목 3개 이상과 각 항목의 증상이 적혀 있다.
 
-### 문제 2 · uv·프로젝트 관리 개념 문항
+### 문제 2 · 표준 양식 프로젝트와 개념 문항
 
-`tasks_A.md`의 A-2(uv 명령과 두 파일), A-3(프로젝트 구조와 엔트리포인트), A-4(설정과 비밀 분리)다. 모두 3주차 실습에서 직접 해 본 것을 글로 설명하는 문항이다.
+`tasks_A.md`의 A-2(실기), A-3·A-4(개념)다. A-2는 4주차 2교시 문제 0과 같은 순서다.
 
-1. 문항마다 **판단 → 근거** 두세 줄로 답한다. 명령은 실제로 입력하는 형태로 쓴다.
-2. A-2-3·A-3-2처럼 "언제 실패하는가"를 묻는 문항은 복구한 `week08-mock-a`에서 실제로 재현해 보고 적어도 된다. 되돌리는 것을 잊지 않는다.
-3. 확신이 없는 문항은 "확인할 문서·명령"을 적는다. 빈칸보다 낫다.
+1. `uv init --package --python 3.12 --vcs none week8-hello` → `__init__.py`의 `main()` 고치기 → `[project.scripts]`에 `hello` 추가 → `uv run hello`. 출력이 나오면 `pyproject.toml`·`__init__.py`·출력을 답안에 붙인다.
+2. `.gitignore`에 `__pycache__/`를 적고 `git init` → `git status` → `git add .` → `git status` → `git commit` → `git log --oneline`. 두 `git status`와 `git log` 출력을 붙이고, `.venv`가 보이지 않는 이유를 쓴다.
+3. A-3·A-4는 한두 문장으로 답한다. 확신이 없는 물음은 "확인할 명령·문서"를 적는다.
 
 완료 조건:
 
-- [ ] `answers_A.md`에 A-2·A-3·A-4의 모든 물음에 판단과 근거가 있다.
-- [ ] A-2-2에 `pyproject.toml`과 `uv.lock`을 둘 다 커밋하는 이유가, A-3-1에 `oss-tool = "oss_tool.cli:main"`의 각 부분 뜻이 있다.
-- [ ] A-4-2의 설정 계층 네 단계가 낮은 쪽부터 순서대로 적혀 있다.
+- [ ] `uv run hello`가 지정한 문장을 출력하고, `pyproject.toml`에 `hello = "week8_hello:main"` 줄이 있다.
+- [ ] `git log --oneline`에 commit 1개, `git status` clean, `.venv/`는 보이지 않는다.
+- [ ] A-2-(d)에 `git add`(staging area)와 `git commit`의 역할이 한 문장씩 있고, A-3·A-4의 모든 물음에 답이 있다.
 
 ### 단계별 힌트
 
@@ -95,9 +96,9 @@ git ls-files
 </details>
 
 <details>
-<summary>힌트 4 — 엔트리포인트 오타가 언제 실패하는지 모르겠다</summary>
+<summary>힌트 4 — `uv run hello`가 `Failed to spawn: hello`라고 한다</summary>
 
-3주차 2교시 문제 2의 4번(실패 경로)에서 직접 해 본 것이다. 기억이 안 나면 복구한 저장소의 `[project.scripts]`를 잠시 바꿔 `uv run`으로 재현하고 바로 되돌린다. `uv sync`가 통과하는지와 명령이 실행되는지를 따로 본다.
+`pyproject.toml`의 `[project.scripts]`에 `hello = "week8_hello:main"` 줄이 있는지 본다. 형식은 `명령이름 = "패키지:함수"`다. 줄을 넣은 뒤 `uv sync`를 한 번 실행하면 `.venv\Scripts\hello.exe`가 생긴다. `git commit`이 이름을 물으면 `git config user.name student01`·`git config user.email student01@example.com`(수업용 값)을 설정한다.
 </details>
 
 ### 검증
@@ -117,20 +118,21 @@ git ls-files
 
 ### 상황
 
-실기평가의 두 번째 묶음은 Git과 Ollama다. `git status` 출력을 영역으로 읽고 PR·충돌 상황에 명령 순서를 쓰는 Git 문항, Ollama 명령과 메시지 역할·options·실패 메시지를 설명하는 개념 문항, 그리고 4주차 툴 콜링 프로젝트에 함수를 하나 추가해 모델이 실제로 부르게 만드는 실기가 한 패킷에 들어 있다.
+실기평가의 두 번째 묶음은 Git과 Ollama다. `git status` 출력을 영역으로 읽는 Git 개념 문항, 모의 A에서 만든 프로젝트를 GitHub에 올리는 실기, Ollama 명령과 메시지 역할·temperature·실패 메시지를 설명하는 개념 문항, 그리고 4주차 툴 콜링 프로젝트에 함수를 하나 추가해 모델이 실제로 부르게 만드는 실기가 한 패킷에 들어 있다.
 
 ### 시간 배분
 
 | 단계 | 시간 | 활동 |
 |---|---:|---|
 | 문제·예상 | 0–3분 | `tasks_B.md`를 읽고 완료 조건에 체크 항목 표시 |
-| Git 문항 | 3–16분 | B-1 기록 흐름·`git status` 읽기, B-2 브랜치·원격·충돌 상황 |
-| Ollama 개념 | 16–22분 | B-3 명령·메시지 역할·options·실패 구분 |
+| Git 개념 | 3–9분 | B-1 기록 흐름·`git status` 읽기 |
+| GitHub 실기 | 9–17분 | B-2 빈 저장소 만들기 → `remote add` → `push -u` → 수정 commit·push |
+| Ollama 개념 | 17–22분 | B-3 명령·메시지 역할·temperature·실패 구분 |
 | 툴 콜링 실기 | 22–30분 | B-4 함수 추가 → `uv run ex07` → `[함수 실행]` 줄 기록, `answers_B.md` 마무리 |
 
 ### 준비
 
-B-1~B-3은 모델 없이 읽고 답한다. B-4는 4주차 3교시에 만든 `period3` 프로젝트에서 한다.
+B-1·B-3은 모델 없이 읽고 답한다. B-2는 GitHub 로그인이 필요하므로 2주차에 쓴 계정으로 먼저 로그인해 둔다. B-4는 4주차 3교시에 만든 `period3` 프로젝트에서 한다.
 
 ```powershell
 Set-Location C:\classwork\week04\period3
@@ -140,19 +142,19 @@ uv sync
 
 `period3`가 없으면 교재 `week04_ollama_local_llm/examples/period3`를 `C:\classwork\week04\period3`로 복사한 뒤 위 명령을 실행한다. `Capabilities`에 `tools`가 보여야 한다. 문제는 `examples/period2/tasks_B.md`를 그대로 읽고, 답안은 실습 폴더의 `answers_B.md`에 쓴다.
 
-### 문제 1 · Git 기록 흐름과 상황 판단
+### 문제 1 · Git 기록 흐름과 GitHub에 올리기
 
-`tasks_B.md`의 B-1과 B-2다.
+`tasks_B.md`의 B-1(개념)과 B-2(실기)다.
 
 1. B-1-2의 `git status` 출력을 보고 세 파일이 각각 어느 영역에 있는지 먼저 판정한다. 그다음에 명령을 쓴다.
-2. B-1-3과 B-2-(a)는 실행할 명령을 순서대로 쓰고, 각 명령이 바꾸는 영역(working tree / stage / commit / remote)을 괄호로 붙인다.
-3. B-1-4와 B-2-(b)는 "파일을 지웠다"와 "이력에서 사라졌다"가 다르다는 점을 기준으로 판단한다.
+2. B-1-3은 실행할 명령을 순서대로 쓰고, 각 명령이 바꾸는 영역(working tree / staging area / repository / origin)을 괄호로 붙인다.
+3. B-2는 2주차 1교시 문제 1과 같다. GitHub에서 빈 저장소를 만들고 `git remote add origin` → `git push -u origin main` → README 한 줄 수정 → `add`·`commit`·`push`. 브라우저에서 commit 수가 2인지 확인한다.
 
 완료 조건:
 
 - [ ] B-1-2 세 파일의 영역 판정과 B-1-3 명령 순서의 영역 표기가 있다.
-- [ ] B-2-(a) 명령 순서에 `.env`가 이력에 남는 문제에 대한 판단(B-2-(b))이 포함된다.
-- [ ] B-2-(d)에 `git pull`이 실행하는 두 명령이 적혀 있다.
+- [ ] B-1-4에 `.gitignore`가 막지 못한 이유와 `git restore --staged .env`가 있다.
+- [ ] GitHub 저장소에 commit 2개가 보이고, `git remote -v`·`git log --oneline` 출력이 답안에 있다.
 
 ### 문제 2 · Ollama 사용법과 툴 콜링 실기
 
@@ -184,7 +186,13 @@ uv sync
 </details>
 
 <details>
-<summary>힌트 3 — 함수 결과와 `AI>` 답이 다르다</summary>
+<summary>힌트 3 — GitHub가 push를 거부한다(rejected)</summary>
+
+원격 저장소를 만들 때 README나 `.gitignore`를 추가했으면 원격에 이미 commit이 있어 거부된다. 빈 저장소로 다시 만들거나 다른 이름으로 만든다. `remote: Repository not found`면 URL의 계정 이름과 저장소 이름을 다시 본다.
+</details>
+
+<details>
+<summary>힌트 4 — 함수 결과와 `AI>` 답이 다르다</summary>
 
 함수 결과가 정답이다. 모델은 함수 결과를 받아 사람에게 할 말을 만들 뿐이고, 그 과정에서 숫자를 바꿔 말하기도 한다(4주차에 02:07을 "오후 2시"라고 말한 사례). 답안에는 두 값을 모두 적고 어느 쪽을 믿는지 쓴다.
 </details>
@@ -193,7 +201,7 @@ uv sync
 
 - 정상: `[함수 실행] discount_price({'price': 25000, 'percent': 20}) -> 20000.0` 같은 줄이 보이고 `AI>` 답에 20000원이 들어 있다.
 - 경계 또는 실패: `tools=`를 빼고 같은 계산을 물으면 모델이 직접 계산한다. 맞을 수도 틀릴 수도 있다는 점을 적는다. Ollama 앱을 끄고 실행하면 `Failed to connect to Ollama`가 나온다(공용 서버는 끄지 않고 메시지만 적는다).
-- 설명: "`.gitignore`에 넣었는데 `git status`에 계속 보이는 이유"와 "`git pull`이 실행하는 두 명령"을 각각 한 문장으로 쓴다.
+- 설명: "`.gitignore`에 넣었는데 `git status`에 계속 보이는 이유"와 "첫 push에 `-u`를 붙이는 이유"를 각각 한 문장으로 쓴다.
 
 ### 확장 문제
 
@@ -300,9 +308,10 @@ ollama list
 
 ## 제출 체크
 
-- `answers_A.md`: 모의 A 복구 기록(고친 항목·증상), uv·프로젝트 개념 문항 A-2~A-4
+- `answers_A.md`: 모의 A 복구 기록(고친 항목·증상), 표준 양식 프로젝트 실기 A-2(`pyproject.toml`·`uv run hello` 출력·`git status`·`git log`), 개념 문항 A-3·A-4
 - 모의 A 저장소: `.gitignore`·`.env.example` commit, `git ls-files`에 `.env` 없음
-- `answers_B.md`: Git 문항 B-1·B-2(영역 표기 포함), Ollama 개념 문항 B-3, 툴 콜링 실행 기록 B-4(`[함수 실행]` 줄 포함)
+- `answers_B.md`: Git 개념 B-1(영역 표기 포함), GitHub 올리기 기록 B-2(저장소 URL·`git log`), Ollama 개념 B-3, 툴 콜링 실행 기록 B-4(`[함수 실행]` 줄 포함)
+- `week8-hello` 저장소: GitHub에 commit 2개
 - 4주차 `period3/src/ex07/tools.py`: 추가한 함수와 `TOOLS` 등록
 - 개인 실기: 제출 파일 + commit id + 짧은 설명(비공개 제출 경로)
 - 2차 종합과제: 저장소 URL + 최종 commit id + `assignment_check.ps1` 결과([assignment_brief.md](assignment_brief.md) 기준)

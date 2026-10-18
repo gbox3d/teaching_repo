@@ -6,9 +6,9 @@
 
 | 영역 | 확인 역량 |
 |---|---|
-| uv 사용법·재현성 | `pyproject.toml` 오류 복구, `uv add`가 바꾸는 파일, `pyproject.toml`과 `uv.lock`의 관계, `uv sync --locked`·`--frozen`, `uv run`이 하는 일, `.venv` 미커밋 |
+| uv 사용법·재현성 | `uv init --package`로 표준 양식 프로젝트 만들기와 `[project.scripts]`로 `uv run hello`, `pyproject.toml` 오류 복구, `uv add`가 바꾸는 파일, `pyproject.toml`과 `uv.lock`의 관계, `uv sync --locked`·`--frozen`, `uv run`이 하는 일, `.venv` 미커밋 |
 | 프로젝트 관리법 | src 레이아웃, `[project.scripts]`·`[build-system]` 엔트리포인트, `uv init --package`, stdout·stderr 분리와 README 실행 절차, `.env`·`.env.example`과 설정 계층, 비밀값 가리기, ignore 규칙 |
-| Git 개념·사용법 | working tree·staging area·repository·원격 네 영역, `git status` 읽기, add·commit·push 순서와 영역, 브랜치·충돌·PR 상황 판단, 비밀 파일 분리와 이력 잔존 판단 |
+| Git 개념·사용법 | working tree·staging area·repository·원격 네 영역, `git status` 읽기, add·commit·push 순서와 영역, GitHub에 올리기(`remote add`·`push -u`), 충돌 표시와 해결 순서, 비밀 파일 분리 |
 | Ollama 사용법·응용 | `list`·`show`·`run`·`ps`가 알려 주는 것, 메시지 역할과 기억, `options`·`think`, 실패 메시지 구분, 툴 콜링 세 단계와 실행 주체, 함수 추가 실기, Modelfile |
 | 검증·설명 | 정상·실패 경로 재현, `outputs/`와 `[함수 실행]` 줄 같은 실행 기록, 원인과 근거를 적은 짧은 설명 |
 

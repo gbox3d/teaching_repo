@@ -1,6 +1,6 @@
 # 8주차 2교시 — 모의 실기 B Git 상황 판단과 Ollama 툴 콜링
 
-공개 모의 실기 B의 **문항**이다. 별도 시작 코드는 없고, B-4 실기는 4주차 3교시 `period3` 프로젝트(`ex07` 툴 콜링)를 그대로 쓴다. 정답은 포함하지 않는다.
+공개 모의 실기 B의 **문항**이다. 별도 시작 코드는 없다. B-2 실기는 모의 A에서 만든 `week8-hello`를 GitHub에 올리고, B-4 실기는 4주차 3교시 `period3` 프로젝트(`ex07` 툴 콜링)를 그대로 쓴다. 정답은 포함하지 않는다.
 
 기준: [실습지의 2교시](../../lab.md#2교시-실습--모의-실기-b-git-상황-판단과-ollama-툴-콜링). 아래 시간은 실습 30분의 구간이며, 설명 20분·휴식 10분은 기존 시간표를 따른다.
 
@@ -9,14 +9,14 @@
 | 시간 | 실습 단계 | 읽거나 실행할 파일 |
 |---|---|---|
 | 0–3분 | 문항 읽고 완료 조건 표시 | `tasks_B.md` |
-| 3–10분 | Git 기록 흐름, `git status` 읽기 | `tasks_B.md` B-1 |
-| 10–16분 | Git 브랜치·원격·충돌 상황 | `tasks_B.md` B-2 |
-| 16–22분 | Ollama 사용법 개념 문항 | `tasks_B.md` B-3 |
+| 3–9분 | Git 기록 흐름, `git status` 읽기 | `tasks_B.md` B-1 |
+| 9–17분 | GitHub에 올리기(실기) | `tasks_B.md` B-2, 모의 A의 `week8-hello` |
+| 17–22분 | Ollama 사용법 개념 문항 | `tasks_B.md` B-3 |
 | 22–30분 | 툴 콜링 함수 추가·실행·기록 | 4주차 `period3/src/ex07/tools.py`, `answers_B.md` |
 
 ## 이전 산출물과 시작 위치
 
-1교시 답안을 이어받지 않아도 시작할 수 있다. B-4는 4주차 3교시에 만든 `C:\classwork\week04\period3`에서 한다. 없으면 교재 `week04_ollama_local_llm/examples/period3`를 복사하고 `uv sync`한다. 모델은 사전 캐시한 `qwen3.5:2b`만 사용한다.
+B-2는 1교시 A-2에서 만든 `week8-hello`를 쓴다(없으면 아무 uv 프로젝트). GitHub는 2주차 계정으로 로그인해 둔다. B-4는 4주차 3교시에 만든 `C:\classwork\week04\period3`에서 한다. 없으면 교재 `week04_ollama_local_llm/examples/period3`를 복사하고 `uv sync`한다. 모델은 사전 캐시한 `qwen3.5:2b`만 사용한다.
 
 ## 실행 순서
 
@@ -28,7 +28,7 @@ code src\ex07\tools.py      # discount_price 추가, TOOLS 등록
 uv run ex07                 # 지정 질문 입력 → [함수 실행] 줄 기록 → /bye
 ```
 
-B-1~B-3은 모델 없이 읽고 답한다. B-4는 `[함수 실행]` 줄과 `AI>` 답을 그대로 `answers_B.md`에 붙인다.
+B-1·B-3은 모델 없이 읽고 답한다. B-2는 `git remote add origin <URL>` → `git push -u origin main` → README 수정 → `git add`·`commit`·`push` 순서다. B-4는 `[함수 실행]` 줄과 `AI>` 답을 그대로 `answers_B.md`에 붙인다.
 
 ## 예상 출력과 완료 확인
 
