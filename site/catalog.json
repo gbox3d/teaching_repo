@@ -110,12 +110,12 @@
           "id": "week08_midterm",
           "label": "8주차",
           "title": "중간고사(개인 실기)",
-          "description": "2~7주에 만든 버튼·코루틴·ViewModel·StateFlow를 혼자 60분 안에 다시 쓸 수 있을까? 공개 리허설로 시험 모양을 미리 풀어 봅니다.",
+          "description": "1~7주에 한 Kotlin 출력·LinearLayout 화면·findViewById·버튼 카운터·회전 유지를 문제 은행으로 다시 풀어 보고, 값만 바뀐 같은 문제로 시험을 봅니다.",
           "type": "week",
           "en": {
             "label": "Week 8",
             "title": "Midterm (Individual Hands-on Exam)",
-            "description": "Can you rewrite the buttons, coroutines, ViewModel, and StateFlow from weeks 2–7 alone in 60 minutes? A public rehearsal lets you try the exam's shape in advance."
+            "description": "Re-solve what you did in Weeks 1–7 — Kotlin output, LinearLayout screens, findViewById, button counters, and keeping state across rotation — as a problem bank, then take the exam with the same problems and changed values."
           }
         },
         {
@@ -307,12 +307,12 @@
           "id": "week08_midterm",
           "label": "8주차",
           "title": "중간 개인 실기",
-          "description": "1~7주 실습 제출로 만든 문제 은행으로 연습하고, **값만 바뀐 같은 문제**를 혼자 60분 안에 풀어 공개 주소까지 올릴 수 있을까?",
+          "description": "1~7주 실습 제출을 수업에서 한 수준으로 정리한 문제 은행(힌트·확인할 것 포함)으로 연습하고, **값만 바뀐 같은 문제**를 혼자 시간 안에 풀 수 있을까?",
           "type": "week",
           "en": {
             "label": "Week 8",
             "title": "Midterm Hands-on Exam",
-            "description": "Can you practice with a problem bank built from the Weeks 1–7 lab submissions, then solve the same problems with changed values alone in 60 minutes and get them up at a public URL?"
+            "description": "Can you practice with a problem bank built from the Weeks 1–7 lab submissions at class level, with hints and checks, then solve the same problems with changed values on your own within the time limit?"
           }
         },
         {

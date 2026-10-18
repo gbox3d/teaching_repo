@@ -1,184 +1,118 @@
-# 8주차 실습 — 공개 리허설과 본시험
+# 8주차 실습 — 문제 은행으로 연습하고 중간고사 보기
 
-1일차 60분은 점수가 없는 **공개 리허설**이다. starter는 빌드·실행되고 `// TODO` 다섯 곳만 비어 있다. 2일차 **본시험**도 같은 모양이다.
-모든 단계와 전체 코드는 [따라하기](walkthrough.md)에 있지만, 리허설은 시험 연습이므로 **따라하기를 덮고 먼저 혼자** 푼다. 막히면 이 문서의 힌트 → [막혔을 때](#막혔을-때) → 따라하기 순서로 연다.
+이번 주 실습은 새로 배우는 것이 아니라 **1~7주에 수업에서 한 것을 혼자 다시 만들어 보는 것**이다.
+1일차에는 [문제 은행](examples/README.md)에서 수업에서 나간 범위의 문제를 차례로 풀고, 2일차에는 같은 문제를 값만 바꾼 중간고사를 본다.
+문제마다 해답 대신 **확인할 것**과 **힌트**가 있다. 에뮬레이터 화면과 Logcat 으로 그 항목을 하나씩 맞춰 보는 것이 이번 주 실습이다.
+프로젝트는 수업에서 쓴 `StudentCard` 를 그대로 쓴다. 단계별 화면은 [따라하기](walkthrough.md)에 있다.
 
-## 1일차 — 공개 리허설 (60분)
-
-| 시간 | 할 일 |
-|---|---|
-| 0–10분 | 새 프로젝트 `Rehearsal`에 starter 파일을 넣고 실행한다(따라하기 1~4단계) |
-| 10–15분 | TODO 다섯 곳을 찾아 읽고 아래 2번 표를 채운다 |
-| 15–30분 | TODO(1)·(2): ViewModel의 `startCountdown()`·`cancelCountdown()` |
-| 30–42분 | TODO(3)~(5): 버튼 두 개와 `collect` 두 곳 |
-| 42–52분 | 저장 → 다시 실행 → 8번 점검표 |
-| 52–60분 | `rehearsal_solution`과 비교하고 채점표로 자기 채점한다 |
-
-10분부터는 본시험 60분 시간 예산(열기 → ViewModel → 화면 → 점검 → 다시 실행 → 제출)을 줄인 순서다. 시계를 보면서 푼다.
-
-### 1. starter 실행하기
-
-[따라하기 1~4단계](walkthrough.md#1-새-프로젝트-만들기)로 프로젝트를 만들고 실행한다. 아래 화면이 뜨면 시작할 수 있다.
-
-```text
-Rehearsal
-대기 중
-남은 초: 0
-[시작] [취소]        ← [취소]는 회색
-```
-
-[시작]을 눌러도 아무 일도 없다. starter는 **빌드·실행은 되고 기능만 비어 있는** 상태다. 시험 당일 받는 starter도 이렇게 확인한다.
-
-### 2. TODO 읽고 나누기
-
-Android Studio 메뉴 **View › Tool Windows › TODO**를 열면 TODO 다섯 곳이 모여 보인다. 각 TODO를 읽고 표를 채운다.
-
-| TODO | 파일 | 바꾸는 것은 값인가, View인가 | 7주차에 비슷한 코드 |
-|---|---|---|---|
-| (1) |  |  |  |
-| (2) |  |  |  |
-| (3) |  |  |  |
-| (4) |  |  |  |
-| (5) |  |  |  |
-
-- `_state`·`_seconds`가 나오면 값(ViewModel), `binding.`이 나오면 View(화면)다. ViewModel에는 `binding`이 없다.
-- 채우는 순서는 **값을 만드는 쪽(1·2) → 받는 쪽(3·4·5)** 이다.
-
-### 3. TODO(1) — 카운트다운 시작
-
-`startCountdown()` 안에 TODO 문장대로 쓴다.
-
-1. `job`이 이미 돌고 있으면 그냥 돌아간다.
-2. 아니면 코루틴을 시작하고 그 `Job`을 `job`에 보관한다.
-3. 코루틴 안: `_state`를 `"카운트다운 중"` → 5부터 1까지 `_seconds`에 넣으며 1초씩 기다림 → `_seconds`를 0, `_state`를 `"완료"`.
-4. 로그 두 줄을 넣는다. `for` 안 첫 줄에 `Log.d("Rehearsal", "남은 초: $i")`, `_state`를 `"완료"`로 바꾼 다음 줄에 `Log.d("Rehearsal", "완료")`. 5번과 8번 점검표에서 이 로그로 코루틴이 도는지 본다.
-
-- 7주차 `ConnViewModel.startScan()`과 모양이 거의 같다. 다른 점은 5초 뒤 연결을 시도하지 않고 `"완료"`로 끝나는 것이다.
-- `delay`는 `launch { }` 안에서만 부를 수 있다.
-- `Log`의 import(`import android.util.Log`)는 starter에 이미 들어 있다. `Log.d`는 3주차에 쓴 그 함수다.
-- 다 쓰면 **Build › Make Project**로 빌드만 확인한다. 아직 화면은 바뀌지 않고 Logcat에도 아무것도 찍히지 않는다(버튼이 이 함수를 부르지 않는다).
-- 예상 Logcat(5번까지 끝낸 뒤 [시작]): `남은 초: 5` → `남은 초: 4` → `남은 초: 3` → `남은 초: 2` → `남은 초: 1` → `완료`가 1초 간격으로 찍힌다.
-
-### 4. TODO(2) — 취소
-
-`cancelCountdown()` 안에서 보관한 `job`을 취소하고 `_state`를 `"취소됨"`으로 바꾼 뒤, 그다음 줄에 `Log.d("Rehearsal", "취소됨")`을 넣는다.
-
-- 6주차 [중지]의 `scanJob?.cancel()`과 같다. `job`은 아직 `null`일 수 있다.
-- `_seconds`는 건드리지 않는다. 멈춘 숫자가 화면에 남아야 취소가 됐는지 눈으로 확인할 수 있다.
-- `Log`는 3번과 같은 import(`android.util.Log`, starter에 있음)를 쓴다.
-- 예상 Logcat(6번까지 끝낸 뒤 [시작] → `남은 초: 3`에서 [취소]. 그 전에는 [취소]가 회색이라 누를 수 없다): `남은 초: 5` … `남은 초: 3` → `취소됨`. 그 뒤로 `남은 초`·`완료` 줄이 더 찍히지 않는다.
-
-### 5. TODO(3) — 버튼에서 ViewModel 부르기
-
-두 리스너 안에서 ViewModel 함수를 하나씩 부른다. 7주차 [검색] 리스너가 `viewModel.startScan()` 한 줄이었던 것과 같다.
-
-실행하고 [시작]을 누른 뒤 Logcat 필터를 `package:mine tag:Rehearsal`로 맞춘다. `남은 초: 5` … `완료`가 찍히는데 화면은 `대기 중` 그대로다. 왜 그런지 한 문장으로 적는다.
-
-### 6. TODO(4) — 상태를 받아 글자와 버튼 바꾸기
-
-3번 틀의 `collect { state -> }` 안을 채운다.
-
-- 받은 `state`를 `stateText`에 넣는다.
-- `state`가 `"카운트다운 중"`이면 [시작] 끄기·[취소] 켜기, 아니면 반대(`isEnabled`). 1주차 `if/else` 한 번이면 된다.
-- 비교 글자는 ViewModel에 쓴 `"카운트다운 중"`을 **복사해 붙인다**. 띄어쓰기 하나만 달라도 빌드는 되고 [취소]가 켜지지 않는다.
-
-### 7. TODO(5) — 남은 초 받기
-
-4번 틀의 `collect { seconds -> }` 안에서 `timeText`에 `남은 초: 3` 모양으로 넣는다.
-
-- `$seconds` 바로 뒤에 한글을 붙이지 않는다(`"$seconds초"`는 빌드가 안 된다). 단위를 앞에 둔 `남은 초: ` 모양을 쓴다.
-
-### 8. 점검표
-
-저장(Ctrl+S, 맥 ⌘+S)하고 Run ▶으로 다시 실행한 뒤 위에서부터 차례로 해 본다. 회전은 에뮬레이터 창 옆 도구 막대의 회전 버튼으로 한다.
-
-| 조작 | 보여야 할 것 | 내 앱 (O/X) |
-|---|---|---|
-| 앱 시작 | `대기 중` / `남은 초: 0` / [시작]만 켜짐 |  |
-| [시작] | `카운트다운 중`, `남은 초: 5`→`4`→`3`→`2`→`1` 1초마다, [취소]만 켜짐 |  |
-| 5초 뒤 | `완료` / `남은 초: 0`, [시작]만 켜짐 |  |
-| 다시 [시작] → `남은 초: 3`에서 [취소] | `취소됨` / `남은 초: 3`, 몇 초 기다려도 숫자가 그대로 |  |
-| 다시 [시작] → `남은 초: 3`에서 회전 | 가로 화면에 같은 글자·버튼, 1초 뒤 `2`로 이어짐 |  |
-| `완료`에서 회전 | 그대로 `완료` / `남은 초: 0` |  |
-| Logcat `tag:Rehearsal` | `취소됨` 뒤에 `남은 초` 줄이 더 없다. 회전해도 줄이 두 번씩 찍히지 않는다 |  |
-
-X가 있으면 [막혔을 때](#막혔을-때)의 "빌드는 되는데" 줄부터 본다. 자기 점검용 캡처 3장(회전한 화면, 취소한 화면, 완료 화면)을 찍어 둔다.
-
-### 9. 자기 채점
-
-[채점표](rubric.md)로 20점 중 몇 점인지 매긴다. 리허설에는 실패하는 일이 없으므로 코루틴 항목의 오류 1점은 화면에서 "`완료` 뒤 다시 [시작]하면 `남은 초: 5`부터 다시 세고 두 번째도 `완료`로 끝난다"로 본다.
-그다음 [rehearsal_solution](examples/rehearsal_solution/RehearsalViewModel.kt)과 내 코드를 비교해, 점수를 잃은 항목의 원인이 된 줄을 찾아 적는다.
-
-## 2일차 — 본시험 (60분)
-
-설명 30분 끝부분에서 PC 점검([따라하기 13단계](walkthrough.md#13-시험-전-pc-점검))을 마친 뒤 시작한다. 문항지와 starter는 시작할 때 받는다.
+## 1일차 — 문제 은행으로 연습하기 (60분)
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | starter를 열고 Sync가 끝나면 실행해 첫 화면 확인, 문항지와 TODO 읽기 |
-| 5–25분 | ViewModel 쪽 TODO |
-| 25–40분 | 화면 쪽 TODO |
-| 40–50분 | 점검표: 시작·완료·취소·회전(문항에 실패가 있으면 실패도) |
-| 50–55분 | 저장 → 다시 실행 |
-| 55–60분 | 파일 두 개와 캡처 제출 |
+| 0–5분 | `StudentCard` 프로젝트를 열고(없으면 새 Empty Views Activity) 에뮬레이터를 켜 실행해 둔다. [은행 목록](examples/README.md)에서 수업에서 나간 범위의 문제를 확인한다 |
+| 5–13분 | [a01_kotlin_card](examples/a01_kotlin_card/) — Kotlin Playground 학생 카드 |
+| 13–23분 | [a02_info_screen](examples/a02_info_screen/) — 내 정보 화면 |
+| 23–33분 | [a03_name_button](examples/a03_name_button/) — 코드로 글자 바꾸기와 버튼 하나 |
+| 33–43분 | [a04_counter_three](examples/a04_counter_three/) — 버튼 셋 카운터 |
+| 43–53분 | [a05_keep_rotation](examples/a05_keep_rotation/) — 회전해도 남는 count 와 생명주기 로그 |
+| 53–60분 | 못 맞춘 "확인할 것"을 적어 둔다. 4주차 이후를 배운 반은 [a06_input_toast](examples/a06_input_toast/)·[a07_delay_message](examples/a07_delay_message/) 를 이어서 한다 |
 
-### 1. 시작 전 점검
+문제마다 10분을 잡았다. 10분이 되면 남은 항목은 두고 다음 문제로 간다. 시험의 "막히면 넘어가기"를 미리 연습하는 것이다. a02 → a03 → a04 → a05 는 같은 프로젝트에서 이어서 한다.
 
-- [ ] 1일차 `Rehearsal` 프로젝트가 실행된다(Sync 끝남, 에뮬레이터 켜짐, Run 성공, Logcat 보임).
-- [ ] 휴대폰은 가방에 넣었고, 브라우저에는 [허용 자료](exam_structure.md#허용-자료) 탭만 있다.
-- [ ] [장애가 나면](exam_structure.md#장애가-나면) 손을 든다는 것을 안다.
+### 1. 문제 고르기
 
-### 2. 본시험 규칙
+[은행 목록](examples/README.md)을 연다. 1~7주 실습 제출이 문제 일곱 개로 정리돼 있다.
 
-- 문항지에 적힌 문구·초 수·버튼 규칙을 그대로 쓴다. 리허설과 다른 곳에 밑줄을 긋고 시작한다.
-- `activity_main.xml`·`strings.xml`은 문항이 요구하지 않으면 고치지 않는다. 채점에는 starter 원본이 쓰인다.
-- 제출은 [시험 운영 안내의 제출](exam_structure.md#제출)을 따른다.
+- 범위는 수업에서 나간 주차까지다. 어디까지인지는 분반 공지에 적혀 있다.
+- 자신 없는 문제부터 고른다. 그 주 실습을 끝내지 못했거나 캡처를 못 낸 주가 먼저다.
+- 문제 문장 제목 아래 줄의 출처 링크로 그 주 실습지를 열어 둔다. 그 주에 같은 것을 다른 값으로 만든 과정이 있다.
+- 시험 문제는 은행 문제와 같고 값만 다르다. 어느 문제가 나올지는 미리 알려 주지 않는다.
 
-### 3. 시간이 모자랄 때
+### 2. 문제 하나 풀기 (읽기 · XML · Kotlin · 실행 · 확인할 것 · 캡처)
 
-- 25분이 되면 ViewModel 쪽이 덜 끝났어도 화면 쪽 TODO로 넘어간다. 버튼과 `collect`만 있어도 확인되는 동작이 있다.
-- 빨간 줄이 사라지지 않는 줄은 그 줄 앞에 `//`를 붙여 두고 넘어간다. **빌드되는 상태**를 유지해야 실행해서 점수를 받는다.
-- 회전 확인은 코드를 고치지 않아도 되는 점검이다. 40–50분에 꼭 한다.
+[따라하기 2~5단계](walkthrough.md#2-문제-하나-읽는-법-a03_name_button)에 공개 문제 a03_name_button 으로 같은 순서를 보였다.
 
-### 4. 제출
+- 읽기: "할 일"을 끝까지 읽고 XML 에서 할 일과 Kotlin 에서 할 일을 가른다. `android:id`·글자·크기는 XML, `findViewById`·리스너·변수는 Kotlin 이다.
+- XML: `activity_main.xml` 에 View 와 `id` 를 쓴다. `id` 철자는 문제 문장에서 복사한다.
+- Kotlin: `MainActivity.kt` 의 `onCreate` 안, `setContentView` 다음(템플릿 insets 블록 아래)에 쓴다.
+- 실행: 저장(Ctrl+S) → Run ▶. 빨간 줄이 있으면 첫 줄부터 읽는다. [막혔을 때](#막혔을-때)에 자주 나오는 줄이 있다.
+- 확인할 것: 항목마다 화면이나 Logcat 으로 직접 해 본다. 모두 맞으면 된 것이다. 맞지 않는 항목은 그 항목이 가리키는 할 일로 돌아간다. 막히면 **힌트**를 읽는다.
+- 캡처: 요구한 상태(`3` 이 보이는 화면, 회전한 가로 화면, Logcat)를 찍어 둔다. 시험에서 답안에 넣는 것과 같다.
+- 흔한 실수: `@+id/` 뒤 이름과 `R.id.` 뒤 이름이 한 글자 다르다. 값은 문제 문장에서 **복사해 붙인다**.
+- 흔한 실수: 템플릿의 `enableEdgeToEdge()`·insets 블록을 지운다. 그대로 두고 그 아래에 쓴다.
 
-제출물은 `MainActivity.kt`, `○○ViewModel.kt`, 문항이 지정한 캡처다. 제출하기 전에 저장 → Run ▶ → 점검표를 한 번 더 한다.
-파일은 Project 창에서 우클릭 › **Open In › Explorer**(맥 **Finder**)로 찾는다([따라하기 16단계](walkthrough.md#16-제출할-파일-찾기와-캡처)).
+### 3. 캡처와 Logcat
+
+- 에뮬레이터 창 옆 도구 막대의 카메라 버튼으로 화면만 찍거나, 운영체제 캡처로 Android Studio 창까지 찍는다.
+- Logcat 은 아래쪽 **Logcat** 탭에서 필터 칸에 태그(`Life`)를 치면 그 줄만 보인다. 회전 뒤 `onDestroy` → `onCreate` 가 보이는 상태를 찍는다.
+- 캡처에 실명·학번이 들어가도 된다(수업 과제와 같다). 다른 사람의 화면은 찍지 않는다.
+
+### 오늘 확인할 것
+
+- [ ] 수업에서 나간 범위의 문제를 풀어 "확인할 것"을 스스로 맞춰 봤고, 맞추지 못한 항목이 무엇인지 안다.
+- [ ] 각 문제의 설명 물음(예: `id` 와 `R.id` 의 연결, `var` 인 이유, 회전 때 Activity 가 다시 만들어짐)에 힌트를 가리고 한 문장씩 답할 수 있다.
+- [ ] 캡처와 Logcat 필터를 찍는 법을 안다.
+
+1일차 결과는 점수에 들어가지 않는다. **어디서 막혔는지 알고 가는 것**이 목적이다.
+
+## 2일차 — 중간고사 (60분 가운데 공지한 시간)
+
+| 시간 | 할 일 |
+|---|---|
+| 시작 전 | 분반 공지를 다시 읽는다. 시작·끝 시각, 문제 수, 볼 수 있는 것, 내는 곳. Android Studio 로 `StudentCard` 를 열고 에뮬레이터를 켜 실행까지 해 둔다 |
+| 0–3분 | 문제를 읽는다. 문제마다 "이 문제의 값"이 은행 문제와 어디가 다른지(글자·id·숫자·키) 표시한다. 아직 코드를 쓰지 않는다 |
+| 3–50분 | 문제마다: XML → Kotlin → 저장·실행 → 확인할 것 → 캡처 → 설명 1~2문장. 오래 막히면 다음 문제로 |
+| 50–55분 | 답안 정리: 문제마다 고친 코드·캡처·설명이 있는지 본다 |
+| 55–60분 | 제출(공지한 곳에) |
+
+위 표는 시험이 60분일 때의 배분이다. 공지가 30분이면 읽기 2분 · 풀기 25분 · 정리와 제출 3분처럼 비율대로 줄인다. 분 단위 순서는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
+
+### 시험 중 규칙
+
+- 볼 수 있는 것과 AI 도구 허용 여부는 분반 공지를 따른다.
+- 범위는 수업에서 나간 주차까지다. 범위 밖 기능은 가점이 없다.
+- 막히면 넘어가기: 한 문제에 오래 막히면 다음 문제로 간다. 문제끼리 이어지지 않는다(이어서 하는 문제도 앞 문제가 안 됐으면 그 상태에서 시작해도 된다).
+- 다 못 했어도 쓴 코드와 캡처, 시도한 것(빨간 줄의 오류 메시지 포함)을 낸다. 실행되는 부분 결과와 설명은 부분 점수를 받는다([채점표](rubric.md)).
+- 빌드가 안 되는 줄은 그 줄 앞에 `//` 를 붙여 **실행되는 상태**로 캡처를 찍고, 원래 쓰려던 코드는 답안에 적는다.
+- 시험 중에는 문제 문장의 뜻·제출 방법·환경 장애만 안내한다. 코드가 맞는지는 알려 주지 않는다.
+- 장애(에뮬레이터·PC·LMS)는 혼자 붙잡고 있지 않는다. 손을 들면 감독이 시각을 기록한다.
+
+### 답안에 넣는 것
+
+1. **코드**: 고친 `activity_main.xml` 과 `MainActivity.kt` 전체(또는 고친 부분이 분명한 코드). Android Studio 에서 전체 선택 → 복사 → 답안 칸에 붙인다.
+2. **캡처**: 문제가 요구한 상태의 에뮬레이터 화면. 회전·Logcat 을 요구하면 그 화면까지.
+3. **설명**: 문제의 설명 물음에 자기 말로 1~2문장.
 
 ## 막혔을 때
 
 | 상황 | 확인할 것 |
 |---|---|
-| starter를 붙여 넣자마자 `MainActivity.kt`에서 `Unresolved reference 'databinding'.`, 이어서 `Unresolved reference 'ActivityMainBinding'.`·`Unresolved reference 'startButton'.` 같은 줄이 여러 개 | 프로젝트 이름을 `Rehersal`처럼 잘못 만들어 package가 `com.example.rehersal`이 됐다. 붙여 넣은 두 파일은 `com.example.rehearsal`이다. Project 창의 폴더 이름을 보고, 두 파일 첫 줄 `package`와 `MainActivity.kt`의 `import com.example.rehearsal.databinding.ActivityMainBinding` 줄을 그 이름으로 고친다. 첫 오류 줄만 보면 된다(뒤의 줄은 모두 이 한 원인에서 나온다) |
-| `Unresolved reference 'seconds초'.` | `$seconds` 바로 뒤에 한글을 붙였다. Kotlin은 한글도 이름 글자로 읽어 `seconds초`라는 변수를 찾는다. `"남은 초: $seconds"`처럼 단위를 앞에 둔다 |
-| `Unresolved reference 'delay'.` | `import kotlinx.coroutines.delay` 줄이 지워졌다. `delay`에 커서를 두고 Alt+Enter(맥 ⌥+Enter)로 import한다 |
-| `RehearsalViewModel.kt`에서 `Unresolved reference 'lifecycleScope'.` | ViewModel 안에서는 `viewModelScope`다. `lifecycleScope`는 Activity 쪽 이름이다 |
-| `Suspend function 'suspend fun delay(timeMillis: Long): Unit' should be called only from a coroutine or another suspend function.` | `delay`가 `launch { }` 밖에 있다. 반복 전체를 `job = viewModelScope.launch { … }` 안에 넣는다 |
-| `Cannot access 'val _state: MutableStateFlow<String>': it is private in 'com/example/rehearsal/RehearsalViewModel'.` | 화면에서 `_state`를 바꾸려 했다. 화면은 `state`를 읽기만 하고, 바꾸는 일은 `viewModel.cancelCountdown()` 같은 ViewModel 함수에 맡긴다 |
-| `Assignment type mismatch: actual type is 'kotlin.String', but 'kotlin.Int' was expected.` | `_seconds`는 `MutableStateFlow(0)`이라 숫자만 받는다. `i`만 넣고 `"남은 초: "` 글자는 화면의 `collect` 안에서 붙인다 |
-| `MainActivity.kt`에서 `Unresolved reference 'timeText'.` | 원인은 XML이다. `android:id="@+id/timeText"` 철자를 본다. id와 `binding.` 뒤 이름이 글자까지 같아야 한다 |
-| `Android resource linking failed` 와 `AAPT: error: resource style/Theme.Rehersal (aka com.example.rehearsal:style/Theme.Rehersal) not found.` | Manifest의 `android:theme` 이름이 `themes.xml`의 `Theme.Rehearsal`과 다르다. 철자를 맞춘다 |
-| 빌드는 되는데 [취소]를 누르면 `취소됨`이 됐다가 숫자가 계속 줄고 `완료`로 덮인다 | `job = viewModelScope.launch {`에서 `job = `를 빠뜨렸다. 보관하지 않으면 `job?.cancel()`이 멈출 코루틴이 없다. 빌드가 되므로 **[취소]를 누르고 몇 초 기다려 봐야** 드러난다 |
-| 빌드는 되는데 [시작]을 누르면 5초 동안 화면이 멈췄다가 한꺼번에 `완료`가 된다. Logcat에는 1초마다 찍힌다 | `delay(1000)` 대신 `Thread.sleep(1000)`을 썼다. 코루틴 안에서 기다릴 때는 `delay`다(6주차) |
-| 빌드는 되는데 카운트다운 중에 [취소]가 켜지지 않는다 (예상 증상) | `if (state == "카운트다운 중")`의 글자가 ViewModel의 글자와 다르다. ViewModel의 글자를 복사해 붙인다 |
-| 빌드는 되는데 회전하면 `대기 중` / `남은 초: 0`으로 돌아간다 (예상 증상) | `by viewModels()` 대신 `RehearsalViewModel()`로 직접 만들었다. `private val viewModel: RehearsalViewModel by viewModels()`로 쓴다 |
-| 빌드는 되는데 회전하면 `남은 초: 0`으로 돌아가고 더 바뀌지 않는다 (예상 증상) | `collect`를 `repeatOnLifecycle` 틀 밖(예: [시작] 리스너 안)에서 시작했다. 두 틀을 `onCreate()`에 두고 그 안에서 `collect`한다 |
+| `Unresolved reference 'nameText'.` (Kotlin) | XML 의 `android:id="@+id/nameText"` 철자를 본다. `R.id.` 뒤 이름과 글자까지 같아야 한다. XML 을 저장한 뒤 다시 빌드한다 |
+| `Unresolved reference 'TextView'.`·`'Button'`·`'Log'`·`'Toast'` | import 가 없다. 빨간 글자에 커서를 두고 Alt+Enter(맥 ⌥+Enter) → Import |
+| `Unresolved reference 'count초'.` 또는 `'name님'` | `$변수` 바로 뒤에 한글을 붙였다. `"${name}님"` 처럼 중괄호를 쓰거나 단위를 앞에 둔다 |
+| `Val cannot be reassigned.` | `val` 로 만든 변수에 다시 넣었다. 바뀌는 변수는 `var` 다 |
+| 앱이 켜지자마다 꺼지고 Logcat 에 `NullPointerException` | `findViewById` 가 `null` 을 돌려줬다. `setContentView` 보다 앞에서 찾았거나 XML 의 id 와 다르다 |
+| 버튼을 눌러도 숫자가 안 바뀐다 | 리스너 안에서 `count` 만 바꾸고 `countText.text = "$count"` 를 빠뜨렸다 |
+| 회전하면 `0` 으로 돌아간다 | `onSaveInstanceState` 의 `putInt` 와 `onCreate` 의 `getInt` 키가 다르거나, `count` 가 `onCreate` 안의 지역 변수라 저장 함수에서 보이지 않는다. class 바로 안으로 옮긴다 |
+| Logcat 에 아무 줄도 안 보인다 | 필터 칸의 글자(`Life`)와 `Log.d` 의 태그가 다르다. 왼쪽 위 기기 목록이 내 에뮬레이터인지 본다 |
+| 레이아웃이 모두 왼쪽 위에 몰린다 | `LinearLayout` 에 `android:gravity="center"` 가 없거나 `orientation` 이 없다. 템플릿의 `ConstraintLayout` 속성(`app:layout_constraint…`)이 남아 있으면 지운다 |
+| `Android resource linking failed` | XML 의 태그를 닫지 않았거나 속성 값에 따옴표가 빠졌다. 오류 메시지의 줄 번호로 간다 |
+| 에뮬레이터가 안 켜지거나 멈춘다 | Device Manager 에서 그 기기의 ⋮ › **Cold Boot Now**. 시험 중이면 손을 든다 |
+| Toast 가 안 뜬다 | `.show()` 를 빠뜨렸다. `Toast.makeText(…).show()` |
+| 3초 동안 화면이 멈춘다 | `Thread.sleep` 을 리스너 안에서 썼다. `Handler(Looper.getMainLooper()).postDelayed({ … }, 3000)` 으로 바꾼다 |
 
-"예상 증상"은 코드에서 정해지는 동작을 적은 것이며, 에뮬레이터 화면에서는 조금 다르게 보일 수 있다.
-한 번에 한 곳만 바꾸고 다시 실행한다. 해결되지 않으면 오류 메시지가 보이는 화면을 그대로 보여 주고 도움을 받는다(리허설에서만. 본시험에서는 구현 도움을 주지 않는다).
+한 번에 한 곳만 바꾸고 다시 실행한다. 1일차에는 10분 넘게 같은 자리에 있으면 손을 든다. 시험 중에는 환경·제출 문제만 함께 본다.
 
 ## 제출
 
-- **1일차 리허설**: 제출하지 않는다. 캡처 3장과 자기 채점 결과는 본인이 보관한다.
-- **2일차 본시험**: [시험 운영 안내의 제출](exam_structure.md#제출)을 따른다. 채점은 [채점표](rubric.md)로 한다.
+- **1일차**: 제출하지 않는다. 캡처는 본인이 보관한다.
+- **2일차**: 분반 공지가 정한 곳(LMS 답안 칸)에 공지한 시각까지 낸다. 문제마다 고친 코드·캡처·설명이 있어야 한다. 채점은 [채점표](rubric.md)로 한다.
 
 ## 먼저 끝났다면
 
-1일차 리허설을 일찍 끝냈다면 아래를 해 본다. 모두 2~7주 범위다.
+- 1일차: 푼 문제의 "이 문제의 값" 표에서 값 두세 개(글자·id·숫자·키)를 스스로 바꿔 다시 풀고, "확인할 것"도 바뀐 값으로 맞춰 본다. 시험이 이 모양이다.
+- 1일차: 각 문제의 설명 물음에 힌트를 가린 채 한 문장씩 써 본다.
+- 1일차: a05 에서 `onStart`·`onResume`·`onPause`·`onStop` 에도 `Log.d` 를 넣고 홈 → 복귀 → 회전의 순서를 Logcat 으로 본다(3주차 기록표).
+- 2일차: 남는 시간에는 새 기능을 넣지 않는다. 문제마다 "확인할 것"을 다시 보고 캡처와 설명이 빠지지 않았는지만 본다.
 
-1. 카운트다운을 10초로 바꾸고, 회전·취소가 그대로 되는지 점검표를 다시 해 본다.
-2. (채점표 '오류' 대비) 카운트다운이 끝나면 `확인 중`으로 바꾸고, 6주차 `connectFake()`처럼 1초 걸리고 절반은 실패하는 `checkFake()`를 ViewModel에 만들어 부른다. `try/catch`로 받아 성공이면 `완료`, 실패면 `실패`를 보여 준다. `확인 중`에는 두 버튼을 모두 끈다.
-3. `onCreate()`의 insets 블록 아래에 `Log.d("Rehearsal", "onCreate")`를 넣고 카운트다운 중에 회전한다. Logcat에서 `onCreate`는 다시 찍히는데 `남은 초` 줄은 한 번씩 이어지는 것을 확인한다(3주차 생명주기 + 7주차 ViewModel).
-4. [시작]을 누르고 홈으로 나갔다가 6초 뒤 돌아온다. 화면이 `완료`인지 본다.
-
-추가 과제는 선택 사항이다.
+1일차 추가 연습은 채점하지 않는다.

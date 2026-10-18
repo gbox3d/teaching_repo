@@ -6,233 +6,240 @@ header: Mobile Programming · Week 8
 footer: Midterm · Individual Hands-on Exam
 ---
 
-# Midterm: Solo, 60 Minutes, Graded on the Submitted Files
+# Midterm: Redo What You Did in Class, On Your Own
 
-You rebuild what you did in SmartIO through week 7 as **one small app**.
-There is no new syntax. You write the code from weeks 2–7 **alone, within the time limit**.
+Practice with a problem bank made from what you **actually submitted** in Weeks 1–7, then take the exam with the same problems and new values.
+No new syntax. You rebuild things in your own `StudentCard` project, **alone and within the time**.
 
 ```text
-Rehearsal
-Counting down
-Time left: 3
-[Start] [Cancel]      ← keeps going even if you rotate
+My Info
+Name: Hong Gildong
+3
+[-1] [Reset] [+1]      ← 3 survives rotation
 ```
 
----
-
-# Day 1 — Exam Scope, Rubric, and a Public Rehearsal
-
-`30 min explanation → 60 min rehearsal`
-
-1. Exam scope and the 20-point rubric.
-2. What counts as your submission: save, then run again.
-3. The 60-minute time budget.
-4. The five TODOs in the rehearsal starter.
+- No answer keys; every problem has **Checks** and a **Hint**.
+- An answer is the edited code + emulator screenshots + a 1–2 sentence explanation.
 
 ---
 
-## Day 1 · 0–5 min — This Week's Two Days and the Exam Scope
+# Day 1 — Practicing with the Problem Bank
+
+`30 min talk → 60 min practice`
+
+1. This week's two days and the range
+2. The seven bank problems, how to read one
+3. Checking — run, screenshot, Logcat
+4. The 20-point rubric and today's order
+
+---
+
+## Day 1 · 0–5 min — This Week's Two Days and the Range
 
 | Day | 30 min | 60 min |
 |---|---|---|
-| Day 1 | Scope, rubric, time budget | **Public rehearsal** (ungraded) |
-| Day 2 | Procedure, allowed resources, what if something breaks | **Actual exam** (20 points) |
+| Day 1 | the bank, reading, checking, rubric | **practice** (no points) |
+| Day 2 | rules (class notice), what goes in the answer, PC check | **midterm** (20 points) |
 
-- The scope is **weeks 2–7**: buttons, ViewBinding, `isEnabled` / rotation / coroutines / ViewModel and StateFlow.
-- The actual exam has the **same shape** as today's rehearsal. Only screen names, wording, and small requirements differ.
-- Two threads run through it: ① button → coroutine (delay, cancel, error) ② surviving rotation (ViewModel + StateFlow).
-
----
-
-## Day 1 · 5–12 min ① — The 20-Point Rubric, Revealed
-
-| Item | Points | How it's checked |
-|---|---:|---|
-| UI & events | 5 | Tapping works, buttons enable/disable per state, text is correct |
-| Lifecycle & restoration | 5 | Text, numbers, and buttons survive a **rotation** mid-run |
-| Coroutine delay/cancel/error | 5 | Counts down every second, stops after [Cancel], doesn't crash on failure |
-| StateFlow collect | 3 | Values live in the ViewModel; the screen reads them via `collect { }` |
-| Runs & submitted | 2 | The submitted files build and run; files and screenshots are submitted on time |
-
-Grading is done by **running the app**. Code length is not scored.
-Detailed criteria: [rubric.md](rubric.md)
+- The range is **up to the week we covered in class** within Weeks 1–7. The notice says how far.
+- Exam problems are **the same problems with different values**: text, ids, numbers, key names change.
+- What we did in class: Kotlin output, LinearLayout screens, `findViewById`, button counters, `count` that survives rotation.
 
 ---
 
-## Day 1 · 5–12 min ② — Where Each Item Is Checked in the Code
+## Day 1 · 5–12 min ① — The Seven Bank Problems
 
-```kotlin
-private val viewModel: RehearsalViewModel by viewModels()  // restoration
-job = viewModelScope.launch {                              // coroutine
-    for (i in 5 downTo 1) {
-        _seconds.value = i                                 // StateFlow
-        delay(1000)
-    }
-}
-viewModel.seconds.collect { seconds ->                     // collect
-    binding.timeText.text = "Time left: $seconds"          // UI
-}
-```
+[Problem bank list](examples/README.md)
 
-- If one root cause breaks several checks, points are deducted **only once**.
-- If it doesn't build, there's nothing to run. Leave a TODO you don't know **blank** so the project still builds.
+| Range | Problem | What we did in class |
+|---|---|---|
+| Week 1 | [a01](examples/a01_kotlin_card/README.md) student card | `val`·`$variable`·`if/else`·`fun` |
+| Week 2 | [a02](examples/a02_info_screen/README.md) my info screen | vertical LinearLayout·TextView |
+| Week 2 | [a03](examples/a03_name_button/README.md) change text, one button | `id`·`findViewById`·listener·`var` |
+| Week 2 | [a04](examples/a04_counter_three/README.md) three-button counter | `+1`·`-1`·`Reset` |
+| Week 3 | [a05](examples/a05_keep_rotation/README.md) count survives rotation | `onSaveInstanceState`·`?.`·`?:`·`Log.d` |
+| Weeks 3–4 | [a06](examples/a06_input_toast/README.md) input field and Toast | `EditText`·`Toast` (if covered) |
+| Weeks 5–6 | [a07](examples/a07_delay_message/README.md) text after 3 seconds | `postDelayed`·`isEnabled` (if covered) |
+
+**Solve a bank problem and you have solved the exam problem once.**
 
 ---
 
-## Day 1 · 12–17 min — What Counts as Your Submission: Save, Then Run Again
+## Day 1 · 5–12 min ② — Reading One Problem: a03_name_button
+
+[a03 problem](examples/a03_name_button/README.md) — every problem has the same order
 
 ```text
-Edit → Save (Ctrl+S) → Run ▶ again → check off the checklist → submit two files
+Tasks          XML part (View·id·text) → Kotlin part (findViewById·listener·variable)
+Checks         what you verify on screen and in Logcat; this replaces the answer key
+Hint           read when stuck; the exam's explanation questions are this content
+Values         what changes in the exam — nameText · Hong Gildong · countText · 0 · plusButton · +1 · 3
+Explanation    what you answer in 1–2 sentences in the exam
 ```
 
-- The grader drops **your submitted files** into the same starter and runs it. It is not a screenshot of your own emulator.
-- Submit: `MainActivity.kt`, `○○ViewModel.kt`, and whatever screenshots the question asks for.
-- Don't edit `activity_main.xml` or `strings.xml`. Even if you do, grading uses the starter's original versions.
-- Code you haven't **run once more** after your last edit is code that hasn't been verified.
+- **Copy and paste** ids, text, and numbers from the problem. One wrong character means `Unresolved reference`.
+- Check examples: at start `Name: Hong Gildong`·`0`, `+1` three times → `3`, no red lines in Logcat.
 
 ---
 
-## Day 1 · 17–22 min — The 60-Minute Time Budget
+## Day 1 · 12–17 min — Checking: Run, Screenshot, Logcat
 
-| Time | Task |
-|---|---|
-| 0–5 min | Open and run the starter; read the questions and TODOs |
-| 5–25 min | ViewModel-side TODOs (coroutine, cancel) |
-| 25–40 min | Screen-side TODOs (buttons, collect) |
-| 40–50 min | Checklist: start, complete, cancel, rotate |
-| 50–55 min | Save → run again |
-| 55–60 min | Submit the two files and screenshots |
+```text
+Save (Ctrl+S) → Run ▶ → go through the checks on screen → screenshot the required state
+Logcat tab → type the tag (Life) in the filter → only those lines show
+Rotate → the rotate button on the emulator toolbar
+```
 
-If the ViewModel side isn't done by minute 25, **move on to the screen side**. Points reflect what actually works.
+- Screenshots: the camera button on the emulator toolbar, or Win+Shift+S / ⌘+Shift+4.
+- The design preview (Split) is for layout only. Screenshots must show the **running app**.
+- Read red lines from the first one. The [When stuck](lab.md#막혔을-때) table lists the common ones.
 
----
-
-## Day 1 · 22–27 min — A Look at the Rehearsal Starter
-
-| TODO | File · location | Task |
-|---|---|---|
-| (1) | `RehearsalViewModel.kt` `startCountdown()` | guard + `launch` + 5→1 + completion |
-| (2) | `RehearsalViewModel.kt` `cancelCountdown()` | `job?.cancel()` + cancelled state |
-| (3) | `MainActivity.kt` listeners 1 & 2 | call the ViewModel functions |
-| (4) | `MainActivity.kt` collect block 3 | text + enabling/disabling buttons |
-| (5) | `MainActivity.kt` collect block 4 | `Time left: 3` |
-
-Already in place: dependencies, XML, imports, `by viewModels()`, `_state`/`state`, the `repeatOnLifecycle` block.
-Fill things in from **the value producer (ViewModel) to the receiver (screen)**.
+**Checks are results you see on screen and in Logcat. Same result, any code shape.**
 
 ---
 
-## Day 1 · 27–30 min — Start the Rehearsal
+## Day 1 · 17–22 min — The 20-Point Rubric: Behavior, Code, Explanation
 
-[Day 1 rehearsal](lab.md#1일차--공개-리허설-60분) · [Walkthrough](walkthrough.md#1일차)
+| What | Share | How |
+|---|---:|---|
+| Behavior (checks) | about 60% | item by item, from screenshots and code |
+| Code | about 20% | pasted XML·Kotlin matches the screenshots and contains the required parts |
+| Explanation | about 20% | 1–2 sentences in your own words |
 
-1. Drop the starter files into a new `Rehearsal` project and run it (0–10 min).
-2. Fill in TODOs (1) → (5) in order. Open the walkthrough only when you're stuck.
-3. Check yourself against the checklist and compare with `rehearsal_solution`.
+- Two problems: 10 points each. Four problems: 5 each. The notice says which.
+- One cause is deducted once. Comment out a line that will not build, screenshot the running state, and paste the original code and error in the answer.
+- Details: [rubric.md](rubric.md)
 
-**Explanation total: 5+7+5+5+5+3 = 30 min**
+---
 
-There's no score today. Wherever you get stuck today is where you'll get stuck on tomorrow's exam.
+## Day 1 · 22–27 min — Today's Order
+
+[Day 1 practice](lab.md#1일차--문제-은행으로-연습하기-60분) · [Walkthrough](walkthrough.md#1일차)
+
+```text
+0–5    open StudentCard and run · check the range in the bank list
+5–13   a01 student card      13–23  a02 my info screen       23–33  a03 change text and a button
+33–43  a04 three-button counter   43–53  a05 count survives rotation
+53–60  note the checks you missed · classes that covered them go on to a06·a07
+```
+
+- Ten minutes per problem. When time is up, note what is left and move on. This rehearses "skip when stuck".
+- a02 → a03 → a04 → a05 continue in the same project.
+
+---
+
+## Day 1 · 27–30 min — Start Practicing
+
+1. Open `StudentCard`, start the emulator, and run.
+2. Start with a01. For each problem: read → XML → Kotlin → run → checks → screenshot.
+3. When stuck: hint → the "when stuck" table → raise your hand.
+
+**Talk total: 5+7+5+5+5+3 = 30 min**
+
+No points today. Where you get stuck today is where you would get stuck in the exam.
 
 ---
 
 # Day 2 — Exam Instructions and the Actual Exam
 
-`30 min briefing → 60 min actual exam`
+`30 min instructions → exam (time in the notice)`
 
-1. Where people commonly got stuck in the rehearsal.
-2. Exam order, allowed resources, and what to do if something breaks.
-3. A group PC check (running your own Rehearsal).
+1. Where people got stuck in practice
+2. Exam rules — the class notice decides
+3. Reading order, what goes in the answer
+4. PC check, all together
 
 ---
 
-## Day 2 · 0–5 min — Where People Commonly Got Stuck in the Rehearsal
+## Day 2 · 0–5 min — Where People Commonly Got Stuck
 
 | Symptom | Cause |
 |---|---|
-| `Unresolved reference 'seconds초'.` | `"$seconds초"` — Hangul placed directly after `$variable` |
-| [Cancel] doesn't enable (expected) | the comparison text differs from `"카운트다운 중"` |
-| the number keeps counting down after [Cancel] | it wasn't stored with `job = viewModelScope.launch {` |
-| rotating resets to `Waiting` (expected) | it was created directly instead of with `by viewModels()` |
+| `Unresolved reference 'nameText'.` | differs from the name after `@+id/` in XML |
+| `Unresolved reference 'name님'.` | Korean right after `$variable` — write `"${name}님"` |
+| the number does not change on click | `countText.text = "$count"` is missing |
+| rotation resets to `0` | `putInt`·`getInt` keys differ, or `count` lives inside `onCreate` |
 
-The build can succeed and still be wrong — you only see that by **running it and tapping around**. That's why there's a checklist.
+Mistakes that still build only show up **when you run and tap**. That is why the checks exist.
 
 ---
 
-## Day 2 · 5–12 min — Exam Order
+## Day 2 · 5–12 min — Exam Rules: the Class Notice Decides
 
 ```text
-0–5 min    receive starter → File › Open → Sync → Run ▶ → check the first screen
-5–25 min   ViewModel-side TODOs
-25–40 min  screen-side TODOs
-40–50 min  checklist: start, complete, cancel, rotate (and failure, if the question has one)
-50–55 min  save → run again
-55–60 min  submit: MainActivity.kt, ○○ViewModel.kt, screenshots
+Problems  2–4 bank problems with changed values     Time    30–60 min (start and end in the notice)
+Range     up to the week covered in class            Submit  LMS answer box — code · screenshots · explanation
 ```
 
-- You receive the question sheet and the starter when the exam begins.
-- If wording is unclear, raise your hand. Answers go out as **one announcement to everyone**.
-- Full procedure: [exam_structure.md](exam_structure.md)
+- What you may look at (course materials, your project, official docs) and whether AI tools are allowed follow the notice.
+- Problems are independent. **If stuck for long, move on.**
+- Even if unfinished, submit code, screenshots, and what you tried. Partial credit exists.
+- Questions: wording, submission, failures only. Answers go to **everyone as one notice**.
+- Details: [exam_structure.md](exam_structure.md)
 
 ---
 
-## Day 2 · 12–17 min — Allowed Resources and Prohibited Actions
-
-| Allowed | Prohibited |
-|---|---|
-| This course's public materials (weeks 2–8, including examples) | Generative AI (in the browser or in Android Studio) |
-| Opening your own `SmartIO` project | Sending code via messenger, email, or the cloud |
-| Android Developers / Kotlin official docs | Talking with others, phones |
-| Autocomplete, Alt+Enter, Logcat | Search engines, blogs, Q&A sites |
-
-If an exam announcement differs from this table, **the announcement wins**.
-
----
-
-## Day 2 · 17–22 min — If Something Breaks
-
-| Situation | What to do |
-|---|---|
-| Emulator won't start / freezes | Raise your hand → Cold Boot → if that fails, move to a spare PC |
-| Sync/build already failing before you touch anything | Raise your hand → get a fresh copy of the starter |
-| PC freezes | Raise your hand → restart and reopen (save with Ctrl+S as you go) |
-| Upload to the LMS fails | Raise your hand → the TA copies it via USB and logs the time |
-
-- The TA records **the time, the symptom, and what was done**, and extends your time based on that record.
-- Things caused **by your own code** — red underlines, build errors — do not count as a technical issue.
-
----
-
-## Day 2 · 22–27 min — PC Check: Run Your Own Rehearsal
-
-1. Open the `Rehearsal` project you built yesterday.
-2. Wait for the progress indicator (Sync) at the bottom to finish, then press Run ▶.
-3. Confirm the `Rehearsal` screen appears on the emulator and the Logcat window opens.
+## Day 2 · 12–17 min — Reading Order: Where the Values Differ
 
 ```text
-☐ Sync finished   ☐ Emulator running   ☐ Run succeeded   ☐ Logcat visible
+bank a03      nameText · Hong Gildong · countText 0 · plusButton +1 · three taps → 3
+exam problem  nameText · Kim Minji    · countText 10 · plusButton +2 · three taps → 16   ← only values differ
 ```
 
-Move to a different seat **before the exam** if any of these fail on your PC. Leave the emulator running when the exam starts.
+1. Read only for the first 3 minutes. Mark the values that differ from the bank problem.
+2. XML → Kotlin → save and run → checks → screenshot. The same order as Day 1.
+3. If a check fails, go back to the task it points to.
+
+**Copy and paste values. One wrong character in an id is a red line.**
 
 ---
 
-## Day 2 · 27–30 min — The Actual Exam Begins
+## Day 2 · 17–22 min — What Goes in the Answer: Code, Screenshots, Explanation
 
-[Day 2 actual exam](lab.md#2일차--본시험-60분) · [Walkthrough](walkthrough.md#2일차)
+```text
+① Code          select all in activity_main.xml · MainActivity.kt → copy → paste into the answer box
+② Screenshots   the emulator in the required state (plus rotation or Logcat when asked)
+③ Explanation   1–2 sentences in your own words for the explanation question (hint-level content)
+```
 
-1. Put your phone away, and leave only the allowed-resources tab open in your browser.
-2. Note the time when you receive the question sheet and the starter. 0–5 min is for opening and running it.
-3. The last 5 minutes are for submission. Finish editing before then.
+- Example: "On rotation the Activity is destroyed and created again, so `count = 0` runs again."
+- Comment out a line that will not build, screenshot the running state, and paste the original code and error.
+- After the last change, **save → Run ▶ → go through the checks** once more.
 
-**Explanation total: 5+7+5+5+5+3 = 30 min**
+**Behavior, code, and explanation for every problem.**
+
+---
+
+## Day 2 · 22–27 min — PC Check: Project Run and Emulator
+
+1. Open the `StudentCard` project.
+2. When the progress bar (Sync) finishes, press Run ▶.
+3. Confirm the screen appears on the emulator and the Logcat window opens. Open the LMS answer box too.
+
+```text
+☐ Sync done   ☐ emulator on   ☐ Run succeeded   ☐ Logcat visible   ☐ LMS answer box open
+```
+
+A PC that fails here moves seats **before the exam**. Leave the emulator running when you start.
+
+---
+
+## Day 2 · 27–30 min — The Exam Begins
+
+[Day 2 exam](lab.md#2일차--중간고사-60분-가운데-공지한-시간) · [Walkthrough](walkthrough.md#2일차)
+
+1. Arrange your browser tabs as the notice says.
+2. When the problems appear, note the time. The first 3 minutes are for reading and marking values.
+3. The last 5 minutes are for tidying and submitting. Stop editing before then.
+
+**Talk total: 5+7+5+5+5+3 = 30 min**
 
 ---
 
 ## Next Week Preview
 
-Every screen you've built so far has been an **Activity**.
+Every screen so far has been an **Activity**.
 
-In week 9, **Comparing App Components and Project 1 Presentations**, we put Service, BroadcastReceiver, and ContentProvider side by side with Activity and compare them.
+In Week 9, **App Components and the Project 1 Presentation**, we compare Service, BroadcastReceiver, and ContentProvider side by side with Activity.
 
-Project 1's scoring criteria (normal flow, failure and retry, survives rotation, code walkthrough) are the same ones you practiced in this exam.
+The grading axes of Project 1 (normal flow, surviving rotation, explaining the code) are what you practiced in this exam.

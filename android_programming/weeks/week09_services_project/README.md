@@ -4,7 +4,7 @@
 
 > 지금까지 만든 화면은 모두 Activity였다. 화면이 없는 컴포넌트(Service)는 어디서 돌고, 7주차까지 만든 앱은 발표 3분 안에 무엇을 보여 줘야 할까?
 
-8주차에는 2~7주차 범위로 중간고사를 보았다. 이번 주 1일차에는 Android 앱을 이루는 네 컴포넌트(Activity·Service·BroadcastReceiver·ContentProvider)를 한 표로 비교하고,
+8주차에는 수업에서 나간 범위로 중간고사를 보았다. 이번 주 1일차에는 Android 앱을 이루는 네 컴포넌트(Activity·Service·BroadcastReceiver·ContentProvider)를 한 표로 비교하고,
 `LogService` 시연으로 **Service도 메인 스레드에서 돈다**는 것을 Logcat으로 확인한다. Fragment를 바꿔 끼우는 시연과 Notification 설명도 짧게 본다.
 1일차 실습 60분은 **1차 과제 리허설**이고, 2일차에는 7주차까지 만든 앱으로 **1차 과제를 발표**한다.
 

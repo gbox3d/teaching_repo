@@ -23,7 +23,7 @@
 | `walkthrough.md` | 모든 주차. 처음부터 그대로 따라 하는 단계(할 일 → 예상 결과). 전체 코드 블록은 `examples/` 파일과 글자 단위로 같다 |
 | `lab.md` | 일차별 60분 시간표, 단계별 문제와 힌트, 막혔을 때 표(실제 오류 메시지), 제출물, 먼저 끝났다면 |
 | `examples/README.md` | 예제 파일 ↔ 프로젝트 위치 표, 개념별 최소 코드와 실행 결과 |
-| `examples/dayN/` | 그날 수업이 끝났을 때의 **완성본 전체 파일**(2~7주·10~13주는 `day1`·`day2`, 14주는 `day1`). 1주차는 프로젝트에 넣어 하나씩 실행하는 문법 예제 `.kt` 파일 7개, 8·15주는 `rehearsal_starter`·`rehearsal_solution`, 9주는 시연용 `service_demo`·`fragment_demo`·`fake_request`를 같은 규칙으로 둔다 |
+| `examples/dayN/` | 그날 수업이 끝났을 때의 **완성본 전체 파일**(2~7주·10~13주는 `day1`·`day2`, 14주는 `day1`). 1주차는 프로젝트에 넣어 하나씩 실행하는 문법 예제 `.kt` 파일 7개, 8주는 문제 은행 `aNN_*/README.md`(시작 코드 없음), 15주는 `rehearsal_starter`·`rehearsal_solution`, 9주는 시연용 `service_demo`·`fragment_demo`·`fake_request`를 같은 규칙으로 둔다 |
 | `exam_structure.md`·`project_brief.md`·`rubric.md` | 시험·과제 주차만. 8주 시험 구조·채점표, 9·14주 과제 안내·채점표, 15주 채점표 |
 
 `examples/dayN/`의 파일은 Android Studio의 **Empty Views Activity** 템플릿 프로젝트에 다음 규칙으로 넣으면 그대로 빌드된다.
@@ -53,7 +53,7 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 | 5 | 메인 스레드와 백그라운드: Thread·Handler | [검색] 5초 동안 버튼 비활성·ProgressBar, [중지] | [`week05_threading_anr`](week05_threading_anr/) |
 | 6 | 코루틴: delay·취소·오류 처리 | `검색 중… 3` 카운트다운과 [중지], 가짜 연결 실패와 [다시 시도] | [`week06_coroutines`](week06_coroutines/) |
 | 7 | ViewModel과 StateFlow: 회전해도 살아 있는 상태 | 회전해도 이어지는 `연결 중… 3`, 상태에 맞게 켜지는 버튼 | [`week07_flow_ui_state`](week07_flow_ui_state/) |
-| 8 | 중간고사(개인 실기) | 리허설 앱 `Rehearsal`: [시작] 카운트다운·[취소]·회전 유지(범위 2~7주) | [`week08_midterm`](week08_midterm/) |
+| 8 | 중간고사(개인 실기) | 1~7주 실습 제출을 정리한 문제 은행(수업에서 나간 범위)으로 연습하고, 값만 바뀐 같은 문제로 시험 | [`week08_midterm`](week08_midterm/) |
 | 9 | 앱 컴포넌트 비교와 1차 과제 발표 | `LogService` 시연, 1차 과제 발표(SmartIO 시뮬레이터 또는 자유 앱) | [`week09_services_project`](week09_services_project/) |
 | 10 | BroadcastReceiver와 런타임 권한 | 연결 화면 배터리 문구, [권한 확인] → 거절 AlertDialog → 설정 화면 | [`week10_receivers_permissions`](week10_receivers_permissions/) |
 | 11 | 목록과 저장: ListView·SharedPreferences·ContentProvider 비교 + 실기기 준비 | 장치 이름 목록, 앱을 다시 켜도 남는 `마지막 장치: …`, 실기기 실행 | [`week11_content_provider`](week11_content_provider/) |
