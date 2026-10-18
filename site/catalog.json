@@ -540,12 +540,12 @@
           "id": "week08_midterm",
           "label": "8주차",
           "title": "수시평가와 2차 종합과제",
-          "description": "1~7주 내용을 개인 실기로 점검하고 2차 종합과제를 제출합니다.",
+          "description": "1~4주에 배운 uv 사용법·프로젝트 관리·Git·Ollama를 모의 실기로 연습하고 개인 실기로 점검합니다. 2차 종합과제 안내도 함께 있습니다.",
           "type": "week",
           "en": {
             "label": "Week 8",
             "title": "Midterm Assessment and Project 2",
-            "description": "Check your grasp of weeks 1-7 with an individual hands-on exam, and submit Project 2."
+            "description": "Practice uv, project management, Git, and Ollama from weeks 1-4 with mock exams, then check yourself in an individual hands-on exam. The Project 2 guide is here too."
           }
         },
         {
