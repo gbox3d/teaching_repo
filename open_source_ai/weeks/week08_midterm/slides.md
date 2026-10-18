@@ -18,8 +18,8 @@ footer: "수시평가와 2차 종합과제"
 
 | 교시 | 설명·시연 20분 | 직접 해결 실습 30분 |
 |---|---|---|
-| 1교시 | 실기평가 구조와 모의 문제 읽는 법 | 모의 실기 A 프로젝트 복구와 판별 문항 |
-| 2교시 | 로컬 AI 실기 진단 포인트와 채점표 | 모의 실기 B 클라이언트 기능 추가와 결과 해석 |
+| 1교시 | 실기평가 구조와 모의 문제 읽는 법 | 모의 실기 A 프로젝트 복구와 uv·프로젝트 개념 문항 |
+| 2교시 | Git·Ollama 실기 진단 포인트와 채점표 | 모의 실기 B Git 상황 판단과 Ollama 툴 콜링 |
 | 3교시 | 실기평가 운영과 2차 과제 최종 점검 | 개인 실기평가와 대체 운영 |
 
 이번 주 질문: **1~7주의 내용을 혼자서 재현하고 설명할 수 있는가?**
@@ -48,18 +48,17 @@ footer: "수시평가와 2차 종합과제"
 
 ---
 
-## 3–6분 · 평가 범위 여섯 영역
+## 3–6분 · 평가 범위 다섯 영역
 
 | 영역 | 확인하는 것 |
 |---|---|
-| Git·협업 | 브랜치·commit·충돌·PR 판단, 비밀 분리 |
-| 라이선스·출처 | permissive/copyleft, 모델·데이터 조건, SPDX, `SOURCES.md` |
-| uv 재현성 | pyproject 복구, sync·run, `.gitignore`·`.env.example` |
-| Ollama 실행·API | 요청 JSON, `stream`·`think`·`options`, 메타, 실패 처리 |
-| HF pipeline·모델 카드 | label·score·device·경고 해석, 용도·제한 |
-| 검증·설명 | 정상·실패 경로 재현, `outputs/`, 근거 문장 |
+| uv 사용법·재현성 | pyproject 복구, `uv add`가 바꾸는 파일, `pyproject.toml`·`uv.lock`, `sync --locked`, `uv run` |
+| 프로젝트 관리법 | src 레이아웃, `[project.scripts]`, stdout·stderr, `.env`·`.env.example`, 설정 계층 |
+| Git 개념·사용법 | 네 영역, `git status` 읽기, add·commit·push, 브랜치·충돌·PR 판단, 비밀 분리 |
+| Ollama 사용법·응용 | `list`·`show`·`run`·`ps`, 메시지 역할, `options`·`think`, 실패 구분, 툴 콜링 |
+| 검증·설명 | 정상·실패 경로 재현, 실행 기록, 근거 문장 |
 
-자세한 표는 [exam_structure.md](exam_structure.md)에 있다.
+모의 실기 A·B는 1~4주차 내용이다. 라이선스·HF·RAG의 포함 여부는 학기별 시험 공지가 정한다. 자세한 표는 [exam_structure.md](exam_structure.md)에 있다.
 
 ---
 
@@ -112,9 +111,9 @@ uv sync
 
 | 나쁜 답 | 좋은 답 |
 |---|---|
-| "쓸 수 있다" | "쓸 수 있다 — MIT는 재배포 시 저작권 고지만 요구한다" |
-| "안 된다" | "GPL-3.0 코드를 import해 배포하면 결합물도 GPL 조건을 따른다" |
+| "lock은 안 올려도 된다" | "`uv.lock`도 커밋한다 — 없으면 다음 사람은 다른 오늘을 해석한다" |
 | "pull 한다" | "`git fetch` 뒤 `git merge origin/main` — 충돌은 working tree에서 푼다" |
+| "모델이 기억한다" | "지난 질문·답을 `messages`에 쌓아 다시 보낸다 — 모델은 요청 사이에 아무것도 저장하지 않는다" |
 
 답 형식: **판단 + 근거 + (있으면) 출처**. 세 줄을 넘기지 않는다.
 
@@ -124,13 +123,13 @@ uv sync
 
 ## 17–20분 · 실습 인계
 
-[1교시 실습 — 모의 실기 A 프로젝트 복구와 판별 문항](lab.md#1교시-실습--모의-실기-a-프로젝트-복구와-판별-문항) · [교시별 예제](examples/period1/README.md)
+[1교시 실습 — 모의 실기 A 프로젝트 복구와 uv·프로젝트 개념 문항](lab.md#1교시-실습--모의-실기-a-프로젝트-복구와-uv프로젝트-개념-문항) · [교시별 예제](examples/period1/README.md)
 
 완료 조건:
 
 1. `uv run python report.py`가 `outputs/report.json`을 만든다
 2. `git ls-files`에 `.env`가 없고 `.gitignore`·`.env.example`이 커밋되어 있다
-3. `answers_A.md`에 라이선스 3문항·Git 1문항의 판단과 근거가 있다
+3. `answers_A.md`에 uv·프로젝트 개념 문항 A-2~A-4의 판단과 근거가 있다
 
 타이머 30분. 실습 30분 뒤 휴식 10분, 휴식 후 2교시.
 
@@ -139,63 +138,62 @@ uv sync
 <!-- _class: lead -->
 
 # 2교시 · 설명 20분
-## 로컬 AI 실기 진단 포인트와 채점표
+## Git·Ollama 실기 진단 포인트와 채점표
 
 ---
 
-## 0–3분 · 로컬 AI 문항이 확인하는 것
+## 0–3분 · Git·Ollama 문항이 확인하는 것
 
-- 요청 JSON을 **읽고 쓸** 수 있는가 — `model`·`messages`·`stream`·`think`·`options`
-- 실패를 사람이 읽을 메시지로 바꾸는가 — 연결 실패와 모델 없음은 다르다
-- 응답 메타를 기록해 "느리다"를 숫자로 말하는가
-- 모델 이름·주소를 하드코딩하지 않고 환경변수 + 기본값으로 읽는가
+- `git status`의 세 묶음을 **영역**으로 읽고 다음 명령을 고르는가
+- "파일을 지웠다"와 "이력에서 사라졌다"를 구분하는가
+- Ollama 서버·터미널 명령·Python 라이브러리의 관계와 메시지 세 역할을 설명하는가
+- 툴 콜링에서 함수를 **실행하는 주체**가 누구인지 아는가
 
-**질문:** 서버가 꺼졌을 때와 모델이 없을 때, 프로그램은 어떤 예외를 각각 만나는가?
+**질문:** `Changes to be committed`, `Changes not staged for commit`, `Untracked files`는 각각 어느 영역인가?
 
 ---
 
-## 3–6분 · 진단 1: 연결 실패와 모델 없음
+## 3–6분 · 진단 1: `git status`를 영역으로 읽는다
 
-| 증상 | 예외·응답 | 먼저 확인할 것 |
+| 출력 | 영역 | 다음 명령 |
 |---|---|---|
-| 응답 없이 즉시 실패 | `httpx.ConnectError` | `ollama serve` 여부, `OLLAMA_HOST` |
-| 오래 기다리다 실패 | `httpx.TimeoutException` | 첫 로딩 중인가, `timeout` 값 |
-| 즉시 실패, 본문에 `not found` | HTTP 404 | `ollama list`, 모델 이름·태그 |
-| 200인데 답이 이상함 | 정상 응답 | `think`, `temperature`, 프롬프트 |
+| `Changes to be committed: modified: a.py` | staging area | `git commit` |
+| `Changes not staged for commit: modified: b.md` | working tree | `git add b.md` |
+| `Untracked files: c.txt` | 추적 안 됨(working tree) | `git add c.txt` 또는 `.gitignore` |
+| `Your branch is ahead of 'origin/main' by 1 commit` | repository만 앞섬 | `git push` |
 
-같은 "안 된다"도 **예외 종류**가 다르면 원인이 다르다.
-
----
-
-## 6–9분 · 진단 2: 스트리밍 파싱과 옵션 효과
-
-```json
-{"model": "qwen3:8b",
- "messages": [{"role": "user", "content": "..."}],
- "stream": false,
- "think": false,
- "options": {"temperature": 0.2, "num_predict": 256}}
-```
-
-- `stream: true`면 응답은 **NDJSON 줄 단위** — 한 줄씩 `json.loads`
-- `think: false`는 Qwen3 계열의 사고 출력을 답에서 분리한다
-- `options`는 Modelfile 기본값을 요청 단위로 덮어쓴다
+`.gitignore`는 **아직 추적되지 않은** 파일만 막는다. 이미 add된 `.env`는 `git restore --staged .env`로 내린다.
 
 ---
 
-## 9–12분 · 응답 메타를 읽는 법
+## 6–9분 · 진단 2: 세 가지 "안 된다"는 원인이 다르다
 
-```python
-eval_count = data["eval_count"]        # 생성 토큰 수
-eval_ns = data["eval_duration"]        # 나노초
-tokens_per_sec = eval_count / (eval_ns / 1e9)
+| 메시지 | 원인 | 먼저 확인할 것 |
+|---|---|---|
+| `Failed to connect to Ollama` | 서버(앱)가 꺼짐 | `ollama list`가 되는가 |
+| `model 'qwen3.5:2b' not found` | 이름·태그 오타, 미다운로드 | `ollama list`의 NAME |
+| `No module named 'ollama'` | 프로젝트 환경 밖에서 실행 | `uv run ex01`로 실행했는가, `uv sync` |
+| 답이 이상함 | 정상 응답 | `think`, `temperature`, system |
+
+터미널 명령도 Python 라이브러리도 같은 서버에 묻는 **손님**이다. 서버가 꺼지면 둘 다 안 된다.
+
+---
+
+## 9–12분 · 툴 콜링 다섯 줄 다시 읽기
+
+```text
+① 내 프로그램 → 모델     질문 + 함수 목록(get_current_time, multiply)
+② 모델 → 내 프로그램     "multiply(a=1234, b=5678)을 불러 줘"   ← tool_calls
+③ 내 프로그램            함수를 직접 실행 → 7006652
+④ 내 프로그램 → 모델     결과를 role "tool" 로 전달
+⑤ 모델 → 사람            "1234 × 5678 = 7,006,652 입니다"
 ```
 
-- `total_duration`: 로딩 + 프롬프트 처리 + 생성 전체
-- `prompt_eval_count`: 입력 토큰 수 — 컨텍스트가 길어지면 커진다
-- 기록 없이 "빠르다·느리다"는 채점 근거가 되지 않는다
+- 모델은 **부탁만** 한다. 실행은 언제나 내 프로그램이다
+- 함수 결과와 `AI>` 답이 다르면 **함수 결과가 정답**이다
+- 라이브러리가 이름·타입·docstring을 읽어 설명서로 보낸다 → `Args:`를 비우면 모델이 인자를 못 고른다
 
-**질문:** 같은 모델인데 첫 호출만 `total_duration`이 큰 이유는?
+**질문:** `tools=`를 빼고 `1234 곱하기 5678은?`을 물으면 무엇이 달라지는가?
 
 ---
 
@@ -203,11 +201,10 @@ tokens_per_sec = eval_count / (eval_ns / 1e9)
 
 | 영역 | 배점 |
 |---|---:|
-| 재현·실행 | 15 |
-| Git·협업 | 15 |
-| 라이선스·출처 | 15 |
-| 로컬 AI API | 25 |
-| HF 활용 | 15 |
+| uv 사용법·재현성 | 20 |
+| 프로젝트 관리법 | 15 |
+| Git 개념·사용법 | 20 |
+| Ollama 사용법·응용 | 30 |
 | 검증·설명 | 15 |
 
 100점 상대 배점이다. 수준은 완전·부분·미충족 세 단계 — [exam_rubric.md](exam_rubric.md).
@@ -216,11 +213,11 @@ tokens_per_sec = eval_count / (eval_ns / 1e9)
 
 ## 15–17분 · 흔한 감점 원인
 
-- `outputs/`가 없거나 실행 결과가 파일로 남지 않음
-- 예외를 잡아 놓고 원인이 안 보이는 메시지("에러 발생")만 출력
-- 모델 이름·주소를 코드에 하드코딩
+- 명령은 맞는데 어느 영역이 바뀌는지 설명이 없음
+- `.env`를 지운 commit을 올리고 "비밀이 사라졌다"고 적음
+- `[함수 실행]` 줄 없이 "됐다"고만 적음 — 실행 기록이 증거다
 - `.env`·`.venv`·`outputs/`가 commit에 포함
-- 정상 경로만 시연하고 실패 경로 증거가 없음
+- 연결 실패·모델 없음·모듈 없음을 한 원인으로 묶어 적음
 - 실행은 되지만 어떤 코드를 왜 바꿨는지 설명하지 못함
 
 **핵심:** 기능 하나를 덜 하더라도 **한 경로를 끝까지** 증거로 남긴다.
@@ -229,13 +226,13 @@ tokens_per_sec = eval_count / (eval_ns / 1e9)
 
 ## 17–20분 · 실습 인계
 
-[2교시 실습 — 모의 실기 B 클라이언트 기능 추가와 결과 해석](lab.md#2교시-실습--모의-실기-b-클라이언트-기능-추가와-결과-해석) · [교시별 예제](examples/period2/README.md)
+[2교시 실습 — 모의 실기 B Git 상황 판단과 Ollama 툴 콜링](lab.md#2교시-실습--모의-실기-b-git-상황-판단과-ollama-툴-콜링) · [교시별 예제](examples/period2/README.md)
 
 완료 조건:
 
-1. `--system` 옵션이 동작하고 전후 답이 달라진 근거를 한 문장으로 적었다
-2. `outputs/chat-*.json`에 `eval_count`·`eval_duration`·`tokens_per_sec`가 기록된다
-3. `answers_B.md`에 pipeline 해석 3문항의 판단과 근거가 있다
+1. B-1·B-2 Git 문항에 세 파일의 영역 판정과 명령 순서의 영역 표기가 있다
+2. B-3 표에서 세 가지 "안 된다"의 원인과 확인 방법이 서로 다르다
+3. `answers_B.md`에 새 함수를 부른 `[함수 실행]` 줄과 세 단계 설명이 있다
 
 타이머 30분. 실습 30분 뒤 휴식 10분, 휴식 후 3교시.
 

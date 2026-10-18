@@ -1,43 +1,41 @@
-# 8주차 2교시 — 모의 실기 B 클라이언트 기능 추가와 결과 해석
+# 8주차 2교시 — 모의 실기 B Git 상황 판단과 Ollama 툴 콜링
 
-공개 모의 실기 B의 **기능 추가 시작 코드와 해석용 fixture**다. `chat.py`의 `TODO(B-1)`은 학생이 채우며, 완성 답안은 포함하지 않는다.
+공개 모의 실기 B의 **문항**이다. 별도 시작 코드는 없고, B-4 실기는 4주차 3교시 `period3` 프로젝트(`ex07` 툴 콜링)를 그대로 쓴다. 정답은 포함하지 않는다.
 
-기준: [실습지의 2교시](../../lab.md#2교시-실습--모의-실기-b-클라이언트-기능-추가와-결과-해석). 아래 시간은 실습 30분의 구간이며, 설명 20분·휴식 10분은 기존 시간표를 따른다.
+기준: [실습지의 2교시](../../lab.md#2교시-실습--모의-실기-b-git-상황-판단과-ollama-툴-콜링). 아래 시간은 실습 30분의 구간이며, 설명 20분·휴식 10분은 기존 시간표를 따른다.
 
 ## 시간과 파일 대응
 
 | 시간 | 실습 단계 | 읽거나 실행할 파일 |
 |---|---|---|
-| 0–5분 | 요구사항과 원본 1회 실행 | `tasks_B.md`, `client_starter/` |
-| 5–18분 | system·응답 메타 기능 추가 | `client_starter/chat.py` |
-| 18–24분 | pipeline 출력 해석 | `fixtures/pipeline_output.json` |
-| 24–30분 | 실패 2종·답안 확인 | `check_env.py`, 개인 `answers_B.md` |
+| 0–3분 | 문항 읽고 완료 조건 표시 | `tasks_B.md` |
+| 3–10분 | Git 기록 흐름, `git status` 읽기 | `tasks_B.md` B-1 |
+| 10–16분 | Git 브랜치·원격·충돌 상황 | `tasks_B.md` B-2 |
+| 16–22분 | Ollama 사용법 개념 문항 | `tasks_B.md` B-3 |
+| 22–30분 | 툴 콜링 함수 추가·실행·기록 | 4주차 `period3/src/ex07/tools.py`, `answers_B.md` |
 
 ## 이전 산출물과 시작 위치
 
-1교시 답안을 이어받지 않아도 시작할 수 있다. `examples/period2`에서 `client_starter`를 개인 `week08-mock-b`로 복사한다. 모델은 사전 캐시본만 사용한다.
+1교시 답안을 이어받지 않아도 시작할 수 있다. B-4는 4주차 3교시에 만든 `C:\classwork\week04\period3`에서 한다. 없으면 교재 `week04_ollama_local_llm/examples/period3`를 복사하고 `uv sync`한다. 모델은 사전 캐시한 `qwen3.5:2b`만 사용한다.
 
 ## 실행 순서
 
-복사·`.env` 생성·이전 산출물 전달은 **새 실습 폴더에서 최초 1회만** 한다. 이미 작업 중이면 이 명령들을 생략하고 실행 위치 확인부터 이어간다. 기존 개인 코드·설정·결과를 덮어쓰지 않는다. 새 period의 누적 코드와 개인 변경은 비교하여 필요한 수정만 옮긴다.
-
 ```powershell
-if (-not (Test-Path $HOME\osa-practice\week08-mock-b)) { Copy-Item -Recurse .\client_starter $HOME\osa-practice\week08-mock-b }
-Set-Location $HOME\osa-practice\week08-mock-b
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+Set-Location C:\classwork\week04\period3
+ollama show qwen3.5:2b      # Capabilities 에 tools 가 있는지 본다
 uv sync
-uv run python check_env.py
-uv run python chat.py --prompt "uv sync 가 하는 일을 한 문장으로 설명하라."
+code src\ex07\tools.py      # discount_price 추가, TOOLS 등록
+uv run ex07                 # 지정 질문 입력 → [함수 실행] 줄 기록 → /bye
 ```
 
-`tasks_B.md`를 따라 기능을 추가한 뒤 같은 prompt로 system 유무 2회를 비교한다. `--model nonexistent-model`과 `--host http://localhost:1`로 두 실패를 구분한다.
+B-1~B-3은 모델 없이 읽고 답한다. B-4는 `[함수 실행]` 줄과 `AI>` 답을 그대로 `answers_B.md`에 붙인다.
 
 ## 예상 출력과 완료 확인
 
-시작 코드는 기본 응답만 저장한다. 실습 후 JSON에 응답 메타·tokens_per_sec가 들어가야 한다. fixture는 자체 작성 샘플이며 실제 추론 성능으로 보고하지 않는다.
+`[함수 실행] discount_price({'price': 25000, 'percent': 20}) -> 20000.0`처럼 모델이 새 함수를 부른 줄이 보여야 한다. 함수 결과와 `AI>` 답이 다르면 함수 결과가 정답이다. 모델이 함수를 부르지 않으면 질문이나 docstring을 바꿔 다시 시도하고, 바꾼 내용과 결과를 적는다.
 
 ## 대체 경로
 
-GPU가 없으면 사전 캐시한 소형 모델을 쓴다. 서버가 없으면 구현과 fixture 해석을 먼저 하고 모델 실행 확인은 가능한 PC에서 한다. 없는 실행 결과를 답안에 쓰지 않는다.
+GPU가 없는 PC도 `qwen3.5:2b`로 진행한다(느릴 뿐이다). Ollama 서버가 없으면 B-1~B-3과 B-4-1·B-4-4·B-4-5를 먼저 끝내고, 실행 기록은 서버가 있는 PC에서 남긴다. 없는 실행 결과를 답안에 쓰지 않는다.
 
-실측 결과·답안은 개인 실습 폴더에 기록한다. 실제 비밀정보와 환경 폴더를 공개하지 않는다. 학기 기준이 정해지면 기준 PC에서 생성·검증한 lock을 배포하며, 현재 원본에는 lock을 넣지 않았다.
+실측 결과·답안은 개인 실습 폴더에 기록한다. 실제 비밀정보와 환경 폴더를 공개하지 않는다.

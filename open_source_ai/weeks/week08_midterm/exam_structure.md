@@ -6,14 +6,13 @@
 
 | 영역 | 확인 역량 |
 |---|---|
-| Git·협업 | 브랜치 작업, 의미 있는 commit, 충돌 해결, PR·리뷰 상황 판단, 이력에서 비밀 분리 |
-| 라이선스·출처 | permissive/copyleft 구분, 모델·데이터 라이선스 조건 판별, SPDX 표기, 출처 기록(`SOURCES.md`) |
-| uv 재현성 | `pyproject.toml` 오류 복구, `uv sync`·`uv run`, `.gitignore`·`.env.example`, lock 파일의 역할 |
-| Ollama 실행·API | `/api/chat`·`/api/generate` 요청 JSON, 메시지 역할, `stream`·`think`·`options`, 응답 메타, 연결 실패·모델 없음 처리 |
-| HF pipeline·모델 카드 | pipeline 결과(label·score·generated_text) 해석, device·dtype·경고 메시지 읽기, 모델 카드의 용도·제한 판단 |
-| 검증·설명 | 정상·실패 경로 재현, `outputs/` 기록, 원인과 근거를 적은 짧은 설명 |
+| uv 사용법·재현성 | `pyproject.toml` 오류 복구, `uv add`가 바꾸는 파일, `pyproject.toml`과 `uv.lock`의 관계, `uv sync --locked`·`--frozen`, `uv run`이 하는 일, `.venv` 미커밋 |
+| 프로젝트 관리법 | src 레이아웃, `[project.scripts]`·`[build-system]` 엔트리포인트, `uv init --package`, stdout·stderr 분리와 README 실행 절차, `.env`·`.env.example`과 설정 계층, 비밀값 가리기, ignore 규칙 |
+| Git 개념·사용법 | working tree·staging area·repository·원격 네 영역, `git status` 읽기, add·commit·push 순서와 영역, 브랜치·충돌·PR 상황 판단, 비밀 파일 분리와 이력 잔존 판단 |
+| Ollama 사용법·응용 | `list`·`show`·`run`·`ps`가 알려 주는 것, 메시지 역할과 기억, `options`·`think`, 실패 메시지 구분, 툴 콜링 세 단계와 실행 주체, 함수 추가 실기, Modelfile |
+| 검증·설명 | 정상·실패 경로 재현, `outputs/`와 `[함수 실행]` 줄 같은 실행 기록, 원인과 근거를 적은 짧은 설명 |
 
-임베딩·RAG(7주차)의 포함 깊이와 스트리밍 파싱의 포함 여부는 학기별 실제 시험 공지에서 명시한다.
+모의 실기 A·B는 위 다섯 영역, 곧 1~4주차 내용으로 구성한다. 라이선스 판별, Hugging Face pipeline 해석, 임베딩·RAG(5~7주차)의 포함 여부와 깊이는 학기별 실제 시험 공지에서 명시한다.
 
 ## 권장 운영
 
@@ -30,8 +29,8 @@
 실제 학기에는 다음을 비공개로 준비한다.
 
 1. 요구사항 문서와 정확한 완료 조건(요구사항 → 완료 조건 → 검증 순서 형식)
-2. 동일 commit 또는 release tag의 starter(깨진 uv 프로젝트, 최소 Ollama 클라이언트 등)
-3. 해석 문항용 fixture(pipeline 출력 JSON, 모델 카드 발췌)와 사용 허가
+2. 동일 commit 또는 release tag의 starter(깨진 uv 프로젝트, 4주차 `period3` 툴 콜링 프로젝트 등)
+3. 읽기 문항용 샘플(`git status` 출력, `pyproject.toml` 조각, Modelfile 등)
 4. 사전 캐시 모델 목록(`OLLAMA_MODEL`, CPU 대체 모델)과 캐시 확인 절차
 5. 제출 경로·파일명·마감 시각
 6. 네트워크·참고 자료·AI 도구 허용 범위
@@ -41,10 +40,10 @@
 ## 학생 산출물
 
 - 지정 source 파일(복구된 `pyproject.toml`, 수정한 클라이언트 스크립트 등)
-- `outputs/`의 실행 기록 JSON(연결 상태, 응답 메타)
+- 실행 기록(`outputs/report.json`, 새 함수를 부른 `[함수 실행]` 줄을 포함한 터미널 출력)
 - 마지막 commit id
 - 요구한 정상·실패 경로의 실행 결과
-- 판별·해석 문항 답안(판단 + 근거 + 출처)
+- 개념·읽기 문항 답안(판단 + 근거 + 영역 표기나 확인할 명령)
 - 시험 규정에서 요구한 짧은 설명
 
 ## 시작 전 감독 체크

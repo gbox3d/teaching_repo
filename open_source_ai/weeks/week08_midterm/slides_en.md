@@ -18,8 +18,8 @@ Each block: 20 min explanation & demo + 30 min hands-on lab + 10 min break
 
 | Session | 20 min explanation & demo | 30 min hands-on lab |
 |---|---|---|
-| Block 1 | How the hands-on exam is structured, and how to read a mock question | Mock exam A: recovering a project and answering discriminating questions |
-| Block 2 | Diagnostic points and the rubric for local-AI hands-on tasks | Mock exam B: adding a client feature and interpreting the results |
+| Block 1 | How the hands-on exam is structured, and how to read a mock question | Mock exam A: recovering a project and uv/project concept questions |
+| Block 2 | Diagnostic points and the rubric for Git and Ollama hands-on tasks | Mock exam B: Git situation judgment and Ollama tool calling |
 | Block 3 | Running the exam, and final checks on Project 2 | Individual hands-on exam and fallback procedures |
 
 This week's question: **can you reproduce and explain weeks 1–7 on your own?**
@@ -48,18 +48,17 @@ Weeks 5–7 combined ──▶ Did you package it for others to reproduce? → P
 
 ---
 
-## 3–6 min · Six Assessment Areas
+## 3–6 min · Five Assessment Areas
 
 | Area | What it checks |
 |---|---|
-| Git & collaboration | Branches, commits, conflict/PR judgment, secret separation |
-| License & sourcing | Permissive/copyleft, model & data conditions, SPDX, `SOURCES.md` |
-| uv reproducibility | Restoring `pyproject`, sync/run, `.gitignore` / `.env.example` |
-| Ollama execution & API | Request JSON, `stream`/`think`/`options`, metadata, failure handling |
-| HF pipeline & model cards | Reading label/score/device/warnings, intended use and limits |
-| Verification & explanation | Reproducing success/failure paths, `outputs/`, evidence-backed reasoning |
+| uv usage & reproducibility | Restoring `pyproject`, what `uv add` changes, `pyproject.toml` vs `uv.lock`, `sync --locked`, `uv run` |
+| Project management | src layout, `[project.scripts]`, stdout vs stderr, `.env` / `.env.example`, config layering |
+| Git concepts & usage | Four areas, reading `git status`, add/commit/push, branch/conflict/PR judgment, secret separation |
+| Ollama usage & application | `list`/`show`/`run`/`ps`, message roles, `options`/`think`, telling failures apart, tool calling |
+| Verification & explanation | Reproducing success/failure paths, run logs, evidence-backed reasoning |
 
-See [exam_structure.md](exam_structure.md) for the detailed table.
+Mock exams A and B cover weeks 1–4. Whether licenses, HF, or RAG are included is set by each term's exam notice. See [exam_structure.md](exam_structure.md) for the detailed table.
 
 ---
 
@@ -112,9 +111,9 @@ Errors appear **one at a time**. Fix one, rerun, read the next.
 
 | Weak answer | Strong answer |
 |---|---|
-| "You can use it" | "You can use it — MIT only requires keeping the copyright notice on redistribution" |
-| "You can't" | "Importing GPL-3.0 code and shipping it means the combined work must also follow GPL terms" |
+| "You don't need to commit the lock" | "Commit `uv.lock` too — without it the next person resolves a different today" |
 | "You pull" | "`git fetch`, then `git merge origin/main` — resolve conflicts in the working tree" |
+| "The model remembers" | "You pile earlier questions and answers into `messages` and send them again — the model stores nothing between requests" |
 
 Answer format: **judgment + reasoning + (if any) source**. Never more than three lines.
 
@@ -124,13 +123,13 @@ Answer format: **judgment + reasoning + (if any) source**. Never more than three
 
 ## 17–20 min · Handoff to Lab
 
-[Block 1 lab — Mock Exam A: Recovering a Project and Discriminating Questions](lab.md#1교시-실습--모의-실기-a-프로젝트-복구와-판별-문항) · [Period files](examples/period1/README.md)
+[Block 1 lab — Mock Exam A: Recovering a Project and uv/Project Concept Questions](lab.md#1교시-실습--모의-실기-a-프로젝트-복구와-uv프로젝트-개념-문항) · [Period files](examples/period1/README.md)
 
 Completion criteria:
 
 1. `uv run python report.py` produces `outputs/report.json`.
 2. `git ls-files` shows no `.env`, and `.gitignore` / `.env.example` are committed.
-3. `answers_A.md` has judgment and reasoning for 3 license questions and 1 Git question.
+3. `answers_A.md` has judgment and reasoning for the uv/project concept questions A-2 to A-4.
 
 Timer: 30 min. 30 min lab, then a 10 min break; Block 2 follows.
 
@@ -139,63 +138,62 @@ Timer: 30 min. 30 min lab, then a 10 min break; Block 2 follows.
 <!-- _class: lead -->
 
 # Block 2 · 20 min explanation
-## Diagnostic Points and the Rubric for Local-AI Hands-On Tasks
+## Diagnostic Points and the Rubric for Git and Ollama Hands-On Tasks
 
 ---
 
-## 0–3 min · What Local-AI Questions Check
+## 0–3 min · What Git and Ollama Questions Check
 
-- Can you **read and write** the request JSON — `model`/`messages`/`stream`/`think`/`options`?
-- Do you turn failures into human-readable messages — a connection failure differs from a missing model?
-- Do you log response metadata so "it's slow" becomes a number?
-- Do you read the model name and address from environment variables with defaults, instead of hardcoding them?
+- Can you read the three groups in `git status` as **areas** and pick the next command?
+- Do you distinguish "the file is deleted" from "it is gone from the history"?
+- Can you explain how the Ollama server, the terminal command, and the Python library relate, and the three message roles?
+- In tool calling, do you know **who executes** the function?
 
-**Question:** When the server is down versus when the model is missing, what exception does the program hit in each case?
+**Question:** Which area does each of `Changes to be committed`, `Changes not staged for commit`, and `Untracked files` belong to?
 
 ---
 
-## 3–6 min · Diagnosis 1: Connection Failure vs. Missing Model
+## 3–6 min · Diagnosis 1: Read `git status` as Areas
 
-| Symptom | Exception / response | Check first |
+| Output | Area | Next command |
 |---|---|---|
-| Fails immediately, no response | `httpx.ConnectError` | Is `ollama serve` running? `OLLAMA_HOST`? |
-| Hangs, then fails | `httpx.TimeoutException` | Is it still loading the first time? The `timeout` value? |
-| Fails immediately, "not found" in the body | HTTP 404 | `ollama list`, model name and tag |
-| 200 but the answer looks off | A normal response | `think`, `temperature`, the prompt |
+| `Changes to be committed: modified: a.py` | staging area | `git commit` |
+| `Changes not staged for commit: modified: b.md` | working tree | `git add b.md` |
+| `Untracked files: c.txt` | untracked (working tree) | `git add c.txt` or `.gitignore` |
+| `Your branch is ahead of 'origin/main' by 1 commit` | repository is ahead | `git push` |
 
-The same "it doesn't work" has different causes when the **exception type** differs.
-
----
-
-## 6–9 min · Diagnosis 2: Parsing a Stream and What Options Do
-
-```json
-{"model": "qwen3:8b",
- "messages": [{"role": "user", "content": "..."}],
- "stream": false,
- "think": false,
- "options": {"temperature": 0.2, "num_predict": 256}}
-```
-
-- With `stream: true`, the response is **NDJSON, line by line** — `json.loads` each line.
-- `think: false` splits Qwen3's thinking output out of the answer.
-- `options` overrides the Modelfile defaults on a per-request basis.
+`.gitignore` only blocks files that are **not yet tracked**. An `.env` that is already added comes off the stage with `git restore --staged .env`.
 
 ---
 
-## 9–12 min · How to Read Response Metadata
+## 6–9 min · Diagnosis 2: Three "It Doesn't Work"s Have Different Causes
 
-```python
-eval_count = data["eval_count"]        # number of generated tokens
-eval_ns = data["eval_duration"]        # nanoseconds
-tokens_per_sec = eval_count / (eval_ns / 1e9)
+| Message | Cause | Check first |
+|---|---|---|
+| `Failed to connect to Ollama` | The server (app) is off | Does `ollama list` work? |
+| `model 'qwen3.5:2b' not found` | Name/tag typo, not downloaded | NAME column of `ollama list` |
+| `No module named 'ollama'` | Run outside the project environment | Did you run `uv run ex01`? `uv sync` |
+| The answer looks off | A normal response | `think`, `temperature`, system |
+
+The terminal command and the Python library are both **guests** asking the same server. If the server is off, neither works.
+
+---
+
+## 9–12 min · Re-reading the Five Lines of Tool Calling
+
+```text
+① my program → model     question + list of functions (get_current_time, multiply)
+② model → my program     "please call multiply(a=1234, b=5678)"   ← tool_calls
+③ my program             runs the function itself → 7006652
+④ my program → model     passes the result with role "tool"
+⑤ model → person         "1234 × 5678 = 7,006,652"
 ```
 
-- `total_duration`: loading + prompt processing + generation, all together.
-- `prompt_eval_count`: number of input tokens — grows as the context gets longer.
-- "Fast" or "slow" without a logged number isn't grading evidence.
+- The model only **asks**. The execution is always my program.
+- If the function result and the `AI>` answer differ, **the function result is correct**.
+- The library reads the name, types, and docstring as the manual for the model → an empty `Args:` leaves the model unable to pick arguments.
 
-**Question:** Why is `total_duration` large only on the first call for the same model?
+**Question:** What changes if you drop `tools=` and ask "what is 1234 times 5678?"
 
 ---
 
@@ -203,11 +201,10 @@ tokens_per_sec = eval_count / (eval_ns / 1e9)
 
 | Area | Points |
 |---|---:|
-| Reproduction & execution | 15 |
-| Git & collaboration | 15 |
-| License & sourcing | 15 |
-| Local AI API | 25 |
-| HF usage | 15 |
+| uv usage & reproducibility | 20 |
+| Project management | 15 |
+| Git concepts & usage | 20 |
+| Ollama usage & application | 30 |
 | Verification & explanation | 15 |
 
 Out of 100, weighted. Three levels — full, partial, not met — see [exam_rubric.md](exam_rubric.md).
@@ -216,11 +213,11 @@ Out of 100, weighted. Three levels — full, partial, not met — see [exam_rubr
 
 ## 15–17 min · Common Reasons for Losing Points
 
-- No `outputs/`, or run results were never saved to a file.
-- Exceptions are caught but the message doesn't say why ("an error occurred").
-- Model name or address hardcoded in the code.
+- The command is right, but there is no explanation of which area it changes.
+- Pushing a commit that deletes `.env` and writing "the secret is gone".
+- Writing only "it worked" with no `[함수 실행]` line — the run log is the evidence.
 - `.env`, `.venv`, or `outputs/` included in a commit.
-- Only the success path is demonstrated, with no evidence of the failure path.
+- Lumping connection failure, missing model, and missing module into one cause.
 - It runs, but you can't explain which code you changed or why.
 
 **Key point:** rather than doing one less feature, carry **one path through to the end** with evidence.
@@ -229,13 +226,13 @@ Out of 100, weighted. Three levels — full, partial, not met — see [exam_rubr
 
 ## 17–20 min · Handoff to Lab
 
-[Block 2 lab — Mock Exam B: Adding a Client Feature and Interpreting Results](lab.md#2교시-실습--모의-실기-b-클라이언트-기능-추가와-결과-해석) · [Period files](examples/period2/README.md)
+[Block 2 lab — Mock Exam B: Git Situation Judgment and Ollama Tool Calling](lab.md#2교시-실습--모의-실기-b-git-상황-판단과-ollama-툴-콜링) · [Period files](examples/period2/README.md)
 
 Completion criteria:
 
-1. The `--system` option works, and you wrote one sentence with evidence of how the answer changed.
-2. `outputs/chat-*.json` logs `eval_count`, `eval_duration`, and `tokens_per_sec`.
-3. `answers_B.md` has judgment and reasoning for 3 pipeline-interpretation questions.
+1. The Git questions B-1 and B-2 give the area of each of the three files and label the area each command changes.
+2. The B-3 table gives different causes and checks for the three "it doesn't work" messages.
+3. `answers_B.md` has the `[함수 실행]` line where the new function was called, plus the three-step explanation.
 
 Timer: 30 min. 30 min lab, then a 10 min break; Block 3 follows.
 

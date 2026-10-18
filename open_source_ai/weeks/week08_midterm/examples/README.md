@@ -5,7 +5,7 @@
 | 실습 시간 | 폴더 | 그 시간에 사용하는 자료 |
 |---|---|---|
 | 1교시 | [period1/](period1/README.md) | 모의 실기 A 복구 시작 자료 |
-| 2교시 | [period2/](period2/README.md) | 모의 실기 B 기능 추가 시작 코드 |
+| 2교시 | [period2/](period2/README.md) | 모의 실기 B 문항(Git 상황·Ollama 사용법·툴 콜링 실기). 실기는 4주차 `period3` 프로젝트를 쓴다 |
 | 3교시 | [period3/](period3/README.md) | 개인 실기 진행 카드·과제 점검 |
 
 ## 폴더 사용 원칙
