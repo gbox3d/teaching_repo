@@ -97,7 +97,7 @@ Application  Local Storage 의 키와 저장된 값
 web-week15/
   server.mjs
   w12_fetch_cards/      ← 문제 폴더 이름은 문제 id 그대로
-  w05_greeting_card/    ← 공개 주소 …/web-week15/w05_greeting_card/
+  w04_box_style/        ← 공개 주소 …/web-week15/w04_box_style/
 ```
 
 **설명 합계: 8+8+8+6 = 30분**

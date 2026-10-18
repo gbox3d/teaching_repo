@@ -10,10 +10,10 @@
 
 | 영역 | 문제 | 출처 | 권장 |
 |---|---|---|---:|
-| A HTML (4점) | [w01_link_fix](w01_link_fix/) 세 파일 연결 고치기 | [1주차 실습 제출](../../week01_web_git/lab.md#제출--캡처-두-장) | 8분 |
-| A HTML (4점) | [w02_about_page](w02_about_page/) 새 페이지와 상대 링크 | [2주차 실습 제출](../../week02_github_pages/lab.md#제출--캡처-네-장) | 10분 |
-| A HTML (4점) | [w03_guestbook_form](w03_guestbook_form/) 신청 폼 페이지 | [3주차 실습 제출](../../week03_semantic_html/lab.md#제출--캡처-한-장) | 10분 |
-| B CSS (4점) | [w04_responsive_css](w04_responsive_css/) 반응형 메뉴와 카드 | [4주차 실습 제출](../../week04_responsive_css/lab.md#제출--캡처-한-장) | 12분 |
-| C JavaScript·DOM (5점) | [w05_greeting_card](w05_greeting_card/) 인사 카드 | [5주차 실습 제출](../../week05_javascript_data/lab.md#제출--캡처-한-장) | 12분 |
-| C JavaScript·DOM (5점) | [w06_dark_mode](w06_dark_mode/) 문구 바꾸기·다크 모드·클릭 횟수 | [6주차 실습 제출](../../week06_dom_crud/lab.md#제출--캡처-한-장) | 12분 |
-| D 폼 (3점) | [w07_form_result](w07_form_result/) 폼 제출을 한 줄로, 빈값 안내 | [7주차 실습 제출](../../week07_async_modules/lab.md#제출--캡처-한-장) | 11분 |
+| A HTML (4점) | [w01_first_page](w01_first_page/) 첫 페이지 만들기 | [1주차 실습 제출](../../week01_web_git/lab.md#제출--캡처-두-장) | 8분 |
+| A HTML (4점) | [w02_push_repo](w02_push_repo/) 고치고 올리기: add → commit → push | [2주차 실습 제출](../../week02_github_pages/lab.md#제출--캡처-네-장) | 10분 |
+| A HTML (4점) | [w03_second_page](w03_second_page/) 새 페이지와 링크로 오가기 | [3주차 실습 제출](../../week03_semantic_html/lab.md#제출--캡처-한-장) | 10분 |
+| B CSS (4점) | [w04_box_style](w04_box_style/) 상자 꾸미기와 글자 가운데 | [4주차 실습 제출](../../week04_responsive_css/lab.md#제출--캡처-한-장) | 10분 |
+| B CSS (4점) | [w05_box_position](w05_box_position/) 틀 안의 상자를 지정 위치에 | [4주차 실습 제출](../../week04_responsive_css/lab.md#제출--캡처-한-장) | 10분 |
+| C JavaScript·DOM (5점) | [w06_click_text](w06_click_text/) 버튼을 누르면 글자가 바뀌고 횟수가 늘어난다 | [6주차 실습 제출](../../week06_dom_crud/lab.md#제출--캡처-한-장) | 10분 |
+| D 폼 (3점) | [w07_form_line](w07_form_line/) 입력 칸을 읽어 한 줄로 보여 주기 | [7주차 실습 제출](../../week07_async_modules/lab.md#제출--캡처-한-장) | 10분 |

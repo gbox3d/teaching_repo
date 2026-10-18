@@ -104,7 +104,7 @@
 
 ## 다음 수업 연결
 
-이번 주로 8주차 중간 실기 범위(1~7주 실습 제출)가 모두 채워졌다. 6주차 2일차에 안내한 대로 8주차는 [문제 은행](../week08_midterm/examples/README.md)에서 값을 바꿔 출제한다. 폼 문제 [w07_form_result](../week08_midterm/examples/w07_form_result/README.md)는 이번 주 실습에서 나왔다.
+이번 주로 8주차 중간 실기 범위(1~7주 실습 제출)가 모두 채워졌다. 6주차 2일차에 안내한 대로 8주차는 [문제 은행](../week08_midterm/examples/README.md)에서 값을 바꿔 출제한다. 폼 문제 [w07_form_line](../week08_midterm/examples/w07_form_line/README.md)은 이번 주 실습에서 나왔다.
 지금은 두 번째 글을 남기면 앞 글이 사라진다. 글을 쌓아 목록으로 보여 주는 것은 10주차, 새로고침해도 남게 하는 것은 11주차다. 9주차는 오늘 `web-week07` 의 파일에서 시작한다(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/web-week07/`](examples/day2/web-week07/)).
 이 주차 폴더 이름의 비동기(async)는 12주차 `fetch` 에서 다루고, 모듈(`import`/`export`)은 이 과목 범위 밖이다. 이 학기에는 페이지마다 `<script src="…" defer>` 하나로 쓴다.
 

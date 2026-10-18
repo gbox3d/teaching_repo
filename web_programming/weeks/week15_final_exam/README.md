@@ -76,16 +76,16 @@
 
 | 영역(배점) | 출처 | 은행 문제 | 그 주에 한 것 |
 |---|---|---|---|
-| A 화면(HTML·CSS·README) · 3점 | 1주 | [w01_link_fix](../week08_midterm/examples/w01_link_fix/) | `index.html` 의 CSS·JS 연결 줄 고치기 |
-| | 2주 | [w02_about_page](../week08_midterm/examples/w02_about_page/) | 새 페이지와 상대 링크로 오가기 |
-| | 3주 | [w03_guestbook_form](../week08_midterm/examples/w03_guestbook_form/) | 번호 목록과 이름표 붙은 입력 칸이 있는 폼 페이지 |
-| | 4주 | [w04_responsive_css](../week08_midterm/examples/w04_responsive_css/) | 폭·메뉴·카드·좁은 화면의 CSS |
+| A 화면(HTML·CSS·README) · 3점 | 1주 | [w01_first_page](../week08_midterm/examples/w01_first_page/) | h1·p·ul 을 쓴 첫 페이지, 두 번 눌러 열기와 서버로 열기 |
+| | 2주 | [w02_push_repo](../week08_midterm/examples/w02_push_repo/) | 파일을 고쳐 `add`·`commit`·`push` 로 올리기 |
+| | 3주 | [w03_second_page](../week08_midterm/examples/w03_second_page/) | 새 페이지와 상대 링크로 오가기 |
+| | 4주 | [w04_box_style](../week08_midterm/examples/w04_box_style/) | 상자의 색·테두리·여백과 글자 가운데 |
+| | 4주 | [w05_box_position](../week08_midterm/examples/w05_box_position/) | 틀 안의 상자를 `justify-content`·`align-items` 로 지정 위치에 |
 | | 9주 | [w09_readme_links](examples/w09_readme_links/) | README 1차판(제목·목록·링크) |
 | | 14주 | [w14_readme_images](examples/w14_readme_images/) | README 최종판과 그림 세 장 |
-| B DOM · 3점 | 5주 | [w05_greeting_card](../week08_midterm/examples/w05_greeting_card/) | 함수와 `if` 로 만든 인사를 카드에 쓰기 |
-| | 6주 | [w06_dark_mode](../week08_midterm/examples/w06_dark_mode/) | 버튼으로 문구·다크 모드·클릭 횟수 바꾸기 |
+| B DOM · 3점 | 6주 | [w06_click_text](../week08_midterm/examples/w06_click_text/) | 버튼으로 글자와 클릭 횟수 바꾸기 |
 | | 13주 | [w13_text_safe](examples/w13_text_safe/) | 입력한 글을 글자 그대로 보이게 |
-| C 폼·목록 · 4점 | 7주 | [w07_form_result](../week08_midterm/examples/w07_form_result/) | 폼 제출을 한 줄 결과로, 빈값 안내 |
+| C 폼·목록 · 4점 | 7주 | [w07_form_line](../week08_midterm/examples/w07_form_line/) | 입력 칸을 읽어 한 줄로, 빈값 안내 |
 | | 10주 | [w10_list_delete](examples/w10_list_delete/) | 배열로 목록 그리기, 줄마다 삭제, 개수 |
 | D 저장(localStorage) · 2점 | 11주 | [w11_local_storage](examples/w11_local_storage/) | 저장·되살리기·그 키만 지우기 |
 | E 불러오기(fetch) · 3점 | 12주 | [w12_fetch_cards](examples/w12_fetch_cards/) | JSON 파일을 불러와 카드로, 실패 안내 |

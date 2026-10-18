@@ -204,6 +204,6 @@ git push -u origin main
 - 안내 문구 색: `styles.css` 맨 아래에 `#notice { color: #b3261e; }` 규칙을 더한다(4주차 `#` 선택자). JavaScript 는 고치지 않는다.
 - 남긴 글 수 세기: 결과 카드 아래에 `<div id="total">남긴 글 0개</div>` 를 두고, 글을 남길 때마다 `남긴 글 N개` 로 바꾼다. 횟수 변수는 함수 안과 밖 중 어디에 두나(6주차 ex03)? 두 칸이 비어 막혔을 때는 늘지 않아야 한다.
 - 서버로 ex01 열기: 터미널(현재 폴더 `web-week07`)에서 `node server.mjs` → `http://localhost:8000/ex/ex01_submit.html` 을 연다. 열 때 터미널에 어떤 줄들이 찍히나? 1번을 보낼 때는 어떤 줄들이 더 찍히나? 2번을 보낼 때는? "페이지를 다시 연다"는 것이 서버 쪽에서는 어떻게 보이나(1주차 요청과 응답)? 줄 읽는 법은 [서버 사용 안내](../../tools/static-server/README.md#터미널에-찍히는-줄-읽기)에 있다. 확인이 끝나면 **Ctrl+C**.
-- 8주차 문제 은행의 [w07_form_result](../week08_midterm/examples/w07_form_result/README.md) 를 풀어 본다. 이번 주와 같은 일을 다른 값으로 한다. 해답은 공개하지 않는다. 문제의 "확인할 것"이 모두 맞으면 된 것이다.
+- 8주차 문제 은행의 [w07_form_line](../week08_midterm/examples/w07_form_line/README.md) 을 풀어 본다. 이번 주와 같은 일을 다른 값으로 한다. 해답은 공개하지 않는다. 문제의 "확인할 것"이 모두 맞으면 된 것이다.
 
 추가 과제는 선택 사항이며 채점하지 않는다.

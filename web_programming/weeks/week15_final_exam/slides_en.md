@@ -97,7 +97,7 @@ Device mode  Ctrl+Shift+M → width 375, no horizontal overflow
 web-week15/
   server.mjs
   w12_fetch_cards/      ← folder name = the problem id, exactly
-  w05_greeting_card/    ← public address …/web-week15/w05_greeting_card/
+  w04_box_style/        ← public address …/web-week15/w04_box_style/
 ```
 
 **Explanation total: 8+8+8+6 = 30 min**

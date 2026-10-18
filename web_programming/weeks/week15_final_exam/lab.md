@@ -28,9 +28,9 @@
 
 | 영역 | 은행 문제 |
 |---|---|
-| A 화면(HTML·CSS·README) | `w01_link_fix` · `w02_about_page` · `w03_guestbook_form` · `w04_responsive_css` · `w09_readme_links` · `w14_readme_images` |
-| B DOM | `w05_greeting_card` · `w06_dark_mode` · `w13_text_safe` |
-| C 폼·목록 | `w07_form_result` · `w10_list_delete` |
+| A 화면(HTML·CSS·README) | `w01_first_page` · `w02_push_repo` · `w03_second_page` · `w04_box_style` · `w05_box_position` · `w09_readme_links` · `w14_readme_images` |
+| B DOM | `w06_click_text` · `w13_text_safe` |
+| C 폼·목록 | `w07_form_line` · `w10_list_delete` |
 | D 저장(localStorage) | `w11_local_storage` |
 | E 불러오기(fetch) | `w12_fetch_cards` |
 
@@ -45,7 +45,7 @@
 
 - **받기**: `web-week15` 안에 문제 id 와 같은 이름의 폴더를 만들고, 시작 파일을 **Raw** 로 받아 같은 이름으로 저장한다. 하위 폴더(`data/`·`images/`·`screenshots/`)도 같은 모양으로 만든다. 문제 문장인 `README.md` 는 받지 않는다. 교재 화면에서 읽는다.
 - **서버로 열기**: 터미널(현재 폴더 `web-week15`)에서 `node server.mjs` → 문제 문장 끝 "받기와 올리기"의 주소(`http://localhost:8000/<문제 id>/`. 첫 페이지가 `index.html` 이 아닌 문제는 파일 이름까지)를 연다. 맨 위 `http://localhost:8000/` 은 `index.html` 이 없어서 파일 목록이 보인다. Node 가 없는 PC 는 두 번 눌러 연다. `w12_fetch_cards` 는 그렇게 열면 요청이 막혀서, 올린 뒤 공개 주소에서 확인한다.
-- 먼저 받은 그대로 열어 본다. "확인할 것" 가운데 맞지 않는 것이 있어야 정상이다. 받자마자 Console 에 빨간 줄이 있으면 받은 파일 이름과 폴더부터 본다(`w01_link_fix` 는 그 404 를 고치는 문제라 처음부터 빨간 줄이 있다).
+- 먼저 받은 그대로 열어 본다. "확인할 것" 가운데 맞지 않는 것이 있어야 정상이다. 받자마자 Console 에 빨간 줄이 있으면 받은 파일 이름과 폴더부터 본다.
 - **시작 파일**: 고칠 파일과 "고치지 않는다" 파일을 가른다. 고치지 않는 파일은 열어 보기만 한다.
 - **할 일**: 적힌 차례대로 한다. 하나를 쓸 때마다 저장 → 새로고침 → Console 을 본다.
 - **확인할 것**: 위에서부터 하나씩 화면이나 F12 로 직접 해 본다. 넣으라는 입력도 적힌 글자 그대로 넣는다. 모두 맞으면 그 문제는 끝이다. 해답과 비교하지 않는다.
@@ -175,7 +175,7 @@ web-week15/
 | 공개 주소 `https://student01.github.io/web-week15/` 가 404 다 | 맨 위에 `index.html` 이 없어서다. 문제 폴더 주소(`…/web-week15/w12_fetch_cards/`)나 시험 목차(`…/web-week15/exam/`)로 연다 |
 | `http://localhost:8000/exam/` 에 목차 대신 파일 목록(`exam/` 한 줄)이 보이거나 404 다 | 압축을 풀다 `exam/exam/` 으로 한 겹 더 들어갔다(안쪽 `exam` 을 맨 위로 옮긴다). 또는 서버를 다른 폴더에서 띄웠다(터미널의 `폴더:` 줄이 `web-week15` 인지 본다) |
 | 공개 주소 `…/web-week15/exam/` 이 404 다 | ① `exam` 폴더를 맨 위에 넣었는지(`web-week15/exam/index.html`). `exam/exam/` 처럼 한 겹 더 들어가 있으면 안쪽을 꺼낸다 ② 폴더 이름이 소문자 `exam` 인지 ③ GitHub 저장소 화면에 `exam/` 이 올라가 있는지 ④ 올린 뒤 1~3분 기다렸는지 본다 |
-| 받은 문제를 열었더니 모양이 깨지고 Console 에 404 줄이 있다 | 받은 파일 이름이나 폴더가 문제와 다르다. 이름 끝에 `.txt` 가 붙지 않았는지, `data/`·`images/`·`screenshots/` 하위 폴더를 만들었는지, 대소문자까지 같은지 본다. `w01_link_fix` 는 처음부터 404 가 있고 그것을 고치는 문제다 |
+| 받은 문제를 열었더니 모양이 깨지고 Console 에 404 줄이 있다 | 받은 파일 이름이나 폴더가 문제와 다르다. 이름 끝에 `.txt` 가 붙지 않았는지, `data/`·`images/`·`screenshots/` 하위 폴더를 만들었는지, 대소문자까지 같은지 본다. |
 | 둘째 문제를 받았더니 첫 문제 화면이 바뀌었다 | 같은 자리에 저장해 덮어썼다. 문제마다 `web-week15/<문제 id>/` 폴더를 따로 만든다 |
 | `fetch` 문제가 늘 안내 문장만 보이고 Console 에 `Access to fetch at 'file:///…' from origin 'null' has been blocked by CORS policy` 줄이 있다 | 두 번 눌러 연 `file://` 화면이다. 오류가 아니라 브라우저 규칙이다. `node server.mjs` 로 연 주소나 공개 주소에서 확인한다 |
 | 서버 주소에서도 공개 주소에서도 카드 대신 안내 문장이 나오고 F12 › Network 의 데이터 파일 요청이 404 다 | 404 난 요청 주소를 본다. `http://localhost:8000/data/…` 처럼 문제 폴더 이름이 빠져 있으면 요청 경로를 `/data/…` 처럼 `/` 로 시작하게 쓴 것이다. `/` 로 시작하면 문제 폴더가 아니라 맨 위에서 찾는다(공개 주소도 같다). 폴더 이름이 들어 있는데 404 면 `data/` 폴더와 파일 이름을 문제와 대소문자까지 맞춘다 |

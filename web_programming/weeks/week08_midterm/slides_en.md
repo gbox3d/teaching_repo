@@ -3,206 +3,203 @@ marp: true
 theme: default
 paginate: true
 header: "Web Programming · Week 8"
-footer: "Midterm Hands-on Exam · practice with the problem bank, then the same problems with changed values"
+footer: "Midterm hands-on exam · practice with the problem bank, then the same problems with new values"
 ---
 
 # Midterm Hands-on Exam
 
-Practice with a **problem bank** built from the Weeks 1–7 lab submissions, then take the exam alone in 60 minutes on Day 2.
+Practice with a **problem bank** built from what you **actually submitted** in Weeks 1–7, then take the exam on Day 2 with the same problems and new values.
 
 ```text
-Day 1  60 min problem-bank practice + new repository web-week08 · Pages
-Day 2  60 min midterm — bank problems with the values changed
+Day 1  Practice with the bank, 60 min — the problems for the weeks we covered
+Day 2  Midterm exam — bank problems with changed values (time and count: class notice)
 ```
 
-- Exam problems keep the **statement, tasks, and checks**. Only the values differ.
-- Answers aren't published. Pass every **"확인할 것" (What to check)** item and you're done.
-- The weight is **20 points (draft)**. Not the weekly lab scores.
+- Exam problems have the **same text, tasks, and checks** as the bank problems; only the values differ.
+- No answer keys. Every problem has **Checks** and a **Hint**.
+- The level is the lab work you did in class. Worth **20 points**, separate from weekly lab points.
 
 ---
 
 # Day 1 — Practicing with the Problem Bank
 
-`30 min explanation & demo → 60 min lab`
+`30 min talk and demo → 60 min practice`
 
-1. The bank and the exam — only the values change
-2. Reading one problem — w05_greeting_card
-3. Checking — the server; F12 Console · Network · Elements; device mode
-4. Today's plan, the new repository web-week08 · Pages
+1. This week: the bank and the exam — same problems, new values
+2. Reading one problem — w04_box_style
+3. Checking — open the page, F12 Console·Network·Elements
+4. Today's order
 
 ---
 
 ## Day 1 · 0–8 min — Bank and Exam: Same Problems, New Values
 
-[Problem bank list](examples/README.md) — seven problems from the Weeks 1–7 labs
+[Problem bank list](examples/README.md) — one problem per Weeks 1–7 submission, seven problems
 
-| Area | Bank problems |
+| Section | Bank problems |
 |---|---|
-| A HTML, 4 pts | [w01](examples/w01_link_fix/README.md) file links · [w02](examples/w02_about_page/README.md) new page · [w03](examples/w03_guestbook_form/README.md) sign-up form |
-| B CSS, 4 pts | [w04](examples/w04_responsive_css/README.md) responsive menu and cards |
-| C JavaScript·DOM, 5 pts | [w05](examples/w05_greeting_card/README.md) greeting card · [w06](examples/w06_dark_mode/README.md) dark mode |
-| D Forms, 3 pts | [w07](examples/w07_form_result/README.md) form result in one line |
+| A HTML | [w01](examples/w01_first_page/README.md) first page · [w02](examples/w02_push_repo/README.md) edit and push · [w03](examples/w03_second_page/README.md) new page and link |
+| B CSS | [w04](examples/w04_box_style/README.md) styled box, centered text · [w05](examples/w05_box_position/README.md) box position in a frame |
+| C JavaScript·DOM | [w06](examples/w06_click_text/README.md) button changes text and count |
+| D Forms | [w07](examples/w07_form_line/README.md) read inputs into one line |
 
-- Each area gets one bank problem with **changed values** only.
-- No published answers: pass every "확인할 것" (What to check) item.
+- The range is **up to the week we covered in class**. The notice says how far.
+- The exam uses these bank problems with **changed values only**. Text, tasks, and checks stay the same.
 
-**Solve the bank problems and you've solved the exam problems once.**
+**Solve a bank problem and you have solved the exam problem once.**
 
 ---
 
-## Day 1 · 8–16 min — Reading One Problem: w05
+## Day 1 · 8–16 min — Reading One Problem: w04_box_style
 
-[w05_greeting_card statement](examples/w05_greeting_card/README.md) — five sections, same order in every problem
+[w04_box_style problem](examples/w04_box_style/README.md) — six sections, every problem in the same order
 
 ```text
-시작 파일      Starter: what you get; "do not edit" files stay as is
-할 일          Tasks: which file, where, what — in the listed order
-확인할 것      Checks: screen and F12 results, instead of answers
-이 문제의 값   Values: what the exam changes — w05: guest07 · 15 · welcome
-받기와 올리기  Get it: Raw into web-week08/w05_greeting_card/
+Starter files   what you download and its current state; "do not change" files stay as they are
+Tasks           which file and where, what to write; do them in order
+Checks          what you verify yourself on screen and in F12; this replaces the answer key
+Hint            read it when stuck; the exam's explanation questions are this content
+Values          what changes in the exam. w04: 300 · black · lightgreen · 4px solid gold …
+Get and push    download with Raw into web-week08/w04_box_style/
 ```
 
-- Checks, e.g.: the card shows `반가워요, guest07님. 즐거운 오후예요.`; the Console prints `15` and the same line.
-- **Copy and paste** values from the table. One wrong character fails a check.
+- Check examples: background `black`, text `lightgreen`, border `4px solid gold`, three lines centered both ways.
+- **Copy and paste** values from the table. One different character and a check fails.
 
-**The exam keeps everything except the Values table.**
+**Text, tasks, and checks are the same in the exam. Only the Values table changes.**
 
 ---
 
-## Day 1 · 16–24 min — Checking: Server and F12
+## Day 1 · 16–24 min — Checking: Open the Page and F12
 
-[server.mjs](../../tools/static-server/server.mjs) at the top of `web-week08` → `node server.mjs` → `http://localhost:8000/<problem id>/`
+Double-click to open (`file://`), or [server.mjs](../../tools/static-server/server.mjs) → `node server.mjs` → `http://localhost:8000/<problem id>/`
 
 ```text
-Console      red lines (Uncaught) · console.log · try hello(12)
-Network      Status 200 / 404 per file (server or public URL only)
-Elements     tags · class · href; Styles · Computed · box diagram
-Device mode  Ctrl+Shift+M — problem's widths (w04: 1280 · 500 · 480 · 375)
-Application  saved values — Week 11; not in the Week 8 bank
+Console      red lines (Uncaught) · console.log · try document.querySelectorAll('li').length
+Network      Status 200 / 404 per file — visible only on a server or the public URL
+Elements     tags, ids, href, Styles values, the box diagram (padding·border·content size)
 ```
 
-- Each "확인할 것" item says where to look. Match it character by character.
-- No Node? Double-click to open. Status numbers won't show then.
+- Every check says where to look. Open that place and match every character.
+- Box problems (w04·w05): the Elements box diagram and the position on screen. Button and form problems (w06·w07): click and read the Console.
+- PCs without Node open the file by double-click. Only the Status numbers are missing then.
 
-**Checks are results on screen and in F12. Any code that gets them is correct.**
+**Checks are results you see on screen and in F12. Same result, any code shape.**
 
 ---
 
-## Day 1 · 24–30 min — Plan, web-week08, Pages
+## Day 1 · 24–30 min — Today's Order
 
 [Day 1 lab](lab.md#1일차--문제-은행으로-연습하기-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week08_midterm)
 
 ```text
-0–5    from the bank list, one problem per area — weakest first
-5–20   problem 1: get it → open via server → tasks → match the checks
-20–35  problem 2      35–50  problem 3
-50–60  new repo web-week08 → push → Pages → re-check at the public URL
+0–5    folder web-week08 · server.mjs · check the range in the bank list
+5–15   w01 first page        15–25  w04 styled box        25–35  w05 box position
+35–45  w03 new page and link   45–55  w02 edit and push (repository and push check)
+55–60  note the checks you missed · classes that learned JavaScript go on to w06·w07
 ```
 
-- Save each problem folder via **Raw** into `web-week08/<problem id>/`. Skip `README.md`.
-- Push in the Week 2 order. On a shared PC, delete your credentials.
+- Download problem folders into `web-week08/<problem id>/` with **Raw**. Do not download `README.md`.
+- Ten minutes per problem. When time is up, note what is left and move on. This rehearses "skip when stuck".
 
-**Set up the repository and Pages today, not on Day 2.**
+**No points today. The goal is to know where you got stuck.**
 
-**Explanation total: 8+8+8+6 = 30 min**
+**Talk total: 8+8+8+6 = 30 min**
 
 ---
 
 # Day 2 — Midterm Exam
 
-`30 min explanation & demo → 60 min exam`
+`30 min talk and demo → exam (time in the notice)`
 
-1. Exam rules — resources, scope, moving on, the 60-minute schedule
-2. exam folder → top of the repository → open the index → first push
-3. Points and grading — by "확인할 것" (What to check)
-4. Before you finish — last push and the three submissions
-
----
-
-## Day 2 · 0–8 min — Exam Rules and Schedule
-
-```text
-0–5 read · 5–15 A · 15–27 B · 27–39 C · 39–50 D
-50–55 last push · 55–60 buffer (Pages delay · logging in again)
-```
-
-- Allowed: the course site, your own repository, MDN. Anything else: per the instructor.
-- Scope: the Weeks 1–7 bank problems. Out-of-scope features earn nothing extra.
-- Problems are independent. **Stuck for more than 5 minutes? Move on.**
-- We answer only about wording, file locations, submitting, and technical trouble — not about your code.
-
-**One schedule row = one problem. Skip when stuck; come back later.**
+1. Exam rules — the class notice decides
+2. Reading order — mark where the values differ
+3. What goes in the answer — code, screenshots, explanation
+4. Submission and before you finish
 
 ---
 
-## Day 2 · 8–16 min — The exam Folder, First Push
+## Day 2 · 0–8 min — Exam Rules: the Class Notice Decides
 
 ```text
-web-week08/
-  server.mjs   w05_greeting_card/ …   ← Day 1 practice folders. Leave them
-  exam/                                ← the folder you receive, as is
-    index.html   README.md   a/  b/  c/  d/
+Problems  2–4 bank problems with changed values     Time    30–60 min (start and end in the notice)
+Range     up to the week covered in class            Submit  LMS answer box or repository web-week08/exam/
 ```
 
-1. Put the `exam` folder **as is** at the top of `web-week08`. Got `exam/exam/`? Use the inner one.
-2. Open `http://localhost:8000/exam/` — the index should appear.
-3. Push right away: `git add .` → `git commit -m "중간 실기 시작"` → `git push`
-4. Statements: `exam/README.md`. Edit only each problem's own folder.
+- What you may look at (course site, your files, MDN) and whether AI tools are allowed follow the notice.
+- Problems are independent. **If you are stuck for long, move to the next problem.**
+- Even if unfinished, submit the code, screenshots, and what you tried (error messages). Partial credit exists.
+- Questions: only wording, file location, submission, and failures. We do not say whether code is right.
 
-**Push once at the start. In the exam, no new repo, no Pages setup.**
+**The rules fit on one notice. Read it again before you start.**
 
 ---
 
-## Day 2 · 16–24 min — Grading by the Checks
-
-[Rubric](rubric.md)
+## Day 2 · 8–16 min — Reading Order: Where the Values Differ
 
 ```text
-Submission & public URL 3   A HTML 4   B CSS 4   C JavaScript·DOM 5
-D Forms 3   No Console errors 1                   Total 20 pts (draft)
-Submission 3 = three items · index and pages open · start + end push
+bank w04      box 300×300 · black · lightgreen · 4px solid gold · padding 8
+exam problem  box 320×200 · navy  · yellow     · 3px dashed white · padding 12   ← only values differ
 ```
 
-- Graded at your public URL, item by item of **"확인할 것"**.
-- Fully met (all) · partly met (working partial result) · not met (won't open · unrelated · none).
-- One cause, one deduction. Console point: only `Uncaught` red lines.
-- No deduction for Pages delays. The 5-point floor (5 if you tried) is undecided.
+1. Read the whole problem and mark the values that differ from the bank problem.
+2. If there are starter files, download them into the problem folder as on Day 1.
+3. Do the tasks one chunk at a time → save → reload → Console.
+4. Match the checks one by one. If one fails, go back to the task it points to.
 
-**Grading checks the results, not how the code looks.**
+**Finish reading within 3 minutes, and copy-paste the values.**
 
 ---
 
-## Day 2 · 24–30 min — Last Push and Submission
+## Day 2 · 16–24 min — What Goes in the Answer: Code, Screenshots, Explanation
 
-[Day 2 lab](lab.md#2일차--중간-실기-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week08_midterm)
+[Rubric](rubric.md) — results (checks) about 60% · evidence (screenshots) about 20% · explanation about 20%
 
 ```text
-min 50  git add .  →  git commit -m "중간 실기 끝"  →  git push
-        reload the public URL …/web-week08/exam/ → check each problem
-        capture GitHub › Commits tab — the top commit's ID and time
+① Code          the whole edited file, or code where the change is clear
+② Screenshots   the browser in the required state — address bar visible; F12 items with that panel
+③ Explanation   1–2 sentences in your own words answering what the problem asks (hint-level content)
 ```
 
-- Submission = the last commit before the deadline, at the public URL. Unsaved files aren't pushed.
-- Pages still old after 5 minutes? Send a local screenshot + a Commits tab capture.
-- On a shared PC, delete your credentials before leaving.
+- Grading uses the checks: full · partial (as much as matched) · none.
+- One cause is deducted once. Attempts and explanations earn points even without a running result.
+- Example explanation: "In row direction, `justify-content` handles horizontal and `align-items` vertical."
 
-**Explanation total: 8+8+8+6 = 30 min**
+**We grade results, screenshots, and explanations, not code shape.**
+
+---
+
+## Day 2 · 24–30 min — Submission and Before You Finish
+
+[Day 2 lab](lab.md#2일차--중간-실기-공지한-시간) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week08_midterm)
+
+```text
+5 min before the end   check that every problem has code → screenshots → explanation
+LMS method             paste in that order into the answer box and submit
+Repository method      git add . → git commit -m "midterm end" → git push → public URL · repo URL · Commits tab screenshot
+```
+
+- Unsaved files are not pushed. Keep real names, student IDs, and real emails out of screenshots.
+- If Pages is slow, submit local screenshots. No deduction.
+- On a shared PC, delete the credentials before leaving.
+
+**Talk total: 8+8+8+6 = 30 min**
 
 ---
 
 ## What to Submit
 
-Submit **three** things when the Day 2 exam ends. [Submission — three items](lab.md#제출--세-가지)
+After the Day 2 exam, submit where the class notice says. [Submission](lab.md#제출)
 
 ```text
-① Public URL       https://student01.github.io/web-week08/exam/
-② Repository URL   https://github.com/student01/web-week08
-③ 1 Commits tab capture — top commit's ID and time visible
+LMS answer box    code · screenshots · explanation for each problem
+Repository        ① public URL https://student01.github.io/web-week08/exam/
+                  ② repository URL https://github.com/student01/web-week08
+                  ③ one Commits tab screenshot — top commit's hash and time visible
 ```
 
-The top commit is your last push, `중간 실기 끝` (midterm end).
-Only `exam/` is graded. Leave the Day 1 practice folders as they are.
-Keep your real name, student ID, and real email out of the capture. Where and by when to submit follow the class notice; the commit deadline is the end of the exam.
+Day 1 practice folders are not submitted and are not graded.
+Keep real names, student IDs, and real emails out of screenshots. The deadline is the time in the notice.
 
 ---
 
@@ -210,6 +207,6 @@ Keep your real name, student ID, and real email out of the capture. Where and by
 
 Week 9 is the **Project 1 presentation**.
 
-Not the problem folders: open **your own site** from Weeks 3–7 at its public URL and show it in 2 minutes.
-Three pages → a button → the form (with the empty-value message) → the GitHub **Commits** tab.
-The report is a first-draft `README.md` on your repository's front page: your site's structure — URL, pages, features, screenshots, what you learned.
+Not this week's problem folders, but **your own site** built week by week in Weeks 3–7, shown at its public URL for two minutes.
+Page navigation → styled boxes → buttons and the form (for classes that learned them) → the GitHub **Commits** tab.
+The report is the first `README.md` on the repository front page: public URL, pages, features, screenshots, and what you learned.

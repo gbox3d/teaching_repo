@@ -74,7 +74,7 @@ web-week15/
 
 - 문제마다 폴더를 따로 만든다. 맨 위에 바로 저장하면 다음 문제의 `index.html`·`app.js`가 덮어쓴다.
 - 폴더·파일 이름을 한 글자도 바꾸지 않는다. `index.html`과 문제 문장이 이 이름으로 부른다.
-- 그림이 있는 문제(`w04_responsive_css`·`w09_readme_links`·`w14_readme_images`)는 그림도 같은 방법으로 받는다. 그림 파일에서 **Raw**를 누르면 그림만 열린다. 그 화면에서 **Ctrl+S**로 같은 하위 폴더에 저장한다.
+- 그림이 있는 문제(`w09_readme_links`·`w14_readme_images`)는 그림도 같은 방법으로 받는다. 그림 파일에서 **Raw**를 누르면 그림만 열린다. 그 화면에서 **Ctrl+S**로 같은 하위 폴더에 저장한다.
 
 ### 4. 서버로 열고 시작 상태 보기
 
@@ -171,10 +171,10 @@ Access to fetch at 'file:///…/w12_fetch_cards/data/html-docs.json' from origin
 | 문제 | 확인에 쓰는 곳 |
 |---|---|
 | README 문제(`w09_readme_links`·`w14_readme_images`) | VS Code에서 `README.md`를 열고 **Open Preview**(Ctrl+Shift+V, macOS는 ⌘+Shift+V). 서버 주소 뒤에 `README.md`를 붙여 열기. 올린 뒤 GitHub 저장소의 그 폴더 화면 |
-| 목록·DOM 문제(`w05_greeting_card`·`w10_list_delete` 등) | F12 › Console에 문제에 적힌 식(`items.length` 등)을 쳐서 나오는 값 |
+| 목록·DOM 문제(`w06_click_text`·`w10_list_delete` 등) | F12 › Console에 문제에 적힌 식(`items.length` 등)을 쳐서 나오는 값 |
 | 저장 문제(`w11_local_storage`) | F12 › **Application › Local Storage**에서 지금 주소를 골라 키와 값 보기, 키 지우기 |
-| 좁은 화면을 보는 문제(`w04_responsive_css`·`w13_text_safe`) | F12 기기 모드(Ctrl+Shift+M, macOS는 ⌘+Shift+M)에서 폭을 적힌 값(375 등)으로 |
-| 파일 연결 문제(`w01_link_fix`·`w02_about_page`) | F12 › Network에서 CSS·JS·새 페이지 요청이 200인지 |
+| 좁은 화면을 보는 문제(`w13_text_safe`) | F12 기기 모드(Ctrl+Shift+M, macOS는 ⌘+Shift+M)에서 폭을 적힌 값(375 등)으로 |
+| 페이지·링크 문제(`w01_first_page`·`w03_second_page`) | F12 › Network에서 새 페이지 요청이 200인지, Elements 에서 `href` 가 파일 이름만인지 |
 
 - "확인할 것"이 모두 맞으면 그 문제는 끝이다. 해답과 비교하지 않는다.
 - 저장 칸(Local Storage)은 주소의 앞부분(`http://localhost:8000`과 `https://student01.github.io`)마다 따로다. 서버 주소에서 넣은 목록은 공개 주소에 없다.
