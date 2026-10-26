@@ -1,11 +1,11 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
 
 # 7주차 따라하기 — 비교 예제로 원리를 보고 마지막에 조립
 
 이번 주는 새 저장소 `web-week07`을 만든다. 지난주 완성본을 넣고, 비교 예제는 그 안의 `ex/` 폴더에 저장한다. 값·줄을 바꾼 뒤 결과를 화면과 주소창, **F12 › Console**에서 본다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-비교 예제 7개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules/examples/day1)(1일차 ex01~ex03)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules/examples/day2)(2일차 고르기 페이지와 ex04~ex07) 폴더에 있다.
+비교 예제 7개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input/examples/day1)(1일차 ex01~ex03)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input/examples/day2)(2일차 고르기 페이지와 ex04~ex07) 폴더에 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
@@ -15,7 +15,7 @@
 저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week07`을 만들고 VS Code **File › Open Folder**로 연다.
 
 지난주 완성본을 넣는다. 내 `web-week06` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`server.mjs`)과 `images/`를 `web-week07`로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
-ZIP을 못 받았으면 교재 [6주차 `examples/day2/web-week06/`](../week06_dom_crud/examples/day2/web-week06/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
+ZIP을 못 받았으면 교재 [6주차 `examples/day2/web-week06/`](../week06_dom_events/examples/day2/web-week06/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
 
 이어서 `web-week07` 안에 `ex` 폴더를 만든다. 현재 폴더: `web-week07`
 
@@ -54,7 +54,7 @@ web-week07/
 | [ex02_value.html](examples/day1/ex02_value.html) + [ex02_value.js](examples/day1/ex02_value.js) | 1. 열 때 읽은 `value` / 2. 누를 때 읽은 `value` / 3. textarea의 `value` |
 | [ex03_trim.html](examples/day1/ex03_trim.html) + [ex03_trim.js](examples/day1/ex03_trim.js) | 1. `value` 그대로 / 2. `trim()` 한 값 |
 
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week07/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week07/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
 
 **예상 결과** — `ex/` 안에 파일 여섯 개가 있다.
 
@@ -151,7 +151,7 @@ git clone https://github.com/student01/web-week07.git
 
 내려받은 `web-week07`을 **File › Open Folder**로 연다.
 
-오늘 파일은 다섯 개다. 고르기 페이지 `index.html` 하나와 예제 코드 `.js` 네 개다. 네 예제가 같은 화면(방명록 모양 폼, 안내 자리, 결과 자리)을 쓰기 때문에 화면은 `index.html` 하나에 두고 코드만 따로 뗐다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week07/ex/`에 넣는다. `web-week07/` 하위 폴더는 받지 않는다.
+오늘 파일은 다섯 개다. 고르기 페이지 `index.html` 하나와 예제 코드 `.js` 네 개다. 네 예제가 같은 화면(방명록 모양 폼, 안내 자리, 결과 자리)을 쓰기 때문에 화면은 `index.html` 하나에 두고 코드만 따로 뗐다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week07/ex/`에 넣는다. `web-week07/` 하위 폴더는 받지 않는다.
 
 | 파일 | 비교하는 것 |
 |---|---|

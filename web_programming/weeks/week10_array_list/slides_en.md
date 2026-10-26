@@ -120,7 +120,6 @@ addButton.addEventListener('click', function () {
 ```
 
 - This is the picture from Week 9. Today's list is **①** — only in the array and on screen.
-- The syllabus topic "connecting data" goes in this order: ① today, ② next week.
 - ③ is covered in the [optional Supabase special session](../../specials/supabase_guestbook/README.md).
 
 **Today's list lives only on screen. A reload starts it over.**
@@ -129,7 +128,7 @@ addButton.addEventListener('click', function () {
 
 ## Day 1 · 27–30 min — Your turn
 
-[Day 1 lab](lab.md#1일차--배열과-목록-한-줄-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data)
+[Day 1 lab](lab.md#1일차--배열과-목록-한-줄-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
 
 1. New folder `web-week10` with last week's files; today's five files in `ex/`.
 2. ex01–ex04 — turn on one line, change values. Type `items` in the Console input line.
@@ -242,7 +241,7 @@ guestbook.js    const list · empty · count             ← ex06
                 last line: showList();                 ← ex06
 ```
 
-[Day 2 lab](lab.md#2일차--다시-그리기와-삭제-버튼-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data)
+[Day 2 lab](lab.md#2일차--다시-그리기와-삭제-버튼-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
 
 1. Save ex05–ex07 `.html` and `.js` in `ex/`, change values (until minute 29).
 2. Assemble → check at 375 and 1280 and with the server → push → add 3, delete the middle, screenshot `2개`.

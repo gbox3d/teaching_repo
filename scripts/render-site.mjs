@@ -389,6 +389,14 @@ async function readCatalog() {
       assertIdentifier(chapter.id, `${course.id}.chapter.id`);
       assert(!chapterIds.has(chapter.id), `중복 chapter.id: ${course.id}/${chapter.id}`);
       chapterIds.add(chapter.id);
+      if (chapter.formerIds !== undefined) {
+        assert(Array.isArray(chapter.formerIds), `${course.id}/${chapter.id}.formerIds가 배열이 아닙니다.`);
+        for (const formerId of chapter.formerIds) {
+          assertIdentifier(formerId, `${course.id}/${chapter.id}.formerIds`);
+          assert(!chapterIds.has(formerId), `중복 chapter.id: ${course.id}/${formerId}`);
+          chapterIds.add(formerId);
+        }
+      }
       assert(["week", "special"].includes(chapter.type), `잘못된 chapter.type: ${course.id}/${chapter.id}`);
       assertEnglishFields(chapter.en, ["label", "title", "description"], `${course.id}/${chapter.id}.en`);
       entries.push({ course, chapter });
@@ -446,11 +454,8 @@ async function writeCoursePages(catalog) {
   }
 }
 
-async function writeLegacyRedirect(course, chapter) {
-  const directory = path.join(legacyDecksRoot, course.id, chapter.id);
-  assertInside(legacyDecksRoot, directory, "기존 슬라이드 주소");
-  const href = `../../../${course.slug}/decks/${chapter.id}/index.html`;
-  const html = `<!doctype html>
+function redirectHtml(course, chapter, href) {
+  return `<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="utf-8">
@@ -469,8 +474,29 @@ async function writeLegacyRedirect(course, chapter) {
   </body>
 </html>
 `;
+}
+
+async function writeLegacyRedirect(course, chapter, id = chapter.id) {
+  const directory = path.join(legacyDecksRoot, course.id, id);
+  assertInside(legacyDecksRoot, directory, "기존 슬라이드 주소");
+  const href = `../../../${course.slug}/decks/${chapter.id}/index.html`;
   await mkdir(directory, { recursive: true });
-  await writeFile(path.join(directory, "index.html"), html, "utf8");
+  await writeFile(path.join(directory, "index.html"), redirectHtml(course, chapter, href), "utf8");
+}
+
+// 폴더 이름을 바꾼 단원(formerIds)은 옛 덱 주소에서 새 덱으로 넘겨준다.
+async function writeFormerRedirects(course, chapter, languages) {
+  const decksRoot = path.join(dist, course.slug, "decks");
+  for (const formerId of chapter.formerIds ?? []) {
+    const directory = path.join(decksRoot, formerId);
+    assertInside(decksRoot, directory, "옛 단원 주소");
+    await mkdir(directory, { recursive: true });
+    for (const lang of languages) {
+      const href = `../${chapter.id}/${DECK_FILES[lang]}`;
+      await writeFile(path.join(directory, DECK_FILES[lang]), redirectHtml(course, chapter, href), "utf8");
+    }
+    await writeLegacyRedirect(course, chapter, formerId);
+  }
 }
 
 async function copyDeckAssets(context, deckDirectory, canonicalRoot) {
@@ -570,6 +596,7 @@ async function main() {
         );
       }
       await writeLegacyRedirect(course, chapter);
+      await writeFormerRedirects(course, chapter, languages);
       records.set(`${course.id}/${chapter.id}`, record);
     }
 

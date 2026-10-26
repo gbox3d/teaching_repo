@@ -1,11 +1,11 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
 
 # 10주차 따라하기 — 비교 예제로 원리를 보고 마지막에 조립
 
 이번 주는 새 저장소 `web-week10`을 만든다. 지난주 완성본을 넣고, 비교 예제는 그 안의 `ex/` 폴더에 저장한다. 값·줄을 바꾼 뒤 결과를 화면과 **F12 › Console**, **F12 › Elements**에서 본다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-비교 예제 7개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data/examples/day1)(1일차 ex01~ex04와 고르기 페이지)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data/examples/day2)(2일차 ex05~ex07) 폴더에 있다.
+비교 예제 7개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list/examples/day1)(1일차 ex01~ex04와 고르기 페이지)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list/examples/day2)(2일차 ex05~ex07) 폴더에 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
@@ -15,7 +15,7 @@
 저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week10`을 만들고 VS Code **File › Open Folder**로 연다.
 
 지난주 완성본을 넣는다. 내 `web-week09` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`guestbook.js`·`README.md`·`server.mjs`)과 `images/`·`screenshots/`를 `web-week10`으로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
-ZIP을 못 받았으면 교재 [9주차 `examples/day2/web-week09/`](../week09_architecture_project/examples/day2/web-week09/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
+ZIP을 못 받았으면 교재 [9주차 `examples/day2/web-week09/`](../week09_readme_presentation/examples/day2/web-week09/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
 
 이어서 `web-week10` 안에 `ex` 폴더를 만든다. 현재 폴더: `web-week10`
 
@@ -55,7 +55,7 @@ web-week10/
 | [ex03_create_li.js](examples/day1/ex03_create_li.js) | 만들기만 / 만들고 붙이기 / 하나 더 붙이기 |
 | [ex04_push_add.js](examples/day1/ex04_push_add.js) | 누를 때 배열에 넣기 / 화면에 붙이기 / 개수 쓰기 |
 
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week10/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week10/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
 
 **예상 결과** — `ex/` 안에 파일 다섯 개가 있다.
 
@@ -175,7 +175,7 @@ git clone https://github.com/student01/web-week10.git
 
 내려받은 `web-week10`을 **File › Open Folder**로 연다.
 
-오늘 예제는 세 개이고, 예제마다 `.html`과 `.js`가 한 쌍이라 파일은 여섯 개다. 오늘 예제는 화면이 서로 달라서 `.html`을 따로 둔다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week10/ex/`에 넣는다. 같은 폴더의 `web-week10/`은 조립 결과라서 지금 받지 않는다.
+오늘 예제는 세 개이고, 예제마다 `.html`과 `.js`가 한 쌍이라 파일은 여섯 개다. 오늘 예제는 화면이 서로 달라서 `.html`을 따로 둔다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week10/ex/`에 넣는다. 같은 폴더의 `web-week10/`은 조립 결과라서 지금 받지 않는다.
 
 | 파일 | 비교하는 것 |
 |---|---|

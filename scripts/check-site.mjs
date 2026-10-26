@@ -309,14 +309,17 @@ async function checkEnglishDeck(course, chapter, expected, source) {
   return 1;
 }
 
-async function checkLegacyRedirect(course, chapter) {
-  const relative = path.posix.join("decks", course.id, chapter.id, "index.html");
+async function checkLegacyRedirect(course, chapter, id = chapter.id) {
+  const relative = path.posix.join("decks", course.id, id, "index.html");
+  return checkRedirect(relative, `../../../${course.slug}/decks/${chapter.id}/index.html`);
+}
+
+async function checkRedirect(relative, target) {
   const filename = path.join(dist, ...relative.split("/"));
   check(await exists(filename), `${relative} legacy redirect missing`);
   if (!(await exists(filename))) return relative;
   const html = await readFile(filename, "utf8");
   check(slideCount(html) === 0, `${relative}: old shared deck still contains slides`);
-  const target = `../../../${course.slug}/decks/${chapter.id}/index.html`;
   check(html.includes(`href="${target}"`), `${relative}: legacy fallback link missing`);
   const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map((match) => match[1]);
   let redirected;
@@ -370,6 +373,7 @@ async function main() {
   let englishDecks = 0;
   const expectedHtml = new Set();
   const expectedLegacy = new Set();
+  const expectedRenamed = new Set();
   for (const course of courses) {
     const expected = EXPECTED[course.id];
     check(Boolean(expected), `unexpected course: ${course.id}`);
@@ -422,6 +426,15 @@ async function main() {
       }
       if (source) englishDecks += await checkEnglishDeck(course, chapter, expected, source);
       expectedLegacy.add(await checkLegacyRedirect(course, chapter));
+      // 폴더 이름을 바꾼 단원은 옛 덱 주소가 새 덱으로 넘어가야 한다.
+      for (const formerId of chapter.formerIds ?? []) {
+        check(!chapterIds.has(formerId), `duplicate chapter: ${course.id}/${formerId}`);
+        chapterIds.add(formerId);
+        const former = path.posix.join(expected.slug, "decks", formerId);
+        expectedRenamed.add(await checkRedirect(`${former}/index.html`, `../${chapter.id}/index.html`));
+        if (chapter.hrefEn) await checkRedirect(`${former}/index.en.html`, `../${chapter.id}/index.en.html`);
+        expectedLegacy.add(await checkLegacyRedirect(course, chapter, formerId));
+      }
     }
     check(
       courseSlides === expected.slides,
@@ -441,6 +454,7 @@ async function main() {
       .map((file) => path.relative(dist, file).split(path.sep).join("/"))
       .filter((file) => /^[^/]+\/decks\/[^/]+\/index\.html$/.test(file)),
   );
+  for (const file of expectedRenamed) actualHtml.delete(file);
   check(
     actualHtml.size === EXPECTED_DECKS,
     `expected ${EXPECTED_DECKS} deck files, got ${actualHtml.size}`,
@@ -452,7 +466,8 @@ async function main() {
       .map((file) => path.relative(dist, file).split(path.sep).join("/"))
       .filter((file) => /^decks\/[^/]+\/[^/]+\/index\.html$/.test(file)),
   );
-  check(actualLegacy.size === EXPECTED_DECKS, `expected ${EXPECTED_DECKS} legacy redirects, got ${actualLegacy.size}`);
+  const legacyRedirects = EXPECTED_DECKS + expectedRenamed.size;
+  check(actualLegacy.size === legacyRedirects, `expected ${legacyRedirects} legacy redirects, got ${actualLegacy.size}`);
   for (const file of expectedLegacy) check(actualLegacy.has(file), `legacy redirect missing: ${file}`);
   for (const file of actualLegacy) check(expectedLegacy.has(file), `unexpected legacy redirect: ${file}`);
 

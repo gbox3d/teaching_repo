@@ -1,4 +1,4 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_architecture_project)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation)
 
 # 9주차 — 1차 과제 발표와 README
 
@@ -50,7 +50,7 @@ README 는 **마크다운**으로 쓴다. 비교 예제 3개(`.md` 파일)로 �
 
 ## 준비
 
-- 7주차 완성본. 내 `web-week07` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [7주차 `examples/day2/web-week07/`](../week07_async_modules/examples/day2/web-week07/) 파일을 **Raw** 로 받는다. 8주차 시험 저장소 `web-week08` 은 이번 과제와 관계가 없다
+- 7주차 완성본. 내 `web-week07` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [7주차 `examples/day2/web-week07/`](../week07_form_input/examples/day2/web-week07/) 파일을 **Raw** 로 받는다. 8주차 시험 저장소 `web-week08` 은 이번 과제와 관계가 없다
 - VS Code(마크다운 미리 보기가 들어 있어 따로 설치하지 않는다), Chrome, Git (`git --version` 으로 확인)
 - Node.js LTS(선택). [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에도 둔다([사용 안내](../../tools/static-server/README.md))
 - 화면 캡처 단축키: Windows **Win+Shift+S**, macOS **⌘+Shift+4**
@@ -82,7 +82,7 @@ README 는 **마크다운**으로 쓴다. 비교 예제 3개(`.md` 파일)로 �
 
 ## 수업 자료
 
-- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week09_architecture_project/index.html
+- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week09_readme_presentation/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 발표 안내](lab.md)
 - [1차 과제 안내](project_brief.md) · [채점표 10점](rubric.md)
@@ -90,7 +90,7 @@ README 는 **마크다운**으로 쓴다. 비교 예제 3개(`.md` 파일)로 �
 - 2일차 끝의 `web-week09`(1일차 끝과 같다): [README.md](examples/day2/web-week09/README.md) · [index.html](examples/day2/web-week09/index.html) · [about.html](examples/day2/web-week09/about.html) · [guestbook.html](examples/day2/web-week09/guestbook.html) · [styles.css](examples/day2/web-week09/styles.css) · [app.js](examples/day2/web-week09/app.js) · [guestbook.js](examples/day2/web-week09/guestbook.js) · [images/profile.png](examples/day2/web-week09/images/profile.png) · [screenshots/home.png](examples/day2/web-week09/screenshots/home.png) · [screenshots/guestbook.png](examples/day2/web-week09/screenshots/guestbook.png)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
 - 데이터가 가는 세 곳 중 ③ 인터넷 서버 DB: [선택 특강 — Supabase 로 만드는 서버 방명록](../../specials/supabase_guestbook/README.md)
-- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_architecture_project
+- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation
 
 ## 완료 기준
 

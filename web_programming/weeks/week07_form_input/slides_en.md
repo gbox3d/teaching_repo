@@ -104,7 +104,7 @@ const trimmed = nameInput.value.trim();   // 2. [student01]
 
 ## Day 1 · 28–30 min — Your turn
 
-[Day 1 lab](lab.md#1일차--폼-제출과-입력-값-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
+[Day 1 lab](lab.md#1일차--폼-제출과-입력-값-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
 
 1. New folder `web-week07` with last week's files; today's six files (three `.html`·`.js` pairs) in `ex/`.
 2. ex01–ex03 — change values. Say what will change first. Turn on Preserve log.
@@ -253,7 +253,7 @@ clearNotice() · one result line · reset() · focus() ← ex07 · ex05 · ex04
 two input listeners (clearNotice, name only)       ← ex06 · ex07 No. 2
 ```
 
-[Day 2 lab](lab.md#2일차--빈값-안내와-다음-입력-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
+[Day 2 lab](lab.md#2일차--빈값-안내와-다음-입력-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
 
 1. ex04–ex07 (to min 29) → assemble → check → push → screenshot.
 2. Week 8 reuses the [problem bank](../week08_midterm/examples/README.md) with new values; today's form too.
@@ -286,4 +286,3 @@ Week 8 is the **individual midterm practical**. Day 1 is practice with the probl
 The [problem bank](../week08_midterm/examples/README.md) is public. Instead of answers, each problem has a "what to check" list to test yourself.
 
 Right now a second note replaces the first. Keeping a list of notes is Week 10; keeping them after reload is Week 11.
-The "async" in this week's folder name is covered with `fetch` in Week 12; modules (`import`/`export`) are outside this course.

@@ -1,4 +1,4 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
 # 12주차 실습 — 값을 바꿔 보고 마지막에 조립하기
 
@@ -16,7 +16,7 @@
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 새 폴더 `web-week12` 를 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week11` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일(`server.mjs` 포함)과 `images/`·`screenshots/` 를 넣는다. 못 받으면 교재 [11주차 `examples/day2/web-week11/`](../week11_auth_rls/examples/day2/web-week11/) 파일과 [server.mjs](../../tools/static-server/server.mjs) 를 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 여섯 파일을 **Raw** 로 저장한다. 터미널에서 `node server.mjs` 를 띄운다 |
+| 0–5분 | 새 폴더 `web-week12` 를 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week11` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일(`server.mjs` 포함)과 `images/`·`screenshots/` 를 넣는다. 못 받으면 교재 [11주차 `examples/day2/web-week11/`](../week11_object_localstorage/examples/day2/web-week11/) 파일과 [server.mjs](../../tools/static-server/server.mjs) 를 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 여섯 파일을 **Raw** 로 저장한다. 터미널에서 `node server.mjs` 를 띄운다 |
 | 5–18분 | ex01 JSON 글자 규칙 |
 | 18–33분 | ex02 fetch 로 JSON 파일 읽기 |
 | 33–47분 | ex03 `file://` 과 `http://` |

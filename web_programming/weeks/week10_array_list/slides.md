@@ -120,7 +120,6 @@ addButton.addEventListener('click', function () {
 ```
 
 - 9주차에 본 그림입니다. 오늘 목록은 **①** — 배열과 화면에만 있습니다.
-- 수업계획서의 "데이터 연결"은 이 순서로 갑니다: 오늘 ①, 다음 주 ②.
 - ③은 [Supabase 선택 특강](../../specials/supabase_guestbook/README.md)에서 다룹니다.
 
 **오늘 목록은 화면에만 있다. 새로고침하면 처음으로 돌아간다.**
@@ -129,7 +128,7 @@ addButton.addEventListener('click', function () {
 
 ## 1일차 · 27–30분 — 이제 직접 해 보기
 
-[1일차 실습](lab.md#1일차--배열과-목록-한-줄-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data)
+[1일차 실습](lab.md#1일차--배열과-목록-한-줄-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
 
 1. 새 폴더 `web-week10` 에 지난주 완성본, `ex/` 에 오늘 다섯 파일.
 2. ex01~ex04 — 줄 하나만 켜고 값 바꿔 보기. Console 입력 칸에 `items` 를 쳐 봅니다.
@@ -242,7 +241,7 @@ guestbook.js    const list · empty · count             ← ex06
                 맨 끝: showList();                     ← ex06
 ```
 
-[2일차 실습](lab.md#2일차--다시-그리기와-삭제-버튼-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data)
+[2일차 실습](lab.md#2일차--다시-그리기와-삭제-버튼-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
 
 1. ex05~ex07 `.html`·`.js` 를 `ex/` 에 저장, 값 바꾸기(29분까지).
 2. 조립 → 375·1280 폭과 서버로 확인 → push → 3개 남기고 가운데 삭제, `2개` 캡처.

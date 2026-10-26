@@ -1,4 +1,4 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
 
 # 7주차 실습 — 방명록 폼이 남긴 글을 보여 주게 만들기
 
@@ -39,7 +39,7 @@
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 새 폴더 `web-week07` 을 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week06` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/` 를 넣는다. 못 받으면 교재 [6주차 `examples/day2/web-week06/`](../week06_dom_crud/examples/day2/web-week06/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 여섯 파일(ex01~ex03 의 `.html`·`.js`)을 **Raw** 로 저장한다 |
+| 0–5분 | 새 폴더 `web-week07` 을 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week06` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/` 를 넣는다. 못 받으면 교재 [6주차 `examples/day2/web-week06/`](../week06_dom_events/examples/day2/web-week06/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 여섯 파일(ex01~ex03 의 `.html`·`.js`)을 **Raw** 로 저장한다 |
 | 5–20분 | ex01 폼 제출과 preventDefault |
 | 20–34분 | ex02 입력 칸의 value |
 | 34–47분 | ex03 trim |

@@ -53,7 +53,7 @@
 
 ## 준비
 
-- 지난주 완성본. 내 `web-week12` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [12주차 `examples/day2/web-week12/`](../week12_persistent_crud/examples/day2/web-week12/) 파일을 **Raw** 로 받는다
+- 지난주 완성본. 내 `web-week12` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [12주차 `examples/day2/web-week12/`](../week12_fetch_json/examples/day2/web-week12/) 파일을 **Raw** 로 받는다
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS. 지난주 폴더의 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에도 둔다([사용 안내](../../tools/static-server/README.md)). `projects.html` 카드는 두 번 눌러 연 `file://` 화면에는 나오지 않는다(12주차). `node server.mjs` → `http://localhost:8000/` 이나 공개 주소에서 본다
 - **확인·캡처는 공개 주소에서 한다.** 방명록 글은 주소마다 따로 저장된다(11주차)

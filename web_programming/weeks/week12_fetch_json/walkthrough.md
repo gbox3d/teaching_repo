@@ -1,4 +1,4 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
 # 12주차 따라하기 — 비교 예제로 원리를 보고 마지막에 조립
 
@@ -6,7 +6,7 @@
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 **이번 주 예제는 서버로 연다.** `fetch`는 두 번 눌러 연 화면(`file://`)에서 막힌다. 작업 중에는 `node server.mjs`로 띄운 `http://localhost:8000/`에서 보고, 확인과 캡처는 공개 주소에서 한다.
 
-비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud/examples/day1)(1일차 ex01~ex03과 고르기 페이지)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud/examples/day2)(2일차 ex04~ex06) 폴더에 있다.
+비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day1)(1일차 ex01~ex03과 고르기 페이지)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day2)(2일차 ex04~ex06) 폴더에 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
@@ -16,7 +16,7 @@
 저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week12`를 만들고 VS Code **File › Open Folder**로 연다.
 
 지난주 완성본을 넣는다. 내 `web-week11` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`guestbook.js`·`README.md`·`server.mjs`)과 `images/`·`screenshots/`를 `web-week12`로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
-ZIP을 못 받았으면 교재 [11주차 `examples/day2/web-week11/`](../week11_auth_rls/examples/day2/web-week11/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
+ZIP을 못 받았으면 교재 [11주차 `examples/day2/web-week11/`](../week11_object_localstorage/examples/day2/web-week11/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
 
 이어서 `web-week12` 안에 `ex` 폴더를 만든다. 현재 폴더: `web-week12`
 
@@ -55,7 +55,7 @@ web-week12/
 | [ex02_fetch.js](examples/day1/ex02_fetch.js) · [ex02_projects.json](examples/day1/ex02_projects.json) | `await fetch`의 응답 / `await response.json()`의 배열 |
 | [ex03_file_http.js](examples/day1/ex03_file_http.js) · [ex03_projects.json](examples/day1/ex03_projects.json) | 서버 주소로 연 페이지 / 두 번 눌러 연 페이지 |
 
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 글자만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week12/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 글자만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week12/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
 
 **예상 결과** — `ex/` 안에 파일 여섯 개가 있다.
 
@@ -169,7 +169,7 @@ git clone https://github.com/student01/web-week12.git
 
 내려받은 `web-week12`를 **File › Open Folder**로 연다. 터미널(현재 폴더 `web-week12`)에서 `node server.mjs`를 띄운다.
 
-오늘 예제는 세 개이고, 예제마다 `.html`과 `.js`가 한 쌍이다. 예제가 읽는 그림 하나와 `.json` 두 개를 더해 파일은 아홉 개다. 오늘 예제는 화면이 서로 달라서 `.html`을 따로 둔다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week12/ex/`에 넣는다. 그림 파일도 **Raw**를 누르면 그림만 열린다. 그 화면에서 **Ctrl+S**로 저장한다.
+오늘 예제는 세 개이고, 예제마다 `.html`과 `.js`가 한 쌍이다. 예제가 읽는 그림 하나와 `.json` 두 개를 더해 파일은 아홉 개다. 오늘 예제는 화면이 서로 달라서 `.html`을 따로 둔다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week12/ex/`에 넣는다. 그림 파일도 **Raw**를 누르면 그림만 열린다. 그 화면에서 **Ctrl+S**로 저장한다.
 
 | 파일 | 비교하는 것 |
 |---|---|

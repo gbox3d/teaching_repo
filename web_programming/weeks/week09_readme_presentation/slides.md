@@ -129,7 +129,7 @@ footer: "1차 과제 발표와 README · 마크다운 비교 예제로 README 1�
 - [홈 (index.html)](index.html) — 설명            ← ex02 1번 · ex03 2번
 ```
 
-[1일차 실습](lab.md#1일차--마크다운-세-가지로-readme-1차판-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_architecture_project)
+[1일차 실습](lab.md#1일차--마크다운-세-가지로-readme-1차판-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation)
 
 1. `web-week09` 에 7주차 완성본, `ex/` 에 세 파일 → 값 바꿔 보기(23분까지).
 2. 캡처 두 장 → README 1차판 조립(43분까지) → 짝과 2분 연습.
@@ -217,7 +217,7 @@ README 다섯 항목 → Commits 탭은 잠깐                     (2:00)
 
 ## 2일차 · 24–30분 — 질문과 발표 시작
 
-[2일차 실습](lab.md#2일차--2분-발표-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_architecture_project)
+[2일차 실습](lab.md#2일차--2분-발표-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation)
 
 - 받을 질문: 발표 순서, 시간, 제출 방법, 장애가 났을 때.
 - 발표 중 구술 질문은 한 문항입니다. 예: "이 버튼을 누르면 어느 파일이 실행됩니까?"

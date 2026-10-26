@@ -1,6 +1,6 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
-# 6주차 — DOM·이벤트·브라우저 CRUD
+# 6주차 — DOM과 클릭 이벤트
 
 이번 주도 부품을 하나씩 본다. 비교 예제 6개를 열어 값을 바꿔 보고, 마지막에 이번 주 새 저장소 `web-week06` 의 `index.html`·`styles.css`·`app.js` 를 그 부품으로 조립한다.
 5주차 코드는 페이지를 열 때 **한 번** 실행됐다. 이번 주에는 **버튼을 누를 때마다** 화면이 바뀌게 한다. 글자를 바꾸고, 누른 횟수를 세고, class 하나로 다크 모드를 켜고 끈다.
@@ -83,13 +83,13 @@
 
 ## 수업 자료
 
-- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week06_dom_crud/index.html
+- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week06_dom_events/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
 - [예제 설명](examples/README.md) — 1일차 `day1/`(고르기 페이지 `index.html`, ex01~ex03 의 `.js`), 2일차 `day2/`(ex04~ex06 의 `.html`·`.js`, 조립 `web-week06/`)
 - 2일차 끝의 `web-week06`(조립 결과): [index.html](examples/day2/web-week06/index.html) · [styles.css](examples/day2/web-week06/styles.css) · [app.js](examples/day2/web-week06/app.js) · [about.html](examples/day2/web-week06/about.html) · [guestbook.html](examples/day2/web-week06/guestbook.html) · [images/profile.png](examples/day2/web-week06/images/profile.png)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
-- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud
+- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events
 
 ## 완료 기준
 

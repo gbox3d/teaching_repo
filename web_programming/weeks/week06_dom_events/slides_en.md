@@ -6,7 +6,7 @@ header: "Web Programming · Week 6"
 footer: "DOM and Events · see the principle through comparison examples, then assemble at the end"
 ---
 
-# DOM, Events, and Browser CRUD
+# DOM and Click Events
 
 Week 5's code ran **once**, when the page opened. This week the page changes **every time you click**.
 
@@ -111,7 +111,7 @@ btn.addEventListener('click', function () {
 
 ## Day 1 · 28–30 min — Your turn
 
-[Day 1 lab](lab.md#1일차--dom-과-클릭-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud)
+[Day 1 lab](lab.md#1일차--dom-과-클릭-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
 1. New folder `web-week06` with last week's files; today's four files in `ex/`.
 2. ex01–ex03 — turn on one line, change values. Say what will change first.
@@ -221,7 +221,7 @@ app.js      four const … = querySelector('#…')     ← ex01
             dark button: toggle('dark') + countUp() ← ex05 · ex06
 ```
 
-[Day 2 lab](lab.md#2일차--class-와-함수-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud)
+[Day 2 lab](lab.md#2일차--class-와-함수-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
 1. Save ex04–ex06 `.html` and `.js` in `ex/`, change values (until minute 29).
 2. Assemble → check at 375 and 1280 and with the server → push → dark-mode screenshot.

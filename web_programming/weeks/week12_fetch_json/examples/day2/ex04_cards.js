@@ -13,13 +13,13 @@ const sampleProjects = [
         title: '다크 모드',
         description: '6주차에 버튼 하나로 화면을 어둡게 했습니다.',
         image: 'ex04_picture.png',
-        link: 'https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud'
+        link: 'https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events'
     },
     {
         title: '방명록 저장',
         description: '11주차에 새로고침해도 글이 남게 했습니다.',
         image: 'ex04_picture.png',
-        link: 'https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_auth_rls'
+        link: 'https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage'
     }
 ];
 const projectList = document.querySelector('#project-list');

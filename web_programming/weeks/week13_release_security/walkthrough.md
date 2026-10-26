@@ -17,7 +17,7 @@
 저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week13`을 만들고 VS Code **File › Open Folder**로 연다.
 
 지난주 완성본을 넣는다. 내 `web-week12` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`projects.html`·`styles.css`·`app.js`·`guestbook.js`·`projects.js`·`README.md`·`server.mjs`)과 `images/`·`data/`·`screenshots/` 폴더를 `web-week13`으로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
-ZIP을 못 받았으면 교재 [12주차 `examples/day2/web-week12/`](../week12_persistent_crud/examples/day2/web-week12/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
+ZIP을 못 받았으면 교재 [12주차 `examples/day2/web-week12/`](../week12_fetch_json/examples/day2/web-week12/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
 
 이어서 `web-week13` 안에 `ex` 폴더를 만든다. 현재 폴더: `web-week13`
 

@@ -97,23 +97,23 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 3 | 시맨틱 HTML과 form | 공개 URL의 `guestbook.html` 폼과 세 페이지 nav | [`week03_semantic_html`](week03_semantic_html/) |
 | 4 | CSS와 반응형 UI | 기기 모드 375px에서 nav가 세로로 접히는 꾸민 `index.html` | [`week04_responsive_css`](week04_responsive_css/) |
 | 5 | JavaScript 데이터와 함수 | 함수가 만든 인사말이 페이지에 보이고 Console에 값이 찍힌 화면 | [`week05_javascript_data`](week05_javascript_data/) |
-| 6 | DOM·이벤트·브라우저 CRUD | [다크 모드]로 배경이 바뀌고 "클릭 N회"가 표시된 `index.html` | [`week06_dom_crud`](week06_dom_crud/) |
-| 7 | 폼 입력 읽기와 결과 표시 | 이름·메시지를 넣고 [남기기]를 누르면 아래에 한 줄이 표시되는 `guestbook.html` | [`week07_async_modules`](week07_async_modules/) |
+| 6 | DOM과 클릭 이벤트 | [다크 모드]로 배경이 바뀌고 "클릭 N회"가 표시된 `index.html` | [`week06_dom_events`](week06_dom_events/) |
+| 7 | 폼 입력 읽기와 결과 표시 | 이름·메시지를 넣고 [남기기]를 누르면 아래에 한 줄이 표시되는 `guestbook.html` | [`week07_form_input`](week07_form_input/) |
 | 8 | 중간 개인 실기 | 1일차 [1~7주 문제 은행](week08_midterm/examples/README.md) 연습, 2일차 중간 실기 — `web-week08/exam/` 공개 주소 · 저장소 주소 · Commits 탭 캡처 | [`week08_midterm`](week08_midterm/) |
-| 9 | 1차 과제 발표와 README | 2분 시연과 저장소 `README.md` 1차판 | [`week09_architecture_project`](week09_architecture_project/) |
-| 10 | 배열 데이터를 목록으로 그리기 | 항목 3개를 쌓고 1개를 지운 뒤 "2개"가 표시된 방명록 | [`week10_supabase_data`](week10_supabase_data/) |
-| 11 | 객체와 localStorage | 새로고침해도 남는 방명록 3개와 Application › Local Storage의 `guestbook` 키 | [`week11_auth_rls`](week11_auth_rls/) |
-| 12 | fetch로 JSON 불러오기 | JSON에서 읽은 카드 3개와 Network 탭의 `projects.json` 200 | [`week12_persistent_crud`](week12_persistent_crud/) |
+| 9 | 1차 과제 발표와 README | 2분 시연과 저장소 `README.md` 1차판 | [`week09_readme_presentation`](week09_readme_presentation/) |
+| 10 | 배열 데이터를 목록으로 그리기 | 항목 3개를 쌓고 1개를 지운 뒤 "2개"가 표시된 방명록 | [`week10_array_list`](week10_array_list/) |
+| 11 | 객체와 localStorage | 새로고침해도 남는 방명록 3개와 Application › Local Storage의 `guestbook` 키 | [`week11_object_localstorage`](week11_object_localstorage/) |
+| 12 | fetch로 JSON 불러오기 | JSON에서 읽은 카드 3개와 Network 탭의 `projects.json` 200 | [`week12_fetch_json`](week12_fetch_json/) |
 | 13 | 보안·접근성·릴리스 점검 | 태그를 입력해도 글자 그대로 보이고 Console 오류가 0인 375px 화면 | [`week13_release_security`](week13_release_security/) |
 | 14 | 최종 프로젝트 발표 | 3분 시연과 README 최종판 | [`week14_project_presentation`](week14_project_presentation/) |
 | 15 | 기말 개인 실기 | 1일차 [1~14주 누적 문제 은행](week15_final_exam/examples/README.md) 연습, 2일차 기말 실기 — `web-week15/exam/` 공개 주소 · 저장소 주소 · Commits 탭 캡처 | [`week15_final_exam`](week15_final_exam/) |
 
-폴더 이름은 이미 배포된 슬라이드 주소(`.../webprg/decks/<폴더명>/`)를 깨뜨리지 않기 위해 그대로 둔다. 주차의 실제 주제는 위 표의 제목을 따른다.
+폴더 이름은 그 주의 주제를 따른다. 2026-10-25에 6·7·9·10·11·12주 폴더 이름을 실제 주제에 맞게 바꿨다. 옛 이름의 슬라이드 주소(`.../webprg/decks/<옛 폴더명>/`)는 새 덱으로 넘어간다.
 
 ## 자료 작성 원칙
 
 - **학생 기준선**: 프로그래밍 경험이 거의 없는 대학생이다. 1주차에 URL·요청과 응답·HTML/CSS/JS의 역할·DevTools와 로컬 `git init → add → commit`, 2주차에 GitHub 저장소 `my-web`·push·Pages·브랜치와 merge까지 배웠다. 그 밖의 것은 모른다고 전제한다.
-- **기준 자료 우선순위**: (1) 강의자 판서와 Git·GitHub 슬라이드 → (2) 수업계획서의 15주 헤드라인과 평가 배점 → (3) MDN 입문 순서(HTML → CSS → JavaScript → DOM → 폼 → 저장 → fetch). 순서·용어·API는 이 셋과 같게 쓴다.
+- **기준 자료 우선순위**: (1) 강의자 판서와 Git·GitHub 슬라이드 → (2) 수업계획서의 평가 배점 → (3) MDN 입문 순서(HTML → CSS → JavaScript → DOM → 폼 → 저장 → fetch). 순서·용어·API는 이 셋과 같게 쓴다.
 - **한 주 새 개념은 3~5개**다. 앞 주에서 배운 것만 전제하고 난이도가 한 주에 두 단계 뛰지 않는다. "오늘 문법 5분"이나 복붙 틀로 처리하는 항목은 개념 수에서 빼되 슬라이드 1장으로 제한한다. 3주차부터의 올리기 순서(add·commit·push)는 설명하지 않는 루틴이므로 개념 수에 넣지 않는다.
 - **매주 캡처 1장으로 보여 줄 웹페이지·동작 하나로 끝난다.** 1일차 중간 화면은 `lab.md`에 "확인용"으로만 둔다.
 - `slides.md`에는 설명 30분 분량의 핵심만 두고 긴 설명은 강의 대본(비공개)으로 분리한다.

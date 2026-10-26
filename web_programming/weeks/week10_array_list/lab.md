@@ -1,4 +1,4 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
 
 # 10주차 실습 — 값을 바꿔 보고 마지막에 조립하기
 
@@ -15,7 +15,7 @@
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 새 폴더 `web-week10` 을 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week09` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/`·`screenshots/` 를 넣는다. 못 받으면 교재 [9주차 `examples/day2/web-week09/`](../week09_architecture_project/examples/day2/web-week09/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 다섯 파일(고르기 페이지 `index.html` 과 ex01~ex04 의 `.js`)을 **Raw** 로 저장한다 |
+| 0–5분 | 새 폴더 `web-week10` 을 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week09` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/`·`screenshots/` 를 넣는다. 못 받으면 교재 [9주차 `examples/day2/web-week09/`](../week09_readme_presentation/examples/day2/web-week09/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 다섯 파일(고르기 페이지 `index.html` 과 ex01~ex04 의 `.js`)을 **Raw** 로 저장한다 |
 | 5–14분 | ex01 배열 |
 | 14–23분 | ex02 for |
 | 23–35분 | ex03 목록 한 줄 만들기 |

@@ -1,4 +1,4 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
 
 # 7주차 — 폼 입력 읽기와 결과 표시
 
@@ -49,11 +49,11 @@
 
 ## 준비
 
-- 지난주 완성본. 내 `web-week06` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [6주차 `examples/day2/web-week06/`](../week06_dom_crud/examples/day2/web-week06/) 파일을 **Raw** 로 받는다
+- 지난주 완성본. 내 `web-week06` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [6주차 `examples/day2/web-week06/`](../week06_dom_events/examples/day2/web-week06/) 파일을 **Raw** 로 받는다
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS(선택). 5주차에 받은 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에도 둔다([사용 안내](../../tools/static-server/README.md)). Node 가 없는 PC 는 파일을 두 번 눌러 열어도 이번 주 결과는 같다
 - 개발자 도구의 **Console** 탭. 이번 주에는 Console 설정 ⚙ › **Preserve log** 를 켠다(폼이 페이지를 다시 열어도 Console 줄이 남는다. [따라하기 3단계](walkthrough.md#3-여는-법과-preserve-log))
-- 6주차 비교 예제 [ex02](../week06_dom_crud/examples/day1/ex02_click_write.js)(열 때 vs 클릭할 때)·[ex06](../week06_dom_crud/examples/day2/ex06_reuse.js)(함수 하나를 두 곳에서 부르기)를 기억해 둔다. 이번 주가 그 두 파일에서 이어진다. 3주차에 만든 방명록 폼(`guestbook.html`)이 이번 주에 동작한다
+- 6주차 비교 예제 [ex02](../week06_dom_events/examples/day1/ex02_click_write.js)(열 때 vs 클릭할 때)·[ex06](../week06_dom_events/examples/day2/ex06_reuse.js)(함수 하나를 두 곳에서 부르기)를 기억해 둔다. 이번 주가 그 두 파일에서 이어진다. 3주차에 만든 방명록 폼(`guestbook.html`)이 이번 주에 동작한다
 - 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
 
 ## 이번 주 용어
@@ -85,13 +85,13 @@
 
 ## 수업 자료
 
-- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week07_async_modules/index.html
+- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week07_form_input/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
 - [예제 설명](examples/README.md) — 1일차 `day1/`(ex01~ex03 의 `.html`·`.js`), 2일차 `day2/`(고르기 페이지 `index.html`, ex04~ex07 의 `.js`, 조립 `web-week07/`)
 - 2일차 끝의 `web-week07`(조립 결과): [guestbook.html](examples/day2/web-week07/guestbook.html) · [guestbook.js](examples/day2/web-week07/guestbook.js) · [index.html](examples/day2/web-week07/index.html) · [about.html](examples/day2/web-week07/about.html) · [app.js](examples/day2/web-week07/app.js) · [styles.css](examples/day2/web-week07/styles.css) · [images/profile.png](examples/day2/web-week07/images/profile.png)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
-- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules
+- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input
 
 ## 완료 기준
 
@@ -106,7 +106,6 @@
 
 이번 주로 8주차 중간 실기 범위(1~7주 실습 제출)가 모두 채워졌다. 6주차 2일차에 안내한 대로 8주차는 [문제 은행](../week08_midterm/examples/README.md)에서 값을 바꿔 출제한다. 폼 문제 [w07_form_line](../week08_midterm/examples/w07_form_line/README.md)은 이번 주 실습에서 나왔다.
 지금은 두 번째 글을 남기면 앞 글이 사라진다. 글을 쌓아 목록으로 보여 주는 것은 10주차, 새로고침해도 남게 하는 것은 11주차다. 9주차는 오늘 `web-week07` 의 파일에서 시작한다(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/web-week07/`](examples/day2/web-week07/)).
-이 주차 폴더 이름의 비동기(async)는 12주차 `fetch` 에서 다루고, 모듈(`import`/`export`)은 이 과목 범위 밖이다. 이 학기에는 페이지마다 `<script src="…" defer>` 하나로 쓴다.
 
 ## 공식 참고 자료
 

@@ -2,7 +2,7 @@
 
 # w09_readme_links — README 1차판
 
-출처: [9주차 실습 제출](../../../week09_architecture_project/lab.md#제출--캡처-한-장과-발표) · 권장 9분 · 기말 A(화면(HTML·CSS·README))
+출처: [9주차 실습 제출](../../../week09_readme_presentation/lab.md#제출--캡처-한-장과-발표) · 권장 9분 · 기말 A(화면(HTML·CSS·README))
 
 9주차에 쓴 README 1차판을 다른 값으로 다시 쓴다. 사이트는 완성되어 있고, 이 폴더에 `README.md` 한 장만 새로 만든다. 마크다운은 제목 `#`, 목록 `-`, 링크 `[보이는 글](주소)` 세 가지만 쓴다.
 

@@ -1,4 +1,4 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
 # 12주차 — fetch로 JSON 불러오기
 
@@ -50,7 +50,7 @@ JSON 은 **글자**다. 이름과 문자열 값을 큰따옴표로 감싸는 규
 
 ## 준비
 
-- 지난주 완성본. 내 `web-week11` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [11주차 `examples/day2/web-week11/`](../week11_auth_rls/examples/day2/web-week11/) 파일을 **Raw** 로 받는다
+- 지난주 완성본. 내 `web-week11` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [11주차 `examples/day2/web-week11/`](../week11_object_localstorage/examples/day2/web-week11/) 파일을 **Raw** 로 받는다
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS(`node -v` 로 확인)와 [server.mjs](../../tools/static-server/server.mjs)([사용 안내](../../tools/static-server/README.md)). 이번 주 예제는 `fetch` 가 있어서 **서버로 연다**. Node 가 없는 PC 는 저장소를 먼저 올리고 공개 주소에서 확인한다(push 할 때마다 1~3분 기다린다)
 - 개발자 도구의 **Console** 탭과 **Network** 탭 위치(오른쪽 클릭 › **검사**, 또는 **F12**)
@@ -85,13 +85,13 @@ JSON 은 **글자**다. 이름과 문자열 값을 큰따옴표로 감싸는 규
 
 ## 수업 자료
 
-- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week12_persistent_crud/index.html
+- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week12_fetch_json/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
 - [예제 설명](examples/README.md) — 1일차 `day1/`(고르기 페이지 `index.html`, ex01~ex03 의 `.js`, ex02·ex03 의 `.json`), 2일차 `day2/`(ex04~ex06 의 `.html`·`.js`, 그림과 `.json`, 조립 `web-week12/`)
 - 2일차 끝의 `web-week12`(조립 결과): [projects.html](examples/day2/web-week12/projects.html) · [projects.js](examples/day2/web-week12/projects.js) · [data/projects.json](examples/day2/web-week12/data/projects.json) · [index.html](examples/day2/web-week12/index.html) · [about.html](examples/day2/web-week12/about.html) · [guestbook.html](examples/day2/web-week12/guestbook.html) · [images/](examples/day2/web-week12/images/)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
-- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud
+- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json
 
 ## 완료 기준
 

@@ -107,7 +107,7 @@ li2.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`;
 
 ## 1일차 · 27–30분 — 이제 직접 해 보기
 
-[1일차 실습](lab.md#1일차--객체와-점-표기-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_auth_rls)
+[1일차 실습](lab.md#1일차--객체와-점-표기-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
 
 1. 새 폴더 `web-week11` 에 지난주 완성본, `ex/` 에 오늘 네 파일.
 2. ex01~ex03 — 줄 하나만 켜고 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
@@ -230,7 +230,7 @@ guestbook.js    if (name === '' || message === '')       ← ex06 1번
                 전체 지우기: items = [] + removeItem      ← ex07
 ```
 
-[2일차 실습](lab.md#2일차--저장-칸에-남기고-되살리기-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_auth_rls)
+[2일차 실습](lab.md#2일차--저장-칸에-남기고-되살리기-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
 
 1. 고르기 페이지와 ex04~ex07 `.js` 를 `ex/` 에 저장(어제 `index.html` 을 덮어씀), 값 바꾸기(29분까지).
 2. 조립 → push → **공개 주소**에서 확인 → 캡처.

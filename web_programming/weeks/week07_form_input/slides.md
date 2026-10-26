@@ -104,7 +104,7 @@ const trimmed = nameInput.value.trim();   // 2. [student01]
 
 ## 1일차 · 28–30분 — 이제 직접 해 보기
 
-[1일차 실습](lab.md#1일차--폼-제출과-입력-값-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
+[1일차 실습](lab.md#1일차--폼-제출과-입력-값-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
 
 1. 새 폴더 `web-week07` 에 지난주 완성본, `ex/` 에 오늘 여섯 파일(`.html`·`.js` 세 쌍).
 2. ex01~ex03 — 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다. Preserve log 를 켭니다.
@@ -253,7 +253,7 @@ clearNotice() · 결과 한 줄 · reset() · focus()    ← ex07 · ex05 · ex0
 input 리스너 두 줄(clearNotice 이름만)            ← ex06 · ex07 2번
 ```
 
-[2일차 실습](lab.md#2일차--빈값-안내와-다음-입력-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_async_modules)
+[2일차 실습](lab.md#2일차--빈값-안내와-다음-입력-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
 
 1. ex04~ex07 값 바꾸기(29분까지) → 조립 → 375·1280 과 서버로 확인 → push → 캡처.
 2. 8주차는 1~7주 [문제 은행](../week08_midterm/examples/README.md)에서 값을 바꿔 냅니다. 오늘 폼도 들어 있습니다.
@@ -286,4 +286,3 @@ https://student01.github.io/web-week07/guestbook.html
 [문제 은행](../week08_midterm/examples/README.md)은 공개되어 있습니다. 해답 대신 문제마다 있는 "확인할 것"으로 맞춰 보고 옵니다.
 
 지금은 두 번째 글을 남기면 앞 글이 사라집니다. 글을 쌓는 목록은 10주차, 새로고침해도 남기기는 11주차입니다.
-이 주차 폴더 이름의 비동기(async)는 12주차 `fetch` 에서 다루고, 모듈(`import`/`export`)은 이 과목 범위 밖입니다.

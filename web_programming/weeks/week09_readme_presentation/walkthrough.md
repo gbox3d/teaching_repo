@@ -1,4 +1,4 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_architecture_project)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation)
 
 # 9주차 따라하기 — 마크다운 비교 예제로 README 1차판을 조립하고 발표하기
 
@@ -6,7 +6,7 @@
 1일차 끝에 `web-week09` 맨 위에 `README.md` 1차판과 화면 캡처 두 장을 넣고 올린다. 사이트의 HTML·CSS·JavaScript 는 고치지 않는다. 2일차는 발표다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-비교 예제 3개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_architecture_project/examples/day1) 폴더에 있다.
+비교 예제 3개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation/examples/day1) 폴더에 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
@@ -16,7 +16,7 @@
 저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week09` 를 만들고 VS Code **File › Open Folder** 로 연다.
 
 7주차 완성본을 넣는다. 내 `web-week07` 저장소 GitHub 화면에서 **Code › Download ZIP** 을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`guestbook.js`·`server.mjs`)과 `images/` 를 `web-week09` 로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다. 8주차 시험 저장소 `web-week08` 은 쓰지 않는다.
-ZIP 을 못 받았으면 교재 [7주차 `examples/day2/web-week07/`](../week07_async_modules/examples/day2/web-week07/) 의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs) 도 같은 방법으로 받는다.
+ZIP 을 못 받았으면 교재 [7주차 `examples/day2/web-week07/`](../week07_form_input/examples/day2/web-week07/) 의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs) 도 같은 방법으로 받는다.
 
 이어서 `web-week09` 안에 `ex` 폴더를 만든다. 현재 폴더: `web-week09`
 
@@ -53,7 +53,7 @@ web-week09/
 | [ex02_list.md](examples/day1/ex02_list.md) | `- ` 로 시작하는 세 줄 / 기호 없는 세 줄 / `-` 뒤 띄어쓰기 없음 |
 | [ex03_link.md](examples/day1/ex03_link.md) | 인터넷 주소 링크 / 같은 폴더의 파일 링크 / 그 링크에서 `]` 와 `(` 사이만 띄운 줄 |
 
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_architecture_project/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw** 를 누른다. 원문만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week09/ex/` 에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw 가 열리지 않을 때만 주석 줄까지 그대로 친다.
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw** 를 누른다. 원문만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week09/ex/` 에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw 가 열리지 않을 때만 주석 줄까지 그대로 친다.
 
 **예상 결과** — `ex/` 안에 파일 세 개가 있다.
 

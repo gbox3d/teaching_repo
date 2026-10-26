@@ -6,7 +6,7 @@ header: "웹프로그래밍 · 6주차"
 footer: "DOM·이벤트 · 비교 예제로 원리를 보고 마지막에 조립"
 ---
 
-# DOM·이벤트·브라우저 CRUD
+# DOM과 클릭 이벤트
 
 5주차 코드는 페이지를 열 때 **한 번** 실행됐습니다. 이번 주는 **누를 때마다** 바뀌는 페이지입니다.
 
@@ -111,7 +111,7 @@ btn.addEventListener('click', function () {
 
 ## 1일차 · 28–30분 — 이제 직접 해 보기
 
-[1일차 실습](lab.md#1일차--dom-과-클릭-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud)
+[1일차 실습](lab.md#1일차--dom-과-클릭-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
 1. 새 폴더 `web-week06` 에 지난주 완성본, `ex/` 에 오늘 네 파일.
 2. ex01~ex03 — 줄 하나만 켜고 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
@@ -221,7 +221,7 @@ app.js      const … = querySelector('#…') 네 줄   ← ex01
             dark 버튼: toggle('dark') + countUp() ← ex05 · ex06
 ```
 
-[2일차 실습](lab.md#2일차--class-와-함수-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud)
+[2일차 실습](lab.md#2일차--class-와-함수-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
 1. ex04~ex06 `.html`·`.js` 를 `ex/` 에 저장, 값 바꾸기(29분까지).
 2. 조립 → 375·1280 폭과 서버로 확인 → push → 다크 모드 캡처.

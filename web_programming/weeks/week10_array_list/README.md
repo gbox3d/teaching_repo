@@ -1,4 +1,4 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
 
 # 10주차 — 배열 데이터를 목록으로 그리기
 
@@ -50,7 +50,7 @@
 
 ## 준비
 
-- 지난주 완성본. 내 `web-week09` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [9주차 `examples/day2/web-week09/`](../week09_architecture_project/examples/day2/web-week09/) 파일을 **Raw** 로 받는다
+- 지난주 완성본. 내 `web-week09` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [9주차 `examples/day2/web-week09/`](../week09_readme_presentation/examples/day2/web-week09/) 파일을 **Raw** 로 받는다
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS(선택). 5주차부터 쓴 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에도 둔다([사용 안내](../../tools/static-server/README.md)). Node 가 없는 PC 는 파일을 두 번 눌러 열어도 이번 주 결과는 같다
 - 개발자 도구의 **Console** 탭과 **Elements** 탭 위치(오른쪽 클릭 › **검사**, 또는 **F12**)
@@ -86,13 +86,13 @@
 
 ## 수업 자료
 
-- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week10_supabase_data/index.html
+- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week10_array_list/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
 - [예제 설명](examples/README.md) — 1일차 `day1/`(고르기 페이지 `index.html`, ex01~ex04 의 `.js`), 2일차 `day2/`(ex05~ex07 의 `.html`·`.js`, 조립 `web-week10/`)
 - 2일차 끝의 `web-week10`(조립 결과): [guestbook.html](examples/day2/web-week10/guestbook.html) · [guestbook.js](examples/day2/web-week10/guestbook.js) · [index.html](examples/day2/web-week10/index.html) · [about.html](examples/day2/web-week10/about.html) · [styles.css](examples/day2/web-week10/styles.css) · [app.js](examples/day2/web-week10/app.js) · [README.md](examples/day2/web-week10/README.md)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
-- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_supabase_data
+- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list
 
 ## 완료 기준
 

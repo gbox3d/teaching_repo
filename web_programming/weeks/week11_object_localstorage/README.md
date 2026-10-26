@@ -1,4 +1,4 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_auth_rls)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
 
 # 11주차 — 객체와 localStorage
 
@@ -53,11 +53,11 @@
 
 ## 준비
 
-- 지난주 완성본. 내 `web-week10` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [10주차 `examples/day2/web-week10/`](../week10_supabase_data/examples/day2/web-week10/) 파일을 **Raw** 로 받는다
+- 지난주 완성본. 내 `web-week10` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [10주차 `examples/day2/web-week10/`](../week10_array_list/examples/day2/web-week10/) 파일을 **Raw** 로 받는다
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS(선택). 5주차에 받은 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에도 둔다([사용 안내](../../tools/static-server/README.md)). 서버로 연 주소(`http://localhost:8000/`)도 공개 주소와 저장 칸이 다르다
 - 개발자 도구의 **Console** 탭과 이번 주 2일차에 처음 쓰는 **Application** 탭 위치(**F12**, 또는 오른쪽 클릭 › **검사**)
-- 10주차 [비교 예제](../week10_supabase_data/examples/README.md)의 배열·`for`·`showList()` 를 기억해 둔다. 이번 주는 그 배열에 담는 값을 글자에서 객체로 바꾼다
+- 10주차 [비교 예제](../week10_array_list/examples/README.md)의 배열·`for`·`showList()` 를 기억해 둔다. 이번 주는 그 배열에 담는 값을 글자에서 객체로 바꾼다
 - 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
 
 ## 이번 주 용어
@@ -90,13 +90,13 @@
 
 ## 수업 자료
 
-- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week11_auth_rls/index.html
+- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week11_object_localstorage/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
 - [예제 설명](examples/README.md) — 1일차 `day1/`(고르기 페이지 `index.html`, ex01~ex03 의 `.js`), 2일차 `day2/`(고르기 페이지 `index.html`, ex04~ex07 의 `.js`, 조립 `web-week11/`)
 - 2일차 끝의 `web-week11`(조립 결과): [guestbook.html](examples/day2/web-week11/guestbook.html) · [guestbook.js](examples/day2/web-week11/guestbook.js) · [index.html](examples/day2/web-week11/index.html) · [about.html](examples/day2/web-week11/about.html) · [app.js](examples/day2/web-week11/app.js) · [styles.css](examples/day2/web-week11/styles.css) · [README.md](examples/day2/web-week11/README.md)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
-- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_auth_rls
+- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage
 
 ## 완료 기준
 

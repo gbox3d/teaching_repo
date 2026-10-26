@@ -74,8 +74,8 @@
 | A HTML | [3주차 실습 제출](../week03_semantic_html/lab.md#제출--캡처-한-장) | [w03_second_page](examples/w03_second_page/) 새 페이지와 링크로 오가기 | 두 번째 페이지와 상대 경로 링크 | 10분 |
 | B CSS | [4주차 실습 제출](../week04_responsive_css/lab.md#제출--캡처-한-장) | [w04_box_style](examples/w04_box_style/) 상자 꾸미기와 글자 가운데 | 배경색·글자색·테두리·padding, flex column 으로 가운데 | 10분 |
 | B CSS | [4주차 실습 제출](../week04_responsive_css/lab.md#제출--캡처-한-장) | [w05_box_position](examples/w05_box_position/) 틀 안의 상자를 지정 위치에 | `justify-content`·`align-items` 로 상단 중앙·하단 우측 같은 위치 | 10분 |
-| C JavaScript·DOM | [6주차 실습 제출](../week06_dom_crud/lab.md#제출--캡처-한-장) | [w06_click_text](examples/w06_click_text/) 버튼을 누르면 글자와 횟수가 바뀐다 | `querySelector`·`addEventListener`·`textContent`·`let` 변수 | 10분 |
-| D 폼 | [7주차 실습 제출](../week07_async_modules/lab.md#제출--캡처-한-장) | [w07_form_line](examples/w07_form_line/) 입력 칸을 읽어 한 줄로 보여 주기 | `submit`·`preventDefault`·`value`·빈값 안내 | 10분 |
+| C JavaScript·DOM | [6주차 실습 제출](../week06_dom_events/lab.md#제출--캡처-한-장) | [w06_click_text](examples/w06_click_text/) 버튼을 누르면 글자와 횟수가 바뀐다 | `querySelector`·`addEventListener`·`textContent`·`let` 변수 | 10분 |
+| D 폼 | [7주차 실습 제출](../week07_form_input/lab.md#제출--캡처-한-장) | [w07_form_line](examples/w07_form_line/) 입력 칸을 읽어 한 줄로 보여 주기 | `submit`·`preventDefault`·`value`·빈값 안내 | 10분 |
 
 문제 이름을 누르면 문제 문장(시작 파일·할 일·확인할 것·힌트·이 문제의 값·받기와 올리기)과 시작 파일이 보인다. 은행 전체 목록은 [examples/README.md](examples/README.md)다.
 
@@ -102,7 +102,7 @@
 
 ## 다음 수업 연결
 
-[9주차](../week09_architecture_project/README.md)는 **1차 과제 발표**다. 지금까지 만든 내 사이트를 공개 주소로 2분 동안 보여 주고, 그 사이트를 소개하는 `README.md` 1차판을 저장소 첫 화면에 쓴다.
+[9주차](../week09_readme_presentation/README.md)는 **1차 과제 발표**다. 지금까지 만든 내 사이트를 공개 주소로 2분 동안 보여 주고, 그 사이트를 소개하는 `README.md` 1차판을 저장소 첫 화면에 쓴다.
 15주 기말 실기도 이번 주와 같은 방식이다. 기말 은행은 1~14주 누적이라 이번 주 일곱 문제도 들어 있고, 다시 나오면 8주와 다른 값으로 나온다.
 
 ## 공식 참고 자료

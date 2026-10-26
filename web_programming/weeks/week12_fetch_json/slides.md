@@ -108,7 +108,7 @@ file:///…/ex/index.html     → 화면 1. 불러오는 중 … (멈춤)
 
 ## 1일차 · 26–30분 — 이제 직접 해 보기
 
-[1일차 실습](lab.md#1일차--json-파일과-fetch-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud)
+[1일차 실습](lab.md#1일차--json-파일과-fetch-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
 1. 새 폴더 `web-week12` 에 지난주 완성본과 `server.mjs`, `ex/` 에 오늘 여섯 파일.
 2. `node server.mjs` → ex01~ex03 줄 하나만 켜고 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
@@ -200,7 +200,6 @@ const projects = await response.json();
 3. `data/projects.json` 을 읽어 그리는 카드(12주차)
 
 - 레포트는 저장소 `README.md` 최종판입니다. 양식은 13주차에 함께 씁니다.
-- 수업계획서의 "영속 CRUD와 관계 기능" = 11주차 `localStorage`(영속) + 카드의 **페이지 열기** 링크(관계).
 - 서버 데이터베이스와 로그인은 선택 특강에서 다룹니다.
 
 **매주 완성본이 쌓여 최종 과제가 된다.**
@@ -219,7 +218,7 @@ projects.js         showProjects(projects)      ← ex04
 nav 네 페이지       <a href="projects.html">    ← 지난주 nav
 ```
 
-[2일차 실습](lab.md#2일차--카드와-오류-안내-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud)
+[2일차 실습](lab.md#2일차--카드와-오류-안내-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
 1. ex04~ex06 아홉 파일을 `ex/` 에 저장, 값 바꾸기(28분까지).
 2. 조립 → 서버·375·1280 확인 → push → 공개 주소에서 카드와 Network 캡처.

@@ -1,4 +1,4 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_architecture_project)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation)
 
 # 9주차 실습 — README 1차판을 조립하고 2분 발표하기
 
@@ -15,7 +15,7 @@
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 새 폴더 `web-week09` 를 만들어 VS Code 로 연다(**File › Open Folder**). 7주차 완성본을 넣는다: 내 `web-week07` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/` 를 넣는다. 못 받으면 교재 [7주차 `examples/day2/web-week07/`](../week07_async_modules/examples/day2/web-week07/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 세 파일을 **Raw** 로 저장한다 |
+| 0–5분 | 새 폴더 `web-week09` 를 만들어 VS Code 로 연다(**File › Open Folder**). 7주차 완성본을 넣는다: 내 `web-week07` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/` 를 넣는다. 못 받으면 교재 [7주차 `examples/day2/web-week07/`](../week07_form_input/examples/day2/web-week07/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 세 파일을 **Raw** 로 저장한다 |
 | 5–11분 | ex01 제목 |
 | 11–17분 | ex02 목록 |
 | 17–23분 | ex03 링크 |
@@ -164,7 +164,7 @@ git push -u origin main
 | README 의 캡처 링크를 누르면 404 | `screenshots/` 폴더가 올라갔는지(저장소 화면에 폴더가 보이는지), 링크의 폴더·파일 이름이 대소문자까지 같은지 본다. GitHub 화면의 파일 이름을 복사해 넣는다 |
 | README 의 공개 주소 링크가 옛 사이트나 404 를 연다 | 소괄호 안이 이번 주 주소 `https://student01.github.io/web-week09/`(본인 아이디)인지 본다 |
 | 공개 주소 `…/web-week09/` 가 404 다 | ① 저장소 이름이 `web-week09` 인지 ② **Settings › Pages** 가 켜져 있는지 ③ `index.html` 이 저장소 맨 위에 있는지 본다 |
-| 발표 중 버튼이나 폼이 동작하지 않는다 | Console 첫 빨간 줄을 읽고 [6주차](../week06_dom_crud/lab.md#막혔을-때)·[7주차](../week07_async_modules/lab.md#막혔을-때) 막혔을 때 표를 본다. 발표에서는 되는 것부터 보여 준다 |
+| 발표 중 버튼이나 폼이 동작하지 않는다 | Console 첫 빨간 줄을 읽고 [6주차](../week06_dom_events/lab.md#막혔을-때)·[7주차](../week07_form_input/lab.md#막혔을-때) 막혔을 때 표를 본다. 발표에서는 되는 것부터 보여 준다 |
 | 방명록에 남긴 글이 새로고침하면 사라진다 | 정상이다. 지금 글은 ① 화면에만 있다. 새로고침해도 남게 하는 것은 11주차다 |
 | 2분을 넘긴다 | 말하면서 누른다. 첫 소개를 한 문장으로 줄인다 |
 

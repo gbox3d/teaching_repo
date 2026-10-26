@@ -280,23 +280,29 @@
           }
         },
         {
-          "id": "week06_dom_crud",
+          "id": "week06_dom_events",
           "label": "6주차",
-          "title": "DOM·이벤트·브라우저 CRUD",
+          "title": "DOM과 클릭 이벤트",
           "description": "5주차 ex09에서 본 \"먼저 찾고 그다음 바꾼다\"를 버튼과 함께 쓰려면 무엇이 더 필요할까?",
           "type": "week",
+          "formerIds": [
+            "week06_dom_crud"
+          ],
           "en": {
             "label": "Week 6",
-            "title": "DOM, Events, and Browser CRUD",
+            "title": "DOM and Click Events",
             "description": "In Week 5, ex09 showed \"find it first, then change it.\" What more do you need to use that together with a button?"
           }
         },
         {
-          "id": "week07_async_modules",
+          "id": "week07_form_input",
           "label": "7주차",
           "title": "폼 입력 읽기와 결과 표시",
           "description": "3주차에 만든 방명록 폼의 **[남기기]** 버튼은 눌러도 주소창만 바뀌고 아무 일도 일어나지 않았다. 입력한 이름과 메시지를 읽어 화면에 띄우려면 무엇이 더 필요할까?",
           "type": "week",
+          "formerIds": [
+            "week07_async_modules"
+          ],
           "en": {
             "label": "Week 7",
             "title": "Reading Form Input and Displaying Results",
@@ -316,11 +322,14 @@
           }
         },
         {
-          "id": "week09_architecture_project",
+          "id": "week09_readme_presentation",
           "label": "9주차",
           "title": "1차 과제 발표와 README",
           "description": "3~7주에 한 주씩 쌓아 온 내 사이트를, 공개 주소를 열어 **2분 안에** 남에게 보여 줄 수 있을까? 그리고 그 설명을 저장소 첫 화면에 한 장으로 남길 수 있을까?",
           "type": "week",
+          "formerIds": [
+            "week09_architecture_project"
+          ],
           "en": {
             "label": "Week 9",
             "title": "Project 1 Presentation and README",
@@ -328,11 +337,14 @@
           }
         },
         {
-          "id": "week10_supabase_data",
+          "id": "week10_array_list",
           "label": "10주차",
           "title": "배열 데이터를 목록으로 그리기",
           "description": "방명록에 두 번째 글을 남기면 앞 글이 사라진다. 남긴 글을 **쌓아서** 목록으로 보여 주고, 필요 없는 줄을 지울 수 있을까?",
           "type": "week",
+          "formerIds": [
+            "week10_supabase_data"
+          ],
           "en": {
             "label": "Week 10",
             "title": "Drawing Array Data as a List",
@@ -340,11 +352,14 @@
           }
         },
         {
-          "id": "week11_auth_rls",
+          "id": "week11_object_localstorage",
           "label": "11주차",
           "title": "객체와 localStorage",
           "description": "방명록에 남긴 글을 **새로고침해도 남게** 할 수 있을까? 그리고 한 줄에 이름·메시지·날짜 **세 값**을 함께 담을 수 있을까?",
           "type": "week",
+          "formerIds": [
+            "week11_auth_rls"
+          ],
           "en": {
             "label": "Week 11",
             "title": "Objects and localStorage",
@@ -352,11 +367,14 @@
           }
         },
         {
-          "id": "week12_persistent_crud",
+          "id": "week12_fetch_json",
           "label": "12주차",
           "title": "fetch로 JSON 불러오기",
           "description": "화면에 쓸 내용을 HTML 안에 직접 적지 않고, **따로 만든 파일에서 읽어 와** 카드로 그릴 수 있을까?",
           "type": "week",
+          "formerIds": [
+            "week12_persistent_crud"
+          ],
           "en": {
             "label": "Week 12",
             "title": "Loading JSON with fetch",

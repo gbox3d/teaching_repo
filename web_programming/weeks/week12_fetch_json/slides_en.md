@@ -108,7 +108,7 @@ file:///…/ex/index.html     → screen 1. 불러오는 중 … (stuck)
 
 ## Day 1 · 26–30 min — Your turn
 
-[Day 1 lab](lab.md#1일차--json-파일과-fetch-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud)
+[Day 1 lab](lab.md#1일차--json-파일과-fetch-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
 1. New folder `web-week12` with last week's files and `server.mjs`; today's six files in `ex/`.
 2. `node server.mjs` → turn on one line for ex01–ex03 and change values. Say what will change first.
@@ -200,7 +200,6 @@ Week 14 is the **final presentation**. Nothing new to build: you demo the site y
 3. Cards drawn from `data/projects.json` (Week 12)
 
 - The report is the final `README.md` in your repository. We write it together in Week 13.
-- The syllabus phrase "persistent CRUD and relations" = Week 11 `localStorage` (persistent) + the card's **페이지 열기** link (relations).
 - A server database and login are covered in an optional special session.
 
 **Each week's finished files add up to the final project.**
@@ -219,7 +218,7 @@ projects.js         showProjects(projects)      ← ex04
 nav on four pages   <a href="projects.html">    ← last week's nav
 ```
 
-[Day 2 lab](lab.md#2일차--카드와-오류-안내-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_persistent_crud)
+[Day 2 lab](lab.md#2일차--카드와-오류-안내-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
 1. Save the nine ex04–ex06 files in `ex/`, change values (until minute 28).
 2. Assemble → check with the server at 375 and 1280 → push → screenshot of the cards and Network on the public address.

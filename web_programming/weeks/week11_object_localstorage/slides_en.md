@@ -107,7 +107,7 @@ li2.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`;
 
 ## Day 1 · 27–30 min — Your turn
 
-[Day 1 lab](lab.md#1일차--객체와-점-표기-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_auth_rls)
+[Day 1 lab](lab.md#1일차--객체와-점-표기-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
 
 1. New folder `web-week11` with last week's files; today's four files in `ex/`.
 2. ex01–ex03 — turn on one line, change values. Say what will change first.
@@ -230,7 +230,7 @@ guestbook.js    if (name === '' || message === '')     ← ex06 No. 1
                 clear-all: items = [] + removeItem      ← ex07
 ```
 
-[Day 2 lab](lab.md#2일차--저장-칸에-남기고-되살리기-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_auth_rls)
+[Day 2 lab](lab.md#2일차--저장-칸에-남기고-되살리기-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
 
 1. Save the picker page and the ex04–ex07 `.js` files in `ex/` (it replaces yesterday's `index.html`), change values (until minute 29).
 2. Assemble → push → check on the **public address** → screenshot.

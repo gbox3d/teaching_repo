@@ -1,11 +1,11 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
 # 6주차 따라하기 — 비교 예제로 원리를 보고 마지막에 조립
 
 이번 주는 새 저장소 `web-week06`을 만든다. 지난주 완성본을 넣고, 비교 예제는 그 안의 `ex/` 폴더에 저장한다. 값·줄을 바꾼 뒤 결과를 화면과 **F12 › Console**, **F12 › Elements**에서 본다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud/examples/day1)(1일차 ex01~ex03과 고르기 페이지)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud/examples/day2)(2일차 ex04~ex06) 폴더에 있다.
+비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day1)(1일차 ex01~ex03과 고르기 페이지)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)(2일차 ex04~ex06) 폴더에 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
@@ -51,7 +51,7 @@ web-week06/
 | [ex02_click_write.js](examples/day1/ex02_click_write.js) | 열 때 바꾸기 / 클릭할 때 바꾸기 |
 | [ex03_counter.js](examples/day1/ex03_counter.js) | 함수 밖의 `let count` / 함수 안의 `let inside` |
 
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week06/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week06/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
 
 **예상 결과** — `ex/` 안에 파일 네 개가 있다.
 
@@ -156,7 +156,7 @@ git clone https://github.com/student01/web-week06.git
 
 내려받은 `web-week06`을 **File › Open Folder**로 연다.
 
-오늘 예제는 세 개이고, 예제마다 `.html`과 `.js`가 한 쌍이라 파일은 여섯 개다. 오늘 예제는 화면이 서로 달라서 `.html`을 따로 둔다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_crud/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week06/ex/`에 넣는다.
+오늘 예제는 세 개이고, 예제마다 `.html`과 `.js`가 한 쌍이라 파일은 여섯 개다. 오늘 예제는 화면이 서로 달라서 `.html`을 따로 둔다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week06/ex/`에 넣는다.
 
 | 파일 | 비교하는 것 |
 |---|---|

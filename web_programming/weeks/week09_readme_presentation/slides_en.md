@@ -129,7 +129,7 @@ source (3 lines)         rendered
 - [홈 (index.html)](index.html) — description   ← ex02 No.1 · ex03 No.2
 ```
 
-[Day 1 lab](lab.md#1일차--마크다운-세-가지로-readme-1차판-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_architecture_project)
+[Day 1 lab](lab.md#1일차--마크다운-세-가지로-readme-1차판-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation)
 
 1. Week 7 files in `web-week09`, three in `ex/` → change values (by min 23).
 2. Two screenshots → assemble README v1 (by min 43) → pair practice.
@@ -217,7 +217,7 @@ Do not spend talk time fixing things alone. Raise your hand.
 
 ## Day 2 · 24–30 min — Questions, Then the Talks Begin
 
-[Day 2 lab](lab.md#2일차--2분-발표-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_architecture_project)
+[Day 2 lab](lab.md#2일차--2분-발표-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation)
 
 - Questions we take now: order, time, how to submit, what to do if something fails.
 - During each talk there is one oral question, e.g. "Which file runs when you press this button?"
