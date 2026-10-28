@@ -31,6 +31,8 @@
 1. Project 창 `app › kotlin+java › com.example.smartio`에서 **New › Kotlin Class/File › Class**로 `ConnViewModel.kt`를 만든다.
 2. 클래스 머리를 `class ConnViewModel : ViewModel()`로 바꾸고 프로퍼티를 둔다.
 
+처음 생긴 빈 클래스에 `: ViewModel()`과 `androidx.lifecycle.ViewModel` import를 추가한다. 빈 클래스는 시작점이며, 아래 값과 다음 단계의 함수를 중괄호 안에 넣어야 연결 상태를 관리한다. 파일 생성 순서와 전체 중괄호 모양은 [따라하기 2단계](walkthrough.md#2-connviewmodel-클래스-만들기)를 본다.
+
 ```kotlin
 class ConnViewModel : ViewModel() {
     var resultText = "대기 중"                   // 마지막으로 알린 문구

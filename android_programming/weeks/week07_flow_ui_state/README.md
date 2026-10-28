@@ -58,6 +58,12 @@ Smart I/O Controller
 - 6주차에 배운 `lifecycleScope.launch`, `delay`, `Job`, `try/catch`
 - ViewModel·StateFlow에 필요한 의존성(`activity-ktx`, `lifecycle-viewmodel-ktx`, `lifecycle-runtime-ktx`, `kotlinx-coroutines-android`)은 4주차 `build.gradle.kts`에 이미 들어 있다.
 
+## ViewModel 파일 만들기
+
+Android Studio에서 `MainActivity.kt`가 있는 패키지를 오른쪽 클릭하고 **New › Kotlin Class/File › Class**로 `ConnViewModel`을 만든다. 처음 생기는 `class ConnViewModel { }`은 빈 일반 클래스다. `androidx.lifecycle.ViewModel`을 import하고 선언을 `class ConnViewModel : ViewModel() { }`로 바꾼 다음, 중괄호 안에 연결 문구·작업 변수와 함수를 넣는다. 빈 클래스만으로는 연결 상태를 보관하거나 카운트다운을 실행하지 않는다.
+
+`MainActivity`에서는 `androidx.activity.viewModels`를 import하고 클래스 안에 `private val viewModel: ConnViewModel by viewModels()`를 둔다. 이 예제는 생성자 인자가 없어 처음 접근할 때 객체를 만들고, 회전 후 새 Activity에는 같은 객체를 돌려준다. 자세한 생성 순서와 코드는 [따라하기 2단계](walkthrough.md#2-connviewmodel-클래스-만들기), 화면 연결은 [4단계](walkthrough.md#4-mainactivity에서-viewmodel-부르기)에 있다.
+
 ## 이번 주 범위
 
 | 문법·API | 이번 주에 알아둘 뜻 |

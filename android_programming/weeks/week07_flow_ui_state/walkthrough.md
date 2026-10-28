@@ -146,10 +146,32 @@ Smart I/O Controller
 ### 2. ConnViewModel 클래스 만들기
 
 1. Project 창에서 `app › kotlin+java › com.example.smartio`를 오른쪽 클릭 → **New › Kotlin Class/File**을 고른다.
-2. 목록에서 **Class**를 고르고 이름에 `ConnViewModel`을 넣은 뒤 Enter를 누른다. `ConnViewModel.kt`가 열리고 `package` 줄 아래에 `class ConnViewModel {`와 `}` 두 줄이 생긴다.
-3. `class ConnViewModel {` 한 줄을 지우고 그 자리에 아래를 넣는다. 클래스의 마지막 `}`는 그대로 둔다.
+2. 이름에 `ConnViewModel`을 넣고 **Class**를 선택한 뒤 Enter를 누른다. `ConnViewModel.kt`가 열리고 `package` 줄 아래에 빈 클래스가 생긴다.
 
 ```kotlin
+class ConnViewModel {
+}
+```
+
+여기까지는 일반 Kotlin 클래스다. 이 파일은 화면이 아니므로 Activity를 만들거나 `AndroidManifest.xml`에 등록하지 않는다. `package` 줄은 Android Studio가 만든 그대로 둔다. 프로젝트의 패키지 이름이 다르면 자기 프로젝트의 이름을 사용한다.
+
+3. `package` 줄 아래에 import를 넣고, 클래스 선언에 `: ViewModel()`을 붙인다. `ViewModel`이 빨간색이면 커서를 놓고 **Alt+Enter**(맥 ⌥+Enter) → **Import**에서 `androidx.lifecycle.ViewModel`을 골라도 된다.
+
+```kotlin
+import androidx.lifecycle.ViewModel
+
+class ConnViewModel : ViewModel() {
+}
+```
+
+`: ViewModel()`은 Android의 `ViewModel` 클래스를 상속한다는 뜻이다. 빈 상태도 클래스 선언으로는 가능하지만, 연결 상태를 보관하거나 작업을 수행하지는 않는다. 이제 중괄호 안에 필요한 값과 함수를 넣는다. 파일은 클래스의 설계도이며, 실제 객체는 4단계에서 `MainActivity`가 `by viewModels()`로 처음 접근할 때 받는다.
+
+4. 클래스 중괄호 안에 아래 세 프로퍼티를 넣는다. `package` 줄은 그대로 두고, 이미 넣은 `ViewModel` import 아래에 `Job` import를 추가한다.
+
+```kotlin
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.Job
+
 // 7주차 1일차: 연결 화면의 일을 맡는 ViewModel. 화면(Activity)보다 오래 살아서 회전해도 그대로 남는다.
 class ConnViewModel : ViewModel() {
     // 1. 마지막으로 알린 문구. 회전 뒤 새 화면이 onCreate에서 다시 읽는다(7주차 1일차).
@@ -161,21 +183,23 @@ class ConnViewModel : ViewModel() {
 
     // 3. [검색]·[다시 시도]가 시작한 코루틴. 6주차에는 MainActivity에 있던 변수다(7주차 1일차).
     private var scanJob: Job? = null
+}
 ```
 
-4. 빨간 글자를 차례로 **Alt+Enter**(맥 ⌥+Enter) → **Import**로 가져온다.
+5. `Job`이 빨간색이면 **Alt+Enter**(맥 ⌥+Enter) → **Import**로 가져온다. import는 `package` 줄과 클래스 선언 사이에 둔다.
 
 | 빨간 글자 | 가져올 import |
 |---|---|
 | `ViewModel` | `androidx.lifecycle.ViewModel` |
 | `Job` | `kotlinx.coroutines.Job` |
 
-5. 실행한다. 아직 아무 곳에서도 `ConnViewModel`을 쓰지 않으므로 화면은 1단계와 같다.
+6. 실행한다. 아직 아무 곳에서도 `ConnViewModel`을 쓰지 않으므로 화면은 1단계와 같다. 다음 단계에서 함수들을 클래스의 마지막 `}` **앞에** 추가한다.
 
 - `class ConnViewModel : ViewModel()`: `ViewModel`을 물려받은 클래스다. 화면(Activity)보다 오래 살아서 회전해도 없어지지 않는다. `: ViewModel()`은 "이 틀을 물려받는다"는 뜻으로만 읽는다.
 - `var resultText = "대기 중"`: 클래스 안에 둔 변수, 즉 **프로퍼티**다. 이 객체가 들고 있는 값이고, 밖에서는 `viewModel.resultText`처럼 점으로 읽는다(오늘 문법).
 - `var listener: ((String) -> Unit)? = null`: 글자 하나를 받는 코드 덩어리를 넣어 두는 변수다. 처음에는 비어 있어서 `null`이다. 1일차에만 쓰는 틀이며 모양을 외우지 않아도 된다.
 - `private var scanJob: Job? = null`: 6주차 `MainActivity`에 있던 변수를 이리로 옮겨 온다(`MainActivity`의 것은 4단계에서 지운다).
+- 회전할 때는 새 Activity가 같은 ViewModel 객체를 다시 받는다. 다만 ViewModel은 메모리에 있으므로 시스템이 앱 프로세스를 종료한 뒤까지 상태를 영구 저장하지는 않는다.
 
 ### 3. 코루틴과 가짜 연결을 ViewModel로 옮기기
 
@@ -364,6 +388,8 @@ class ConnViewModel : ViewModel() {
     // 7주차 1일차: 화면보다 오래 사는 ViewModel을 받아 온다. 회전해도 같은 객체를 돌려준다.
     private val viewModel: ConnViewModel by viewModels()
 ```
+
+`by viewModels()`는 이 Activity 범위에 기존 객체가 없으면 처음 접근할 때 만들고, 회전으로 Activity가 다시 만들어지면 기존 객체를 돌려준다. 이 예제의 `ConnViewModel`은 생성자 인자가 없으므로 별도의 생성 설정이 필요 없다. `ConnViewModel()`을 직접 호출하면 Activity가 새로 만들어질 때 별도의 객체가 생긴다.
 
 2. [검색] 리스너 안의 `scanJob = lifecycleScope.launch { … }` 블록(다섯 줄)을 지우고 `viewModel.startScan()` 한 줄로 바꾼다. 버튼·ProgressBar 네 줄은 그대로 둔다.
 
