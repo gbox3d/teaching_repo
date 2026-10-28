@@ -1,0 +1,19 @@
+[project]
+name = "osa-special-pytorch"
+version = "0.1.0"
+description = "텐서 연산과 저장, 작은 데이터로 만드는 회귀 모델"
+requires-python = ">=3.12"
+dependencies = ["torch", "numpy"]
+
+[project.scripts]
+ex01 = "ex01_tensors:main"
+ex02 = "ex02_save_load:main"
+ex03 = "ex03_train:main"
+ex04 = "ex04_predict:main"
+
+[build-system]
+requires = ["uv_build>=0.8,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = ["ex01_tensors", "ex02_save_load", "ex03_train", "ex04_predict", "shared"]

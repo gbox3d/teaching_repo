@@ -2,7 +2,7 @@
 
 실행: uv run python split.py                 # test 20, val 4, 나머지 train (seed 42)
       uv run python split.py --test 10 --val 5 --seed 7
-      uv run python split.py --against ..\\..\\..\\week10_peft_lora\\examples\\lora_lab\\data\\sample_sft.jsonl
+      uv run python split.py --against ..\\..\\..\\week07_peft_lora\\examples\\lora_lab\\data\\sample_sft.jsonl
           # 외부 학습 파일(10주차 LoRA 학습 데이터)과 test 문항이 겹치는지(벤치마크 오염) 함께 검사
 
 분할은 Hugging Face `datasets`의 `Dataset.train_test_split(seed=...)`를 두 번 써서 만든다.

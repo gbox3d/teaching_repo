@@ -79,7 +79,7 @@ dist/
 
 ## 배포자와 받는 사람의 실행 순서
 
-아래 예시는 3주차 [`period3`](weeks/week03_reproducible_python/examples/period3/)을 독립 폴더로 복사해 배포하는 경우다. 모든 명령은 **그 폴더의 `pyproject.toml` 옆에서** 실행한다. 현재 예제는 Python 3.12 이상을 요구하므로, 수업 기준이 3.12일 때 다음과 같이 준비한다.
+아래 예시는 3주차 [`period3`](weeks/week03_reproducible_python/examples/period3)을 독립 폴더로 복사해 배포하는 경우다. 모든 명령은 **그 폴더의 `pyproject.toml` 옆에서** 실행한다. 현재 예제는 Python 3.12 이상을 요구하므로, 수업 기준이 3.12일 때 다음과 같이 준비한다.
 
 ### 배포자: 실행을 확인하고 환경 파일을 포함한다
 

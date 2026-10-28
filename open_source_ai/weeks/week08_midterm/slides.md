@@ -289,7 +289,7 @@ Get-Location                   # 지정 저장 경로
 
 ## 9–12분 · 2차 종합과제 필수 산출물
 
-1. 라이선스·출처 분석 보고: `model_cards.md`·`SOURCES.md`·`license_matrix.md` 확장
+1. 실제 사용한 모델·문서의 출처 기록: `SOURCES.md`·`license_matrix.md` 확장
 2. RAG 미니프로젝트: 자기 문서 10개 이상, 출처 표시, 컨텍스트 밖 질문 처리
 3. 평가: `evalset.json` 10문항, hit rate·출처 일치율, 실패 분석 2건
 4. 재현 절차: README, `uv.lock`, `.env.example`
@@ -353,4 +353,4 @@ git log --all -p -S "hf_" | Select-String "hf_"
 
 - 오류는 한 번에 하나씩 읽는다
 - 판단에는 근거 한 줄을 붙인다
-- 다음 주 `week09_project_governance`는 팀 프로젝트 제안이다
+- 다음 주 `week10_project_governance`는 팀 프로젝트 제안이다

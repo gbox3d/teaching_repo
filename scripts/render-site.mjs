@@ -4,8 +4,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const EXPECTED_NODE_MAJOR = 24;
-const EXPECTED_DECKS = 48;
-const EXPECTED_SLIDES = 1030;
+const EXPECTED_DECKS = 50;
+const EXPECTED_SLIDES = 1065;
 const REPOSITORY_BLOB_URL = "https://github.com/gbox3d/teaching_repo/blob/main";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -76,6 +76,9 @@ function sourcePath(course, chapter) {
   }
   if (course.id === "open-source-ai" && chapter.type === "week") {
     return path.posix.join("open_source_ai", "weeks", chapter.id, "slides.md");
+  }
+  if (course.id === "open-source-ai" && chapter.type === "special") {
+    return path.posix.join("open_source_ai", "specials", chapter.id, "slides.md");
   }
   throw new Error(`원고 위치를 결정할 수 없습니다: ${course.id}/${chapter.id}`);
 }

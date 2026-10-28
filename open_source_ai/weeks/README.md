@@ -12,7 +12,7 @@
 
 - 각 README의 시간표는 해당 실습지의 30분 시간표다. 설명·시연 20분과 휴식 10분은 별도다.
 - 폴더마다 제공 코드·참조 구현·학생용 양식 중 어떤 자료인지 표시한다. TODO와 평가 문제는 직접 해결한다.
-- 실행에 필요한 소스·설정·작은 데이터는 해당 교시에 함께 둔다. 같은 코드가 여러 교시에 있어도 각 시간의 파일을 읽기 쉽게 하는 것을 우선한다.
+- 실행에 필요한 소스·설정·작은 데이터의 위치를 각 교시 README에 밝힌다. 5·6주차는 한 uv 프로젝트의 `src/`를 함께 사용하고, 공용 코드는 패키지로 가져온다.
 - 개인 실습은 이전 교시의 작업을 이어간다. 다음 폴더 전체를 덮어쓰지 않고, 실습지에서 지정한 새 파일·변경 부분만 적용한다.
 - 이전에 만든 인덱스·학습 어댑터·보고서가 필요하면 해당 README의 준비 절차에 따라 전달한다.
 - 기존 통합 예제 경로는 이전 링크와 선택 확장용으로 남아 있다. 기본 실습 진입점은 각 주차의 `examples/README.md`다.
@@ -38,7 +38,7 @@
 | `slides.md` | Marp 호환 PT 원고. 세 번의 20분 설명·시연용. `---`가 슬라이드 구분자 |
 | `lab.md` | 세 번의 30분 실습 문제, 시간 배분, 단계별 힌트, 검증, 확장 |
 | `examples/` | uv 프로젝트 형태의 실행 예제와 템플릿. `uv.lock`은 환경 기준표 확정 후 기준 PC에서 생성한다 |
-| `walkthrough.md` | 1·3·4·7·10·12주차. 시연·실습을 `할 일 → 예상 결과 → 확인` 순으로 재현하는 절차서 |
+| `walkthrough.md` | 1·3·4·5·6·7·10·12주차. 시연·실습을 순서대로 재현하는 절차서 |
 | 평가 문서 | 4·8·12·15주차 종합과제 안내·루브릭, 8주차 실기평가 구조·루브릭, 9주차 제안서 양식·발표 루브릭, 15주차 기말·발표 루브릭 |
 
 PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code Marp 확장으로 HTML, PDF, PPTX로 내보낼 수 있다. 강의 대본과 실습 해답은 강의자가 별도 관리한다(비공개).
@@ -47,31 +47,33 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 
 | 주차 | 챕터 | 주제 | 누적 산출물 | 폴더 |
 |---:|---|---|---|---|
-| 1 | 1장 | 오리엔테이션과 오픈소스 AI 생태계 | 환경 점검표, 첫 uv 실행, 개인 저장소 | [`week01_oss_ai_ecosystem`](week01_oss_ai_ecosystem/) |
-| 2 | 1장 | Git/GitHub 협업과 라이선스 | PR·리뷰 근거, LICENSE, 라이선스 표 | [`week02_git_github_license`](week02_git_github_license/) |
-| 3 | 1장 | 재현 가능한 Python 오픈소스 프로젝트 | uv 프로젝트, CLI, 설정 로더 | [`week03_reproducible_python`](week03_reproducible_python/) |
-| 4 | 1장 종합 | Ollama와 로컬 LLM | Ollama 클라이언트, Modelfile, 1차 종합과제 | [`week04_ollama_local_llm`](week04_ollama_local_llm/) |
-| 5 | 2장 | Hugging Face Hub와 공개 자원 분석 | 모델 카드 분석, `SOURCES.md` | [`week05_huggingface_hub`](week05_huggingface_hub/) |
-| 6 | 2장 | PyTorch 모델 활용 | 학습 루프, 임베딩, 실험 로그 | [`week06_pytorch_models`](week06_pytorch_models/) |
-| 7 | 2장 | 임베딩·검색·RAG 응용 | 출처 있는 RAG 답변기, 평가셋 | [`week07_embeddings_rag`](week07_embeddings_rag/) |
-| 8 | 2장 종합 | 수시평가와 2차 종합과제 | 실기평가, 라이선스 분석·RAG 미니프로젝트 | [`week08_midterm`](week08_midterm/) |
-| 9 | 3장 | 프로젝트 제안과 오픈소스 거버넌스 | 팀 제안서, 팀 저장소, Issue·마일스톤 | [`week09_project_governance`](week09_project_governance/) |
-| 10 | 3장 | PEFT/LoRA 경량 파인튜닝 | LoRA 어댑터, 실험 기록 | [`week10_peft_lora`](week10_peft_lora/) |
-| 11 | 3장 | 데이터셋 구성과 모델 평가 | 데이터 카드, 평가 결과, 실패 분석 | [`week11_dataset_evaluation`](week11_dataset_evaluation/) |
-| 12 | 3장 종합 | AI 서비스화와 배포 | FastAPI·Gradio 서비스, Dockerfile, 3차 종합과제 | [`week12_ai_service_deploy`](week12_ai_service_deploy/) |
-| 13 | 4장 | 테스트·CI·보안·코드리뷰 | pytest·ruff, GitHub Actions, 감사 결과 | [`week13_test_ci_security`](week13_test_ci_security/) |
-| 14 | 4장 | 릴리스와 커뮤니티 피드백 | v0.1.0 릴리스, 교차 재현, 피드백 Issue | [`week14_release_feedback`](week14_release_feedback/) |
-| 15 | 4장 종합 | 기말평가와 프로젝트 발표 | 최종 시연, 재현 검증, 4차 종합과제 | [`week15_final_presentation`](week15_final_presentation/) |
+| 1 | 1장 | 오리엔테이션과 오픈소스 AI 생태계 | 환경 점검표, 첫 uv 실행, 개인 저장소 | [`week01_oss_ai_ecosystem`](week01_oss_ai_ecosystem) |
+| 2 | 1장 | Git/GitHub 협업과 라이선스 | PR·리뷰 근거, LICENSE, 라이선스 표 | [`week02_git_github_license`](week02_git_github_license) |
+| 3 | 1장 | 재현 가능한 Python 오픈소스 프로젝트 | uv 프로젝트, CLI, 설정 로더 | [`week03_reproducible_python`](week03_reproducible_python) |
+| 4 | 1장 종합 | Ollama와 로컬 LLM | Ollama 클라이언트, Modelfile, 1차 종합과제 | [`week04_ollama_local_llm`](week04_ollama_local_llm) |
+| 5 | 2장 | LangChain 맛보기 | 프롬프트 연결, 대화 기억·스트리밍 | [실행 예제](week05_langchain_basics/README.md) |
+| 6 | 2장 | 임베딩·검색·RAG | 출처 있는 문서 답변기, 평가셋 | [실행 예제](week06_embeddings_rag/README.md) |
+| 7 | 2장 | PEFT/LoRA 경량 파인튜닝 | 작은 데이터·어댑터·전후 비교 | [실행 예제](week07_peft_lora/README.md) |
+| 8 | 2장 종합 | 수시평가와 2차 종합과제 | 실기평가, 출처 기록·RAG 미니프로젝트 | [`week08_midterm`](week08_midterm) |
+| 9 | 3장 | Streamlit으로 AI 앱 만들기 | 첫 화면, 대화 앱, 문서 RAG 앱 | [실행 예제](week09_streamlit_apps/README.md) |
+| 10 | 3장 | 프로젝트 제안과 오픈소스 거버넌스 | 작동하는 앱에서 팀 주제·역할·범위 정하기 | [실습 자료](week10_project_governance/README.md) |
+| 11 | 3장 | 데이터셋 구성과 모델 평가 | 데이터 카드, 평가 결과, 실패 분석 | [`week11_dataset_evaluation`](week11_dataset_evaluation) |
+| 12 | 3장 종합 | AI 서비스화와 배포 | FastAPI·Gradio 서비스, Dockerfile, 3차 종합과제 | [`week12_ai_service_deploy`](week12_ai_service_deploy) |
+| 13 | 4장 | 테스트·CI·보안·코드리뷰 | pytest·ruff, GitHub Actions, 감사 결과 | [`week13_test_ci_security`](week13_test_ci_security) |
+| 14 | 4장 | 릴리스와 커뮤니티 피드백 | v0.1.0 릴리스, 교차 재현, 피드백 Issue | [`week14_release_feedback`](week14_release_feedback) |
+| 15 | 4장 종합 | 기말평가와 프로젝트 발표 | 최종 시연, 재현 검증, 4차 종합과제 | [`week15_final_presentation`](week15_final_presentation) |
 
 ## 누적 프로젝트 줄거리
+
+선택 특강은 [Hugging Face Hub 분석](../specials/huggingface_hub/README.md)과 [PyTorch 텐서·회귀 모델](../specials/pytorch_basics/README.md)이다. 정규 앱 실습의 선행 조건으로 두지 않는다. 앱 완성 후 남는 시간의 얼굴·이미지 유사도, 음성 인식·출력, 소형 모델 비교는 [9주차 선택 확장](week09_streamlit_apps/README.md#남는-시간의-선택-확장)을 참고한다.
 
 학생(또는 2~3인 팀)은 학기 내내 하나의 "로컬 AI 도우미" 저장소를 키운다. 교재 예제는 이 줄거리를 따르는 참조 구현 조각이며, 학생 프로젝트 주제는 자유다.
 
 | 구간 | 누적 내용 | 종합 확인 |
 |---|---|---|
 | 1~4주 | 개인 저장소, 라이선스, uv 프로젝트 골격, Ollama API 클라이언트 CLI | 4주차 1차 종합과제 |
-| 5~8주 | 모델·데이터 라이선스 분석, 임베딩, 출처 있는 RAG 답변기 | 8주차 2차 종합과제·실기평가 |
-| 9~12주 | 팀 제안, LoRA 실험, 데이터·평가, FastAPI/Gradio 서비스 베타 | 12주차 3차 종합과제 |
+| 5~8주 | LangChain 대화, RAG, 작은 LoRA 실험 | 8주차 2차 종합과제·실기평가 |
+| 9~12주 | Streamlit 앱, 팀 제안, 데이터·평가, 서비스 베타 | 12주차 3차 종합과제 |
 | 13~15주 | 테스트·CI·보안, v0.1.0 릴리스, 발표·재현 검증 | 15주차 4차 종합과제·기말평가·발표 |
 
 ## 교재 검증용 기본값

@@ -289,7 +289,7 @@ An outage is **recorded separately** from a student error. Report it, don't hide
 
 ## 9–12 min · Required Deliverables for Project 2
 
-1. License/source analysis report: an expanded `model_cards.md` / `SOURCES.md` / `license_matrix.md`.
+1. Sources and usage conditions of the models and documents actually used: `SOURCES.md` / `license_matrix.md`.
 2. RAG mini-project: 10+ of your own documents, source display, handling of out-of-context questions.
 3. Evaluation: 10 questions in `evalset.json`, hit rate, source-match rate, 2 failure analyses.
 4. Reproduction steps: README, `uv.lock`, `.env.example`.
@@ -353,4 +353,4 @@ Project: from a clean folder, README as written -> same result -> no secrets
 
 - Read errors one at a time.
 - Attach one line of reasoning to every judgment.
-- Next week (`week09_project_governance`) is the team project proposal.
+- Next week (`week10_project_governance`) is the team project proposal.

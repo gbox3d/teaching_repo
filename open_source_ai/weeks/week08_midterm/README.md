@@ -27,7 +27,7 @@
 | 2교시 | Git·Ollama 실기 진단 포인트와 채점표 | 모의 실기 B Git 상황 판단과 Ollama 툴 콜링 | 모의 B 완료 조건 체크, `[함수 실행]` 줄이 있는 실행 기록, `answers_B.md` |
 | 3교시 | 실기평가 운영과 2차 과제 최종 점검 | 개인 실기평가와 대체 운영 | 제출 파일·commit id, `outputs/env-check.json`, 2차 과제 제출 전 검사 결과 |
 
-모의 실기 A·B의 문항은 1~4주차(uv 사용법, 프로젝트 관리법, Git 개념·사용법, Ollama 사용법·응용)로 구성한다. 5~7주차 내용(Hugging Face, 라이선스 분석, RAG)은 2차 종합과제와 학기별 시험 공지가 다룬다.
+모의 실기 A·B의 문항은 1~4주차(uv 사용법, 프로젝트 관리법, Git 개념·사용법, Ollama 사용법·응용)로 구성한다. 5~7주차 내용(PyTorch 기초, LangChain 연결, 문서 검색·RAG)은 2차 종합과제와 학기별 시험 공지가 다룬다.
 
 각 블록은 설명·시연 20분, 실습 30분, 휴식 10분으로 운영한다. 분반 시간표에 따라 두 블록과 한 블록이 다른 날에 배치될 수 있으며, 블록 순서는 바꾸지 않는다. 3교시의 개인 실기평가는 기관 시간표에 따라 30분을 넘겨 확장될 수 있으며, 공개 자료에는 구조만 둔다.
 
@@ -35,7 +35,7 @@
 
 - Git, VS Code, uv, Ollama, PowerShell. 1주차 `env_check.md`가 모두 통과한 PC.
 - 사전 캐시된 `qwen3.5:2b`(4주차와 같은 모델, Capabilities에 `tools`). 모의 A의 `.env`에도 `OLLAMA_MODEL=qwen3.5:2b`로 둔다. 실습 중 모델을 내려받지 않는다.
-- 4주차 3교시 `period3` 프로젝트(`ex06`·`ex07`, `Modelfile`)가 `C:\classwork\week04`에 있다. 없으면 교재 예제를 복사해 `uv sync`한다. 2차 종합과제용 5주차 `model_cards.md`·`SOURCES.md`, 7주차 `mini_rag/`·`evalset.json`은 개인 저장소에 커밋되어 있다.
+- 4주차 3교시 `period3` 프로젝트(`ex06`·`ex07`, `Modelfile`)가 `C:\classwork\week04`에 있다. 없으면 교재 예제를 복사해 `uv sync`한다. 2차 종합과제용 6주차 `SOURCES.md`, 6주차 대화 연결 코드, 7주차 `mini_rag/`·`evalset.json`은 개인 저장소에 커밋되어 있다.
 - 2주차 `license_matrix.md`와 `LICENSE`.
 - 정확한 도구 버전은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
 - 실제 이름, 학번, 전화번호, 비밀번호, 토큰은 실습 파일·답안·공개 저장소에 넣지 않는다. 표시 이름은 `student01`, 팀명은 `team-a` 같은 수업용 값을 쓴다.
@@ -80,7 +80,7 @@
 
 ## 다음 주 연결
 
-9주차 `week09_project_governance`에서는 2~3인 팀을 꾸려 오픈소스 AI 프로젝트 제안서를 쓰고 팀 저장소를 만든다. 이번 주 실기와 2차 과제에서 확인한 각자의 강점(재현성·Git·Ollama 응용·설명)을 팀 역할 분담의 근거로 가져간다. 다음 수업 전에 GitHub 계정과 2차 과제 저장소가 팀원에게 보이는지 확인한다.
+9주차 `week10_project_governance`에서는 2~3인 팀을 꾸려 오픈소스 AI 프로젝트 제안서를 쓰고 팀 저장소를 만든다. 이번 주 실기와 2차 과제에서 확인한 각자의 강점(재현성·Git·Ollama 응용·설명)을 팀 역할 분담의 근거로 가져간다. 다음 수업 전에 GitHub 계정과 2차 과제 저장소가 팀원에게 보이는지 확인한다.
 
 ## 참고 자료
 

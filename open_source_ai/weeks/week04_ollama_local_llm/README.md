@@ -72,7 +72,7 @@
 
 ## 다음 주 연결
 
-5주차 `week05_huggingface_hub`에서는 Ollama 라이브러리 밖의 Hugging Face Hub에서 모델과 데이터를 찾고, 모델 카드와 라이선스를 읽어 "정말 내 프로젝트에 쓸 수 있는 것인지"를 판단한다. 이번 주에 `ollama show --license`로 본 라이선스가 그 출발점이다.
+5주차 [LangChain 맛보기](../week05_langchain_basics/README.md)에서 이번 주 Ollama 대화를 이어서 프롬프트 연결·대화 기억·스트리밍을 다룬다. 이후 RAG → LoRA → Streamlit 앱으로 진행한다. PyTorch와 Hugging Face 상세 분석은 선택 특강으로 분리한다.
 
 ## 참고 자료
 

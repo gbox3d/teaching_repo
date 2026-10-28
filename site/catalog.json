@@ -464,10 +464,10 @@
       "slug": "open_source_ai",
       "title": "오픈소스 AI 응용",
       "eyebrow": "OPEN SOURCE AI",
-      "description": "오픈소스 협업과 라이선스, uv 재현 환경, Ollama 로컬 LLM, Hugging Face·PyTorch, RAG, PEFT/LoRA, 서비스화와 릴리스까지 60분 블록 3개로 구성한 15주 과정입니다.",
+      "description": "Ollama → LangChain → RAG → LoRA → Streamlit 앱으로 이어지는 15주 과정과 Hugging Face·PyTorch 선택 특강입니다.",
       "status": "published",
       "accent": "#bc8cff",
-      "summary": "15개 주차 · 411장",
+      "summary": "15개 주차 · 특강 2개 · 446장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/open_source_ai",
       "chapters": [
         {
@@ -519,39 +519,39 @@
           }
         },
         {
-          "id": "week05_huggingface_hub",
+          "id": "week05_langchain_basics",
           "label": "5주차",
-          "title": "Hugging Face Hub와 공개 자원 분석",
-          "description": "Model Card·Dataset Card와 라이선스를 분석하고 pipeline으로 첫 추론을 합니다.",
+          "title": "LangChain 맛보기",
+          "description": "기존 Ollama 모델에 프롬프트를 연결하고 대화 기억·스트리밍을 실습합니다.",
           "type": "week",
           "en": {
             "label": "Week 5",
-            "title": "Hugging Face Hub and Analyzing Public Resources",
-            "description": "Analyze Model Cards, Dataset Cards, and licenses, and run your first inference with a pipeline."
+            "title": "A First Look at LangChain",
+            "description": "Connect prompts to the Ollama model, preserve conversation history, and stream answers."
           }
         },
         {
-          "id": "week06_pytorch_models",
+          "id": "week06_embeddings_rag",
           "label": "6주차",
-          "title": "PyTorch 모델 활용",
-          "description": "Tensor·자동미분·학습 루프와 사전학습 모델 호출을 직접 다룹니다.",
-          "type": "week",
-          "en": {
-            "label": "Week 6",
-            "title": "Using PyTorch Models",
-            "description": "Work directly with tensors, autograd, training loops, and calling pretrained models."
-          }
-        },
-        {
-          "id": "week07_embeddings_rag",
-          "label": "7주차",
           "title": "임베딩·검색·RAG 응용",
           "description": "문서 분할·임베딩·벡터 검색으로 출처 있는 RAG 답변기를 만들고 평가합니다.",
           "type": "week",
           "en": {
-            "label": "Week 7",
+            "label": "Week 6",
             "title": "Embeddings, Search, and RAG",
-            "description": "Split documents, embed and vector-search them, and build and evaluate a sourced RAG answerer."
+            "description": "Retrieve relevant document chunks and answer with sources."
+          }
+        },
+        {
+          "id": "week07_peft_lora",
+          "label": "7주차",
+          "title": "PEFT/LoRA 경량 파인튜닝",
+          "description": "LoRA로 소형 모델을 경량 학습하고 전후 비교와 실험 기록을 남깁니다.",
+          "type": "week",
+          "en": {
+            "label": "Week 7",
+            "title": "Lightweight Fine-Tuning with PEFT/LoRA",
+            "description": "Prepare small training data, train a LoRA adapter, and compare base and adapted models."
           }
         },
         {
@@ -567,27 +567,27 @@
           }
         },
         {
-          "id": "week09_project_governance",
+          "id": "week09_streamlit_apps",
           "label": "9주차",
+          "title": "Streamlit으로 로컬 AI 앱 만들기",
+          "description": "입력 위젯에서 대화·문서 검색 앱까지 직접 만들고 선택 모델 확장을 살펴봅니다.",
+          "type": "week",
+          "en": {
+            "label": "Week 9",
+            "title": "Build Local AI Apps with Streamlit",
+            "description": "Build input widgets, a chat app, and a document RAG app, then explore optional model extensions."
+          }
+        },
+        {
+          "id": "week10_project_governance",
+          "label": "10주차",
           "title": "프로젝트 제안과 오픈소스 거버넌스",
           "description": "거버넌스 문서를 분석하고 팀 프로젝트의 문제·범위·마일스톤을 제안합니다.",
           "type": "week",
           "en": {
-            "label": "Week 9",
-            "title": "Project Proposals and Open Source Governance",
-            "description": "Analyze governance documents and propose your team project's problem, scope, and milestones."
-          }
-        },
-        {
-          "id": "week10_peft_lora",
-          "label": "10주차",
-          "title": "PEFT/LoRA 경량 파인튜닝",
-          "description": "LoRA로 소형 모델을 경량 학습하고 전후 비교와 실험 기록을 남깁니다.",
-          "type": "week",
-          "en": {
             "label": "Week 10",
-            "title": "Lightweight Fine-Tuning with PEFT/LoRA",
-            "description": "Lightly fine-tune a small model with LoRA, and log a before/after comparison and experiment record."
+            "title": "Project Planning and Open Source Governance",
+            "description": "Plan a team project using the working Streamlit prototype and define roles and scope."
           }
         },
         {
@@ -649,11 +649,35 @@
             "title": "Final Assessment and Project Presentation",
             "description": "Evaluate and reflect on the open-source release through a final demo and cross-reproduction verification."
           }
+        },
+        {
+          "id": "huggingface_hub",
+          "label": "특강",
+          "title": "Hugging Face Hub와 공개 자원 분석",
+          "description": "모델 카드·데이터셋·라이선스·revision·캐시를 분석하는 선택 특강입니다.",
+          "type": "special",
+          "en": {
+            "label": "Special",
+            "title": "Hugging Face Hub and Public Resources",
+            "description": "An optional special on model cards, datasets, licenses, revisions, and caches."
+          }
+        },
+        {
+          "id": "pytorch_basics",
+          "label": "특강",
+          "title": "PyTorch 텐서와 작은 회귀 모델",
+          "description": "텐서 연산·저장·불러오기와 작은 데이터의 회귀 학습을 다루는 선택 특강입니다.",
+          "type": "special",
+          "en": {
+            "label": "Special",
+            "title": "PyTorch Tensors and a Small Regression Model",
+            "description": "An optional special on tensor operations, persistence, and regression on small data."
+          }
         }
       ],
       "en": {
         "title": "Open Source AI Applications",
-        "description": "A 15-week course in three 60-minute blocks: open source collaboration and licenses, reproducible uv environments, Ollama local LLMs, Hugging Face and PyTorch, RAG, PEFT/LoRA, serving, and releases."
+        "description": "A 15-week path from Ollama to LangChain, RAG, LoRA, and Streamlit apps, with optional Hugging Face and PyTorch specials."
       }
     }
   ]

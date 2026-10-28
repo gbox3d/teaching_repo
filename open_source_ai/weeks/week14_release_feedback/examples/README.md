@@ -14,6 +14,6 @@
 
 ## 기존 경로
 
-[기존 점검 도구](release_check/README.md) · [기존 양식](release_kit/)는 이전 링크와 복습을 위한 호환 참고로 남겼다. 수업의 기본 진입점은 위 period1·period2·period3이다.
+[기존 점검 도구](release_check/README.md) · [기존 양식](release_kit)는 이전 링크와 복습을 위한 호환 참고로 남겼다. 수업의 기본 진입점은 위 period1·period2·period3이다.
 
 uv 설치·실행은 [공통 가이드](../../../uv_guide.md), 숨김 파일·lock·비밀·캐시 배포 규칙은 [GitHub 배포 가이드](../../../github_distribution.md)를 따른다.

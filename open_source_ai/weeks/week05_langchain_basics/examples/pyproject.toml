@@ -1,0 +1,18 @@
+[project]
+name = "osa-week06-langchain"
+version = "0.1.0"
+description = "Ollama와 LangChain으로 만드는 터미널 대화"
+requires-python = ">=3.12"
+dependencies = ["langchain-core", "langchain-ollama"]
+
+[project.scripts]
+ex01 = "ex01_chat:main"
+ex02 = "ex02_prompt:main"
+ex03 = "ex03_memory_stream:main"
+
+[build-system]
+requires = ["uv_build>=0.8,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = ["ex01_chat", "ex02_prompt", "ex03_memory_stream", "shared"]

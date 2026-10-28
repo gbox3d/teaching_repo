@@ -1,0 +1,19 @@
+[project]
+name = "osa-week09-streamlit"
+version = "0.1.0"
+description = "로컬 AI 대화와 문서 검색을 Streamlit 앱으로 연결"
+requires-python = ">=3.12"
+dependencies = ["streamlit", "langchain-ollama", "sentence-transformers"]
+
+[project.scripts]
+ex01 = "ex01_widgets:main"
+ex02 = "ex02_chat:main"
+ex03 = "ex03_rag:main"
+prepare = "shared:prepare"
+
+[build-system]
+requires = ["uv_build>=0.8,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = ["ex01_widgets", "ex02_chat", "ex03_rag", "shared"]

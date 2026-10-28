@@ -11,12 +11,14 @@
 ## 범위
 
 오픈소스 생태계와 Git·GitHub 협업, 라이선스, 재현 가능한 Python 환경(uv), Ollama 로컬 LLM,
-Hugging Face 공개 모델·데이터, PyTorch, 임베딩·RAG, PEFT/LoRA 경량 파인튜닝, 데이터·모델 평가,
+LangChain, 임베딩·RAG, PEFT/LoRA 경량 파인튜닝, Streamlit 앱, 데이터·모델 평가,
 서비스화, 테스트·CI·보안, 릴리스와 커뮤니티 피드백까지 연결하는 15주 오픈소스 AI 응용 교재다.
 
 ## 진입점
 
 - 15주 교재 색인: [`weeks/README.md`](weeks/README.md)
+- 선택 특강: [Hugging Face Hub와 공개 자원 분석](specials/huggingface_hub/README.md)
+- 선택 특강: [PyTorch 텐서·저장·회귀 모델](specials/pytorch_basics/README.md)
 - 제작 계획과 품질 검수 기준: [`materials_plan.md`](materials_plan.md)
 - 과목별 설치 프로그램: [`ta_setup_guide.md`](ta_setup_guide.md)
 - uv 설치·갱신·Python 환경·`uv run` 실습: [`uv_guide.md`](uv_guide.md)
