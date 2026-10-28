@@ -7,19 +7,68 @@ paginate: true
 <!-- _class: lead -->
 
 # Block 1 · 20 min talk
-## Connect the Same Ollama Model
+## Introduction to LangChain and Ollama
 
 ---
 
-## 0–3 min · Connect the Prepared Model
+## 0–2 min · LangChain for LLM Applications
 
-Reuse the Ollama server and model from Week 4. No new training is needed.
+LangChain is an open-source framework for building applications and agents with language models.
 
-`ChatOllama` connects LangChain to Ollama. API keys and external tracing accounts are not required.
+It provides components for prompts, model calls, and response processing. Applications can also connect document retrieval and external tools.
+
+This week, build a **terminal chatbot** to learn the basic connections. Next week, extend the workflow with document retrieval for RAG.
+
+[Official overview](https://docs.langchain.com/oss/python/langchain/overview) · [Components](https://reference.langchain.com/python/langchain-core)
 
 ---
 
-## 3–6 min · Three Commands in One Project
+## 2–4 min · Model, Ollama, and LangChain
+
+| Component | Role in this course |
+|---|---|
+| Qwen model | Generate an answer from the input messages |
+| Ollama | Run the model locally and expose an API |
+| LangChain | Connect prompts, model calls, and response processing |
+
+`ChatOllama` connects the LangChain code to the Ollama server.
+Reuse the server and model prepared in Week 4.
+
+[Official ChatOllama guide](https://docs.langchain.com/oss/python/integrations/chat/ollama)
+
+---
+
+## 4–6 min · Connect the Steps Around a Call
+
+In Week 4, we sent messages to `ollama.chat()` and printed the response.
+To reuse prompt formats and process responses, compose separate steps.
+
+```python
+chain = prompt | model | StrOutputParser()
+```
+
+Build messages from a question → call the model → extract answer text.
+Change the role in the prompt and reuse the rest of the chain.
+
+Block 2 runs this code and examines each step's input and output.
+
+---
+
+## 6–8 min · The Two Packages in This Example
+
+| Package in pyproject.toml | Components used here |
+|---|---|
+| `langchain-core` | Prompt templates, messages, and string output parsing |
+| `langchain-ollama` | `ChatOllama` for calling Ollama |
+
+The official documentation also covers agents that choose tools to run.
+This example uses these two packages to learn a **sequence we define**.
+
+[Packages and APIs](https://reference.langchain.com/python/)
+
+---
+
+## 8–10 min · Three Commands in One Project
 
 Check the structure with `uv init --package --python 3.12 --vcs none`.
 
@@ -27,7 +76,7 @@ scripts maps a command to the package's `main()`. build-system defines installat
 
 ---
 
-## 6–9 min · Keep Model Settings Together
+## 10–12 min · Keep Model Settings Together
 
 ```python
 from shared import create_model
@@ -36,9 +85,11 @@ model = create_model()
 
 `shared` reads `OLLAMA_MODEL` and `OLLAMA_HOST`. The default is Week 4's `qwen3.5:2b`. `reasoning=False` disables reasoning output.
 
+This local example runs without an API key or an external tracing account.
+
 ---
 
-## 9–12 min · Send Messages with invoke
+## 12–15 min · Send Messages with invoke
 
 ```python
 response = model.invoke([
@@ -52,7 +103,7 @@ system supplies rules; human supplies the user's question.
 
 ---
 
-## 12–16 min · Enter More Questions
+## 15–18 min · Enter More Questions
 
 Follow `나>` → answer → next `나>`. Blank input is skipped; `/bye` exits.
 
@@ -60,7 +111,7 @@ Follow `나>` → answer → next `나>`. Blank input is skipped; `/bye` exits.
 
 ---
 
-## 16–20 min · Lab Handoff
+## 18–20 min · Lab Handoff
 
 [Block 1 lab](lab.md#1교시-실습--ollama-연결)
 

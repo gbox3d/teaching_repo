@@ -98,7 +98,7 @@ uv run python runlog.py                                # 기록 표
 
 | 환경변수 | 기본값 | 용도 |
 |---|---|---|
-| `HF_EMBED_MODEL` | `intfloat/multilingual-e5-small` | 3교시 임베딩 모델(`AutoModel`). 7주차 `mini_rag`와 같은 값 |
+| `HF_EMBED_MODEL` | `intfloat/multilingual-e5-small` | 3교시 임베딩 모델(`AutoModel`). 6주차 RAG 예제와 같은 값 |
 | `HF_HOME` | (주석 상태) | Hugging Face 캐시 위치. 공용 캐시를 쓸 때만 주석을 풀고 경로를 적는다. 값 없이 `HF_HOME=`으로 켜 두면 캐시가 현재 폴더의 `hub/`로 잡혀 사전 캐시를 못 찾는다 |
 | `HF_HUB_OFFLINE` | (설정 시 `1`) | 캐시만 사용. 네트워크 없는 실습실에서 켠다 |
 | `HF_TOKEN` | (비워 둠) | 이 주차 모델은 토큰이 필요 없다. 값은 `.env`에만 둔다 |

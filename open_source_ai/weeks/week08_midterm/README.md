@@ -35,7 +35,7 @@
 
 - Git, VS Code, uv, Ollama, PowerShell. 1주차 `env_check.md`가 모두 통과한 PC.
 - 사전 캐시된 `qwen3.5:2b`(4주차와 같은 모델, Capabilities에 `tools`). 모의 A의 `.env`에도 `OLLAMA_MODEL=qwen3.5:2b`로 둔다. 실습 중 모델을 내려받지 않는다.
-- 4주차 3교시 `period3` 프로젝트(`ex06`·`ex07`, `Modelfile`)가 `C:\classwork\week04`에 있다. 없으면 교재 예제를 복사해 `uv sync`한다. 2차 종합과제용 6주차 `SOURCES.md`, 6주차 대화 연결 코드, 7주차 `mini_rag/`·`evalset.json`은 개인 저장소에 커밋되어 있다.
+- 4주차 3교시 `period3` 프로젝트(`ex06`·`ex07`, `Modelfile`)가 `C:\classwork\week04`에 있다. 없으면 교재 예제를 복사해 `uv sync`한다. 2차 종합과제용 5주차 대화 연결 코드, 6주차 `SOURCES.md`와 단일 RAG 프로젝트(`ex01`~`ex05`·`evalset.json`)은 개인 저장소에 커밋되어 있다.
 - 2주차 `license_matrix.md`와 `LICENSE`.
 - 정확한 도구 버전은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
 - 실제 이름, 학번, 전화번호, 비밀번호, 토큰은 실습 파일·답안·공개 저장소에 넣지 않는다. 표시 이름은 `student01`, 팀명은 `team-a` 같은 수업용 값을 쓴다.

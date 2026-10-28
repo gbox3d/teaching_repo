@@ -8,8 +8,8 @@
 
 - uv, Git, VS Code, PowerShell을 사용한다. Ollama 서버가 켜져 있다(`ollama list`가 오류 없이 출력된다).
 - 임베딩 모델(`HF_EMBED_MODEL`)과 생성 모델(`OLLAMA_MODEL`)이 수업 전에 캐시되어 있다. 이 문서의 `intfloat/multilingual-e5-small`·`qwen3:8b`·`qwen3:0.6b`는 교재 검증용 기본값이며 실제 이름은 환경 기준표가 정한다. 실습 중 모델을 내려받지 않는다.
-- [교시별 예제](examples/README.md)의 현재 `periodN`만 개인 실습 폴더에 복사한다. 수업 자료 원본은 수정하지 않는다.
-- 터미널 명령은 현재 교시의 `periodN` 폴더 안에서 실행한다. 현재 경로를 먼저 확인하는 습관을 들인다.
+- [실행 예제](examples/README.md)의 `examples/` 전체를 개인 실습 폴더에 한 번 복사한다. `period1`~`period3`는 소스 위치와 실행 순서를 안내하는 README만 담는다.
+- 터미널 명령은 세 교시 모두 복사한 프로젝트의 `pyproject.toml` 옆에서 실행한다.
 
 ---
 
@@ -17,21 +17,15 @@
 
 ### 교시 시작 준비
 
-[현재 1교시 폴더](examples/period1/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
+[공통 준비](examples/README.md#수업-전-준비)를 따라 `examples/` 전체를 한 번만 복사하고 `uv sync --locked`를 마친다. 이전에 작업한 폴더는 덮어쓰지 않는다.
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week06_embeddings_rag\examples"
-$dst = "$HOME\osa-practice\week07"
-New-Item -ItemType Directory -Force $dst | Out-Null
-if (-not (Test-Path "$dst\period1")) { Copy-Item -Recurse "$src\period1" "$dst\period1" }
-Set-Location "$dst\period1"
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }
-uv sync                    # 수업 전에 설치·캐시한다
-if (-not (Test-Path ..\search_note.md)) { New-Item -ItemType File ..\search_note.md | Out-Null }
+Set-Location "$HOME\osa-practice\week06"
+if (-not (Test-Path search_note.md)) { New-Item -ItemType File search_note.md | Out-Null }
 ```
 
 ```powershell
-uv run python chunk.py --help
+uv run ex01 --help
 ```
 
 ### 단계 1. 프로젝트 복사와 실행 확인
@@ -44,7 +38,7 @@ uv run python chunk.py --help
 
 ### 단계 2. 300자 청크로 분할
 
-**할 일** — `uv run python chunk.py --size 300 --overlap 50`을 실행하고 `outputs/chunks-300.json`을 연다.
+**할 일** — `uv run ex01 --size 300 --overlap 50`을 실행하고 `outputs/chunks-300.json`을 연다.
 
 **예상 결과** — 파일별 글자 수·청크 수 표와 `합계 청크 N개, 평균 M자 → outputs\chunks-300.json` 줄이 나온다. 문서 하나에 청크가 1~3개씩, 전체 10~20개 안팎이다. JSON의 청크마다 `id`(`파일명#번호`)·`source`·`start`·`end`·`text`가 있고, `text`는 대부분 문장 끝(`다.`)에서 끝난다.
 
@@ -52,7 +46,7 @@ uv run python chunk.py --help
 
 ### 단계 3. 임베딩 인덱스 만들기
 
-**할 일** — `uv run python embed.py --chunks outputs/chunks-300.json`을 실행한다.
+**할 일** — `uv run ex02 --chunks outputs/chunks-300.json`을 실행한다.
 
 **예상 결과** — `청크 N개 로드`, `백엔드 st · 모델 intfloat/multilingual-e5-small · 장치 cuda:0`(GPU 없는 PC는 `cpu`), `벡터 N × 384 · 모델 로드 …s · 인코딩 …s`, `저장 → outputs\index.json, outputs\index.npy`가 차례로 나온다. 인코딩은 수 초 안에 끝난다.
 
@@ -65,7 +59,7 @@ uv run python chunk.py --help
 **할 일**
 
 ```powershell
-uv run python search.py --query "uv.lock은 왜 커밋하는가" --query "Apache-2.0 라이선스가 MIT와 다른 점은?" --top-k 3
+uv run ex03 --query "uv.lock은 왜 커밋하는가" --query "Apache-2.0 라이선스가 MIT와 다른 점은?" --top-k 3
 ```
 
 **예상 결과** — 질의마다 `순위·점수·id·미리보기` 3행이 나온다. 질의 A의 1위는 `uv_basics.md#…`, 질의 B의 1위는 `oss_license.md#…`이고 점수는 0.8 안팎이다. 마지막 줄에 `저장 → outputs\search-<시각>.json`이 나온다.
@@ -77,18 +71,18 @@ uv run python search.py --query "uv.lock은 왜 커밋하는가" --query "Apache
 **할 일**
 
 ```powershell
-uv run python chunk.py --size 150 --overlap 30
-uv run python embed.py --chunks outputs/chunks-150.json --out outputs/index-150
-uv run python search.py --index outputs/index-150 --query "uv.lock은 왜 커밋하는가" --query "Apache-2.0 라이선스가 MIT와 다른 점은?" --top-k 3
+uv run ex01 --size 150 --overlap 30
+uv run ex02 --chunks outputs/chunks-150.json --out outputs/index-150
+uv run ex03 --index outputs/index-150 --query "uv.lock은 왜 커밋하는가" --query "Apache-2.0 라이선스가 MIT와 다른 점은?" --top-k 3
 ```
 
-**예상 결과** — 청크 수가 300자의 약 2.5배가 된다(13개 → 33개). 1위 파일은 대체로 같지만 청크 번호가 바뀌고, 같은 파일의 이웃 청크가 top-3에 함께 들어오거나 답 문장이 두 청크에 나뉘어 1위 본문만으로는 답이 완성되지 않는 경우가 보인다.
+**예상 결과** — 현재 예제 문서는 300자 청크 14개, 150자 청크 33개로 나뉜다. 1위 파일은 대체로 같지만 청크 번호가 바뀌고, 같은 파일의 이웃 청크가 top-3에 함께 들어오거나 답 문장이 두 청크에 나뉘어 1위 본문만으로는 답이 완성되지 않는 경우가 보인다.
 
 **확인** — [ ] 두 인덱스의 1위 청크 `text`를 나란히 놓고 "답 문장이 온전히 들어 있는 쪽"을 적었다.
 
 ### 단계 6. 경계 실패 재현과 기록
 
-**할 일** — `uv run python chunk.py --size 300 --overlap 0 --hard`를 실행하고 `outputs/chunks-300-hard.json`에서 문장 중간에서 끊긴 청크를 찾는다.
+**할 일** — `uv run ex01 --size 300 --overlap 0 --hard`를 실행하고 `outputs/chunks-300-hard.json`에서 문장 중간에서 끊긴 청크를 찾는다.
 
 **예상 결과** — 청크의 `text`가 `…GPL은 수정한 코드를 배포할 때 같은`(`oss_license.md#0`)처럼 정확히 300자에서, 문장 중간에서 끝난다. 이런 청크는 임베딩해도 뜻이 흐려져 점수가 낮아진다.
 
@@ -100,34 +94,28 @@ uv run python search.py --index outputs/index-150 --query "uv.lock은 왜 커밋
 
 ### 교시 시작 준비
 
-[현재 2교시 폴더](examples/period2/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
+[현재 2교시 안내](examples/period2/README.md)를 열고 1교시와 같은 프로젝트에서 계속한다. `docs/`·`.env`·`outputs/`를 그대로 사용한다.
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week06_embeddings_rag\examples"
-$dst = "$HOME\osa-practice\week07"
-New-Item -ItemType Directory -Force $dst | Out-Null
-if (-not (Test-Path "$dst\period2")) { Copy-Item -Recurse "$src\period2" "$dst\period2" }
-Set-Location "$dst\period2"
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }
-uv sync                    # 수업 전에 설치·캐시한다
-if (-not (Test-Path ..\rag_note.md)) { New-Item -ItemType File ..\rag_note.md | Out-Null }
+Set-Location "$HOME\osa-practice\week06"
+if (-not (Test-Path rag_note.md)) { New-Item -ItemType File rag_note.md | Out-Null }
 ```
 
-교시 실습 시간 전에 이 폴더의 `docs/`로 인덱스를 준비한다. 앞 교시 산출물을 요구하지 않으며, 문서를 직접 수정했다면 그 내용도 이 폴더에 반영한다.
+1교시에서 만든 인덱스를 이어 쓴다. 아래 준비 명령은 인덱스가 없거나 `docs/`를 수정했을 때만 다시 실행한다.
 
 ```powershell
-uv run python chunk.py --size 300 --overlap 50
-uv run python embed.py --chunks outputs/chunks-300.json
+uv run ex01 --size 300 --overlap 50
+uv run ex02 --chunks outputs/chunks-300.json
 ```
 
 ```powershell
 Invoke-RestMethod http://localhost:11434/api/tags | Select-Object -ExpandProperty models | Format-Table name, size
 Test-Path outputs\index.npy
-uv run python rag_answer.py --help
+uv run ex04 --help
 ```
 
 
-1교시 폴더에서 계속한다. 새로 시작하는 날이면 1교시 단계 1~3을 먼저 실행해 `outputs/index.json`을 만든다.
+1교시와 같은 프로젝트에서 계속한다. 날짜가 바뀌어도 저장된 인덱스는 재사용한다. 인덱스가 없거나 문서를 바꿨을 때만 1교시 단계 2~3을 다시 실행한다.
 
 ### 단계 1. 서버·모델·인덱스 확인
 
@@ -135,11 +123,11 @@ uv run python rag_answer.py --help
 
 **예상 결과** — 캐시된 모델 이름과 크기가 표로 나오고 `.env`의 `OLLAMA_MODEL`이 그 안에 있다. `Test-Path`가 `True`다. GPU가 없는 PC는 `.env`의 `OLLAMA_MODEL`을 캐시된 소형 모델로 바꾼다.
 
-**확인** — [ ] 서버를 잠시 끄거나 `.env`의 `OLLAMA_HOST` 포트를 비어 있는 값으로 바꿔 `rag_answer.py`를 실행하면 스택 트레이스 대신 `오류: Ollama 서버에 연결할 수 없다…` 한 문장이 나오는 것을 보았다(본 뒤 원래대로 되돌린다).
+**확인** — [ ] 서버를 잠시 끄거나 `.env`의 `OLLAMA_HOST` 포트를 비어 있는 값으로 바꿔 `ex04`를 실행하면 스택 트레이스 대신 `오류: Ollama 서버에 연결할 수 없다…` 한 문장이 나오는 것을 보았다(본 뒤 원래대로 되돌린다).
 
 ### 단계 2. 출처 있는 답 첫 건
 
-**할 일** — `uv run python rag_answer.py --query "uv.lock은 왜 커밋하는가" --top-k 3`을 실행한다.
+**할 일** — `uv run ex04 --query "uv.lock은 왜 커밋하는가" --top-k 3`을 실행한다.
 
 **예상 결과** — `질문:`, `검색: ['uv_basics.md#…', …]`, `답:` 아래에 두세 문장과 마지막 줄 `[출처: uv_basics.md#1]`(번호는 다를 수 있다), 이어서 `인용 ['uv_basics.md#1'] · 검색 결과 안의 인용 ['uv_basics.md#1'] · 거부 False`, `프롬프트 …자 · 토큰 {'prompt_eval_count': …, 'eval_count': …, 'total_duration_ms': …}`, `저장 → outputs\rag-<시각>.json`이 나온다.
 
@@ -150,8 +138,8 @@ uv run python rag_answer.py --help
 **할 일**
 
 ```powershell
-uv run python rag_answer.py --query "uv.lock은 왜 커밋하는가" --show-prompt
-uv run python rag_answer.py --query "Apache-2.0 라이선스가 MIT와 다른 점은?" --top-k 3
+uv run ex04 --query "uv.lock은 왜 커밋하는가" --show-prompt
+uv run ex04 --query "Apache-2.0 라이선스가 MIT와 다른 점은?" --top-k 3
 ```
 
 **예상 결과** — 첫 명령은 `--- system ---` 아래 규칙 4개, `--- user ---` 아래 `[자료 시작]`·`[1] 출처: …`·본문·`[자료 끝]`·`[질문] …`을 보여 준 뒤 답을 낸다. 두 번째 명령의 답은 "특허" 관련 문장을 담고 `[출처: oss_license.md#…]`로 끝난다.
@@ -163,8 +151,8 @@ uv run python rag_answer.py --query "Apache-2.0 라이선스가 MIT와 다른 �
 **할 일**
 
 ```powershell
-uv run python rag_answer.py --query "LoRA의 rank는 무엇인가" --top-k 3
-uv run python rag_answer.py --query "LoRA의 rank는 무엇인가" --no-context
+uv run ex04 --query "LoRA의 rank는 무엇인가" --top-k 3
+uv run ex04 --query "LoRA의 rank는 무엇인가" --no-context
 ```
 
 **예상 결과** — 첫 명령은 검색이 관련 없는 청크 3개를 돌려주지만(검색은 항상 무언가를 돌려준다) 답은 `제공된 자료에서 찾을 수 없습니다.`이고 `거부 True`다. 두 번째 명령은 `검색: (컨텍스트 없음)`이고 모델이 사전 지식으로 답을 지어내거나 거부한다. 소형 모델은 첫 명령에서도 거부하지 않고 답할 수 있다. 어느 쪽이든 그대로 기록한다.
@@ -173,7 +161,7 @@ uv run python rag_answer.py --query "LoRA의 rank는 무엇인가" --no-context
 
 ### 단계 5. 컨텍스트 창 경계
 
-**할 일** — `uv run python rag_answer.py --query "uv.lock은 왜 커밋하는가" --top-k 3 --num-ctx 256`을 실행한다.
+**할 일** — `uv run ex04 --query "uv.lock은 왜 커밋하는가" --top-k 3 --num-ctx 256`을 실행한다.
 
 **예상 결과** — `prompt_eval_count`가 256을 넘지 않는다. 단계 2와 같은 답이 나오거나, 거부로 바뀌거나, 출처 형식이 사라진 답이 나온다. 잘려 나간 부분에 system 규칙이 포함되면 규칙이 지켜지지 않는 것이 관찰 포인트다.
 
@@ -185,40 +173,34 @@ uv run python rag_answer.py --query "LoRA의 rank는 무엇인가" --no-context
 
 ### 교시 시작 준비
 
-[현재 3교시 폴더](examples/period3/README.md)만 복사한다. 이전에 작업한 폴더와 기록이 있으면 보존한다. 패키지 동기화와 모델 캐시는 수업 전에 마친다.
+[현재 3교시 안내](examples/period3/README.md)를 열고 1교시와 같은 프로젝트에서 계속한다. `docs/`·`.env`·`outputs/`를 그대로 사용한다.
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week06_embeddings_rag\examples"
-$dst = "$HOME\osa-practice\week07"
-New-Item -ItemType Directory -Force $dst | Out-Null
-if (-not (Test-Path "$dst\period3")) { Copy-Item -Recurse "$src\period3" "$dst\period3" }
-Set-Location "$dst\period3"
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }
-uv sync                    # 수업 전에 설치·캐시한다
-if (-not (Test-Path ..\eval_note.md)) { New-Item -ItemType File ..\eval_note.md | Out-Null }
+Set-Location "$HOME\osa-practice\week06"
+if (-not (Test-Path eval_note.md)) { New-Item -ItemType File eval_note.md | Out-Null }
 ```
 
-교시 실습 시간 전에 이 폴더의 `docs/`로 인덱스를 준비한다. 앞 교시 산출물을 요구하지 않으며, 문서를 직접 수정했다면 그 내용도 이 폴더에 반영한다.
+1교시에서 만든 인덱스를 이어 쓴다. 아래 준비 명령은 인덱스가 없거나 `docs/`를 수정했을 때만 다시 실행한다.
 
 ```powershell
-uv run python chunk.py --size 300 --overlap 50
-uv run python embed.py --chunks outputs/chunks-300.json
-uv run python chunk.py --size 150 --overlap 30
-uv run python embed.py --chunks outputs/chunks-150.json --out outputs/index-150
+uv run ex01 --size 300 --overlap 50
+uv run ex02 --chunks outputs/chunks-300.json
+uv run ex01 --size 150 --overlap 30
+uv run ex02 --chunks outputs/chunks-150.json --out outputs/index-150
 ```
 
 ```powershell
 Test-Path outputs\index.npy
 Test-Path outputs\index-150.npy
-uv run python eval.py --help
+uv run ex05 --help
 ```
 
 
-이 교시 폴더에서 인덱스 두 개를 준비한 뒤 아래 평가 단계를 시작한다.
+1교시에서 만든 인덱스 두 개가 있는지 확인한 뒤 아래 평가 단계를 시작한다.
 
 ### 단계 1. 평가셋 읽기와 첫 측정
 
-**할 일** — `evalset.json`을 열어 10문항의 `question`·`expected_source`·`keywords`를 훑은 뒤 `uv run python eval.py --evalset evalset.json --top-k 3`을 실행한다.
+**할 일** — `evalset.json`을 열어 10문항의 `question`·`expected_source`·`keywords`를 훑은 뒤 `uv run ex05 --evalset evalset.json --top-k 3`을 실행한다.
 
 **예상 결과** — 문항마다 `q01 hit=True rank=1 top=[…]` 형태의 줄이 나오고 마지막에 `hit rate 0.9`처럼 요약과 `저장 → outputs\eval-<시각>.md`가 나온다. Ollama 없이도 돌아간다. 값은 환경에 따라 0.7~1.0 사이 어딘가다.
 
@@ -229,8 +211,8 @@ uv run python eval.py --help
 **할 일**
 
 ```powershell
-uv run python eval.py --evalset evalset.json --top-k 1
-uv run python eval.py --evalset evalset.json --index outputs/index-150 --top-k 3
+uv run ex05 --evalset evalset.json --top-k 1
+uv run ex05 --evalset evalset.json --index outputs/index-150 --top-k 3
 ```
 
 **예상 결과** — top-k 1의 hit rate는 top-k 3보다 같거나 낮다(rank 2·3이던 문항이 X로 바뀐다). 150자 인덱스는 문항에 따라 오르거나 내린다. 결과 파일이 3건이 된다.
@@ -239,7 +221,7 @@ uv run python eval.py --evalset evalset.json --index outputs/index-150 --top-k 3
 
 ### 단계 3. 실패 문항의 원인 찾기
 
-**할 일** — 실패(또는 순위가 낮은) 문항 하나를 고르고 `uv run python search.py --query "<그 문항의 question>" --top-k 5`를 실행한다. `outputs/index.json`에서 기대 출처 파일의 청크 본문도 읽는다.
+**할 일** — 실패(또는 순위가 낮은) 문항 하나를 고르고 `uv run ex03 --query "<그 문항의 question>" --top-k 5`를 실행한다. `outputs/index.json`에서 기대 출처 파일의 청크 본문도 읽는다.
 
 **예상 결과** — 기대 출처의 청크가 4~5위에 있거나(top-k 부족), 정답 문장이 두 청크에 나뉘어 있거나(chunk 경계), 질문의 낱말이 문서에 없고 다른 표현으로 적혀 있다(용어 불일치). 1위 청크는 질문의 낱말과 겹치는 다른 문서인 경우가 많다.
 
@@ -249,8 +231,8 @@ uv run python eval.py --evalset evalset.json --index outputs/index-150 --top-k 3
 
 **할 일**
 
-1. 문항마다 개선안 하나를 실제로 시도한다(예: 150자 인덱스로 재검색, `--top-k 5`, `docs/`의 해당 문단을 한 문장 보강 후 `chunk.py`·`embed.py` 재실행). 시도 전후의 순위를 적는다.
-2. `uv run python eval.py --evalset evalset.json --ids q05,q10 --generate`를 실행한다.
+1. 문항마다 개선안 하나를 실제로 시도한다(예: 150자 인덱스로 재검색, `--top-k 5`, `docs/`의 해당 문단을 한 문장 보강 후 `ex01`·`ex02` 재실행). 시도 전후의 순위를 적는다.
+2. `uv run ex05 --evalset evalset.json --ids q05,q10 --generate`를 실행한다.
 
 **예상 결과** — 1에서 순위가 오르거나 그대로다(그대로면 원인 분류를 다시 본다). 2에서는 문항마다 `q05 hit=True keyword=True source=True refused=False` 형태의 줄이 나오고 요약에 `keyword`·`source` 비율이 붙는다. 한 문항에 수 초~수십 초가 걸린다.
 
@@ -272,7 +254,7 @@ uv run python eval.py --evalset evalset.json --index outputs/index-150 --top-k 3
 |---|---|
 | `uv sync`가 실패한다 | 1교시 단계 1 (네트워크·uv 캐시와 수업 전 `uv sync` 여부 확인) |
 | 임베딩 모델을 불러올 수 없다 | 1교시 단계 3 (`.env`의 `HF_EMBED_MODEL`, `HF_HUB_OFFLINE=1`, `--backend ollama`) |
-| `search.py`가 "인덱스 모델과 현재 설정이 다르다"고 한다 | 1교시 단계 3 (`.env`를 되돌리거나 `embed.py` 재실행) |
+| `ex03`이 "인덱스 모델과 현재 설정이 다르다"고 한다 | 1교시 단계 3 (`.env`를 되돌리거나 `ex02` 재실행) |
 | 점수가 전부 비슷해 차이가 안 보인다 | 1교시 단계 4 (절대값 대신 순위와 1·2위 차이, 본문 확인) |
 | "파일이 없다: outputs\…"가 나온다 | 1교시 단계 2~3 (chunk → embed 순서로 앞 단계 실행) |
 | Ollama 연결 실패·모델 없음 | 2교시 단계 1 (`ollama list`, `.env`의 `OLLAMA_HOST`·`OLLAMA_MODEL` 이름 일치) |

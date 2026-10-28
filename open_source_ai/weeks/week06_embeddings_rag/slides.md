@@ -124,9 +124,9 @@ order = np.argsort(-scores)[:k]     # 큰 순서로 k개
 ## 15–17분 · 시연: chunk → embed → search
 
 ```powershell
-uv run python chunk.py --size 300 --overlap 50
-uv run python embed.py --chunks outputs/chunks-300.json
-uv run python search.py --query "uv.lock은 왜 커밋하는가" --top-k 3
+uv run ex01 --size 300 --overlap 50
+uv run ex02 --chunks outputs/chunks-300.json
+uv run ex03 --query "uv.lock은 왜 커밋하는가" --top-k 3
 ```
 
 - `chunks-300.json`: 파일별 청크 수와 평균 글자 수
@@ -134,6 +134,8 @@ uv run python search.py --query "uv.lock은 왜 커밋하는가" --top-k 3
 - `search-*.json`: 질의별 순위·점수·청크 id·본문
 
 GPU가 없으면 `--device cpu`, 모델 로드가 안 되면 `--backend ollama`.
+
+명령은 같은 프로젝트 루트에서 실행한다. `uv run ex03`은 질문을 반복 입력하고 `/bye`로 종료한다.
 
 ---
 
@@ -143,7 +145,7 @@ GPU가 없으면 `--device cpu`, 모델 로드가 안 되면 `--backend ollama`.
 
 완료 조건:
 
-1. `chunk.py`를 300자·150자로 실행해 청크 수와 평균 글자 수를 표로 만들었다.
+1. `ex01`을 300자·150자로 실행해 청크 수와 평균 글자 수를 표로 만들었다.
 2. 인덱스 2개로 같은 질의 2개의 top-3를 얻고 순위·점수를 나란히 기록했다.
 3. chunk 크기에 따라 결과가 달라진 이유를 한 문장씩 적었다.
 
@@ -169,7 +171,7 @@ GPU가 없으면 `--device cpu`, 모델 로드가 안 되면 `--backend ollama`.
 - 4주차 `chat.py`와 같은 호출: `stream:false`, `think:false`, `options`
 - 새로 붙는 것: 검색 결과를 넣는 **자리**와 출처를 **강제하는 규칙**
 
-이어받는 것: 1교시 `outputs/index.*`. 새로 시작하는 날이면 chunk → embed를 먼저 실행한다.
+이어받는 것: 같은 프로젝트의 `outputs/index.*`. 인덱스가 없거나 문서를 바꿨을 때만 `ex01`·`ex02`를 다시 실행한다.
 
 ---
 
@@ -240,14 +242,16 @@ user   : [자료 시작]
 ## 15–17분 · 시연: 정상 · 거부 · 비교
 
 ```powershell
-uv run python rag_answer.py --query "uv.lock은 왜 커밋하는가" --top-k 3
-uv run python rag_answer.py --query "LoRA의 rank는 무엇인가"          # 자료 밖
-uv run python rag_answer.py --query "LoRA의 rank는 무엇인가" --no-context
-uv run python rag_answer.py --query "uv.lock은 왜 커밋하는가" --show-prompt
+uv run ex04 --query "uv.lock은 왜 커밋하는가" --top-k 3
+uv run ex04 --query "LoRA의 rank는 무엇인가"          # 자료 밖
+uv run ex04 --query "LoRA의 rank는 무엇인가" --no-context
+uv run ex04 --query "uv.lock은 왜 커밋하는가" --show-prompt
 ```
 
 - 결과 줄: `인용 […] · 검색 결과 안의 인용 […] · 거부 True/False`
 - `outputs/rag-*.json`에 보낸 메시지 전체와 `prompt_eval_count`가 남는다
+
+`uv run ex04`로 질문을 반복 입력한다. 이전 대화는 보내지 않으며 `/bye`로 종료한다.
 
 ---
 
@@ -335,13 +339,13 @@ refused           거부 문구가 나왔는가                              (�
 
 ---
 
-## 12–15분 · 시연: eval.py와 결과표 읽기
+## 12–15분 · 시연: ex05와 결과표 읽기
 
 ```powershell
-uv run python eval.py --evalset evalset.json --top-k 3
-uv run python eval.py --evalset evalset.json --top-k 1
-uv run python eval.py --evalset evalset.json --index outputs/index-150 --top-k 3
-uv run python eval.py --evalset evalset.json --ids q05,q10 --generate
+uv run ex05 --evalset evalset.json --top-k 3
+uv run ex05 --evalset evalset.json --top-k 1
+uv run ex05 --evalset evalset.json --index outputs/index-150 --top-k 3
+uv run ex05 --evalset evalset.json --ids q05,q10 --generate
 ```
 
 - `outputs/eval-*.md`: 문항별 hit·순위·top-k 표. 인덱스에 없는 출처는 경고
@@ -385,4 +389,4 @@ uv run python eval.py --evalset evalset.json --ids q05,q10 --generate
 점검:  hit · cited_in_retrieved · refused → 실패 유형 → 하나씩 고친다
 ```
 
-다음 주(`week08_midterm`)는 1~7주를 **혼자 재현**하는 실기평가와 2차 종합과제 제출이다.
+다음 7주차는 LoRA로 이어진다. 8주차에는 1~7주를 혼자 재현하는 실기평가와 2차 종합과제를 진행한다.

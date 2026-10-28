@@ -10,7 +10,7 @@
 |---|---|
 | 2주차 | `LICENSE`, `license_matrix.md`(확장 대상) |
 | 5주차 | 프롬프트 연결, 대화 이력·스트리밍 |
-| 6주차 | `mini_rag/` 파이프라인, 모델·문서 출처, `evalset.json`, `eval.py` |
+| 6주차 | `examples/`의 `ex01`~`ex05` 파이프라인, 모델·문서 출처, `evalset.json` |
 | 7주차 | 작은 LoRA 실험의 전후 비교. RAG 필수 산출물과는 구분해 기록 |
 
 ## 필수 산출물
