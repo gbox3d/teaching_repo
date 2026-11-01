@@ -119,7 +119,7 @@ addButton.addEventListener('click', function () {
 ③ internet server DB    special   many people see it
 ```
 
-- This is the picture from Week 9. Today's list is **①** — only in the array and on screen.
+- Today's list is **①** — only in the array and on screen.
 - ③ is covered in the [optional Supabase special session](../../specials/supabase_guestbook/README.md).
 
 **Today's list lives only on screen. A reload starts it over.**

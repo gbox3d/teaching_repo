@@ -119,7 +119,7 @@ addButton.addEventListener('click', function () {
 ③ 인터넷 서버 DB    특강     여러 사람이 함께 본다
 ```
 
-- 9주차에 본 그림입니다. 오늘 목록은 **①** — 배열과 화면에만 있습니다.
+- 오늘 목록은 **①** — 배열과 화면에만 있습니다.
 - ③은 [Supabase 선택 특강](../../specials/supabase_guestbook/README.md)에서 다룹니다.
 
 **오늘 목록은 화면에만 있다. 새로고침하면 처음으로 돌아간다.**

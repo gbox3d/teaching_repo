@@ -76,7 +76,7 @@
 
 ## 이번 주 비교 예제
 
-1일차 ex01·ex02 는 같은 화면(입력 칸 하나·버튼 하나·결과 자리 하나)을 쓰므로 코드만 `.js` 파일에 두고, 고르기 페이지 [day1/index.html](examples/day1/index.html) 맨 아래 `<script src>` 두 줄 중 하나만 켜서 연다. ex03 은 화면이 달라서 `.html` 과 `.js` 를 한 쌍으로 둔다. ex04·ex05·ex06 은 JavaScript 없이 HTML 만으로 보는 예제라 `.html` 하나다. ex07·ex08 은 README 와 같은 마크다운 `.md` 파일이고 9주차처럼 VS Code 미리 보기로 본다. ex07 의 `#`·`-` 와 ex08 1번 링크는 9주차 ex01~ex03 에서 본 것이고, README 최종판을 쓰기 전에 다시 본다.
+1일차 ex01·ex02 는 같은 화면(입력 칸 하나·버튼 하나·결과 자리 하나)을 쓰므로 코드만 `.js` 파일에 두고, 고르기 페이지 [day1/index.html](examples/day1/index.html) 맨 아래 `<script src>` 두 줄 중 하나만 켜서 연다. ex03 은 화면이 달라서 `.html` 과 `.js` 를 한 쌍으로 둔다. ex04·ex05·ex06 은 JavaScript 없이 HTML 만으로 보는 예제라 `.html` 하나다. ex07·ex08 은 README 와 같은 마크다운 `.md` 파일이고 9주차처럼 VS Code 미리 보기로 본다. ex07 의 `#`·`-` 와 ex08 1~3번의 링크·그림은 9주차 ex01~ex03·ex05 에서 본 것이고, README 최종판을 쓰기 전에 다시 본다.
 
 | 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
@@ -87,7 +87,7 @@
 | [ex05_label.html](examples/day1/ex05_label.html) | 1. `for` = `id` / 2. 한 글자 다름 / 3. `label` 없음 | 이름표의 `for` 와 칸의 `id` 가 같아야 이어진다. 이어지면 이름표를 눌러도 커서가 칸으로 간다 | 2번 `id` 고치기, `for="#year1"` |
 | [ex06_link_text.html](examples/day2/ex06_link_text.html) | 1. 같은 글자 링크 셋 / 2. 목적지를 적은 링크 셋 / 3. 기호 버튼과 글자 버튼 | 링크·버튼 글자는 그것만 읽어도 어디로 가는지·무엇을 하는지 알게 쓴다 | **Tab** 키로 옮겨 다니며 읽기 |
 | [ex07_line_marks.md](examples/day2/ex07_line_marks.md) | 1. `#` 제목 / 2. `-` 목록 / 3. 기호 없이 줄만 바꿈 / 4. 띄어쓰기 없음 | 줄 맨 앞 기호와 띄어쓰기 한 칸이 그 줄의 모양을 정한다(9주차 ex01·ex02) | `#` 하나 더, 빈 줄 넣기 |
-| [ex08_link_image.md](examples/day2/ex08_link_image.md) | 1. 링크 / 2. 그림 / 3. `!` 를 뺀 그림 줄 / 4. 대소문자가 다른 경로 | 링크(9주차 ex03) 앞에 `!` 를 붙이면 그림이다. 대괄호 글자가 `alt` 다. 경로는 대소문자까지 같아야 GitHub 에서 보인다 | `!` 지웠다 되살리기 |
+| [ex08_link_image.md](examples/day2/ex08_link_image.md) | 1. 링크 / 2. 그림 / 3. `!` 를 뺀 그림 줄 / 4. 대소문자가 다른 경로 | 링크(9주차 ex03) 앞에 `!` 를 붙이면 그림이다(9주차 ex05). 대괄호 글자가 `alt` 다. 경로는 대소문자까지 같아야 GitHub 에서 보인다 | `!` 지웠다 되살리기 |
 
 ## 수업 자료
 

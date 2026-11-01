@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 170" width="520" height="170" font-family="sans-serif">
+  <rect x="0" y="0" width="520" height="170" fill="white"/>
+  <line x1="260" y1="60" x2="110" y2="110" stroke="#3366cc" stroke-width="2"/>
+  <line x1="260" y1="60" x2="410" y2="110" stroke="#3366cc" stroke-width="2"/>
+  <line x1="180" y1="135" x2="340" y2="135" stroke="#3366cc" stroke-width="2"/>
+  <rect x="180" y="15" width="160" height="45" fill="#e8f1ff" stroke="#3366cc"/>
+  <text x="260" y="43" font-size="16" text-anchor="middle" fill="#222222">홈 index.html</text>
+  <rect x="30" y="110" width="150" height="45" fill="#e8f1ff" stroke="#3366cc"/>
+  <text x="105" y="138" font-size="16" text-anchor="middle" fill="#222222">내 정보 about.html</text>
+  <rect x="340" y="110" width="150" height="45" fill="#e8f1ff" stroke="#3366cc"/>
+  <text x="415" y="138" font-size="15" text-anchor="middle" fill="#222222">방명록 guestbook.html</text>
+</svg>

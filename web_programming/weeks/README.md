@@ -100,7 +100,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 6 | DOM과 클릭 이벤트 | [다크 모드]로 배경이 바뀌고 "클릭 N회"가 표시된 `index.html` | [`week06_dom_events`](week06_dom_events/) |
 | 7 | 폼 입력 읽기와 결과 표시 | 이름·메시지를 넣고 [남기기]를 누르면 아래에 한 줄이 표시되는 `guestbook.html` | [`week07_form_input`](week07_form_input/) |
 | 8 | 중간 개인 실기 | 1일차 [1~7주 문제 은행](week08_midterm/examples/README.md) 연습, 2일차 중간 실기 — `web-week08/exam/` 공개 주소 · 저장소 주소 · Commits 탭 캡처 | [`week08_midterm`](week08_midterm/) |
-| 9 | 1차 과제 발표와 README | 2분 시연과 저장소 `README.md` 1차판 | [`week09_readme_presentation`](week09_readme_presentation/) |
+| 9 | 마크다운과 1차 과제 발표 | 표·그림·소스 코드·SVG 도표가 들어간 저장소 `README.md` 1차판과 2분 시연 | [`week09_readme_presentation`](week09_readme_presentation/) |
 | 10 | 배열 데이터를 목록으로 그리기 | 항목 3개를 쌓고 1개를 지운 뒤 "2개"가 표시된 방명록 | [`week10_array_list`](week10_array_list/) |
 | 11 | 객체와 localStorage | 새로고침해도 남는 방명록 3개와 Application › Local Storage의 `guestbook` 키 | [`week11_object_localstorage`](week11_object_localstorage/) |
 | 12 | fetch로 JSON 불러오기 | JSON에서 읽은 카드 3개와 Network 탭의 `projects.json` 200 | [`week12_fetch_json`](week12_fetch_json/) |

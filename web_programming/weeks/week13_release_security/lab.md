@@ -124,7 +124,7 @@ ex06 은 `.html` 을 연다. ex07·ex08 은 VS Code 에서 `.md` 파일을 열�
 
 ### 8. ex08 링크와 그림 (`[보이는 글](주소)` · `!`)
 
-[examples/day2/ex08_link_image.md](examples/day2/ex08_link_image.md) 를 `ex/ex08_link_image.md` 로 저장한다. 그림은 1일차의 `ex/images/profile.png` 를 쓴다. VS Code 에서 열고 미리 보기를 옆에 띄운다. 1번 링크는 9주차 ex03 에서 본 모양이고, 이번에 새로 보는 것은 링크 앞의 `!`(2·3번)와 경로의 대소문자(4번)다.
+[examples/day2/ex08_link_image.md](examples/day2/ex08_link_image.md) 를 `ex/ex08_link_image.md` 로 저장한다. 그림은 1일차의 `ex/images/profile.png` 를 쓴다. VS Code 에서 열고 미리 보기를 옆에 띄운다. 1번 링크와 2·3번 그림은 9주차 ex03·ex05 에서 본 모양이고, 이번에 새로 보는 것은 경로의 대소문자(4번)다.
 
 - 바꿔 보기: 10행 맨 앞의 `!` 를 지운다. 미리 보기의 그림이 무엇으로 바뀌나? 14행과 같아졌나? 확인했으면 되살린다.
 - 바꿔 보기: 10행의 경로를 `images/nothing.png` 로 바꾼다. 그림 자리에 무엇이 보이나? 대괄호 글자는 1일차 ex04 의 무엇과 같은 일을 하나? 확인했으면 되돌린다.
@@ -161,7 +161,7 @@ ex06 은 `.html` 을 연다. ex07·ex08 은 VS Code 에서 `.md` 파일을 열�
 | `README.md` 의 `#` 제목과 `##` 절 제목 | ex07 1번 |
 | `README.md` 의 `- ` 목록 줄 | ex07 2번 |
 | `README.md` 의 링크 `[보이는 글](주소)` | ex08 1번 |
-| `README.md` 의 그림 줄 세 개 `![홈 화면](screenshots/home.png)` … | ex08 2번(링크 앞에 `!`), 4번(대소문자까지 같게). 지난주 README 의 `[홈 화면 캡처](…)` 링크 줄이 그림 줄로 바뀐다 |
+| `README.md` 의 그림 줄 세 개 `![홈 화면](screenshots/home.png)` … | ex08 2번(링크 앞에 `!`), 4번(대소문자까지 같게). 9주차 README 의 화면 두 장에 프로젝트 화면 한 장이 더해진다 |
 
 README 최종판의 절은 일곱이다. 이 README 가 그대로 14주차 레포트가 되므로 14주차 레포트 기준(소개 한 줄, 기능 다섯 줄, 그림 세 장, 어려움과 해결 세 줄, 만든 과정은 9주차부터 주차마다 한 줄씩 다섯 줄 이상)에 맞춰 쓴다.
 예시 전문은 [examples/day2/web-week13/README.md](examples/day2/web-week13/README.md) 에 있다. 문장은 본인 사이트에 맞게 쓰고, 예시의 `student01` 은 본인 아이디로 바꾼다.

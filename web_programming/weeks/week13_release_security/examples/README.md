@@ -39,7 +39,7 @@ ex04 와 ex08 은 같은 폴더의 `images/profile.png` 를 쓴다. 내 저장�
 | [day1/ex05_label.html](day1/ex05_label.html) | `입학 연도` 칸 세 줄. 글자를 누르면 1번만 커서가 칸으로 들어간다 | `label` 의 `for` 와 `input` 의 `id` 가 같아야 이어진다. 이어진 이름표는 눌러도 칸으로 간다. 1번과 3번은 눈으로는 같다 | 20행 `years2` 를 `year2` 로. `for="#year1"` |
 | [day2/ex06_link_text.html](day2/ex06_link_text.html) | 같은 글자 `페이지 열기` 링크 셋, 목적지를 적은 링크 셋, `▶` 버튼과 `계산하기` 버튼. **Tab** 키를 누르면 링크·버튼에 차례로 테두리가 생긴다 | 링크·버튼 글자는 그것만 읽어도 어디로 가는지·무엇을 하는지 알게 쓴다. 키보드만 쓰는 사람은 Tab 으로 옮겨 다니며 그 글자만 읽는다 | 16행 글자를 `a 설명 열기` 로. **Shift+Tab** |
 | [day2/ex07_line_marks.md](day2/ex07_line_marks.md) | 미리 보기에서 1번은 큰 제목과 작은 제목, 2번은 목록 두 줄, 3번은 두 줄이 한 줄로 붙고, 4번은 `#`·`-` 가 글자 그대로 | 줄 맨 앞 기호와 띄어쓰기 한 칸이 그 줄의 모양을 정한다. 기호 없이 줄만 바꾸면 한 줄로 붙는다(9주차 ex01·ex02) | 4행 앞에 `#` 하나 더, 11·12행 사이에 빈 줄 |
-| [day2/ex08_link_image.md](day2/ex08_link_image.md) | 미리 보기에서 1번은 파란 링크, 2번은 프로필 그림, 3번은 그림 파일로 가는 파란 링크, 4번은 내 PC 에서는 그림이 보이지만 GitHub 에서는 깨진다 | `[보이는 글](주소)`(9주차 ex03) 앞에 `!` 를 붙이면 그림이다. 대괄호 글자가 그림의 `alt` 다. 경로는 대소문자까지 파일 이름과 같아야 GitHub 에서 보인다 | 10행의 `!` 지우기, 경로를 `images/nothing.png` 로 |
+| [day2/ex08_link_image.md](day2/ex08_link_image.md) | 미리 보기에서 1번은 파란 링크, 2번은 프로필 그림, 3번은 그림 파일로 가는 파란 링크, 4번은 내 PC 에서는 그림이 보이지만 GitHub 에서는 깨진다 | `[보이는 글](주소)`(9주차 ex03) 앞에 `!` 를 붙이면 그림이다(9주차 ex05). 대괄호 글자가 그림의 `alt` 다. 경로는 대소문자까지 파일 이름과 같아야 GitHub 에서 보인다 | 10행의 `!` 지우기, 경로를 `images/nothing.png` 로 |
 
 ### 파일 안의 모양
 
@@ -73,5 +73,5 @@ htmlButton.addEventListener('click', function () {
 | [about.js](day2/web-week13/about.js) | `about.js` | [2일차 9단계](../walkthrough.md#2일차) — 이번 주에 새로 만드는 파일. 제출 리스너 하나다(ex01·ex02, 12주차 `guestbook.js` 의 폼) |
 | [projects.js](day2/web-week13/projects.js) | `projects.js` | [2일차 10단계](../walkthrough.md#2일차) — 19행 링크 글자 한 줄이 카드 제목을 넣은 글자로 바뀐다(ex06) |
 | [screenshots/home.png](day2/web-week13/screenshots/home.png) · [guestbook.png](day2/web-week13/screenshots/guestbook.png) · [projects.png](day2/web-week13/screenshots/projects.png) | `screenshots/` 세 장 | [2일차 14단계](../walkthrough.md#2일차) — 지난주 두 장을 새로 찍고 `projects.png` 를 더한다 |
-| [README.md](day2/web-week13/README.md) | `README.md` | [2일차 15단계](../walkthrough.md#2일차) — 최종판 일곱 절. 화면 절의 링크 줄이 그림 줄로 바뀐다(ex07·ex08). 공개 주소와 아이디는 본인 것으로 쓴다. `## 만든 과정` 은 9주차부터 주차마다 한 줄씩 다섯 줄이다 |
+| [README.md](day2/web-week13/README.md) | `README.md` | [2일차 15단계](../walkthrough.md#2일차) — 최종판 일곱 절. 화면 절은 9주차처럼 그림 줄이고 프로젝트 화면 한 장이 더해진다(ex07·ex08). 공개 주소와 아이디는 본인 것으로 쓴다. `## 만든 과정` 은 9주차부터 주차마다 한 줄씩 다섯 줄이다 |
 | [index.html](day2/web-week13/index.html) · [guestbook.html](day2/web-week13/guestbook.html) · [projects.html](day2/web-week13/projects.html) · [app.js](day2/web-week13/app.js) · [guestbook.js](day2/web-week13/guestbook.js) · [styles.css](day2/web-week13/styles.css) · [data/projects.json](day2/web-week13/data/projects.json) · [images/](day2/web-week13/images/) | 같은 이름의 파일 | 12주차 그대로. 이번 주에 점검만 하고 고치지 않는다 |
