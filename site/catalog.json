@@ -216,7 +216,7 @@
       "description": "브라우저와 Git의 기초에서 시작해 저장소 하나에 페이지를 쌓아 공개 사이트를 만들고, 목록·브라우저 저장·JSON 불러오기까지 다루는 15주 입문 과정입니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 3개 특강 · 317장",
+      "summary": "15개 주차 + 3개 특강 · 321장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
@@ -324,16 +324,16 @@
         {
           "id": "week09_readme_presentation",
           "label": "9주차",
-          "title": "1차 과제 발표와 README",
-          "description": "3~7주에 한 주씩 쌓아 온 내 사이트를, 공개 주소를 열어 **2분 안에** 남에게 보여 줄 수 있을까? 그리고 그 설명을 저장소 첫 화면에 한 장으로 남길 수 있을까?",
+          "title": "마크다운과 1차 과제 발표",
+          "description": "README 와 GitHub 문서를 쓰는 마크다운의 기본 기능(소스 코드·그림·표·SVG 도표)을 하루 동안 익히고, 내 사이트를 **2분 안에** 공개 주소로 발표할 수 있을까?",
           "type": "week",
           "formerIds": [
             "week09_architecture_project"
           ],
           "en": {
             "label": "Week 9",
-            "title": "Project 1 Presentation and README",
-            "description": "Can you open the public URL and show someone the site you built week by week in Weeks 3–7, in 2 minutes? And can you leave that description as a single page on the repository's front screen?"
+            "title": "Markdown and Project 1 Presentation",
+            "description": "Can you spend a day on Markdown basics (source code, images, tables, SVG diagrams) used for READMEs and GitHub documents, and then present your site at its public URL in 2 minutes?"
           }
         },
         {
