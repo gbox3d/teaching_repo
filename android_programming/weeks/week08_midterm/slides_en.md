@@ -240,6 +240,6 @@ A PC that fails here moves seats **before the exam**. Leave the emulator running
 
 Every screen so far has been an **Activity**.
 
-In Week 9, **App Components and the Project 1 Presentation**, we compare Service, BroadcastReceiver, and ContentProvider side by side with Activity.
+In Week 9, **App Components Compared: Service and Fragment**, we compare Service, BroadcastReceiver, and ContentProvider side by side with Activity, and you add a Service and a Fragment yourself.
 
-The grading axes of Project 1 (normal flow, surviving rotation, explaining the code) are what you practiced in this exam.
+The project is announced in week 12 and you present your plan in week 13. It is also judged by showing the app working and explaining your code — the same way you practiced in this exam.

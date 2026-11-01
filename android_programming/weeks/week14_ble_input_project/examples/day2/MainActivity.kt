@@ -29,8 +29,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.smartio.bleuno.Bleuno
 import com.example.smartio.bleuno.BleunoClient
 import com.example.smartio.bleuno.ConnState
+import com.example.smartio.bleuno.FakeBleunoClient
 import com.example.smartio.bleuno.PermissionHelper
 import com.example.smartio.databinding.ActivityMainBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -96,6 +99,13 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "블루투스를 켜야 검색할 수 있습니다", Toast.LENGTH_SHORT).show()
         }
     }
+
+    // 14주차 2일차: 마지막으로 연결을 시작한 보드 주소. 목록을 누를 때(43번) 담고 저장해 두었다가, [재연결](47번)에서 같은 주소로 다시 연결한다.
+    // 화면이 새로 만들어지면(회전 등) 이 변수는 빈 글자("")로 돌아가므로 onCreate에서 저장소의 값을 다시 꺼내 넣는다(48번).
+    private var lastAddress = ""
+
+    // 14주차 2일차: 연결 시간 제한 코루틴. 다시 연결할 때 앞의 것을 취소하려고 보관한다(6주차 scanJob과 같다). 아직 없으면 null이다.
+    private var connectTimeoutJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -233,6 +243,10 @@ class MainActivity : AppCompatActivity() {
                     binding.controlButton.isEnabled = false
                     binding.retryButton.visibility = View.GONE
                     binding.scanProgress.visibility = View.GONE
+                    // 44. [재연결]은 끊김일 때만 보인다(45번). 먼저 숨긴다(14주차 2일차).
+                    binding.reconnectButton.visibility = View.GONE
+                    // 53. (시험용) [끊김 시험]은 준비됨일 때만 켠다(54번). 먼저 끈다(14주차 2일차).
+                    binding.lostTestButton.isEnabled = false
                     when (state) {
                         ConnState.DISCONNECTED -> {
                             binding.scanButton.isEnabled = true
@@ -240,6 +254,7 @@ class MainActivity : AppCompatActivity() {
                         ConnState.CONNECTING -> {
                             // 연결 중에는 버튼을 모두 꺼 둔다. [중지]는 이제 검색 멈춤이라 켜지 않는다(12주차 2일차).
                             // 보드가 응답하지 않으면 한참(보통 30초쯤) 뒤 "끊김"이 되어 [검색]·[다시 시도]가 다시 켜진다.
+                            // 14주차 2일차: 이제는 10초가 지나도 준비됨이 아니면 51번이 연결을 끊고 [검색]·[다시 시도]를 되살린다.
                             binding.scanProgress.visibility = View.VISIBLE
                         }
                         ConnState.DISCOVERING -> {
@@ -249,10 +264,16 @@ class MainActivity : AppCompatActivity() {
                             binding.disconnectButton.isEnabled = true
                             // 준비됨일 때만 [제어 화면]을 누를 수 있다(12주차 2일차).
                             binding.controlButton.isEnabled = true
+                            // 54. (시험용) 준비됨일 때만 [끊김 시험]을 누를 수 있다(14주차 2일차).
+                            binding.lostTestButton.isEnabled = true
                         }
                         ConnState.LOST -> {
                             binding.scanButton.isEnabled = true
                             binding.retryButton.visibility = View.VISIBLE
+                            // 45. 사용자가 해제하지 않았는데 끊겼다. [재연결]을 보여 주고 Toast로 알린다(14주차 2일차).
+                            //     collect 틀 안에서는 this가 Activity가 아니어서 Toast는 46번 함수로 띄운다. 끊김인 채로 이 화면이 다시 보이면(회전, 제어 화면에서 [뒤로]) 또 뜬다.
+                            binding.reconnectButton.visibility = View.VISIBLE
+                            showLostToast()
                         }
                     }
                 }
@@ -279,6 +300,12 @@ class MainActivity : AppCompatActivity() {
             val address = addresses.get(position)
             client.stopScan()
             client.connect(address)
+            // 43. 연결을 시작한 주소를 기억하고, 앱 전용 저장소 "smartio"에 "lastAddress"라는 이름표로도 저장한다(14주차 2일차).
+            //     20번 장치 이름 저장과 같은 틀이다(11주차 2일차). 저장해 두면 화면이 새로 만들어져도 [재연결]이 이 주소를 쓴다(48번).
+            lastAddress = address
+            getSharedPreferences("smartio", MODE_PRIVATE).edit().putString("lastAddress", address).apply()
+            // 49. 10초 연결 시간 제한을 건다. 시간 제한은 50번 함수가 한다(14주차 2일차).
+            startConnectTimeout()
         }
 
         // 39. [제어 화면] 버튼: 준비됨일 때만 켜진다(7번). 장치 이름 칸의 이름을 들고 제어 화면으로 간다(12주차 2일차).
@@ -299,6 +326,16 @@ class MainActivity : AppCompatActivity() {
             binding.lastDeviceText.text = "마지막 장치: $lastName"
         }
 
+        // 48. 43번에서 저장한 마지막 보드 주소를 꺼내 lastAddress에 넣는다. 21번과 같은 틀이다(14주차 2일차).
+        //     회전하거나 제어 화면에 가 있는 동안 이 화면이 새로 만들어져도 [재연결](47번)이 같은 주소를 쓴다. 저장한 적이 없으면 ""이다.
+        lastAddress = prefs.getString("lastAddress", "") ?: ""
+
+        // 52. 연결 중에 회전하면 화면이 새로 만들어지면서 앞 화면의 10초 예약도 함께 취소된다. 아직 연결 중·서비스 확인 중이면 시간 제한을 다시 건다(14주차 2일차).
+        //     새로 거는 것이라 10초를 처음부터 다시 센다. 51번과 같은 listOf(…).contains(…) 검사다.
+        if (listOf(ConnState.CONNECTING, ConnState.DISCOVERING).contains(client.connectionState.value)) {
+            startConnectTimeout()
+        }
+
         // 22. [연락처 보기] 버튼: READ_CONTACTS가 이미 허용이면 바로 보여 주고, 아니면 요청 창을 띄운다(11주차 2일차, 시연·선택 실습).
         binding.contactsButton.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
@@ -306,6 +343,28 @@ class MainActivity : AppCompatActivity() {
             } else {
                 contactsLauncher.launch(arrayOf(Manifest.permission.READ_CONTACTS))
             }
+        }
+
+        // 47. [재연결] 버튼: 끊김일 때만 보인다(45번). 마지막으로 연결한 주소로 다시 연결한다(14주차 2일차).
+        //     주소가 비어 있으면(앱을 설치하고 한 번도 목록을 눌러 연결한 적이 없으면) [검색]부터 하라고 알린다.
+        binding.reconnectButton.setOnClickListener {
+            if (lastAddress.isEmpty()) {
+                Toast.makeText(this, "마지막 주소가 없습니다. [검색]부터 하세요", Toast.LENGTH_SHORT).show()
+            } else {
+                client.connect(lastAddress)
+                // 49. 10초 연결 시간 제한을 건다(14주차 2일차).
+                startConnectTimeout()
+            }
+        }
+
+        // 55. (시험용) [끊김 시험] 버튼: 가짜 보드(useFake = true)일 때만 보인다. 보드 전원을 끈 것처럼 "끊김"을 만든다(14주차 2일차).
+        //     simulateLost()는 FakeBleunoClient에만 있어서 as로 "가짜 클라이언트로 보고" 꺼낸 뒤 부른다. 실제 보드는 전원을 꺼서 시험한다.
+        if (useFake) {
+            binding.lostTestButton.visibility = View.VISIBLE
+        }
+        binding.lostTestButton.setOnClickListener {
+            val fake = client as FakeBleunoClient
+            fake.simulateLost()
         }
     }
 
@@ -396,5 +455,39 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return false
+    }
+
+    // 46. 끊겼다고 알리는 Toast. 7번 collect의 끊김 가지(45번)에서 부른다(14주차 2일차).
+    //     collect 틀 안의 this는 Activity가 아니어서 Toast.makeText(this, …)를 바로 쓸 수 없다. 함수로 빼면 this가 Activity다.
+    private fun showLostToast() {
+        Toast.makeText(this, "연결이 끊겼습니다. [재연결]을 누르세요", Toast.LENGTH_SHORT).show()
+    }
+
+    // 50. 연결 시간 제한을 건다. 앞에서 건 제한이 남아 있으면 먼저 취소한다(14주차 2일차).
+    //     취소하지 않으면 앞 연결의 10초 예약이 새 연결을 끊을 수 있다. 6주차 [중지]의 scanJob?.cancel()과 같은 방법이다.
+    private fun startConnectTimeout() {
+        connectTimeoutJob?.cancel()
+        connectTimeoutJob = lifecycleScope.launch {
+            waitConnectTimeout()
+        }
+    }
+
+    // 51. 10초를 기다린 뒤에도 아직 연결 중·서비스 확인 중이면 "연결 시간이 초과되었습니다"를 알리고 연결을 끊는다(14주차 2일차).
+    //     그사이 준비됨·끊김·연결 안 됨이 되었으면 아무것도 하지 않는다. listOf(…).contains(…)는 13주차 오늘 문법이다.
+    //     delay를 쓰므로 suspend가 붙는다(6주차 countDown과 같다). 이 함수 안의 this는 Activity라서 Toast에 그대로 쓴다.
+    private suspend fun waitConnectTimeout() {
+        delay(10000)
+        val state = client.connectionState.value
+        if (listOf(ConnState.CONNECTING, ConnState.DISCOVERING).contains(state)) {
+            Toast.makeText(this, "연결 시간이 초과되었습니다", Toast.LENGTH_SHORT).show()
+            client.disconnect()
+            // 실제 보드는 아직 맺어지지 않은 연결을 끊으면 "끊겼다"는 알림이 오지 않는 기기가 있다. 그러면 상태가 "연결 중"에 머물러
+            // 7번이 화면을 고치지 않으므로, 여기서 직접 [검색]·[다시 시도]를 쓸 수 있는 모양으로 되돌린다(12주차 34번과 같은 모양).
+            // 나중에 알림이 오면 7번이 "연결 안 됨" 모양으로 다시 고친다.
+            binding.stateText.text = "연결 시간 초과 — [다시 시도]를 누르세요"
+            binding.scanProgress.visibility = View.GONE
+            binding.scanButton.isEnabled = true
+            binding.retryButton.visibility = View.VISIBLE
+        }
     }
 }

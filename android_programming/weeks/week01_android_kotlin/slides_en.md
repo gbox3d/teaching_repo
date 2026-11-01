@@ -39,9 +39,9 @@ The ID and name above are examples for practice.
 | 2–3 | First app `StudentCard` — my info screen, buttons, screen rotation |
 | 4–7 | `Smart I/O Controller` screens — input fields, a second screen, an app that keeps responding while waiting |
 | 8 | Midterm (hands-on) |
-| 9 | Project 1 presentations |
+| 9 | App components compared — Service and Fragment |
 | 10–11 | Battery display, permission requests, lists, saving |
-| 12–14 | Turn on board LEDs and read temperature/humidity over Bluetooth, Project 2 presentations |
+| 12–14 | Turn on board LEDs and read temperature/humidity over Bluetooth, project plan presentation in week 13 |
 | 15 | Final exam (hands-on) |
 
 Every week ends with a **screenshot of a screen you built**.
@@ -60,7 +60,7 @@ Log: on 0 -> {"result":"ok"}
 ```
 
 - Press a button in the phone app and an **LED on the board turns on**; sensor values **appear** in the app.
-- You finish and present this app in week 14. The board itself is shown in class.
+- You present your plan in week 13 and submit the finished app in week 15. The board itself is shown in class.
 - Today we take the first step: **printing one line of text**.
 
 ---
@@ -69,10 +69,9 @@ Log: on 0 -> {"result":"ok"}
 
 | Item | Weight | Based on |
 |---|---|---|
-| Weekly labs | 20% | The **screenshot** you submit at the end of each lab (weeks 1–7, 10–13) |
+| Weekly labs | 20% | The **screenshot** you submit at the end of each lab (weeks 1–7, 9–14) |
 | Midterm | 20% | Week 8, hands-on at the computer |
-| Project 1 | 10% | Week 9 presentation |
-| Project 2 | 20% | Week 14 presentation (app connected to the board) |
+| Project | 30% | Week 13 plan presentation + week 15 finished submission (app connected to the board) |
 | Final exam | 20% | Week 15 hands-on + demo |
 
 The remaining share follows the syllabus.

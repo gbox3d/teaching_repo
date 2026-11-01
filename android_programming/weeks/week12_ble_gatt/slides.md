@@ -209,6 +209,10 @@ override fun onStop() {
 
 Logcat 필터 `package:mine tag:BLE`로 `startScan(가짜)`·`onScanResult(가짜)` 줄을 함께 봅니다.
 
+**과제 공지** — 과제는 **하나**입니다. 지금 만들고 있는 Smart I/O Controller를 완성합니다.
+13주차 2일차에 **계획안**을 발표하고(10점), 15주차에 **완성본**을 제출합니다(20점).
+담을 것과 필수 기능: [13주차 과제 안내](../week13_ble_output/project_brief.md) · [채점표](../week13_ble_output/rubric.md)
+
 ---
 
 # 2일차 — 연결하고 두 화면에서 상태 보기

@@ -85,6 +85,44 @@
         android:layout_marginTop="8dp"
         android:textSize="18sp" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/inputStartButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/input_start" />
+
+        <Button
+            android:id="@+id/inputStopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:enabled="false"
+            android:text="@string/stop" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/input_history_title"
+        android:textSize="16sp" />
+
+    <ListView
+        android:id="@+id/inputList"
+        android:layout_width="240dp"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_marginTop="8dp"
+        android:transcriptMode="alwaysScroll" />
+
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"

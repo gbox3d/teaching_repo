@@ -10,7 +10,7 @@
 | 시간 | 할 일 |
 |---|---|
 | 0–5분 | `StudentCard` 프로젝트를 열고(없으면 새 Empty Views Activity) 에뮬레이터를 켜 실행해 둔다. [은행 목록](examples/README.md)에서 수업에서 나간 범위의 문제를 확인한다 |
-| 5–13분 | [a01_kotlin_card](examples/a01_kotlin_card/) — Kotlin Playground 학생 카드 |
+| 5–13분 | [a01_kotlin_card](examples/a01_kotlin_card/) — Android Studio 학생 카드 |
 | 13–23분 | [a02_info_screen](examples/a02_info_screen/) — 내 정보 화면 |
 | 23–33분 | [a03_name_button](examples/a03_name_button/) — 코드로 글자 바꾸기와 버튼 하나 |
 | 33–43분 | [a04_counter_three](examples/a04_counter_three/) — 버튼 셋 카운터 |

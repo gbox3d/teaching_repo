@@ -3,30 +3,30 @@ marp: true
 theme: default
 paginate: true
 header: Mobile Programming · Week 9
-footer: Comparing App Components and Project 1 Presentations
+footer: Comparing App Components · Service and Fragment
 ---
 
-# Comparing App Components and Project 1 Presentations
+# App Components Compared: Service and Fragment
 
 Every screen you built in weeks 2–7 was an **Activity**.
-On Day 1, we look at the other components an app is made of besides Activity.
-On Day 2, you present **Project 1**, built on top of what you made through week 7.
+On Day 1 you add a **Service**, a component with no screen, and start and stop it yourself.
+On Day 2 you build **Fragments** and swap one slot of the screen.
 
 ```text
-Day 1: comparing components · Service demo · Fragment demo · project briefing → rehearsal
-Day 2: presentations (3 min per person = 2 min demo + 1 min code Q&A)
+Day 1: four components compared · three kinds of Service · starting and stopping LogService
+Day 2: swapping Fragments · Notification demo and preview
 ```
 
 ---
 
-# Day 1 — Comparing App Components and the Project Briefing
+# Day 1 — Comparing App Components and Service
 
-`30 min explanation & demo → 60 min Project 1 rehearsal`
+`30 min explanation & demo → 60 min lab`
 
 1. Compare Activity, Service, BroadcastReceiver, and ContentProvider in one table.
-2. Use `LogService` to confirm "a Service also runs on the main thread."
-3. A demo of swapping Fragments, and a look at a Notification.
-4. Project 1 grading and presentation slots.
+2. Read the three kinds of Service and the `LogService` code.
+3. Use `startService`/`stopService` and register `<service>` in the manifest.
+4. Confirm in Logcat that "a Service also runs on the main thread."
 
 ---
 
@@ -39,6 +39,7 @@ Day 2: presentations (3 min per person = 2 min demo + 1 min code Q&A)
 | BroadcastReceiver | Receives system-sent announcements | Battery/charging state changes | No | Showing battery level |
 | ContentProvider | A window that exposes data to other apps | Reading contacts or photos | No | The Contacts app |
 
+- Only one of the four has a screen: Activity.
 - All four are **entry points into the app** that Android itself can call directly.
 - That's why they're declared in `AndroidManifest.xml` (a BroadcastReceiver can also be registered in code).
 
@@ -49,17 +50,17 @@ Day 2: presentations (3 min per person = 2 min demo + 1 min code Q&A)
 | Component | This course | Our code |
 |---|---|---|
 | Activity | Every week, weeks 2–7 | `MainActivity`, `ControlActivity` |
-| Service | **Demo today** | `LogService` |
+| Service | **Today, Day 1** | `LogService` |
 | BroadcastReceiver | Week 10 | Receiving battery changes |
 | ContentProvider | Week 11 comparison + demo | Reading contact names |
 
 - In week 4 you saw the line `<activity android:name=".ControlActivity" …>` in the manifest.
 - Today a `<service android:name=".LogService" …>` line joins it.
-- Project 1 and the exams are built with Activity. Today's Service and Fragment are **look-only**.
+- Today's Service is not part of the SmartIO main line. Week 10 starts again from the week 7 result.
 
 ---
 
-## Day 1 · 8–15 min ① — Three Kinds of Service
+## Day 1 · 8–14 min ① — Three Kinds of Service
 
 | Kind | Who starts it | When it ends | Visible to the user? |
 |---|---|---|---|
@@ -67,12 +68,13 @@ Day 2: presentations (3 min per person = 2 min demo + 1 min code Q&A)
 | bound | A screen binds to it with `bindService` | when every bound screen unbinds | tied to the bound screen |
 | foreground | started + shows a notification | until it stops | **a notification is always shown** |
 
-- Today's demo is a single **started** Service. Just know the names for bound and foreground.
+- You build a single **started** Service today. Just know the names for bound and foreground.
 - A music app keeping a notification up while it plays is a foreground Service.
+- Because the user knows about it, the system does not stop a foreground Service easily.
 
 ---
 
-## Day 1 · 8–15 min ② — LogService: a Component with No Screen
+## Day 1 · 8–14 min ② — LogService: a Component with No Screen
 
 ```kotlin
 class LogService : Service() {
@@ -86,12 +88,13 @@ class LogService : Service() {
 }
 ```
 
+- You inherit from `Service()` just like week 7's `ConnViewModel : ViewModel()`. There is no layout file.
 - `onStartCommand`: called **every time** `startService` is called.
 - `onDestroy`: called once, when it stops. `onBind`: today it's just a **template** returning `null`.
 
 ---
 
-## Day 1 · 8–15 min ③ — Start/Stop and Registering It in the Manifest
+## Day 1 · 14–20 min ① — Start/Stop and Registering It in the Manifest
 
 ```kotlin
 binding.serviceStartButton.setOnClickListener {
@@ -112,7 +115,7 @@ binding.serviceStartButton.setOnClickListener {
 
 ---
 
-## Day 1 · 8–15 min ④ — Demo: A Service Also Runs on the Main Thread
+## Day 1 · 14–20 min ② — Demo: A Service Also Runs on the Main Thread
 
 Logcat filter: `package:mine tag:Service`
 
@@ -122,36 +125,143 @@ Logcat filter: `package:mine tag:Service`
 | [Start Service] again | unchanged | one more `onStartCommand thread=main` |
 | [Stop Service] | unchanged | `onDestroy` |
 
-- `thread=main`: the same **main thread** you saw back in week 5.
-- A Service is not "a thread running in the background." Call `Thread.sleep` inside `onStartCommand` and the screen freezes too.
-- Long-running work inside a Service is still moved off to a thread or coroutine, just like weeks 5–6.
+- `thread=main`: the same **main thread** you saw in week 5.
+- A Service is not "a thread running in the background." `Thread.sleep` in `onStartCommand` freezes the screen.
+- Long work inside a Service also goes to a thread or coroutine, exactly as in weeks 5 and 6.
 
 ---
 
-## Day 1 · 15–20 min ① — Fragment: A Piece of Screen Inside an Activity
+## Day 1 · 20–26 min ① — The Four Components in One Table Again
+
+| Component | Manifest tag | Who starts it | Do we build one? |
+|---|---|---|---|
+| Activity | `<activity>` | the user opening the app, or `startActivity` | every week from week 2 |
+| Service | `<service>` | a screen calling `startService`/`bindService` | today, Day 1 |
+| BroadcastReceiver | `<receiver>` or code registration | the system, when it sends an announcement | week 10, Day 1 |
+| ContentProvider | `<provider>` | another app asking for data | week 11, we only read one |
+
+- They sit in different manifest tags, and **who calls them** differs.
+- Only Activity owns a screen through `setContentView`. The other three have no screen.
+- Android calls each one differently: Service through `onCreate`/`onDestroy`, BroadcastReceiver through `onReceive` once, ContentProvider through `onCreate` (the week 3 idea).
+
+---
+
+## Day 1 · 20–26 min ② — When to Use a Service, and When Not To
+
+| What you want to do | What we use in this course |
+|---|---|
+| Waiting while the screen is visible (countdown, fake connect) | week 6 coroutines + week 7 ViewModel |
+| State that must survive rotation | week 7 ViewModel and StateFlow |
+| Work that continues after you leave the screen (music, a long upload) | a Service |
+| Long work the user must keep seeing | a foreground Service (notification required) |
+
+- SmartIO never uses a Service, all semester: it connects only while you are looking at the screen.
+- "Anything without a screen is a Service" is wrong. The test is **must it continue after you leave?**
+- Even inside a Service, long work still moves to a thread or coroutine.
+
+---
+
+## Day 1 · 26–30 min — Try It Yourself
+
+[Day 1 lab](lab.md#1일차--smartio에-logservice-넣기-60분) · [Walkthrough](walkthrough.md#1일차)
+
+1. Create `LogService.kt` and write the three functions (`onStartCommand`, `onDestroy`, `onBind`).
+2. Add the three `<service>` lines inside `<application>`. Miss this and your Logcat stays empty.
+3. Add [Start Service] and [Stop Service] buttons that call `startService`/`stopService`.
+4. Set the Logcat filter to `package:mine tag:Service`, fill in the table, and take **one screenshot**.
+
+```text
+onStartCommand thread=main   ← two lines if you tap twice
+onDestroy                    ← [Stop Service]
+```
+
+**Explanation total: 8+6+6+6+4 = 30 min**
+
+---
+
+# Day 2 — Swapping Fragments
+
+`30 min explanation & demo → 60 min lab`
+
+1. See that a Fragment is a piece of a screen inside an Activity.
+2. Make an empty slot with `FragmentContainerView`.
+3. Return the fragment's own view from `onCreateView`.
+4. Swap pieces with the three lines `beginTransaction()` → `replace()` → `commit()`.
+
+---
+
+## Day 2 · 0–6 min ① — Fragment: a Piece of a Screen Inside an Activity
 
 ```text
 ┌ MainActivity ────────────────────┐
-│ [First piece] [Second piece]      │  ← stays in place
+│ [First piece] [Second piece]     │  ← stays put
 │ ┌ FragmentContainerView ───────┐ │
-│ │  FirstFragment goes here      │ │  ← only this spot
+│ │  This is FirstFragment        │ │  ← only this slot
 │ │  (or SecondFragment)          │ │     gets swapped
 │ └──────────────────────────────┘ │
 └──────────────────────────────────┘
 ```
 
-- A Fragment is a piece of screen with its **own layout** (`fragment_first.xml`).
-- Instead of an Activity's `setContentView`, `onCreateView` returns the fragment's screen.
-- It is not declared in the manifest. This is the real thing previewed back in week 4, Day 2.
+- A Fragment is a piece of a screen with **its own layout** (`fragment_first.xml`).
+- The button row belongs to the Activity, so it stays; only the piece in the slot changes.
+- Week 4 Day 2 promised "a piece of a screen inside an Activity." Today you build it.
 
 ---
 
-## Day 1 · 15–20 min ② — The Empty Slot and the Three Lines That Swap It
+## Day 2 · 0–6 min ② — What Activity and Fragment Each Do
+
+| | Activity | Fragment |
+|---|---|---|
+| Manifest | declared with `<activity>` | not declared |
+| Choosing the view | `setContentView` in `onCreate` | `onCreateView` returns a View |
+| Can it stand alone? | yes, it is an entry point | no, it must be put inside an Activity |
+| How you change it | `startActivity` for a new screen | `replace` for just that slot |
+
+- Today's app has **one** Activity and **two** pieces.
+- A whole new screen is an Activity; swapping one slot is a Fragment.
+- SmartIO keeps its two Activities all semester, so today's practice uses a new project.
+
+---
+
+## Day 2 · 6–14 min ① — The Empty Slot: FragmentContainerView
 
 ```xml
 <androidx.fragment.app.FragmentContainerView
     android:id="@+id/fragmentContainer"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1" />
 ```
+
+- This is the **empty slot** a piece goes into. At first it holds nothing.
+- `layout_height="0dp"` + `layout_weight="1"`: it takes all the height left under the button row (week 2).
+- The code calls this `id` as `R.id.fragmentContainer`. A typo shows up as an error in Kotlin.
+- Run it with only the slot in place and you see the button row with nothing under it.
+
+---
+
+## Day 2 · 6–14 min ② — The Fragment Class and onCreateView
+
+```kotlin
+class FirstFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        Log.d("Fragment", "FirstFragment onCreateView")
+        return inflater.inflate(R.layout.fragment_first, container, false)
+    }
+}
+```
+
+- `inflater.inflate(…)` turns the layout file into a View and returns it. That is the `setContentView` spot.
+- The import is `androidx.fragment.app.Fragment`. Do not pick `android.app.Fragment` (the old one).
+- `SecondFragment` differs from this only in the layout name and the log text.
+
+---
+
+## Day 2 · 14–22 min ① — The Three Lines That Swap a Piece
 
 ```kotlin
 binding.secondButton.setOnClickListener {
@@ -161,162 +271,83 @@ binding.secondButton.setOnClickListener {
 }
 ```
 
-- Start a swap → put a fragment in the slot → **commit** it. Skip `commit()` and nothing changes.
-- Demo: each tap logs `SecondFragment onCreateView` under Logcat tag `Fragment`.
+```kotlin
+if (savedInstanceState == null) {
+    … put FirstFragment() in with the same three lines
+}
+```
+
+- Begin → put the piece in the slot → **commit**. Without `commit()` nothing changes.
+- The first insertion goes inside `if (savedInstanceState == null)`.
+- After a rotation the system restores the piece you were looking at (week 3), so you do not insert it again.
 
 ---
 
-## Day 1 · 20–24 min — Notification: Alerting Outside the Screen
+## Day 2 · 14–22 min ② — Demo: Only the Piece Changes
+
+Logcat filter: `package:mine tag:Fragment`
+
+| Action | Screen | Logcat |
+|---|---|---|
+| App starts | button row + `This is FirstFragment` | `FirstFragment onCreateView` |
+| [Second piece] | button row unchanged, text becomes `This is SecondFragment` | `SecondFragment onCreateView` |
+| The same button twice | the text is the same | one line each time you tap |
+| Rotate after swapping | the piece you were on stays | one line for that piece |
+
+- Tapping the same button twice builds a new piece and inserts it, so two lines appear.
+- Back closes the app instead of returning to the previous piece. A back stack for pieces must be added on purpose.
+
+---
+
+## Day 2 · 22–27 min — Notification: Telling the User Off-Screen
 
 ```text
-Pulling down the status bar shows
+Pull down the status bar and you see
 ┌──────────────────────────────────┐
 │ Smart I/O Controller             │
-│ Connection lost                  │
+│ The connection was lost          │
 └──────────────────────────────────┘
 ```
 
-- A Notification alerts a user who isn't currently looking at the app's screen.
-- A foreground Service **must** show a notification (row three of the Service table).
-- Since Android 13, showing a notification requires the user's **permission**.
-- Permission requests are covered on week 10, Day 2. Today you only see the shape — no code.
+- A notification tells a user who is not looking at your app's screen.
+- Row three of Day 1's Service table: a foreground Service **must** show a notification.
+- From Android 13 on, posting a notification needs the user's **permission**.
+- Runtime permissions are week 10 Day 2, so today this is **a demo only, not part of the lab**.
 
 ---
 
-## Day 1 · 24–30 min ① — Project 1: Choose One of Two
+## Day 2 · 27–30 min — Try It Yourself
 
-| | (a) SmartIO simulator | (b) Free-choice app (weeks 5–7 scope) |
-|---|---|---|
-| Flow | device name → scan countdown → simulated connect success/failure with retry → control-screen command log | a flow you design yourself |
-| Add | **one feature of your own** | call the provided `fakeRequest()` at least once, and add a **[Retry]** button |
-| Starting point | your `SmartIO` project through week 7 | a new project |
+[Day 2 lab](lab.md#2일차--fragment-바꿔-끼우기-60분) · [Walkthrough](walkthrough.md#2일차)
 
-Option (b) is available only in sections your instructor allows by announcement.
-
-The scoring criteria are the same: **normal flow / failure & retry / survives rotation / code walkthrough (individual Q&A)**
-
-Full requirements: [project brief](project_brief.md) · [rubric](rubric.md)
-
----
-
-## Day 1 · 24–30 min ② — Grading and Presentation Slots
-
-| Presentation, 5 pts | Report, 5 pts |
-|---|---|
-| Normal flow 1.5 · failure & retry 1 · survives rotation 1 · code walkthrough 1.5 | How to run it & file list 1 · screenshots with code locations 2 · your own feature explained 1 · a record of a bug you fixed 1 |
-
-Each presentation is **3 minutes**. First, check whether everyone fits inside the 60-minute slot.
+1. Create a new project `FragmentDemo` (package `com.example.fragmentdemo`). Keep it apart from SmartIO.
+2. Add two buttons and a `FragmentContainerView` slot, then create the two fragment layouts.
+3. Write `FirstFragment` and `SecondFragment`, each returning its own layout from `onCreateView`.
+4. Add the first insertion and the three swap lines for both buttons, then take **two screenshots**.
 
 ```text
-presentation time = ceil(N / E) × 3 min ≤ 60 min     N = presenters, E = graders listening at once
-e.g. N = 38, E = 2 → 19 × 3 = 57 min → fits in Day 2's 60 minutes
-e.g. N = 26, E = 1 → 26 × 3 = 78 min → the first 13 present during today's 20–60 min lab instead
+This is FirstFragment      →   This is SecondFragment
 ```
 
----
-
-## Day 1 · 24–30 min ③ — Try It Yourself
-
-[Day 1 lab](lab.md#1일차--1차-과제-리허설-60분) · [Walkthrough](walkthrough.md#1일차)
-
-1. Check your slot on the presentation order sheet, and confirm your app shows all four scoring criteria.
-2. Take a screenshot **now** of a screen showing both the failure message and [Retry].
-3. Pair up and time each other running the **2-minute demo** twice.
-4. Find the file and line you'll point to for the code question, and finish your report.
-
-**Explanation total: 8+7+5+4+6 = 30 min**
-
-If you chose (b), see the walkthrough's `fakeRequest()` step. You can also try the Service and Fragment demos again in the walkthrough (ungraded).
+**Explanation total: 6+8+8+5+3 = 30 min**
 
 ---
 
-# Day 2 — Project 1 Presentations
+## What to Submit
 
-`30 min briefing & check → 60 min presentations`
+Take one screenshot on Day 1 and two on Day 2.
 
-1. Today's running order.
-2. The rubric, once more.
-3. A preview of the code-question style.
-4. Pre-presentation checklist → presentations begin.
+1. **Day 1, one screenshot**: Logcat filtered by `tag:Service`, showing two `onStartCommand thread=main` lines and one `onDestroy` line
+2. **Day 2, two screenshots**: the `This is FirstFragment` screen and the `This is SecondFragment` screen (the button row must stay in the same place)
 
----
-
-## Day 2 · 0–5 min — Today's Running Order
-
-| Step | Task | Time |
-|---|---|---|
-| 1 | While the person before you presents, have your app open on the first screen | while waiting |
-| 2 | Demo: normal flow → failure & retry → rotation | 2 min |
-| 3 | Answer one grader question, pointing to a line of code | 1 min |
-| 4 | Hand off to the next person | within the 3 min |
-
-- When 2 minutes are up, the demo stops and you move to the question. A scene you couldn't show can be covered with a report screenshot instead, but that item scores at most half credit (exceptions apply for a logged technical issue, or a failure state that never triggered).
-- Where you present (front screen / your seat) and the order follow your section's announcement. Discuss any reordering with the instructor first.
-
----
-
-## Day 2 · 5–12 min — The Rubric, Once More: Presentation 5 + Report 5
-
-| Presentation item | Points | What earns full credit |
-|---|---|---|
-| Normal flow | 1.5 | Runs start to finish with nothing stuck. For (a), through your own feature too. |
-| Failure & retry | 1 | Failure message → [Retry] → success |
-| Survives rotation | 1 | Text and buttons stay correct when rotated mid-run or on a failure screen |
-| Code walkthrough | 1.5 | Point to the file and line, answer in one sentence |
-
-| Report item | Points |
-|---|---|
-| How to run it and file list | 1 |
-| Screenshots of each scoring criterion, with code locations | 2 |
-| Explanation of your own feature (for (b), where `fakeRequest()` is called) | 1 |
-| A record of a bug you fixed | 1 |
-
----
-
-## Day 2 · 12–20 min — What the Code Questions Look Like
-
-| Example question | What to point to |
-|---|---|
-| Why does state survive rotation? | the `by viewModels()` line and `viewModelScope.launch` |
-| Why doesn't the app crash on failure? | `try { … } catch (e: Exception) { … }` |
-| Where does [Retry] get shown? | the `when` or `if` inside `collect { }` |
-| Why does tapping [Scan] twice only start one scan? | `if (scanJob?.isActive == true) {` |
-| Which line is your own feature? | the file and line you changed |
-
-Answer in this order: **open the file → point to the line → one sentence.**
-
-"It just works that way" earns no points. Point to a line.
-
----
-
-## Day 2 · 20–27 min — Pre-Presentation Checklist
-
-- [ ] After your last edit, you **saved and ran it again** with Run ▶
-- [ ] Auto-rotate is on in the emulator's quick settings, and the rotate button actually turns the app
-- [ ] The app is on its first screen (`Not connected` or `Waiting`)
-- [ ] You know how many tries it takes to trigger a failure, and have a **failure screenshot** ready in case it doesn't show up live
-- [ ] The file you'll use for the code question is already open in an editor tab
-- [ ] You've submitted your report, or know how to
-
-Take 7 minutes now to run through this yourself. Raise your hand if your emulator won't start.
-
----
-
-## Day 2 · 27–30 min — Presentations Begin
-
-[Day 2 lab](lab.md#2일차--1차-과제-발표-60분) · [Walkthrough](walkthrough.md#2일차)
-
-1. The first three presenters keep their apps open and wait for their turn.
-2. Once you've presented, watch the others and make sure your report was submitted.
-3. Raise your hand if equipment freezes. The TA logs the time and moves you later in the order.
-
-**Explanation total: 5+7+8+7+3 = 30 min**
+Follow the class announcement for file names, where to submit, and the deadline. Check that no personal information shows in the screenshots.
 
 ---
 
 ## Next Week Preview
 
-We build the third row of today's table ourselves: **BroadcastReceiver**.
+You build row three of Day 1's table, a **BroadcastReceiver**, yourself.
 
-- Changing the emulator's battery will make SmartIO's `Battery 80% · Charging` update to match.
-- Using BLE in week 12 requires the user's **permission**. We build that flow on week 10, Day 2.
+- Change the battery in the emulator and make SmartIO's `Battery 80% · Charging` follow it.
+- Using BLE in week 12 needs the user's **permission**. You build that flow in week 10 Day 2.
+- The notification permission you saw today is the same kind of runtime permission. Week 10 starts from the week 7 result.

@@ -19,7 +19,7 @@
       "description": "Kotlin과 Android 프레임워크의 실행 구조에서 BLE 기반 Smart I/O 통합 프로젝트까지 이어지는 15주 과정입니다.",
       "status": "published",
       "accent": "#3ddc84",
-      "summary": "15개 주차 · 302장",
+      "summary": "15개 주차 · 303장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/android_programming",
       "chapters": [
         {
@@ -121,13 +121,13 @@
         {
           "id": "week09_services_project",
           "label": "9주차",
-          "title": "앱 컴포넌트 비교와 1차 과제 발표",
-          "description": "화면이 없는 Service는 어디서 돌까? 네 컴포넌트를 비교하고 Service도 메인 스레드에서 도는 것을 확인한 뒤 1차 과제를 발표합니다.",
+          "title": "앱 컴포넌트 비교: Service와 Fragment",
+          "description": "화면이 없는 Service는 어디서 돌까? 네 컴포넌트를 비교하고 Service를 앱에 직접 넣어 본 뒤, 다음 날에는 Fragment로 화면 조각을 바꿔 끼웁니다.",
           "type": "week",
           "en": {
             "label": "Week 9",
-            "title": "Comparing App Components and Project 1 Presentations",
-            "description": "Where does a screen-less Service actually run? Compare the four components, confirm that a Service also runs on the main thread, and present Project 1."
+            "title": "App Components Compared: Service and Fragment",
+            "description": "Where does a screen-less Service actually run? Compare the four components, add a Service to your own app, then swap screen fragments the next day."
           }
         },
         {
@@ -169,37 +169,37 @@
         {
           "id": "week13_ble_output",
           "label": "13주차",
-          "title": "BLE 출력 제어: 문자열 명령과 응답",
-          "description": "LED Switch로 보드의 LED를 켜고 보드의 대답까지 확인하려면? send로 명령을 보내고 onMessage로 JSON 응답을 받습니다.",
+          "title": "BLE 출력 제어와 과제 계획안 발표",
+          "description": "LED Switch로 보드의 LED를 켜고 보드의 대답까지 확인하려면? send로 명령을 보내고 onMessage로 응답을 받은 뒤, 과제 계획안을 발표합니다.",
           "type": "week",
           "en": {
             "label": "Week 13",
-            "title": "BLE Output Control: String Commands and Responses",
-            "description": "Want to turn the board's LED on and off with the LED switch, and confirm the board's reply? Send commands with send and receive JSON responses with onMessage."
+            "title": "BLE Output Control and the Project Plan Presentation",
+            "description": "Want to turn the board's LED on and off and see the board reply? Send commands with send, read responses with onMessage, then present your project plan."
           }
         },
         {
           "id": "week14_ble_input_project",
           "label": "14주차",
-          "title": "입력 수신·끊김·재연결과 2차 과제 발표",
-          "description": "온습도를 3초마다 받아 쌓고, 연결이 끊기거나 오래 걸리면 알리고 다시 연결하려면? 입력 이력·재연결·연결 시간 제한을 만들고 2차 과제를 발표합니다.",
+          "title": "안전한 명령 전송과 입력 수신·재연결",
+          "description": "허용되지 않는 번호를 막고, 온습도를 3초마다 받아 쌓고, 연결이 끊기면 다시 연결하려면? 검사·차단·오류 표시와 입력 이력·재연결을 만듭니다.",
           "type": "week",
           "en": {
             "label": "Week 14",
-            "title": "Input Reception, Disconnects, Reconnecting, and the Project 2 Presentation",
-            "description": "Want to collect temperature and humidity every 3 seconds, and get alerted and reconnect when the connection drops or takes too long? Build input history, reconnection, and a connect timeout, then present Project 2."
+            "title": "Safe Command Sending, Input Reception, and Reconnecting",
+            "description": "Want to block out-of-range numbers, collect temperature and humidity every 3 seconds, and reconnect after a drop? Add checks, error dialogs, input history, and reconnect."
           }
         },
         {
           "id": "week15_final_exam",
           "label": "15주차",
-          "title": "기말고사(개인 실기)",
-          "description": "권한 확인·LED 명령과 응답·연결 시간 제한을 혼자 60분 안에 다시 쓸 수 있을까? 리허설 뒤 본시험과 보드 앞 개인 시연·구술을 합니다.",
+          "title": "기말고사(개인 실기)와 과제 최종 제출",
+          "description": "권한 확인·LED 명령과 응답·연결 시간 제한을 혼자 60분 안에 다시 쓸 수 있을까? 리허설 뒤 본시험과 개인 시연을 하고, 과제 완성본을 제출합니다.",
           "type": "week",
           "en": {
             "label": "Week 15",
-            "title": "Final Exam (Individual Hands-On)",
-            "description": "Can you rewrite the permission check, LED command and response, and connect timeout on your own in 60 minutes? After a rehearsal, take the real exam with an individual demo and oral questions in front of the board."
+            "title": "Final Exam (Individual Hands-On) and Project Submission",
+            "description": "Can you rewrite the permission check, LED command and response, and connect timeout on your own in 60 minutes? Rehearse, take the exam, demo in person, and submit your finished project."
           }
         }
       ],

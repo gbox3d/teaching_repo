@@ -5,9 +5,9 @@
 - 15주, 주 2회 × 90분
 - 매 수업: 설명·시연 30분 + 직접 해결 실습 60분
 - 주당 합계: 이론·시연 60분 + 실습 120분
-- 8주 중간고사, 9주 1차 과제 발표, 14주 2차 과제 발표, 15주 기말고사는 고정이다.
+- 8주 중간고사, 13주 2일차 과제 계획안 발표, 15주 기말고사와 과제 최종 제출은 고정이다.
 - 1주차는 Android Studio에서 `StudentCard` 프로젝트를 만들어 출력·변수·`if`·`fun`을 연습한다(에뮬레이터는 2주차부터 쓴다). 2~3주차는 그 프로젝트로 `StudentCard` 앱을 만들고, 4주차부터 15주차까지는 `SmartIO` 한 앱(앱 이름 "Smart I/O Controller")을 매주 키운다.
-- 매주 시작점은 전주 `examples/day2` 완성본이다. 자기 코드로 이어 가도 되고, 막히면 전주 완성본을 받아 이어 간다.
+- 매주 시작점은 전주 `examples/day2` 완성본이다. 자기 코드로 이어 가도 되고, 막히면 전주 완성본을 받아 이어 간다. 예외 둘: 9주차는 곁가지라 **10주차 시작점은 7주차 `examples/day2`**이고, 13주차는 2일차가 발표라 **14주차 시작점은 13주차 `examples/day1`**이다.
 - 기본 문제를 먼저 완성하고 남는 시간에 확장 문제를 수행한다.
 
 시험과 발표 주차는 대학 일정과 분반 인원에 따라 실제 평가 시간이 달라질 수 있다. 공개 자료에는 평가 구조와 연습 절차만 두며, 학기별 실제 문항·정답·학생 정보는 별도 비공개 공간에서 관리한다.
@@ -23,8 +23,8 @@
 | `walkthrough.md` | 모든 주차. 처음부터 그대로 따라 하는 단계(할 일 → 예상 결과). 전체 코드 블록은 `examples/` 파일과 글자 단위로 같다 |
 | `lab.md` | 일차별 60분 시간표, 단계별 문제와 힌트, 막혔을 때 표(실제 오류 메시지), 제출물, 먼저 끝났다면 |
 | `examples/README.md` | 예제 파일 ↔ 프로젝트 위치 표, 개념별 최소 코드와 실행 결과 |
-| `examples/dayN/` | 그날 수업이 끝났을 때의 **완성본 전체 파일**(2~7주·10~13주는 `day1`·`day2`, 14주는 `day1`). 1주차는 프로젝트에 넣어 하나씩 실행하는 문법 예제 `.kt` 파일 7개, 8주는 문제 은행 `aNN_*/README.md`(시작 코드 없음), 15주는 `rehearsal_starter`·`rehearsal_solution`, 9주는 시연용 `service_demo`·`fragment_demo`·`fake_request`를 같은 규칙으로 둔다 |
-| `exam_structure.md`·`project_brief.md`·`rubric.md` | 시험·과제 주차만. 8주 시험 구조·채점표, 9·14주 과제 안내·채점표, 15주 채점표 |
+| `examples/dayN/` | 그날 수업이 끝났을 때의 **완성본 전체 파일**(2~7주·9~12주·14주는 `day1`·`day2`, 13주는 `day1`). 1주차는 프로젝트에 넣어 하나씩 실행하는 문법 예제 `.kt` 파일 7개, 8주는 문제 은행 `aNN_*/README.md`(시작 코드 없음), 15주는 `rehearsal_starter`·`rehearsal_solution`, 9주 `day1`은 SmartIO 곁가지(서비스 추가)이고 `day2`는 Fragment 연습용 별도 프로젝트다 |
+| `exam_structure.md`·`project_brief.md`·`rubric.md` | 시험·과제 주차만. 8주 시험 구조·채점표, 13주 과제 안내·채점표(계획안 10 + 최종 제출 20), 15주 기말 채점표 |
 
 `examples/dayN/`의 파일은 Android Studio의 **Empty Views Activity** 템플릿 프로젝트에 다음 규칙으로 넣으면 그대로 빌드된다.
 
@@ -36,7 +36,7 @@
 | `res/…` | `app/src/main/res/…` 같은 경로 |
 | `AndroidManifest.xml`·`build.gradle.kts` | 있으면 `app/src/main/AndroidManifest.xml`·`app/build.gradle.kts`를 교체 |
 
-package는 1주 2일차~3주 `com.example.studentcard`, 4~15주 `com.example.smartio`다(8주 리허설·9주 Fragment·요청 시연처럼 새 프로젝트로 만드는 예제는 그 폴더의 `examples/README.md`에 적었다).
+package는 1주 2일차~3주 `com.example.studentcard`, 4~15주 `com.example.smartio`다. package가 다른 예제는 9주 `day2`(Fragment 연습, `com.example.fragmentdemo`) 하나이며 그 폴더의 `examples/README.md`에 적었다. 8주는 시작 코드가 없어 `StudentCard` 또는 새 Empty Views Activity를 쓴다.
 
 12~15주는 제공 라이브러리 [`../bleuno/`](../bleuno/README.md)를 쓴다. `bleuno/src/`의 파일을 `app/src/main/java/com/example/smartio/bleuno/`로 복사하며(package `com.example.smartio.bleuno`), 12~15주 `examples/`의 `bleuno/` 폴더에 같은 파일이 들어 있다. 보드 명령·응답 규약과 라이브러리 사용법은 [bleuno README](../bleuno/README.md)에 있다.
 
@@ -54,13 +54,13 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 | 6 | 코루틴: delay·취소·오류 처리 | `검색 중… 3` 카운트다운과 [중지], 가짜 연결 실패와 [다시 시도] | [`week06_coroutines`](week06_coroutines/) |
 | 7 | ViewModel과 StateFlow: 회전해도 살아 있는 상태 | 회전해도 이어지는 `연결 중… 3`, 상태에 맞게 켜지는 버튼 | [`week07_flow_ui_state`](week07_flow_ui_state/) |
 | 8 | 중간고사(개인 실기) | 1~7주 실습 제출을 정리한 문제 은행(수업에서 나간 범위)으로 연습하고, 값만 바뀐 같은 문제로 시험 | [`week08_midterm`](week08_midterm/) |
-| 9 | 앱 컴포넌트 비교와 1차 과제 발표 | `LogService` 시연, 1차 과제 발표(SmartIO 시뮬레이터 또는 자유 앱) | [`week09_services_project`](week09_services_project/) |
+| 9 | 앱 컴포넌트 비교: Service와 Fragment | 1일차 Logcat에 서비스 시작·중지와 스레드 이름, 2일차 조각이 바뀐 화면 | [`week09_services_project`](week09_services_project/) |
 | 10 | BroadcastReceiver와 런타임 권한 | 연결 화면 배터리 문구, [권한 확인] → 거절 AlertDialog → 설정 화면 | [`week10_receivers_permissions`](week10_receivers_permissions/) |
 | 11 | 목록과 저장: ListView·SharedPreferences·ContentProvider 비교 + 실기기 준비 | 장치 이름 목록, 앱을 다시 켜도 남는 `마지막 장치: …`, 실기기 실행 | [`week11_content_provider`](week11_content_provider/) |
 | 12 | BLE 기초: Bleuno 클라이언트로 검색·연결 | 보드 검색 목록, 목록 탭 → `준비됨`, 제어 화면 상태 표시 | [`week12_ble_gatt`](week12_ble_gatt/) |
-| 13 | BLE 출력 제어: 문자열 명령과 응답 | LED on/off 명령과 JSON 응답 로그, 허용 번호 검사·오류 표시 | [`week13_ble_output`](week13_ble_output/) |
-| 14 | 입력 수신·끊김·재연결과 2차 과제 발표 | 완성 Smart I/O Controller: 온습도 입력 이력·[재연결]·연결 시간 제한, 2차 과제 발표 | [`week14_ble_input_project`](week14_ble_input_project/) |
-| 15 | 기말고사(개인 실기) | 리허설: 권한 확인·LED 명령과 응답·연결 시간 제한, 개인 시연·구술 | [`week15_final_exam`](week15_final_exam/) |
+| 13 | BLE 출력 제어와 과제 계획안 발표 | 1일차 LED on/off 명령과 JSON 응답 로그, 2일차 과제 계획안 발표 | [`week13_ble_output`](week13_ble_output/) |
+| 14 | 안전한 명령 전송과 입력 수신·재연결 | 1일차 허용 번호 검사·버튼 차단·오류 표시, 2일차 온습도 입력 이력·[재연결]·연결 시간 제한 | [`week14_ble_input_project`](week14_ble_input_project/) |
+| 15 | 기말고사(개인 실기)와 과제 최종 제출 | 리허설과 본시험, 개인 시연·구술, 과제 완성본 제출 | [`week15_final_exam`](week15_final_exam/) |
 
 ## 자료 작성 원칙
 
@@ -85,8 +85,9 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 | `object` 상수 묶음, `when (state)` | 7주 2일차 | 작년 2강 when 장 |
 | 익명 객체 `object : BroadcastReceiver() { override fun onReceive }` | 10주 1일차 | 복붙 틀 |
 | `mutableListOf`, `add`, `size` | 11주 1일차 | 작년 2강 리스트 장 |
+| `name.startsWith("ESP32_BLE")` | 12주 1일차 | 오늘 문법 5분 |
 | `listOf(...).contains(x)` | 13주 1일차 | 오늘 문법 5분 |
-| `split(" ")`, `[0]`, `[1]`, JSON 문자열에서 값 꺼내기(제공 helper) | 14주 1일차 | 오늘 문법 5분 |
+| `split(" ")`, `[0]`, `[1]`, JSON 문자열에서 값 꺼내기(제공 helper) | 14주 2일차 | 오늘 문법 5분 |
 
 `when`·`while`·상속·제네릭·확장 함수·`lateinit`은 필요할 때 한 줄로만 설명하고 채점하지 않는다. `lateinit var binding`은 4주 ViewBinding 틀에 나오므로 "이 줄은 틀이다"로 처리한다.
 

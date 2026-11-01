@@ -4,7 +4,7 @@
 
 > 배터리가 바뀌었다는 시스템의 알림을 앱이 받아 화면에 보여 주려면, 그리고 BLE 장치를 찾기 전에 사용자에게 허락을 받으려면 어떻게 써야 할까?
 
-9주차 앱 컴포넌트 비교표에서 Activity·Service·BroadcastReceiver·ContentProvider의 이름과 쓰임을 보았다. 이번 주에는 그중 **BroadcastReceiver**를 직접 만든다.
+9주차에 Activity·Service·BroadcastReceiver·ContentProvider를 비교하고 Service와 Fragment를 직접 넣어 보았다. 이번 주에는 남은 **BroadcastReceiver**를 만든다.
 1일차에는 시스템이 보내는 배터리 방송을 받아 연결 화면 맨 아래에 `배터리 80% · 충전 중`을 보여 준다. 등록과 해제는 3주차에 본 `onStart`/`onStop`에 짝으로 둔다.
 2일차에는 12주차 BLE 검색에 필요한 **런타임 권한**을 [권한 확인] 버튼으로 요청하고, 거절하면 `AlertDialog`로 알린 뒤 설정 화면으로 보낸다.
 

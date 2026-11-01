@@ -1,23 +1,702 @@
-# 14주차 따라하기 — 입력 받기·끊김·재연결과 2차 과제 발표
+# 14주차 따라하기 — 안전한 명령 전송과 입력 수신·재연결
 
 13주차 `SmartIO` 프로젝트를 그대로 이어서 쓴다. 처음에는 그대로 따라 하고, 각 단계의 결과가 화면에 보이면 다음 단계로 넘어간다.
-13주차 프로젝트가 없거나 실행되지 않으면 강의자에게 13주차 완성본(`examples/day2`)을 받아 시작한다.
+13주차 프로젝트가 없거나 실행되지 않으면 강의자에게 13주차 완성본(`../week13_ble_output/examples/day1`)을 받아 시작한다.
 
-이번 주에 고치는 파일은 다섯 개다. 제어 화면 `ControlActivity.kt`·`activity_control.xml`, 연결 화면 `MainActivity.kt`·`activity_main.xml`, 그리고 `strings.xml`이다.
-`AndroidManifest.xml`, `ContactsReader.kt`, `colors.xml`, `res/values/themes.xml`, `bleuno` 패키지 8개는 13주차 그대로 둔다. 전체 내용은 [부록 A](#부록-a--바꾸지-않는-파일-전체)와 [부록 B](#부록-b--제공-bleuno-파일-전체)에 있다.
+두 날 모두 BLE 마무리 수업이다. 1일차에는 보내도 되는 번호만 보내고, 준비됨일 때만 누르게 하고, 오류 응답을 창과 색으로 알린다. 2일차에는 보드가 보내는 값을 받아 쌓고, 끊기면 다시 연결한다.
+1일차에 고치는 파일은 `ControlActivity.kt`·`activity_control.xml`·`strings.xml`·`colors.xml` 네 개다. 2일차에는 여기에 연결 화면 `MainActivity.kt`·`activity_main.xml`이 더해진다.
+`AndroidManifest.xml`, `ContactsReader.kt`, `res/values/themes.xml`, `bleuno` 패키지 8개는 두 날 모두 그대로 둔다. 전체 내용은 [부록 A](#부록-a--바꾸지-않는-파일-전체)와 [부록 B](#부록-b--제공-bleuno-파일-전체)에 있다.
 
 에뮬레이터는 13주차와 같은 API 33 이상 이미지를 쓴다. 보드 없이 가짜 클라이언트(Fake)로 끝까지 할 수 있고, 실보드는 실기기에서만 연결된다.
-제어 화면에는 13주차처럼 **목록 줄 탭 → `준비됨` → [제어 화면]**으로 들어간다.
-2일차는 2차 과제 발표라 새 코드가 없다. [2일차](#2일차) 절에는 발표 전 점검과 실보드가 안 될 때 Fake로 바꾸는 순서를 적었다.
+제어 화면에는 13주차처럼 **목록 줄 탭 → `준비됨` → [제어 화면]**으로 들어간다. 연결(`준비됨`)이 안 된 채로 제어 화면에 들어오면(목록 줄을 누르지 않았거나 [해제]한 뒤 [연결]로 들어옴) 상태가 `연결 안 됨`이라 명령이 버려진다.
+1일차 완성본은 [examples/day1](examples/day1), 2일차 완성본은 [examples/day2](examples/day2)다.
 
 ## 1일차
 
-### 1. 13주차 프로젝트 열고 입력 이벤트 줄 보기
+### 1. colors.xml에 로그 색 두 개 넣기
 
-1. Android Studio에서 `SmartIO` 프로젝트를 열고 `Run ▶`을 누른다.
+1. `app › res › values › colors.xml`을 연다. 새 프로젝트를 만들 때 생긴 파일이라 `black`·`white` 두 줄이 있다. 파일이 없으면 `values`를 오른쪽 클릭 → **New › Values Resource File** → 이름 `colors`로 만든다.
+2. `white` 줄 아래(마지막 `</resources>` 바로 위)에 두 줄을 넣는다.
+
+```xml
+    <color name="log_ok">#FF2E7D32</color>
+    <color name="log_error">#FFD32F2F</color>
+```
+
+전체는 아래와 같다. 같은 코드가 [examples/day1/colors.xml](examples/day1/colors.xml)에 있다.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="log_ok">#FF2E7D32</color>
+    <color name="log_error">#FFD32F2F</color>
+</resources>
+```
+
+3. 실행한다. 화면은 13주차와 같다. 색은 4단계에서 쓴다.
+
+- `#AARRGGBB`: 앞 두 자리 `FF`는 불투명, 뒤 여섯 자리가 빨강·초록·파랑이다. `log_ok`는 초록, `log_error`는 빨강이다.
+- 4주차 `strings.xml` → `@string/`·`R.string`과 같은 관계로, `colors.xml`에 붙인 이름은 코드에서 `R.color.log_error`로 부른다.
+
+### 2. 허용되지 않는 번호 막기
+
+1. `ControlActivity.kt`의 `// 2.` LED Switch 리스너에서 빈 칸 가지와 `} else if (isChecked) {` 사이에 가지 하나를 넣는다. 리스너 윗부분은 아래와 같다.
+
+```kotlin
+        binding.ledSwitch.setOnCheckedChangeListener { _, isChecked ->
+            val pin = binding.pinEdit.text.toString()
+            if (pin.isEmpty()) {
+                Toast.makeText(this, "LED 번호를 입력하세요", Toast.LENGTH_SHORT).show()
+            } else if (isAllowedIndex(pin.toInt()) == false) {
+                // 11. 허용되지 않는 번호면 보드에 보내지 않고 Toast로 알린다. 번호 확인은 12번 함수가 한다(14주차 1일차).
+                Toast.makeText(this, "허용되지 않는 번호", Toast.LENGTH_SHORT).show()
+            } else if (isChecked) {
+```
+
+2. `isAllowedIndex`가 빨간색이다. 아직 함수가 없기 때문이다. `onStop()`을 닫는 `}` **아래**, 클래스를 닫는 마지막 `}` **위**에 한 줄을 비우고 함수를 넣는다.
+
+```kotlin
+    // 12. 보드에 보내도 되는 번호면 true, 아니면 false(14주차 1일차).
+    //     수업 보드의 LED 번호는 0~3이고, -1은 "전체"라는 약속이다(7번 [전체 끄기]). 입력 칸은 inputType이 number라 -를 적을 수 없다.
+    //     펌웨어는 번호 범위를 확인하지 않아서 이 밖의 번호를 보내면 보드가 어떻게 될지 모른다. 그래서 보내기 전에 앱이 막는다.
+    private fun isAllowedIndex(index: Int): Boolean {
+        if (listOf(0, 1, 2, 3).contains(index)) {
+            return true
+        }
+        if (index == -1) {
+            return true
+        }
+        return false
+    }
+```
+
+3. 실행하고 [제어 화면]에 들어가 `9` → Switch 켜기를 한다. Toast `허용되지 않는 번호`가 뜨고 로그에는 아무 줄도 생기지 않으면 성공이다. Logcat `tag:BLE`에도 `writeCharacteristic` 줄이 없다. 앱이 보내기 전에 막았다는 증거다.
+4. `3`으로 바꿔 Switch를 켜고 끄면 13주차처럼 명령과 응답이 쌓인다.
+5. 다시 `9`를 넣고 Switch를 눌러 Toast가 떠 있는 동안 **캡처한다.** 입력 칸 `9`, Toast `허용되지 않는 번호`, 로그에 `on 9`가 없는 화면이 제출 캡처 1이다(6단계). Toast는 2초 만에 사라지니 뜨자마자 찍는다.
+
+- 사슬 순서는 **빈 칸 → 허용 번호 → 켜기/끄기**다. 빈 칸 검사가 먼저 걸러 주므로 `pin.toInt()`가 빈 글자에서 불리지 않는다.
+- `listOf(0, 1, 2, 3).contains(index)`: 13주차 오늘 문법이다. 목록 안에 `index`가 있으면 `true`다. 괄호 안에는 목록과 같은 종류(숫자)를 넣는다. `contains(pin)`처럼 글자를 넣으면 `Type inference failed. …` 오류가 난다.
+- `: Boolean`과 `return true`/`return false`: 10주차 `hasBlePermissions()`처럼 참/거짓 하나를 돌려주는 함수다. `if`를 두 번 써서 `0`~`3`이거나 `-1`이면 `true`, 둘 다 아니면 마지막 줄의 `false`가 된다.
+- `== false`는 12주차처럼 "아니면"이다. 허용 번호가 **아니면** Toast 가지로 간다.
+- 검사에 걸리면 Switch 모양만 바뀌고 명령·로그는 없다. 빈 칸 Toast와 같은 동작이다.
+
+### 3. 준비됨일 때만 누르고, 보낸 직후 300ms 쉬기
+
+1. `activity_control.xml`에서 `ledSwitch`와 `allOffButton` 블록의 `android:layout_marginTop="16dp"` 아래에 각각 `android:enabled="false"` 한 줄을 넣는다.
+
+```xml
+        android:layout_marginTop="16dp"
+        android:enabled="false"
+        android:text="@string/led" />
+```
+
+```xml
+        android:layout_marginTop="16dp"
+        android:enabled="false"
+        android:text="@string/all_off" />
+```
+
+   이대로 실행하면 두 버튼이 늘 회색이다. 2번에서 코드로 켠다.
+
+2. `ControlActivity.kt`의 `// 4.` collect 안, `binding.stateText.text = "상태: $state"` **아래**에 `// 13.` 줄들을 넣는다. 블록 전체는 아래와 같다. 예제 파일에는 `// (확장)`이 붙은 `pwmSeekBar` 줄이 두 개 더 있다. 그 두 줄은 SeekBar를 만드는 5단계에서 넣는다.
+
+```kotlin
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                Bleuno.client?.connectionState?.collect { state ->
+                    binding.stateText.text = "상태: $state"
+                    // 13. 먼저 모두 끄고, 준비됨일 때만 LED Switch·[전체 끄기]를 켠다. MainActivity 8번과 같은 방법이다(14주차 1일차).
+                    //     준비되지 않았을 때 보낸 명령은 라이브러리가 버리므로 아예 누르지 못하게 한다.
+                    binding.ledSwitch.isEnabled = false
+                    binding.allOffButton.isEnabled = false
+                    if (state == ConnState.READY) {
+                        binding.ledSwitch.isEnabled = true
+                        binding.allOffButton.isEnabled = true
+                    }
+                }
+            }
+        }
+```
+
+| 빨간 글자 | 가져올 import |
+|---|---|
+| `ConnState` | `com.example.smartio.bleuno.ConnState` |
+
+3. 실행해 확인한다.
+   - 목록 줄 탭 → `준비됨` → [제어 화면]: `상태: 준비됨`이 되자마자 Switch와 [전체 끄기]가 켜진다.
+   - [뒤로] → [해제] → [연결]로 들어오기: `상태: 연결 안 됨`, Switch와 [전체 끄기]가 회색이라 눌리지 않는다. 13주차에 이 길로 들어와 Switch를 켜면 Logcat에 `send(가짜): 준비되지 않아 무시함` 경고가 찍혔는데, 이제는 누를 수 없어 경고도 없다.
+
+4. 클래스 끝, `isAllowedIndex()` 함수 **아래**에 한 줄을 비우고 `pauseButtons()` 함수를 넣는다. 예제 파일의 `// (확장)` 줄 두 개는 이번에도 5단계에서 넣는다.
+
+```kotlin
+    // 15. 명령을 보낸 직후 300ms 동안 LED Switch·[전체 끄기]를 꺼 두어 연달아 누르지 못하게 한다(14주차 1일차).
+    //     5주차 isEnabled로 버튼 막기에 6주차 코루틴 delay를 썼다. 300ms 뒤에도 준비됨일 때만 다시 켠다(그사이 끊겼으면 13번이 끈 채로 둔다).
+    private fun pauseButtons() {
+        binding.ledSwitch.isEnabled = false
+        binding.allOffButton.isEnabled = false
+        lifecycleScope.launch {
+            delay(300)
+            if (Bleuno.client?.isReady == true) {
+                binding.ledSwitch.isEnabled = true
+                binding.allOffButton.isEnabled = true
+            }
+        }
+    }
+```
+
+| 빨간 글자 | 가져올 import |
+|---|---|
+| `delay` | `kotlinx.coroutines.delay` |
+
+`lifecycleScope`와 `launch`는 12주차 `// 4.`에서 이미 import했다.
+
+5. `send`를 부르는 세 곳에서 `append` 줄 **아래**에 `// 14.` 주석과 `pauseButtons()`를 넣는다.
+
+켜기(`// 5.` 가지):
+
+```kotlin
+                Bleuno.client?.send("on $index")
+                binding.logText.append("on $index\n")
+                // 14. 보낸 직후 300ms 동안 버튼을 꺼 둔다. 끄고 켜는 일은 15번 함수가 한다(14주차 1일차).
+                pauseButtons()
+```
+
+끄기(`// 6.` 가지):
+
+```kotlin
+                Bleuno.client?.send("off $index")
+                binding.logText.append("off $index\n")
+                // 14. 보낸 직후 300ms 동안 버튼을 꺼 둔다(14주차 1일차).
+                pauseButtons()
+```
+
+[전체 끄기](`// 7.` 리스너):
+
+```kotlin
+            Bleuno.client?.send("off -1")
+            binding.logText.append("off -1\n")
+            // 14. 보낸 직후 300ms 동안 버튼을 꺼 둔다(14주차 1일차).
+            pauseButtons()
+```
+
+6. 실행하고 `3` → Switch를 켠다. 누른 순간 Switch와 [전체 끄기]가 잠깐(0.3초) 회색이 되었다가 다시 켜진다. 300ms는 짧아 잘 안 보이면 `delay(300)`을 잠시 `delay(3000)`으로 바꿔 3초 동안 회색인 것을 확인하고, **`delay(300)`으로 되돌린다.**
+
+- XML의 `android:enabled="false"`: 5주차 `stopButton`, 12주차 `controlButton`처럼 "꺼진 채로 시작"이다. client가 없거나 첫 상태가 오기 전에도 누를 수 없다.
+- `// 13.`: 12주차 연결 화면(`MainActivity` 8번)과 같은 방법으로 먼저 모두 끄고, `준비됨`일 때만 켠다. 제어 화면은 "준비됨이냐 아니냐"만 보면 되므로 7주차 `when` 대신 `if` 하나로 썼다. [뒤로]는 늘 켜 둔다.
+- `pauseButtons()`: 5주차 `isEnabled`로 끄고, 6주차 `lifecycleScope.launch { delay() }`로 기다렸다가 켠다. 화면이 닫히면 이 코루틴도 함께 취소된다.
+- `Bleuno.client?.isReady == true`: `isReady`는 상태가 `준비됨`이면 `true`다. client가 없으면 `?.`의 결과가 `null`이고 `null == true`는 `false`라 켜지 않는다. 7주차 `scanJob?.isActive == true`와 같은 모양이다. 300ms 사이에 끊겼으면 13번이 끈 상태를 그대로 둔다.
+- `delay(300)`을 `launch { }` 밖에 쓰면 6주차에 본 `Suspend function 'suspend fun delay(timeMillis: Long): Unit' should be called only from a coroutine or another suspend function.` 오류가 난다.
+
+### 4. 오류 응답을 AlertDialog와 색으로 알리기
+
+1. `onStart()`의 `if (result != null) {` 안, `binding.logText.append("응답: $json\n")` **아래**에 `// 16.` 가지를 넣는다. `onMessage` 안쪽은 아래와 같다.
+
+```kotlin
+            val result = BleunoMessage.result(json)
+            if (result != null) {
+                binding.logText.append("응답: $json\n")
+                // 16. result가 "ok"가 아니면(err·fail) 로그 글자를 colors.xml의 빨간색으로 바꾸고, "ms"(설명) 값을 꺼내 AlertDialog로 알린다(14주차 1일차).
+                //     ok면 초록색으로 되돌린다. 응답은 onStart~onStop 사이(거의 항상 화면이 보이는 동안)에만 받으므로 여기서 창을 띄운다.
+                if (result != "ok") {
+                    val message = BleunoMessage.message(json) ?: ""
+                    binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_error))
+                    AlertDialog.Builder(this)
+                        .setTitle("보드가 오류를 알렸습니다")
+                        .setMessage("응답: $result · $message")
+                        .setPositiveButton("확인", null)
+                        .show()
+                } else {
+                    binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_ok))
+                }
+            }
+```
+
+2. 빨간 글자를 Alt+Enter → Import로 가져온다. `AlertDialog`는 목록에 두 개가 뜨면 **`androidx.appcompat.app.AlertDialog`**를 고른다(10주차와 같다).
+
+| 빨간 글자 | 가져올 import |
+|---|---|
+| `ContextCompat` | `androidx.core.content.ContextCompat` |
+| `AlertDialog` | `androidx.appcompat.app.AlertDialog` |
+
+3. 실행하고 `3` → Switch 켜기. 응답 `ok`가 오는 순간 로그 글자 전체가 **초록색**이 된다.
+4. 오류 응답을 일부러 만들어 본다. `// 5.` 가지의 `send` 줄에서 `"on $index"`를 `"on$index"`(띄어쓰기 없음)로 **한 곳만** 바꾸고 실행한다. 로그 줄 `append("on $index\n")`은 바꾸지 않는다.
+5. [제어 화면]에 들어온 직후 `3` → Switch 켜기를 한다.
+   - 로그: `on 3` 다음 `응답: {"result":"fail","ms":"unknown command"}`, 로그 글자 전체가 **빨간색**
+   - AlertDialog: 제목 `보드가 오류를 알렸습니다`, 내용 `응답: fail · unknown command`, [확인]
+   - Logcat `tag:BLE`: `writeCharacteristic(가짜): "on3"` → `onCharacteristicChanged(가짜): {"result":"fail","ms":"unknown command"}`
+6. 창이 떠 있는 동안 **캡처한다.** 빨간 로그와 AlertDialog가 함께 보이는 화면이 제출 캡처 2다(6단계). [확인]을 누르면 창이 사라진다.
+7. [확인] → [전체 끄기]를 누르면 `ok` 응답이 와서 로그가 다시 초록색이 된다.
+8. `"on$index"`를 **`"on $index"`로 되돌리고** 한 번 더 실행해 `ok`로 끝나는지 본다.
+
+- `result != "ok"`: `err`(명령은 맞지만 값이 틀림)와 `fail`(모르는 명령) 모두 이 가지로 온다.
+- `BleunoMessage.message(json) ?: ""`: `"ms"` 설명 값을 꺼낸다. `String?`이라 3주차 `?:`로 없을 때 빈 글자를 넣는다. 로그에는 JSON 원문이 이미 있으므로 창에는 사람이 읽기 쉬운 `응답: fail · unknown command`를 보여 준다.
+- `ContextCompat.getColor(this, R.color.log_error)`: `colors.xml`에 이름 붙인 색의 실제 값을 꺼낸다. `setTextColor`는 로그 칸 **전체** 글자색을 바꾼다. 한 줄만 색을 바꾸는 방법은 다루지 않는다.
+- AlertDialog는 10주차와 같은 모양이다. 이 중괄호는 람다지만 `object :` 익명 객체 안이 아니라서 `this`가 그대로 `ControlActivity`다.
+- 응답은 `onStart`~`onStop` 사이에만 받으므로 창을 띄울 때 화면이 보이고 있다. 12주차 "창은 화면이 보이는 동안만 띄운다"와 맞는다.
+- 앱 로그에는 `on 3`인데 실제로 보낸 글자는 `"on3"`이었다. **명령이 이상하면 Logcat `writeCharacteristic` 줄에서 보낸 글자를 확인한다.**
+
+### 5. (확장) SeekBar로 LED 0 밝기 조절하기
+
+시간이 남으면 한다. 하지 않으면 이 단계를 건너뛰고 6단계로 간다.
+
+1. `strings.xml`의 `all_off` 줄 아래에 한 줄을 넣는다.
+
+```xml
+    <string name="pwm_title">LED 0 밝기</string>
+```
+
+2. `activity_control.xml`에서 `allOffButton` 블록을 닫는 `/>` **아래**, `명령 로그` 제목 `TextView` **위**에 한 줄을 비우고 가로 줄을 넣는다.
+
+```xml
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pwm_title"
+            android:textSize="16sp" />
+
+        <SeekBar
+            android:id="@+id/pwmSeekBar"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:max="255" />
+
+    </LinearLayout>
+```
+
+3. `ControlActivity.kt`의 `// 7.` [전체 끄기] 리스너를 닫는 `}` **아래**(onCreate를 닫는 `}` 바로 위)에 한 줄을 비우고 넣는다.
+
+```kotlin
+        // 17. (확장) SeekBar로 LED 0의 밝기(0~255)를 정한다. 손을 뗄 때 "pwm 0 값" 명령을 한 번 보낸다(14주차 1일차).
+        //     object : SeekBar.OnSeekBarChangeListener { … }는 10주차 BroadcastReceiver와 같은 익명 객체 틀이다. 함수 세 개를 모두 적어야 한다.
+        binding.pwmSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                // 끌고 있는 동안에는 보내지 않는다. 움직일 때마다 보내면 명령이 너무 많이 쌓인다.
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                // 손을 댈 때는 할 일이 없다.
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                val value = binding.pwmSeekBar.progress
+                Bleuno.client?.send("pwm 0 $value")
+                binding.logText.append("pwm 0 $value\n")
+                pauseButtons()
+            }
+        })
+```
+
+| 빨간 글자 | 가져올 import |
+|---|---|
+| `SeekBar` | `android.widget.SeekBar` |
+
+4. SeekBar도 `준비됨`일 때만 켜지고 보낸 직후 꺼지게 `// (확장)` 줄을 두 곳에 두 줄씩 더한다. `// 13.` collect 블록은 아래처럼 된다.
+
+```kotlin
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                Bleuno.client?.connectionState?.collect { state ->
+                    binding.stateText.text = "상태: $state"
+                    // 13. 먼저 모두 끄고, 준비됨일 때만 LED Switch·[전체 끄기]를 켠다. MainActivity 8번과 같은 방법이다(14주차 1일차).
+                    //     준비되지 않았을 때 보낸 명령은 라이브러리가 버리므로 아예 누르지 못하게 한다.
+                    binding.ledSwitch.isEnabled = false
+                    binding.allOffButton.isEnabled = false
+                    binding.pwmSeekBar.isEnabled = false // (확장) 17번 SeekBar도 같이 끈다.
+                    if (state == ConnState.READY) {
+                        binding.ledSwitch.isEnabled = true
+                        binding.allOffButton.isEnabled = true
+                        binding.pwmSeekBar.isEnabled = true // (확장)
+                    }
+                }
+            }
+        }
+```
+
+`// 15.` `pauseButtons()` 함수는 아래처럼 된다.
+
+```kotlin
+    private fun pauseButtons() {
+        binding.ledSwitch.isEnabled = false
+        binding.allOffButton.isEnabled = false
+        binding.pwmSeekBar.isEnabled = false // (확장)
+        lifecycleScope.launch {
+            delay(300)
+            if (Bleuno.client?.isReady == true) {
+                binding.ledSwitch.isEnabled = true
+                binding.allOffButton.isEnabled = true
+                binding.pwmSeekBar.isEnabled = true // (확장)
+            }
+        }
+    }
+```
+
+5. 실행하고 `준비됨` 제어 화면에서 `LED 0 밝기` 막대를 가운데쯤 끌었다가 놓는다. 놓는 순간 로그에 `pwm 0 127`(값은 위치에 따라 다름) 다음 `응답: {"result":"ok","ms":"pwm set"}`이 쌓인다. 실보드면 0번 LED(GPIO4)의 밝기가 바뀐다.
+
+- `object : SeekBar.OnSeekBarChangeListener { … }`: 10주차 `object : BroadcastReceiver() { override fun onReceive … }`와 같은 익명 객체 틀이다. 할 일이 세 개(끄는 중·손 댐·손 뗌)인 리스너라 `setOnCheckedChangeListener { }`처럼 중괄호 하나로 쓸 수 없고, 함수 세 개를 **모두** 적는다.
+- 끄는 동안(`onProgressChanged`)마다 보내면 write 큐에 명령이 수십 개 쌓인다. 손을 뗄 때(`onStopTrackingTouch`) 한 번만 보낸다.
+- `binding.pwmSeekBar.progress`: 막대의 지금 값이다. XML `android:max="255"`라 `0`~`255`만 나온다.
+- 명령은 `pwm 0 값`으로 LED 0번에 고정했다. 규약 표의 `pwm N V`다.
+
+완성한 `ControlActivity.kt` 전체는 아래와 같다. 같은 코드가 [examples/day1/ControlActivity.kt](examples/day1/ControlActivity.kt)에 있다.
+
+```kotlin
+package com.example.smartio
+
+import android.os.Bundle
+import android.widget.SeekBar
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.example.smartio.bleuno.Bleuno
+import com.example.smartio.bleuno.BleunoMessage
+import com.example.smartio.bleuno.ConnState
+import com.example.smartio.databinding.ActivityControlBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+class ControlActivity : AppCompatActivity() {
+    // ViewBinding 틀: activity_control.xml → ActivityControlBinding
+    private lateinit var binding: ActivityControlBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        binding = ActivityControlBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        // 1. 연결 화면이 보낸 장치 이름을 꺼내 상단에 보여 준다.
+        val name = intent.getStringExtra("name") ?: ""
+        binding.deviceText.text = "장치: $name"
+
+        // 2. LED Switch: 켜면 on, 끄면 off 명령을 로그에 쌓는다.
+        //    13주차 1일차: 입력 칸은 이제 핀 번호가 아니라 LED 번호(0~3)다. 로그에 쌓기 전에 보드에도 명령을 보낸다(5·6번).
+        binding.ledSwitch.setOnCheckedChangeListener { _, isChecked ->
+            val pin = binding.pinEdit.text.toString()
+            if (pin.isEmpty()) {
+                Toast.makeText(this, "LED 번호를 입력하세요", Toast.LENGTH_SHORT).show()
+            } else if (isAllowedIndex(pin.toInt()) == false) {
+                // 11. 허용되지 않는 번호면 보드에 보내지 않고 Toast로 알린다. 번호 확인은 12번 함수가 한다(14주차 1일차).
+                Toast.makeText(this, "허용되지 않는 번호", Toast.LENGTH_SHORT).show()
+            } else if (isChecked) {
+                // 5. 입력한 글자를 숫자(LED 번호)로 바꿔 "on 번호" 명령을 보드에 보내고, 보낸 명령을 로그에 남긴다(13주차 1일차).
+                //    send는 끝에 "\n"을 붙여 차례대로 보낸다. Bleuno.client가 없으면(null) ?.에서 멈추고 아무것도 보내지 않는다.
+                val index = pin.toInt()
+                Bleuno.client?.send("on $index")
+                binding.logText.append("on $index\n")
+                // 14. 보낸 직후 300ms 동안 버튼을 꺼 둔다. 끄고 켜는 일은 15번 함수가 한다(14주차 1일차).
+                pauseButtons()
+            } else {
+                // 6. 끄면 "off 번호" 명령을 보낸다. 5번과 같은 모양이다(13주차 1일차).
+                val index = pin.toInt()
+                Bleuno.client?.send("off $index")
+                binding.logText.append("off $index\n")
+                // 14. 보낸 직후 300ms 동안 버튼을 꺼 둔다(14주차 1일차).
+                pauseButtons()
+            }
+        }
+
+        // 3. [뒤로] 버튼: 이 화면을 닫고 연결 화면으로 돌아간다.
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+
+        // 4. 연결 화면이 만든 클라이언트를 Bleuno.client로 꺼내 연결 상태를 상단에 보여 준다(12주차 2일차).
+        //    MainActivity 7번과 같은 collect 틀이다. client가 없으면(null) ?.에서 멈추고 "상태: ?"가 그대로 남는다.
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                Bleuno.client?.connectionState?.collect { state ->
+                    binding.stateText.text = "상태: $state"
+                    // 13. 먼저 모두 끄고, 준비됨일 때만 LED Switch·[전체 끄기]를 켠다. MainActivity 8번과 같은 방법이다(14주차 1일차).
+                    //     준비되지 않았을 때 보낸 명령은 라이브러리가 버리므로 아예 누르지 못하게 한다.
+                    binding.ledSwitch.isEnabled = false
+                    binding.allOffButton.isEnabled = false
+                    binding.pwmSeekBar.isEnabled = false // (확장) 17번 SeekBar도 같이 끈다.
+                    if (state == ConnState.READY) {
+                        binding.ledSwitch.isEnabled = true
+                        binding.allOffButton.isEnabled = true
+                        binding.pwmSeekBar.isEnabled = true // (확장)
+                    }
+                }
+            }
+        }
+
+        // 7. [전체 끄기] 버튼: 번호 자리에 -1을 보내면 보드의 LED가 모두 꺼진다(13주차 1일차).
+        binding.allOffButton.setOnClickListener {
+            Bleuno.client?.send("off -1")
+            binding.logText.append("off -1\n")
+            // 14. 보낸 직후 300ms 동안 버튼을 꺼 둔다(14주차 1일차).
+            pauseButtons()
+        }
+
+        // 17. (확장) SeekBar로 LED 0의 밝기(0~255)를 정한다. 손을 뗄 때 "pwm 0 값" 명령을 한 번 보낸다(14주차 1일차).
+        //     object : SeekBar.OnSeekBarChangeListener { … }는 10주차 BroadcastReceiver와 같은 익명 객체 틀이다. 함수 세 개를 모두 적어야 한다.
+        binding.pwmSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                // 끌고 있는 동안에는 보내지 않는다. 움직일 때마다 보내면 명령이 너무 많이 쌓인다.
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                // 손을 댈 때는 할 일이 없다.
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                val value = binding.pwmSeekBar.progress
+                Bleuno.client?.send("pwm 0 $value")
+                binding.logText.append("pwm 0 $value\n")
+                pauseButtons()
+            }
+        })
+    }
+
+    // 8. 화면이 보이기 시작하면 보드가 보내는 응답(JSON 한 줄)을 받도록 등록한다(13주차 1일차).
+    //    명령 하나마다 응답이 한 줄씩 온다. { json -> }는 메인 스레드에서 불리므로 안에서 View를 바로 바꿔도 된다.
+    override fun onStart() {
+        super.onStart()
+        Bleuno.client?.onMessage { json ->
+            // 9. JSON에서 "result"(ok·err·fail) 값을 꺼내 보고, 명령의 응답이면 받은 JSON 한 줄을 그대로 로그에 남긴다(13주차 1일차).
+            //    로그 예: 응답: {"result":"ok","ms":"led(s) on"}. result가 없는 줄은 명령의 응답이 아니다(가짜 보드가 10초마다 보내는 입력 이벤트, 14주차에 다룬다). 로그에 넣지 않는다.
+            val result = BleunoMessage.result(json)
+            if (result != null) {
+                binding.logText.append("응답: $json\n")
+                // 16. result가 "ok"가 아니면(err·fail) 로그 글자를 colors.xml의 빨간색으로 바꾸고, "ms"(설명) 값을 꺼내 AlertDialog로 알린다(14주차 1일차).
+                //     ok면 초록색으로 되돌린다. 응답은 onStart~onStop 사이(거의 항상 화면이 보이는 동안)에만 받으므로 여기서 창을 띄운다.
+                if (result != "ok") {
+                    val message = BleunoMessage.message(json) ?: ""
+                    binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_error))
+                    AlertDialog.Builder(this)
+                        .setTitle("보드가 오류를 알렸습니다")
+                        .setMessage("응답: $result · $message")
+                        .setPositiveButton("확인", null)
+                        .show()
+                } else {
+                    binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_ok))
+                }
+            }
+        }
+    }
+
+    // 10. 화면이 안 보이게 되면 응답 받기를 푼다(null). onStart의 등록과 반드시 짝을 맞춘다(13주차 1일차).
+    //     10주차 배터리 Receiver의 등록·해제와 같은 규칙이다. 풀지 않으면 보이지 않는 화면의 로그를 계속 고치려 한다.
+    override fun onStop() {
+        super.onStop()
+        Bleuno.client?.onMessage(null)
+    }
+
+    // 12. 보드에 보내도 되는 번호면 true, 아니면 false(14주차 1일차).
+    //     수업 보드의 LED 번호는 0~3이고, -1은 "전체"라는 약속이다(7번 [전체 끄기]). 입력 칸은 inputType이 number라 -를 적을 수 없다.
+    //     펌웨어는 번호 범위를 확인하지 않아서 이 밖의 번호를 보내면 보드가 어떻게 될지 모른다. 그래서 보내기 전에 앱이 막는다.
+    private fun isAllowedIndex(index: Int): Boolean {
+        if (listOf(0, 1, 2, 3).contains(index)) {
+            return true
+        }
+        if (index == -1) {
+            return true
+        }
+        return false
+    }
+
+    // 15. 명령을 보낸 직후 300ms 동안 LED Switch·[전체 끄기]를 꺼 두어 연달아 누르지 못하게 한다(14주차 1일차).
+    //     5주차 isEnabled로 버튼 막기에 6주차 코루틴 delay를 썼다. 300ms 뒤에도 준비됨일 때만 다시 켠다(그사이 끊겼으면 13번이 끈 채로 둔다).
+    private fun pauseButtons() {
+        binding.ledSwitch.isEnabled = false
+        binding.allOffButton.isEnabled = false
+        binding.pwmSeekBar.isEnabled = false // (확장)
+        lifecycleScope.launch {
+            delay(300)
+            if (Bleuno.client?.isReady == true) {
+                binding.ledSwitch.isEnabled = true
+                binding.allOffButton.isEnabled = true
+                binding.pwmSeekBar.isEnabled = true // (확장)
+            }
+        }
+    }
+}
+```
+
+`activity_control.xml` 전체 — [examples/day1/activity_control.xml](examples/day1/activity_control.xml)
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/deviceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/device_unknown"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/stateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/state_unknown"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/pinEdit"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="@string/pin_hint"
+        android:inputType="number"
+        android:maxLength="2" />
+
+    <Switch
+        android:id="@+id/ledSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:enabled="false"
+        android:text="@string/led" />
+
+    <Button
+        android:id="@+id/allOffButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:enabled="false"
+        android:text="@string/all_off" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pwm_title"
+            android:textSize="16sp" />
+
+        <SeekBar
+            android:id="@+id/pwmSeekBar"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:max="255" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/log_title"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/logText"
+        android:layout_width="240dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/back" />
+
+</LinearLayout>
+```
+
+`strings.xml` 전체 — [examples/day1/strings.xml](examples/day1/strings.xml)
+
+```xml
+<resources>
+    <string name="app_name">Smart I/O Controller</string>
+    <string name="device_name_hint">장치 이름</string>
+    <string name="auto_connect">자동 연결</string>
+    <string name="connect">연결</string>
+    <string name="device_unknown">장치: ?</string>
+    <string name="pin_hint">LED 번호 (0~3)</string>
+    <string name="led">LED</string>
+    <string name="log_title">명령 로그</string>
+    <string name="back">뒤로</string>
+    <string name="scan">검색</string>
+    <string name="stop">중지</string>
+    <string name="state_idle">대기 중</string>
+    <string name="retry">다시 시도</string>
+    <string name="disconnect">해제</string>
+    <string name="battery_unknown">배터리 ?</string>
+    <string name="check_permission">권한 확인</string>
+    <string name="device_list_title">검색된 장치</string>
+    <string name="last_device_none">마지막 장치: 없음</string>
+    <string name="show_contacts">연락처 보기</string>
+    <string name="control_screen">제어 화면</string>
+    <string name="state_unknown">상태: ?</string>
+    <string name="all_off">전체 끄기</string>
+    <string name="pwm_title">LED 0 밝기</string>
+</resources>
+```
+
+확장을 하지 않았다면 내 파일에는 `activity_control.xml`의 `LinearLayout` 덩어리, `strings.xml`의 `pwm_title`, `ControlActivity.kt`의 `import android.widget.SeekBar`·`// 17.` 덩어리·`// (확장)`이 붙은 네 줄이 없다. 나머지는 위와 같아야 한다.
+13주차 완성 코드와 무엇이 다른지 한눈에 보려면 Android Studio에서 두 파일을 골라 오른쪽 클릭 › **Compare Files**를 쓴다.
+
+### 6. 1일차 캡처와 제출
+
+1. 4단계에서 바꾼 `"on$index"`가 `"on $index"`로 되돌려져 있는지 확인하고 한 번 실행한다.
+2. 아래 두 장을 찍는다. 둘 다 **세로 화면**에서 찍고, 계정 이름·알림 내용이 보이지 않게 한다.
+
+| 번호 | 캡처 | 찍는 곳 |
+|---|---|---|
+| 1 | 입력 칸 `9`, Toast `허용되지 않는 번호`, 명령 로그에 `on 9`가 없는 화면 | 2단계 5번 |
+| 2 | 로그가 빨간색이고 AlertDialog `보드가 오류를 알렸습니다 / 응답: fail · unknown command`가 떠 있는 화면 | 4단계 6번 |
+
+3. 제출물은 네 가지다.
+   1. `ControlActivity.kt`
+   2. `activity_control.xml`
+   3. 캡처 1(허용되지 않는 번호 Toast)
+   4. 캡처 2(오류 대화상자와 빨간 로그)
+
+- 캡처 1은 Toast가 2초 만에 사라지니 뜨자마자 찍는다. 창이 떠 있는 캡처 2는 [확인]을 누르기 전에 찍는다.
+- 캡처 2를 찍을 때 `"on$index"`로 바꿔 두었다면 찍고 나서 **반드시 되돌린다.** 되돌린 뒤 한 번 더 실행해 로그가 초록 `ok`로 끝나는지 본다.
+- 제출 위치와 마감은 수업 공지를 따른다.
+- 15주차 최종 제출(완성 앱·캡처 세트·레포트) 조건은 [13주차 과제 안내](../week13_ble_output/project_brief.md)에 있다.
+
+## 2일차
+
+### 1. 1일차 코드 실행하고 입력 이벤트 줄 보기
+
+1. 1일차까지 고친 `SmartIO` 프로젝트를 열고 `Run ▶`을 누른다.
 2. Logcat 창의 필터에 `package:mine tag:BLE`를 넣어 둔다.
 3. [검색]을 누르고 목록에 `ESP32_BLE_FAKE1 (00:11:22:33:44:01)`이 들어오면 그 줄을 누른다. 상태가 `연결 중` → `서비스 확인 중` → `준비됨`이 되면 [제어 화면]을 누른다.
-4. 제어 화면에 아래가 보이면 시작할 수 있다. `LED 0 밝기` 줄은 13주차 확장을 한 사람만 있다.
+4. 제어 화면에 아래가 보이면 시작할 수 있다. `LED 0 밝기` 줄은 1일차 확장(5단계)을 한 사람만 있다.
 
 ```text
 장치: ESP32_BLE_FAKE1 (00:11:22:33:44:01)
@@ -37,14 +716,14 @@ LED 0 밝기 ─○──────
 onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
 ```
 
-   가짜 보드가 **입력 이벤트**를 흉내 내는 줄이다. 13주차 9번 `if (result != null)`이 이 줄을 걸러서 앱 로그에는 없다. 오늘은 이 줄과 `dht11`(온도·습도) 응답을 **입력 이력** 목록에 쌓는다.
-6. `3` → LED Switch 켜기를 해 본다. 로그에 `on 3`과 `응답: {"result":"ok","ms":"led(s) on"}`이 쌓이면 13주차 그대로다.
+   가짜 보드가 **입력 이벤트**를 흉내 내는 줄이다. 9번 `if (result != null)`이 이 줄을 걸러서 앱 로그에는 없다. 오늘은 이 줄과 `dht11`(온도·습도) 응답을 **입력 이력** 목록에 쌓는다.
+6. `3` → LED Switch 켜기를 해 본다. 로그에 `on 3`과 `응답: {"result":"ok","ms":"led(s) on"}`이 쌓이면 1일차 그대로다.
 
-지금 내 `ControlActivity.kt`는 [13주차 완성본](../week13_ble_output/examples/day2/ControlActivity.kt), `MainActivity.kt`는 [13주차 완성본 연결 화면](../week13_ble_output/examples/day2/MainActivity.kt)과 같아야 한다. 많이 다르면 그 파일로 바꾸고 시작한다.
+지금 내 `ControlActivity.kt`는 [1일차 완성본](examples/day1/ControlActivity.kt), `MainActivity.kt`는 [1일차 완성본 연결 화면](examples/day1/MainActivity.kt)과 같아야 한다. 많이 다르면 그 파일로 바꾸고 시작한다. 연결 화면은 1일차에 손대지 않았으므로 13주차 그대로다.
 
 ### 2. strings.xml에 문자열 네 줄 넣기
 
-1. `app › res › values › strings.xml`을 연다. `pwm_title` 줄 아래(마지막 `</resources>` 바로 위)에 네 줄을 넣는다. 13주차 확장을 하지 않아 `pwm_title`이 없으면 `all_off` 줄 아래에 넣는다.
+1. `app › res › values › strings.xml`을 연다. `pwm_title` 줄 아래(마지막 `</resources>` 바로 위)에 네 줄을 넣는다. 1일차 확장(5단계)을 하지 않아 `pwm_title`이 없으면 `all_off` 줄 아래에 넣는다.
 
 ```xml
     <string name="input_start">온습도 받기 시작</string>
@@ -53,7 +732,7 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
     <string name="lost_test">끊김 시험</string>
 ```
 
-전체는 아래와 같다. 같은 코드가 [examples/day1/strings.xml](examples/day1/strings.xml)에 있다.
+전체는 아래와 같다. 같은 코드가 [examples/day2/strings.xml](examples/day2/strings.xml)에 있다.
 
 ```xml
 <resources>
@@ -136,7 +815,7 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
         android:transcriptMode="alwaysScroll" />
 ```
 
-전체는 아래와 같다. 같은 코드가 [examples/day1/activity_control.xml](examples/day1/activity_control.xml)에 있다.
+전체는 아래와 같다. 같은 코드가 [examples/day2/activity_control.xml](examples/day2/activity_control.xml)에 있다.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -285,7 +964,7 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
 [뒤로]
 ```
 
-- 가로 버튼 줄은 12주차 [검색]·[중지]·[해제] 줄과 같은 모양이다. 두 버튼은 13주차 LED Switch처럼 `android:enabled="false"`로 꺼진 채 시작하고, `준비됨`일 때 코드로 켠다(6단계).
+- 가로 버튼 줄은 12주차 [검색]·[중지]·[해제] 줄과 같은 모양이다. 두 버튼은 1일차 LED Switch처럼 `android:enabled="false"`로 꺼진 채 시작하고, `준비됨`일 때 코드로 켠다(6단계).
 - `ListView`는 11주차 `검색된 장치` 목록과 같은 모양이다. `layout_height="0dp"`와 `layout_weight="2"`는 위 명령 로그 칸(`1`)과 남은 높이를 1:2로 나눈다.
 - `android:transcriptMode="alwaysScroll"`: 새 줄이 들어오면 목록이 맨 아래로 내려간다. 이번 주에 처음 쓰는 속성이다.
 
@@ -294,17 +973,17 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
 1. `ControlActivity.kt`를 연다. 클래스 안, `private lateinit var binding: ActivityControlBinding` 줄 **아래**에 한 줄을 비우고 넣는다.
 
 ```kotlin
-    // 14주차 1일차: 입력 이력 목록(시각과 값 한 줄씩)과 그 목록을 ListView에 보여 주는 어댑터.
+    // 14주차 2일차: 입력 이력 목록(시각과 값 한 줄씩)과 그 목록을 ListView에 보여 주는 어댑터.
     // 응답을 받는 onStart(8번)에서도 써야 하므로 onCreate 밖, 클래스 안에 둔다. 어댑터는 onCreate에서 만든다(18번). lateinit은 binding과 같은 틀이다.
     // 이 목록은 이 화면이 가진 것이라, 회전해서 화면이 새로 만들어지면 빈 목록으로 다시 시작한다(받기도 27번 onStop에서 꺼진다).
     private val history = mutableListOf<String>()
     private lateinit var historyAdapter: ArrayAdapter<String>
 ```
 
-2. `onCreate()` 안, `// 7.` [전체 끄기] 리스너 **아래**(13주차 확장을 했으면 `// 17.` SeekBar 리스너를 닫는 `})` 아래), onCreate를 닫는 `}` **위**에 한 줄을 비우고 넣는다.
+2. `onCreate()` 안, `// 7.` [전체 끄기] 리스너 **아래**(1일차 확장을 했으면 `// 17.` SeekBar 리스너를 닫는 `})` 아래), onCreate를 닫는 `}` **위**에 한 줄을 비우고 넣는다.
 
 ```kotlin
-        // 18. 입력 이력 ListView에 어댑터를 붙인다. 11주차 장치 목록(MainActivity 16번)과 같은 틀이다(14주차 1일차).
+        // 18. 입력 이력 ListView에 어댑터를 붙인다. 11주차 장치 목록(MainActivity 16번)과 같은 틀이다(14주차 2일차).
         historyAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, history)
         binding.inputList.adapter = historyAdapter
 ```
@@ -326,7 +1005,7 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
 1. 클래스 끝, `// 15.` `pauseButtons()` 함수를 닫는 `}` **아래**(클래스를 닫는 마지막 `}` 위)에 한 줄을 비우고 함수를 넣는다.
 
 ```kotlin
-    // 24. 받은 글자 앞에 지금 시각을 붙여 입력 이력 맨 아래에 한 줄 넣고, 어댑터에 알려 화면을 고친다(14주차 1일차).
+    // 24. 받은 글자 앞에 지금 시각을 붙여 입력 이력 맨 아래에 한 줄 넣고, 어댑터에 알려 화면을 고친다(14주차 2일차).
     //     SimpleDateFormat("HH:mm:ss", Locale.KOREA).format(Date())는 지금 시각을 "12:00:03"(시:분:초) 글자로 만드는 틀이다.
     //     activity_control.xml의 inputList에 transcriptMode="alwaysScroll"을 적어 두어서 새 줄이 들어오면 목록이 맨 아래로 내려간다.
     private fun addHistory(text: String) {
@@ -336,7 +1015,7 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
     }
 ```
 
-2. `onStart()`의 `// 9.` 응답 처리를 고친다. `val result = BleunoMessage.result(json)` 줄 **아래**에 `// 21.`·`// 22.`·`// 23.` 가지를 넣고, 13주차의 `if (result != null) {`를 `} else if (result != null) {`로 바꾼다. `// 9.` 주석 아래에 `14주차 1일차:` 설명 줄을 붙인다(주석이 없어도 동작은 같다). `// 16.` 아래는 13주차 그대로다.
+2. `onStart()`의 `// 9.` 응답 처리를 고친다. `val result = BleunoMessage.result(json)` 줄 **아래**에 `// 21.`·`// 22.`·`// 23.` 가지를 넣고, 1일차의 `if (result != null) {`를 `} else if (result != null) {`로 바꾼다. `// 9.` 주석 아래에 `14주차 2일차:` 설명 줄을 붙인다(주석이 없어도 동작은 같다). `// 16.` 아래는 1일차 그대로다.
    바꾼 `onStart()` 전체는 아래와 같다.
 
 ```kotlin
@@ -347,22 +1026,22 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
         Bleuno.client?.onMessage { json ->
             // 9. JSON에서 "result"(ok·err·fail) 값을 꺼내 보고, 명령의 응답이면 받은 JSON 한 줄을 그대로 로그에 남긴다(13주차 1일차).
             //    로그 예: 응답: {"result":"ok","ms":"led(s) on"}. result가 없는 줄은 명령의 응답이 아니다(가짜 보드가 10초마다 보내는 입력 이벤트, 14주차에 다룬다). 로그에 넣지 않는다.
-            //    14주차 1일차: 입력 이벤트(22번)와 dht11 응답(23번)은 명령 로그 대신 입력 이력에 넣는다. 그래서 if (result != null) 앞에 else를 붙였다.
+            //    14주차 2일차: 입력 이벤트(22번)와 dht11 응답(23번)은 명령 로그 대신 입력 이력에 넣는다. 그래서 if (result != null) 앞에 else를 붙였다.
             val result = BleunoMessage.result(json)
-            // 21. "event"(보드가 먼저 보낸 이벤트 종류)와 "value"(값)도 꺼낸다. 그 키가 없는 줄이면 null이다(14주차 1일차).
+            // 21. "event"(보드가 먼저 보낸 이벤트 종류)와 "value"(값)도 꺼낸다. 그 키가 없는 줄이면 null이다(14주차 2일차).
             val event = BleunoMessage.event(json)
             val value = BleunoMessage.value(json)
             if (event == "input") {
-                // 22. event가 "input"이면 보드가 먼저 보낸 입력 이벤트다(예: {"event":"input","index":0,"value":1}). "입력=값"으로 이력에 넣는다(14주차 1일차).
+                // 22. event가 "input"이면 보드가 먼저 보낸 입력 이벤트다(예: {"event":"input","index":0,"value":1}). "입력=값"으로 이력에 넣는다(14주차 2일차).
                 //     입력 이벤트에도 "value"가 들어 있으므로 23번보다 먼저 확인한다.
                 //     28번이 이력 줄을 띄어쓰기로 나누므로 "입력=1"처럼 띄어쓰기 없이 붙여 적는다.
                 addHistory("입력=$value")
             } else if (value != null) {
-                // 23. value가 있으면 dht11 응답이다(예: {"result":"ok","value":"[24.5,40.0]"}). 값만 "시각 값" 한 줄로 이력에 넣는다(14주차 1일차).
+                // 23. value가 있으면 dht11 응답이다(예: {"result":"ok","value":"[24.5,40.0]"}). 값만 "시각 값" 한 줄로 이력에 넣는다(14주차 2일차).
                 addHistory(value)
             } else if (result != null) {
                 binding.logText.append("응답: $json\n")
-                // 16. result가 "ok"가 아니면(err·fail) 로그 글자를 colors.xml의 빨간색으로 바꾸고, "ms"(설명) 값을 꺼내 AlertDialog로 알린다(13주차 2일차).
+                // 16. result가 "ok"가 아니면(err·fail) 로그 글자를 colors.xml의 빨간색으로 바꾸고, "ms"(설명) 값을 꺼내 AlertDialog로 알린다(14주차 1일차).
                 //     ok면 초록색으로 되돌린다. 응답은 onStart~onStop 사이(거의 항상 화면이 보이는 동안)에만 받으므로 여기서 창을 띄운다.
                 if (result != "ok") {
                     val message = BleunoMessage.message(json) ?: ""
@@ -397,10 +1076,10 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
 12:00:30 입력=1
 ```
 
-5. `3` → LED Switch 켜기를 한다. 명령 로그에는 13주차처럼 `on 3`과 응답이 쌓이고, 입력 이벤트 줄은 명령 로그에 들어가지 않는다.
+5. `3` → LED Switch 켜기를 한다. 명령 로그에는 1일차처럼 `on 3`과 응답이 쌓이고, 입력 이벤트 줄은 명령 로그에 들어가지 않는다.
 
 - `BleunoMessage.event(json)`·`BleunoMessage.value(json)`: 13주차 `result(json)`처럼 JSON에서 `"event"`·`"value"` 값을 꺼낸다. 키가 없으면 `null`(`String?`)이다.
-- 받은 줄은 세 가지로 가른다. `{"event":"input",…}` → 22번(입력 이벤트), `{"result":"ok","value":"[24.5,40.0]"}` → 23번(`dht11` 응답, 6단계에서 보낸다), 그 밖의 `result`가 있는 줄(`on`·`off`·오류) → 13주차 명령 로그.
+- 받은 줄은 세 가지로 가른다. `{"event":"input",…}` → 22번(입력 이벤트), `{"result":"ok","value":"[24.5,40.0]"}` → 23번(`dht11` 응답, 6단계에서 보낸다), 그 밖의 `result`가 있는 줄(`on`·`off`·오류) → 1일차 명령 로그.
 - **22번을 23번보다 먼저 확인한다.** 입력 이벤트에도 `"value"`가 들어 있어서, 순서를 바꾸면 이벤트가 `12:00:10 1`처럼 숫자 한 줄로 들어간다.
 - 23번 가지는 `if (value != null)` 안이라 `value`를 `String`으로 넘길 수 있다. `addHistory(BleunoMessage.value(json))`처럼 꺼내자마자 넘기면 `String?`이라 빌드 오류가 난다(3주차 null 안전성).
 - `"입력=$value"`는 띄어쓰기 없이 붙인다. 7단계에서 이력 줄을 띄어쓰기로 나누기 때문이다.
@@ -412,14 +1091,14 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
 1. 클래스 안, 4단계에서 넣은 `historyAdapter` 줄 **아래**에 한 줄을 비우고 넣는다.
 
 ```kotlin
-    // 14주차 1일차: [온습도 받기 시작]이 시작한 반복 코루틴. [중지]에서 취소하려고 보관한다(6주차 scanJob과 같다). 아직 없으면 null이다.
+    // 14주차 2일차: [온습도 받기 시작]이 시작한 반복 코루틴. [중지]에서 취소하려고 보관한다(6주차 scanJob과 같다). 아직 없으면 null이다.
     private var inputJob: Job? = null
 ```
 
 2. `onCreate()` 안, 4단계의 `// 18.` 두 줄 **아래**에 한 줄을 비우고 두 리스너를 넣는다.
 
 ```kotlin
-        // 19. [온습도 받기 시작] 버튼: 3초마다 "dht11" 명령을 보낸다. 응답은 onStart의 23번이 받아 이력에 넣는다(14주차 1일차).
+        // 19. [온습도 받기 시작] 버튼: 3초마다 "dht11" 명령을 보낸다. 응답은 onStart의 23번이 받아 이력에 넣는다(14주차 2일차).
         //     6주차 카운트다운처럼 lifecycleScope.launch 안에서 delay로 기다린다. while (isActive)는 "취소되지 않았으면 계속 되풀이한다"는 뜻이다.
         binding.inputStartButton.setOnClickListener {
             binding.inputStartButton.isEnabled = false
@@ -432,7 +1111,7 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
             }
         }
 
-        // 20. [중지] 버튼: 반복 코루틴을 취소하고 버튼을 되돌린다. 25번 함수가 한다(14주차 1일차).
+        // 20. [중지] 버튼: 반복 코루틴을 취소하고 버튼을 되돌린다. 25번 함수가 한다(14주차 2일차).
         binding.inputStopButton.setOnClickListener {
             stopInput()
         }
@@ -451,7 +1130,7 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
     }
 ```
 
-4. `onCreate()`의 `// 4.` collect 안, `// 13.`의 `if (state == ConnState.READY) { … }`를 닫는 `}` **아래**에 두 줄을 넣는다. `// (확장)` 줄은 13주차 확장을 한 사람만 있다.
+4. `onCreate()`의 `// 4.` collect 안, `// 13.`의 `if (state == ConnState.READY) { … }`를 닫는 `}` **아래**에 두 줄을 넣는다. `// (확장)` 줄은 1일차 확장을 한 사람만 있다.
 
 ```kotlin
                     if (state == ConnState.READY) {
@@ -459,7 +1138,7 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
                         binding.allOffButton.isEnabled = true
                         binding.pwmSeekBar.isEnabled = true // (확장)
                     }
-                    // 26. 상태가 바뀌면(끊김 등) 온습도 받기를 멈추고, 준비됨일 때만 [온습도 받기 시작]을 켠다. 25번 함수가 한다(14주차 1일차).
+                    // 26. 상태가 바뀌면(끊김 등) 온습도 받기를 멈추고, 준비됨일 때만 [온습도 받기 시작]을 켠다. 25번 함수가 한다(14주차 2일차).
                     stopInput()
 ```
 
@@ -469,12 +1148,12 @@ onCharacteristicChanged(가짜): {"event":"input","index":0,"value":1}
     override fun onStop() {
         super.onStop()
         Bleuno.client?.onMessage(null)
-        // 27. 응답을 받지 않는 동안에는 온습도 요청도 보내지 않는다. [중지]를 누른 것과 같다(14주차 1일차).
+        // 27. 응답을 받지 않는 동안에는 온습도 요청도 보내지 않는다. [중지]를 누른 것과 같다(14주차 2일차).
         stopInput()
     }
 ```
 
-6. 빨간 글자를 Alt+Enter → Import로 가져온다. `launch`·`delay`는 13주차에 이미 import했다.
+6. 빨간 글자를 Alt+Enter → Import로 가져온다. `launch`는 12주차, `delay`는 1일차 3단계에서 이미 import했다.
 
 | 빨간 글자 | 가져올 import |
 |---|---|
@@ -513,7 +1192,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
 1. `onCreate()` 안, 6단계의 `// 20.` [중지] 리스너 **아래**에 한 줄을 비우고 넣는다.
 
 ```kotlin
-        // 28. 입력 이력의 한 줄을 누르면 그 줄을 띄어쓰기(" ")로 나눠 받은 시각과 값을 Toast로 보여 준다(14주차 1일차).
+        // 28. 입력 이력의 한 줄을 누르면 그 줄을 띄어쓰기(" ")로 나눠 받은 시각과 값을 Toast로 보여 준다(14주차 2일차).
         //     history[position]은 history.get(position)과 같다(누른 줄 번호로 꺼내기). split(" ")은 글자를 " "가 있는 곳마다 잘라 목록으로 돌려준다.
         //     "12:00:03 [24.5,40.0]" → [0]은 "12:00:03"(시각), [1]은 "[24.5,40.0]"(값). 번호는 0부터 센다. 이력 줄은 늘 "시각 값"이라 [1]까지 있다(24번).
         binding.inputList.setOnItemClickListener { _, _, position, _ ->
@@ -569,7 +1248,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
     </LinearLayout>
 ```
 
-전체는 아래와 같다. 같은 코드가 [examples/day1/activity_main.xml](examples/day1/activity_main.xml)에 있다.
+전체는 아래와 같다. 같은 코드가 [examples/day2/activity_main.xml](examples/day2/activity_main.xml)에 있다.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -750,7 +1429,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
 
 `MainActivity.kt`를 열고 여섯 곳에 넣는다.
 
-1. 클래스 안, `bluetoothLauncher` 블록을 닫는 `}` **아래**에 한 줄을 비우고 넣는다. 맨 위 `// 14주차 1일차: 마지막으로 연결을 시작한 보드 주소 …` 설명 주석 한 줄은 예제 파일 103행에 있다.
+1. 클래스 안, `bluetoothLauncher` 블록을 닫는 `}` **아래**에 한 줄을 비우고 넣는다. 맨 위 `// 14주차 2일차: 마지막으로 연결을 시작한 보드 주소 …` 설명 주석 한 줄은 예제 파일 103행에 있다.
 
 ```kotlin
     // 화면이 새로 만들어지면(회전 등) 이 변수는 빈 글자("")로 돌아가므로 onCreate에서 저장소의 값을 다시 꺼내 넣는다(48번).
@@ -765,7 +1444,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
             val address = addresses.get(position)
             client.stopScan()
             client.connect(address)
-            // 43. 연결을 시작한 주소를 기억하고, 앱 전용 저장소 "smartio"에 "lastAddress"라는 이름표로도 저장한다(14주차 1일차).
+            // 43. 연결을 시작한 주소를 기억하고, 앱 전용 저장소 "smartio"에 "lastAddress"라는 이름표로도 저장한다(14주차 2일차).
             //     20번 장치 이름 저장과 같은 틀이다(11주차 2일차). 저장해 두면 화면이 새로 만들어져도 [재연결]이 이 주소를 쓴다(48번).
             lastAddress = address
             getSharedPreferences("smartio", MODE_PRIVATE).edit().putString("lastAddress", address).apply()
@@ -784,7 +1463,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
             binding.lastDeviceText.text = "마지막 장치: $lastName"
         }
 
-        // 48. 43번에서 저장한 마지막 보드 주소를 꺼내 lastAddress에 넣는다. 21번과 같은 틀이다(14주차 1일차).
+        // 48. 43번에서 저장한 마지막 보드 주소를 꺼내 lastAddress에 넣는다. 21번과 같은 틀이다(14주차 2일차).
         lastAddress = prefs.getString("lastAddress", "") ?: ""
 ```
 
@@ -793,7 +1472,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
 ```kotlin
                     binding.retryButton.visibility = View.GONE
                     binding.scanProgress.visibility = View.GONE
-                    // 44. [재연결]은 끊김일 때만 보인다(45번). 먼저 숨긴다(14주차 1일차).
+                    // 44. [재연결]은 끊김일 때만 보인다(45번). 먼저 숨긴다(14주차 2일차).
                     binding.reconnectButton.visibility = View.GONE
 ```
 
@@ -801,7 +1480,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
                         ConnState.LOST -> {
                             binding.scanButton.isEnabled = true
                             binding.retryButton.visibility = View.VISIBLE
-                            // 45. 사용자가 해제하지 않았는데 끊겼다. [재연결]을 보여 주고 Toast로 알린다(14주차 1일차).
+                            // 45. 사용자가 해제하지 않았는데 끊겼다. [재연결]을 보여 주고 Toast로 알린다(14주차 2일차).
                             //     collect 틀 안에서는 this가 Activity가 아니어서 Toast는 46번 함수로 띄운다. 끊김인 채로 이 화면이 다시 보이면(회전, 제어 화면에서 [뒤로]) 또 뜬다.
                             binding.reconnectButton.visibility = View.VISIBLE
                             showLostToast()
@@ -811,7 +1490,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
 5. 클래스 끝, `// 42.` `isLocationOff()` 함수 **아래**에 한 줄을 비우고 함수를 넣는다.
 
 ```kotlin
-    // 46. 끊겼다고 알리는 Toast. 7번 collect의 끊김 가지(45번)에서 부른다(14주차 1일차).
+    // 46. 끊겼다고 알리는 Toast. 7번 collect의 끊김 가지(45번)에서 부른다(14주차 2일차).
     //     collect 틀 안의 this는 Activity가 아니어서 Toast.makeText(this, …)를 바로 쓸 수 없다. 함수로 빼면 this가 Activity다.
     private fun showLostToast() {
         Toast.makeText(this, "연결이 끊겼습니다. [재연결]을 누르세요", Toast.LENGTH_SHORT).show()
@@ -821,7 +1500,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
 6. `onCreate()` 안, `// 22.` [연락처 보기] 리스너 **아래**(onCreate를 닫는 `}` 위)에 한 줄을 비우고 넣는다. 시간 제한 줄은 12단계에서 더한다.
 
 ```kotlin
-        // 47. [재연결] 버튼: 끊김일 때만 보인다(45번). 마지막으로 연결한 주소로 다시 연결한다(14주차 1일차).
+        // 47. [재연결] 버튼: 끊김일 때만 보인다(45번). 마지막으로 연결한 주소로 다시 연결한다(14주차 2일차).
         //     주소가 비어 있으면(앱을 설치하고 한 번도 목록을 눌러 연결한 적이 없으면) [검색]부터 하라고 알린다.
         binding.reconnectButton.setOnClickListener {
             if (lastAddress.isEmpty()) {
@@ -832,7 +1511,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
         }
 ```
 
-7. 실행한다. 새 import는 없다(`Toast`·`View`는 이미 있다). 목록 줄 탭 → `준비됨` → [제어 화면] → [뒤로]가 13주차처럼 되면 된다. [재연결]은 아직 보이지 않는다. 가짜 보드는 스스로 끊기지 않으니 끊김은 10단계에서 만든다.
+7. 실행한다. 새 import는 없다(`Toast`·`View`는 이미 있다). 목록 줄 탭 → `준비됨` → [제어 화면] → [뒤로]가 1일차처럼 되면 된다. [재연결]은 아직 보이지 않는다. 가짜 보드는 스스로 끊기지 않으니 끊김은 10단계에서 만든다.
 
 - `lastAddress`에만 담으면 화면이 새로 만들어질 때(회전, 제어 화면에 간 동안의 회전) 빈 글자로 돌아간다. 그래서 11주차 SharedPreferences로 저장하고(43번) onCreate에서 다시 꺼낸다(48번). 이름표는 장치 이름 `"last"`와 다른 `"lastAddress"`다.
 - 48번의 `?: ""`는 11주차 21번과 같은 이유다. `getString`은 `String?`를 돌려주고 `lastAddress`는 `String`이다.
@@ -846,9 +1525,9 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
 1. `// 7.` collect 안, 9단계의 `// 44.` 두 줄 **아래**에 두 줄을 넣는다.
 
 ```kotlin
-                    // 44. [재연결]은 끊김일 때만 보인다(45번). 먼저 숨긴다(14주차 1일차).
+                    // 44. [재연결]은 끊김일 때만 보인다(45번). 먼저 숨긴다(14주차 2일차).
                     binding.reconnectButton.visibility = View.GONE
-                    // 53. (시험용) [끊김 시험]은 준비됨일 때만 켠다(54번). 먼저 끈다(14주차 1일차).
+                    // 53. (시험용) [끊김 시험]은 준비됨일 때만 켠다(54번). 먼저 끈다(14주차 2일차).
                     binding.lostTestButton.isEnabled = false
 ```
 
@@ -859,7 +1538,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
                             binding.disconnectButton.isEnabled = true
                             // 준비됨일 때만 [제어 화면]을 누를 수 있다(12주차 2일차).
                             binding.controlButton.isEnabled = true
-                            // 54. (시험용) 준비됨일 때만 [끊김 시험]을 누를 수 있다(14주차 1일차).
+                            // 54. (시험용) 준비됨일 때만 [끊김 시험]을 누를 수 있다(14주차 2일차).
                             binding.lostTestButton.isEnabled = true
                         }
 ```
@@ -867,7 +1546,7 @@ onCharacteristicChanged(가짜): {"result":"ok","value":"[24.5,40.0]"}
 3. `onCreate()` 안, 9단계의 `// 47.` [재연결] 리스너 **아래**에 한 줄을 비우고 넣는다.
 
 ```kotlin
-        // 55. (시험용) [끊김 시험] 버튼: 가짜 보드(useFake = true)일 때만 보인다. 보드 전원을 끈 것처럼 "끊김"을 만든다(14주차 1일차).
+        // 55. (시험용) [끊김 시험] 버튼: 가짜 보드(useFake = true)일 때만 보인다. 보드 전원을 끈 것처럼 "끊김"을 만든다(14주차 2일차).
         //     simulateLost()는 FakeBleunoClient에만 있어서 as로 "가짜 클라이언트로 보고" 꺼낸 뒤 부른다. 실제 보드는 전원을 꺼서 시험한다.
         if (useFake) {
             binding.lostTestButton.visibility = View.VISIBLE
@@ -903,7 +1582,7 @@ ESP32_BLE_FAKE2 (00:11:22:33:44:02)
 7. [재연결]을 누른다. [재연결]·[다시 시도]가 숨겨지고 `연결 중` → `서비스 확인 중` → `준비됨`. Logcat에 `connectGatt(가짜): 00:11:22:33:44:01`.
 8. 다시 [끊김 시험]을 누르고, `끊김`인 채로 화면을 돌린다. Toast가 한 번 더 뜬다. 코드가 틀린 것이 아니다. StateFlow가 새 화면에 마지막 값 `끊김`을 다시 주기 때문이다(7주차). 돌린 뒤 [재연결]을 누르면 저장한 주소로 `준비됨`까지 간다.
 
-- `client as FakeBleunoClient`: `simulateLost()`는 가짜 클라이언트에만 있어서 "가짜 클라이언트로 보고" 꺼낸 뒤 부른다. 복사해 쓰는 **시험용 틀**이며 2차 과제에서 채점하지 않는다.
+- `client as FakeBleunoClient`: `simulateLost()`는 가짜 클라이언트에만 있어서 "가짜 클라이언트로 보고" 꺼낸 뒤 부른다. 복사해 쓰는 **시험용 틀**이며 채점하지 않는다.
 - `useFake = true`일 때만 보이고(55번), `준비됨`일 때만 켜진다(53·54번). 실보드(`useFake = false`)에서는 보이지 않는다.
 - 이 버튼을 넣지 않으려면 `activity_main.xml`의 `lostTestButton`, `strings.xml`의 `lost_test`, `FakeBleunoClient` import, 53·54·55번 줄을 넣지 않는다. 그러면 Fake로는 끊김을 만들 수 없다.
 
@@ -914,9 +1593,9 @@ ESP32_BLE_FAKE2 (00:11:22:33:44:02)
 1. `ControlActivity.kt`의 `// 4.` collect 안, 6단계의 `// 26.` `stopInput()` **아래**에 넣는다.
 
 ```kotlin
-                    // 26. 상태가 바뀌면(끊김 등) 온습도 받기를 멈추고, 준비됨일 때만 [온습도 받기 시작]을 켠다. 25번 함수가 한다(14주차 1일차).
+                    // 26. 상태가 바뀌면(끊김 등) 온습도 받기를 멈추고, 준비됨일 때만 [온습도 받기 시작]을 켠다. 25번 함수가 한다(14주차 2일차).
                     stopInput()
-                    // 29. 끊겼으면 Toast로 알린다. [재연결]은 연결 화면에 있으므로 [뒤로]로 돌아가라고 안내한다(14주차 1일차).
+                    // 29. 끊겼으면 Toast로 알린다. [재연결]은 연결 화면에 있으므로 [뒤로]로 돌아가라고 안내한다(14주차 2일차).
                     //     collect 틀 안에서는 this가 Activity가 아니어서 Toast는 30번 함수로 띄운다. 끊김인 채로 이 화면이 다시 보이면(회전 등) 또 뜬다.
                     if (state == ConnState.LOST) {
                         showLostToast()
@@ -926,7 +1605,7 @@ ESP32_BLE_FAKE2 (00:11:22:33:44:02)
 2. 클래스 끝, 6단계의 `stopInput()` 함수 **아래**에 한 줄을 비우고 함수를 넣는다.
 
 ```kotlin
-    // 30. 제어 화면에서 끊겼다고 알리는 Toast. 29번(collect 안)에서 부른다(14주차 1일차).
+    // 30. 제어 화면에서 끊겼다고 알리는 Toast. 29번(collect 안)에서 부른다(14주차 2일차).
     //     연결 화면 46번과 같은 이유로 함수로 뺐다. 함수 안의 this는 Activity라서 Toast.makeText(this, …)를 그대로 쓴다.
     private fun showLostToast() {
         Toast.makeText(this, "연결이 끊겼습니다. [뒤로] → [재연결]을 누르세요", Toast.LENGTH_SHORT).show()
@@ -939,7 +1618,7 @@ ESP32_BLE_FAKE2 (00:11:22:33:44:02)
 - [재연결] 버튼은 연결을 시작하는 연결 화면에만 둔다. 제어 화면은 알리고 [뒤로]로 안내만 한다.
 - 30번을 함수로 뺀 이유는 연결 화면 46번과 같다. 두 함수는 파일이 달라 이름이 같아도 된다.
 
-완성한 `ControlActivity.kt`(277행)는 [examples/day1/ControlActivity.kt](examples/day1/ControlActivity.kt)에 있다. 파일이 길어 여기에는 다시 싣지 않는다.
+완성한 `ControlActivity.kt`(277행)는 [examples/day2/ControlActivity.kt](examples/day2/ControlActivity.kt)에 있다. 파일이 길어 여기에는 다시 싣지 않는다.
 내 파일과 비교할 때는 예제 파일을 열고, Android Studio에서 두 파일을 골라 오른쪽 클릭 › **Compare Files**를 쓴다. 이번 주에 넣은 곳은 아래와 같다.
 
 | 주석 번호 | 하는 일 | 예제 파일 줄 |
@@ -956,21 +1635,21 @@ ESP32_BLE_FAKE2 (00:11:22:33:44:02)
 | 25 | `stopInput()` | 261~270 |
 | 30 | `showLostToast()` | 272~276 |
 
-`package com.example.smartio` 줄은 내 프로젝트의 첫 줄과 같아야 한다. 다르면 첫 줄은 내 것을 그대로 둔다. 주석 번호가 없어도 괜찮다. 13주차 확장을 하지 않았다면 `// (확장)`이 붙은 네 줄, `// 17.` 덩어리, `import android.widget.SeekBar`가 없다.
+`package com.example.smartio` 줄은 내 프로젝트의 첫 줄과 같아야 한다. 다르면 첫 줄은 내 것을 그대로 둔다. 주석 번호가 없어도 괜찮다. 1일차 확장을 하지 않았다면 `// (확장)`이 붙은 네 줄, `// 17.` 덩어리, `import android.widget.SeekBar`가 없다.
 
 ### 12. 연결 시간 제한 10초
 
 1. `MainActivity.kt` 클래스 안, 9단계의 `lastAddress` 줄 **아래**에 한 줄을 비우고 넣는다.
 
 ```kotlin
-    // 14주차 1일차: 연결 시간 제한 코루틴. 다시 연결할 때 앞의 것을 취소하려고 보관한다(6주차 scanJob과 같다). 아직 없으면 null이다.
+    // 14주차 2일차: 연결 시간 제한 코루틴. 다시 연결할 때 앞의 것을 취소하려고 보관한다(6주차 scanJob과 같다). 아직 없으면 null이다.
     private var connectTimeoutJob: Job? = null
 ```
 
 2. 클래스 끝, 9단계의 `showLostToast()` 함수 **아래**에 한 줄을 비우고 두 함수를 넣는다.
 
 ```kotlin
-    // 50. 연결 시간 제한을 건다. 앞에서 건 제한이 남아 있으면 먼저 취소한다(14주차 1일차).
+    // 50. 연결 시간 제한을 건다. 앞에서 건 제한이 남아 있으면 먼저 취소한다(14주차 2일차).
     //     취소하지 않으면 앞 연결의 10초 예약이 새 연결을 끊을 수 있다. 6주차 [중지]의 scanJob?.cancel()과 같은 방법이다.
     private fun startConnectTimeout() {
         connectTimeoutJob?.cancel()
@@ -979,7 +1658,7 @@ ESP32_BLE_FAKE2 (00:11:22:33:44:02)
         }
     }
 
-    // 51. 10초를 기다린 뒤에도 아직 연결 중·서비스 확인 중이면 "연결 시간이 초과되었습니다"를 알리고 연결을 끊는다(14주차 1일차).
+    // 51. 10초를 기다린 뒤에도 아직 연결 중·서비스 확인 중이면 "연결 시간이 초과되었습니다"를 알리고 연결을 끊는다(14주차 2일차).
     //     그사이 준비됨·끊김·연결 안 됨이 되었으면 아무것도 하지 않는다. listOf(…).contains(…)는 13주차 오늘 문법이다.
     //     delay를 쓰므로 suspend가 붙는다(6주차 countDown과 같다). 이 함수 안의 this는 Activity라서 Toast에 그대로 쓴다.
     private suspend fun waitConnectTimeout() {
@@ -1003,24 +1682,24 @@ ESP32_BLE_FAKE2 (00:11:22:33:44:02)
 
 ```kotlin
             client.connect(address)
-            // 43. 연결을 시작한 주소를 기억하고, 앱 전용 저장소 "smartio"에 "lastAddress"라는 이름표로도 저장한다(14주차 1일차).
+            // 43. 연결을 시작한 주소를 기억하고, 앱 전용 저장소 "smartio"에 "lastAddress"라는 이름표로도 저장한다(14주차 2일차).
             //     20번 장치 이름 저장과 같은 틀이다(11주차 2일차). 저장해 두면 화면이 새로 만들어져도 [재연결]이 이 주소를 쓴다(48번).
             lastAddress = address
             getSharedPreferences("smartio", MODE_PRIVATE).edit().putString("lastAddress", address).apply()
-            // 49. 10초 연결 시간 제한을 건다. 시간 제한은 50번 함수가 한다(14주차 1일차).
+            // 49. 10초 연결 시간 제한을 건다. 시간 제한은 50번 함수가 한다(14주차 2일차).
             startConnectTimeout()
         }
 ```
 
 ```kotlin
-        // 47. [재연결] 버튼: 끊김일 때만 보인다(45번). 마지막으로 연결한 주소로 다시 연결한다(14주차 1일차).
+        // 47. [재연결] 버튼: 끊김일 때만 보인다(45번). 마지막으로 연결한 주소로 다시 연결한다(14주차 2일차).
         //     주소가 비어 있으면(앱을 설치하고 한 번도 목록을 눌러 연결한 적이 없으면) [검색]부터 하라고 알린다.
         binding.reconnectButton.setOnClickListener {
             if (lastAddress.isEmpty()) {
                 Toast.makeText(this, "마지막 주소가 없습니다. [검색]부터 하세요", Toast.LENGTH_SHORT).show()
             } else {
                 client.connect(lastAddress)
-                // 49. 10초 연결 시간 제한을 건다(14주차 1일차).
+                // 49. 10초 연결 시간 제한을 건다(14주차 2일차).
                 startConnectTimeout()
             }
         }
@@ -1029,10 +1708,10 @@ ESP32_BLE_FAKE2 (00:11:22:33:44:02)
 4. `// 48.` `lastAddress = prefs.getString(…)` 줄 **아래**에 한 줄을 비우고 넣는다.
 
 ```kotlin
-        // 48. 43번에서 저장한 마지막 보드 주소를 꺼내 lastAddress에 넣는다. 21번과 같은 틀이다(14주차 1일차).
+        // 48. 43번에서 저장한 마지막 보드 주소를 꺼내 lastAddress에 넣는다. 21번과 같은 틀이다(14주차 2일차).
         lastAddress = prefs.getString("lastAddress", "") ?: ""
 
-        // 52. 연결 중에 회전하면 화면이 새로 만들어지면서 앞 화면의 10초 예약도 함께 취소된다. 아직 연결 중·서비스 확인 중이면 시간 제한을 다시 건다(14주차 1일차).
+        // 52. 연결 중에 회전하면 화면이 새로 만들어지면서 앞 화면의 10초 예약도 함께 취소된다. 아직 연결 중·서비스 확인 중이면 시간 제한을 다시 건다(14주차 2일차).
         //     새로 거는 것이라 10초를 처음부터 다시 센다. 51번과 같은 listOf(…).contains(…) 검사다.
         if (listOf(ConnState.CONNECTING, ConnState.DISCOVERING).contains(client.connectionState.value)) {
             startConnectTimeout()
@@ -1045,7 +1724,7 @@ ESP32_BLE_FAKE2 (00:11:22:33:44:02)
                         ConnState.CONNECTING -> {
                             // 연결 중에는 버튼을 모두 꺼 둔다. [중지]는 이제 검색 멈춤이라 켜지 않는다(12주차 2일차).
                             // 보드가 응답하지 않으면 한참(보통 30초쯤) 뒤 "끊김"이 되어 [검색]·[다시 시도]가 다시 켜진다.
-                            // 14주차 1일차: 이제는 10초가 지나도 준비됨이 아니면 51번이 연결을 끊고 [검색]·[다시 시도]를 되살린다.
+                            // 14주차 2일차: 이제는 10초가 지나도 준비됨이 아니면 51번이 연결을 끊고 [검색]·[다시 시도]를 되살린다.
                             binding.scanProgress.visibility = View.VISIBLE
                         }
 ```
@@ -1081,7 +1760,7 @@ ESP32_BLE_FAKE1 (00:11:22:33:44:01)
 - `client.disconnect()` 뒤 네 줄은 화면을 직접 되돌린다. 실보드는 아직 맺어지지 않은 연결을 끊으면 "끊겼다"는 알림이 오지 않는 기기가 있어, 그러면 상태가 `연결 중`에 머물러 7번 collect가 화면을 고치지 않기 때문이다. 12주차 `장치를 찾지 못했습니다 — [다시 시도]를 누르세요`와 같은 모양이다.
 - 52번: `연결 중`에 화면을 돌리면 앞 화면의 10초 예약이 화면과 함께 취소된다. 새 화면의 onCreate에서 아직 연결 중이면 시간 제한을 다시 건다(10초를 처음부터 센다).
 
-완성한 `MainActivity.kt`(493행)는 [examples/day1/MainActivity.kt](examples/day1/MainActivity.kt)에 있다. 파일이 길어 여기에는 다시 싣지 않는다.
+완성한 `MainActivity.kt`(493행)는 [examples/day2/MainActivity.kt](examples/day2/MainActivity.kt)에 있다. 파일이 길어 여기에는 다시 싣지 않는다.
 내 파일과 비교할 때는 예제 파일을 열고 **Compare Files**를 쓴다. 이번 주에 넣은 곳은 아래와 같다.
 
 | 주석 번호 | 하는 일 | 예제 파일 줄 |
@@ -1103,7 +1782,7 @@ ESP32_BLE_FAKE1 (00:11:22:33:44:01)
 
 ### 13. 화면 돌리기와 홈에서 확인할 것
 
-아래는 코드가 틀린 것이 아니라 이번 주 코드의 정해진 동작이다. 발표 전에 한 번씩 해 보고 놀라지 않게 한다.
+아래는 코드가 틀린 것이 아니라 이번 주 코드의 정해진 동작이다. 캡처를 찍기 전에 한 번씩 해 보고 놀라지 않게 한다.
 폰 크기 화면을 가로로 돌리면 위아래가 잘려 일부 버튼·글자가 안 보일 수 있다. 제어 화면은 가로에서 `명령 로그` 아래([온습도 받기 시작]·[중지]·입력 이력·[뒤로])가 화면 밖이다. 확인할 항목이 안 보이면 세로로 되돌려 확인한다(숫자 키보드가 뜨면 닫고 본다).
 
 | 조작 | 보이는 것 | 까닭 |
@@ -1116,21 +1795,18 @@ ESP32_BLE_FAKE1 (00:11:22:33:44:01)
 
 캡처는 **세로 화면**에서 찍는다.
 
-### 14. 캡처 세트와 2~3분 시연 리허설
+### 14. 2일차 캡처와 제출
 
-2차 과제 발표에서 보여 줄 장면을 캡처로도 남긴다. 레포트에 넣는 캡처 세트는 일곱 장이다. 1~6번은 여기서 찍고, 7번은 12단계 8번에서 찍어 둔 것을 쓴다.
+2일차에 만든 세 가지를 캡처로 남긴다. 1·2번은 제어 화면, 3번은 연결 화면에서 찍는다. 4번은 12단계 8번에서 이미 찍어 둔 것을 쓴다.
 
 | 번호 | 캡처 | 찍는 곳 |
 |---|---|---|
-| 1 | 권한 안내: [권한 확인] → Toast `권한 OK`, 또는 거절 뒤 AlertDialog `권한이 필요합니다` | 연결 화면 |
-| 2 | 장치 목록: `검색된 장치`에 `ESP32_BLE…` 줄 | 연결 화면 |
-| 3 | 준비됨: 상태 `준비됨`, [제어 화면] 켜짐 | 연결 화면 |
-| 4 | LED on/off: `상태: 준비됨`, 명령 로그에 `on 3`과 `응답: {"result":"ok","ms":"led(s) on"}`(실보드면 LED가 켜진 보드 사진도). LED를 켠 직후 찍는다 | 제어 화면 |
-| 5 | 입력 수신: 입력 이력에 `시:분:초 [온도,습도]` 줄 2줄 이상(시각이 약 3초 간격인 줄)과 켜진 [중지], 또는 `시:분:초 입력=1`/`입력=0` 2줄(Fake, 약 20초) | 제어 화면 |
-| 6 | 끊김 + [재연결]: 상태 `끊김`과 [재연결] 버튼(Toast가 함께 찍히면 더 좋다) | 연결 화면 |
-| 7 | 시간 초과: Toast `연결 시간이 초과되었습니다`와 [다시 시도] (12단계 8번에서 찍은 것) | 연결 화면 |
+| 1 | 입력 수신: 입력 이력에 `시:분:초 [온도,습도]` 줄 2줄 이상(시각이 약 3초 간격인 줄)과 켜진 [중지], 또는 `시:분:초 입력=1`/`입력=0` 2줄(Fake, 약 20초) | 제어 화면 |
+| 2 | 이력 줄 탭: Toast `받은 시각: … · 값: …`(7단계를 했으면) | 제어 화면 |
+| 3 | 끊김 + [재연결]: 상태 `끊김`과 [재연결] 버튼(Toast가 함께 찍히면 더 좋다) | 연결 화면 |
+| 4 | 시간 초과: Toast `연결 시간이 초과되었습니다`와 [다시 시도] (12단계 8번에서 찍은 것) | 연결 화면 |
 
-이어서 아래 순서로 2~3분 시연을 한 바퀴 해 본다. 시간을 재고, 막힌 곳을 적어 둔다.
+찍기 전에 아래 순서로 한 바퀴 돌려 보면 네 장면이 모두 나온다.
 
 ```text
 0:00  [권한 확인] → 권한 OK
@@ -1140,13 +1816,21 @@ ESP32_BLE_FAKE1 (00:11:22:33:44:01)
 1:20  [뒤로] → [끊김 시험] → 끊김 + Toast + [재연결]
 1:40  [재연결] → 준비됨
 2:00  [해제] → 연결 안 됨
-2:10  마무리 한 문장
 ```
 
-- 실보드로 시연한다면 1:20 줄이 바뀐다. 제어 화면에서 받는 중에 **보드 전원을 끈다** → `상태: 끊김` + Toast → [뒤로] → 연결 화면 Toast·[재연결] → 보드 전원을 켜고 파랑 깜빡임을 기다린다 → [재연결] → `준비됨`.
-- 마지막 [해제] → `연결 안 됨`은 채점표 "연결 흐름" 만점에 들어가는 장면이다. 줄이더라도 빼지 않는다.
-- 연결 시간 제한은 시연 시간 안에 보이기 어렵다. 12단계 8번에서 찍은 시간 초과 화면(7번 캡처)을 레포트 표의 시간 초과 칸에 넣고, 질문 시간에 쓴다.
-- 자세한 발표 규칙과 채점은 [2차 과제 안내](project_brief.md)와 [채점표](rubric.md)에 있다.
+제출물은 다섯 가지다.
+
+1. `ControlActivity.kt`
+2. `MainActivity.kt`
+3. `activity_control.xml`과 `activity_main.xml`
+4. 캡처 1(입력 이력 2줄)
+5. 캡처 3(끊김과 [재연결])
+
+- 실보드로 한다면 1:20 줄이 바뀐다. 제어 화면에서 받는 중에 **보드 전원을 끈다** → `상태: 끊김` + Toast → [뒤로] → 연결 화면 Toast·[재연결] → 보드 전원을 켜고 파랑 깜빡임을 기다린다 → [재연결] → `준비됨`.
+- 캡처는 **세로 화면**에서 찍는다. 가로에서는 제어 화면의 입력 이력이 화면 밖이다.
+- 캡처와 사진에 계정 이름·알림 내용이 보이지 않게 한다. 제출 위치와 마감은 수업 공지를 따른다.
+- 연결 시간 제한은 한 바퀴 안에 보이기 어렵다. 12단계 8번에서 `delay(1000)`으로 바꿔 찍은 4번 캡처를 쓰고, `delay(10000)`으로 되돌려 두었는지 확인한다.
+- 15주차 최종 제출(완성 앱·캡처 세트·레포트) 조건은 [13주차 과제 안내](../week13_ble_output/project_brief.md)에 있다.
 
 ### 15. 실제 보드로 해 보기
 
@@ -1172,42 +1856,13 @@ onCharacteristicChanged: {"result":"ok","value":"[24.5,40.0]"}
 
 ### 16. 바꾸지 않는 파일 확인하기
 
-아래 파일은 13주차 2일차에 만든 그대로이며 이번 주에는 손대지 않는다. 내 프로젝트의 파일에 줄이 몇 개 더 있어도 괜찮다.
+아래 파일은 12주차에 만든 그대로이며 이번 주 두 날 모두 손대지 않는다. 내 프로젝트의 파일에 줄이 몇 개 더 있어도 괜찮다.
 
-- `AndroidManifest.xml`, `ContactsReader.kt`, `colors.xml`, `res/values/themes.xml` — [부록 A](#부록-a--바꾸지-않는-파일-전체), [examples/day1](examples/day1)
+- `AndroidManifest.xml`, `ContactsReader.kt`, `res/values/themes.xml` — [부록 A](#부록-a--바꾸지-않는-파일-전체), [examples/day2](examples/day2)
 - `bleuno` 패키지 8개 — [부록 B](#부록-b--제공-bleuno-파일-전체), [bleuno/src](../../bleuno/src)
 
+`colors.xml`은 1일차 1단계에서 색 두 줄을 더한 뒤로 바뀌지 않는다.
 `AndroidManifest.xml`에 더할 권한은 없다. `dht11` 보내기, 응답 받기, 재연결은 10주차에 넣은 `BLUETOOTH_CONNECT`(Android 12 이상) 권한 안에 들어 있다.
-
-## 2일차
-
-2일차는 2차 과제 발표다. 새로 만드는 코드는 없다. 발표 순서와 규칙은 [실습지 2일차](lab.md#2일차--2차-과제-발표-60분)에 있다.
-
-### 17. 발표 전 점검
-
-1. 마지막으로 고친 파일을 모두 저장하고 `Run ▶`으로 **다시 실행**한다.
-2. 시연할 방법을 정한다. 보드·실기기로 하면 `useFake = false`, 에뮬레이터로 하면 `useFake = true`다. 바꿨으면 다시 실행한다.
-3. 14단계의 시연 순서를 한 번 돌린다. 끝나면 앱을 첫 화면(`연결 안 됨`)에 둔다. `끊김`에서 멈췄으면 [재연결] → [해제]로 돌려놓는다.
-4. 코드 설명 질문에 쓸 파일(`ControlActivity.kt`, `MainActivity.kt`)을 편집기 탭에 열어 두고, 편집기 왼쪽 줄 번호가 보이게 한다.
-5. Logcat 필터 `package:mine tag:BLE`를 켜 둔다. 장애가 나면 이 창이 증거가 된다.
-6. 실기기라면 방해 금지 모드를 켜고 화면 꺼짐 시간을 늘린다. 보드는 파랑 깜빡임인지 본다.
-
-### 18. 실보드가 안 될 때 Fake로 바꾸기
-
-발표 중 보드가 검색되지 않거나 연결이 계속 끊기면 **먼저 손을 든다.** 조교가 시각과 증상을 적은 뒤 아래 순서로 바꾼다.
-
-1. Logcat `tag:BLE`의 마지막 몇 줄을 조교에게 보여 준다(예: `onScanResult` 줄이 없음, `연결 중`에서 멈춤).
-2. `MainActivity.kt`의 `private val useFake = false`를 `true`로 바꾼다.
-3. 에뮬레이터(또는 같은 실기기)로 `Run ▶`한다. 가짜 클라이언트는 보드 없이 같은 화면 흐름을 낸다.
-4. 14단계의 Fake 시연 순서대로 이어서 보인다. 끊김은 [끊김 시험]으로 만든다.
-
-- Fake에서 모두 되면 **앱은 정상이고 장비 쪽 문제**라는 근거가 된다. 조교 기록과 함께 채점표의 장애 규칙으로 본다.
-- Fake에서도 안 되면 내 코드 문제다. 장애가 아니다.
-
-### 19. 발표와 제출
-
-1. 차례가 되면 준비한 순서대로 2~3분 시연하고, 평가자의 코드 설명 질문 한 개에 **파일 열기 → 줄 가리키기 → 한 문장**으로 답한다.
-2. 발표를 마치면 레포트 PDF와 소스 압축 파일(`app/src/main`)이 제출 칸에 올라갔는지 확인한다. 이름과 마감은 [과제 안내](project_brief.md#레포트)를 따른다.
 
 ## 오류가 나면
 
@@ -1218,7 +1873,9 @@ onCharacteristicChanged: {"result":"ok","value":"[24.5,40.0]"}
 
 ## 부록 A — 바꾸지 않는 파일 전체
 
-아래 파일은 13주차 `examples/day2`와 글자 단위로 같다. 이번 주에 바꾸지 않는다. 같은 코드가 [examples/day1](examples/day1)에 있다.
+아래 파일은 12주차 완성본과 글자 단위로 같다. 이번 주 두 날 모두 바꾸지 않아서 [examples/day1](examples/day1)과 [examples/day2](examples/day2)에 같은 파일이 있다.
+
+연결 화면 `MainActivity.kt`(400행)와 `activity_main.xml`(143행)은 1일차에 바꾸지 않는다. 1일차 모습은 [examples/day1/MainActivity.kt](examples/day1/MainActivity.kt)·[examples/day1/activity_main.xml](examples/day1/activity_main.xml)에 있고, 2일차에 더하는 줄은 8·9·10·12단계에 있다.
 
 `AndroidManifest.xml` — [examples/day1/AndroidManifest.xml](examples/day1/AndroidManifest.xml)
 
@@ -1318,18 +1975,6 @@ object ContactsReader {
         return names
     }
 }
-```
-
-`colors.xml` — [examples/day1/colors.xml](examples/day1/colors.xml)
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="log_ok">#FF2E7D32</color>
-    <color name="log_error">#FFD32F2F</color>
-</resources>
 ```
 
 `res/values/themes.xml` — [examples/day1/res/values/themes.xml](examples/day1/res/values/themes.xml)

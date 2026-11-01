@@ -271,13 +271,14 @@ when (state) {
 
 ---
 
-## Day 2 · 27–30 min ① — Project 1 Preview
+## Day 2 · 27–30 min ① — Project Preview
 
-- **Week 9, Day 2 presentation**: presentation 5 + report 5
-- Topic: SmartIO simulator —
-  device name → scan countdown → simulated connect success/failure with retry → control-screen command log + **one feature of your own**
-- Scoring criteria: normal flow / failure & retry / **survives rotation** / code walkthrough (individual Q&A)
-- This week's screen is the skeleton of the project. Full instructions and how to submit will come with the week 9 materials and class announcements.
+- There is **one project**. It is announced in **week 12**, you present your **plan in week 13 (day 2)**, and you submit the **finished app in week 15**.
+- Target: the `Smart I/O Controller` you are building now. In week 12 you find and connect to the board over Bluetooth, then finish that app.
+- Points: plan presentation 10 + final submission 20
+- Plan presentation criteria: the app with its screen and feature list / the board command list / the remaining 2-week schedule / where you expect trouble and your fallback / a demo of what already works / code walkthrough (individual Q&A). Completeness is not graded that day.
+- Final submission criteria: the seven required features working / the 2–3 minute reproducible demo procedure / the report. The code walkthrough is one person at a time.
+- This week's screen is the skeleton of that app. Full instructions and how to submit come with the week 12 announcement and the week 13 materials.
 
 ---
 
@@ -306,8 +307,8 @@ Submit once, at the end of Day 2.
 
 ## Next Week Preview
 
-Week 8 is the **midterm (individual hands-on exam)**. It covers weeks 2–7.
+Week 8 is the **midterm (individual hands-on exam)**. The range is **up to the week we covered in class** within Weeks 1–7. The notice says how far.
 
-Day 1 rehearsal: on a similar screen, [Start] → a 5-second countdown → a completion message, [Cancel] to stop, and **state that survives rotation (ViewModel + StateFlow)**.
+Day 1 practice: work through the seven **problem bank** items (`a01`–`a07`), drawn from the Weeks 1–7 labs, with no points attached.
 
 Try writing this week's two blocks and the `when` again, without looking at the example.

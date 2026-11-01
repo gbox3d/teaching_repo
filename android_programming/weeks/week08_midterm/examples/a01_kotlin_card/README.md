@@ -1,10 +1,10 @@
 [8주 문제 은행](../README.md) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/android_programming/weeks/week08_midterm)
 
-# a01_kotlin_card — Kotlin Playground 학생 카드
+# a01_kotlin_card — Android Studio 학생 카드
 
 출처: [1주차 실습 제출](../../../week01_android_kotlin/lab.md#제출--두-가지만) · 권장 8분 · 범위 1주
 
-1주차에 한 것처럼 Kotlin Playground(또는 Android Studio 의 `.kt` 파일)에서 학번·이름과 통과 여부를 세 줄로 출력한다.
+1주차에 한 것처럼 Android Studio 의 `StudentCard` 프로젝트(또는 새 Empty Views Activity)에서 `fun main()` 을 실행해 학번·이름과 통과 여부를 세 줄로 출력한다. 결과는 아래쪽 **Run** 창에서 본다.
 
 ## 할 일
 

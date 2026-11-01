@@ -1,12 +1,23 @@
-# 15주차 — 기말고사(개인 실기)
+# 15주차 — 기말고사(개인 실기)와 과제 최종 제출
 
 ## 이번 주 질문
 
 > 2~14주에 만든 Smart I/O Controller의 **권한 확인**, **LED 명령과 응답**, **연결 시간 제한**을 혼자서 60분 안에 다시 쓸 수 있을까? 그리고 보드 앞에서 그 앱을 움직여 보이고, "이 콜백은 언제 불리나"에 한 문장으로 답할 수 있을까?
 
-14주차에는 [입력 수신·끊김·재연결과 2차 과제 발표](../week14_ble_input_project/README.md)에서 `dht11` 온습도를 3초마다 받아 입력 이력에 쌓고, `끊김`이면 [재연결]을 보여 주고, 연결을 시작한 뒤 10초 안에 `준비됨`이 아니면 안내하고 끊었다. 그렇게 Smart I/O Controller가 완성되었다.
+14주차에는 [입력 수신·끊김·재연결](../week14_ble_input_project/README.md)에서 `dht11` 온습도를 3초마다 받아 입력 이력에 쌓고, `끊김`이면 [재연결]을 보여 주고, 연결을 시작한 뒤 10초 안에 `준비됨`이 아니면 안내하고 끊었다. 그렇게 Smart I/O Controller가 완성되었다.
 이번 주에는 새 문법을 배우지 않는다. 1일차에 시험 범위·채점표·starter 구조를 공개하고, 본시험과 같은 모양의 **공개 리허설**을 60분 동안 풀어 본다. starter는 14주차 최종 앱에서 세 기능의 본문만 비운 것이다.
 2일차에는 시험 절차를 확인하고 보드를 받아 실기기로 점검한 뒤 **본시험**(비공개 문항)을 본다. 60분 동안 구현하면서, 좌석 순서대로 한 사람씩 보드 앞에서 **개인 시연과 구술**을 한다.
+
+## 이번 주 할 일
+
+이번 주에는 서로 다른 두 가지를 한다. 점수도 따로 매긴다.
+
+- **기말 실기(20점 = 구현 15 + 시연 5)** — 시험 시간에 배포 starter의 빈 곳을 **그 자리에서** 채우는 개인 시험이다. 범위는 2~14주이고, 기준은 [15주 채점표](rubric.md)에 있다.
+- **과제 최종 제출(20점)** — 12주 1일차에 공지하고 13주 2일차에 계획안을 발표한 뒤, 각자 만들어 온 **Smart I/O Controller 완성본**을 내는 것이다. 요구사항과 배점은 [13주 과제 안내](../week13_ble_output/project_brief.md)와 [13주 과제 채점표](../week13_ble_output/rubric.md)에 있다.
+
+기말 실기는 시험 시간에 혼자 쓴 코드로 받고, 과제는 4주차부터 만들어 온 앱으로 받는다. 한쪽이 다른 쪽을 대신하지 못한다.
+과제 최종 제출물은 **완성 앱(프로젝트), 캡처 세트, 레포트** 셋이다. 기말 주차에 내며, 정확한 마감 시각과 제출 위치는 **수업 공지**를 따른다.
+보드가 없거나 실보드가 끝까지 되지 않으면 가짜 클라이언트(`useFake = true`)로 같은 흐름을 보여 내도 된다. 그 사실은 레포트에 적는다.
 
 ## 학습 목표
 
@@ -42,7 +53,8 @@ on 3
 ```
 
 15주차는 주차별 실습 점수 대상이 아니다. 리허설 결과는 자기 점검용이며 제출하지 않는다.
-기말고사는 **20점(기말 20%) = 구현 15 + 시연 5**다. 구현은 제출한 파일을 채점 PC에서 가짜 클라이언트(`useFake = true`)로 실행해 채점하고, 시연은 실보드 앞에서 본다. 기준은 [채점표](rubric.md)에 있다.
+기말 실기는 **20점(기말 20%) = 구현 15 + 시연 5**다. 구현은 제출한 파일을 채점 PC에서 가짜 클라이언트(`useFake = true`)로 실행해 채점하고, 시연은 실보드 앞에서 본다. 기준은 [채점표](rubric.md)에 있다.
+**과제 최종 제출 20점은 기말 실기와 다른 점수**다. 위 리허설 화면은 기말 실기 연습이고, 과제로 내는 것은 내가 만들어 온 완성 앱이다.
 
 ## 2일 수업 흐름
 
@@ -55,11 +67,11 @@ on 3
 
 ## 준비
 
-- 14주차까지 만든 `SmartIO` 프로젝트. 없거나 실행되지 않으면 14주차 완성본([examples/day1](../week14_ble_input_project/examples/day1))을 받아 시작한다. 리허설 starter는 이 프로젝트에 두 파일만 덮어쓴다.
+- 14주차까지 만든 `SmartIO` 프로젝트. 없거나 실행되지 않으면 14주차 완성본([examples/day2](../week14_ble_input_project/examples/day2))을 받아 시작한다. 리허설 starter는 이 프로젝트에 두 파일만 덮어쓴다.
 - 에뮬레이터(AVD)는 **API 33 이상**. 리허설과 본시험 구현은 Fake로 끝까지 할 수 있다.
 - 2일차 시연용 **Android 실기기**(Android 12 이상 권장)와 USB 케이블. 없으면 1일차 전에 대여 단말을 신청한다. 보드는 2일차에 좌석별로 나눠 준다. 학생은 펌웨어를 고치거나 올리지 않는다.
-- 다시 읽어 둘 것: 10주차 권한 요청 틀과 AlertDialog, 13주차 `send`·`onMessage`·`BleunoMessage.result`·허용 번호 검사, 14주차 `connectTimeoutJob`·`waitConnectTimeout()`, [bleuno README의 명령과 응답](../../bleuno/README.md#2-명령과-응답).
-- `AndroidManifest.xml`과 `build.gradle.kts`에 더할 것이 없다. 리허설 starter의 Manifest·XML·`bleuno/`는 14주차와 글자 단위로 같다.
+- 다시 읽어 둘 것: 10주차 권한 요청 틀과 AlertDialog, 13주차 `send`·`onMessage`·`BleunoMessage.result`, 14주차 허용 번호 검사와 오류 색·대화상자·`connectTimeoutJob`·`waitConnectTimeout()`, [bleuno README의 명령과 응답](../../bleuno/README.md#2-명령과-응답).
+- `AndroidManifest.xml`과 `build.gradle.kts`에 더할 것이 없다. 리허설 starter의 Manifest·XML·`bleuno/`는 14주차 2일차 완성본(`examples/day2`)과 글자 단위로 같다.
 
 ## 이번 주 범위
 
@@ -80,12 +92,13 @@ on 3
 | `AlertDialog.Builder(this)`, `Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName"))` (10주) | 거절했을 때 안내 창과, 이 앱의 정보 화면을 여는 암시적 Intent | 권한·SharedPreferences |
 | `getSharedPreferences("smartio", MODE_PRIVATE)`, `putString`, `getString(…) ?: ""` (11주) | 마지막 장치 이름·주소를 저장하고 꺼낸다. starter에 완성되어 있다 | 권한·SharedPreferences |
 | `Bleuno.client?.send("on $index")`, `onMessage { json -> }` / `onMessage(null)` (13주) | 명령 한 줄을 보내고, 응답 JSON 한 줄을 `onStart`~`onStop` 사이에 받는다 | `send`·`onMessage`·재연결 |
-| `BleunoMessage.result(json)`, `BleunoMessage.message(json)`, `ContextCompat.getColor(this, R.color.log_error)` (13주) | 응답에서 `ok`·`err`·`fail`과 설명을 꺼내고, 로그 글자색을 바꾼다 | `send`·`onMessage`·재연결 |
+| `BleunoMessage.result(json)` (13주) | 응답에서 `ok`·`err`·`fail`을 꺼낸다 | `send`·`onMessage`·재연결 |
+| `BleunoMessage.message(json)`, `ContextCompat.getColor(this, R.color.log_error)` (14주) | 오류 설명을 꺼내고 로그 글자색을 바꾼다 | `send`·`onMessage`·재연결 |
 | `listOf(0, 1, 2, 3).contains(index)` (13주) | 보드에 보내도 되는 LED 번호인지 확인한다 | `send`·`onMessage`·재연결 |
 | `ConnState.LOST`, `client.connect(lastAddress)` (14주) | 끊김이면 저장해 둔 주소로 다시 연결한다. starter에 완성되어 있다 | `send`·`onMessage`·재연결 |
 | `dht11`, `split(" ")`, `BleunoMessage.value(json)` (14주) | 온습도를 받아 입력 이력에 쌓는다. starter에 완성되어 있고 **시연**에서 쓴다 | 시연(입력 수신) |
 
-펌웨어 수정, Service·Fragment(9주 시연), RecyclerView, 보드 여러 대 동시 연결은 범위가 아니다.
+펌웨어 수정, Service·Fragment(9주 실습), RecyclerView, 보드 여러 대 동시 연결은 범위가 아니다.
 
 ## 수업 자료
 
@@ -93,8 +106,9 @@ on 3
 - [순서대로 따라하기](walkthrough.md)
 - [리허설과 본시험 안내](lab.md) — 시간표, 허용 자료, 장애가 나면, 시연 정원 계산, 막혔을 때
 - [예제 설명](examples/README.md)
-- [채점표](rubric.md) — 구현 15 + 시연 5, 기본점수 운영 메모, 기록 양식
-- 리허설 시작 코드: [MainActivity.kt](examples/rehearsal_starter/MainActivity.kt) · [ControlActivity.kt](examples/rehearsal_starter/ControlActivity.kt) (나머지 15개 파일은 14주차와 같다)
+- [채점표](rubric.md) — 기말 실기의 구현 15 + 시연 5, 기본점수 운영 메모, 기록 양식
+- [13주 과제 안내](../week13_ble_output/project_brief.md) · [13주 과제 채점표](../week13_ble_output/rubric.md) — 과제 최종 제출의 요구사항과 20점 배분
+- 리허설 시작 코드: [MainActivity.kt](examples/rehearsal_starter/MainActivity.kt) · [ControlActivity.kt](examples/rehearsal_starter/ControlActivity.kt) (나머지 15개 파일은 14주차 2일차 완성본 `examples/day2`와 같다)
 - 리허설 완성 코드(먼저 혼자 풀고 비교): [MainActivity.kt](examples/rehearsal_solution/MainActivity.kt) · [ControlActivity.kt](examples/rehearsal_solution/ControlActivity.kt)
 - 제공 라이브러리: [bleuno 패키지 README](../../bleuno/README.md)
 
@@ -113,10 +127,11 @@ on 3
 - [ ] 점검표와 [채점표](rubric.md)로 자기 채점을 하고 완성본과 다른 줄을 찾았다.
 - [ ] 2일차 설명 시간에 실기기에서 내 보드와 `준비됨`, LED 켜기, 입력 이력 2줄을 확인했다.
 - [ ] 2일차 본시험 코드 두 파일을 시간 안에 제출하고, 차례에 시연과 구술을 마쳤다.
+- [ ] 과제 최종 제출물 세 가지(완성 앱, 캡처 세트, 레포트)를 공지한 마감까지 공지한 제출 위치에 냈다. 실보드가 되지 않아 Fake로 보인 부분은 레포트에 적었다.
 
 ## 다음 수업 연결
 
-15주차가 이 과목의 마지막 주다. 다음 수업은 없다.
+15주차가 이 과목의 마지막 주다. 다음 수업은 없다. 기말 실기와 과제 최종 제출을 모두 내면 이 과목의 평가가 끝난다.
 4주차 빈 화면에서 시작한 Smart I/O Controller는 화면·Intent(4주) → 스레드·코루틴(5·6주) → ViewModel·StateFlow(7주) → 권한(10주) → 목록·저장(11주) → BLE 검색·명령·입력(12~14주)을 거쳐 완성되었다. 시험이 끝나면 [bleuno README의 명령 표](../../bleuno/README.md#2-명령과-응답)에서 `blink`·`about`도 보내 보자. 학기 전체 흐름은 → [전체 주차 색인](../README.md)에서 다시 볼 수 있다.
 
 ## 공식 참고 자료

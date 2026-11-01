@@ -240,6 +240,6 @@ Logcat 탭 → 필터 칸에 태그(Life) → 그 줄만 보인다
 
 지금까지 만든 화면은 모두 **Activity**였습니다.
 
-9주차 **앱 컴포넌트 비교와 1차 과제 발표**에서는 Service·BroadcastReceiver·ContentProvider 를 Activity 와 나란히 놓고 비교합니다.
+9주차 **앱 컴포넌트 비교: Service와 Fragment**에서는 Service·BroadcastReceiver·ContentProvider 를 Activity 와 나란히 놓고 비교하고, Service와 Fragment를 직접 넣어 봅니다.
 
-1차 과제의 채점 축(정상 흐름, 회전 유지, 코드 설명)은 이번 시험에서 연습한 것과 같습니다.
+과제는 12주차에 공지하고 13주차에 계획안을 발표합니다. 과제도 앱이 동작하는 것을 보이고 코드를 설명하는 방식이라, 이번 시험에서 연습한 것이 그대로 쓰입니다.

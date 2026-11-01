@@ -209,6 +209,10 @@ override fun onStop() {
 
 Watch the `startScan(가짜)` and `onScanResult(가짜)` lines together with the Logcat filter `package:mine tag:BLE`.
 
+**Project announcement** — There is **one** project: finish the Smart I/O Controller you are building now.
+You present the **plan** in week 13, Day 2 (10 points) and submit the **finished app** in week 15 (20 points).
+What it must cover and the required features: [Week 13 project brief](../week13_ble_output/project_brief.md) · [Rubric](../week13_ble_output/rubric.md)
+
 ---
 
 # Day 2 — Connecting and Viewing State on Both Screens

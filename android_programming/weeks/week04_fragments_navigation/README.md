@@ -70,7 +70,7 @@ Smart I/O Controller              장치: ESP32_BLE_1
 | `intent.putExtra("name", name)` / `intent.getStringExtra("name") ?: ""` | 이름을 넣어 보내고, 받는 쪽에서 꺼낸다. 없으면 `""` |
 | `startActivity(intent)` / `finish()` | 다음 화면을 연다 / 지금 화면을 닫고 이전 화면으로 돌아간다 |
 
-Fragment는 "Activity 안의 화면 조각"이라는 한 장만 보고 9주차에 시연한다. 스레드·코루틴·ViewModel은 5~7주차에 다룬다.
+Fragment는 "Activity 안의 화면 조각"이라는 한 장만 보고, 9주차 2일차에 별도 프로젝트로 시연을 본 뒤 직접 만든다(캡처 2장 제출). 스레드·코루틴·ViewModel은 5~7주차에 다룬다.
 
 ## 수업 자료
 

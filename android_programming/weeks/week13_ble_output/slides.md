@@ -3,13 +3,13 @@ marp: true
 theme: default
 paginate: true
 header: 모바일프로그래밍 · 13주차
-footer: BLE 출력 제어 · 문자열 명령과 응답
+footer: BLE 출력 제어 · 과제 계획안 발표
 ---
 
-# BLE 출력 제어: 문자열 명령과 응답
+# BLE 출력 제어와 과제 계획안 발표
 
 12주차에는 목록 줄을 눌러 보드와 `준비됨`까지 연결했습니다.
-이번 주에는 그 연결로 **명령을 보내고**, 보드의 **대답을 받습니다.**
+1일차에는 그 연결로 **명령을 보내고**, 보드의 **대답을 받습니다.**
 
 ```text
 상태: 준비됨                         보드
@@ -20,6 +20,7 @@ on 3
 ```
 
 보드가 없어도 `useFake = true`로 똑같이 연습합니다.
+2일차에는 지금까지 만든 이 앱으로 **과제 계획안**을 발표합니다.
 
 ---
 
@@ -51,7 +52,7 @@ if (listOf(0, 1, 2, 3).contains(index)) {
 | `9` / `-1` | `false` |
 
 - 목록 안에 값이 **있으면** `true`. 괄호 안에는 목록과 **같은 종류**(숫자)를 넣습니다.
-- `listOf`는 만든 뒤 바꾸지 않는 목록입니다. 앱에는 2일차에 넣습니다.
+- `listOf`는 만든 뒤 바꾸지 않는 목록입니다. 앱에는 14주차 1일차에 넣습니다.
 
 ---
 
@@ -79,8 +80,8 @@ if (listOf(0, 1, 2, 3).contains(index)) {
 | 보드 핀 | GPIO4 | GPIO3 | GPIO1 | GPIO0 | 모두 |
 
 - `on 3`의 `3`은 GPIO가 아니라 **LED 번호**입니다. 수업 보드 LED는 4개입니다.
-- 보드는 번호가 범위 안인지 **검사하지 않습니다.** 앱이 보내기 전에 막아야 합니다(2일차).
-- 오늘 1일차 코드에는 검사가 없습니다. `9`는 **Fake에서만**, 실보드에는 `0`~`3`만.
+- 보드는 번호가 범위 안인지 **검사하지 않습니다.** 앱이 보내기 전에 막아야 합니다(14주차).
+- 이번 주 코드에는 검사가 없습니다. `9`는 **Fake에서만**, 실보드에는 `0`~`3`만.
 
 | `result` | 뜻 |
 |---|---|
@@ -190,201 +191,129 @@ override fun onStop() {
 
 ---
 
-# 2일차 — 막고, 알리고, 색으로 보이기
+# 2일차 — 과제 계획안 발표
 
-`30분 설명·시연 → 60분 실습`
+`30분 안내 → 60분 발표 블록`
 
-1. 허용 번호 검사: `9`는 보내지 않고 Toast
-2. `준비됨`일 때만, 보낸 직후 300ms는 버튼 막기
-3. `result`가 `ok`가 아니면 AlertDialog와 `colors.xml` 빨간 로그
-4. (확장) `SeekBar`로 `pwm 0 V`, 2차 과제 공지
-
----
-
-## 2일차 · 0–6분 ① — 보내기 전에 번호 확인
-
-```kotlin
-if (pin.isEmpty()) {
-    Toast.makeText(this, "LED 번호를 입력하세요", Toast.LENGTH_SHORT).show()
-} else if (isAllowedIndex(pin.toInt()) == false) {
-    Toast.makeText(this, "허용되지 않는 번호", Toast.LENGTH_SHORT).show()
-} else if (isChecked) {
-    // 1일차 5번: send("on $index")
-```
-
-- 순서: **빈 칸 → 허용 번호 → 켜기/끄기.** 빈 글자를 `toInt()`하면 앱이 멈추므로 빈 칸이 먼저입니다.
-- 걸리면 명령도 로그도 없습니다. Logcat에 `writeCharacteristic` 줄이 **안 생기는 것**이 증거입니다.
-- `== false`는 12주차처럼 "아니면"입니다.
+1. 진행 순서: 1인 3분(발표 2분 + 질문 1분)
+2. 계획안에 담을 다섯 가지와 채점표 10점
+3. 코드 설명 질문은 지금까지 만든 코드에서 나옵니다
+4. 발표 전 점검 → 발표 시작
 
 ---
 
-## 2일차 · 0–6분 ② — isAllowedIndex()로 묶기
-
-```kotlin
-private fun isAllowedIndex(index: Int): Boolean {
-    if (listOf(0, 1, 2, 3).contains(index)) {
-        return true
-    }
-    if (index == -1) {
-        return true
-    }
-    return false
-}
-```
-
-- 10주차 `hasBlePermissions()`처럼 **참/거짓을 돌려주는** 함수입니다. 클래스 끝에 둡니다.
-- `-1`(전체)도 약속된 번호라 허용합니다. 입력 칸은 `-`를 못 적어 [전체 끄기]만 보냅니다.
-- `contains(pin)`처럼 **글자**를 넣으면 `Type inference failed …` 오류가 납니다. `pin.toInt()`.
-
----
-
-## 2일차 · 6–14분 ① — 준비됨일 때만 누를 수 있게
-
-```kotlin
-Bleuno.client?.connectionState?.collect { state ->
-    binding.stateText.text = "상태: $state"
-    binding.ledSwitch.isEnabled = false
-    binding.allOffButton.isEnabled = false
-    if (state == ConnState.READY) {
-        binding.ledSwitch.isEnabled = true
-        binding.allOffButton.isEnabled = true
-    }
-}
-```
-
-- 12주차 4번 collect 안에 넣습니다. MainActivity 8번처럼 **먼저 끄고, 준비됨이면 켭니다.**
-- XML의 `ledSwitch`·`allOffButton`에 `android:enabled="false"`: 상태가 오기 전에도 꺼져 있게.
-- 1일차에 보았던 "`준비되지 않아 무시함`"이 더는 생기지 않습니다.
-
----
-
-## 2일차 · 6–14분 ② — 보낸 직후 300ms 쉬기
-
-```kotlin
-private fun pauseButtons() {
-    binding.ledSwitch.isEnabled = false
-    binding.allOffButton.isEnabled = false
-    lifecycleScope.launch {
-        delay(300)
-        if (Bleuno.client?.isReady == true) {
-            binding.ledSwitch.isEnabled = true
-            binding.allOffButton.isEnabled = true
-        }
-    }
-}
-```
-
-- 5주차 `isEnabled` + 6주차 `launch { delay() }`. `send` 세 곳 뒤에서 `pauseButtons()`를 부릅니다.
-- 300ms 사이 끊겼으면 다시 켜지 않습니다. `?. … == true`는 7주차 `scanJob?.isActive == true` 모양.
-
----
-
-## 2일차 · 14–22분 ① — colors.xml과 R.color
-
-```xml
-<resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="log_ok">#FF2E7D32</color>
-    <color name="log_error">#FFD32F2F</color>
-</resources>
-```
-
-```kotlin
-binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_error))
-```
-
-- `app › res › values › colors.xml`은 새 프로젝트에 이미 있습니다. **두 줄만** 더합니다.
-- `strings.xml` → `R.string`처럼 `colors.xml` → `R.color`. `#AARRGGBB`, 앞 `FF`는 불투명.
-- 로그 칸 **전체** 글자색이 바뀝니다. 한 줄만 바꾸는 방법은 다루지 않습니다.
-
----
-
-## 2일차 · 14–22분 ② — result가 ok가 아니면 AlertDialog
-
-```kotlin
-if (result != "ok") {
-    val message = BleunoMessage.message(json) ?: ""
-    binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_error))
-    AlertDialog.Builder(this)
-        .setTitle("보드가 오류를 알렸습니다")
-        .setMessage("응답: $result · $message")
-        .setPositiveButton("확인", null)
-        .show()
-} else {
-    binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_ok))
-}
-```
-
-- 1일차 `if (result != null)` 안, `append` 아래에 넣습니다. `err`·`fail` 둘 다 이 가지.
-- `message`는 `String?`이라 3주차 `?:`. 응답은 `onStart`~`onStop` 사이에만 오므로 창을 띄워도 됩니다.
-
----
-
-## 2일차 · 14–22분 ③ — 오류를 일부러 만들어 확인하기
-
-정상 흐름에서는 `ok`만 옵니다. **한 곳만** 바꿔 오류 응답을 만들고, 확인한 뒤 되돌립니다.
-
-```kotlin
-Bleuno.client?.send("on$index")     // 띄어쓰기를 뺐다 (확인 뒤 "on $index"로 되돌리기)
-```
+## 2일차 · 0–4분 — 오늘 진행 순서
 
 ```text
-로그   on 3
-       응답: {"result":"fail","ms":"unknown command"}      ← 빨간색
-창     보드가 오류를 알렸습니다 / 응답: fail · unknown command
-Logcat writeCharacteristic(가짜): "on3"
+지금 (30분)    진행 순서 · 계획안에 담을 것 · 채점표 · 질문 · 발표 전 점검
+이어서 (60분)  준비 10분 → 발표 40분 → 질문 정리 10분
+               1인 3분(발표 2분 + 질문 1분). 조가 나뉘면 같은 시간에 따로 진행합니다
 ```
 
-- 앱 로그에는 `on 3`이지만 **실제로 보낸 글자**는 Logcat의 `"on3"`입니다.
-- 제어 화면에 들어온 직후 첫 조작으로 확인합니다. [전체 끄기]의 `ok`로 다시 초록이 됩니다.
+| 인원 N | 평가자 E | ceil(N / E) × 3 | 발표 40분 기준 |
+|---|---|---|---|
+| 20 | 1 | 60분 | 넘칩니다 → E = 2 → 30분 |
+| 26 | 2 | 39분 | 들어갑니다 |
+| 45 | 4 | 36분 | 들어갑니다(E = 3이면 45분으로 넘칩니다) |
+
+- 평가자 한 명이 듣는 인원은 **13명**까지입니다. 조 배정과 순서표는 1일차에 공지했습니다.
+- 과제는 **하나**입니다. 오늘은 계획안, 15주차에 완성본을 냅니다.
 
 ---
 
-## 2일차 · 22–26분 — (확장) SeekBar로 pwm 0 V
+## 2일차 · 4–12분 — 계획안에 담을 다섯 가지
 
-```kotlin
-binding.pwmSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) { }
-    override fun onStartTrackingTouch(seekBar: SeekBar?) { }
-    override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        val value = binding.pwmSeekBar.progress
-        Bleuno.client?.send("pwm 0 $value")
-        binding.logText.append("pwm 0 $value\n")
-        pauseButtons()
-    }
-})
-```
+계획안은 **1쪽**입니다. A4 한 장이나 화면 한 장이면 됩니다.
 
-- 10주차 `object : BroadcastReceiver()`와 같은 익명 객체 틀. 함수 **세 개**를 모두 적습니다.
-- 끄는 동안마다 보내면 큐에 수십 개가 쌓입니다. **손을 뗄 때** 한 번. XML `android:max="255"`.
+| # | 담을 것 | 예 |
+|---|---|---|
+| 1 | 만들 앱 한 줄 소개 | "보드 LED를 켜고 온습도를 받는 앱" |
+| 2 | 화면·기능 목록 | 연결 화면·제어 화면에 둘 버튼과 하는 일 |
+| 3 | 보드 명령 목록 | `on 3` · `off -1` · `pwm 0 128` · `dht11` |
+| 4 | 남은 2주 일정 | 14주차에 할 것 / 15주차 제출 전에 할 것 |
+| 5 | 막힐 곳과 대비책 | "보드를 못 받으면 Fake로 같은 흐름을 보인다" |
+
+- 2번에는 필수 기능 일곱 가지가 **어느 화면에** 들어가는지 표시합니다.
+- 3번은 [bleuno README 2절](../../bleuno/README.md#2-명령과-응답)의 표에서 고릅니다. 표에 없는 명령은 보드가 모릅니다.
+- 다섯 가지의 자세한 설명은 [과제 안내](project_brief.md)에 있습니다.
 
 ---
 
-## 2일차 · 26–30분 — 2차 과제 공지와 이제 직접 해 보기
+## 2일차 · 12–18분 — 채점표: 계획안 발표 10점
 
-[2일차 실습](lab.md#2일차--번호-검사와-오류-표시-60분) · [따라하기](walkthrough.md#2일차)
+| 항목 | 배점 |
+|---|---|
+| 만들 앱과 화면·기능 목록 | 2 |
+| 보드 명령 목록 | 2 |
+| 남은 2주 일정 | 1.5 |
+| 막힐 곳과 대비책 | 1.5 |
+| 지금 되는 화면 시연 | 1.5 |
+| 코드 설명(개인 구술) | 1.5 |
 
-- **2차 과제**: 14주차 2일차 발표. Smart I/O Controller 2~3분 시연 + 레포트
-- 필수: 권한 안내 · 검색·연결·해제·상태 · **출력 제어 1개 이상** · 입력 수신 · 끊김·연결 시간 제한 안내와 재시도 · 명령 규약
-- 팀 구성·발표 순서·채점표는 수업 공지로 따로 안내합니다.
+- **완성도를 채점하지 않습니다.** 오늘 안 되는 기능이 있다고 깎지 않습니다.
+- 깎이는 것은 무엇을 만들지 정하지 못했거나, 계획이 필수 기능과 어긋날 때입니다.
+- 부분 점수까지 담은 표: [채점표](rubric.md). 최종 제출 20점은 15주차에 봅니다.
 
-1. `colors.xml` 두 색 → 허용 번호 검사 → 캡처 2(`9`와 Toast)
-2. `enabled="false"`와 13번 collect, `pauseButtons()`
-3. 16번 오류 표시 → `"on$index"`로 확인하고 되돌리기 → 제출
+---
 
-**설명 합계: 6+8+8+4+4 = 30분**
+## 2일차 · 18–24분 — 코드 설명 질문은 이렇게 나옵니다
+
+질문은 **지금까지 만든 코드**에서 하나 나옵니다. 아직 만들지 않은 기능은 묻지 않습니다.
+
+| 질문 | 답이 있는 곳 |
+|---|---|
+| 회전해도 연결이 이어지는 까닭은? | `Bleuno.client ?: Bleuno.create(…)` |
+| `ESP32_BLE`로 시작하는 보드만 넣는 줄은? | `onFound` 안의 `startsWith` |
+| 목록 줄을 눌렀을 때 어느 주소로 연결하나요? | `addresses.get(position)` → `connect` |
+| `준비됨`일 때만 [제어 화면]이 켜지는 줄은? | collect 안의 `ConnState.READY` 가지 |
+| (1일차를 한 사람) 보낸 명령과 받은 응답을 가르는 줄은? | `send("on $index")`와 `onMessage { }` |
+
+- 파일을 열어 **줄을 가리키고** 한 문장으로 답합니다. 화면만 보이면 이 항목은 받지 못합니다.
+- 12주차 완성본을 받아 시작한 사람도 같은 질문을 받습니다.
+
+---
+
+## 2일차 · 24–27분 — 발표 전 점검
+
+- [ ] 계획안 1쪽에 다섯 가지가 모두 있습니다.
+- [ ] 보드 명령 글자가 규약대로입니다(이름 + 띄어쓰기 한 칸 + 번호).
+- [ ] 앱을 실행해 `준비됨`까지 가 보았습니다. 발표 직전에는 첫 화면에 둡니다.
+- [ ] `MainActivity.kt`·`ControlActivity.kt`를 편집기 탭에 열어 두었습니다.
+- [ ] 2분 안에 다섯 가지를 말할 수 있는지 재 보았습니다.
+
+앞 사람이 발표하는 동안 이 점검표를 끝내 둡니다.
+발표 자료(PPT)는 만들지 않습니다. 계획안 1쪽과 앱, 코드 편집기만 씁니다.
+
+---
+
+## 2일차 · 27–30분 — 발표 시작
+
+[2일차 실습](lab.md#2일차--과제-계획안-발표-60분) · [과제 안내](project_brief.md) · [채점표](rubric.md)
+
+```text
+0:00–0:20  이름, 만들 앱 한 줄 소개
+0:20–1:00  지금 되는 화면 — [검색] → 줄 탭 → 준비됨 (→ 제어 화면)
+1:00–1:40  계획안 — 화면·기능 목록과 보드 명령 목록
+1:40–2:00  남은 2주 일정, 막힐 곳과 대비책
+2:00–3:00  질문 한 개 → 파일 열기 → 줄 가리키기 → 한 문장으로 답하기
+```
+
+**설명 합계: 4+8+6+6+3+3 = 30분**
+
+첫 10분에 순서를 확인하고 계획안 1쪽을 마무리합니다. 발표는 10분째부터 시작합니다.
+2분이 되면 멈추고 질문으로 넘어갑니다. 15주차 최종 제출은 완성 앱·캡처·레포트로 20점입니다.
 
 ---
 
 ## 제출하기
 
-2일차가 끝나면 한 번 제출합니다.
+1일차 실습 결과를 제출합니다.
 
 1. **`ControlActivity.kt`**, **`activity_control.xml`**
 2. **캡처 1**: `상태: 준비됨`, 로그에 `on 3`과 `응답: {"result":"ok","ms":"led(s) on"}`
-3. **캡처 2**: 입력 칸 `9`, Toast `허용되지 않는 번호`, 로그에 `on 9` 없음
-4. **사진**: 번호 3 LED가 켜진 보드(보드·실기기가 없으면 생략)
+3. **사진**: 번호 3 LED가 켜진 보드(보드·실기기가 없으면 생략)
+
+과제 계획안 1쪽은 2일차 발표 뒤에 따로 냅니다. 제출 위치와 마감은 수업 공지를 따릅니다.
 
 ---
 
@@ -392,6 +321,6 @@ binding.pwmSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeLi
 
 오늘 `result != null`로 **건너뛴** 줄이 있었습니다. `{"event":"input","index":0,"value":1}`
 
-14주차에는 이 입력 이벤트와 `dht11` 온도·습도 응답을 **받아서 목록에 쌓고**,
+14주차 1일차에는 허용되지 않는 번호를 앱이 먼저 막고, 오류 응답을 창과 색으로 알립니다.
 
-보드 전원이 꺼져 `끊김`이 되면 [재연결]합니다. 그리고 2차 과제를 발표합니다.
+2일차에는 이 입력 이벤트와 `dht11` 온도·습도를 받아 목록에 쌓고, `끊김`이 되면 [재연결]합니다.

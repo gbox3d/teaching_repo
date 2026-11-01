@@ -10,7 +10,7 @@
 
 | 범위 | 문제 | 수업에서 한 것 | 권장 |
 |---|---|---|---:|
-| 1주 | [a01_kotlin_card](a01_kotlin_card/) Kotlin Playground 학생 카드 | `val`·`$변수`·`if/else`·`fun` 으로 세 줄 출력 | 8분 |
+| 1주 | [a01_kotlin_card](a01_kotlin_card/) Android Studio 학생 카드 | `val`·`$변수`·`if/else`·`fun` 으로 세 줄 출력 | 8분 |
 | 2주 | [a02_info_screen](a02_info_screen/) 내 정보 화면 | 세로 `LinearLayout` 과 `TextView` 로 학번·이름·전공 | 10분 |
 | 2주 | [a03_name_button](a03_name_button/) 코드로 글자 바꾸기와 버튼 하나 | `android:id`·`findViewById`·`setOnClickListener`·`var` | 10분 |
 | 2주 | [a04_counter_three](a04_counter_three/) 버튼 셋 카운터 | `+1`·`-1`·`초기화`, 가로 `LinearLayout` | 10분 |

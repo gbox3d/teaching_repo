@@ -62,6 +62,8 @@ onServicesDiscovered(가짜) → onDescriptorWrite → 준비됨
 각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
 시간이 필요한 학생은 따라하기 문서의 단계를 하나씩 반복한다.
 
+**과제 공지(1일차 끝):** 이번 학기 과제는 하나다. 지금 만들고 있는 Smart I/O Controller를 13주차 2일차에 계획안으로 발표하고(10점) 15주차에 완성본으로 제출한다(20점). 담을 것과 필수 기능은 [13주차 과제 안내](../week13_ble_output/project_brief.md)와 [채점표](../week13_ble_output/rubric.md)에 있다.
+
 ## 준비
 
 - 11주차까지 만든 `SmartIO` 프로젝트(검색 목록·마지막 장치·[연락처 보기]가 있는 연결 화면). 없으면 11주차 완성본(`examples/day2`)을 받아 시작한다.
@@ -126,9 +128,10 @@ bleuno 패키지 [README 6절](../../bleuno/README.md#6-사용-예--검색--연�
 
 ## 다음 수업 연결
 
-다음 주는 [13주차 — BLE 출력 제어: 문자열 명령과 응답](../week13_ble_output/README.md)이다.
+다음 주는 [13주차 — BLE 출력 제어와 과제 계획안 발표](../week13_ble_output/README.md)이다.
 오늘 `준비됨`까지 연결한 `Bleuno.client`로 제어 화면에서 `client.send("on 3")`처럼 명령을 보내고, 보드가 돌려주는 JSON 응답을 `client.onMessage { }`로 받아 로그에 쌓는다.
 제어 화면의 LED Switch가 로그에 `on 3`을 적기만 하던 4주차 코드가 진짜 보드의 LED를 켜게 된다. 보드 LED 번호가 GPIO가 아니라 인덱스 `0`~`3`이라는 점을 [bleuno README 2절](../../bleuno/README.md#n은-led-인덱스다)에서 미리 읽어 온다.
+13주차 2일차에는 코드를 더 넣지 않고 1일차에 공지한 과제의 계획안을 발표한다. 계획안 1쪽을 준비해 1인 3분(발표 2분 + 질문 1분)으로 지금까지 만든 화면을 보여 주며 설명한다([과제 안내](../week13_ble_output/project_brief.md) · [채점표](../week13_ble_output/rubric.md)).
 
 ## 공식 참고 자료
 

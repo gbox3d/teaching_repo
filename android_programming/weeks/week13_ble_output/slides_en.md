@@ -3,13 +3,13 @@ marp: true
 theme: default
 paginate: true
 header: Mobile Programming · Week 13
-footer: BLE Output Control · String Commands and Responses
+footer: BLE Output Control · The Project Plan Presentation
 ---
 
-# BLE Output Control: String Commands and Responses
+# BLE Output Control and the Project Plan Presentation
 
 In week 12, tapping a list row connected you to the board up to `준비됨` (Ready).
-This week, you use that connection to **send commands** and **receive the board's replies.**
+On Day 1 you use that connection to **send commands** and **receive the board's replies.**
 
 ```text
 상태: 준비됨                         보드
@@ -20,6 +20,7 @@ on 3
 ```
 
 Even without a board, you can practice the same way with `useFake = true`.
+On Day 2 you present your **project plan** using the very app you have built so far.
 
 ---
 
@@ -51,7 +52,7 @@ if (listOf(0, 1, 2, 3).contains(index)) {
 | `9` / `-1` | `false` |
 
 - `true` if the value **is in** the list. Put the **same kind** of value (numbers) inside the parentheses.
-- `listOf` creates a list you don't change afterward. We add it to the app on Day 2.
+- `listOf` creates a list you don't change afterward. We add it to the app in week 14, Day 1.
 
 ---
 
@@ -79,8 +80,8 @@ if (listOf(0, 1, 2, 3).contains(index)) {
 | Board pin | GPIO4 | GPIO3 | GPIO1 | GPIO0 | all |
 
 - The `3` in `on 3` is not a GPIO pin — it's the **LED number**. The classroom board has 4 LEDs.
-- The board **does not check** whether the number is in range. Your app must block bad numbers before sending (Day 2).
-- Today's Day 1 code has no check yet. `9` is **Fake-only** — a real board only accepts `0`–`3`.
+- The board **does not check** whether the number is in range. Your app must block bad numbers before sending (week 14).
+- This week's code has no check yet. `9` is **Fake-only** — a real board only accepts `0`–`3`.
 
 | `result` | Meaning |
 |---|---|
@@ -190,201 +191,129 @@ Take the screenshot on the **first action right after entering** the control scr
 
 ---
 
-# Day 2 — Blocking, Alerting, and Showing It in Color
+# Day 2 — The Project Plan Presentation
 
-`30 min explanation & demo → 60 min lab`
+`30 min briefing → 60 min presentation block`
 
-1. Allowed-number check: don't send `9`, show a Toast instead
-2. Only when `준비됨`; block the buttons for 300ms right after sending
-3. An AlertDialog and a red `colors.xml` log when `result` isn't `ok`
-4. (Extension) `SeekBar` for `pwm 0 V`, and the Project 2 announcement
-
----
-
-## Day 2 · 0–6 min ① — Check the Number Before Sending
-
-```kotlin
-if (pin.isEmpty()) {
-    Toast.makeText(this, "LED 번호를 입력하세요", Toast.LENGTH_SHORT).show()
-} else if (isAllowedIndex(pin.toInt()) == false) {
-    Toast.makeText(this, "허용되지 않는 번호", Toast.LENGTH_SHORT).show()
-} else if (isChecked) {
-    // Day 1 step 5: send("on $index")
-```
-
-- Order: **empty field → allowed number → on/off.** Calling `toInt()` on an empty string crashes the app, so the empty check comes first.
-- If a check fails, there's no command and no log line. The proof is that Logcat shows **no** `writeCharacteristic` line.
-- `== false` still means "if not," as in week 12.
+1. How today runs: 3 minutes each (2 min talk + 1 min questions)
+2. The five things your plan must cover, and the 10-point rubric
+3. Code questions come from the code you have already written
+4. Pre-presentation checklist → start
 
 ---
 
-## Day 2 · 0–6 min ② — Wrapping It in isAllowedIndex()
-
-```kotlin
-private fun isAllowedIndex(index: Int): Boolean {
-    if (listOf(0, 1, 2, 3).contains(index)) {
-        return true
-    }
-    if (index == -1) {
-        return true
-    }
-    return false
-}
-```
-
-- A function that **returns true/false**, like week 10's `hasBlePermissions()`. Put it at the end of the class.
-- `-1` (all) is also an accepted number, since it's a reserved value. The input field can't type `-`, so only [전체 끄기] sends it.
-- Passing **text** as in `contains(pin)` gives a `Type inference failed …` error — use `pin.toInt()`.
-
----
-
-## Day 2 · 6–14 min ① — Only Enabled When Ready
-
-```kotlin
-Bleuno.client?.connectionState?.collect { state ->
-    binding.stateText.text = "상태: $state"
-    binding.ledSwitch.isEnabled = false
-    binding.allOffButton.isEnabled = false
-    if (state == ConnState.READY) {
-        binding.ledSwitch.isEnabled = true
-        binding.allOffButton.isEnabled = true
-    }
-}
-```
-
-- Add this inside week 12's collect, step 4. Like MainActivity's step 8: **turn everything off first, then turn it on if ready.**
-- Set `android:enabled="false"` on `ledSwitch`/`allOffButton` in the XML, so they're off even before state arrives.
-- The `"준비되지 않아 무시함"` line you saw on Day 1 no longer appears.
-
----
-
-## Day 2 · 6–14 min ② — A 300ms Pause Right After Sending
-
-```kotlin
-private fun pauseButtons() {
-    binding.ledSwitch.isEnabled = false
-    binding.allOffButton.isEnabled = false
-    lifecycleScope.launch {
-        delay(300)
-        if (Bleuno.client?.isReady == true) {
-            binding.ledSwitch.isEnabled = true
-            binding.allOffButton.isEnabled = true
-        }
-    }
-}
-```
-
-- Week 5's `isEnabled` + week 6's `launch { delay() }`. Call `pauseButtons()` right after each of the three `send` calls.
-- If the connection drops during those 300ms, don't turn the buttons back on. `?. … == true` follows week 7's `scanJob?.isActive == true` shape.
-
----
-
-## Day 2 · 14–22 min ① — colors.xml and R.color
-
-```xml
-<resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="log_ok">#FF2E7D32</color>
-    <color name="log_error">#FFD32F2F</color>
-</resources>
-```
-
-```kotlin
-binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_error))
-```
-
-- `app › res › values › colors.xml` already exists in a new project. Add just **two lines**.
-- `colors.xml` → `R.color`, the same way `strings.xml` → `R.string`. `#AARRGGBB`; a leading `FF` means opaque.
-- This changes the color of **the whole** log field's text. Coloring a single line isn't covered here.
-
----
-
-## Day 2 · 14–22 min ② — An AlertDialog When result Isn't ok
-
-```kotlin
-if (result != "ok") {
-    val message = BleunoMessage.message(json) ?: ""
-    binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_error))
-    AlertDialog.Builder(this)
-        .setTitle("보드가 오류를 알렸습니다")
-        .setMessage("응답: $result · $message")
-        .setPositiveButton("확인", null)
-        .show()
-} else {
-    binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_ok))
-}
-```
-
-- Add this inside Day 1's `if (result != null)`, below `append`. Both `err` and `fail` fall into this branch.
-- `message` is `String?`, so use week 3's `?:`. Responses only arrive between `onStart` and `onStop`, so it's safe to show a dialog.
-
----
-
-## Day 2 · 14–22 min ③ — Deliberately Triggering an Error to Check It
-
-Normal use only ever produces `ok`. Change **just one spot** to produce an error response, check it, then change it back.
-
-```kotlin
-Bleuno.client?.send("on$index")     // dropped the space (change back to "on $index" after checking)
-```
+## Day 2 · 0–4 min — How Today Runs
 
 ```text
-Log    on 3
-       응답: {"result":"fail","ms":"unknown command"}      ← red
-Dialog 보드가 오류를 알렸습니다 / 응답: fail · unknown command
-Logcat writeCharacteristic(가짜): "on3"
+Now (30 min)    How it runs · what the plan covers · rubric · questions · checklist
+Then (60 min)   10 min to get ready → 40 min of talks → 10 min wrap-up
+                3 min each (2 min talk + 1 min questions). Groups run at the same time
 ```
 
-- The app log shows `on 3`, but the **text actually sent** is `"on3"`, visible in Logcat.
-- Check this on the first action right after entering the control screen. Sending [전체 끄기] afterward gives `ok` and turns the log green again.
+| Students N | Evaluators E | ceil(N / E) × 3 | Against the 40 min |
+|---|---|---|---|
+| 20 | 1 | 60 min | Too long → E = 2 → 30 min |
+| 26 | 2 | 39 min | Fits |
+| 45 | 4 | 36 min | Fits (E = 3 would be 45 min) |
+
+- One evaluator can hear **13 students**. Groups and the order were announced on Day 1.
+- There is **one** project. Today it's the plan; in week 15 you submit the finished app.
 
 ---
 
-## Day 2 · 22–26 min — (Extension) pwm 0 V with a SeekBar
+## Day 2 · 4–12 min — The Five Things Your Plan Covers
 
-```kotlin
-binding.pwmSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) { }
-    override fun onStartTrackingTouch(seekBar: SeekBar?) { }
-    override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        val value = binding.pwmSeekBar.progress
-        Bleuno.client?.send("pwm 0 $value")
-        binding.logText.append("pwm 0 $value\n")
-        pauseButtons()
-    }
-})
-```
+The plan is **one page** — one A4 sheet or one screen is enough.
 
-- The same anonymous-object pattern as week 10's `object : BroadcastReceiver()`. Write all **three** functions.
-- Sending on every drag tick would queue up dozens of commands. Send **once, on release**. In XML, `android:max="255"`.
+| # | What to include | Example |
+|---|---|---|
+| 1 | One line about the app | "An app that turns board LEDs on and reads temperature/humidity" |
+| 2 | Screens and features | Buttons on the connect and control screens, and what each does |
+| 3 | Board command list | `on 3` · `off -1` · `pwm 0 128` · `dht11` |
+| 4 | Plan for the two remaining weeks | What to do in week 14 / before the week 15 deadline |
+| 5 | Where you expect to get stuck, and a fallback | "If I can't get a board, I'll show the same flow with Fake" |
+
+- In item 2, mark **which screen** each of the seven required features belongs to.
+- Pick item 3 from the table in [bleuno README §2](../../bleuno/README.md#2-명령과-응답). The board doesn't know commands outside it.
+- The [project brief](project_brief.md) explains all five in detail.
 
 ---
 
-## Day 2 · 26–30 min — Project 2 Announcement and Try It Yourself
+## Day 2 · 12–18 min — Rubric: 10 Points for the Plan Presentation
 
-[Day 2 lab](lab.md#2일차--번호-검사와-오류-표시-60분) · [Walkthrough](walkthrough.md#2일차)
+| Item | Points |
+|---|---|
+| The app, its screens and features | 2 |
+| Board command list | 2 |
+| Plan for the two remaining weeks | 1.5 |
+| Where you expect to get stuck, and a fallback | 1.5 |
+| Demo of what already works | 1.5 |
+| Code explanation (spoken, individual) | 1.5 |
 
-- **Project 2**: presented on week 14, Day 2. A 2–3 minute Smart I/O Controller demo + a report
-- Required: permission guidance · scan/connect/disconnect/state · **at least one output control** · input reception · disconnect/timeout guidance with retry · the command convention
-- Team setup, presentation order, and the rubric will be announced separately in class.
+- **Completeness is not graded.** You lose nothing for features that don't work yet.
+- You lose points when you haven't decided what to build, or the plan conflicts with the required features.
+- Full table with partial credit: [rubric](rubric.md). The 20 points for the final submission come in week 15.
 
-1. Two colors in `colors.xml` → allowed-number check → Screenshot 2 (`9` and the Toast)
-2. `enabled="false"` and collect step 13, `pauseButtons()`
-3. The error display in step 16 → verify with `"on$index"`, then change it back → submit
+---
 
-**Explanation total: 6+8+8+4+4 = 30 min**
+## Day 2 · 18–24 min — How the Code Question Works
+
+You get one question about **the code you have already written.** Nothing you haven't built yet.
+
+| Question | Where the answer lives |
+|---|---|
+| Why does the connection survive a rotation? | `Bleuno.client ?: Bleuno.create(…)` |
+| Which line keeps only names starting with `ESP32_BLE`? | `startsWith` inside `onFound` |
+| Which address do you connect to when a row is tapped? | `addresses.get(position)` → `connect` |
+| Which line enables [제어 화면] only when `준비됨`? | The `ConnState.READY` branch inside collect |
+| (If you did Day 1) Which lines separate the command sent from the reply received? | `send("on $index")` and `onMessage { }` |
+
+- Open the file, **point at the line**, and answer in one sentence. Showing only the screen doesn't earn this item.
+- Students who started from the week 12 solution get the same question.
+
+---
+
+## Day 2 · 24–27 min — Pre-Presentation Checklist
+
+- [ ] My one-page plan has all five items.
+- [ ] My command text follows the convention (name + one space + number).
+- [ ] I ran the app once up to `준비됨`. Right before presenting, I leave it on the first screen.
+- [ ] `MainActivity.kt` and `ControlActivity.kt` are open in editor tabs.
+- [ ] I timed myself saying all five items within 2 minutes.
+
+Finish this checklist while the person before you is presenting.
+Don't build slides. You use the one-page plan, the app, and the code editor.
+
+---
+
+## Day 2 · 27–30 min — Presentations Start
+
+[Day 2 lab](lab.md#2일차--과제-계획안-발표-60분) · [Project brief](project_brief.md) · [Rubric](rubric.md)
+
+```text
+0:00–0:20  Your name, one line about the app
+0:20–1:00  What already works — [검색] → tap a row → 준비됨 (→ 제어 화면)
+1:00–1:40  The plan — screens/features and the board command list
+1:40–2:00  The two remaining weeks, where you expect to get stuck
+2:00–3:00  One question → open the file → point at the line → answer in one sentence
+```
+
+**Explanation total: 4+8+6+6+3+3 = 30 min**
+
+The first 10 minutes are for checking the order and finishing your one-page plan. Talks start at minute 10.
+At 2 minutes we stop and move to the question. The week 15 submission is worth 20 points: app, screenshots, report.
 
 ---
 
 ## What to Submit
 
-Submit once, at the end of Day 2.
+Submit the result of the Day 1 lab.
 
 1. **`ControlActivity.kt`**, **`activity_control.xml`**
 2. **Screenshot 1**: `상태: 준비됨`, with `on 3` and `응답: {"result":"ok","ms":"led(s) on"}` in the log
-3. **Screenshot 2**: `9` in the input field, the Toast `허용되지 않는 번호`, and no `on 9` in the log
-4. **Photo**: the board with LED 3 on (skip if you have no board/device)
+3. **Photo**: the board with LED 3 on (skip if you have no board/device)
+
+The one-page project plan is handed in separately after the Day 2 presentation. Place and deadline follow the class announcement.
 
 ---
 
@@ -392,6 +321,6 @@ Submit once, at the end of Day 2.
 
 Today, `result != null` **skipped** a line: `{"event":"input","index":0,"value":1}`.
 
-In week 14, you'll **receive and collect** this input event and the `dht11` temperature/humidity response,
+In week 14, Day 1, the app blocks numbers that aren't allowed and reports error replies with a dialog and color.
 
-and if the board loses power and goes `끊김`, you'll [재연결] (Reconnect). Then you'll present Project 2.
+On Day 2 you'll collect this input event and the `dht11` readings into a list, and [재연결] (Reconnect) when it goes `끊김`.

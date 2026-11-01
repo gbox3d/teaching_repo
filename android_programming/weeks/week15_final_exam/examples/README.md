@@ -4,7 +4,7 @@
 14주차 최종 앱에서 세 기능(권한 확인 흐름, LED 번호 토글과 응답 표시, 연결 시간 제한 안내)의 본문만 비운 것이 리허설 starter다. 새 문법은 없다.
 
 - `rehearsal_starter/` — 1일차 리허설 시작 코드. 빌드·실행되고 `// TODO` 아홉 곳만 비어 있다(TODO 번호는 기능 번호라 (1)·(2)·(3) 세 가지). 시험 당일 받는 starter도 이런 모양이다.
-- `rehearsal_solution/` — 자기 점검용 완성본. **14주차 [examples/day1](../../week14_ble_input_project/examples/day1)과 글자 단위로 같다.** 먼저 혼자 풀고 나서 비교한다.
+- `rehearsal_solution/` — 자기 점검용 완성본. **14주차 [examples/day2](../../week14_ble_input_project/examples/day2)와 글자 단위로 같다.** 먼저 혼자 풀고 나서 비교한다.
 
 만드는 순서는 [따라하기](../walkthrough.md)에 있다.
 
@@ -20,7 +20,7 @@
 | [strings.xml](rehearsal_starter/strings.xml), [colors.xml](rehearsal_starter/colors.xml), [res/values/themes.xml](rehearsal_starter/res/values/themes.xml) | `app › res › values` | 같다 |
 | [AndroidManifest.xml](rehearsal_starter/AndroidManifest.xml) | `app › manifests › AndroidManifest.xml` | 같다(10주차 BLE 권한, 11주차 연락처 권한) |
 
-- 14주차 프로젝트가 그대로 있으면 **`MainActivity.kt`·`ControlActivity.kt` 두 파일만** 바꾼다. 나머지 15개는 14주차와 같다.
+- 14주차 프로젝트가 그대로 있으면 **`MainActivity.kt`·`ControlActivity.kt` 두 파일만** 바꾼다. 나머지 15개는 14주차 2일차 완성본 `examples/day2`와 같다.
 - `build.gradle.kts`는 이 폴더에 없다. 4주차에 만든 파일을 그대로 쓴다([4주차 examples/day1/build.gradle.kts](../../week04_fragments_navigation/examples/day1/build.gradle.kts)). 본시험 starter는 이 파일까지 들어 있는 프로젝트 폴더로 배포한다.
 - `.kt` 파일 전체를 복사할 때 첫 줄 `package ...`는 내 프로젝트의 첫 줄을 그대로 둔다.
 - starter에서 회색으로 보이는 import 네 줄(`MainActivity.kt`의 `android.net.Uri`·`kotlinx.coroutines.delay`, `ControlActivity.kt`의 `androidx.appcompat.app.AlertDialog`·`androidx.core.content.ContextCompat`)은 TODO를 채우면 쓰인다. 지우지 않는다.
@@ -249,9 +249,9 @@ private suspend fun waitConnectTimeout() {
 | 채점표 항목(구현 15) | 다시 쓰는 개념(처음 배운 주) | `rehearsal_solution` 줄 |
 |---|---|---|
 | 권한·SharedPreferences 3 | Manifest 선언(10주) → `checkSelfPermission` 반복(10·12주) → 요청 틀과 `launch`(10주) → 결과 `{ _ -> }` → 거절 AlertDialog와 암시적 Intent(10주). 저장·복원(11·14주)은 starter 완성분 | `AndroidManifest.xml` 10~26행, `MainActivity.kt` 64~70행, 284~290행, 392~399행, 402~413행, 저장 133·306·321~331행 |
-| `send`·`onMessage`·재연결 3 | `send("on $index")`와 명령 규약, `onMessage { json -> }`와 `BleunoMessage.result/message`, 오류 색·창, 허용 번호(13주). 재연결 버튼(14주)은 starter 완성분 | `ControlActivity.kt` 58~81행, 195~210행, 226~234행, `MainActivity.kt` 350~358행 |
+| `send`·`onMessage`·재연결 3 | `send("on $index")`와 명령 규약, `onMessage { json -> }`와 `BleunoMessage.result`(13주), `BleunoMessage.message`와 오류 색·창, 허용 번호(14주). 재연결 버튼(14주)은 starter 완성분 | `ControlActivity.kt` 58~81행, 195~210행, 226~234행, `MainActivity.kt` 350~358행 |
 | 코루틴 timeout·취소·오류 3 | `Job` 보관과 `?.cancel()`, `lifecycleScope.launch`, `suspend fun`과 `delay`(6주), `connectionState.value`와 `listOf(…).contains(…)`(7·13·14주) | `MainActivity.kt` 108행, 468~473행, 478~492행 |
-| UI·이벤트 3 | `setOnCheckedChangeListener`(4주), `isEmpty()`·`.toInt()`·문자열 템플릿(4주), `Toast`(3주), `isEnabled`로 잠깐 막기(5·13주) | `ControlActivity.kt` 58~81행, 238~250행 |
+| UI·이벤트 3 | `setOnCheckedChangeListener`(4주), `isEmpty()`·`.toInt()`·문자열 템플릿(4주), `Toast`(3주), `isEnabled`로 잠깐 막기(5·14주) | `ControlActivity.kt` 58~81행, 238~250행 |
 | 상태 보존·StateFlow 3 | `connectionState` collect 틀(7·12주), 회전하면 시간 제한 다시 걸기(14주) — starter 완성분 | `MainActivity.kt` 235~281행, 335~337행, `ControlActivity.kt` 90~113행 |
 
 세부 기준은 [채점표](../rubric.md)에 있다.

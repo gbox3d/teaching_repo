@@ -286,7 +286,7 @@ Activity (화면 하나)            Activity
 ```
 
 - Fragment는 **Activity 안의 화면 조각**입니다. 한 Activity에 여러 개를 넣거나 바꿔 끼웁니다.
-- 이번 학기 SmartIO는 Activity 두 개로 만듭니다. Fragment 시연은 9주차에 봅니다.
+- 이번 학기 SmartIO는 Activity 두 개로 만듭니다. Fragment는 9주차 2일차에 시연을 보고 직접 만들어 봅니다.
 
 ---
 

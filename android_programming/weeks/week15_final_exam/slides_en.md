@@ -3,10 +3,10 @@ marp: true
 theme: default
 paginate: true
 header: Mobile Programming · Week 15
-footer: Final Exam · Individual Hands-On
+footer: Final Exam (Individual Practical) and Project Submission
 ---
 
-# Final Exam: 60 Minutes Solo, Demo in Front of the Board
+# Final Exam (Individual Practical) and Project Submission
 
 You rewrite, on your own, three features of the **Smart I/O Controller** you built in weeks 2–14.
 There's no new syntax. Day 1 is a **public rehearsal**; Day 2 is the **real exam**.
@@ -18,6 +18,7 @@ Timeout           still connecting after 10s → 연결 시간이 초과되었�
 ```
 
 The 15-point implementation is graded by running it in Fake mode; the 5-point demo happens **in front of a real board**.
+The **project final submission (20 pts)**, announced in week 12, is also due this week. It is a **separate score** from the practical exam.
 
 ---
 
@@ -42,7 +43,9 @@ The 15-point implementation is graded by running it in Fake mode; the 5-point de
 - Scope is **weeks 2–14**: screens/events, rotation, coroutines, StateFlow, permissions/storage, BLE commands and responses.
 - The real exam has the **same shape** as today's rehearsal — only the wording, numbers, and details differ.
 - Three features: ① the permission-check flow ② toggling an LED number and showing the response ③ connect-timeout guidance
-- The final exam is 20% of the grade = implementation 15 + demo 5. It isn't part of the weekly-lab score.
+- The practical exam is 20% of the grade = implementation 15 + demo 5. It isn't part of the weekly-lab score.
+- This week has **two separate things**: the **practical exam** and the **project final submission**. They are **separate scores**.
+- **Project final submission (20 pts)**: the finished app, the screenshot set, and the report for the project announced in week 12 and planned in week 13. The deadline and the submission place follow the class announcement.
 
 ---
 
@@ -70,7 +73,7 @@ Detailed criteria: [rubric.md](rubric.md)
 | Input reception | 2 | 2 lines of `dht11` input history, stop with [중지] |
 | Oral question | 1 | One question: "when does this callback get called?" |
 
-- **Base score**: even if your implementation score would be lower than 5, you get implementation 5 as long as each TODO spot shows **an attempt at implementing it**.
+- **Base score**: even if your implementation score would be lower than 5, you get implementation 5 as long as **at least one** of the three features' TODO spots shows **an attempt at implementing it**.
 - This applies even to a submission that doesn't build. A TODO comment left untouched, with no attempt, doesn't count.
 - Still, a **submission that builds** earns more. Leave the parts you don't know empty, but keep it buildable.
 
@@ -245,5 +248,6 @@ Evaluators move seat to seat in seating-chart order. The order is posted on the 
 1. Phones go in your bag (the demo device only shows the app screen); keep only the allowed-materials tab open in your browser.
 2. Note the time once you receive the question sheet and starter. 0–5 min is for opening and running it.
 3. The last 5 minutes are for submitting. Finish editing before then.
+4. The **project final submission** (finished app, screenshot set, report) is a separate score from this exam. If you have not handed it in yet, do so by the announced deadline.
 
 **Explanation total: 5+5+5+7+5+3 = 30 min**

@@ -1,6 +1,6 @@
 # 15주차 따라하기 — 기말고사 공개 리허설과 시험 준비
 
-14주차 `SmartIO` 프로젝트를 이어서 쓴다. 시작점은 14주차 완성본([examples/day1](../week14_ble_input_project/examples/day1))이다. 처음에는 그대로 따라 하고, 각 단계의 결과가 화면에 보이면 다음 단계로 넘어간다.
+14주차 `SmartIO` 프로젝트를 이어서 쓴다. 시작점은 14주차 완성본([examples/day2](../week14_ble_input_project/examples/day2))이다. 처음에는 그대로 따라 하고, 각 단계의 결과가 화면에 보이면 다음 단계로 넘어간다.
 리허설은 시험 연습이다. [실습지](lab.md)로 먼저 혼자 풀어 보고, 막힌 단계만 여기서 연다. 1~2단계(14주차 확인과 starter 넣기)는 시험 당일 강의자가 끝내서 나눠 주는 부분이다.
 
 이번 주에 바꾸는 파일은 두 개뿐이다. `MainActivity.kt`·`ControlActivity.kt`를 starter로 바꾼 뒤 TODO를 채운다.
@@ -197,7 +197,7 @@ TODO(1)이 끝났다. 권한 흐름에는 Logcat `tag:BLE` 줄이 없다. 다음
 `ControlActivity.kt`의 12번 `private fun isAllowedIndex(index: Int): Boolean {` 아래에서 `// TODO(2)` **주석 세 줄**을 지우고, 남아 있는 `return false` 줄 **위**에 넣는다. 위 주석부터 함수 끝까지는 아래와 같다.
 
 ```kotlin
-    // 12. 보드에 보내도 되는 번호면 true, 아니면 false(13주차 2일차).
+    // 12. 보드에 보내도 되는 번호면 true, 아니면 false(14주차 1일차).
     //     수업 보드의 LED 번호는 0~3이고, -1은 "전체"라는 약속이다(7번 [전체 끄기]). 입력 칸은 inputType이 number라 -를 적을 수 없다.
     //     펌웨어는 번호 범위를 확인하지 않아서 이 밖의 번호를 보내면 보드가 어떻게 될지 모른다. 그래서 보내기 전에 앱이 막는다.
     private fun isAllowedIndex(index: Int): Boolean {
@@ -226,7 +226,7 @@ onCreate 2번 `binding.ledSwitch.setOnCheckedChangeListener { _, isChecked ->` �
             if (pin.isEmpty()) {
                 Toast.makeText(this, "LED 번호를 입력하세요", Toast.LENGTH_SHORT).show()
             } else if (isAllowedIndex(pin.toInt()) == false) {
-                // 11. 허용되지 않는 번호면 보드에 보내지 않고 Toast로 알린다. 번호 확인은 12번 함수가 한다(13주차 2일차).
+                // 11. 허용되지 않는 번호면 보드에 보내지 않고 Toast로 알린다. 번호 확인은 12번 함수가 한다(14주차 1일차).
                 Toast.makeText(this, "허용되지 않는 번호", Toast.LENGTH_SHORT).show()
             } else if (isChecked) {
                 // 5. 입력한 글자를 숫자(LED 번호)로 바꿔 "on 번호" 명령을 보드에 보내고, 보낸 명령을 로그에 남긴다(13주차 1일차).
@@ -234,14 +234,14 @@ onCreate 2번 `binding.ledSwitch.setOnCheckedChangeListener { _, isChecked ->` �
                 val index = pin.toInt()
                 Bleuno.client?.send("on $index")
                 binding.logText.append("on $index\n")
-                // 14. 보낸 직후 300ms 동안 버튼을 꺼 둔다. 끄고 켜는 일은 15번 함수가 한다(13주차 2일차).
+                // 14. 보낸 직후 300ms 동안 버튼을 꺼 둔다. 끄고 켜는 일은 15번 함수가 한다(14주차 1일차).
                 pauseButtons()
             } else {
                 // 6. 끄면 "off 번호" 명령을 보낸다. 5번과 같은 모양이다(13주차 1일차).
                 val index = pin.toInt()
                 Bleuno.client?.send("off $index")
                 binding.logText.append("off $index\n")
-                // 14. 보낸 직후 300ms 동안 버튼을 꺼 둔다(13주차 2일차).
+                // 14. 보낸 직후 300ms 동안 버튼을 꺼 둔다(14주차 1일차).
                 pauseButtons()
             }
         }
@@ -270,7 +270,7 @@ onStart 8번 `Bleuno.client?.onMessage { json ->` 안, 마지막 가지 `} else 
 ```kotlin
             } else if (result != null) {
                 binding.logText.append("응답: $json\n")
-                // 16. result가 "ok"가 아니면(err·fail) 로그 글자를 colors.xml의 빨간색으로 바꾸고, "ms"(설명) 값을 꺼내 AlertDialog로 알린다(13주차 2일차).
+                // 16. result가 "ok"가 아니면(err·fail) 로그 글자를 colors.xml의 빨간색으로 바꾸고, "ms"(설명) 값을 꺼내 AlertDialog로 알린다(14주차 1일차).
                 //     ok면 초록색으로 되돌린다. 응답은 onStart~onStop 사이(거의 항상 화면이 보이는 동안)에만 받으므로 여기서 창을 띄운다.
                 if (result != "ok") {
                     val message = BleunoMessage.message(json) ?: ""
@@ -307,7 +307,7 @@ onStart 8번 `Bleuno.client?.onMessage { json ->` 안, 마지막 가지 `} else 
 `MainActivity.kt`의 50번 `private fun startConnectTimeout() {` 아래의 `// TODO(3)` **주석 세 줄**을 지우고 그 자리에 넣는다. 위 주석부터 함수 끝까지는 아래와 같다.
 
 ```kotlin
-    // 50. 연결 시간 제한을 건다. 앞에서 건 제한이 남아 있으면 먼저 취소한다(14주차 1일차).
+    // 50. 연결 시간 제한을 건다. 앞에서 건 제한이 남아 있으면 먼저 취소한다(14주차 2일차).
     //     취소하지 않으면 앞 연결의 10초 예약이 새 연결을 끊을 수 있다. 6주차 [중지]의 scanJob?.cancel()과 같은 방법이다.
     private fun startConnectTimeout() {
         connectTimeoutJob?.cancel()
@@ -328,7 +328,7 @@ onStart 8번 `Bleuno.client?.onMessage { json ->` 안, 마지막 가지 `} else 
 51번 `private suspend fun waitConnectTimeout() {` 아래의 `// TODO(3)` **주석 다섯 줄**을 지우고 그 자리에 넣는다. 위 주석부터 함수 끝까지는 아래와 같다.
 
 ```kotlin
-    // 51. 10초를 기다린 뒤에도 아직 연결 중·서비스 확인 중이면 "연결 시간이 초과되었습니다"를 알리고 연결을 끊는다(14주차 1일차).
+    // 51. 10초를 기다린 뒤에도 아직 연결 중·서비스 확인 중이면 "연결 시간이 초과되었습니다"를 알리고 연결을 끊는다(14주차 2일차).
     //     그사이 준비됨·끊김·연결 안 됨이 되었으면 아무것도 하지 않는다. listOf(…).contains(…)는 13주차 오늘 문법이다.
     //     delay를 쓰므로 suspend가 붙는다(6주차 countDown과 같다). 이 함수 안의 this는 Activity라서 Toast에 그대로 쓴다.
     private suspend fun waitConnectTimeout() {
@@ -371,7 +371,7 @@ onStart 8번 `Bleuno.client?.onMessage { json ->` 안, 마지막 가지 `} else 
 
 ### 14. 완성 파일 전체와 비교하기
 
-TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity.kt](examples/rehearsal_solution/MainActivity.kt)(493행)와 [examples/rehearsal_solution/ControlActivity.kt](examples/rehearsal_solution/ControlActivity.kt)(277행)다. 두 파일은 14주차 [examples/day1/MainActivity.kt](../week14_ble_input_project/examples/day1/MainActivity.kt)·[examples/day1/ControlActivity.kt](../week14_ble_input_project/examples/day1/ControlActivity.kt)와 글자 단위로 같아서 여기에는 다시 싣지 않는다. 4~12단계에서 채운 아홉 덩어리 말고는 starter와 한 글자도 다르지 않다.
+TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity.kt](examples/rehearsal_solution/MainActivity.kt)(493행)와 [examples/rehearsal_solution/ControlActivity.kt](examples/rehearsal_solution/ControlActivity.kt)(277행)다. 두 파일은 14주차 [examples/day2/MainActivity.kt](../week14_ble_input_project/examples/day2/MainActivity.kt)·[examples/day2/ControlActivity.kt](../week14_ble_input_project/examples/day2/ControlActivity.kt)와 글자 단위로 같아서 여기에는 다시 싣지 않는다. 4~12단계에서 채운 아홉 덩어리 말고는 starter와 한 글자도 다르지 않다.
 
 | 채운 곳 | 완성본 줄 | 단계 |
 |---|---|---|
@@ -492,7 +492,7 @@ TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity
 
 ## 부록 A — 바꾸지 않는 파일 전체
 
-아래 파일은 14주차 `examples/day1`과 글자 단위로 같고, 리허설 starter와 완성본에서도 같다. 같은 코드가 [examples/rehearsal_starter](examples/rehearsal_starter)와 [examples/rehearsal_solution](examples/rehearsal_solution)에 있다.
+아래 파일은 14주차 `examples/day2`와 글자 단위로 같고, 리허설 starter와 완성본에서도 같다. 같은 코드가 [examples/rehearsal_starter](examples/rehearsal_starter)와 [examples/rehearsal_solution](examples/rehearsal_solution)에 있다.
 
 `AndroidManifest.xml` — [examples/rehearsal_starter/AndroidManifest.xml](examples/rehearsal_starter/AndroidManifest.xml)
 

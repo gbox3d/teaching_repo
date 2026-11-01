@@ -286,7 +286,7 @@ Activity (one screen)           Activity
 ```
 
 - A Fragment is **a piece of a screen inside an Activity**. One Activity can hold several, or swap between them.
-- This term's SmartIO uses two Activities. We demo Fragments in Week 9.
+- This term's SmartIO uses two Activities. In week 9, day 2 you watch a Fragment demo and then build Fragments yourself.
 
 ---
 

@@ -61,7 +61,7 @@
 
 | 범위 | 은행 문제 | 수업에서 한 것 | 권장 |
 |---|---|---|---:|
-| 1주 | [a01_kotlin_card](examples/a01_kotlin_card/) Kotlin Playground 학생 카드 | `val`·`$변수`·`if/else`·`fun` 으로 세 줄 출력 | 8분 |
+| 1주 | [a01_kotlin_card](examples/a01_kotlin_card/) Android Studio 학생 카드 | `val`·`$변수`·`if/else`·`fun` 으로 세 줄 출력 | 8분 |
 | 2주 | [a02_info_screen](examples/a02_info_screen/) 내 정보 화면 | 세로 `LinearLayout`·`TextView`·`gravity` | 10분 |
 | 2주 | [a03_name_button](examples/a03_name_button/) 코드로 글자 바꾸기와 버튼 하나 | `android:id`·`findViewById`·`setOnClickListener`·`var` | 10분 |
 | 2주 | [a04_counter_three](examples/a04_counter_three/) 버튼 셋 카운터 | `+1`·`-1`·`초기화`, 가로 `LinearLayout` | 10분 |
@@ -88,8 +88,8 @@
 
 ## 다음 수업 연결
 
-9주차는 **앱 컴포넌트 비교와 1차 과제 발표**다. 지금까지 만든 화면은 모두 Activity였다.
-9주차 1일차에는 Activity·Service·BroadcastReceiver·ContentProvider 네 컴포넌트를 비교하고, 2일차에는 1차 과제를 발표한다. → [9주차 README](../week09_services_project/README.md)
+9주차는 **앱 컴포넌트 비교: Service와 Fragment**다. 지금까지 만든 화면은 모두 Activity였다.
+1일차에는 Activity·Service·BroadcastReceiver·ContentProvider 네 컴포넌트를 비교하고 `LogService`를 직접 넣어 보고, 2일차에는 Fragment로 화면 조각을 바꿔 끼운다. → [9주차 README](../week09_services_project/README.md)
 
 ## 공식 참고 자료
 

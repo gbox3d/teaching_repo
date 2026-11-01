@@ -22,4 +22,8 @@
     <string name="state_unknown">상태: ?</string>
     <string name="all_off">전체 끄기</string>
     <string name="pwm_title">LED 0 밝기</string>
+    <string name="input_start">온습도 받기 시작</string>
+    <string name="input_history_title">입력 이력</string>
+    <string name="reconnect">재연결</string>
+    <string name="lost_test">끊김 시험</string>
 </resources>

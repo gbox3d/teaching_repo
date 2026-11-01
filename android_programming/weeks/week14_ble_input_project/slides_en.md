@@ -3,38 +3,223 @@ marp: true
 theme: default
 paginate: true
 header: Mobile Programming · Week 14
-footer: Input, Disconnects, Reconnecting, and the Project 2 Presentation
+footer: Safe Command Sending, Input Reception, and Reconnecting
 ---
 
-# Input Reception, Disconnects, Reconnecting, and the Project 2 Presentation
+# Safe Command Sending, Input Reception, and Reconnecting
 
 In week 13, you **sent** commands to the board and received its replies.
-This week, you **receive and collect** data from the board, and **reconnect** when it drops.
+On Day 1 you **block what must not be sent**; on Day 2 you **receive and collect** data and **reconnect** when it drops.
 
 ```text
-Input history                  Connection screen
-12:00:03 [24.5,40.0]           끊김
-12:00:06 [25.0,41.0]           [다시 시도]
-12:00:10 입력=1                [재연결] [끊김 시험]
+Day 1                                 Day 2
+허용되지 않는 번호   ← Toast           Input history          Connection screen
+보드가 오류를 알렸습니다 ← dialog       12:00:03 [24.5,40.0]   끊김
+command log turns red / green         12:00:10 입력=1         [재연결]
 ```
 
-On Day 2, you present **Project 2** with the Smart I/O Controller you've built so far.
+On both days you can finish without a board, using the fake client (`useFake = true`).
 
 ---
 
-# Day 1 — Receiving Input, Disconnects, and Reconnecting
+# Day 1 — Blocking, Alerting, and Showing It in Color
 
-`30 min explanation & demo → 60 min implementation and demo rehearsal`
+`30 min explanation & demo → 60 min lab`
+
+1. Allowed-number check: don't send `9`, show a Toast instead
+2. Only when `준비됨`; block the buttons for 300ms right after sending
+3. An AlertDialog and a red `colors.xml` log when `result` isn't `ok`
+4. (Extension) `SeekBar` for `pwm 0 V`
+
+---
+
+## Day 1 · 0–6 min ① — Check the Number Before Sending
+
+```kotlin
+if (pin.isEmpty()) {
+    Toast.makeText(this, "LED 번호를 입력하세요", Toast.LENGTH_SHORT).show()
+} else if (isAllowedIndex(pin.toInt()) == false) {
+    Toast.makeText(this, "허용되지 않는 번호", Toast.LENGTH_SHORT).show()
+} else if (isChecked) {
+    // Week 13 step 5: send("on $index")
+```
+
+- Order: **empty field → allowed number → on/off.** Calling `toInt()` on an empty string crashes the app, so the empty check comes first.
+- If a check fails, there's no command and no log line. The proof is that Logcat shows **no** `writeCharacteristic` line.
+- `== false` still means "if not," as in week 12.
+
+---
+
+## Day 1 · 0–6 min ② — Wrapping It in isAllowedIndex()
+
+```kotlin
+private fun isAllowedIndex(index: Int): Boolean {
+    if (listOf(0, 1, 2, 3).contains(index)) {
+        return true
+    }
+    if (index == -1) {
+        return true
+    }
+    return false
+}
+```
+
+- A function that **returns true/false**, like week 10's `hasBlePermissions()`. Put it at the end of the class.
+- `-1` (all) is also an accepted number, since it's a reserved value. The input field can't type `-`, so only [전체 끄기] sends it.
+- Passing **text** as in `contains(pin)` gives a `Type inference failed …` error — use `pin.toInt()`.
+
+---
+
+## Day 1 · 6–14 min ① — Only Enabled When Ready
+
+```kotlin
+Bleuno.client?.connectionState?.collect { state ->
+    binding.stateText.text = "상태: $state"
+    binding.ledSwitch.isEnabled = false
+    binding.allOffButton.isEnabled = false
+    if (state == ConnState.READY) {
+        binding.ledSwitch.isEnabled = true
+        binding.allOffButton.isEnabled = true
+    }
+}
+```
+
+- Add this inside week 12's collect, step 4. Like MainActivity's step 8: **turn everything off first, then turn it on if ready.**
+- Set `android:enabled="false"` on `ledSwitch`/`allOffButton` in the XML, so they're off even before state arrives.
+- The `"준비되지 않아 무시함"` line you saw in week 13 no longer appears.
+
+---
+
+## Day 1 · 6–14 min ② — A 300ms Pause Right After Sending
+
+```kotlin
+private fun pauseButtons() {
+    binding.ledSwitch.isEnabled = false
+    binding.allOffButton.isEnabled = false
+    lifecycleScope.launch {
+        delay(300)
+        if (Bleuno.client?.isReady == true) {
+            binding.ledSwitch.isEnabled = true
+            binding.allOffButton.isEnabled = true
+        }
+    }
+}
+```
+
+- Week 5's `isEnabled` + week 6's `launch { delay() }`. Call `pauseButtons()` right after each of the three `send` calls.
+- If the connection drops during those 300ms, don't turn the buttons back on. `?. … == true` follows week 7's `scanJob?.isActive == true` shape.
+
+---
+
+## Day 1 · 14–22 min ① — colors.xml and R.color
+
+```xml
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="log_ok">#FF2E7D32</color>
+    <color name="log_error">#FFD32F2F</color>
+</resources>
+```
+
+```kotlin
+binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_error))
+```
+
+- `app › res › values › colors.xml` already exists in a new project. Add just **two lines**.
+- `colors.xml` → `R.color`, the same way `strings.xml` → `R.string`. `#AARRGGBB`; a leading `FF` means opaque.
+- This changes the color of **the whole** log field's text. Coloring a single line isn't covered here.
+
+---
+
+## Day 1 · 14–22 min ② — An AlertDialog When result Isn't ok
+
+```kotlin
+if (result != "ok") {
+    val message = BleunoMessage.message(json) ?: ""
+    binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_error))
+    AlertDialog.Builder(this)
+        .setTitle("보드가 오류를 알렸습니다")
+        .setMessage("응답: $result · $message")
+        .setPositiveButton("확인", null)
+        .show()
+} else {
+    binding.logText.setTextColor(ContextCompat.getColor(this, R.color.log_ok))
+}
+```
+
+- Add this inside week 13's `if (result != null)`, below `append`. Both `err` and `fail` fall into this branch.
+- `message` is `String?`, so use week 3's `?:`. Responses only arrive between `onStart` and `onStop`, so it's safe to show a dialog.
+
+---
+
+## Day 1 · 14–22 min ③ — Deliberately Triggering an Error to Check It
+
+Normal use only ever produces `ok`. Change **just one spot** to produce an error response, check it, then change it back.
+
+```kotlin
+Bleuno.client?.send("on$index")     // dropped the space (change back to "on $index" after checking)
+```
+
+```text
+Log    on 3
+       응답: {"result":"fail","ms":"unknown command"}      ← red
+Dialog 보드가 오류를 알렸습니다 / 응답: fail · unknown command
+Logcat writeCharacteristic(가짜): "on3"
+```
+
+- The app log shows `on 3`, but the **text actually sent** is `"on3"`, visible in Logcat.
+- Check this on the first action right after entering the control screen. Sending [전체 끄기] afterward gives `ok` and turns the log green again.
+
+---
+
+## Day 1 · 22–26 min — (Extension) pwm 0 V with a SeekBar
+
+```kotlin
+binding.pwmSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) { }
+    override fun onStartTrackingTouch(seekBar: SeekBar?) { }
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        val value = binding.pwmSeekBar.progress
+        Bleuno.client?.send("pwm 0 $value")
+        binding.logText.append("pwm 0 $value\n")
+        pauseButtons()
+    }
+})
+```
+
+- The same anonymous-object pattern as week 10's `object : BroadcastReceiver()`. Write all **three** functions.
+- Sending on every drag tick would queue up dozens of commands. Send **once, on release**. In XML, `android:max="255"`.
+
+---
+
+## Day 1 · 26–30 min — Try It Yourself
+
+[Day 1 lab](lab.md#1일차--번호-검사와-오류-표시-60분) · [Walkthrough](walkthrough.md#1일차)
+
+1. Two colors in `colors.xml` → allowed-number check → Screenshot 1 (`9` and the Toast)
+2. `enabled="false"` and collect step 13, `pauseButtons()`
+3. The error display in step 16 → verify with `"on$index"`, take Screenshot 2, then change it back
+4. If time remains: the (extension) `SeekBar` brightness control
+
+**Explanation total: 6+8+8+4+4 = 30 min**
+
+Tomorrow you receive what the board sends. The week 15 final submission is described in the [project brief](../week13_ble_output/project_brief.md).
+
+---
+
+# Day 2 — Receiving Input, Disconnects, and Reconnecting
+
+`30 min explanation & demo → 60 min lab`
 
 1. `split(" ")`, `[0]`/`[1]`, and `BleunoMessage.value`/`event`
 2. Send `dht11` every 3 seconds and collect it in the input history
 3. Alert and show [재연결] (Reconnect) when `끊김`
 4. Warn on timeout if not `준비됨` within 10 seconds
-5. Presentation prep and a preview of the code-explanation question
 
 ---
 
-## Day 1 · 0–5 min ① — Today's Syntax: split(" ") and [0]/[1]
+## Day 2 · 0–5 min ① — Today's Syntax: split(" ") and [0]/[1]
 
 ```kotlin
 val line = "12:00:03 [24.5,40.0]"
@@ -53,7 +238,7 @@ println(parts[1])
 
 ---
 
-## Day 1 · 0–5 min ② — Pulling Values from JSON with the Provided Helper
+## Day 2 · 0–5 min ② — Pulling Values from JSON with the Provided Helper
 
 | Received JSON | `BleunoMessage.event(json)` | `BleunoMessage.value(json)` |
 |---|---|---|
@@ -68,7 +253,7 @@ println(parts[1])
 
 ---
 
-## Day 1 · 5–13 min ① — Sending dht11 Every 3 Seconds
+## Day 2 · 5–13 min ① — Sending dht11 Every 3 Seconds
 
 ```kotlin
 binding.inputStartButton.setOnClickListener {
@@ -88,7 +273,7 @@ binding.inputStartButton.setOnClickListener {
 
 ---
 
-## Day 1 · 5–13 min ② — Splitting a Received Line Three Ways
+## Day 2 · 5–13 min ② — Splitting a Received Line Three Ways
 
 ```kotlin
 val result = BleunoMessage.result(json)
@@ -100,7 +285,7 @@ if (event == "input") {
     addHistory(value)
 } else if (result != null) {
     binding.logText.append("응답: $json\n")
-    // … same error color/AlertDialog as week 13
+    // … same error color/AlertDialog as Day 1
 }
 ```
 
@@ -109,7 +294,7 @@ if (event == "input") {
 
 ---
 
-## Day 1 · 5–13 min ③ — Timestamping Entries in the Input History
+## Day 2 · 5–13 min ③ — Timestamping Entries in the Input History
 
 ```kotlin
 private fun addHistory(text: String) {
@@ -131,7 +316,7 @@ private fun addHistory(text: String) {
 
 ---
 
-## Day 1 · 13–19 min ① — Alert and Show [재연결] on Disconnect
+## Day 2 · 13–19 min ① — Alert and Show [재연결] on Disconnect
 
 ```kotlin
 ConnState.LOST -> {
@@ -153,7 +338,7 @@ private fun showLostToast() {
 
 ---
 
-## Day 1 · 13–19 min ② — Saving the Address for [재연결]
+## Day 2 · 13–19 min ② — Saving the Address for [재연결]
 
 ```kotlin
 // When a list row is tapped (step 43): capture and save it
@@ -173,7 +358,7 @@ client.connect(lastAddress)
 
 ---
 
-## Day 1 · 19–25 min ① — Setting a 10-Second Connect Timeout
+## Day 2 · 19–25 min ① — Setting a 10-Second Connect Timeout
 
 ```kotlin
 private fun startConnectTimeout() {
@@ -191,7 +376,7 @@ private fun startConnectTimeout() {
 
 ---
 
-## Day 1 · 19–25 min ② — Warn and Disconnect if Still Connecting After 10s
+## Day 2 · 19–25 min ② — Warn and Disconnect if Still Connecting After 10s
 
 ```kotlin
 private suspend fun waitConnectTimeout() {
@@ -212,134 +397,35 @@ private suspend fun waitConnectTimeout() {
 
 ---
 
-## Day 1 · 25–30 min ① — Presentation Prep and a Preview of the Code Question
+## Day 2 · 25–30 min — Try It Yourself
 
-| Project 2 | Details |
-|---|---|
-| Required features | permission guidance · scan/connect/disconnect/state · at least one output · input reception · disconnect/timeout guidance with retry · command convention · 2–3 min demo procedure |
-| Presentation | 5 minutes per person = get set up, confirm board connection + a 2–3 min demo + one code-explanation question |
-| Score | Presentation 12 + report 8 = 20 · [Project brief](project_brief.md) · [Rubric](rubric.md) |
-
-Sample code-explanation questions — **open the file → point at the line → one sentence**
-
-- Why does the loop stop when you tap [중지]? / Why doesn't an input event land as a single numeric line?
-- Why does [재연결] use the same address even after rotation? / Which line alerts you when 10 seconds pass?
-
----
-
-## Day 1 · 25–30 min ② — Try It Yourself
-
-[Day 1 lab](lab.md#1일차--입력-받기끊김재연결과-시연-리허설-60분) · [Walkthrough](walkthrough.md#1일차)
+[Day 2 lab](lab.md#2일차--입력-받기끊김재연결-60분) · [Walkthrough](walkthrough.md#2일차)
 
 1. Control screen: add the input history spot → split received lines → [온습도 받기 시작] (Start Receiving Temp/Humidity) / [중지]
 2. Connection screen: save the address · [재연결] · (test) [끊김 시험] → disconnect Toast on the control screen
-3. If time remains: `split` a history line for a Toast → the connect timeout (verify with `delay(1000)`, then revert)
-4. At 47 min: capture your screenshots, run through the 2–3 min demo once
+3. `split` a history line for a Toast → the connect timeout (verify with `delay(1000)`, then revert)
+4. Two screenshots: 2 input-history lines, and `끊김` + [재연결]
 
 **Explanation total: 5+8+6+6+5 = 30 min**
 
-**Steps 1–2 must be done by 47 min.** Push step 3 later if you're behind. The timeout is a required feature, so add it before your presentation.
-If your implementation is running behind, stop at 47 min and rehearse once anyway. Finish your own project before you present.
-
----
-
-# Day 2 — Project 2 Presentation
-
-`30 min presentation guidance & checks → 60 min presentations`
-
-1. Today's order and presentation capacity
-2. Rubric recap: presentation 12 + report 8
-3. Preview of the code-explanation question
-4. Pre-presentation checks, falling back to Fake if the real board fails → presentations begin
-
----
-
-## Day 2 · 0–5 min — Today's Order and Presentation Capacity
-
-| Step | What to do | Time |
-|---|---|---|
-| 1 | While the person before you presents, have your app on its first screen and the board blinking blue | while waiting |
-| 2 | Get set up, confirm the board connection | ~1 min |
-| 3 | Demo: permission → list → ready → LED → 2 input lines → disconnect → [재연결] → [해제] | 2–3 min |
-| 4 | One code-explanation question | 1 min |
-
-```text
-Presentation time = ceil(N / E) × 5 min ≤ 60 min     N = number presenting, E = simultaneous evaluators
-e.g. N = 24, E = 2 → 12 × 5 = 60 min
-e.g. N = 30, E = 2 → 15 × 5 = 75 min → add a TA evaluator, E = 3 → 10 × 5 = 50 min
-```
-
----
-
-## Day 2 · 5–12 min — Rubric Recap: Presentation 12 + Report 8
-
-| Presentation item | Points | Report item | Points |
-|---|---|---|---|
-| Connection flow (permission, list, state, disconnect) | 3 | How to run it and the demo procedure | 2 |
-| Output control and the command convention | 2 | Screenshots of required features and code locations | 3 |
-| Input reception and input history | 2 | Logcat evidence | 1 |
-| Disconnect, reconnect, timeout | 2 | Record of bugs fixed | 1 |
-| Code explanation (spoken, individually) | 3 | Test environment and known limitations | 1 |
-
-- The demo stops at 3 minutes. Anything you couldn't show can be covered with report screenshots, but that item caps at **half credit** (running over time still gets full credit via report screenshots).
-- Anything missed due to equipment failure (logged by a TA) can still earn full credit through a Fake demo or screenshots.
-- Fake and a real board are graded by the same standard. The same cause isn't penalized twice.
-
----
-
-## Day 2 · 12–20 min — Where Code-Explanation Questions Come From
-
-| Sample question | Where to point |
-|---|---|
-| Why does the loop stop when you tap [중지]? | `inputJob = lifecycleScope.launch {` and `inputJob?.cancel()` in `stopInput()` |
-| How do you tell an input event from a temp/humidity response? | The order `if (event == "input")` → `else if (value != null)` |
-| Which line pulls just the time out of a history entry? | `history[position].split(" ")` and `parts[0]` |
-| Which line makes [재연결] appear on disconnect? | The `ConnState.LOST ->` branch of the connection-state collect |
-| What alerts you when a connection passes 10 seconds? | `delay(10000)` and `contains(state)` in `waitConnectTimeout()` |
-| Why isn't the Toast called directly inside collect? | The `showLostToast()` function, and what `this` is inside the collect block |
-
-Answering order: **open the file → point at the line → one sentence.** "That's just how it works" earns no credit.
-
----
-
-## Day 2 · 20–27 min — Pre-Presentation Checks and Falling Back from a Real Board
-
-- [ ] Save → re-run `Run ▶`, app opens on its first screen (`연결 안 됨`)
-- [ ] `useFake` matches today's demo method (real board `false` / emulator `true`)
-- [ ] Logcat `package:mine tag:BLE` is on, and both Activity tabs are open in the editor
-- [ ] The report has screenshots of 2 input lines, disconnect + [재연결], and the timeout
-
-If the real board fails: **raise your hand** → a TA logs the time, symptom, and last Logcat line → switch to `useFake = true` and demo the same sequence
-
-If it works in Fake mode, your app is fine and it's an equipment issue (logged as a failure). If it fails in Fake mode too, it's a bug in your code.
-
----
-
-## Day 2 · 27–30 min — Presentations Begin
-
-[Day 2 lab](lab.md#2일차--2차-과제-발표-60분) · [Walkthrough](walkthrough.md#2일차)
-
-1. The first three presenters keep their app and board on and ready.
-2. Once you've presented, listen quietly and confirm your report and source were submitted.
-3. Raise your hand if equipment stalls. Your app crashing from your own bug is not equipment failure.
-
-**Explanation total: 5+7+8+7+3 = 30 min**
+**Steps 1–2 must be done by 52 min.** Push step 3 later if you're behind. Take screenshots in portrait.
 
 ---
 
 ## What to Submit
 
-Project 2 has three deliverables ([report details in the project brief](project_brief.md#레포트)).
+Submit once on Day 1 and once on Day 2.
 
-1. **Report PDF**: how to run it and the demo procedure, screenshots of required features and code locations, Logcat evidence, a record of bugs fixed, test environment and known limitations
-2. **Source archive**: the project's `app/src/main` folder
-3. **Presentation**: 5 minutes per person on Day 2
+1. **Day 1**: `ControlActivity.kt`, `activity_control.xml`, Screenshot 1 (`9` and the `허용되지 않는 번호` Toast), Screenshot 2 (the red log and the error dialog)
+2. **Day 2**: `ControlActivity.kt`, `MainActivity.kt`, `activity_control.xml`/`activity_main.xml`, Screenshot 1 (2 input-history lines), Screenshot 2 (`끊김` and [재연결])
+
+Take screenshots in portrait, and keep account names and notification contents out of them.
 
 ---
 
 ## Next Week Preview
 
-Week 15 is the **final exam (individual, hands-on)**.
+Week 15 is the **final exam (individual, hands-on)** and the **project's final submission**.
 
 - On top of a public starter (screens / provided `bleuno/` / constants), you build three features: the permission-check flow, number-toggle with `send` and response display, and connect-timeout guidance.
-- Day 1's lab is a rehearsal; Day 2 is the real exam with an individual demo and oral questions.
+- For the project, you submit the app finished to the plan you presented in week 13, plus the screenshot set and the report ([project brief](../week13_ble_output/project_brief.md)).
