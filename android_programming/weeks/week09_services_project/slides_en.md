@@ -3,18 +3,18 @@ marp: true
 theme: default
 paginate: true
 header: Mobile Programming · Week 9
-footer: Comparing App Components · Service and Fragment
+footer: Service: Work Without a Screen
 ---
 
-# App Components Compared: Service and Fragment
+# Service: Work Without a Screen
 
 Every screen you built in weeks 2–7 was an **Activity**.
 On Day 1 you add a **Service**, a component with no screen, and start and stop it yourself.
-On Day 2 you build **Fragments** and swap one slot of the screen.
+On Day 2 the Service counts once a second and your screen **receives** that number.
 
 ```text
 Day 1: four components compared · three kinds of Service · starting and stopping LogService
-Day 2: swapping Fragments · Notification demo and preview
+Day 2: keeping the value in an object and a MutableStateFlow · counting in the Service · receiving it
 ```
 
 ---
@@ -155,9 +155,9 @@ Logcat filter: `package:mine tag:Service`
 | Work that continues after you leave the screen (music, a long upload) | a Service |
 | Long work the user must keep seeing | a foreground Service (notification required) |
 
-- SmartIO never uses a Service, all semester: it connects only while you are looking at the screen.
+- The Service you add this week is practice. From week 10 the main SmartIO line restarts from the week 7 build.
 - "Anything without a screen is a Service" is wrong. The test is **must it continue after you leave?**
-- Even inside a Service, long work still moves to a thread or coroutine.
+- Even inside a Service, long work still moves to a thread or coroutine. Tomorrow you do exactly that.
 
 ---
 
@@ -179,123 +179,121 @@ onDestroy                    ← [Stop Service]
 
 ---
 
-# Day 2 — Swapping Fragments
+# Day 2 — Showing the Service's Count on the Screen
 
 `30 min explanation & demo → 60 min lab`
 
-1. See that a Fragment is a piece of a screen inside an Activity.
-2. Make an empty slot with `FragmentContainerView`.
-3. Return the fragment's own view from `onCreateView`.
-4. Swap pieces with the three lines `beginTransaction()` → `replace()` → `commit()`.
+1. See that the Service and the screen are different objects, so the value needs a place of its own.
+2. Put week 7's `MutableStateFlow` into `object ServiceState`.
+3. Count up once a second inside the Service with a coroutine.
+4. Receive it on the screen with week 7's `repeatOnLifecycle` frame.
 
 ---
 
-## Day 2 · 0–6 min ① — Fragment: a Piece of a Screen Inside an Activity
+## Day 2 · 0–6 min ① — Day 1's Service Only Reached Logcat
+
+| What you tapped on Day 1 | Screen | Logcat |
+|---|---|---|
+| [Start Service] | unchanged | `onStartCommand thread=main` |
+| [Stop Service] | unchanged | `onDestroy` |
+
+- **From the screen alone** you could not tell whether the Service was running. You had to open Logcat.
+- Today the Service counts once a second, and the screen writes that number after the `Count:` label.
+- As Day 1 said, long work inside a Service goes to a coroutine. Today you write that coroutine.
+- You delete none of the Day 1 code: you create one new file and add to four more.
+
+---
+
+## Day 2 · 0–6 min ② — The Service and the Screen Are Different Objects
 
 ```text
-┌ MainActivity ────────────────────┐
-│ [First piece] [Second piece]     │  ← stays put
-│ ┌ FragmentContainerView ───────┐ │
-│ │  This is FirstFragment        │ │  ← only this slot
-│ │  (or SecondFragment)          │ │     gets swapped
-│ └──────────────────────────────┘ │
-└──────────────────────────────────┘
+LogService  ──▶  ServiceState.tick  ──▶  MainActivity
++1 every second   object: one per app    collects it and writes it on screen
 ```
 
-- A Fragment is a piece of a screen with **its own layout** (`fragment_first.xml`).
-- The button row belongs to the Activity, so it stays; only the piece in the slot changes.
-- Week 4 Day 2 promised "a piece of a screen inside an Activity." Today you build it.
+| If you try this | What happens |
+|---|---|
+| The Service writes into a `MainActivity` property | the Service does not know that screen object |
+| Getting a value back through `startService(intent)` | an Intent only goes **out**; nothing comes back |
+| Keeping one place both of them can see | today's way |
+
+- Android creates the Service and the Activity **as two separate objects**.
+- So passing a value needs a place both of them know. You build that place on the next slide.
 
 ---
 
-## Day 2 · 0–6 min ② — What Activity and Fragment Each Do
-
-| | Activity | Fragment |
-|---|---|---|
-| Manifest | declared with `<activity>` | not declared |
-| Choosing the view | `setContentView` in `onCreate` | `onCreateView` returns a View |
-| Can it stand alone? | yes, it is an entry point | no, it must be put inside an Activity |
-| How you change it | `startActivity` for a new screen | `replace` for just that slot |
-
-- Today's app has **one** Activity and **two** pieces.
-- A whole new screen is an Activity; swapping one slot is a Fragment.
-- SmartIO keeps its two Activities all semester, so today's practice uses a new project.
-
----
-
-## Day 2 · 6–14 min ① — The Empty Slot: FragmentContainerView
-
-```xml
-<androidx.fragment.app.FragmentContainerView
-    android:id="@+id/fragmentContainer"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1" />
-```
-
-- This is the **empty slot** a piece goes into. At first it holds nothing.
-- `layout_height="0dp"` + `layout_weight="1"`: it takes all the height left under the button row (week 2).
-- The code calls this `id` as `R.id.fragmentContainer`. A typo shows up as an error in Kotlin.
-- Run it with only the slot in place and you see the button row with nothing under it.
-
----
-
-## Day 2 · 6–14 min ② — The Fragment Class and onCreateView
+## Day 2 · 6–14 min ① — A Place to Keep the Value: object and MutableStateFlow
 
 ```kotlin
-class FirstFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.d("Fragment", "FirstFragment onCreateView")
-        return inflater.inflate(R.layout.fragment_first, container, false)
-    }
+import kotlinx.coroutines.flow.MutableStateFlow
+
+object ServiceState {
+    val tick = MutableStateFlow(0)
 }
 ```
 
-- `inflater.inflate(…)` turns the layout file into a View and returns it. That is the `setContentView` spot.
-- The import is `androidx.fragment.app.Fragment`. Do not pick `android.app.Fragment` (the old one).
-- `SecondFragment` differs from this only in the layout name and the log text.
+- An `object` exists once per app. Week 7 Day 2's `ConnState` was an object too.
+- `MutableStateFlow(0)` is week 7's **box holding one current value**, and it starts at 0.
+- In week 7 you hid the writing side (`_state`) and exposed only the reading side (`state`).
+- Today the side that raises the value is `LogService`, **outside** this file, so one line stays open.
+- Wrap it in a `StateFlow` as in week 7 and `LogService.kt` reports `'val' cannot be reassigned.`
 
 ---
 
-## Day 2 · 14–22 min ① — The Three Lines That Swap a Piece
+## Day 2 · 6–14 min ② — The Service Counts Every Second with a Coroutine
 
 ```kotlin
-binding.secondButton.setOnClickListener {
-    val transaction = supportFragmentManager.beginTransaction()
-    transaction.replace(R.id.fragmentContainer, SecondFragment())
-    transaction.commit()
-}
+    private val scope = CoroutineScope(Dispatchers.Default)
+    private var tickJob: Job? = null
 ```
 
 ```kotlin
-if (savedInstanceState == null) {
-    … put FirstFragment() in with the same three lines
-}
+        tickJob = scope.launch {
+            while (isActive) {
+                delay(1000)
+                ServiceState.tick.value++
+            }
+        }
 ```
 
-- Begin → put the piece in the slot → **commit**. Without `commit()` nothing changes.
-- The first insertion goes inside `if (savedInstanceState == null)`.
-- After a rotation the system restores the piece you were looking at (week 3), so you do not insert it again.
+- A Service has nothing like week 7's `viewModelScope`, so you **make the coroutine's place yourself**. `Dispatchers.Default` is not the main thread.
+- `delay(1000)` is the week 6 function. `while (isActive)` repeats resting one second and raising the value by 1.
+- Tapping [Start Service] again must not start a second coroutine, so `if (tickJob?.isActive == true)` returns right away while it counts.
 
 ---
 
-## Day 2 · 14–22 min ② — Demo: Only the Piece Changes
+## Day 2 · 14–22 min ① — Receiving on the Screen: repeatOnLifecycle
 
-Logcat filter: `package:mine tag:Fragment`
+```kotlin
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                ServiceState.tick.collect { tick ->
+                    binding.serviceTickText.text = "Count: $tick"
+                }
+            }
+        }
+```
 
-| Action | Screen | Logcat |
-|---|---|---|
-| App starts | button row + `This is FirstFragment` | `FirstFragment onCreateView` |
-| [Second piece] | button row unchanged, text becomes `This is SecondFragment` | `SecondFragment onCreateView` |
-| The same button twice | the text is the same | one line each time you tap |
-| Rotate after swapping | the piece you were on stays | one line for that piece |
+- The week 7 Day 2 frame, unchanged; **only what you receive** moves from `viewModel.state` to `ServiceState.tick`.
+- Put it inside `onCreate()`, after block 11. Add no imports at all to `MainActivity.kt`.
+- You receive only while the screen is visible (`STARTED`): not while you are on the control screen.
+- The number goes into `serviceTickText` in `activity_main.xml`, and its first text sits in `strings.xml`.
 
-- Tapping the same button twice builds a new piece and inserts it, so two lines appear.
-- Back closes the app instead of returning to the previous piece. A back stack for pieces must be added on purpose.
+---
+
+## Day 2 · 14–22 min ② — Demo: The Count Continues After Switching Screens
+
+| Action | What to look for on screen |
+|---|---|
+| [Start Service] | the number after `Count:` should change about once a second |
+| [Start Service] again | the number should carry on; no second coroutine starts |
+| type a name, [Connect] → control screen → [Back] | the number on return should be larger than when you left |
+| Rotate the screen | the last value should appear again (the week 7 restore frame) |
+| [Stop Service] | `onDestroy` puts it back to 0, so `Count: 0` should appear |
+
+- While you are on the control screen the screen stops receiving, but the Service keeps counting. On return it takes the last value at once.
+- Work continuing after you leave the screen is the reason to use a Service. The Day 1 test becomes visible here.
+- Drop `tickJob?.cancel()` from `onDestroy` and it still builds. See for yourself in the lab what follows.
 
 ---
 
@@ -312,21 +310,24 @@ Pull down the status bar and you see
 - A notification tells a user who is not looking at your app's screen.
 - Row three of Day 1's Service table: a foreground Service **must** show a notification.
 - From Android 13 on, posting a notification needs the user's **permission**.
+- Without the permission, calling `notify` posts nothing. Check with `areNotificationsEnabled()` and Logcat.
 - Runtime permissions are week 10 Day 2, so today this is **a demo only, not part of the lab**.
 
 ---
 
 ## Day 2 · 27–30 min — Try It Yourself
 
-[Day 2 lab](lab.md#2일차--fragment-바꿔-끼우기-60분) · [Walkthrough](walkthrough.md#2일차)
+[Day 2 lab](lab.md#2일차--service가-센-숫자를-화면에-보여-주기-60분) · [Walkthrough](walkthrough.md#2일차)
 
-1. Create a new project `FragmentDemo` (package `com.example.fragmentdemo`). Keep it apart from SmartIO.
-2. Add two buttons and a `FragmentContainerView` slot, then create the two fragment layouts.
-3. Write `FirstFragment` and `SecondFragment`, each returning its own layout from `onCreateView`.
-4. Add the first insertion and the three swap lines for both buttons, then take **two screenshots**.
+1. Create `ServiceState.kt` as an **Object** with the single line `val tick = MutableStateFlow(0)`.
+2. Add `scope` and `tickJob` to `LogService.kt` and raise `ServiceState.tick` once a second.
+3. In `onDestroy`, cancel the counting coroutine and put the value back to 0.
+4. Add the `serviceTickText` spot to `activity_main.xml` and its first text to `strings.xml`.
+5. Write one more week 7 collect frame in `MainActivity.kt`, then take **two screenshots**.
 
 ```text
-This is FirstFragment      →   This is SecondFragment
+Count: 0  →  after [Start Service], a number that is not 0
+            →  after leaving for the control screen and back, a larger number
 ```
 
 **Explanation total: 6+8+8+5+3 = 30 min**
@@ -338,7 +339,7 @@ This is FirstFragment      →   This is SecondFragment
 Take one screenshot on Day 1 and two on Day 2.
 
 1. **Day 1, one screenshot**: Logcat filtered by `tag:Service`, showing two `onStartCommand thread=main` lines and one `onDestroy` line
-2. **Day 2, two screenshots**: the `This is FirstFragment` screen and the `This is SecondFragment` screen (the button row must stay in the same place)
+2. **Day 2, two screenshots**: ① the number after `Count:` is not 0 ② the number carried on after a trip to the control screen and back
 
 Follow the class announcement for file names, where to submit, and the deadline. Check that no personal information shows in the screenshots.
 
@@ -346,8 +347,9 @@ Follow the class announcement for file names, where to submit, and the deadline.
 
 ## Next Week Preview
 
-You build row three of Day 1's table, a **BroadcastReceiver**, yourself.
+You build row three of Day 1's table, a **BroadcastReceiver**, and ask for a **runtime permission**.
 
-- Change the battery in the emulator and make SmartIO's `Battery 80% · Charging` follow it.
-- Using BLE in week 12 needs the user's **permission**. You build that flow in week 10 Day 2.
-- The notification permission you saw today is the same kind of runtime permission. Week 10 starts from the week 7 result.
+- Change the battery in the emulator and make SmartIO's `배터리 80% · 충전 중` follow it.
+- Like today's notification permission, week 10 Day 2 asks the user right before the app needs it.
+- In week 12, **BLE** (Bluetooth Low Energy) reports the board's state through the collect frame you wrote today.
+- Week 10 starts from the week 7 result. The Service you added today ends with week 9.

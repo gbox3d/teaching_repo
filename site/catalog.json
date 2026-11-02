@@ -121,13 +121,13 @@
         {
           "id": "week09_services_project",
           "label": "9주차",
-          "title": "앱 컴포넌트 비교: Service와 Fragment",
-          "description": "화면이 없는 Service는 어디서 돌까? 네 컴포넌트를 비교하고 Service를 앱에 직접 넣어 본 뒤, 다음 날에는 Fragment로 화면 조각을 바꿔 끼웁니다.",
+          "title": "화면 없이 일하는 Service",
+          "description": "화면이 없는 Service가 센 값을 어떻게 화면에 보여 줄까? Service를 앱에 직접 넣어 Logcat으로 확인한 뒤, 다음 날에는 그 값을 화면으로 받아 봅니다.",
           "type": "week",
           "en": {
             "label": "Week 9",
-            "title": "App Components Compared: Service and Fragment",
-            "description": "Where does a screen-less Service actually run? Compare the four components, add a Service to your own app, then swap screen fragments the next day."
+            "title": "Service: Work Without a Screen",
+            "description": "How does a screen-less Service show what it counted? Add a Service to your own app and watch it in Logcat, then bring its value onto the screen the next day."
           }
         },
         {

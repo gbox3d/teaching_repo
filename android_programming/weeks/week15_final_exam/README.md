@@ -98,7 +98,7 @@ on 3
 | `ConnState.LOST`, `client.connect(lastAddress)` (14주) | 끊김이면 저장해 둔 주소로 다시 연결한다. starter에 완성되어 있다 | `send`·`onMessage`·재연결 |
 | `dht11`, `split(" ")`, `BleunoMessage.value(json)` (14주) | 온습도를 받아 입력 이력에 쌓는다. starter에 완성되어 있고 **시연**에서 쓴다 | 시연(입력 수신) |
 
-펌웨어 수정, Service·Fragment(9주 실습), RecyclerView, 보드 여러 대 동시 연결은 범위가 아니다.
+펌웨어 수정, Service(9주 실습), Fragment, RecyclerView, 보드 여러 대 동시 연결은 범위가 아니다.
 
 ## 수업 자료
 

@@ -1,17 +1,21 @@
-# 9주차 예제 — Service와 Fragment
+# 9주차 예제 — 화면 없이 일하는 Service
 
-9주차 예제는 두 폴더다. 1일차는 7주차 `SmartIO`에 `LogService`를 더한 것이고, 2일차는 조각을 바꿔 끼우는 별도 연습 프로젝트다.
+9주차 예제는 두 폴더다. 둘 다 7주차 `SmartIO`를 이어 가는 같은 프로젝트다.
+1일차는 `LogService`를 더해 Logcat으로만 확인하고, 2일차는 그 Service가 센 숫자를 화면에 보여 준다.
 두 폴더 모두 `build_examples.sh`로 따로 빌드된다. 만드는 순서는 [따라하기](../walkthrough.md)에 있다.
 
 | 폴더 | 무엇 | package | 시작점 |
 |---|---|---|---|
 | [day1](day1) | 1일차 `LogService` 시작·중지 | `com.example.smartio` | 7주차 `examples/day2` |
-| [day2](day2) | 2일차 Fragment 바꿔 끼우기 | `com.example.fragmentdemo` | 새 프로젝트 `FragmentDemo` |
+| [day2](day2) | 2일차 Service가 센 숫자를 화면에 보여 주기 | `com.example.smartio` | 9주차 `examples/day1` |
+
+`day2`는 `day1`의 파일을 그대로 두고 그 위에 더한 **2일차 끝 완성본**이다. 1일차에 만든 파일을 지우지 않는다.
+두 폴더의 package가 같아서 `day1`을 따라 한 내 `SmartIO`에 그대로 이어서 2일차를 한다. 새 프로젝트를 만들지 않는다.
 
 **두 폴더는 다음 주 시작점이 아니다.** 9주차는 SmartIO 본줄기의 **곁가지**다.
-10주차 `examples/day1`은 7주차 `examples/day2`에서 시작하며, 9주차 `day1`에서 더한 `LogService.kt`와 [서비스 시작]·[서비스 중지] 버튼은 10주차 이후 예제에 들어가지 않는다.
-`day1`을 따라 해 내 `SmartIO`에 그 버튼이 남아 있어도 10주차 진행에 영향이 없고, 지우면 7주차 완성본과 같아진다.
-`day2`는 `SmartIO`와 섞지 않는 독립 프로젝트다. `SmartIO`는 학기 끝까지 Activity 두 개(`MainActivity`·`ControlActivity`)로 간다.
+10주차 `examples/day1`은 7주차 `examples/day2`에서 시작하며, 9주차에 더한 `LogService.kt`·`ServiceState.kt`와 [서비스 시작]·[서비스 중지] 버튼, 숫자를 보여 주는 `serviceTickText`는 10주차 이후 예제에 들어가지 않는다.
+따라 해 내 `SmartIO`에 그것이 남아 있어도 10주차 진행에 영향이 없고, 지우면 7주차 완성본과 같아진다.
+`SmartIO`는 학기 끝까지 Activity 두 개(`MainActivity`·`ControlActivity`)로 간다.
 
 Notification(2일차 22–27분)은 예제 코드가 없다. 알림을 띄우려면 Android 13부터 런타임 권한이 필요하고 런타임 권한은 10주차 2일차 내용이라, 이번 주에는 강의자 시연으로만 본다.
 
@@ -28,25 +32,23 @@ Notification(2일차 22–27분)은 예제 코드가 없다. 알림을 띄우려
 | [AndroidManifest.xml](day1/AndroidManifest.xml) | `app › manifests › AndroidManifest.xml` | `</application>` 위에 `<service>` 세 줄과 주석 |
 | `ConnState.kt`, `ConnViewModel.kt`, `ControlActivity.kt`, `activity_control.xml`, `res/values/themes.xml` | 같은 이름의 파일 | 7주차 `examples/day2` 그대로, 바꾸지 않는다 |
 
-### day2 — 새 프로젝트
+### day2 — 1일차 SmartIO에 더한 것
 
-| 예제 파일 | 내 프로젝트에서 바꿀 파일 | 내용 |
+| 예제 파일 | 내 프로젝트에서 바꿀 파일 | 이번 주 변경 |
 |---|---|---|
-| [build.gradle.kts](day2/build.gradle.kts) | `Gradle Scripts › build.gradle.kts (Module :app)` | 4주차 `examples/day1`과 같고 `namespace`·`applicationId`만 `com.example.fragmentdemo` |
-| [AndroidManifest.xml](day2/AndroidManifest.xml) | `app › manifests › AndroidManifest.xml` | Activity 하나. Fragment는 적지 않는다 |
-| [strings.xml](day2/strings.xml) | `app › res › values › strings.xml` | 버튼 글자 두 개, 조각 글자 두 개 |
-| [activity_main.xml](day2/activity_main.xml) | `app › res › layout › activity_main.xml` | 버튼 가로 줄 + `FragmentContainerView` |
-| [fragment_first.xml](day2/fragment_first.xml), [fragment_second.xml](day2/fragment_second.xml) | `app › res › layout` 아래 새 파일 | 가운데 `TextView` 하나 |
-| [FirstFragment.kt](day2/FirstFragment.kt), [SecondFragment.kt](day2/SecondFragment.kt) | `app › kotlin+java › com.example.fragmentdemo` 아래 새 파일 | `onCreateView`에서 layout을 돌려준다 |
-| [MainActivity.kt](day2/MainActivity.kt) | `app › kotlin+java › com.example.fragmentdemo › MainActivity.kt` | ViewBinding 틀 + 조각 끼우기·바꾸기 |
-| [res/values/themes.xml](day2/res/values/themes.xml) | `app › res › values › themes.xml` | 프로젝트를 만들 때 생긴 그대로(`Theme.FragmentDemo`) |
+| [ServiceState.kt](day2/ServiceState.kt) | `app › kotlin+java › com.example.smartio › ServiceState.kt` | 새 파일(New › Kotlin Class/File › Object) |
+| [LogService.kt](day2/LogService.kt) | `app › kotlin+java › com.example.smartio › LogService.kt` | 코루틴 import 여섯 줄, `scope`·`tickJob` 두 줄, `// 5.` 겹쳐 시작 막기, `// 6.` 1초마다 세기, `// 7.` 취소·되돌리기 |
+| [activity_main.xml](day2/activity_main.xml) | `app › res › layout › activity_main.xml` | 서비스 버튼 줄 아래에 `serviceTickText` TextView |
+| [MainActivity.kt](day2/MainActivity.kt) | `app › kotlin+java › com.example.smartio › MainActivity.kt` | `onCreate()` 끝에 `// 12.` 숫자 받아 쓰기 |
+| [strings.xml](day2/strings.xml) | `app › res › values › strings.xml` | `service_tick_zero` |
+| `AndroidManifest.xml`, `ConnState.kt`, `ConnViewModel.kt`, `ControlActivity.kt`, `activity_control.xml`, `res/values/themes.xml` | 같은 이름의 파일 | 1일차 그대로, 바꾸지 않는다 |
 
 Kotlin 파일 전체를 복사할 때 첫 줄 `package ...`는 내 프로젝트의 첫 줄을 그대로 둔다.
-`day2`의 Kotlin 파일 주석은 `9주차 2일차`로 적혀 있다.
-Fragment는 `appcompat` 라이브러리에 함께 들어 있어 따로 넣지 않는다. ViewModel·코루틴 의존성은 4주차 `build.gradle.kts`와 같은 줄로 이미 들어 있다.
-Logcat 필터는 1일차가 `package:mine tag:Service`, 2일차가 `package:mine tag:Fragment`다.
+`day2`에서 더한 줄의 주석에는 `(9주차 2일차)` 꼬리표가 붙어 있고, 번호는 1일차 번호에서 이어진다(`LogService.kt`는 5·6·7번, `MainActivity.kt`는 12번, 새 파일 `ServiceState.kt`는 1·2번).
+코루틴·`StateFlow`·`repeatOnLifecycle`에 필요한 라이브러리는 4주차 `build.gradle.kts`에 이미 들어 있어 따로 넣지 않는다.
+Logcat 필터는 두 일차 모두 `package:mine tag:Service`다. 2일차에 더한 숫자는 Logcat이 아니라 화면에서 본다.
 
-아래 1~4절은 1일차 내용(컴포넌트와 Service), 5~6절은 2일차 내용(Fragment)이다.
+아래 1~4절은 1일차 내용(컴포넌트와 Service), 5~7절은 2일차 내용(값을 둘 자리·코루틴·화면에서 받기)이다.
 
 ## 1. 네 가지 컴포넌트는 Manifest에 적는다
 
@@ -136,74 +138,104 @@ class LogService : Service() {
 
 - Logcat의 `thread=main`은 5주차에 본 메인 스레드다. Service는 따로 스레드를 만들지 않는다.
 - 그래서 `onStartCommand` 안에서 `Thread.sleep(10000)`처럼 오래 걸리는 일을 하면 화면이 10초 동안 멈춘다. 5주차 1일차 시연과 같다. 멈춘 동안 버튼을 누르면 약 5초 뒤 "Smart I/O Controller이(가) 응답하지 않음" 창([앱 닫기]·[대기])이 뜨고, 10초가 지나 앱이 풀리면 창은 저절로 닫힌다(Android 14 에뮬레이터에서 확인).
-- 오래 걸리는 일은 Service 안에서도 5주차 `Thread { }.start()`나 6주차 코루틴으로 보낸다. 이번 주 `LogService`는 로그 한 줄만 찍고 곧바로 끝낸다.
+- 오래 걸리는 일은 Service 안에서도 5주차 `Thread { }.start()`나 6주차 코루틴으로 보낸다. 1일차 `LogService`는 로그 한 줄만 찍고 곧바로 끝낸다. 2일차 6절에서 코루틴을 넣는다.
 
-## 5. Fragment — Activity 안의 화면 조각
+## 5. 값을 둘 자리 — object와 MutableStateFlow
 
 ```kotlin
-class FirstFragment : Fragment() {
+object ServiceState {
+    val tick = MutableStateFlow(0)
+}
+```
+
+- `LogService`와 `MainActivity`는 서로 다른 객체다. Service는 화면을 모르고, 화면은 Service가 만든 변수를 볼 수 없다. 둘이 같이 보는 값을 한 군데 둬야 한다.
+- `object`는 앱에 하나만 생긴다. 어디서 `ServiceState.tick`을 불러도 같은 것이다. 7주차 `ConnState`를 `object`로 둔 것과 같은 자리다.
+- 7주차 `ConnViewModel`은 바꾸는 쪽 `private val _seconds`와 읽기 전용 `val seconds: StateFlow<Int>`를 나눴다. 값을 바꾸는 곳이 그 클래스 안이었기 때문이다.
+- 이번에는 값을 올리는 곳이 이 파일 바깥의 `LogService`다. 그래서 `MutableStateFlow` 한 줄만 두고 나누지 않는다.
+- 7주차처럼 `val tick: StateFlow<Int> = MutableStateFlow(0)`로 감싸 두면, `LogService`에서 값을 올리는 두 줄에 `'val' cannot be reassigned.` 오류가 난다(빌드로 확인).
+- `import kotlinx.coroutines.flow.MutableStateFlow`가 빠지면 `Unresolved reference 'MutableStateFlow'.`가 난다(빌드로 확인).
+- `ServiceState.kt`를 만들지 않고 다른 파일을 먼저 고치면 `Unresolved reference 'ServiceState'.`가 `LogService.kt`와 `MainActivity.kt` 양쪽에 난다(빌드로 확인).
+
+## 6. Service가 코루틴으로 1초마다 센다
+
+```kotlin
+    private val scope = CoroutineScope(Dispatchers.Default)
 ```
 
 ```kotlin
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.d("Fragment", "FirstFragment onCreateView")
-        return inflater.inflate(R.layout.fragment_first, container, false)
-    }
+    private var tickJob: Job? = null
 ```
 
-- Fragment는 자기 layout(`fragment_first.xml`)을 가진다. Activity의 `setContentView` 자리에서 `onCreateView`가 조각의 화면을 돌려준다.
-- `Fragment` import는 `androidx.fragment.app.Fragment`다. 빠지면 `Unresolved reference 'Fragment'.`과 `'onCreateView' overrides nothing.`이 난다.
-- Fragment는 Manifest에 적지 않는다.
+```kotlin
+        if (tickJob?.isActive == true) {
+            return START_NOT_STICKY
+        }
+```
 
-## 6. FragmentContainerView와 바꾸기 세 줄
+```kotlin
+        tickJob = scope.launch {
+            while (isActive) {
+                delay(1000)
+                ServiceState.tick.value++
+            }
+        }
+```
+
+```kotlin
+        tickJob?.cancel()
+        ServiceState.tick.value = 0
+```
+
+- 4절에서 Service도 메인 스레드에서 돈다는 것을 봤다. 1초마다 세는 일을 `onStartCommand` 안에서 그냥 하면 화면이 멈춘다. 그래서 6주차 코루틴으로 보낸다. 이것이 1일차에서 본 문제의 해결이다.
+- `delay(1000)`은 기다리는 동안 스레드를 붙잡지 않는다. 5주차 `Thread.sleep`과 다른 점이다.
+- Service에는 ViewModel의 `viewModelScope`가 없다. `CoroutineScope(Dispatchers.Default)`로 코루틴을 돌릴 자리를 직접 만든다. `Dispatchers.Default`는 메인 스레드가 아닌 곳이다.
+- `if (tickJob?.isActive == true)`는 7주차 `ConnViewModel.startScan`과 같은 검사다. [서비스 시작]을 여러 번 눌러도 코루틴은 하나만 돈다.
+- `onDestroy`의 `tickJob?.cancel()`과 `ServiceState.tick.value = 0`은 세기를 멈추고 숫자를 되돌린다. 이 두 줄을 빼도 **빌드는 된다**(빌드로 확인). 그러면 [서비스 중지] 뒤에도 코루틴이 그대로 돌고, `ServiceState`는 앱에 하나뿐이라 값이 남는다.
+- `while (isActive)`의 `isActive`는 `import kotlinx.coroutines.isActive`가 필요하다. 빠지면 `Unresolved reference 'isActive'.`가 난다(빌드로 확인).
+- `delay` import가 빠지면 `Unresolved reference 'delay'.`가 난다(빌드로 확인).
+
+| 조작 | 코드가 하는 일 |
+|---|---|
+| [서비스 시작] | `onStartCommand`가 코루틴을 시작한다. 1초마다 `ServiceState.tick`이 1 올라간다 |
+| [서비스 시작] 한 번 더 | `onStartCommand`는 또 불리지만 `tickJob`이 살아 있어 코루틴을 새로 시작하지 않는다. 세던 숫자가 끊기지 않는다 |
+| [서비스 중지] | `onDestroy`가 코루틴을 취소하고 `ServiceState.tick`을 0으로 되돌린다 |
+| 멈춘 상태에서 [서비스 중지] 한 번 더 | `onDestroy`가 불리지 않는다. 아무것도 바뀌지 않는다 |
+
+## 7. 화면에서 받기 — repeatOnLifecycle
 
 ```xml
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp" />
+    <TextView
+        android:id="@+id/serviceTickText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/service_tick_zero"
+        android:textSize="18sp" />
 ```
 
 ```kotlin
-        if (savedInstanceState == null) {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragmentContainer, FirstFragment())
-            transaction.commit()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                ServiceState.tick.collect { tick ->
+                    binding.serviceTickText.text = "센 횟수: $tick"
+                }
+            }
         }
 ```
 
-```kotlin
-        binding.secondButton.setOnClickListener {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragmentContainer, SecondFragment())
-            transaction.commit()
-        }
-```
-
-| 조작 | 화면 | Logcat `package:mine tag:Fragment` |
-|---|---|---|
-| 앱 시작 | 위에 [첫 번째 조각] [두 번째 조각], 가운데 `여기는 FirstFragment` | `FirstFragment onCreateView` |
-| [두 번째 조각] | 버튼 줄은 그대로, 아래 글자만 `여기는 SecondFragment` | `SecondFragment onCreateView` |
-| [첫 번째 조각] | `여기는 FirstFragment` | `FirstFragment onCreateView` |
-| 같은 버튼을 두 번 | 글자는 같다 | 누를 때마다 한 줄씩 찍힌다(새 조각을 만들어 끼운다) |
-| SecondFragment를 보다가 회전 | 가로 화면에서도 `여기는 SecondFragment` | `SecondFragment onCreateView` 한 줄 |
-| 뒤로 가기 | 앱이 닫힌다 | 조각 단위로 뒤로 가지 않는다 |
-
-- `layout_height="0dp"` + `layout_weight="1"`은 2주차 확장에서 본 "남은 공간 나눠 갖기"다.
-- `if (savedInstanceState == null)`: 처음 켤 때만 조각을 끼운다. 회전 뒤에는 보던 조각을 시스템이 되살린다(3주차 복원과 같은 원리).
-- `transaction.commit()`을 빼도 빌드는 된다. 그러면 버튼을 눌러도 화면이 바뀌지 않는다.
-- XML id 철자가 다르면 `Unresolved reference 'fragmentContainer'.` 오류가 Kotlin 파일에 난다.
+- 7주차 2일차 `viewModel.seconds.collect`와 같은 틀이다. `lifecycleScope.launch` → `repeatOnLifecycle` → `collect` 세 겹이 그대로고, 받아 오는 곳만 ViewModel에서 `ServiceState`로 바뀌었다.
+- `Lifecycle.State.STARTED`는 화면이 보일 때만 받는다는 뜻이다. [연결]로 제어 화면에 가 있는 동안에는 받지 않는다.
+- 그동안에도 Service는 계속 센다. 화면이 다시 보이면 `StateFlow`가 마지막 값을 한 번 내주므로 숫자가 이어진 자리에서 보인다. Service를 따로 두는 이유가 여기서 드러난다.
+- 회전해도 같은 틀로 마지막 값을 다시 받는다. 7주차 2일차와 같다.
+- `collect`를 `lifecycleScope.launch` 밖에 두면 `Suspend function 'suspend fun collect(collector: FlowCollector<Int>): Nothing' should be called only from a coroutine or another suspend function.` 오류가 난다(빌드로 확인).
+- layout에 `serviceTickText`를 넣지 않고 Kotlin만 고치면 `Unresolved reference 'serviceTickText'.`가 난다(빌드로 확인).
+- `strings.xml`에 `service_tick_zero`가 없으면 Kotlin이 아니라 자원 단계에서 막힌다. `error: resource string/service_tick_zero (aka com.example.smartio:string/service_tick_zero) not found.`가 `activity_main.xml` 줄 번호와 함께 나온다(빌드로 확인).
 
 ## 공식 참고 자료
 
 - [앱 기본 사항(앱 구성요소) — Android Developers](https://developer.android.com/guide/components/fundamentals)
 - [서비스 개요 — Android Developers](https://developer.android.com/develop/background-work/services)
-- [프래그먼트 — Android Developers](https://developer.android.com/guide/fragments)
-- [프래그먼트 트랜잭션 — Android Developers](https://developer.android.com/guide/fragments/transactions)
+- [Android의 Kotlin 코루틴 — Android Developers](https://developer.android.com/kotlin/coroutines)
+- [Android의 StateFlow 및 SharedFlow — Android Developers](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow)
+- [수명 주기 인식 코루틴(repeatOnLifecycle) — Android Developers](https://developer.android.com/topic/libraries/architecture/coroutines)
 - [알림 개요 — Android Developers](https://developer.android.com/develop/ui/views/notifications)

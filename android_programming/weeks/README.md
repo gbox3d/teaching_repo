@@ -23,7 +23,7 @@
 | `walkthrough.md` | 모든 주차. 처음부터 그대로 따라 하는 단계(할 일 → 예상 결과). 전체 코드 블록은 `examples/` 파일과 글자 단위로 같다 |
 | `lab.md` | 일차별 60분 시간표, 단계별 문제와 힌트, 막혔을 때 표(실제 오류 메시지), 제출물, 먼저 끝났다면 |
 | `examples/README.md` | 예제 파일 ↔ 프로젝트 위치 표, 개념별 최소 코드와 실행 결과 |
-| `examples/dayN/` | 그날 수업이 끝났을 때의 **완성본 전체 파일**(2~7주·9~12주·14주는 `day1`·`day2`, 13주는 `day1`). 1주차는 프로젝트에 넣어 하나씩 실행하는 문법 예제 `.kt` 파일 7개, 8주는 문제 은행 `aNN_*/README.md`(시작 코드 없음), 15주는 `rehearsal_starter`·`rehearsal_solution`, 9주 `day1`은 SmartIO 곁가지(서비스 추가)이고 `day2`는 Fragment 연습용 별도 프로젝트다 |
+| `examples/dayN/` | 그날 수업이 끝났을 때의 **완성본 전체 파일**(2~7주·9~12주·14주는 `day1`·`day2`, 13주는 `day1`). 1주차는 프로젝트에 넣어 하나씩 실행하는 문법 예제 `.kt` 파일 7개, 8주는 문제 은행 `aNN_*/README.md`(시작 코드 없음), 15주는 `rehearsal_starter`·`rehearsal_solution`, 9주는 SmartIO 곁가지라 `day1`에 Service를 넣고 `day2`에서 그 값을 화면으로 받는다 |
 | `exam_structure.md`·`project_brief.md`·`rubric.md` | 시험·과제 주차만. 8주 시험 구조·채점표, 13주 과제 안내·채점표(계획안 10 + 최종 제출 20), 15주 기말 채점표 |
 
 `examples/dayN/`의 파일은 Android Studio의 **Empty Views Activity** 템플릿 프로젝트에 다음 규칙으로 넣으면 그대로 빌드된다.
@@ -36,7 +36,7 @@
 | `res/…` | `app/src/main/res/…` 같은 경로 |
 | `AndroidManifest.xml`·`build.gradle.kts` | 있으면 `app/src/main/AndroidManifest.xml`·`app/build.gradle.kts`를 교체 |
 
-package는 1주 2일차~3주 `com.example.studentcard`, 4~15주 `com.example.smartio`다. package가 다른 예제는 9주 `day2`(Fragment 연습, `com.example.fragmentdemo`) 하나이며 그 폴더의 `examples/README.md`에 적었다. 8주는 시작 코드가 없어 `StudentCard` 또는 새 Empty Views Activity를 쓴다.
+package는 1주 2일차~3주 `com.example.studentcard`, 4~15주 `com.example.smartio`다. 8주는 시작 코드가 없어 `StudentCard` 또는 새 Empty Views Activity를 쓴다.
 
 12~15주는 제공 라이브러리 [`../bleuno/`](../bleuno/README.md)를 쓴다. `bleuno/src/`의 파일을 `app/src/main/java/com/example/smartio/bleuno/`로 복사하며(package `com.example.smartio.bleuno`), 12~15주 `examples/`의 `bleuno/` 폴더에 같은 파일이 들어 있다. 보드 명령·응답 규약과 라이브러리 사용법은 [bleuno README](../bleuno/README.md)에 있다.
 
@@ -54,7 +54,7 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 | 6 | 코루틴: delay·취소·오류 처리 | `검색 중… 3` 카운트다운과 [중지], 가짜 연결 실패와 [다시 시도] | [`week06_coroutines`](week06_coroutines/) |
 | 7 | ViewModel과 StateFlow: 회전해도 살아 있는 상태 | 회전해도 이어지는 `연결 중… 3`, 상태에 맞게 켜지는 버튼 | [`week07_flow_ui_state`](week07_flow_ui_state/) |
 | 8 | 중간고사(개인 실기) | 1~7주 실습 제출을 정리한 문제 은행(수업에서 나간 범위)으로 연습하고, 값만 바뀐 같은 문제로 시험 | [`week08_midterm`](week08_midterm/) |
-| 9 | 앱 컴포넌트 비교: Service와 Fragment | 1일차 Logcat에 서비스 시작·중지와 스레드 이름, 2일차 조각이 바뀐 화면 | [`week09_services_project`](week09_services_project/) |
+| 9 | 화면 없이 일하는 Service | 1일차 Logcat에 서비스 시작·중지와 스레드 이름, 2일차 화면에 올라가는 서비스 값과 화면을 옮겼다 와도 이어지는 숫자 | [`week09_services_project`](week09_services_project/) |
 | 10 | BroadcastReceiver와 런타임 권한 | 연결 화면 배터리 문구, [권한 확인] → 거절 AlertDialog → 설정 화면 | [`week10_receivers_permissions`](week10_receivers_permissions/) |
 | 11 | 목록과 저장: ListView·SharedPreferences·ContentProvider 비교 + 실기기 준비 | 장치 이름 목록, 앱을 다시 켜도 남는 `마지막 장치: …`, 실기기 실행 | [`week11_content_provider`](week11_content_provider/) |
 | 12 | BLE 기초: Bleuno 클라이언트로 검색·연결 | 보드 검색 목록, 목록 탭 → `준비됨`, 제어 화면 상태 표시 | [`week12_ble_gatt`](week12_ble_gatt/) |

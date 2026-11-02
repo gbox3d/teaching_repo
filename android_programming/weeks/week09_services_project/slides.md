@@ -3,18 +3,18 @@ marp: true
 theme: default
 paginate: true
 header: 모바일프로그래밍 · 9주차
-footer: 앱 컴포넌트 비교 · Service와 Fragment
+footer: 화면 없이 일하는 Service
 ---
 
-# 앱 컴포넌트 비교: Service와 Fragment
+# 화면 없이 일하는 Service
 
 2~7주차에 만든 화면은 모두 **Activity**였습니다.
 1일차에는 화면이 없는 컴포넌트 **Service**를 직접 넣어 시작·중지해 보고,
-2일차에는 화면 한 자리를 갈아 끼우는 **Fragment**를 직접 만들어 봅니다.
+2일차에는 그 Service가 1초마다 센 숫자를 화면에서 **받아** 보여 줍니다.
 
 ```text
 1일차: 네 컴포넌트 비교 · Service 세 종류 · LogService 시작·중지
-2일차: Fragment 바꿔 끼우기 · Notification 시연·예고
+2일차: object와 MutableStateFlow로 값 두기 · Service에서 세기 · 화면에서 받기
 ```
 
 ---
@@ -155,9 +155,9 @@ Logcat 필터 `package:mine tag:Service`
 | 화면을 떠나도 이어져야 하는 일(음악 재생, 긴 업로드) | Service |
 | 사용자에게 계속 보여야 하는 긴 작업 | foreground Service(알림 필수) |
 
-- SmartIO는 학기 끝까지 Service를 쓰지 않습니다. 화면을 보는 동안만 연결하기 때문입니다.
+- 이 주에 넣는 Service는 연습입니다. 10주차부터 이어 갈 SmartIO 본줄기는 7주차 완성본에서 다시 시작합니다.
 - "화면 없이 도는 일은 모두 Service"가 아닙니다. 기준은 **화면을 떠나도 이어져야 하는가**입니다.
-- Service를 쓰더라도 오래 걸리는 일은 그 안에서 또 스레드·코루틴으로 보냅니다.
+- Service를 쓰더라도 오래 걸리는 일은 그 안에서 또 스레드·코루틴으로 보냅니다. 내일 그렇게 해 봅니다.
 
 ---
 
@@ -179,123 +179,121 @@ onDestroy                    ← [서비스 중지]
 
 ---
 
-# 2일차 — Fragment 바꿔 끼우기
+# 2일차 — Service가 센 숫자를 화면에 보여 주기
 
 `30분 설명·시연 → 60분 실습`
 
-1. Fragment가 Activity 안의 화면 조각이라는 것 보기
-2. `FragmentContainerView`로 빈 자리 만들기
-3. `onCreateView`로 조각의 화면 돌려주기
-4. `beginTransaction()` → `replace()` → `commit()` 세 줄로 바꿔 끼우기
+1. Service와 화면이 서로 다른 객체라서 값을 둘 자리가 필요하다는 것 보기
+2. `object ServiceState`에 7주차 `MutableStateFlow` 두기
+3. Service에서 코루틴으로 1초마다 값 올리기
+4. 7주차 `repeatOnLifecycle` 틀로 화면에서 받아 쓰기
 
 ---
 
-## 2일차 · 0–6분 ① — Fragment: Activity 안의 화면 조각
+## 2일차 · 0–6분 ① — 1일차 Service는 Logcat에만 남았다
+
+| 1일차에 누른 것 | 화면 | Logcat |
+|---|---|---|
+| [서비스 시작] | 그대로 | `onStartCommand thread=main` |
+| [서비스 중지] | 그대로 | `onDestroy` |
+
+- Service가 돌고 있는지 **화면만 보고는** 알 수 없었습니다. Logcat을 열어야 보였습니다.
+- 오늘은 Service가 1초마다 숫자를 세고, 화면이 그 숫자를 받아 `센 횟수:` 뒤에 씁니다.
+- 1일차에 말한 대로 Service 안의 오래 걸리는 일은 코루틴으로 보냅니다. 오늘 그 코루틴을 씁니다.
+- 1일차 코드는 지우지 않습니다. 새 파일 하나를 만들고 네 파일에 더합니다.
+
+---
+
+## 2일차 · 0–6분 ② — Service와 화면은 서로 다른 객체다
 
 ```text
-┌ MainActivity ────────────────────┐
-│ [첫 번째 조각] [두 번째 조각]     │  ← 그대로 있다
-│ ┌ FragmentContainerView ───────┐ │
-│ │  여기는 FirstFragment         │ │  ← 이 자리만
-│ │  (또는 SecondFragment)        │ │     바꿔 끼운다
-│ └──────────────────────────────┘ │
-└──────────────────────────────────┘
+LogService  ──▶  ServiceState.tick  ──▶  MainActivity
+1초마다 1 올림    object: 앱에 하나      collect로 받아 화면에 쓴다
 ```
 
-- Fragment는 **자기 layout**(`fragment_first.xml`)을 가진 화면 조각입니다.
-- 버튼 줄은 Activity의 것이라 그대로 있고, 빈 자리의 조각만 바뀝니다.
-- 4주차 2일차에 예고한 "Activity 안의 화면 조각"을 오늘 직접 만듭니다.
+| 이렇게 해 보면 | 어떻게 되나 |
+|---|---|
+| Service가 `MainActivity`의 변수에 값 쓰기 | Service는 그 화면 객체를 알지 못한다 |
+| `startService(intent)`로 값 돌려받기 | Intent는 **보내는** 쪽이고 돌려받는 길이 없다 |
+| 둘이 함께 보는 자리를 하나 두기 | 오늘 쓰는 방법 |
+
+- Service와 Activity는 Android가 **각각 만들어 주는 서로 다른 객체**입니다.
+- 그래서 값을 건네려면 둘 다 아는 자리가 필요합니다. 그 자리를 다음 장에서 만듭니다.
 
 ---
 
-## 2일차 · 0–6분 ② — Activity와 Fragment의 역할
-
-| | Activity | Fragment |
-|---|---|---|
-| Manifest | `<activity>`로 적는다 | 적지 않는다 |
-| 화면 정하기 | `onCreate`에서 `setContentView` | `onCreateView`가 View를 돌려준다 |
-| 혼자 설 수 있나 | 앱의 입구라서 혼자 선다 | Activity 안에 끼워야 보인다 |
-| 바꾸는 방법 | `startActivity`로 새 화면 | `replace`로 자리의 조각만 |
-
-- 오늘 만드는 앱은 Activity **하나**와 조각 **둘**입니다.
-- 화면 전체를 넘기면 Activity, 한 자리만 갈아 끼우면 Fragment입니다.
-- SmartIO는 학기 끝까지 Activity 두 개로 갑니다. 오늘 연습은 새 프로젝트에서 합니다.
-
----
-
-## 2일차 · 6–14분 ① — 빈 자리: FragmentContainerView
-
-```xml
-<androidx.fragment.app.FragmentContainerView
-    android:id="@+id/fragmentContainer"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1" />
-```
-
-- 조각을 끼울 **빈 자리**입니다. 처음에는 비어 있습니다.
-- `layout_height="0dp"` + `layout_weight="1"`: 버튼 줄을 뺀 남은 높이를 모두 차지합니다(2주차).
-- 이 `id`를 코드에서 `R.id.fragmentContainer`로 부릅니다. 철자가 다르면 Kotlin 쪽에 오류가 납니다.
-- 자리만 만들고 실행하면 버튼 줄만 보이고 아래는 비어 있습니다.
-
----
-
-## 2일차 · 6–14분 ② — 조각 클래스와 onCreateView
+## 2일차 · 6–14분 ① — 값을 둘 자리: object와 MutableStateFlow
 
 ```kotlin
-class FirstFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.d("Fragment", "FirstFragment onCreateView")
-        return inflater.inflate(R.layout.fragment_first, container, false)
-    }
+import kotlinx.coroutines.flow.MutableStateFlow
+
+object ServiceState {
+    val tick = MutableStateFlow(0)
 }
 ```
 
-- `inflater.inflate(…)`가 layout 파일을 View로 만들어 돌려줍니다. Activity의 `setContentView` 자리입니다.
-- import는 `androidx.fragment.app.Fragment`입니다. `android.app.Fragment`(옛 방식)를 고르지 않습니다.
-- `SecondFragment`는 이 코드에서 layout 이름과 로그 글자만 다릅니다.
+- `object`는 앱에 하나만 생기는 묶음입니다. 7주차 2일차의 `ConnState`도 object였습니다.
+- `MutableStateFlow(0)`은 7주차에 본 **지금 값 하나를 들고 있는 상자**이고, 처음 값은 0입니다.
+- 7주차에는 바꾸는 쪽(`_state`)을 숨기고 읽는 쪽(`state`)만 화면에 내보냈습니다.
+- 오늘은 값을 올리는 쪽이 이 파일 **바깥**의 `LogService`라서 한 줄만 두고 숨기지 않습니다.
+- 7주차처럼 `StateFlow`로 감싸면 `LogService.kt`에 `'val' cannot be reassigned.`가 납니다.
 
 ---
 
-## 2일차 · 14–22분 ① — 바꾸기 세 줄
+## 2일차 · 6–14분 ② — Service가 코루틴으로 1초마다 센다
 
 ```kotlin
-binding.secondButton.setOnClickListener {
-    val transaction = supportFragmentManager.beginTransaction()
-    transaction.replace(R.id.fragmentContainer, SecondFragment())
-    transaction.commit()
-}
+    private val scope = CoroutineScope(Dispatchers.Default)
+    private var tickJob: Job? = null
 ```
 
 ```kotlin
-if (savedInstanceState == null) {
-    … FirstFragment()를 같은 세 줄로 끼운다
-}
+        tickJob = scope.launch {
+            while (isActive) {
+                delay(1000)
+                ServiceState.tick.value++
+            }
+        }
 ```
 
-- 바꾸기 시작 → 자리에 조각 넣기 → **확정(commit)**. `commit()`을 빼면 아무것도 바뀌지 않습니다.
-- 처음 끼우는 코드는 `if (savedInstanceState == null)` 안에 둡니다.
-- 회전 뒤에는 보던 조각을 시스템이 되살립니다(3주차 복원). 그래서 다시 끼우지 않습니다.
+- Service에는 7주차 `viewModelScope` 같은 것이 없어 코루틴 자리를 **직접 만듭니다**. `Dispatchers.Default`는 메인 스레드가 아닌 곳입니다.
+- `delay(1000)`은 6주차에 쓴 그 함수입니다. 1초 쉬고 값을 1 올리는 일을 `while (isActive)` 동안 되풀이합니다.
+- [서비스 시작]을 여러 번 눌러도 코루틴이 하나만 돌도록, 이미 돌고 있으면 `if (tickJob?.isActive == true)`에서 바로 돌아갑니다.
 
 ---
 
-## 2일차 · 14–22분 ② — 시연: 조각만 바뀐다
+## 2일차 · 14–22분 ① — 화면에서 받기: repeatOnLifecycle
 
-Logcat 필터 `package:mine tag:Fragment`
+```kotlin
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                ServiceState.tick.collect { tick ->
+                    binding.serviceTickText.text = "센 횟수: $tick"
+                }
+            }
+        }
+```
 
-| 조작 | 화면 | Logcat |
-|---|---|---|
-| 앱 시작 | 버튼 줄 + `여기는 FirstFragment` | `FirstFragment onCreateView` |
-| [두 번째 조각] | 버튼 줄 그대로, 글자만 `여기는 SecondFragment` | `SecondFragment onCreateView` |
-| 같은 버튼을 두 번 | 글자는 같다 | 누를 때마다 한 줄씩 |
-| 조각을 바꾼 뒤 회전 | 보던 조각이 남는다 | 그 조각의 줄 한 개 |
+- 7주차 2일차의 틀 그대로이고, **받는 대상만** `viewModel.state`에서 `ServiceState.tick`으로 바뀌었습니다.
+- `onCreate()` 안, 11번 블록 뒤에 둡니다. `MainActivity.kt`에 import는 하나도 더하지 않습니다.
+- 화면이 보일 때(`STARTED`)만 받습니다. 제어 화면에 가 있는 동안에는 받지 않습니다.
+- 숫자를 쓸 자리는 `activity_main.xml`의 `serviceTickText`이고, 처음 글자는 `strings.xml`에 둡니다.
 
-- 같은 버튼을 두 번 누르면 새 조각을 만들어 끼우기 때문에 로그가 두 줄 찍힙니다.
-- 뒤로 가기를 누르면 앞 조각으로 가지 않고 앱이 닫힙니다. 조각의 뒤로 가기 기록은 따로 넣어야 생깁니다.
+---
+
+## 2일차 · 14–22분 ② — 시연: 화면을 옮겼다 와도 이어진다
+
+| 조작 | 화면에서 볼 것 |
+|---|---|
+| [서비스 시작] | `센 횟수:` 뒤의 숫자가 1초 간격으로 바뀌어 보입니다 |
+| [서비스 시작] 한 번 더 | 숫자가 그대로 이어져 보입니다. 코루틴을 새로 시작하지 않습니다 |
+| 이름을 넣고 [연결] → 제어 화면 → [뒤로] | 돌아온 화면의 숫자가 떠날 때보다 커져 보입니다 |
+| 화면 회전 | 마지막 값이 다시 보입니다(7주차 복원 틀) |
+| [서비스 중지] | `onDestroy`에서 0으로 되돌리므로 `센 횟수: 0`이 보입니다 |
+
+- 제어 화면에 있는 동안 화면은 받기를 멈추지만 Service는 계속 셉니다. 돌아오면 마지막 값을 바로 받습니다.
+- 화면을 떠나도 일이 이어지는 것이 Service를 쓰는 이유입니다. 1일차에 세운 기준이 여기서 눈에 보입니다.
+- `onDestroy`의 `tickJob?.cancel()`을 빼면 빌드는 됩니다. 그 뒤에 무슨 일이 생기는지는 실습에서 직접 보세요.
 
 ---
 
@@ -312,21 +310,24 @@ Logcat 필터 `package:mine tag:Fragment`
 - 알림(Notification) = 앱 화면을 보고 있지 않은 사용자에게 알리는 것입니다.
 - 1일차 Service 표의 셋째 줄, foreground Service는 **알림을 꼭 띄워야** 합니다.
 - Android 13부터는 알림을 띄우려면 사용자에게 **권한**을 받아야 합니다.
+- 권한이 없으면 `notify`를 불러도 알림이 뜨지 않습니다. `areNotificationsEnabled()`와 Logcat으로 확인합니다.
 - 런타임 권한은 10주차 2일차 내용이라, 오늘은 **시연으로만 보고 실습에는 넣지 않습니다**.
 
 ---
 
 ## 2일차 · 27–30분 — 이제 직접 해 보기
 
-[2일차 실습](lab.md#2일차--fragment-바꿔-끼우기-60분) · [따라하기](walkthrough.md#2일차)
+[2일차 실습](lab.md#2일차--service가-센-숫자를-화면에-보여-주기-60분) · [따라하기](walkthrough.md#2일차)
 
-1. 새 프로젝트 `FragmentDemo`(package `com.example.fragmentdemo`)를 만듭니다. SmartIO와 섞지 않습니다.
-2. 버튼 두 개와 `FragmentContainerView` 자리를 만들고, 조각 layout 두 개를 만듭니다.
-3. `FirstFragment`·`SecondFragment`를 만들어 `onCreateView`에서 자기 layout을 돌려줍니다.
-4. 처음 끼우기와 버튼 두 개의 바꾸기 세 줄을 넣고, 조각이 바뀐 **캡처 2장**을 남깁니다.
+1. `ServiceState.kt`를 **Object**로 새로 만들고 `val tick = MutableStateFlow(0)` 한 줄을 넣습니다.
+2. `LogService.kt`에 `scope`·`tickJob`을 두고 1초마다 `ServiceState.tick`을 올립니다.
+3. `onDestroy`에서 세던 코루틴을 취소하고 값을 0으로 되돌립니다.
+4. `activity_main.xml`에 `serviceTickText` 자리를, `strings.xml`에 처음 글자를 넣습니다.
+5. `MainActivity.kt`에 7주차 collect 틀을 하나 더 쓰고 **캡처 2장**을 남깁니다.
 
 ```text
-여기는 FirstFragment      →   여기는 SecondFragment
+센 횟수: 0  →  [서비스 시작] 뒤에는 0이 아닌 숫자
+            →  제어 화면에 갔다 돌아오면 더 큰 숫자
 ```
 
 **설명 합계: 6+8+8+5+3 = 30분**
@@ -338,7 +339,7 @@ Logcat 필터 `package:mine tag:Fragment`
 1일차 캡처 한 장, 2일차 캡처 두 장을 남깁니다.
 
 1. **1일차 캡처 1장**: Logcat `tag:Service`에 `onStartCommand thread=main` 두 줄과 `onDestroy` 한 줄이 보이는 화면
-2. **2일차 캡처 2장**: `여기는 FirstFragment` 화면과 `여기는 SecondFragment` 화면(버튼 줄이 같은 자리에 있어야 합니다)
+2. **2일차 캡처 2장**: ① `센 횟수:` 뒤의 숫자가 0이 아닌 화면 ② 제어 화면에 갔다 돌아와 숫자가 이어진 화면
 
 파일 이름·제출 위치·마감은 수업 공지를 따릅니다. 캡처에 개인정보가 보이지 않는지 확인합니다.
 
@@ -346,8 +347,9 @@ Logcat 필터 `package:mine tag:Fragment`
 
 ## 다음 주 미리 보기
 
-1일차 표의 셋째 줄, **BroadcastReceiver**를 직접 만듭니다.
+1일차 표의 셋째 줄, **BroadcastReceiver**를 직접 만들고 **런타임 권한**을 받습니다.
 
 - 에뮬레이터의 배터리를 바꾸면 SmartIO 화면의 `배터리 80% · 충전 중`이 따라 바뀌게 합니다.
-- 12주차 BLE를 쓰려면 사용자에게 **권한**을 받아야 합니다. 그 흐름을 10주차 2일차에 만듭니다.
-- 오늘 본 알림 권한도 같은 런타임 권한입니다. 10주차 시작점은 7주차 완성본입니다.
+- 오늘 시연으로 본 알림 권한처럼, 쓰기 직전에 사용자에게 묻는 권한을 10주차 2일차에 직접 만듭니다.
+- 12주차 **BLE**(Bluetooth Low Energy, 저전력 블루투스)에서는 보드의 상태를 오늘 쓴 collect 틀로 받습니다.
+- 10주차 시작점은 7주차 완성본입니다. 오늘 더한 Service는 9주차에서 끝냅니다.

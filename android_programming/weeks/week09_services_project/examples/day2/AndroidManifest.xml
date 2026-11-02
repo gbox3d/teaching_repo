@@ -3,9 +3,13 @@
 
     <application
         android:label="@string/app_name"
-        android:theme="@style/Theme.FragmentDemo">
+        android:theme="@style/Theme.SmartIO">
 
-        <!-- Fragment는 Activity가 아니므로 여기에 적지 않는다. Activity 하나만 있다. -->
+        <!-- New › Activity로 만들면 이 줄이 자동으로 생긴다. -->
+        <activity
+            android:name=".ControlActivity"
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -14,6 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 9주차 1일차: Service도 Activity처럼 여기에 적어야 시작된다. exported="false"는 이 앱 안에서만 쓴다는 뜻이다. -->
+        <service
+            android:name=".LogService"
+            android:exported="false" />
 
     </application>
 
