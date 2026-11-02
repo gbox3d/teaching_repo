@@ -22,34 +22,35 @@ footer: "객체와 localStorage · 비교 예제로 원리를 보고 마지막�
 
 `30분 설명·시연 → 60분 실습`
 
-1. 고르기 페이지 — `index.html` 하나, script 줄 하나만 켠다
+1. 예제 폴더 — `index.html`·`app.js` 두 파일
 2. ex01 — 객체 `{ }` 와 점 표기 (오늘 문법)
 3. ex02 — 배열 안의 객체 · 날짜 틀
 4. ex03 — 객체를 목록 한 줄로
 
 ---
 
-## 1일차 · 0–4분 — 고르기 페이지: script 줄 하나만 켠다
+## 1일차 · 0–4분 — 예제 폴더 하나에 파일 두 개
 
-[examples/day1/index.html](examples/day1/index.html) — 세 예제가 같은 화면(목록 자리 두 개)을 씁니다.
+예제마다 폴더 하나. 내 사이트와 같은 이름의 두 파일입니다.
 
-```html
-<script src="ex01_object.js"></script>
-<!-- <script src="ex02_array_objects.js"></script> -->
-<!-- <script src="ex03_list_line.js"></script> -->
+```text
+ex01/
+  index.html   화면 — 예제가 쓰는 자리
+  app.js       동작 — 이번 주 원리는 여기
 ```
 
-- 10주차와 같은 방법입니다. 줄에 커서를 두고 **Ctrl+/**(macOS ⌘+/)로 켜고 끕니다.
-- **한 줄만** 켭니다. 둘을 켜면 Console 이 섞이거나 이름이 겹쳐 빨간 줄이 뜹니다.
+- 여는 것은 `index.html`. `<head>` 의 `<script src="app.js" defer>` 가 `app.js` 를 불러옵니다.
+- 코드는 `app.js` 에서 고치고, 결과는 `index.html` 을 새로고침해 봅니다.
 - ex01·ex02 는 Console 에, ex03 은 화면의 두 목록에 씁니다.
+- 맨 위 내 사이트 파일과 이름이 같습니다. 편집기 위쪽 경로 줄(`ex › ex01`)로 구분합니다.
 
-**어느 코드를 불러올지는 `script` 줄 하나가 정한다.**
+**화면은 HTML, 동작은 JS — 두 파일을 한 폴더에.**
 
 ---
 
 ## 1일차 · 4–11분 — ex01 객체와 점 표기
 
-[examples/day1/ex01_object.js](examples/day1/ex01_object.js)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
 
 ```js
 const item = { name: '하늘', message: '안녕하세요', date: '2026. 11. 11.' };
@@ -68,7 +69,7 @@ const item5 = { name: name, message: message, date: '…' };   // 5.
 
 ## 1일차 · 11–19분 — ex02 배열 안의 객체 · 날짜 틀
 
-[examples/day1/ex02_array_objects.js](examples/day1/ex02_array_objects.js)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
 
 ```js
 texts.push('하늘: 안녕하세요');                  // 1·2. 글자 한 덩어리
@@ -87,7 +88,7 @@ console.log(items[0].name);                     // 4. 하늘
 
 ## 1일차 · 19–27분 — ex03 객체를 목록 한 줄로
 
-[examples/day1/ex03_list_line.js](examples/day1/ex03_list_line.js)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
 
 ```js
 li1.textContent = items[i];   // 1. 객체를 그대로
@@ -109,8 +110,8 @@ li2.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`;
 
 [1일차 실습](lab.md#1일차--객체와-점-표기-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
 
-1. 새 폴더 `web-week11` 에 지난주 완성본, `ex/` 에 오늘 네 파일.
-2. ex01~ex03 — 줄 하나만 켜고 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
+1. 새 폴더 `web-week11` 에 지난주 완성본, `ex/` 에 예제 폴더 세 개.
+2. ex01~ex03 — 폴더마다 `index.html` 을 열고 `app.js` 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
 3. 새 저장소 `web-week11` 만들어 올리기 · Pages 켜기.
 
 **설명 합계: 4+7+8+8+3 = 30분**
@@ -128,13 +129,13 @@ li2.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`;
 5. 내 목록은 내 브라우저에만 있다
 6. 조립 — `web-week11` 의 `guestbook.html`·`guestbook.js`
 
-예제는 어제처럼 고르기 페이지 `index.html` 하나로 엽니다(script 줄 네 개 중 하나만).
+예제는 어제처럼 폴더마다 `index.html` 을 엽니다(`ex/ex04/` ~ `ex/ex07/`).
 
 ---
 
 ## 2일차 · 0–7분 — ex04 저장 칸 localStorage
 
-[examples/day2/index.html](examples/day2/index.html)(고르기 페이지, ex04 줄만 켬) · [ex04_storage.js](examples/day2/ex04_storage.js)
+[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [app.js](examples/day2/ex04/app.js)
 
 ```js
 let memo = '(처음 값)';                 // 1. 변수: 열 때마다 다시 시작
@@ -152,7 +153,7 @@ localStorage.setItem('ex04-memo', '안녕하세요');   // 적기(키, 값)
 
 ## 2일차 · 7–13분 — ex05 JSON: 배열을 글자로, 글자를 배열로
 
-[examples/day2/ex05_json.js](examples/day2/ex05_json.js) — 고르기 페이지에서 ex05 줄만 켭니다.
+[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js)
 
 ```js
 localStorage.setItem('ex05-raw', items);                      // 1.
@@ -170,7 +171,7 @@ const back = JSON.parse(localStorage.getItem('ex05-json'));   // 3.
 
 ## 2일차 · 13–18분 — ex06 || 또는 (오늘 문법)
 
-[examples/day2/ex06_or.js](examples/day2/ex06_or.js) — 고르기 페이지에서 ex06 줄만 켭니다.
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js)
 
 ```js
 if (name === '' || message === '') { … }    // 1. 둘 중 하나라도 비면
@@ -187,7 +188,7 @@ const items = JSON.parse(localStorage.getItem('ex06-none')) || [];   // 3.
 
 ## 2일차 · 18–23분 — ex07 removeItem: 저장 칸 지우기
 
-[examples/day2/ex07_remove.js](examples/day2/ex07_remove.js) — 고르기 페이지에서 ex07 줄만 켭니다.
+[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js)
 
 ```js
 items = [];                             // 1. 배열만 빈다. 저장 칸은 그대로
@@ -232,7 +233,7 @@ guestbook.js    if (name === '' || message === '')       ← ex06 1번
 
 [2일차 실습](lab.md#2일차--저장-칸에-남기고-되살리기-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
 
-1. 고르기 페이지와 ex04~ex07 `.js` 를 `ex/` 에 저장(어제 `index.html` 을 덮어씀), 값 바꾸기(29분까지).
+1. ex04~ex07 예제 폴더 네 개를 `ex/` 에 저장, 값 바꾸기(29분까지).
 2. 조립 → push → **공개 주소**에서 확인 → 캡처.
 
 **설명 합계: 7+6+5+5+3+4 = 30분**

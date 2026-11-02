@@ -22,7 +22,7 @@ footer: "보안·접근성·릴리스 점검 · 비교 예제로 원리를 보�
 
 `30분 설명·시연 → 60분 실습`
 
-1. 고르기 페이지 — 입력 칸·버튼·결과 자리
+1. 예제 폴더 — `index.html`·`app.js` 두 파일
 2. ex01 — `Number()` 와 `isNaN()`
 3. ex02 — `new Date().getFullYear()` 와 몇 년차
 4. ex03 — `textContent` vs `innerHTML`
@@ -31,19 +31,19 @@ footer: "보안·접근성·릴리스 점검 · 비교 예제로 원리를 보�
 
 ---
 
-## 1일차 · 0–3분 — 고르기 페이지: 입력 칸이 있는 자리
+## 1일차 · 0–3분 — 예제 폴더: 입력 칸이 있는 자리
 
-[examples/day1/index.html](examples/day1/index.html) — ex01·ex02 가 같은 화면을 씁니다.
+예제마다 폴더 하나. 내 사이트와 같은 이름의 파일입니다.
 
-```html
-<label for="year">입학 연도</label>
-<input id="year" type="text" value="2023">
-<button id="btn">눌러 보기</button>
-<div id="result">결과 자리 — 버튼을 누르면 바뀐다</div>
+```text
+ex01/
+  index.html   화면 — 입학 연도 칸 · 눌러 보기 · 결과 자리
+  app.js       동작 — 이번 주 원리는 여기
 ```
 
-- 맨 아래 `script` 두 줄 중 **하나만** 켭니다(Ctrl+/, macOS ⌘+/).
-- 칸에 글자를 적고 **눌러 보기** → 화면과 Console 을 봅니다.
+- 여는 것은 `index.html`. `<head>` 의 `<script src="app.js" defer>` 가 `app.js` 를 불러옵니다.
+- 칸에 글자를 적고 **눌러 보기** → 화면과 Console 을 봅니다. ex04·ex05 는 `index.html` 하나.
+- 맨 위 내 사이트 파일과 이름이 같습니다. 편집기 위쪽 경로 줄(`ex › ex01`)로 구분합니다.
 
 **칸에 적은 글자는 버튼을 누를 때 읽는다.**
 
@@ -51,7 +51,7 @@ footer: "보안·접근성·릴리스 점검 · 비교 예제로 원리를 보�
 
 ## 1일차 · 3–8분 — ex01 Number() 와 isNaN()
 
-[examples/day1/ex01_number.js](examples/day1/ex01_number.js)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
 
 ```js
 const text = yearInput.value;                     // 칸의 값은 글자
@@ -70,7 +70,7 @@ console.log('3. isNaN(바꾼 값) :', isNaN(year));    // false
 
 ## 1일차 · 8–12분 — ex02 올해와 몇 년차
 
-[examples/day1/ex02_year.js](examples/day1/ex02_year.js)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
 
 ```js
 const thisYear = new Date().getFullYear();  // 1. 올해 → 2026
@@ -87,7 +87,7 @@ const years = thisYear - year + 1;          // 3. 입학한 해가 1년차 → 4
 
 ## 1일차 · 12–18분 — ex03 textContent vs innerHTML
 
-[examples/day1/ex03_text_html.html](examples/day1/ex03_text_html.html) · [ex03_text_html.js](examples/day1/ex03_text_html.js)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
 
 ```js
 output.textContent = input.value;   // 1. <b>안녕</b> 이 글자 그대로
@@ -120,7 +120,7 @@ output.innerHTML = '';              // 3. 비우기 — 이때만 innerHTML
 
 ## 1일차 · 21–25분 — ex04 alt: 그림이 안 보일 때 읽히는 글
 
-[examples/day1/ex04_alt.html](examples/day1/ex04_alt.html) · 그림 [images/profile.png](examples/day1/images/profile.png)
+[examples/day1/ex04/index.html](examples/day1/ex04/index.html) · 그림 [images/profile.png](examples/day1/ex04/images/profile.png)
 
 ```html
 <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
@@ -137,7 +137,7 @@ output.innerHTML = '';              // 3. 비우기 — 이때만 innerHTML
 
 ## 1일차 · 25–28분 — ex05 label for: 이름표를 칸에 잇는다
 
-[examples/day1/ex05_label.html](examples/day1/ex05_label.html)
+[examples/day1/ex05/index.html](examples/day1/ex05/index.html)
 
 ```html
 <label for="year1">입학 연도</label> <input id="year1">    <!-- 1. 같다 -->
@@ -156,8 +156,8 @@ output.innerHTML = '';              // 3. 비우기 — 이때만 innerHTML
 
 [1일차 실습](lab.md#1일차--숫자와-글자-그리고-접근성-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security)
 
-1. 새 폴더 `web-week13` 에 지난주 완성본, `ex/` 에 오늘 일곱 파일과 그림 하나.
-2. ex01~ex05 — 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
+1. 새 폴더 `web-week13` 에 지난주 완성본, `ex/` 에 예제 폴더 다섯 개.
+2. ex01~ex05 — 폴더마다 `index.html` 을 열고 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
 3. 새 저장소 `web-week13` 만들어 올리기 · Pages 켜기.
 
 **설명 합계: 3+5+4+6+3+4+3+2 = 30분**
@@ -179,7 +179,7 @@ output.innerHTML = '';              // 3. 비우기 — 이때만 innerHTML
 
 ## 2일차 · 0–5분 — ex06 링크·버튼 글자
 
-[examples/day2/ex06_link_text.html](examples/day2/ex06_link_text.html)
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html)
 
 ```text
 1. 페이지 열기 · 페이지 열기 · 페이지 열기          ← 어디로 가나?

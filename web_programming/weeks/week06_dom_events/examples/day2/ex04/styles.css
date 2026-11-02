@@ -1,0 +1,4 @@
+/* ex04 모양: class="on" 이 붙은 상자만 노란 배경이 된다. app.js 는 class 이름만 붙였다 뗀다 */
+.on {
+    background-color: gold;    /* class="on" 이 붙은 동안만 노란 배경 */
+}

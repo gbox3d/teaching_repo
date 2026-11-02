@@ -68,7 +68,7 @@ The report is your repo's `README.md`: change three spots from Week 13 ([rubric]
 
 ## Day 1 · 10–15 min — ex01 The demo order as a numbered list
 
-[examples/day1/ex01_order_list.html](examples/day1/ex01_order_list.html) · [3-minute demo outline](demo_outline.md)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) · [3-minute demo outline](demo_outline.md)
 
 ```html
 <ol>                                          <!-- 1. numbered list -->
@@ -87,7 +87,7 @@ The report is your repo's `README.md`: change three spots from Week 13 ([rubric]
 
 ## Day 1 · 15–20 min — ex02 If the public URL won't open: local demo with the server
 
-[ex02_server.html](examples/day1/ex02_server.html) · [ex02_server.js](examples/day1/ex02_server.js) · [ex02_message.json](examples/day1/ex02_message.json)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) · [message.json](examples/day1/ex02/message.json)
 
 ```text
 ① The day before, the TA opens every submitted public URL
@@ -96,7 +96,7 @@ The report is your repo's `README.md`: change three spots from Week 13 ([rubric]
 ```
 
 ```js
-const response = await fetch('ex02_message.json');   // 1. opened through the server: it reads the file
+const response = await fetch('message.json');   // 1. opened through the server: it reads the file
 // 2. double-clicked file:// page: it can't read, so it goes to catch
 ```
 
@@ -108,7 +108,7 @@ const response = await fetch('ex02_message.json');   // 1. opened through the se
 
 ## Day 1 · 20–24 min — ex03 Saved per address and window
 
-[ex03_storage.html](examples/day1/ex03_storage.html) · [ex03_storage.js](examples/day1/ex03_storage.js)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
 
 ```js
 let countVar = 0;                                                      // 1. variable
@@ -151,7 +151,7 @@ README.md    public URL · home line · Week 14 history ← same lines in Week 1
 
 [Day 1 lab](lab.md#1일차--비교-예제-조립-3분-리허설-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation)
 
-1. Last week's files in `web-week14`; today's six files in `ex/`. Change values.
+1. Last week's files in `web-week14`; three example folders in `ex/`. Change values.
 2. Assemble → push `web-week14` **at minute 31** and turn on Pages (Day 2 is the talk).
 3. Public URL check, new `home.png` → TA check, 3-minute rehearsal → end routine.
 

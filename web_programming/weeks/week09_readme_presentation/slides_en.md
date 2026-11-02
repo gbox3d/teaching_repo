@@ -240,7 +240,7 @@ tab 3  https://github.com/student01/web-week09/commits  ← Commits tab
 ```
 
 - Open the three tabs **two speakers before** your turn. Typing addresses counts toward your 2 minutes.
-- Start with the guestbook **empty**. Leave one line during the talk.
+- Start with the guestbook **empty**. Leave two lines during the talk.
 - If you use dark mode, turn it off first. A light first screen is easier to read.
 
 **Tabs opened in advance give the full 2 minutes to the talk.**
@@ -268,7 +268,7 @@ Report 5 = **1 point for each of the 5 README sections** (public URL / pages / f
 "student01의 웹 연습장입니다. 세 페이지가 있습니다."   (0:20)
 Home → About Me → Guestbook → Home                    (0:50)
 click [인사 바꾸기] → sentence and click count change  (1:10)
-name & message in the guestbook → [남기기] → one line  (1:30)
+[남기기] twice in the guestbook → two lines in the list (1:30)
 empty name → [남기기] → notice sentence                (1:40)
 5 README sections → Commits tab briefly                (2:00)
 ```
@@ -323,7 +323,7 @@ Keep your real name, student ID, and real email out of the screenshot. Your ID m
 
 ## Next Week Preview
 
-Right now the guestbook **loses the first post** when you leave a second one, and loses everything on reload.
+Right now the guestbook piles posts up in a list, but **only on screen**: you cannot delete one line, and a reload loses everything.
 
-In Week 10 you start a new repository, `web-week10`, from this week's final files, **stack** posts in an array, draw them as a list, and delete them.
+In Week 10 you start a new repository, `web-week10`, from this week's final files, keep posts in an **array**, redraw the list from it, and delete line by line.
 In Week 11 you keep that list in ② browser storage. Today's README is rewritten as the final version in Week 13.

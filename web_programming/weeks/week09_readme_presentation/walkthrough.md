@@ -45,7 +45,7 @@ web-week09/
 
 ### 2. 비교 예제 가져오기
 
-오늘 파일은 마크다운 열한 개와 SVG 두 개, 그림 한 개다. 마크다운 예제에는 JavaScript 가 없어서 고르기 페이지(`index.html`)가 없다.
+오늘 파일은 마크다운 열한 개와 SVG 두 개, 그림 한 개다. 마크다운 예제는 브라우저로 열지 않고 VS Code 미리 보기와 GitHub 화면에서 보므로 `index.html` 이 없다.
 
 | 파일 | 비교하는 것 |
 |---|---|
@@ -132,11 +132,11 @@ mkdir screenshots
    - Windows: **Win+Shift+S** → 영역을 끌어 선택 → 그림판 등에 붙여 넣고 저장
    - macOS: **⌘+Shift+4** → 영역을 끌어 선택하면 바탕화면에 저장
 2. 저장한 파일을 `screenshots/home.png` 로 옮긴다.
-3. `guestbook.html` 에서 이름 `student01`, 메시지 `첫 방명록입니다.` 를 넣고 **남기기**를 누른 뒤 같은 방법으로 캡처해 `screenshots/guestbook.png` 로 옮긴다.
+3. `guestbook.html` 에서 이름 `student01`, 메시지 `첫 방명록입니다.` 를 넣고 **남기기**를 누른다. 남기면 두 칸이 비워지므로 이름 `student01`, 메시지 `두 번째 글입니다.` 를 다시 넣고 한 번 더 누른다. 목록에 두 줄이 쌓인 화면을 같은 방법으로 캡처해 `screenshots/guestbook.png` 로 옮긴다.
 
-**예상 결과** — `screenshots/` 안에 `home.png` 와 `guestbook.png` 가 있다. 홈 캡처에는 `반갑습니다. 오늘도 좋은 하루 되세요.` 와 `클릭 1회`, 방명록 캡처에는 `student01: 첫 방명록입니다.` 가 보인다. 같은 자리의 예시가 [screenshots/home.png](examples/day2/web-week09/screenshots/home.png) 와 [screenshots/guestbook.png](examples/day2/web-week09/screenshots/guestbook.png) 다.
+**예상 결과** — `screenshots/` 안에 `home.png` 와 `guestbook.png` 가 있다. 홈 캡처에는 `반갑습니다. 오늘도 좋은 하루 되세요.` 와 `클릭 1회`, 방명록 캡처에는 목록에 `student01: 첫 방명록입니다.` 와 `student01: 두 번째 글입니다.` 두 줄이 보인다. 같은 자리의 예시가 [screenshots/home.png](examples/day2/web-week09/screenshots/home.png) 와 [screenshots/guestbook.png](examples/day2/web-week09/screenshots/guestbook.png) 다.
 
-- **동작한 뒤의 화면**을 찍는다. `클릭 0회` 나 `아직 남긴 글이 없습니다.` 인 캡처는 눌러 보지 않은 것으로 보인다.
+- **동작한 뒤의 화면**을 찍는다. `클릭 0회` 나 빈 목록인 캡처는 눌러 보지 않은 것으로 보인다.
 - 파일 이름은 영문 소문자로 한다. 한글·공백·대문자가 섞이면 README 경로에서 틀리기 쉽다.
 
 이어서 도표를 만든다. `ex/ex10_site_map.svg` 를 복사해 `images/site-map.svg` 로 저장하고 맨 위 주석 한 줄을 지운다. 내 사이트에서 페이지 이름을 바꿨다면 글자도 고친다. 아래가 교재 예시 전문이다.
@@ -214,7 +214,7 @@ mkdir screenshots
 ## 기능
 
 - 홈의 "인사 바꾸기"와 "다크 모드" 버튼을 누르면 문장과 배경색이 바뀌고 클릭 횟수가 1씩 오릅니다.
-- 방명록에서 이름과 메시지를 적고 "남기기"를 누르면 아래에 한 줄로 보입니다. 빈칸이면 안내 문장이 나옵니다.
+- 방명록에서 이름과 메시지를 적고 "남기기"를 누를 때마다 아래 목록에 한 줄씩 쌓입니다. 빈칸이면 안내 문장이 나옵니다.
 
 다크 모드 버튼은 `body` 에 class 하나를 붙였다 뗍니다.
 
@@ -313,7 +313,7 @@ git clone https://github.com/student01/web-week09.git
 
 **예상 결과** — 세 탭이 모두 열려 있다. 탭 1 은 홈 화면 처음 상태(`클릭 0회`)이고, 탭 2 는 파일 목록 아래에 README 가 보이고, 탭 3 에는 `9주차 1일차` commit 이 있다.
 
-- 방명록은 비워 둔 상태로 시작한다. 발표 중에 직접 한 줄 남긴다.
+- 방명록은 비워 둔 상태로 시작한다. 발표 중에 직접 두 줄 남겨 목록에 쌓이는 것을 보인다.
 - 다크 모드를 켜 두었으면 끄고 시작한다. 첫 화면이 밝아야 글씨가 잘 보인다.
 - 다른 사이트나 로그인 화면이 보이는 탭은 닫는다.
 
@@ -324,7 +324,7 @@ git clone https://github.com/student01/web-week09.git
 1. 탭 1을 보이며 "`student01`의 웹 연습장입니다. 세 페이지가 있습니다."
 2. nav 로 홈 → 내 정보 → 방명록 → 홈.
 3. **인사 바꾸기**를 누르며 "버튼을 누르면 문장이 바뀌고 클릭 횟수가 오릅니다."
-4. 방명록에서 이름·메시지를 넣고 **남기기**.
+4. 방명록에서 이름·메시지를 넣고 **남기기**, 메시지를 바꿔 한 번 더. 목록에 두 줄이 쌓인다.
 5. 이름을 비우고 **남기기** → `이름을 입력하세요.`
 6. 탭 2 의 README 다섯 항목을 짚고, 탭 3 의 **Commits** 탭은 올린 기록만 잠깐 보이며 마무리.
 

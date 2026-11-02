@@ -1,0 +1,17 @@
+/* ex03 박스모델: padding · border · margin 세 층을 하나씩 더해 비교한다 */
+/* 두 배경색은 층을 보이게 하는 칠이다(이 예제의 주제는 아니다) */
+.frame {
+    background-color: lightgray;    /* 회색: 부모(frame). 상자 바깥이 회색으로 보인다 */
+}
+.box {
+    background-color: lightskyblue; /* 하늘색: padding 까지 배경이 칠해진다 */
+}
+.pad {
+    padding: 16px;              /* 테두리 안쪽, 글자와 테두리 사이 */
+}
+.bd {
+    border: 4px solid navy;     /* 테두리 */
+}
+.mg {
+    margin: 16px;               /* 테두리 바깥, 이웃과의 거리 */
+}

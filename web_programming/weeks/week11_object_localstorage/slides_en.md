@@ -22,34 +22,35 @@ Same method as last week: look at **7 comparison examples** one at a time, then 
 
 `30 min explanation & demo → 60 min lab`
 
-1. The picker page — one `index.html`, turn on one script line
+1. Example folders — two files: `index.html`, `app.js`
 2. ex01 — objects `{ }` and dot notation (today's syntax)
 3. ex02 — objects inside an array · the date template line
 4. ex03 — an object as one list line
 
 ---
 
-## Day 1 · 0–4 min — The picker page: turn on one script line
+## Day 1 · 0–4 min — One example folder, two files
 
-[examples/day1/index.html](examples/day1/index.html) — all three examples use the same screen (two list spots).
+One folder per example, with the same two file names as your site.
 
-```html
-<script src="ex01_object.js"></script>
-<!-- <script src="ex02_array_objects.js"></script> -->
-<!-- <script src="ex03_list_line.js"></script> -->
+```text
+ex01/
+  index.html   screen — the spots the example uses
+  app.js       behavior — this week's ideas live here
 ```
 
-- Same as Week 10. Put the cursor on a line and press **Ctrl+/** (macOS ⌘+/) to turn it on or off.
-- Turn on **one line only**. Two lines mix the Console, or the same name clashes and a red line appears.
+- Open `index.html`. In `<head>`, `<script src="app.js" defer>` loads `app.js`.
+- Edit the code in `app.js`; see the result by reloading `index.html`.
 - ex01 and ex02 write to the Console; ex03 writes to the two lists on screen.
+- The names match your site's top-level files. Tell them apart by the path bar above the editor (`ex › ex01`).
 
-**One `script` line decides which code is loaded.**
+**Screen in HTML, behavior in JS — two files in one folder.**
 
 ---
 
 ## Day 1 · 4–11 min — ex01 Objects and dot notation
 
-[examples/day1/ex01_object.js](examples/day1/ex01_object.js)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
 
 ```js
 const item = { name: '하늘', message: '안녕하세요', date: '2026. 11. 11.' };
@@ -68,7 +69,7 @@ const item5 = { name: name, message: message, date: '…' };   // 5.
 
 ## Day 1 · 11–19 min — ex02 Objects in an array · date template
 
-[examples/day1/ex02_array_objects.js](examples/day1/ex02_array_objects.js)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
 
 ```js
 texts.push('하늘: 안녕하세요');                  // 1·2. Week 10: one lump
@@ -87,7 +88,7 @@ console.log(items[0].name);                     // 4. 하늘
 
 ## Day 1 · 19–27 min — ex03 An object as one list line
 
-[examples/day1/ex03_list_line.js](examples/day1/ex03_list_line.js)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
 
 ```js
 li1.textContent = items[i];   // 1. the object as is
@@ -109,8 +110,8 @@ li2.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`;
 
 [Day 1 lab](lab.md#1일차--객체와-점-표기-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
 
-1. New folder `web-week11` with last week's files; today's four files in `ex/`.
-2. ex01–ex03 — turn on one line, change values. Say what will change first.
+1. New folder `web-week11` with last week's files; three example folders in `ex/`.
+2. ex01–ex03 — open each folder's `index.html`, change values in `app.js`. Say what will change first.
 3. Create the new repository `web-week11`, push, and turn on Pages.
 
 **Total explanation: 4+7+8+8+3 = 30 min**
@@ -128,13 +129,13 @@ li2.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`;
 5. My list lives only in my browser
 6. Assembly — `guestbook.html` and `guestbook.js` in `web-week11`
 
-As yesterday, open the examples from one picker page, `index.html` (turn on one of the four script lines).
+As yesterday, open each example folder's `index.html` (`ex/ex04/` to `ex/ex07/`).
 
 ---
 
 ## Day 2 · 0–7 min — ex04 localStorage storage
 
-[examples/day2/index.html](examples/day2/index.html) (picker page, ex04 line on) · [ex04_storage.js](examples/day2/ex04_storage.js)
+[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [app.js](examples/day2/ex04/app.js)
 
 ```js
 let memo = '(처음 값)';                 // 1. variable: restarts on open
@@ -152,7 +153,7 @@ localStorage.setItem('ex04-memo', '안녕하세요');   // write (key, value)
 
 ## Day 2 · 7–13 min — ex05 JSON: array to text, text to array
 
-[examples/day2/ex05_json.js](examples/day2/ex05_json.js) — turn on only the ex05 line in the picker page.
+[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js)
 
 ```js
 localStorage.setItem('ex05-raw', items);                      // 1.
@@ -170,7 +171,7 @@ const back = JSON.parse(localStorage.getItem('ex05-json'));   // 3.
 
 ## Day 2 · 13–18 min — ex06 || (or) (today's syntax)
 
-[examples/day2/ex06_or.js](examples/day2/ex06_or.js) — turn on only the ex06 line in the picker page.
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js)
 
 ```js
 if (name === '' || message === '') { … }    // 1. either one is empty
@@ -187,7 +188,7 @@ const items = JSON.parse(localStorage.getItem('ex06-none')) || [];   // 3.
 
 ## Day 2 · 18–23 min — ex07 removeItem: clearing storage
 
-[examples/day2/ex07_remove.js](examples/day2/ex07_remove.js) — turn on only the ex07 line in the picker page.
+[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js)
 
 ```js
 items = [];                             // 1. array emptied, storage kept
@@ -232,7 +233,7 @@ guestbook.js    if (name === '' || message === '')     ← ex06 No. 1
 
 [Day 2 lab](lab.md#2일차--저장-칸에-남기고-되살리기-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
 
-1. Save the picker page and the ex04–ex07 `.js` files in `ex/` (it replaces yesterday's `index.html`), change values (until minute 29).
+1. Save the four example folders ex04–ex07 in `ex/`, change values (until minute 29).
 2. Assemble → push → check on the **public address** → screenshot.
 
 **Total explanation: 7+6+5+5+3+4 = 30 min**

@@ -136,7 +136,7 @@ btn.addEventListener('click', function () {
 
 ## 2일차 · 0–7분 — ex04 classList: class 를 붙이고 떼기
 
-[examples/day2/ex04_classlist.html](examples/day2/ex04_classlist.html) · [ex04_classlist.js](examples/day2/ex04_classlist.js)
+[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js)
 
 ```css
 .on { background-color: gold; }
@@ -149,7 +149,7 @@ box.classList.toggle('on');   // 3. 있으면 떼고, 없으면 붙인다
 ```
 
 - Elements 의 `<div id="box">` 줄에 `class="on"` 이 생겼다 사라집니다.
-- 바꿔 보기: `.on` 의 색만 바꾸면? JS 는 그대로인데 색이 바뀝니다.
+- 바꿔 보기: `styles.css` 의 `.on` 색만 바꾸면? `app.js` 는 그대로인데 색이 바뀝니다.
 
 **모양은 CSS 규칙이 정하고, JS 는 class 이름만 붙였다 뗀다.**
 
@@ -157,7 +157,7 @@ box.classList.toggle('on');   // 3. 있으면 떼고, 없으면 붙인다
 
 ## 2일차 · 7–14분 — ex05 다크 모드: body 에 class 하나
 
-[examples/day2/ex05_dark.html](examples/day2/ex05_dark.html) · [ex05_dark.js](examples/day2/ex05_dark.js)
+[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [styles.css](examples/day2/ex05/styles.css) · [app.js](examples/day2/ex05/app.js)
 
 ```css
 body.dark { background-color: #222222; color: #eeeeee; }   /* 1 */
@@ -171,7 +171,7 @@ darkButton.addEventListener('click', function () {
 ```
 
 - `document.body` 는 `<body>` 요소입니다. 찾지 않고 바로 씁니다.
-- 바꿔 보기: 2번 규칙을 지우면? 카드만 흰 채로 남습니다(4주차 `nav a` 같은 자손 선택자).
+- 바꿔 보기: `styles.css` 의 2번 규칙을 지우면? 카드만 흰 채로 남습니다(4주차 `nav a` 같은 자손 선택자).
 
 **색은 CSS 에 미리 적어 두고, JS 는 `toggle('dark')` 한 줄이다.**
 
@@ -179,7 +179,7 @@ darkButton.addEventListener('click', function () {
 
 ## 2일차 · 14–20분 — ex06 함수 하나를 두 버튼에
 
-[examples/day2/ex06_reuse.html](examples/day2/ex06_reuse.html) · [ex06_reuse.js](examples/day2/ex06_reuse.js)
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [styles.css](examples/day2/ex06/styles.css) · [app.js](examples/day2/ex06/app.js)
 
 ```js
 function countUp() {
@@ -224,7 +224,7 @@ app.js      const … = querySelector('#…') 네 줄   ← ex01
 
 [2일차 실습](lab.md#2일차--class-와-함수-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
-1. ex04~ex06 `.html`·`.js` 를 `ex/` 에 저장, 값 바꾸기(29분까지).
+1. 예제 폴더 `ex04`~`ex06` 을 `ex/` 에 저장, 값 바꾸기(29분까지).
 2. 조립 → 375·1280 폭과 서버로 확인 → push → 다크 모드 캡처.
 
 **설명 합계: 7+7+6+5+5 = 30분**

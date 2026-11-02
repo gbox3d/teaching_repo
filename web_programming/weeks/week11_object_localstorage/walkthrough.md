@@ -6,7 +6,7 @@
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 **이번 주부터 확인·캡처는 공개 주소에서만 한다.** 내 PC 에서 연 화면(`file://`·`http://localhost:8000/`)과 공개 주소는 저장 칸이 따로다. 내 PC 에서는 값 바꿔 보기와 미리 보기만 한다.
 
-비교 예제 7개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage/examples/day1)(1일차 ex01~ex03과 고르기 페이지)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage/examples/day2)(2일차 ex04~ex07과 고르기 페이지) 폴더에 있다.
+비교 예제 7개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage/examples/day1)(1일차 예제 폴더 ex01~ex03)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage/examples/day2)(2일차 예제 폴더 ex04~ex07) 폴더에 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
@@ -46,52 +46,63 @@ web-week11/
 
 ### 2. 비교 예제 가져오기
 
-오늘 파일은 네 개다. 고르기 페이지 `index.html` 하나와 예제 코드 `.js` 세 개다. 세 예제가 같은 화면을 쓰기 때문에 화면은 `index.html` 하나에 두고 코드만 따로 뗐다.
+오늘 예제는 세 개이고, 예제마다 **폴더 하나**에 파일이 두 개 있다. 내 사이트와 같은 이름의 `index.html`(화면)·`app.js`(동작)다. 이번 주에 배우는 원리는 모두 `app.js`에 있다. ex01·ex02는 Console에만 찍고, ex03은 `index.html`의 두 목록(`#list1`·`#list2`)에 쓴다.
 
-| 파일 | 비교하는 것 |
-|---|---|
-| [index.html](examples/day1/index.html) | 고르기 페이지. 맨 아래 `<script src>` 세 줄 중 하나만 켠다. ex03 이 쓰는 목록 두 개(`#list1`·`#list2`)가 여기 있다 |
-| [ex01_object.js](examples/day1/ex01_object.js) | 객체 통째로 / 점 표기로 값 하나 / 없는 이름표 / 값 자리에 변수 |
-| [ex02_array_objects.js](examples/day1/ex02_array_objects.js) | 글자를 쌓은 배열 / 객체를 쌓은 배열, 날짜 틀 |
-| [ex03_list_line.js](examples/day1/ex03_list_line.js) | 객체를 그대로 넣은 줄 / 점 표기로 꺼내 넣은 줄 |
+| 폴더 | 파일 | 비교하는 것(`app.js`) |
+|---|---|---|
+| `ex01` | [index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) | 객체 통째로 / 점 표기로 값 하나 / 없는 이름표 / 값 자리에 변수 |
+| `ex02` | [index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) | 글자를 쌓은 배열 / 객체를 쌓은 배열, 날짜 틀 |
+| `ex03` | [index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) | 객체를 그대로 넣은 줄 / 점 표기로 꺼내 넣은 줄 |
 
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week11/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+먼저 `ex` 안에 같은 이름의 폴더 세 개를 만든다. VS Code 탐색기에서 `ex`를 고르고 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week11`
 
-**예상 결과** — `ex/` 안에 파일 네 개가 있다.
+```bash
+mkdir ex/ex01
+mkdir ex/ex02
+mkdir ex/ex03
+```
+
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage/examples/day1)에서 `ex01` 폴더를 누르고, 파일을 하나씩 눌러 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 내 `web-week11/ex/ex01/`에 저장한다. 두 파일을 받았으면 `ex02`·`ex03`도 같은 방법으로 자기 폴더에 받는다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+
+**예상 결과** — `ex/` 안에 폴더 세 개가 있고, 폴더마다 파일 두 개가 있다.
 
 ```text
 ex/
-  ex01_object.js
-  ex02_array_objects.js
-  ex03_list_line.js
-  index.html
+  ex01/
+    app.js
+    index.html
+  ex02/
+    app.js
+    index.html
+  ex03/
+    app.js
+    index.html
 ```
 
+- 저장 창에서 폴더 이름을 먼저 본다. 세 폴더의 파일 이름이 같아서, 다른 폴더에 저장하면 그 폴더의 같은 이름 파일을 덮어쓴다. 덮어썼으면 그 폴더의 파일을 교재에서 다시 **Raw**로 받는다.
 - 저장한 파일 이름이 `.txt`로 끝나면 이름을 고친다. 이름은 VS Code 탐색기에서 확인한다.
-- `ex/index.html`은 예제를 고르는 페이지다. 맨 위 `index.html`(내 사이트)과 이름이 같지만 다른 파일이다. 탭 이름 옆 폴더 경로로 구분한다. 2일차에는 이 파일을 같은 이름의 2일차 고르기 페이지로 덮어쓴다.
+- 예제 폴더의 `index.html`·`app.js`는 맨 위 내 사이트 파일과 이름이 같지만 다른 파일이다. 편집기 위쪽 경로 줄(`ex › ex01 › app.js`)로 구분한다. 같은 이름 파일을 여러 개 열면 탭 이름 옆에도 폴더 이름이 붙는다.
 
-### 3. 고르기 페이지와 Console 에서 펼쳐 보기
+### 3. 예제 폴더 열기와 Console 에서 펼쳐 보기
 
-`ex/index.html`을 Chrome으로 연다(VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**, macOS는 **Reveal in Finder** → 두 번 누르기). `.js` 파일은 두 번 누르지 않는다. `.js`는 `index.html`이 불러온다.
+`ex/ex01/index.html`을 Chrome으로 연다(VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**, macOS는 **Reveal in Finder** → 두 번 누르기). `app.js`는 두 번 누르지 않는다. `app.js`는 `index.html`이 불러온다.
 
-VS Code에서 `ex/index.html`도 열어 맨 아래를 본다.
+VS Code에서 `ex/ex01/index.html`도 열어 이 줄을 찾는다.
 
 ```html
-<script src="ex01_object.js"></script>
-<!-- <script src="ex02_array_objects.js"></script> -->
-<!-- <script src="ex03_list_line.js"></script> -->
+<script src="app.js" defer></script>
 ```
 
-지금은 ex01 줄만 켜져 있다. 다른 예제로 바꿀 때는 켜 둔 줄에 커서를 두고 **Ctrl+/**(macOS **⌘+/**)로 주석으로 만들고, 볼 줄에서 다시 **Ctrl+/** 로 주석을 푼다. 저장 → 새로고침한다. 한 번에 한 줄만 켠다.
+`<head>`의 이 줄이 같은 폴더의 `app.js`를 불러온다. 그래서 두 파일이 한 폴더에 있어야 한다. `defer`는 HTML을 끝까지 읽은 뒤에 `app.js`를 실행하라는 표시다(5주차 ex02). 내 사이트 `index.html`의 `<head>`와 같은 모양이다. 다른 예제를 볼 때는 그 폴더의 `index.html`을 연다.
 
-**예상 결과** — F12 › **Console**에 다섯 줄이 찍혀 있다. 줄 끝의 `ex01_object.js:6`이 그 줄을 찍은 파일과 줄 번호다.
+**예상 결과** — 화면에는 제목과 안내 문장만 있다. F12 › **Console**에 다섯 줄이 찍혀 있다. 줄 끝의 `app.js:6`이 그 줄을 찍은 파일과 줄 번호다.
 
 ```text
-1. item : {name: '하늘', message: '안녕하세요', date: '2026. 11. 11.'}   ex01_object.js:6
-2. item.name : 하늘                                                    ex01_object.js:7
-3. item.date : 2026. 11. 11.                                           ex01_object.js:8
-4. item.nmae : undefined                                               ex01_object.js:9
-5. item5.name : 바다                                                   ex01_object.js:15
+1. item : {name: '하늘', message: '안녕하세요', date: '2026. 11. 11.'}   app.js:6
+2. item.name : 하늘                                                    app.js:7
+3. item.date : 2026. 11. 11.                                           app.js:8
+4. item.nmae : undefined                                               app.js:9
+5. item5.name : 바다                                                   app.js:15
 ```
 
 이번 주에는 Console 에 찍힌 객체·배열을 **펼쳐** 본다. 1번 줄에서 `1. item :` 뒤, `{name: …}` 바로 앞의 ▶를 누른다.
@@ -106,9 +117,9 @@ VS Code에서 `ex/index.html`도 열어 맨 아래를 본다.
 실험은 늘 같은 순서다. **VS Code에서 고치고 저장**(Ctrl+S, macOS는 ⌘+S) → **브라우저에서 새로고침**(F5, macOS는 ⌘+R) → **화면·Console**을 본다.
 바꾸기 전에 무엇이 달라질지 먼저 말해 보고 확인한다.
 
-**목록에 써 보기** — `ex/index.html` 맨 아래에서 ex01 줄을 끄고 `ex03_list_line.js` 줄을 켠 뒤 저장 → 새로고침한다.
+**목록에 써 보기** — `ex/ex03/index.html`을 Chrome으로 연다.
 
-**예상 결과** — "ex03 이 쓰는 자리"의 두 목록이 아래처럼 채워진다. Console 에 빨간 줄이 없다.
+**예상 결과** — 화면의 두 목록이 아래처럼 채워진다. Console 에 빨간 줄이 없다.
 
 ```text
 1. 객체를 그대로 넣은 줄
@@ -121,7 +132,7 @@ VS Code에서 `ex/index.html`도 열어 맨 아래를 본다.
 
 같은 객체를 넣었는데 1번은 내용이 사라졌다. 글자 자리에 객체를 통째로 넣으면 `[object Object]`라는 글자가 된다. 2번은 점 표기로 값을 하나씩 꺼내 백틱 문장(5주차 템플릿 문자열)에 넣었다.
 
-- 값을 원래대로 못 돌리겠으면 교재에서 그 파일을 다시 **Raw**로 받아 덮어쓴다.
+- 값을 원래대로 못 돌리겠으면 교재에서 그 예제 폴더의 파일을 다시 **Raw**로 받아 같은 폴더에 덮어쓴다.
 - 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--객체와-점-표기-60분)에 있다.
 
 ### 5. 이번 주 저장소 만들어 올리기
@@ -143,15 +154,15 @@ git push -u origin main
 저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
 
 **예상 결과** — GitHub 저장소 화면을 새로고침하면 `ex/`·`images/`·`screenshots/`와 맨 위 파일들이 보인다.
-1~3분 뒤 `https://student01.github.io/web-week11/ex/`를 연다. 고르기 페이지의 제목과 "ex03 이 쓰는 자리"가 보인다. 이 화면은 **확인용**이다.
+1~3분 뒤 `https://student01.github.io/web-week11/ex/ex03/`를 연다. ex03의 제목과 채워진 두 목록이 보인다. 이 화면은 **확인용**이다.
 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
 
-- 404가 나면 주소의 `web-week11/ex/`가 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다.
+- 404가 나면 주소의 `web-week11/ex/ex03/`이 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다. `…/ex/`까지만 열면 `ex/`에 `index.html`이 없어 늘 404다.
 - push가 거부되거나 로그인 창이 안 뜨면 [2주차 실습지의 막혔을 때](../week02_github_pages/lab.md#막혔을-때)를 본다.
 
 ## 2일차
 
-### 6. 폴더 열고 2일차 예제 다섯 파일 가져오기
+### 6. 폴더 열고 2일차 예제 폴더 네 개 가져오기
 
 같은 PC에 `web-week11` 폴더가 남아 있으면 VS Code로 그대로 연다. 없으면 받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
 
@@ -161,74 +172,88 @@ git clone https://github.com/student01/web-week11.git
 
 내려받은 `web-week11`을 **File › Open Folder**로 연다.
 
-오늘 파일은 다섯 개다. 고르기 페이지 `index.html` 하나와 예제 코드 `.js` 네 개다. 네 예제 모두 결과를 Console과 Application 탭에서 보므로, 1일차처럼 화면은 `index.html` 하나에 두고 코드만 뗐다. ex04가 쓰는 **저장하기** 버튼도 `index.html`의 "ex04 가 쓰는 자리"에 있다.
+오늘 예제는 네 개이고, 1일차처럼 예제마다 폴더 하나에 `index.html`·`app.js` 두 파일이 있다. 네 예제 모두 결과를 Console과 Application 탭에서 본다. ex04가 쓰는 **저장하기** 버튼은 `ex04` 폴더의 `index.html`에 있다.
 
-| 파일 | 비교하는 것 |
-|---|---|
-| [index.html](examples/day2/index.html) | 고르기 페이지. 맨 아래 `<script src>` 네 줄 중 하나만 켠다. ex04가 쓰는 **저장하기** 버튼이 여기 있다 |
-| [ex04_storage.js](examples/day2/ex04_storage.js) | 변수 `memo` / 저장 칸 `ex04-memo` |
-| [ex05_json.js](examples/day2/ex05_json.js) | 배열을 그대로 저장 / `JSON.stringify` 해서 저장 / `JSON.parse` 로 되살리기 |
-| [ex06_or.js](examples/day2/ex06_or.js) | if 안의 `\|\|` / `\|\|` 없이 되살리기 / `\|\| []` 붙여 되살리기 |
-| [ex07_remove.js](examples/day2/ex07_remove.js) | `items = []` / `removeItem` / 다른 키 |
+| 폴더 | 파일 | 비교하는 것(`app.js`) |
+|---|---|---|
+| `ex04` | [index.html](examples/day2/ex04/index.html) · [app.js](examples/day2/ex04/app.js) | 변수 `memo` / 저장 칸 `ex04-memo` |
+| `ex05` | [index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js) | 배열을 그대로 저장 / `JSON.stringify` 해서 저장 / `JSON.parse` 로 되살리기 |
+| `ex06` | [index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js) | if 안의 `\|\|` / `\|\|` 없이 되살리기 / `\|\| []` 붙여 되살리기 |
+| `ex07` | [index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js) | `items = []` / `removeItem` / 다른 키 |
 
-[교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week11/ex/`에 넣는다. `index.html`은 1일차 고르기 페이지와 이름이 같다. 바꿀지 물으면 바꾼다(덮어쓴다).
+먼저 `ex` 안에 폴더 네 개를 만든다. 현재 폴더: `web-week11`
 
-**예상 결과** — `ex/` 안에 파일 여덟 개가 있다. 1일차 `.js` 세 개는 그대로 남고 `index.html`만 2일차 것으로 바뀌었다.
+```bash
+mkdir ex/ex04
+mkdir ex/ex05
+mkdir ex/ex06
+mkdir ex/ex07
+```
+
+[교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 폴더마다 두 파일을 받아 같은 이름의 내 폴더(`web-week11/ex/ex04/` 등)에 넣는다.
+
+**예상 결과** — `ex/` 안에 폴더 일곱 개가 있다. 1일차 폴더 세 개는 그대로이고, 오늘 폴더 네 개에 파일이 두 개씩 있다.
 
 ```text
 ex/
-  ex01_object.js
-  ex02_array_objects.js
-  ex03_list_line.js
-  ex04_storage.js
-  ex05_json.js
-  ex06_or.js
-  ex07_remove.js
-  index.html          ← 2일차 고르기 페이지
+  ex01/        ← 1일차 폴더 세 개는 그대로
+  ex02/
+  ex03/
+  ex04/
+    app.js
+    index.html
+  ex05/
+    app.js
+    index.html
+  ex06/
+    app.js
+    index.html
+  ex07/
+    app.js
+    index.html
 ```
 
-- `ex/index.html` 맨 아래는 처음에 `ex04_storage.js` 줄만 켜져 있다. 문항이 바뀌면 1일차처럼 **Ctrl+/**(macOS **⌘+/**)로 켤 줄을 바꾸고 저장 → 새로고침한다. 한 번에 한 줄만 켠다.
-- **저장하기** 버튼은 ex04 줄을 켰을 때만 일을 한다. 다른 줄을 켜 두었을 때는 눌러도 아무 일이 없다.
-- 조립할 때 ex01~ex03은 VS Code에서 코드만 열어 본다.
+- 저장 창이 1일차에 마지막으로 쓴 `ex03` 폴더에서 열릴 수 있다. 저장 창 위쪽 경로가 `web-week11 › ex › ex04`처럼 그 문항의 폴더인지 보고 저장한다. 다른 폴더에 저장하면 같은 이름 파일을 덮어쓴다.
+- 문항이 바뀌면 그 폴더의 `index.html`을 연다. 조립할 때 ex01~ex03은 VS Code에서 코드만 열어 본다.
 
-이번 주에는 **Application** 탭을 처음 쓴다. `ex/index.html`을 Chrome으로 열고(ex04 줄만 켜진 상태) F12 › 위쪽 탭 줄에서 **Application**을 누른다(안 보이면 `>>`를 눌러 고른다). 왼쪽 **Local Storage**를 펼쳐 그 아래의 주소 한 줄을 누르면, 오른쪽 표에 Key(키)와 Value(값)가 보인다. 이 표가 브라우저의 저장 칸이다.
+이번 주에는 **Application** 탭을 처음 쓴다. `ex/ex04/index.html`을 Chrome으로 열고 F12 › 위쪽 탭 줄에서 **Application**을 누른다(안 보이면 `>>`를 눌러 고른다). 왼쪽 **Local Storage**를 펼쳐 그 아래의 주소 한 줄을 누르면, 오른쪽 표에 Key(키)와 Value(값)가 보인다. 이 표가 브라우저의 저장 칸이다.
 
 **예상 결과** — 처음 열면 Console 이 아래와 같고, Application 표에 `ex04-memo`가 없다.
 
 ```text
-1. 변수 memo : (처음 값)            ex04_storage.js:7
-2. 저장 칸 ex04-memo : null         ex04_storage.js:8
+1. 변수 memo : (처음 값)            app.js:7
+2. 저장 칸 ex04-memo : null         app.js:8
 ```
 
 **저장하기**를 누르고 새로고침하면 2번만 바뀐다. Application 표에 Key `ex04-memo`, Value `안녕하세요` 한 줄이 생긴다(표가 그대로면 표 위의 새로고침 단추를 누른다).
 
 ```text
-1. 변수 memo : (처음 값)            ex04_storage.js:7
-2. 저장 칸 ex04-memo : 안녕하세요   ex04_storage.js:8
+1. 변수 memo : (처음 값)            app.js:7
+2. 저장 칸 ex04-memo : 안녕하세요   app.js:8
 ```
 
 - 변수는 페이지를 열 때마다 처음 값으로 다시 시작한다. 저장 칸에 적은 것은 새로고침해도 남는다.
 - 저장 칸은 **주소마다** 따로 있다. 두 번 눌러 연 `file://` 의 칸, `http://localhost:8000/` 의 칸, 공개 주소의 칸이 모두 다르다.
-- 예제의 키는 `ex04-memo`·`ex05-json` 처럼 예제 번호로 시작한다. 같은 주소의 저장 칸은 함께 쓰므로, 완성본의 `guestbook` 키와 섞이지 않게 했다.
+- 예제의 키는 `ex04-memo`·`ex05-json` 처럼 예제 번호로 시작한다. 같은 주소의 저장 칸은 예제 폴더가 달라도 함께 쓴다(두 번 눌러 연 `file://` 은 폴더가 달라도 칸 하나다). 그래서 `ex/ex05/index.html`을 열어도 표에 `ex04-memo`가 함께 보인다. 키 이름으로 예제끼리, 그리고 완성본의 `guestbook` 키와 섞이지 않게 했다.
 - 파일마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--저장-칸에-남기고-되살리기-그리고-조립-60분)에 있다.
 
 ### 7. 조립표
 
-29분부터 조립한다. 이제 `ex/`가 아니라 `web-week11` 맨 위의 `guestbook.html`·`guestbook.js`를 연다.
+29분부터 조립한다. 이제 `ex/`가 아니라 `web-week11` 맨 위의 `guestbook.html`·`guestbook.js`를 연다. 예제 폴더의 `index.html`·`app.js`는 조립에 쓰지 않는다. 편집기 위쪽 경로 줄이 `web-week11 › guestbook.js`처럼 `ex` 없이 보이는지 확인하고 고친다.
 조립하는 줄은 모두 비교 예제와 10주차 완성본에서 본 것이다. 아래 순서대로 한 단계씩 고치고, 단계마다 저장 → 새로고침으로 확인한다.
 
 | 단계 | 조립할 줄 | 출처 |
 |---|---|---|
 | 8 | `#empty` 줄 지우기, 빈 목록 문장과 개수를 모두 `#count` 에 | 10주차 완성본의 `if / else` |
-| 9 | `if (name === '' \|\| message === '')`, `notice.textContent = '';` | [ex06](examples/day2/ex06_or.js) 1번, 10주차 완성본 `clearNotice()` 안의 줄 |
-| 10 | `const today = new Date().toLocaleDateString();` | [ex02](examples/day1/ex02_array_objects.js) 날짜 틀 |
-| 10 | `items.push({ name: name, message: message, date: today });` | [ex01](examples/day1/ex01_object.js) 5번, [ex02](examples/day1/ex02_array_objects.js) 3번 |
-| 10 | `` li.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`; `` | [ex03](examples/day1/ex03_list_line.js) 2번 |
-| 11 | `function saveList() { localStorage.setItem('guestbook', JSON.stringify(items)); }` | [ex05](examples/day2/ex05_json.js) 2번, [ex04](examples/day2/ex04_storage.js) `setItem` |
-| 11 | `push` 다음·`splice` 다음의 `saveList();` | [ex05](examples/day2/ex05_json.js) 셋째 바꿔 보기 — 저장은 배열이 바뀐 뒤에 |
-| 12 | `let items = JSON.parse(localStorage.getItem('guestbook')) \|\| [];` | [ex06](examples/day2/ex06_or.js) 3번, [ex05](examples/day2/ex05_json.js) 3번, [ex04](examples/day2/ex04_storage.js) `getItem` |
-| 13 | **[전체 지우기]** 버튼 줄, `const clearButton`, `clearButton.addEventListener('click', …)` | ex04: 고르기 페이지 [index.html](examples/day2/index.html)의 버튼 줄·[찾아 두기와 클릭 등록](examples/day2/ex04_storage.js) |
-| 13 | `items = []; localStorage.removeItem('guestbook'); showList();` | [ex07](examples/day2/ex07_remove.js) 1·2번, 10주차 완성본 `showList()` |
+| 9 | `if (name === '' \|\| message === '')`, `notice.textContent = '';` | [ex06](examples/day2/ex06/app.js) 1번, 10주차 완성본 `clearNotice()` 안의 줄 |
+| 10 | `const today = new Date().toLocaleDateString();` | [ex02](examples/day1/ex02/app.js) 날짜 틀 |
+| 10 | `items.push({ name: name, message: message, date: today });` | [ex01](examples/day1/ex01/app.js) 5번, [ex02](examples/day1/ex02/app.js) 3번 |
+| 10 | `` li.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`; `` | [ex03](examples/day1/ex03/app.js) 2번 |
+| 11 | `function saveList() { localStorage.setItem('guestbook', JSON.stringify(items)); }` | [ex05](examples/day2/ex05/app.js) 2번, [ex04](examples/day2/ex04/app.js) `setItem` |
+| 11 | `push` 다음·`splice` 다음의 `saveList();` | [ex05](examples/day2/ex05/app.js) 셋째 바꿔 보기 — 저장은 배열이 바뀐 뒤에 |
+| 12 | `let items = JSON.parse(localStorage.getItem('guestbook')) \|\| [];` | [ex06](examples/day2/ex06/app.js) 3번, [ex05](examples/day2/ex05/app.js) 3번, [ex04](examples/day2/ex04/app.js) `getItem` |
+| 13 | **[전체 지우기]** 버튼 줄, `const clearButton`, `clearButton.addEventListener('click', …)` | ex04: [index.html](examples/day2/ex04/index.html)의 버튼 줄·[찾아 두기와 클릭 등록](examples/day2/ex04/app.js) |
+| 13 | `items = []; localStorage.removeItem('guestbook'); showList();` | [ex07](examples/day2/ex07/app.js) 1·2번, 10주차 완성본 `showList()` |
 
 옮겨 적을 때 출처 ex 파일을 옆에 열어 두고, 같은 줄이 거기서 무엇을 했는지 떠올린다.
 조립 중 미리 보기는 `guestbook.html`을 두 번 눌러 열거나 서버(16단계)로 연다. 이 미리 보기의 저장 칸은 내 PC 의 것이다.

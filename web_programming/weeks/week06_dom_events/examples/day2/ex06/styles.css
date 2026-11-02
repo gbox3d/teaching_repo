@@ -1,0 +1,5 @@
+/* ex06 모양: 횟수 자리(class="card")에 배경색을 칠해 상자로 보이게 한다 */
+/* 이 파일은 모양만 정한다. 이번 예제의 원리는 app.js 에 있다 */
+.card {
+    background-color: #eef2ff;
+}

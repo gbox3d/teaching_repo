@@ -1,0 +1,17 @@
+/* ex08 justify-content: 주축 위의 남는 공간을 나누는 다섯 값을 비교한다 */
+.frame {
+    display: flex;                  /* ex07: 자식이 가로(→)로 선다 */
+    background-color: lightgray;    /* 회색이 보이면 남는 공간이다 */
+}
+/* 자식을 구분하려고 배경색만 칠한다(이 예제의 주제는 아니다) */
+.c1 { background-color: gold; }
+.c2 { background-color: lightskyblue; }
+.c3 { background-color: lightgreen; }
+
+/* 주축(가로) 위에서 남는 공간을 어떻게 나누나 */
+.start   { justify-content: flex-start; }    /* 기본값: 앞에 모은다 */
+.center  { justify-content: center; }        /* 가운데 모은다 */
+.end     { justify-content: flex-end; }      /* 뒤에 모은다 */
+.between { justify-content: space-between; } /* 양 끝에 붙이고 사이를 벌린다 */
+.around  { justify-content: space-around; }  /* 상자마다 양옆에 같은 여백 */
+/* .evenly { justify-content: space-evenly; } */ /* 모든 간격이 같다 */

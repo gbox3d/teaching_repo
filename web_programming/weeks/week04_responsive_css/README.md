@@ -2,8 +2,8 @@
 
 # 4주차 — CSS와 반응형 UI
 
-이번 주는 부품을 하나씩 본다. 비교 파일 13개(부록 ex14 는 선택)를 열어 값을 바꿔 보고, 마지막에 `styles.css`를 그 부품으로 조립한다.
-작년 수업과 같은 방식이다. 파일 하나에 주제 하나. 값 하나만 다른 형제를 나란히 놓고 차이를 눈으로 본다. 다른 주제의 속성은 섞지 않고, 상자는 배경색으로만 구분한다.
+이번 주는 부품을 하나씩 본다. 비교 예제 13개(부록 ex14 는 선택)를 열어 값을 바꿔 보고, 마지막에 `styles.css`를 그 부품으로 조립한다.
+작년 수업과 같은 방식이다. 예제 하나에 주제 하나. 값 하나만 다른 형제를 나란히 놓고 차이를 눈으로 본다. 다른 주제의 속성은 섞지 않고, 상자는 배경색으로만 구분한다.
 이번 주부터 주마다 새 저장소를 만든다. 이번 주 저장소는 `web-week04` 이고, 지난주 완성본에서 시작한다.
 
 ## 이번 주 질문
@@ -33,21 +33,21 @@
 ```
 
 - 제출은 이 캡처 **한 장**이다. 1280px 화면은 확인용이다.
-- 이번 주 저장소 `web-week04` 의 모양은 아래와 같다. 비교 파일은 `ex/` 에 저장하고 값을 바꾼 채로 올린다. 기록물·표는 없다. 산출물은 올린 파일과 화면이다.
+- 이번 주 저장소 `web-week04` 의 모양은 아래와 같다. 비교 예제는 `ex/` 안에 예제마다 폴더 하나(`index.html`·`styles.css`)로 저장하고 값을 바꾼 채로 올린다. 기록물·표는 없다. 산출물은 올린 파일과 화면이다.
 - `student01` 은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다.
 
 ```text
 web-week04/
   index.html  about.html  guestbook.html  styles.css  app.js  images/   ← 지난주 완성본에서 시작, 2일차에 조립
-  ex/                                                                  ← 비교 파일(값을 바꿔 보는 실험)
+  ex/ex01/ … ex/ex13/                                                  ← 비교 예제(폴더마다 index.html·styles.css, 값을 바꿔 보는 실험)
 ```
 
 ## 2일 수업 흐름
 
 | 일차 | 설명 30분 | 실습 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | 이번 주 방식 → ex01 선택자 → ex02 display → ex03 박스모델 → ex04 width·max-width → ex05 margin auto → ex06 text-align | `web-week04` 폴더에 지난주 파일 넣기 → `ex/` 에 여섯 파일 저장 → 값 바꿔 보기 → 새 저장소 `web-week04` 에 올리고 Pages 켜기 | 공개 주소와 `ex/` 여섯 파일(확인용) |
-| 2일차 | flex 원리 다섯 줄 → ex07 direction → ex08 justify → ex09 align → ex10 wrap → ex11 gap → ex12 flex: 1 → ex13 @media → 조립표 | 일곱 파일 값 바꿔 보기 → `styles.css` 조립 → 1280·375 확인 → 올리기 | 캡처 1 |
+| 1일차 | 이번 주 방식(예제 폴더 하나에 `index.html`·`styles.css`) → ex01 선택자 → ex02 display → ex03 박스모델 → ex04 width·max-width → ex05 margin auto → ex06 text-align | `web-week04` 폴더에 지난주 파일 넣기 → `ex/` 에 예제 폴더 여섯 개(파일 열두 개) 저장 → 값 바꿔 보기 → 새 저장소 `web-week04` 에 올리고 Pages 켜기 | 공개 주소와 `ex/` 예제 폴더 여섯 개(확인용) |
+| 2일차 | flex 원리 다섯 줄 → ex07 direction → ex08 justify → ex09 align → ex10 wrap → ex11 gap → ex12 flex: 1 → ex13 @media → 조립표 | 예제 폴더 일곱 개 값 바꿔 보기 → `styles.css` 조립 → 1280·375 확인 → 올리기 | 캡처 1 |
 
 각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
 
@@ -72,40 +72,41 @@ web-week04/
 | 줄 넘김 | wrap | 换行 |
 | 화면 폭 조건 | media query | 媒体查询 |
 
-## 이번 주 비교 파일
+## 이번 주 비교 예제
 
+예제마다 폴더 하나에 내 사이트와 같은 이름의 두 파일(`index.html` 화면 · `styles.css` 규칙)을 둔다. `index.html` 을 열고, 규칙은 `styles.css` 에서 본다. `styles.css` 는 `index.html` 의 `<link rel="stylesheet" href="styles.css">` 한 줄이 불러온다.
 첫 형제는 기본값이다(ex13 만 1번이 `@media` 규칙이 있는 상자). 주석은 대안값이다. 주석을 풀거나 값을 바꾸고 저장 → 새로고침으로 차이를 본다.
 
-| 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
+| 예제 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
-| [ex01_selector.html](examples/day1/ex01_selector.html) | `p` / `p.red` / `div.red` / `p.Red`(오타) / `nav a` / nav 밖 `a` | 선택자가 맞아야 적용된다. 클래스가 태그를 이긴다. 같은 선택자 두 번이면 뒤가 이긴다 | `/* p { color: gray; } */` 주석 풀기, 4번의 `class="Red"` 를 `class="red"` 로 |
-| [ex02_display.html](examples/day1/ex02_display.html) | div 3 / span 3 / span + `display: block` / div + `display: inline` | 줄을 차지하는지는 태그가 아니라 `display` 가 정한다 | `block` ↔ `inline` |
-| [ex03_box_model.html](examples/day1/ex03_box_model.html) | 기본 / `padding` / `border` / `margin` / 셋 다 | 안쪽 여백·테두리·바깥 여백은 서로 다른 층. 회색 frame 안에서 margin 이 벌린 자리가 보인다 | 세 값을 `0` / `16px` / `32px` 로 |
-| [ex04_width.html](examples/day1/ex04_width.html) | 기본(부모 폭) / `width: 640px` / `max-width: 640px` | `width` 는 폭을 못박고, `max-width` 는 상한만 둬서 창이 좁으면 같이 준다 | 창을 400px 로 줄여 2번만 삐져나가는지 |
-| [ex05_margin_auto.html](examples/day1/ex05_margin_auto.html) | 기본(왼쪽) / `margin-left: auto` / 좌우 `auto` / `margin: 0 auto` | `auto` 는 남는 폭을 가져간다. 양쪽이 나눠 가지면 상자가 가운데에 선다 | 3번의 `margin-right: auto` 지우기, `.box` 의 `max-width` 지우기 |
-| [ex06_text_align.html](examples/day1/ex06_text_align.html) | 기본(왼쪽) / `center` / `right` | 상자 안 글자의 가로 자리를 정한다. 상자 자체는 움직이지 않는다 | `right` → `center` |
-| [ex07_flex_direction.html](examples/day2/ex07_flex_direction.html) | flex 없음 / `display: flex`(row) / `row-reverse` / `column` / `column-reverse` | `display: flex` 는 부모에 쓴다. `flex-direction` 이 자식이 서는 방향(주축)을 정한다 | 2번의 `상자 1` 에 class `flex` 를 더해 보기(배치는 그대로) |
-| [ex08_justify_content.html](examples/day2/ex08_justify_content.html) | `flex-start` / `center` / `flex-end` / `space-between` / `space-around` | 주축 위에서 남는 공간(회색)을 어떻게 나누나 | `.evenly` 주석 풀고 5번 frame 의 class 를 `evenly` 로 |
-| [ex09_align_items.html](examples/day2/ex09_align_items.html) | `stretch`(기본) / `flex-start` / `center` / `flex-end` | 교차축(세로)에서 자식을 어디에 두나. frame 에 높이가 있어야 보인다 | `.frame` 의 `height: 100px` 지우기 |
-| [ex10_flex_wrap.html](examples/day2/ex10_flex_wrap.html) | `nowrap`(기본) / `wrap` | 주축에 다 안 들어갈 때 넘길지는 `flex-wrap`. 부모에 쓴다 | 자식 수 6 → 3 |
-| [ex11_gap.html](examples/day2/ex11_gap.html) | gap 없음 / `gap: 16px` / `gap: 32px` | 자식과 자식 사이 간격. 사이는 자식 하나가 정할 수 없으니 부모에 쓴다 | `gap16` 을 frame 에서 빼서 자식에 붙여 보기(아무 일도 없다) |
-| [ex12_flex_grow.html](examples/day2/ex12_flex_grow.html) | 기본 / 가운데만 `flex: 1` / 셋 다 `flex: 1` | 주축의 남는 공간을 그 자식이 차지한다. 이 속성만 자식에 쓴다 | `flex: 2` 주석 풀기, 3번 가운데에만 `style="flex: 2"` |
-| [ex13_media.html](examples/day2/ex13_media.html) | `@media (max-width: 600px)` 규칙이 있는 상자 / 없는 상자 | 조건이 맞을 때만 안쪽 규칙이 살아난다. 같은 선택자 두 번 → 뒤가 이김(ex01) | `600px` → `900px`, 기기 모드 375 |
-| [ex14_position.html](examples/day2/ex14_position.html) (부록, 설명 없음) | `static` / `relative; top; left` / `absolute; right; bottom` | 문서 흐름에서 빼는 두 방법 | `top`·`left`·`right`·`bottom` 값 바꾸기 |
+| [ex01/index.html](examples/day1/ex01/index.html) + [styles.css](examples/day1/ex01/styles.css) | `p` / `p.red` / `div.red` / `p.Red`(오타) / `nav a` / nav 밖 `a` | 선택자가 맞아야 적용된다. 클래스가 태그를 이긴다. 같은 선택자 두 번이면 뒤가 이긴다 | `/* p { color: gray; } */` 주석 풀기, 4번의 `class="Red"` 를 `class="red"` 로 |
+| [ex02/index.html](examples/day1/ex02/index.html) + [styles.css](examples/day1/ex02/styles.css) | div 3 / span 3 / span + `display: block` / div + `display: inline` | 줄을 차지하는지는 태그가 아니라 `display` 가 정한다 | `block` ↔ `inline` |
+| [ex03/index.html](examples/day1/ex03/index.html) + [styles.css](examples/day1/ex03/styles.css) | 기본 / `padding` / `border` / `margin` / 셋 다 | 안쪽 여백·테두리·바깥 여백은 서로 다른 층. 회색 frame 안에서 margin 이 벌린 자리가 보인다 | 세 값을 `0` / `16px` / `32px` 로 |
+| [ex04/index.html](examples/day1/ex04/index.html) + [styles.css](examples/day1/ex04/styles.css) | 기본(부모 폭) / `width: 640px` / `max-width: 640px` | `width` 는 폭을 못박고, `max-width` 는 상한만 둬서 창이 좁으면 같이 준다 | 창을 400px 로 줄여 2번만 삐져나가는지 |
+| [ex05/index.html](examples/day1/ex05/index.html) + [styles.css](examples/day1/ex05/styles.css) | 기본(왼쪽) / `margin-left: auto` / 좌우 `auto` / `margin: 0 auto` | `auto` 는 남는 폭을 가져간다. 양쪽이 나눠 가지면 상자가 가운데에 선다 | 3번의 `margin-right: auto` 지우기, `.box` 의 `max-width` 지우기 |
+| [ex06/index.html](examples/day1/ex06/index.html) + [styles.css](examples/day1/ex06/styles.css) | 기본(왼쪽) / `center` / `right` | 상자 안 글자의 가로 자리를 정한다. 상자 자체는 움직이지 않는다 | `right` → `center` |
+| [ex07/index.html](examples/day2/ex07/index.html) + [styles.css](examples/day2/ex07/styles.css) | flex 없음 / `display: flex`(row) / `row-reverse` / `column` / `column-reverse` | `display: flex` 는 부모에 쓴다. `flex-direction` 이 자식이 서는 방향(주축)을 정한다 | 2번의 `상자 1` 에 class `flex` 를 더해 보기(배치는 그대로) |
+| [ex08/index.html](examples/day2/ex08/index.html) + [styles.css](examples/day2/ex08/styles.css) | `flex-start` / `center` / `flex-end` / `space-between` / `space-around` | 주축 위에서 남는 공간(회색)을 어떻게 나누나 | `.evenly` 주석 풀고 5번 frame 의 class 를 `evenly` 로 |
+| [ex09/index.html](examples/day2/ex09/index.html) + [styles.css](examples/day2/ex09/styles.css) | `stretch`(기본) / `flex-start` / `center` / `flex-end` | 교차축(세로)에서 자식을 어디에 두나. frame 에 높이가 있어야 보인다 | `.frame` 의 `height: 100px` 지우기 |
+| [ex10/index.html](examples/day2/ex10/index.html) + [styles.css](examples/day2/ex10/styles.css) | `nowrap`(기본) / `wrap` | 주축에 다 안 들어갈 때 넘길지는 `flex-wrap`. 부모에 쓴다 | 자식 수 6 → 3 |
+| [ex11/index.html](examples/day2/ex11/index.html) + [styles.css](examples/day2/ex11/styles.css) | gap 없음 / `gap: 16px` / `gap: 32px` | 자식과 자식 사이 간격. 사이는 자식 하나가 정할 수 없으니 부모에 쓴다 | `gap16` 을 frame 에서 빼서 자식에 붙여 보기(아무 일도 없다) |
+| [ex12/index.html](examples/day2/ex12/index.html) + [styles.css](examples/day2/ex12/styles.css) | 기본 / 가운데만 `flex: 1` / 셋 다 `flex: 1` | 주축의 남는 공간을 그 자식이 차지한다. 이 속성만 자식에 쓴다 | `flex: 2` 주석 풀기, 3번 가운데에만 `style="flex: 2"` |
+| [ex13/index.html](examples/day2/ex13/index.html) + [styles.css](examples/day2/ex13/styles.css) | `@media (max-width: 600px)` 규칙이 있는 상자 / 없는 상자 | 조건이 맞을 때만 안쪽 규칙이 살아난다. 같은 선택자 두 번 → 뒤가 이김(ex01) | `600px` → `900px`, 기기 모드 375 |
+| [ex14/index.html](examples/day2/ex14/index.html) + [styles.css](examples/day2/ex14/styles.css) (부록, 설명 없음) | `static` / `relative; top; left` / `absolute; right; bottom` | 문서 흐름에서 빼는 두 방법 | `top`·`left`·`right`·`bottom` 값 바꾸기 |
 
 ## 수업 자료
 
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week04_responsive_css/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(ex01~ex06), 2일차 `day2/`(ex07~ex14와 조립 `web-week04/`)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(예제 폴더 `ex01/`~`ex06/`, 폴더마다 `index.html`·`styles.css`), 2일차 `day2/`(예제 폴더 `ex07/`~`ex14/` 와 조립 `web-week04/`)
 - 2일차 끝의 `web-week04`(조립 결과): [styles.css](examples/day2/web-week04/styles.css) · [index.html](examples/day2/web-week04/index.html) · [about.html](examples/day2/web-week04/about.html) · [guestbook.html](examples/day2/web-week04/guestbook.html) · [app.js](examples/day2/web-week04/app.js) · [images/profile.png](examples/day2/web-week04/images/profile.png)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css
 
 ## 완료 기준
 
 - [ ] GitHub 에 `web-week04` 저장소가 있고 Pages 가 켜져 있다.
-- [ ] `ex/` 에 비교 파일이 있고, 각 파일에서 값을 하나 이상 바꿔 올렸다.
+- [ ] `ex/` 에 예제 폴더가 있고, 각 예제에서 값을 하나 이상 바꿔 올렸다.
 - [ ] 세 페이지의 `<head>` 에 `<link rel="stylesheet" href="styles.css">` 가 있다.
 - [ ] 공개 주소 `https://student01.github.io/web-week04/` 에서 배경색·제목 색·메뉴 색이 보이고, 소개 문단과 취미 목록이 테두리 있는 흰 카드로 보인다.
 - [ ] 1280px 에서 메뉴 세 개가 가로 한 줄이고, 가로 스크롤 막대가 생기지 않는다.

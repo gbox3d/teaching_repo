@@ -4,7 +4,7 @@
 
 이번 주도 부품을 하나씩 본다. 비교 예제 8개를 열어 값을 바꿔 보고, 마지막에 이번 주 새 저장소 `web-week13` 에 입학 연도 폼·`about.js`·카드 링크 글자·README 최종판을 조립한다.
 12주차까지 네 페이지(홈·내 정보·방명록·프로젝트)가 생겼다. 이번 주에는 새 기능보다 **내놓기 전 점검**이 중심이다. 입력한 글을 글자로 넣는지, 그림·입력 칸·링크에 무엇인지 알려 주는 글자가 붙어 있는지, 링크·Console·좁은 화면이 괜찮은지 본다.
-결과는 화면과 **F12 › Console**·**Elements**, 마크다운은 VS Code **Open Preview** 에서 본다. 파일 하나에 개념 하나. 다른 파일의 개념은 섞지 않는다.
+결과는 화면과 **F12 › Console**·**Elements**, 마크다운은 VS Code **Open Preview** 에서 본다. 예제 하나에 개념 하나. 다른 예제의 개념은 섞지 않는다.
 
 ## 이번 주 질문
 
@@ -46,8 +46,8 @@
 
 | 일차 | 설명 30분 | 실습 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | 고르기 페이지 → ex01 `Number`·`isNaN` → ex02 `getFullYear` → ex03 `textContent` 와 `innerHTML` → 공개 저장소에 넣지 않는 것 → ex04 `alt` → ex05 `label for` | 새 폴더 `web-week13` 에 지난주 완성본 넣기 → `ex/` 에 1일차 파일 저장 → 값 바꿔 보기 → 새 저장소 만들어 올리기 · Pages 켜기 | `ex/` 비교 예제(확인용) |
-| 2일차 | ex06 링크·버튼 글자 → ex07 `#`·`-` → ex08 링크와 그림 → 내놓기 전 점검 순서 → 14주차 발표·15주차 문제 은행 안내 → 조립표 | 세 파일 값 바꿔 보기 → `about.html`·`about.js`·`projects.js`·`screenshots/`·`README.md` 조립 → 링크·Console·375 점검과 `alt`·이름표 → push → 공개 주소에서 링크 다시 누르기 → 공개 주소 캡처 | 캡처 1 |
+| 1일차 | 예제 폴더 하나에 파일(`index.html`·`app.js`) → ex01 `Number`·`isNaN` → ex02 `getFullYear` → ex03 `textContent` 와 `innerHTML` → 공개 저장소에 넣지 않는 것 → ex04 `alt` → ex05 `label for` | 새 폴더 `web-week13` 에 지난주 완성본 넣기 → `ex/` 에 1일차 예제 폴더 다섯 개 저장 → 값 바꿔 보기 → 새 저장소 만들어 올리기 · Pages 켜기 | `ex/` 비교 예제(확인용) |
+| 2일차 | ex06 링크·버튼 글자 → ex07 `#`·`-` → ex08 링크와 그림 → 내놓기 전 점검 순서 → 14주차 발표·15주차 문제 은행 안내 → 조립표 | 세 예제 값 바꿔 보기 → `about.html`·`about.js`·`projects.js`·`screenshots/`·`README.md` 조립 → 링크·Console·375 점검과 `alt`·이름표 → push → 공개 주소에서 링크 다시 누르기 → 공개 주소 캡처 | 캡처 1 |
 
 각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
 
@@ -76,16 +76,16 @@
 
 ## 이번 주 비교 예제
 
-1일차 ex01·ex02 는 같은 화면(입력 칸 하나·버튼 하나·결과 자리 하나)을 쓰므로 코드만 `.js` 파일에 두고, 고르기 페이지 [day1/index.html](examples/day1/index.html) 맨 아래 `<script src>` 두 줄 중 하나만 켜서 연다. ex03 은 화면이 달라서 `.html` 과 `.js` 를 한 쌍으로 둔다. ex04·ex05·ex06 은 JavaScript 없이 HTML 만으로 보는 예제라 `.html` 하나다. ex07·ex08 은 README 와 같은 마크다운 `.md` 파일이고 9주차처럼 VS Code 미리 보기로 본다. ex07 의 `#`·`-` 와 ex08 1~3번의 링크·그림은 9주차 ex01~ex03·ex05 에서 본 것이고, README 최종판을 쓰기 전에 다시 본다.
+1일차 ex01~ex05 와 2일차 ex06 은 예제마다 폴더 하나에 내 사이트와 같은 이름의 파일(`index.html` 화면 · `app.js` 동작)을 둔다. `index.html` 을 열고, JavaScript 가 있는 ex01~ex03 의 원리는 `app.js` 에서 본다. ex01·ex02 는 같은 자리(입력 칸 하나·버튼 하나·결과 자리 하나)를 쓰지만 폴더를 따로 둔다. ex04·ex05·ex06 은 JavaScript 없이 HTML 만으로 보는 예제라 `index.html` 하나다(ex04 는 그림 `images/profile.png` 도 그 폴더에 있다). ex07·ex08 은 README 와 같은 마크다운 `.md` 파일이고 9주차처럼 VS Code 미리 보기로 본다. ex07 의 `#`·`-` 와 ex08 1~3번의 링크·그림은 9주차 ex01~ex03·ex05 에서 본 것이고, README 최종판을 쓰기 전에 다시 본다.
 
 | 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
-| [ex01_number.js](examples/day1/ex01_number.js) | 1. 글자 + 1 / 2. `Number(글자)` + 1 / 3. `isNaN` | 입력 칸의 값은 늘 글자다. `Number()` 로 숫자로 바꾸고, 못 바꾸면 `NaN` 이다. `isNaN()` 은 `NaN` 이면 `true` | 칸에 `이천이십삼`·`2023년`·빈칸 |
-| [ex02_year.js](examples/day1/ex02_year.js) | 1. 올해 / 2. 올해 - 입학 연도 / 3. + 1 | `new Date().getFullYear()` 는 버튼을 누른 순간 컴퓨터 시계의 연도다. 입학한 해를 1년차로 세려고 1 을 더한다 | `2026` 을 직접 적기, 괄호 빼기 |
-| [ex03_text_html.html](examples/day1/ex03_text_html.html) + [.js](examples/day1/ex03_text_html.js) | 1. `textContent` / 2. `innerHTML` / 3. `innerHTML = ''` | 입력한 글은 글자로 넣는다. `innerHTML` 은 받은 글을 HTML 로 읽어 태그가 진짜 요소가 된다. 비울 때만 `innerHTML` | 칸에 `<button>가짜 버튼</button>` |
-| [ex04_alt.html](examples/day1/ex04_alt.html) | 1. 무슨 그림인지 적은 `alt` / 2. `alt` 없음 / 3. `alt="그림"` | `alt` 는 그림이 안 보일 때 대신 읽히는 글이다. 그림이 무엇인지 적는다 | 세 `src` 를 `images/nothing.png` 로 |
-| [ex05_label.html](examples/day1/ex05_label.html) | 1. `for` = `id` / 2. 한 글자 다름 / 3. `label` 없음 | 이름표의 `for` 와 칸의 `id` 가 같아야 이어진다. 이어지면 이름표를 눌러도 커서가 칸으로 간다 | 2번 `id` 고치기, `for="#year1"` |
-| [ex06_link_text.html](examples/day2/ex06_link_text.html) | 1. 같은 글자 링크 셋 / 2. 목적지를 적은 링크 셋 / 3. 기호 버튼과 글자 버튼 | 링크·버튼 글자는 그것만 읽어도 어디로 가는지·무엇을 하는지 알게 쓴다 | **Tab** 키로 옮겨 다니며 읽기 |
+| [ex01/index.html](examples/day1/ex01/index.html) + [app.js](examples/day1/ex01/app.js) | 1. 글자 + 1 / 2. `Number(글자)` + 1 / 3. `isNaN` | 입력 칸의 값은 늘 글자다. `Number()` 로 숫자로 바꾸고, 못 바꾸면 `NaN` 이다. `isNaN()` 은 `NaN` 이면 `true` | 칸에 `이천이십삼`·`2023년`·빈칸 |
+| [ex02/index.html](examples/day1/ex02/index.html) + [app.js](examples/day1/ex02/app.js) | 1. 올해 / 2. 올해 - 입학 연도 / 3. + 1 | `new Date().getFullYear()` 는 버튼을 누른 순간 컴퓨터 시계의 연도다. 입학한 해를 1년차로 세려고 1 을 더한다 | `2026` 을 직접 적기, 괄호 빼기 |
+| [ex03/index.html](examples/day1/ex03/index.html) + [app.js](examples/day1/ex03/app.js) | 1. `textContent` / 2. `innerHTML` / 3. `innerHTML = ''` | 입력한 글은 글자로 넣는다. `innerHTML` 은 받은 글을 HTML 로 읽어 태그가 진짜 요소가 된다. 비울 때만 `innerHTML` | 칸에 `<button>가짜 버튼</button>` |
+| [ex04/index.html](examples/day1/ex04/index.html) + [images/profile.png](examples/day1/ex04/images/profile.png) | 1. 무슨 그림인지 적은 `alt` / 2. `alt` 없음 / 3. `alt="그림"` | `alt` 는 그림이 안 보일 때 대신 읽히는 글이다. 그림이 무엇인지 적는다 | 세 `src` 를 `images/nothing.png` 로 |
+| [ex05/index.html](examples/day1/ex05/index.html) | 1. `for` = `id` / 2. 한 글자 다름 / 3. `label` 없음 | 이름표의 `for` 와 칸의 `id` 가 같아야 이어진다. 이어지면 이름표를 눌러도 커서가 칸으로 간다 | 2번 `id` 고치기, `for="#year1"` |
+| [ex06/index.html](examples/day2/ex06/index.html) | 1. 같은 글자 링크 셋 / 2. 목적지를 적은 링크 셋 / 3. 기호 버튼과 글자 버튼 | 링크·버튼 글자는 그것만 읽어도 어디로 가는지·무엇을 하는지 알게 쓴다 | **Tab** 키로 옮겨 다니며 읽기 |
 | [ex07_line_marks.md](examples/day2/ex07_line_marks.md) | 1. `#` 제목 / 2. `-` 목록 / 3. 기호 없이 줄만 바꿈 / 4. 띄어쓰기 없음 | 줄 맨 앞 기호와 띄어쓰기 한 칸이 그 줄의 모양을 정한다(9주차 ex01·ex02) | `#` 하나 더, 빈 줄 넣기 |
 | [ex08_link_image.md](examples/day2/ex08_link_image.md) | 1. 링크 / 2. 그림 / 3. `!` 를 뺀 그림 줄 / 4. 대소문자가 다른 경로 | 링크(9주차 ex03) 앞에 `!` 를 붙이면 그림이다(9주차 ex05). 대괄호 글자가 `alt` 다. 경로는 대소문자까지 같아야 GitHub 에서 보인다 | `!` 지웠다 되살리기 |
 
@@ -94,7 +94,7 @@
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week13_release_security/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(고르기 페이지 `index.html`, ex01·ex02 의 `.js`, ex03 의 `.html`·`.js`, ex04·ex05 의 `.html`, 그림 `images/profile.png`), 2일차 `day2/`(ex06 의 `.html`, ex07·ex08 의 `.md`, 같은 그림, 조립 `web-week13/`)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(예제 폴더 `ex01/`~`ex05/`. 폴더마다 `index.html`, ex01~ex03 은 `app.js`, ex04 는 그림 `images/profile.png` 도), 2일차 `day2/`(예제 폴더 `ex06/` 의 `index.html`, ex07·ex08 의 `.md`, ex08 이 쓰는 그림 `images/profile.png`, 조립 `web-week13/`)
 - 2일차 끝의 `web-week13`(조립 결과): [about.html](examples/day2/web-week13/about.html) · [about.js](examples/day2/web-week13/about.js) · [projects.js](examples/day2/web-week13/projects.js) · [README.md](examples/day2/web-week13/README.md) · [screenshots/home.png](examples/day2/web-week13/screenshots/home.png) · [guestbook.png](examples/day2/web-week13/screenshots/guestbook.png) · [projects.png](examples/day2/web-week13/screenshots/projects.png)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security

@@ -43,7 +43,7 @@
 
 | 일차 | 설명 30분 | 실습 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | 발표 순서와 3분 규칙 → 채점표 20점 → ex01 시연 순서를 번호 목록으로 → ex02 로컬 시연은 서버로 → ex03 저장은 주소·창마다 따로 → 좋은 시작·피할 시작 → 조립표 | 새 폴더 `web-week14` 에 지난주 완성본 넣기 → `ex/` 에 여섯 파일 → 값 바꿔 보기 → 홈 목록·공개 주소 행·README 조립 → 새 저장소 올리기·Pages 켜기 → 공개 주소 확인·그림 다시 찍기 → 조교 확인·3분 리허설 → push | 캡처 1 |
+| 1일차 | 발표 순서와 3분 규칙 → 채점표 20점 → ex01 시연 순서를 번호 목록으로 → ex02 로컬 시연은 서버로 → ex03 저장은 주소·창마다 따로 → 좋은 시작·피할 시작 → 조립표 | 새 폴더 `web-week14` 에 지난주 완성본 넣기 → `ex/` 에 예제 폴더 세 개 → 값 바꿔 보기 → 홈 목록·공개 주소 행·README 조립 → 새 저장소 올리기·Pages 켜기 → 공개 주소 확인·그림 다시 찍기 → 조교 확인·3분 리허설 → push | 캡처 1 |
 | 2일차 | 안내 5분 — 오늘 차례, 탭 세 개, 채점표와 구술 한 문항, 공개 주소가 안 열릴 때 | 발표 3분 × 인원 → 총평과 15주차 예고 | 발표 3분 |
 
 1일차는 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
@@ -73,13 +73,13 @@
 
 ## 이번 주 비교 예제
 
-비교 예제는 1일차에만 있다. 2일차는 발표만 한다. 세 예제는 화면이 서로 달라서 고르기 페이지 없이 파일마다 따로 연다. ex01 은 `.html` 하나, ex02·ex03 은 `.html` 과 `.js` 한 쌍이고, ex02 에는 읽어 올 `.json` 이 하나 더 있다. Console 의 번호가 코드의 형제 번호와 같다.
+비교 예제는 1일차에만 있다. 2일차는 발표만 한다. 세 예제는 예제마다 폴더 하나에 내 사이트와 같은 이름의 파일을 두고, 폴더마다 `index.html` 을 연다. ex01 은 `index.html`(화면)과 `styles.css`(두 목록 상자의 배경색), ex02·ex03 은 `index.html` 과 `app.js`(동작)이고, ex02 에는 `app.js` 가 읽어 올 `message.json` 이 하나 더 있다. Console 의 번호가 코드의 형제 번호와 같다.
 
 | 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
-| [ex01_order_list.html](examples/day1/ex01_order_list.html) | 같은 다섯 줄을 1. `<ol>` 번호 목록 / 2. `<ul>` 점 목록에 | 번호는 파일에 쓰지 않는다. 브라우저가 줄 순서대로 붙인다. 발표 순서처럼 차례가 뜻을 가지면 `<ol>` | 1번의 두 줄 순서 바꾸기, `ol` 을 `ul` 로, `</ol>` 지우기 |
-| [ex02_server.html](examples/day1/ex02_server.html) + [.js](examples/day1/ex02_server.js) + [.json](examples/day1/ex02_message.json) | 같은 페이지를 1. `node server.mjs` 로 연다 / 2. 두 번 눌러 연다 | 12주 ex05 복습. `fetch` 는 서버(`http://`)나 공개 주소(`https://`)로 연 페이지에서만 파일을 읽는다. 로컬 시연은 서버로 한다 | 서버로 열기 → 두 번 눌러 열기, 읽을 파일 이름을 틀리게 |
-| [ex03_storage.html](examples/day1/ex03_storage.html) + [.js](examples/day1/ex03_storage.js) | 1. 변수에 담은 수 / 2. 저장 칸(`localStorage`)에 넣은 수 | 11주 ex04 복습 + 주소·창 비교. 새로고침하면 변수는 처음으로 돌아가고 저장 칸의 값은 남는다. 저장 칸은 주소 앞부분마다 따로이고 시크릿 창도 따로다. 같은 아이디의 `github.io` 주소(`web-week13`·`web-week14`)는 저장 칸을 함께 쓴다(11주) | 새로고침, 열 때 꺼내는 줄 빼기, 서버 주소·새 시크릿 창으로 열기 |
+| [ex01/index.html](examples/day1/ex01/index.html) + [styles.css](examples/day1/ex01/styles.css) | 같은 다섯 줄을 1. `<ol>` 번호 목록 / 2. `<ul>` 점 목록에 | 번호는 파일에 쓰지 않는다. 브라우저가 줄 순서대로 붙인다. 발표 순서처럼 차례가 뜻을 가지면 `<ol>` | 1번의 두 줄 순서 바꾸기, `ol` 을 `ul` 로, `</ol>` 지우기 |
+| [ex02/index.html](examples/day1/ex02/index.html) + [app.js](examples/day1/ex02/app.js) + [message.json](examples/day1/ex02/message.json) | 같은 페이지를 1. `node server.mjs` 로 연다 / 2. 두 번 눌러 연다 | 12주 ex05 복습. `fetch` 는 서버(`http://`)나 공개 주소(`https://`)로 연 페이지에서만 파일을 읽는다. 로컬 시연은 서버로 한다 | 서버로 열기 → 두 번 눌러 열기, 읽을 파일 이름을 틀리게 |
+| [ex03/index.html](examples/day1/ex03/index.html) + [app.js](examples/day1/ex03/app.js) | 1. 변수에 담은 수 / 2. 저장 칸(`localStorage`)에 넣은 수 | 11주 ex04 복습 + 주소·창 비교. 새로고침하면 변수는 처음으로 돌아가고 저장 칸의 값은 남는다. 저장 칸은 주소 앞부분마다 따로이고 시크릿 창도 따로다. 같은 아이디의 `github.io` 주소(`web-week13`·`web-week14`)는 저장 칸을 함께 쓴다(11주) | 새로고침, 열 때 꺼내는 줄 빼기, 서버 주소·새 시크릿 창으로 열기 |
 
 ## 수업 자료
 
@@ -87,7 +87,7 @@
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 발표 안내](lab.md)
 - [2차 과제 안내](project_brief.md) · [채점표 20점](rubric.md) · [3분 시연 흐름 표](demo_outline.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(ex01~ex03), 2일차 `day2/`(완성본 `web-week14/` 만)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(예제 폴더 `ex01/`~`ex03/`. ex01 은 `index.html`·`styles.css`, ex02 는 `index.html`·`app.js`·`message.json`, ex03 은 `index.html`·`app.js`), 2일차 `day2/`(완성본 `web-week14/` 만)
 - 2일차 끝의 `web-week14`(조립 결과): [index.html](examples/day2/web-week14/index.html) · [about.html](examples/day2/web-week14/about.html) · [README.md](examples/day2/web-week14/README.md) · 그림 [home.png](examples/day2/web-week14/screenshots/home.png) · [guestbook.png](examples/day2/web-week14/screenshots/guestbook.png) · [projects.png](examples/day2/web-week14/screenshots/projects.png)
 - 13주차 그대로인 파일: [styles.css](examples/day2/web-week14/styles.css) · [app.js](examples/day2/web-week14/app.js) · [about.js](examples/day2/web-week14/about.js) · [guestbook.html](examples/day2/web-week14/guestbook.html) · [guestbook.js](examples/day2/web-week14/guestbook.js) · [projects.html](examples/day2/web-week14/projects.html) · [projects.js](examples/day2/web-week14/projects.js) · [data/projects.json](examples/day2/web-week14/data/projects.json)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)

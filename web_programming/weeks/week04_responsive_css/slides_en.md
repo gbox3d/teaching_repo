@@ -13,10 +13,10 @@ New repository this week: `web-week04` → `https://student01.github.io/web-week
 
 This week: **compare 13 parts one at a time** (plus one appendix), then **assemble** `styles.css` at the end.
 
-- One file = one topic. Siblings that differ in a single value sit side by side.
+- One example = one topic. Siblings that differ in a single value sit side by side.
 - No other topic is mixed in; boxes differ **only by background color**.
 - The first sibling is the default; comments hold other values. You **change values** in the lab.
-- Building happens once, at the end of Day 2. We note which rule came from which file.
+- Building happens once, at the end of Day 2. We note which rule came from which example.
 
 Same approach as last year's class (dayNN/exNN comparison files → build at the end).
 
@@ -43,7 +43,7 @@ selector {
 }
 ```
 
-- One rule = selector + braces + `property: value;` lines. The three pages keep them in `styles.css`, linked by `<link rel="stylesheet" href="styles.css">`.
+- One rule = selector + braces + `property: value;` lines, kept in `styles.css` and loaded by `<link rel="stylesheet" href="styles.css">` (examples and pages alike).
 - Color and font properties mean what they say: `color` · `background-color` · `font-size` · `font-family`.
 - **CSS gives no error message when it's wrong.** A non-matching selector or a missing semicolon is silently ignored.
 - So we put siblings side by side and compare **by eye**. A value that changes nothing is a result too.
@@ -52,7 +52,7 @@ selector {
 
 ## Day 1 · 4–9 min — ex01 Selectors: Must Match; the Class Wins
 
-[examples/day1/ex01_selector.html](examples/day1/ex01_selector.html)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css)
 Siblings: `p` / `p.red` / `div.red` / `p.Red` (typo) / `nav a` / `a` outside nav
 
 ```css
@@ -71,7 +71,7 @@ nav a { color: green; }   /* descendant selector: a inside nav */
 
 ## Day 1 · 9–13 min — ex02 display: The Tag Doesn't Decide, display Does
 
-[examples/day1/ex02_display.html](examples/day1/ex02_display.html)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [styles.css](examples/day1/ex02/styles.css)
 Siblings: 3 divs / 3 spans / span + `display: block` / div + `display: inline`
 
 ```css
@@ -88,7 +88,7 @@ Siblings: 3 divs / 3 spans / span + `display: block` / div + `display: inline`
 
 ## Day 1 · 13–18 min — ex03 Box Model: Three Layers
 
-[examples/day1/ex03_box_model.html](examples/day1/ex03_box_model.html)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [styles.css](examples/day1/ex03/styles.css)
 Siblings: default / `padding` / `border` / `margin` / all three (sky-blue box inside a gray frame)
 
 ```css
@@ -106,7 +106,7 @@ Siblings: default / `padding` / `border` / `margin` / all three (sky-blue box in
 
 ## Day 1 · 18–22 min — ex04 width vs max-width: Which One Shrinks
 
-[examples/day1/ex04_width.html](examples/day1/ex04_width.html)
+[examples/day1/ex04/index.html](examples/day1/ex04/index.html) · [styles.css](examples/day1/ex04/styles.css)
 Siblings: default (parent width) / `width: 640px` / `max-width: 640px`
 
 ```css
@@ -123,7 +123,7 @@ Siblings: default (parent width) / `width: 640px` / `max-width: 640px`
 
 ## Day 1 · 22–25 min — ex05 margin auto: Split the Leftover Width to Center
 
-[examples/day1/ex05_margin_auto.html](examples/day1/ex05_margin_auto.html)
+[examples/day1/ex05/index.html](examples/day1/ex05/index.html) · [styles.css](examples/day1/ex05/styles.css)
 Siblings: default / `margin-left: auto` / both sides `auto` / `margin: 0 auto`
 
 ```css
@@ -141,7 +141,7 @@ Siblings: default / `margin-left: auto` / both sides `auto` / `margin: 0 auto`
 
 ## Day 1 · 25–28 min — ex06 text-align: Where the Text Sits Inside a Box
 
-[examples/day1/ex06_text_align.html](examples/day1/ex06_text_align.html)
+[examples/day1/ex06/index.html](examples/day1/ex06/index.html) · [styles.css](examples/day1/ex06/styles.css)
 Siblings: default (left) / `text-align: center` / `text-align: right`
 
 ```css
@@ -160,8 +160,8 @@ Siblings: default (left) / `text-align: center` / `text-align: right`
 
 [Day 1 lab](lab.md#1일차--선택자와-박스-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
 
-1. Put last week's files in a new folder `web-week04`, and save ex01–ex06 in `ex/`.
-2. Change at least one value per file and watch the screen.
+1. Put last week's files in a new folder `web-week04`, and save example folders ex01–ex06 (two files each) in `ex/`.
+2. Change at least one value per example and watch the screen.
 3. End: push to the `web-week04` repository and turn on Pages — steps are in the lab sheet
 
 If nothing changes, check the **selector spelling** and **semicolons** first.
@@ -197,13 +197,13 @@ parent (container) display: flex, flex-direction: row
 4. `align-items` aligns along the **cross axis**: vertical in `row`.
 5. `flex: 1` makes that child take the **leftover space** on the main axis.
 
-ex07–ex12 check these five lines one per file. Gray is the parent; colored boxes are the children.
+ex07–ex12 check these five lines one per example. Gray is the parent; colored boxes are the children.
 
 ---
 
 ## Day 2 · 4–8 min — ex07 flex-direction: Sets the Main Axis
 
-[examples/day2/ex07_flex_direction.html](examples/day2/ex07_flex_direction.html)
+[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [styles.css](examples/day2/ex07/styles.css)
 Siblings: no flex / `display: flex` (default row) / `row-reverse` / `column` / `column-reverse`
 
 ```css
@@ -222,7 +222,7 @@ Siblings: no flex / `display: flex` (default row) / `row-reverse` / `column` / `
 
 ## Day 2 · 8–12 min — ex08 justify-content: Leftover Space on the Main Axis
 
-[examples/day2/ex08_justify_content.html](examples/day2/ex08_justify_content.html)
+[examples/day2/ex08/index.html](examples/day2/ex08/index.html) · [styles.css](examples/day2/ex08/styles.css)
 Siblings: flex-start / center / flex-end / space-between / space-around, comment space-evenly
 
 ```css
@@ -241,7 +241,7 @@ Siblings: flex-start / center / flex-end / space-between / space-around, comment
 
 ## Day 2 · 12–16 min — ex09 align-items: Position on the Cross Axis
 
-[examples/day2/ex09_align_items.html](examples/day2/ex09_align_items.html)
+[examples/day2/ex09/index.html](examples/day2/ex09/index.html) · [styles.css](examples/day2/ex09/styles.css)
 Siblings: `stretch` (default) / `flex-start` / `center` / `flex-end` — frame 100px tall
 
 ```css
@@ -260,7 +260,7 @@ Siblings: `stretch` (default) / `flex-start` / `center` / `flex-end` — frame 1
 
 ## Day 2 · 16–18 min — ex10 flex-wrap: Wrap When They Don't Fit
 
-[examples/day2/ex10_flex_wrap.html](examples/day2/ex10_flex_wrap.html)
+[examples/day2/ex10/index.html](examples/day2/ex10/index.html) · [styles.css](examples/day2/ex10/styles.css)
 Siblings: `nowrap` (default) / `wrap` — six 80px children in a 300px frame
 
 ```css
@@ -277,7 +277,7 @@ Siblings: `nowrap` (default) / `wrap` — six 80px children in a 300px frame
 
 ## Day 2 · 18–20 min — ex11 gap: Space Between Children
 
-[examples/day2/ex11_gap.html](examples/day2/ex11_gap.html)
+[examples/day2/ex11/index.html](examples/day2/ex11/index.html) · [styles.css](examples/day2/ex11/styles.css)
 Siblings: no gap / `gap: 16px` / `gap: 32px`
 
 ```css
@@ -294,7 +294,7 @@ Siblings: no gap / `gap: 16px` / `gap: 32px`
 
 ## Day 2 · 20–23 min — ex12 flex: 1 — Takes the Leftover Space
 
-[examples/day2/ex12_flex_grow.html](examples/day2/ex12_flex_grow.html)
+[examples/day2/ex12/index.html](examples/day2/ex12/index.html) · [styles.css](examples/day2/ex12/styles.css)
 Siblings: default / middle only `flex: 1` / all three `flex: 1`, comment `flex: 2`
 
 ```css
@@ -311,7 +311,7 @@ Siblings: default / middle only `flex: 1` / all three `flex: 1`, comment `flex: 
 
 ## Day 2 · 23–26 min — ex13 @media: Conditional Rules
 
-[examples/day2/ex13_media.html](examples/day2/ex13_media.html)
+[examples/day2/ex13/index.html](examples/day2/ex13/index.html) · [styles.css](examples/day2/ex13/styles.css)
 Siblings: a box with an `@media (max-width: 600px)` rule / a box without
 
 ```css
@@ -339,7 +339,7 @@ nav   { display: flex; gap: 16px; flex-wrap: wrap }            ← ex07 + ex11 +
 
 [Day 2 lab](lab.md#2일차--flex와-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
 
-1. Save ex07–ex13 in `ex/` and change values (until minute 35).
+1. Save the seven example folders ex07–ex13 in `ex/` and change values (until minute 35).
 2. Assemble: `styles.css` in the table order, the `link` line on all three pages, `class="card"` in three places in `index.html`.
 3. Check at 1280 and 375 (device mode) → push to `web-week04` → screenshot (steps: lab sheet)
 
@@ -349,7 +349,7 @@ nav   { display: flex; gap: 16px; flex-wrap: wrap }            ← ex07 + ex11 +
 
 ## Appendix — ex14 position (Optional, Not Explained)
 
-[examples/day2/ex14_position.html](examples/day2/ex14_position.html)
+[examples/day2/ex14/index.html](examples/day2/ex14/index.html) · [styles.css](examples/day2/ex14/styles.css)
 Siblings: `static` (default) / `relative; top: 40px; left: 40px` / `absolute; right: 0; bottom: 0`
 
 ```css

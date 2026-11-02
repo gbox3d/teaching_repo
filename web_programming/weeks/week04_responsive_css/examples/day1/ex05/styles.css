@@ -1,0 +1,15 @@
+/* ex05 margin auto: 남는 폭을 어느 쪽 바깥 여백이 가져가는지 비교한다 */
+.box {
+    background-color: lightgreen;   /* 자리가 보이게 칠한다(이 예제의 주제는 아니다) */
+    max-width: 300px;               /* ex04: 상자가 창보다 좁아야 남는 폭이 생긴다 */
+}
+.left-auto {
+    margin-left: auto;          /* 왼쪽 바깥 여백이 남는 폭을 다 가져간다 → 오른쪽에 붙는다 */
+}
+.both-auto {
+    margin-left: auto;          /* 남는 폭을 왼쪽·오른쪽이 반씩 → 가운데 */
+    margin-right: auto;
+}
+.short {
+    margin: 0 auto;             /* 위아래 0, 좌우 auto. 3번을 한 줄로 쓴 것 */
+}

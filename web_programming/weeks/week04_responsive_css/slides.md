@@ -13,10 +13,10 @@ footer: "CSS와 반응형 UI · 부품을 하나씩 비교하고 마지막에 �
 
 이번 주 방식: **부품 13개를 하나씩 비교**하고(부록 하나 더), 마지막에 `styles.css` 를 **조립**합니다.
 
-- 파일 하나 = 주제 하나. 값 하나만 다른 형제를 나란히 놓고 차이를 봅니다.
+- 예제 하나 = 주제 하나. 값 하나만 다른 형제를 나란히 놓고 차이를 봅니다.
 - 다른 주제의 속성은 넣지 않았습니다. 상자는 **배경색으로만** 구분합니다.
 - 첫 형제는 기본값. 주석은 다른 값. 실습도 **값을 바꿔 보는 것**입니다.
-- 만들기는 2일차 끝에 한 번. 어느 규칙이 어느 파일에서 온 것인지 적어 둡니다.
+- 만들기는 2일차 끝에 한 번. 어느 규칙이 어느 예제에서 온 것인지 적어 둡니다.
 
 작년 수업(dayNN/exNN 비교 파일 → 마지막에 만들기)과 같은 방식입니다.
 
@@ -43,7 +43,7 @@ footer: "CSS와 반응형 UI · 부품을 하나씩 비교하고 마지막에 �
 }
 ```
 
-- 규칙 하나 = 선택자 + 중괄호 + `속성: 값;` 줄들. 비교 파일은 `<style>` 안에, 세 페이지는 `styles.css` + `<link rel="stylesheet" href="styles.css">`.
+- 규칙 하나 = 선택자 + 중괄호 + `속성: 값;` 줄들. 예제는 폴더 하나에 `index.html`·`styles.css`, 세 페이지처럼 `<link rel="stylesheet" href="styles.css">` 로 연결합니다.
 - 색·글꼴 속성은 이름 그대로입니다: `color` · `background-color` · `font-size` · `font-family`.
 - **CSS 는 틀려도 오류 메시지가 없다.** 선택자가 안 맞거나 세미콜론이 빠지면 조용히 무시됩니다.
 - 그래서 형제를 나란히 놓고 **눈으로** 비교합니다. 값을 바꿨는데 화면이 안 바뀌면 그것도 결과입니다.
@@ -52,7 +52,7 @@ footer: "CSS와 반응형 UI · 부품을 하나씩 비교하고 마지막에 �
 
 ## 1일차 · 4–9분 — ex01 선택자: 맞아야 적용되고, 겹치면 클래스가 이긴다
 
-[examples/day1/ex01_selector.html](examples/day1/ex01_selector.html)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css)
 형제: `p` / `p.red` / `div.red` / `p.Red`(오타) / `nav a` / nav 밖 `a`
 
 ```css
@@ -71,7 +71,7 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 
 ## 1일차 · 9–13분 — ex02 display: 줄을 차지하는지는 태그가 아니라 display
 
-[examples/day1/ex02_display.html](examples/day1/ex02_display.html)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [styles.css](examples/day1/ex02/styles.css)
 형제: div 3개 / span 3개 / span + `display: block` / div + `display: inline`
 
 ```css
@@ -88,7 +88,7 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 
 ## 1일차 · 13–18분 — ex03 박스모델: padding·border·margin 세 층
 
-[examples/day1/ex03_box_model.html](examples/day1/ex03_box_model.html)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [styles.css](examples/day1/ex03/styles.css)
 형제: 기본 / `padding` / `border` / `margin` / 셋 다 (회색 frame 안의 하늘색 box)
 
 ```css
@@ -106,7 +106,7 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 
 ## 1일차 · 18–22분 — ex04 width와 max-width: 창이 좁아지면 어느 쪽이 줄어드나
 
-[examples/day1/ex04_width.html](examples/day1/ex04_width.html)
+[examples/day1/ex04/index.html](examples/day1/ex04/index.html) · [styles.css](examples/day1/ex04/styles.css)
 형제: 기본(부모 폭) / `width: 640px` / `max-width: 640px`
 
 ```css
@@ -123,7 +123,7 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 
 ## 1일차 · 22–25분 — ex05 margin auto: 남는 폭을 나눠 가운데에 놓는다
 
-[examples/day1/ex05_margin_auto.html](examples/day1/ex05_margin_auto.html)
+[examples/day1/ex05/index.html](examples/day1/ex05/index.html) · [styles.css](examples/day1/ex05/styles.css)
 형제: 기본(왼쪽) / `margin-left: auto` / 좌우 `auto` / `margin: 0 auto`
 
 ```css
@@ -141,7 +141,7 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 
 ## 1일차 · 25–28분 — ex06 text-align: 상자 안 글자를 가로로 어디에 두나
 
-[examples/day1/ex06_text_align.html](examples/day1/ex06_text_align.html)
+[examples/day1/ex06/index.html](examples/day1/ex06/index.html) · [styles.css](examples/day1/ex06/styles.css)
 형제: 기본(왼쪽) / `text-align: center` / `text-align: right`
 
 ```css
@@ -160,8 +160,8 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 
 [1일차 실습](lab.md#1일차--선택자와-박스-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
 
-1. 새 폴더 `web-week04` 에 지난주 파일을 넣고, `ex/` 에 ex01~ex06 을 저장합니다.
-2. 파일마다 값을 하나 이상 바꿔 보고 화면이 어떻게 달라지는지 봅니다.
+1. 새 폴더 `web-week04` 에 지난주 파일을 넣고, `ex/` 에 예제 폴더 ex01~ex06(폴더마다 두 파일)을 저장합니다.
+2. 예제마다 값을 하나 이상 바꿔 보고 화면이 어떻게 달라지는지 봅니다.
 3. 끝: `web-week04` 저장소에 올리고 Pages 켜기 — 순서는 실습지
 
 화면이 안 바뀌면 오류를 찾지 말고 **선택자 철자**와 **세미콜론**부터 봅니다.
@@ -197,13 +197,13 @@ nav a { color: green; }   /* 자손 선택자: nav 안의 a 만 */
 4. `align-items` 는 **교차축** 정렬이다. `row` 면 세로 방향.
 5. `flex: 1` 은 주축의 **남는 공간**을 그 자식이 차지한다.
 
-ex07~ex12 는 이 다섯 줄을 한 파일에 하나씩 따로 확인합니다. 회색은 부모, 색 상자는 자식입니다.
+ex07~ex12 는 이 다섯 줄을 한 예제에 하나씩 따로 확인합니다. 회색은 부모, 색 상자는 자식입니다.
 
 ---
 
 ## 2일차 · 4–8분 — ex07 flex-direction: 주축을 정한다
 
-[examples/day2/ex07_flex_direction.html](examples/day2/ex07_flex_direction.html)
+[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [styles.css](examples/day2/ex07/styles.css)
 형제: flex 없음 / `display: flex`(기본 row) / `row-reverse` / `column` / `column-reverse`
 
 ```css
@@ -222,7 +222,7 @@ ex07~ex12 는 이 다섯 줄을 한 파일에 하나씩 따로 확인합니다. 
 
 ## 2일차 · 8–12분 — ex08 justify-content: 주축 위의 남는 공간
 
-[examples/day2/ex08_justify_content.html](examples/day2/ex08_justify_content.html)
+[examples/day2/ex08/index.html](examples/day2/ex08/index.html) · [styles.css](examples/day2/ex08/styles.css)
 형제: `flex-start` / `center` / `flex-end` / `space-between` / `space-around`, 주석 `space-evenly`
 
 ```css
@@ -241,7 +241,7 @@ ex07~ex12 는 이 다섯 줄을 한 파일에 하나씩 따로 확인합니다. 
 
 ## 2일차 · 12–16분 — ex09 align-items: 교차축 위의 자리
 
-[examples/day2/ex09_align_items.html](examples/day2/ex09_align_items.html)
+[examples/day2/ex09/index.html](examples/day2/ex09/index.html) · [styles.css](examples/day2/ex09/styles.css)
 형제: `stretch`(기본) / `flex-start` / `center` / `flex-end` — frame 높이 100px
 
 ```css
@@ -260,7 +260,7 @@ ex07~ex12 는 이 다섯 줄을 한 파일에 하나씩 따로 확인합니다. 
 
 ## 2일차 · 16–18분 — ex10 flex-wrap: 다 안 들어가면 넘기기
 
-[examples/day2/ex10_flex_wrap.html](examples/day2/ex10_flex_wrap.html)
+[examples/day2/ex10/index.html](examples/day2/ex10/index.html) · [styles.css](examples/day2/ex10/styles.css)
 형제: `nowrap`(기본) / `wrap` — 폭 80px 자식 6개, 폭 300px frame
 
 ```css
@@ -277,7 +277,7 @@ ex07~ex12 는 이 다섯 줄을 한 파일에 하나씩 따로 확인합니다. 
 
 ## 2일차 · 18–20분 — ex11 gap: 자식과 자식 사이 간격
 
-[examples/day2/ex11_gap.html](examples/day2/ex11_gap.html)
+[examples/day2/ex11/index.html](examples/day2/ex11/index.html) · [styles.css](examples/day2/ex11/styles.css)
 형제: gap 없음 / `gap: 16px` / `gap: 32px`
 
 ```css
@@ -294,7 +294,7 @@ ex07~ex12 는 이 다섯 줄을 한 파일에 하나씩 따로 확인합니다. 
 
 ## 2일차 · 20–23분 — ex12 flex: 1 — 남는 공간을 차지한다
 
-[examples/day2/ex12_flex_grow.html](examples/day2/ex12_flex_grow.html)
+[examples/day2/ex12/index.html](examples/day2/ex12/index.html) · [styles.css](examples/day2/ex12/styles.css)
 형제: 기본 / 가운데만 `flex: 1` / 셋 다 `flex: 1`, 주석 `flex: 2`
 
 ```css
@@ -311,7 +311,7 @@ ex07~ex12 는 이 다섯 줄을 한 파일에 하나씩 따로 확인합니다. 
 
 ## 2일차 · 23–26분 — ex13 @media: 조건이 맞을 때만 뒤 규칙이 산다
 
-[examples/day2/ex13_media.html](examples/day2/ex13_media.html)
+[examples/day2/ex13/index.html](examples/day2/ex13/index.html) · [styles.css](examples/day2/ex13/styles.css)
 형제: `@media (max-width: 600px)` 규칙이 있는 상자 / 없는 상자
 
 ```css
@@ -339,7 +339,7 @@ nav   { display: flex; gap: 16px; flex-wrap: wrap }            ← ex07 + ex11 +
 
 [2일차 실습](lab.md#2일차--flex와-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
 
-1. ex07~ex13 일곱 파일을 `ex/` 에 저장하고 값을 바꿔 봅니다(35분까지).
+1. ex07~ex13 일곱 예제 폴더를 `ex/` 에 저장하고 값을 바꿔 봅니다(35분까지).
 2. 조립: `styles.css` 를 조립표 순서로, 세 페이지에 `link` 줄, `index.html` 에 `class="card"` 세 곳.
 3. 1280 과 기기 모드 375 로 확인 → 끝: `web-week04` 에 올리고 캡처 — 순서는 실습지
 
@@ -349,7 +349,7 @@ nav   { display: flex; gap: 16px; flex-wrap: wrap }            ← ex07 + ex11 +
 
 ## 부록 — ex14 position (선택, 설명 없음)
 
-[examples/day2/ex14_position.html](examples/day2/ex14_position.html)
+[examples/day2/ex14/index.html](examples/day2/ex14/index.html) · [styles.css](examples/day2/ex14/styles.css)
 형제: `static`(기본) / `relative; top: 40px; left: 40px` / `absolute; right: 0; bottom: 0`
 
 ```css

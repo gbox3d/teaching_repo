@@ -6,7 +6,7 @@
 2일차는 90분 전체가 발표라서 **조립·올리기·리허설을 모두 1일차에 한다.** 2일차에는 발표만 한다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-비교 예제 3개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation/examples/day1) 폴더에 있다.
+비교 예제 3개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation/examples/day1) 폴더에 예제 폴더 ex01~ex03 으로 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
@@ -41,30 +41,44 @@ web-week14/
 
 ### 2. 비교 예제 가져오기
 
-오늘 파일은 여섯 개다. 예제마다 화면이 서로 달라서 고르기 페이지 없이 따로 연다.
+오늘 예제는 세 개이고, 예제마다 **폴더 하나**에 파일이 있다. 여는 파일은 늘 내 사이트와 같은 이름의 `index.html`(화면)이다. ex01 에는 모양 `styles.css`, ex02·ex03 에는 동작 `app.js` 가 같은 폴더에 있고, ex02 에는 `app.js` 가 읽을 `message.json` 이 하나 더 있다.
 
-| 파일 | 비교하는 것 |
-|---|---|
-| [ex01_order_list.html](examples/day1/ex01_order_list.html) | 같은 다섯 줄을 `<ol>` 번호 목록 / `<ul>` 점 목록에 |
-| [ex02_server.html](examples/day1/ex02_server.html) + [ex02_server.js](examples/day1/ex02_server.js) + [ex02_message.json](examples/day1/ex02_message.json) | 같은 페이지를 서버로 연다 / 두 번 눌러 연다 |
-| [ex03_storage.html](examples/day1/ex03_storage.html) + [ex03_storage.js](examples/day1/ex03_storage.js) | 변수에 담은 수 / 저장 칸(`localStorage`)에 넣은 수 |
+| 폴더 | 파일 | 비교하는 것 |
+|---|---|---|
+| `ex01` | [index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) | 같은 다섯 줄을 `<ol>` 번호 목록 / `<ul>` 점 목록에 |
+| `ex02` | [index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) · [message.json](examples/day1/ex02/message.json) | 같은 페이지를 서버로 연다 / 두 번 눌러 연다 |
+| `ex03` | [index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) | 변수에 담은 수 / 저장 칸(`localStorage`)에 넣은 수 |
 
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw** 를 누른다. 글자만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week14/ex/` 에 저장한다. 파일 이름은 교재와 **같게** 둔다. `.json` 도 같은 방법이다.
+먼저 `ex` 안에 같은 이름의 폴더 세 개를 만든다. VS Code 탐색기에서 `ex` 를 고르고 **New Folder** 를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week14`
 
-**예상 결과** — `ex/` 안에 파일 여섯 개가 있다.
+```bash
+mkdir ex/ex01
+mkdir ex/ex02
+mkdir ex/ex03
+```
+
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation/examples/day1)에서 `ex01` 폴더를 누르고, 파일을 하나씩 눌러 오른쪽 위 **Raw** 를 누른다. 글자만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 내 `web-week14/ex/ex01/` 에 저장한다. 다 받았으면 `ex02`·`ex03` 도 같은 방법으로 자기 폴더에 받는다. 파일 이름은 교재와 **같게** 둔다. `.json` 도 같은 방법이다.
+
+**예상 결과** — `ex/` 안에 폴더 세 개가 있고, 폴더마다 아래 파일이 있다.
 
 ```text
 ex/
-  ex01_order_list.html
-  ex02_message.json
-  ex02_server.html
-  ex02_server.js
-  ex03_storage.html
-  ex03_storage.js
+  ex01/
+    index.html
+    styles.css
+  ex02/
+    app.js
+    index.html
+    message.json
+  ex03/
+    app.js
+    index.html
 ```
 
+- 저장 창에서 폴더 이름을 먼저 본다. 폴더마다 파일 이름이 같아서, 다른 폴더에 저장하면 그 폴더의 같은 이름 파일을 덮어쓴다. 덮어썼으면 그 폴더의 파일을 교재에서 다시 **Raw** 로 받는다.
 - 저장한 파일 이름이 `.txt` 로 끝나면 이름을 고친다. 이름은 VS Code 탐색기에서 확인한다.
-- `.js`·`.json` 은 두 번 누르지 않는다. 같은 폴더의 `.html` 이 불러온다.
+- `styles.css`·`app.js`·`message.json` 은 두 번 누르지 않는다. 같은 폴더의 `index.html` 이 `<head>` 의 `<link>` 와 `<script src="app.js" defer>` 로 불러오고, `message.json` 은 `app.js` 가 읽는다.
+- 예제 폴더의 `index.html`·`styles.css`·`app.js` 는 맨 위 내 사이트 파일과 이름이 같지만 다른 파일이다. 편집기 위쪽 경로 줄(`ex › ex02 › app.js`)로 구분한다. 같은 이름 파일을 여러 개 열면 탭 이름 옆에도 폴더 이름이 붙는다.
 
 ### 3. 여는 법 — 서버로 열기와 두 번 눌러 열기
 
@@ -76,29 +90,29 @@ ex/
 node server.mjs
 ```
 
-주소창에 `http://localhost:8000/ex/ex02_server.html` 을 친다. 서버는 그 터미널에서 **Ctrl+C** 를 누를 때까지 돈다. 터미널을 닫아도 멈춘다. 쓰는 법은 [서버 사용 안내](../../tools/static-server/README.md)에 있다.
+주소창에 `http://localhost:8000/ex/ex02/index.html` 을 친다. 서버는 그 터미널에서 **Ctrl+C** 를 누를 때까지 돈다. 터미널을 닫아도 멈춘다. 쓰는 법은 [서버 사용 안내](../../tools/static-server/README.md)에 있다.
 
-② **두 번 눌러 열기** — VS Code 탐색기에서 `ex/ex02_server.html` 을 오른쪽 클릭 › **Reveal in File Explorer**(macOS는 **Reveal in Finder**) → 두 번 누른다. 주소창이 `file:///` 로 시작한다.
+② **두 번 눌러 열기** — VS Code 탐색기에서 `ex/ex02/index.html` 을 오른쪽 클릭 › **Reveal in File Explorer**(macOS는 **Reveal in Finder**) → 두 번 누른다. 주소창이 `file:///` 로 시작한다.
 
 **예상 결과** — ①은 화면 글자가 `서버로 열어 JSON 파일에서 읽은 글입니다.` 이고, Console 에 아래 한 줄이 찍힌다(favicon 404 빨간 줄은 세지 않는다).
 
 ```text
-1. 서버로 열어 읽었다 : 서버로 열어 JSON 파일에서 읽은 글입니다.   ex02_server.js:12
+1. 서버로 열어 읽었다 : 서버로 열어 JSON 파일에서 읽은 글입니다.   app.js:12
 ```
 
 서버 터미널에는 브라우저가 요청한 파일이 한 줄씩 찍힌다.
 
 ```text
-200 GET /ex/ex02_server.html
-200 GET /ex/ex02_server.js
-200 GET /ex/ex02_message.json
+200 GET /ex/ex02/index.html
+200 GET /ex/ex02/app.js
+200 GET /ex/ex02/message.json
 ```
 
 - ①의 서버 터미널에 `404 GET /favicon.ico` 한 줄이 섞여도 된다. 그때 Console 에도 `favicon.ico` 의 404 빨간 줄이 하나 보일 수 있다. 탭 아이콘 요청이고 없어도 된다(5주차).
 
 ②는 화면 글자가 `읽지 못했습니다.` 이고, Console 에 빨간 줄 두 줄과 `2. 읽지 못했다` 가 찍힌다.
 
-- ②의 첫 빨간 줄은 `Access to fetch at 'file:///…/ex02_message.json' from origin 'null' has been blocked by CORS policy` 로 시작하고, 둘째 줄은 `Failed to load resource: net::ERR_FAILED` 다. 두 번 눌러 연 페이지에서는 `fetch` 가 파일을 읽지 못한다는 뜻이다. 12주차 프로젝트 카드가 같은 이유로 두 번 눌러 연 화면에서 나오지 않는다.
+- ②의 첫 빨간 줄은 `Access to fetch at 'file:///…/ex02/message.json' from origin 'null' has been blocked by CORS policy` 로 시작하고, 둘째 줄은 `Failed to load resource: net::ERR_FAILED` 다. 두 번 눌러 연 페이지에서는 `fetch` 가 파일을 읽지 못한다는 뜻이다. 12주차 프로젝트 카드가 같은 이유로 두 번 눌러 연 화면에서 나오지 않는다.
 - 이번 주에 새로 쓰는 DevTools 탭은 없다. ex03 에서 11주차의 **Application › Local storage** 를 다시 쓴다.
 
 ### 4. 값 바꾸는 요령
@@ -106,35 +120,35 @@ node server.mjs
 실험은 늘 같은 순서다. **VS Code 에서 고치고 저장**(Ctrl+S, macOS는 ⌘+S) → **브라우저에서 새로고침**(F5, macOS는 ⌘+R) → **화면·Console·서버 터미널**을 본다.
 바꾸기 전에 무엇이 달라질지 먼저 말해 보고 확인한다.
 
-**새로고침해 보기** — `ex/ex03_storage.html` 을 두 번 눌러 연다. **눌러 보기**를 세 번 누르고 새로고침한다.
+**새로고침해 보기** — `ex/ex03/index.html` 을 두 번 눌러 연다. **눌러 보기**를 세 번 누르고 새로고침한다.
 
 **예상 결과** — 누를 때마다 Console 에 두 줄씩 찍히고, 새로고침 뒤 화면은 `1. 변수에 담은 수: 0` 과 `2. 저장한 수: 3` 이다(처음 열었을 때 기준).
 
 ```text
-1. 변수 : 1     ex03_storage.js:15
-2. 저장 : 1     ex03_storage.js:20
-1. 변수 : 2     ex03_storage.js:15
-2. 저장 : 2     ex03_storage.js:20
-1. 변수 : 3     ex03_storage.js:15
-2. 저장 : 3     ex03_storage.js:20
+1. 변수 : 1     app.js:15
+2. 저장 : 1     app.js:20
+1. 변수 : 2     app.js:15
+2. 저장 : 2     app.js:20
+1. 변수 : 3     app.js:15
+2. 저장 : 3     app.js:20
 ```
 
-`+ 1` 하는 줄은 둘이 같다. 다른 것은 담는 곳이다. 1번은 변수라서 새로고침하면 파일을 다시 읽어 0 에서 시작한다. 2번은 브라우저의 저장 칸(`localStorage`, 11주)에 넣어 두었다가, 열 때 9행이 다시 꺼내 온다. 9행은 11주 방명록의 되살리는 줄과 같은 모양이다.
+`+ 1` 하는 줄은 둘이 같다. 다른 것은 담는 곳이다. 1번은 변수라서 새로고침하면 파일을 다시 읽어 0 에서 시작한다. 2번은 브라우저의 저장 칸(`localStorage`, 11주)에 넣어 두었다가, 열 때 `app.js` 9행이 다시 꺼내 온다. 9행은 11주 방명록의 되살리는 줄과 같은 모양이다.
 
-- 같은 파일을 서버 주소 `http://localhost:8000/ex/ex03_storage.html` 로 열면 2번은 0 에서 시작한다. 주소 앞부분(`file://` 과 `http://localhost:8000`)이 다르면 저장 칸도 다르다. 새 시크릿 창도 따로다.
+- 같은 파일을 서버 주소 `http://localhost:8000/ex/ex03/index.html` 로 열면 2번은 0 에서 시작한다. 주소 앞부분(`file://` 과 `http://localhost:8000`)이 다르면 저장 칸도 다르다. 새 시크릿 창도 따로다.
 - 거꾸로 앞부분이 같으면 저장 칸을 함께 쓴다. 같은 아이디의 `github.io` 주소는 `web-week13` 과 `web-week14` 가 한 칸을 쓴다(11주). `http://localhost:8000` 도 5주부터 매주 같은 칸이다.
-- 값을 원래대로 못 돌리겠으면 교재에서 그 파일을 다시 **Raw** 로 받아 덮어쓴다.
-- 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--비교-예제-조립-3분-리허설-60분)에 있다.
+- 값을 원래대로 못 돌리겠으면 교재에서 그 예제 폴더의 파일을 다시 **Raw** 로 받아 같은 폴더에 덮어쓴다.
+- 예제마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--비교-예제-조립-3분-리허설-60분)에 있다.
 
 ### 5. 조립표
 
-21분부터 조립한다. 이제 `ex/` 가 아니라 `web-week14` 맨 위의 `index.html`·`about.html`·`README.md` 를 연다.
+21분부터 조립한다. 이제 `ex/` 가 아니라 `web-week14` 맨 위의 `index.html`·`about.html`·`README.md` 를 연다. 예제 폴더에도 같은 이름 파일(`index.html`)이 있으니, 고치는 파일의 편집기 위쪽 경로 줄이 `web-week14 › index.html` 처럼 `ex` 없이 보이는지 확인한다.
 조립하는 줄은 모두 비교 예제와 13주차 완성본에서 본 것이다. 13주차 완성본은 1단계에서 넣은 내 파일 자체다.
 
 | 조립할 줄 | 출처 |
 |---|---|
 | `index.html` 에 `<h2>이 사이트에서 할 수 있는 것</h2>` | 13주차 완성본 `index.html` 의 `<h2>취미</h2>` 와 같은 모양 |
-| `index.html` 에 `<ol class="card">` 와 `<li>` 다섯 줄 | [ex01](examples/day1/ex01_order_list.html) 1번 + 13주차 `<ul class="card">` 의 `class="card"` |
+| `index.html` 에 `<ol class="card">` 와 `<li>` 다섯 줄 | [ex01](examples/day1/ex01/index.html) 1번 + 13주차 `<ul class="card">` 의 `class="card"` |
 | `about.html` 표에 `<tr>` 한 행(`<td>` 두 칸) | 13주차 완성본 `about.html` 의 `관심 분야` 행 |
 | `README.md` 의 공개 주소 줄과 홈 줄 | 13주차 완성본 `README.md` 의 7행과 11행 |
 | `README.md` 의 `## 만든 과정` 맨 아래 한 줄(`- 14주차: …`) | 13주차 완성본 `README.md` 의 같은 절 줄 모양(`- 13주차: …`) |

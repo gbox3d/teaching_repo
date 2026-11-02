@@ -1,0 +1,10 @@
+/* ex06 text-align: 상자 안 글자의 가로 자리를 비교한다 */
+.box {
+    background-color: lightskyblue;   /* 상자 폭이 보이게 칠한다(이 예제의 주제는 아니다) */
+}
+.center {
+    text-align: center;
+}
+.right {
+    text-align: right;
+}

@@ -2,7 +2,7 @@ const form = document.querySelector('#guestbook-form');
 const nameInput = document.querySelector('#name');
 const messageInput = document.querySelector('#message');
 const notice = document.querySelector('#notice');
-const last = document.querySelector('#last');
+const list = document.querySelector('#list');
 
 function clearNotice() {
   notice.textContent = '';
@@ -27,7 +27,9 @@ form.addEventListener('submit', function (event) {
   }
 
   clearNotice();
-  last.textContent = `${name}: ${message}`;
+  const li = document.createElement('li');
+  li.textContent = `${name}: ${message}`;
+  list.append(li);
   form.reset();
   nameInput.focus();
 });

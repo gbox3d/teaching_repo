@@ -6,31 +6,31 @@
 
 ```text
 examples/
-  day1/   ex01            순서 목록 — ol 과 ul (.html 하나)
-          ex02            로컬 시연은 서버로 — fetch (.html + .js + .json)
-          ex03            새로고침해도 남는 것 — localStorage (.html + .js)
+  day1/   ex01/           순서 목록 — ol 과 ul (예제마다 폴더 하나: index.html + styles.css)
+          ex02/           로컬 시연은 서버로 — fetch (index.html + app.js + message.json)
+          ex03/           새로고침해도 남는 것 — localStorage (index.html + app.js)
   day2/   web-week14/     2일차 끝의 web-week14 — 지난주 완성본에 홈 목록·공개 주소 행·README 를 더한 조립
 ```
 
-`exNN_*` 파일은 **파일 하나 = 개념 하나**다. 같은 일을 다르게 한 **형제**(1·2번)를 나란히 놓는다.
+예제 폴더 `exNN/` 하나는 **개념 하나**다. 같은 일을 다르게 한 **형제**(1·2번)를 나란히 놓는다.
 결과는 화면과 **F12 › Console** 에서 보고, ex02 는 서버를 띄운 터미널에서도 본다. 값이나 여는 방법을 바꾸고 저장 → 새로고침으로 무엇이 달라지는지 본다.
-**다른 파일의 개념은 섞지 않는다.** 저장(`localStorage`)은 ex03 의 주제라서 ex02 에는 없다.
+**다른 예제의 개념은 섞지 않는다.** 저장(`localStorage`)은 ex03 의 주제라서 ex02 에는 없다.
 만들기는 마지막 하나, [`day2/web-week14/`](day2/web-week14/) 뿐이다.
 
-세 예제는 화면이 서로 달라서 고르기 페이지 없이 파일마다 따로 연다. ex01 은 `.html` 하나다(JavaScript 가 없다). ex02·ex03 은 `.html` 과 `.js` 한 쌍이고, ex02 에는 `.js` 가 읽어 올 `ex02_message.json` 이 하나 더 있다. `.html` 을 연다. 짝 파일이 같은 폴더에 있어야 한다.
-내려받아 이번 주 저장소 `web-week14` 의 `ex/` 폴더에 파일 이름 그대로 저장한다(교재 저장소에서 **Raw** → 저장). 가져오는 방법과 서버로 여는 방법은 [따라하기 1일차](../walkthrough.md#1일차)에 있다.
+세 예제는 폴더마다 내 사이트와 같은 이름의 파일을 둔다. `index.html` 은 화면, `styles.css` 는 모양(ex01 의 두 목록 상자 배경색. ex01 에는 JavaScript 가 없다), `app.js` 는 동작(ex02·ex03)이다. 브라우저로 여는 것은 `index.html` 이고, `styles.css` 와 `app.js` 는 `index.html` 이 `<head>` 의 `<link>` 와 `<script src="app.js" defer>` 로 불러온다(내 사이트 `index.html` 과 같은 모양이다). ex02 의 `message.json` 은 `app.js` 8행의 `fetch('message.json')` 이 읽는다. 그래서 한 예제의 파일은 모두 같은 폴더에 있어야 한다.
+내려받아 이번 주 저장소 `web-week14` 의 `ex/` 폴더 안에 같은 이름의 폴더(`ex01`·`ex02`·`ex03`)를 만들고 파일 이름 그대로 저장한다(교재 저장소에서 **Raw** → 저장). 날짜 폴더(`day1`)는 만들지 않는다. 가져오는 방법과 서버로 여는 방법은 [따라하기 1일차](../walkthrough.md#1일차)에 있다.
 
 ## 비교 예제
 
 | 파일 | 열면 보이는 것 | 보여 주는 원리 | 바꿔 볼 값 |
 |---|---|---|---|
-| [day1/ex01_order_list.html](day1/ex01_order_list.html) | 같은 다섯 줄이 노란 상자(1. `<ol>`)에는 1~5 번호와, 하늘색 상자(2. `<ul>`)에는 점과 함께 보인다 | 번호는 파일에 쓰지 않는다. 브라우저가 `<li>` 의 차례대로 붙인다. 발표 순서처럼 차례가 뜻을 가지면 `<ol>`, 아니면 `<ul>` | 24·25행 맞바꾸기 → 번호는 1·2 그대로이고 글만 자리를 바꾼다. 23·29행 `ol` 을 `ul` 로. 29행 `</ol>` 지우기 → 2번 제목과 목록이 1번 상자 안으로 들어간다 |
-| [day1/ex02_server.html](day1/ex02_server.html) + [ex02_server.js](day1/ex02_server.js) + [ex02_message.json](day1/ex02_message.json) | `node server.mjs` 로 열면(`http://localhost:8000/ex/…`) JSON 의 글과 Console 1번, 터미널에 `200 GET` 세 줄. 두 번 눌러 열면(`file:///…`) `읽지 못했습니다.`, Console 에 빨간 줄 두 줄(`… blocked by CORS policy …`·`net::ERR_FAILED`)과 2번 | 12주 ex05 복습. `fetch` 는 서버나 공개 주소로 연 페이지에서만 파일을 읽는다. 두 번 눌러 연 `file://` 페이지는 막힌다. 그래서 로컬 시연은 서버로 한다 | 서버로 열기 → 두 번 눌러 열기. 8행 파일 이름을 `ex02_massage.json` 으로 → 서버에서도 `읽지 못했습니다.` 이고 터미널에 `404 GET` |
-| [day1/ex03_storage.html](day1/ex03_storage.html) + [ex03_storage.js](day1/ex03_storage.js) | 누를 때마다 1번과 2번이 함께 는다. 새로고침하면 1번은 0, 2번은 그대로 | 11주 ex04 복습 + 주소·창 비교. 변수는 새로고침하면 처음으로 돌아가고, 저장 칸(`localStorage`)에 넣은 값은 남는다. 저장 칸은 주소 앞부분(`file://`·`http://localhost:8000`)마다 따로이고 시크릿 창도 따로라, 서버 주소나 새 시크릿 창에서는 2번이 0 에서 시작한다. 같은 아이디의 `github.io` 주소(`web-week13`·`web-week14`)는 저장 칸을 함께 쓴다(11주) | 세 번 누르고 새로고침. 9행을 `let countSaved = 0;` 으로 → 저장값은 남아 있는데 2번은 0. 서버 주소·새 시크릿 창으로 열기 |
+| [day1/ex01/index.html](day1/ex01/index.html) + [styles.css](day1/ex01/styles.css) | 같은 다섯 줄이 노란 상자(1. `<ol>`)에는 1~5 번호와, 하늘색 상자(2. `<ul>`)에는 점과 함께 보인다 | 번호는 파일에 쓰지 않는다. 브라우저가 `<li>` 의 차례대로 붙인다. 발표 순서처럼 차례가 뜻을 가지면 `<ol>`, 아니면 `<ul>` | `index.html` 17·18행 맞바꾸기 → 번호는 1·2 그대로이고 글만 자리를 바꾼다. 16·22행 `ol` 을 `ul` 로. 22행 `</ol>` 지우기 → 2번 제목과 목록이 1번 상자 안으로 들어간다 |
+| [day1/ex02/index.html](day1/ex02/index.html) + [app.js](day1/ex02/app.js) + [message.json](day1/ex02/message.json) | `node server.mjs` 로 열면(`http://localhost:8000/ex/ex02/index.html`) JSON 의 글과 Console 1번, 터미널에 `200 GET` 세 줄. 두 번 눌러 열면(`file:///…`) `읽지 못했습니다.`, Console 에 빨간 줄 두 줄(`… blocked by CORS policy …`·`net::ERR_FAILED`)과 2번 | 12주 ex05 복습. `fetch` 는 서버나 공개 주소로 연 페이지에서만 파일을 읽는다. 두 번 눌러 연 `file://` 페이지는 막힌다. 그래서 로컬 시연은 서버로 한다 | 서버로 열기 → 두 번 눌러 열기. `app.js` 8행 파일 이름을 `massage.json` 으로 → 서버에서도 `읽지 못했습니다.` 이고 터미널에 `404 GET` |
+| [day1/ex03/index.html](day1/ex03/index.html) + [app.js](day1/ex03/app.js) | 누를 때마다 1번과 2번이 함께 는다. 새로고침하면 1번은 0, 2번은 그대로 | 11주 ex04 복습 + 주소·창 비교. 변수는 새로고침하면 처음으로 돌아가고, 저장 칸(`localStorage`)에 넣은 값은 남는다. 저장 칸은 주소 앞부분(`file://`·`http://localhost:8000`)마다 따로이고 시크릿 창도 따로라, 서버 주소나 새 시크릿 창에서는 2번이 0 에서 시작한다. 같은 아이디의 `github.io` 주소(`web-week13`·`web-week14`)는 저장 칸을 함께 쓴다(11주) | 세 번 누르고 새로고침. `app.js` 9행을 `let countSaved = 0;` 으로 → 저장값은 남아 있는데 2번은 0. 서버 주소·새 시크릿 창으로 열기 |
 
 ### 파일 안의 모양
 
-형제 번호가 주석 첫머리와 `console.log` 앞 글자에 있다. [ex03_storage.js](day1/ex03_storage.js) 에서 인용:
+형제 번호가 주석 첫머리와 `console.log` 앞 글자에 있다. [ex03/app.js](day1/ex03/app.js) 에서 인용:
 
 ```js
 let countVar = 0;                                                       // 1. 변수: 열 때마다 0 에서 시작한다

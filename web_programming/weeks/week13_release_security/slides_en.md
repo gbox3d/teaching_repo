@@ -22,7 +22,7 @@ Same method as before: look at **8 comparison examples** one at a time, then **a
 
 `30 min explanation & demo → 60 min lab`
 
-1. The picker page — an input, a button, a result spot
+1. Example folders — two files: `index.html`, `app.js`
 2. ex01 — `Number()` and `isNaN()`
 3. ex02 — `new Date().getFullYear()` and the year of study
 4. ex03 — `textContent` vs. `innerHTML`
@@ -31,19 +31,19 @@ Same method as before: look at **8 comparison examples** one at a time, then **a
 
 ---
 
-## Day 1 · 0–3 min — The picker page: a spot with an input
+## Day 1 · 0–3 min — Example folders: a spot with an input
 
-[examples/day1/index.html](examples/day1/index.html) — ex01 and ex02 use the same screen.
+One folder per example, with the same file names as your site.
 
-```html
-<label for="year">입학 연도</label>
-<input id="year" type="text" value="2023">
-<button id="btn">눌러 보기</button>
-<div id="result">결과 자리 — 버튼을 누르면 바뀐다</div>
+```text
+ex01/
+  index.html   screen — the year box · 눌러 보기 · the result spot
+  app.js       behavior — this week's ideas live here
 ```
 
-- Turn on **only one** of the two `script` lines at the bottom (Ctrl+/, macOS ⌘+/).
-- Type in the box and press **눌러 보기** → look at the screen and Console.
+- Open `index.html`. In `<head>`, `<script src="app.js" defer>` loads `app.js`.
+- Type in the box and press **눌러 보기** → look at the screen and Console. ex04 and ex05 have only `index.html`.
+- The names match your site's top-level files. Tell them apart by the path bar above the editor (`ex › ex01`).
 
 **What you type is read when the button is clicked.**
 
@@ -51,7 +51,7 @@ Same method as before: look at **8 comparison examples** one at a time, then **a
 
 ## Day 1 · 3–8 min — ex01 Number() and isNaN()
 
-[examples/day1/ex01_number.js](examples/day1/ex01_number.js)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
 
 ```js
 const text = yearInput.value;                     // the box value is text
@@ -70,7 +70,7 @@ console.log('3. isNaN(바꾼 값) :', isNaN(year));    // false
 
 ## Day 1 · 8–12 min — ex02 This year and the year of study
 
-[examples/day1/ex02_year.js](examples/day1/ex02_year.js)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
 
 ```js
 const thisYear = new Date().getFullYear();  // 1. this year → 2026
@@ -87,7 +87,7 @@ const years = thisYear - year + 1;          // 3. the entry year is year 1 → 4
 
 ## Day 1 · 12–18 min — ex03 textContent vs. innerHTML
 
-[examples/day1/ex03_text_html.html](examples/day1/ex03_text_html.html) · [ex03_text_html.js](examples/day1/ex03_text_html.js)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
 
 ```js
 output.textContent = input.value;   // 1. <b>안녕</b> shows as plain text
@@ -120,7 +120,7 @@ output.innerHTML = '';              // 3. emptying — the only use of innerHTML
 
 ## Day 1 · 21–25 min — ex04 alt: the words read when an image can't be seen
 
-[examples/day1/ex04_alt.html](examples/day1/ex04_alt.html) · image [images/profile.png](examples/day1/images/profile.png)
+[examples/day1/ex04/index.html](examples/day1/ex04/index.html) · image [images/profile.png](examples/day1/ex04/images/profile.png)
 
 ```html
 <img src="images/profile.png" alt="student01의 프로필 그림" width="160">
@@ -137,7 +137,7 @@ output.innerHTML = '';              // 3. emptying — the only use of innerHTML
 
 ## Day 1 · 25–28 min — ex05 label for: connect the label to the box
 
-[examples/day1/ex05_label.html](examples/day1/ex05_label.html)
+[examples/day1/ex05/index.html](examples/day1/ex05/index.html)
 
 ```html
 <label for="year1">입학 연도</label> <input id="year1">    <!-- 1. same -->
@@ -156,8 +156,8 @@ output.innerHTML = '';              // 3. emptying — the only use of innerHTML
 
 [Day 1 lab](lab.md#1일차--숫자와-글자-그리고-접근성-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security)
 
-1. New folder `web-week13` with last week's files; today's seven files and one image in `ex/`.
-2. ex01–ex05 — change values. Say what will change first.
+1. New folder `web-week13` with last week's files; five example folders in `ex/`.
+2. ex01–ex05 — open each folder's `index.html` and change values. Say what will change first.
 3. Create the new repository `web-week13`, push, and turn on Pages.
 
 **Total explanation: 3+5+4+6+3+4+3+2 = 30 min**
@@ -179,7 +179,7 @@ output.innerHTML = '';              // 3. emptying — the only use of innerHTML
 
 ## Day 2 · 0–5 min — ex06 Link and button text
 
-[examples/day2/ex06_link_text.html](examples/day2/ex06_link_text.html)
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html)
 
 ```text
 1. 페이지 열기 · 페이지 열기 · 페이지 열기          ← where does each go?

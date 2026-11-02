@@ -8,13 +8,13 @@ footer: "폼 입력 읽기와 결과 표시 · 비교 예제로 원리를 보고
 
 # 폼 입력 읽기와 결과 표시
 
-6주차에는 버튼을 누르면 **정해 둔 글자**를 띄웠습니다. 이번 주는 방명록 폼에 **사용자가 입력한 글자**를 읽어 띄웁니다.
+6주차에는 버튼을 누르면 **정해 둔 글자**를 띄웠습니다. 이번 주는 방명록 폼에 **사용자가 입력한 글자**를 읽어, 남길 때마다 목록에 **한 줄씩 붙입니다**.
 
-이번 주 방식도 같습니다: **비교 예제 7개**를 하나씩 보고, 마지막에 새 저장소 `web-week07` 의 `guestbook.html`·`guestbook.js` 를 **조립**합니다(지난주 완성본에서 시작).
+이번 주 방식도 같습니다: **비교 예제 8개**를 하나씩 보고, 마지막에 새 저장소 `web-week07` 의 `guestbook.html`·`guestbook.js` 를 **조립**합니다(지난주 완성본에서 시작).
 
 - 폼을 보내면 브라우저는 페이지를 **다시 엽니다**. 그것을 막아야 결과가 남습니다.
 - 결과는 화면, **주소창**, **Console** 에서 봅니다.
-- 파일 하나 = 개념 하나. 실습은 **값을 바꿔 보는 것**입니다.
+- 예제 하나 = 개념 하나. 실습은 **값을 바꿔 보는 것**입니다.
 
 ---
 
@@ -48,7 +48,7 @@ footer: "폼 입력 읽기와 결과 표시 · 비교 예제로 원리를 보고
 
 ## 1일차 · 5–13분 — ex01 폼 제출과 preventDefault
 
-[examples/day1/ex01_submit.html](examples/day1/ex01_submit.html) · [ex01_submit.js](examples/day1/ex01_submit.js)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
 
 ```js
 form2.addEventListener('submit', function (event) {
@@ -67,7 +67,7 @@ form2.addEventListener('submit', function (event) {
 
 ## 1일차 · 13–21분 — ex02 입력 칸의 value
 
-[examples/day1/ex02_value.html](examples/day1/ex02_value.html) · [ex02_value.js](examples/day1/ex02_value.js)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
 
 ```js
 const atOpen = nameInput.value;             // 1. 열 때 한 번
@@ -87,7 +87,7 @@ form.addEventListener('submit', function (event) {
 
 ## 1일차 · 21–28분 — ex03 trim(): 앞뒤 빈칸 떼기
 
-[examples/day1/ex03_trim.html](examples/day1/ex03_trim.html) · [ex03_trim.js](examples/day1/ex03_trim.js)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
 
 ```js
 const raw = nameInput.value;              // 1. [  student01  ]
@@ -106,8 +106,8 @@ const trimmed = nameInput.value.trim();   // 2. [student01]
 
 [1일차 실습](lab.md#1일차--폼-제출과-입력-값-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
 
-1. 새 폴더 `web-week07` 에 지난주 완성본, `ex/` 에 오늘 여섯 파일(`.html`·`.js` 세 쌍).
-2. ex01~ex03 — 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다. Preserve log 를 켭니다.
+1. 새 폴더 `web-week07` 에 지난주 완성본, `ex/` 에 예제 폴더 세 개(폴더마다 `index.html`·`app.js`).
+2. ex01~ex03 — 폴더마다 `index.html` 을 열고 `app.js` 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다. Preserve log 를 켭니다.
 3. 새 저장소 `web-week07` 만들어 올리기 · Pages 켜기.
 
 **설명 합계: 5+8+8+7+2 = 30분**
@@ -118,36 +118,37 @@ const trimmed = nameInput.value.trim();   // 2. [student01]
 
 `30분 설명·시연 → 60분 실습`
 
-1. 고르기 페이지 — 네 예제가 같은 폼을 쓴다
+1. 예제 폴더 — 오늘도 폴더 하나에 `index.html`·`app.js`
 2. ex04 — `form.reset()` 과 `focus()`: 다음 입력 준비
 3. ex05 — 빈값 검사와 `return`
 4. ex06 — `'input'` 이벤트: 글자가 바뀔 때마다
 5. ex07 — 함수 이름만 맡기기
-6. 조립 — `web-week07` 의 `guestbook.html`·`guestbook.js`
+6. ex08 — 바꾸기 vs 붙이기: `createElement`·`append`
+7. 조립 — `web-week07` 의 `guestbook.html`·`guestbook.js`
 
 ---
 
-## 2일차 · 0–3분 — 고르기 페이지: 네 예제가 같은 폼을 쓴다
+## 2일차 · 0–3분 — 예제 폴더: 오늘도 폴더 하나에 파일 두 개
 
-[examples/day2/index.html](examples/day2/index.html) — 방명록 모양 폼, 안내 자리 `#notice`, 결과 자리 `#last`.
+1일차와 같습니다. 예제마다 폴더 하나, 내 사이트와 같은 이름의 두 파일입니다.
 
-```html
-<script src="ex04_reset_focus.js"></script>
-<!-- <script src="ex05_empty.js"></script> -->
-<!-- <script src="ex06_input.js"></script> -->
-<!-- <script src="ex07_pass_name.js"></script> -->
+```text
+ex04/
+  index.html   화면 — 그 예제가 쓰는 칸과 자리만
+  app.js       동작 — 오늘 원리는 여기
 ```
 
-- 5주차 2일차와 같은 방법입니다. **Ctrl+/**(macOS ⌘+/)로 **한 줄만** 켭니다.
-- 두 줄을 켜면 같은 이름의 `const` 가 겹쳐 둘째 파일이 빨간 줄을 내고 멈춥니다.
+- ex04 는 폼만, ex05 는 폼·안내 자리·결과 자리, ex06·ex07 은 두 칸과 안내 자리, ex08 은 글 칸·버튼·목록.
+- `<head>` 의 `<script src="app.js" defer>` 가 같은 폴더의 `app.js` 를 부릅니다.
+- 이름이 같은 파일이 많습니다. 저장 창의 폴더와 편집기 위쪽 경로 줄(`ex › ex04`)을 봅니다.
 
-**어느 코드를 불러올지는 `script` 줄 하나가 정한다.**
+**화면은 HTML, 동작은 JS — 두 파일을 한 폴더에.**
 
 ---
 
-## 2일차 · 3–9분 — ex04 reset 과 focus: 다음 입력 준비
+## 2일차 · 3–8분 — ex04 reset 과 focus: 다음 입력 준비
 
-[examples/day2/ex04_reset_focus.js](examples/day2/ex04_reset_focus.js)
+[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [app.js](examples/day2/ex04/app.js)
 
 ```js
 // 1. 비우기 전에 읽으면 [student01]
@@ -165,9 +166,9 @@ nameInput.focus();       // 3. 커서를 이름 칸으로
 
 ---
 
-## 2일차 · 9–15분 — ex05 빈값 검사와 return
+## 2일차 · 8–13분 — ex05 빈값 검사와 return
 
-[examples/day2/ex05_empty.js](examples/day2/ex05_empty.js)
+[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js)
 
 ```js
 if (name === '') {
@@ -185,9 +186,9 @@ last.textContent = `${name}: ${message}`;    // 3. 둘 다 찼을 때만
 
 ---
 
-## 2일차 · 15–19분 — ex06 input 이벤트: 글자가 바뀔 때마다
+## 2일차 · 13–16분 — ex06 input 이벤트: 글자가 바뀔 때마다
 
-[examples/day2/ex06_input.js](examples/day2/ex06_input.js)
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js)
 
 ```js
 // 1. 이름 칸 — 한 글자 칠 때마다, 지울 때도 (2. 메시지 칸도 같다)
@@ -204,9 +205,9 @@ nameInput.addEventListener('input', function () {
 
 ---
 
-## 2일차 · 19–23분 — ex07 함수 이름만 맡기기
+## 2일차 · 16–19분 — ex07 함수 이름만 맡기기
 
-[examples/day2/ex07_pass_name.js](examples/day2/ex07_pass_name.js)
+[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js)
 
 ```js
 function clearNotice() { notice.textContent = ''; }
@@ -223,42 +224,62 @@ messageInput.addEventListener('input', clearNotice);
 
 ---
 
-## 2일차 · 23–26분 — 조립 ① guestbook.html
+## 2일차 · 19–24분 — ex08 바꾸기 vs 붙이기
+
+[examples/day2/ex08/index.html](examples/day2/ex08/index.html) · [app.js](examples/day2/ex08/app.js)
+
+```js
+out1.textContent = textInput.value;          // 1. 바꾸기 — 늘 한 줄
+const li = document.createElement('li');     // 2. 줄을 새로 만들고
+li.textContent = textInput.value;            //    글자를 넣고
+list.append(li);                             //    목록 맨 뒤에 붙인다
+```
+
+- 글을 바꿔 가며 누르면 1번 자리는 마지막 글 하나, 목록은 2번을 누를 때마다 한 줄씩 늡니다.
+- `append` 를 빼면 만든 줄이 화면에도 Elements 에도 없습니다. 빨간 줄도 없습니다.
+- 3주차에 `<ul>` 안에 손으로 적던 `<li>` 를 JavaScript 가 만들어 붙입니다.
+
+**쌓으려면 바꾸지 말고, 줄을 만들어 붙인다.**
+
+---
+
+## 2일차 · 24–27분 — 조립 ① guestbook.html
 
 ```text
 <head>  <script src="guestbook.js" defer>   ← 6주 app.js 줄
 <form id="guestbook-form">                  ← ex01 · ex02
 <p>지금은 눌러도 …</p> 를 지우고 그 자리에
   <div id="notice"></div>                   ← ex05 자리
-  <h3>마지막으로 남긴 글</h3>
-  <div class="card" id="last">…</div>       ← ex05 · .card
+  <h3>남긴 글</h3>
+  <ul class="card" id="list"></ul>          ← ex08 목록 · .card
 ```
 
 - 페이지마다 자기 js 하나: `index.html` 은 `app.js`, `guestbook.html` 은 `guestbook.js`.
+- `<ul>` 안은 비워 둡니다. 줄은 JavaScript 가 만들어 붙입니다.
 - `index.html`·`app.js`·`styles.css`·`about.html` 은 6주차 그대로입니다.
 
 **HTML 에는 찾을 `id` 와 결과를 쓸 자리만 만든다.**
 
 ---
 
-## 2일차 · 26–30분 — 조립 ② guestbook.js, 그리고 실습 인계
+## 2일차 · 27–30분 — 조립 ② guestbook.js, 그리고 실습 인계
 
 ```text
-const form·nameInput·messageInput·notice·last     ← ex02 · ex05
+const form·nameInput·messageInput·notice·list     ← ex02 · ex05 · ex08
 function clearNotice() { … }                      ← ex07
 submit 리스너 + event.preventDefault()            ← ex01 2번
 const name·message = … .value.trim()              ← ex02 · ex03
 if 이름 · if 메시지 { 안내 · focus() · return }   ← ex05 · ex04
-clearNotice() · 결과 한 줄 · reset() · focus()    ← ex07 · ex05 · ex04
+clearNotice() · li 만들고 붙이기 · reset · focus  ← ex07 · ex08 2번 · ex04
 input 리스너 두 줄(clearNotice 이름만)            ← ex06 · ex07 2번
 ```
 
 [2일차 실습](lab.md#2일차--빈값-안내와-다음-입력-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
 
-1. ex04~ex07 값 바꾸기(29분까지) → 조립 → 375·1280 과 서버로 확인 → push → 캡처.
+1. ex04~ex08 값 바꾸기(29분까지) → 조립 → 375·1280 과 서버로 확인 → push → 캡처.
 2. 8주차는 1~7주 [문제 은행](../week08_midterm/examples/README.md)에서 값을 바꿔 냅니다. 오늘 폼도 들어 있습니다.
 
-**설명 합계: 3+6+6+4+4+3+4 = 30분**
+**설명 합계: 3+5+5+3+3+5+3+3 = 30분**
 
 ---
 
@@ -268,9 +289,10 @@ input 리스너 두 줄(clearNotice 이름만)            ← ex06 · ex07 2번
 
 ```text
 https://student01.github.io/web-week07/guestbook.html
-이름 student01 · 메시지 안녕하세요 를 넣고 [남기기]
-마지막으로 남긴 글
-카드: student01: 안녕하세요
+글 두 개를 차례로 남긴 화면
+남긴 글
+· student01: 안녕하세요
+· student02: 반갑습니다
 주소창이 함께 보이게 찍습니다
 ```
 
@@ -285,4 +307,4 @@ https://student01.github.io/web-week07/guestbook.html
 
 [문제 은행](../week08_midterm/examples/README.md)은 공개되어 있습니다. 해답 대신 문제마다 있는 "확인할 것"으로 맞춰 보고 옵니다.
 
-지금은 두 번째 글을 남기면 앞 글이 사라집니다. 글을 쌓는 목록은 10주차, 새로고침해도 남기기는 11주차입니다.
+오늘 목록은 화면에만 있습니다. 한 줄씩 지우기는 10주차(배열로 다시 그리기), 새로고침해도 남기기는 11주차입니다.

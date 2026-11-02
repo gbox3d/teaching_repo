@@ -1,0 +1,14 @@
+/* ex12 flex grow(flex: 1): 주축의 남는 공간을 차지하는 자식을 비교한다 */
+.frame {
+    display: flex;                  /* ex07: 자식이 가로(→)로 선다 */
+    background-color: lightgray;    /* 회색이 보이면 남는 공간이다 */
+}
+/* 자식을 구분하려고 배경색만 칠한다(이 예제의 주제는 아니다) */
+.c1 { background-color: gold; }
+.c2 { background-color: lightskyblue; }
+.c3 { background-color: lightgreen; }
+
+.grow {
+    flex: 1;                    /* 주축의 남는 공간을 이 자식이 차지한다 */
+    /* flex: 2; */              /* 둘이 나눠 가질 때 2:1 로 */
+}

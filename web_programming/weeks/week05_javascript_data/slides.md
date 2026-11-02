@@ -13,8 +13,8 @@ footer: "JavaScript 데이터와 함수 · 비교 예제로 원리를 보고 마
 이번 주 방식: **비교 예제 10개**를 하나씩 보고, 마지막에 새 저장소 `web-week05` 의 `index.html`·`app.js` 를 **조립**합니다(지난주 완성본에서 시작).
 
 - JavaScript 는 **브라우저가** 실행합니다. 페이지를 열면 그때 돕니다.
-- 비교 파일의 결과는 **F12 › Console** 에서 봅니다(화면 쓰기는 ex09).
-- 파일 하나 = 개념 하나. 같은 일을 다르게 한 형제를 나란히 놓고 차이를 봅니다.
+- 비교 예제의 결과는 **F12 › Console** 에서 봅니다(화면 쓰기는 ex09).
+- 예제 하나 = 개념 하나. 같은 일을 다르게 한 형제를 나란히 놓고 차이를 봅니다.
 - 실습은 **값을 바꿔 보는 것**입니다. 무엇이 달라질지 먼저 말해 보고 확인합니다.
 
 작년 수업 예제와 같은 순서입니다: 버튼과 `console.log` → 카운터 → 덧셈기(입력 칸 + 버튼으로 두 수를 더하는 페이지).
@@ -36,14 +36,15 @@ footer: "JavaScript 데이터와 함수 · 비교 예제로 원리를 보고 마
 ## 1일차 · 0–4분 — JavaScript는 브라우저가 실행한다: 화면과 Console
 
 ```text
-화면     ← 버튼·입력 칸이 있는 곳. 화면 글자를 바꾸는 것은 2일차 ex09
-Console  ← console.log(값) 이 찍힌다. 오류는 빨간 줄 + 파일:줄
-document ← 브라우저가 읽어 들인 이 페이지 전체
+ex01/index.html ← 여는 파일. 버튼·입력 칸이 있는 화면
+ex01/app.js     ← 코드. <head> 의 <script src="app.js" defer> 가 부른다
+Console         ← console.log(값) 이 찍힌다. 오류는 빨간 줄 + 파일:줄
+document        ← 브라우저가 읽어 들인 이 페이지 전체
 ```
 
 - 1주차 세 언어: HTML 은 **내용**, CSS 는 **모양**, JavaScript 는 **동작**.
-- `<script>` 안의 코드는 브라우저가 위에서 아래로 한 줄씩 실행합니다.
-- 오늘 비교 파일은 결과를 전부 `console.log` 로 Console 에 찍습니다. 화면은 그대로입니다.
+- `app.js` 의 코드는 브라우저가 위에서 아래로 한 줄씩 실행합니다.
+- 오늘 예제는 결과를 전부 `console.log` 로 Console 에 찍습니다(화면 쓰기는 ex09).
 - Console: 오른쪽 클릭 › 검사 → Console 탭. 또는 F12(노트북 Fn+F12, macOS ⌘+Option(⌥)+I).
 
 **문법이 틀리거나 없는 것을 쓰면 빨간 줄이 뜬다. 결과만 다른 경우(ex04 12)는 조용하다. 그래서 Console 의 값까지 읽는다.**
@@ -52,7 +53,7 @@ document ← 브라우저가 읽어 들인 이 페이지 전체
 
 ## 1일차 · 4–10분 — ex01 지금 실행 vs 클릭할 때 실행
 
-[examples/day1/ex01_click.html](examples/day1/ex01_click.html)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
 형제: Console A(열자마자) / B(버튼을 누를 때마다) / C(A 다음)
 
 ```js
@@ -72,12 +73,12 @@ console.log('C. A 바로 다음에 실행된다. B 보다 먼저');
 
 ## 1일차 · 10–16분 — ex02 script 위치: 읽는 순간 실행된다, defer는 다 읽은 뒤
 
-[examples/day1/ex02_script_position.html](examples/day1/ex02_script_position.html) · [ex02_script_position.js](examples/day1/ex02_script_position.js)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
 형제: 1. head 안 script / 2. body 끝 script / 3. head 에 `defer` 로 연결한 파일
 
 ```text
 head <script> 안     console.log('1. …', document.body);
-head                 <script src="ex02_script_position.js" defer></script>
+head                 <script src="app.js" defer></script>
 body                 <h1>…</h1> <p>…</p>
 body 끝 <script> 안  console.log('2. …', document.body);
 ```
@@ -91,7 +92,7 @@ body 끝 <script> 안  console.log('2. …', document.body);
 
 ## 1일차 · 16–21분 — ex03 let · const · var: 다시 담을 수 있나
 
-[examples/day1/ex03_let_const.html](examples/day1/ex03_let_const.html)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
 형제: 1. `let` / 2. `const` / 3. `var` — 버튼마다 1 더하기
 
 ```js
@@ -101,7 +102,7 @@ document.getElementById('btn-const').addEventListener('click', function () {
 });
 ```
 
-- 2번 → `Uncaught TypeError: Assignment to constant variable.` `ex03_let_const.html:24`.
+- 2번 → `Uncaught TypeError: Assignment to constant variable.` `app.js:13`.
 - 바꿔 보기: `const b` → `let b` → 2번도 오른다. 열 때는 오류가 없었다.
 
 **`let`·`var` 는 다시 담을 수 있고 `const` 는 안 된다. 오류는 그 줄이 실행될 때 나고, 그 아래 줄은 실행되지 않는다.**
@@ -110,7 +111,7 @@ document.getElementById('btn-const').addEventListener('click', function () {
 
 ## 1일차 · 21–26분 — ex04 +는 두 가지 일을 한다: 더하기와 잇기
 
-[examples/day1/ex04_plus.html](examples/day1/ex04_plus.html)
+[examples/day1/ex04/index.html](examples/day1/ex04/index.html) · [app.js](examples/day1/ex04/app.js)
 형제: `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1` / 입력 칸 6·7번
 
 ```js
@@ -129,7 +130,7 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 
 ## 1일차 · 26–28분 — ex05 템플릿 문자열: 백틱 안의 ${}만 계산된다
 
-[examples/day1/ex05_template.html](examples/day1/ex05_template.html)
+[examples/day1/ex05/index.html](examples/day1/ex05/index.html) · [app.js](examples/day1/ex05/app.js)
 형제: 1. `+` 로 잇기 / 2. 백틱 / 3. 작은따옴표 안 `${}` / 4. `${hour + 1}`
 
 ```js
@@ -150,9 +151,9 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 
 [1일차 실습](lab.md#1일차--스크립트와-값-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
-1. 새 폴더 `web-week05` 에 지난주 완성본을 넣고, `ex/` 에 ex01~ex05 를 **Raw** 로 저장합니다(ex02 는 `.js` 까지).
-2. 파일마다 값을 하나 이상 바꿔 보고, Console 이 어떻게 달라지는지 봅니다.
-3. 50–60분: 새 저장소 `web-week05` 를 만들어 2주차에 배운 순서 그대로 올리고, Pages 를 켜서 `…/web-week05/ex/ex01_click.html` 을 엽니다.
+1. 새 폴더 `web-week05` 에 지난주 완성본을 넣고, `ex/` 에 예제 폴더 `ex01`~`ex05` 를 만들어 `index.html`·`app.js` 를 **Raw** 로 저장합니다.
+2. 예제마다 `index.html` 을 열고 `app.js` 의 값을 하나 이상 바꿔 보고, Console 이 어떻게 달라지는지 봅니다.
+3. 50–60분: 새 저장소 `web-week05` 를 만들어 2주차에 배운 순서 그대로 올리고, Pages 를 켜서 `…/web-week05/ex/ex01/` 을 엽니다.
 
 결과가 이상하면 **Console 을 먼저** 엽니다. 빨간 줄 오른쪽 `파일:줄` 로 갑니다.
 
@@ -193,7 +194,7 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 
 ## 2일차 · 4–9분 — ex06 비교: 결과는 true 아니면 false
 
-[examples/day2/ex06_compare.js](examples/day2/ex06_compare.js)
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js)
 형제: `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')`
 
 ```js
@@ -212,7 +213,7 @@ Number(num1.value) + Number(num2.value)   // 숫자로 바꿔서 더한다
 
 ## 2일차 · 9–14분 — ex07 if / else: 처음 맞는 한 곳만 실행된다
 
-[examples/day2/ex07_if_else.js](examples/day2/ex07_if_else.js)
+[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js)
 형제: 1. `if` 만 / 2. `if/else` / 3. `else if`(큰 수부터) / 4. 3번과 같은 조건, 순서만 거꾸로
 
 ```js
@@ -232,7 +233,7 @@ if (hour >= 12) {
 
 ## 2일차 · 14–19분 — ex08 function: 정의 · 호출 · return
 
-[examples/day2/ex08_function.js](examples/day2/ex08_function.js)
+[examples/day2/ex08/index.html](examples/day2/ex08/index.html) · [app.js](examples/day2/ex08/app.js)
 형제: 1. `return` 없는 `greetLog` / 2. `return` 하는 `greet` / 3. 다른 값으로 부르기
 
 ```js
@@ -251,7 +252,7 @@ const b = greet('student01');       // 호출: Console 에는 없고, b 에 문�
 
 ## 2일차 · 19–24분 — ex09 화면에 쓰기: 먼저 찾고, 그다음 바꾼다
 
-[examples/day2/ex09_dom_write.js](examples/day2/ex09_dom_write.js)
+[examples/day2/ex09/index.html](examples/day2/ex09/index.html) · [app.js](examples/day2/ex09/app.js)
 형제: 1. `getElementById` + `innerText` / 2. `querySelector` + `textContent` / 3. 태그 넣기 / 4. `value`
 
 ```js
@@ -270,7 +271,7 @@ out3.textContent = '<b>3. 굵게 될까?</b>';        // 태그가 아니라 글
 
 ## 2일차 · 24–27분 — ex10 new Date(): 지금 시각을 담은 값
 
-[examples/day2/ex10_date.js](examples/day2/ex10_date.js)
+[examples/day2/ex10/index.html](examples/day2/ex10/index.html) · [app.js](examples/day2/ex10/app.js)
 형제: `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()`
 
 ```js
@@ -301,7 +302,7 @@ document.querySelector('#greeting').textContent = message;  ← ex09 2번
 
 [2일차 실습](lab.md#2일차--조건과-함수-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
-1. [index.html](examples/day2/index.html)·`.js` 를 `ex/` 에 저장, 줄 하나만 켜고 값 바꾸기(33분까지).
+1. 예제 폴더 `ex06`~`ex10` 을 `ex/` 에 저장, `app.js` 값 바꾸기(33분까지).
 2. 조립: `index.html` 에 두 줄, `app.js` 는 비우고 조립표 순서로.
 3. 서버로 열어 확인 → 2주차에 배운 순서 그대로 push → 공개 주소에서 카드·Console 캡처.
 
@@ -321,7 +322,7 @@ F12 Console: console.log 두 줄 (hour 숫자 / message 문장)
 ```
 
 12시 이후에 열면 `좋은 오후입니다.` 가 나옵니다. 둘 다 정답입니다.
-2일차를 끝내지 못했으면 `…/web-week05/ex/ex01_click.html` 에서 버튼을 눌러 Console 에 A·C·B 가 찍힌 화면으로 대신합니다.
+2일차를 끝내지 못했으면 `…/web-week05/ex/ex01/` 에서 버튼을 눌러 Console 에 A·C·B 가 찍힌 화면으로 대신합니다.
 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
 
 ---

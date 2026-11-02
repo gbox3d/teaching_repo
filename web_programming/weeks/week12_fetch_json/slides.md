@@ -22,25 +22,26 @@ footer: "fetch로 JSON 불러오기 · 비교 예제로 원리를 보고 마지�
 
 `30분 설명·시연 → 60분 실습`
 
-1. 고르기 페이지와 서버 — 이번 주 예제는 `http://localhost:8000/ex/` 로 연다
+1. 예제 폴더와 서버 — 이번 주 예제는 `http://localhost:8000/ex/ex01/` 처럼 연다
 2. ex01 — JSON 글자 규칙: 큰따옴표와 마지막 쉼표
 3. ex02 — fetch 틀: `await fetch` → `await response.json()`, Network 탭
 4. ex03 — `file://` 과 `http://`: 두 번 눌러 열면 막힌다
 
 ---
 
-## 1일차 · 0–4분 — 고르기 페이지와 서버로 열기
+## 1일차 · 0–4분 — 예제 폴더와 서버로 열기
 
-[examples/day1/index.html](examples/day1/index.html) — 세 예제가 같은 화면(글자 자리 하나)을 씁니다. 서버: [server.mjs](../../tools/static-server/server.mjs)
+예제마다 폴더 하나입니다(11주차와 같습니다). 서버: [server.mjs](../../tools/static-server/server.mjs)
 
-```html
-<script src="ex01_json_rule.js"></script>
-<!-- <script src="ex02_fetch.js"></script> -->
-<!-- <script src="ex03_file_http.js"></script> -->
+```text
+ex02/
+  index.html      화면 — 글자 자리 하나
+  app.js          동작 — 이번 주 원리는 여기
+  projects.json   fetch 가 읽어 오는 파일
 ```
 
-- 맨 아래 `script` 줄 중 **한 줄만** 켭니다(Ctrl+/). 11주차와 같은 방법입니다.
-- `node server.mjs` 로 띄운 `http://localhost:8000/ex/` 에서 엽니다. `fetch` 가 파일을 요청하기 때문입니다(ex03).
+- `node server.mjs` 로 띄운 `http://localhost:8000/ex/ex02/` 처럼 **폴더 주소**로 엽니다. `fetch` 가 파일을 요청하기 때문입니다(ex03).
+- `<head>` 의 `<script src="app.js" defer>` 가 같은 폴더의 `app.js` 를 불러옵니다. 경로 줄(`ex › ex02`)로 구분합니다.
 - 확인과 캡처는 **공개 주소**에서 합니다. 서버는 push 전에 미리 보는 도구입니다.
 
 **fetch 가 있는 페이지는 서버 주소나 공개 주소로 연다.**
@@ -49,7 +50,7 @@ footer: "fetch로 JSON 불러오기 · 비교 예제로 원리를 보고 마지�
 
 ## 1일차 · 4–11분 — ex01 JSON 글자 규칙
 
-[ex01_json_rule.js](examples/day1/ex01_json_rule.js) — 7~8행(1번) · 13~14행(2번) · 18~19행(3번)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) — `app.js` 7~8행(1번) · 13~14행(2번) · 18~19행(3번)
 
 ```js
 const text1 = `[{"title": "자기소개 페이지"}, {"title": "방명록"}]`;
@@ -69,18 +70,18 @@ const projects1 = JSON.parse(text1);
 
 ## 1일차 · 11–19분 — ex02 fetch 틀과 Network 탭
 
-[examples/day1/ex02_fetch.js](examples/day1/ex02_fetch.js) · [ex02_projects.json](examples/day1/ex02_projects.json)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) · [projects.json](examples/day1/ex02/projects.json)
 
 ```js
 async function loadProjects() {   // await 는 async 함수 안에서만 쓴다
-    const response = await fetch('ex02_projects.json');  // 1. 요청하고 기다린다
+    const response = await fetch('projects.json');       // 1. 요청하고 기다린다
     const projects = await response.json();              // 2. 글자 → 배열
     result.textContent = `2. ${projects.length}개를 불러왔다 …`;
 }
 loadProjects();                   // 이 줄이 없으면 아무 일도 없다
 ```
 
-- **F12 › Network**: `ex02_projects.json` 한 줄, Status **200**, Type `fetch`.
+- **F12 › Network**: `projects.json` 한 줄, Status **200**, Type `fetch`.
 - `await` 를 빼면 아직 오지 않은 값(`Promise`)이 담깁니다.
 
 **fetch 는 파일을 요청하고, json() 은 받은 글자를 배열로 바꾼다.**
@@ -89,11 +90,11 @@ loadProjects();                   // 이 줄이 없으면 아무 일도 없다
 
 ## 1일차 · 19–26분 — ex03 file:// 과 http://
 
-[examples/day1/ex03_file_http.js](examples/day1/ex03_file_http.js) · [ex03_projects.json](examples/day1/ex03_projects.json)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) · [projects.json](examples/day1/ex03/projects.json)
 
 ```text
-http://localhost:8000/ex/   → 화면 3. 2개를 불러왔다
-file:///…/ex/index.html     → 화면 1. 불러오는 중 … (멈춤)
+http://localhost:8000/ex/ex03/   → 화면 3. 2개를 불러왔다
+file:///…/ex/ex03/index.html     → 화면 1. 불러오는 중 … (멈춤)
   Access to fetch at 'file:///…' … has been blocked by CORS policy …
   Uncaught (in promise) TypeError: Failed to fetch
 ```
@@ -110,9 +111,9 @@ file:///…/ex/index.html     → 화면 1. 불러오는 중 … (멈춤)
 
 [1일차 실습](lab.md#1일차--json-파일과-fetch-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
-1. 새 폴더 `web-week12` 에 지난주 완성본과 `server.mjs`, `ex/` 에 오늘 여섯 파일.
-2. `node server.mjs` → ex01~ex03 줄 하나만 켜고 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
-3. 새 저장소 `web-week12` 만들어 올리기 · Pages 켜기 → 공개 주소 `…/ex/` 에서도 열어 보기.
+1. 새 폴더 `web-week12` 에 지난주 완성본과 `server.mjs`, `ex/` 에 예제 폴더 세 개.
+2. `node server.mjs` → ex01~ex03 폴더 주소로 열고 `app.js` 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
+3. 새 저장소 `web-week12` 만들어 올리기 · Pages 켜기 → 공개 주소 `…/ex/ex02/` 에서도 열어 보기.
 
 **설명 합계: 4+7+8+7+4 = 30분**
 
@@ -132,7 +133,7 @@ file:///…/ex/index.html     → 화면 1. 불러오는 중 … (멈춤)
 
 ## 2일차 · 0–7분 — ex04 카드 만들기
 
-[examples/day2/ex04_cards.html](examples/day2/ex04_cards.html) · [ex04_cards.js](examples/day2/ex04_cards.js) · [ex04_picture.png](examples/day2/ex04_picture.png)
+[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js) · [picture.png](examples/day2/ex04/picture.png)
 
 ```js
 const article = document.createElement('article');  // 카드 한 장
@@ -153,11 +154,11 @@ article.append(image, title, description, link);     // 넣은 순서대로
 
 ## 2일차 · 7–13분 — ex05 try / catch: 오류를 받아 화면에 알리기
 
-[ex05_try_catch.html](examples/day2/ex05_try_catch.html) · [ex05_try_catch.js](examples/day2/ex05_try_catch.js) · [ex05_projects.json](examples/day2/ex05_projects.json)
+[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js) · [projects.json](examples/day2/ex05/projects.json)
 
 ```js
 try {   // 이 안에서 오류가 나면 아래 줄은 건너뛰고 catch 로 간다
-    const response = await fetch('ex05_projects.json');
+    const response = await fetch('projects.json');
     const projects = await response.json();
     notice.textContent = `1. try: ${projects.length}개를 불러왔다`;
 } catch (error) {
@@ -173,7 +174,7 @@ try {   // 이 안에서 오류가 나면 아래 줄은 건너뛰고 catch 로 �
 
 ## 2일차 · 13–19분 — ex06 response.ok: 404 는 오류가 아니다
 
-[ex06_response_ok.html](examples/day2/ex06_response_ok.html) · [ex06_response_ok.js](examples/day2/ex06_response_ok.js) · [ex06_projects.json](examples/day2/ex06_projects.json)
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js) · [projects.json](examples/day2/ex06/projects.json)
 
 ```js
 const response = await fetch(fileName);
@@ -220,7 +221,7 @@ nav 네 페이지       <a href="projects.html">    ← 지난주 nav
 
 [2일차 실습](lab.md#2일차--카드와-오류-안내-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
-1. ex04~ex06 아홉 파일을 `ex/` 에 저장, 값 바꾸기(28분까지).
+1. ex04~ex06 예제 폴더 세 개를 `ex/` 에 저장, 값 바꾸기(28분까지).
 2. 조립 → 서버·375·1280 확인 → push → 공개 주소에서 카드와 Network 캡처.
 
 **설명 합계: 7+6+6+5+6 = 30분**

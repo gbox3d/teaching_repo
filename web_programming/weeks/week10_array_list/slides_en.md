@@ -8,13 +8,13 @@ footer: "Drawing Array Data as a List · see the principle through comparison ex
 
 # Drawing Array Data as a List
 
-In Week 7 the guestbook showed **only the last entry** in a single card line. This week we collect entries in an **array**, draw them as a **list**, and add a **[삭제]** (delete) button to every line.
+In Week 9 the guestbook appended one list line per entry, but **only on screen**, so no single line could be deleted. This week we keep entries in an **array**, **redraw** the list from it, and add a **[삭제]** (delete) button to every line and a count below the list.
 
 Same method as before: look at **7 comparison examples** one at a time, then **assemble** `guestbook.html` and `guestbook.js` in a new repository, `web-week10`, built on last week's files.
 
 - Keep many values in one array; make each line on screen and attach it.
 - Results show on screen, in **Console** (type `items` in the input line), and in the **Elements** tab.
-- One file = one idea. The lab is about **changing values** and watching.
+- One example = one idea. The lab is about **changing values** and watching.
 
 ---
 
@@ -24,7 +24,7 @@ Same method as before: look at **7 comparison examples** one at a time, then **a
 
 1. ex01 — arrays: `[]`, `push`, `length`, `items[i]` (today's syntax)
 2. ex02 — `for`: from first to last (today's syntax)
-3. ex03 — one list line: create it, fill in the text, attach it
+3. ex03 — one list line: create it, fill in the text, attach it (Week 7 ex08 review)
 4. ex04 — add on every click, and the count
 5. Three places data can go
 
@@ -32,7 +32,7 @@ Same method as before: look at **7 comparison examples** one at a time, then **a
 
 ## Day 1 · 0–5 min — ex01 Arrays: many values in order
 
-[examples/day1/index.html](examples/day1/index.html) picker page · [ex01_array.js](examples/day1/ex01_array.js)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
 
 ```js
 let items = [];                          // 1. empty array, count 0
@@ -53,7 +53,7 @@ console.log('5. 없는 번호 items[3] :', items[3]);   // undefined
 
 ## Day 1 · 5–10 min — ex02 for: from first to last
 
-[examples/day1/ex02_for.js](examples/day1/ex02_for.js)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
 
 ```js
 // the array holds 4 values
@@ -72,9 +72,9 @@ for (let i = 0; i < items.length; i++) {   // 2. length → to the end
 
 ---
 
-## Day 1 · 10–17 min — ex03 One list line: create, fill, attach
+## Day 1 · 10–17 min — ex03 One list line: create, fill, attach (Week 7 ex08 review)
 
-[examples/day1/ex03_create_li.js](examples/day1/ex03_create_li.js)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
 
 ```js
 const li2 = document.createElement('li');   // create (not on screen yet)
@@ -84,7 +84,7 @@ list.append(li2);                           // attach at the end → visible
 
 - No. 1 (`li1`) is only created, so it shows in Console but not on screen or in **Elements**.
 - `append` always attaches **at the end**. No. 3 lands below No. 2.
-- `textContent` is the same as in Week 6. It puts text in as plain text.
+- The same three lines as Week 7 ex08 No. 2. Today we set them beside No. 1, which is only created.
 
 **A created element shows only after you attach it with `append`.**
 
@@ -92,7 +92,7 @@ list.append(li2);                           // attach at the end → visible
 
 ## Day 1 · 17–23 min — ex04 Add on every click, and the count
 
-[examples/day1/ex04_push_add.js](examples/day1/ex04_push_add.js)
+[examples/day1/ex04/index.html](examples/day1/ex04/index.html) · [app.js](examples/day1/ex04/app.js)
 
 ```js
 addButton.addEventListener('click', function () {
@@ -130,8 +130,8 @@ addButton.addEventListener('click', function () {
 
 [Day 1 lab](lab.md#1일차--배열과-목록-한-줄-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
 
-1. New folder `web-week10` with last week's files; today's five files in `ex/`.
-2. ex01–ex04 — turn on one line, change values. Type `items` in the Console input line.
+1. New folder `web-week10` with last week's files; four example folders in `ex/` (`index.html` and `app.js` in each).
+2. ex01–ex04 — open each folder's `index.html`, change values in `app.js`. Type `items` in the Console input line.
 3. Create the new repository `web-week10`, push, and turn on Pages (same steps as Week 2).
 
 **Total explanation: 5+5+7+6+4+3 = 30 min**
@@ -153,13 +153,14 @@ addButton.addEventListener('click', function () {
 ## Day 2 · 0–4 min — To delete, you must change two places
 
 ```text
+Week 9: leave  → append one <li> on screen (no array, can't delete)
 Day 1:  add    → push into the array     + append one <li> on screen
 today:  delete → take one out of array   + take that line off screen
 ```
 
 - Change only one side and the array and screen disagree, just as in Day 1's ex04.
 - So instead of removing one line, we **clear the whole list and redraw it from the array.**
-- Adding and deleting then call the same one function.
+- Adding and deleting then call the same one function. In Week 11 this array is what we save.
 
 **When the array changes, redraw the screen.**
 
@@ -167,7 +168,7 @@ today:  delete → take one out of array   + take that line off screen
 
 ## Day 2 · 4–10 min — ex05 Clear, then redraw
 
-[examples/day2/ex05_redraw.html](examples/day2/ex05_redraw.html) · [ex05_redraw.js](examples/day2/ex05_redraw.js)
+[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js)
 
 ```js
 // 2. clear, then draw
@@ -188,7 +189,7 @@ for (let i = 0; i < items.length; i++) {
 
 ## Day 2 · 10–17 min — ex06 showList(): the screen follows the array
 
-[examples/day2/ex06_show_list.html](examples/day2/ex06_show_list.html) · [ex06_show_list.js](examples/day2/ex06_show_list.js)
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js)
 
 ```js
 function showList() {
@@ -210,7 +211,7 @@ showList();                                    // 1. once, on open
 
 ## Day 2 · 17–24 min — ex07 The delete-button template
 
-[examples/day2/ex07_delete_button.html](examples/day2/ex07_delete_button.html) · [ex07_delete_button.js](examples/day2/ex07_delete_button.js)
+[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js)
 
 ```js
 const removeButton = document.createElement('button');
@@ -232,18 +233,18 @@ li.append(removeButton);    // attach the button inside that line
 ## Day 2 · 24–30 min — Assembly: web-week10, then the lab
 
 ```text
-guestbook.html  2 lines → 4 (#list · #empty · #count)  ← ex03 · ex06
-guestbook.js    const list · empty · count             ← ex06
+guestbook.html  2 lines under #list (#empty · #count)  ← ex06
+guestbook.js    const empty · count (list: Week 9)     ← ex06
                 let items = [];                        ← ex01
                 showList(): clear · for · li           ← ex05 · ex02 · ex03
                   + delete template · count · notice   ← ex07 · ex04 · ex06
-                submit: items.push(…); showList();     ← ex04 · ex06
+                submit: 3 append lines → push · showList ← ex04 · ex06
                 last line: showList();                 ← ex06
 ```
 
 [Day 2 lab](lab.md#2일차--다시-그리기와-삭제-버튼-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
 
-1. Save ex05–ex07 `.html` and `.js` in `ex/`, change values (until minute 29).
+1. Save the ex05–ex07 example folders in `ex/`, change values (until minute 29).
 2. Assemble → check at 375 and 1280 and with the server → push → add 3, delete the middle, screenshot `2개`.
 
 **Total explanation: 4+6+7+7+6 = 30 min**

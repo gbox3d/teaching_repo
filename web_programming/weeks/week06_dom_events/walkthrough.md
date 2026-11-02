@@ -5,8 +5,8 @@
 이번 주는 새 저장소 `web-week06`을 만든다. 지난주 완성본을 넣고, 비교 예제는 그 안의 `ex/` 폴더에 저장한다. 값·줄을 바꾼 뒤 결과를 화면과 **F12 › Console**, **F12 › Elements**에서 본다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day1)(1일차 예제 폴더 ex01~ex03)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)(2일차 ex04~ex06) 폴더에 있다.
-각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
+비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day1)(1일차 예제 폴더 ex01~ex03)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)(2일차 예제 폴더 ex04~ex06) 폴더에 있다.
+각 예제가 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
 
@@ -161,7 +161,7 @@ git push -u origin main
 
 ## 2일차
 
-### 6. 폴더 열고 비교 예제 여섯 파일 가져오기
+### 6. 폴더 열고 비교 예제 세 개 가져오기
 
 같은 PC에 `web-week06` 폴더가 남아 있으면 VS Code로 그대로 연다. 없으면 받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
 
@@ -171,22 +171,32 @@ git clone https://github.com/student01/web-week06.git
 
 내려받은 `web-week06`을 **File › Open Folder**로 연다.
 
-오늘 예제는 세 개이고, 예제마다 `.html`과 `.js`가 한 쌍이라 파일은 여섯 개다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week06/ex/`에 바로 넣는다. 오늘은 예제 폴더를 만들지 않는다.
+오늘 예제도 세 개이고, 1일차와 같이 예제마다 **폴더 하나**에 `index.html`·`styles.css`·`app.js` 세 파일이 있다. 오늘은 `styles.css`도 원리의 반이다. ex04의 `.on`, ex05의 `body.dark` 규칙이 모양을 정하고, `app.js`는 class 이름만 붙였다 뗀다. ex06의 `styles.css`는 1일차처럼 횟수 자리에 배경색을 칠하는 `.card` 규칙 하나다.
 
-| 파일 | 비교하는 것 |
-|---|---|
-| [ex04_classlist.html](examples/day2/ex04_classlist.html) + [ex04_classlist.js](examples/day2/ex04_classlist.js) | `classList.add` / `remove` / `toggle` 세 버튼과 상자 하나 |
-| [ex05_dark.html](examples/day2/ex05_dark.html) + [ex05_dark.js](examples/day2/ex05_dark.js) | `body.dark` 규칙 / `body.dark .card` 규칙, 다크 모드 버튼 하나 |
-| [ex06_reuse.html](examples/day2/ex06_reuse.html) + [ex06_reuse.js](examples/day2/ex06_reuse.js) | A 버튼 / B 버튼이 같은 함수 `countUp()`을 부른다 |
+먼저 `ex` 안에 오늘 폴더 세 개를 만든다. 현재 폴더: `web-week06`
 
-**예상 결과** — `ex/`에 1일차 폴더 세 개(`ex01`·`ex02`·`ex03`)와 오늘 파일 여섯 개가 있다.
-`ex/ex04_classlist.html`을 열고 **1. add**를 누르면 상자가 노랗게 된다. F12 › **Elements**의 `<div id="box">` 줄에 `class="on"`이 생긴다.
+```bash
+mkdir ex/ex04
+mkdir ex/ex05
+mkdir ex/ex06
+```
 
-- 오늘은 `.html`을 연다. `.js`는 같은 폴더에서 `.html`이 불러온다. 둘 중 하나를 빠뜨리면 버튼이 동작하지 않는다.
-- `ex05`는 버튼을 누를 때 `<body>` 줄에 `class="dark"`가 붙었다 떨어진다. 색을 바꾸는 JS 줄은 없다. 색은 `.html`의 `<style>` 규칙이 정한다.
+[교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 폴더마다 세 파일을 자기 폴더(`web-week06/ex/ex04/` 등)에 넣는다.
+
+| 폴더 | 파일 | 비교하는 것 |
+|---|---|---|
+| `ex04` | [index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js) | `classList.add` / `remove` / `toggle` 세 버튼과 상자 하나 |
+| `ex05` | [index.html](examples/day2/ex05/index.html) · [styles.css](examples/day2/ex05/styles.css) · [app.js](examples/day2/ex05/app.js) | `body.dark` 규칙 / `body.dark .card` 규칙, 다크 모드 버튼 하나 |
+| `ex06` | [index.html](examples/day2/ex06/index.html) · [styles.css](examples/day2/ex06/styles.css) · [app.js](examples/day2/ex06/app.js) | A 버튼 / B 버튼이 같은 함수 `countUp()`을 부른다 |
+
+**예상 결과** — `ex/`에 1일차 폴더 세 개(`ex01`·`ex02`·`ex03`)와 오늘 폴더 세 개(`ex04`·`ex05`·`ex06`)가 있고, 폴더마다 파일 세 개가 있다.
+`ex/ex04/index.html`을 열고 **1. add**를 누르면 상자가 노랗게 된다. F12 › **Elements**의 `<div id="box">` 줄에 `class="on"`이 생긴다.
+
+- 오늘도 그 폴더의 `index.html`을 연다. `styles.css`와 `app.js`는 같은 폴더에서 `index.html`이 불러온다. `app.js`를 빠뜨리면 버튼이 동작하지 않고, `styles.css`를 빠뜨리면 class는 붙는데 색이 바뀌지 않는다.
+- `ex05`는 버튼을 누를 때 `<body>` 줄에 `class="dark"`가 붙었다 떨어진다. 색을 바꾸는 JS 줄은 없다. 색은 `styles.css`의 규칙이 정한다.
 - `ex06`은 A·B를 섞어 눌러도 횟수가 하나로 이어진다.
-- 저장 창이 1일차에 마지막으로 쓴 `ex03` 폴더에서 열릴 수 있다. 저장 창 위쪽 경로가 `web-week06 › ex`인지 보고, `ex03`이면 한 단계 위 `ex`로 올라가 저장한다.
-- 파일마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--class-와-함수-그리고-조립-60분)에 있다.
+- 저장 창이 1일차에 마지막으로 쓴 `ex03` 폴더에서 열릴 수 있다. 저장 창 위쪽 경로가 지금 받는 예제의 폴더(`web-week06 › ex › ex04` 등)인지 보고 저장한다. 폴더마다 파일 이름이 같아서 다른 폴더에 저장하면 그 폴더의 같은 이름 파일을 덮어쓴다.
+- 예제마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--class-와-함수-그리고-조립-60분)에 있다.
 
 ### 7. 조립표
 
@@ -196,16 +206,16 @@ git clone https://github.com/student01/web-week06.git
 | 조립할 줄 | 출처 |
 |---|---|
 | `index.html`에 버튼 두 개(`#hello-button`·`#dark-button`)와 `#count` 카드 | [ex02](examples/day1/ex02/index.html) 누를 버튼, [ex03](examples/day1/ex03/index.html) 횟수 자리 |
-| `styles.css` 맨 아래 `body.dark, body.dark .card { … }` | [ex05](examples/day2/ex05_dark.html) 1·2번 규칙을 쉼표로 묶은 것 |
+| `styles.css` 맨 아래 `body.dark, body.dark .card { … }` | [ex05](examples/day2/ex05/styles.css) 1·2번 규칙을 쉼표로 묶은 것 |
 | `app.js`의 `name`·`hour`·`greet`·`hello` | 5주차 완성본 그대로 |
 | `const greeting`·`countBox`·`helloButton`·`darkButton` | [ex01](examples/day1/ex01/app.js) 찾아서 `const`에 담기 |
 | `let count = 0;` | [ex03](examples/day1/ex03/app.js) 1번, 함수 밖 |
-| `function countUp() { … }` | [ex06](examples/day2/ex06_reuse.js) |
+| `function countUp() { … }` | [ex06](examples/day2/ex06/app.js) |
 | `` greeting.textContent = `${greet(name)} ${hello(hour)}`; `` | [ex02](examples/day1/ex02/app.js) 1번, 열 때 바꾸기 |
-| `helloButton.addEventListener('click', function () { … countUp(); });` | [ex02](examples/day1/ex02/app.js) 2번 + [ex06](examples/day2/ex06_reuse.js) |
-| `darkButton.addEventListener('click', function () { document.body.classList.toggle('dark'); countUp(); });` | [ex05](examples/day2/ex05_dark.js) + [ex06](examples/day2/ex06_reuse.js) |
+| `helloButton.addEventListener('click', function () { … countUp(); });` | [ex02](examples/day1/ex02/app.js) 2번 + [ex06](examples/day2/ex06/app.js) |
+| `darkButton.addEventListener('click', function () { document.body.classList.toggle('dark'); countUp(); });` | [ex05](examples/day2/ex05/app.js) + [ex06](examples/day2/ex06/app.js) |
 
-옮겨 적을 때 출처 ex 파일을 옆에 열어 두고, 같은 줄이 거기서 무엇을 했는지 떠올린다.
+옮겨 적을 때 출처 예제의 파일을 옆에 열어 두고, 같은 줄이 거기서 무엇을 했는지 떠올린다.
 
 ### 8. index.html에 다섯 줄 넣기
 

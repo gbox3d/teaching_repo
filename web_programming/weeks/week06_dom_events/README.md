@@ -42,7 +42,7 @@
 | 일차 | 설명 30분 | 실습 60분 | 결과 |
 |---|---|---|---|
 | 1일차 | 예제 폴더 하나에 파일 세 개(`index.html`·`styles.css`·`app.js`) → ex01 HTML 파일과 DOM(Elements 탭) → ex02 클릭할 때 바꾸기 → ex03 클릭 횟수 | 새 폴더 `web-week06` 에 지난주 완성본 넣기 → `ex/` 에 예제 폴더 세 개(파일 아홉 개) 저장 → 값 바꿔 보기 → 새 저장소 만들어 올리기 · Pages 켜기 | `ex/` 비교 예제(확인용) |
-| 2일차 | ex04 classList → ex05 다크 모드 → ex06 함수 하나를 두 버튼에 → 8주차 중간 실기 안내 → 조립표 | 여섯 파일 값 바꿔 보기 → `index.html`·`styles.css`·`app.js` 조립 → 375·1280 폭과 서버로 확인 → push | 캡처 1 |
+| 2일차 | ex04 classList → ex05 다크 모드 → ex06 함수 하나를 두 버튼에 → 8주차 중간 실기 안내 → 조립표 | `ex/` 에 예제 폴더 세 개(파일 아홉 개) 저장 → 값 바꿔 보기 → `index.html`·`styles.css`·`app.js` 조립 → 375·1280 폭과 서버로 확인 → push | 캡처 1 |
 
 각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
 
@@ -52,7 +52,7 @@
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS(선택). 5주차에 받은 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에도 둔다([사용 안내](../../tools/static-server/README.md)). Node 가 없는 PC 는 파일을 두 번 눌러 열어도 이번 주 결과는 같다
 - 개발자 도구의 **Console** 탭과 **Elements** 탭 위치(오른쪽 클릭 › **검사**, 또는 **F12**)
-- 5주차 비교 예제 [ex01](../week05_javascript_data/examples/day1/ex01_click.html)(클릭할 때 실행)·[ex09](../week05_javascript_data/examples/day2/ex09_dom_write.js)(먼저 찾고 그다음 바꾼다)를 기억해 둔다. 이번 주가 그 두 파일에서 이어진다
+- 5주차 비교 예제 [ex01](../week05_javascript_data/examples/day1/ex01/app.js)(클릭할 때 실행)·[ex09](../week05_javascript_data/examples/day2/ex09/app.js)(먼저 찾고 그다음 바꾼다)를 기억해 둔다. 이번 주가 그 두 예제에서 이어진다
 - 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
 
 ## 이번 주 용어
@@ -70,23 +70,23 @@
 
 ## 이번 주 비교 예제
 
-1일차 ex01~ex03 은 예제마다 폴더 하나에 내 사이트와 같은 이름의 세 파일(`index.html` 화면 · `styles.css` 모양 · `app.js` 동작)을 둔다. `index.html` 을 열고, 원리는 `app.js` 에서 본다. 2일차 ex04~ex06 은 `.html` 과 `.js` 를 한 쌍으로 둔다. Console 의 번호가 코드의 형제 번호와 같다.
+ex01~ex06 은 예제마다 폴더 하나에 내 사이트와 같은 이름의 세 파일(`index.html` 화면 · `styles.css` 모양 · `app.js` 동작)을 둔다. `index.html` 을 열고, 원리는 `app.js` 에서 본다. 2일차 ex04·ex05 는 모양 규칙(`styles.css`)도 함께 본다. Console 의 번호가 코드의 형제 번호와 같다.
 
-| 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
+| 예제 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
 | [ex01/index.html](examples/day1/ex01/index.html) + [styles.css](examples/day1/ex01/styles.css) + [app.js](examples/day1/ex01/app.js) | 화면 · Elements 탭 · 페이지 소스 보기의 글자 | 브라우저는 HTML 파일을 읽어 DOM 을 만들고 화면은 DOM 을 보여 준다. JS 가 바꾸는 것은 DOM 이고 파일은 그대로다 | 찾는 id 를 틀리게 → `null` 과 빨간 줄 |
 | [ex02/index.html](examples/day1/ex02/index.html) + [styles.css](examples/day1/ex02/styles.css) + [app.js](examples/day1/ex02/app.js) | 1. 열 때 바꾸기 / 2. 클릭할 때 바꾸기 | 바꾸는 줄을 `addEventListener` 안에 넣으면 누를 때마다 실행된다 | 바꾸는 줄을 `});` 밖으로 옮기기 |
 | [ex03/index.html](examples/day1/ex03/index.html) + [styles.css](examples/day1/ex03/styles.css) + [app.js](examples/day1/ex03/app.js) | 1. 함수 밖의 `let count` / 2. 함수 안의 `let inside` | 함수 밖 변수는 열 때 한 번만 0 이 되어 누를 때마다 이어서 는다. 안의 변수는 누를 때마다 다시 0 이 된다 | `let count = 0;` 을 함수 안으로 옮기기 |
-| [ex04_classlist.html](examples/day2/ex04_classlist.html) + [.js](examples/day2/ex04_classlist.js) | 1. `classList.add` / 2. `remove` / 3. `toggle` | 모양은 CSS 규칙이 정하고 JS 는 class 이름만 붙였다 뗀다 | `.on` 색 바꾸기, class 이름의 대소문자 |
-| [ex05_dark.html](examples/day2/ex05_dark.html) + [.js](examples/day2/ex05_dark.js) | 1. `body.dark` 규칙 / 2. `body.dark .card` 규칙 | 색은 CSS 에 미리 적고 JS 는 `document.body.classList.toggle('dark')` 한 줄 | 카드 규칙 지우기, `toggle` 을 `add` 로 |
-| [ex06_reuse.html](examples/day2/ex06_reuse.html) + [.js](examples/day2/ex06_reuse.js) | 1. A 버튼 / 2. B 버튼이 같은 `countUp()` 을 부른다 | 같은 일은 함수 하나에 적고 여러 곳에서 부른다. 부를 때는 괄호를 붙인다 | `countUp();` 의 괄호 빼기 |
+| [ex04/index.html](examples/day2/ex04/index.html) + [styles.css](examples/day2/ex04/styles.css) + [app.js](examples/day2/ex04/app.js) | 1. `classList.add` / 2. `remove` / 3. `toggle` | 모양은 CSS 규칙이 정하고 JS 는 class 이름만 붙였다 뗀다 | `.on` 색 바꾸기, class 이름의 대소문자 |
+| [ex05/index.html](examples/day2/ex05/index.html) + [styles.css](examples/day2/ex05/styles.css) + [app.js](examples/day2/ex05/app.js) | 1. `body.dark` 규칙 / 2. `body.dark .card` 규칙 | 색은 CSS 에 미리 적고 JS 는 `document.body.classList.toggle('dark')` 한 줄 | 카드 규칙 지우기, `toggle` 을 `add` 로 |
+| [ex06/index.html](examples/day2/ex06/index.html) + [styles.css](examples/day2/ex06/styles.css) + [app.js](examples/day2/ex06/app.js) | 1. A 버튼 / 2. B 버튼이 같은 `countUp()` 을 부른다 | 같은 일은 함수 하나에 적고 여러 곳에서 부른다. 부를 때는 괄호를 붙인다 | `countUp();` 의 괄호 빼기 |
 
 ## 수업 자료
 
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week06_dom_events/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(예제 폴더 `ex01/`~`ex03/`, 폴더마다 `index.html`·`styles.css`·`app.js`), 2일차 `day2/`(ex04~ex06 의 `.html`·`.js`, 조립 `web-week06/`)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(예제 폴더 `ex01/`~`ex03/`), 2일차 `day2/`(예제 폴더 `ex04/`~`ex06/`, 조립 `web-week06/`). 폴더마다 `index.html`·`styles.css`·`app.js`
 - 2일차 끝의 `web-week06`(조립 결과): [index.html](examples/day2/web-week06/index.html) · [styles.css](examples/day2/web-week06/styles.css) · [app.js](examples/day2/web-week06/app.js) · [about.html](examples/day2/web-week06/about.html) · [guestbook.html](examples/day2/web-week06/guestbook.html) · [images/profile.png](examples/day2/web-week06/images/profile.png)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events

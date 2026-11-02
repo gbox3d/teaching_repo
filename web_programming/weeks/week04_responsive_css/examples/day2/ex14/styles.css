@@ -1,0 +1,21 @@
+/* ex14 position(부록): relative 와 absolute 로 상자를 옮기는 두 방법을 비교한다 */
+.frame {
+    position: relative;             /* absolute 자식의 기준점이 된다 */
+    background-color: lightgray;    /* 회색: 부모(frame) */
+    height: 100px;                  /* 아래 모서리가 보이게 높이를 준다 */
+}
+/* 두 자식을 구분하려고 배경색을 칠하고, 움직임이 창 안에서 보이게 폭을 줄인다(이 예제의 주제는 아니다) */
+.box { width: 80px; }           /* ex04 */
+.c1 { background-color: gold; }
+.c2 { background-color: lightskyblue; }
+
+.relative {
+    position: relative;         /* 원래 자리에서 밀어낸다. 자리는 남는다 */
+    top: 40px;                  /* B 아래까지 내려간다. 원래 자리(맨 위)는 비어 회색으로 남는다 */
+    left: 40px;
+}
+.absolute {
+    position: absolute;         /* 흐름에서 빠져 frame 의 모서리 기준으로 놓인다 */
+    right: 0;
+    bottom: 0;
+}

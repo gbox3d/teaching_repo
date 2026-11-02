@@ -1,15 +1,15 @@
 # 5주차 따라하기 — 비교 예제로 원리를 보고 마지막에 조립
 
 이번 주 실습은 코드를 새로 짜는 것이 아니라 **값을 바꿔 보는 것**이다.
-이번 주는 새 저장소 `web-week05`를 만든다. 지난주 완성본을 넣고, 비교 파일은 그 안의 `ex/` 폴더에 저장한다. 값·주석을 바꾼 뒤 결과를 **F12 › Console** 에서 본다(화면에 쓰는 것은 ex09 의 주제라 ex09 와 조립에서만 화면이 바뀐다).
+이번 주는 새 저장소 `web-week05`를 만든다. 지난주 완성본을 넣고, 비교 예제는 그 안의 `ex/` 폴더에 저장한다. 값·주석을 바꾼 뒤 결과를 **F12 › Console** 에서 본다(화면에 쓰는 것은 ex09 의 주제라 ex09 와 조립에서만 화면이 바뀐다).
 맨 위의 `index.html`·`app.js`는 2일차 끝에 부품에서 **조립**한다.
 
 `student01`은 연습용 아이디다. 명령과 주소에 있는 `student01`은 본인 GitHub 아이디로 바꾼다.
 명령은 VS Code의 터미널(**Terminal › New Terminal**, Windows는 PowerShell)에서 실행한다. macOS 터미널도 같은 명령이다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-비교 파일 10개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day1)(1일차 ex01~ex05)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day2)(2일차 ex06~ex10) 폴더에 있다.
-각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
+비교 예제 10개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day1)(1일차 예제 폴더 ex01~ex05)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day2)(2일차 예제 폴더 ex06~ex10) 폴더에 있다.
+각 예제가 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
 
@@ -39,55 +39,75 @@ web-week05/
   styles.css
 ```
 
-- 폴더 이름은 `ex`다. `Ex`·`ex05`로 만들면 공개 주소가 달라져 5단계에서 404가 난다.
+- 폴더 이름은 `ex`다. `Ex`·`ex05`로 만들면 공개 주소가 달라져 5단계에서 404가 난다. 예제 폴더는 2단계에서 그 안에 만든다.
 - `index.html`을 두 번 눌러 열면 4주차 완성 화면이 보인다. 이번 주는 여기서 시작한다.
 - `index.html`·`app.js`는 오늘 건드리지 않는다. 2일차 끝에 조립한다.
 
-### 2. 비교 파일 가져오기
+### 2. 비교 예제 가져오기
 
-오늘 파일은 다섯 개다. `ex02`만 보조 파일 `.js`가 하나 더 있어서 모두 **여섯 개**를 받는다.
-각 파일은 개념 하나만 비교한다.
+오늘 예제는 다섯 개이고, 예제마다 **폴더 하나**에 파일이 두 개 있다. 내 사이트와 같은 이름의 `index.html`(화면)·`app.js`(코드)다. 이번 주에 배우는 원리는 모두 `app.js`에 있다. ex02만 주제가 `script`를 두는 자리라서 `index.html` 안에도 `<script>`가 두 개 있다.
+각 예제는 개념 하나만 비교한다.
 
-| 파일 | 비교하는 것 |
-|---|---|
-| [ex01_click.html](examples/day1/ex01_click.html) | 열자마자 실행(A·C) / 클릭할 때 실행(B) |
-| [ex02_script_position.html](examples/day1/ex02_script_position.html) + [ex02_script_position.js](examples/day1/ex02_script_position.js) | `script` 위치: head 안 / body 끝 / head에 `defer`로 연결한 파일 — 셋 다 `document.body`를 찍는다 |
-| [ex03_let_const.html](examples/day1/ex03_let_const.html) | `let` / `const` / `var`에 1 더하기 |
-| [ex04_plus.html](examples/day1/ex04_plus.html) | `+`: 숫자 + 숫자 / 문자열 + 문자열 / 섞인 것 / `Number()`·`parseInt()`로 바꾼 것, 입력 칸 두 개 |
-| [ex05_template.html](examples/day1/ex05_template.html) | `+`로 잇기 / 백틱 템플릿 / 작은따옴표 안의 `${}` / `${}` 안의 계산 |
+| 폴더 | 파일 | 비교하는 것 |
+|---|---|---|
+| `ex01` | [index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) | 열자마자 실행(A·C) / 클릭할 때 실행(B) |
+| `ex02` | [index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) | `script` 위치: head 안 / body 끝 / head에 `defer`로 연결한 파일(`app.js`) — 셋 다 `document.body`를 찍는다 |
+| `ex03` | [index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) | `let` / `const` / `var`에 1 더하기 |
+| `ex04` | [index.html](examples/day1/ex04/index.html) · [app.js](examples/day1/ex04/app.js) | `+`: 숫자 + 숫자 / 문자열 + 문자열 / 섞인 것 / `Number()`·`parseInt()`로 바꾼 것, 입력 칸 두 개 |
+| `ex05` | [index.html](examples/day1/ex05/index.html) · [app.js](examples/day1/ex05/app.js) | `+`로 잇기 / 백틱 템플릿 / 작은따옴표 안의 `${}` / `${}` 안의 계산 |
+
+먼저 `ex` 안에 같은 이름의 폴더 다섯 개를 만든다. VS Code 탐색기에서 `ex`를 고르고 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week05`
+
+```bash
+mkdir ex/ex01
+mkdir ex/ex02
+mkdir ex/ex03
+mkdir ex/ex04
+mkdir ex/ex05
+```
 
 가져오는 방법은 둘 중 하나다.
 
-1. **Raw로 저장** — [교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week05/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다.
-2. **타이핑** — Raw가 열리지 않을 때만 쓴다. VS Code에서 `ex/ex01_click.html`을 새로 만들고 교재 화면을 보며 친다. 1일차 파일은 20~33줄이다. **주석 줄도 그대로 친다.** 주석에 원리와 실험 거리가 있고, 줄 번호가 교재와 같아야 Console 줄의 `파일:줄`을 교재와 맞춰 볼 수 있다.
+1. **Raw로 저장** — [교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day1)에서 `ex01` 폴더를 누르고, 파일을 하나씩 눌러 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 내 `web-week05/ex/ex01/`에 저장한다. 두 파일을 받았으면 `ex02`~`ex05`도 같은 방법으로 자기 폴더에 받는다. 파일 이름은 교재와 **같게** 둔다.
+2. **타이핑** — Raw가 열리지 않을 때만 쓴다. VS Code에서 `ex/ex01/index.html`과 `ex/ex01/app.js`를 새로 만들고 교재 화면을 보며 친다. 한 파일이 22줄을 넘지 않는다. **주석 줄도 그대로 친다.** 주석에 원리와 실험 거리가 있고, 줄 번호가 교재와 같아야 Console 줄의 `파일:줄`을 교재와 맞춰 볼 수 있다.
 
-`ex02`는 `ex02_script_position.html`과 `ex02_script_position.js`를 **둘 다** 받아 **같은 폴더**에 둔다.
-HTML의 `<script src="ex02_script_position.js" defer>`가 같은 폴더에서 그 이름을 찾기 때문이다.
+`index.html`의 `<head>`에 있는 `<script src="app.js" defer></script>`가 **같은 폴더**에서 `app.js`를 찾는다. 그래서 두 파일이 한 폴더에 있어야 한다.
 
-**예상 결과** — `ex/` 안에 파일 여섯 개가 있다.
+**예상 결과** — `ex/` 안에 폴더 다섯 개가 있고, 폴더마다 파일 두 개가 있다.
 
 ```text
 ex/
-  ex01_click.html
-  ex02_script_position.html
-  ex02_script_position.js
-  ex03_let_const.html
-  ex04_plus.html
-  ex05_template.html
+  ex01/
+    app.js
+    index.html
+  ex02/
+    app.js
+    index.html
+  ex03/
+    app.js
+    index.html
+  ex04/
+    app.js
+    index.html
+  ex05/
+    app.js
+    index.html
 ```
 
-- 저장한 파일 이름이 `ex01_click.html.txt`처럼 `.txt`로 끝나면 이름을 고친다. 브라우저가 붙인 것이다. 이름은 VS Code 탐색기에서 확인한다(Windows 파일 탐색기는 기본 설정에서 확장자를 숨긴다).
-- `.js` 파일을 빠뜨리면 `ex02`를 열었을 때 Console에 3번 줄이 없고 `net::ERR_FILE_NOT_FOUND` 줄이 뜬다. 파일을 못 불러왔다는 뜻이다.
-- 시작 5분 안에 여섯 파일을 다 받아 둔다. 5분 안에 다 못 받았으면 ex01 부터 시작하고, 나머지는 각 문항을 시작할 때 받는다.
+- 저장 창에서 폴더 이름을 먼저 본다. 다섯 폴더의 파일 이름이 같아서, 다른 폴더에 저장하면 그 폴더의 같은 이름 파일을 덮어쓴다. 덮어썼으면 그 폴더의 파일을 교재에서 다시 **Raw**로 받는다.
+- 저장한 파일 이름이 `index.html.txt`처럼 `.txt`로 끝나면 이름을 고친다. 브라우저가 붙인 것이다. 이름은 VS Code 탐색기에서 확인한다(Windows 파일 탐색기는 기본 설정에서 확장자를 숨긴다).
+- 예제 폴더의 `index.html`·`app.js`는 맨 위 내 사이트 파일과 이름이 같지만 다른 파일이다. 편집기 위쪽 경로 줄(`ex › ex01 › app.js`)로 구분한다. 같은 이름 파일을 여러 개 열면 탭 이름 옆에도 폴더 이름이 붙는다.
+- `app.js`를 빠뜨리면 그 예제를 열었을 때 Console에 번호 줄이 없고 `net::ERR_FILE_NOT_FOUND` 줄이 뜬다. 파일을 못 불러왔다는 뜻이다(ex02는 1·2번만 찍히고 3번이 없다).
+- 시작 5분 안에 다섯 폴더를 만들어 둔다. 파일은 다 못 받았으면 ex01부터 시작하고, 나머지는 각 문항을 시작할 때 받는다.
 
-### 3. 여는 법과 Console 여는 법
+### 3. 예제 폴더 열기와 Console 여는 법
 
 저장한 파일은 VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**(macOS는 **Reveal in Finder**)로 찾아 두 번 눌러 Chrome으로 연다.
-`ex01_click.html`을 연다.
+`ex/ex01/index.html`을 연다.
 기본 브라우저가 Chrome이 아니면 파일을 Chrome 창에 끌어다 놓는다(Safari는 F12로 Console이 열리지 않는다).
-`.js` 파일은 두 번 누르지 않는다. 브라우저에서 여는 것은 `.html`이고, `.js`는 `.html`이 불러온다.
+`app.js`는 두 번 누르지 않는다. 브라우저에서 여는 것은 `index.html`이고, `app.js`는 `index.html`이 불러온다. `defer`가 무엇인지는 ex02에서 본다. 다른 예제를 볼 때는 그 폴더의 `index.html`을 연다.
 
-**예상 결과** — 제목 `ex01 지금 실행 vs 클릭할 때 실행`, 버튼 하나, 그 아래 안내 한 줄이 보인다. 화면은 이것으로 끝이다. 결과는 Console 에 찍힌다.
+**예상 결과** — 제목 `ex01 지금 실행 vs 클릭할 때 실행`, 안내 한 줄, 그 아래 버튼 하나가 보인다. 화면은 이것으로 끝이다. 결과는 Console 에 찍힌다.
 
 이제 결과를 보는 자리, **Console**을 연다.
 
@@ -95,20 +115,20 @@ ex/
 2. DevTools 위쪽 탭에서 **Console**을 누른다.
 3. 줄이 잘 안 보이면 DevTools 오른쪽 위 **⋮ › Dock side**에서 아래쪽 도킹을 고른다.
 
-**예상 결과** — Console에 두 줄이 이미 찍혀 있다. 줄 오른쪽 끝에 `ex01_click.html:13`처럼 **파일 이름:줄 번호**가 보인다.
+**예상 결과** — Console에 두 줄이 이미 찍혀 있다. 줄 오른쪽 끝에 `app.js:4`처럼 **파일 이름:줄 번호**가 보인다.
 
 ```text
-A. 페이지를 열자마자 실행된다          ex01_click.html:13
-C. A 바로 다음에 실행된다. B 보다 먼저   ex01_click.html:18
+A. 페이지를 열자마자 실행된다          app.js:4
+C. A 바로 다음에 실행된다. B 보다 먼저   app.js:9
 ```
 
 버튼을 세 번 누른다.
 
-**예상 결과** — 버튼을 누를 때마다 Console에 `B. 버튼을 누를 때마다 실행된다`(`ex01_click.html:16`)가 한 줄씩 늘어난다.
+**예상 결과** — 버튼을 누를 때마다 Console에 `B. 버튼을 누를 때마다 실행된다`(`app.js:7`)가 한 줄씩 늘어난다.
 **새로고침**(F5, macOS는 ⌘+R)하면 Console이 지워지고 A·C 두 줄만 다시 찍힌다.
 
-- 파일은 위에서 아래로 **한 번** 실행된다. 그래서 A 다음이 C다. `addEventListener` 안쪽(B)은 이때 **등록만** 해 두었다가 클릭할 때마다 실행된다.
-- 15행은 버튼을 id로 찾아 클릭할 때 할 일을 붙이는 줄이다. 찾는 법은 ex09에서 따로 비교한다. 여기서는 "이 버튼을 누르면"이라는 뜻으로만 읽는다.
+- `app.js`는 위에서 아래로 **한 번** 실행된다. 그래서 A 다음이 C다. `addEventListener` 안쪽(B)은 이때 **등록만** 해 두었다가 클릭할 때마다 실행된다.
+- `app.js` 6행은 버튼을 id로 찾아 클릭할 때 할 일을 붙이는 줄이다. 찾는 법은 ex09에서 따로 비교한다. 여기서는 "이 버튼을 누르면"이라는 뜻으로만 읽는다.
 - 같은 줄이 연달아 찍히면 Console은 한 줄로 묶고 왼쪽에 `2`·`3` 같은 숫자를 붙인다. 버튼을 세 번 눌렀는데 줄이 하나면 그 숫자를 본다.
 - 새로고침하면 Console도 새로 찍힌다. 실험 전후를 비교하려면 새로고침 직후의 Console을 본다.
 
@@ -117,32 +137,32 @@ C. A 바로 다음에 실행된다. B 보다 먼저   ex01_click.html:18
 실험은 늘 같은 순서다. **VS Code에서 고치고 저장**(Ctrl+S, macOS는 ⌘+S) → **브라우저에서 새로고침**(F5, macOS는 ⌘+R) → **Console**을 본다.
 바꾸기 전에 무엇이 달라질지 먼저 말해 보고 확인한다.
 
-**값 바꾸기** — `ex05_template.html`을 열고 13행 `const hour = 9;`를 `const hour = 13;`으로 바꾼 뒤 저장하고 새로고침한다.
+**값 바꾸기** — `ex/ex05/index.html`을 열고, VS Code에서 `ex/ex05/app.js` 5행 `const hour = 9;`를 `const hour = 13;`으로 바꾼 뒤 저장하고 새로고침한다.
 
 **예상 결과** — 1·2번 문장이 `지금은 13시입니다.`로, 4번이 `한 시간 뒤는 14시입니다.`로 바뀐다. 3번은 `안녕하세요, ${name}님!` 그대로다.
 3번만 작은따옴표로 감싸서 `${}`를 계산하지 않고 글자로 둔다.
 
-**오류 읽기** — `ex03_let_const.html`을 열고 2번 버튼(`2. const 에 1 더하기`)을 누른다.
+**오류 읽기** — `ex/ex03/index.html`을 열고 2번 버튼(`2. const 에 1 더하기`)을 누른다.
 
 **예상 결과** — Console에 빨간 줄이 하나 생긴다.
 
 ```text
-처음 값 : 0 0 0                                                ex03_let_const.html:18
-Uncaught TypeError: Assignment to constant variable.            ex03_let_const.html:24
+처음 값 : 0 0 0                                                app.js:7
+Uncaught TypeError: Assignment to constant variable.            app.js:13
 ```
 
-빨간 줄 오른쪽의 `ex03_let_const.html:24`가 고칠 자리다. VS Code에서 24행으로 간다. `const`로 만든 `b`에 다시 담으려 해서 오류가 났다.
-그 바로 아래 25행 `console.log('2. const b =', b);`는 실행되지 않아 Console에 없다. 오류 난 줄 아래는 실행되지 않는다.
+빨간 줄 오른쪽의 `app.js:13`이 고칠 자리다. VS Code에서 `ex/ex03/app.js`의 13행으로 간다. `const`로 만든 `b`에 다시 담으려 해서 오류가 났다.
+그 바로 아래 14행 `console.log('2. const b =', b);`는 실행되지 않아 Console에 없다. 오류 난 줄 아래는 실행되지 않는다.
 파일을 열 때는 오류가 없었다. 오류는 **그 줄이 실행될 때**(버튼을 누를 때) 난다.
 
 - 저장(Ctrl+S, macOS는 ⌘+S) → 새로고침(F5, macOS는 ⌘+R). 이 두 동작을 한 쌍으로 익힌다. 저장을 안 하면 결과가 안 바뀐다. VS Code 탭 제목의 ● 표시는 저장 안 됨이다.
 - CSS는 틀려도 조용히 무시됐다(4주차). JavaScript는 문법이 틀리거나 없는 것을 쓰면 **Console에 빨간 줄**이 뜬다. 결과만 다른 경우(ex04의 `12`)는 조용하다. 그래서 Console의 값을 읽는다. 빨간 줄이 있으면 오른쪽의 `파일:줄`로 간다.
-- 값을 원래대로 못 돌리겠으면 교재에서 그 파일을 다시 **Raw**로 받아 덮어쓴다.
-- 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--스크립트와-값-60분)에 있다.
+- 값을 원래대로 못 돌리겠으면 교재에서 그 예제 폴더의 파일을 다시 **Raw**로 받아 같은 폴더에 덮어쓴다.
+- 예제마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--스크립트와-값-60분)에 있다.
 
 ### 5. 이번 주 저장소 만들어 올리기
 
-1일차 50–60분에 한다. 다섯 파일에서 각각 값 하나 이상을 바꿔 봤으면 올린다.
+1일차 50–60분에 한다. 다섯 예제에서 각각 값 하나 이상을 바꿔 봤으면 올린다.
 
 GitHub에서 **New repository**를 누르고 이름 `web-week05`, **Public**으로 만든다. README는 추가하지 않는다.
 터미널에서 2주차에 배운 순서 그대로 친다. 현재 폴더: `web-week05`
@@ -159,16 +179,16 @@ git push -u origin main
 저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
 
 **예상 결과** — GitHub 저장소 화면을 새로고침하면 `ex/`·`images/`와 파일 다섯 개가 보인다.
-1~3분 뒤 `https://student01.github.io/web-week05/ex/ex01_click.html`을 연다. F12 › **Console**을 열면 로컬에서 본 것과 같이 A·C 두 줄이 찍혀 있다. 이 화면은 **확인용**이다.
+1~3분 뒤 `https://student01.github.io/web-week05/ex/ex01/`을 연다. ex01의 제목과 버튼이 보이고, F12 › **Console**을 열면 로컬에서 본 것과 같이 A·C 두 줄이 찍혀 있다. 이 화면은 **확인용**이다.
 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
 
-- 404가 나면 주소의 `web-week05/ex/`와 파일 이름이 저장소·폴더·파일 이름과 글자 단위로 같은지, Pages를 켰는지 본다.
+- 404가 나면 주소의 `web-week05/ex/ex01/`이 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다. `…/ex/`에서 끝나는 주소는 `ex/` 바로 아래에 `index.html`이 없어서 늘 404다.
 - 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
 - push가 거부되거나 로그인 창이 안 뜨면 [2주차 실습지의 막혔을 때](../week02_github_pages/lab.md#막혔을-때)를 본다.
 
 ## 2일차
 
-### 6. 폴더 열고 비교 파일 다섯 개 가져오기
+### 6. 폴더 열고 비교 예제 다섯 개 가져오기
 
 같은 PC에 `web-week05` 폴더가 남아 있으면 그대로 연다. 없으면 어제 올린 저장소를 내려받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
 
@@ -178,57 +198,58 @@ git clone https://github.com/student01/web-week05.git
 
 내려받은 `web-week05`를 **File › Open Folder**로 연다.
 
-오늘 파일은 여섯 개다. 고르기 페이지 `index.html` 하나와 예제 코드 `.js` 다섯 개다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day2)에서 2단계의 **Raw** → 저장으로 `web-week05/ex/`에 넣는다(여섯 파일을 합치면 100줄이 넘어 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 여섯 개를 다 받아 둔다. 5분 안에 다 못 받았으면 ex06부터 시작하고, 나머지는 각 문항을 시작할 때 받는다.
-같은 방법으로 [server.mjs](../../tools/static-server/server.mjs)를 받아 `web-week05` 맨 위(`index.html` 옆)에 저장한다. 12단계에서 쓴다.
+오늘 예제도 다섯 개이고, 1일차와 같이 예제마다 폴더 하나에 `index.html`·`app.js` 두 파일이 있다. 먼저 `ex` 안에 오늘 폴더 다섯 개를 만든다. 현재 폴더: `web-week05`
 
-| 파일 | 비교하는 것 |
-|---|---|
-| [index.html](examples/day2/index.html) | 고르기 페이지. 맨 아래 `<script src>` 다섯 줄 중 하나만 켠다. ex09 가 찾아 바꿀 자리(`#out1`~`#out3`, 입력 칸, 버튼)도 여기 있다 |
-| [ex06_compare.js](examples/day2/ex06_compare.js) | `==` / `===`, `>=` / `>`, 문자열끼리 비교 / 숫자로 바꿔 비교 |
-| [ex07_if_else.js](examples/day2/ex07_if_else.js) | `if`만 / `if` · `else` / `if` · `else if` · `else` / 같은 조건을 순서만 거꾸로 |
-| [ex08_function.js](examples/day2/ex08_function.js) | `return` 없는 함수 / `return` 하는 함수 / 같은 함수에 다른 값 / 정의만 하고 부르지 않은 함수 |
-| [ex09_dom_write.js](examples/day2/ex09_dom_write.js) | `getElementById` + `innerText` / `querySelector` + `textContent` / 태그를 넣은 글자 / 입력 칸 `value` |
-| [ex10_date.js](examples/day2/ex10_date.js) | `new Date()`의 `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getDay()` |
-
-**예상 결과** — 여섯 개를 다 받으면 `ex/`에 파일이 열두 개 있다(1일차 여섯 + 오늘 여섯). 맨 위에는 `server.mjs`가 하나 늘었다.
-`ex/index.html`을 열면 처음에는 맨 아래 `ex06_compare.js` 줄만 켜져 있다. Console의 1~6번 결과가 위에서부터 `true` `false` `true` `false` `false` `true`다.
-
-다른 예제로 바꿀 때는 `ex/index.html` 맨 아래에서 켜 둔 줄에 커서를 두고 **Ctrl+/**(macOS **⌘+/**)로 주석으로 만들고, 볼 줄에서 다시 **Ctrl+/** 로 주석을 푼다. 저장 → 새로고침한다.
-
-```html
-<!-- <script src="ex06_compare.js"></script> -->
-<script src="ex07_if_else.js"></script>
-<!-- <script src="ex08_function.js"></script> -->
+```bash
+mkdir ex/ex06
+mkdir ex/ex07
+mkdir ex/ex08
+mkdir ex/ex09
+mkdir ex/ex10
 ```
 
-코드를 고칠 때는 `.js` 파일을 고치고, 결과는 `ex/index.html` 을 새로고침해 본다. 한 번에 한 줄만 켠다. 둘 이상 켜면 Console 에 여러 예제의 줄이 섞인다.
+[교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data/examples/day2)에서 2단계와 같은 **Raw** → 저장으로 폴더마다 두 파일을 자기 폴더에 넣는다(열 파일을 합치면 100줄이 넘어 타이핑은 시간 안에 못 끝낸다). 시작 5분 안에 폴더를 만들어 두고, 파일을 다 못 받았으면 ex06부터 시작해 나머지는 각 문항을 시작할 때 받는다.
+같은 방법으로 [server.mjs](../../tools/static-server/server.mjs)를 받아 `web-week05` 맨 위(`index.html` 옆)에 저장한다. 12단계에서 쓴다.
 
-- `ex07`은 맨 위 `const hour = 20;`의 숫자를 바꿔 저장 → 새로고침해 비교한다.
-- `ex09`만 화면 글자를 바꾼다(이번 주에 화면에 쓰는 법을 배우는 파일). 바꾸는 자리는 `index.html`의 "ex09 가 쓰는 자리"다. **바꾸기** 버튼을 누르기 전과 누른 뒤를 비교한다. 다른 줄을 켜 두었을 때는 버튼을 눌러도 아무 일이 없다.
+| 폴더 | 파일 | 비교하는 것 |
+|---|---|---|
+| `ex06` | [index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js) | `==` / `===`, `>=` / `>`, 문자열끼리 비교 / 숫자로 바꿔 비교 |
+| `ex07` | [index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js) | `if`만 / `if` · `else` / `if` · `else if` · `else` / 같은 조건을 순서만 거꾸로 |
+| `ex08` | [index.html](examples/day2/ex08/index.html) · [app.js](examples/day2/ex08/app.js) | `return` 없는 함수 / `return` 하는 함수 / 같은 함수에 다른 값 / 정의만 하고 부르지 않은 함수 |
+| `ex09` | [index.html](examples/day2/ex09/index.html) · [app.js](examples/day2/ex09/app.js) | `getElementById` + `innerText` / `querySelector` + `textContent` / 태그를 넣은 글자 / 입력 칸 `value`. 찾아 바꿀 자리(`#out1`~`#out3`, 입력 칸, 버튼)는 `index.html`에 있다 |
+| `ex10` | [index.html](examples/day2/ex10/index.html) · [app.js](examples/day2/ex10/app.js) | `new Date()`의 `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getDay()` |
+
+**예상 결과** — `ex/`에 1일차 폴더 다섯 개(`ex01`~`ex05`)와 오늘 폴더 다섯 개(`ex06`~`ex10`)가 있고, 폴더마다 `index.html`·`app.js`가 있다. 맨 위에는 `server.mjs`가 하나 늘었다.
+`ex/ex06/index.html`을 열면 Console의 1~6번 결과가 위에서부터 `true` `false` `true` `false` `false` `true`다.
+
+- 저장 창이 마지막으로 쓴 폴더(어제의 `ex05` 등)에서 열릴 수 있다. 저장 창 위쪽 경로가 지금 받는 예제의 폴더(`web-week05 › ex › ex06` 등)인지 보고 저장한다. 폴더마다 파일 이름이 같아서 다른 폴더에 저장하면 덮어쓴다. `server.mjs`만은 맨 위 `web-week05`에 저장한다.
+- 코드를 고칠 때는 그 폴더의 `app.js`를 고치고, 결과는 같은 폴더의 `index.html`을 새로고침해 본다. 다른 예제는 그 폴더의 `index.html`을 연다.
+- `ex07`은 `app.js` 4행 `const hour = 20;`의 숫자를 바꿔 저장 → 새로고침해 비교한다.
+- `ex09`만 화면 글자를 바꾼다(이번 주에 화면에 쓰는 법을 배우는 예제). 바꾸는 자리는 `ex/ex09/index.html`의 글자 세 줄과 입력 칸이다. **바꾸기** 버튼을 누르기 전과 누른 뒤를 비교한다.
 - `ex10`은 연 순간의 시각을 Console에 찍는다. 새로고침하면 다시 잰다.
-- 파일마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--조건과-함수-그리고-조립-60분)에 있다.
+- 예제마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--조건과-함수-그리고-조립-60분)에 있다.
 
 ### 7. 조립표
 
-이제 `web-week05` 맨 위의 `index.html`·`app.js`를 부품에서 조립한다. 줄마다 **어느 ex에서 본 것**인지 적어 두었다.
-옮겨 적을 때 출처 ex 파일을 옆에 열어 두고, 같은 문법이 거기서 Console(ex09 는 화면)에 무엇을 냈는지 떠올린다.
+이제 `web-week05` 맨 위의 `index.html`·`app.js`를 부품에서 조립한다. `ex/ex01/` 같은 예제 폴더에도 같은 이름의 파일이 있으니, 편집기 위쪽 경로 줄이 `web-week05 › app.js`처럼 `ex` 없이 보이는지 확인하고 고친다. 줄마다 **어느 ex에서 본 것**인지 적어 두었다.
+옮겨 적을 때 출처 예제의 `app.js`를 옆에 열어 두고, 같은 문법이 거기서 Console(ex09 는 화면)에 무엇을 냈는지 떠올린다.
 
 | 조립할 줄 | 어느 ex에서 본 것 |
 |---|---|
-| `index.html` `<head>`의 `<script src="app.js" defer></script>` | [ex02](examples/day1/ex02_script_position.html) 3번. `defer`는 HTML을 다 읽은 뒤 실행한다 → `#greeting`을 찾을 수 있다 |
-| `index.html`의 `<div class="card" id="greeting">인사말을 준비 중입니다.</div>` | [ex09](examples/day2/ex09_dom_write.js) 찾을 자리에 `id`, [4주차 ex01](../week04_responsive_css/examples/day1/ex01_selector.html) 클래스 선택자(`.red`와 같은 원리), `.card` 규칙은 [4주차 styles.css](../week04_responsive_css/examples/day2/web-week04/styles.css) |
-| `const name = 'student01';` | [ex03](examples/day1/ex03_let_const.html) `const` |
-| `const hour = new Date().getHours();` | [ex10](examples/day2/ex10_date.js) 지금 시각 → 시, [ex03](examples/day1/ex03_let_const.html) `const` |
-| `` function greet(name) { return `안녕하세요, ${name}님!`; } `` | [ex08](examples/day2/ex08_function.js) 정의·`return`, [ex05](examples/day1/ex05_template.html) 템플릿 문자열 |
-| `function hello(hour) { if (hour >= 12) { return … } else { return … } }` | [ex07](examples/day2/ex07_if_else.js) `if` · `else`, [ex06](examples/day2/ex06_compare.js) `>=`, [ex08](examples/day2/ex08_function.js) `return` |
-| `` const message = `${greet(name)} ${hello(hour)}`; `` | [ex05](examples/day1/ex05_template.html) `${}` 안은 계산된다(함수 호출도), [ex08](examples/day2/ex08_function.js) 호출 |
-| `console.log(hour);` `console.log(message);` | [ex01](examples/day1/ex01_click.html) Console |
-| `document.querySelector('#greeting').textContent = message;` | [ex09](examples/day2/ex09_dom_write.js) 2번. 먼저 찾고 → 그다음 바꾼다 |
+| `index.html` `<head>`의 `<script src="app.js" defer></script>` | [ex02](examples/day1/ex02/index.html) 3번. `defer`는 HTML을 다 읽은 뒤 실행한다 → `#greeting`을 찾을 수 있다 |
+| `index.html`의 `<div class="card" id="greeting">인사말을 준비 중입니다.</div>` | [ex09](examples/day2/ex09/app.js) 찾을 자리에 `id`, [4주차 ex01](../week04_responsive_css/examples/day1/ex01/index.html) 클래스 선택자(`.red`와 같은 원리), `.card` 규칙은 [4주차 styles.css](../week04_responsive_css/examples/day2/web-week04/styles.css) |
+| `const name = 'student01';` | [ex03](examples/day1/ex03/app.js) `const` |
+| `const hour = new Date().getHours();` | [ex10](examples/day2/ex10/app.js) 지금 시각 → 시, [ex03](examples/day1/ex03/app.js) `const` |
+| `` function greet(name) { return `안녕하세요, ${name}님!`; } `` | [ex08](examples/day2/ex08/app.js) 정의·`return`, [ex05](examples/day1/ex05/app.js) 템플릿 문자열 |
+| `function hello(hour) { if (hour >= 12) { return … } else { return … } }` | [ex07](examples/day2/ex07/app.js) `if` · `else`, [ex06](examples/day2/ex06/app.js) `>=`, [ex08](examples/day2/ex08/app.js) `return` |
+| `` const message = `${greet(name)} ${hello(hour)}`; `` | [ex05](examples/day1/ex05/app.js) `${}` 안은 계산된다(함수 호출도), [ex08](examples/day2/ex08/app.js) 호출 |
+| `console.log(hour);` `console.log(message);` | [ex01](examples/day1/ex01/app.js) Console |
+| `document.querySelector('#greeting').textContent = message;` | [ex09](examples/day2/ex09/app.js) 2번. 먼저 찾고 → 그다음 바꾼다 |
 
 **예상 결과** — 표의 위 두 줄이 8단계, 나머지 일곱 줄이 9단계에서 쓰는 순서와 같다. 표에 없는 문법은 `app.js`에도 없다.
 
-- 새 문법은 없다. 이틀 동안 비교 파일에서 본 것을 한 파일에 모을 뿐이다.
-- 비교 파일은 작년 방식(`var`·`getElementById`·`innerText`)과 이 교재의 방식(`const`·`querySelector`·`textContent`)을 나란히 보였다. 조립은 이 교재의 방식으로 쓴다. `const`는 다시 담지 않는 값이라는 표시다(ex03). `querySelector`는 CSS 선택자(`#id`·`.class`)를 받아서 찾는 법을 하나로 쓸 수 있다(ex09). `textContent`는 글자만 바꿀 때 `innerText`와 결과가 같다. 작년 방식으로 써도 화면은 같고, 어느 쪽으로 써도 정답이다(ex03·ex09).
+- 새 문법은 없다. 이틀 동안 비교 예제에서 본 것을 한 파일에 모을 뿐이다.
+- 비교 예제는 작년 방식(`var`·`getElementById`·`innerText`)과 이 교재의 방식(`const`·`querySelector`·`textContent`)을 나란히 보였다. 조립은 이 교재의 방식으로 쓴다. `const`는 다시 담지 않는 값이라는 표시다(ex03). `querySelector`는 CSS 선택자(`#id`·`.class`)를 받아서 찾는 법을 하나로 쓸 수 있다(ex09). `textContent`는 글자만 바꿀 때 `innerText`와 결과가 같다. 작년 방식으로 써도 화면은 같고, 어느 쪽으로 써도 정답이다(ex03·ex09).
 
 ### 8. index.html에 두 줄 넣기
 
@@ -416,7 +437,7 @@ Console : 10                                           app.js:18
 - `favicon.ico`는 브라우저가 탭 아이콘을 찾으려고 스스로 보낸 요청이다. 404여도 괜찮다.
 - 카드가 `인사말을 준비 중입니다.` 그대로면 21행까지 가지 못한 것이다. Console의 첫 빨간 줄 오른쪽 `app.js:줄`부터 고친다.
 - `Cannot set properties of null (setting 'textContent')`가 뜨면 21행이 `#greeting`을 못 찾은 것이다. `index.html`의 `id="greeting"` 철자와 `script` 줄의 `defer`를 본다.
-- `http://localhost:8000/ex/ex01_click.html`도 열어 본다. 두 번 눌러 열었을 때(`file:///…`)와 화면·Console이 같다. 이번 주 파일은 어느 쪽으로 열어도 결과가 같다.
+- `http://localhost:8000/ex/ex01/`도 열어 본다. 두 번 눌러 열었을 때(`file:///…`)와 화면·Console이 같다. 터미널에는 `200 GET /ex/ex01/`과 `200 GET /ex/ex01/app.js`가 늘어난다. 예제 폴더도 HTML을 받은 뒤 `app.js`를 따로 요청한다. 이번 주 파일은 어느 쪽으로 열어도 결과가 같다.
 - 확인이 끝나면 터미널을 누르고 **Ctrl+C**로 서버를 멈춘다. Node가 없는 PC는 `index.html`을 두 번 눌러 열어 같은 것을 확인한다.
 
 ### 13. push와 캡처

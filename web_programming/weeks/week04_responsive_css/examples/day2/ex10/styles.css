@@ -1,0 +1,15 @@
+/* ex10 flex-wrap: 다 안 들어갈 때 한 줄에 누를지, 다음 줄로 넘길지 비교한다 */
+.frame {
+    display: flex;                  /* ex07: 자식이 가로(→)로 선다 */
+    background-color: lightgray;    /* 회색이 보이면 남는 공간이다 */
+    width: 300px;                   /* ex04: 부모를 좁게 해서 자식이 다 안 들어가게 한다 */
+}
+.box {
+    width: 80px;                    /* ex04: 자식 80px × 6 = 480px. 300px 안에 다 안 들어간다 */
+}
+/* 자식을 구분하려고 두 색을 번갈아 칠한다(이 예제의 주제는 아니다). 줄이 넘어가도 위아래 색이 다르다 */
+.c1 { background-color: gold; }
+.c2 { background-color: lightskyblue; }
+
+.nowrap { flex-wrap: nowrap; }  /* 기본값: 한 줄에 억지로 넣는다. 80px 여섯 개가 50px 로 줄어든다 */
+.wrap   { flex-wrap: wrap; }    /* 안 들어가면 다음 줄로 넘긴다 */

@@ -3,7 +3,7 @@
 # 14주차 실습 — 비교 예제로 확인하고 발표 준비하기
 
 이번 주 실습도 **값을 바꿔 보는 것**으로 시작한다.
-비교 예제 3개(파일 여섯 개)를 이번 주 새 저장소 `web-week14` 의 `ex/` 폴더에 저장하고, 값이나 여는 방법을 바꾼 뒤 결과가 어떻게 달라지는지 본다.
+비교 예제 3개(예제 폴더 세 개, 파일 일곱 개)를 이번 주 새 저장소 `web-week14` 의 `ex/` 폴더에 저장하고, 값이나 여는 방법을 바꾼 뒤 결과가 어떻게 달라지는지 본다.
 이어서 지난주 완성본에 홈의 발표 순서 목록, 내 정보 표의 공개 주소 행, README 세 곳을 조립한다. 2일차가 발표라서 **조립과 올리기를 모두 1일차에 끝낸다.** 그래서 저장소도 50분이 아니라 31분에 만든다. 그래야 수업 안에 조교가 공개 주소를 확인하고, 리허설도 공개 주소로 할 수 있다.
 결과는 화면, **F12 › Console**, **F12 › Elements**, 그리고 서버를 띄운 터미널에서 본다. `student01` 은 예시 아이디이므로 본인 아이디로 바꾼다.
 
@@ -14,7 +14,7 @@
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 새 폴더 `web-week14` 를 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week13` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일(`README.md`·`server.mjs` 포함)과 `data/`·`images/`·`screenshots/` 를 넣는다. 못 받으면 교재 [13주차 `examples/day2/web-week13/`](../week13_release_security/examples/day2/web-week13/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 여섯 파일을 **Raw** 로 저장한다 |
+| 0–5분 | 새 폴더 `web-week14` 를 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week13` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일(`README.md`·`server.mjs` 포함)과 `data/`·`images/`·`screenshots/` 를 넣는다. 못 받으면 교재 [13주차 `examples/day2/web-week13/`](../week13_release_security/examples/day2/web-week13/) 파일을 **Raw** 로 받는다. `ex` 폴더와 그 안에 `ex01`·`ex02`·`ex03` 폴더를 만든다. 예제 파일은 문항마다 교재 [`examples/day1/`](examples/day1/) 의 같은 이름 폴더에서 받는다 |
 | 5–10분 | ex01 순서 목록 |
 | 10–16분 | ex02 로컬 시연은 서버로 |
 | 16–21분 | ex03 새로고침해도 남는 것 |
@@ -24,41 +24,41 @@
 | 47–55분 | 확인받은 사람부터 짝과 3분 리허설 |
 | 55–60분 | 끝 루틴: `git add .` → `git commit -m "14주차 1일차 마무리"` → `git push` → 저장소 첫 화면을 새로고침해 **캡처 1장**(그림이 옛것이면 Ctrl+F5) → 공용 PC면 자격 증명 삭제 |
 
-이번 주 예제는 화면이 서로 달라서 고르기 페이지가 없다. 파일마다 `.html` 을 연다. `.js`·`.json` 은 같은 `ex/` 폴더에서 `.html` 이 불러온다.
+이번 주 예제는 폴더마다 따로 연다. 문항의 폴더에서 `index.html` 을 연다. `styles.css`·`app.js` 는 같은 폴더의 `index.html` 이 불러오고, `message.json` 은 `app.js` 가 읽는다. 고치는 파일과 아래 문항의 `N행` 은 ex01 은 그 폴더의 `index.html`, ex02·ex03 은 그 폴더의 `app.js` 다.
 ex02·ex03 은 서버로 열 때와 두 번 눌러 열 때를 비교한다. 서버는 2번 문항 첫머리에서 띄운다.
 
 ### 1. ex01 순서 목록 (`ol` · `ul` · `li`)
 
-[examples/day1/ex01_order_list.html](examples/day1/ex01_order_list.html) 을 `ex/ex01_order_list.html` 로 저장하고 두 번 눌러 연다.
+교재 [index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) 를 **Raw** 로 받아 `ex/ex01/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex01/index.html` 을 두 번 눌러 연다. 고치는 파일은 `ex/ex01/index.html` 이다.
 
-- 바꿔 보기: 1번 목록의 24행과 25행(첫째 줄과 둘째 줄)을 통째로 맞바꾼다. 번호는 어떻게 붙나? 파일에 번호를 쓴 곳이 있나?
-- 바꿔 보기: 23행 `<ol>` 과 29행 `</ol>` 을 `<ul>` 과 `</ul>` 로 바꾼다. 번호 대신 무엇이 붙나? 상자 색은 왜 2번과 같아지나? (`<style>` 의 `ul { … }` 규칙이 태그 이름으로 고른다. 4주차) 확인했으면 되돌린다.
-- 바꿔 보기: 29행 `</ol>` 한 줄을 지운다. 2번 제목과 2번 목록은 어디에 들어가나? **F12 › Elements** 에서 `<ol>` 을 펼쳐 본다. 확인했으면 되돌린다.
+- 바꿔 보기: 1번 목록의 17행과 18행(첫째 줄과 둘째 줄)을 통째로 맞바꾼다. 번호는 어떻게 붙나? 파일에 번호를 쓴 곳이 있나?
+- 바꿔 보기: 16행 `<ol>` 과 22행 `</ol>` 을 `<ul>` 과 `</ul>` 로 바꾼다. 번호 대신 무엇이 붙나? 상자 색은 왜 2번과 같아지나? (같은 폴더 `styles.css` 의 `ul { … }` 규칙이 태그 이름으로 고른다. 4주차) 확인했으면 되돌린다.
+- 바꿔 보기: 22행 `</ol>` 한 줄을 지운다. 2번 제목과 2번 목록은 어디에 들어가나? **F12 › Elements** 에서 `<ol>` 을 펼쳐 본다. 확인했으면 되돌린다.
 - 흔한 실수: 번호를 글로 직접 쓴다(`<li>1. 위 메뉴로 네 페이지를 오갑니다.</li>`). `<ol>` 이 붙인 번호와 겹쳐 `1. 1. 위 메뉴로…` 처럼 두 번 보인다. 번호는 `<ol>` 에 맡긴다.
 
 ### 2. ex02 로컬 시연은 서버로 (`fetch` · `node server.mjs`)
 
-[examples/day1/ex02_server.html](examples/day1/ex02_server.html) · [ex02_server.js](examples/day1/ex02_server.js) · [ex02_message.json](examples/day1/ex02_message.json) 세 파일을 `ex/` 에 저장한다.
+교재 [index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) · [message.json](examples/day1/ex02/message.json) 을 **Raw** 로 받아 `ex/ex02/` 에 저장한다(따라하기 2단계에서 받았으면 건너뛴다). 고치는 파일은 `ex/ex02/app.js` 다.
 이어서 터미널(현재 폴더 `web-week14`)에서 `node server.mjs` 를 띄운다. 서버는 조립 확인이 끝날 때까지 띄워 둔다.
 
-- 바꿔 보기: 주소창에 `http://localhost:8000/ex/ex02_server.html` 을 친다(1번, 서버로 열기). 화면 글자와 Console 의 번호는? 터미널에 새로 찍힌 요청 줄은 무엇인가?
-- 바꿔 보기: 같은 `ex02_server.html` 을 두 번 눌러 연다(2번). 주소창은 무엇으로 시작하나? 화면 글자와 Console 의 번호는? 빨간 줄은 무엇이라고 하나?
-- 바꿔 보기: 서버로 연 탭에서 `.js` 8행의 `'ex02_message.json'` 을 `'ex02_massage.json'` 으로 바꾸고 새로고침한다. 화면 글자는 두 번 눌러 열었을 때와 같은가? 그렇다면 둘을 무엇으로 구별하나? 터미널에서 `404 GET /ex/ex02_massage.json` 줄을 찾는다. 확인했으면 되돌린다.
+- 바꿔 보기: 주소창에 `http://localhost:8000/ex/ex02/index.html` 을 친다(1번, 서버로 열기). 화면 글자와 Console 의 번호는? 터미널에 새로 찍힌 요청 줄은 무엇인가?
+- 바꿔 보기: 같은 `ex/ex02/index.html` 을 두 번 눌러 연다(2번). 주소창은 무엇으로 시작하나? 화면 글자와 Console 의 번호는? 빨간 줄은 무엇이라고 하나?
+- 바꿔 보기: 서버로 연 탭에서 `app.js` 8행의 `'message.json'` 을 `'massage.json'` 으로 바꾸고 새로고침한다. 화면 글자는 두 번 눌러 열었을 때와 같은가? 그렇다면 둘을 무엇으로 구별하나? 터미널에서 `404 GET /ex/ex02/massage.json` 줄을 찾는다. 확인했으면 되돌린다.
 - 흔한 실수: 공개 주소가 안 열려 로컬 시연으로 바꿀 때 `index.html` 을 두 번 눌러 연다. 프로젝트 페이지에 카드가 나오지 않는다. 로컬 시연은 꼭 `node server.mjs` 로 연다.
 
 ### 3. ex03 새로고침해도 남는 것 (`localStorage` · 시크릿 창)
 
-[examples/day1/ex03_storage.html](examples/day1/ex03_storage.html) 과 [ex03_storage.js](examples/day1/ex03_storage.js) 를 `ex/` 에 저장하고 `ex03_storage.html` 을 두 번 눌러 연다.
+교재 [index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) 를 **Raw** 로 받아 `ex/ex03/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex03/index.html` 을 두 번 눌러 연다. 고치는 파일은 `ex/ex03/app.js` 다.
 
 - 바꿔 보기: **눌러 보기**를 세 번 누르고 새로고침한다. 1번과 2번은 각각 몇인가? `+ 1` 하는 줄은 둘이 같은데 왜 다른가?
 - 바꿔 보기: 9행을 `let countSaved = 0;` 으로 바꾸고 새로고침한다. 2번은 몇인가? **F12 › Application › Local storage** 에서 `ex03-count` 값은 그대로인가? 이 상태에서 한 번 누르면 저장된 값은 몇이 되나? 확인했으면 되돌린다.
-- 바꿔 보기: 같은 파일을 서버 주소 `http://localhost:8000/ex/ex03_storage.html` 로 연다. 2번은 몇에서 시작하나? 두 번 눌러 연 탭을 새로고침하면 그쪽 수는 그대로인가?
+- 바꿔 보기: 같은 파일을 서버 주소 `http://localhost:8000/ex/ex03/index.html` 로 연다. 2번은 몇에서 시작하나? 두 번 눌러 연 탭을 새로고침하면 그쪽 수는 그대로인가?
 - 바꿔 보기: 서버 주소를 복사해 **새 시크릿 창**(Ctrl+Shift+N, macOS ⌘+Shift+N)에 붙여 연다. 2번은? 시크릿 창을 모두 닫았다가 다시 열면?
 - 흔한 실수: 발표 전에 일반 창에서 방명록 글을 남겨 두고 발표는 시크릿 창으로 한다. 목록이 비어 있다. 글은 **발표할 그 창**에서 남긴다.
 
 ### 4. 조립 — 홈 목록, 공개 주소 행, README (`h2` · `ol` · `tr` · `td`)
 
-이제 `ex/` 가 아니라 `web-week14` 맨 위의 `index.html`·`about.html`·`README.md` 를 연다. 전문과 단계는 [따라하기 5~10단계](walkthrough.md#5-조립표)에 있다.
+이제 `ex/` 가 아니라 `web-week14` 맨 위의 `index.html`·`about.html`·`README.md` 를 연다. `ex/ex01/` 같은 예제 폴더의 `index.html` 은 이름만 같은 예제 파일이라 조립에 쓰지 않는다. 고치는 파일의 편집기 위쪽 경로 줄이 `web-week14 › index.html` 처럼 `ex` 없이 보이는지 확인한다. 전문과 단계는 [따라하기 5~10단계](walkthrough.md#5-조립표)에 있다.
 
 - `index.html` 의 `<div class="card" id="count">클릭 0회</div>` 바로 아래에 제목 한 줄과 번호 목록(일곱 줄)을 넣는다. 다섯 줄의 순서가 곧 발표 순서다. [3분 시연 흐름 표](demo_outline.md)의 둘째~일곱째 줄과 같은 차례로 두고, 빈값 안내와 남기기·삭제는 한 줄로 묶는다.
 - `about.html` 표의 `관심 분야` 행 아래에 행 하나(네 줄)를 넣는다. 주소는 **내 공개 주소** `https://student01.github.io/web-week14/`(본인 아이디)다.
@@ -165,6 +165,7 @@ git push -u origin main
 | push 가 거부되거나 로그인 창이 안 뜬다 | [2주차 막혔을 때](../week02_github_pages/lab.md#막혔을-때) 표를 본다 |
 | 새 시크릿 창에서 공개 주소가 404 다 | 저장소가 Private 이거나 맨 위에 `index.html` 이 없다. **Settings › Pages** 에 `Your site is live at` 이 있는지, 주소의 아이디·저장소 이름 `web-week14`·끝의 `/` 를 본다 |
 | 두 번 눌러 연 페이지에서 ex02 글이나 프로젝트 카드가 안 나온다 | Console 에 `Access to fetch at 'file:///…' from origin 'null' has been blocked by CORS policy` 로 시작하는 빨간 줄이 있다. 두 번 눌러 연 `file://` 페이지에서는 `fetch` 가 파일을 읽지 못한다. `node server.mjs` 로 연다(ex02) |
+| ex01 의 두 목록 상자에 배경색이 없거나, ex02·ex03 이 처음 글자 그대로이고 Console 에 번호 줄이 없다 | 그 `index.html` 과 같은 폴더(`ex/ex01/` 등)에 `styles.css`·`app.js` 가 있는지, 이름 철자가 맞는지 본다. Console 에 `Failed to load resource` 줄이 있으면 그 파일이 그 폴더에 없는 것이다. 서버로 열었으면 터미널의 `404 GET /ex/…` 줄에서 빠진 파일 이름을 읽는다 |
 | 서버로 열었는데도 `읽지 못했습니다.` 나 `프로젝트를 불러오지 못했습니다.` 가 나온다 | 서버 터미널에서 `404 GET /…` 줄을 찾는다. 파일 이름의 철자·대소문자, 폴더 이름(`data/`)을 본다(ex02 셋째 바꿔 보기) |
 | 서버 주소에서는 카드가 나오는데 공개 주소에서는 안 나온다 | `projects.js` 의 주소가 `data/projects.json` 인지 본다. 앞에 `/` 를 붙이면 공개 주소에서는 `https://student01.github.io/data/projects.json` 을 찾아 404 가 난다. `data/` 폴더가 저장소에 올라갔는지도 본다 |
 | 로컬 시연 중 `사이트에 연결할 수 없음` · `ERR_CONNECTION_REFUSED` 화면이 나온다 | 서버를 띄운 터미널을 닫았거나 Ctrl+C 로 멈췄다. 그 폴더에서 다시 `node server.mjs` 를 띄운다 |

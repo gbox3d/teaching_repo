@@ -3,60 +3,62 @@
 # 5주차 실습 — 값을 바꿔 보고 마지막에 조립하기
 
 이번 주 실습은 코드를 새로 쓰는 것이 아니라 **값을 바꿔 보는 것**이다.
-비교 예제 10개를 이번 주 새 저장소 `web-week05` 의 `ex/` 폴더에 저장하고(1일차는 HTML 파일, 2일차는 고르기 페이지 `index.html` 하나와 `.js` 다섯 개), 값이나 주석 하나를 바꾼 뒤 결과가 어떻게 달라지는지 본다.
-비교 파일의 결과는 **F12 › Console** 에서 본다(화면에 쓰는 것은 ex09 의 주제라 ex09 만 화면을 바꾼다). Console 은 실습 내내 열어 둔다.
-DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새 탭이라 F12 를 다시 누른다. 열린 탭의 주소창에서 파일 이름만 바꿔 Enter 하면 Console 이 열린 채로 남는다.
+비교 예제 10개를 이번 주 새 저장소 `web-week05` 의 `ex/` 폴더에 저장하고(예제마다 `ex/` 안의 같은 이름 폴더에 `index.html`·`app.js` 두 파일), 값이나 주석 하나를 바꾼 뒤 결과가 어떻게 달라지는지 본다.
+비교 예제의 결과는 **F12 › Console** 에서 본다(화면에 쓰는 것은 ex09 의 주제라 ex09 만 화면을 바꾼다). Console 은 실습 내내 열어 둔다.
+DevTools 는 탭마다 따로 열린다. 새 파일을 두 번 눌러 열면 새 탭이라 F12 를 다시 누른다. 열린 탭의 주소창에서 폴더 이름만 바꿔(`…/ex/ex01/index.html` → `…/ex/ex02/index.html`) Enter 하면 Console 이 열린 채로 남는다.
 2일차 끝에 그 부품으로 `web-week05` 맨 위의 `index.html` 두 줄과 `app.js` 를 조립한다. 두 파일은 지난주 완성본에서 가져온다. 채점 대상은 2일차 캡처 1장이다.
 `student01` 은 예시 아이디이므로 본인 아이디로 바꾼다.
 
-파일을 받는 법, Console 을 여는 법, 값을 바꾸는 요령은 [따라하기 1일차](walkthrough.md#1일차)에 있다.
+파일을 받는 법, 예제 폴더 여는 법, Console 을 여는 법, 값을 바꾸는 요령은 [따라하기 1일차](walkthrough.md#1일차)에 있다.
 "바꿔 보기"는 **무엇이 달라질지 먼저 말해 보고** 저장 → 새로고침으로 확인한다.
 
 ## 1일차 — 스크립트와 값 (60분)
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 새 폴더 `web-week05` 를 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/` 를 넣는다. 못 받으면 교재 [4주차 `examples/day2/web-week04/`](../week04_responsive_css/examples/day2/web-week04/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 다섯 파일(ex01~ex05, ex02 는 `.js` 까지 여섯 개)을 **Raw** 로 저장한다. 5분 안에 다 못 받았으면 ex01 부터 시작하고, 나머지는 각 문항을 시작할 때 저장한다 |
+| 0–5분 | 새 폴더 `web-week05` 를 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week04` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/` 를 넣는다. 못 받으면 교재 [4주차 `examples/day2/web-week04/`](../week04_responsive_css/examples/day2/web-week04/) 파일을 **Raw** 로 받는다. `ex` 폴더와 그 안에 `ex01`~`ex05` 폴더를 만든다. 예제 파일은 문항마다 교재 [`examples/day1/`](examples/day1/) 의 같은 이름 폴더에서 받는다 |
 | 5–14분 | ex01 지금 실행 vs 클릭할 때 실행 |
 | 14–23분 | ex02 script 위치 |
 | 23–32분 | ex03 let · const · var |
 | 32–41분 | ex04 `+` |
 | 41–47분 | ex05 템플릿 문자열 |
-| 47–50분 | 확인: 여섯 파일이 `ex/` 에 있고, 각각 값 하나 이상을 바꿨는지. 일부러 낸 오류와 옮긴 줄은 되돌려 두었는지 |
-| 50–60분 | 이번 주 저장소 만들어 올리기: GitHub 에 새 저장소 `web-week05` → [올리기 명령](#이번-주-저장소-만들어-올리기) → **Settings › Pages** → 공개 주소 `https://student01.github.io/web-week05/ex/ex01_click.html` 확인 → 공용 PC면 자격 증명 삭제 |
+| 47–50분 | 확인: `ex/` 안에 예제 폴더 다섯 개가 있고 폴더마다 `index.html`·`app.js` 가 있는지, 각 예제에서 값 하나 이상을 바꿨는지. 일부러 낸 오류와 옮긴 줄은 되돌려 두었는지 |
+| 50–60분 | 이번 주 저장소 만들어 올리기: GitHub 에 새 저장소 `web-week05` → [올리기 명령](#이번-주-저장소-만들어-올리기) → **Settings › Pages** → 공개 주소 `https://student01.github.io/web-week05/ex/ex01/` 확인 → 공용 PC면 자격 증명 삭제 |
 
 4주차를 옛 저장소 `my-web` 으로 수업한 분반은 내 `my-web` 저장소를 같은 방법(**Code › Download ZIP**)으로 받아 맨 위 파일과 `images/` 만 넣는다.
 
+예제는 폴더마다 따로 연다. 문항의 폴더에서 `index.html` 을 Chrome 으로 열고, 코드는 같은 폴더의 `app.js` 에서 고친 뒤 저장 → 새로고침으로 본다. 아래 문항의 `N행` 은 파일 이름을 따로 적지 않으면 그 폴더 `app.js` 의 줄 번호다. ex02 만 `index.html` 의 줄도 고친다.
+
 ### 1. ex01 지금 실행 vs 클릭할 때 실행 (`console.log` · `addEventListener`)
 
-[examples/day1/ex01_click.html](examples/day1/ex01_click.html) 을 `ex/ex01_click.html` 로 저장한다. [따라하기 1일차](walkthrough.md#1일차)의 3단계(여는 법과 Console 여는 법)를 본다.
+교재 [index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) 를 **Raw** 로 받아 `ex/ex01/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex01/index.html` 을 연다. 고치는 파일은 `ex/ex01/app.js` 다. 여는 법과 Console 여는 법은 [따라하기 1일차](walkthrough.md#1일차)의 3단계에 있다.
 
-- 바꿔 보기: 파일을 열고 버튼을 누르기 전에 Console 을 본다. A·B·C 중 무엇이 찍혀 있나? `console.log('C. …')` 는 파일 맨 아래에 있는데 왜 B 보다 먼저 찍히나?
+- 바꿔 보기: 파일을 열고 버튼을 누르기 전에 Console 을 본다. A·B·C 중 무엇이 찍혀 있나? `console.log('C. …')` 는 코드 맨 아래(9행)에 있는데 왜 B 보다 먼저 찍히나?
 - 바꿔 보기: 버튼을 세 번 누른다. B 는 몇 번 찍히나? A·C 는 늘어나나? 새로고침하면 어떻게 되나?
-- 바꿔 보기: `console.log('C. …');` 줄을 버튼의 `{ }` 안, B 줄 아래로 옮긴다. 이제 C 는 언제 찍히나? 확인했으면 C 줄을 원래 자리(맨 아래)로 되돌린다.
+- 바꿔 보기: 9행 `console.log('C. …');` 줄을 버튼의 `{ }` 안, 7행 B 줄 아래로 옮긴다. 이제 C 는 언제 찍히나? 확인했으면 C 줄을 원래 자리(맨 아래)로 되돌린다.
 - 흔한 실수: `addEventListener` 줄에서 안쪽 코드가 바로 실행된다고 본다. 안쪽은 **등록만** 해 두고 클릭할 때마다 실행된다.
 
 ### 2. ex02 script 위치 (`<script>` · `defer`)
 
-[examples/day1/ex02_script_position.html](examples/day1/ex02_script_position.html) 과 [ex02_script_position.js](examples/day1/ex02_script_position.js) 를 둘 다 `ex/` 에 저장한다. 두 파일이 같은 폴더에 있어야 한다.
+교재 [index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) 를 **Raw** 로 받아 `ex/ex02/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex02/index.html` 을 연다. 이 예제는 주제가 `script` 를 두는 자리라서 `index.html` 안에도 `<script>` 가 두 개(head 안·body 끝) 있다. 고치는 파일은 `ex/ex02/index.html` 이다.
 
 - 바꿔 보기: Console 에 찍힌 세 줄의 **순서**와 **값**을 읽는다. 1번만 `null`(없다는 값)인 이유는 무엇인가? 3번 파일도 `<head>` 에서 연결했는데 왜 `body` 가 있나?
-- 바꿔 보기: `<script src="ex02_script_position.js" defer></script>` 에서 `defer` 만 지운다. 3번 줄에 무엇이 찍히나? 세 줄의 순서도 바뀌나? 바뀌었다면 왜인가? 확인했으면 `defer` 를 되돌린다.
-- 바꿔 보기: head 안의 1번 `<script>` 덩어리(세 줄)를 잘라 `<body>` 안, 2번 `<script>` 바로 위에 붙인다. 1번 값은 어떻게 되나? 확인했으면 되돌린다.
-- 흔한 실수: `.js` 파일을 저장하지 않았거나 다른 폴더에 저장했다. 그러면 Console 에 3번 줄이 없고, 파일을 못 불러왔다는 빨간 줄이 뜬다.
+- 바꿔 보기: `index.html` 12행 `<script src="app.js" defer></script>` 에서 `defer` 만 지운다. 3번 줄에 무엇이 찍히나? 세 줄의 순서도 바뀌나? 바뀌었다면 왜인가? 확인했으면 `defer` 를 되돌린다.
+- 바꿔 보기: `index.html` 7~10행, head 안의 1번 `<script>` 덩어리(네 줄)를 잘라 `<body>` 안, 2번 `<script>` 바로 위에 붙인다. 1번 값은 어떻게 되나? 확인했으면 되돌린다.
+- 흔한 실수: `app.js` 를 저장하지 않았거나 다른 폴더에 저장했다. 그러면 Console 에 3번 줄이 없고, 파일을 못 불러왔다는 빨간 줄(`Failed to load resource`)이 뜬다.
 
 ### 3. ex03 let · const · var (`let` · `const` · `var`)
 
-[examples/day1/ex03_let_const.html](examples/day1/ex03_let_const.html) 을 `ex/ex03_let_const.html` 로 저장한다.
+교재 [index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) 를 **Raw** 로 받아 `ex/ex03/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex03/index.html` 을 연다. 고치는 파일은 `ex/ex03/app.js` 다.
 
 - 바꿔 보기: 파일을 열자마자 Console 에 빨간 줄이 있나? 2번 버튼을 누른 뒤에는? 오류는 언제 생기나?
-- 바꿔 보기: 세 버튼을 두 번씩 누른다. 1번·3번 줄의 숫자는 어떻게 되나? 2번 버튼을 눌러도 `2. const b =` 줄이 한 번도 안 찍히는 이유는? 빨간 줄의 `파일:줄`(24행)이 가리키는 줄과 그 바로 아래 줄을 읽는다.
-- 바꿔 보기: `const b = 0;` 의 `const` 를 `let` 으로 바꾼다. 2번 버튼이 어떻게 되나?
+- 바꿔 보기: 세 버튼을 두 번씩 누른다. 1번·3번 줄의 숫자는 어떻게 되나? 2번 버튼을 눌러도 `2. const b =` 줄이 한 번도 안 찍히는 이유는? 빨간 줄의 `파일:줄`(`app.js:13`)이 가리키는 줄과 그 바로 아래 줄을 읽는다.
+- 바꿔 보기: 5행 `const b = 0;` 의 `const` 를 `let` 으로 바꾼다. 2번 버튼이 어떻게 되나?
 - 흔한 실수: "`const` 는 다시 담을 수 없으니 파일을 열 때 오류가 난다"고 본다. 오류는 **그 줄이 실행될 때** 나고, 오류 난 줄 아래는 실행되지 않는다.
 
 ### 4. ex04 +는 두 가지 일을 한다 (`+` · `Number()` · `parseInt()`)
 
-[examples/day1/ex04_plus.html](examples/day1/ex04_plus.html) 을 `ex/ex04_plus.html` 로 저장한다.
+교재 [index.html](examples/day1/ex04/index.html) · [app.js](examples/day1/ex04/app.js) 를 **Raw** 로 받아 `ex/ex04/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex04/index.html` 을 연다. 고치는 파일은 `ex/ex04/app.js` 다.
 Console 줄 끝의 `number`·`string` 은 `typeof` 가 알려 주는 값의 종류다. number 는 숫자, string 은 문자열이다.
 
 - 바꿔 보기: 입력 칸 `1`·`2` 그대로 6번·7번 버튼을 누른다. 결과가 왜 다른가? 입력 칸을 `10`·`5` 로 바꿔 다시 누르면?
@@ -67,9 +69,9 @@ Console 줄 끝의 `number`·`string` 은 `typeof` 가 알려 주는 값의 종�
 
 ### 5. ex05 템플릿 문자열 (`` ` `` · `${}`)
 
-[examples/day1/ex05_template.html](examples/day1/ex05_template.html) 을 `ex/ex05_template.html` 로 저장한다.
+교재 [index.html](examples/day1/ex05/index.html) · [app.js](examples/day1/ex05/app.js) 를 **Raw** 로 받아 `ex/ex05/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex05/index.html` 을 연다. 고치는 파일은 `ex/ex05/app.js` 다.
 
-- 바꿔 보기: `const name = 'student01';` 과 `const hour = 9;` 를 `'student02'` 와 `14` 로 바꾼다. 네 줄 중 어느 줄이 바뀌나? 3번은 왜 안 바뀌나?
+- 바꿔 보기: 4·5행 `const name = 'student01';` 과 `const hour = 9;` 를 `'student02'` 와 `14` 로 바꾼다. 네 줄 중 어느 줄이 바뀌나? 3번은 왜 안 바뀌나?
 - 바꿔 보기: 3번 줄 `'안녕하세요, ${name}님!'` 의 작은따옴표 두 개를 백틱으로 바꾼다. 3번이 어떻게 되나?
 - 바꿔 보기: 4번 줄 `${hour + 1}` 을 `${hour} + 1` 로 바꾼다. 무엇이 찍히나? `+ 1` 은 어디서 계산되고 어디서 글자가 되나?
 - 흔한 실수: 백틱 대신 작은따옴표를 쓴다. 백틱은 키보드 `1` 왼쪽, `Esc` 아래 키다. 그 키를 쳤는데 다른 글자(macOS 한글 입력이면 `₩`)가 들어가면 영문 입력으로 바꾼 뒤 다시 친다.
@@ -87,14 +89,14 @@ git remote add origin https://github.com/student01/web-week05.git
 git push -u origin main
 ```
 
-저장소 **Settings › Pages › Branch: main, /(root) › Save** → 1~3분 뒤 `https://student01.github.io/web-week05/ex/ex01_click.html` 을 연다. Console 에 A·C 가 찍히면 된 것이다. 공용 PC면 자격 증명을 지우고 나간다.
+저장소 **Settings › Pages › Branch: main, /(root) › Save** → 1~3분 뒤 `https://student01.github.io/web-week05/ex/ex01/` 를 연다. `ex/ex01/index.html` 의 화면(제목과 버튼)이 보이고 Console 에 A·C 가 찍히면 된 것이다. 공용 PC면 자격 증명을 지우고 나간다.
 오늘 올린 것은 확인용이다. 제출은 2일차에 캡처 한 장만 한다.
 
 ## 2일차 — 조건과 함수, 그리고 조립 (60분)
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 같은 PC에 `web-week05` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week05.git` 뒤 **File › Open Folder**. 교재 [`examples/day2/`](examples/day2/) 의 여섯 파일(고르기 페이지 `index.html` 과 ex06~ex10 의 `.js`)을 **Raw** 로 `ex/` 에 먼저 저장하고, [server.mjs](../../tools/static-server/server.mjs) 를 **Raw** 로 저장소 맨 위(`index.html` 옆)에 저장한다. 5분 안에 다 못 받았으면 ex06 부터 시작하고, 나머지는 각 문항을 시작할 때 저장한다 |
+| 0–5분 | 같은 PC에 `web-week05` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week05.git` 뒤 **File › Open Folder**. `ex/` 안에 `ex06`~`ex10` 폴더를 만들고, [server.mjs](../../tools/static-server/server.mjs) 를 **Raw** 로 저장소 맨 위(`index.html` 옆)에 저장한다. 예제 파일은 문항마다 교재 [`examples/day2/`](examples/day2/) 의 같은 이름 폴더에서 받는다 |
 | 5–11분 | ex06 비교 |
 | 11–17분 | ex07 if / else |
 | 17–23분 | ex08 function |
@@ -104,13 +106,13 @@ git push -u origin main
 | 48–55분 | 서버로 열어 확인: `node server.mjs` → `http://localhost:8000/` → 인사말 카드와 Console 두 줄 → 터미널의 요청 줄 읽기. Node 가 없으면 `index.html` 을 두 번 눌러 연다 |
 | 55–60분 | 끝 루틴: `git add .` → `git commit -m "5주차 2일차"` → `git push` → 공개 주소 `https://student01.github.io/web-week05/` 에서 Console 을 연 **캡처 1장** → 공용 PC면 자격 증명 삭제 |
 
-여섯 파일을 받는 법과 조립 전문은 [따라하기 2일차](walkthrough.md#2일차)에 있다.
-2일차 예제는 모두 `ex/index.html` 하나로 연다. 그 파일 맨 아래 `<script src="exNN_….js">` 다섯 줄 중 **지금 문항의 줄 하나만** 주석 밖에 둔다(줄에서 **Ctrl+/**, macOS **⌘+/**). 코드는 각 `.js` 파일에서 고치고, 저장 → `ex/index.html` 새로고침으로 본다. 1일차 ex02 에서 본 `<script src>` 가 이 모양이다.
+예제 폴더를 받는 법과 조립 전문은 [따라하기 2일차](walkthrough.md#2일차)에 있다.
+2일차 예제도 폴더마다 따로 연다. 문항의 폴더에서 `index.html` 을 열고, 코드는 같은 폴더의 `app.js` 에서 고친 뒤 저장 → 새로고침으로 본다. 아래 문항의 `N행` 은 모두 그 폴더 `app.js` 의 줄 번호다. `index.html` 이 `<head>` 에서 `<script src="app.js" defer>` 로 `app.js` 를 부르는 것은 1일차 ex02 의 3번과 같은 모양이다.
 파일마다 **코드를 고치는 바꿔 보기를 하나 이상** 하고 넘어간다. 조립과 이어지는 것(ex08 `${greet()}`, ex09 `#out9`, ex10 `new Date().getHours()`)을 각 문항 맨 앞에 두었다. 33분이 되면 남은 것은 두고 조립을 시작한다. 조립 전에 고친 `ex/` 파일은 끝 루틴에 함께 올라가도 된다. 남은 바꿔 보기는 캡처까지 끝낸 뒤 한다.
 
 ### 6. ex06 비교 (`==` · `===` · `>=` · `>`)
 
-[examples/day2/ex06_compare.js](examples/day2/ex06_compare.js) 를 `ex/ex06_compare.js` 로 저장한다. `ex/index.html` 맨 아래에서 `ex06_compare.js` 줄만 켠다(처음 받은 상태가 이렇다).
+교재 [index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js) 를 **Raw** 로 받아 `ex/ex06/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex06/index.html` 을 연다. 고치는 파일은 `ex/ex06/app.js` 다.
 
 - 바꿔 보기: 열기 전에 여섯 식의 결과를 `true`·`false` 로 먼저 말해 본다. 몇 개가 맞았나? 1번과 2번은 왜 다른가?
 - 바꿔 보기: 5번 줄의 `'10' > '9'` 두 곳(앞 글자와 식)을 `'2' > '10'` 으로 바꾼다. 숫자라면 `false` 인데 결과는? 문자열은 무엇부터 비교하나?
@@ -119,16 +121,16 @@ git push -u origin main
 
 ### 7. ex07 if / else (`if` · `else if` · `else`)
 
-[examples/day2/ex07_if_else.js](examples/day2/ex07_if_else.js) 를 `ex/ex07_if_else.js` 로 저장한다. `ex/index.html` 맨 아래에서 ex06 줄을 끄고 `ex07_if_else.js` 줄만 켠다.
+교재 [index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js) 를 **Raw** 로 받아 `ex/ex07/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex07/index.html` 을 연다. 고치는 파일은 `ex/ex07/app.js` 다.
 
-- 바꿔 보기: 코드 맨 위 `const hour = 20;` 의 `20` 을 `9`·`12`·`15` 로 차례로 바꿔 저장 → 새로고침한다. 3번과 4번이 다르게 나오는 시각은 어느 것인가? 조건은 같은데 왜 다른가?
+- 바꿔 보기: 4행 `const hour = 20;` 의 `20` 을 `9`·`12`·`15` 로 차례로 바꿔 저장 → 새로고침한다. 3번과 4번이 다르게 나오는 시각은 어느 것인가? 조건은 같은데 왜 다른가?
 - 바꿔 보기: 4번의 `m4 = '저녁';` 옆 주석은 "이 줄에는 영영 오지 못한다"이다. 0~23 중 그 줄에 오는 값이 있나? 없다면 왜인가? 4번이 `저녁` 을 내려면 조건 두 줄을 어떻게 바꿔야 하나?
 - 바꿔 보기: 1번의 `let m1 = '(담긴 것 없음)';` 을 `let m1;` 으로 바꾸고 `hour` 를 `9` 로 한다. 1번 줄에 무엇이 찍히나? 그 글자는 무슨 뜻일까? `let m2;` 도 값 없이 만든 변수다. 같은 글자를 ex08 에서 다시 본다.
 - 흔한 실수: `if` 사슬에서 작은 기준(`>= 12`)을 먼저 쓴다. 위에서부터 **처음 참인 한 곳만** 실행되므로 큰 기준(`>= 18`)이 먼저 와야 한다.
 
 ### 8. ex08 function (`function` · `return`)
 
-[examples/day2/ex08_function.js](examples/day2/ex08_function.js) 를 `ex/ex08_function.js` 로 저장한다. `ex/index.html` 에서 `ex08_function.js` 줄만 켠다.
+교재 [index.html](examples/day2/ex08/index.html) · [app.js](examples/day2/ex08/app.js) 를 **Raw** 로 받아 `ex/ex08/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex08/index.html` 을 연다. 고치는 파일은 `ex/ex08/app.js` 다.
 괄호 안 `name` 은 부를 때 넣은 값을 받는 이름이다(**매개변수**). `greet('student02')` 로 부르면 그 안의 `name` 에 `'student02'` 가 담긴다.
 `undefined` 는 아직 담긴 값이 없다는 값이다. 값 없이 만든 변수(ex07 의 `let m1;`)도, `return` 이 없는 함수를 부른 결과도 `undefined` 다.
 
@@ -140,7 +142,7 @@ git push -u origin main
 
 ### 9. ex09 화면에 쓰기 (`querySelector` · `textContent` · `value`)
 
-[examples/day2/ex09_dom_write.js](examples/day2/ex09_dom_write.js) 를 `ex/ex09_dom_write.js` 로 저장한다. `ex/index.html` 에서 `ex09_dom_write.js` 줄만 켠다. 찾아서 바꿀 자리(`#out1`~`#out3`, 입력 칸, **바꾸기** 버튼)는 `index.html` 의 "ex09 가 쓰는 자리" 에 있다.
+교재 [index.html](examples/day2/ex09/index.html) · [app.js](examples/day2/ex09/app.js) 를 **Raw** 로 받아 `ex/ex09/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex09/index.html` 을 연다. 고치는 파일은 `ex/ex09/app.js` 다. 찾아서 바꿀 자리(`#out1`~`#out3`, 입력 칸, **바꾸기** 버튼)는 같은 폴더의 `index.html` 에 있다.
 
 - 바꿔 보기: `console.log(document.querySelector('#out9'));` 줄(10행) 아래에 `document.querySelector('#out9').textContent = '9';` 한 줄을 더한다. 빨간 줄은 무엇이라고 하나? 그 뒤에 **바꾸기** 버튼은 동작하나? 조립 마지막 줄에서 id 를 틀리면 이 빨간 줄이 뜬다. 확인했으면 더한 줄을 지운다. 남겨 두면 다음 바꿔 보기에서 바꾸기 버튼이 동작하지 않는다.
 - 바꿔 보기: **바꾸기**를 누르기 전에 Console 두 줄을 읽는다. 둘째 줄이 `null` 인 이유는 무엇인가? 버튼을 누른 뒤 3번에 `<b>` 가 굵게 되나, 글자로 보이나?
@@ -150,7 +152,7 @@ git push -u origin main
 
 ### 10. ex10 new Date() (`new Date()` · `getHours()`)
 
-[examples/day2/ex10_date.js](examples/day2/ex10_date.js) 를 `ex/ex10_date.js` 로 저장한다. `ex/index.html` 에서 `ex10_date.js` 줄만 켠다. 여섯 식의 뜻은 파일 맨 위 주석에 있다.
+교재 [index.html](examples/day2/ex10/index.html) · [app.js](examples/day2/ex10/app.js) 를 **Raw** 로 받아 `ex/ex10/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex10/index.html` 을 연다. 고치는 파일은 `ex/ex10/app.js` 다. 여섯 식의 뜻은 `app.js` 맨 위 주석에 있다.
 
 - 바꿔 보기: 1번 줄 끝의 값 `now.getHours()` 를 `new Date().getHours()` 로 바꾼다. 1번 숫자가 바꾸기 전과 같은가? 조립의 `hour` 줄이 이 모양이다.
 - 바꿔 보기: Console 여섯 줄을 오늘 날짜·시각과 맞춰 본다. 4번과 5번은 왜 1 차이가 나나? 6번 숫자는 무슨 요일인가?
@@ -160,7 +162,7 @@ git push -u origin main
 
 ### 11. 조립 — `index.html` 두 줄과 `app.js` (`defer` · `id="greeting"`)
 
-이제 `ex/` 가 아니라 `web-week05` 맨 위의 `index.html`·`app.js` 를 연다. `ex/index.html` 은 예제 고르기 페이지라서 조립에 쓰지 않는다. 탭 이름 옆 폴더 경로로 구분한다. 전문과 단계는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
+이제 `ex/` 가 아니라 `web-week05` 맨 위의 `index.html`·`app.js` 를 연다. `ex/ex01/` 같은 예제 폴더의 `index.html`·`app.js` 는 이름만 같은 예제 파일이라 조립에 쓰지 않는다. 편집기 위쪽 경로 줄이 `web-week05 › app.js` 처럼 `ex` 없이 보이는지 확인하고 고친다. 전문과 단계는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
 
 - `index.html` 의 `<head>` 에서 `<link rel="stylesheet" href="styles.css">` 아래에 `<script src="app.js" defer></script>` 한 줄을 넣는다.
 - `<main>` 첫 줄에 `<div class="card" id="greeting">인사말을 준비 중입니다.</div>` 한 줄을 넣는다. JavaScript 가 이 자리에 오지 못하면 이 글자가 그대로 남는다.
@@ -196,7 +198,7 @@ node server.mjs
 주소창에 `http://localhost:8000/` 을 친다. 카드와 Console 이 11번 확인과 같으면 된 것이다.
 
 - 바꿔 보기: 터미널에 찍힌 줄을 센다. `index.html` 을 한 번 열었는데 왜 여러 줄인가? `/styles.css`·`/app.js`·`/images/profile.png` 는 `index.html` 의 어느 줄이 부른 것인가? `404 GET /favicon.ico` 는 누가 요청했나?
-- 바꿔 보기: 주소창을 `http://localhost:8000/ex/ex01_click.html` 로 바꾼다. 두 번 눌러 열었을 때(`file:///…`)와 Console A·C 가 같은가? 터미널에는 무엇이 한 줄 늘었나?
+- 바꿔 보기: 주소창을 `http://localhost:8000/ex/ex01/` 로 바꾼다. 두 번 눌러 열었을 때(`file:///…`)와 Console A·C 가 같은가? 터미널에는 어떤 줄이 늘었나? 예제 폴더의 `index.html` 과 `app.js` 도 따로 요청되나?
 - 바꿔 보기: 주소창에 없는 파일 `http://localhost:8000/hello.html` 을 친다. 화면과 터미널 줄의 앞 숫자는?
 - 확인이 끝나면 터미널에서 **Ctrl+C** 로 서버를 멈추고 끝 루틴으로 간다. Node 가 없는 PC 는 `index.html` 을 두 번 눌러 연다. 이번 주 결과는 같다.
 - 흔한 실수: 터미널이 다른 폴더에 있다. `Cannot find module …server.mjs` 가 뜨면 `server.mjs` 가 `index.html` 옆에 있는지, 터미널이 `web-week05` 인지 본다.
@@ -208,7 +210,7 @@ node server.mjs
 | 공개 주소에 방금 push한 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다. 다음 수업 시작 5분에 다시 확인해도 된다 |
 | push 가 거부되거나 로그인 창이 안 뜬다 | [2주차 막혔을 때](../week02_github_pages/lab.md#막혔을-때) 표를 본다 |
 | 화면이 생각과 다른데 이유를 모르겠다 | **Console 을 먼저 연다.** 빨간 줄 오른쪽 `파일:줄` 로 간다. 오류 난 줄 아래는 실행되지 않으므로 그 줄부터 본다 |
-| Console 에 내가 쓴 `console.log` 줄이 하나도 없다 | ① 줄이 정말 하나도 없으면 `index.html`에 `<script src="app.js" defer></script>`가 없다. ② `Failed to load resource` 줄이 있으면 파일 이름 철자가 틀린 것이다. `app.js` 안의 오류가 아니라 **파일을 못 불러왔다**는 줄이다(공개 주소와 `http://localhost` 에서는 `404`, `file://`에서는 `net::ERR_FILE_NOT_FOUND`). ex02 는 `.js` 파일이 같은 `ex/` 폴더에 있는지 본다. 2일차 예제는 `ex/index.html` 맨 아래에서 그 문항의 `script` 줄을 켰는지(주석 밖인지) 본다. 파일을 저장했는지도 본다 |
+| Console 에 내가 쓴 `console.log` 줄이 하나도 없다 | ① 줄이 정말 하나도 없으면 `index.html`에 `<script src="app.js" defer></script>`가 없다. ② `Failed to load resource` 줄이 있으면 파일 이름 철자가 틀린 것이다. `app.js` 안의 오류가 아니라 **파일을 못 불러왔다**는 줄이다(공개 주소와 `http://localhost` 에서는 `404`, `file://`에서는 `net::ERR_FILE_NOT_FOUND`). 예제(`ex/ex01/` 등)는 `app.js` 가 그 `index.html` 과 같은 폴더에 있는지 본다. 없으면 Console 에 `Failed to load resource: net::ERR_FILE_NOT_FOUND` 줄만 있다(ex02 는 1·2번만 찍히고 3번이 없다). 파일을 저장했는지도 본다 |
 | `Uncaught ReferenceError: nmae is not defined` | 없는 이름을 썼다. 오른쪽 `파일:줄`의 줄로 가 철자를 고친다 |
 | `Uncaught ReferenceError: helo is not defined` | 함수 이름 오타다. 정의한 이름(`hello`)과 부른 이름을 비교한다 |
 | `Uncaught SyntaxError: Unexpected end of input` | 백틱이나 중괄호를 닫지 않았다. 문장 끝의 `` ` ``와 `}`를 세어 본다. 닫지 않은 백틱 **뒤에 백틱이 더 있으면** `Uncaught SyntaxError: Unexpected identifier '…'`로 나온다. 어느 쪽이든 백틱 짝부터 센다. SyntaxError 는 그 파일의 한 줄도 실행하지 않아 `console.log` 도 안 찍힌다. 표시된 줄보다 위를 본다 |
@@ -222,7 +224,7 @@ node server.mjs
 | 함수 결과가 `undefined`로 찍힌다 | 함수 안에 `return`이 없다. `console.log`는 찍기만 하고 값을 돌려주지 않는다 |
 | 화면에 `인사말을 준비 중입니다.`가 그대로 있다 | 마지막 줄까지 가지 못했다. Console의 첫 빨간 줄을 고친 뒤 새로고침한다 |
 | 인사말이 `좋은 오후입니다.`로 나온다 | 12시가 지나서 연 것이며 정상이다. 두 갈래 모두 정답이다 |
-| 공개 주소 `…/web-week05/ex/ex01_click.html` 이 404 다 | ① 폴더 이름이 `ex` 인지(`Ex`·`ex05` 는 다른 이름) ② 파일 이름이 교재와 같은지 ③ 저장소 이름이 `web-week05` 이고 **Settings › Pages** 가 켜져 있는지 ④ GitHub 저장소 화면에 `ex/` 폴더가 올라가 있는지 본다 |
+| 공개 주소 `…/web-week05/ex/ex01/` 가 404 다 | ① 주소가 `ex/` 에서 끝나지 않고 `ex/ex01/` 까지 있는지 본다(`ex/` 바로 아래에는 `index.html` 이 없어서 `…/ex/` 만 열면 늘 404 다. `ex/` 에 `index.html` 을 만들거나 옮기지 않는다) ② 폴더 이름이 `ex`·`ex01` 이고(`Ex`·`ex1` 은 다른 이름) `ex01` 안에 `index.html` 이 있는지 ③ 저장소 이름이 `web-week05` 이고 **Settings › Pages** 가 켜져 있는지 ④ GitHub 저장소 화면에 `ex/` 폴더가 올라가 있는지 본다 |
 | `'node' is not recognized` / `command not found: node` | Node.js 가 없거나 설치 뒤 터미널을 새로 열지 않았다. 수업 중에는 `index.html` 을 두 번 눌러 열어 확인한다. 이번 주 결과는 같다 |
 | `8000 번 포트를 이미 다른 프로그램이 쓰고 있습니다` | 다른 터미널에 서버가 떠 있다. 그 터미널에서 Ctrl+C 하거나 `node server.mjs . 8001` 로 띄우고 `http://localhost:8001/` 을 연다 |
 | 서버로 열었는데 터미널에 `404 GET /app.js` 가 있다 | `index.html` 의 `src` 와 파일 이름이 다르다. 대소문자까지 본다(`App.js`·`app.js` 는 다른 이름). 증상별 전체 목록은 [서버 사용 안내](../../tools/static-server/README.md#막혔을-때)에 있다 |
@@ -237,7 +239,7 @@ node server.mjs
 - Console 에 `console.log` 두 줄(시각 숫자와 같은 문장)이 찍혀 있고 빨간 줄이 없다.
 - **주소창이 함께 보이게** 찍는다.
 
-2일차를 끝내지 못했다면 `https://student01.github.io/web-week05/ex/ex01_click.html` 을 열고 버튼을 누른 뒤, Console 에 A·C·B 가 찍힌 화면을 대신 낸다.
+2일차를 끝내지 못했다면 `https://student01.github.io/web-week05/ex/ex01/` 을 열고 버튼을 누른 뒤, Console 에 A·C·B 가 찍힌 화면을 대신 낸다.
 1일차 push 와 `ex/` 실험 파일은 확인용이며 따로 제출하지 않는다.
 캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 제출 위치와 마감은 수업 공지를 따른다.
 

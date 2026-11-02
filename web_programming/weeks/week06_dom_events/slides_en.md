@@ -136,7 +136,7 @@ btn.addEventListener('click', function () {
 
 ## Day 2 · 0–7 min — ex04 classList: add and remove a class
 
-[examples/day2/ex04_classlist.html](examples/day2/ex04_classlist.html) · [ex04_classlist.js](examples/day2/ex04_classlist.js)
+[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js)
 
 ```css
 .on { background-color: gold; }
@@ -149,7 +149,7 @@ box.classList.toggle('on');   // 3. removes if there, adds if not
 ```
 
 - In Elements, `class="on"` appears and disappears on the `<div id="box">` line.
-- Try: change only the color in `.on`. JS is the same, but the color changes.
+- Try: change only the color of `.on` in `styles.css`. `app.js` is the same, but the color changes.
 
 **CSS rules decide the look; JS only adds and removes the class name.**
 
@@ -157,7 +157,7 @@ box.classList.toggle('on');   // 3. removes if there, adds if not
 
 ## Day 2 · 7–14 min — ex05 Dark mode: one class on body
 
-[examples/day2/ex05_dark.html](examples/day2/ex05_dark.html) · [ex05_dark.js](examples/day2/ex05_dark.js)
+[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [styles.css](examples/day2/ex05/styles.css) · [app.js](examples/day2/ex05/app.js)
 
 ```css
 body.dark { background-color: #222222; color: #eeeeee; }   /* 1 */
@@ -171,7 +171,7 @@ darkButton.addEventListener('click', function () {
 ```
 
 - `document.body` is the `<body>` element. Use it directly; no need to find it.
-- Try: delete rule 2. Only the card stays white (a descendant selector, like `nav a` in Week 4).
+- Try: delete rule 2 in `styles.css`. Only the card stays white (a descendant selector, like `nav a` in Week 4).
 
 **Write the colors in CSS ahead of time; JS is one line, `toggle('dark')`.**
 
@@ -179,7 +179,7 @@ darkButton.addEventListener('click', function () {
 
 ## Day 2 · 14–20 min — ex06 One function for two buttons
 
-[examples/day2/ex06_reuse.html](examples/day2/ex06_reuse.html) · [ex06_reuse.js](examples/day2/ex06_reuse.js)
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [styles.css](examples/day2/ex06/styles.css) · [app.js](examples/day2/ex06/app.js)
 
 ```js
 function countUp() {
@@ -224,7 +224,7 @@ app.js      four const … = querySelector('#…')     ← ex01
 
 [Day 2 lab](lab.md#2일차--class-와-함수-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
-1. Save ex04–ex06 `.html` and `.js` in `ex/`, change values (until minute 29).
+1. Save example folders `ex04`–`ex06` in `ex/`, change values (until minute 29).
 2. Assemble → check at 375 and 1280 and with the server → push → dark-mode screenshot.
 
 **Total explanation: 7+7+6+5+5 = 30 min**

@@ -85,7 +85,7 @@
 | | 14주 | [w14_readme_images](examples/w14_readme_images/) | README 최종판과 그림 세 장 |
 | B DOM · 3점 | 6주 | [w06_click_text](../week08_midterm/examples/w06_click_text/) | 버튼으로 글자와 클릭 횟수 바꾸기 |
 | | 13주 | [w13_text_safe](examples/w13_text_safe/) | 입력한 글을 글자 그대로 보이게 |
-| C 폼·목록 · 4점 | 7주 | [w07_form_line](../week08_midterm/examples/w07_form_line/) | 입력 칸을 읽어 한 줄로, 빈값 안내 |
+| C 폼·목록 · 4점 | 7주 | [w07_form_line](../week08_midterm/examples/w07_form_line/) | 입력 칸을 읽어 목록에 한 줄씩, 빈값 안내 |
 | | 10주 | [w10_list_delete](examples/w10_list_delete/) | 배열로 목록 그리기, 줄마다 삭제, 개수 |
 | D 저장(localStorage) · 2점 | 11주 | [w11_local_storage](examples/w11_local_storage/) | 저장·되살리기·그 키만 지우기 |
 | E 불러오기(fetch) · 3점 | 12주 | [w12_fetch_cards](examples/w12_fetch_cards/) | JSON 파일을 불러와 카드로, 실패 안내 |

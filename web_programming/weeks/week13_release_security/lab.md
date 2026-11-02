@@ -3,33 +3,33 @@
 # 13주차 실습 — 값을 바꿔 보고 마지막에 조립하기
 
 이번 주 실습도 코드를 새로 쓰는 것이 아니라 **값을 바꿔 보는 것**이다.
-비교 예제 8개를 이번 주 새 저장소 `web-week13` 의 `ex/` 폴더에 저장하고(1일차는 고르기 페이지 `index.html` 과 `.js`·`.html` 여섯 개와 그림 하나, 2일차는 `.html` 하나와 `.md` 둘), 값이나 줄 하나를 바꾼 뒤 결과가 어떻게 달라지는지 본다.
+비교 예제 8개를 이번 주 새 저장소 `web-week13` 의 `ex/` 폴더에 저장하고(1일차는 예제 폴더 다섯 개에 `index.html` 씩, ex01~ex03 은 `app.js` 도, ex04 는 그림 하나도. 2일차는 예제 폴더 `ex06` 의 `index.html` 하나와 `.md` 둘, ex08 이 쓰는 그림 하나), 값이나 줄 하나를 바꾼 뒤 결과가 어떻게 달라지는지 본다.
 결과는 화면, **F12 › Console**, **F12 › Elements** 에서 보고, `.md` 파일은 VS Code **Open Preview** 에서 본다.
 2일차 끝에 그 부품으로 `web-week13` 맨 위의 `about.html`·`about.js`·`projects.js`·`README.md`·`screenshots/` 를 조립한다. 나머지 파일은 지난주 완성본 그대로다. 채점 대상은 2일차 캡처 1장이다.
 `student01` 은 예시 아이디이므로 본인 아이디로 바꾼다.
 
 **확인·캡처는 공개 주소에서 한다.** 방명록 글은 주소마다 따로 저장되고(11주차), 프로젝트 카드는 두 번 눌러 연 `file://` 화면에는 나오지 않는다(12주차). 내 PC 에서 볼 때는 `node server.mjs` → `http://localhost:8000/` 로 연다.
-파일을 받는 법, 고르기 페이지 쓰는 법은 [따라하기 1일차](walkthrough.md#1일차)에 있다.
+파일을 받는 법, 예제 폴더 여는 법은 [따라하기 1일차](walkthrough.md#1일차)에 있다.
 "바꿔 보기"는 **무엇이 달라질지 먼저 말해 보고** 저장 → 새로고침으로 확인한다. 확인했으면 원래대로 되돌리고 다음으로 간다.
 
 ## 1일차 — 숫자와 글자, 그리고 접근성 (60분)
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 새 폴더 `web-week13` 을 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week12` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/`·`data/`·`screenshots/` 를 넣는다. 못 받으면 교재 [12주차 `examples/day2/web-week12/`](../week12_fetch_json/examples/day2/web-week12/) 파일을 **Raw** 로 받는다. `ex` 폴더를 만들고 교재 [`examples/day1/`](examples/day1/) 의 일곱 파일과 그림 `images/profile.png` 를 **Raw** 로 저장한다 |
+| 0–5분 | 새 폴더 `web-week13` 을 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week12` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/`·`data/`·`screenshots/` 를 넣는다. 못 받으면 교재 [12주차 `examples/day2/web-week12/`](../week12_fetch_json/examples/day2/web-week12/) 파일을 **Raw** 로 받는다. `ex` 폴더와 그 안에 `ex01`~`ex05` 폴더, `ex04` 안에 `images` 폴더를 만든다. 예제 파일은 문항마다 교재 [`examples/day1/`](examples/day1/) 의 같은 이름 폴더에서 받는다 |
 | 5–14분 | ex01 `Number` 와 `isNaN` |
 | 14–22분 | ex02 올해와 몇 년차 |
 | 22–34분 | ex03 `textContent` 와 `innerHTML` |
 | 34–41분 | ex04 `alt` |
 | 41–47분 | ex05 `label for` |
-| 47–50분 | 확인: 일곱 파일과 `ex/images/profile.png` 가 있고, 각 예제에서 값 하나 이상을 바꿨는지. 일부러 낸 오류와 바꾼 경로는 되돌려 두었는지 |
-| 50–60분 | 이번 주 저장소 만들어 올리기: GitHub 에 새 저장소 `web-week13` → [올리기 명령](#이번-주-저장소-만들어-올리기) → **Settings › Pages** → 공개 주소 `https://student01.github.io/web-week13/ex/` 확인 → 공용 PC면 자격 증명 삭제 |
+| 47–50분 | 확인: `ex/` 안에 예제 폴더 다섯 개가 있고 폴더마다 파일이 있는지(ex01~ex03 은 `index.html`·`app.js`, ex04 는 `index.html`·`images/profile.png`, ex05 는 `index.html`), 각 예제에서 값 하나 이상을 바꿨는지. 일부러 낸 오류와 바꾼 경로는 되돌려 두었는지 |
+| 50–60분 | 이번 주 저장소 만들어 올리기: GitHub 에 새 저장소 `web-week13` → [올리기 명령](#이번-주-저장소-만들어-올리기) → **Settings › Pages** → 공개 주소 `https://student01.github.io/web-week13/ex/ex01/` 확인 → 공용 PC면 자격 증명 삭제 |
 
-ex01·ex02 는 `ex/index.html` 하나로 연다. 그 파일 맨 아래 `<script src="exNN_….js">` 두 줄 중 **지금 문항의 줄 하나만** 주석 밖에 둔다(줄에서 **Ctrl+/**, macOS **⌘+/**). 코드는 각 `.js` 파일에서 고치고, 저장 → `ex/index.html` 새로고침으로 본다. ex03 부터는 그 예제의 `.html` 을 연다.
+1일차 예제는 폴더마다 따로 연다. 문항의 폴더에서 `index.html` 을 Chrome 으로 열고, 고친 뒤 저장 → 새로고침으로 본다. 고치는 파일과 아래 문항의 `N행` 은 ex01~ex03 은 그 폴더의 `app.js`, ex04·ex05 는 그 폴더의 `index.html` 이다.
 
 ### 1. ex01 `Number` 와 `isNaN` (`Number()` · `isNaN()`)
 
-[examples/day1/ex01_number.js](examples/day1/ex01_number.js) 를 `ex/ex01_number.js` 로 저장한다. `ex/index.html` 맨 아래에서 `ex01_number.js` 줄만 켠다(처음 받은 상태가 이렇다).
+교재 [index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) 를 **Raw** 로 받아 `ex/ex01/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex01/index.html` 을 연다. 고치는 파일은 `ex/ex01/app.js` 다.
 
 - 바꿔 보기: 칸에 `2023` 이 적힌 채로 **눌러 보기**를 누른다. Console 1번과 2번은 무엇인가? 둘 다 `+ 1` 인데 왜 다른가?
 - 바꿔 보기: 칸에 `이천이십삼` 을 적고 누른다. 2번·3번과 화면 글자는? 이어서 `2023년` 은?
@@ -38,7 +38,7 @@ ex01·ex02 는 `ex/index.html` 하나로 연다. 그 파일 맨 아래 `<script 
 
 ### 2. ex02 올해와 몇 년차 (`new Date().getFullYear()`)
 
-[examples/day1/ex02_year.js](examples/day1/ex02_year.js) 를 `ex/ex02_year.js` 로 저장한다. `ex/index.html` 맨 아래에서 ex01 줄을 끄고 `ex02_year.js` 줄만 켠다.
+교재 [index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) 를 **Raw** 로 받아 `ex/ex02/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex02/index.html` 을 연다. 고치는 파일은 `ex/ex02/app.js` 다.
 
 - 바꿔 보기: 칸에 `2023` 을 적고 누른다. Console 1·2·3번과 화면 문장은? 2번과 3번은 왜 1 차이가 나나?
 - 바꿔 보기: 11행 `const thisYear = new Date().getFullYear();` 를 `const thisYear = 2026;` 으로 바꾼다. 지금은 결과가 같다. 내년에 이 페이지를 열면 어느 쪽이 맞나? 확인했으면 되돌린다.
@@ -47,7 +47,7 @@ ex01·ex02 는 `ex/index.html` 하나로 연다. 그 파일 맨 아래 `<script 
 
 ### 3. ex03 `textContent` 와 `innerHTML` (`textContent` · `innerHTML` · `innerHTML = ''`)
 
-[examples/day1/ex03_text_html.html](examples/day1/ex03_text_html.html) 과 [ex03_text_html.js](examples/day1/ex03_text_html.js) 를 `ex/` 에 저장하고 `ex03_text_html.html` 을 연다.
+교재 [index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) 를 **Raw** 로 받아 `ex/ex03/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex03/index.html` 을 연다. 원리는 `ex/ex03/app.js` 에 있다.
 
 - 바꿔 보기: **1 → 2 → 3** 순서로 누르며 결과 자리와 Console 을 본다. 1번 뒤와 2번 뒤 Console 의 글자는 각각 무엇인가? 2번 뒤에 `<b>` 와 `</b>` 는 어디로 갔나? **F12 › Elements** 에서 `<div id="output">` 를 펼쳐 본다.
 - 바꿔 보기: 칸의 글을 `<button>가짜 버튼</button>` 으로 바꾸고 1, 2 를 차례로 누른다. 2 에서는 결과 자리에 무엇이 생기나? 이 글을 다른 사람이 방명록에 남겼다면 어떻게 되나?
@@ -56,7 +56,7 @@ ex01·ex02 는 `ex/index.html` 하나로 연다. 그 파일 맨 아래 `<script 
 
 ### 4. ex04 `alt` (`img alt`)
 
-[examples/day1/ex04_alt.html](examples/day1/ex04_alt.html) 을 `ex/` 에 저장한다. 그림 [examples/day1/images/profile.png](examples/day1/images/profile.png) 는 `ex` 안에 `images` 폴더를 만들어 `ex/images/profile.png` 로 저장한다. `ex04_alt.html` 을 연다.
+교재 [index.html](examples/day1/ex04/index.html) 을 **Raw** 로 받아 `ex/ex04/` 에, 그림 [images/profile.png](examples/day1/ex04/images/profile.png) 를 `ex/ex04/images/profile.png` 로 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex04/index.html` 을 연다. 고치는 파일은 `ex/ex04/index.html` 이다.
 
 - 바꿔 보기: 세 그림은 눈으로 보면 같은가? **F12 › Elements** 에서 `img` 세 줄의 `alt` 를 읽는다.
 - 바꿔 보기: 13·15·17행의 `src` 를 모두 `images/nothing.png` 로 바꾸고 새로고침한다. 1·2·3번 자리에 각각 무엇이 남나? Console 의 빨간 줄은 무엇을 찾지 못했다고 하나? 확인했으면 되돌린다.
@@ -65,7 +65,7 @@ ex01·ex02 는 `ex/index.html` 하나로 연다. 그 파일 맨 아래 `<script 
 
 ### 5. ex05 `label for` (`label for` · `id`)
 
-[examples/day1/ex05_label.html](examples/day1/ex05_label.html) 을 `ex/` 에 저장하고 연다.
+교재 [index.html](examples/day1/ex05/index.html) 을 **Raw** 로 받아 `ex/ex05/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex05/index.html` 을 연다. 고치는 파일도 이 `index.html` 이다.
 
 - 바꿔 보기: 세 줄의 `입학 연도` 글자를 하나씩 누른다. 커서가 옆 칸으로 들어가는 줄은 몇 번인가? 1번과 3번은 눈으로 보면 같은데 무엇이 다른가?
 - 바꿔 보기: 20행 `id="years2"` 를 `id="year2"` 로 고치고 새로고침한 뒤 2번 글자를 다시 누른다.
@@ -85,14 +85,14 @@ git remote add origin https://github.com/student01/web-week13.git
 git push -u origin main
 ```
 
-저장소 **Settings › Pages › Branch: main, /(root) › Save** → 1~3분 뒤 `https://student01.github.io/web-week13/ex/` 를 연다. `ex/index.html` 의 화면(제목과 "예제가 쓰는 자리")이 보이면 된 것이다. 공용 PC면 자격 증명을 지우고 나간다.
+저장소 **Settings › Pages › Branch: main, /(root) › Save** → 1~3분 뒤 `https://student01.github.io/web-week13/ex/ex01/` 를 연다. `ex/ex01/index.html` 의 화면(ex01 제목과 `입학 연도` 칸·**눌러 보기** 버튼)이 보이면 된 것이다. 공용 PC면 자격 증명을 지우고 나간다.
 오늘 올린 것은 확인용이다. 제출은 2일차에 캡처 한 장만 한다.
 
 ## 2일차 — README 와 점검, 그리고 조립 (60분)
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 같은 PC에 `web-week13` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week13.git` 뒤 **File › Open Folder**. 교재 [`examples/day2/`](examples/day2/) 의 세 파일(`ex06_link_text.html`·`ex07_line_marks.md`·`ex08_link_image.md`)을 **Raw** 로 `ex/` 에 저장한다. 그림은 1일차에 받은 `ex/images/profile.png` 를 그대로 쓴다 |
+| 0–5분 | 같은 PC에 `web-week13` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week13.git` 뒤 **File › Open Folder**. `ex` 안에 `ex06` 폴더와 `images` 폴더를 만든다. 예제 파일은 문항마다 교재 [`examples/day2/`](examples/day2/) 에서 받는다(`ex06/index.html` 은 `ex/ex06/` 에, 두 `.md` 는 `ex/` 에 바로, ex08 이 쓰는 그림은 `ex/images/` 에) |
 | 5–9분 | ex06 링크·버튼 글자 |
 | 9–13분 | ex07 `#` 과 `-` |
 | 13–17분 | ex08 링크와 그림 |
@@ -100,13 +100,13 @@ git push -u origin main
 | 45–55분 | 점검: `node server.mjs` → `http://localhost:8000/` 에서 링크 → Console → 375 순서. 이어서 그림 `alt`·이름표, 저장소에 개인정보가 없는지 |
 | 55–60분 | 끝 루틴: `git add .` → `git commit -m "13주차 2일차"` → `git push` → 저장소 첫 화면에서 README 와 그림 세 장 확인 → 공개 주소에서 nav 네 개·카드 링크 세 개 다시 누르기 → 공개 주소 방명록을 기기 모드 375 로 열어 **캡처 1장** → 공용 PC면 자격 증명 삭제 |
 
-ex06 은 `.html` 을 연다. ex07·ex08 은 VS Code 에서 `.md` 파일을 열고 **Ctrl+K** 다음 **V**(macOS **⌘+K** 다음 **V**, Open Preview to the Side)로 왼쪽 글자와 오른쪽 모양을 나란히 본다. 9주차에 README 1차판을 쓸 때와 같은 미리 보기다.
+ex06 은 `ex/ex06/index.html` 을 연다. ex07·ex08 은 VS Code 에서 `.md` 파일을 열고 **Ctrl+K** 다음 **V**(macOS **⌘+K** 다음 **V**, Open Preview to the Side)로 왼쪽 글자와 오른쪽 모양을 나란히 본다. 9주차에 README 1차판을 쓸 때와 같은 미리 보기다.
 파일마다 **바꿔 보기를 하나 이상** 하고 넘어간다. 17분이 되면 남은 것은 두고 조립을 시작한다. 남은 바꿔 보기는 캡처까지 끝낸 뒤 한다.
 조립은 시간표의 순서대로 한다. 45분이 되었는데 README 가 남았으면 남은 절은 두고 점검과 끝 루틴(제출 캡처)을 먼저 한다. README 는 14주차 레포트로 보며 이번 주 채점 대상이 아니다. 남은 절은 14주차 발표 전까지 채운다.
 
 ### 6. ex06 링크·버튼 글자 (**Tab** 키)
 
-[examples/day2/ex06_link_text.html](examples/day2/ex06_link_text.html) 을 `ex/` 에 저장하고 연다.
+교재 [index.html](examples/day2/ex06/index.html) 을 **Raw** 로 받아 `ex/ex06/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex06/index.html` 을 연다. 고치는 파일도 이 `index.html` 이다.
 
 - 바꿔 보기: 맨 위 제목 글자를 한 번 누르고 **Tab** 키를 한 번씩 누른다. 테두리가 생긴 것의 글자만 소리 내어 읽는다. 1번 세 링크는 각각 어디로 가는지 알 수 있나? 2번은?
 - 바꿔 보기: **Shift+Tab** 을 누르면 테두리가 어느 쪽으로 가나? 키보드만 쓰는 사람은 이렇게 페이지를 옮겨 다닌다.
@@ -124,7 +124,7 @@ ex06 은 `.html` 을 연다. ex07·ex08 은 VS Code 에서 `.md` 파일을 열�
 
 ### 8. ex08 링크와 그림 (`[보이는 글](주소)` · `!`)
 
-[examples/day2/ex08_link_image.md](examples/day2/ex08_link_image.md) 를 `ex/ex08_link_image.md` 로 저장한다. 그림은 1일차의 `ex/images/profile.png` 를 쓴다. VS Code 에서 열고 미리 보기를 옆에 띄운다. 1번 링크와 2·3번 그림은 9주차 ex03·ex05 에서 본 모양이고, 이번에 새로 보는 것은 경로의 대소문자(4번)다.
+[examples/day2/ex08_link_image.md](examples/day2/ex08_link_image.md) 를 `ex/ex08_link_image.md` 로, 그림 [images/profile.png](examples/day2/images/profile.png) 를 `ex/images/profile.png` 로 저장한다(1일차 그림은 `ex/ex04/images/` 안에 있어 ex08 이 쓰지 못한다). VS Code 에서 열고 미리 보기를 옆에 띄운다. 1번 링크와 2·3번 그림은 9주차 ex03·ex05 에서 본 모양이고, 이번에 새로 보는 것은 경로의 대소문자(4번)다.
 
 - 바꿔 보기: 10행 맨 앞의 `!` 를 지운다. 미리 보기의 그림이 무엇으로 바뀌나? 14행과 같아졌나? 확인했으면 되살린다.
 - 바꿔 보기: 10행의 경로를 `images/nothing.png` 로 바꾼다. 그림 자리에 무엇이 보이나? 대괄호 글자는 1일차 ex04 의 무엇과 같은 일을 하나? 확인했으면 되돌린다.
@@ -133,7 +133,7 @@ ex06 은 `.html` 을 연다. ex07·ex08 은 VS Code 에서 `.md` 파일을 열�
 
 ### 9. 조립 — `about.html`·`about.js`·`projects.js`·`screenshots/`·`README.md` (`Number` · `isNaN` · `getFullYear` · `label for` · 링크 글자 · 마크다운)
 
-이제 `ex/` 가 아니라 `web-week13` 맨 위의 파일을 연다. `ex/index.html` 은 1일차 예제 고르기 페이지라서 조립에 쓰지 않는다. 전문과 단계는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
+이제 `ex/` 가 아니라 `web-week13` 맨 위의 파일을 연다. `ex/ex01/` 같은 예제 폴더의 `index.html`·`app.js` 는 이름만 같은 예제 파일이라 조립에 쓰지 않는다. 고치는 파일의 편집기 위쪽 경로 줄이 `web-week13 › about.html` 처럼 `ex` 없이 보이는지 확인한다. 전문과 단계는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
 
 - `about.html` 의 `<head>` 에 `<script src="about.js" defer></script>` 한 줄, 표 아래에 제목·폼·결과 자리 아홉 줄을 넣는다.
 - `about.js` 를 새로 만든다. 제출 리스너 하나다. 순서는 12주차 `guestbook.js` 의 폼과 같다.
@@ -156,7 +156,7 @@ ex06 은 `.html` 을 연다. ex07·ex08 은 VS Code 에서 `.md` 파일을 열�
 | `yearResult.textContent = '입학 연도를 숫자로 적어 주세요.';` · `yearInput.focus();` · `return;` | 12주차 `guestbook.js` 41~43행, ex03 1번(글자로 넣기) |
 | `const thisYear = new Date().getFullYear();` | ex02 1번 |
 | `const years = thisYear - year + 1;` | ex02 3번 |
-| `` yearResult.textContent = `${year}년에 입학했으니 올해 ${years}년차입니다.`; `` · `yearInput.focus();` | ex02 18행(화면 문장), 12주차 `guestbook.js` 51행 |
+| `` yearResult.textContent = `${year}년에 입학했으니 올해 ${years}년차입니다.`; `` · `yearInput.focus();` | ex02 `app.js` 18행(화면 문장), 12주차 `guestbook.js` 51행 |
 | `projects.js` 19행 `` link.textContent = `${projects[i].title} 열기`; `` | ex06 2번(어디로 가는지 적은 링크 글자), 12주차 `projects.js` 의 `projects[i].title` |
 | `README.md` 의 `#` 제목과 `##` 절 제목 | ex07 1번 |
 | `README.md` 의 `- ` 목록 줄 | ex07 2번 |
@@ -203,9 +203,9 @@ README 최종판의 절은 일곱이다. 이 README 가 그대로 14주차 레�
 | 공개 주소에 방금 push한 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다 |
 | push 가 거부되거나 로그인 창이 안 뜬다 | [2주차 막혔을 때](../week02_github_pages/lab.md#막혔을-때) 표를 본다 |
 | 화면이 생각과 다른데 이유를 모르겠다 | **Console 을 먼저 연다.** 빨간 줄 오른쪽 `파일:줄` 로 간다. 오류 난 줄 아래는 실행되지 않으므로 그 줄부터 본다 |
-| ex01·ex02 를 열었는데 Console 에 아무것도 없다 | 두 예제는 **눌러 보기**를 눌러야 찍힌다. 눌러도 없으면 `ex/index.html` 맨 아래에서 그 문항의 `script` 줄을 켰는지, `.js` 파일이 같은 `ex/` 폴더에 있는지 본다 |
-| `Uncaught SyntaxError: Identifier 'yearInput' has already been declared` | 고르기 페이지에서 `script` 줄을 둘 다 켰다. ex01·ex02 가 같은 이름의 `const` 를 만들어서 둘째 파일이 실행되지 않는다. 한 줄만 켠다 |
-| ex04 의 그림이 처음부터 안 보이고 깨진 그림 표시와 글자만 있다 | `ex/images/profile.png` 가 없다. `ex` 안에 `images` 폴더를 만들고 그림을 그 이름으로 저장한다. 글자가 보인 것은 `alt` 가 대신 나온 것이다 |
+| ex01·ex02 를 열었는데 Console 에 아무것도 없다 | 두 예제는 **눌러 보기**를 눌러야 찍힌다. 열자마자 비어 있는 것은 정상이다 |
+| 1일차 예제의 버튼을 눌러도 결과 자리가 그대로이고 Console 에 번호 줄이 없다(ex01~ex03) | `app.js` 가 그 `index.html` 과 같은 폴더(`ex/ex01/` 등)에 있는지 본다. Console 에 `Failed to load resource` 줄이 있으면 그 폴더에 `app.js` 가 없거나 파일 이름 철자가 틀린 것이다. 다른 예제 폴더에 저장해 덮어쓰지 않았는지도 본다 |
+| ex04 의 그림이 처음부터 안 보이고 깨진 그림 표시와 글자만 있다 | `ex/ex04/images/profile.png` 가 없다. `ex/ex04` 안에 `images` 폴더를 만들고 그림을 그 이름으로 저장한다(`ex/images/` 에 둔 그림은 ex04 가 쓰지 못한다). 글자가 보인 것은 `alt` 가 대신 나온 것이다 |
 | `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` (`about.js:5`) | `#year-form` 을 찾지 못했다. `about.html` 의 `<form id="year-form">` 철자와 `about.js` 의 `querySelector('#year-form')` 을 맞춘다. `<script src="about.js" defer>` 에 `defer` 가 있는지도 본다 |
 | **계산하기**를 누르자 `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` (`about.js:16`, 빈칸·숫자가 아니면 `about.js:10`) | `#year-result` 를 찾지 못했다. 결과 자리 `<div class="card" id="year-result">` 의 `id` 철자를 본다. 누르기 전에는 빨간 줄이 없다 |
 | **계산하기**를 누르면 화면이 깜빡이고 주소창 끝에 `?` 가 붙는다 | `about.html` 에 `<script src="about.js" defer></script>` 줄이 없거나, `about.js` 에서 `event.preventDefault();` 가 빠졌다. Console 에 `about.js:5` 빨간 줄도 있으면 위 `reading 'addEventListener'` 줄처럼 `defer` 와 폼 `id` 를 본다 |
@@ -224,7 +224,7 @@ README 최종판의 절은 일곱이다. 이 README 가 그대로 14주차 레�
 | 공개 주소 방명록에 지난주에 남긴 글이 보인다 | 같은 아이디의 공개 주소(`student01.github.io`)는 저장 칸을 함께 쓴다(11주차). **전체 지우기**로 비우고 다시 남긴다 |
 | 방명록 목록이 강의자 화면과 다르다 | 정상이다. 방명록은 **내 브라우저, 그 주소**에만 저장된다(11주차) |
 | 기기 모드 375 에서 오른쪽이 잘려 보이거나 화면이 옆으로 밀린다 | 폭을 정한 그림(`width`)·표·긴 글자가 원인인지 **Elements** 에서 본다. `styles.css` 는 이번 주에 고치지 않으므로 먼저 강의자에게 보여 준다 |
-| 공개 주소 `…/web-week13/ex/` 가 404 다 | ① 폴더 이름이 `ex` 인지 ② 그 안에 `index.html` 이 있는지 ③ 저장소 이름이 `web-week13` 이고 **Settings › Pages** 가 켜져 있는지 본다 |
+| 공개 주소 `…/web-week13/ex/ex01/` 가 404 다 | ① 주소가 `ex/` 에서 끝나지 않고 `ex/ex01/` 까지 있는지 본다(`ex/` 바로 아래에는 `index.html` 이 없어서 `…/ex/` 만 열면 늘 404 다. `ex/` 에 `index.html` 을 만들거나 옮기지 않는다) ② 폴더 이름이 `ex`·`ex01` 이고 `ex01` 안에 `index.html` 이 있는지 ③ 저장소 이름이 `web-week13` 이고 **Settings › Pages** 가 켜져 있는지 본다 |
 
 한 번에 한 곳만 고치고 새로고침한다. 해결되지 않으면 Console 화면을 그대로 보여 주고 도움을 받는다.
 

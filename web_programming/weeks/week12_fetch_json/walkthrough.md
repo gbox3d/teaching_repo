@@ -6,7 +6,7 @@
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 **이번 주 예제는 서버로 연다.** `fetch`는 두 번 눌러 연 화면(`file://`)에서 막힌다. 작업 중에는 `node server.mjs`로 띄운 `http://localhost:8000/`에서 보고, 확인과 캡처는 공개 주소에서 한다.
 
-비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day1)(1일차 ex01~ex03과 고르기 페이지)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day2)(2일차 ex04~ex06) 폴더에 있다.
+비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day1)(1일차 예제 폴더 ex01~ex03)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day2)(2일차 예제 폴더 ex04~ex06) 폴더에 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
@@ -46,31 +46,44 @@ web-week12/
 
 ### 2. 비교 예제 가져오기
 
-오늘 파일은 여섯 개다. 고르기 페이지 `index.html` 하나, 예제 코드 `.js` 세 개, ex02·ex03이 읽어 오는 `.json` 두 개다. 세 예제가 같은 화면(글자 자리 하나)을 쓰기 때문에 화면은 `index.html` 하나에 두고 코드만 따로 뗐다.
+오늘 예제는 세 개이고, 예제마다 **폴더 하나**다. 폴더마다 내 사이트와 같은 이름의 `index.html`(화면, 글자 자리 `#result` 하나)·`app.js`(동작)가 있고, ex02·ex03 폴더에는 `fetch`가 읽어 오는 `projects.json`이 하나 더 있다. 파일은 모두 여덟 개다. 이번 주에 배우는 원리는 모두 `app.js`에 있다.
 
-| 파일 | 비교하는 것 |
-|---|---|
-| [index.html](examples/day1/index.html) | 고르기 페이지. 맨 아래 `<script src>` 세 줄 중 하나만 켠다. 예제가 쓰는 자리(`#result`)가 여기 있다 |
-| [ex01_json_rule.js](examples/day1/ex01_json_rule.js) | JSON 글자: 큰따옴표 / 작은따옴표 / 마지막 쉼표 |
-| [ex02_fetch.js](examples/day1/ex02_fetch.js) · [ex02_projects.json](examples/day1/ex02_projects.json) | `await fetch`의 응답 / `await response.json()`의 배열 |
-| [ex03_file_http.js](examples/day1/ex03_file_http.js) · [ex03_projects.json](examples/day1/ex03_projects.json) | 서버 주소로 연 페이지 / 두 번 눌러 연 페이지 |
+| 폴더 | 파일 | 비교하는 것(`app.js`) |
+|---|---|---|
+| `ex01` | [index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) | JSON 글자: 큰따옴표 / 작은따옴표 / 마지막 쉼표 |
+| `ex02` | [index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) · [projects.json](examples/day1/ex02/projects.json) | `await fetch`의 응답 / `await response.json()`의 배열 |
+| `ex03` | [index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) · [projects.json](examples/day1/ex03/projects.json) | 서버 주소로 연 페이지 / 두 번 눌러 연 페이지 |
 
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 글자만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week12/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+먼저 `ex` 안에 같은 이름의 폴더 세 개를 만든다. VS Code 탐색기에서 `ex`를 고르고 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week12`
 
-**예상 결과** — `ex/` 안에 파일 여섯 개가 있다.
+```bash
+mkdir ex/ex01
+mkdir ex/ex02
+mkdir ex/ex03
+```
+
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day1)에서 `ex01` 폴더를 누르고, 파일을 하나씩 눌러 오른쪽 위 **Raw**를 누른다. 글자만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 내 `web-week12/ex/ex01/`에 저장한다. `ex02`·`ex03`도 같은 방법으로 그 폴더의 파일을 모두 자기 폴더에 받는다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+
+**예상 결과** — `ex/` 안에 폴더 세 개가 있고, 파일은 모두 여덟 개다.
 
 ```text
 ex/
-  ex01_json_rule.js
-  ex02_fetch.js
-  ex02_projects.json
-  ex03_file_http.js
-  ex03_projects.json
-  index.html
+  ex01/
+    app.js
+    index.html
+  ex02/
+    app.js
+    index.html
+    projects.json
+  ex03/
+    app.js
+    index.html
+    projects.json
 ```
 
+- 저장 창에서 폴더 이름을 먼저 본다. 세 폴더의 파일 이름이 같아서, 다른 폴더에 저장하면 그 폴더의 같은 이름 파일을 덮어쓴다. 덮어썼으면 그 폴더의 파일을 교재에서 다시 **Raw**로 받는다.
 - 저장한 파일 이름이 `.txt`로 끝나면 이름을 고친다. 이름은 VS Code 탐색기에서 확인한다.
-- `ex/index.html`은 예제를 고르는 페이지다. 맨 위 `index.html`(내 사이트)과 이름이 같지만 다른 파일이다. 탭 이름 옆 폴더 경로로 구분한다.
+- 예제 폴더의 `index.html`·`app.js`는 맨 위 내 사이트 파일과 이름이 같지만 다른 파일이다. 편집기 위쪽 경로 줄(`ex › ex02 › app.js`)로 구분한다. 같은 이름 파일을 여러 개 열면 탭 이름 옆에도 폴더 이름이 붙는다.
 
 ### 3. 서버로 열기와 Network 탭
 
@@ -87,48 +100,46 @@ node server.mjs
 주소: http://localhost:8000/   (멈추기: Ctrl+C)
 ```
 
-Chrome 주소창에 `http://localhost:8000/ex/`를 친다. `ex/` 폴더의 `index.html`(고르기 페이지)이 열린다. VS Code에서 `ex/index.html`도 열어 맨 아래를 본다.
+Chrome 주소창에 `http://localhost:8000/ex/ex01/`을 친다. `ex/ex01/` 폴더의 `index.html`이 열린다. VS Code에서 `ex/ex01/index.html`도 열어 이 줄을 찾는다.
 
 ```html
-<script src="ex01_json_rule.js"></script>
-<!-- <script src="ex02_fetch.js"></script> -->
-<!-- <script src="ex03_file_http.js"></script> -->
+<script src="app.js" defer></script>
 ```
 
-지금은 ex01 줄만 켜져 있다. 다른 예제로 바꿀 때는 켜 둔 줄에 커서를 두고 **Ctrl+/**(macOS **⌘+/**)로 주석으로 만들고, 볼 줄에서 다시 **Ctrl+/** 로 주석을 푼다. 저장 → 새로고침한다. 한 번에 한 줄만 켠다.
+`<head>`의 이 줄이 같은 폴더의 `app.js`를 불러온다. 그래서 두 파일이 한 폴더에 있어야 한다. `defer`는 HTML을 끝까지 읽은 뒤에 `app.js`를 실행하라는 표시다(5주차 ex02). 내 사이트 `index.html`의 `<head>`와 같은 모양이다. 다른 예제를 볼 때는 주소의 폴더 이름만 바꾼다(`…/ex/ex02/`). 주소를 `…/ex/`에서 끝내면 서버가 예제 폴더 목록을 보여 준다. 폴더 이름을 눌러 들어가도 된다.
 
-**예상 결과** — 화면의 "예제가 쓰는 자리"가 `1. 2개 — 첫 제목은 자기소개 페이지`다. F12 › **Console**에 `1. 큰따옴표 :`로 시작하는 줄이 하나 있고, 앞의 ▶를 누르면 객체 두 개가 펼쳐진다. 서버 터미널에는 `200 GET /ex/` 같은 요청 줄이 늘어 있다.
+**예상 결과** — 화면 아래쪽 글자 자리가 `1. 2개 — 첫 제목은 자기소개 페이지`다. F12 › **Console**에 `1. 큰따옴표 :`로 시작하는 줄이 하나 있고, 앞의 ▶를 누르면 객체 두 개가 펼쳐진다. 서버 터미널에는 `200 GET /ex/ex01/`·`200 GET /ex/ex01/app.js` 같은 요청 줄이 늘어 있다.
 서버로 열면 Console에 `favicon.ico` 404 빨간 줄이, 터미널에 `404 GET /favicon.ico` 줄이 하나 섞일 때가 있다. 브라우저가 탭 아이콘을 찾으려고 스스로 보낸 요청이라 괜찮다(5주차).
 
 이번 주에는 **Network** 탭도 쓴다. DevTools 위쪽 탭에서 **Network**를 누르고, 연 채로 새로고침한다. Network는 열어 둔 뒤에 오간 요청만 적는다.
-이제 `ex/index.html`에서 ex01 줄을 끄고 `ex02_fetch.js` 줄을 켠 뒤 저장 → 새로고침한다.
+이제 Network를 연 채로 주소창에 `http://localhost:8000/ex/ex02/`를 친다.
 
-**예상 결과** — 화면이 `2. 3개를 불러왔다 — 첫 제목은 3주차 자기소개`로 바뀐다. Network 목록에 이 페이지가 받은 파일이 한 줄씩 생긴다. 페이지 자체, `ex02_fetch.js`, `ex02_projects.json`이다. `ex02_projects.json` 줄의 **Status**는 `200`, **Type**은 `fetch`다.
+**예상 결과** — 화면이 `2. 3개를 불러왔다 — 첫 제목은 3주차 자기소개`로 바뀐다. Network 목록에 이 페이지가 받은 파일이 한 줄씩 생긴다. 페이지 자체(`ex02/`), `app.js`, `projects.json`이다. `projects.json` 줄의 **Status**는 `200`, **Type**은 `fetch`다.
 
-- `ex02_projects.json` 줄이 `fetch`가 요청한 파일이다. Status **200**은 "찾아서 보냈다"이다. 2일차 제출 캡처에 이 줄(`projects.json` 200)이 들어간다.
-- 줄을 누르고 오른쪽 **Response** 탭을 열면 받은 글자가 보인다. `ex02_projects.json` 파일의 글자와 같다.
+- `projects.json` 줄이 `fetch`가 요청한 파일이다. Status **200**은 "찾아서 보냈다"이다. 2일차 제출 캡처에도 같은 이름의 줄(`data/projects.json`을 읽은 `projects.json` 200)이 들어간다.
+- 줄을 누르고 오른쪽 **Response** 탭을 열면 받은 글자가 보인다. `ex/ex02/projects.json` 파일의 글자와 같다.
 - 위쪽 **Fetch/XHR** 단추를 누르면 `fetch`가 보낸 요청만 남는다. 다시 **All**을 누르면 모두 보인다.
-- 서버 터미널에도 같은 요청이 한 줄씩 찍힌다(`200 GET /ex/ex02_projects.json`). Network는 브라우저 쪽에서, 터미널은 서버 쪽에서 본 같은 요청이다.
+- 서버 터미널에도 같은 요청이 한 줄씩 찍힌다(`200 GET /ex/ex02/projects.json`). Network는 브라우저 쪽에서, 터미널은 서버 쪽에서 본 같은 요청이다.
 
 ### 4. 값 바꾸는 요령
 
 실험은 늘 같은 순서다. **VS Code에서 고치고 저장**(Ctrl+S, macOS는 ⌘+S) → **브라우저에서 새로고침**(F5, macOS는 ⌘+R) → **화면·Console·Network**를 본다. 서버는 띄운 채로 둔다. 파일을 고쳐도 서버를 다시 띄울 필요가 없다.
 바꾸기 전에 무엇이 달라질지 먼저 말해 보고 확인한다.
 
-**두 번 눌러 열어 보기** — `ex/index.html` 맨 아래에서 `ex03_file_http.js` 줄만 켜고 저장한다. 먼저 서버 주소 `http://localhost:8000/ex/`를 새로고침한다. 이어서 VS Code 탐색기에서 `ex/index.html`을 오른쪽 클릭 › **Reveal in File Explorer**(macOS는 **Reveal in Finder**) → 두 번 눌러 연다.
+**두 번 눌러 열어 보기** — 먼저 서버 주소 `http://localhost:8000/ex/ex03/`을 연다. 이어서 VS Code 탐색기에서 `ex/ex03/index.html`을 오른쪽 클릭 › **Reveal in File Explorer**(macOS는 **Reveal in Finder**) → 두 번 눌러 연다.
 
 **예상 결과** — 서버 주소 탭은 `3. 2개를 불러왔다`다. 두 번 눌러 연 탭은 주소창이 `file:///`로 시작하고, 화면이 `1. 불러오는 중 — …`에서 멈춰 있다. Console에 빨간 줄이 있다.
 
 ```text
-Access to fetch at 'file:///…/ex/ex03_projects.json' from origin 'null' has been blocked by CORS policy: …
+Access to fetch at 'file:///…/ex/ex03/projects.json' from origin 'null' has been blocked by CORS policy: …
 Failed to load resource: net::ERR_FAILED
 Uncaught (in promise) TypeError: Failed to fetch
 ```
 
 같은 파일인데 주소만 다르다. `file://`로 연 페이지에서는 브라우저가 `fetch`를 막는다. 그래서 `fetch` 줄 아래(3번)가 실행되지 않았다.
-가운데 줄은 요청이 실패했다는 브라우저의 줄이다. 이 탭에서 F12를 연 채 새로고침하면 같은 줄이 `GET file:///…/ex/ex03_projects.json net::ERR_FAILED` 모양으로 바뀐다. 세 줄의 표기는 Chrome 버전에 따라 조금 다를 수 있다.
+가운데 줄은 요청이 실패했다는 브라우저의 줄이다. 이 탭에서 F12를 연 채 새로고침하면 같은 줄이 `GET file:///…/ex/ex03/projects.json net::ERR_FAILED` 모양으로 바뀐다. 세 줄의 표기는 Chrome 버전에 따라 조금 다를 수 있다.
 
-- 값을 원래대로 못 돌리겠으면 교재에서 그 파일을 다시 **Raw**로 받아 덮어쓴다.
+- 값을 원래대로 못 돌리겠으면 교재에서 그 예제 폴더의 파일을 다시 **Raw**로 받아 같은 폴더에 덮어쓴다.
 - 서버 터미널을 닫거나 **Ctrl+C**를 누르면 서버가 멈춘다. 그때 `http://localhost:8000/`은 `사이트에 연결할 수 없음`이다. 다시 `node server.mjs`로 띄운다.
 - 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--json-파일과-fetch-60분)에 있다.
 
@@ -151,15 +162,15 @@ git push -u origin main
 저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
 
 **예상 결과** — GitHub 저장소 화면을 새로고침하면 `ex/`·`images/`·`screenshots/`와 맨 위 파일들이 보인다.
-1~3분 뒤 `https://student01.github.io/web-week12/ex/`를 연다. 고르기 페이지의 제목과 "예제가 쓰는 자리"가 보인다. 켜 둔 줄이 ex02면 공개 주소에서도 `ex02_projects.json`을 읽어 와 화면이 2번 글자가 된다(공개 주소는 `https://`라 `fetch`가 된다). 이 화면은 **확인용**이다.
+1~3분 뒤 `https://student01.github.io/web-week12/ex/ex02/`를 연다. ex02의 제목과 `2. 3개를 불러왔다 — 첫 제목은 3주차 자기소개`가 보인다. 공개 주소에서도 `projects.json`을 읽어 온 것이다(공개 주소는 `https://`라 `fetch`가 된다). 이 화면은 **확인용**이다.
 공용 PC라면 서버를 **Ctrl+C**로 멈추고, **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
 
-- 404가 나면 주소의 `web-week12/ex/`가 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다.
+- 404가 나면 주소의 `web-week12/ex/ex02/`가 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다. `…/ex/`까지만 열면 `ex/`에 `index.html`이 없어 늘 404다(내 PC 서버는 폴더 목록을 보여 주지만 공개 주소는 그렇지 않다).
 - push가 거부되거나 로그인 창이 안 뜨면 [2주차 실습지의 막혔을 때](../week02_github_pages/lab.md#막혔을-때)를 본다.
 
 ## 2일차
 
-### 6. 폴더 열고 2일차 예제 아홉 파일 가져오기
+### 6. 폴더 열고 2일차 예제 폴더 세 개 가져오기
 
 같은 PC에 `web-week12` 폴더가 남아 있으면 VS Code로 그대로 연다. 없으면 받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
 
@@ -169,39 +180,71 @@ git clone https://github.com/student01/web-week12.git
 
 내려받은 `web-week12`를 **File › Open Folder**로 연다. 터미널(현재 폴더 `web-week12`)에서 `node server.mjs`를 띄운다.
 
-오늘 예제는 세 개이고, 예제마다 `.html`과 `.js`가 한 쌍이다. 예제가 읽는 그림 하나와 `.json` 두 개를 더해 파일은 아홉 개다. 오늘 예제는 화면이 서로 달라서 `.html`을 따로 둔다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week12/ex/`에 넣는다. 그림 파일도 **Raw**를 누르면 그림만 열린다. 그 화면에서 **Ctrl+S**로 저장한다.
+오늘 예제는 세 개이고, 1일차처럼 예제마다 폴더 하나다. 폴더마다 `index.html`·`app.js`가 있고, 그 예제가 쓰는 파일이 더 있다. ex04 폴더에는 카드 배경색을 칠하는 `styles.css`와 그림 `picture.png`, ex05·ex06 폴더에는 `projects.json`이다. 파일은 모두 열 개다.
 
-| 파일 | 비교하는 것 |
-|---|---|
-| [ex04_cards.html](examples/day2/ex04_cards.html) + [ex04_cards.js](examples/day2/ex04_cards.js) · [ex04_picture.png](examples/day2/ex04_picture.png) | 카드 한 장 안의 그림(`img`) / 제목(`h3`) / 설명(`p`) / 링크(`a`) |
-| [ex05_try_catch.html](examples/day2/ex05_try_catch.html) + [ex05_try_catch.js](examples/day2/ex05_try_catch.js) · [ex05_projects.json](examples/day2/ex05_projects.json) | `try`를 끝까지 / `catch`로 넘어감 |
-| [ex06_response_ok.html](examples/day2/ex06_response_ok.html) + [ex06_response_ok.js](examples/day2/ex06_response_ok.js) · [ex06_projects.json](examples/day2/ex06_projects.json) | 있는 파일(200) / 없는 파일(404)과 `response.ok` |
+| 폴더 | 파일 | 비교하는 것(`app.js`) |
+|---|---|---|
+| `ex04` | [index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js) · [picture.png](examples/day2/ex04/picture.png) | 카드 한 장 안의 그림(`img`) / 제목(`h3`) / 설명(`p`) / 링크(`a`) |
+| `ex05` | [index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js) · [projects.json](examples/day2/ex05/projects.json) | `try`를 끝까지 / `catch`로 넘어감 |
+| `ex06` | [index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js) · [projects.json](examples/day2/ex06/projects.json) | 있는 파일(200) / 없는 파일(404)과 `response.ok` |
 
-**예상 결과** — `ex/`에 파일이 열다섯 개 있다(1일차 여섯 + 오늘 아홉).
-`http://localhost:8000/ex/ex04_cards.html`을 열면 노란 카드 세 장에 `카드 그림`·제목·설명·`교재 열기`가 차례로 보인다.
+먼저 `ex` 안에 폴더 세 개를 만든다. 현재 폴더: `web-week12`
 
-- 오늘은 `.html`을 연다. `.js`·그림·`.json`은 같은 폴더에서 `.html`이 불러온다. 하나를 빠뜨리면 그 부분이 동작하지 않는다.
+```bash
+mkdir ex/ex04
+mkdir ex/ex05
+mkdir ex/ex06
+```
+
+[교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 폴더마다 그 폴더의 파일을 모두 받아 같은 이름의 내 폴더(`web-week12/ex/ex04/` 등)에 넣는다. 그림 파일도 **Raw**를 누르면 그림만 열린다. 그 화면에서 **Ctrl+S**로 저장한다.
+
+**예상 결과** — `ex/` 안에 폴더 여섯 개가 있다. 1일차 폴더 세 개는 그대로이고, 오늘 폴더 세 개에 파일이 열 개 있다.
+
+```text
+ex/
+  ex01/        ← 1일차 폴더 세 개는 그대로
+  ex02/
+  ex03/
+  ex04/
+    app.js
+    index.html
+    picture.png
+    styles.css
+  ex05/
+    app.js
+    index.html
+    projects.json
+  ex06/
+    app.js
+    index.html
+    projects.json
+```
+
+`http://localhost:8000/ex/ex04/`를 열면 노란 카드 세 장에 `카드 그림`·제목·설명·`교재 열기`가 차례로 보인다.
+
+- 저장 창이 1일차에 마지막으로 쓴 `ex03` 폴더에서 열릴 수 있다. 저장 창 위쪽 경로가 `web-week12 › ex › ex04`처럼 그 문항의 폴더인지 보고 저장한다. 다른 폴더에 저장하면 같은 이름 파일을 덮어쓴다.
+- 여는 것은 폴더의 `index.html`이다. `styles.css`·`app.js`·그림·`projects.json`은 같은 폴더에서 `index.html`과 `app.js`가 불러온다. 하나를 빠뜨리면 그 부분이 동작하지 않는다.
 - ex04는 `fetch`가 없어서 두 번 눌러 열어도 된다. ex05·ex06은 서버 주소로 연다. ex05는 두 번 눌러서도 한 번 열어 본다.
 - 파일마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--카드와-오류-안내-그리고-조립-60분)에 있다.
 
 ### 7. 조립표
 
-28분부터 조립한다. 이제 `ex/`가 아니라 `web-week12` 맨 위에서 만든다.
+28분부터 조립한다. 이제 `ex/`가 아니라 `web-week12` 맨 위에서 만든다. 예제 폴더에도 `index.html`·`projects.json`이 있으니, 편집기 위쪽 경로 줄이 `web-week12 › index.html`·`web-week12 › data › projects.json`처럼 `ex` 없이 보이는지 확인하고 고친다.
 조립하는 줄은 모두 비교 예제와 11주차 완성본에서 본 것이다.
 
 | 조립할 줄 | 출처 |
 |---|---|
-| `data/projects.json` — 객체 세 개, 이름표 `title`·`description`·`image`·`link` | [ex01](examples/day1/ex01_json_rule.js) 큰따옴표 규칙, [ex02](examples/day1/ex02_projects.json) 파일 모양, [ex04](examples/day2/ex04_cards.js) 이름표 |
+| `data/projects.json` — 객체 세 개, 이름표 `title`·`description`·`image`·`link` | [ex01](examples/day1/ex01/app.js) 큰따옴표 규칙, [ex02](examples/day1/ex02/projects.json) 파일 모양, [ex04](examples/day2/ex04/app.js) 이름표 |
 | `projects.html`의 head·header·footer | 11주차 완성본 `guestbook.html` |
 | `<h2>지금까지 만든 것</h2>` · 안내 문장 `<p>` | 11주차 `guestbook.html`의 `<h2>` 제목 줄과 같은 모양(글자만 새로) |
-| `<div id="notice"></div>` · `<div id="project-list"></div>` | [ex05](examples/day2/ex05_try_catch.html)·[ex06](examples/day2/ex06_response_ok.html) 안내 자리, [ex04](examples/day2/ex04_cards.html) 카드 상자 |
-| `const projectList`·`const notice` | [ex04](examples/day2/ex04_cards.js), [ex05](examples/day2/ex05_try_catch.js) |
-| `function showProjects(projects) { … }` | [ex04](examples/day2/ex04_cards.js) |
-| `async function loadProjects() { try { … } catch (error) { … } }` | [ex02](examples/day1/ex02_fetch.js) + [ex05](examples/day2/ex05_try_catch.js) |
-| `await fetch('data/projects.json')` · `await response.json()` | [ex02](examples/day1/ex02_fetch.js) 1·2번 |
-| `if (!response.ok) { …; return; }` · `notice.textContent = '';` | [ex06](examples/day2/ex06_response_ok.js) |
-| `showProjects(projects);` | [ex04](examples/day2/ex04_cards.js) 받은 배열을 넘긴다 |
-| `loadProjects();` | [ex02](examples/day1/ex02_fetch.js) |
+| `<div id="notice"></div>` · `<div id="project-list"></div>` | [ex05](examples/day2/ex05/index.html)·[ex06](examples/day2/ex06/index.html) 안내 자리, [ex04](examples/day2/ex04/index.html) 카드 상자 |
+| `const projectList`·`const notice` | [ex04](examples/day2/ex04/app.js), [ex05](examples/day2/ex05/app.js) |
+| `function showProjects(projects) { … }` | [ex04](examples/day2/ex04/app.js) |
+| `async function loadProjects() { try { … } catch (error) { … } }` | [ex02](examples/day1/ex02/app.js) + [ex05](examples/day2/ex05/app.js) |
+| `await fetch('data/projects.json')` · `await response.json()` | [ex02](examples/day1/ex02/app.js) 1·2번 |
+| `if (!response.ok) { …; return; }` · `notice.textContent = '';` | [ex06](examples/day2/ex06/app.js) |
+| `showProjects(projects);` | [ex04](examples/day2/ex04/app.js) 받은 배열을 넘긴다 |
+| `loadProjects();` | [ex02](examples/day1/ex02/app.js) |
 | nav의 `<a href="projects.html">프로젝트</a>` | 11주차 nav 링크와 같은 모양 |
 
 옮겨 적을 때 출처 ex 파일을 옆에 열어 두고, 같은 줄이 거기서 무엇을 했는지 떠올린다.

@@ -22,25 +22,26 @@ Same method as before: look at **6 comparison examples** one at a time, then **a
 
 `30 min explanation & demo → 60 min lab`
 
-1. The picker page and the server — this week's examples open at `http://localhost:8000/ex/`
+1. Example folders and the server — this week's examples open at addresses like `http://localhost:8000/ex/ex01/`
 2. ex01 — JSON text rules: double quotes and the last comma
 3. ex02 — the fetch template: `await fetch` → `await response.json()`, the Network tab
 4. ex03 — `file://` vs. `http://`: double-clicking blocks it
 
 ---
 
-## Day 1 · 0–4 min — The picker page and opening with the server
+## Day 1 · 0–4 min — Example folders and opening with the server
 
-[examples/day1/index.html](examples/day1/index.html) — three examples, one screen (one text spot). Server: [server.mjs](../../tools/static-server/server.mjs)
+One folder per example (same as Week 11). Server: [server.mjs](../../tools/static-server/server.mjs)
 
-```html
-<script src="ex01_json_rule.js"></script>
-<!-- <script src="ex02_fetch.js"></script> -->
-<!-- <script src="ex03_file_http.js"></script> -->
+```text
+ex02/
+  index.html      screen — one text spot
+  app.js          behavior — this week's ideas live here
+  projects.json   the file fetch reads
 ```
 
-- Turn on **one** `script` line at the bottom (Ctrl+/). Same as Week 11.
-- Open `http://localhost:8000/ex/` served by `node server.mjs`, because `fetch` requests a file (ex03).
+- Open a **folder address** such as `http://localhost:8000/ex/ex02/` served by `node server.mjs`, because `fetch` requests a file (ex03).
+- In `<head>`, `<script src="app.js" defer>` loads `app.js` from the same folder. Tell folders apart by the path bar (`ex › ex02`).
 - Check and capture on the **public address**; the server is a preview.
 
 **Open pages that use fetch on a server address or the public address.**
@@ -49,7 +50,7 @@ Same method as before: look at **6 comparison examples** one at a time, then **a
 
 ## Day 1 · 4–11 min — ex01 JSON text rules
 
-[ex01_json_rule.js](examples/day1/ex01_json_rule.js) — lines 7–8 (No. 1) · 13–14 (No. 2) · 18–19 (No. 3)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) — `app.js` lines 7–8 (No. 1) · 13–14 (No. 2) · 18–19 (No. 3)
 
 ```js
 const text1 = `[{"title": "자기소개 페이지"}, {"title": "방명록"}]`;
@@ -69,18 +70,18 @@ const projects1 = JSON.parse(text1);
 
 ## Day 1 · 11–19 min — ex02 The fetch template and the Network tab
 
-[examples/day1/ex02_fetch.js](examples/day1/ex02_fetch.js) · [ex02_projects.json](examples/day1/ex02_projects.json)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) · [projects.json](examples/day1/ex02/projects.json)
 
 ```js
 async function loadProjects() {   // await works only inside async
-    const response = await fetch('ex02_projects.json');  // 1. request and wait
+    const response = await fetch('projects.json');       // 1. request and wait
     const projects = await response.json();              // 2. text → array
     result.textContent = `2. ${projects.length}개를 불러왔다 …`;
 }
 loadProjects();                   // without this line, nothing happens
 ```
 
-- **F12 › Network**: one `ex02_projects.json` row, Status **200**, Type `fetch`.
+- **F12 › Network**: one `projects.json` row, Status **200**, Type `fetch`.
 - Without `await` you get a value that has not arrived yet (`Promise`).
 
 **fetch requests the file; json() turns the text it got into an array.**
@@ -89,11 +90,11 @@ loadProjects();                   // without this line, nothing happens
 
 ## Day 1 · 19–26 min — ex03 file:// vs. http://
 
-[examples/day1/ex03_file_http.js](examples/day1/ex03_file_http.js) · [ex03_projects.json](examples/day1/ex03_projects.json)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) · [projects.json](examples/day1/ex03/projects.json)
 
 ```text
-http://localhost:8000/ex/   → screen 3. 2개를 불러왔다
-file:///…/ex/index.html     → screen 1. 불러오는 중 … (stuck)
+http://localhost:8000/ex/ex03/   → screen 3. 2개를 불러왔다
+file:///…/ex/ex03/index.html     → screen 1. 불러오는 중 … (stuck)
   Access to fetch at 'file:///…' … has been blocked by CORS policy …
   Uncaught (in promise) TypeError: Failed to fetch
 ```
@@ -110,9 +111,9 @@ file:///…/ex/index.html     → screen 1. 불러오는 중 … (stuck)
 
 [Day 1 lab](lab.md#1일차--json-파일과-fetch-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
-1. New folder `web-week12` with last week's files and `server.mjs`; today's six files in `ex/`.
-2. `node server.mjs` → turn on one line for ex01–ex03 and change values. Say what will change first.
-3. Create the new repository `web-week12`, push, turn on Pages → open `…/ex/` on the public address too.
+1. New folder `web-week12` with last week's files and `server.mjs`; three example folders in `ex/`.
+2. `node server.mjs` → open ex01–ex03 by folder address and change values in `app.js`. Say what will change first.
+3. Create the new repository `web-week12`, push, turn on Pages → open `…/ex/ex02/` on the public address too.
 
 **Total explanation: 4+7+8+7+4 = 30 min**
 
@@ -132,7 +133,7 @@ file:///…/ex/index.html     → screen 1. 불러오는 중 … (stuck)
 
 ## Day 2 · 0–7 min — ex04 Building cards
 
-[examples/day2/ex04_cards.html](examples/day2/ex04_cards.html) · [ex04_cards.js](examples/day2/ex04_cards.js) · [ex04_picture.png](examples/day2/ex04_picture.png)
+[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js) · [picture.png](examples/day2/ex04/picture.png)
 
 ```js
 const article = document.createElement('article');  // one card
@@ -153,11 +154,11 @@ article.append(image, title, description, link);     // in the order given
 
 ## Day 2 · 7–13 min — ex05 try / catch: tell the user
 
-[ex05_try_catch.html](examples/day2/ex05_try_catch.html) · [ex05_try_catch.js](examples/day2/ex05_try_catch.js) · [ex05_projects.json](examples/day2/ex05_projects.json)
+[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js) · [projects.json](examples/day2/ex05/projects.json)
 
 ```js
 try {   // an error in here skips the lines below and goes to catch
-    const response = await fetch('ex05_projects.json');
+    const response = await fetch('projects.json');
     const projects = await response.json();
     notice.textContent = `1. try: ${projects.length}개를 불러왔다`;
 } catch (error) {
@@ -173,7 +174,7 @@ try {   // an error in here skips the lines below and goes to catch
 
 ## Day 2 · 13–19 min — ex06 response.ok: a 404 is not an error
 
-[ex06_response_ok.html](examples/day2/ex06_response_ok.html) · [ex06_response_ok.js](examples/day2/ex06_response_ok.js) · [ex06_projects.json](examples/day2/ex06_projects.json)
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js) · [projects.json](examples/day2/ex06/projects.json)
 
 ```js
 const response = await fetch(fileName);
@@ -220,7 +221,7 @@ nav on four pages   <a href="projects.html">    ← last week's nav
 
 [Day 2 lab](lab.md#2일차--카드와-오류-안내-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
-1. Save the nine ex04–ex06 files in `ex/`, change values (until minute 28).
+1. Save the three example folders ex04–ex06 in `ex/`, change values (until minute 28).
 2. Assemble → check with the server at 375 and 1280 → push → screenshot of the cards and Network on the public address.
 
 **Total explanation: 7+6+6+5+6 = 30 min**

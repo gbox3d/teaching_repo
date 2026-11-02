@@ -1,0 +1,13 @@
+/* ex05 모양: 다크 모드의 색은 여기에 미리 적어 둔다. app.js 는 body 의 class 만 뒤집는다 */
+.card {
+    background-color: #ffffff;
+}
+/* 1. body 에 class="dark" 가 붙은 동안만 */
+body.dark {
+    background-color: #222222;
+    color: #eeeeee;
+}
+/* 2. 어두운 body 안의 .card 도 함께. 이 규칙을 지우면 카드만 흰 채로 남는다 */
+body.dark .card {
+    background-color: #222222;
+}

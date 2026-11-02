@@ -1,0 +1,7 @@
+/* ex01 모양: 두 목록 상자에 배경색을 칠해 1번과 2번을 구분한다. 태그 이름(ol·ul)으로 고른다 */
+ol {
+    background-color: #fff3c4;   /* 1번 목록 상자: 노란 배경 */
+}
+ul {
+    background-color: #dbeeff;   /* 2번 목록 상자: 하늘색 배경 */
+}

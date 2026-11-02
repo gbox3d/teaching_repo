@@ -46,8 +46,8 @@
 
 | 일차 | 설명 30분 | 실습 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | 고르기 페이지 쓰는 법 → ex01 객체와 점 표기 → ex02 배열 안의 객체와 날짜 틀 → ex03 객체를 목록 한 줄로 | 새 폴더 `web-week11` 에 지난주 완성본 넣기 → `ex/` 에 네 파일 저장 → 값 바꿔 보기 → 새 저장소 만들어 올리기 · Pages 켜기 | `ex/` 비교 예제(확인용) |
-| 2일차 | ex04 저장 칸과 Application 탭 → ex05 JSON → ex06 `\|\|` 또는 → ex07 removeItem → 내 목록은 내 브라우저에만 → 조립표 | `ex/` 에 다섯 파일 저장(고르기 페이지는 1일차 것을 덮어쓴다) → 값 바꿔 보기 → `guestbook.html`·`guestbook.js` 조립 → push → 공개 주소에서 확인 → 캡처 | 캡처 1 |
+| 1일차 | 예제 폴더 하나에 파일 두 개(`index.html`·`app.js`) → ex01 객체와 점 표기 → ex02 배열 안의 객체와 날짜 틀 → ex03 객체를 목록 한 줄로 | 새 폴더 `web-week11` 에 지난주 완성본 넣기 → `ex/` 에 예제 폴더 세 개(파일 여섯 개) 저장 → 값 바꿔 보기 → 새 저장소 만들어 올리기 · Pages 켜기 | `ex/` 비교 예제(확인용) |
+| 2일차 | ex04 저장 칸과 Application 탭 → ex05 JSON → ex06 `\|\|` 또는 → ex07 removeItem → 내 목록은 내 브라우저에만 → 조립표 | `ex/` 에 예제 폴더 네 개(파일 여덟 개) 저장 → 값 바꿔 보기 → `guestbook.html`·`guestbook.js` 조립 → push → 공개 주소에서 확인 → 캡처 | 캡처 1 |
 
 각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
 
@@ -75,25 +75,25 @@
 
 ## 이번 주 비교 예제
 
-1일차 ex01~ex03 은 같은 화면을 쓰므로 코드만 `.js` 파일에 두고, 고르기 페이지 [day1/index.html](examples/day1/index.html) 맨 아래 `<script src>` 세 줄 중 하나만 켜서 연다. 2일차 ex04~ex07 도 결과를 Console 과 Application 탭에서만 보므로 같은 방법이다. 고르기 페이지 [day2/index.html](examples/day2/index.html) 의 `<script src>` 네 줄 중 하나만 켠다. ex04 의 **저장하기** 버튼은 그 페이지의 "ex04 가 쓰는 자리"에 있다. 내 `ex/` 에서는 2일차 `index.html` 이 1일차 것을 덮어쓴다. Console 의 번호가 코드의 형제 번호와 같다.
-2일차 예제는 저장 칸 키 이름을 `ex04-memo` 처럼 예제 번호로 시작하게 했다. 같은 주소의 저장 칸은 함께 쓰므로 완성본의 `guestbook` 키와 섞이지 않게 하려는 것이다.
+예제마다 폴더 하나에 내 사이트와 같은 이름의 두 파일(`index.html` 화면 · `app.js` 동작)을 둔다. `index.html` 을 열고, 원리는 `app.js` 에서 본다. ex01·ex02 는 Console 에만, ex03 은 화면의 두 목록에 쓴다. 2일차 ex04~ex07 은 Console 과 Application 탭에서 본다. ex04 의 **저장하기** 버튼은 그 폴더의 `index.html` 에 있다. Console 의 번호가 코드의 형제 번호와 같다.
+2일차 예제는 저장 칸 키 이름을 `ex04-memo` 처럼 예제 번호로 시작하게 했다. 같은 주소의 저장 칸은 예제 폴더가 달라도 함께 쓰므로(두 번 눌러 연 `file://` 은 폴더가 달라도 칸 하나다) 예제끼리, 그리고 완성본의 `guestbook` 키와 섞이지 않게 하려는 것이다.
 
 | 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
-| [ex01_object.js](examples/day1/ex01_object.js) | 1. 객체 통째로 / 2·3. 점 표기로 값 하나 / 4. 없는 이름표 / 5. 값 자리에 변수 | 객체는 이름표가 붙은 값 묶음이다. 점 뒤에 이름표를 쓰면 그 값이 나오고, 없는 이름표는 `undefined` 다 | 객체 안 쉼표 하나 지우기 → 파일 전체가 실행되지 않는다. `name: name` 의 오른쪽에 따옴표 |
-| [ex02_array_objects.js](examples/day1/ex02_array_objects.js) | 1·2. 글자를 쌓은 배열 / 3·4·5. 객체를 쌓은 배열 | 대괄호로 몇 번째 묶음인지, 점으로 무슨 값인지 고른다. `new Date().toLocaleDateString()` 은 날짜 글자 틀이다 | 17행 쉼표 뒤의 `items[0].name` 을 `items.name[0]` 으로 → 빨간 줄. `.toLocaleDateString()` 지우기 |
-| [ex03_list_line.js](examples/day1/ex03_list_line.js) | 1. 객체를 그대로 넣은 줄 / 2. 점 표기로 꺼내 넣은 줄 | 글자 자리에 객체를 넣으면 `[object Object]` 가 되고 빨간 줄은 없다. 점 표기로 값을 꺼내 템플릿 문자열에 넣는다 | `items[i].nmae` → `undefined: …`. 백틱을 작은따옴표로 |
-| [ex04_storage.js](examples/day2/ex04_storage.js) | 1. 변수 `memo` / 2. 저장 칸 `ex04-memo` | 변수는 열 때마다 처음 값으로 시작하고, `setItem` 으로 적은 글자는 새로고침해도 `getItem` 으로 꺼낼 수 있다. 적은 적 없는 키는 `null` | 꺼내는 쪽(`getItem`) 키 철자 바꾸기 → `null`, 표에는 `ex04-memo` 그대로. 값 자리에 배열 → 글자 `하늘,바다` |
-| [ex05_json.js](examples/day2/ex05_json.js) | 1. 배열을 그대로 저장 / 2. `JSON.stringify` 해서 저장 / 3. `JSON.parse` 로 되살리기 | 저장 칸은 글자만 받는다. 배열은 JSON 글자로 바꿔 넣고, 꺼낸 글자는 다시 배열로 되살린다 | 4번 주석 풀기 → `is not valid JSON` 빨간 줄. `stringify` 줄을 둘째 `push` 위로 → 하나만 저장된다 |
-| [ex06_or.js](examples/day2/ex06_or.js) | 1. if 안의 `\|\|` / 2. `\|\|` 없이 되살리기 / 3. `\|\| []` 붙여 되살리기 | `\|\|` 는 "또는"이다. if 안에서는 둘 중 하나라도 참이면 참, 값 자리에서는 앞이 없으면(`null`) 뒤 값을 쓴다 | 4·5행 두 값 바꾸기. 4번 주석 풀기 → `null` 의 `length` 빨간 줄 |
-| [ex07_remove.js](examples/day2/ex07_remove.js) | 1. `items = []` / 2. `removeItem` / 3. 다른 키 | 배열 변수와 저장 칸은 따로다. 배열만 비우면 저장 칸은 그대로다. `removeItem` 은 그 키 하나만 지운다 | `removeItem` 줄을 주석으로 → 저장 칸이 남는다 |
+| [ex01/index.html](examples/day1/ex01/index.html) + [app.js](examples/day1/ex01/app.js) | 1. 객체 통째로 / 2·3. 점 표기로 값 하나 / 4. 없는 이름표 / 5. 값 자리에 변수 | 객체는 이름표가 붙은 값 묶음이다. 점 뒤에 이름표를 쓰면 그 값이 나오고, 없는 이름표는 `undefined` 다 | 객체 안 쉼표 하나 지우기 → 파일 전체가 실행되지 않는다. `name: name` 의 오른쪽에 따옴표 |
+| [ex02/index.html](examples/day1/ex02/index.html) + [app.js](examples/day1/ex02/app.js) | 1·2. 글자를 쌓은 배열 / 3·4·5. 객체를 쌓은 배열 | 대괄호로 몇 번째 묶음인지, 점으로 무슨 값인지 고른다. `new Date().toLocaleDateString()` 은 날짜 글자 틀이다 | `app.js` 17행 쉼표 뒤의 `items[0].name` 을 `items.name[0]` 으로 → 빨간 줄. `.toLocaleDateString()` 지우기 |
+| [ex03/index.html](examples/day1/ex03/index.html) + [app.js](examples/day1/ex03/app.js) | 1. 객체를 그대로 넣은 줄 / 2. 점 표기로 꺼내 넣은 줄 | 글자 자리에 객체를 넣으면 `[object Object]` 가 되고 빨간 줄은 없다. 점 표기로 값을 꺼내 템플릿 문자열에 넣는다 | `items[i].nmae` → `undefined: …`. 백틱을 작은따옴표로 |
+| [ex04/index.html](examples/day2/ex04/index.html) + [app.js](examples/day2/ex04/app.js) | 1. 변수 `memo` / 2. 저장 칸 `ex04-memo` | 변수는 열 때마다 처음 값으로 시작하고, `setItem` 으로 적은 글자는 새로고침해도 `getItem` 으로 꺼낼 수 있다. 적은 적 없는 키는 `null` | 꺼내는 쪽(`getItem`) 키 철자 바꾸기 → `null`, 표에는 `ex04-memo` 그대로. 값 자리에 배열 → 글자 `하늘,바다` |
+| [ex05/index.html](examples/day2/ex05/index.html) + [app.js](examples/day2/ex05/app.js) | 1. 배열을 그대로 저장 / 2. `JSON.stringify` 해서 저장 / 3. `JSON.parse` 로 되살리기 | 저장 칸은 글자만 받는다. 배열은 JSON 글자로 바꿔 넣고, 꺼낸 글자는 다시 배열로 되살린다 | 4번 주석 풀기 → `is not valid JSON` 빨간 줄. `stringify` 줄을 둘째 `push` 위로 → 하나만 저장된다 |
+| [ex06/index.html](examples/day2/ex06/index.html) + [app.js](examples/day2/ex06/app.js) | 1. if 안의 `\|\|` / 2. `\|\|` 없이 되살리기 / 3. `\|\| []` 붙여 되살리기 | `\|\|` 는 "또는"이다. if 안에서는 둘 중 하나라도 참이면 참, 값 자리에서는 앞이 없으면(`null`) 뒤 값을 쓴다 | `app.js` 4·5행 두 값 바꾸기. 4번 주석 풀기 → `null` 의 `length` 빨간 줄 |
+| [ex07/index.html](examples/day2/ex07/index.html) + [app.js](examples/day2/ex07/app.js) | 1. `items = []` / 2. `removeItem` / 3. 다른 키 | 배열 변수와 저장 칸은 따로다. 배열만 비우면 저장 칸은 그대로다. `removeItem` 은 그 키 하나만 지운다 | `removeItem` 줄을 주석으로 → 저장 칸이 남는다 |
 
 ## 수업 자료
 
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week11_object_localstorage/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(고르기 페이지 `index.html`, ex01~ex03 의 `.js`), 2일차 `day2/`(고르기 페이지 `index.html`, ex04~ex07 의 `.js`, 조립 `web-week11/`)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(예제 폴더 `ex01/`~`ex03/`, 폴더마다 `index.html`·`app.js`), 2일차 `day2/`(예제 폴더 `ex04/`~`ex07/`, 폴더마다 `index.html`·`app.js`, 조립 `web-week11/`)
 - 2일차 끝의 `web-week11`(조립 결과): [guestbook.html](examples/day2/web-week11/guestbook.html) · [guestbook.js](examples/day2/web-week11/guestbook.js) · [index.html](examples/day2/web-week11/index.html) · [about.html](examples/day2/web-week11/about.html) · [app.js](examples/day2/web-week11/app.js) · [styles.css](examples/day2/web-week11/styles.css) · [README.md](examples/day2/web-week11/README.md)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage

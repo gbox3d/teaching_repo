@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex09 dom write</title>
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <h1>ex09 화면에 쓰기: 먼저 찾고, 그다음 바꾼다</h1>
+    <p>F12 › Console 에 찾은 요소 두 개와 null 이 찍힌다. 바꾸기 버튼을 누르고 아래 글자 세 줄과 입력 칸이 어떻게 바뀌는지 본다.</p>
+    <div id="out1">1. 원래 글자 — getElementById 로 찾아 innerText 로 바꿀 자리</div>
+    <div id="out2">2. 원래 글자 — querySelector 로 찾아 textContent 로 바꿀 자리</div>
+    <div id="out3">3. 원래 글자 — 태그를 넣어 볼 자리</div>
+    <input id="inp" value="4. 입력 칸의 원래 값" size="30">
+    <div><button id="btn">바꾸기</button></div>
+</body>
+</html>

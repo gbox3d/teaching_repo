@@ -3,7 +3,7 @@
 # 6주차 실습 — 값을 바꿔 보고 마지막에 조립하기
 
 이번 주 실습도 코드를 새로 쓰는 것이 아니라 **값을 바꿔 보는 것**이다.
-비교 예제 6개를 이번 주 새 저장소 `web-week06` 의 `ex/` 폴더에 저장하고(1일차는 예제 폴더 세 개에 `index.html`·`styles.css`·`app.js` 씩, 2일차는 `.html`·`.js` 세 쌍), 값이나 줄 하나를 바꾼 뒤 결과가 어떻게 달라지는지 본다.
+비교 예제 6개를 이번 주 새 저장소 `web-week06` 의 `ex/` 폴더에 저장하고(예제마다 `ex/` 안의 같은 이름 폴더에 `index.html`·`styles.css`·`app.js` 세 파일), 값이나 줄 하나를 바꾼 뒤 결과가 어떻게 달라지는지 본다.
 결과는 화면, **F12 › Console**, **F12 › Elements** 에서 본다. DevTools 는 실습 내내 열어 둔다.
 2일차 끝에 그 부품으로 `web-week06` 맨 위의 `index.html`·`styles.css`·`app.js` 를 조립한다. 세 파일은 지난주 완성본에서 가져온다. 채점 대상은 2일차 캡처 1장이다.
 `student01` 은 예시 아이디이므로 본인 아이디로 바꾼다.
@@ -72,7 +72,7 @@ git push -u origin main
 
 | 시간 | 할 일 |
 |---|---|
-| 0–5분 | 같은 PC에 `web-week06` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week06.git` 뒤 **File › Open Folder**. 교재 [`examples/day2/`](examples/day2/) 의 여섯 파일(ex04~ex06 의 `.html`·`.js`)을 **Raw** 로 `ex/` 에 저장한다 |
+| 0–5분 | 같은 PC에 `web-week06` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week06.git` 뒤 **File › Open Folder**. `ex/` 안에 `ex04`·`ex05`·`ex06` 폴더를 만든다. 예제 파일은 문항마다 교재 [`examples/day2/`](examples/day2/) 의 같은 이름 폴더에서 받는다 |
 | 5–13분 | ex04 classList |
 | 13–21분 | ex05 다크 모드 |
 | 21–29분 | ex06 함수 하나를 두 버튼에 |
@@ -80,34 +80,34 @@ git push -u origin main
 | 48–55분 | 확인: 375·1280 폭에서 다크 모드, `node server.mjs` → `http://localhost:8000/`. Node 가 없으면 `index.html` 을 두 번 눌러 연다 |
 | 55–60분 | 끝 루틴: `git add .` → `git commit -m "6주차 2일차"` → `git push` → 공개 주소 `https://student01.github.io/web-week06/` 에서 다크 모드를 켠 **캡처 1장** → 공용 PC면 자격 증명 삭제 |
 
-2일차 예제는 `.html` 과 `.js` 가 한 쌍이다. 두 파일을 같은 `ex/` 폴더에 저장하고 `.html` 을 연다. 코드는 `.js`, 모양 규칙은 `.html` 의 `<style>` 에 있다.
+2일차 예제도 폴더마다 따로 연다. 문항의 폴더에서 `index.html` 을 열고, 코드는 같은 폴더의 `app.js`, 모양 규칙은 `styles.css` 에서 고친 뒤 저장 → 새로고침으로 본다. 아래 문항의 `N행` 은 어느 파일의 줄인지 함께 적었다.
 파일마다 **바꿔 보기를 하나 이상** 하고 넘어간다. 29분이 되면 남은 것은 두고 조립을 시작한다. 남은 바꿔 보기는 캡처까지 끝낸 뒤 한다.
 
 ### 4. ex04 classList (`classList.add` · `remove` · `toggle`)
 
-[examples/day2/ex04_classlist.html](examples/day2/ex04_classlist.html) 과 [ex04_classlist.js](examples/day2/ex04_classlist.js) 를 `ex/` 에 저장하고 `ex04_classlist.html` 을 연다.
+교재 [index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js) 를 **Raw** 로 받아 `ex/ex04/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex04/index.html` 을 연다. 모양은 `ex/ex04/styles.css`, 동작은 `ex/ex04/app.js` 에 있다.
 
 - 바꿔 보기: **F12 › Elements** 에서 `<div id="box">` 줄을 펼쳐 둔다. 1 add 를 두 번, 2 remove 를 한 번, 3 toggle 을 세 번 누르며 그 줄의 `class` 를 본다. add 를 두 번 눌렀을 때 `on` 이 두 개 붙나?
-- 바꿔 보기: `.html` 의 `<style>` 에서 `.on` 의 `gold` 를 `lightblue` 로 바꾼다. JS 를 고치지 않았는데 무엇이 달라지나? 모양은 어디가 정하나?
-- 바꿔 보기: `.js` 15행 `toggle('on')` 의 `'on'` 을 `'On'` 으로 바꾸고 3 toggle 을 누른다. Elements 의 class 는? 상자 색은 왜 안 바뀌나? 확인했으면 되돌린다.
+- 바꿔 보기: `styles.css` 3행 `.on` 의 `gold` 를 `lightblue` 로 바꾼다. JS 를 고치지 않았는데 무엇이 달라지나? 모양은 어디가 정하나?
+- 바꿔 보기: `app.js` 15행 `toggle('on')` 의 `'on'` 을 `'On'` 으로 바꾸고 3 toggle 을 누른다. Elements 의 class 는? 상자 색은 왜 안 바뀌나? 확인했으면 되돌린다.
 - 흔한 실수: CSS 규칙은 `.on` 인데 JS 에는 `'.on'` 처럼 점을 붙인다. `classList` 에는 **class 이름만** 쓴다. 점은 CSS 선택자와 `querySelector` 에서만 붙인다.
 
 ### 5. ex05 다크 모드 (`body.dark` · `document.body.classList.toggle`)
 
-[examples/day2/ex05_dark.html](examples/day2/ex05_dark.html) 과 [ex05_dark.js](examples/day2/ex05_dark.js) 를 `ex/` 에 저장하고 `ex05_dark.html` 을 연다.
+교재 [index.html](examples/day2/ex05/index.html) · [styles.css](examples/day2/ex05/styles.css) · [app.js](examples/day2/ex05/app.js) 를 **Raw** 로 받아 `ex/ex05/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex05/index.html` 을 연다. 색 규칙은 `ex/ex05/styles.css`, 동작은 `ex/ex05/app.js` 에 있다.
 
 - 바꿔 보기: **다크 모드**를 누르며 Elements 의 `<body>` 줄을 본다. 무엇이 붙었다 떨어지나? 배경색을 바꾼 JS 줄이 있나?
-- 바꿔 보기: `<style>` 의 2번 규칙 `body.dark .card { … }` 세 줄을 지우고 다크 모드를 켠다. 카드는 어떻게 보이나? 왜 카드만 남나? (4주차 `nav a` 처럼 "어두운 body **안의** 카드"를 고르는 규칙이다.) 확인했으면 되돌린다.
-- 바꿔 보기: `.js` 6행의 `toggle` 을 `add` 로 바꾸고 버튼을 여러 번 누른다. 다크 모드를 끌 수 있나? ex04 의 어느 버튼과 같은가? 확인했으면 되돌린다.
+- 바꿔 보기: `styles.css` 11~13행, 2번 규칙 `body.dark .card { … }` 세 줄을 지우고 다크 모드를 켠다. 카드는 어떻게 보이나? 왜 카드만 남나? (4주차 `nav a` 처럼 "어두운 body **안의** 카드"를 고르는 규칙이다.) 확인했으면 되돌린다.
+- 바꿔 보기: `app.js` 6행의 `toggle` 을 `add` 로 바꾸고 버튼을 여러 번 누른다. 다크 모드를 끌 수 있나? ex04 의 어느 버튼과 같은가? 확인했으면 되돌린다.
 - 흔한 실수: CSS 에 `body.dark` 규칙을 넣지 않고 JS 만 쓴다. Elements 의 body 에 `class="dark"` 는 붙는데 화면은 그대로다. 색은 CSS 가 정한다.
 
 ### 6. ex06 함수 하나를 두 버튼에 (`function` · 부르기)
 
-[examples/day2/ex06_reuse.html](examples/day2/ex06_reuse.html) 과 [ex06_reuse.js](examples/day2/ex06_reuse.js) 를 `ex/` 에 저장하고 `ex06_reuse.html` 을 연다.
+교재 [index.html](examples/day2/ex06/index.html) · [styles.css](examples/day2/ex06/styles.css) · [app.js](examples/day2/ex06/app.js) 를 **Raw** 로 받아 `ex/ex06/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex06/index.html` 을 연다. 고치는 파일은 `ex/ex06/app.js` 다.
 
 - 바꿔 보기: A, B, A 순서로 누른다. 화면 횟수와 Console 은? A·B 의 셈이 따로인가, 하나로 이어지나? 왜 그런가?
-- 바꿔 보기: 8행 `` `클릭 ${count}회` `` 를 `` `누른 횟수 ${count}` `` 로 바꾼다. A·B 두 버튼의 글자가 모두 바뀌나? 몇 곳을 고쳤나?
-- 바꿔 보기: 14행 `countUp();` 을 `countUp;` 으로(괄호를 빼고) 바꾸고 A 를 누른다. Console 1번은 찍히나? 횟수는 느나? 빨간 줄이 뜨나? 확인했으면 되돌린다.
+- 바꿔 보기: `app.js` 8행 `` `클릭 ${count}회` `` 를 `` `누른 횟수 ${count}` `` 로 바꾼다. A·B 두 버튼의 글자가 모두 바뀌나? 몇 곳을 고쳤나?
+- 바꿔 보기: `app.js` 14행 `countUp();` 을 `countUp;` 으로(괄호를 빼고) 바꾸고 A 를 누른다. Console 1번은 찍히나? 횟수는 느나? 빨간 줄이 뜨나? 확인했으면 되돌린다.
 - 흔한 실수: 함수를 부를 때 괄호를 빠뜨린다. `countUp;` 은 이름만 적은 것이라 아무 일도 하지 않고 오류도 나지 않는다. 5주차 ex08 처럼 **괄호를 붙여야** 실행된다.
 
 ### 7. 조립 — `index.html` 다섯 줄, `styles.css` 규칙 하나, `app.js` (`addEventListener` · `classList.toggle` · `countUp`)
@@ -150,8 +150,8 @@ git push -u origin main
 | 공개 주소에 방금 push한 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다 |
 | push 가 거부되거나 로그인 창이 안 뜬다 | [2주차 막혔을 때](../week02_github_pages/lab.md#막혔을-때) 표를 본다 |
 | 화면이 생각과 다른데 이유를 모르겠다 | **Console 을 먼저 연다.** 빨간 줄 오른쪽 `파일:줄` 로 간다. 오류 난 줄 아래는 실행되지 않으므로 그 줄부터 본다 |
-| 1일차 예제를 열었는데(ex02·ex03 은 버튼을 눌러도) 상자 글자가 그대로이고 Console 에 번호 줄이 없다 | `app.js` 가 그 `index.html` 과 같은 폴더(`ex/ex01/` 등)에 있는지 본다. Console 에 `Failed to load resource` 줄이 있으면 그 폴더에 `app.js` 가 없거나 파일 이름 철자가 틀린 것이다 |
-| 1일차 예제의 상자에 배경색이 없다 | `styles.css` 가 그 `index.html` 과 같은 폴더에 있는지, 이름 철자가 맞는지 본다. Console 에 `styles.css` 의 `Failed to load resource` 줄이 있으면 그 폴더에 없는 것이다. 모양만 빠지고 `app.js` 동작은 그대로 된다 |
+| 예제를 열었는데(ex02~ex06 은 버튼을 눌러도) 화면이 그대로이고 Console 에 번호 줄도 없다 | `app.js` 가 그 `index.html` 과 같은 폴더(`ex/ex01/` 등)에 있는지 본다. Console 에 `Failed to load resource` 줄이 있으면 그 폴더에 `app.js` 가 없거나 파일 이름 철자가 틀린 것이다 |
+| 예제의 상자에 배경색이 없다(ex04 는 add 를 눌러도 노랗게 안 되고, ex05 는 다크 모드를 눌러도 색이 그대로다) | `styles.css` 가 그 `index.html` 과 같은 폴더에 있는지, 이름 철자가 맞는지 본다. Console 에 `styles.css` 의 `Failed to load resource` 줄이 있으면 그 폴더에 없는 것이다. 모양만 빠지고 `app.js` 동작은 그대로 된다(ex04·ex05 는 Elements 의 class 는 붙는다) |
 | `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` | 글자를 바꿀 요소를 못 찾았다. `querySelector('#…')` 의 id 와 HTML 의 `id="…"` 를 글자 단위로 비교한다(ex01 셋째 바꿔 보기). 조립한 `app.js` 26행에서 뜨고 인사말이 `인사말을 준비 중입니다.` 그대로면 `index.html` 의 `<script src="app.js" defer>` 에서 `defer` 가 빠졌다(5주차 ex02) |
 | `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` | 버튼을 못 찾았다. 버튼의 `id` 와 `querySelector('#…')` 의 글자를 비교한다(`hello-button` / `hello_button`). 그 줄 아래는 실행되지 않아 다른 버튼도 동작하지 않는다 |
 | `Uncaught TypeError: Assignment to constant variable.` | `count` 를 `const` 로 만들었다. 다시 담는 변수는 `let` 이다(ex03 셋째 바꿔 보기) |

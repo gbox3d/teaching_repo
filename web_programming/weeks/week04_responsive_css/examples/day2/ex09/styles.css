@@ -1,0 +1,16 @@
+/* ex09 align-items: 교차축 위의 자리 네 값을 비교한다 */
+.frame {
+    display: flex;                  /* ex07: 자식이 가로(→)로 선다 */
+    background-color: lightgray;    /* 회색이 보이면 남는 공간이다 */
+    height: 100px;                  /* 세로(교차축)에 남는 공간을 만든다. 높이가 없으면 정렬할 자리가 없다 */
+}
+/* 자식을 구분하려고 배경색만 칠한다(이 예제의 주제는 아니다) */
+.c1 { background-color: gold; }
+.c2 { background-color: lightskyblue; }
+.c3 { background-color: lightgreen; }
+
+/* 교차축(세로) 위에서 자식을 어디에 두나 */
+.stretch { align-items: stretch; }     /* 기본값: 높이를 안 정한 자식은 끝까지 늘어난다 */
+.start   { align-items: flex-start; }  /* 위 */
+.center  { align-items: center; }      /* 세로 가운데 */
+.end     { align-items: flex-end; }    /* 아래 */

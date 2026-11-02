@@ -6,40 +6,36 @@
 
 ```text
 examples/
-  day1/   index.html      고르기 페이지 — 맨 아래 script 줄 하나만 켠다
-          ex01 ~ ex03     객체와 점 표기, 배열 안의 객체, 객체를 목록 한 줄로 (.js 파일)
-  day2/   index.html      고르기 페이지 — ex04 의 저장하기 버튼도 여기 있다
-          ex04 ~ ex07     저장 칸, JSON, || 또는, removeItem (.js 파일)
+  day1/   ex01/ ~ ex03/   객체와 점 표기, 배열 안의 객체, 객체를 목록 한 줄로 (예제마다 폴더 하나: index.html + app.js)
+  day2/   ex04/ ~ ex07/   저장 칸, JSON, || 또는, removeItem (예제마다 폴더 하나: index.html + app.js)
           web-week11/     2일차 끝의 web-week11 — 비교 예제에서 본 줄을 모은 조립
 ```
 
-`exNN_*` 파일은 **파일 하나 = 개념 하나**다. 같은 일을 다르게 한 **형제**(1·2·3번)를 나란히 놓는다.
+예제 하나는 **개념 하나**다(예제마다 폴더 `exNN/` 하나). 같은 일을 다르게 한 **형제**(1·2·3번)를 나란히 놓는다.
 결과는 화면과 **F12 › Console**, 그리고 2일차에 처음 쓰는 **F12 › Application** 탭에서 본다. 값이나 줄을 바꾸고 저장 → 새로고침으로 무엇이 달라지는지 본다.
-**다른 파일의 개념은 섞지 않는다.** 저장 칸(`localStorage`)은 ex04 의 주제라서 1일차 예제에는 없다. 뒤 예제가 앞 예제의 줄을 빌려 쓸 때는 줄 끝 주석에 출처(`// setItem 은 ex04`)를 적었다.
+**다른 예제의 개념은 섞지 않는다.** 저장 칸(`localStorage`)은 ex04 의 주제라서 1일차 예제에는 없다. 뒤 예제가 앞 예제의 줄을 빌려 쓸 때는 줄 끝 주석에 출처(`// setItem 은 ex04`)를 적었다.
 만들기는 마지막 하나, [`day2/web-week11/`](day2/web-week11/) 뿐이다.
 
-1일차는 세 예제가 같은 화면을 쓴다. 그래서 코드를 `.js` 파일로 떼어 두고 고르기 페이지 [day1/index.html](day1/index.html) 하나로 연다. 그 파일 맨 아래 `<script src="exNN_….js">` 세 줄 중 **하나만** 주석 밖에 둔다(VS Code 에서 줄에 커서를 두고 **Ctrl+/**, macOS **⌘+/**). 처음에는 ex01 줄만 켜져 있다. 10주차 1일차와 같은 방법이다.
-2일차 네 예제도 결과를 Console 과 Application 탭에서만 본다. 그래서 같은 방법으로 고르기 페이지 [day2/index.html](day2/index.html) 하나로 연다. 맨 아래 `<script src>` 네 줄 중 하나만 켠다. 처음에는 ex04 줄만 켜져 있다. ex04 가 쓰는 **저장하기** 버튼은 그 페이지의 "ex04 가 쓰는 자리"에 있다. 내 `ex/` 에서는 2일차 `index.html` 이 1일차 것을 덮어쓴다(1일차 `.js` 세 개는 그대로 남는다).
-2일차 예제의 저장 칸 키는 `ex04-memo` 처럼 예제 번호로 시작한다. 같은 주소의 저장 칸은 함께 쓰므로, 완성본의 `guestbook` 키와 섞이지 않게 하려는 것이다.
-내려받아 이번 주 저장소 `web-week11` 의 `ex/` 폴더에 파일 이름 그대로 저장한다(교재 저장소에서 **Raw** → 저장). 내 저장소에서는 날짜 폴더 없이 `ex/` 한 곳에 모은다. 가져오는 방법은 [따라하기 1일차](../walkthrough.md#1일차)와 [2일차](../walkthrough.md#2일차)에 있다.
+예제는 폴더마다 내 사이트와 같은 이름의 두 파일을 둔다. `index.html` 은 화면(그 예제가 쓰는 자리. ex03 의 두 목록, ex04 의 **저장하기** 버튼), `app.js` 는 동작이다. 이번 주의 원리는 모두 `app.js` 에 있다. 브라우저로 여는 것은 `index.html` 이고, `app.js` 는 `index.html` 이 불러온다(`<head>` 의 `<script src="app.js" defer>`. 내 사이트 `index.html` 과 같은 모양이다). 그래서 두 파일이 같은 폴더에 있어야 한다. 이번 주 예제에는 모양을 정할 규칙이 없어서 `styles.css` 는 두지 않았다.
+ex01·ex02 는 Console 에만 찍고 화면에는 제목과 안내 문장뿐이다. ex04~ex07 은 Console 과 Application 탭에서 본다.
+2일차 예제의 저장 칸 키는 `ex04-memo` 처럼 예제 번호로 시작한다. 같은 주소의 저장 칸은 예제 폴더가 달라도 함께 쓰므로(두 번 눌러 연 `file://` 은 폴더가 달라도 칸 하나다), 예제끼리, 그리고 완성본의 `guestbook` 키와 섞이지 않게 하려는 것이다.
+내려받아 이번 주 저장소 `web-week11` 의 `ex/` 폴더에 저장한다(교재 저장소에서 **Raw** → 저장). `ex/` 안에 같은 이름의 폴더(`ex01`~`ex07`)를 만들어 두 파일씩 넣는다. 날짜 폴더(`day1`·`day2`)는 만들지 않는다. 가져오는 방법은 [따라하기 1일차](../walkthrough.md#1일차)와 [2일차](../walkthrough.md#2일차)에 있다.
 
 ## 비교 예제
 
 | 파일 | 열면 보이는 것 | 보여 주는 원리 | 바꿔 볼 값 |
 |---|---|---|---|
-| [day1/index.html](day1/index.html) | 제목과 안내 두 줄, "ex03 이 쓰는 자리"(제목 두 개와 빈 목록 두 개). Console 은 켜 둔 `script` 줄의 예제 것만 찍힌다 | JS 를 파일로 떼어 HTML 이 `<script src>` 로 불러온다. 어느 파일을 불러올지는 `script` 줄 하나로 정해진다 | 켜 둔 줄을 바꿔 가며 새로고침 |
-| [day1/ex01_object.js](day1/ex01_object.js) | Console 1번 객체 한 묶음(값 바로 앞의 ▶ 로 펼치면 이름표 셋과 값이 한 줄씩 보인다. 순서는 코드와 다를 수 있고, `[[Prototype]]` 줄이 보이면 그것은 내가 적은 이름표가 아니다), 2번 `하늘`, 3번 `2026. 11. 11.`, 4번 `undefined`, 5번 `바다` | 객체 `{ }` 는 이름표가 붙은 값 묶음이다. 점 뒤에 이름표를 쓰면 그 값 하나가 나온다. 없는 이름표는 빨간 줄 없이 `undefined` 다. `{ name: name }` 의 왼쪽은 이름표, 오른쪽은 변수다 | 4행 `'하늘'` 뒤 쉼표 지우기 → 빨간 줄, 1~5번 모두 안 찍힌다. 14행 `name: name` 을 `name: 'name'` 으로 → 5번 `name` |
-| [day1/ex02_array_objects.js](day1/ex02_array_objects.js) | Console 1번 글자 두 개짜리 배열, 2번 `하늘: 안녕하세요`, 3번 객체 두 개짜리 배열 `[{…}, {…}]`, 4번 `하늘`, 5번 오늘 날짜 | 글자 한 덩어리에서는 이름만 꺼낼 수 없다. 배열 안의 객체는 대괄호로 몇 번째 묶음인지, 점으로 무슨 값인지 고른다. `new Date().toLocaleDateString()` 은 오늘 날짜를 글자로 만드는 틀이다 | 17행 쉼표 뒤를 `items.name[0]` 으로 → 빨간 줄. 12행 `.toLocaleDateString()` 지우기 → 5번이 긴 날짜·시각 값 |
-| [day1/ex03_list_line.js](day1/ex03_list_line.js) | 1번 목록 `[object Object]` 두 줄, 2번 목록 `하늘: 안녕하세요 (2026. 11. 11.)` · `바다: 잘 봤습니다 (2026. 11. 11.)`. 빨간 줄 없음 | 글자 자리에 객체를 통째로 넣으면 `[object Object]` 가 된다. 점 표기로 값을 하나씩 꺼내 백틱 문장(5주차 템플릿 문자열)에 넣는다 | 16행 `items[i].nmae` → `undefined: 안녕하세요 (…)`. 16행 백틱을 작은따옴표로 → `${…}` 가 글자 그대로 |
-| [day2/index.html](day2/index.html) | 제목과 안내 두 줄, "ex04 가 쓰는 자리"(**저장하기** 버튼 하나). Console 과 저장 칸에는 켜 둔 `script` 줄의 예제 것만 생긴다 | 1일차와 같다. 어느 파일을 불러올지는 `script` 줄 하나로 정해진다. 버튼은 ex04 줄을 켰을 때만 일을 한다 | 켜 둔 줄을 바꿔 가며 새로고침 |
-| [day2/ex04_storage.js](day2/ex04_storage.js) | 처음 Console 1번 `(처음 값)`, 2번 `null`. **저장하기** → 새로고침하면 1번 `(처음 값)`, 2번 `안녕하세요`. Application 표에 `ex04-memo` 한 줄 | 변수는 열 때마다 처음 값으로 다시 시작한다. `setItem(키, 값)` 으로 저장 칸에 적은 글자는 새로고침해도 `getItem(키)` 로 꺼낼 수 있다. 적은 적 없는 키는 `null` | 저장한 뒤 8행 `getItem` 의 키를 `'ex04-Memo'` 로 → 2번 `null`, 표에는 `ex04-memo` 그대로. 12행 값에 `['하늘', '바다']` → 2번 `하늘,바다`(글자) |
-| [day2/ex05_json.js](day2/ex05_json.js) | Console 1번 `[object Object],[object Object]`, 2번 `[{"name":"하늘","message":"안녕하세요"},{"name":"바다","message":"잘 봤습니다"}]`, 3번 `하늘 / 개수 : 2` | 저장 칸은 글자만 받는다. 배열을 그대로 넣으면 내용이 사라진다. `JSON.stringify` 로 바꾼 글자는 내용이 남고, `JSON.parse` 로 다시 배열이 된다 | 22행 주석 풀기 → `is not valid JSON` 빨간 줄. 13행을 6행 위로 → 2번에 하나만, 3번 개수 1 |
-| [day2/ex06_or.js](day2/ex06_or.js) | Console 1번 `이름과 메시지를 모두 입력하세요.`, 2번 `null`, 3번 빈 배열과 `개수 : 0` | `\|\|` 는 "또는"이다. if 안에서는 둘 중 하나라도 참이면 참이다. 값 자리에서는 앞이 없으면(`null`) 뒤 값을 쓴다. 그래서 처음 여는 사람도 빈 배열로 시작한다 | 5행 `message` 를 채우기 → 1번 `둘 다 채웠다.`. 23행 주석 풀기 → `null` 의 `length` 빨간 줄 |
-| [day2/ex07_remove.js](day2/ex07_remove.js) | Console 1번 `0 개 / 저장 칸 : ["하늘","바다"]`, 2번 `0 개 / 저장 칸 : null`, 3번 `다른 키`. Application 표의 ex07 키는 `ex07-other` 만 남는다 | 배열 변수와 저장 칸은 따로다. `items = []` 는 배열만 비운다. `removeItem(키)` 은 저장 칸에서 그 키 하나만 지운다 | 13행을 주석으로 → 2번 저장 칸이 그대로. 13행 키를 `'ex07-other'` 로 → 3번 `null` |
+| [day1/ex01/index.html](day1/ex01/index.html) + [app.js](day1/ex01/app.js) | Console 1번 객체 한 묶음(값 바로 앞의 ▶ 로 펼치면 이름표 셋과 값이 한 줄씩 보인다. 순서는 코드와 다를 수 있고, `[[Prototype]]` 줄이 보이면 그것은 내가 적은 이름표가 아니다), 2번 `하늘`, 3번 `2026. 11. 11.`, 4번 `undefined`, 5번 `바다` | 객체 `{ }` 는 이름표가 붙은 값 묶음이다. 점 뒤에 이름표를 쓰면 그 값 하나가 나온다. 없는 이름표는 빨간 줄 없이 `undefined` 다. `{ name: name }` 의 왼쪽은 이름표, 오른쪽은 변수다 | `app.js` 4행 `'하늘'` 뒤 쉼표 지우기 → 빨간 줄, 1~5번 모두 안 찍힌다. 14행 `name: name` 을 `name: 'name'` 으로 → 5번 `name` |
+| [day1/ex02/index.html](day1/ex02/index.html) + [app.js](day1/ex02/app.js) | Console 1번 글자 두 개짜리 배열, 2번 `하늘: 안녕하세요`, 3번 객체 두 개짜리 배열 `[{…}, {…}]`, 4번 `하늘`, 5번 오늘 날짜 | 글자 한 덩어리에서는 이름만 꺼낼 수 없다. 배열 안의 객체는 대괄호로 몇 번째 묶음인지, 점으로 무슨 값인지 고른다. `new Date().toLocaleDateString()` 은 오늘 날짜를 글자로 만드는 틀이다 | `app.js` 17행 쉼표 뒤를 `items.name[0]` 으로 → 빨간 줄. 12행 `.toLocaleDateString()` 지우기 → 5번이 긴 날짜·시각 값 |
+| [day1/ex03/index.html](day1/ex03/index.html) + [app.js](day1/ex03/app.js) | 1번 목록 `[object Object]` 두 줄, 2번 목록 `하늘: 안녕하세요 (2026. 11. 11.)` · `바다: 잘 봤습니다 (2026. 11. 11.)`. 빨간 줄 없음 | 글자 자리에 객체를 통째로 넣으면 `[object Object]` 가 된다. 점 표기로 값을 하나씩 꺼내 백틱 문장(5주차 템플릿 문자열)에 넣는다 | `app.js` 16행 `items[i].nmae` → `undefined: 안녕하세요 (…)`. 16행 백틱을 작은따옴표로 → `${…}` 가 글자 그대로 |
+| [day2/ex04/index.html](day2/ex04/index.html) + [app.js](day2/ex04/app.js) | **저장하기** 버튼 하나. 처음 Console 1번 `(처음 값)`, 2번 `null`. **저장하기** → 새로고침하면 1번 `(처음 값)`, 2번 `안녕하세요`. Application 표에 `ex04-memo` 한 줄 | 변수는 열 때마다 처음 값으로 다시 시작한다. `setItem(키, 값)` 으로 저장 칸에 적은 글자는 새로고침해도 `getItem(키)` 로 꺼낼 수 있다. 적은 적 없는 키는 `null` | 저장한 뒤 `app.js` 8행 `getItem` 의 키를 `'ex04-Memo'` 로 → 2번 `null`, 표에는 `ex04-memo` 그대로. 12행 값에 `['하늘', '바다']` → 2번 `하늘,바다`(글자) |
+| [day2/ex05/index.html](day2/ex05/index.html) + [app.js](day2/ex05/app.js) | Console 1번 `[object Object],[object Object]`, 2번 `[{"name":"하늘","message":"안녕하세요"},{"name":"바다","message":"잘 봤습니다"}]`, 3번 `하늘 / 개수 : 2` | 저장 칸은 글자만 받는다. 배열을 그대로 넣으면 내용이 사라진다. `JSON.stringify` 로 바꾼 글자는 내용이 남고, `JSON.parse` 로 다시 배열이 된다 | `app.js` 22행 주석 풀기 → `is not valid JSON` 빨간 줄. 13행을 6행 위로 → 2번에 하나만, 3번 개수 1 |
+| [day2/ex06/index.html](day2/ex06/index.html) + [app.js](day2/ex06/app.js) | Console 1번 `이름과 메시지를 모두 입력하세요.`, 2번 `null`, 3번 빈 배열과 `개수 : 0` | `\|\|` 는 "또는"이다. if 안에서는 둘 중 하나라도 참이면 참이다. 값 자리에서는 앞이 없으면(`null`) 뒤 값을 쓴다. 그래서 처음 여는 사람도 빈 배열로 시작한다 | `app.js` 5행 `message` 를 채우기 → 1번 `둘 다 채웠다.`. 23행 주석 풀기 → `null` 의 `length` 빨간 줄 |
+| [day2/ex07/index.html](day2/ex07/index.html) + [app.js](day2/ex07/app.js) | Console 1번 `0 개 / 저장 칸 : ["하늘","바다"]`, 2번 `0 개 / 저장 칸 : null`, 3번 `다른 키`. Application 표의 ex07 키는 `ex07-other` 만 남는다 | 배열 변수와 저장 칸은 따로다. `items = []` 는 배열만 비운다. `removeItem(키)` 은 저장 칸에서 그 키 하나만 지운다 | `app.js` 13행을 주석으로 → 2번 저장 칸이 그대로. 13행 키를 `'ex07-other'` 로 → 3번 `null` |
 
 ### 파일 안의 모양
 
-형제 번호가 주석 첫머리와 `console.log` 앞 글자에 있다. [ex06_or.js](day2/ex06_or.js) 에서 인용:
+형제 번호가 주석 첫머리와 `console.log` 앞 글자에 있다. [ex06/app.js](day2/ex06/app.js) 에서 인용:
 
 ```js
 // 2. 적은 적 없는 키를 꺼내 되살리면 null 이다(getItem 은 ex04, JSON.parse 는 ex05)

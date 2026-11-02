@@ -19,7 +19,7 @@
 | A 화면(HTML·CSS·README) (3점) | [w14_readme_images](w14_readme_images/) README 최종판과 그림 세 장 | [14주차 실습 제출](../../week14_project_presentation/lab.md#제출--캡처-한-장과-발표) | 9분 |
 | B DOM (3점) | [w06_click_text](../../week08_midterm/examples/w06_click_text/) 버튼을 누르면 글자가 바뀌고 횟수가 늘어난다 | [6주차 실습 제출](../../week06_dom_events/lab.md#제출--캡처-한-장) | 10분 |
 | B DOM (3점) | [w13_text_safe](w13_text_safe/) 입력한 글을 글자 그대로 | [13주차 실습 제출](../../week13_release_security/lab.md#제출--캡처-한-장) | 9분 |
-| C 폼·목록 (4점) | [w07_form_line](../../week08_midterm/examples/w07_form_line/) 입력 칸을 읽어 한 줄로 보여 주기 | [7주차 실습 제출](../../week07_form_input/lab.md#제출--캡처-한-장) | 10분 |
+| C 폼·목록 (4점) | [w07_form_line](../../week08_midterm/examples/w07_form_line/) 입력 칸을 읽어 목록에 한 줄씩 붙이기 | [7주차 실습 제출](../../week07_form_input/lab.md#제출--캡처-한-장) | 10분 |
 | C 폼·목록 (4점) | [w10_list_delete](w10_list_delete/) 목록 쌓기와 줄마다 삭제 | [10주차 실습 제출](../../week10_array_list/lab.md#제출--캡처-한-장) | 11분 |
 | D 저장(localStorage) (2점) | [w11_local_storage](w11_local_storage/) 새로고침해도 남는 목록 | [11주차 실습 제출](../../week11_object_localstorage/lab.md#제출--캡처-한-장) | 10분 |
 | E 불러오기(fetch) (3점) | [w12_fetch_cards](w12_fetch_cards/) JSON 카드 불러오기 | [12주차 실습 제출](../../week12_fetch_json/lab.md#제출--캡처-한-장) | 9분 |

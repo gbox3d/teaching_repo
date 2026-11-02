@@ -1,0 +1,10 @@
+/* ex04 width·max-width: 창이 좁아질 때 어느 상자가 같이 줄어드는지 비교한다 */
+.box {
+    background-color: lightgreen;   /* 폭이 보이게 칠한다(이 예제의 주제는 아니다) */
+}
+.w {
+    width: 640px;               /* 창이 좁아져도 640px, 삐져나간다 */
+}
+.mw {
+    max-width: 640px;           /* 640px 까지만, 창이 좁으면 같이 줄어든다 */
+}

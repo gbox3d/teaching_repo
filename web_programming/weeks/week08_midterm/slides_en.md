@@ -41,7 +41,7 @@ Day 2  Midterm exam — bank problems with changed values (time and count: class
 | A HTML | [w01](examples/w01_first_page/README.md) first page · [w02](examples/w02_push_repo/README.md) edit and push · [w03](examples/w03_second_page/README.md) new page and link |
 | B CSS | [w04](examples/w04_box_style/README.md) styled box, centered text · [w05](examples/w05_box_position/README.md) box position in a frame |
 | C JavaScript·DOM | [w06](examples/w06_click_text/README.md) button changes text and count |
-| D Forms | [w07](examples/w07_form_line/README.md) read inputs into one line |
+| D Forms | [w07](examples/w07_form_line/README.md) read inputs, add one list line each time |
 
 - The range is **up to the week we covered in class**. The notice says how far.
 - The exam uses these bank problems with **changed values only**. Text, tasks, and checks stay the same.

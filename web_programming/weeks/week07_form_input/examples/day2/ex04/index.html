@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex04 reset focus</title>
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <h1>ex04 reset 과 focus: 다음 입력 준비</h1>
+    <p>두 칸을 채우고 남기기를 누른다. F12 › Console 1·2번을 비교하고, 칸이 비었는지와 커서가 어디서 깜박이는지(3번) 본다.</p>
+    <form id="form">
+        <div>
+            <label for="name">이름</label>
+            <input id="name" type="text">
+        </div>
+        <div>
+            <label for="message">메시지</label>
+            <textarea id="message" rows="3"></textarea>
+        </div>
+        <button type="submit">남기기</button>
+    </form>
+</body>
+</html>

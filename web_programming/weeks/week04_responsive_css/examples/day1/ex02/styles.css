@@ -1,0 +1,12 @@
+/* ex02 display: 같은 태그에 display 값만 바꿔 줄을 차지하는지 비교한다 */
+/* 상자가 어디까지인지 보이게 배경색만 칠한다(이 예제의 주제는 아니다). 색이 바뀌면 다른 상자다 */
+.c1 { background-color: gold; }
+.c2 { background-color: lightskyblue; }
+.c3 { background-color: lightgreen; }
+
+.as-block {
+    display: block;         /* 한 줄을 다 차지한다 */
+}
+.as-inline {
+    display: inline;        /* 글자처럼 옆으로 이어진다 */
+}

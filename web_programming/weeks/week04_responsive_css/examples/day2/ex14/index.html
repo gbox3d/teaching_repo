@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex14 position</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <p>1. static (기본값)</p>
+    <div class="frame">
+        <div class="box c1">A</div><div class="box c2">B</div>
+    </div>
+    <p>2. A 에 position: relative; top: 40px; left: 40px</p>
+    <div class="frame">
+        <div class="box c1 relative">A</div><div class="box c2">B</div>
+    </div>
+    <p>3. A 에 position: absolute; right: 0; bottom: 0 → B 가 A 자리로 올라온다</p>
+    <div class="frame">
+        <div class="box c1 absolute">A</div><div class="box c2">B</div>
+    </div>
+</body>
+</html>

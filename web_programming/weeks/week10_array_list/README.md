@@ -3,23 +3,23 @@
 # 10주차 — 배열 데이터를 목록으로 그리기
 
 이번 주도 부품을 하나씩 본다. 비교 예제 7개를 열어 값을 바꿔 보고, 마지막에 이번 주 새 저장소 `web-week10` 의 `guestbook.html`·`guestbook.js` 를 그 부품으로 조립한다.
-7주차 방명록은 글을 남기면 카드 한 줄(`#last`)에 마지막 글만 보였다. 이번 주에는 남긴 글을 **배열**에 쌓아 **목록**으로 그리고, 줄마다 **[삭제]** 버튼을 붙인다.
-결과는 화면과 **F12 › Console**, **F12 › Elements** 에서 본다. Console 아래 입력 칸에 `items` 를 쳐서 배열을 직접 보는 것도 이번 주에 처음 한다. 파일 하나에 개념 하나다.
+9주차 방명록은 **남기기**를 누를 때마다 목록에 한 줄씩 붙였다(7주차 ex08). 그런데 그 줄은 화면에만 붙어 있어서 한 줄만 골라 지우거나 몇 개인지 세거나 11주차에 저장해 둘 데가 없다. 그래서 이번 주에는 남긴 글을 **배열**에 모아 두고 화면 목록은 배열대로 **다시 그린다**. 그러면 지우기는 "배열에서 하나 빼고 다시 그리기"가 되고, 개수는 배열의 길이가 되고, 11주차에는 이 배열을 그대로 저장한다. 줄마다 **[삭제]** 버튼도 붙인다.
+결과는 화면과 **F12 › Console**, **F12 › Elements** 에서 본다. Console 아래 입력 칸에 `items` 를 쳐서 배열을 직접 보는 것도 이번 주에 처음 한다. 예제 하나에 개념 하나다.
 
 ## 이번 주 질문
 
-> 방명록에 남긴 글이 사라지지 않고 목록으로 쌓이고, 줄마다 지울 수 있게 하려면 무엇을 알아야 하나?
+> 9주차 방명록은 남긴 글이 목록에 쌓이기만 한다. 줄마다 지우고 개수도 함께 보이려면 무엇을 알아야 하나?
 
 답은 세 가지 원리다.
 값 여러 개는 **배열** 하나에 순서대로 담는다. `push` 로 뒤에 더하고, 번호(`items[i]`)는 0 부터 세며, 개수는 `items.length` 다. 처음부터 끝까지 훑을 때는 `for` 를 쓴다.
-화면의 한 줄은 `createElement` 로 **만들고** `textContent` 로 글자를 넣은 뒤 `append` 로 **붙여야** 보인다.
+화면의 한 줄은 `createElement` 로 **만들고** `textContent` 로 글자를 넣은 뒤 `append` 로 **붙여야** 보인다(7주차 ex08 에서 본 세 줄이다).
 화면은 배열을 비춘 것이다. 배열을 바꾼 뒤에는 `showList()` 가 목록을 **비우고 배열 전체를 다시 그린다**. [삭제]도 배열에서 하나 빼고(`splice`) 다시 그린다.
 
 ## 학습 목표
 
 1. `let items = []` 에 `push` 로 값을 쌓고, `items.length`(개수)와 `items[i]`(번호는 0 부터)로 꺼내 쓴다. Console 입력 칸에 `items` 를 쳐 배열을 본다.
 2. `for (let i = 0; i < items.length; i++)` 로 배열을 처음부터 끝까지 훑는다. 끝을 숫자 대신 `items.length` 로 적는 이유를 말한다.
-3. `document.createElement('li')`·`textContent`·`append` 로 목록에 한 줄을 붙인다. 붙이지 않은 요소는 화면에도 Elements 탭에도 없다는 것을 확인한다.
+3. `document.createElement('li')`·`textContent`·`append` 로 목록에 한 줄을 붙인다. 붙이지 않은 요소는 화면에도 Elements 탭에도 없다는 것을 확인한다(7주차 ex08 복습).
 4. `list.innerHTML = ''` 로 비운 뒤 배열 전체를 다시 그리는 함수 `showList()` 를 쓰고, 그 안에서 개수(`N개`)와 빈 목록 안내도 함께 쓴다.
 5. 삭제 버튼 틀(`createElement('button')`·`splice(i, 1)`·`showList()`)을 그대로 붙여 가운데 줄을 지우고, 개수가 함께 줄어드는 것을 확인한다.
 
@@ -43,8 +43,8 @@
 
 | 일차 | 설명 30분 | 실습 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | ex01 배열 → ex02 for → ex03 목록 한 줄 만들기 → ex04 누를 때마다 쌓기 → 데이터가 가는 세 곳 | 새 폴더 `web-week10` 에 지난주 완성본 넣기 → `ex/` 에 다섯 파일 저장 → 값 바꿔 보기 → 새 저장소 만들어 올리기 · Pages 켜기 | `ex/` 비교 예제(확인용) |
-| 2일차 | 지우려면 두 곳을 바꿔야 한다 → ex05 비우고 다시 그리기 → ex06 showList → ex07 삭제 버튼 틀 → 조립표 | 여섯 파일 값 바꿔 보기 → `guestbook.html`·`guestbook.js` 조립 → 375·1280 폭과 서버로 확인 → push | 캡처 1 |
+| 1일차 | ex01 배열 → ex02 for → ex03 목록 한 줄 만들기(7주차 ex08 복습) → ex04 누를 때마다 쌓기 → 데이터가 가는 세 곳 | 새 폴더 `web-week10` 에 지난주 완성본 넣기 → `ex/` 에 예제 폴더 네 개 저장 → 값 바꿔 보기 → 새 저장소 만들어 올리기 · Pages 켜기 | `ex/` 비교 예제(확인용) |
+| 2일차 | 지우려면 두 곳을 바꿔야 한다 → ex05 비우고 다시 그리기 → ex06 showList → ex07 삭제 버튼 틀 → 조립표 | `ex/` 에 예제 폴더 세 개 저장 → 값 바꿔 보기 → `guestbook.html`·`guestbook.js` 조립 → 375·1280 폭과 서버로 확인 → push | 캡처 1 |
 
 각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
 
@@ -54,7 +54,7 @@
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS(선택). 5주차부터 쓴 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에도 둔다([사용 안내](../../tools/static-server/README.md)). Node 가 없는 PC 는 파일을 두 번 눌러 열어도 이번 주 결과는 같다
 - 개발자 도구의 **Console** 탭과 **Elements** 탭 위치(오른쪽 클릭 › **검사**, 또는 **F12**)
-- 7주차에 만든 방명록의 submit 코드(`event.preventDefault()`·`value`·`trim()`·빈칸 안내)를 기억해 둔다. 이번 주에는 그 코드를 그대로 두고 **결과를 쓰는 곳**만 바꾼다
+- 7주차에 만든 방명록의 submit 코드(`event.preventDefault()`·`value`·`trim()`·빈칸 안내, 줄을 만들어 붙이는 세 줄)를 기억해 둔다. 이번 주에는 그 코드를 그대로 두고 **줄을 붙이던 세 줄**만 "배열에 넣고 다시 그리기" 두 줄로 바꾼다
 - 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
 
 ## 이번 주 용어
@@ -72,24 +72,24 @@
 
 ## 이번 주 비교 예제
 
-1일차 ex01~ex04 는 같은 화면을 쓰므로 코드만 `.js` 파일에 두고, 고르기 페이지 [day1/index.html](examples/day1/index.html) 맨 아래 `<script src>` 네 줄 중 하나만 켜서 연다. 2일차 ex05~ex07 은 화면이 서로 달라서 `.html` 과 `.js` 를 한 쌍으로 둔다. Console 의 번호가 코드의 형제 번호와 같다.
+예제마다 폴더 하나에 내 사이트와 같은 이름의 두 파일(`index.html` 화면 · `app.js` 동작)을 둔다. `index.html` 을 열고, 원리는 `app.js` 에서 본다. `index.html` 에는 그 예제가 쓰는 자리만 있다(ex01·ex02 는 Console 에만 찍어서 제목과 안내 문장뿐이다). Console 의 번호가 코드의 형제 번호와 같다. 아래 `N행` 은 모두 그 폴더 `app.js` 의 줄 번호다.
 
-| 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
+| 예제 | 비교하는 것 | 원리 | 바꿔 볼 값 |
 |---|---|---|---|
-| [ex01_array.js](examples/day1/ex01_array.js) | 1. 빈 배열 / 2. `push` 세 번 / 3·4·5. `items[0]`·`items[2]`·`items[3]` / 6. 처음 값을 넣어 만들기 | 배열은 값을 순서대로 담는다. 번호는 0 부터라서 마지막 번호는 개수보다 하나 작다. 없는 번호는 `undefined` 다. 처음부터 값을 넣을 때는 대괄호 안에 쉼표로 나눠 적는다 | `push` 한 줄 빼기, `items[0]` 을 `items[1]` 로, 6번 배열에 값 하나 더 |
-| [ex02_for.js](examples/day1/ex02_for.js) | 1. 끝을 `3` 으로 적은 `for` / 2. 끝을 `items.length` 로 적은 `for` | `for` 는 `i` 를 0 부터 하나씩 올린다. 끝을 `items.length` 로 적으면 몇 개가 들어 있든 끝까지 간다 | `push` 줄 빼기, `<` 를 `<=` 로, `let i` 를 `const i` 로 |
-| [ex03_create_li.js](examples/day1/ex03_create_li.js) | 1. 만들기만 / 2. 만들고 붙이기 / 3. 하나 더 붙이기 | 만든 요소는 `append` 로 붙여야 화면에 보인다. `append` 는 맨 뒤에 붙인다 | 맨 끝에 `list.append(li1);` 더하기, `'li'` 를 `'<li>'` 로 |
-| [ex04_push_add.js](examples/day1/ex04_push_add.js) | 누를 때 1. 배열에 넣기 / 2. 화면에 붙이기 / 3. 개수 쓰기 | 배열과 화면은 따로다. 둘 다 넣어야 맞는다. 개수는 화면의 줄이 아니라 `items.length` 로 쓴다 | `push` 줄 주석, `append` 줄 주석, 백틱을 작은따옴표로 |
-| [ex05_redraw.html](examples/day2/ex05_redraw.html) + [.js](examples/day2/ex05_redraw.js) | 1. 비우지 않고 그리기 / 2. 비우고 그리기 | 다시 그릴 때는 `list.innerHTML = ''` 로 먼저 비운다. 비우지 않으면 앞에 그린 줄이 남는다 | `innerHTML` 줄 주석, 배열에 한 줄 더 |
-| [ex06_show_list.html](examples/day2/ex06_show_list.html) + [.js](examples/day2/ex06_show_list.js) | 1. 열 때 `showList()` / 2. [더하기] 뒤 `showList()` | 화면(목록·안내 문장·개수)은 모두 배열에서 다시 만든다. 배열을 바꿀 때마다, 그리고 열 때 한 번 부른다 | 처음 배열에 값 넣기, 열 때 부르는 줄 주석, 누를 때 부르는 줄 주석 |
-| [ex07_delete_button.html](examples/day2/ex07_delete_button.html) + [.js](examples/day2/ex07_delete_button.js) | 삭제 버튼 틀: 1. `splice(i, 1)` / 2. `showList()` / 3. `li.append(removeButton)` | 틀을 그대로 옮겨 쓴다. `showList()` 가 다시 그릴 때 버튼마다 번호를 새로 붙인다 | `splice(i, 1)` 의 `1` 을 `2` 로, 틀 안 `showList();` 주석 |
+| [ex01/index.html](examples/day1/ex01/index.html) + [app.js](examples/day1/ex01/app.js) | 1. 빈 배열 / 2. `push` 세 번 / 3·4·5. `items[0]`·`items[2]`·`items[3]` / 6. 처음 값을 넣어 만들기 | 배열은 값을 순서대로 담는다. 번호는 0 부터라서 마지막 번호는 개수보다 하나 작다. 없는 번호는 `undefined` 다. 처음부터 값을 넣을 때는 대괄호 안에 쉼표로 나눠 적는다 | `push` 한 줄 빼기, `items[0]` 을 `items[1]` 로, 6번 배열에 값 하나 더 |
+| [ex02/index.html](examples/day1/ex02/index.html) + [app.js](examples/day1/ex02/app.js) | 1. 끝을 `3` 으로 적은 `for` / 2. 끝을 `items.length` 로 적은 `for` | `for` 는 `i` 를 0 부터 하나씩 올린다. 끝을 `items.length` 로 적으면 몇 개가 들어 있든 끝까지 간다 | `push` 줄 빼기, `<` 를 `<=` 로, `let i` 를 `const i` 로 |
+| [ex03/index.html](examples/day1/ex03/index.html) + [app.js](examples/day1/ex03/app.js) | 1. 만들기만 / 2. 만들고 붙이기 / 3. 하나 더 붙이기 | 7주차 ex08 복습. 만든 요소는 `append` 로 붙여야 화면에 보인다. `append` 는 맨 뒤에 붙인다 | 맨 끝에 `list.append(li1);` 더하기, `'li'` 를 `'<li>'` 로 |
+| [ex04/index.html](examples/day1/ex04/index.html) + [app.js](examples/day1/ex04/app.js) | 누를 때 1. 배열에 넣기 / 2. 화면에 붙이기 / 3. 개수 쓰기 | 배열과 화면은 따로다. 둘 다 넣어야 맞는다. 개수는 화면의 줄이 아니라 `items.length` 로 쓴다 | `push` 줄 주석, `append` 줄 주석, 백틱을 작은따옴표로 |
+| [ex05/index.html](examples/day2/ex05/index.html) + [app.js](examples/day2/ex05/app.js) | 1. 비우지 않고 그리기 / 2. 비우고 그리기 | 다시 그릴 때는 `list.innerHTML = ''` 로 먼저 비운다. 비우지 않으면 앞에 그린 줄이 남는다 | `innerHTML` 줄 주석, 배열에 한 줄 더 |
+| [ex06/index.html](examples/day2/ex06/index.html) + [app.js](examples/day2/ex06/app.js) | 1. 열 때 `showList()` / 2. [더하기] 뒤 `showList()` | 화면(목록·안내 문장·개수)은 모두 배열에서 다시 만든다. 배열을 바꿀 때마다, 그리고 열 때 한 번 부른다 | 처음 배열에 값 넣기, 열 때 부르는 줄 주석, 누를 때 부르는 줄 주석 |
+| [ex07/index.html](examples/day2/ex07/index.html) + [app.js](examples/day2/ex07/app.js) | 삭제 버튼 틀: 1. `splice(i, 1)` / 2. `showList()` / 3. `li.append(removeButton)` | 틀을 그대로 옮겨 쓴다. `showList()` 가 다시 그릴 때 버튼마다 번호를 새로 붙인다 | `splice(i, 1)` 의 `1` 을 `2` 로, 틀 안 `showList();` 주석 |
 
 ## 수업 자료
 
 - [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week10_array_list/index.html
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(고르기 페이지 `index.html`, ex01~ex04 의 `.js`), 2일차 `day2/`(ex05~ex07 의 `.html`·`.js`, 조립 `web-week10/`)
+- [예제 설명](examples/README.md) — 1일차 `day1/`(예제 폴더 `ex01/`~`ex04/`), 2일차 `day2/`(예제 폴더 `ex05/`~`ex07/`, 조립 `web-week10/`). 폴더마다 `index.html`·`app.js`
 - 2일차 끝의 `web-week10`(조립 결과): [guestbook.html](examples/day2/web-week10/guestbook.html) · [guestbook.js](examples/day2/web-week10/guestbook.js) · [index.html](examples/day2/web-week10/index.html) · [about.html](examples/day2/web-week10/about.html) · [styles.css](examples/day2/web-week10/styles.css) · [app.js](examples/day2/web-week10/app.js) · [README.md](examples/day2/web-week10/README.md)
 - 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
 - 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list

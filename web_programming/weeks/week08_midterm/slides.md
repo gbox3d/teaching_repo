@@ -41,7 +41,7 @@ footer: "중간 개인 실기 · 문제 은행으로 연습하고, 값만 바뀐
 | A HTML | [w01](examples/w01_first_page/README.md) 첫 페이지 · [w02](examples/w02_push_repo/README.md) 고치고 올리기 · [w03](examples/w03_second_page/README.md) 새 페이지와 링크 |
 | B CSS | [w04](examples/w04_box_style/README.md) 상자 꾸미기와 글자 가운데 · [w05](examples/w05_box_position/README.md) 틀 안의 상자 위치 |
 | C JavaScript·DOM | [w06](examples/w06_click_text/README.md) 버튼으로 글자·횟수 바꾸기 |
-| D 폼 | [w07](examples/w07_form_line/README.md) 입력 칸을 한 줄로 |
+| D 폼 | [w07](examples/w07_form_line/README.md) 입력 칸을 목록에 한 줄씩 |
 
 - 범위는 **수업에서 나간 주차까지**입니다. 어디까지인지는 공지에 적습니다.
 - 시험은 이 은행 문제를 **값만 바꿔** 냅니다. 문장·할 일·확인하는 방법은 그대로입니다.

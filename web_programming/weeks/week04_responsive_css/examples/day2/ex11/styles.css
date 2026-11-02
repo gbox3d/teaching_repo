@@ -1,0 +1,12 @@
+/* ex11 gap: 자식과 자식 사이 간격 0 · 16px · 32px 를 비교한다 */
+.frame {
+    display: flex;                  /* ex07: 자식이 가로(→)로 선다 */
+    background-color: lightgray;    /* 회색이 보이면 상자 사이 간격이다 */
+}
+/* 자식을 구분하려고 배경색만 칠한다(이 예제의 주제는 아니다) */
+.c1 { background-color: gold; }
+.c2 { background-color: lightskyblue; }
+.c3 { background-color: lightgreen; }
+
+.gap16 { gap: 16px; }   /* 자식과 자식 사이를 16px 벌린다. 부모에 쓴다 */
+.gap32 { gap: 32px; }

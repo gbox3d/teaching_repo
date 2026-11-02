@@ -68,7 +68,7 @@ footer: "최종 프로젝트 발표 · 비교 예제로 확인하고 3분 시연
 
 ## 1일차 · 10–15분 — ex01 시연 순서를 홈에 번호 목록으로
 
-[examples/day1/ex01_order_list.html](examples/day1/ex01_order_list.html) · [3분 시연 흐름 표](demo_outline.md)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) · [3분 시연 흐름 표](demo_outline.md)
 
 ```html
 <ol>                                          <!-- 1. 번호 목록 -->
@@ -87,7 +87,7 @@ footer: "최종 프로젝트 발표 · 비교 예제로 확인하고 3분 시연
 
 ## 1일차 · 15–20분 — ex02 공개 주소가 안 열리면: 로컬 시연은 서버로
 
-[ex02_server.html](examples/day1/ex02_server.html) · [ex02_server.js](examples/day1/ex02_server.js) · [ex02_message.json](examples/day1/ex02_message.json)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) · [message.json](examples/day1/ex02/message.json)
 
 ```text
 ① 발표 전날 조교가 제출한 공개 주소를 모두 열어 본다
@@ -96,7 +96,7 @@ footer: "최종 프로젝트 발표 · 비교 예제로 확인하고 3분 시연
 ```
 
 ```js
-const response = await fetch('ex02_message.json');   // 1. 서버로 열면 읽는다
+const response = await fetch('message.json');   // 1. 서버로 열면 읽는다
 // 2. 두 번 눌러 연 file:// 에서는 읽지 못해 catch 로 간다
 ```
 
@@ -108,7 +108,7 @@ const response = await fetch('ex02_message.json');   // 1. 서버로 열면 읽�
 
 ## 1일차 · 20–24분 — ex03 저장한 글은 주소·창마다 따로
 
-[ex03_storage.html](examples/day1/ex03_storage.html) · [ex03_storage.js](examples/day1/ex03_storage.js)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
 
 ```js
 let countVar = 0;                                                      // 1. 변수
@@ -151,7 +151,7 @@ README.md    공개 주소 · 홈 줄 · 만든 과정 14주차 줄 ← 13주차
 
 [1일차 실습](lab.md#1일차--비교-예제-조립-3분-리허설-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation)
 
-1. `web-week14` 에 지난주 완성본, `ex/` 에 오늘 여섯 파일. 값 바꿔 보기.
+1. `web-week14` 에 지난주 완성본, `ex/` 에 예제 폴더 세 개. 값 바꿔 보기.
 2. 조립 → **31분에** 새 저장소 `web-week14` 올리기·Pages 켜기(2일차가 발표라서 일찍).
 3. 공개 주소 확인·그림 다시 찍기 → 조교 확인·짝과 3분 리허설 → 끝 루틴.
 

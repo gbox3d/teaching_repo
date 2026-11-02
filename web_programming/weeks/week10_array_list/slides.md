@@ -8,13 +8,13 @@ footer: "배열 데이터를 목록으로 그리기 · 비교 예제로 원리�
 
 # 배열 데이터를 목록으로 그리기
 
-7주차 방명록은 글을 남기면 카드 한 줄에 **마지막 글만** 보였습니다. 이번 주는 글을 **배열**에 쌓아 **목록**으로 그리고, 줄마다 **[삭제]** 를 붙입니다.
+9주차 방명록은 남길 때마다 목록에 한 줄씩 붙였지만 **화면에만** 있어 한 줄만 지울 수 없습니다. 이번 주는 글을 **배열**에 모아 두고 목록을 배열대로 **다시 그려**, 줄마다 **[삭제]** 를 붙이고 목록 아래에 개수를 씁니다.
 
 이번 주 방식도 같습니다: **비교 예제 7개**를 하나씩 보고, 마지막에 새 저장소 `web-week10` 의 `guestbook.html`·`guestbook.js` 를 **조립**합니다(지난주 완성본에서 시작).
 
 - 값 여러 개는 배열 하나에 담고, 화면의 줄은 만들어서 붙입니다.
 - 결과는 화면, **Console**(입력 칸에 `items` 치기), **Elements** 탭에서 봅니다.
-- 파일 하나 = 개념 하나. 실습은 **값을 바꿔 보는 것**입니다.
+- 예제 하나 = 개념 하나. 실습은 **값을 바꿔 보는 것**입니다.
 
 ---
 
@@ -24,7 +24,7 @@ footer: "배열 데이터를 목록으로 그리기 · 비교 예제로 원리�
 
 1. ex01 — 배열: `[]`·`push`·`length`·`items[i]` (오늘 문법)
 2. ex02 — `for`: 처음부터 끝까지 (오늘 문법)
-3. ex03 — 목록 한 줄: 만들고, 글자 넣고, 붙인다
+3. ex03 — 목록 한 줄: 만들고, 글자 넣고, 붙인다(7주 ex08 복습)
 4. ex04 — 누를 때마다 쌓기와 개수
 5. 데이터가 가는 세 곳
 
@@ -32,7 +32,7 @@ footer: "배열 데이터를 목록으로 그리기 · 비교 예제로 원리�
 
 ## 1일차 · 0–5분 — ex01 배열: 값 여러 개를 순서대로
 
-[examples/day1/index.html](examples/day1/index.html) 고르기 페이지 · [ex01_array.js](examples/day1/ex01_array.js)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
 
 ```js
 let items = [];                          // 1. 빈 배열, 개수 0
@@ -53,7 +53,7 @@ console.log('5. 없는 번호 items[3] :', items[3]);   // undefined
 
 ## 1일차 · 5–10분 — ex02 for: 처음부터 끝까지
 
-[examples/day1/ex02_for.js](examples/day1/ex02_for.js)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
 
 ```js
 // 배열에 4개가 들어 있다
@@ -72,9 +72,9 @@ for (let i = 0; i < items.length; i++) {   // 2. 끝이 length → 끝까지
 
 ---
 
-## 1일차 · 10–17분 — ex03 목록 한 줄: 만들고, 넣고, 붙인다
+## 1일차 · 10–17분 — ex03 목록 한 줄: 만들고, 넣고, 붙인다(7주 ex08 복습)
 
-[examples/day1/ex03_create_li.js](examples/day1/ex03_create_li.js)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
 
 ```js
 const li2 = document.createElement('li');   // 만든다(아직 화면에 없다)
@@ -84,7 +84,7 @@ list.append(li2);                           // 목록 맨 뒤에 붙인다 → �
 
 - 1번(`li1`)은 만들기만 해서 Console 에만 있고, 화면과 **Elements** 에는 없습니다.
 - `append` 는 늘 **맨 뒤**에 붙입니다. 3번이 2번 아래에 붙습니다.
-- `textContent` 는 6주차와 같습니다. 글자를 글자 그대로 넣습니다.
+- 7주차 ex08 2번과 같은 세 줄입니다. 오늘은 만들기만 한 1번과 나란히 봅니다.
 
 **만든 요소는 `append` 로 붙여야 화면에 보인다.**
 
@@ -92,7 +92,7 @@ list.append(li2);                           // 목록 맨 뒤에 붙인다 → �
 
 ## 1일차 · 17–23분 — ex04 누를 때마다 쌓기와 개수
 
-[examples/day1/ex04_push_add.js](examples/day1/ex04_push_add.js)
+[examples/day1/ex04/index.html](examples/day1/ex04/index.html) · [app.js](examples/day1/ex04/app.js)
 
 ```js
 addButton.addEventListener('click', function () {
@@ -130,8 +130,8 @@ addButton.addEventListener('click', function () {
 
 [1일차 실습](lab.md#1일차--배열과-목록-한-줄-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
 
-1. 새 폴더 `web-week10` 에 지난주 완성본, `ex/` 에 오늘 다섯 파일.
-2. ex01~ex04 — 줄 하나만 켜고 값 바꿔 보기. Console 입력 칸에 `items` 를 쳐 봅니다.
+1. 새 폴더 `web-week10` 에 지난주 완성본, `ex/` 에 예제 폴더 네 개(폴더마다 `index.html`·`app.js`).
+2. ex01~ex04 — 폴더마다 `index.html` 을 열고 `app.js` 값 바꿔 보기. Console 입력 칸에 `items` 를 쳐 봅니다.
 3. 새 저장소 `web-week10` 만들어 올리기 · Pages 켜기(2주차 순서 그대로).
 
 **설명 합계: 5+5+7+6+4+3 = 30분**
@@ -153,13 +153,14 @@ addButton.addEventListener('click', function () {
 ## 2일차 · 0–4분 — 지우려면 두 곳을 바꿔야 한다
 
 ```text
+9주차: 남기기 → 화면에 <li> 하나 append (배열 없음, 지울 수 없다)
 1일차: 더하기 → 배열에 push         + 화면에 <li> 하나 append
 오늘:  지우기 → 배열에서 하나 빼기  + 화면에서도 그 줄 빼기
 ```
 
 - 한쪽만 바꾸면 배열과 화면이 어긋납니다. 1일차 ex04 에서 본 그대로입니다.
 - 그래서 한 줄만 빼지 않고, **목록을 통째로 비우고 배열대로 다시 그립니다.**
-- 더할 때도 지울 때도 같은 함수 하나를 부르면 됩니다.
+- 더할 때도 지울 때도 같은 함수 하나를 부르면 됩니다. 11주차에는 이 배열을 그대로 저장합니다.
 
 **배열을 바꾸면 화면은 다시 그린다.**
 
@@ -167,7 +168,7 @@ addButton.addEventListener('click', function () {
 
 ## 2일차 · 4–10분 — ex05 비우고 다시 그리기
 
-[examples/day2/ex05_redraw.html](examples/day2/ex05_redraw.html) · [ex05_redraw.js](examples/day2/ex05_redraw.js)
+[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js)
 
 ```js
 // 2. 비우고 그리기
@@ -188,7 +189,7 @@ for (let i = 0; i < items.length; i++) {
 
 ## 2일차 · 10–17분 — ex06 showList(): 화면을 배열대로
 
-[examples/day2/ex06_show_list.html](examples/day2/ex06_show_list.html) · [ex06_show_list.js](examples/day2/ex06_show_list.js)
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js)
 
 ```js
 function showList() {
@@ -210,7 +211,7 @@ showList();                                    // 1. 열 때 한 번
 
 ## 2일차 · 17–24분 — ex07 삭제 버튼 틀
 
-[examples/day2/ex07_delete_button.html](examples/day2/ex07_delete_button.html) · [ex07_delete_button.js](examples/day2/ex07_delete_button.js)
+[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js)
 
 ```js
 const removeButton = document.createElement('button');
@@ -232,18 +233,18 @@ li.append(removeButton);    // 버튼을 그 줄 안에 붙인다
 ## 2일차 · 24–30분 — 조립: web-week10, 그리고 실습 인계
 
 ```text
-guestbook.html  두 줄 → 네 줄(#list · #empty · #count) ← ex03 · ex06
-guestbook.js    const list · empty · count             ← ex06
+guestbook.html  #list 아래 두 줄(#empty · #count)      ← ex06
+guestbook.js    const empty · count (list 는 9주차)    ← ex06
                 let items = [];                        ← ex01
                 showList(): 비우기 · for · li          ← ex05 · ex02 · ex03
                   + 삭제 버튼 틀 · 개수 · 안내         ← ex07 · ex04 · ex06
-                submit: items.push(…); showList();     ← ex04 · ex06
+                submit: 붙이던 세 줄 → push · showList ← ex04 · ex06
                 맨 끝: showList();                     ← ex06
 ```
 
 [2일차 실습](lab.md#2일차--다시-그리기와-삭제-버튼-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
 
-1. ex05~ex07 `.html`·`.js` 를 `ex/` 에 저장, 값 바꾸기(29분까지).
+1. ex05~ex07 예제 폴더를 `ex/` 에 저장, 값 바꾸기(29분까지).
 2. 조립 → 375·1280 폭과 서버로 확인 → push → 3개 남기고 가운데 삭제, `2개` 캡처.
 
 **설명 합계: 4+6+7+7+6 = 30분**

@@ -5,7 +5,7 @@
 이번 주는 새 저장소 `web-week13`을 만든다. 지난주 완성본을 넣고, 비교 예제는 그 안의 `ex/` 폴더에 저장한다. 값·줄을 바꾼 뒤 결과를 화면과 **F12 › Console**, **F12 › Elements**에서 보고, `.md` 예제는 VS Code **Open Preview**에서 본다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-비교 예제 8개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security/examples/day1)(1일차 ex01~ex05와 고르기 페이지, 그림)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security/examples/day2)(2일차 ex06~ex08) 폴더에 있다.
+비교 예제 8개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security/examples/day1)(1일차 예제 폴더 ex01~ex05)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security/examples/day2)(2일차 예제 폴더 ex06, ex07·ex08의 `.md`와 그림) 폴더에 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 **확인·캡처는 공개 주소에서 한다.** 내 PC 에서 볼 때는 `node server.mjs` → `http://localhost:8000/` 로 연다. 방명록 글은 주소마다 따로 저장되고, 프로젝트 카드는 두 번 눌러 연 `file://` 화면에는 나오지 않는다.
@@ -50,55 +50,70 @@ web-week13/
 
 ### 2. 비교 예제 가져오기
 
-오늘 파일은 일곱 개와 그림 하나다. ex01·ex02는 같은 화면(입력 칸·버튼·결과 자리)을 쓰기 때문에 화면은 고르기 페이지 `index.html` 하나에 두고 코드만 `.js`로 뗐다. ex03은 화면이 달라 `.html`과 `.js` 한 쌍이고, ex04·ex05는 JavaScript가 없는 `.html` 하나다.
+오늘 예제는 다섯 개이고, 예제마다 **폴더 하나**에 파일이 있다. 여는 파일은 늘 내 사이트와 같은 이름의 `index.html`(화면)이다. JavaScript가 있는 ex01~ex03은 같은 폴더에 `app.js`(동작)가 하나 더 있고, 이번 주에 배우는 원리는 그 `app.js`에 있다. ex04·ex05는 JavaScript가 없는 `index.html` 하나이고, ex04 폴더에는 그림 `images/profile.png`도 있다.
 
-| 파일 | 비교하는 것 |
-|---|---|
-| [index.html](examples/day1/index.html) | 고르기 페이지. 맨 아래 `<script src>` 두 줄 중 하나만 켠다. 예제가 쓰는 자리(`#year` 칸·`#btn`·`#result`)가 여기 있다 |
-| [ex01_number.js](examples/day1/ex01_number.js) | 글자 + 1 / `Number(글자)` + 1 / `isNaN` |
-| [ex02_year.js](examples/day1/ex02_year.js) | 올해 / 올해 - 입학 연도 / + 1 |
-| [ex03_text_html.html](examples/day1/ex03_text_html.html) + [ex03_text_html.js](examples/day1/ex03_text_html.js) | `textContent`로 넣기 / `innerHTML`로 넣기 / `innerHTML = ''`로 비우기 |
-| [ex04_alt.html](examples/day1/ex04_alt.html) + 그림 [images/profile.png](examples/day1/images/profile.png) | 알맞은 `alt` / `alt` 없음 / `alt="그림"` |
-| [ex05_label.html](examples/day1/ex05_label.html) | `for`와 `id`가 같다 / 한 글자 다르다 / `label` 없음 |
+| 폴더 | 파일 | 비교하는 것 |
+|---|---|---|
+| `ex01` | [index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) | 글자 + 1 / `Number(글자)` + 1 / `isNaN` |
+| `ex02` | [index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) | 올해 / 올해 - 입학 연도 / + 1 |
+| `ex03` | [index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) | `textContent`로 넣기 / `innerHTML`로 넣기 / `innerHTML = ''`로 비우기 |
+| `ex04` | [index.html](examples/day1/ex04/index.html) · 그림 [images/profile.png](examples/day1/ex04/images/profile.png) | 알맞은 `alt` / `alt` 없음 / `alt="그림"` |
+| `ex05` | [index.html](examples/day1/ex05/index.html) | `for`와 `id`가 같다 / 한 글자 다르다 / `label` 없음 |
 
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week13/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
-그림은 `ex` 안에 `images` 폴더를 먼저 만들고, 교재의 `images/profile.png`를 눌러 그림만 보이는 화면에서 같은 방법으로 `ex/images/profile.png`로 저장한다.
+먼저 `ex` 안에 같은 이름의 폴더 다섯 개를 만들고, `ex04` 안에는 그림 폴더 `images`도 만든다. VS Code 탐색기에서 `ex`를 고르고 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week13`
 
-**예상 결과** — `ex/` 안에 파일 일곱 개와 `images/profile.png`가 있다.
+```bash
+mkdir ex/ex01
+mkdir ex/ex02
+mkdir ex/ex03
+mkdir ex/ex04
+mkdir ex/ex04/images
+mkdir ex/ex05
+```
+
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security/examples/day1)에서 `ex01` 폴더를 누르고, 파일을 하나씩 눌러 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 내 `web-week13/ex/ex01/`에 저장한다. 다 받았으면 `ex02`~`ex05`도 같은 방법으로 자기 폴더에 받는다. 그림은 교재 `ex04/images/profile.png`를 눌러 그림만 보이는 화면에서 같은 방법으로 `ex/ex04/images/profile.png`로 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+
+**예상 결과** — `ex/` 안에 폴더 다섯 개가 있고, 폴더마다 아래 파일이 있다.
 
 ```text
 ex/
-  images/
-    profile.png
-  ex01_number.js
-  ex02_year.js
-  ex03_text_html.html
-  ex03_text_html.js
-  ex04_alt.html
-  ex05_label.html
-  index.html
+  ex01/
+    app.js
+    index.html
+  ex02/
+    app.js
+    index.html
+  ex03/
+    app.js
+    index.html
+  ex04/
+    images/
+      profile.png
+    index.html
+  ex05/
+    index.html
 ```
 
+- 저장 창에서 폴더 이름을 먼저 본다. 폴더마다 파일 이름이 같아서, 다른 폴더에 저장하면 그 폴더의 같은 이름 파일을 덮어쓴다. 덮어썼으면 그 폴더의 파일을 교재에서 다시 **Raw**로 받는다.
 - 저장한 파일 이름이 `.txt`로 끝나면 이름을 고친다. 이름은 VS Code 탐색기에서 확인한다.
-- `ex/index.html`은 예제를 고르는 페이지다. 맨 위 `index.html`(내 사이트)과 이름이 같지만 다른 파일이다. 탭 이름 옆 폴더 경로로 구분한다.
-- `ex/images/`는 ex04와 2일차 ex08이 쓰는 그림 자리다. 맨 위 `images/`와 같은 그림이지만 따로 둔다.
+- 예제 폴더의 `index.html`·`app.js`는 맨 위 내 사이트 파일과 이름이 같지만 다른 파일이다. 편집기 위쪽 경로 줄(`ex › ex01 › app.js`)로 구분한다. 같은 이름 파일을 여러 개 열면 탭 이름 옆에도 폴더 이름이 붙는다.
+- `ex/ex04/images/`는 ex04가 쓰는 그림 자리다. 맨 위 `images/`와 같은 그림이지만 따로 둔다. 2일차 ex08이 쓰는 그림은 2일차에 `ex/images/`로 따로 받는다.
 
-### 3. 고르기 페이지와 여는 법
+### 3. 예제 폴더 열기
 
-`ex/index.html`을 Chrome으로 연다(VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**, macOS는 **Reveal in Finder** → 두 번 누르기). `.js` 파일은 두 번 누르지 않는다. `.js`는 `index.html`이 불러온다.
+`ex/ex01/index.html`을 Chrome으로 연다(VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**, macOS는 **Reveal in Finder** → 두 번 누르기). `app.js`는 두 번 누르지 않는다. `app.js`는 `index.html`이 불러온다.
 
-VS Code에서 `ex/index.html`도 열어 맨 아래를 본다.
+VS Code에서 `ex/ex01/index.html`도 열어 `<head>`의 이 줄을 찾는다.
 
 ```html
-<script src="ex01_number.js"></script>
-<!-- <script src="ex02_year.js"></script> -->
+<script src="app.js" defer></script>
 ```
 
-지금은 ex01 줄만 켜져 있다. ex02로 바꿀 때는 켜 둔 줄에 커서를 두고 **Ctrl+/**(macOS **⌘+/**)로 주석으로 만들고, 볼 줄에서 다시 **Ctrl+/** 로 주석을 푼다. 저장 → 새로고침한다. 한 번에 한 줄만 켠다.
+이 줄이 같은 폴더의 `app.js`를 불러온다. 그래서 두 파일이 한 폴더에 있어야 한다. `defer`는 HTML을 끝까지 읽은 뒤에 `app.js`를 실행하라는 표시다(5주차 ex02). 그래서 `<head>`에 두어도 `app.js`가 아래쪽 `#year` 칸을 찾을 수 있다. 내 사이트 `index.html`의 `<head>`와 같은 모양이다. 다른 예제를 볼 때는 그 폴더의 `index.html`을 연다.
 
 **예상 결과** — 화면에 `입학 연도` 칸(`2023`이 적혀 있다), **눌러 보기** 버튼, `결과 자리 — 버튼을 누르면 바뀐다`가 보인다. Console은 아직 비어 있다. ex01·ex02는 버튼을 눌러야 찍힌다.
 
-ex03부터는 그 예제의 `.html`을 연다. ex04·ex05는 HTML만으로 보는 예제라 Console에 찍히는 것이 없다. 화면과 **Elements** 탭(6주차)에서 본다.
+ex04·ex05는 HTML만으로 보는 예제라 `app.js`가 없고 Console에 찍히는 것도 없다. 화면과 **Elements** 탭(6주차)에서 본다.
 
 - 이번 주 2일차에는 키보드 **Tab** 키(ex06)를 처음 쓴다. ex07·ex08은 9주차처럼 VS Code 미리 보기(**Ctrl+K** 다음 **V**)로 본다. DevTools는 지금까지 쓴 Console·Elements·기기 모드(4주차)만 쓴다.
 
@@ -107,23 +122,23 @@ ex03부터는 그 예제의 `.html`을 연다. ex04·ex05는 HTML만으로 보�
 실험은 늘 같은 순서다. **VS Code에서 고치고 저장**(Ctrl+S, macOS는 ⌘+S) → **브라우저에서 새로고침**(F5, macOS는 ⌘+R) → **화면·Console·Elements**를 본다.
 바꾸기 전에 무엇이 달라질지 먼저 말해 보고 확인한다.
 
-**눌러 보기** — `ex/index.html`(ex01 줄만 켬)에서 칸에 `2023`이 적힌 채로 **눌러 보기**를 누른다. 이어서 칸을 `이천이십삼`으로 바꾸고 한 번 더 누른다.
+**눌러 보기** — `ex/ex01/index.html`에서 칸에 `2023`이 적힌 채로 **눌러 보기**를 누른다. 이어서 칸을 `이천이십삼`으로 바꾸고 한 번 더 누른다.
 
 **예상 결과** — Console에 세 줄씩 두 번 찍힌다.
 
 ```text
-1. 글자 + 1 : 20231               ex01_number.js:10
-2. Number(글자) + 1 : 2024        ex01_number.js:13
-3. isNaN(바꾼 값) : false         ex01_number.js:15
-1. 글자 + 1 : 이천이십삼1          ex01_number.js:10
-2. Number(글자) + 1 : NaN         ex01_number.js:13
-3. isNaN(바꾼 값) : true          ex01_number.js:15
+1. 글자 + 1 : 20231               app.js:10
+2. Number(글자) + 1 : 2024        app.js:13
+3. isNaN(바꾼 값) : false         app.js:15
+1. 글자 + 1 : 이천이십삼1          app.js:10
+2. Number(글자) + 1 : NaN         app.js:13
+3. isNaN(바꾼 값) : true          app.js:15
 ```
 
 화면의 결과 자리는 `숫자로 바꾼 값: 2023` → `숫자로 바꾼 값: NaN`으로 바뀐다. 입력 칸의 값은 숫자를 적어도 글자라서 1번은 뒤에 `1`이 이어 붙는다. `Number()`로 바꿔야 2번처럼 더해진다.
 
-- 값을 원래대로 못 돌리겠으면 교재에서 그 파일을 다시 **Raw**로 받아 덮어쓴다.
-- 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--숫자와-글자-그리고-접근성-60분)에 있다.
+- 값을 원래대로 못 돌리겠으면 교재에서 그 예제 폴더의 파일을 다시 **Raw**로 받아 같은 폴더에 덮어쓴다.
+- 예제마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--숫자와-글자-그리고-접근성-60분)에 있다.
 
 ### 5. 이번 주 저장소 만들어 올리기
 
@@ -144,10 +159,10 @@ git push -u origin main
 저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
 
 **예상 결과** — GitHub 저장소 화면을 새로고침하면 `data/`·`ex/`·`images/`·`screenshots/`와 맨 위 파일들이 보이고, 파일 목록 아래에 지난주 `README.md`가 문서로 보인다.
-1~3분 뒤 `https://student01.github.io/web-week13/ex/`를 연다. 고르기 페이지의 제목과 "예제가 쓰는 자리"가 보인다. 이 화면은 **확인용**이다.
+1~3분 뒤 `https://student01.github.io/web-week13/ex/ex01/`를 연다. ex01의 제목과 `입학 연도` 칸·**눌러 보기** 버튼이 보인다. 이 화면은 **확인용**이다.
 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
 
-- 404가 나면 주소의 `web-week13/ex/`가 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다.
+- 404가 나면 주소의 `web-week13/ex/ex01/`이 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다. `…/ex/`에서 끝나는 주소는 그 자리에 `index.html`이 없어서 늘 404다.
 - push가 거부되거나 로그인 창이 안 뜨면 [2주차 실습지의 막혔을 때](../week02_github_pages/lab.md#막혔을-때)를 본다.
 
 ## 2일차
@@ -162,18 +177,37 @@ git clone https://github.com/student01/web-week13.git
 
 내려받은 `web-week13`을 **File › Open Folder**로 연다.
 
-오늘 예제는 세 개다. ex06은 `.html` 하나, ex07·ex08은 README와 같은 마크다운 `.md` 파일이다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week13/ex/`에 넣는다. ex08이 쓰는 그림은 1일차에 받은 `ex/images/profile.png`다. 다시 받지 않는다.
+오늘 예제는 세 개다. ex06은 1일차처럼 예제 폴더 `ex06` 하나에 `index.html` 하나이고, ex07·ex08은 README와 같은 마크다운 `.md` 파일이다. ex08이 쓰는 그림 `images/profile.png`도 받는다. 1일차 그림은 `ex/ex04/images/` 안에 있어서 `ex/`에 둔 ex08이 쓰지 못한다. 먼저 폴더 두 개를 만든다. 현재 폴더: `web-week13`
+
+```bash
+mkdir ex/ex06
+mkdir ex/images
+```
+
+[교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 받는다. `ex06/index.html`은 내 `ex/ex06/`에, `ex07_line_marks.md`·`ex08_link_image.md`는 `ex/`에 바로, 그림 `images/profile.png`는 `ex/images/`에 저장한다.
 
 | 파일 | 비교하는 것 |
 |---|---|
-| [ex06_link_text.html](examples/day2/ex06_link_text.html) | 같은 글자 링크 셋 / 목적지를 적은 링크 셋 / 기호 버튼과 글자 버튼 |
+| [ex06/index.html](examples/day2/ex06/index.html) | 같은 글자 링크 셋 / 목적지를 적은 링크 셋 / 기호 버튼과 글자 버튼 |
 | [ex07_line_marks.md](examples/day2/ex07_line_marks.md) | `#` 제목 / `-` 목록 / 기호 없이 줄만 바꿈 / 기호 뒤 띄어쓰기 없음 |
-| [ex08_link_image.md](examples/day2/ex08_link_image.md) | 링크 / 그림 / `!`를 뺀 그림 줄 / 대소문자가 다른 경로 |
+| [ex08_link_image.md](examples/day2/ex08_link_image.md) + 그림 [images/profile.png](examples/day2/images/profile.png) | 링크 / 그림 / `!`를 뺀 그림 줄 / 대소문자가 다른 경로 |
 
 `.md` 파일은 VS Code에서 열고 **Ctrl+K**를 누르고 손을 뗀 뒤 **V**(macOS **⌘+K** 다음 **V**)를 누른다. 9주차와 같은 미리 보기다. 편집기 오른쪽 위의 미리 보기 아이콘(**Open Preview to the Side**)을 눌러도 된다. 왼쪽에 글자, 오른쪽에 모양이 나란히 보인다. 왼쪽을 고치면 오른쪽이 바로 바뀐다.
 
-**예상 결과** — `ex/`에 1일차 일곱 개와 오늘 세 개, `images/profile.png`가 있다.
-`ex/ex06_link_text.html`을 열고 맨 위 제목 글자를 한 번 누른 뒤 **Tab**을 누르면 첫 링크 `페이지 열기`에 테두리가 생긴다. Tab을 누를 때마다 다음 링크·버튼으로 옮겨 간다.
+**예상 결과** — `ex/`에 1일차 예제 폴더 다섯 개와 오늘 받은 것이 있다.
+
+```text
+ex/
+  ex01/ … ex05/        1일차 예제 폴더
+  ex06/
+    index.html
+  images/
+    profile.png
+  ex07_line_marks.md
+  ex08_link_image.md
+```
+
+`ex/ex06/index.html`을 열고 맨 위 제목 글자를 한 번 누른 뒤 **Tab**을 누르면 첫 링크 `페이지 열기`에 테두리가 생긴다. Tab을 누를 때마다 다음 링크·버튼으로 옮겨 간다.
 `ex/ex08_link_image.md`의 미리 보기에서는 2번에 프로필 그림이 보이고, 3번은 파란 링크 글자로 보인다.
 
 - ex07·ex08 맨 위의 `<!-- … -->` 두 줄은 주석이라 미리 보기에 나오지 않는다.
@@ -181,19 +215,19 @@ git clone https://github.com/student01/web-week13.git
 
 ### 7. 조립표
 
-17분부터 조립한다. 이제 `ex/`가 아니라 `web-week13` 맨 위의 파일을 연다.
+17분부터 조립한다. 이제 `ex/`가 아니라 `web-week13` 맨 위의 파일을 연다. 예제 폴더에도 같은 이름 파일(`index.html`·`app.js`)이 있으니, 고치는 파일의 편집기 위쪽 경로 줄이 `web-week13 › about.html`처럼 `ex` 없이 보이는지 확인한다.
 조립하는 줄은 모두 비교 예제와 12주차 완성본에서 본 것이다.
 8단계(`about.html`)부터 15단계(`README.md`)까지 차례대로 한다. 45분이 되었는데 README가 남았으면 남은 절은 두고 16단계 점검과 17단계 push·캡처를 먼저 한다. README는 14주차 레포트로 보며 이번 주 채점 대상이 아니다.
 
 | 조립할 줄 | 출처 |
 |---|---|
 | `about.html`의 `<script src="about.js" defer></script>` | 12주차 `guestbook.html`의 script 줄과 같은 모양 |
-| `about.html`의 `<form id="year-form">`·`<label for="year">`·`<input id="year">`·`<button type="submit">계산하기</button>` | [ex05](examples/day1/ex05_label.html) 1번 `for`=`id`, [ex06](examples/day2/ex06_link_text.html) 3번 버튼 글자, 12주차 `guestbook.html`의 폼 |
-| `about.html`의 `<div class="card" id="year-result">` | [ex01](examples/day1/ex01_number.js)·[ex02](examples/day1/ex02_year.js)의 결과 자리 |
+| `about.html`의 `<form id="year-form">`·`<label for="year">`·`<input id="year">`·`<button type="submit">계산하기</button>` | [ex05](examples/day1/ex05/index.html) 1번 `for`=`id`, [ex06](examples/day2/ex06/index.html) 3번 버튼 글자, 12주차 `guestbook.html`의 폼 |
+| `about.html`의 `<div class="card" id="year-result">` | [ex01](examples/day1/ex01/index.html)·[ex02](examples/day1/ex02/index.html)의 결과 자리 |
 | `about.js`의 제출 리스너·`preventDefault`·`trim`·`focus`·`return` | 12주차 `guestbook.js`의 폼(7주차) |
-| `const year = Number(text);` · `isNaN(year)` | [ex01](examples/day1/ex01_number.js) 2·3번 |
-| `const thisYear = new Date().getFullYear();` · `thisYear - year + 1` · 결과 문장 | [ex02](examples/day1/ex02_year.js) 1·3번과 화면 문장 |
-| `projects.js`의 `` link.textContent = `${projects[i].title} 열기`; `` | [ex06](examples/day2/ex06_link_text.html) 2번 |
+| `const year = Number(text);` · `isNaN(year)` | [ex01](examples/day1/ex01/app.js) 2·3번 |
+| `const thisYear = new Date().getFullYear();` · `thisYear - year + 1` · 결과 문장 | [ex02](examples/day1/ex02/app.js) 1·3번과 화면 문장 |
+| `projects.js`의 `` link.textContent = `${projects[i].title} 열기`; `` | [ex06](examples/day2/ex06/index.html) 2번 |
 | `README.md`의 `#`·`##`·`- ` | [ex07](examples/day2/ex07_line_marks.md) 1·2번 |
 | `README.md`의 링크와 그림 줄 | [ex08](examples/day2/ex08_link_image.md) 1·2·4번 |
 

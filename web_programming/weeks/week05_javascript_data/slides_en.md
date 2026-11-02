@@ -14,7 +14,7 @@ This week: look at **10 comparison examples** one at a time, then **assemble** `
 
 - JavaScript runs **inside the browser**. It starts running the moment you open the page.
 - Comparison results show in **F12 › Console** (writing on screen is ex09).
-- One file = one idea. Siblings that do the same thing a different way sit side by side.
+- One example = one idea. Siblings that do the same thing a different way sit side by side.
 - The lab is about **changing values** and watching. Guess what will change first, then check.
 
 Same order as last year's examples: a button and `console.log` → a counter → an adder page (two inputs and a button that adds two numbers).
@@ -36,14 +36,15 @@ Same order as last year's examples: a button and `console.log` → a counter →
 ## Day 1 · 0–4 min — Where JS Runs: Screen and Console
 
 ```text
-Screen   ← where the buttons and inputs are. Changing its text is Day 2 ex09
-Console  ← console.log(value) prints here. Errors show a red line + file:line
-document ← the whole page the browser has loaded
+ex01/index.html ← the file you open: the screen with buttons and inputs
+ex01/app.js     ← the code, loaded by <script src="app.js" defer> in <head>
+Console         ← console.log(value) prints here. Errors: red line + file:line
+document        ← the whole page the browser has loaded
 ```
 
 - Week 1's three languages: HTML is **content**, CSS is **appearance**, JS is **behavior**.
-- Code inside `<script>` runs top to bottom, one line at a time.
-- Today's comparison files print every result to the Console with `console.log`. The screen doesn't change.
+- The code in `app.js` runs top to bottom, one line at a time.
+- Today's examples print every result to the Console with `console.log` (screen writing is ex09).
 - Console: right-click › Inspect, or F12 (laptop: Fn+F12; macOS: ⌘+Option(⌥)+I).
 
 **A syntax mistake or undefined name shows a red line. A wrong result alone (ex04's 12) stays silent — so read the values in the Console too.**
@@ -52,7 +53,7 @@ document ← the whole page the browser has loaded
 
 ## Day 1 · 4–10 min — ex01: Run Now vs. Run on Click
 
-[examples/day1/ex01_click.html](examples/day1/ex01_click.html)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
 Siblings: Console A (on open) / B (every click) / C (right after A)
 
 ```js
@@ -72,12 +73,12 @@ console.log('C. A 바로 다음에 실행된다. B 보다 먼저');
 
 ## Day 1 · 10–16 min — ex02 Script Position: Read Now, defer Later
 
-[examples/day1/ex02_script_position.html](examples/day1/ex02_script_position.html) · [ex02_script_position.js](examples/day1/ex02_script_position.js)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
 Siblings: 1. script in head / 2. script at end of body / 3. file in head with `defer`
 
 ```text
 head <script>        console.log('1. …', document.body);
-head                 <script src="ex02_script_position.js" defer></script>
+head                 <script src="app.js" defer></script>
 body                 <h1>…</h1> <p>…</p>
 body-end <script>    console.log('2. …', document.body);
 ```
@@ -91,7 +92,7 @@ body-end <script>    console.log('2. …', document.body);
 
 ## Day 1 · 16–21 min — ex03 let · const · var: Reassignable?
 
-[examples/day1/ex03_let_const.html](examples/day1/ex03_let_const.html)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
 Siblings: 1. `let` / 2. `const` / 3. `var` — each button adds 1
 
 ```js
@@ -101,7 +102,7 @@ document.getElementById('btn-const').addEventListener('click', function () {
 });
 ```
 
-- No. 2 → `Uncaught TypeError: Assignment to constant variable.` `ex03_let_const.html:24`.
+- No. 2 → `Uncaught TypeError: Assignment to constant variable.` `app.js:13`.
 - Try it: `const b` → `let b` → No. 2 counts up. No error on open.
 
 **`let` and `var` can be reassigned; `const` can't. The error hits when that line runs; the lines below it never run.**
@@ -110,7 +111,7 @@ document.getElementById('btn-const').addEventListener('click', function () {
 
 ## Day 1 · 21–26 min — ex04 +: Add or Join?
 
-[examples/day1/ex04_plus.html](examples/day1/ex04_plus.html)
+[examples/day1/ex04/index.html](examples/day1/ex04/index.html) · [app.js](examples/day1/ex04/app.js)
 Siblings: `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1` / inputs No. 6·7
 
 ```js
@@ -129,7 +130,7 @@ Number(num1.value) + Number(num2.value)   // convert to numbers, then add
 
 ## Day 1 · 26–28 min — ex05 Template Strings: ${} Works Only in Backticks
 
-[examples/day1/ex05_template.html](examples/day1/ex05_template.html)
+[examples/day1/ex05/index.html](examples/day1/ex05/index.html) · [app.js](examples/day1/ex05/app.js)
 Siblings: 1. `+` joins / 2. backticks / 3. `${}` in single quotes / 4. `${hour + 1}`
 
 ```js
@@ -150,9 +151,9 @@ Siblings: 1. `+` joins / 2. backticks / 3. `${}` in single quotes / 4. `${hour +
 
 [Day 1 lab](lab.md#1일차--스크립트와-값-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
-1. Put last week's finished files in a new folder `web-week05`, and save ex01–ex05 in `ex/` as **Raw** (ex02 needs its `.js` file too).
-2. Change at least one value per file and watch how the Console changes.
-3. Minutes 50–60: create a new repository `web-week05`, push in the same order you learned in Week 2, turn on Pages, and open `…/web-week05/ex/ex01_click.html`.
+1. Put last week's finished files in a new folder `web-week05`, make example folders `ex01`–`ex05` in `ex/`, and save each `index.html` and `app.js` as **Raw**.
+2. Open each example's `index.html`, change at least one value in its `app.js`, and watch how the Console changes.
+3. Minutes 50–60: create a new repository `web-week05`, push in the same order you learned in Week 2, turn on Pages, and open `…/web-week05/ex/ex01/`.
 
 If a result looks wrong, **open the Console first**. Follow the `file:line` to the right of the red line.
 
@@ -193,7 +194,7 @@ Save [server.mjs](../../tools/static-server/server.mjs) in `web-week05` → `nod
 
 ## Day 2 · 4–9 min — ex06 Comparisons: true or false
 
-[examples/day2/ex06_compare.js](examples/day2/ex06_compare.js)
+[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js)
 Siblings: `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')`
 
 ```js
@@ -212,7 +213,7 @@ Siblings: `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Nu
 
 ## Day 2 · 9–14 min — ex07 if / else: First Match Wins
 
-[examples/day2/ex07_if_else.js](examples/day2/ex07_if_else.js)
+[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js)
 Siblings: 1. `if` alone / 2. `if/else` / 3. `else if` (largest first) / 4. No. 3, reordered
 
 ```js
@@ -232,7 +233,7 @@ if (hour >= 12) {
 
 ## Day 2 · 14–19 min — ex08 function: Define · Call · return
 
-[examples/day2/ex08_function.js](examples/day2/ex08_function.js)
+[examples/day2/ex08/index.html](examples/day2/ex08/index.html) · [app.js](examples/day2/ex08/app.js)
 Siblings: 1. `greetLog`, no `return` / 2. `greet`, has `return` / 3. called with different values
 
 ```js
@@ -251,7 +252,7 @@ const b = greet('student01');       // call: nothing in the Console, b holds the
 
 ## Day 2 · 19–24 min — ex09: Find, Then Change
 
-[examples/day2/ex09_dom_write.js](examples/day2/ex09_dom_write.js)
+[examples/day2/ex09/index.html](examples/day2/ex09/index.html) · [app.js](examples/day2/ex09/app.js)
 Siblings: 1. `getElementById`+`innerText` / 2. `querySelector`+`textContent` / 3. a tag / 4. `value`
 
 ```js
@@ -270,7 +271,7 @@ out3.textContent = '<b>3. 굵게 될까?</b>';        // shown as literal text, 
 
 ## Day 2 · 24–27 min — ex10 new Date(): The Current Moment
 
-[examples/day2/ex10_date.js](examples/day2/ex10_date.js)
+[examples/day2/ex10/index.html](examples/day2/ex10/index.html) · [app.js](examples/day2/ex10/app.js)
 Siblings: `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()`
 
 ```js
@@ -301,7 +302,7 @@ document.querySelector('#greeting').textContent = message;  ← ex09 No. 2
 
 [Day 2 lab](lab.md#2일차--조건과-함수-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
 
-1. Save [index.html](examples/day2/index.html) + `.js` in `ex/`, turn on one line, change values (until 33).
+1. Save example folders `ex06`–`ex10` in `ex/`, change values in `app.js` (until 33).
 2. Assemble: two lines in `index.html`; empty and rebuild `app.js` in table order.
 3. Check via the server → push (Week 2 steps) → capture card + Console at the public URL.
 
@@ -321,7 +322,7 @@ Capture it with the address bar, the card, and the Console all visible
 ```
 
 If you open it after 12:00, you'll see `좋은 오후입니다.` (Good afternoon.) instead. Either one is correct.
-If you couldn't finish Day 2, click the button in `…/web-week05/ex/ex01_click.html` and submit a screenshot with A, C, B printed in the Console instead.
+If you couldn't finish Day 2, click the button in `…/web-week05/ex/ex01/` and submit a screenshot with A, C, B printed in the Console instead.
 Keep your real name, student ID, and real email out of the screenshot.
 
 ---

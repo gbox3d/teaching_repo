@@ -35,7 +35,7 @@
                             · 화면(그림 두 장) · 이번에 배운 것
 
 [발표 2분] https://student01.github.io/web-week09/
-           홈 → 내 정보 → 방명록 → 버튼 한 번 → 폼 한 번 → README·Commits 탭
+           홈 → 내 정보 → 방명록 → 버튼 한 번 → 폼 두 번(목록 두 줄) → README·Commits 탭
 ```
 
 - 이번 주는 주차별 실습 점수 대상이 아니라 **1차 과제 10점**(발표 5 + 레포트 5)이다. 레포트는 따로 내는 문서가 아니라 저장소 첫 화면의 `README.md` 한 장이다.
@@ -117,8 +117,8 @@
 
 ## 다음 수업 연결
 
-지금 방명록은 두 번째 글을 남기면 앞 글이 사라지고, 새로고침하면 모두 사라진다.
-10주차에는 새 저장소 `web-week10` 을 이번 주 `web-week09` 의 파일에서 시작하고(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/web-week09/`](examples/day2/web-week09/)), 글을 배열에 **쌓아** 목록으로 그리고 지운다. 11주차에는 그 목록을 브라우저 저장소에 남겨 새로고침해도 보이게 한다.
+지금 방명록은 남긴 글이 목록에 한 줄씩 쌓이지만 화면에만 있다. 한 줄만 지울 수 없고, 새로고침하면 모두 사라진다.
+10주차에는 새 저장소 `web-week10` 을 이번 주 `web-week09` 의 파일에서 시작하고(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/web-week09/`](examples/day2/web-week09/)), 글을 **배열**에 모아 두고 목록을 배열대로 **다시 그려** 줄마다 지운다. 11주차에는 그 목록을 브라우저 저장소에 남겨 새로고침해도 보이게 한다.
 오늘 쓴 README 는 13주차에 최종판으로 다시 쓰고, 14주차 최종 발표의 레포트가 된다. README 1차판 쓰기는 15주차 기말 [문제 은행](../week15_final_exam/examples/README.md)에도 [w09_readme_links](../week15_final_exam/examples/w09_readme_links/README.md) 문제로 들어 있다.
 
 ## 공식 참고 자료

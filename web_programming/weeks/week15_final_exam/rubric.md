@@ -12,7 +12,7 @@
 |---|---:|---|---|
 | A 화면(HTML·CSS·README) | 3 | `w01_first_page` · `w02_push_repo` · `w03_second_page` · `w04_box_style` · `w05_box_position` · `w09_readme_links` · `w14_readme_images` | 페이지의 태그·링크, 상자의 색·테두리·위치, 새 페이지와 상대 링크, 폼 구조와 이름표, 폭에 따른 메뉴·카드 모양, README 의 제목·목록·링크·그림 |
 | B DOM | 3 | `w06_click_text` · `w13_text_safe` | 버튼으로 화면 글자와 횟수가 바뀌는 것, 입력한 글이 글자 그대로 보이는 것 |
-| C 폼·목록 | 4 | `w07_form_line` · `w10_list_delete` | 제출 결과 한 줄, 빈값 안내와 커서, 목록 추가·줄마다 삭제·개수 |
+| C 폼·목록 | 4 | `w07_form_line` · `w10_list_delete` | 목록에 한 줄씩 붙이기, 빈값 안내와 커서, 목록 추가·줄마다 삭제·개수 |
 | D 저장(localStorage) | 2 | `w11_local_storage` | 새로고침해도 남는 목록, 저장 키와 값, 그 키만 지우기 |
 | E 불러오기(fetch) | 3 | `w12_fetch_cards` | 상대 경로 요청과 200, 카드, 404·요청 실패 때 안내 문장과 `Uncaught` 없음 |
 | 합계 | 15 | | |

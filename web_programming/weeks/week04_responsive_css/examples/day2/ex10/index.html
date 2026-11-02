@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex10 flex-wrap</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <p>1. nowrap (기본값) — 80px × 6 = 480px 를 300px 안에</p>
+    <div class="frame nowrap">
+        <div class="box c1">1</div><div class="box c2">2</div><div class="box c1">3</div><div class="box c2">4</div><div class="box c1">5</div><div class="box c2">6</div>
+    </div>
+    <p>2. wrap</p>
+    <div class="frame wrap">
+        <div class="box c1">1</div><div class="box c2">2</div><div class="box c1">3</div><div class="box c2">4</div><div class="box c1">5</div><div class="box c2">6</div>
+    </div>
+    <p>주축에 다 안 들어갈 때 다음 줄로 넘길지는 flex-wrap 이 정한다. 부모에 쓴다.</p>
+</body>
+</html>
