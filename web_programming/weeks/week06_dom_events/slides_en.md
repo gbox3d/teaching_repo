@@ -14,7 +14,7 @@ Same method as last week: look at **6 comparison examples** one at a time, then 
 
 - The browser reads the HTML file and builds the **DOM** (element boxes). JS finds those boxes and changes them.
 - Results show on screen, in **Console**, and in the **Elements** tab, which is new this week.
-- One file = one idea. The lab is about **changing values** and watching.
+- One example = one idea. The lab is about **changing values** and watching.
 
 ---
 
@@ -22,34 +22,35 @@ Same method as last week: look at **6 comparison examples** one at a time, then 
 
 `30 min explanation & demo → 60 min lab`
 
-1. The picker page — one `index.html`, turn on one script line
+1. Example folders — three files: `index.html`, `styles.css`, `app.js`
 2. ex01 — HTML file vs. DOM: Elements and page source
 3. ex02 — change on open vs. change on click
 4. ex03 — counting clicks: keep the variable outside the function
 
 ---
 
-## Day 1 · 0–4 min — The picker page: turn on one script line
+## Day 1 · 0–4 min — One example folder, three files
 
-[examples/day1/index.html](examples/day1/index.html) — all three examples use the same screen (a text spot, a button, a count spot).
+One folder per example, with the same three file names as your site.
 
-```html
-<script src="ex01_dom.js"></script>
-<!-- <script src="ex02_click_write.js"></script> -->
-<!-- <script src="ex03_counter.js"></script> -->
+```text
+ex01/
+  index.html   screen — the spots the example uses
+  styles.css   look — a background color on each spot (.card)
+  app.js       behavior — this week's ideas live here
 ```
 
-- Code lives in the `.js` files; the screen is the one `index.html`. Same as Week 5 Day 2.
-- Put the cursor on a line and press **Ctrl+/** (macOS ⌘+/) to turn it on or off. Turn on **one line only**.
-- Edit the code in `.js`; see the result by reloading `index.html`.
+- Open `index.html`. In `<head>`, `<link>` and `<script src … defer>` load the other two files.
+- Edit the code in `app.js`; see the result by reloading `index.html`.
+- The names match your site's top-level files. Tell them apart by the path bar above the editor (`ex › ex01`).
 
-**One `script` line decides which code is loaded.**
+**Screen in HTML, look in CSS, behavior in JS — three files in one folder.**
 
 ---
 
 ## Day 1 · 4–12 min — ex01 The HTML file and the DOM
 
-[examples/day1/ex01_dom.js](examples/day1/ex01_dom.js)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) · [app.js](examples/day1/ex01/app.js)
 
 ```text
 HTML file (page source)  ──read──▶  element boxes (DOM)  ──▶  screen
@@ -71,7 +72,7 @@ message.textContent = '3. JavaScript 가 바꾼 글자';
 
 ## Day 1 · 12–20 min — ex02 Change on open vs. change on click
 
-[examples/day1/ex02_click_write.js](examples/day1/ex02_click_write.js)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [styles.css](examples/day1/ex02/styles.css) · [app.js](examples/day1/ex02/app.js)
 
 ```js
 message.textContent = '1. 열자마자 바꾼 글자';        // 1. once, on open
@@ -82,7 +83,7 @@ btn.addEventListener('click', function () {
 ```
 
 - No. 1 on open, No. 2 on every click. Same as A·C and B in Week 5 ex01.
-- Try: move line 2 below `});`. On open you see text No. 2, and the button has nothing to do.
+- Try: move the No. 2 line below `});`. On open you see text No. 2; the button only logs to the Console.
 
 **Put the changing line inside `addEventListener` and it runs on every click.**
 
@@ -90,7 +91,7 @@ btn.addEventListener('click', function () {
 
 ## Day 1 · 20–28 min — ex03 Counting clicks: variable outside the function
 
-[examples/day1/ex03_counter.js](examples/day1/ex03_counter.js)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [styles.css](examples/day1/ex03/styles.css) · [app.js](examples/day1/ex03/app.js)
 
 ```js
 let count = 0;                     // 1. outside the function
@@ -113,8 +114,8 @@ btn.addEventListener('click', function () {
 
 [Day 1 lab](lab.md#1일차--dom-과-클릭-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
-1. New folder `web-week06` with last week's files; today's four files in `ex/`.
-2. ex01–ex03 — turn on one line, change values. Say what will change first.
+1. New folder `web-week06` with last week's files; three example folders in `ex/`.
+2. ex01–ex03 — open each folder's `index.html`, change values in `app.js`. Say what will change first.
 3. Create the new repository `web-week06`, push, and turn on Pages.
 
 **Total explanation: 4+8+8+8+2 = 30 min**

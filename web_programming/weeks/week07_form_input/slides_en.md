@@ -138,7 +138,7 @@ const trimmed = nameInput.value.trim();   // 2. [student01]
 <!-- <script src="ex07_pass_name.js"></script> -->
 ```
 
-- Same method as Weeks 5 and 6. Use **Ctrl+/** (macOS ⌘+/) and turn on **one line only**.
+- Same method as Week 5 Day 2. Use **Ctrl+/** (macOS ⌘+/) and turn on **one line only**.
 - Two lines on: same `const` names clash; the second file errors and stops.
 
 **One `script` line decides which code is loaded.**

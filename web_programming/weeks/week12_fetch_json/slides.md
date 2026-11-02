@@ -39,7 +39,7 @@ footer: "fetch로 JSON 불러오기 · 비교 예제로 원리를 보고 마지�
 <!-- <script src="ex03_file_http.js"></script> -->
 ```
 
-- 맨 아래 `script` 줄 중 **한 줄만** 켭니다(Ctrl+/). 6주차와 같은 방법입니다.
+- 맨 아래 `script` 줄 중 **한 줄만** 켭니다(Ctrl+/). 11주차와 같은 방법입니다.
 - `node server.mjs` 로 띄운 `http://localhost:8000/ex/` 에서 엽니다. `fetch` 가 파일을 요청하기 때문입니다(ex03).
 - 확인과 캡처는 **공개 주소**에서 합니다. 서버는 push 전에 미리 보는 도구입니다.
 

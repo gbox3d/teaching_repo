@@ -39,7 +39,7 @@ Same method as before: look at **6 comparison examples** one at a time, then **a
 <!-- <script src="ex03_file_http.js"></script> -->
 ```
 
-- Turn on **one** `script` line at the bottom (Ctrl+/). Same as Week 6.
+- Turn on **one** `script` line at the bottom (Ctrl+/). Same as Week 11.
 - Open `http://localhost:8000/ex/` served by `node server.mjs`, because `fetch` requests a file (ex03).
 - Check and capture on the **public address**; the server is a preview.
 

@@ -138,7 +138,7 @@ const trimmed = nameInput.value.trim();   // 2. [student01]
 <!-- <script src="ex07_pass_name.js"></script> -->
 ```
 
-- 5·6주차와 같은 방법입니다. **Ctrl+/**(macOS ⌘+/)로 **한 줄만** 켭니다.
+- 5주차 2일차와 같은 방법입니다. **Ctrl+/**(macOS ⌘+/)로 **한 줄만** 켭니다.
 - 두 줄을 켜면 같은 이름의 `const` 가 겹쳐 둘째 파일이 빨간 줄을 내고 멈춥니다.
 
 **어느 코드를 불러올지는 `script` 줄 하나가 정한다.**

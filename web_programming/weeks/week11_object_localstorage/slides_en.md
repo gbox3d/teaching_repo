@@ -39,7 +39,7 @@ Same method as last week: look at **7 comparison examples** one at a time, then 
 <!-- <script src="ex03_list_line.js"></script> -->
 ```
 
-- Same as Week 6. Put the cursor on a line and press **Ctrl+/** (macOS ⌘+/) to turn it on or off.
+- Same as Week 10. Put the cursor on a line and press **Ctrl+/** (macOS ⌘+/) to turn it on or off.
 - Turn on **one line only**. Two lines mix the Console, or the same name clashes and a red line appears.
 - ex01 and ex02 write to the Console; ex03 writes to the two lists on screen.
 

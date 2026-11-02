@@ -5,7 +5,7 @@
 이번 주는 새 저장소 `web-week06`을 만든다. 지난주 완성본을 넣고, 비교 예제는 그 안의 `ex/` 폴더에 저장한다. 값·줄을 바꾼 뒤 결과를 화면과 **F12 › Console**, **F12 › Elements**에서 본다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
-비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day1)(1일차 ex01~ex03과 고르기 페이지)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)(2일차 ex04~ex06) 폴더에 있다.
+비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day1)(1일차 예제 폴더 ex01~ex03)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)(2일차 ex04~ex06) 폴더에 있다.
 각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
 
 ## 1일차
@@ -42,52 +42,67 @@ web-week06/
 
 ### 2. 비교 예제 가져오기
 
-오늘 파일은 네 개다. 고르기 페이지 `index.html` 하나와 예제 코드 `.js` 세 개다. 세 예제가 같은 화면(글자 자리 하나, 버튼 하나, 횟수 자리 하나)을 쓰기 때문에 화면은 `index.html` 하나에 두고 코드만 따로 뗐다.
+오늘 예제는 세 개이고, 예제마다 **폴더 하나**에 파일이 세 개 있다. 내 사이트와 같은 이름의 `index.html`(화면)·`styles.css`(모양)·`app.js`(동작)다. 이번 주에 배우는 원리는 모두 `app.js`에 있다. `styles.css`에는 글자 자리에 배경색을 칠하는 `.card` 규칙 하나만 있다.
 
-| 파일 | 비교하는 것 |
-|---|---|
-| [index.html](examples/day1/index.html) | 고르기 페이지. 맨 아래 `<script src>` 세 줄 중 하나만 켠다. 예제가 쓰는 자리(`#message`·`#btn`·`#count`)가 여기 있다 |
-| [ex01_dom.js](examples/day1/ex01_dom.js) | `document` / 찾은 요소 / JS 가 바꾼 글자 — 화면·Elements·페이지 소스에서 비교 |
-| [ex02_click_write.js](examples/day1/ex02_click_write.js) | 열 때 바꾸기 / 클릭할 때 바꾸기 |
-| [ex03_counter.js](examples/day1/ex03_counter.js) | 함수 밖의 `let count` / 함수 안의 `let inside` |
+| 폴더 | 파일 | 비교하는 것(`app.js`) |
+|---|---|---|
+| `ex01` | [index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) · [app.js](examples/day1/ex01/app.js) | `document` / 찾은 요소 / JS 가 바꾼 글자 — 화면·Elements·페이지 소스에서 비교 |
+| `ex02` | [index.html](examples/day1/ex02/index.html) · [styles.css](examples/day1/ex02/styles.css) · [app.js](examples/day1/ex02/app.js) | 열 때 바꾸기 / 클릭할 때 바꾸기 |
+| `ex03` | [index.html](examples/day1/ex03/index.html) · [styles.css](examples/day1/ex03/styles.css) · [app.js](examples/day1/ex03/app.js) | 함수 밖의 `let count` / 함수 안의 `let inside` |
 
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week06/ex/`에 저장한다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+먼저 `ex` 안에 같은 이름의 폴더 세 개를 만든다. VS Code 탐색기에서 `ex`를 고르고 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week06`
 
-**예상 결과** — `ex/` 안에 파일 네 개가 있다.
+```bash
+mkdir ex/ex01
+mkdir ex/ex02
+mkdir ex/ex03
+```
+
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day1)에서 `ex01` 폴더를 누르고, 파일을 하나씩 눌러 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 내 `web-week06/ex/ex01/`에 저장한다. 세 파일을 받았으면 `ex02`·`ex03`도 같은 방법으로 자기 폴더에 받는다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
+
+**예상 결과** — `ex/` 안에 폴더 세 개가 있고, 폴더마다 파일 세 개가 있다.
 
 ```text
 ex/
-  ex01_dom.js
-  ex02_click_write.js
-  ex03_counter.js
-  index.html
+  ex01/
+    app.js
+    index.html
+    styles.css
+  ex02/
+    app.js
+    index.html
+    styles.css
+  ex03/
+    app.js
+    index.html
+    styles.css
 ```
 
+- 저장 창에서 폴더 이름을 먼저 본다. 세 폴더의 파일 이름이 같아서, 다른 폴더에 저장하면 그 폴더의 같은 이름 파일을 덮어쓴다. 덮어썼으면 그 폴더의 파일을 교재에서 다시 **Raw**로 받는다.
 - 저장한 파일 이름이 `.txt`로 끝나면 이름을 고친다. 이름은 VS Code 탐색기에서 확인한다.
-- `ex/index.html`은 예제를 고르는 페이지다. 맨 위 `index.html`(내 사이트)과 이름이 같지만 다른 파일이다. 탭 이름 옆 폴더 경로로 구분한다.
+- 예제 폴더의 `index.html`·`styles.css`·`app.js`는 맨 위 내 사이트 파일과 이름이 같지만 다른 파일이다. 편집기 위쪽 경로 줄(`ex › ex01 › app.js`)로 구분한다. 같은 이름 파일을 여러 개 열면 탭 이름 옆에도 폴더 이름이 붙는다.
 
-### 3. 고르기 페이지와 Elements 탭
+### 3. 예제 폴더 열기와 Elements 탭
 
-`ex/index.html`을 Chrome으로 연다(VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**, macOS는 **Reveal in Finder** → 두 번 누르기). `.js` 파일은 두 번 누르지 않는다. `.js`는 `index.html`이 불러온다.
+`ex/ex01/index.html`을 Chrome으로 연다(VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**, macOS는 **Reveal in Finder** → 두 번 누르기). `styles.css`·`app.js`는 두 번 누르지 않는다. 두 파일은 `index.html`이 불러온다.
 
-VS Code에서 `ex/index.html`도 열어 맨 아래를 본다.
+VS Code에서 `ex/ex01/index.html`도 열어 이 두 줄을 찾는다.
 
 ```html
-<script src="ex01_dom.js"></script>
-<!-- <script src="ex02_click_write.js"></script> -->
-<!-- <script src="ex03_counter.js"></script> -->
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
 ```
 
-지금은 ex01 줄만 켜져 있다. 다른 예제로 바꿀 때는 켜 둔 줄에 커서를 두고 **Ctrl+/**(macOS **⌘+/**)로 주석으로 만들고, 볼 줄에서 다시 **Ctrl+/** 로 주석을 푼다. 저장 → 새로고침한다. 한 번에 한 줄만 켠다.
+`<head>`의 두 줄이 같은 폴더의 `styles.css`와 `app.js`를 불러온다. 그래서 세 파일이 한 폴더에 있어야 한다. `defer`는 HTML을 끝까지 읽은 뒤에 `app.js`를 실행하라는 표시다(5주차 ex02). 그래서 `<head>`에 두어도 `app.js`가 아래쪽 `#message`를 찾을 수 있다. 내 사이트 `index.html`의 `<head>`와 같은 모양이다. 다른 예제를 볼 때는 그 폴더의 `index.html`을 연다.
 
-**예상 결과** — 화면의 "예제가 쓰는 자리" 첫 줄이 `3. JavaScript 가 바꾼 글자`다. F12 › **Console**에 두 줄이 찍혀 있다.
+**예상 결과** — 배경색 상자 안의 글자가 `3. JavaScript 가 바꾼 글자`다. F12 › **Console**에 두 줄이 찍혀 있다.
 
 ```text
-1. document : #document          ex01_dom.js:6
-2. message : <div id="message">…  ex01_dom.js:7
+1. document : #document                          app.js:6
+2. message : <div id="message" class="card">…    app.js:7
 ```
 
-이번 주에는 **Elements** 탭도 쓴다. DevTools 위쪽 탭에서 **Elements**를 누른다. 브라우저가 지금 보여 주는 요소 상자(DOM)가 들여쓰기로 보인다. `<body>` 앞의 ▶를 눌러 펼치고 `<div id="message">` 줄을 찾는다.
+이번 주에는 **Elements** 탭도 쓴다. DevTools 위쪽 탭에서 **Elements**를 누른다. 브라우저가 지금 보여 주는 요소 상자(DOM)가 들여쓰기로 보인다. `<body>` 앞의 ▶를 눌러 펼치고 `<div id="message" class="card">` 줄을 찾는다.
 
 **예상 결과** — Elements의 그 줄 글자는 `3. JavaScript 가 바꾼 글자`다. 페이지 소스 보기(**Ctrl+U**, macOS **⌘+Option+U**)의 같은 줄은 `원래 글자 — HTML 파일에 적힌 글자`다.
 
@@ -100,23 +115,23 @@ VS Code에서 `ex/index.html`도 열어 맨 아래를 본다.
 실험은 늘 같은 순서다. **VS Code에서 고치고 저장**(Ctrl+S, macOS는 ⌘+S) → **브라우저에서 새로고침**(F5, macOS는 ⌘+R) → **화면·Console·Elements**를 본다.
 바꾸기 전에 무엇이 달라질지 먼저 말해 보고 확인한다.
 
-**클릭해 보기** — `ex/index.html` 맨 아래에서 ex01 줄을 끄고 `ex03_counter.js` 줄을 켠 뒤 저장 → 새로고침한다. **눌러 보기**를 세 번 누른다.
+**클릭해 보기** — `ex/ex03/index.html`을 Chrome으로 연다. **눌러 보기**를 세 번 누른다.
 
 **예상 결과** — 화면의 횟수가 `클릭 3회`가 되고, Console에 두 줄씩 세 번 찍힌다.
 
 ```text
-1. 밖에 둔 count : 1     ex03_counter.js:12
-2. 안에 둔 inside : 1    ex03_counter.js:16
-1. 밖에 둔 count : 2     ex03_counter.js:12
-2. 안에 둔 inside : 1    ex03_counter.js:16
-1. 밖에 둔 count : 3     ex03_counter.js:12
-2. 안에 둔 inside : 1    ex03_counter.js:16
+1. 밖에 둔 count : 1     app.js:12
+2. 안에 둔 inside : 1    app.js:16
+1. 밖에 둔 count : 2     app.js:12
+2. 안에 둔 inside : 1    app.js:16
+1. 밖에 둔 count : 3     app.js:12
+2. 안에 둔 inside : 1    app.js:16
 ```
 
 `+ 1` 하는 줄은 똑같은데 1번만 는다. `let count = 0;`은 함수 밖이라 열 때 한 번만 실행되고, `let inside = 0;`은 함수 안이라 누를 때마다 다시 실행된다.
 
 - 새로고침하면 `클릭 0회`로 돌아간다. 브라우저가 파일을 다시 읽어 DOM과 변수를 새로 만들기 때문이다.
-- 값을 원래대로 못 돌리겠으면 교재에서 그 파일을 다시 **Raw**로 받아 덮어쓴다.
+- 값을 원래대로 못 돌리겠으면 교재에서 그 예제 폴더의 파일을 다시 **Raw**로 받아 같은 폴더에 덮어쓴다.
 - 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--dom-과-클릭-60분)에 있다.
 
 ### 5. 이번 주 저장소 만들어 올리기
@@ -138,10 +153,10 @@ git push -u origin main
 저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
 
 **예상 결과** — GitHub 저장소 화면을 새로고침하면 `ex/`·`images/`와 맨 위 파일들이 보인다.
-1~3분 뒤 `https://student01.github.io/web-week06/ex/`를 연다. 고르기 페이지의 제목과 "예제가 쓰는 자리"가 보인다. 이 화면은 **확인용**이다.
+1~3분 뒤 `https://student01.github.io/web-week06/ex/ex01/`를 연다. ex01의 제목과 `3. JavaScript 가 바꾼 글자` 상자가 보인다. 이 화면은 **확인용**이다.
 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
 
-- 404가 나면 주소의 `web-week06/ex/`가 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다.
+- 404가 나면 주소의 `web-week06/ex/ex01/`이 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다.
 - push가 거부되거나 로그인 창이 안 뜨면 [2주차 실습지의 막혔을 때](../week02_github_pages/lab.md#막혔을-때)를 본다.
 
 ## 2일차
@@ -156,7 +171,7 @@ git clone https://github.com/student01/web-week06.git
 
 내려받은 `web-week06`을 **File › Open Folder**로 연다.
 
-오늘 예제는 세 개이고, 예제마다 `.html`과 `.js`가 한 쌍이라 파일은 여섯 개다. 오늘 예제는 화면이 서로 달라서 `.html`을 따로 둔다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week06/ex/`에 넣는다.
+오늘 예제는 세 개이고, 예제마다 `.html`과 `.js`가 한 쌍이라 파일은 여섯 개다. [교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 `web-week06/ex/`에 바로 넣는다. 오늘은 예제 폴더를 만들지 않는다.
 
 | 파일 | 비교하는 것 |
 |---|---|
@@ -164,29 +179,30 @@ git clone https://github.com/student01/web-week06.git
 | [ex05_dark.html](examples/day2/ex05_dark.html) + [ex05_dark.js](examples/day2/ex05_dark.js) | `body.dark` 규칙 / `body.dark .card` 규칙, 다크 모드 버튼 하나 |
 | [ex06_reuse.html](examples/day2/ex06_reuse.html) + [ex06_reuse.js](examples/day2/ex06_reuse.js) | A 버튼 / B 버튼이 같은 함수 `countUp()`을 부른다 |
 
-**예상 결과** — `ex/`에 파일이 열 개 있다(1일차 네 개 + 오늘 여섯 개).
+**예상 결과** — `ex/`에 1일차 폴더 세 개(`ex01`·`ex02`·`ex03`)와 오늘 파일 여섯 개가 있다.
 `ex/ex04_classlist.html`을 열고 **1. add**를 누르면 상자가 노랗게 된다. F12 › **Elements**의 `<div id="box">` 줄에 `class="on"`이 생긴다.
 
 - 오늘은 `.html`을 연다. `.js`는 같은 폴더에서 `.html`이 불러온다. 둘 중 하나를 빠뜨리면 버튼이 동작하지 않는다.
 - `ex05`는 버튼을 누를 때 `<body>` 줄에 `class="dark"`가 붙었다 떨어진다. 색을 바꾸는 JS 줄은 없다. 색은 `.html`의 `<style>` 규칙이 정한다.
 - `ex06`은 A·B를 섞어 눌러도 횟수가 하나로 이어진다.
+- 저장 창이 1일차에 마지막으로 쓴 `ex03` 폴더에서 열릴 수 있다. 저장 창 위쪽 경로가 `web-week06 › ex`인지 보고, `ex03`이면 한 단계 위 `ex`로 올라가 저장한다.
 - 파일마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--class-와-함수-그리고-조립-60분)에 있다.
 
 ### 7. 조립표
 
-29분부터 조립한다. 이제 `ex/`가 아니라 `web-week06` 맨 위의 `index.html`·`styles.css`·`app.js`를 연다.
+29분부터 조립한다. 이제 `ex/`가 아니라 `web-week06` 맨 위의 `index.html`·`styles.css`·`app.js`를 연다. `ex/ex01/` 같은 예제 폴더에도 같은 이름의 파일이 있으니, 편집기 위쪽 경로 줄이 `web-week06 › app.js`처럼 `ex` 없이 보이는지 확인하고 고친다.
 조립하는 줄은 모두 비교 예제와 5주차 완성본에서 본 것이다.
 
 | 조립할 줄 | 출처 |
 |---|---|
-| `index.html`에 버튼 두 개(`#hello-button`·`#dark-button`)와 `#count` 카드 | [ex02](examples/day1/ex02_click_write.js) 누를 버튼, [ex03](examples/day1/ex03_counter.js) 횟수 자리 |
+| `index.html`에 버튼 두 개(`#hello-button`·`#dark-button`)와 `#count` 카드 | [ex02](examples/day1/ex02/index.html) 누를 버튼, [ex03](examples/day1/ex03/index.html) 횟수 자리 |
 | `styles.css` 맨 아래 `body.dark, body.dark .card { … }` | [ex05](examples/day2/ex05_dark.html) 1·2번 규칙을 쉼표로 묶은 것 |
 | `app.js`의 `name`·`hour`·`greet`·`hello` | 5주차 완성본 그대로 |
-| `const greeting`·`countBox`·`helloButton`·`darkButton` | [ex01](examples/day1/ex01_dom.js) 찾아서 `const`에 담기 |
-| `let count = 0;` | [ex03](examples/day1/ex03_counter.js) 1번, 함수 밖 |
+| `const greeting`·`countBox`·`helloButton`·`darkButton` | [ex01](examples/day1/ex01/app.js) 찾아서 `const`에 담기 |
+| `let count = 0;` | [ex03](examples/day1/ex03/app.js) 1번, 함수 밖 |
 | `function countUp() { … }` | [ex06](examples/day2/ex06_reuse.js) |
-| `` greeting.textContent = `${greet(name)} ${hello(hour)}`; `` | [ex02](examples/day1/ex02_click_write.js) 1번, 열 때 바꾸기 |
-| `helloButton.addEventListener('click', function () { … countUp(); });` | [ex02](examples/day1/ex02_click_write.js) 2번 + [ex06](examples/day2/ex06_reuse.js) |
+| `` greeting.textContent = `${greet(name)} ${hello(hour)}`; `` | [ex02](examples/day1/ex02/app.js) 1번, 열 때 바꾸기 |
+| `helloButton.addEventListener('click', function () { … countUp(); });` | [ex02](examples/day1/ex02/app.js) 2번 + [ex06](examples/day2/ex06_reuse.js) |
 | `darkButton.addEventListener('click', function () { document.body.classList.toggle('dark'); countUp(); });` | [ex05](examples/day2/ex05_dark.js) + [ex06](examples/day2/ex06_reuse.js) |
 
 옮겨 적을 때 출처 ex 파일을 옆에 열어 두고, 같은 줄이 거기서 무엇을 했는지 떠올린다.

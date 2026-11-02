@@ -53,7 +53,7 @@
 - VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
 - Node.js LTS(선택). 5주차에 받은 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에도 둔다([사용 안내](../../tools/static-server/README.md)). Node 가 없는 PC 는 파일을 두 번 눌러 열어도 이번 주 결과는 같다
 - 개발자 도구의 **Console** 탭. 이번 주에는 Console 설정 ⚙ › **Preserve log** 를 켠다(폼이 페이지를 다시 열어도 Console 줄이 남는다. [따라하기 3단계](walkthrough.md#3-여는-법과-preserve-log))
-- 6주차 비교 예제 [ex02](../week06_dom_events/examples/day1/ex02_click_write.js)(열 때 vs 클릭할 때)·[ex06](../week06_dom_events/examples/day2/ex06_reuse.js)(함수 하나를 두 곳에서 부르기)를 기억해 둔다. 이번 주가 그 두 파일에서 이어진다. 3주차에 만든 방명록 폼(`guestbook.html`)이 이번 주에 동작한다
+- 6주차 비교 예제 [ex02](../week06_dom_events/examples/day1/ex02/app.js)(열 때 vs 클릭할 때)·[ex06](../week06_dom_events/examples/day2/ex06_reuse.js)(함수 하나를 두 곳에서 부르기)를 기억해 둔다. 이번 주가 그 두 파일에서 이어진다. 3주차에 만든 방명록 폼(`guestbook.html`)이 이번 주에 동작한다
 - 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
 
 ## 이번 주 용어

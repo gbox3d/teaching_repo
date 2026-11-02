@@ -14,7 +14,7 @@ footer: "DOM·이벤트 · 비교 예제로 원리를 보고 마지막에 조립
 
 - 브라우저는 HTML 파일을 읽어 **DOM**(요소 상자)을 만들고, JS 는 그 상자를 찾아서 바꿉니다.
 - 결과는 화면, **Console**, 그리고 새로 쓰는 **Elements** 탭에서 봅니다.
-- 파일 하나 = 개념 하나. 실습은 **값을 바꿔 보는 것**입니다.
+- 예제 하나 = 개념 하나. 실습은 **값을 바꿔 보는 것**입니다.
 
 ---
 
@@ -22,34 +22,35 @@ footer: "DOM·이벤트 · 비교 예제로 원리를 보고 마지막에 조립
 
 `30분 설명·시연 → 60분 실습`
 
-1. 고르기 페이지 — `index.html` 하나, script 줄 하나만 켠다
+1. 예제 폴더 — `index.html`·`styles.css`·`app.js` 세 파일
 2. ex01 — HTML 파일과 DOM: Elements 와 페이지 소스
 3. ex02 — 열 때 바꾸기 vs 클릭할 때 바꾸기
 4. ex03 — 클릭 횟수: 변수는 함수 밖에
 
 ---
 
-## 1일차 · 0–4분 — 고르기 페이지: script 줄 하나만 켠다
+## 1일차 · 0–4분 — 예제 폴더 하나에 파일 세 개
 
-[examples/day1/index.html](examples/day1/index.html) — 세 예제가 같은 화면(글자 자리·버튼·횟수 자리)을 씁니다.
+예제마다 폴더 하나. 내 사이트와 같은 이름의 세 파일입니다.
 
-```html
-<script src="ex01_dom.js"></script>
-<!-- <script src="ex02_click_write.js"></script> -->
-<!-- <script src="ex03_counter.js"></script> -->
+```text
+ex01/
+  index.html   화면 — 예제가 쓰는 자리
+  styles.css   모양 — 자리에 배경색(.card)
+  app.js       동작 — 이번 주 원리는 여기
 ```
 
-- 코드는 `.js` 파일에, 화면은 `index.html` 하나에. 5주차 2일차와 같은 방법입니다.
-- 줄에 커서를 두고 **Ctrl+/**(macOS ⌘+/)로 켜고 끕니다. **한 줄만** 켭니다.
-- 코드는 `.js` 에서 고치고, 결과는 `index.html` 을 새로고침해 봅니다.
+- 여는 것은 `index.html`. `<head>` 의 `<link>` 와 `<script src … defer>` 가 두 파일을 불러옵니다.
+- 코드는 `app.js` 에서 고치고, 결과는 `index.html` 을 새로고침해 봅니다.
+- 맨 위 내 사이트 파일과 이름이 같습니다. 편집기 위쪽 경로 줄(`ex › ex01`)로 구분합니다.
 
-**어느 코드를 불러올지는 `script` 줄 하나가 정한다.**
+**화면은 HTML, 모양은 CSS, 동작은 JS — 세 파일을 한 폴더에.**
 
 ---
 
 ## 1일차 · 4–12분 — ex01 HTML 파일과 DOM
 
-[examples/day1/ex01_dom.js](examples/day1/ex01_dom.js)
+[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) · [app.js](examples/day1/ex01/app.js)
 
 ```text
 HTML 파일(페이지 소스)  ──읽기──▶  요소 상자들(DOM)  ──▶  화면
@@ -71,7 +72,7 @@ message.textContent = '3. JavaScript 가 바꾼 글자';
 
 ## 1일차 · 12–20분 — ex02 열 때 바꾸기 vs 클릭할 때 바꾸기
 
-[examples/day1/ex02_click_write.js](examples/day1/ex02_click_write.js)
+[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [styles.css](examples/day1/ex02/styles.css) · [app.js](examples/day1/ex02/app.js)
 
 ```js
 message.textContent = '1. 열자마자 바꾼 글자';        // 1. 열 때 한 번
@@ -82,7 +83,7 @@ btn.addEventListener('click', function () {
 ```
 
 - 열자마자 1번, 누를 때마다 2번. 5주차 ex01 의 A·C 와 B 와 같습니다.
-- 바꿔 보기: 2번 줄을 `});` 아래로 옮기면? 열자마자 2번 글자, 버튼은 할 일이 없습니다.
+- 바꿔 보기: 2번 줄을 `});` 아래로 옮기면? 열자마자 2번 글자, 버튼은 Console 만 찍고 화면은 그대로입니다.
 
 **바꾸는 줄을 `addEventListener` 안에 넣으면 누를 때마다 실행된다.**
 
@@ -90,7 +91,7 @@ btn.addEventListener('click', function () {
 
 ## 1일차 · 20–28분 — ex03 클릭 횟수: 변수는 함수 밖에
 
-[examples/day1/ex03_counter.js](examples/day1/ex03_counter.js)
+[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [styles.css](examples/day1/ex03/styles.css) · [app.js](examples/day1/ex03/app.js)
 
 ```js
 let count = 0;                     // 1. 함수 밖
@@ -113,8 +114,8 @@ btn.addEventListener('click', function () {
 
 [1일차 실습](lab.md#1일차--dom-과-클릭-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
-1. 새 폴더 `web-week06` 에 지난주 완성본, `ex/` 에 오늘 네 파일.
-2. ex01~ex03 — 줄 하나만 켜고 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
+1. 새 폴더 `web-week06` 에 지난주 완성본, `ex/` 에 예제 폴더 세 개.
+2. ex01~ex03 — 폴더마다 `index.html` 을 열고 `app.js` 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
 3. 새 저장소 `web-week06` 만들어 올리기 · Pages 켜기.
 
 **설명 합계: 4+8+8+8+2 = 30분**
