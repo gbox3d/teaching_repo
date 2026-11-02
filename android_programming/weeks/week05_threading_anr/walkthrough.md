@@ -145,7 +145,7 @@
 - 5초 동안 Switch가 움직이지 않는다. 5초가 지나면 그제야 켜진다.
 - Logcat(태그 없이 `package:mine`)에 `Skipped 299 frames!  The application may be doing too much work on its main thread.`처럼 남는다(숫자는 실행마다 다르다).
 
-이것이 메인 스레드를 막았을 때 생기는 일이다. 관찰이 끝나면 이 코드를 **지운다.** 5초를 넘기면 시스템이 ANR로 앱을 멈춰 세울 수 있다.
+이것이 메인 스레드를 막았을 때 생기는 일이다. 관찰이 끝나면 이 코드를 **지운다.** 5초를 넘기면 시스템이 ANR(Application Not Responding, "응답 없음")로 앱을 멈춰 세울 수 있다.
 
 ### 5. Thread와 runOnUiThread로 고치기
 

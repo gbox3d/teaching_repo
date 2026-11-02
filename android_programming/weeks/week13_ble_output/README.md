@@ -74,7 +74,7 @@ JSON 줄은 로그 칸 폭 때문에 두 줄로 접혀 보일 수 있다. 보드
 | 문법·API | 이번 주에 알아둘 뜻 |
 |---|---|
 | 명령 `on N` · `off N` · `off -1` · `pwm N V` | 보드에 보내는 글자 한 줄. 명령 이름, 띄어쓰기 한 칸, LED 번호. `N`은 GPIO가 아니라 LED 번호 `0`~`3`이고 `-1`은 전체다 |
-| 응답 `{"result":"ok","ms":"led(s) on"}` | 명령마다 보드가 돌려주는 JSON 한 줄. `result`가 `ok`면 성공, `err`면 값이 틀림, `fail`이면 모르는 명령 |
+| 응답 `{"result":"ok","ms":"led(s) on"}` | 명령마다 보드가 돌려주는 JSON(JavaScript Object Notation) 한 줄. 중괄호 안에 `"이름":"값"`을 쉼표로 늘어놓는 글자 형식이다. `result`가 `ok`면 성공, `err`면 값이 틀림, `fail`이면 모르는 명령 |
 | `Bleuno.client?.send("on $index")` | 명령 한 줄을 보낸다. 끝의 `\n`은 라이브러리가 붙이고, 큐에 넣어 하나씩 보낸다. `준비됨`이 아니면 라이브러리가 버린다 |
 | `Bleuno.client?.onMessage { json -> }` / `onMessage(null)` | 보드가 보낸 JSON 한 줄을 받을 때마다 중괄호 안을 실행한다(메인 스레드) / 받기를 푼다 |
 | `BleunoMessage.result(json)` | JSON에서 `"result"` 값(`ok`·`err`·`fail`, 없으면 `null`)을 꺼낸다 |

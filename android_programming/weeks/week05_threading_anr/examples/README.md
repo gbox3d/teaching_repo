@@ -30,7 +30,7 @@ binding.scanButton.setOnClickListener {
 
 실행 결과: `검색 중…`이 보이지 않고 5초 뒤 바로 `검색 완료`가 된다. 그동안 Switch도 눌리지 않는다.
 Logcat에 `Skipped 299 frames!  The application may be doing too much work on its main thread.`가 남는다(숫자는 실행마다 다르다).
-메인 스레드가 5초 넘게 터치에 답하지 못하면 `ANR in com.example.smartio … Input dispatching timed out`으로 앱이 멈춰 선다.
+메인 스레드가 5초 넘게 터치에 답하지 못하면 시스템이 ANR(Application Not Responding, "응답 없음")로 판정해 `ANR in com.example.smartio … Input dispatching timed out`을 남기고 앱이 멈춰 선다.
 
 ## 2. `Thread { }.start()`와 `runOnUiThread { }` — 1일차
 

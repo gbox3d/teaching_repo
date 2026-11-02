@@ -52,6 +52,7 @@
 | 문법·속성 | 이번 주에 알아둘 뜻 |
 |---|---|
 | `LinearLayout` | 안에 넣은 View를 순서대로 한 줄씩 쌓는 레이아웃 |
+| XML (Extensible Markup Language) | 꺾쇠 `<>` 태그로 내용을 적는 글자 파일 형식. Android는 화면 생김새를 `activity_main.xml`에 이 형식으로 적는다 |
 | `android:orientation` | `vertical`은 위에서 아래로, `horizontal`은 왼쪽에서 오른쪽으로 쌓는다 |
 | `android:gravity="center"` | 안의 내용을 가운데로 모은다 |
 | `wrap_content` / `match_parent` | 내용에 맞는 크기 / 부모만큼의 크기 |

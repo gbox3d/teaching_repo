@@ -26,7 +26,7 @@ ESP32_BLE_FAKE2 (00:11:22:33:44:02)    제어 화면: 상태: 준비됨
 `30분 설명·시연 → 60분 실습`
 
 1. `name.startsWith("ESP32_BLE")`로 보드 이름 거르기
-2. 폰과 보드의 역할, GATT와 bleuno 보드의 UUID
+2. 폰과 보드의 역할, GATT(Generic Attribute Profile)와 bleuno 보드의 UUID
 3. 블루투스가 꺼져 있으면 켜기 요청 창
 4. `Bleuno.create`와 `startScan`·`stopScan`으로 11주차 가짜 검색 바꾸기
 
@@ -82,6 +82,8 @@ if (name.startsWith("ESP32_BLE")) {
 ---
 
 ## 1일차 · 5–13분 ③ — GATT 계층과 bleuno 보드
+
+**GATT**(Generic Attribute Profile)는 BLE로 연결한 뒤 값을 주고받는 규칙입니다. 값은 이렇게 층을 이룹니다.
 
 ```text
 보드 ESP32_BLE7C9EBF (GATT server)

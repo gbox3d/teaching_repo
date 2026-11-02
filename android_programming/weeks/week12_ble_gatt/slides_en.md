@@ -26,7 +26,7 @@ Even without a board, you can practice the same way with `useFake = true`.
 `30 min explanation & demo → 60 min lab`
 
 1. Filter board names with `name.startsWith("ESP32_BLE")`
-2. Phone and board roles, GATT, and the bleuno board's UUIDs
+2. Phone and board roles, GATT (Generic Attribute Profile), and the bleuno board's UUIDs
 3. A prompt to turn Bluetooth on if it's off
 4. Replace week 11's fake scan with `Bleuno.create` and `startScan`/`stopScan`
 
@@ -82,6 +82,8 @@ Turn on notifications                → 준비됨
 ---
 
 ## Day 1 · 5–13 min ③ — The GATT Hierarchy and the bleuno Board
+
+**GATT** (Generic Attribute Profile) is the rule for exchanging values after a BLE connection. The values are arranged in layers.
 
 ```text
 Board ESP32_BLE7C9EBF (GATT server)

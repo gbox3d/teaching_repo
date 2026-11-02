@@ -90,14 +90,14 @@ Click  ─┘                     │
 
 ## Day 1 · 5–15 min ③ — ANR: Application Not Responding
 
-If the main thread can't respond to touch for **more than 5 seconds**, the system stops the app.
+**ANR** (Application Not Responding) is what happens when the main thread can't respond to touch for **more than 5 seconds**: the system stops the app.
 
 ```text
 ANR in com.example.smartio (com.example.smartio/.MainActivity)
 Reason: Input dispatching timed out (... Waited 5002ms for MotionEvent).
 ```
 
-- ANR = Application Not Responding. An "App isn't responding" dialog may appear.
+- The user may see an "App isn't responding" dialog.
 - One rule: **never do slow, waiting work on the main thread.**
 - So who waits the 5 seconds? → a different thread.
 

@@ -90,14 +90,14 @@ binding.scanButton.setOnClickListener {
 
 ## 1일차 · 5–15분 ③ — ANR: 응답 없음
 
-메인 스레드가 **5초 넘게** 터치에 답하지 못하면 시스템이 앱을 멈춰 세웁니다.
+**ANR**(Application Not Responding, "응답 없음")은 메인 스레드가 **5초 넘게** 터치에 답하지 못할 때 시스템이 앱을 멈춰 세우는 것입니다.
 
 ```text
 ANR in com.example.smartio (com.example.smartio/.MainActivity)
 Reason: Input dispatching timed out (... Waited 5002ms for MotionEvent).
 ```
 
-- ANR = Application Not Responding. “앱이 응답하지 않습니다” 대화상자가 뜰 수 있습니다.
+- 사용자에게는 “앱이 응답하지 않습니다” 대화상자가 뜰 수 있습니다.
 - 규칙 하나: **메인 스레드에서는 오래 기다리는 일을 하지 않는다.**
 - 그러면 5초 기다리는 일은 누가 할까요? → 다른 스레드
 

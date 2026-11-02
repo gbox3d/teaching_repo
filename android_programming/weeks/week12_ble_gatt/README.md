@@ -77,9 +77,10 @@ onServicesDiscovered(가짜) → onDescriptorWrite → 준비됨
 
 | 문법·API | 이번 주에 알아둘 뜻 |
 |---|---|
+| BLE (Bluetooth Low Energy) | 저전력 블루투스. 적은 전력으로 짧은 값을 주고받는 방식이라 보드·센서가 쓴다. 이어폰에 쓰는 고전 블루투스와는 다른 규격이다 |
 | `name.startsWith("ESP32_BLE")` | 글자 `name`이 괄호 안 글자로 시작하면 `true`. 보드 이름은 `ESP32_BLE` + 칩 ID(예: `ESP32_BLE7C9EBF`) |
 | central / peripheral | 검색하고 연결을 거는 쪽(폰) / 광고하며 연결을 기다리는 쪽(보드) |
-| GATT server·client, service, characteristic, UUID | 연결 뒤 값을 주고받는 규칙. 보드(server)가 service 안에 characteristic을 두고, 폰(client)이 UUID로 찾아 쓴다 |
+| GATT (Generic Attribute Profile) server·client, service, characteristic, UUID | 연결 뒤 값을 주고받는 규칙. 보드(server)가 service 안에 characteristic을 두고, 폰(client)이 UUID로 찾아 쓴다 |
 | `PermissionHelper.isBluetoothEnabled(this)` | 블루투스가 켜져 있으면 `true` |
 | `registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result -> }` | 다른 창을 띄우고 돌아온 결과를 받는 틀. 10주차 `setResult` 시연과 같은 모양으로 클래스 변수 자리에 둔다 |
 | `bluetoothLauncher.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))` / `result.resultCode == RESULT_OK` | 시스템의 블루투스 켜기 요청 창을 띄운다 / 사용자가 [허용]을 눌렀다 |

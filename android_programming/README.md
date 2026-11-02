@@ -9,7 +9,7 @@
 
 ## 범위
 
-프로그래밍 경험이 거의 없는 학생을 기준으로, Kotlin 출력문에서 시작해 BLE 입출력 제어 앱까지 15주 동안 한 걸음씩 쌓는 공용 교재다.
+프로그래밍 경험이 거의 없는 학생을 기준으로, Kotlin 출력문에서 시작해 BLE(Bluetooth Low Energy, 저전력 블루투스) 입출력 제어 앱까지 15주 동안 한 걸음씩 쌓는 공용 교재다.
 1주차는 Android Studio에서 `StudentCard` 프로젝트를 만들어 Kotlin을 연습하고, 2~3주차는 그 프로젝트로 첫 앱(화면·카운터·생명주기)을 만든다.
 4주차부터는 `SmartIO`(Smart I/O Controller) 한 앱을 매주 키우며 ViewBinding·두 번째 화면(4주), Thread·Handler(5주),
 코루틴(6주), ViewModel·StateFlow(7주), BroadcastReceiver·런타임 권한(10주), ListView·SharedPreferences(11주)를 배운다.
