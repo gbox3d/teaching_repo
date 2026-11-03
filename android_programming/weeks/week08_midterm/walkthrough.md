@@ -77,7 +77,7 @@
 
 ### 11. 제출
 
-- Android Studio 에서 `activity_main.xml` 과 `MainActivity.kt` 를 각각 전체 선택(Ctrl+A) → 복사 → LMS 답안 칸에 붙인다.
+- Android Studio 에서 `activity_main.xml` 과 `MainActivity.kt`(콘솔 문제는 `StudentCard.kt`)를 각각 전체 선택(Ctrl+A) → 복사 → LMS 답안 칸에 붙인다.
 - 캡처를 답안 칸에 넣는다(이미지 붙이기 또는 첨부). 설명을 그 아래에 쓴다.
 - 끝나기 5분 전에 문제마다 코드·캡처·설명이 있는지 본다. 제출 버튼을 누른 뒤 제출됐다는 화면을 확인한다.
 

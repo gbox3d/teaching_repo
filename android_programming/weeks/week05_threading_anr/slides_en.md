@@ -206,7 +206,7 @@ handler.postDelayed({
 - `postDelayed(work, milliseconds)`: adds a "run this after 5000ms" entry to the queue.
 - The main thread runs it, so `runOnUiThread` isn't needed.
 - If `Handler`/`Looper` turns red, Alt+Enter → pick the `android.os` one.
-- This form (an unnamed `{ }`) **can't be canceled** → the next slide gives it a name.
+- With an unnamed `{ }`, `removeCallbacks` **can't single out that one schedule to cancel** → the next slide gives it a name.
 
 ---
 

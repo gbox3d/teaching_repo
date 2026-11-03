@@ -235,15 +235,16 @@ object ServiceState {
 - `object`는 앱에 하나만 생기는 묶음입니다. 7주차 2일차의 `ConnState`도 object였습니다.
 - `MutableStateFlow(0)`은 7주차에 본 **지금 값 하나를 들고 있는 상자**이고, 처음 값은 0입니다.
 - 7주차에는 바꾸는 쪽(`_state`)을 숨기고 읽는 쪽(`state`)만 화면에 내보냈습니다.
-- 오늘은 값을 올리는 쪽이 이 파일 **바깥**의 `LogService`라서 한 줄만 두고 숨기지 않습니다.
-- 7주차처럼 `StateFlow`로 감싸면 `LogService.kt`에 `'val' cannot be reassigned.`가 납니다.
+- 숨기려면 7주차 `startScan()`처럼 값을 올리는 함수까지 `ServiceState`에 둬야 합니다.
+- **이번 예제에서는** 함수를 만들지 않고 한 줄만 공개해 둡니다. 못 숨기는 것이 아니라 고른 것입니다.
+- 7주차처럼 `StateFlow`로 감싸기만 하면 `LogService.kt`에 `'val' cannot be reassigned.`가 납니다.
 
 ---
 
 ## 2일차 · 6–14분 ② — Service가 코루틴으로 1초마다 센다
 
 ```kotlin
-    private val scope = CoroutineScope(Dispatchers.Default)
+    private val scope = CoroutineScope(Dispatchers.Main)
     private var tickJob: Job? = null
 ```
 
@@ -256,7 +257,7 @@ object ServiceState {
         }
 ```
 
-- Service에는 7주차 `viewModelScope` 같은 것이 없어 코루틴 자리를 **직접 만듭니다**. `Dispatchers.Default`는 메인 스레드가 아닌 곳입니다.
+- Service에는 7주차 `viewModelScope` 같은 것이 없어 코루틴 자리를 **직접 만듭니다**. `Dispatchers.Main`은 1일차에 Logcat으로 본 그 메인 스레드이고, `delay`가 스레드를 붙잡지 않아 거기서 세도 화면이 멈추지 않습니다.
 - `delay(1000)`은 6주차에 쓴 그 함수입니다. 1초 쉬고 값을 1 올리는 일을 `while (isActive)` 동안 되풀이합니다.
 - [서비스 시작]을 여러 번 눌러도 코루틴이 하나만 돌도록, 이미 돌고 있으면 `if (tickJob?.isActive == true)`에서 바로 돌아갑니다.
 

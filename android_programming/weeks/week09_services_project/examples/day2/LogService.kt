@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 class LogService : Service() {
 
     // Service에는 ViewModel의 viewModelScope 같은 것이 없으므로 코루틴을 돌릴 자리를 직접 만든다.
-    // Dispatchers.Default는 메인 스레드가 아닌 곳이다. 세는 일은 화면과 상관없으므로 여기서 돈다(9주차 2일차).
-    private val scope = CoroutineScope(Dispatchers.Default)
+    // Dispatchers.Main은 1일차에 Logcat으로 본 그 메인 스레드다. delay는 기다리는 동안 스레드를 붙잡지 않아 화면이 멈추지 않는다(9주차 2일차).
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     // 1초마다 세는 코루틴. 7주차 ConnViewModel의 scanJob과 같은 자리다(9주차 2일차).
     private var tickJob: Job? = null

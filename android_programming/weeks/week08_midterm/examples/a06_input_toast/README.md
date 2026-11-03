@@ -9,21 +9,21 @@
 ## 할 일
 
 1. 화면에 `EditText`(`id` `nameInput`, `android:hint="이름"`), `Button`(`id` `helloButton`, 글자 `인사`), `TextView`(`id` `helloText`, 글자 `?`)를 둔다.
-2. 버튼을 누르면 `nameInput.text.toString().trim()` 으로 글자를 읽는다.
+2. 버튼을 누르면 `nameInput.text.toString()` 으로 글자를 읽는다.
    - 비어 있으면 `Toast.makeText(this, "이름을 입력하세요", Toast.LENGTH_SHORT).show()`.
-   - 있으면 `helloText.text = "안녕하세요, 이름님"` 처럼 읽은 이름을 넣어 보인다.
-3. 캡처 두 장. 이름 `홍길동` 을 넣고 누른 뒤 `안녕하세요, 홍길동님` 이 보이는 화면, 빈 채로 눌러 Toast 가 뜬 화면.
+   - 있으면 `helloText.text = "안녕하세요, 이름 님"` 처럼 읽은 이름을 넣어 보인다.
+3. 캡처 두 장. 이름 `홍길동` 을 넣고 누른 뒤 `안녕하세요, 홍길동 님` 이 보이는 화면, 빈 채로 눌러 Toast 가 뜬 화면.
 
 ## 확인할 것
 
-- [ ] 이름을 넣고 누르면 `안녕하세요, 홍길동님` 이 보인다. 다른 이름을 넣으면 그 이름이 보인다.
-- [ ] 빈 채로(또는 빈칸만) 누르면 Toast 가 뜨고 `helloText` 는 바뀌지 않는다.
+- [ ] 이름을 넣고 누르면 `안녕하세요, 홍길동 님` 이 보인다. 다른 이름을 넣으면 그 이름이 보인다.
+- [ ] 빈 채로 누르면 Toast 가 뜨고 `helloText` 는 바뀌지 않는다.
 - [ ] 빨간 줄 없이 실행된다.
 
 ## 힌트
 
-- `EditText` 의 `text` 는 글자가 아니라 `Editable` 이라 `toString()` 이 필요하다. `trim()` 은 앞뒤 빈칸을 뗀다.
-- `if (name.isEmpty()) { Toast… } else { helloText.text = "안녕하세요, ${name}님" }`. `$name님` 처럼 `$변수` 바로 뒤에 한글을 붙이면 변수 이름으로 읽히므로 중괄호를 쓴다.
+- `EditText` 의 `text` 는 글자가 아니라 `Editable` 이라 `toString()` 이 필요하다.
+- `if (name.isEmpty()) { Toast… } else { helloText.text = "안녕하세요, $name 님" }`. `$변수` 바로 뒤에 한글을 붙이면 그 한글까지 변수 이름으로 읽히므로, `$name` 과 `님` 사이에 빈칸을 둔다.
 - `Toast.makeText` 의 세 인자는 화면(`this`), 글자, 길이다. `.show()` 를 빠뜨리면 아무것도 안 뜬다.
 
 ## 이 문제의 값
@@ -33,7 +33,7 @@
 | 입력 칸 id / hint | `nameInput` / `이름` |
 | 버튼 id / 글자 | `helloButton` / `인사` |
 | 결과 TextView id / 처음 글자 | `helloText` / `?` |
-| 인사 글자 꼴 | `안녕하세요, 이름님` |
+| 인사 글자 꼴 | `안녕하세요, 이름 님` |
 | 빈 값 Toast 글자 | `이름을 입력하세요` |
 | 확인 때 넣는 이름 | `홍길동` |
 

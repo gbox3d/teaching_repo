@@ -83,6 +83,8 @@ Fragment는 "Activity 안의 화면 조각"이라는 한 장으로 이름만 알
 
 ## 완료 기준
 
+아래 여섯 줄 가운데 제출해서 채점받는 것은 캡처 2장과 `MainActivity.kt`·`ControlActivity.kt`다(여섯째 줄). 나머지 다섯 줄은 실습 시간에 스스로 확인하고, 막히면 순회하는 강의자에게 보여 준다. XML 파일은 제출하지 않으므로 둘째 줄의 `strings.xml` 항목은 채점 대상이 아니다.
+
 - [ ] `SmartIO` 프로젝트가 ViewBinding으로 실행되고 `MainActivity.kt`에 `findViewById`가 없다.
 - [ ] 연결 화면의 글자(제목·힌트·버튼)가 `strings.xml`에서 온다.
 - [ ] 장치 이름이 비면 Toast `장치 이름을 입력하세요`, 있으면 제어 화면으로 이동한다.

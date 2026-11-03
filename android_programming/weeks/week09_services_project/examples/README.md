@@ -151,15 +151,16 @@ object ServiceState {
 - `LogService`와 `MainActivity`는 서로 다른 객체다. Service는 화면을 모르고, 화면은 Service가 만든 변수를 볼 수 없다. 둘이 같이 보는 값을 한 군데 둬야 한다.
 - `object`는 앱에 하나만 생긴다. 어디서 `ServiceState.tick`을 불러도 같은 것이다. 7주차 `ConnState`를 `object`로 둔 것과 같은 자리다.
 - 7주차 `ConnViewModel`은 바꾸는 쪽 `private val _seconds`와 읽기 전용 `val seconds: StateFlow<Int>`를 나눴다. 값을 바꾸는 곳이 그 클래스 안이었기 때문이다.
-- 이번에는 값을 올리는 곳이 이 파일 바깥의 `LogService`다. 그래서 `MutableStateFlow` 한 줄만 두고 나누지 않는다.
-- 7주차처럼 `val tick: StateFlow<Int> = MutableStateFlow(0)`로 감싸 두면, `LogService`에서 값을 올리는 두 줄에 `'val' cannot be reassigned.` 오류가 난다(빌드로 확인).
+- 이번에는 값을 올리는 곳이 이 파일 바깥의 `LogService`다. 나누려면 값을 올리는 함수를 `ServiceState`에 같이 두고 `LogService`가 그 함수를 부르게 해야 한다(그 모양도 빌드로 확인).
+- 이번 예제는 새 파일을 한 줄로 두려고 나누지 않는 쪽을 골랐다. 못 나누는 것이 아니다.
+- 7주차처럼 `val tick: StateFlow<Int> = MutableStateFlow(0)`로 감싸 두기만 하면, `LogService`에서 값을 올리는 두 줄에 `'val' cannot be reassigned.` 오류가 난다(빌드로 확인).
 - `import kotlinx.coroutines.flow.MutableStateFlow`가 빠지면 `Unresolved reference 'MutableStateFlow'.`가 난다(빌드로 확인).
 - `ServiceState.kt`를 만들지 않고 다른 파일을 먼저 고치면 `Unresolved reference 'ServiceState'.`가 `LogService.kt`와 `MainActivity.kt` 양쪽에 난다(빌드로 확인).
 
 ## 6. Service가 코루틴으로 1초마다 센다
 
 ```kotlin
-    private val scope = CoroutineScope(Dispatchers.Default)
+    private val scope = CoroutineScope(Dispatchers.Main)
 ```
 
 ```kotlin
@@ -188,7 +189,7 @@ object ServiceState {
 
 - 4절에서 Service도 메인 스레드에서 돈다는 것을 봤다. 1초마다 세는 일을 `onStartCommand` 안에서 그냥 하면 화면이 멈춘다. 그래서 6주차 코루틴으로 보낸다. 이것이 1일차에서 본 문제의 해결이다.
 - `delay(1000)`은 기다리는 동안 스레드를 붙잡지 않는다. 5주차 `Thread.sleep`과 다른 점이다.
-- Service에는 ViewModel의 `viewModelScope`가 없다. `CoroutineScope(Dispatchers.Default)`로 코루틴을 돌릴 자리를 직접 만든다. `Dispatchers.Default`는 메인 스레드가 아닌 곳이다.
+- Service에는 ViewModel의 `viewModelScope`가 없다. `CoroutineScope(Dispatchers.Main)`으로 코루틴을 돌릴 자리를 직접 만든다. `Dispatchers.Main`은 4절에서 Logcat으로 본 그 메인 스레드다. 바로 위 줄에서 본 대로 `delay`가 스레드를 붙잡지 않으므로 메인 스레드에서 세도 화면이 멈추지 않는다.
 - `if (tickJob?.isActive == true)`는 7주차 `ConnViewModel.startScan`과 같은 검사다. [서비스 시작]을 여러 번 눌러도 코루틴은 하나만 돈다.
 - `onDestroy`의 `tickJob?.cancel()`과 `ServiceState.tick.value = 0`은 세기를 멈추고 숫자를 되돌린다. 이 두 줄을 빼도 **빌드는 된다**(빌드로 확인). 그러면 [서비스 중지] 뒤에도 코루틴이 그대로 돌고, `ServiceState`는 앱에 하나뿐이라 값이 남는다.
 - `while (isActive)`의 `isActive`는 `import kotlinx.coroutines.isActive`가 필요하다. 빠지면 `Unresolved reference 'isActive'.`가 난다(빌드로 확인).

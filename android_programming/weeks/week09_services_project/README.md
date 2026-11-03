@@ -16,7 +16,7 @@
 3. Logcat의 `onStartCommand thread=main`을 읽고 "Service는 따로 스레드를 만들지 않는다"를 설명한다.
 4. Service를 쓸 자리와 6·7주차 코루틴·ViewModel로 충분한 자리를 구분해 말한다.
 5. `object ServiceState`에 `MutableStateFlow`를 두어 Service와 화면이 같은 값을 보게 하고, 7주차처럼 읽기 전용 `StateFlow`로 나누지 않는 이유를 말한다.
-6. Service 안에서 `CoroutineScope(Dispatchers.Default)`로 코루틴을 만들어 1초마다 값을 올리고, `onDestroy`에서 그 코루틴을 취소하고 값을 되돌린다.
+6. Service 안에서 `CoroutineScope(Dispatchers.Main)`으로 코루틴을 만들어 1초마다 값을 올리고, `onDestroy`에서 그 코루틴을 취소하고 값을 되돌린다.
 7. `repeatOnLifecycle(Lifecycle.State.STARTED)` 틀로 그 값을 받아 화면에 쓰고, 제어 화면에 갔다 돌아왔을 때 숫자가 어떻게 되는지 직접 보고 설명한다.
 8. Notification이 화면 밖 사용자에게 알리는 방법이고 Android 13부터 권한이 필요하다는 것을 말한다(권한 요청은 10주차 2일차).
 
@@ -78,8 +78,8 @@ onDestroy                       ← [서비스 중지]
 | `<service android:name=".LogService" android:exported="false" />` | Manifest 등록. `exported="false"`는 이 앱 안에서만 쓴다는 뜻 |
 | `Thread.currentThread().name` | 지금 코드가 도는 스레드 이름. 메인 스레드면 `main` |
 | `object ServiceState` | Service와 화면이 같이 보는 값을 두는 자리. `object`는 앱에 하나만 생긴다. 7주차 `object ConnState`와 같은 자리다 |
-| `val tick = MutableStateFlow(0)` | 7주차와 같은 `MutableStateFlow`인데 두는 자리가 다르다. 7주차는 ViewModel 안에 숨기고 읽기 전용 `StateFlow`만 내보냈고, 여기서는 값을 올리는 쪽이 파일 바깥인 Service여서 숨기지 않는다 |
-| `CoroutineScope(Dispatchers.Default)` | Service에는 ViewModel의 `viewModelScope`가 없다. 코루틴을 돌릴 자리를 직접 만든다. `Dispatchers.Default`는 메인 스레드가 아닌 곳이다 |
+| `val tick = MutableStateFlow(0)` | 7주차와 같은 `MutableStateFlow`인데 두는 자리가 다르다. 7주차는 ViewModel 안에 숨기고 읽기 전용 `StateFlow`만 내보냈다. 여기서도 숨길 수는 있지만 값을 올리는 함수를 같이 둬야 해서, 새 파일을 한 줄로 두려고 숨기지 않는 쪽을 골랐다 |
+| `CoroutineScope(Dispatchers.Main)` | Service에는 ViewModel의 `viewModelScope`가 없다. 코루틴을 돌릴 자리를 직접 만든다. `Dispatchers.Main`은 1일차에 Logcat으로 본 그 메인 스레드이고, `delay`가 스레드를 붙잡지 않아 거기서 세도 화면이 멈추지 않는다 |
 | `scope.launch { while (isActive) { delay(1000); … } }` | 6주차 `delay`를 그대로 쓴다. 7주차는 `viewModelScope`에서 돌렸고, 여기서는 직접 만든 scope에서 돈다 |
 | `tickJob?.isActive == true` | 이미 세고 있으면 새로 시작하지 않는 검사. 7주차 `startScan`의 검사와 같은 모양이다 |
 | `tickJob?.cancel()` | `onDestroy`에서 세던 코루틴을 취소한다. 6주차 `Job` 취소와 같다 |

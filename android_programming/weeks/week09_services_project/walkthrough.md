@@ -772,7 +772,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 // 1. Service가 센 값을 두는 자리. Service와 화면(Activity)은 서로 다른 객체여서 값을 바로 건넬 수 없다.
 //    object는 앱에 하나만 생기므로 Service와 화면이 같은 ServiceState.tick을 본다. 7주차 ConnState와 같은 자리다(9주차 2일차).
 // 2. 7주차 ConnViewModel은 바꾸는 쪽(_seconds)을 안에 숨기고 읽기 전용(seconds)만 내보냈다.
-//    여기서는 값을 올리는 쪽이 이 파일 바깥의 Service이므로 MutableStateFlow 한 줄만 두고 숨기지 않는다(9주차 2일차).
+//    여기서 숨기려면 값을 올리는 함수도 같이 둬야 한다. 올리는 쪽이 이 파일 바깥의 Service라서다.
+//    이번 예제는 새 파일을 한 줄로 두려고 숨기지 않는 쪽을 골랐다(9주차 2일차).
 object ServiceState {
     val tick = MutableStateFlow(0)
 }
@@ -783,8 +784,9 @@ object ServiceState {
 - `object`: 앱에 하나만 생긴다. 어디서 `ServiceState.tick`을 불러도 같은 것이라, Service가 올린 값을 화면이 그대로 본다. 7주차 `ConnState`를 `object`로 둔 것과 같은 자리다.
 - `MutableStateFlow(0)`: 7주차에 쓴 것과 같다. 시작값은 `0`이다.
 - 7주차 `ConnViewModel`에서는 바꾸는 쪽 `private val _seconds`를 숨기고 읽기 전용 `val seconds: StateFlow<Int>`만 내보냈다. 값을 바꾸는 코드가 그 클래스 안에 있었기 때문이다.
-- 오늘은 값을 올리는 코드가 이 파일 바깥의 `LogService`에 있다. 그래서 `MutableStateFlow` 한 줄만 두고 나누지 않는다.
-- 7주차 방식대로 `val tick: StateFlow<Int> = MutableStateFlow(0)`으로 감싸면, 10단계를 끝내고 빌드할 때 `LogService.kt`의 두 줄에 `'val' cannot be reassigned.`가 난다.
+- 오늘은 값을 올리는 코드가 이 파일 바깥의 `LogService`에 있다. 나누려면 값을 올리는 함수를 `ServiceState`에 같이 두고 `LogService`가 그 함수를 부르게 해야 한다(7주차에 화면이 `viewModel.startScan()`을 부른 것과 같은 모양이다).
+- 이번 예제는 새 파일을 한 줄로 두려고 나누지 않는 쪽을 골랐다. 못 나누는 것이 아니다.
+- 7주차 방식대로 `val tick: StateFlow<Int> = MutableStateFlow(0)`으로 감싸기만 하면, 10단계를 끝내고 빌드할 때 `LogService.kt`의 두 줄에 `'val' cannot be reassigned.`가 난다.
 
 5. 빌드한다. **예상 결과**: 빨간 글자가 없다. 아직 아무도 `ServiceState`를 쓰지 않으므로 화면은 1일차와 같다.
 
@@ -813,8 +815,8 @@ import kotlinx.coroutines.launch
 
 ```kotlin
     // Service에는 ViewModel의 viewModelScope 같은 것이 없으므로 코루틴을 돌릴 자리를 직접 만든다.
-    // Dispatchers.Default는 메인 스레드가 아닌 곳이다. 세는 일은 화면과 상관없으므로 여기서 돈다(9주차 2일차).
-    private val scope = CoroutineScope(Dispatchers.Default)
+    // Dispatchers.Main은 1일차에 Logcat으로 본 그 메인 스레드다. delay는 기다리는 동안 스레드를 붙잡지 않아 화면이 멈추지 않는다(9주차 2일차).
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     // 1초마다 세는 코루틴. 7주차 ConnViewModel의 scanJob과 같은 자리다(9주차 2일차).
     private var tickJob: Job? = null
@@ -868,8 +870,8 @@ import kotlinx.coroutines.launch
 class LogService : Service() {
 
     // Service에는 ViewModel의 viewModelScope 같은 것이 없으므로 코루틴을 돌릴 자리를 직접 만든다.
-    // Dispatchers.Default는 메인 스레드가 아닌 곳이다. 세는 일은 화면과 상관없으므로 여기서 돈다(9주차 2일차).
-    private val scope = CoroutineScope(Dispatchers.Default)
+    // Dispatchers.Main은 1일차에 Logcat으로 본 그 메인 스레드다. delay는 기다리는 동안 스레드를 붙잡지 않아 화면이 멈추지 않는다(9주차 2일차).
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     // 1초마다 세는 코루틴. 7주차 ConnViewModel의 scanJob과 같은 자리다(9주차 2일차).
     private var tickJob: Job? = null

@@ -112,7 +112,8 @@ Logcat 필터를 `package:mine tag:Service`로 두고 순서대로 누르며 마
 - 안에 둘 것은 7주차에 쓴 `MutableStateFlow` 한 줄이다. 시작값은 `0`으로 한다. `kotlinx.coroutines.flow.MutableStateFlow` import 한 줄이 필요하다.
 - **여기서 7주차와 다른 점을 한 번 겪어 본다.** 7주차 `ConnViewModel`에서는 바꾸는 쪽(`_seconds`)을 숨기고 읽기 전용 `StateFlow`만 내보냈다.
   그 방식대로 `val tick: StateFlow<Int> = MutableStateFlow(0)`이라고 적어 두고 2번까지 진행한 뒤 빌드한다. 어떤 오류가 어느 줄에 나는지 적고 되돌린다.
-  되돌린 뒤 왜 오늘은 나누지 않는지 한 문장으로 적어 둔다. 값을 올리는 코드가 이 파일 안이 아니라 바깥(`LogService`)에 있다는 것이 답의 핵심이다.
+  되돌린 뒤 왜 오늘은 나누지 않는지 한 문장으로 적어 둔다. 읽기 전용으로 내보낸 값에는 바깥에서 `.value`를 넣을 수 없다는 것이 오류의 이유다.
+  나누고 싶으면 `ServiceState` 안에 값을 올리는 함수를 같이 두고 `LogService`가 그 함수를 부르게 바꾸면 된다. 7주차에 화면이 `viewModel.startScan()`을 부른 것과 같은 모양이다. 오늘은 새 파일을 한 줄로 두려고 나누지 않은 것이니, 못 하는 일이 아니라 고른 것이라고 적으면 된다.
   일부러 감싼 줄을 쓸 때는 `StateFlow` import도 함께 필요하다. 아래 확인 표는 감싸지 않은 보통 경우를 적은 것이다.
 - 전체 코드는 [따라하기 9단계](walkthrough.md#9-servicestatekt-만들기)에 있다. 먼저 스스로 쓰고 비교한다.
 
@@ -125,8 +126,8 @@ Logcat 필터를 `package:mine tag:Service`로 두고 순서대로 누르며 마
 
 1일차에 Logcat의 `thread=main`을 보고 **Service도 메인 스레드에서 돈다**는 것을 확인했다. 1초마다 세는 일을 `onStartCommand` 안에서 그냥 하면 화면이 멈춘다. 그래서 6주차 코루틴으로 보낸다.
 
-- 클래스 안·함수 밖에 속성 두 개를 둔다. 하나는 코루틴을 돌릴 자리(`CoroutineScope(Dispatchers.Default)`), 하나는 돌고 있는 코루틴을 잡아 둘 `Job?`이다. 7주차 `ConnViewModel`의 `scanJob`과 같은 자리다.
-- Service에는 ViewModel의 `viewModelScope`가 없다. 찾지 말고 직접 만든다. `Dispatchers.Default`는 메인 스레드가 아닌 곳이다.
+- 클래스 안·함수 밖에 속성 두 개를 둔다. 하나는 코루틴을 돌릴 자리(`CoroutineScope(Dispatchers.Main)`), 하나는 돌고 있는 코루틴을 잡아 둘 `Job?`이다. 7주차 `ConnViewModel`의 `scanJob`과 같은 자리다.
+- Service에는 ViewModel의 `viewModelScope`가 없다. 찾지 말고 직접 만든다. `Dispatchers.Main`은 1일차에 Logcat으로 본 그 메인 스레드다. `delay`는 기다리는 동안 스레드를 붙잡지 않으므로 여기서 세도 화면이 멈추지 않는다.
 - `onStartCommand` 안에서 그 자리에 코루틴을 하나 띄운다. 안은 `while` 한 겹이고, 1초 쉬고(`delay(1000)`) `ServiceState.tick`의 값을 1 올린다. `while`의 조건으로 `isActive`를 쓰면 취소됐을 때 반복이 끝난다.
 - [서비스 시작]을 여러 번 눌러도 코루틴은 하나만 돌아야 한다. 7주차 `startScan`의 "이미 돌고 있으면 그냥 돌아간다" 검사와 같은 모양을 `onStartCommand` 앞쪽에 둔다. `onStartCommand`는 값을 돌려주는 함수이므로 그 안에서도 1일차의 `START_NOT_STICKY`를 돌려줘야 한다.
 - **import 여섯 줄이 필요하다.** 자동 import가 `isActive`를 잘 집어 주지 않으므로 [따라하기 10단계](walkthrough.md#10-logservice에-코루틴으로-세기-넣기)의 import 블록을 통째로 보고 줄 수를 맞춘다.

@@ -197,8 +197,8 @@ Logcat 탭 → 필터 칸에 태그(Life) → 그 줄만 보인다
 ## 2일차 · 17–22분 — 답안에 넣을 것: 코드·캡처·설명
 
 ```text
-① 코드    activity_main.xml · MainActivity.kt 전체 선택 → 복사 → 답안 칸에 붙이기
-② 캡처    요구한 상태의 에뮬레이터 화면 (회전·Logcat 을 요구하면 그 화면까지)
+① 코드    activity_main.xml · MainActivity.kt (콘솔 문제는 StudentCard.kt) → 복사 → 붙이기
+② 캡처    요구한 상태의 에뮬레이터 화면 (회전·Logcat 까지 / 콘솔 문제는 Run 창)
 ③ 설명    설명 물음에 자기 말로 1~2문장 (힌트에 있는 수준)
 ```
 

@@ -235,15 +235,16 @@ object ServiceState {
 - An `object` exists once per app. Week 7 Day 2's `ConnState` was an object too.
 - `MutableStateFlow(0)` is week 7's **box holding one current value**, and it starts at 0.
 - In week 7 you hid the writing side (`_state`) and exposed only the reading side (`state`).
-- Today the side that raises the value is `LogService`, **outside** this file, so one line stays open.
-- Wrap it in a `StateFlow` as in week 7 and `LogService.kt` reports `'val' cannot be reassigned.`
+- To hide it you would also put a function that raises the value in `ServiceState`, like week 7's `startScan()`.
+- **In this example** we skip that function and leave one open line: a choice, not a limit.
+- Wrap it in a `StateFlow` and nothing else, and `LogService.kt` reports `'val' cannot be reassigned.`
 
 ---
 
 ## Day 2 · 6–14 min ② — The Service Counts Every Second with a Coroutine
 
 ```kotlin
-    private val scope = CoroutineScope(Dispatchers.Default)
+    private val scope = CoroutineScope(Dispatchers.Main)
     private var tickJob: Job? = null
 ```
 
@@ -256,7 +257,7 @@ object ServiceState {
         }
 ```
 
-- A Service has nothing like week 7's `viewModelScope`, so you **make the coroutine's place yourself**. `Dispatchers.Default` is not the main thread.
+- A Service has nothing like week 7's `viewModelScope`, so you **make the coroutine's place yourself**. `Dispatchers.Main` is the main thread you saw on Day 1, and `delay` does not hold the thread, so counting there does not freeze the screen.
 - `delay(1000)` is the week 6 function. `while (isActive)` repeats resting one second and raising the value by 1.
 - Tapping [Start Service] again must not start a second coroutine, so `if (tickJob?.isActive == true)` returns right away while it counts.
 

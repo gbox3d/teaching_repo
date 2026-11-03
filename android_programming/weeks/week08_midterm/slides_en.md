@@ -197,8 +197,8 @@ exam problem  nameText · Kim Minji    · countText 10 · plusButton +2 · three
 ## Day 2 · 17–22 min — What Goes in the Answer: Code, Screenshots, Explanation
 
 ```text
-① Code          select all in activity_main.xml · MainActivity.kt → copy → paste into the answer box
-② Screenshots   the emulator in the required state (plus rotation or Logcat when asked)
+① Code          activity_main.xml · MainActivity.kt (StudentCard.kt for console problems) → copy → paste
+② Screenshots   the emulator in the required state (rotation or Logcat too / the Run window for console problems)
 ③ Explanation   1–2 sentences in your own words for the explanation question (hint-level content)
 ```
 

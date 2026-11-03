@@ -206,7 +206,7 @@ handler.postDelayed({
 - `postDelayed(할 일, 밀리초)`: 큐에 “5000ms 뒤에 실행” 표를 붙여 넣습니다.
 - 메인 스레드가 실행하므로 `runOnUiThread`가 필요 없습니다.
 - `Handler`·`Looper`가 빨간색이면 Alt+Enter → `android.os` 것을 고릅니다.
-- 이 형태(이름 없는 `{ }`)는 **취소할 수 없습니다** → 다음 장에서 이름을 붙입니다.
+- 이 형태(이름 없는 `{ }`)는 `removeCallbacks`로 **그것만 골라 취소할 수 없습니다** → 다음 장에서 이름을 붙입니다.
 
 ---
 
