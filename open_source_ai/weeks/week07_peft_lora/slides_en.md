@@ -110,7 +110,7 @@ This week's attitude: **build a prediction table, then correct it with measureme
 
 - Prompting is enough for: role instructions, output language, one or two formatting rules.
 - LoRA is needed for: a **consistent format or tone** the model keeps failing to follow, domain vocabulary, shortening a long instruction.
-- Even LoRA can't do: adding facts the model doesn't know (-> RAG, Week 7).
+- Even LoRA can't do: adding facts the model doesn't know (-> Week 6 RAG: put the material in the prompt).
 
 Demo: `uv run python lora_setup.py --ranks 4,8,16`
 

@@ -12,7 +12,7 @@
 
 ## 수업 전 준비
 
-Ollama의 `qwen3.5:2b`와 6주차 임베딩 모델 `intfloat/multilingual-e5-small`을 준비한다. 임베딩 모델이 없다면 수업 전에 다음 명령으로 캐시한다.
+Ollama의 `qwen3.5:2b`와 Hugging Face 임베딩 모델 `intfloat/multilingual-e5-small`을 준비한다. 6주차의 `bge-m3`(Ollama)와는 다른 모델이다. 임베딩 모델이 없다면 수업 전에 다음 명령으로 캐시한다.
 
 ```powershell
 uv run prepare

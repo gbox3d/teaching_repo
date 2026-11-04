@@ -254,7 +254,7 @@ $trainData = "C:\classwork\week07\period2\data\sample_sft.jsonl"
 Get-Content adapters\run-001\run_config.json
 ```
 
-`$repo\experiments\run-001.md`의 7개 절을 `run_config.json`, `outputs\train-run-001.json`, `outputs\compare-run-001.json`, `outputs\setup-*.md`의 값으로 채운다. 2절 데이터 버전에 위 해시 12자리를, 모델 ID·revision에 6주차 `SOURCES.md`의 값을 쓴다.
+`$repo\experiments\run-001.md`의 7개 절을 `run_config.json`, `outputs\train-run-001.json`, `outputs\compare-run-001.json`, `outputs\setup-*.md`의 값으로 채운다. 2절 데이터 버전에 위 해시 12자리를, 모델 ID·revision에 Hugging Face 모델 카드에서 확인한 값을 쓴다.
 
 **예상 결과** — 1절 목적 한 문장, 2절 고정한 것(모델·데이터 해시·system·seed 42·장치·dtype), 3절 설정(r 8 / alpha 16 / dropout 0.05, target 4개, 2 epoch, lr 2e-4 cosine, 4×2), 4절 결과(step·시간·VRAM 예측 vs 실측·loss 처음→마지막·학습 파라미터·어댑터 용량), 5절 샘플 3개 이상과 형식 준수율, 6절 관찰·실패(단계 2 경계, 실패 실행의 오류 첫 줄), 7절 다음 실험(바꿀 변수 하나·성공 기준)이 모두 채워져 있다. 직접 실행하지 않은 값은 없다.
 

@@ -31,7 +31,7 @@
 
 ## 준비물
 
-- 13주차까지 누적된 팀 저장소 clone본(pytest·ruff·CI 통과 상태). 9주차 템플릿의 LICENSE·CONTRIBUTING·CODE_OF_CONDUCT, 5·8주차의 `SOURCES.md`, 10·11주차의 실험 기록·데이터 카드·평가 결과가 들어 있어야 한다.
+- 13주차까지 누적된 팀 저장소 clone본(pytest·ruff·CI 통과 상태). 9주차 템플릿의 LICENSE·CONTRIBUTING·CODE_OF_CONDUCT, 7·8주차의 `SOURCES.md`, 10·11주차의 실험 기록·데이터 카드·평가 결과가 들어 있어야 한다.
 - GitHub 계정, 팀 저장소 쓰기 권한, 짝 팀(교차 재현 대상) 지정. 짝 팀 저장소에는 Issue만 남기고 push하지 않는다.
 - Git, VS Code, uv, PowerShell. 이번 주 예제는 모델·GPU 없이 동작한다. Ollama와 사전 캐시된 모델은 3교시 시연 리허설에서만 쓴다(`ollama list`로 확인, 실습 시간에 내려받지 않는다).
 - 이번 주 [`examples/`](examples/README.md)의 `release_kit/` 템플릿과 `release_check/` 도구 복사본.

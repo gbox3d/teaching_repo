@@ -33,7 +33,7 @@
 
 - Git, VS Code, uv, PowerShell. GPU 실습은 NVIDIA GPU(기준 12 GB VRAM), GPU가 없으면 CPU 대체 경로(`--device cpu --max-steps 5`)를 쓴다.
 - 수업 전 사전 캐시된 `HF_TEXT_MODEL`(기본값 `Qwen/Qwen2.5-0.5B-Instruct`). 실습 시간에 모델을 내려받지 않는다.
-- 이번 주 기준 모델의 ID·revision·라이선스를 `SOURCES.md`에 추가한다. 6주차 출처 기록 방법을 참고하며 10주차 팀 제안서는 미리 요구하지 않는다.
+- 이번 주 기준 모델의 ID·revision·라이선스를 개인 저장소의 `SOURCES.md`에 적는다. 파일이 없으면 새로 만들고 2주차 `license_matrix.md`의 열(이름·라이선스·출처 URL)을 따른다. 10주차 팀 제안서는 미리 요구하지 않는다.
 - 정확한 도구 버전은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
 - 실제 이름, 학번, 비밀번호, Hugging Face 토큰은 실습 파일과 공개 저장소에 넣지 않는다. 토큰은 `.env`에만 두고 `.env.example`만 커밋한다. 학습 데이터에도 실제 인물·기관 정보를 넣지 않는다.
 

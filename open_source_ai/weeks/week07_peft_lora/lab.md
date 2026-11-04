@@ -309,7 +309,7 @@ GPU가 없으면 `--device cpu --max-new-tokens 60`을 붙인다.
 ### 문제 2 · 실험 기록 run-001
 
 1. `$repo\experiments\run-001.md`의 7개 절을 채운다. 값은 `adapters/run-001/run_config.json`, `outputs/train-run-001.json`, `outputs/compare-run-001.json`, `outputs/setup-*.md`에서 옮기고 직접 실행하지 않은 값은 적지 않는다.
-2. 2절 「고정한 것」의 데이터 버전은 파일 해시로 적는다. 모델 ID·revision은 6주차 `SOURCES.md`의 값을 쓴다.
+2. 2절 「고정한 것」의 데이터 버전은 파일 해시로 적는다. 모델 ID·revision은 Hugging Face 모델 카드에서 확인한 값을 쓴다.
 
 ```powershell
 # 2교시 기본 명령으로 실제 학습한 파일을 해시한다.

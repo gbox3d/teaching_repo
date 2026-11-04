@@ -1,5 +1,5 @@
 [project]
-name = "osa-week06-langchain"
+name = "osa-week05-langchain"
 version = "0.1.0"
 description = "Ollama와 LangChain으로 만드는 터미널 대화"
 requires-python = ">=3.12"

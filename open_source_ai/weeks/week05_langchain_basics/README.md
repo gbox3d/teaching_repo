@@ -16,7 +16,7 @@
 
 Ollama와 4주차에 준비한 `qwen3.5:2b`를 사용한다. 유료 API 키와 별도 서비스 가입은 필요 없다. `OLLAMA_MODEL`·`OLLAMA_HOST`는 [shared](examples/src/shared/__init__.py)에서 읽는다.
 
-[실습지](lab.md)대로 `uv init --package --python 3.12 --vcs none week06-skeleton`으로 구조를 확인한 뒤 교재 `examples` 전체를 개인 작업 폴더에 복사한다. 한 uv 프로젝트에서 세 교시를 이어간다. 설치와 모델 준비는 수업 전에 마친다.
+[실습지](lab.md)대로 `uv init --package --python 3.12 --vcs none week05-skeleton`으로 구조를 확인한 뒤 교재 `examples` 전체를 개인 작업 폴더에 복사한다. 한 uv 프로젝트에서 세 교시를 이어간다. 설치와 모델 준비는 수업 전에 마친다.
 
 각 `src/<모듈>/__init__.py`의 `main()`이 실행 시작점이다. `[project.scripts]`가 명령과 함수를 연결하고 `[build-system]`의 `uv_build`가 패키지를 설치한다. scripts를 바꾸면 `uv sync`를 다시 실행한다.
 
@@ -33,7 +33,7 @@ Ollama와 4주차에 준비한 `qwen3.5:2b`를 사용한다. 유료 API 키와 �
 - [ ] `prompt | model | StrOutputParser()`의 각 단계가 내놓는 값을 설명했다.
 - [ ] `ex03`에서 알려 준 수업용 색을 후속 질문으로 확인했다.
 - [ ] 이력을 비운 경우와 비교하고, 새 실행에서는 기억이 사라지는 이유를 적었다.
-- [ ] 역할을 바꾼 코드와 `week06_note.md`를 개인 저장소에 남겼다.
+- [ ] 역할을 바꾼 코드와 `week05_note.md`를 개인 저장소에 남겼다.
 
 6주차에는 이번 주 연결의 입력에 검색한 문서를 넣어 출처 있는 RAG 답변기를 만든다. [다음 주 안내](../week06_embeddings_rag/README.md)
 

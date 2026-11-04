@@ -229,7 +229,7 @@ while True:
 ```
 
 - `ex02`–`ex04` send only the current question. `ex05` also sends earlier questions and answers. Exit with `/bye`.
-- Long chats grow the context until it hits the limit. Handling long material: Week 7 RAG.
+- Long chats grow the context until it hits the limit. Handling long material: Week 6 RAG.
 
 ---
 
@@ -373,7 +373,7 @@ ollama run student01-helper --think=false
 ```
 
 - No weights are copied or retrained. It's a **new name** with settings attached.
-- A system prompt only changes tone and format. It **doesn't add missing knowledge** (Week 7 RAG, Week 10 LoRA).
+- A system prompt only changes tone and format. It **doesn't add missing knowledge** (Week 6 RAG, Week 7 LoRA).
 
 ---
 

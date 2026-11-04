@@ -183,7 +183,7 @@ One task name selects preprocessing, model class, and postprocessing as a bundle
 |---|---|---|
 | `text-classification` | sentence → label + score | sentiment classification |
 | `text-generation` | prompt → continuation | class-assistant answers |
-| `feature-extraction` | sentence → vector | Week 7 |
+| `feature-extraction` | sentence → vector | Week 6 (same job via Ollama), Week 9 |
 | `token-classification` | sentence → per-word tags | comparison only |
 | `image-classification` | image → label | comparison only |
 

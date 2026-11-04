@@ -1,35 +1,21 @@
 [project]
 name = "osa-week06-rag"
 version = "0.1.0"
-description = "오픈소스 AI 응용 6주차 예제 — 임베딩·검색·RAG"
+description = "임베딩 검색과 RAG로 만드는 그리스·로마 신화 도우미"
 requires-python = ">=3.12"
-dependencies = [
-  "sentence-transformers",
-  "torch",
-  "numpy",
-  "httpx",
-  "python-dotenv",
-]
+dependencies = ["langchain-core", "langchain-ollama", "langchain-text-splitters", "numpy"]
 
 [project.scripts]
-ex01 = "ex01_chunk:main"
-ex02 = "ex02_embed:main"
-ex03 = "ex03_search:main"
-ex04 = "ex04_rag:main"
-ex05 = "ex05_eval:main"
+ex01 = "ex01_embed:main"
+ex02 = "ex02_search:main"
+ex03 = "ex03_compare:main"
+ex04 = "ex04_rag_chat:main"
+ex05 = "ex05_chunk:main"
+ex06 = "ex06_my_docs:main"
 
 [build-system]
 requires = ["uv_build>=0.8,<0.9"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
-module-name = ["ex01_chunk", "ex02_embed", "ex03_search", "ex04_rag", "ex05_eval", "shared"]
-
-# CUDA 휠 인덱스. 정확한 CUDA 태그(cu128 등)와 버전은 학기별 환경 기준표에서 확정한다.
-[[tool.uv.index]]
-name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu128"
-explicit = true
-
-[tool.uv.sources]
-torch = [{ index = "pytorch-cuda", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
+module-name = ["ex01_embed", "ex02_search", "ex03_compare", "ex04_rag_chat", "ex05_chunk", "ex06_my_docs", "shared"]

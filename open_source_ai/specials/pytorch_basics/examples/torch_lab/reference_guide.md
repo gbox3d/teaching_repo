@@ -23,7 +23,7 @@
 
 ```powershell
 $src = "<교재 저장소>\open_source_ai\specials\pytorch_basics\examples"
-$dst = "$HOME\osa-practice\week06"
+$dst = "$HOME\osa-practice\pytorch"
 New-Item -ItemType Directory -Force $dst | Out-Null
 Copy-Item -Recurse "$src\torch_lab" "$dst\torch_lab"
 Set-Location "$dst\torch_lab"
@@ -91,14 +91,14 @@ uv run python runlog.py                                # 기록 표
 - `tensor_basics.py`의 `time_matmul`에 `dtype` 인자를 추가해 float16 행렬곱을 비교한다(1교시 확장). 함수 하나만 바꾸고 나머지 절은 그대로 둔다.
 - `train_loop.py`에 `--patience` 옵션을 추가해 early stopping을 구현한다(2교시 확장). `history`와 `summary` 형식은 바꾸지 않아야 앞선 기록과 비교할 수 있다.
 - `sentences.txt`는 `my_sentences.txt`로 복사한 뒤 바꾼다. 원본은 기본 5문장의 대조군으로 남긴다. 실명·학번·기관명을 넣지 않는다.
-- `runlog.py`는 자기 프로젝트에 그대로 복사해 쓴다. `RunLog(name, config, device)` → 실험 → `finish(metrics)` 순서만 지키면 된다. 7주차 `ragcore.py`와 10주차 `common.py`는 파일 이름이 다를 뿐 같은 항목(모델·설정·시간·최대 메모리)을 남긴다.
-- `outputs/`는 커밋하지 않는다. 증거로 낼 JSON 3~4개는 개인 저장소의 `evidence/week06/`에 복사한다.
+- `runlog.py`는 자기 프로젝트에 그대로 복사해 쓴다. `RunLog(name, config, device)` → 실험 → `finish(metrics)` 순서만 지키면 된다. 7주차 `common.py`도 같은 항목(모델·설정·시간·최대 메모리)을 남긴다.
+- `outputs/`는 커밋하지 않는다. 증거로 낼 JSON 3~4개는 개인 저장소의 `evidence/pytorch/`에 복사한다.
 
 ## 기본값과 환경 기준표
 
 | 환경변수 | 기본값 | 용도 |
 |---|---|---|
-| `HF_EMBED_MODEL` | `intfloat/multilingual-e5-small` | 3교시 임베딩 모델(`AutoModel`). 6주차 RAG 예제와 같은 값 |
+| `HF_EMBED_MODEL` | `intfloat/multilingual-e5-small` | 3교시 임베딩 모델(`AutoModel`). 9주차 문서 RAG 앱과 같은 값 |
 | `HF_HOME` | (주석 상태) | Hugging Face 캐시 위치. 공용 캐시를 쓸 때만 주석을 풀고 경로를 적는다. 값 없이 `HF_HOME=`으로 켜 두면 캐시가 현재 폴더의 `hub/`로 잡혀 사전 캐시를 못 찾는다 |
 | `HF_HUB_OFFLINE` | (설정 시 `1`) | 캐시만 사용. 네트워크 없는 실습실에서 켠다 |
 | `HF_TOKEN` | (비워 둠) | 이 주차 모델은 토큰이 필요 없다. 값은 `.env`에만 둔다 |

@@ -52,7 +52,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 3 | 1장 | 재현 가능한 Python 오픈소스 프로젝트 | uv 프로젝트, CLI, 설정 로더 | [`week03_reproducible_python`](week03_reproducible_python) |
 | 4 | 1장 종합 | Ollama와 로컬 LLM | Ollama 클라이언트, Modelfile, 1차 종합과제 | [`week04_ollama_local_llm`](week04_ollama_local_llm) |
 | 5 | 2장 | LangChain 맛보기 | 프롬프트 연결, 대화 기억·스트리밍 | [실행 예제](week05_langchain_basics/README.md) |
-| 6 | 2장 | 임베딩·검색·RAG | 출처 있는 문서 답변기, 평가셋 | [실행 예제](week06_embeddings_rag/README.md) |
+| 6 | 2장 | 임베딩·검색·RAG | 신화 50편 검색, 출처 있는 신화 도우미, 내 문서 도우미 | [실행 예제](week06_embeddings_rag/README.md) |
 | 7 | 2장 | PEFT/LoRA 경량 파인튜닝 | 작은 데이터·어댑터·전후 비교 | [실행 예제](week07_peft_lora/README.md) |
 | 8 | 2장 종합 | 수시평가와 2차 종합과제 | 실기평가, 출처 기록·RAG 미니프로젝트 | [`week08_midterm`](week08_midterm) |
 | 9 | 3장 | Streamlit으로 AI 앱 만들기 | 첫 화면, 대화 앱, 문서 RAG 앱 | [실행 예제](week09_streamlit_apps/README.md) |

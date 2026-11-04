@@ -10,7 +10,7 @@
 |---|---|
 | 2주차 | `LICENSE`, `license_matrix.md`(확장 대상) |
 | 5주차 | 프롬프트 연결, 대화 이력·스트리밍 |
-| 6주차 | `examples/`의 `ex01`~`ex05` 파이프라인, 모델·문서 출처, `evalset.json` |
+| 6주차 | `examples/`의 `ex01`~`ex06` 신화 도우미 예제(임베딩 검색·출처 있는 답·내 문서 조각 나누기)와 `week06_note.md`. 사용한 모델(`qwen3.5:2b`, `bge-m3`)의 라이선스는 이 과제에서 새로 확인한다 |
 | 7주차 | 작은 LoRA 실험의 전후 비교. RAG 필수 산출물과는 구분해 기록 |
 
 ## 필수 산출물
@@ -24,7 +24,7 @@
    - `docs/`에 자기 문서 10개 이상(자체 작성 또는 라이선스가 허용하는 문서, 개인정보 없음).
    - `chunk → embed → search → answer` 파이프라인. 답에 출처(파일명·chunk id)를 표시한다.
    - 컨텍스트에 없는 질문에는 "모른다"로 답하는 경로.
-   - 모델·주소는 환경변수 + 기본값(`OLLAMA_HOST`, `OLLAMA_MODEL`, `HF_EMBED_MODEL` 등)으로 읽는다. 요청 JSON에 `stream`·`think`·`options`를 명시한다.
+   - 모델·주소는 환경변수 + 기본값(`OLLAMA_HOST`, `OLLAMA_MODEL`, `OLLAMA_EMBED_MODEL` 등)으로 읽는다. 요청 JSON에 `stream`·`think`·`options`를 명시한다.
 3. **평가와 실패 분석**
    - `evalset.json` 10문항(질문·정답 키워드·정답 출처).
    - `eval.py` 실행 결과: retrieval hit rate·출처 일치율. `outputs/`에 JSON으로 남기고 README에 표로 옮긴다.

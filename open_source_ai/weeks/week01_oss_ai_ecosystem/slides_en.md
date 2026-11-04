@@ -75,9 +75,8 @@ Weeks without a project have no submission. Instead, **each week's lab results a
 ```text
 Weeks 1–3    Personal repo + uv project skeleton + LICENSE
 Week 4       Ollama API client CLI                              ← Project 1
-Weeks 5–7    HF model/data analysis, embeddings, sourced RAG     ← Project 2
-Week 9       Team project proposal
-Weeks 10–12  LoRA experiments, data & evaluation, service beta   ← Project 3
+Weeks 5–8    LangChain chat, embeddings/search/RAG, small LoRA   ← Project 2
+Weeks 9–12   Streamlit app, team proposal, data & eval, beta     ← Project 3
 Weeks 13–15  Testing/CI/security, release v0.1.0, presentation   ← Project 4
 ```
 

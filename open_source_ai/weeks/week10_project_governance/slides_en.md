@@ -223,7 +223,7 @@ uv run python vram_estimate.py --candidate "qwen3:8b,8.2B,4" --candidate "qwen3:
 | Volume | LoRA can start with as few as 40–60 self-written examples |
 | Eval split | Set aside 10–20 questions from the start that are never used for training |
 
-- Week 5's `SOURCES.md` and Week 7's `evalset.json` already stand as evidence for your data candidates.
+- The sources of the texts you added to your Week 6 document assistant, plus Week 7's `SOURCES.md` and `experiments/run-001.md`, already stand as evidence for your data candidates.
 - "We'll get data later" is not a plan — it's a **risk**.
 
 **Question:** Who writes your team's first 50 examples, and when?

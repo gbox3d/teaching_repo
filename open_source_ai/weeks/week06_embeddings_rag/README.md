@@ -1,93 +1,48 @@
-# 6주차 — 임베딩·검색·RAG 응용
+# 6주차 — 임베딩 검색과 RAG
 
-## 이번 주 질문
+모델이 모르는 글을 찾아서 프롬프트에 넣어 주면, 모델을 바꾸지 않고도 그 글을 근거로 답하게 할 수 있다. 이 방법이 RAG(검색 증강 생성)다. 이번 주 결과물은 그리스·로마 신화 50편을 근거로 출처를 밝히며 답하는 터미널 도우미와, 자기 글을 넣어 쓰는 내 문서 도우미다.
 
-> 모델이 모르는 내 문서를 근거로, 출처를 밝히며 답하게 하려면 무엇을 검색하고 무엇을 넣어야 하는가?
+## 목표와 교시별 결과
 
-## 학습 목표
-
-수업을 마치면 다음을 할 수 있다.
-
-1. 문서를 chunk 크기·겹침·문장 경계 기준으로 분할하고, chunk 크기가 검색 결과에 미치는 영향을 관찰 결과로 설명한다.
-2. sentence-transformers 또는 Ollama `/api/embed`로 청크를 임베딩해 numpy 인덱스를 만들고 코사인 유사도 top-k 검색을 수행한다.
-3. 검색 결과를 system·context·question 구조의 프롬프트로 조립해 Ollama `/api/chat`으로 출처(`파일명#번호`)가 붙은 답을 생성한다.
-4. 컨텍스트에 없는 질문에 "찾을 수 없다"로 답하는 경로와 `num_ctx`·top-k의 한계를 확인하고, 프롬프트 인젝션 위험을 설명한다.
-5. 10문항 평가셋으로 retrieval hit rate와 출처 일치율을 측정하고 실패 사례의 원인을 chunk 경계·용어 불일치·top-k 부족으로 분류한다.
-6. 2차 종합과제의 RAG 미니프로젝트 요건을 자기 저장소 기준으로 점검한다.
-
-## 누적 결과물
-
-5주차 프롬프트·모델 연결에 검색한 자료를 넣는다. 임베딩과 코사인 유사도는 이번 주에 처음 배우며 PyTorch 특강을 먼저 들을 필요가 없다. 검색 단계와 context를 조립하는 위치를 구분해 읽는다.
-
-얼굴·이미지 임베딩의 비교를 도입 시연으로 사용할 수 있다. 두 사진에서 벡터를 추출해 유사도를 비교한 뒤 문서 임베딩으로 옮겨 설명한다. 얼굴 위치 검출과 유사도 비교를 구분하고, 얼굴 모델과 문서 모델의 벡터는 같은 좌표계가 아니므로 서로 직접 비교하지 않는다. [OpenCV 공식 시연 자료](https://docs.opencv.org/4.x/d0/dd4/tutorial_dnn_face.html)를 참고한다.
-
-이번 주 교시별 파이프라인(chunk → embed → search → answer → eval)은 **2차 종합과제(8주차)** 의 RAG 미니프로젝트 골격이다. 과제에서는 문서를 자기 문서 10개 이상으로 바꾸고 평가셋과 실패 분석을 붙인다. 5주차 대화 연결에 검색 근거를 추가하며, 9주차 Streamlit에서 이 입력·검색·답변을 화면으로 연결한다.
-
-## 수업 흐름
-
-| 블록 | 설명·시연 20분 | 직접 해결 실습 30분 | 핵심 증거 |
+| 교시 | 설명·시연 20분 | 실습 30분 | 실행 |
 |---|---|---|---|
-| 1교시 | 임베딩으로 문서를 찾는다: 왜 RAG인가(환각·최신성·출처·비용), 임베딩과 의미 유사도, 문서 분할(크기·겹침·경계), 코사인 top-k 검색, 벡터 DB 없이 numpy로 충분한 규모 | 문서를 나누고 임베딩으로 찾기: `ex01` → `ex02` → `ex03` 질의 2개 top-3, chunk 크기 300자와 150자 비교 | `search_note.md`(질의 2개 top-3 표, chunk 크기 비교 문장), `outputs/search-*.json` |
-| 2교시 | 검색 결과를 출처 있는 답으로: system·context·question 프롬프트 구조, 출처 표시(파일명#번호), `num_ctx`와 top-k의 한계, "자료에 없으면 찾을 수 없다" 지시, 프롬프트 인젝션 주의 | 출처 있는 답 생성과 거부 경로: `ex04`로 출처 있는 답 2건, 컨텍스트 밖 질문의 거부 확인, `--no-context`·`--num-ctx` 비교 | `rag_note.md`(답 2건과 인용 확인, 거부 결과, 비교 문장), `outputs/rag-*.json` 3건 이상 |
-| 3교시 | 평가셋으로 품질을 잰다: 검색 실패 유형(chunk 경계·용어 불일치·top-k 부족), 환각 점검(답이 컨텍스트에 근거하는가), 소형 평가셋과 hit rate, **2차 종합과제 안내** | 평가셋으로 품질 재기와 실패 분석: `ex05`로 top-k·chunk 크기별 hit rate 측정, 실패 사례 2개 원인 분석, 2차 과제 체크리스트 점검 | `eval_note.md`(평가 결과표, 실패 분석 2건, 과제 점검표), `outputs/eval-*.md` |
+| 1 | 임베딩(문장을 숫자 벡터로), 유사도, 벡터 저장소 검색 | 내 문장의 유사도 보기, 신화 검색과 TOP_K 비교 | `uv run ex01`, `uv run ex02` |
+| 2 | 찾은 자료를 프롬프트에 넣는 RAG, 출처와 거부 | 자료 없이 vs 넣고 비교, 규칙 한 줄 바꾸기 | `uv run ex03`, `uv run ex04` |
+| 3 | 긴 글을 조각으로 나누기, 조각 크기와 겹침, 내 문서 도우미 | CHUNK_SIZE 비교, 내 글을 자료 폴더에 넣기 | `uv run ex05`, `uv run ex06` |
 
-각 블록은 설명·시연 20분, 실습 30분, 휴식 10분으로 운영한다. 분반 시간표에 따라 두 블록과 한 블록이 다른 날에 배치될 수 있으며, 블록 순서는 바꾸지 않는다.
+각 교시는 설명·시연 20분, 실습 30분, 휴식 10분이다. 벡터 데이터베이스 서버, 재순위 모델, 평가셋은 이번 주 범위에 넣지 않는다.
 
-## 준비물
+## 준비와 구조
 
-- Git, VS Code, uv, Ollama, PowerShell. NVIDIA GPU가 있으면 `nvidia-smi`가 동작해야 한다(없어도 CPU 경로로 진행한다).
-- 사전 캐시된 모델: 임베딩용 `HF_EMBED_MODEL`(기본값 `intfloat/multilingual-e5-small`), 생성용 `OLLAMA_MODEL`(예제 기본값 `qwen3:8b`, CPU 소형 경로 `qwen3:0.6b`). 4·5주차 모델을 재사용하면 `.env`의 모델 이름을 실제 설치한 이름으로 맞춘다. Ollama 임베딩 경로는 `OLLAMA_EMBED_MODEL`도 준비한다. 실습 중 다운로드하지 않는다.
-- `examples/` 전체를 한 번 복사하고 프로젝트 루트에서 `uv sync --locked`를 수업 전에 마친다. 세 교시가 하나의 `.venv`·`.env`·문서·인덱스를 사용한다.
-- 4주차 `.env` 패턴과 5주차 프롬프트 연결 코드를 참고한다. 임베딩 모델과 문서 출처는 이번 주 `SOURCES.md`에 추가한다.
-- 정확한 도구 버전, 모델 ID·revision·용량은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
-- 실제 이름, 학번, 토큰, 비밀번호를 실습 파일·문서(`docs/`)·평가셋·공개 저장소에 넣지 않는다. `.env`는 커밋하지 않고 `.env.example`만 둔다. 표시 이름은 `student01`, 팀명은 `team-a` 같은 수업용 값을 쓴다.
+Ollama와 4주차 `qwen3.5:2b`, 임베딩 전용 모델 `bge-m3`를 쓴다. 생성 모델은 답을 만들고 임베딩 모델은 글을 숫자 벡터로 바꾸기만 한다. 두 모델이 `ollama list`에 보여야 하며 다운로드는 수업 전에 마친다.
 
-## 자료 안내
+[실습지](lab.md)대로 `uv init --package --python 3.12 --vcs none my-rag`로 구조를 확인한 뒤 교재 `examples` 전체를 개인 작업 폴더에 복사한다. 한 uv 프로젝트에서 세 교시를 이어간다. 패키지는 5주차의 `langchain-core`·`langchain-ollama`에 `langchain-text-splitters`·`numpy`를 더한 네 개다.
 
-- [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료
-- [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
-- [실행 예제](examples/README.md): 5주차와 같은 단일 uv 프로젝트다. `src/ex01_chunk`~`src/ex05_eval`에 예제별 `main()`을 두고 `src/shared`를 함께 쓴다. `period1`~`period3`에는 교시별 안내만 있다.
-- [따라하기 절차](walkthrough.md): 시연·실습을 `할 일 → 예상 결과 → 확인` 순으로 재현하는 절차서
-- 강의 대본: 강의자 별도 관리(비공개)
-- [2차 종합과제 안내](../week08_midterm/assignment_brief.md)와 [채점표](../week08_midterm/assignment_rubric.md): 8주차 폴더에 있다. 3교시에 미리 읽고 점검한다.
+각 `src/<모듈>/__init__.py`의 `main()`이 실행 시작점이다. `[project.scripts]`가 명령과 함수를 연결하고 `[build-system]`의 `uv_build`가 패키지를 설치한다. scripts를 바꾸면 `uv sync`를 다시 실행한다. 모델 설정과 신화 자료는 [shared](examples/src/shared/__init__.py)에 있고, 자료 파일은 `src/shared/data/`에 둔다.
 
-## 권장 진행 방식
+## 자료와 바꿔 보는 값
 
-1. 스크립트를 실행하기 전에 "어느 파일의 어느 문장이 1위로 나올지"를 먼저 예상해 적는다.
-2. 옵션(`--size`, `--top-k`, `--num-ctx`)은 한 번에 하나만 바꾸고, 바꾸기 전 결과와 나란히 기록한다.
-3. 답이 그럴듯해 보여도 `cited`·`cited_in_retrieved`·`refused` 필드로 근거를 확인한다. 인용이 검색 결과 밖이면 환각으로 본다.
-4. GPU가 없거나 임베딩 모델 로드가 실패하면 `--device cpu` 또는 `--backend ollama`로 같은 절차를 진행하고, 어느 경로였는지 기록에 남긴다.
-5. 기본 문제를 마친 뒤에만 확장 문제를 한다. `outputs/`는 커밋하지 않고 증거로 남길 파일만 `evidence/week06/`에 복사한다.
+자료는 수업용으로 새로 쓴 그리스·로마 신화 요약 50편(`myths.md`)과 오디세우스 귀향 이야기 한 편(`odyssey.md`)이다. 신화의 줄거리는 누구나 다시 쓸 수 있어 수업용 요약을 새로 썼다. 번역서의 문장이나 소설처럼 저작권이 있는 글은 교재에 넣지 않으며, 자기 PC에서만 쓰는 글은 3교시 내 문서 도우미에 넣어 볼 수 있다.
 
-## 완료 기준
+예제에 명령행 옵션은 없다. 파일 맨 위의 `TOP_K`, `CHUNK_SIZE`, `RULES` 같은 상수를 고치고 같은 명령을 다시 실행해 비교한다.
 
-- [ ] `ex01`을 300자와 150자로 실행해 청크 수·평균 글자 수를 표로 만들었다.
-- [ ] `ex02`로 인덱스 2개(`index`, `index-150`)를 만들고 백엔드·모델·장치·인코딩 시간을 기록했다.
-- [ ] 같은 질의 2개의 top-3가 chunk 크기에 따라 어떻게 달라지는지 한 문장씩 적었다.
-- [ ] `ex04`의 답 2건에 `[출처: 파일명#번호]`가 붙어 있고 인용이 검색 결과 안에 있음을 확인했다.
-- [ ] 컨텍스트 밖 질문에 "제공된 자료에서 찾을 수 없습니다"가 나왔고, `--no-context`와의 차이를 적었다.
-- [ ] `ex05`로 hit rate를 top-k 3·top-k 1·150자 인덱스 세 조건에서 측정해 표로 만들었다.
-- [ ] 실패 문항 2개(없으면 순위가 가장 낮은 2개)의 원인을 chunk 경계·용어 불일치·top-k 부족 중 하나로 분류하고 근거를 적었다.
-- [ ] 2차 종합과제 안내의 "제출 전 검사"를 자기 저장소 기준으로 표시하고 비어 있는 항목을 적었다. 기록에 토큰·개인정보가 없다.
+## 입력과 검색
 
-## 제출 증거
+여섯 예제 모두 `나>`에서 질문을 반복해 받으며 빈 줄은 건너뛰고 `/bye`로 종료한다. 질문마다 새로 검색하고 이전 대화는 보내지 않는다. 실행할 때마다 처음에 자료를 벡터로 바꾸느라 몇 초 걸린다. 작은 모델은 자료가 있어도 놓치거나, 질문의 표현이 자료와 멀면 검색이 빗나갈 수 있다. 그런 경우도 그대로 기록한다.
 
-이번 주는 별도 제출물이 없다. 아래 증거를 개인 저장소에 누적한다. `outputs/`는 `.gitignore`에 들어 있으므로 남길 파일은 `evidence/week06/`로 복사해 커밋한다.
+## 자료와 완료 기준
 
-1. `search_note.md`: 청크 수 표, 질의 2개 × chunk 크기 2개의 top-3 표, chunk 크기 비교 문장
-2. `rag_note.md`: 출처 있는 답 2건(질문·답·인용·`cited_in_retrieved`), 컨텍스트 밖 질문 결과, `--no-context`·`--num-ctx` 비교 문장
-3. `eval_note.md`: 세 조건의 hit rate 표, 실패 사례 2건(증상·원인 유형·근거·개선안), 2차 과제 점검표
-4. `evidence/week06/`: `search-*.json` 1건, `rag-*.json` 2건(정상·거부), `eval-*.md` 1건
-5. `git log --oneline -3` 결과(이번 주 commit 3개 이상)
+[슬라이드](slides.md) · [실습지](lab.md) · [따라하기](walkthrough.md) · [예제](examples/README.md)
 
-## 다음 주 연결
+- [ ] 문장 하나가 숫자 1024개가 되고, 뜻이 비슷한 문장의 유사도가 더 높다는 것을 실제 값으로 확인했다.
+- [ ] 신화 검색에서 `TOP_K`를 바꾼 결과와, 질문의 표현에 따라 1위가 달라진 경우를 적었다.
+- [ ] 같은 질문에 대한 자료 없는 답과 자료를 넣은 답을 비교하고 무엇이 달라졌는지 설명했다.
+- [ ] 자료에 없는 질문에 도우미가 어떻게 답했는지와 `[출처]` 줄의 점수를 기록했다.
+- [ ] `CHUNK_SIZE`를 바꿨을 때 조각 수와 검색 결과가 어떻게 달라졌는지 적었다.
+- [ ] 내 글 한 편을 자료 폴더에 넣고 그 글에 대해 질문한 결과와 `week06_note.md`를 개인 저장소에 남겼다.
 
-8주차 `week08_midterm`은 1~7주 내용을 혼자 재현하는 수시 실기평가와 2차 종합과제 제출 주다. 이번 주 프로젝트의 `ex05`와 루트의 `evalset.json`은 과제의 RAG 미니프로젝트로 확장되므로, 수업 전에 [2차 종합과제 안내](../week08_midterm/assignment_brief.md)의 필수 산출물 목록을 읽고 자기 문서 10개를 어떤 라이선스 조건으로 모을지 정해 둔다. 실기평가 범위에는 이번 주의 `/api/embed`·`/api/chat` 호출과 출처 표시도 포함된다.
+7주차에는 모델에게 보여 줄 근거를 바꾸는 대신 LoRA로 모델 자체를 조금 바꾼다. [다음 주 안내](../week07_peft_lora/README.md)
 
-## 참고 자료
+## 공식 자료
 
-- [Sentence Transformers 문서](https://sbert.net/)
-- [Transformers 문서](https://huggingface.co/docs/transformers/)
-- [Ollama API 레퍼런스](https://github.com/ollama/ollama/blob/main/docs/api.md)
-- [Ollama 문서](https://docs.ollama.com/)
-- [OWASP Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+[LangChain 임베딩](https://docs.langchain.com/oss/python/integrations/text_embedding/ollama) · [벡터 저장소](https://docs.langchain.com/oss/python/langchain/retrieval) · [텍스트 분할기](https://reference.langchain.com/python/langchain-text-splitters/) · [Ollama 임베딩 모델](https://ollama.com/search?c=embedding)

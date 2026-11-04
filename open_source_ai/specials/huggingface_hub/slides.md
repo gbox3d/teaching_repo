@@ -183,7 +183,7 @@ task 이름 하나가 전처리·모델 클래스·후처리를 한 벌로 고�
 |---|---|---|
 | `text-classification` | 문장 → 라벨·점수 | 감성 분류 |
 | `text-generation` | 프롬프트 → 이어 쓴 글 | 수업 도우미 답변 |
-| `feature-extraction` | 문장 → 벡터 | 7주차 |
+| `feature-extraction` | 문장 → 벡터 | 6주차(Ollama로 같은 일), 9주차 |
 | `token-classification` | 문장 → 단어별 태그 | 비교만 |
 | `image-classification` | 이미지 → 라벨 | 비교만 |
 

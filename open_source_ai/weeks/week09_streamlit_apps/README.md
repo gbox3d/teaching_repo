@@ -16,7 +16,7 @@
 
 [실습지](lab.md)대로 Python 3.12 패키지 프로젝트를 확인하고 `examples` 전체를 복사한다. 한 프로젝트 루트에서 세 명령을 실행한다. `main()`은 Streamlit 실행 시작점이고 scripts는 명령 연결, build-system은 패키지 설치 방법이다. scripts 수정 뒤에는 `uv sync`를 다시 실행한다.
 
-Ollama와 생성 모델 `qwen3.5:2b`, 6주차의 임베딩 모델 `intfloat/multilingual-e5-small`을 사용한다. 설치·다운로드는 수업 전에 마친다. 생성 모델은 `OLLAMA_MODEL`·`OLLAMA_HOST`, 임베딩 모델은 `HF_EMBED_MODEL`로 지정한다.
+Ollama와 생성 모델 `qwen3.5:2b`, 임베딩 모델 `intfloat/multilingual-e5-small`을 사용한다. 설치·다운로드는 수업 전에 마친다. 생성 모델은 `OLLAMA_MODEL`·`OLLAMA_HOST`, 임베딩 모델은 `HF_EMBED_MODEL`로 지정한다.
 
 7주차 PEFT 어댑터를 이 앱에서 바로 Ollama 모델 이름으로 넣지는 않는다. 기본 앱이 완성된 뒤 지원되는 실행 경로를 확인해 별도 연결한다.
 

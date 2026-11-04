@@ -158,11 +158,14 @@ OllamaSetup.exe /DIR="D:\Ollama"
 |---|---:|---|
 | `qwen3:8b` | 5.2 GB | 기본 생성 모델 |
 | `qwen3:0.6b` | 523 MB | CPU·소형 대체 |
-| `bge-m3` | 확정 필요 | Ollama 임베딩(7주차) |
+| `qwen3.5:2b` | 약 2.7 GB | 4~6·9주차 생성 모델(4주차부터 예제 기본값) |
+| `bge-m3` | 약 1.2 GB | Ollama 임베딩(6주차) |
 
 ```powershell
 ollama pull qwen3:8b
 ollama pull qwen3:0.6b
+ollama pull qwen3.5:2b
+ollama pull bge-m3
 ollama list
 ```
 

@@ -18,7 +18,7 @@
 
 ## 누적 결과물
 
-이 특강의 `model_cards.md`와 `SOURCES.md`는 8주차 2차 종합과제 「라이선스 분석 보고」의 첫 행들이 된다. 2교시에서 기록한 모델 ID와 commit hash는 5·7주차의 임베딩·RAG 답변기가 쓰는 모델 고정값이 되고, 3교시의 `datasets` 사용법은 10주차 LoRA 학습 데이터 준비에서 그대로 쓴다.
+이 특강의 `model_cards.md`와 `SOURCES.md`는 8주차 2차 종합과제 「라이선스 분석 보고」의 첫 행들이 된다. 2교시에서 기록한 모델 ID와 commit hash는 Hugging Face 임베딩 모델(9주차 문서 RAG 앱의 e5-small 등)을 쓸 때 출처를 적는 방법이 된다. 6주차는 Ollama `bge-m3`를 쓴다. 3교시의 `datasets` 사용법은 7주차 LoRA 학습 데이터 준비에서 다시 쓴다.
 
 ## 수업 흐름
 

@@ -1,87 +1,78 @@
 # 6주차 실행 예제
 
-5주차처럼 **한 uv 프로젝트**에서 예제별 명령을 실행한다. 세 교시 모두 복사한 `examples/`의 `pyproject.toml` 옆에서 작업한다.
+한 uv 프로젝트에서 여섯 명령을 실행한다. 명령은 복사한 `examples` 루트에서 실행하고, `period1`~`period3` README는 현재 교시의 소스를 안내한다. 자료는 수업용으로 새로 쓴 그리스·로마 신화 요약 50편과 오디세우스 귀향 이야기 한 편이다.
 
-| 교시 | 명령 | 여는 소스 | 역할 |
-|---|---|---|---|
-| 1 | `uv run ex01` | [ex01_chunk](src/ex01_chunk/__init__.py) | 문서 분할 |
-| 1 | `uv run ex02` | [ex02_embed](src/ex02_embed/__init__.py) | 임베딩 인덱스 생성 |
-| 1 | `uv run ex03` | [ex03_search](src/ex03_search/__init__.py) | 질문을 입력해 검색 |
-| 2 | `uv run ex04` | [ex04_rag](src/ex04_rag/__init__.py) | 검색 근거로 출처 있는 답변 |
-| 3 | `uv run ex05` | [ex05_eval](src/ex05_eval/__init__.py) | 평가셋으로 검색·답변 점검 |
+| 교시 | 안내 | 소스 | 실행 | 바꿔 볼 값 |
+|---|---|---|---|---|
+| 1 | [임베딩과 유사도](period1/README.md) | [ex01_embed](src/ex01_embed/__init__.py) | `uv run ex01` | `SENTENCES` |
+| 1 | 신화 검색 | [ex02_search](src/ex02_search/__init__.py) | `uv run ex02` | `TOP_K` |
+| 2 | [자료 없이 vs 자료 넣고](period2/README.md) | [ex03_compare](src/ex03_compare/__init__.py) | `uv run ex03` | `TOP_K` |
+| 2 | 출처 있는 신화 도우미 | [ex04_rag_chat](src/ex04_rag_chat/__init__.py) | `uv run ex04` | `RULES`, `TOP_K` |
+| 3 | [긴 글 나누기](period3/README.md) | [ex05_chunk](src/ex05_chunk/__init__.py) | `uv run ex05` | `CHUNK_SIZE`, `CHUNK_OVERLAP` |
+| 3 | 내 문서 도우미 | [ex06_my_docs](src/ex06_my_docs/__init__.py) | `uv run ex06` | `src/shared/data/`의 파일 |
 
-[1교시 안내](period1/README.md) · [2교시 안내](period2/README.md) · [3교시 안내](period3/README.md) · [옵션·공용 함수 안내](reference_guide.md)
+예제에 명령행 옵션은 없다. 바꿀 값은 각 파일 맨 위의 대문자 상수이며, 값을 고치고 같은 명령을 다시 실행해 비교한다.
 
-## 폴더 구조
+## 공용 코드와 자료
+
+[shared](src/shared/__init__.py)에 모델 설정과 신화 자료를 읽는 함수를 모았다. 예제는 `from shared import ...`로 가져다 쓴다.
+
+| 이름 | 역할 |
+|---|---|
+| `MODEL`, `EMBED_MODEL`, `HOST` | 생성 모델 `qwen3.5:2b`, 임베딩 모델 `bge-m3`, Ollama 주소. 환경변수 `OLLAMA_MODEL`·`OLLAMA_EMBED_MODEL`·`OLLAMA_HOST`가 있으면 그 값을 쓴다 |
+| `create_model()` | 5주차와 같은 `ChatOllama` (temperature 0, 생각 출력 끔) |
+| `create_embeddings()` | 문장을 벡터로 바꾸는 `OllamaEmbeddings` |
+| `load_myths()` | `data/myths.md`를 `## 제목` 단위로 나눈 (제목, 본문) 목록 |
+| `create_myth_store()` | 신화 50편을 벡터로 저장한 검색 저장소. `ex02`에서 직접 쓴 두 줄과 같다 |
+
+자료 파일은 코드와 함께 `src/shared/data/`에 둔다.
+
+| 파일 | 내용 | 쓰는 예제 |
+|---|---|---|
+| `myths.md` | 신화 요약 50편. `## 제목` 하나가 검색 단위 한 편 | ex02·ex03·ex04·ex06 |
+| `odyssey.md` | `## 제목`으로 나뉘지 않고 한 편으로 이어지는 긴 글(약 3,900자). 조각으로 나누는 연습용 | ex05·ex06 |
+
+`ex06`은 이 폴더의 `.md` 파일을 모두 읽으므로 자기 글을 `.md`로 저장해 넣으면 그 글에 대해 물을 수 있다.
+
+## 구조
 
 ```text
 examples/
 ├── pyproject.toml / uv.lock / .python-version
-├── .env.example / .gitignore
-├── src/
-│   ├── ex01_chunk/__init__.py
-│   ├── ex02_embed/__init__.py
-│   ├── ex03_search/__init__.py
-│   ├── ex04_rag/__init__.py
-│   ├── ex05_eval/__init__.py
-│   └── shared/
-│       ├── __init__.py     # 설정·임베딩·인덱스·입력
-│       ├── retrieval.py    # 검색·모델 일치 확인
-│       └── generation.py   # 프롬프트·Ollama 호출·출처 판정
-├── docs/                  # 직접 읽고 수정할 문서 6개
-├── evalset.json           # 세 교시가 함께 쓰는 평가셋
-└── period1~3/README.md     # 교시별 안내만 둔다
+└── src/
+    ├── ex01_embed/__init__.py
+    ├── ex02_search/__init__.py
+    ├── ex03_compare/__init__.py
+    ├── ex04_rag_chat/__init__.py
+    ├── ex05_chunk/__init__.py
+    ├── ex06_my_docs/__init__.py
+    └── shared/
+        ├── __init__.py
+        └── data/myths.md, odyssey.md
 ```
 
-예제마다 `main()`이 실행 시작점이다. `[project.scripts]`가 `ex01` 같은 명령을 해당 함수에 연결하고 `[build-system]`의 `uv_build`가 `src/` 패키지를 설치한다. scripts를 바꾸면 `uv sync`를 다시 실행한다.
-
-공용 기능은 `from shared import ...`, `from shared.retrieval import search`처럼 가져온다. 예제끼리 직접 import하지 않는다. `docs/`·`evalset.json`·`.env`·`outputs/`는 프로젝트에 한 벌만 두고 계속 사용한다.
+각 `src/<모듈>/__init__.py`의 `main()`이 실행 시작점이다. `[project.scripts]`가 `ex01` 같은 명령을 그 함수에 연결하고 `[build-system]`의 `uv_build`가 `src/` 패키지를 설치한다. scripts를 바꾸면 `uv sync`를 다시 실행한다. `shared`는 명령이 필요 없으므로 `module-name`에만 있다.
 
 ## 수업 전 준비
 
-새 프로젝트 구조를 직접 만드는 명령은 다음과 같다. `.python-version`·`pyproject.toml`·`src/`가 생기는지 확인한다. 교재를 아래처럼 복사하는 경우에는 이미 이 구조가 있으므로 `uv init`을 다시 실행하지 않는다.
-
 ```powershell
-uv init --package --python 3.12 --vcs none week06-rag
-```
-
-실습은 교재의 `examples/` 전체를 한 번 복사해 시작한다. 이미 작업 중인 폴더는 덮어쓰지 않는다.
-
-```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week06_embeddings_rag\examples"
-$dst = "$HOME\osa-practice\week06"
-New-Item -ItemType Directory -Force "$HOME\osa-practice" | Out-Null
-if (-not (Test-Path $dst)) { Copy-Item -Recurse $src $dst }
-Set-Location $dst
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }
-uv sync --locked
+ollama pull bge-m3
 ollama list
+uv sync
 ```
 
-원본에 `.venv/`·`.env`·`outputs/`가 이미 있다면 제외하고 교재 파일만 복사한다. 환경·lock 배포는 [공통 uv 가이드](../../../uv_guide.md)를 따른다.
+생성 모델은 4주차 `qwen3.5:2b`를 그대로 쓴다. 임베딩 모델 `bge-m3`는 글을 벡터로 바꾸는 전용 모델(MIT 라이선스, 약 1.2 GB)로 답을 생성하지 않는다. 두 모델이 `ollama list`에 보여야 한다. 다운로드는 수업 전에 마친다.
 
-임베딩 모델은 `.env`의 `HF_EMBED_MODEL`, 생성 모델은 `OLLAMA_MODEL`에 지정한다. 4·5주차 모델을 재사용할 때는 `ollama list`에 있는 정확한 이름으로 맞춘다. 패키지와 모델 다운로드는 수업 전에 마친다. 오프라인 수업에서는 준비한 캐시와 `HF_HUB_OFFLINE=1`을 사용한다.
+패키지는 5주차의 `langchain-core`·`langchain-ollama`에 글을 조각으로 나누는 `langchain-text-splitters`와 유사도 계산에 쓰는 `numpy`를 더했다. PyTorch는 설치하지 않는다.
 
-## 실행 순서
-
-```powershell
-uv run ex01 --size 300 --overlap 50
-uv run ex02 --chunks outputs/chunks-300.json
-uv run ex03
-uv run ex04
-uv run ex05 --top-k 3
-```
-
-`ex03`을 `/bye`로 종료한 뒤 `ex04`를 실행하고, `ex04`도 종료한 뒤 평가한다. 2·3교시에는 1교시 인덱스를 그대로 쓴다. 문서를 바꿨거나 인덱스가 없을 때만 `ex01`·`ex02`를 다시 실행한다.
+## 입력
 
 ```text
-나> uv.lock은 왜 커밋하는가
-(검색 결과 또는 출처를 붙인 답변)
-나> Apache-2.0 라이선스가 MIT와 다른 점은?
-(다음 결과)
+나> 메두사를 죽인 영웅은 누구야?
+  0.572  메두사와 고르곤 자매: 고르곤은 머리카락이 뱀이고 눈을 마주친 생물을 돌로 만드는 세 자매...
+  0.532  페르세우스와 메두사의 머리: 페르세우스는 황금 비로 변한 제우스와 다나에 사이에서 태어났다...
+  0.529  벨레로폰과 페가소스: 코린토스의 영웅 벨레로폰은 아테나의 도움으로 황금 굴레를 얻어 메두사...
 나> /bye
 ```
 
-빈 입력은 건너뛴다. 각 질문은 독립적으로 검색하며 앞 대화를 모델에 보내지 않는다. 같은 조건을 명령으로 재현하려면 `uv run ex03 --query "질문"`, `uv run ex04 --query "질문"`을 사용한다. `--query`는 여러 번 지정할 수 있다.
-
-결과는 루트 `outputs/`에 생긴다. 검색은 한 실행의 질문들을 JSON 하나에 누적하고, 답변은 질문마다 JSON을 남긴다. 제출할 증거만 골라 `evidence/week06/`에 복사한다.
+모든 예제가 `나>`에서 질문을 반복해 받는다. 빈 줄은 건너뛰고 `/bye`로 종료한다. 이번 주 예제는 질문마다 새로 검색하며 이전 대화는 보내지 않는다. 실행할 때마다 처음에 자료 전체를 벡터로 바꾸느라 몇 초 기다린다. 연결 실패는 Ollama 실행 상태를, 모델 오류는 `ollama list`에 두 모델이 있는지 확인한다.

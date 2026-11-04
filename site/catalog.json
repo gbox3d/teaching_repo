@@ -467,7 +467,7 @@
       "description": "Ollama → LangChain → RAG → LoRA → Streamlit 앱으로 이어지는 15주 과정과 Hugging Face·PyTorch 선택 특강입니다.",
       "status": "published",
       "accent": "#bc8cff",
-      "summary": "15개 주차 · 특강 2개 · 449장",
+      "summary": "15개 주차 · 특강 2개 · 447장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/open_source_ai",
       "chapters": [
         {
@@ -533,13 +533,13 @@
         {
           "id": "week06_embeddings_rag",
           "label": "6주차",
-          "title": "임베딩·검색·RAG 응용",
-          "description": "문서 분할·임베딩·벡터 검색으로 출처 있는 RAG 답변기를 만들고 평가합니다.",
+          "title": "임베딩·검색·RAG",
+          "description": "그리스·로마 신화 50편을 임베딩으로 검색하고, 찾은 자료를 넣어 출처를 밝히며 답하는 도우미와 내 문서 도우미를 만듭니다.",
           "type": "week",
           "en": {
             "label": "Week 6",
             "title": "Embeddings, Search, and RAG",
-            "description": "Retrieve relevant document chunks and answer with sources."
+            "description": "Search 50 Greek and Roman myths with embeddings, then build assistants that answer from retrieved text with sources, including one for your own documents."
           }
         },
         {

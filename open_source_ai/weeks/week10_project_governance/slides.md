@@ -223,7 +223,7 @@ uv run python vram_estimate.py --candidate "qwen3:8b,8.2B,4" --candidate "qwen3:
 | 양 | LoRA는 자체 작성 40~60건으로도 시작할 수 있다 |
 | 평가셋 분리 | 학습에 쓰지 않을 10~20문항을 처음부터 떼어 둔다 |
 
-- 6주차 `SOURCES.md`, 7주차 `evalset.json`이 그대로 데이터 후보 근거가 된다.
+- 6주차 내 문서 도우미에 넣은 글의 출처, 7주차 `SOURCES.md`·`experiments/run-001.md`가 그대로 데이터 후보 근거가 된다.
 - "데이터는 나중에 구한다"는 계획이 아니라 **위험**이다.
 
 **질문:** 여러분 팀의 첫 50건은 누가 언제 쓰는가?

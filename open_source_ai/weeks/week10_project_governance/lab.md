@@ -142,7 +142,7 @@ if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 uv sync
 ```
 
-6주차 `SOURCES.md`, 4주차 `week04_report.md`, 7주차 `evalset.json`을 열어 둔다. 모델·데이터 후보는 실제 사용한 자원에서 가져오고, 상세 후보 비교가 필요하면 Hugging Face 선택 특강의 `model_cards.md`를 참고한다.
+6주차 `week06_note.md`(내 문서 도우미에 넣은 글과 그 출처), 4주차 `week04_report.md`, 7주차 `SOURCES.md`·`experiments/run-001.md`를 열어 둔다. 모델·데이터 후보는 실제 사용한 자원에서 가져오고, 상세 후보 비교가 필요하면 Hugging Face 선택 특강의 `model_cards.md`를 참고한다.
 
 ### 문제 1 · 문제·사용자·범위
 

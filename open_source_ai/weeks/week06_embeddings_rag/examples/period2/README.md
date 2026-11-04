@@ -1,23 +1,12 @@
-# 6주차 2교시 — 검색 근거로 답변하기
+# 6주차 2교시 — 자료를 넣어 답하기
 
-1교시와 같은 **프로젝트 루트**에서 계속한다. `outputs/index.json`·`index.npy`를 그대로 사용한다.
+[실습지](../../lab.md)의 2교시를 따른다. 실행 위치는 복사한 `examples` 프로젝트 루트다. 1교시와 같은 프로젝트를 이어 쓴다.
 
-[ex04_rag](../src/ex04_rag/__init__.py)는 질문 입력 → 검색 → 답변 → 결과 저장 순서다. 프롬프트와 출처 판정은 [shared/generation.py](../src/shared/generation.py)에 있다. Ollama는 `.env`의 `OLLAMA_MODEL`을 실행할 수 있어야 한다.
+읽을 코드: [ex03_compare](../src/ex03_compare/__init__.py) · [ex04_rag_chat](../src/ex04_rag_chat/__init__.py) · [shared](../src/shared/__init__.py)
 
 ```powershell
+uv run ex03
 uv run ex04
 ```
 
-`uv.lock은 왜 커밋하는가`와 `Apache-2.0 라이선스가 MIT와 다른 점은?`를 입력해 출처를 확인한다. 이어서 자료 밖 질문 `LoRA의 rank는 무엇인가`를 입력하고 답을 관찰한다. `/bye`로 종료한다. 질문들은 독립적이며 이전 대화 이력을 보내지 않는다.
-
-조건을 고정해 비교할 때는 기존 옵션을 사용한다.
-
-```powershell
-uv run ex04 --query "uv.lock은 왜 커밋하는가" --show-prompt
-uv run ex04 --query "LoRA의 rank는 무엇인가" --no-context
-uv run ex04 --query "uv.lock은 왜 커밋하는가" --num-ctx 256
-```
-
-답변마다 `outputs/rag-*.json`에 질문·검색 출처·답·실제 요청을 저장한다. 출력의 `cited`·`cited_in_retrieved`·`refused`를 확인하고 문서 본문과 대조한다.
-
-실습 문제·시간표·완료 조건은 [2교시 실습지](../../lab.md#2교시-실습--출처-있는-답-생성과-거부-경로)를 따른다.
+`ex03`은 같은 질문에 대해 자료 없는 답과 찾은 자료 세 편을 프롬프트에 넣은 답을 차례로 보여 준다. `ex04`는 자료만 근거로 답하고 `[출처]` 줄에 사용한 글의 제목과 점수를 적는 신화 도우미다. 자료에 없는 질문도 입력해 본다. 빈 줄은 건너뛰고 `/bye`로 종료한다. 예상 → 실행 → 값 하나 수정 → 비교 → 기록 순서로 진행하며 실습 시간은 30분이다. 세부 시간표·입력 예시·완료 기준은 실습지에 있다.

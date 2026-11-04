@@ -19,7 +19,7 @@
 
 팀 저장소는 13주차에 pytest·ruff·CI가 초록불이 되었다. 2교시에 짝 팀이 우리 README만 보고 재현을 시도한다. 그 전에 처음 보는 사람이 읽을 문서 세트를 갖추고, 모델·데이터·의존성 라이선스가 우리 릴리스에 어떤 조건을 거는지 문서에 적어야 한다.
 
-이어받는 것: 팀 저장소 clone본(`main` 최신), 9주차 템플릿의 LICENSE·CONTRIBUTING·CODE_OF_CONDUCT, 5·8주차 `SOURCES.md`, 10·11주차 실험 기록·데이터 카드·평가 결과.
+이어받는 것: 팀 저장소 clone본(`main` 최신), 9주차 템플릿의 LICENSE·CONTRIBUTING·CODE_OF_CONDUCT, 7·8주차 `SOURCES.md`, 10·11주차 실험 기록·데이터 카드·평가 결과.
 
 ### 시간 배분
 
