@@ -28,3 +28,10 @@
 # 압축
 *.zip   binary
 *.7z    binary
+
+# ------------------------------------------------------------
+# Windows 전용 스크립트 — cmd.exe 는 LF 만 있는 .bat 에서 goto/call 라벨을 놓칠 수 있다
+# ------------------------------------------------------------
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+*.ps1   text eol=crlf

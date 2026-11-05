@@ -6,12 +6,13 @@ echo " GitHub Classroom Shared-PC Reset (macOS)"
 echo "========================================================"
 echo
 echo "This removes Git/GitHub credentials for the CURRENT user."
-echo "It also removes standard SSH keys and VS Code GitHub auth."
-echo "Browser cookies are NOT removed."
+echo "It also removes standard SSH keys, resets VS Code sign-in state"
+echo "and opens the GitHub sign-out page in your browser."
+echo "Close VS Code before continuing."
 echo
 read -r -p "Continue? [y/N]: " answer
 case "$answer" in
-  y|Y) bash ./github-classroom-reset.sh --execute --force --remove-ssh-keys --remove-vscode-auth; code=$? ;;
+  y|Y) bash ./github-classroom-reset.sh --execute --force --remove-ssh-keys --remove-vscode-auth --open-github-logout; code=$? ;;
   *) echo; echo "Cancelled. Nothing was changed."; code=0 ;;
 esac
 echo
