@@ -9,6 +9,7 @@
 
 ## Current goal
 
+- Android BLE 연계: 수업 정본 SmartIO + 공통 클래스 8개를 유지하고, 별도 `BleunoTest` 점검 앱 및 `bleuno/hardware/type_m/v1/` 마더보드 자료와 연결한다.
 - 오픈소스 AI 응용 15주 초판(2026-09-02~03 작성, 문서·링크·코드 자동 검증 통과)을 기준 PC(RTX 4070)에서 재현 검증해 개강 최소 2주 전 배포 가능 상태로 만든다.
 
 ## Near-term work
@@ -20,6 +21,7 @@
 5. `npm run build && npm test`가 통과한 상태로 main에 반영해 GitHub Pages에서 오픈소스 AI 덱 15개가 열리는지 확인한다.
 6. `_shared/` 승격 후보 검토: Git 세 영역·PR 흐름(웹 1·2주차 ↔ 오픈소스 AI 2주차), 비밀정보·릴리스 점검(웹 13주차 ↔ 오픈소스 AI 13·14주차).
 7. 학교 폴더 `univ_scoring_works/wku/subjects/opensw/materials.md`에 주차↔공용 모듈 매핑과 실제 배점·마감을 연결한다.
+8. Android BLE: type_m v1 원본의 SEN1·VIN 미연결과 모듈 핀 표기를 검토하고, 모터·서보용 설정·정지 동작을 확정한 뒤 확장 실습을 만든다. 기존 LED·DHT11 수업은 기존 보드 또는 Fake로 유지한다. `RealBleunoClient`의 CCCD 실패 시 READY 처리와 MTU 요청 실패 fallback을 보완할 때 공통 코드 복사본 5곳도 동기화한 뒤 실기 연결·명령·재연결을 검증한다. 이번 문서 정리에서는 회로와 런타임 코드를 수정하지 않았다.
 
 ## Structure decisions
 

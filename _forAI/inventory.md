@@ -8,6 +8,7 @@
 - [Build and validation commands](#build-and-validation-commands)
 - [Tests](#tests)
 - [Notes](#notes)
+- [Android BLE 연계](#android-ble-연계)
 
 ## Repository
 
@@ -72,3 +73,12 @@ npm test          # node scripts/check-site.mjs
 - 수업 시간 구조가 과목마다 다르다: 모바일·웹은 주 2회 × 90분(설명 30 + 실습 60), 오픈소스 AI는 60분 블록 × 3(설명 20 + 실습 30 + 휴식 10).
 - 오픈소스 AI 예제는 uv 프로젝트이며 `uv.lock`을 아직 커밋하지 않았다(환경 기준표 확정 후 기준 PC에서 생성).
 - `dist/`는 빌드 산출물로 추적하지 않는다. `site/`가 원본이다.
+
+## Android BLE 연계
+
+- 학생용 정본은 `android_programming`의 SmartIO 앱과 `bleuno/src/` 공통 클래스 8개다. `bleuno/`는 독립 Gradle 프로젝트가 아니다.
+- 12주차 day1·day2, 13주차 day1·day2, 14주차 day1의 `examples/dayN/bleuno/` 5곳은 공통 클래스 복사본이다. 2026-10-31 비교에서 8개 파일이 모두 정본과 일치했다.
+- 별도 `gbox3d/bleunoApp/BleunoTest`는 보드 점검·시연용 앱으로 연결한다. `Ex01Scaner`·`ScanerSample`은 검색 참고 예제다.
+- 펌웨어와 type_m v1 마더보드는 `gbox3d/bleuno`의 루트 및 `hardware/type_m/v1/`에서 관리한다. 이 교재에 설계를 복제하지 않는다.
+- type_m v1 원본은 `MovingTarget/MotorConT1`의 모터·서보 제어 보드다. 원본 확보·KiCad 이전·원본 대조는 완료했고, 전기적 미연결과 모듈 핀 표기 검토가 남아 있다. 원본 연결 근거는 `bleuno/hardware/type_m/v1/pinmap.md`에 있다.
+- 이번 로컬 경로는 `C:\Users\user\Desktop\work\teaching_repo`; 관련 저장소는 `C:\Users\user\Desktop\work\cronos\bleuno`, `bleunoApp`이다.

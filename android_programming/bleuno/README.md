@@ -4,6 +4,34 @@
 `BluetoothGatt`의 콜백은 클래스 안에 감싸져 있으므로 앱 코드에서는 `startScan`·`connect`·`send`·`onMessage` 네 가지만 부른다.
 보드가 없어도 `fake = true`로 같은 코드를 그대로 실행할 수 있다.
 
+## 교재와 별도 앱의 역할
+
+수업의 기준은 매주 확장하는 **SmartIO 앱과 이 폴더의 공통 클래스 8개**다.
+이 폴더는 독립 Android Studio 프로젝트가 아니며, 아래 안내대로 학생의 SmartIO 프로젝트에 넣는다.
+
+| 위치 | 역할 |
+|---|---|
+| 이 폴더의 `src/`와 주차별 SmartIO 예제 | 학생용 수업 코드. 같은 인터페이스로 Fake와 실제 보드를 바꿔 연습한다 |
+| [bleunoApp/BleunoTest](https://github.com/gbox3d/bleunoApp/tree/main/BleunoTest) | 강의자·조교의 보드 점검 및 명령 시연용 독립 앱 |
+| [bleunoApp](https://github.com/gbox3d/bleunoApp)의 `Ex01Scaner`, `ScanerSample` | 검색 기능을 따로 살펴보는 참고 예제 |
+| [bleuno](https://github.com/gbox3d/bleuno) | 펌웨어 정본. 마더보드 설계는 이 저장소의 `hardware/type_m/v1/`, `hardware/type_s/v1/`에서 모델별로 관리한다 |
+
+**BLEuno type_m v1의 모델명은 `type_m`, 하드웨어 버전은 `v1`**이며, 펌웨어 버전 `1.0.5_dev`와 구분한다.
+type_m v1 마더보드의 EasyEDA 원본을 확보하고 KiCad 이전·원본 대조를 마쳤다. 원본 설계의 전기적 미연결과 모듈 핀 표기 검토는 남아 있다.
+원본은 **모터·서보 제어 보드**로, 아래의 기존 LED 4개·DHT11 실습을 바로 적용할 수 없다.
+[type_m v1 원본 핀맵과 확인 사항](https://github.com/gbox3d/bleuno/blob/main/hardware/type_m/v1/pinmap.md)에 회로도·PCB에서 확인한 연결을 기록했다.
+아래 GPIO와 상태 LED 설명은 기존 수업 설정을 기준으로 한다. type_m 전용 펌웨어·TypeMControl은 Android 실기기와 BLE 준비·STOP·배경 전환·재연결을 확인했으며, 모터·서보의 실제 부하 구동·파형 계측은 아직 하지 않았다.
+
+type_m v1에서는 GPIO0이 배터리 분압 입력(CHKBAT), GPIO7이 모터 드라이버 SLEEP 제어다.
+따라서 기존 `ledpin=[4,3,1,0]`과 `dht11pin=7`을 그대로 적용하지 않는다.
+센서 커넥터의 SEN1은 원본에서 MCU에 연결되지 않았다. 기존 수업은 기존 보드 또는 Fake 모드로 유지한다. type_m v1 확장 실습의 부하 연결은 조교가 실제 전원과 결선을 점검한 장비에서 진행한다.
+
+모터·서보 확장 수업은 [type_m 전용 90분 실습](type_m_lab.md)을 따른다. 독립 앱 `bleunoApp/TypeMControl`과 펌웨어 환경 `type_m`을 사용하며, CCCD 구독·모델 확인·`ready` 응답을 거친 뒤 제어한다. 아래 SmartIO/Fake의 JSON·LED 명령 규약과 구분한다. 업로드·실기 검증 현황은 해당 실습 자료에서 확인한다.
+
+센서·입출력 커넥터 보드인 **type_s v1**은 [별도 원본 핀맵](https://github.com/gbox3d/bleuno/blob/main/hardware/type_s/v1/pinmap.md)을 참고한다.
+DHT·CDS·DS18B20은 커넥터 표기이며 센서 실장이나 현재 펌웨어 지원을 의미하지 않는다. 기존 LED 설정은 센서·분압 입력과 충돌하며, 기존 `dht11pin=7`은 D2에 해당한다(DHT 헤더 신호는 GPIO3).
+이 핀맵은 제조·실기 확정값이 아니다. 모델별 전원·외부 결선·펌웨어 설정을 검증하기 전에는 기존 보드 또는 Fake 모드의 실습 흐름을 유지한다.
+
 ## 1. 보드
 
 | 항목 | 값 |
@@ -20,7 +48,9 @@
 |---|---|
 | 빨강 | 전원이 막 들어옴(부팅 중) |
 | 파랑 깜빡임 | 연결을 기다리는 중. 이때만 검색 목록에 보인다 |
-| 꺼짐 | 앱과 연결됨. 연결되는 순간 4개 LED가 모두 꺼지고, 연결이 끊기면 다시 파랑 깜빡임으로 돌아간다 |
+| 파랑 고정 | 현재 TENSTAR 빌드의 소스 기준으로 앱과 연결됨. 외부 제어 LED는 모두 꺼지며, 연결이 끊기면 상태 LED가 다시 파랑 깜빡임으로 돌아간다 |
+
+내장 상태 LED와 앱으로 제어하는 외부 LED는 별개다. 다른 빌드·보드의 표시 방식은 실제 보드에서 확인한다.
 
 ## 2. 명령과 응답
 
@@ -44,7 +74,8 @@
 
 ### N은 LED 인덱스다
 
-`on 3`의 `3`은 GPIO 번호가 아니라 **LED 인덱스**다. 수업 보드에는 LED가 4개 있고 인덱스는 `0`, `1`, `2`, `3`이다.
+`on 3`의 `3`은 GPIO 번호가 아니라 **LED 인덱스**다. 기존 수업 설정은 LED 4개와 인덱스 `0`, `1`, `2`, `3`을 사용한다.
+아래 표는 기존 LED 보드에서 `ledpin = [4,3,1,0]`으로 설정한 경우다. type_m v1 마더보드의 GPIO0은 배터리 감지 입력이므로 이 표를 type_m v1 설정으로 사용하지 않는다.
 
 | 인덱스 | 보드 핀 |
 |---|---|

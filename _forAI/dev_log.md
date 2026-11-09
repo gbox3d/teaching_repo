@@ -6,6 +6,16 @@
 
 ## Entries
 
+### 2026-10-31 — Android BLE 교재·별도 앱·type_m v1 하드웨어 역할 정리
+
+- SmartIO와 `android_programming/bleuno/src/` 공통 클래스 8개를 학생용 기준으로 유지하고, `gbox3d/bleunoApp/BleunoTest`를 강의자·조교의 보드 점검·시연용으로 연결했다.
+- 과목 README·BLE 제공 클래스 안내·조교 설치 안내에 역할과 저장소 링크를 추가했다. 펌웨어·type_m v1 마더보드 자료는 `gbox3d/bleuno`의 `hardware/type_m/v1/`에서 관리한다.
+- 교재 GPIO 표가 기존 수업 설정이며 type_m v1 확정 핀맵이 아님을 표시했다. TENSTAR 연결 상태 LED 설명을 현재 펌웨어 소스와 맞췄고 실기 검증 대기를 명시했다.
+- 공통 클래스와 주차별 복사본 5곳의 8개 파일 해시가 일치함을 확인했다. 교재·점검 앱·펌웨어의 UUID·텍스트 명령 형식을 대조했다.
+- 교재와 `bleunoApp`의 변경 Markdown 13개, 로컬 링크 75개, 앵커 55개 및 코드 복사본 해시 40개 비교를 통과했다. 양쪽 저장소의 `git diff --check`도 통과했다.
+- 기존 `_forAI/` 문서에 이번 Android 연계 결정만 추가했다. Android 하위 중복 `_forAI/`는 만들지 않았다. 런타임 코드 수정·Git 커밋·Android 빌드·실기 검증은 하지 않았다.
+- 이후 확보한 EasyEDA 원본은 `MovingTarget/MotorConT1`의 모터·서보 제어 보드였다. 회로도·PCB 12부품·52핀 네트 매핑을 대조하고, 기존 LED·DHT11 설정의 충돌과 SEN1·VIN 미연결을 교재 안내에 반영했다. 원본 확보·KiCad 이전·원본 대조 완료와 남은 전기적 설계 검토·실기 검증을 구분했다.
+
 ### 2026-09-02 — 오픈소스 AI 응용 15주 교재 초판 작성
 
 - 원광대 수업계획서의 15주 주제를 공용 청사진으로 옮겨 `open_source_ai/weeks/weekNN_slug/` 15개 폴더를 만들었다. 각 폴더에 `README.md`, `slides.md`(Marp), `lab.md`, `examples/`(uv 프로젝트·템플릿)를 두고, 1·3·4·7·10·12주차에 `walkthrough.md`, 4·8·9·12·15주차에 평가 문서를 추가했다.
