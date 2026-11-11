@@ -25,7 +25,7 @@
 9. Android Wi-Fi 시뮬레이터에서 아직 확인하지 않은 것이 있다. 지금까지는 에뮬레이터와 펌웨어 소스로만 확인했다.
    - 실기기(PC와 같은 Wi-Fi)와 학교 Wi-Fi(같은 Wi-Fi 기기끼리 통신을 막는 설정)에서 검색·연결
    - 실제 보드에서 연결·해제 때 외부 LED가 꺼지는지
-   - 실제 보드에서 앱이 연결된 동안 `blink`를 보내면 내장 LED가 깜빡이는지. 펌웨어 소스로는 연결 중에는 깜빡임 작업이 내장 LED를 끈 채로 두므로(`main.cpp`) 깜빡이지 않을 것이다(예상). 확인되면 `bleuno/README.md` 2절과 `iot_sim/README.md` 5절의 내장 LED 설명을 고친다.
+   - 실제 보드에서 앱이 연결된 동안 `blink`를 보내면 내장 LED가 깜빡이는지. 펌웨어 소스로는 연결 중에는 깜빡임 작업이 내장 LED를 끈 채로 두므로(`main.cpp`) 깜빡이지 않는다. TENSTAR 빌드는 연결 중 `blink`·`stopblk`를 받으면 파랑 고정 표시가 꺼진다. 세 곳(`bleuno/README.md` 1·2절, `iot_sim/README.md` 5절)에 '펌웨어 소스 기준'으로 적어 두었다. 실보드로 확인되면 표시를 떼고, 다르면 세 곳을 고친다.
    - 수업 기준 AVD(API 33 이상)에서 실습지의 Logcat 줄을 다시 잰다. 지금 실측은 API 31 에뮬레이터 한 대다.
    - 14주차 예제의 [재연결] 버튼(47번)이 검색 중에 `stopScan()`을 부르지 않는 것을 고칠지 정한다. 고치면 15주차 예제와 walkthrough 인용도 같이 고친다.
    - 제어 화면의 명령 로그(`logText`)는 스크롤 설정이 없다(높이 0dp·weight 1). 14주차 기반 앱으로 잰 에뮬레이터에서는 앞의 몇 줄만 보였다. 같은 레이아웃이 12주차 day1·day2, 13주차 day1·day2, 14주차 day1, 15주차 rehearsal_solution·rehearsal_starter에 있다. 고칠지 정한다(기존 예제 문제). 고치면 각 주차 walkthrough의 `activity_control.xml` 전문도 같이 고친다.
