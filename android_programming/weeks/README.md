@@ -55,7 +55,7 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 | 7 | ViewModel과 StateFlow: 회전해도 살아 있는 상태 | 회전해도 이어지는 `연결 중… 3`, 상태에 맞게 켜지는 버튼 | [`week07_flow_ui_state`](week07_flow_ui_state/) |
 | 8 | 중간고사(개인 실기) | 1~7주 실습 제출을 정리한 문제 은행(수업에서 나간 범위)으로 연습하고, 값만 바뀐 같은 문제로 시험 | [`week08_midterm`](week08_midterm/) |
 | 9 | 앱 컴포넌트 비교와 1차 과제 발표 | `LogService` 시연, 1차 과제 발표(SmartIO 시뮬레이터 또는 자유 앱) | [`week09_services_project`](week09_services_project/) |
-| 10 | BroadcastReceiver와 런타임 권한 | 연결 화면 배터리 문구, [권한 확인] → 거절 AlertDialog → 설정 화면 | [`week10_receivers_permissions`](week10_receivers_permissions/) |
+| 10 | BroadcastReceiver와 런타임 권한 | 연결 화면 배터리 문구, [권한 확인] → 처음 거절은 Toast, 두 번 거절하면 AlertDialog → 설정 화면 | [`week10_receivers_permissions`](week10_receivers_permissions/) |
 | 11 | 목록과 저장: ListView·SharedPreferences·ContentProvider 비교 + 실기기 준비 | 장치 이름 목록, 앱을 다시 켜도 남는 `마지막 장치: …`, 실기기 실행 | [`week11_content_provider`](week11_content_provider/) |
 | 12 | BLE 기초: Bleuno 클라이언트로 검색·연결 | 보드 검색 목록, 목록 탭 → `준비됨`, 제어 화면 상태 표시 | [`week12_ble_gatt`](week12_ble_gatt/) |
 | 13 | BLE 출력 제어: 문자열 명령과 응답 | LED on/off 명령과 JSON 응답 로그, 허용 번호 검사·오류 표시 | [`week13_ble_output`](week13_ble_output/) |

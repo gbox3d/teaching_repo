@@ -10,7 +10,7 @@
 | [day1/MainActivity.kt](day1/MainActivity.kt) | `app › kotlin+java › com.example.smartio › MainActivity.kt` | `batteryReceiver`, `onStart` 등록(10번), `onStop` 해제(11번) |
 | [day1/activity_main.xml](day1/activity_main.xml) | `app › res › layout › activity_main.xml` | 맨 아래 `batteryText` 추가 |
 | [day1/strings.xml](day1/strings.xml) | `app › res › values › strings.xml` | `battery_unknown` 추가 |
-| [day2/MainActivity.kt](day2/MainActivity.kt) | `MainActivity.kt` | `permissionLauncher`, [권한 확인] 리스너(12번), `hasBlePermissions()`(13번), `showPermissionDialog()`(14번) |
+| [day2/MainActivity.kt](day2/MainActivity.kt) | `MainActivity.kt` | 넣는 순서대로 `hasBlePermissions()`(13번) → `showPermissionDialog()`(14번) → `permissionLauncher` → [권한 확인] 리스너(12번) |
 | [day2/Permissions.kt](day2/Permissions.kt) | `app › kotlin+java › com.example.smartio › Permissions.kt` (새 파일, New › Kotlin Class/File › **File**) | 제공 함수 `blePermissions()`. 받아서 붙여 넣는다 |
 | [day2/AndroidManifest.xml](day2/AndroidManifest.xml) | `app › manifests › AndroidManifest.xml` | `uses-feature` 1개, `uses-permission` 5개. `<manifest>` 태그에 `xmlns:tools`가 이미 있는지 먼저 보고, 없을 때만 한 줄 넣는다(두 번 넣으면 빌드 오류) |
 | [day2/activity_main.xml](day2/activity_main.xml) | `activity_main.xml` | `retryButton` 아래 `permissionButton` 추가 |
@@ -19,9 +19,10 @@
 | `dayN/ControlActivity.kt`, `dayN/activity_control.xml` | 제어 화면 | 7주차 그대로, 바꾸지 않는다 |
 | `day1/AndroidManifest.xml`, `dayN/res/values/themes.xml` | Manifest·테마 | 7주차 그대로. 내 파일에는 아이콘 등 줄이 더 있어도 된다 |
 
-`MainActivity.kt` 전체를 복사할 때 첫 줄 `package ...`는 내 프로젝트의 첫 줄을 그대로 둔다.
+예제 `.kt` 파일(`Permissions.kt` 포함)을 복사할 때 첫 줄 `package ...`와 `import com.example.smartio.databinding.…` 줄은 내 프로젝트의 것을 그대로 둔다.
 `ContextCompat`(core-ktx), `registerForActivityResult`(activity-ktx), `AlertDialog`(appcompat)는 4주차 `build.gradle.kts`의 의존성에 이미 들어 있다.
 주석 번호는 7주차 1~9에 이어 붙였다. 12번은 `onCreate` 안이라 파일에서는 10·11번보다 위에 있다.
+2일차 `MainActivity.kt`에 넣는 순서는 [따라하기](../walkthrough.md#2일차) 10→14단계를 따른다. 함수(13·14번)를 먼저 넣어야 `permissionLauncher`와 리스너에 빨간 줄이 생기지 않는다.
 
 ## 1. `object : BroadcastReceiver()` — 방송을 받는 틀
 
@@ -41,12 +42,13 @@ private val batteryReceiver = object : BroadcastReceiver() {
 ```kotlin
 override fun onStart() {
     super.onStart()
-    ContextCompat.registerReceiver(
+    val lastBattery = ContextCompat.registerReceiver(
         this,
         batteryReceiver,
         IntentFilter(Intent.ACTION_BATTERY_CHANGED),
         ContextCompat.RECEIVER_NOT_EXPORTED
     )
+    batteryReceiver.onReceive(this, lastBattery)
 }
 
 override fun onStop() {
@@ -62,8 +64,8 @@ override fun onStop() {
 | [연결] → 제어 화면 → [뒤로] | 돌아오자마자 현재 값 |
 
 - `IntentFilter(Intent.ACTION_BATTERY_CHANGED)`: 배터리 방송만 골라 받는다.
-- `RECEIVER_NOT_EXPORTED`: 다른 앱이 보낸 방송은 받지 않는다. 배터리 방송은 시스템이 보내므로 받는다.
-- `ACTION_BATTERY_CHANGED`는 등록하자마자 마지막 값이 한 번 온다.
+- `RECEIVER_NOT_EXPORTED`: 다른 앱이 보낸 방송은 받지 않는다. 나중에 오는 배터리 방송은 시스템이 보내므로 받는다. 등록 직후 보관돼 있던 값은 Android 12 이하에서 걸러질 수 있다(다음 항목).
+- 등록 함수는 마지막 배터리 방송(`Intent`)을 돌려준다. Android 13 이상은 등록하자마자 그 방송이 `onReceive`로 한 번 오지만, 12 이하는 오지 않을 수 있다(API 31 에뮬레이터에서 오지 않음을 확인). 그래서 돌려받은 값(`lastBattery`)으로 `onReceive`를 한 번 직접 불러 채운다.
 - 해제를 빼도 빌드는 된다. 등록·해제는 `onStart`/`onStop` 짝으로 둔다.
 
 ## 3. 배터리 값 꺼내기 — `getIntExtra`
@@ -138,14 +140,6 @@ fun blePermissions(): Array<String> {
 ## 6. 확인과 요청 — `checkSelfPermission`과 `registerForActivityResult`
 
 ```kotlin
-private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
-    if (hasBlePermissions()) {
-        Toast.makeText(this, "권한 OK", Toast.LENGTH_SHORT).show()
-    } else {
-        showPermissionDialog()
-    }
-}
-
 private fun hasBlePermissions(): Boolean {
     for (permission in blePermissions()) {
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
@@ -153,6 +147,16 @@ private fun hasBlePermissions(): Boolean {
         }
     }
     return true
+}
+
+private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
+    if (hasBlePermissions()) {
+        Toast.makeText(this, "권한 OK", Toast.LENGTH_SHORT).show()
+    } else if (blePermissions().any { permission -> shouldShowRequestPermissionRationale(permission) }) {
+        Toast.makeText(this, "권한이 있어야 장치를 찾을 수 있습니다", Toast.LENGTH_SHORT).show()
+    } else {
+        showPermissionDialog()
+    }
 }
 ```
 
@@ -168,14 +172,21 @@ binding.permissionButton.setOnClickListener {
 
 | 실행 결과 | 화면 |
 |---|---|
-| 처음 [권한 확인] | 시스템 권한 창 한 개(Android 12 이상은 "근처 기기") |
+| 처음 [권한 확인] | 시스템 권한 창 한 번(Android 12 이상 "근처 기기", 11 이하 "위치") |
 | 권한 창 [허용] | Toast `권한 OK` |
 | 허용한 뒤 [권한 확인] | 창 없이 Toast `권한 OK` |
-| 권한 창 [허용 안함] | 대화상자 `권한이 필요합니다` |
-| 같은 권한을 두 번 거절한 뒤 [권한 확인] | 권한 창 없이 곧바로 대화상자 |
+| 처음 권한 창에서 [허용 안함] | Toast `권한이 있어야 장치를 찾을 수 있습니다`. 대화상자는 뜨지 않고 설정으로 보내지 않는다 |
+| 다시 [권한 확인] | 권한 창이 한 번 더 뜬다 |
+| 두 번째에도 [허용 안함] | 대화상자 `권한이 필요합니다`와 [취소]·[설정으로] |
+| 그 뒤 [권한 확인] | 권한 창 없이 곧바로 대화상자 |
+| Manifest에 권한 선언이 없을 때 [권한 확인] | 권한 창 없이 곧바로 대화상자 |
 
 - 요청 틀은 클래스 변수 자리에서 만든다. 버튼 리스너 안에서 만들면 빌드는 되지만 누르는 순간 앱이 멈춘다.
-- `{ _ -> }`: 결과 묶음은 읽지 않고 `hasBlePermissions()`로 지금 권한을 다시 확인한다.
+- 요청 틀은 13·14번 함수를 이름으로 부르므로, 두 함수를 먼저 만든 뒤 넣는다.
+- `{ _ -> }`: 요청 결과가 나오면(창에서 고르거나 창 없이 시스템이 곧바로 답하면) 불린다. 결과 묶음은 읽지 않고 `hasBlePermissions()`로 지금 권한을 다시 확인한다.
+- `shouldShowRequestPermissionRationale(권한)`: 거절한 적이 있지만 아직 다시 물어볼 수 있으면 `true`다. 한 번도 묻지 않았을 때, 더는 물어볼 수 없을 때(두 번 거절·다시 묻지 않음), Manifest에 선언하지 않았을 때는 `false`다.
+- `blePermissions().any { permission -> … }`: 묶음 안에 조건이 `true`인 권한이 하나라도 있으면 `true`다. `hasBlePermissions()`의 `for` 문처럼 하나씩 보는 것을 한 줄로 쓴 모양이다.
+- Android 11(API 30) 이상은 같은 권한을 두 번 거절하면 시스템이 '다시 묻지 않음'으로 처리해 두 번째 거절 뒤 대화상자가 뜬다. Android 10 이하는 거절할 때 '다시 묻지 않음'을 체크해야 대화상자가 뜨고, 체크하지 않으면 계속 Toast가 뜬다.
 - 권한 창 문구와 버튼 이름은 OS 버전과 언어 설정에 따라 조금 다르다.
 
 ## 7. `AlertDialog`와 암시적 Intent — 설정 화면 열기
@@ -240,10 +251,12 @@ binding.backButton.setOnClickListener {
 
 ```text
 앱 시작 → onStart 등록 → 배터리 100% · 충전 중
-[권한 확인] ─┬─ 이미 허용 ─────────────▶ Toast "권한 OK"
-             └─ 권한 창 ─┬─ 허용 ──────▶ Toast "권한 OK"
-                         └─ 허용 안함 ─▶ 권한이 필요합니다 ─┬─ [설정으로] ▶ 앱 정보 화면
-                                                            └─ [취소]
+[권한 확인] ─┬─ 이미 허용 ──────────────────▶ Toast "권한 OK"
+             └─ 권한 창 ─┬─ 허용 ───────────▶ Toast "권한 OK"
+                         ├─ 처음 허용 안함 ─▶ Toast "권한이 있어야 장치를 찾을 수 있습니다"
+                         └─ 두 번째 허용 안함 ▶ 권한이 필요합니다 ─┬─ [설정으로] ▶ 앱 정보 화면
+                                                                   └─ [취소]
+두 번 거절한 뒤 [권한 확인] ─▶ 권한 창 없이 곧바로 권한이 필요합니다
 ```
 
 ## 공식 참고 자료

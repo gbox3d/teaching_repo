@@ -12,7 +12,7 @@
 
 | 예제 파일 | 내 프로젝트에서 바꿀 파일 | starter와 solution |
 |---|---|---|
-| [MainActivity.kt](rehearsal_starter/MainActivity.kt) → [완성](rehearsal_solution/MainActivity.kt) | `app › kotlin+java › com.example.smartio › MainActivity.kt` | TODO(1) 네 곳·TODO(3) 두 곳 본문만 다르다(starter 472행, 완성 493행) |
+| [MainActivity.kt](rehearsal_starter/MainActivity.kt) → [완성](rehearsal_solution/MainActivity.kt) | `app › kotlin+java › com.example.smartio › MainActivity.kt` | TODO(1) 네 곳·TODO(3) 두 곳 본문만 다르다(starter 475행, 완성 498행) |
 | [ControlActivity.kt](rehearsal_starter/ControlActivity.kt) → [완성](rehearsal_solution/ControlActivity.kt) | `… › ControlActivity.kt` | TODO(2) 세 곳 본문만 다르다(starter 247행, 완성 277행) |
 | [ContactsReader.kt](rehearsal_starter/ContactsReader.kt) | `… › ContactsReader.kt` | 같다(11주차) |
 | [bleuno/](rehearsal_starter/bleuno) 8개 | `… › com.example.smartio › bleuno` | 같다. 제공 [bleuno/src](../../../bleuno/src)와 같다 |
@@ -24,7 +24,7 @@
 - `build.gradle.kts`는 이 폴더에 없다. 4주차에 만든 파일을 그대로 쓴다([4주차 examples/day1/build.gradle.kts](../../week04_fragments_navigation/examples/day1/build.gradle.kts)). 본시험 starter는 이 파일까지 들어 있는 프로젝트 폴더로 배포한다.
 - `.kt` 파일 전체를 복사할 때 첫 줄 `package ...`는 내 프로젝트의 첫 줄을 그대로 둔다.
 - starter에서 회색으로 보이는 import 네 줄(`MainActivity.kt`의 `android.net.Uri`·`kotlinx.coroutines.delay`, `ControlActivity.kt`의 `androidx.appcompat.app.AlertDialog`·`androidx.core.content.ContextCompat`)은 TODO를 채우면 쓰인다. 지우지 않는다.
-- 연결 화면의 `private val useFake = true`는 starter 85행, 완성본 88행이다. 실보드로 시연할 때만 `false`로 바꾼다.
+- 연결 화면의 `private val useFake = true`는 starter 86행, 완성본 91행이다. 실보드로 시연할 때만 `false`로 바꾼다.
 
 ## 화면과 이름
 
@@ -44,15 +44,15 @@ TODO가 쓰는 이름은 모두 14주차에 이미 있다. 이번 주에 새로 
 
 | TODO | starter 위치 | 할 일 | 완성본 줄 |
 |---|---|---|---|
-| (1) | `MainActivity.kt` 13번 `hasBlePermissions()` 388~391행(아래 392행 `return true`는 남긴다) | `for`로 권한을 하나씩 확인, 허용 안 된 것이 있으면 `return false` | 392~399행 |
-| (1) | 14번 `showPermissionDialog()` 397~400행 | AlertDialog, [설정으로]는 이 앱 정보 화면 | 402~413행 |
-| (1) | 클래스 안 `permissionLauncher`의 `{ _ -> }` 65~66행 | 다시 확인해 `권한 OK` 또는 14번 | 64~70행 |
-| (1) | 12번 [권한 확인] 리스너 282~284행 | 허용이면 `권한 OK`, 아니면 `permissionLauncher.launch(…)` | 284~290행 |
+| (1) | `MainActivity.kt` 13번 `hasBlePermissions()` 391~394행(아래 395행 `return true`는 남긴다) | `for`로 권한을 하나씩 확인, 허용 안 된 것이 있으면 `return false` | 397~404행 |
+| (1) | 14번 `showPermissionDialog()` 400~403행 | AlertDialog, [설정으로]는 이 앱 정보 화면 | 407~418행 |
+| (1) | 클래스 안 `permissionLauncher`의 `{ _ -> }` 66~67행 | 다시 확인해 `권한 OK`, 아직 다시 물어볼 수 있으면 이유 Toast, 아니면 14번 | 65~73행 |
+| (1) | 12번 [권한 확인] 리스너 283~285행 | 허용이면 `권한 OK`, 아니면 `permissionLauncher.launch(…)` | 287~293행 |
 | (2) | `ControlActivity.kt` 12번 `isAllowedIndex()` 200~202행(아래 203행 `return false`는 남긴다) | 0~3 또는 -1이면 `true` | 226~234행 |
 | (2) | 2번 LED Switch 리스너 59~63행 | 빈 칸 → 허용 번호 → `on`/`off` 보내기·로그·`pauseButtons()` | 58~81행 |
 | (2) | onStart 8번의 `} else if (result != null) {` 가지 179~182행 | 응답 로그, 오류면 빨간 글자·창, `ok`면 초록 | 195~210행 |
-| (3) | `MainActivity.kt` 50번 `startConnectTimeout()` 457~459행 | 앞 코루틴 취소, `launch`로 새로 시작해 보관, 51번 부르기 | 468~473행 |
-| (3) | 51번 `waitConnectTimeout()` 466~470행 | 10초 뒤 아직 연결 중이면 Toast·끊기·화면 되돌리기 | 478~492행 |
+| (3) | `MainActivity.kt` 50번 `startConnectTimeout()` 460~462행 | 앞 코루틴 취소, `launch`로 새로 시작해 보관, 51번 부르기 | 473~478행 |
+| (3) | 51번 `waitConnectTimeout()` 469~473행 | 10초 뒤 아직 연결 중이면 Toast·끊기·화면 되돌리기 | 483~497행 |
 
 ## 1. 권한을 하나씩 확인하기 — `for`와 `checkSelfPermission`
 
@@ -83,6 +83,8 @@ private fun hasBlePermissions(): Boolean {
 private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
     if (hasBlePermissions()) {
         Toast.makeText(this, "권한 OK", Toast.LENGTH_SHORT).show()
+    } else if (PermissionHelper.required().any { permission -> shouldShowRequestPermissionRationale(permission) }) {
+        Toast.makeText(this, "권한이 있어야 장치를 찾을 수 있습니다", Toast.LENGTH_SHORT).show()
     } else {
         showPermissionDialog()
     }
@@ -103,13 +105,17 @@ binding.permissionButton.setOnClickListener {
 | 권한을 허용한 상태에서 [권한 확인] | 요청 창 없이 Toast `권한 OK` |
 | 권한을 끈 상태에서 [권한 확인] | 시스템의 `근처 기기` 권한 요청 창 |
 | 요청 창에서 허용 | Toast `권한 OK` |
-| 요청 창에서 거절 | `권한이 필요합니다` 창(3번) |
+| 새로 설치한 뒤 처음 요청 창에서 거절 | Toast `권한이 있어야 장치를 찾을 수 있습니다`. 창은 뜨지 않는다 |
+| 다시 [권한 확인] → 또 거절 | `권한이 필요합니다` 창(3번) |
+| 그 뒤 [권한 확인] | 요청 창 없이 곧바로 `권한이 필요합니다` 창 |
 
 - 요청 틀은 **화면이 시작되기 전에** 만들어야 해서 클래스 안에 둔다. 버튼은 이미 만든 틀의 `launch`만 부른다.
 - 리스너 안에서 `registerForActivityResult`를 새로 만들어도 빌드는 된다. 하지만 권한이 없는 기기에서 누르는 순간 앱이 멈춘다(Logcat `java.lang.IllegalStateException: LifecycleOwner com.example.smartio.MainActivity@… is attempting to register while current state is RESUMED. LifecycleOwners must call register before they are STARTED.`).
-- `{ _ -> }`의 `_`는 넘어오는 결과를 쓰지 않는다는 뜻이다. 결과 대신 13번으로 지금 권한을 다시 확인한다.
+- `{ _ -> }`는 요청 결과가 나오면(창에서 고르거나, 창 없이 시스템이 곧바로 답하면) 불린다. `_`는 넘어오는 결과를 쓰지 않는다는 뜻이다. 결과 대신 13번으로 지금 권한을 다시 확인한다.
+- `shouldShowRequestPermissionRationale(권한)`은 거절한 적이 있지만 아직 다시 물어볼 수 있으면 `true`다. 한 번도 묻지 않았을 때, 더는 물어볼 수 없을 때(두 번 거절·다시 묻지 않음), Manifest에 선언하지 않았을 때는 `false`다. `any { permission -> … }`는 묶음 안에 조건이 `true`인 권한이 하나라도 있으면 `true`다(10주차).
+- Android 11(API 30) 이상은 같은 권한을 두 번 거절하면 시스템이 '다시 묻지 않음'으로 처리해, 두 번째 거절 뒤에 3번 창이 뜬다. Android 10 이하는 거절할 때 '다시 묻지 않음'을 체크해야 3번 창이 뜬다.
 
-## 3. 거절했을 때 — AlertDialog와 암시적 Intent
+## 3. 두 번 거절했을 때 — AlertDialog와 암시적 Intent
 
 ```kotlin
 private fun showPermissionDialog() {
@@ -127,7 +133,7 @@ private fun showPermissionDialog() {
 
 | 실행 결과 | 화면 |
 |---|---|
-| 요청 창에서 거절한 직후 | 제목 `권한이 필요합니다`, 문구, [취소]·[설정으로] |
+| 두 번째 거절 직후(더는 물어볼 수 없을 때) | 제목 `권한이 필요합니다`, 문구, [취소]·[설정으로] |
 | [설정으로] | Smart I/O Controller의 앱 정보 화면(여기서 권한 › 근처 기기를 허용할 수 있다) |
 | [취소] | 창만 닫힌다 |
 
@@ -248,11 +254,11 @@ private suspend fun waitConnectTimeout() {
 
 | 채점표 항목(구현 15) | 다시 쓰는 개념(처음 배운 주) | `rehearsal_solution` 줄 |
 |---|---|---|
-| 권한·SharedPreferences 3 | Manifest 선언(10주) → `checkSelfPermission` 반복(10·12주) → 요청 틀과 `launch`(10주) → 결과 `{ _ -> }` → 거절 AlertDialog와 암시적 Intent(10주). 저장·복원(11·14주)은 starter 완성분 | `AndroidManifest.xml` 10~26행, `MainActivity.kt` 64~70행, 284~290행, 392~399행, 402~413행, 저장 133·306·321~331행 |
-| `send`·`onMessage`·재연결 3 | `send("on $index")`와 명령 규약, `onMessage { json -> }`와 `BleunoMessage.result/message`, 오류 색·창, 허용 번호(13주). 재연결 버튼(14주)은 starter 완성분 | `ControlActivity.kt` 58~81행, 195~210행, 226~234행, `MainActivity.kt` 350~358행 |
-| 코루틴 timeout·취소·오류 3 | `Job` 보관과 `?.cancel()`, `lifecycleScope.launch`, `suspend fun`과 `delay`(6주), `connectionState.value`와 `listOf(…).contains(…)`(7·13·14주) | `MainActivity.kt` 108행, 468~473행, 478~492행 |
+| 권한·SharedPreferences 3 | Manifest 선언(10주) → `checkSelfPermission` 반복(10·12주) → 요청 틀과 `launch`(10주) → 결과 `{ _ -> }`와 `shouldShowRequestPermissionRationale`(처음 거절은 이유 Toast) → 두 번 거절 AlertDialog와 암시적 Intent(10주). 저장·복원(11·14주)은 starter 완성분 | `AndroidManifest.xml` 10~26행, `MainActivity.kt` 65~73행, 287~293행, 397~404행, 407~418행, 저장 136·309·324~334행 |
+| `send`·`onMessage`·재연결 3 | `send("on $index")`와 명령 규약, `onMessage { json -> }`와 `BleunoMessage.result/message`, 오류 색·창, 허용 번호(13주). 재연결 버튼(14주)은 starter 완성분 | `ControlActivity.kt` 58~81행, 195~210행, 226~234행, `MainActivity.kt` 353~361행 |
+| 코루틴 timeout·취소·오류 3 | `Job` 보관과 `?.cancel()`, `lifecycleScope.launch`, `suspend fun`과 `delay`(6주), `connectionState.value`와 `listOf(…).contains(…)`(7·13·14주) | `MainActivity.kt` 111행, 473~478행, 483~497행 |
 | UI·이벤트 3 | `setOnCheckedChangeListener`(4주), `isEmpty()`·`.toInt()`·문자열 템플릿(4주), `Toast`(3주), `isEnabled`로 잠깐 막기(5·13주) | `ControlActivity.kt` 58~81행, 238~250행 |
-| 상태 보존·StateFlow 3 | `connectionState` collect 틀(7·12주), 회전하면 시간 제한 다시 걸기(14주) — starter 완성분 | `MainActivity.kt` 235~281행, 335~337행, `ControlActivity.kt` 90~113행 |
+| 상태 보존·StateFlow 3 | `connectionState` collect 틀(7·12주), 회전하면 시간 제한 다시 걸기(14주) — starter 완성분 | `MainActivity.kt` 238~284행, 338~340행, `ControlActivity.kt` 90~113행 |
 
 세부 기준은 [채점표](../rubric.md)에 있다.
 

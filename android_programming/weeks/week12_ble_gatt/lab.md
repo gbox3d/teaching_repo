@@ -18,7 +18,7 @@
 
 1. `com.example.smartio` 아래에 **New › Package**로 `bleuno` 패키지를 만들고 [bleuno/src](../../bleuno/src)의 8개 파일을 붙여 넣는다. 방법은 [따라하기 2단계](walkthrough.md#2-bleuno-패키지-넣기)에 있다.
 2. 11주차 `ConnState.kt`를 지운다. 빨간색이 된 `ConnState`(`MainActivity.kt`, `ConnViewModel.kt`)에 **Alt+Enter**(맥 ⌥+Enter)로 `com.example.smartio.bleuno.ConnState`를 import한다.
-3. 11주차 `Permissions.kt`를 지운다. `blePermissions()`를 부르던 두 곳을 `PermissionHelper.required()`로 바꾸고 import한다.
+3. 11주차 `Permissions.kt`를 지운다. `blePermissions()`를 부르던 세 곳(12번 [권한 확인], 13번 `hasBlePermissions()`, `permissionLauncher`의 `else if` 줄)을 `PermissionHelper.required()`로 바꾸고 import한다.
 4. 실행해 11주차와 똑같이 [검색] → `연결 중… 5` → 목록 A·B·C가 되면 다음으로 간다.
 
 - 두 파일을 지운 뒤 빌드 창의 빨간 줄이 어느 파일 몇 번째 줄인지 먼저 읽는다. [막혔을 때](#막혔을-때)에 문구가 있다.
@@ -224,7 +224,7 @@ if (hasBlePermissions() == false) {
 | 상황 | 확인할 것 |
 |---|---|
 | `Unresolved reference 'Bleuno'.` (`ConnState`·`PermissionHelper`도 같은 모양) | 라이브러리는 다른 패키지(`com.example.smartio.bleuno`)라 import가 필요하다. 빨간 글자에 Alt+Enter(맥 ⌥+Enter) → Import |
-| `Unresolved reference 'blePermissions'.` (바로 위에 `Method 'iterator()' is ambiguous for this expression.`과 후보 목록이 먼저 보일 수 있다) | 위의 `iterator()` 목록은 이 오류의 여파다. `Permissions.kt`를 지웠는데 부르는 곳을 안 바꿨다. `blePermissions()`를 `PermissionHelper.required()`로 바꾼다 |
+| `Unresolved reference 'blePermissions'.` (바로 위에 `Method 'iterator()' is ambiguous for this expression.`과 후보 목록이 먼저 보일 수 있다) | 위의 `iterator()` 목록은 이 오류의 여파다. `Permissions.kt`를 지웠는데 부르는 곳을 안 바꿨다. `blePermissions()`를 `PermissionHelper.required()`로 바꾼다. 12·13번과 `permissionLauncher`의 `else if` 줄, 세 곳이다 |
 | `Argument type mismatch: actual type is 'com.example.smartio.bleuno.BleunoDevice', but 'kotlin.String' was expected.` | `devices.add(device)`로 썼다. `devices`는 글자만 담는 목록이다. `device.name`·`device.address`로 꺼내 `"$name ($address)"`를 넣는다 |
 | `Suspend function 'suspend fun collect(collector: FlowCollector<String>): Nothing' should be called only from a coroutine or another suspend function.` | `collect`를 틀 밖에서 불렀다. MainActivity 7번처럼 `lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { … } }` 안에 둔다 |
 | `Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'com.example.smartio.bleuno.BleunoClient?'.` | 제어 화면에서 `Bleuno.client.connectionState`로 썼다. `Bleuno.client?.connectionState?.collect`로 `?.`를 쓴다. `!!`는 쓰지 않는다 |

@@ -12,7 +12,7 @@ footer: 기말고사 · 개인 실기
 새 문법은 없습니다. 1일차는 **공개 리허설**, 2일차는 **본시험**입니다.
 
 ```text
-권한 확인  [권한 확인] → 요청 창 → 권한 OK / 권한이 필요합니다 창
+권한 확인  [권한 확인] → 요청 창 → 권한 OK / 처음 거절: 이유 Toast / 두 번 거절: 권한이 필요합니다 창
 LED 토글   on 3 → 응답: {"result":"ok","ms":"led(s) on"}
 시간 제한  10초 뒤에도 연결 중 → 연결 시간이 초과되었습니다
 ```
@@ -53,7 +53,7 @@ LED 토글   on 3 → 응답: {"result":"ok","ms":"led(s) on"}
 | UI·이벤트 | 3 | 빈 칸 Toast, 보낸 직후 0.3초 막기, 문구가 문항과 같음 |
 | 상태 보존·StateFlow | 3 | 상태 글자·버튼, 회전해도 그대로, 연결 중 회전 뒤 시간 제한 |
 | 코루틴 timeout·취소·오류 | 3 | 시간 초과 안내·끊기, 준비됨이면 조용히, `Job` 보관·취소 |
-| 권한·SharedPreferences | 3 | 권한 OK·요청 창, 거절 창·설정 화면, 마지막 장치 |
+| 권한·SharedPreferences | 3 | 권한 OK·요청 창, 거절 Toast·창·설정 화면, 마지막 장치 |
 | `send`·`onMessage`·재연결 | 3 | `on 3` 전송, 응답 줄·오류 표시, 허용 번호·[재연결] |
 
 채점자는 **제출한 두 파일**을 starter에 넣고 `useFake = true`로 실행합니다.
@@ -97,7 +97,7 @@ res/values   strings.xml · colors.xml(log_ok · log_error)  상수
 
 | TODO | 파일 · 자리(주석 번호) | 할 일 |
 |---|---|---|
-| (1) 네 곳 | `MainActivity` 13번 `hasBlePermissions()` · 14번 `showPermissionDialog()` · `permissionLauncher` 결과 · 12번 [권한 확인] | `for`로 권한 확인, 거절 창, 결과 받기, 요청 |
+| (1) 네 곳 | `MainActivity` 13번 `hasBlePermissions()` · 14번 `showPermissionDialog()` · `permissionLauncher` 결과 · 12번 [권한 확인] | `for`로 권한 확인, 두 번 거절 창, 결과 받기(허용·처음 거절·두 번 거절), 요청 |
 | (2) 세 곳 | `ControlActivity` 12번 `isAllowedIndex()` · 2번 LED Switch · 8번 응답 가지 | 허용 번호, `send`, 응답 로그·오류 표시 |
 | (3) 두 곳 | `MainActivity` 50번 `startConnectTimeout()` · 51번 `waitConnectTimeout()` | `Job` 보관, 10초 뒤 안내·끊기 |
 
@@ -113,8 +113,8 @@ res/values   strings.xml · colors.xml(log_ok · log_error)  상수
 3. **시간 초과는 숫자를 잠시 줄여 봅니다.** Fake는 2초 만에 `준비됨`이라 10초 안내가 안 뜨는 게 정상입니다.
 
 ```text
-MainActivity.kt:478:9 Unresolved reference 'delay'.     ← 1을 어기면
-MainActivity.kt:398:5 Missing return statement.         ← 2를 어기면
+MainActivity.kt:483:9 Unresolved reference 'delay'.     ← 1을 어기면
+MainActivity.kt:403:5 Missing return statement.         ← 2를 어기면
 ```
 
 `delay(10000)` → `delay(1000)`으로 확인하고 **꼭 되돌립니다.**

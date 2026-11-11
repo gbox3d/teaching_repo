@@ -191,6 +191,7 @@ Android 폰이 있으면 [따라하기 14단계](walkthrough.md#14-실기기-준
 | 기기 목록에 폰이 없다 | 충전 전용이 아닌 케이블인지, 폰 화면의 허용 창을 눌렀는지, USB 디버깅을 껐다 켠 뒤 다시 꽂았는지 |
 | 폰에 허용 창이 뜨지 않는다 | 폰의 잠금을 풀고 케이블을 다시 꽂는다 |
 | 설치는 되는데 `마지막 장치: 없음` | 정상. 폰에는 앱이 새로 설치되어 저장한 값이 없다 |
+| [권한 확인]에서 Toast `권한이 있어야 장치를 찾을 수 있습니다`가 뜬다 | 권한 창에서 거절했다. [권한 확인]을 다시 눌러 허용한다. 두 번 거절해 `권한이 필요합니다` 대화상자가 뜨면 [설정으로] › 권한에서 허용한다 |
 
 실기기에서 앱이 뜬 연결 화면을 위쪽 상태 표시줄이 함께 보이게(가능하면 Toast `권한 OK`도 함께) **캡처한다(캡처 3).** 알림 내용이 보이지 않게 한다.
 
@@ -201,7 +202,7 @@ Android 폰이 있으면 [따라하기 14단계](walkthrough.md#14-실기기-준
 1. `AndroidManifest.xml`의 `<application` 위에 `READ_CONTACTS` 권한을 선언한다.
 2. **New › Kotlin Class/File › Object**로 `ContactsReader.kt`를 만들고 [제공 파일](examples/day2/ContactsReader.kt)의 내용을 붙여 넣는다.
 3. `showPermissionDialog()` 아래에 `showContacts()`를 만든다. `ContactsReader.names(contentResolver)`가 비어 있으면 안내 대화상자, 아니면 `setItems`로 목록 대화상자를 띄운다.
-4. `deviceJob` 아래에 10주차 `permissionLauncher`와 같은 모양으로 `contactsLauncher`를 만든다. `Manifest`는 `android.Manifest`를 import한다.
+4. `deviceJob` 아래에 10주차 `permissionLauncher`와 같은 모양으로 `contactsLauncher`를 만든다. 거절은 둘로 나누지 않고 안내 대화상자만 띄운다. `Manifest`는 `android.Manifest`를 import한다.
 5. [연락처 보기] 리스너: 이미 허용이면 `showContacts()`, 아니면 `contactsLauncher.launch(arrayOf(Manifest.permission.READ_CONTACTS))`.
 
 | 조작 | 예상 화면 | 실제 화면 |

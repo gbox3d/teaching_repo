@@ -9,7 +9,7 @@
 |---|---|---|
 | [day1/bleuno/](day1/bleuno) 8개 (`Bleuno.kt`, `BleunoClient.kt`, `BleunoDevice.kt`, `BleunoMessage.kt`, `ConnState.kt`, `FakeBleunoClient.kt`, `PermissionHelper.kt`, `RealBleunoClient.kt`) | `app › kotlin+java › com.example.smartio › bleuno`(새 패키지, New › Package) | **제공 코드**. [bleuno/src](../../../bleuno/src)와 같다. 붙여 넣고 고치지 않는다 |
 | 11주차 `ConnState.kt`, `Permissions.kt` | `com.example.smartio` 바로 아래 | 1일차에 **지운다**. `bleuno`의 `ConnState`, `PermissionHelper.required()`를 쓴다 |
-| [day1/MainActivity.kt](day1/MainActivity.kt) | `app › kotlin+java › com.example.smartio › MainActivity.kt` | `useFake`·`client`·`bluetoothLauncher`, client 받기(24번), [검색] 교체(25~29번), [중지] 교체(30번), `onStop`에 `stopScan()`, `blePermissions()` → `PermissionHelper.required()` |
+| [day1/MainActivity.kt](day1/MainActivity.kt) | `app › kotlin+java › com.example.smartio › MainActivity.kt` | `useFake`·`client`·`bluetoothLauncher`, client 받기(24번), [검색] 교체(25~29번), [중지] 교체(30번), `onStop`에 `stopScan()`, `blePermissions()` → `PermissionHelper.required()`(12·13번, `permissionLauncher`의 `else if` 줄) |
 | [day1/ConnViewModel.kt](day1/ConnViewModel.kt) | `ConnViewModel.kt` | `import com.example.smartio.bleuno.ConnState` 한 줄 추가 |
 | [day2/MainActivity.kt](day2/MainActivity.kt) | `MainActivity.kt` | 주소 목록(31~33번), 0개 안내(34번), [다시 시도]·[해제] 35·36번, collect 대상 교체(37번), 줄 누르면 연결(38번), [제어 화면] 39번, 위치 확인(40~42번). `viewModel`과 9번 삭제 |
 | `day2`에 없는 `ConnViewModel.kt` | `ConnViewModel.kt` | 2일차에 **지운다** |

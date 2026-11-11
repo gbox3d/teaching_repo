@@ -64,22 +64,29 @@ starter는 **빌드·실행은 되고 기능만 비어 있는** 상태다. 시�
 2. **14번 `showPermissionDialog()`**: 40번 `showLocationDialog()`와 같은 모양으로 쓴다. 제목 `권한이 필요합니다`, 문구 `장치를 검색하고 연결하려면 권한이 필요합니다. 설정 › 권한에서 허용해 주세요.`, 버튼 [설정으로]·[취소].
    - [설정으로]는 `Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName"))`로 이 앱의 정보 화면을 연다(10주차).
    - 아직 이 함수를 부르는 곳이 비어 있어 화면은 바뀌지 않는다. 빌드만 확인한다.
-3. **`permissionLauncher`의 `{ _ -> }`**: 13번으로 권한을 다시 확인해 모두 허용이면 Toast `권한 OK`, 아니면 14번을 부른다.
-   - 바로 아래 `contactsLauncher`가 같은 모양이다. 요청 창 틀은 이미 클래스 안에 있으니 새로 만들지 않는다.
+3. **`permissionLauncher`의 `{ _ -> }`**: 13번으로 권한을 다시 확인해 모두 허용이면 Toast `권한 OK`, 아직 다시 물어볼 수 있으면(`shouldShowRequestPermissionRationale`) Toast `권한이 있어야 장치를 찾을 수 있습니다`, 아니면 14번을 부른다.
+   - 가운데 갈래는 `else if (…) { … }`로 쓴다. 조건은 10주차와 같은 `….any { permission -> shouldShowRequestPermissionRationale(permission) }`이고, 묶음은 `PermissionHelper.required()`다.
+   - `shouldShowRequestPermissionRationale(권한)`은 거절한 적이 있지만 아직 다시 물어볼 수 있으면 `true`다. 두 번 거절하면 `false`가 된다. Activity의 함수라서 import가 없다.
+   - 바로 아래 `contactsLauncher`가 같은 틀이다. 다만 이쪽에는 가운데 `else if` 갈래가 하나 더 있다. 요청 창 틀은 이미 클래스 안에 있으니 새로 만들지 않는다.
 4. **12번 [권한 확인]**: 13번이 `true`면 Toast `권한 OK`, 아니면 `permissionLauncher.launch(PermissionHelper.required())`.
    - 25번 [검색]의 첫 가지에 같은 `launch` 줄이 있다. 리스너 줄(`binding.permissionButton.setOnClickListener {`)은 starter에 있으니 한 줄 더 쓰지 않는다.
 
 권한을 끈 상태는 에뮬레이터에서 앱 아이콘을 길게 누르고 **앱 정보 › 권한 › 근처 기기 › 허용 안함**으로 만든다.
+거절은 권한이 처음 상태일 때 본다. 앱 아이콘을 길게 누르고 **앱 정보 › 제거**로 앱을 지운 뒤 Run ▶으로 다시 설치하면 권한이 처음 상태로 돌아간다.
 
 | 조작 | 예상 | 내 앱 (O/X) |
 |---|---|---|
 | 권한을 끈 채 [권한 확인] | 시스템의 `근처 기기` 권한 요청 창 |  |
 | 요청 창에서 허용 | Toast `권한 OK` |  |
 | 다시 [권한 확인] | 요청 창 없이 Toast `권한 OK` |  |
-| 권한을 다시 끄고 [권한 확인] → 거절 | `권한이 필요합니다` 창, [취소]·[설정으로] |  |
+| 앱을 지우고 다시 Run ▶ → [권한 확인] → 처음 요청 창에서 거절 | Toast `권한이 있어야 장치를 찾을 수 있습니다`. 창은 뜨지 않는다 |  |
+| 다시 [권한 확인] → 또 거절 | `권한이 필요합니다` 창, [취소]·[설정으로] |  |
+| 그 뒤 [권한 확인] | 요청 창 없이 곧바로 `권한이 필요합니다` 창 |  |
 | [설정으로] | Smart I/O Controller의 앱 정보 화면 |  |
 
-- 요청 창에서 거절한 뒤에는 Android가 요청 창을 더 띄우지 않고 곧바로 결과를 돌려주기도 한다. 앱 정보에서 끈 상태는 한 번, 새로 설치한 상태는 두 번 거절하면 그다음 [권한 확인]부터 요청 창 없이 곧바로 `권한이 필요합니다` 창이 뜬다(Android 14 에뮬레이터에서 확인). 앱 정보에서 권한을 다시 바꾸면(`허용` → `허용 안함`) 요청 창이 다시 뜬다.
+- 처음 거절하면 Toast만 뜨고, 창은 두 번째 거절에 뜬다. Android 11(API 30) 이상은 같은 권한을 두 번 거절하면 시스템이 '다시 묻지 않음'으로 처리해, 그 뒤로는 요청 창 없이 곧바로 `권한이 필요합니다` 창이 뜬다. 코드가 틀린 것이 아니다.
+- Android 10 이하는 거절할 때 '다시 묻지 않음'을 체크해야 창이 뜬다. 체크하지 않고 거절하면 계속 Toast가 뜬다.
+- 앱 정보에서 권한을 끈 상태에서 거절해 보려면, `권한이 필요합니다` 창이 나올 때까지 요청 창이 뜰 때마다 거절한다. 앱 정보에서 권한을 다시 바꾸면(`허용` → `허용 안함`) 요청 창이 다시 뜬다.
 - 권한 흐름에는 Logcat `tag:BLE` 줄이 없다.
 
 ### 4. TODO(2) — LED 번호 토글과 응답 표시
@@ -125,7 +132,7 @@ starter는 **빌드·실행은 되고 기능만 비어 있는** 상태다. 시�
 | 조작 | 보여야 할 것 | 내 앱 (O/X) |
 |---|---|---|
 | 권한을 허용한 채 [권한 확인] | 요청 창 없이 `권한 OK` |  |
-| 권한을 끈 채 [권한 확인] → 거절 → [설정으로] | `권한이 필요합니다` 창 → 앱 정보 화면 |  |
+| 권한을 끈 채 [권한 확인] → 거절(Toast만 뜨면 [권한 확인] → 한 번 더 거절) → [설정으로] | `권한이 필요합니다` 창 → 앱 정보 화면 |  |
 | [검색] → `ESP32_BLE_FAKE1` 줄 탭 | `연결 중` → `서비스 확인 중` → `준비됨`. 10초가 지나도 안내 없음 |  |
 | `준비됨`에서 회전 | 그대로 `준비됨`, [해제]·[제어 화면] 켜짐 |  |
 | [제어 화면] → 빈 칸 / `9` / `3` Switch | 4번 표와 같다 |  |
@@ -236,6 +243,7 @@ X가 있으면 [막혔을 때](#막혔을-때)부터 본다.
 | 상황 | 확인할 것 |
 |---|---|
 | `Unresolved reference 'delay'.` (51번 `delay(10000)` 줄) | 회색이던 `import kotlinx.coroutines.delay`가 자동 정리(**Optimize Imports**)로 지워졌다. 빨간 `delay`에 커서를 두고 Alt+Enter(맥 ⌥+Enter) → Import. `Uri`·`AlertDialog`·`ContextCompat`도 같은 이유로 지워질 수 있고, 같은 방법으로 되살린다 |
+| `Unresolved reference 'blePermissions'.` | 10주차 코드를 그대로 옮겼다. 15주차에는 `Permissions.kt`가 없고, 권한 묶음은 `PermissionHelper.required()`가 준다(12주차에 바꿨다). `blePermissions()`를 `PermissionHelper.required()`로 쓴다 |
 | `Unresolved reference 'permisionButton'.` | `binding.` 뒤 이름이 `activity_main.xml`의 id `permissionButton`과 다르다(`s`가 두 개). starter에 이미 있는 리스너 안에 채우고, 리스너 줄을 새로 쓰지 않는다 |
 | `Suspend function 'suspend fun waitConnectTimeout(): Unit' should be called only from a coroutine or another suspend function.` | 50번 `startConnectTimeout()`에서 51번을 코루틴 밖에서 불렀다. `connectTimeoutJob = lifecycleScope.launch { waitConnectTimeout() }`처럼 `launch { }` 안에서 부른다(6주차) |
 | `Argument type mismatch: actual type is 'kotlin.String', but 'kotlin.Int' was expected.` (`isAllowedIndex` 줄) | `isAllowedIndex(pin)`처럼 글자를 넘겼다. `pinEdit`의 글자는 `String`, `isAllowedIndex(index: Int)`는 숫자를 받는다. `isAllowedIndex(pin.toInt())` |

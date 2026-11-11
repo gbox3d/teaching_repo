@@ -29,7 +29,7 @@ on 3
 
 ### 2. starter 두 파일로 바꾸기
 
-1. 브라우저에서 [examples/rehearsal_starter/MainActivity.kt](examples/rehearsal_starter/MainActivity.kt)(472행)를 열어 전체를 복사한다. Project 창에서 `app › kotlin+java › com.example.smartio › MainActivity.kt`를 열고 **전체를 선택해 붙여 넣는다.** 첫 줄 `package com.example.smartio`는 내 프로젝트와 같다.
+1. 브라우저에서 [examples/rehearsal_starter/MainActivity.kt](examples/rehearsal_starter/MainActivity.kt)(475행)를 열어 전체를 복사한다. Project 창에서 `app › kotlin+java › com.example.smartio › MainActivity.kt`를 열고 **전체를 선택해 붙여 넣는다.** 첫 줄 `package com.example.smartio`는 내 프로젝트와 같다.
 2. 같은 방법으로 `ControlActivity.kt` 전체를 [examples/rehearsal_starter/ControlActivity.kt](examples/rehearsal_starter/ControlActivity.kt)(247행)로 바꾼다.
 
    두 파일은 14주차 완성본에서 TODO 아홉 곳의 **본문만** 비운 것이다. 함수를 여는 줄과 닫는 `}`, 그 위 주석, import는 한 줄도 바뀌지 않았다. 비운 자리는 아래처럼 TODO 주석만 남아 있다(`MainActivity.kt` 13번).
@@ -71,7 +71,7 @@ on 3
 | TODO | 파일 | 자리(주석 번호) | 할 일 | 단계 |
 |---|---|---|---|---|
 | (1) | `MainActivity.kt` | 13번 `private fun hasBlePermissions(): Boolean {` 안 | 권한을 하나씩 확인 | 4 |
-| (1) | `MainActivity.kt` | 14번 `private fun showPermissionDialog() {` 안 | 거절했을 때 안내 창 | 5 |
+| (1) | `MainActivity.kt` | 14번 `private fun showPermissionDialog() {` 안 | 두 번 거절했을 때 안내 창 | 5 |
 | (1) | `MainActivity.kt` | 클래스 안 `permissionLauncher = registerForActivityResult(…) { _ ->` 안 | 요청 창의 결과 받기 | 6 |
 | (1) | `MainActivity.kt` | onCreate 12번 `binding.permissionButton.setOnClickListener {` 안 | [권한 확인] 버튼 | 7 |
 | (2) | `ControlActivity.kt` | 12번 `private fun isAllowedIndex(index: Int): Boolean {` 안 | 보내도 되는 번호인지 확인 | 8 |
@@ -109,12 +109,12 @@ on 3
 2. 앱을 다시 열고 [검색]을 누른다. 시스템의 `근처 기기` 권한 요청 창이 뜬다(25번 [검색]이 13번을 부르기 시작했다).
 3. 허용을 눌러도 **아무 일도 없다.** 요청 창의 결과를 받는 곳이 아직 비어 있기 때문이다(6단계). [검색]을 다시 누르면 검색된다.
 
-### 5. TODO(1) ② showPermissionDialog() — 거절했을 때 안내 창
+### 5. TODO(1) ② showPermissionDialog() — 두 번 거절했을 때 안내 창
 
 14번 `private fun showPermissionDialog() {` 아래의 `// TODO(1)` **주석 네 줄**을 지우고 그 자리에 넣는다. 함수 전체는 아래와 같다.
 
 ```kotlin
-    // 14. 거절했을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
+    // 14. 두 번 거절해 더는 물어볼 수 없을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
     private fun showPermissionDialog() {
         AlertDialog.Builder(this)
             .setTitle("권한이 필요합니다")
@@ -137,22 +137,28 @@ on 3
 
 ### 6. TODO(1) ③ permissionLauncher — 요청 창의 결과 받기
 
-클래스 안(onCreate 밖) `private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->` 아래의 `// TODO(1)` **주석 두 줄**을 지우고 그 자리에 넣는다. 위 주석 두 줄부터 닫는 `}`까지는 아래와 같다.
+클래스 안(onCreate 밖) `private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->` 아래의 `// TODO(1)` **주석 두 줄**을 지우고 그 자리에 넣는다. 위 주석 세 줄부터 닫는 `}`까지는 아래와 같다.
 
 ```kotlin
     // 10주차 2일차: 권한 요청 창을 띄우고 결과를 받는 틀. 화면이 시작되기 전에 만들어 두어야 하므로 클래스 안(onCreate 밖)에 둔다.
-    // 사용자가 요청 창에서 고르면 { _ -> … }가 불린다. 넘어오는 결과는 쓰지 않고(_), 13번 함수로 지금 권한을 다시 확인한다.
+    // 요청 결과가 나오면 { _ -> … }가 불린다(창 없이 시스템이 곧바로 답할 때도). 넘어오는 결과는 쓰지 않고(_), 13번 hasBlePermissions()로 지금 권한을 다시 확인한다.
+    // 거절이면 둘로 나눈다. 다시 물어볼 수 있으면(처음 거절) 이유만 알리고, 더는 물어볼 수 없으면(두 번 거절) 14번 대화상자로 설정을 안내한다.
     private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
         if (hasBlePermissions()) {
             Toast.makeText(this, "권한 OK", Toast.LENGTH_SHORT).show()
+        } else if (PermissionHelper.required().any { permission -> shouldShowRequestPermissionRationale(permission) }) {
+            Toast.makeText(this, "권한이 있어야 장치를 찾을 수 있습니다", Toast.LENGTH_SHORT).show()
         } else {
             showPermissionDialog()
         }
     }
 ```
 
-- 사용자가 요청 창에서 허용이나 거절을 고르면 `{ _ -> }`가 불린다. 넘어온 결과(`_`)는 쓰지 않고 13번으로 지금 권한을 다시 확인한다.
-- 바로 아래 11주차 `contactsLauncher`와 같은 모양이다. 이 중괄호는 클래스 안에 있는 틀이라 `this`가 Activity다. Toast에 그대로 쓴다.
+- 요청 결과가 나오면(요청 창에서 허용이나 거절을 고르거나, 창 없이 시스템이 곧바로 답하면) `{ _ -> }`가 불린다. 넘어온 결과(`_`)는 쓰지 않고 13번으로 지금 권한을 다시 확인한다.
+- `shouldShowRequestPermissionRationale(권한)`: 사용자가 거절한 적이 있지만 아직 다시 물어볼 수 있으면 `true`다. 한 번도 묻지 않았을 때, 더는 물어볼 수 없을 때(두 번 거절·다시 묻지 않음), Manifest에 선언하지 않았을 때는 `false`다. Activity의 함수라서 import가 없다(10주차).
+- `PermissionHelper.required().any { permission -> … }`: 묶음 안에 중괄호 조건이 `true`인 권한이 하나라도 있으면 `true`다. 13번의 `for` 문처럼 하나씩 보는 것을 한 줄로 쓴 모양이다.
+- 그래서 거절은 두 갈래다. 아직 다시 물어볼 수 있으면(처음 거절) Toast로 이유만 알리고, 더는 물어볼 수 없으면(두 번 거절) 14번 창으로 설정을 안내한다.
+- 바로 아래 11주차 `contactsLauncher`와 같은 틀이다. 다만 이쪽에는 가운데 `else if` 갈래가 하나 더 있다. 이 중괄호는 클래스 안에 있는 틀이라 `this`가 Activity다. Toast에 그대로 쓴다.
 - 요청 틀(`registerForActivityResult`)은 새로 만들지 않는다. 화면이 시작되기 전에 만들어야 하므로 이미 클래스 안에 있다.
 
 실행한다. 4단계처럼 권한을 끈 뒤 [검색]을 누른다.
@@ -160,10 +166,18 @@ on 3
 | 조작 | 보여야 할 것 |
 |---|---|
 | 요청 창에서 허용 | Toast `권한 OK`. [검색]을 한 번 더 누르면 검색된다 |
-| 권한을 다시 끄고 [검색] → 요청 창에서 거절 | `권한이 필요합니다` 창. 문구 `장치를 검색하고 연결하려면 권한이 필요합니다. 설정 › 권한에서 허용해 주세요.`, 버튼 [취소]·[설정으로] |
+
+거절은 권한을 처음 상태로 돌려 놓고 본다. 에뮬레이터 홈에서 Smart I/O Controller 아이콘을 길게 누르고 **앱 정보 › 제거**로 앱을 지운 뒤 `Run ▶`으로 다시 설치하면 권한이 처음 상태로 돌아간다. 그다음 [검색]을 누른다.
+
+| 조작 | 보여야 할 것 |
+|---|---|
+| 처음 요청 창에서 거절 | Toast `권한이 있어야 장치를 찾을 수 있습니다`. 창은 뜨지 않고 설정으로 보내지 않는다 |
+| [검색] → 요청 창에서 다시 거절 | `권한이 필요합니다` 창. 문구 `장치를 검색하고 연결하려면 권한이 필요합니다. 설정 › 권한에서 허용해 주세요.`, 버튼 [취소]·[설정으로] |
+| 그 뒤 [검색] | 요청 창 없이 곧바로 `권한이 필요합니다` 창 |
 | [설정으로] | Smart I/O Controller의 앱 정보 화면. 뒤로 가기로 앱에 돌아온다 |
 
-요청 창에서 거절한 뒤에는 Android가 요청 창을 더 띄우지 않고 곧바로 결과를 돌려주기도 한다. 앱 정보에서 끈 상태는 한 번, 새로 설치한 상태는 두 번 거절하면 그다음 [검색]부터 요청 창 없이 곧바로 `권한이 필요합니다` 창이 뜬다(Android 14 에뮬레이터에서 확인). 앱 정보에서 권한을 다시 바꾸면(`허용` → `허용 안함`) 요청 창이 다시 뜬다.
+Android 11(API 30) 이상은 같은 권한을 두 번 거절하면 시스템이 '다시 묻지 않음'으로 처리한다. 그래서 두 번째 거절 뒤에 창이 뜨고, 그다음부터는 요청 창 없이 곧바로 창이 뜬다. Android 10 이하는 거절할 때 '다시 묻지 않음'을 체크해야 창이 뜨고, 체크하지 않고 거절하면 계속 Toast가 뜬다.
+앱 정보에서 권한을 끈 상태에서 거절해 보려면, `권한이 필요합니다` 창이 나올 때까지 요청 창이 뜰 때마다 거절한다. 앱 정보에서 권한을 다시 바꾸면(`허용` → `허용 안함`) 요청 창이 다시 뜬다.
 
 ### 7. TODO(1) ④ [권한 확인] 버튼
 
@@ -188,7 +202,7 @@ onCreate 12번 `binding.permissionButton.setOnClickListener {` 아래의 `// TOD
 | 조작 | 보여야 할 것 |
 |---|---|
 | 권한이 허용된 상태에서 [권한 확인] | 요청 창 없이 Toast `권한 OK` |
-| 권한을 끈 상태에서 [권한 확인] | `근처 기기` 권한 요청 창 → 허용하면 `권한 OK`, 거절하면 `권한이 필요합니다` 창 |
+| 권한을 끈 상태에서 [권한 확인] | `근처 기기` 권한 요청 창 → 허용하면 `권한 OK`. 거절하면 6단계 표처럼 아직 다시 물어볼 수 있을 때는 Toast `권한이 있어야 장치를 찾을 수 있습니다`, 더는 물어볼 수 없을 때는 `권한이 필요합니다` 창 |
 
 TODO(1)이 끝났다. 권한 흐름에는 Logcat `tag:BLE` 줄이 없다. 다음 단계로 가기 전에 권한을 **허용**해 둔다.
 
@@ -318,7 +332,7 @@ onStart 8번 `Bleuno.client?.onMessage { json ->` 안, 마지막 가지 `} else 
 ```
 
 - `connectTimeoutJob?.cancel()`: 앞 연결에서 건 10초 예약이 남아 있으면 먼저 멈춘다. 아직 없으면(`null`) `?.`에서 멈춘다(6주차 `scanJob?.cancel()`과 같다).
-- `connectTimeoutJob = lifecycleScope.launch { … }`: 새 코루틴을 시작하고 그 `Job`을 보관한다. `connectTimeoutJob` 변수는 클래스 안 108행에 이미 있다.
+- `connectTimeoutJob = lifecycleScope.launch { … }`: 새 코루틴을 시작하고 그 `Job`을 보관한다. `connectTimeoutJob` 변수는 클래스 안 111행에 이미 있다.
 - 51번 `waitConnectTimeout()`은 `suspend fun`이라 `launch { }` 안에서 부른다. 밖에서 바로 부르면 `Suspend function 'suspend fun waitConnectTimeout(): Unit' should be called only from a coroutine or another suspend function.`
 
 **Build › Make Project**로 빌드만 확인한다. 이 함수는 목록 줄 탭(49번)·[재연결] 버튼(49번)·회전(52번)에서 이미 불리고 있었지만, 51번이 비어 있어 아직 아무 일도 하지 않는다.
@@ -371,16 +385,16 @@ onStart 8번 `Bleuno.client?.onMessage { json ->` 안, 마지막 가지 `} else 
 
 ### 14. 완성 파일 전체와 비교하기
 
-TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity.kt](examples/rehearsal_solution/MainActivity.kt)(493행)와 [examples/rehearsal_solution/ControlActivity.kt](examples/rehearsal_solution/ControlActivity.kt)(277행)다. 두 파일은 14주차 [examples/day1/MainActivity.kt](../week14_ble_input_project/examples/day1/MainActivity.kt)·[examples/day1/ControlActivity.kt](../week14_ble_input_project/examples/day1/ControlActivity.kt)와 글자 단위로 같아서 여기에는 다시 싣지 않는다. 4~12단계에서 채운 아홉 덩어리 말고는 starter와 한 글자도 다르지 않다.
+TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity.kt](examples/rehearsal_solution/MainActivity.kt)(498행)와 [examples/rehearsal_solution/ControlActivity.kt](examples/rehearsal_solution/ControlActivity.kt)(277행)다. 두 파일은 14주차 [examples/day1/MainActivity.kt](../week14_ble_input_project/examples/day1/MainActivity.kt)·[examples/day1/ControlActivity.kt](../week14_ble_input_project/examples/day1/ControlActivity.kt)와 글자 단위로 같아서 여기에는 다시 싣지 않는다. 4~12단계에서 채운 아홉 덩어리 말고는 starter와 한 글자도 다르지 않다.
 
 | 채운 곳 | 완성본 줄 | 단계 |
 |---|---|---|
-| `MainActivity.kt` `permissionLauncher` | 64~70행 | 6 |
-| `MainActivity.kt` 12번 [권한 확인] | 284~290행 | 7 |
-| `MainActivity.kt` 13번 `hasBlePermissions()` | 392~399행 | 4 |
-| `MainActivity.kt` 14번 `showPermissionDialog()` | 402~413행 | 5 |
-| `MainActivity.kt` 50번 `startConnectTimeout()` | 468~473행 | 11 |
-| `MainActivity.kt` 51번 `waitConnectTimeout()` | 478~492행 | 12 |
+| `MainActivity.kt` `permissionLauncher` | 65~73행 | 6 |
+| `MainActivity.kt` 12번 [권한 확인] | 287~293행 | 7 |
+| `MainActivity.kt` 13번 `hasBlePermissions()` | 397~404행 | 4 |
+| `MainActivity.kt` 14번 `showPermissionDialog()` | 407~418행 | 5 |
+| `MainActivity.kt` 50번 `startConnectTimeout()` | 473~478행 | 11 |
+| `MainActivity.kt` 51번 `waitConnectTimeout()` | 483~497행 | 12 |
 | `ControlActivity.kt` 2번 LED Switch | 58~81행 | 9 |
 | `ControlActivity.kt` 8번 응답 가지 | 195~210행 | 10 |
 | `ControlActivity.kt` 12번 `isAllowedIndex()` | 226~234행 | 8 |
@@ -394,7 +408,7 @@ TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity
 | 조작 | 화면 | Logcat `tag:BLE` |
 |---|---|---|
 | 권한을 허용한 채 [권한 확인] | 요청 창 없이 `권한 OK` | 없음 |
-| 권한을 끈 채 [권한 확인] → 거절 → [설정으로] | `권한이 필요합니다` 창 → 앱 정보 화면 | 없음 |
+| 권한을 끈 채 [권한 확인] → 거절(Toast만 뜨면 [권한 확인] → 한 번 더 거절) → [설정으로] | `권한이 필요합니다` 창 → 앱 정보 화면 | 없음 |
 | (권한 허용 뒤) [검색] → `ESP32_BLE_FAKE1` 줄 탭 | `연결 중` → `서비스 확인 중` → `준비됨`, 10초 뒤에도 안내 없음 | `connectGatt(가짜): 00:11:22:33:44:01` … `onServicesDiscovered(가짜) → onDescriptorWrite → 준비됨` |
 | `준비됨`에서 회전 | 그대로 `준비됨`, [해제]·[제어 화면] 켜짐 | 새 줄 없음 |
 | [제어 화면] → 빈 칸 Switch | Toast `LED 번호를 입력하세요` | 새 줄 없음 |
@@ -420,7 +434,7 @@ TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity
 3. 1일차 리허설의 점검표(15단계)에서 TODO(1)이나 TODO(2)의 줄에 X가 남았다면, 먼저 `MainActivity.kt`·`ControlActivity.kt` 전체를 [rehearsal_solution/MainActivity.kt](examples/rehearsal_solution/MainActivity.kt)·[rehearsal_solution/ControlActivity.kt](examples/rehearsal_solution/ControlActivity.kt)로 바꾼다(2단계와 같은 방법). 완성본은 허용 자료다.
    - 시연 출력 제어의 응답 줄(O2)은 TODO(2)의 응답 가지가 있어야 생긴다. `LED 0 밝기` 막대로 LED만 켜서는 응답 줄이 붙지 않는다.
    - TODO(1)이 빈 starter는 권한을 늘 허용으로 본다. 권한이 없는 실기기에서 블루투스를 끈 채 [검색]을 누르면 앱이 멈춘다(Android 14 에뮬레이터에서 확인).
-4. `MainActivity.kt`에서 아래 줄을 찾아 `true`를 `false`로 바꾼다. 완성본에서는 88행이다(내가 채운 파일은 줄 번호가 조금 다를 수 있다).
+4. `MainActivity.kt`에서 아래 줄을 찾아 `true`를 `false`로 바꾼다. 완성본에서는 91행이다(내가 채운 파일은 줄 번호가 조금 다를 수 있다).
 
 ```kotlin
     // 12주차 1일차: true면 보드 없이 연습하는 가짜 클라이언트, false면 실제 보드에 연결하는 클라이언트를 만든다.

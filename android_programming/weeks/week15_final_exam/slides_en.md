@@ -12,7 +12,7 @@ You rewrite, on your own, three features of the **Smart I/O Controller** you bui
 There's no new syntax. Day 1 is a **public rehearsal**; Day 2 is the **real exam**.
 
 ```text
-Permission check  [권한 확인] → request prompt → 권한 OK / "권한이 필요합니다" dialog
+Permission check  [권한 확인] → request prompt → 권한 OK / 1st denial: reason Toast / 2nd denial: "권한이 필요합니다" dialog
 LED toggle        on 3 → 응답: {"result":"ok","ms":"led(s) on"}
 Timeout           still connecting after 10s → 연결 시간이 초과되었습니다
 ```
@@ -53,7 +53,7 @@ The 15-point implementation is graded by running it in Fake mode; the 5-point de
 | UI/events | 3 | Toast on empty field, 0.3s button block right after sending, wording matches the question |
 | State preservation/StateFlow | 3 | State text and buttons survive rotation; timeout still fires after rotating mid-connect |
 | Coroutine timeout/cancel/errors | 3 | Timeout warns and disconnects; stays quiet once ready; the `Job` is stored and canceled |
-| Permissions/SharedPreferences | 3 | Permission OK / request prompt, denial dialog / settings screen, last device |
+| Permissions/SharedPreferences | 3 | Permission OK / request prompt, denial Toast / dialog / settings screen, last device |
 | `send`/`onMessage`/reconnect | 3 | Sending `on 3`, showing the response line/errors, allowed numbers, [재연결] |
 
 Graders drop your **two submitted files** into the starter and run it with `useFake = true`.
@@ -97,7 +97,7 @@ res/values   strings.xml · colors.xml (log_ok · log_error)  constants
 
 | TODO | File · spot (comment number) | To do |
 |---|---|---|
-| (1) 4 spots | `MainActivity`, step 13 `hasBlePermissions()` · step 14 `showPermissionDialog()` · the `permissionLauncher` result · step 12 [권한 확인] | Check permission with `for`, show the denial dialog, handle the result, request it |
+| (1) 4 spots | `MainActivity`, step 13 `hasBlePermissions()` · step 14 `showPermissionDialog()` · the `permissionLauncher` result · step 12 [권한 확인] | Check permission with `for`, show the dialog after a second denial, handle the result (allowed / first denial / second denial), request it |
 | (2) 3 spots | `ControlActivity`, step 12 `isAllowedIndex()` · step 2 the LED switch · step 8 the response branch | Allowed numbers, `send`, log the response/show errors |
 | (3) 2 spots | `MainActivity`, step 50 `startConnectTimeout()` · step 51 `waitConnectTimeout()` | Store the `Job`, warn and disconnect after 10 seconds |
 
@@ -113,8 +113,8 @@ Hints live inside the starter: step 40 `showLocationDialog()`, step 7 [전체 �
 3. **Try a shorter number for the timeout.** Fake reaches `준비됨` in 2 seconds, so the 10-second warning not appearing is expected behavior.
 
 ```text
-MainActivity.kt:478:9 Unresolved reference 'delay'.     ← if you break rule 1
-MainActivity.kt:398:5 Missing return statement.         ← if you break rule 2
+MainActivity.kt:483:9 Unresolved reference 'delay'.     ← if you break rule 1
+MainActivity.kt:403:5 Missing return statement.         ← if you break rule 2
 ```
 
 `delay(10000)` → `delay(1000)` to check, then **be sure to change it back.**

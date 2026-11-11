@@ -1107,7 +1107,7 @@ class ControlActivity : AppCompatActivity() {
 
 아래 파일은 12주차 `examples/day2`와 글자 단위로 같다. 이번 주 1·2일차 모두 바꾸지 않는다. 같은 코드가 [examples/day1](examples/day1)과 [examples/day2](examples/day2)에 있다.
 
-`MainActivity.kt` — [examples/day1/MainActivity.kt](examples/day1/MainActivity.kt)(400행). 12주차 [따라하기](../week12_ble_gatt/walkthrough.md)에서 완성한 연결 화면 그대로라 여기에는 다시 싣지 않는다. 실보드로 바꿀 때 고치는 85행 `private val useFake = true` 한 줄 말고는 손대지 않는다. 내 파일과 비교할 때는 예제 파일을 연다.
+`MainActivity.kt` — [examples/day1/MainActivity.kt](examples/day1/MainActivity.kt)(405행). 12주차 [따라하기](../week12_ble_gatt/walkthrough.md)에서 완성한 연결 화면 그대로라 여기에는 다시 싣지 않는다. 실보드로 바꿀 때 고치는 88행 `private val useFake = true` 한 줄 말고는 손대지 않는다. 내 파일과 비교할 때는 예제 파일을 연다.
 
 `activity_main.xml` — [examples/day1/activity_main.xml](examples/day1/activity_main.xml)
 

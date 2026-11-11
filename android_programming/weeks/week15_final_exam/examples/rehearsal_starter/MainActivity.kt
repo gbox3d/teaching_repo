@@ -60,10 +60,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 10주차 2일차: 권한 요청 창을 띄우고 결과를 받는 틀. 화면이 시작되기 전에 만들어 두어야 하므로 클래스 안(onCreate 밖)에 둔다.
-    // 사용자가 요청 창에서 고르면 { _ -> … }가 불린다. 넘어오는 결과는 쓰지 않고(_), 13번 함수로 지금 권한을 다시 확인한다.
+    // 요청 결과가 나오면 { _ -> … }가 불린다(창 없이 시스템이 곧바로 답할 때도). 넘어오는 결과는 쓰지 않고(_), 13번 hasBlePermissions()로 지금 권한을 다시 확인한다.
+    // 거절이면 둘로 나눈다. 다시 물어볼 수 있으면(처음 거절) 이유만 알리고, 더는 물어볼 수 없으면(두 번 거절) 14번 대화상자로 설정을 안내한다.
     private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
         // TODO(1) 권한 확인 흐름 — 요청 창의 결과 받기(15주차 1일차 리허설).
-        //         13번 hasBlePermissions()로 지금 권한을 다시 확인한다. 모두 허용이면 Toast "권한 OK", 아니면 14번 showPermissionDialog()를 부른다.
+        //         13번 hasBlePermissions()로 지금 권한을 다시 확인한다. 모두 허용이면 Toast "권한 OK", 아직 다시 물어볼 수 있으면(shouldShowRequestPermissionRationale) Toast "권한이 있어야 장치를 찾을 수 있습니다", 아니면 14번 showPermissionDialog()를 부른다.
     }
 
     // 11주차 2일차: 연락처 권한 요청 틀. 10주차 permissionLauncher와 같은 모양으로 클래스 안(onCreate 밖)에 둔다.
@@ -363,15 +364,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다. 등록하자마자 마지막 배터리 값이 한 번 온다(10주차 1일차).
+    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다(10주차 1일차).
+    //     등록 함수는 마지막 배터리 방송을 돌려준다. Android 12 이하는 등록 직후 방송이 오지 않을 수 있어서, 돌려받은 값으로 문구를 한 번 바로 채운다.
     override fun onStart() {
         super.onStart()
-        ContextCompat.registerReceiver(
+        val lastBattery = ContextCompat.registerReceiver(
             this,
             batteryReceiver,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
+        batteryReceiver.onReceive(this, lastBattery)
     }
 
     // 11. 화면이 안 보이게 되면 등록을 푼다. onStart의 등록과 반드시 짝을 맞춘다(10주차 1일차).
@@ -392,7 +395,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    // 14. 거절했을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
+    // 14. 두 번 거절해 더는 물어볼 수 없을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
     private fun showPermissionDialog() {
         // TODO(1) 권한 확인 흐름 — 거절했을 때 안내 창(15주차 1일차 리허설).
         //         AlertDialog.Builder(this)로 제목 "권한이 필요합니다", 안내 문구, [설정으로]·[취소] 버튼이 있는 창을 띄운다.

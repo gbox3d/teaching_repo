@@ -11,7 +11,7 @@
 ## 학습 목표
 
 1. 채점표 구현 다섯 항목(UI·이벤트 / 상태 보존·StateFlow / 코루틴 timeout·취소·오류 / 권한·SharedPreferences / `send`·`onMessage`·재연결)이 SmartIO 코드의 어느 줄에서 드러나는지 말한다.
-2. starter의 TODO(1)을 채워 `for (permission in PermissionHelper.required())`로 권한을 확인하고, 요청 창 → 결과 받기 → 거절 AlertDialog → 설정 화면으로 이어지는 권한 흐름을 완성한다.
+2. starter의 TODO(1)을 채워 `for (permission in PermissionHelper.required())`로 권한을 확인하고, 요청 창 → 결과 받기(허용이면 `권한 OK`, 처음 거절은 이유 Toast, 두 번 거절은 AlertDialog) → 설정 화면으로 이어지는 권한 흐름을 완성한다.
 3. TODO(2)를 채워 허용 번호(`listOf(0, 1, 2, 3).contains(index)` 또는 `-1`)만 `Bleuno.client?.send("on $index")`로 보내고, `onMessage { json -> }`로 받은 응답을 로그에 쌓아 오류면 빨간 글자와 창으로 알린다.
 4. TODO(3)을 채워 `connectTimeoutJob`에 보관한 코루틴에서 `delay(10000)` 뒤에도 연결 중이면 안내하고 끊으며, Fake에서는 숫자를 잠시 줄여 확인한다.
 5. 실보드 앞에서 출력 제어(LED)와 입력 수신(`dht11`)을 시연하고, 평가자가 가리킨 콜백이 언제 불리는지 한 문장으로 답한다.
@@ -34,7 +34,7 @@ on 3
 입력 이력
 [뒤로]
 
-(2) 리허설 완성 — 연결 화면에서 권한을 거절했을 때
+(2) 리허설 완성 — 연결 화면에서 권한을 두 번 거절했을 때
 
 권한이 필요합니다
 장치를 검색하고 연결하려면 권한이 필요합니다. 설정 › 권한에서 허용해 주세요.
@@ -58,7 +58,7 @@ on 3
 - 14주차까지 만든 `SmartIO` 프로젝트. 없거나 실행되지 않으면 14주차 완성본([examples/day1](../week14_ble_input_project/examples/day1))을 받아 시작한다. 리허설 starter는 이 프로젝트에 두 파일만 덮어쓴다.
 - 에뮬레이터(AVD)는 **API 33 이상**. 리허설과 본시험 구현은 Fake로 끝까지 할 수 있다.
 - 2일차 시연용 **Android 실기기**(Android 12 이상 권장)와 USB 케이블. 없으면 1일차 전에 대여 단말을 신청한다. 보드는 2일차에 좌석별로 나눠 준다. 학생은 펌웨어를 고치거나 올리지 않는다.
-- 다시 읽어 둘 것: 10주차 권한 요청 틀과 AlertDialog, 13주차 `send`·`onMessage`·`BleunoMessage.result`·허용 번호 검사, 14주차 `connectTimeoutJob`·`waitConnectTimeout()`, [bleuno README의 명령과 응답](../../bleuno/README.md#2-명령과-응답).
+- 다시 읽어 둘 것: 10주차 권한 요청 틀, 처음 거절과 두 번 거절을 나누는 `shouldShowRequestPermissionRationale`, AlertDialog, 13주차 `send`·`onMessage`·`BleunoMessage.result`·허용 번호 검사, 14주차 `connectTimeoutJob`·`waitConnectTimeout()`, [bleuno README의 명령과 응답](../../bleuno/README.md#2-명령과-응답).
 - `AndroidManifest.xml`과 `build.gradle.kts`에 더할 것이 없다. 리허설 starter의 Manifest·XML·`bleuno/`는 14주차와 글자 단위로 같다.
 
 ## 이번 주 범위
@@ -76,8 +76,9 @@ on 3
 | `private var connectTimeoutJob: Job? = null`, `connectTimeoutJob?.cancel()` (6주, 3주 `?.`) | 시작한 코루틴을 보관했다가 새로 걸기 전에 앞 것을 멈춘다 | 코루틴 timeout·취소·오류 |
 | `client.connectionState.value`, `listOf(ConnState.CONNECTING, ConnState.DISCOVERING).contains(state)` (7·13·14주) | 지금 연결 상태 값을 읽어 "아직 연결 중인가"를 확인한다 | 코루틴 timeout·취소·오류 |
 | `for (permission in PermissionHelper.required())`, `ContextCompat.checkSelfPermission(…)` (6·10·12주) | 필요한 권한을 하나씩 꺼내 허용됐는지 본다. 하나라도 아니면 그 자리에서 `return false` | 권한·SharedPreferences |
-| `registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ -> }`, `launch(…)` (10주) | 요청 창 틀. 클래스 안(onCreate 밖)에 만들어 두고, 버튼에서는 `launch`만 부른다. 고른 뒤 `{ _ -> }`가 불린다 | 권한·SharedPreferences |
-| `AlertDialog.Builder(this)`, `Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName"))` (10주) | 거절했을 때 안내 창과, 이 앱의 정보 화면을 여는 암시적 Intent | 권한·SharedPreferences |
+| `registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ -> }`, `launch(…)` (10주) | 요청 창 틀. 클래스 안(onCreate 밖)에 만들어 두고, 버튼에서는 `launch`만 부른다. 요청 결과가 나오면(창에서 고르거나, 창 없이 시스템이 곧바로 답하면) `{ _ -> }`가 불린다 | 권한·SharedPreferences |
+| `shouldShowRequestPermissionRationale(permission)`, `PermissionHelper.required().any { permission -> … }` (10·12주) | 거절한 적이 있지만 아직 다시 물어볼 수 있으면 `true`. 처음 거절은 Toast로 이유만 알리고, 더는 물어볼 수 없으면(두 번 거절) 안내 창을 띄운다 | 권한·SharedPreferences |
+| `AlertDialog.Builder(this)`, `Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName"))` (10주) | 두 번 거절해 더는 물어볼 수 없을 때 안내 창과, 이 앱의 정보 화면을 여는 암시적 Intent | 권한·SharedPreferences |
 | `getSharedPreferences("smartio", MODE_PRIVATE)`, `putString`, `getString(…) ?: ""` (11주) | 마지막 장치 이름·주소를 저장하고 꺼낸다. starter에 완성되어 있다 | 권한·SharedPreferences |
 | `Bleuno.client?.send("on $index")`, `onMessage { json -> }` / `onMessage(null)` (13주) | 명령 한 줄을 보내고, 응답 JSON 한 줄을 `onStart`~`onStop` 사이에 받는다 | `send`·`onMessage`·재연결 |
 | `BleunoMessage.result(json)`, `BleunoMessage.message(json)`, `ContextCompat.getColor(this, R.color.log_error)` (13주) | 응답에서 `ok`·`err`·`fail`과 설명을 꺼내고, 로그 글자색을 바꾼다 | `send`·`onMessage`·재연결 |
@@ -107,7 +108,7 @@ on 3
 
 ## 완료 기준
 
-- [ ] 리허설 앱에서 권한이 없을 때 [권한 확인] → 요청 창 → 허용하면 `권한 OK`, 거절하면 `권한이 필요합니다` 창 → [설정으로]가 이 앱의 정보 화면을 연다.
+- [ ] 리허설 앱에서 권한이 없을 때 [권한 확인] → 요청 창 → 허용하면 `권한 OK`, 처음 거절하면 Toast `권한이 있어야 장치를 찾을 수 있습니다`, 두 번 거절하면 `권한이 필요합니다` 창 → [설정으로]가 이 앱의 정보 화면을 연다.
 - [ ] `준비됨` 제어 화면에서 `3` → Switch 켜기로 `on 3`과 `응답: {"result":"ok","ms":"led(s) on"}`이 쌓이고, 빈 칸이면 `LED 번호를 입력하세요`, `9`면 `허용되지 않는 번호`가 뜬다.
 - [ ] `delay`를 잠시 1000으로 줄였을 때 `연결 시간이 초과되었습니다`가 뜨는 것을 확인하고 10000으로 되돌렸다.
 - [ ] 점검표와 [채점표](rubric.md)로 자기 채점을 하고 완성본과 다른 줄을 찾았다.

@@ -59,18 +59,24 @@ import com.example.smartio.bleuno.ConnState
 ```
 
 4. 같은 방법으로 `com.example.smartio` 바로 아래의 `Permissions.kt`를 지운다.
-5. `MainActivity.kt`에서 빨간색이 된 `blePermissions()` **두 곳**을 `PermissionHelper.required()`로 바꾸고, 빨간 `PermissionHelper`에 Alt+Enter → `com.example.smartio.bleuno.PermissionHelper`를 import한다.
+5. `MainActivity.kt`에서 빨간색이 된 `blePermissions()` **세 곳**을 `PermissionHelper.required()`로 바꾸고, 빨간 `PermissionHelper`에 Alt+Enter → `com.example.smartio.bleuno.PermissionHelper`를 import한다.
    - `// 12.` [권한 확인] 블록 안의 한 줄
 
 ```kotlin
                 permissionLauncher.launch(PermissionHelper.required())
 ```
 
+   - 클래스 변수 자리 `permissionLauncher` 블록의 `else if` 줄(10주차 2일차에 넣은 '처음 거절' 가지)
+
+```kotlin
+        } else if (PermissionHelper.required().any { permission -> shouldShowRequestPermissionRationale(permission) }) {
+```
+
    - `// 13.` `hasBlePermissions()` 함수의 `for` 줄. 주석은 아래처럼 바꿔도 되고 그대로 둬도 된다.
 
 ```kotlin
     // 13. PermissionHelper.required()의 권한을 하나씩 checkSelfPermission으로 확인한다. 하나라도 허용 안 됐으면 false(10주차 2일차).
-    //     12주차 1일차: 10주차 blePermissions()를 bleuno 패키지의 PermissionHelper.required()로 바꿨다. 돌려주는 권한 목록은 같다.
+    //     12주차 1일차: 10주차 blePermissions()를 bleuno 패키지의 PermissionHelper.required()로 바꿨다(permissionLauncher의 else if 줄도). 돌려주는 권한 목록은 같다.
     private fun hasBlePermissions(): Boolean {
         for (permission in PermissionHelper.required()) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
@@ -85,7 +91,7 @@ import com.example.smartio.bleuno.ConnState
 
 - bleuno의 `ConnState`는 11주차 파일과 이름·값(`연결 안 됨`·`연결 중`·`서비스 확인 중`·`준비됨`·`끊김`)이 같다. 그래서 import만 바꾸면 된다. 11주차 `ConnState.kt` 주석에 "12주차에는 이 파일 대신 import만 바꾼다"라고 적어 두었던 일이다.
 - `PermissionHelper.required()`는 10주차 `blePermissions()`와 같은 권한 목록(Android 12 이상 `BLUETOOTH_SCAN`·`BLUETOOTH_CONNECT`, 그 이하 `ACCESS_FINE_LOCATION`)을 돌려준다.
-- 한 곳만 바꾸고 빌드하면 `Unresolved reference 'blePermissions'.` 오류가 남는다. 그 위에 `Method 'iterator()' is ambiguous…`와 긴 목록이 먼저 보여도 아래의 `Unresolved reference` 줄을 먼저 읽는다.
+- 세 곳 중 한 곳이라도 빠뜨리고 빌드하면 `Unresolved reference 'blePermissions'.` 오류가 남는다. 그 위에 `Method 'iterator()' is ambiguous…`와 긴 목록이 먼저 보여도 아래의 `Unresolved reference` 줄을 먼저 읽는다.
 
 완성한 `ConnViewModel.kt` 전체는 아래와 같다. import 한 줄 말고는 11주차 그대로다. 같은 코드가 [examples/day1/ConnViewModel.kt](examples/day1/ConnViewModel.kt)에 있다.
 
@@ -344,7 +350,7 @@ stopScan(가짜)
 - 이 줄이 없으면 화면이 안 보이는 동안 검색이 끝나 29번이 보이지 않는 화면을 고치게 된다.
 - `onStart`에서 검색을 다시 시작하지는 않는다. 검색은 [검색]을 누를 때만 시작한다.
 
-완성한 `MainActivity.kt` 전체는 [examples/day1/MainActivity.kt](examples/day1/MainActivity.kt)에 있다(352줄). 파일을 열어 내 코드와 위에서부터 한 블록씩 비교한다. 이번 단계까지 넣은 곳은 import 5줄(`BluetoothAdapter`·`Bleuno`·`BleunoClient`·`ConnState`·`PermissionHelper`), 클래스 변수 3개, 24번, 3·4번 블록, 11번 `onStop`, 12·13번의 `PermissionHelper.required()`다.
+완성한 `MainActivity.kt` 전체는 [examples/day1/MainActivity.kt](examples/day1/MainActivity.kt)에 있다(357줄). 파일을 열어 내 코드와 위에서부터 한 블록씩 비교한다. 이번 단계까지 넣은 곳은 import 5줄(`BluetoothAdapter`·`Bleuno`·`BleunoClient`·`ConnState`·`PermissionHelper`), 클래스 변수 3개, 24번, 3·4번 블록, 11번 `onStop`, 12·13번과 `permissionLauncher` `else if` 줄의 `PermissionHelper.required()`다.
 
 `package com.example.smartio` 줄은 내 프로젝트의 첫 줄과 같아야 한다. 다르면 첫 줄은 내 것을 그대로 둔다.
 11주차까지의 코드(주석 1~23)가 내 코드와 조금 달라도 동작이 같으면 그대로 둔다. 1일차에는 상태가 늘 `연결 안 됨`이라 [다시 시도]·[해제]는 누를 일이 없다. 2일차에 정리한다.
@@ -1406,7 +1412,7 @@ class ControlActivity : AppCompatActivity() {
 - `// 40.` `showLocationDialog()`: 10주차 14번 `showPermissionDialog()`와 같은 모양이다. `Settings.ACTION_LOCATION_SOURCE_SETTINGS`는 위치 설정 화면을 여는 암시적 Intent다.
 - `// 41.` 확인 순서는 권한 → 블루투스 → 위치다. 안내창은 [검색]을 누른 순간(클릭 리스너)에만 띄운다. 5초 뒤에 불리는 `onFinished`에서 창을 띄우면 그사이 화면이 돌거나 닫혔을 때 사라진 화면에 창을 띄우게 된다. `onFinished` 안에서는 글자와 버튼만 바꾼다.
 
-완성한 `MainActivity.kt` 전체는 [examples/day2/MainActivity.kt](examples/day2/MainActivity.kt)에 있다(400줄). 파일을 열어 내 코드와 위에서부터 한 블록씩 비교한다. 2일차에 바뀐 곳은 import(`Build` 추가, `viewModels` 삭제), `viewModel` 선언 삭제, 31~39번, 5·6·7번, 9번 삭제, 40·41·42번이다.
+완성한 `MainActivity.kt` 전체는 [examples/day2/MainActivity.kt](examples/day2/MainActivity.kt)에 있다(405줄). 파일을 열어 내 코드와 위에서부터 한 블록씩 비교한다. 2일차에 바뀐 곳은 import(`Build` 추가, `viewModels` 삭제), `viewModel` 선언 삭제, 31~39번, 5·6·7번, 9번 삭제, 40·41·42번이다.
 1일차 코드와 무엇이 다른지 한눈에 보려면 Android Studio에서 두 파일을 골라 오른쪽 클릭 › **Compare Files**를 쓴다.
 
 `package com.example.smartio` 줄은 내 프로젝트의 첫 줄과 같아야 한다. 다르면 첫 줄은 내 것을 그대로 둔다.

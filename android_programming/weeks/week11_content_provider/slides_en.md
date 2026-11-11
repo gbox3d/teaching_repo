@@ -292,7 +292,7 @@ val cursor = resolver.query(
 | Device recognized | phone's name appears in the device list | try a different cable, check the allow prompt, toggle USB debugging off/on |
 | Bluetooth | turn it on in quick settings | week 12's scan won't work |
 | Location | turn it on in quick settings | Android 11 and below returns zero scan results |
-| Permission | [Check Permission] → Toast `Permission OK` | week 10's denial flow → allow it in Settings |
+| Permission | [Check Permission] → Toast `Permission OK` | denied once: tap it again and allow; if the dialog appears, allow it via [Go to Settings] |
 
 - Week 12's provided library function `PermissionHelper.hasAll()` does the same check as [Check Permission].
 - No physical device? Use the connection screen's minutes 32–52 for reading contacts (Day 2 lab step 5) to produce screenshot 3 instead.

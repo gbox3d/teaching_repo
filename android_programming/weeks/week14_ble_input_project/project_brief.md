@@ -19,7 +19,7 @@
 
 | # | 필수 기능 | 시연에서 보여 줄 장면 | 만드는 코드(수업 예제 기준) |
 |---|---|---|---|
-| 1 | 권한 안내 | [권한 확인] → Toast `권한 OK`, 또는 거절 뒤 AlertDialog `권한이 필요합니다` → [설정으로] | 10주차 권한 요청 틀, `showPermissionDialog()` |
+| 1 | 권한 안내 | [권한 확인] → Toast `권한 OK`, 또는 두 번 거절 뒤 AlertDialog `권한이 필요합니다` → [설정으로] | 10주차 권한 요청 틀, `showPermissionDialog()` |
 | 2 | 검색·연결·해제·상태 표시 | [검색] → `검색된 장치`에 `ESP32_BLE…` → 줄 탭 → `연결 중` → `서비스 확인 중` → `준비됨` → [해제]로 `연결 안 됨` | 12주차 `startScan`·`connect`·`disconnect`, 연결 상태 collect |
 | 3 | 출력 1개 이상 제어 | 제어 화면 LED Switch 켜기·끄기 → 명령 로그 `on 3`과 `응답: {"result":"ok","ms":"led(s) on"}`(실보드면 LED가 켜진다) | 13주차 `send("on $index")`·`onMessage` |
 | 4 | 입력 수신 | [온습도 받기 시작] → 입력 이력에 `시:분:초 [온도,습도]` 2줄 이상(시각이 약 3초 간격인 줄) → [중지]. Fake는 입력 이벤트 `시:분:초 입력=1` 2줄도 된다 | 14주차 `inputJob`·`addHistory()`·`BleunoMessage.value/event` |

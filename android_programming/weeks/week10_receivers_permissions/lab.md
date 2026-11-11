@@ -46,7 +46,7 @@ private val batteryReceiver = object : BroadcastReceiver() {
 
 ### 3. 등록과 해제
 
-1. `onCreate`를 닫는 `}` **아래**에 `override fun onStart()`를 만들고 `super.onStart()` 다음 줄에서 `ContextCompat.registerReceiver(…)`로 등록한다. 인자는 `this`, `batteryReceiver`, `IntentFilter(Intent.ACTION_BATTERY_CHANGED)`, `ContextCompat.RECEIVER_NOT_EXPORTED` 네 개다.
+1. `onCreate`를 닫는 `}` **아래**에 `override fun onStart()`를 만들고 `super.onStart()` 다음 줄에서 `ContextCompat.registerReceiver(…)`로 등록한다. 인자는 `this`, `batteryReceiver`, `IntentFilter(Intent.ACTION_BATTERY_CHANGED)`, `ContextCompat.RECEIVER_NOT_EXPORTED` 네 개다. 등록 함수가 돌려주는 마지막 배터리 방송은 `val lastBattery`에 담고, 다음 줄에서 `batteryReceiver.onReceive(this, lastBattery)`로 문구를 한 번 직접 채운다. Android 12 이하는 등록 직후 방송이 오지 않을 수 있어서다.
 2. 그 아래 `override fun onStop()`에서 `unregisterReceiver(batteryReceiver)`로 해제한다.
 3. 실행해 `배터리 ?`가 곧바로 `배터리 100% · 충전 중`처럼 바뀌면 성공이다.
 
@@ -87,7 +87,7 @@ private val batteryReceiver = object : BroadcastReceiver() {
 | 0–12분 | [권한 확인] 버튼을 넣고 Manifest에 권한을 선언하고 `Permissions.kt`를 붙여 넣는다 |
 | 12–22분 | `hasBlePermissions()`를 만든다 |
 | 22–34분 | `showPermissionDialog()`를 만든다 |
-| 34–48분 | `permissionLauncher`와 [권한 확인] 리스너를 넣고 허용·거절을 확인한다 |
+| 34–48분 | `permissionLauncher`와 [권한 확인] 리스너를 넣고 허용·처음 거절·두 번 거절을 확인한다 |
 | 48–60분 | 캡처 2·3을 찍고 두 파일과 함께 제출한다 |
 
 ### 1. 버튼, Manifest, Permissions.kt
@@ -149,9 +149,14 @@ private fun hasBlePermissions(): Boolean {
 ```kotlin
 private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
     // hasBlePermissions()가 true면 Toast "권한 OK"
-    // 아니면 showPermissionDialog()
+    // 아니고 blePermissions().any { permission -> shouldShowRequestPermissionRationale(permission) }가 true면(처음 거절)
+    //   Toast "권한이 있어야 장치를 찾을 수 있습니다"
+    // 둘 다 아니면(두 번 거절) showPermissionDialog()
 }
 ```
+
+- 가운데 갈래는 `else if (…) { … }`로 쓴다. `shouldShowRequestPermissionRationale(권한)`은 거절한 적이 있지만 아직 다시 물어볼 수 있으면 `true`다. 두 번 거절하면 `false`가 된다.
+- `any { permission -> … }`는 묶음 안에 조건이 `true`인 권한이 하나라도 있으면 `true`다. 이 줄은 외우지 않고 복사한다.
 
 2. `onCreate` 안, `// 9.` 틀 아래에 [권한 확인] 리스너를 넣는다. 이미 허용이면 Toast `권한 OK`, 아니면 `permissionLauncher.launch(blePermissions())`.
 3. 실행하고 아래 표를 채운다.
@@ -161,17 +166,21 @@ private val permissionLauncher = registerForActivityResult(ActivityResultContrac
 | 처음 [권한 확인] |  |  |
 | 권한 창에서 [허용] |  |  |
 | 허용한 뒤 다시 [권한 확인] |  |  |
-| 권한 창에서 [허용 안함] |  |  |
+| 앱을 지우고 다시 `Run ▶` → [권한 확인] → 처음 권한 창에서 [허용 안함] |  |  |
+| 다시 [권한 확인] |  |  |
+| 두 번째에도 [허용 안함] |  |  |
+| 그 뒤 [권한 확인] |  |  |
 | 대화상자 [설정으로] |  |  |
 
 - 요청 틀을 버튼 리스너 **안**에서 만들지 않는다. 클래스 변수 자리여야 한다.
-- 이미 허용해 버렸으면 설정 › 앱 › Smart I/O Controller › 권한 › 근처 기기 › 허용 안함으로 되돌린 뒤 앱을 다시 실행한다.
-- 같은 권한을 두 번 거절하면 이후에는 권한 창 없이 곧바로 대화상자가 뜬다. 코드가 틀린 것이 아니다.
+- 처음 거절 Toast를 보려면 앱을 지웠다가 다시 `Run ▶`한다. 권한이 처음 상태로 돌아간다. 설정 › 앱 › Smart I/O Controller › 권한 › 근처 기기에서 허용 → 허용 안함으로 되돌린 뒤에는 첫 거절에도 Toast 없이 곧바로 대화상자가 뜬다(Android 12 에뮬레이터에서 확인).
+- 처음 거절하면 Toast만 뜨고, 대화상자는 두 번째 거절에 뜬다. Android 11(API 30) 이상은 같은 권한을 두 번 거절하면 시스템이 '다시 묻지 않음'으로 처리해, 그 뒤로는 권한 창 없이 곧바로 대화상자가 뜬다. 코드가 틀린 것이 아니다.
+- Android 10 이하는 거절할 때 '다시 묻지 않음'을 체크해야 대화상자가 뜬다. 체크하지 않고 거절하면 계속 Toast가 뜬다.
 - 폰 크기 화면을 가로로 돌리면 위아래가 잘려 [권한 확인]이 반쯤 가리고 배터리 문구가 안 보인다. 확인할 항목이 안 보이면 세로로 되돌려 확인한다.
 
 ### 5. 캡처 2·3
 
-1. 권한 창에서 [허용 안함]을 누른 직후, 대화상자 `권한이 필요합니다`와 [설정으로]가 보이는 화면을 **캡처한다(캡처 2).**
+1. 대화상자는 두 번 거절해야 나온다. 권한 창에서 [허용 안함]을 누르고(Toast만 뜬다), [권한 확인]을 다시 눌러 한 번 더 [허용 안함]을 누른다. 그 직후 대화상자 `권한이 필요합니다`와 [설정으로]가 보이는 화면을 **캡처한다(캡처 2).**
 2. [설정으로]를 누르고 `Smart I/O Controller` 앱 정보 화면을 **캡처한다(캡처 3).**
 
 ## 막혔을 때
@@ -186,8 +195,14 @@ private val permissionLauncher = registerForActivityResult(ActivityResultContrac
 | `Modifier 'override' is not applicable to 'local function'.` | `override fun onStart()`가 `onCreate` **안**에 들어갔다. `onCreate`를 닫는 `}`가 `onStart`보다 위에 오게 옮긴다 |
 | `Operator call is prohibited on a nullable receiver of type 'kotlin.Int?'. Use '?.'-qualified call instead.` | `val level = intent?.getIntExtra(…)` 끝에 `?: -1`이 빠졌다. 기본값을 붙여 `Int`로 만든다 |
 | `Function invocation 'blePermissions()' expected.` | `launch(blePermissions)`에 괄호가 빠졌다. `launch(blePermissions())`로 쓴다 |
+| `Unresolved reference 'hasBlePermissions'.` 또는 `Unresolved reference 'showPermissionDialog'.` | 그 함수를 아직 만들지 않았다. 요청 틀과 리스너보다 함수를 먼저 넣는다([따라하기 11·12단계](walkthrough.md#11-hasblepermissions-만들기)) |
+| `Unresolved reference 'blePermissions'.` | `Permissions.kt`가 없거나, 그 파일의 첫 줄 `package`가 `MainActivity.kt`의 첫 줄과 다르다. 생긴 파일의 첫 줄 `package`를 그대로 두고 그 아래에 붙인다 |
+| `Unresolved reference 'ContextCompat'.` 또는 `Unresolved reference 'Intent'.` | import가 빠졌다. Alt+Enter로 `androidx.core.content.ContextCompat`, `android.content.Intent`를 가져온다 |
+| 새 프로젝트 템플릿을 그대로 빌드해도 `Dependency 'androidx.core:core:1.19.0' requires libraries and applications that depend on it to compile against version 37 or later` | compileSdk와 core-ktx 버전이 맞지 않는다. `gradle/libs.versions.toml`의 `coreKtx`를 `1.17.0`으로 내리거나, SDK Manager에서 SDK 37을 설치해 compileSdk를 37로 올린다 |
 | `onStop`의 해제를 빠뜨려도 빌드는 되고 화면도 멀쩡하다. 화면을 돌리거나 [뒤로]로 닫아도 Logcat에 오류가 찍히지 않고, 회전할 때마다 풀리지 않은 등록만 쌓인다. 화면·Logcat으로는 드러나지 않는다 | `onStart`의 등록과 `onStop`의 `unregisterReceiver(batteryReceiver)`가 짝으로 있는지 코드에서 눈으로 확인한다 |
 | [연결] → [뒤로]로 돌아온 뒤 Battery를 바꿔도 문구가 그대로이고, 다시 [연결]을 누르면 앱이 멈춘다. Logcat에 `java.lang.IllegalArgumentException: Receiver not registered:` | 등록을 `onCreate`에 두었다. `registerReceiver`를 `onStart`로 옮겨 `onStop`의 해제와 짝을 맞춘다 |
+| 처음 권한 창을 [허용 안함] 대신 뒤로 가기로 닫았더니 Toast 없이 `권한이 필요합니다` 대화상자가 떴다 | 코드가 틀린 것이 아니다. 뒤로 가기는 거절로 돌아오지만 거절 기록이 남지 않아 대화상자 갈래로 간다(Android 12 에뮬레이터에서 확인). [취소] 뒤 [권한 확인]을 다시 누르면 권한 창이 다시 뜬다. 그때 [허용 안함] 버튼으로 거절한다 |
+| 설정에서 허용했다가 허용 안함으로 끈 뒤 처음 거절했는데 Toast 없이 대화상자가 떴다 | 코드가 틀린 것이 아니다. 이때는 첫 거절에도 곧바로 대화상자가 뜬다(Android 12 에뮬레이터에서 확인). 처음 거절 Toast를 보려면 앱을 지웠다가 다시 `Run ▶`한다 |
 | [권한 확인]을 눌러도 권한 창이 안 뜨고 곧바로 `권한이 필요합니다`가 뜬다. [설정으로]로 간 권한 목록에 "근처 기기"가 없다 | `AndroidManifest.xml`에 `uses-permission`이 있는지 본다. 선언하지 않은 권한은 요청하자마자 거절로 돌아온다 |
 | 권한이 없는 상태에서 [권한 확인]을 누르는 순간 앱이 멈춘다. Logcat에 `is attempting to register while current state is RESUMED. LifecycleOwners must call register before they are STARTED.` | `registerForActivityResult`를 버튼 리스너 안에서 만들었다. `private val permissionLauncher = …`를 클래스 변수 자리로 옮긴다 |
 | [설정으로]를 누르는 순간 앱이 멈춘다. Logcat에 `android.content.ActivityNotFoundException: No Activity found to handle Intent` | `Uri.parse("package:$packageName")`에서 `package:`가 빠졌는지 본다 |
@@ -198,7 +213,7 @@ private val permissionLauncher = registerForActivityResult(ActivityResultContrac
 
 1. **`MainActivity.kt`, `AndroidManifest.xml`**: 2일차 최종 코드
 2. **캡처 1**: Battery 값을 100이 아닌 값으로 바꾼 뒤 `배터리 N% · 충전 중`(또는 `충전 안 함`)이 보이는 세로 연결 화면. 실기기는 값을 바꿀 수 없으니 상태 표시줄의 배터리 %와 같은 숫자면 된다
-3. **캡처 2**: 권한을 거절한 뒤 연결 화면 위에 뜬 `권한이 필요합니다` 대화상자와 [설정으로] 버튼
+3. **캡처 2**: 권한을 두 번 거절한 뒤 연결 화면 위에 뜬 `권한이 필요합니다` 대화상자와 [설정으로] 버튼
 4. **캡처 3**: [설정으로]를 눌러 열린 앱 정보 화면. 앱 이름 `Smart I/O Controller`가 보여야 한다
 
 1일차 배터리 문구와 2일차 [권한 확인] → 권한 창까지 동작하면 기본 성공이다. 거절 대화상자와 설정 이동은 예제와 도움을 받아 마무리해도 된다.

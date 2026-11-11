@@ -140,7 +140,7 @@ binding.scanButton.setOnClickListener {
 ## Day 1 · 20–27 min ① — Adding the Provided bleuno Library
 
 1. In `com.example.smartio`: **New › Package** › `bleuno` → paste in the 8 files from `src/`
-2. Delete week 11's `ConnState.kt` and `Permissions.kt` → import `ConnState`, use `PermissionHelper.required()`
+2. Delete week 11's `ConnState.kt` and `Permissions.kt` → import `ConnState`, replace `blePermissions()` in three places (#12, #13, and the `else if` in `permissionLauncher`) with `PermissionHelper.required()`
 
 ```kotlin
 private val useFake = true                    // false if you have a board

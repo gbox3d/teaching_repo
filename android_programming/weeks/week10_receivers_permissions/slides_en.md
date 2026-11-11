@@ -65,8 +65,9 @@ System: "the battery changed"  ── Intent(ACTION_BATTERY_CHANGED) ──▶
 ```kotlin
 override fun onStart() {
     super.onStart()
-    ContextCompat.registerReceiver(this, batteryReceiver,
+    val lastBattery = ContextCompat.registerReceiver(this, batteryReceiver,
         IntentFilter(Intent.ACTION_BATTERY_CHANGED), ContextCompat.RECEIVER_NOT_EXPORTED)
+    batteryReceiver.onReceive(this, lastBattery)
 }
 override fun onStop() {
     super.onStop()
@@ -75,7 +76,7 @@ override fun onStop() {
 ```
 
 - Put both functions **outside** `onCreate()`, directly inside the class — the same spot as week 3's lifecycle callbacks.
-- `RECEIVER_NOT_EXPORTED`: broadcasts from other apps are not received. System broadcasts still are.
+- `RECEIVER_NOT_EXPORTED`: broadcasts from other apps are not received. Later system broadcasts still are. On Android 12 and below the value stored before registering may be filtered out, so we fill it from the returned value.
 - If `ContextCompat` or `IntentFilter` shows up in red, import it with Alt+Enter (⌥+Enter on Mac).
 
 ---
@@ -90,7 +91,7 @@ Home / rotate / [Connect] to another screen ─▶ onStop … back again ─▶ 
 
 - Broadcasts are received only **while the screen is visible**. There's no need to update text on a screen no one can see.
 - The app still builds if you skip the unregister — so you have to check the pairing by eye.
-- `ACTION_BATTERY_CHANGED` sends its **last value once**, the moment you register. The number appears right when the app opens.
+- The register call returns the **last battery broadcast**. On Android 12 and below it may not arrive right after registering, so we fill the text with it ourselves (13+ also gets the broadcast).
 
 ---
 
@@ -149,24 +150,24 @@ If `override fun onStart()` shows a red underline, check whether it's **below** 
 
 `30 min explanation & demo → 60 min lab`
 
-1. The five steps of runtime permission, plus the manifest declaration.
+1. The runtime permission flow, plus the manifest declaration.
 2. Show the request dialog and receive the result.
-3. On denial, show an `AlertDialog` and open Settings.
+3. On a first denial, just explain why; after a second denial, show an `AlertDialog` and open Settings.
 
 ---
 
-## Day 2 · 0–8 min ① — The Five Steps of Runtime Permission
+## Day 2 · 0–8 min ① — The Runtime Permission Flow
 
 | Step | What it does | This week's code |
 |---|---|---|
 | ① Declare | State "this app uses this permission" | `uses-permission` in `AndroidManifest.xml` |
 | ② Check | See if it's already granted | `hasBlePermissions()` |
-| ③ Explain | Tell the user why it's needed | `AlertDialog` after a denial |
-| ④ Request | Show the system permission dialog | `permissionLauncher.launch(…)` |
-| ⑤ Result | Update the screen for grant/deny | the request template's `{ _ -> … }` |
+| ③ Request | Show the system permission dialog | `permissionLauncher.launch(…)` |
+| ④ Handle the result | Granted: Toast / first denial: explain why / second denial: guide to Settings | the request template's `{ _ -> … }` |
 
 - Declaring it in the manifest alone is not enough. The user must approve it **at runtime**.
 - Don't ask the moment the app opens — ask when the user taps [Check Permission].
+- The official docs recommend explaining why **before** the request, but we don't cover that step this week.
 
 ---
 
@@ -217,15 +218,17 @@ private val permissionLauncher =
     registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
         if (hasBlePermissions()) {
             Toast.makeText(this, "Permission OK", Toast.LENGTH_SHORT).show()
+        } else if (blePermissions().any { permission -> shouldShowRequestPermissionRationale(permission) }) {
+            Toast.makeText(this, "Permission is needed to find devices", Toast.LENGTH_SHORT).show()
         } else {
             showPermissionDialog()
         }
     }
 ```
 
-- Create the request template in the **class-variable spot** (outside `onCreate`). Creating it inside a button freezes the app the instant it's tapped.
-- From a button, show the dialog with `permissionLauncher.launch(blePermissions())`.
-- `{ _ -> }`: the incoming result isn't read (`_`) — we just **check permissions again** right away.
+- Put it in the **class-variable spot** (outside `onCreate`), **after** writing functions 13 and 14 (add it first and both names turn red). Creating it inside a button freezes the app the instant it's tapped.
+- From a button, show the dialog with `permissionLauncher.launch(blePermissions())`. `{ _ -> }` doesn't read the result (`_`) — it just **checks permissions again**.
+- A denial splits two ways: if the app can still ask again, a Toast; if it can't ask anymore, the dialog (15–23 min ③).
 
 ---
 
@@ -248,7 +251,7 @@ private fun hasBlePermissions(): Boolean {
 
 ---
 
-## Day 2 · 15–23 min ① — On Denial, an AlertDialog
+## Day 2 · 15–23 min ① — After a Second Denial, an AlertDialog
 
 ```kotlin
 private fun showPermissionDialog() {
@@ -280,6 +283,20 @@ private fun showPermissionDialog() {
 - `$packageName` is this app's package name (`com.example.smartio`).
 - The address must start with `package:`. Leave it off and the app crashes the instant [Go to Settings] is tapped.
 - Granting it in Settings and coming back doesn't update the text by itself. Tap [Check Permission] again.
+
+---
+
+## Day 2 · 15–23 min ③ — First Denial vs. Second Denial
+
+| Action | Screen |
+|---|---|
+| First [Don't allow] | Toast `Permission is needed to find devices` |
+| [Check Permission] again → second [Don't allow] | the `Permission needed` dialog |
+| [Check Permission] after that | the dialog right away, with no permission dialog |
+
+- `shouldShowRequestPermissionRationale(permission)`: `true` if the user has denied it but the app **can still ask again**. It's `false` before the first request, after a second denial, and when the permission isn't declared in the manifest.
+- `any { permission -> … }`: `true` if even one permission in the bundle meets the condition. It's a `for` loop written on one line.
+- On Android 11 (API 30) and above, two denials make the system treat it as "don't ask again." On 10 and below, the dialog appears only if the user checks "Don't ask again" when denying.
 
 ---
 
@@ -326,11 +343,11 @@ binding.backButton.setOnClickListener {
 1. Add the [Check Permission] button, the manifest permission declarations, and `Permissions.kt`.
 2. Write `hasBlePermissions()` and `showPermissionDialog()`.
 3. Add the `permissionLauncher` request template and the [Check Permission] listener.
-4. Take screenshots of the denial dialog and the Settings app-info screen.
+4. Take screenshots of the dialog shown after two denials and the Settings app-info screen.
 
 **Explanation total: 8+7+8+4+3 = 30 min**
 
-If the permission dialog never appears and the AlertDialog shows immediately, check `uses-permission` in the manifest first.
+If the AlertDialog shows right away on your very first [Check Permission], with no permission dialog, check `uses-permission` in the manifest first.
 
 ---
 
@@ -340,7 +357,7 @@ Submit once, at the end of Day 2.
 
 1. **`MainActivity.kt`, `AndroidManifest.xml`**
 2. **Screenshot 1**: the connection screen (portrait) after changing the Battery value, showing something like `Battery 80% · Charging`
-3. **Screenshot 2**: the `Permission needed` dialog shown after denying the permission
+3. **Screenshot 2**: the `Permission needed` dialog shown after denying the permission twice
 4. **Screenshot 3**: the `Smart I/O Controller` app-info screen opened via [Go to Settings]
 
 ---
