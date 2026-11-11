@@ -38,7 +38,7 @@ teaching_repo/
 └─ .gitignore                         config.json, .env, dist/, export/, node_modules/
 ```
 
-주차 폴더 공통 구성: `README.md`, `slides.md`(Marp), `lab.md`, `examples/`. 웹·안드로이드 1주차와 오픈소스 AI 1·3·4·7·10·12주차에 `walkthrough.md`. 평가 문서(`exam_structure.md`, `rubric.md`, `project_brief.md`, `assignment_brief.md` 등)는 평가 주차에만 있다.
+주차 폴더 공통 구성: `README.md`, `slides.md`(Marp), `lab.md`, `examples/`. 웹·안드로이드는 모든 주차, 오픈소스 AI는 1·3·4·5·6·7·9·12주차에 `walkthrough.md`. 평가 문서(`exam_structure.md`, `rubric.md`, `project_brief.md`, `assignment_brief.md` 등)는 평가 주차에만 있다.
 
 ## Entrypoints and key modules
 
@@ -46,7 +46,7 @@ teaching_repo/
 - 빌드 진입점: `scripts/render-site.mjs` — `site/catalog.json`의 `courses[].chapters[]`를 순회하며 `sourcePath(course, chapter)`로 원고 위치를 결정한다. course.id ↔ 폴더 매핑: `android`→`android_programming/weeks`, `web`→`web_programming/{weeks,specials}`, `open-source-ai`→`open_source_ai/weeks`.
 - 검증 진입점: `scripts/check-site.mjs` — 같은 `sourcePath` 매핑과 `EXPECTED` 상수(과목별 덱·슬라이드 수)로 `dist/`를 대조한다.
 - 도서관 UI: `site/index.html` + `site/assets/library.js`가 `catalog.json`을 읽어 카드 목록을 그린다. 덱 페이지는 `site/assets/deck.{css,js}`.
-- 비공개 짝 저장소: `C:\works\coworks\univ_scoring_works\teaching_materials_private\` — 같은 주차 폴더 구조로 `lecture_script.md`, `lab_solution.md`, `_shared/practice_operation.md`(실습 운영 대본)를 둔다.
+- 비공개 짝 저장소: `C:\works\coworks\univ_scoring_works\teaching_materials_private\` — 같은 주차 폴더 구조로 `lecture_script.md`, `lab_solution.md`, `_shared/practice_operation.md`(실습 운영 대본)를 둔다. 비공개 `android_programming/`에는 주차 폴더 밖에 `tools/android_verify/`(`check_week.py`·`verify_rubric15_perm.py` 등), `tools/iot_sim/`(`test_sim.py`·`README.md`), `iot_sim/lab_solution.md`가 있다.
 
 ## Build and validation commands
 
@@ -65,6 +65,7 @@ npm test          # node scripts/check-site.mjs
 - 자동 테스트는 `npm test`(사이트 검증)뿐이다. 교재 코드 예제의 단위 테스트는 각 주차 `examples/`에 있는 것만 있으며(웹 5·특강, 오픈소스 AI 13주차), 저장소 수준 러너는 없다.
 - 오픈소스 AI 예제는 Python 문법 검사(`uv run --no-project python -m py_compile`, 67개 파일)와 `ruff check --select E9,F63,F7,F82` 치명 오류 검사까지 했고, 모델·GPU 실행은 기준 PC 실측 대기 상태다.
 - `ruff`를 저장소 전체에 돌릴 때는 `--exclude open_source_ai/weeks/week08_midterm/examples/mock_exam/broken_project`를 붙인다. 그 폴더의 `pyproject.toml`은 8주차 모의 실기용으로 **일부러 깨뜨린** 파일이라 TOML 파싱이 실패한다.
+- Wi-Fi 시뮬레이터는 비공개 `tools/iot_sim/test_sim.py <이 저장소의 android_programming/iot_sim/sim.py>`로 시험한다(시험 23개. 검사할 시뮬레이터는 TCP 18266·UDP 18267·HTTP 18080으로 띄우고, 포트·이름 시험은 TCP 18081~18083·28267·28276과 UDP 28268을 잠깐 쓴다).
 - 문서 검증용 임시 스크립트(링크·앵커 검사, 슬라이드·실습 시간 합계 검사)는 저장소에 두지 않았다. 필요하면 `_forAI/memo.md`의 검증 항목을 보고 다시 만든다.
 
 ## Notes
@@ -76,8 +77,14 @@ npm test          # node scripts/check-site.mjs
 
 ## Android BLE 연계
 
-- 학생용 정본은 `android_programming`의 SmartIO 앱과 `bleuno/src/` 공통 클래스 8개다. `bleuno/`는 독립 Gradle 프로젝트가 아니다.
-- 12주차 day1·day2, 13주차 day1·day2, 14주차 day1의 `examples/dayN/bleuno/` 5곳은 공통 클래스 복사본이다. 2026-10-31 비교에서 8개 파일이 모두 정본과 일치했다.
+- 학생용 정본은 `android_programming`의 SmartIO 앱과 `bleuno/src/` 공통 클래스 9개다. 9번째 `TcpBleunoClient.kt`는 보드 없이 PC 시뮬레이터로 연습할 때만 쓰지만, `Bleuno.kt`의 `createTcp()`가 부르므로 복사본마다 9개를 함께 둔다(빼면 `Unresolved reference 'TcpBleunoClient'`). `bleuno/`는 독립 Gradle 프로젝트가 아니다.
+- 12주차 day1·day2, 13주차 day1·day2, 14주차 day1, 15주차 rehearsal_solution·rehearsal_starter의 `bleuno/` 7곳은 공통 클래스 복사본이다. 12~15주차 `walkthrough.md` 부록에도 전문이 있다. 2026-11-12에 9개 파일이 정본을 포함한 8곳에서 sha256으로 같음을 확인했다.
+- `android_programming/iot_sim/`은 보드 없이 PC에서 돌리는 Wi-Fi 시뮬레이터다. 들어 있는 파일은 세 개다.
+  - `sim.py`: Python 3.9 이상, 표준 라이브러리만. 명령 TCP 8266, 검색 UDP 8267, 화면 HTTP `127.0.0.1:8080`.
+  - `README.md`: 실행·화면·포트·방화벽·막혔을 때.
+  - `lab.md`: 12주차 2일차 이후의 90분 선택 실습.
+  - 실행은 `py sim.py`(macOS `python3 sim.py`)다. 옵션 `--name`·`--tcp`·`--udp`·`--http`·`--bind`·`--http-bind`는 모두 생략할 수 있다.
+- 시뮬레이터의 자동 시험과 실습 해답은 비공개 짝 저장소에 있다. 시험은 `teaching_materials_private/android_programming/tools/iot_sim/test_sim.py`, 해답은 `teaching_materials_private/android_programming/iot_sim/lab_solution.md`다.
 - 별도 `gbox3d/bleunoApp/BleunoTest`는 보드 점검·시연용 앱으로 연결한다. `Ex01Scaner`·`ScanerSample`은 검색 참고 예제다.
 - 펌웨어와 type_m v1 마더보드는 `gbox3d/bleuno`의 루트 및 `hardware/type_m/v1/`에서 관리한다. 이 교재에 설계를 복제하지 않는다.
 - type_m v1 원본은 `MovingTarget/MotorConT1`의 모터·서보 제어 보드다. 원본 확보·KiCad 이전·원본 대조는 완료했고, 전기적 미연결과 모듈 핀 표기 검토가 남아 있다. 원본 연결 근거는 `bleuno/hardware/type_m/v1/pinmap.md`에 있다.

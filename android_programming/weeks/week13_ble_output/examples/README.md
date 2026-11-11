@@ -15,7 +15,7 @@
 | [day2/strings.xml](day2/strings.xml) | `strings.xml` | (확장) `pwm_title` 추가 |
 | [day2/colors.xml](day2/colors.xml) | `app › res › values › colors.xml` | 새 프로젝트에 이미 있는 파일(`black`·`white`)에 `log_ok`·`log_error` 두 줄 추가. 예제는 파일째 바꿔도 되게 네 줄을 모두 두었다 |
 | `dayN/MainActivity.kt`, `dayN/activity_main.xml`, `dayN/ContactsReader.kt` | 연결 화면·연락처 읽기 | 12주차 `examples/day2` 그대로, 바꾸지 않는다 |
-| [day1/bleuno/](day1/bleuno) 8개 | `app › kotlin+java › com.example.smartio › bleuno` | 12주차에 넣은 제공 코드 그대로. [bleuno/src](../../../bleuno/src)와 같다 |
+| [day1/bleuno/](day1/bleuno) 9개 | `app › kotlin+java › com.example.smartio › bleuno` | 12주차에 넣은 제공 코드 그대로. [bleuno/src](../../../bleuno/src)와 같다 |
 | `dayN/AndroidManifest.xml`, `dayN/res/values/themes.xml` | Manifest·테마 | 12주차 그대로. 명령 보내기·응답 받기는 10주차에 넣은 `BLUETOOTH_CONNECT` 권한 안에 들어 있다 |
 
 `ControlActivity.kt` 전체를 복사할 때 첫 줄 `package ...`는 내 프로젝트의 첫 줄을 그대로 둔다.

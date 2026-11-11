@@ -139,7 +139,7 @@ binding.scanButton.setOnClickListener {
 
 ## 1일차 · 20–27분 ① — 제공 라이브러리 bleuno 넣기
 
-1. `com.example.smartio`에서 **New › Package** › `bleuno` → `src/` 파일 8개 붙여 넣기
+1. `com.example.smartio`에서 **New › Package** › `bleuno` → `src/` 파일 9개 붙여 넣기
 2. 11주차 `ConnState.kt`·`Permissions.kt` 지우기 → `ConnState` import, `blePermissions()` 세 곳(12·13번, `permissionLauncher`의 `else if`)을 `PermissionHelper.required()`로
 
 ```kotlin

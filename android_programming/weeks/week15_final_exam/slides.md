@@ -83,7 +83,7 @@ com.example.smartio
 ├─ MainActivity.kt      화면: 연결  (TODO(1) 권한 · TODO(3) 시간 제한)
 ├─ ControlActivity.kt   화면: 제어  (TODO(2) LED 토글 · 응답)
 ├─ ContactsReader.kt    제공 (11주)
-└─ bleuno/              제공 8개: Bleuno · BleunoClient · BleunoMessage · ConnState …
+└─ bleuno/              제공 9개: Bleuno · BleunoClient · BleunoMessage · ConnState …
 res/layout   activity_main.xml · activity_control.xml     (고치지 않음)
 res/values   strings.xml · colors.xml(log_ok · log_error)  상수
 ```

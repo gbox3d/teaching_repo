@@ -95,7 +95,7 @@ on 3
 - [리허설과 본시험 안내](lab.md) — 시간표, 허용 자료, 장애가 나면, 시연 정원 계산, 막혔을 때
 - [예제 설명](examples/README.md)
 - [채점표](rubric.md) — 구현 15 + 시연 5, 기본점수 운영 메모, 기록 양식
-- 리허설 시작 코드: [MainActivity.kt](examples/rehearsal_starter/MainActivity.kt) · [ControlActivity.kt](examples/rehearsal_starter/ControlActivity.kt) (나머지 15개 파일은 14주차와 같다)
+- 리허설 시작 코드: [MainActivity.kt](examples/rehearsal_starter/MainActivity.kt) · [ControlActivity.kt](examples/rehearsal_starter/ControlActivity.kt) (나머지 16개 파일은 14주차와 같다)
 - 리허설 완성 코드(먼저 혼자 풀고 비교): [MainActivity.kt](examples/rehearsal_solution/MainActivity.kt) · [ControlActivity.kt](examples/rehearsal_solution/ControlActivity.kt)
 - 제공 라이브러리: [bleuno 패키지 README](../../bleuno/README.md)
 

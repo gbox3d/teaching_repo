@@ -15,7 +15,7 @@
 | [day1/activity_main.xml](day1/activity_main.xml) | `activity_main.xml` | `retryButton` 아래에 [재연결]·[끊김 시험] 가로 줄(둘 다 처음엔 숨김) |
 | [day1/strings.xml](day1/strings.xml) | `app › res › values › strings.xml` | `input_start`·`input_history_title`·`reconnect`·`lost_test` 추가. [중지]는 기존 `stop`을 다시 쓴다 |
 | `day1/ContactsReader.kt`, [day1/colors.xml](day1/colors.xml) | 연락처 읽기·색 | 13주차 그대로, 바꾸지 않는다 |
-| [day1/bleuno/](day1/bleuno) 8개 | `app › kotlin+java › com.example.smartio › bleuno` | 12주차에 넣은 제공 코드 그대로. [bleuno/src](../../../bleuno/src)와 같다 |
+| [day1/bleuno/](day1/bleuno) 9개 | `app › kotlin+java › com.example.smartio › bleuno` | 12주차에 넣은 제공 코드 그대로. [bleuno/src](../../../bleuno/src)와 같다 |
 | `day1/AndroidManifest.xml`, `day1/res/values/themes.xml` | Manifest·테마 | 12주차 그대로. `dht11` 보내기와 재연결은 10주차에 넣은 `BLUETOOTH_CONNECT` 권한 안에 들어 있다 |
 
 `.kt` 파일 전체를 복사할 때 첫 줄 `package ...`는 내 프로젝트의 첫 줄을 그대로 둔다.

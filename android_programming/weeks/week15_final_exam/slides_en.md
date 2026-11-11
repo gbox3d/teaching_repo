@@ -83,7 +83,7 @@ com.example.smartio
 ├─ MainActivity.kt      Screen: connection  (TODO(1) permission · TODO(3) timeout)
 ├─ ControlActivity.kt   Screen: control  (TODO(2) LED toggle · response)
 ├─ ContactsReader.kt    provided (week 11)
-└─ bleuno/              8 provided files: Bleuno · BleunoClient · BleunoMessage · ConnState …
+└─ bleuno/              9 provided files: Bleuno · BleunoClient · BleunoMessage · ConnState …
 res/layout   activity_main.xml · activity_control.xml     (do not modify)
 res/values   strings.xml · colors.xml (log_ok · log_error)  constants
 ```

@@ -15,12 +15,12 @@
 | [MainActivity.kt](rehearsal_starter/MainActivity.kt) → [완성](rehearsal_solution/MainActivity.kt) | `app › kotlin+java › com.example.smartio › MainActivity.kt` | TODO(1) 네 곳·TODO(3) 두 곳 본문만 다르다(starter 475행, 완성 498행) |
 | [ControlActivity.kt](rehearsal_starter/ControlActivity.kt) → [완성](rehearsal_solution/ControlActivity.kt) | `… › ControlActivity.kt` | TODO(2) 세 곳 본문만 다르다(starter 247행, 완성 277행) |
 | [ContactsReader.kt](rehearsal_starter/ContactsReader.kt) | `… › ContactsReader.kt` | 같다(11주차) |
-| [bleuno/](rehearsal_starter/bleuno) 8개 | `… › com.example.smartio › bleuno` | 같다. 제공 [bleuno/src](../../../bleuno/src)와 같다 |
+| [bleuno/](rehearsal_starter/bleuno) 9개 | `… › com.example.smartio › bleuno` | 같다. 제공 [bleuno/src](../../../bleuno/src)와 같다 |
 | [activity_main.xml](rehearsal_starter/activity_main.xml), [activity_control.xml](rehearsal_starter/activity_control.xml) | `app › res › layout` | 같다 |
 | [strings.xml](rehearsal_starter/strings.xml), [colors.xml](rehearsal_starter/colors.xml), [res/values/themes.xml](rehearsal_starter/res/values/themes.xml) | `app › res › values` | 같다 |
 | [AndroidManifest.xml](rehearsal_starter/AndroidManifest.xml) | `app › manifests › AndroidManifest.xml` | 같다(10주차 BLE 권한, 11주차 연락처 권한) |
 
-- 14주차 프로젝트가 그대로 있으면 **`MainActivity.kt`·`ControlActivity.kt` 두 파일만** 바꾼다. 나머지 15개는 14주차와 같다.
+- 14주차 프로젝트가 그대로 있으면 **`MainActivity.kt`·`ControlActivity.kt` 두 파일만** 바꾼다. 나머지 16개는 14주차와 같다.
 - `build.gradle.kts`는 이 폴더에 없다. 4주차에 만든 파일을 그대로 쓴다([4주차 examples/day1/build.gradle.kts](../../week04_fragments_navigation/examples/day1/build.gradle.kts)). 본시험 starter는 이 파일까지 들어 있는 프로젝트 폴더로 배포한다.
 - `.kt` 파일 전체를 복사할 때 첫 줄 `package ...`는 내 프로젝트의 첫 줄을 그대로 둔다.
 - starter에서 회색으로 보이는 import 네 줄(`MainActivity.kt`의 `android.net.Uri`·`kotlinx.coroutines.delay`, `ControlActivity.kt`의 `androidx.appcompat.app.AlertDialog`·`androidx.core.content.ContextCompat`)은 TODO를 채우면 쓰인다. 지우지 않는다.

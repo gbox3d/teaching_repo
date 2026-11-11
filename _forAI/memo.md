@@ -79,6 +79,7 @@ Qwen3 계열은 thinking 출력이 섞이므로 Ollama API 호출에 `"think": f
 - `materials_plan.md` 초안의 `materials/` 챕터 구조를 되살리는 일. 주차 폴더 구조로 확정했다.
 - 존재하지 않는 CLI 명령 이름(예: 버전에 따라 바뀐 Hugging Face 캐시 명령)을 본문에 고정하는 일. Python API로 쓰거나 `--help`로 확인하라고 안내한다.
 - 모델 태그가 가리키는 빌드가 그대로일 것이라고 가정하는 일. 제공자가 같은 태그를 다른 빌드로 옮긴다. 태그에 의존하는 동작(생각 모드 on/off, 도구 호출, 컨텍스트 길이)을 가르칠 때는 레지스트리 digest나 `ollama show`로 실제 빌드를 확인한다.
+- 학생용 실습지(`lab.md`)에 실측 결과를 정답처럼 적는 일. 실습지에는 예상·관찰 표와 힌트만 두고, 실측과 정답은 비공개 `lab_solution.md`에 둔다.
 - 측정하지 않은 실행시간·VRAM·tokens/s를 사실처럼 적는 일. 확인할 수 없으면 자리표시자와 "기준 PC 실측값으로 채운다"로 둔다.
 
 ## Android BLE 보드 연계
@@ -87,6 +88,21 @@ Qwen3 계열은 thinking 출력이 섞이므로 Ollama API 호출에 `"think": f
 - 교재·점검 앱·펌웨어에서 Service UUID `c6f8b088-2af8-4388-8364-ca2a907bdeb8`, Characteristic UUID `f6aa83ca-de53-46b4-bdea-28a7cb57942e`가 일치한다. 현재 확인 범위는 소스 비교이며 실기 검증은 미완료다.
 - 교재 GPIO `[4,3,1,0]`은 기존 수업의 `ledpin` 설정이다. 원본 type_m v1은 모터·서보용이며 GPIO0=CHKBAT, GPIO7=SLEEP이라 이 설정과 `dht11pin=7`을 그대로 적용하면 충돌한다. 모델명 `type_m`, 하드웨어 버전 `v1`, 펌웨어 `1.0.5_dev`는 별도로 관리한다.
 - type_m v1 원본 회로도·PCB의 12부품·52핀 네트 매핑을 대조했다. SEN1은 MCU에 연결되지 않고 VIN은 전원 헤더 pin3에만 존재한다. KiCad 이전과 원본 대조는 완료했으며 전기적 미연결·모듈 핀 표기·실기 확인은 남아 있다. 근거는 `bleuno/hardware/type_m/v1/pinmap.md`다.
-- TENSTAR 펌웨어 소스에서 연결 시 내장 상태 LED는 파랑 고정이고 외부 제어 LED는 꺼진다. 실제 보드와 대조가 필요하다.
-- 버튼 입력 이벤트는 Fake용 가안이며 현재 펌웨어가 실제로 전송하는 이벤트가 아니다.
-- 공통 클래스를 수정할 때는 12주차 1·2일차, 13주차 1·2일차, 14주차 1일차의 복사본 5곳도 함께 확인한다.
+- 펌웨어 소스(`gbox3d/bleuno` main, `ble.cpp`)는 연결될 때 외부 제어 LED를 모두 끈다(`onConnect`의 `ledOff(-1)`). 끊길 때는 LED와 밝기를 모두 끈다(`onDisconnect`의 `clearAllControl()`). TENSTAR 빌드는 연결 중 내장 상태 LED가 파랑 고정이다. 실제 보드와의 대조는 아직 하지 않았다.
+- 펌웨어 `onWrite`는 길이 0인 명령을 건너뛴다. 그래서 빈 줄에는 응답이 없다. `RealBleunoClient`·`TcpBleunoClient`는 `send("")`에 `\n`을 보내고, Fake는 보내기 전에 거른다.
+- 버튼 입력 이벤트는 Fake용 가안이며 현재 펌웨어가 실제로 전송하는 이벤트가 아니다. Wi-Fi 시뮬레이터는 화면 [입력 버튼]을 누를 때만 보낸다(교수 결정 2026-11-12).
+- 공통 클래스를 수정할 때는 함께 고치는 곳이 있다. `check_week.py`(비공개 `android_programming/tools/android_verify/`)는 주차 `examples/`의 .kt·.xml 전문과 같은 코드 블록이 walkthrough에 없으면 경고(WARN)만 낸다(문제 0건이면 종료 코드 0). 정본 `bleuno/src`와는 대조하지 않는다. 그래서 정본과 복사본 7곳이 같은지는 sha256(또는 `cmp`)으로 따로 본다.
+  - 복사본 7곳: 12주차 1·2일차, 13주차 1·2일차, 14주차 1일차, 15주차 rehearsal_solution·rehearsal_starter
+  - 12~15주차 `walkthrough.md` 부록의 전문
+  - 파일 수를 적은 주차 문서("9개")
+  - `bleuno/README.md`의 파일 수('9개')·3절 파일 표·5절 API 표
+  - `iot_sim/lab.md` 2-1의 `createTcp()` 코드 블록
+  - 비공개 12~15주차 대본·해답과 `course_plan_2026.md` §5
+  - 파일 수에서 나온 총수(15주차 '나머지 N개', 'N개 파일')
+- Wi-Fi 시뮬레이터(`iot_sim/`)와 `TcpBleunoClient.kt` 사이의 약속은 다음과 같다. 한쪽을 바꾸면 다른 쪽도 고친다.
+  - 명령 TCP 8266, 검색 UDP 8267(`bleuno?` → `{"name","port"}`)
+  - 연결 직후 시뮬레이터가 먼저 보내는 `hello` 한 줄(앱은 첫 줄을 받으면 준비됨. hello 줄은 `onMessage`로 넘기지 않는다)
+  - 기본 이름 `ESP32_BLE_SIM1`(예제 목록은 이름이 `ESP32_BLE`로 시작하는 장치만 보인다)
+- 화면 HTTP 8080(`/state`·`/set`·`/input`·`/drop`)은 `sim.py` 자체 화면과 비공개 `tools/iot_sim/test_sim.py`가 쓴다. 바꾸면 `test_sim.py`를 같이 고친다. 포트 번호 8080은 `TcpBleunoClient.kt` 232행 주석과 실습지 8번에도 나온다.
+- 시뮬레이터의 `dht11`은 화면 슬라이더 값이다(Fake는 세 값 반복). 연결·해제 때 LED를 끄고 빈 줄에 답하지 않는 것은 펌웨어와 같다. 펌웨어가 바뀌면 `sim.py`, `iot_sim/README.md`, `iot_sim/lab.md` 6번 차이 표와 막혔을 때 'LED가 저절로 모두 꺼짐' 줄, `bleuno/README.md` 1·10절, 비공개 `test_sim.py`와 `iot_sim/lab_solution.md` 결정 표를 같이 본다.
+- 앱의 LED Switch·밝기 막대는 앱이 보낸 명령만 기억한다. 보드나 시뮬레이터가 스스로 LED를 끄면 화면과 어긋날 수 있다. 어느 화면에서 어긋나고 어느 화면에서 맞는지는 실습지 7번 표 2의 관찰 항목이라 여기 적지 않는다. 측정 기록과 정답은 비공개 `teaching_materials_private/android_programming/iot_sim/lab_solution.md`(결정 3과 실제 화면 흐름, 7번 표 2)에 있다. 실습지 7번이나 이 항목을 고칠 때는 그 기록부터 본다.

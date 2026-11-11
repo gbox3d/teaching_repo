@@ -61,6 +61,7 @@ JSON 줄은 로그 칸 폭 때문에 두 줄로 접혀 보일 수 있다. 보드
 - 12주차까지 만든 `SmartIO` 프로젝트(목록 줄을 눌러 `준비됨`이 되면 [제어 화면]이 켜지고, 제어 화면 상단에 `상태: 준비됨`이 보이는 상태). 없으면 12주차 완성본(`examples/day2`)을 받아 시작한다.
 - 에뮬레이터(AVD)는 12주차와 같이 **API 33 이상**을 쓴다. Fake로 명령·응답 연습을 끝까지 할 수 있다.
 - 실보드 제어는 Android 실기기와 수업 보드(파랑 깜빡임 상태)가 있어야 한다. 학생은 펌웨어를 고치거나 올리지 않는다.
+- 보드가 없으면 PC의 Wi-Fi 시뮬레이터로 LED 명령·응답을 실제 통신으로 해 볼 수 있다(선택, [Wi-Fi 시뮬레이터 실습](../../iot_sim/lab.md)). 이번 주 관찰표·캡처·제출은 Fake 또는 실보드 기준 그대로다.
 - [bleuno README 2절](../../bleuno/README.md#2-명령과-응답)의 명령 표와 [N은 LED 인덱스다](../../bleuno/README.md#n은-led-인덱스다)를 미리 읽어 온다.
 - 3주차 `?.`·`?:`·생명주기 콜백, 4주차 `.toInt()`·`isEmpty()`·`append`·`@string/`, 5주차 `isEnabled`, 6주차 `lifecycleScope.launch`·`delay`, 7주차 `collect` 틀·`ConnState`, 10주차 `onStart`/`onStop` 짝·`AlertDialog`·익명 객체 틀, 12주차 `Bleuno.client`
 - `AndroidManifest.xml`과 `build.gradle.kts`에 더할 것이 없다. 명령 보내기와 응답 받기는 10주차에 넣은 `BLUETOOTH_CONNECT` 권한 안에 들어 있고, `SeekBar`·`AlertDialog`·`ContextCompat`·`delay`는 4주차 의존성에 들어 있다.

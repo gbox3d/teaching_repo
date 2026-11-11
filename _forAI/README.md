@@ -29,10 +29,10 @@
 
 ## 현재 스냅샷
 
-- 확인일: `2026-09-02`
+- 확인일: `2026-11-12`
 - 저장소 경로: `C:\works\coworks\teaching_repo`
 - 대상 플랫폼: 공개 수업교재 저장소(GitHub `gbox3d/teaching_repo`) + GitHub Pages 슬라이드 도서관
-- 교재: 모바일프로그래밍 15주, 웹프로그래밍 15주·특강 1, 오픈소스 AI 응용 15주
+- 교재: 모바일프로그래밍 15주(12~15주 BLE 보드 수업 + 보드 없이 연습하는 Wi-Fi 시뮬레이터 `android_programming/iot_sim/`), 웹프로그래밍 15주·특강 1, 오픈소스 AI 응용 15주
 - 메인 엔트리포인트: `README.md`(교재 색인), `scripts/render-site.mjs`(빌드), `scripts/check-site.mjs`(검증), `site/catalog.json`(덱 목록)
 - 비공개 짝 저장소: `C:\works\coworks\univ_scoring_works\teaching_materials_private\`(강의 대본·실습 해답)
 

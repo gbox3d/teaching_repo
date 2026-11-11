@@ -7,7 +7,7 @@
 
 | 예제 파일 | 내 프로젝트에서 바꿀 파일 | 이번 주 변경 |
 |---|---|---|
-| [day1/bleuno/](day1/bleuno) 8개 (`Bleuno.kt`, `BleunoClient.kt`, `BleunoDevice.kt`, `BleunoMessage.kt`, `ConnState.kt`, `FakeBleunoClient.kt`, `PermissionHelper.kt`, `RealBleunoClient.kt`) | `app › kotlin+java › com.example.smartio › bleuno`(새 패키지, New › Package) | **제공 코드**. [bleuno/src](../../../bleuno/src)와 같다. 붙여 넣고 고치지 않는다 |
+| [day1/bleuno/](day1/bleuno) 9개 (`Bleuno.kt`, `BleunoClient.kt`, `BleunoDevice.kt`, `BleunoMessage.kt`, `ConnState.kt`, `FakeBleunoClient.kt`, `PermissionHelper.kt`, `RealBleunoClient.kt`, `TcpBleunoClient.kt`) | `app › kotlin+java › com.example.smartio › bleuno`(새 패키지, New › Package) | **제공 코드**. [bleuno/src](../../../bleuno/src)와 같다. 붙여 넣고 고치지 않는다 |
 | 11주차 `ConnState.kt`, `Permissions.kt` | `com.example.smartio` 바로 아래 | 1일차에 **지운다**. `bleuno`의 `ConnState`, `PermissionHelper.required()`를 쓴다 |
 | [day1/MainActivity.kt](day1/MainActivity.kt) | `app › kotlin+java › com.example.smartio › MainActivity.kt` | `useFake`·`client`·`bluetoothLauncher`, client 받기(24번), [검색] 교체(25~29번), [중지] 교체(30번), `onStop`에 `stopScan()`, `blePermissions()` → `PermissionHelper.required()`(12·13번, `permissionLauncher`의 `else if` 줄) |
 | [day1/ConnViewModel.kt](day1/ConnViewModel.kt) | `ConnViewModel.kt` | `import com.example.smartio.bleuno.ConnState` 한 줄 추가 |
