@@ -299,7 +299,7 @@ M3 · 15주 · v0.1.0 릴리스     CI 초록불, 태그, CHANGELOG, 발표     
 
 | 원칙 | 나쁜 예 | 좋은 예 |
 |---|---|---|
-| 작게 (3일 이하) | LoRA 학습 구현 | `train_lora.py`로 run-001 학습 후 loss 기록 |
+| 작게 (3일 이하) | LoRA 학습 구현 | 7주차 `uv run ex03`으로 run-001 학습 후 loss 기록 |
 | 검증 가능 | 데이터 준비 | `data/sft.jsonl` 50건, `pii_check.py` 통과 |
 | 담당 1명 | 팀 전체 | `student02` |
 | 마일스톤 소속 | 없음 | M1 |

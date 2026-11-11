@@ -2,8 +2,8 @@
 
 실행: uv run python split.py                 # test 20, val 4, 나머지 train (seed 42)
       uv run python split.py --test 10 --val 5 --seed 7
-      uv run python split.py --against ..\\..\\..\\week07_peft_lora\\examples\\lora_lab\\data\\sample_sft.jsonl
-          # 외부 학습 파일(10주차 LoRA 학습 데이터)과 test 문항이 겹치는지(벤치마크 오염) 함께 검사
+      uv run python split.py --against data/week10_sample_sft.jsonl
+          # 외부 학습 파일(구판 LoRA 학습 데이터 사본)과 test 문항이 겹치는지(벤치마크 오염) 함께 검사
 
 분할은 Hugging Face `datasets`의 `Dataset.train_test_split(seed=...)`를 두 번 써서 만든다.
 이번 주는 평가가 목적이라 test를 크게 잡는다. 실제 프로젝트에서는 8:1:1 같은 비율이 흔하다.

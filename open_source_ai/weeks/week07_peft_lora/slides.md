@@ -3,368 +3,398 @@ marp: true
 theme: default
 paginate: true
 header: "오픈소스 AI 응용 · 7주차"
-footer: "PEFT/LoRA 경량 파인튜닝"
+footer: "내 답변 예시로 배우는 LoRA"
 ---
 
 # 7주차
-## PEFT/LoRA 경량 파인튜닝
+## 내 답변 예시로 배우는 LoRA
 
-**60분 블록 × 3**<br>
-매 블록 설명·시연 20분 + 직접 해결 실습 30분 + 휴식 10분
+Ollama 대화 → 데이터 수정·학습 → 저장·복원 → 다시 대화
+
+60분 블록 × 3: 설명 20분 + 실습 30분 + 휴식 10분
 
 ---
 
-## 이번 주 세 블록
+## 이번 주 흐름
 
-| 교시 | 설명·시연 20분 | 직접 해결 실습 30분 |
+| 교시 | 설명·시연 20분 | 실습 30분 |
 |---|---|---|
-| 1교시 | 전체를 다시 배우지 않고 일부만 바꾸기 | 어댑터 붙이고 학습 파라미터 세기 |
-| 2교시 | 데이터가 모델에 들어가는 길: 템플릿·마스킹·Trainer | 수업 도우미 말투로 LoRA 학습하기 |
-| 3교시 | 어댑터를 저장·비교·기록하기 | 전후 비교와 실험 기록 run-001 |
+| 1교시 | 실행과 학습 도구의 역할 | Ollama와 작은 모델에서 대화 |
+| 2교시 | 예시 답변과 LoRA 학습 | 데이터 수정·학습·저장 |
+| 3교시 | 불러오기·비교·Ollama 연결 | 같은 질문의 전후 비교와 기록 |
 
-이번 주 질문: **무엇을 고정하고 무엇을 기록해야 몇 분짜리 학습이 재현되는가?**
+필수: 내 데이터를 고치고 저장한 어댑터로 다시 대화한다.
+rank·VRAM 계산·마스킹 구현은 선택 심화다.
 
 ---
 
 <!-- _class: lead -->
 
 # 1교시 · 설명 20분
-## 전체를 다시 배우지 않고 일부만 바꾸기
+## Ollama 대화와 학습 도구 연결
 
 ---
 
-## 0–3분 · 세 가지 적응 방법
+## 0–3분 · 지난 실습과 오늘의 작업
 
-```text
-프롬프트     : 가중치 그대로, 지시문만 바꾼다        (4주차 Modelfile)
-전체 파인튜닝: 모든 가중치를 다시 학습한다             (수십 GB VRAM)
-PEFT         : 가중치는 얼리고 작은 부품만 학습한다    (이번 주)
-```
+4·5주차: Ollama 모델에 질문하고 답을 받았다.
+6주차: 신화 자료를 찾아 질문에 함께 넣었다.
 
-- 사전학습 모델의 지식을 **재사용**하는 것이 전이학습
-- 문제는 "무엇을 바꿀 것인가"가 아니라 **"무엇을 얼릴 것인가"**
+오늘은 **내가 고친 답변 예시로 작은 모델을 학습**한다.
 
-**질문:** 4주차의 system 프롬프트로 안 되던 일은 무엇이었는가?
+데이터 수정 → 학습 → 저장 → 새로 불러와 대화
+
+신화 안내자라는 주제와 질문 입력 방식은 이어 쓴다.
 
 ---
 
-## 3–6분 · 전체 파인튜닝 vs PEFT
+## 3–6분 · 프롬프트·RAG·LoRA
 
-| 항목 | 전체 파인튜닝 | PEFT(LoRA) |
+| 방법 | 바꾸는 대상 | 이번 예 |
 |---|---|---|
-| 학습 파라미터 | 100% | 0.1~2% |
-| 옵티마이저 상태 | 파라미터 수 × 8바이트 | 학습 파라미터만 |
-| 저장 산출물 | 모델 전체 복사본 | 어댑터 수십 MB |
-| 원본 되돌리기 | 별도 보관 필요 | 어댑터만 떼면 된다 |
+| 프롬프트 | 입력의 지시문 | 세 줄로 소개하라고 요청 |
+| RAG | 입력에 넣는 자료 | 신화 문서를 검색해 제공 |
+| LoRA | 학습하는 작은 가중치 | 예시 답변의 형식을 학습 |
 
-**같은 기본 모델 위에 어댑터를 여러 개** 바꿔 끼울 수 있다.
+프롬프트만으로 충분하면 그대로 사용한다.
+작은 모델이 지시를 따르지 못하면 답변 예시로 형식을 가르친다.
+LoRA는 자료 검색을 대신하거나 사실의 정확성을 보장하지 않는다.
 
 ---
 
-## 6–10분 · LoRA 직관: ΔW = BA
+## 6–9분 · 도구의 역할
 
-```text
-원래 계층:   y = W x                 W: (out × in), 얼림
-LoRA 계층:   y = W x + (alpha / r) · B A x
-             A: (r × in)  B: (out × r)   r ≪ in, out
+| 도구 | 맡는 일 |
+|---|---|
+| Ollama | 준비된 모델 실행과 대화 API |
+| Transformers | Python에서 모델·토크나이저 로드와 생성 |
+| PEFT | 기본 모델에 LoRA 붙이기 |
+| Trainer | 준비한 데이터로 학습 반복 |
+
+학습할 부분에 접근하려고 Python에서 모델을 불러온다.
+PyTorch 특강을 먼저 듣거나 학습 반복문을 직접 만들 필요는 없다.
+
+---
+
+## 9–12분 · 익숙한 Ollama 대화
+
+```powershell
+uv run ex01
 ```
 
-- `r`(rank): 안쪽 차원. 커지면 표현력과 파라미터가 함께 는다
-- `alpha`: 어댑터 출력 배율. 관례는 `alpha = 2r`
-- `target_modules`: 붙일 선형 계층 이름 — 보통 `q_proj, k_proj, v_proj, o_proj`
+질문: `아테나를 소개해 줘.`
 
-학습이 끝나면 `W + (alpha/r)·BA`로 **병합**해 원래 모양으로 돌아간다.
+`ex01_ollama`의 `PROMPT`에 형식 지시를 덧붙여 다시 실행한다.
 
----
-
-## 10–13분 · 학습 메모리 네 덩어리
-
-```text
-가중치        파라미터 수 × 2바이트(bf16)
-그래디언트    학습 파라미터 × 4바이트
-옵티마이저    학습 파라미터 × 8바이트(Adam 1차·2차)
-활성화        배치 × 시퀀스 길이 × hidden × 층 수 × (상수)
+```python
+PROMPT = SYSTEM_PROMPT + " 이름, 소개, 기억할 점을 한 줄씩 답하세요."
 ```
 
-- 전체 파인튜닝은 위 세 줄이 **모든** 파라미터에 걸린다
-- LoRA는 두·세 번째 줄이 1% 안팎으로 줄고, **활성화는 그대로**
-
-**질문:** 0.5B 모델을 전체 파인튜닝하면 옵티마이저 상태만 몇 GB인가?
+지시문만 바꿨다. 가중치를 학습하지 않았다. 종료는 `/bye`.
 
 ---
 
-## 13–16분 · 12 GB에 무엇이 들어가는가
+## 12–15분 · 학습용 작은 모델
 
-| 모델 크기 | 방식 | 대략의 VRAM | 12 GB 판정 |
-|---|---|---|---|
-| 0.5B | LoRA · bf16 · seq 512 | 3~5 GB | 여유 |
-| 1.5B | LoRA · bf16 · seq 512 | 6~10 GB | 배치 줄이면 가능 |
-| 7B | LoRA · bf16 | 16 GB 이상 | 불가 |
-| 7B | 4비트 양자화 + LoRA(QLoRA) | 6~10 GB | 가능(이 수업 범위 밖) |
+처음 대화: 앞 주차의 `qwen3.5:2b`
+학습·비교: `Qwen/Qwen2.5-0.5B-Instruct` (수업 시간 안에 학습하려고 고른 작은 모델)
 
-값은 **예측표를 만들고 실측으로 고치는** 것이 이번 주 태도다.
-
----
-
-## 16–18분 · 프롬프트로 될 일, LoRA가 필요한 일
-
-- 프롬프트로 충분: 역할 지시, 출력 언어, 한두 가지 형식 규칙
-- LoRA가 필요: 매번 지키지 못하는 **일관된 형식·말투**, 도메인 용어, 긴 지시문을 짧게 줄이기
-- LoRA로도 안 됨: 모델이 모르는 사실 추가(→ 6주차 RAG처럼 자료를 넣어 준다)
-
-시연: `uv run python lora_setup.py --ranks 4,8,16`
-
-```text
-trainable params: 1,081,344 || all params: 495,114,112 || trainable%: 0.2184
+```powershell
+uv run ex02
 ```
 
+`ex02`의 `PROMPT`에도 같은 형식 지시를 덧붙인다.
+교재 검증 PC: 2B는 세 줄로 답했고, 0.5B는 한두 문장으로 답했다.
+지시를 따르지 못하는 작은 모델에는 **답변 예시로 형식을 가르친다**.
+
+아직 학습 전이다. 학습 효과는 같은 0.5B 모델에서 비교한다.
+
 ---
 
-## 18–20분 · 실습 인계
+## 15–18분 · 토큰과 응답 생성
 
-[1교시 실습 — 어댑터 붙이고 학습 파라미터 세기](lab.md#1교시-실습--어댑터-붙이고-학습-파라미터-세기) · [교시별 예제](examples/period1/README.md)
+`shared`의 `load_model()`과 `answer()`를 읽는다.
 
-완료 조건:
+```text
+질문 + system 지시
+    ↓ tokenizer.apply_chat_template
+모델이 읽을 토큰
+    ↓ model.generate
+새로 생성한 토큰
+    ↓ tokenizer.decode
+화면에 표시할 답변
+```
 
-1. r=4·8·16의 학습 파라미터 수와 비율(%) 표
-2. 가중치·학습 상태·활성화·합계로 나눈 VRAM 예측표
-3. `target_modules`를 줄였을 때 비율이 어떻게 변하는지 한 문장
+모델은 한 번 불러오고, 질문 입력을 반복한다.
 
-실습 30분 뒤 휴식 10분, 휴식 후 2교시.
+---
+
+## 18–20분 · 1교시 실습 인계
+
+[실습지 1교시](lab.md#1교시-실습--ollama-대화와-학습-도구-연결) · [소스 안내](examples/period1/README.md)
+
+- `ex01`: 형식 지시 전후의 답 확인
+- `ex02`: 두 질문 → 빈 입력 → `/bye` → 같은 형식 지시
+- 실행과 학습의 차이를 한 문장으로 설명
+- 나중에 다시 물을 질문 두 개 기록
+
+각 질문은 독립적이다. 앞 질문을 기억하는 예제가 아니다.
+30분 실습 뒤 10분 휴식.
 
 ---
 
 <!-- _class: lead -->
 
 # 2교시 · 설명 20분
-## 데이터가 모델에 들어가는 길: 템플릿·마스킹·Trainer
+## 내 답변 예시로 LoRA 학습
 
 ---
 
-## 0–3분 · SFT 데이터: 질문과 답 한 쌍
+## 0–3분 · 질문과 원하는 답변
+
+`src/shared/data/sample_sft.jsonl`
 
 ```json
-{"instruction": "uv.lock 파일을 왜 커밋해야 하나요?",
- "output": "핵심: …\n이유: …\n다음 할 일: …"}
+{"instruction":"제우스는 누구야?",
+ "output":"이름: 제우스\n소개: ...\n기억할 점: ..."}
 ```
 
-- `data/sample_sft.jsonl`: 수업 내용에 대한 한국어 Q&A 50여 건, 자체 작성
-- 모든 답이 **핵심 · 이유 · 다음 할 일** 세 줄 형식 — 바꾸려는 "말투"
-- 실제 인물·기관 정보 없음. 팀 데이터도 같은 원칙
+실제 파일에서는 한 줄에 JSON 하나를 쓴다.
+`\n`은 답변의 줄바꿈이다.
 
-**질문:** 50건으로 무엇까지 배우고 무엇은 못 배우는가?
+24건의 신화 소개를 새로 작성했다. 목표는 세 줄 형식이다.
 
 ---
 
-## 3–7분 · chat template: 문자열이 입력이 되는 길
+## 3–6분 · 학생이 바꿀 부분
+
+24건 전체의 `기억할 점:`을 내가 정한 항목 이름으로 바꾼다.
+VS Code `Ctrl+H` → 모두 바꾸기
 
 ```text
-<|im_start|>system
-당신은 오픈소스 AI 응용 수업의 도우미입니다. …<|im_end|>
-<|im_start|>user
-uv.lock 파일을 왜 커밋해야 하나요?<|im_end|>
-<|im_start|>assistant
-핵심: uv.lock은 …<|im_end|>
+기억할 점: 올빼미와 올리브나무가 상징입니다.
+    ↓
+한 줄 요약: 올빼미와 올리브나무가 상징입니다.
 ```
 
-- `tokenizer.apply_chat_template(messages)`가 모델별 특수 토큰을 붙인다
-- 학습 때 쓴 템플릿과 **추론 때 템플릿이 같아야** 한다
-- system 프롬프트도 학습·비교에서 **같은 문장**으로 고정한다
+3교시에는 학습 후 답변에 이 이름이 나오는지 확인한다.
+한 줄의 사실을 고치는 활동은 선택이며, 형식과 따로 확인한다.
+비교 질문의 정답을 학습 파일에 새로 넣지는 않는다.
 
 ---
 
-## 7–10분 · 라벨 마스킹: 답만 배운다
+## 6–9분 · LoRA가 학습하는 부분
 
 ```text
-토큰:   [system…] [user…] [assistant\n] [핵심: …] [<|im_end|>]
-라벨:    -100 …    -100 …   -100          그대로     그대로
+기본 모델: 이미 학습된 가중치를 유지
+    +
+LoRA 어댑터: 이번 예시로 바꿀 작은 가중치
+    ↓
+학습 후 답변
 ```
 
-- 손실은 라벨이 `-100`이 아닌 위치에서만 계산된다
-- 프롬프트까지 학습하면 모델이 **질문을 흉내 내는 데** 용량을 쓴다
-- 시연: `uv run python train_lora.py --inspect`
-
-**질문:** 라벨이 전부 `-100`이면 loss는 어떻게 되는가?
+전체 모델을 새로 만드는 실습이 아니다.
+저장되는 어댑터는 **같은 기본 모델과 함께** 사용한다.
+rank 계산은 필수 실습 뒤 선택 심화에서 다룬다.
 
 ---
 
-## 10–14분 · Trainer 구조
+## 9–12분 · 학습 코드의 세 동작
 
-```text
-TrainingArguments  ─ lr, epoch, batch, accumulation, seed, bf16, 로그 주기
-Dataset            ─ input_ids · attention_mask · labels
-DataCollator       ─ 배치마다 길이를 맞춰 패딩(labels는 -100)
-Trainer.train()    ─ forward → loss → backward → optimizer.step() 반복
-```
+`src/ex03_train/__init__.py`
 
 ```python
-trainer = Trainer(model=model, args=training_args,
-                  train_dataset=dataset, data_collator=collator)
+model = get_peft_model(base, LoraConfig(...))
+# 준비된 데이터와 model을 Trainer에 전달
 trainer.train()
-trainer.state.log_history   # step별 loss
+model.save_pretrained(ADAPTER_DIR)
 ```
 
-모델의 학습 루프를 **설정으로** 바꾼 것이다.
+붙이기 → 학습 → 저장
+
+데이터를 토큰으로 바꾸고 답변만 채점하는 부분은
+`shared/training.py`에 준비되어 있다.
 
 ---
 
-## 14–17분 · 하이퍼파라미터 다섯 개
+## 12–15분 · 바꿔 볼 값과 실행
 
-| 이름 | 기본값 | 바꾸면 |
-|---|---|---|
-| `--lr` | 2e-4 | 크면 loss가 튀고, 작으면 변화 없음 |
-| `--epochs` | 2 | 많으면 외운다(11주차 평가에서 드러남) |
-| `--batch-size` | 4 | VRAM에 비례 |
-| `--grad-accum` | 2 | 유효 배치 = batch × accum |
-| `--rank` | 8 | 1교시 표 참고 |
+`ex03_train` 위쪽의 상수:
 
-**한 번에 하나만** 바꾸고 run 이름을 새로 붙인다.
-
----
-
-## 17–18분 · seed와 재현
+```python
+STEPS = 30
+LEARNING_RATE = 5e-4
+RANK = 8
+```
 
 ```powershell
-uv run python train_lora.py --seed 42 --run-name run-001
+uv run ex03
 ```
 
-- `set_seed(42)`: 초기화·셔플·드롭아웃의 난수를 고정
-- 같은 seed·데이터·설정이면 loss 곡선이 **거의 같다**(GPU 커널 차이는 남는다)
-- `adapters/run-001/run_config.json`에 설정 전체가 자동 저장된다
+첫 실행은 데이터만 수정한다. 다른 조건은 유지한다.
+느린 CPU의 3 step 경로는 저장·복원 확인용이다.
 
 ---
 
-## 18–20분 · 실습 인계
+## 15–18분 · loss와 저장 파일
 
-[2교시 실습 — 수업 도우미 말투로 LoRA 학습하기](lab.md#2교시-실습--수업-도우미-말투로-lora-학습하기) · [교시별 예제](examples/period2/README.md)
+loss: 학습 예시의 답변을 얼마나 잘 맞추는지 보는 값
 
-완료 조건:
+- 중간에 오르내릴 수 있다.
+- 낮아져도 처음 보는 질문에 더 잘 답한다는 뜻은 아니다.
 
-1. `--inspect` 출력에서 가려진 토큰 수와 학습 대상 토큰 수를 기록
-2. `adapters/run-001/`에 어댑터·`run_config.json`이 생성
-3. `outputs/train-run-001.json`의 첫 loss와 마지막 loss, 최대 VRAM 실측을 기록
+```text
+adapters/run-001/
+  adapter_config.json
+  adapter_model.safetensors
+  토크나이저 파일
+```
 
-실습 30분 뒤 휴식 10분, 휴식 후 3교시.
+다시 학습할 때는 `ADAPTER_DIR`을 새 이름으로 바꾼다.
+
+---
+
+## 18–20분 · 2교시 실습 인계
+
+[실습지 2교시](lab.md#2교시-실습--내-답변-예시로-lora-학습) · [소스 안내](examples/period2/README.md)
+
+- 항목 이름 바꾸기와 고른 이유 기록
+- `ex03` 첫 출력의 새 이름과 실제 loss 확인
+- 어댑터 설정·가중치 파일 확인
+- 모델·장치·실제 설정 기록
+
+학습 성공과 답변 품질 개선은 별도로 확인한다.
+30분 실습 뒤 10분 휴식.
 
 ---
 
 <!-- _class: lead -->
 
 # 3교시 · 설명 20분
-## 어댑터를 저장·비교·기록하기
+## 저장한 결과로 다시 대화
 
 ---
 
-## 0–3분 · 어댑터 폴더 안에는 무엇이 있는가
-
-```text
-adapters/run-001/
-├─ adapter_config.json          r, alpha, target_modules, 기본 모델 이름
-├─ adapter_model.safetensors    B·A 행렬만 (수 MB)
-├─ tokenizer*.json, …           비교·서비스 때 같은 토크나이저
-└─ run_config.json              이 예제가 남기는 학습 설정·loss 이력
-```
-
-- 기본 모델 가중치는 **없다** — 같은 기본 모델이 있어야 다시 붙는다
-- 저장소에는 어댑터가 아니라 **기록**을 커밋한다(`adapters/`는 `.gitignore`)
-
----
-
-## 3–7분 · 로드·끄기·병합 세 경로
+## 0–3분 · 저장한 어댑터 불러오기
 
 ```python
-model = PeftModel.from_pretrained(base, "adapters/run-001")
-with model.disable_adapter():     # 같은 객체로 기본 모델 출력
-    base_text = generate(...)
-lora_text = generate(...)         # 어댑터 켠 출력
-merged = model.merge_and_unload() # W + (alpha/r)·BA → 단독 모델
+tokenizer, base = load_model()
+model = PeftModel.from_pretrained(base, ADAPTER_DIR).eval()
 ```
 
-- 비교에는 `disable_adapter()` — 모델을 두 번 올리지 않는다
-- 서비스·변환에는 `merge_and_unload()` 후 `save_pretrained()`
+```powershell
+uv run ex04
+```
 
-**질문:** 병합본과 어댑터 방식 중 저장 용량이 큰 쪽은?
+새 프로그램 실행에서 기본 모델과 저장한 어댑터를 읽는다.
+다시 학습하지 않는다. 다른 기본 모델에 붙이지 않는다.
 
 ---
 
-## 7–11분 · 공정한 전후 비교 설계
+## 3–6분 · 같은 질문의 전후 비교
 
-| 고정할 것 | 값 |
+`ex04`는 질문 하나마다 두 답을 출력한다.
+
+```text
+나> 아테나를 소개해 줘.
+학습 전> (어댑터를 끈 실제 답변)
+학습 후> (어댑터를 켠 실제 답변)
+```
+
+고정: 기본 모델, 질문, system 지시, 생성 길이, greedy 생성
+변경: 어댑터 적용 여부
+
+2B Ollama 답과 0.5B 학습 후 답을 전후 비교로 쓰지 않는다.
+
+---
+
+## 6–9분 · 형식과 사실을 따로 확인
+
+| 관찰 | 확인할 내용 |
 |---|---|
-| 프롬프트 | 같은 5개(`data/eval_prompts.json`) |
-| system 프롬프트 | 학습 때와 같은 문장 |
-| 디코딩 | greedy(`do_sample=False`), 같은 `max_new_tokens` |
-| seed · dtype · 장치 | 같은 값 |
+| 형식 | 내가 바꾼 항목 이름으로 세 줄이 나오는가 |
+| 사실 | 인물 설명이 실제 자료와 맞는가 |
+| 부작용 | 반복·잘림·무관한 형식 강요가 있는가 |
 
-- 5개 중 **학습 주제 밖 질문**을 섞는다(p4, p5)
-- 좋아진 것과 **나빠진 것**(반복, 근거 없는 내용)을 같이 본다
+학습에 없는 인물: `다이달로스를 소개해 줘.`
+신화 밖 질문: `uv.lock 파일은 어떤 역할을 해?`
+질문 목록은 `shared/data/eval_prompts.json`에서 읽어 입력한다.
+
+이번 짧은 학습으로 바뀌는 것은 형식이다.
+사실에 맞는 답은 6주차 RAG처럼 자료를 넣어 얻는다.
 
 ---
 
-## 11–15분 · 실험 기록 양식: 재현에 필요한 것만
+## 9–12분 · 어댑터와 병합 모델
 
 ```text
-1 목적            무엇을 확인하려는 실험인가
-2 고정한 것       모델 ID·revision, 데이터 버전, system, seed, 장치
-3 설정            r/alpha/dropout, target, lr, epoch, batch×accum
-4 결과            step, 시간, VRAM 예측 vs 실측, loss 처음→마지막
-5 샘플 출력       전후 3개 이상 + 형식 준수율
-6 관찰과 실패     예상과 다른 점, 오류 첫 줄
-7 다음 실험       바꿀 변수 하나
+기본 모델 + LoRA 어댑터
+    ↓ merge_and_unload()
+학습한 변화를 합친 모델
+    ↓ save_pretrained()
+models/merged-run-001/
 ```
 
-`EXPERIMENT_TEMPLATE.md`를 복사해 `experiments/run-001.md`로 만든다. **11·12주차와 3차 과제가 이 양식을 그대로 쓴다.**
-
----
-
-## 15–17분 · 실패도 기록이다
-
-| 증상 | 먼저 볼 것 |
-|---|---|
-| loss가 전혀 안 내려감 | `trainable params`가 0인가, 라벨이 전부 -100인가 |
-| loss가 NaN | lr 절반, fp16이면 bf16으로 |
-| CUDA out of memory | batch 절반 + accum 두 배, `--max-len` 축소 |
-| 전후 출력이 똑같음 | 어댑터 경로, `disable_adapter()` 위치 |
-| 답이 무한 반복 | epoch 과다, `max_new_tokens`·eos 확인 |
-
-**질문:** 실패한 run을 기록에서 지우면 무엇을 잃는가?
-
----
-
-## 17–18분 · 확장: GGUF·Ollama 가져오기
-
-```text
-merge.py  →  models/merged-run-001/ (safetensors)
-          →  Ollama Modelfile의 FROM 으로 가져오기   (공식 import 문서)
-          →  또는 GGUF 변환 뒤 FROM ./model.gguf
+```powershell
+uv run ex05
 ```
 
-- 4주차 `ollama create`와 같은 흐름 — 12주차 서비스에서 재사용
-- 절차와 지원 아키텍처는 Ollama 공식 문서를 기준으로 확인한다
+기본 모델 전체를 저장하므로 약 2 GB다(어댑터 가중치는 약 2 MB).
+마지막 연결 시연이며 학생은 디스크 공간을 확인하고 선택해서 실행한다.
 
 ---
 
-## 18–20분 · 실습 인계
+## 12–15분 · Ollama에서 다시 실행
 
-[3교시 실습 — 전후 비교와 실험 기록 run-001](lab.md#3교시-실습--전후-비교와-실험-기록-run-001) · [교시별 예제](examples/period3/README.md)
-
-완료 조건:
-
-1. `outputs/compare-run-001.md`에 프롬프트 5개의 전후 출력과 형식 준수 수
-2. `experiments/run-001.md` 7개 절을 실측값으로 채움
-3. 어댑터 가중치가 아닌 기록 파일만 커밋한 `git log`
-
-실습 30분 뒤 휴식 10분. 이번 주 정리로 이어진다.
-
----
-
-## 이번 주 정리
-
-```text
-고정: 모델 ID·revision, 데이터 버전, system 프롬프트, seed, 디코딩 조건
-기록: 학습 파라미터 비율, VRAM 예측 vs 실측, loss 곡선, 전후 출력, 실패
+```powershell
+ollama create week07-lora -f Modelfile
+ollama run week07-lora
 ```
 
-- LoRA는 **얼린 가중치 옆에 작은 행렬**을 붙여 배우는 방법이다
-- 학습이 되었다는 증거는 loss가 아니라 **같은 조건의 전후 비교**다
-- 다음 주(11주차): 이 데이터를 정제·분할하고 전후 모델을 정량·정성 평가한다
+병합 폴더를 GGUF로 변환한다. [변환기 준비](examples/ollama_import.md)는 수업 전에 마친다.
+`Modelfile`: `FROM ./models/week07-lora.gguf`
+
+등록 후 `ex01`의 `MODEL = "week07-lora"`로 바꾸면
+처음의 `uv run ex01` 대화 코드를 그대로 쓸 수 있다.
+
+등록은 학습이 아니다. 지원 버전에서 사전 확인한 경로를 쓴다.
+
+---
+
+## 15–18분 · 실험 기록과 비교의 한계
+
+`experiments/run-001.md`
+
+- 바꾼 항목 이름과 이유, 실제 학습 설정
+- loss 관찰과 저장·복원 확인
+- 같은 질문의 전후 답변과 사실 확인
+- 그대로이거나 나빠진 부분, 다음에 바꿀 한 가지
+
+Ollama 실행은 배포 동작 확인이다.
+학습 효과는 같은 실행 조건인 `ex04`에서 판단한다.
+짧은 학습과 적은 질문으로 일반 성능 향상을 주장하지 않는다.
+
+---
+
+## 18–20분 · 3교시 실습 인계
+
+[실습지 3교시](lab.md#3교시-실습--저장한-결과로-다시-대화) · [소스 안내](examples/period3/README.md)
+
+- `ex04`로 질문별 전후 답변 확인
+- 종료 후 새로 실행해 저장·복원 확인
+- 형식·사실·부작용을 나눠 기록
+- 병합·Ollama 연결은 시연 또는 선택 실습
+
+변화가 없거나 나빠진 관찰도 기록한다.
+30분 실습 뒤 10분 휴식.
+
+---
+
+## 다음 수업과 선택 심화
+
+9주차 Streamlit 앱에서도 준비한 모델을 호출해 사용자와 대화한다.
+이번 기록은 이후 데이터·평가 실습에서 다시 확인한다.
+
+[rank·메모리·마스킹 심화](examples/advanced.md)
+
+참고: [PEFT](https://huggingface.co/docs/peft/quicktour) · [모델 카드](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct) · [Ollama 가져오기](https://docs.ollama.com/import)

@@ -2,369 +2,403 @@
 marp: true
 theme: default
 paginate: true
-header: "Open Source AI Applications · Week 7"
-footer: "Lightweight Fine-Tuning with PEFT/LoRA"
+header: "Open-Source AI Applications · Week 7"
+footer: "LoRA with our own answer examples"
 ---
 
 # Week 7
-## Lightweight Fine-Tuning with PEFT/LoRA
+## Learning LoRA with our own answer examples
 
-**Three 60-minute blocks**<br>
-Each block: 20 min explanation & demo + 30 min hands-on lab + 10 min break
+Ollama chat → edit data and train → save and reload → chat again
+
+Three 60-minute blocks: 20-minute lesson + 30-minute lab + 10-minute break
 
 ---
 
-## This Week's Three Blocks
+## This week’s sequence
 
-| Session | 20 min explanation & demo | 30 min hands-on lab |
+| Period | 20-minute lesson and demo | 30-minute lab |
 |---|---|---|
-| Block 1 | Changing a small part instead of relearning everything | Attaching an adapter and counting trainable parameters |
-| Block 2 | How data reaches the model: templates, masking, Trainer | LoRA-training a class-assistant tone |
-| Block 3 | Saving, comparing, and logging adapters | Before/after comparison and the run-001 experiment log |
+| 1 | Inference and training tools | Chat with Ollama and a small model |
+| 2 | Example answers and LoRA | Edit data, train, and save |
+| 3 | Reload, compare, and import | Compare matching questions and record |
 
-This week's question: **what must you fix, and what must you log, for a training run that takes only minutes to be reproducible?**
+Required: edit your data and chat with a saved adapter.
+Rank, VRAM estimates, and masking internals are optional.
 
 ---
 
 <!-- _class: lead -->
 
-# Block 1 · 20 min explanation
-## Changing a Small Part Instead of Relearning Everything
+# Period 1 · 20-minute lesson
+## Connecting Ollama chat to training tools
 
 ---
 
-## 0–3 min · Three Ways to Adapt a Model
+## 0–3 min · Previous work and today’s task
 
-```text
-Prompting:        weights stay fixed, only the instructions change   (Week 4 Modelfile)
-Full fine-tuning: every weight is retrained                          (tens of GB of VRAM)
-PEFT:             weights are frozen, only a small add-on is trained (this week)
-```
+Weeks 4–5: ask an Ollama model and receive an answer.
+Week 6: retrieve myth passages and include them in the question.
 
-- Reusing a pretrained model's knowledge is transfer learning.
-- The question isn't "what do we change" but **"what do we freeze."**
+Today: **train a small model on answer examples we edit**.
 
-**Question:** What was something you couldn't do with a Week 4 system prompt?
+Edit data → train → save → reload and chat
+
+We keep the mythology topic and the question input loop.
 
 ---
 
-## 3–6 min · Full Fine-Tuning vs. PEFT
+## 3–6 min · Prompting, RAG, and LoRA
 
-| Item | Full fine-tuning | PEFT (LoRA) |
+| Method | What changes | Example |
 |---|---|---|
-| Trainable parameters | 100% | 0.1–2% |
-| Optimizer state | parameter count × 8 bytes | only the trainable ones |
-| Saved artifact | a full copy of the model | an adapter, tens of MB |
-| Reverting to the original | needs a separate backup | just detach the adapter |
+| Prompting | Instructions in the input | Ask for a three-line introduction |
+| RAG | Reference text in the input | Retrieve a myth passage |
+| LoRA | A small set of trainable weights | Learn the answer format from examples |
 
-You can **swap several adapters** onto the same base model.
-
----
-
-## 6–10 min · LoRA Intuition: ΔW = BA
-
-```text
-Original layer: y = W x                 W: (out × in), frozen
-LoRA layer:     y = W x + (alpha / r) · B A x
-                A: (r × in)  B: (out × r)   r ≪ in, out
-```
-
-- `r` (rank): the inner dimension. Larger means more capacity and more parameters together.
-- `alpha`: scales the adapter's output. Convention: `alpha = 2r`.
-- `target_modules`: names of the linear layers to attach to — usually `q_proj, k_proj, v_proj, o_proj`.
-
-After training, `W + (alpha/r)·BA` lets you **merge** back into the original shape.
+Use prompting when it already solves the problem.
+If a small model ignores the instruction, teach the format with example answers.
+LoRA neither replaces retrieval nor guarantees factual answers.
 
 ---
 
-## 10–13 min · Four Chunks of Training Memory
+## 6–9 min · Roles of the tools
 
-```text
-Weights:      parameter count × 2 bytes (bf16)
-Gradients:    trainable parameters × 4 bytes
-Optimizer:    trainable parameters × 8 bytes (Adam's 1st and 2nd moments)
-Activations:  batch × sequence length × hidden × layers × (a constant)
-```
+| Tool | Role |
+|---|---|
+| Ollama | Run a prepared model and expose a chat API |
+| Transformers | Load models/tokenizers and generate in Python |
+| PEFT | Add LoRA to the base model |
+| Trainer | Run training on prepared examples |
 
-- Full fine-tuning applies the first three lines to **every** parameter.
-- With LoRA, lines two and three shrink to about 1%, while **activations stay the same**.
-
-**Question:** For full fine-tuning a 0.5B model, how many GB is the optimizer state alone?
+We load the model in Python to access the trainable parts.
+The PyTorch special lecture is not a prerequisite, and you do not write a training loop.
 
 ---
 
-## 13–16 min · What Fits in 12 GB
-
-| Model size | Method | Rough VRAM | Fits in 12 GB? |
-|---|---|---|---|
-| 0.5B | LoRA · bf16 · seq 512 | 3–5 GB | Plenty of room |
-| 1.5B | LoRA · bf16 · seq 512 | 6–10 GB | Possible with a smaller batch |
-| 7B | LoRA · bf16 | 16+ GB | Not possible |
-| 7B | 4-bit quantization + LoRA (QLoRA) | 6–10 GB | Possible (outside this course's scope) |
-
-This week's attitude: **build a prediction table, then correct it with measurements.**
-
----
-
-## 16–18 min · What a Prompt Can Do, and What Needs LoRA
-
-- Prompting is enough for: role instructions, output language, one or two formatting rules.
-- LoRA is needed for: a **consistent format or tone** the model keeps failing to follow, domain vocabulary, shortening a long instruction.
-- Even LoRA can't do: adding facts the model doesn't know (-> Week 6 RAG: put the material in the prompt).
-
-Demo: `uv run python lora_setup.py --ranks 4,8,16`
-
-```text
-trainable params: 1,081,344 || all params: 495,114,112 || trainable%: 0.2184
-```
-
----
-
-## 18–20 min · Handoff to Lab
-
-[Block 1 lab — Attaching an Adapter and Counting Trainable Parameters](lab.md#1교시-실습--어댑터-붙이고-학습-파라미터-세기) · [Period files](examples/period1/README.md)
-
-Completion criteria:
-
-1. A table of trainable parameter counts and percentages for r=4, 8, 16.
-2. A VRAM prediction table broken into weights, training state, activations, and total.
-3. One sentence on how the percentage changes when you shrink `target_modules`.
-
-30 min lab, then a 10 min break; Block 2 follows.
-
----
-
-<!-- _class: lead -->
-
-# Block 2 · 20 min explanation
-## How Data Reaches the Model: Templates, Masking, Trainer
-
----
-
-## 0–3 min · SFT Data: A Question-Answer Pair
-
-```json
-{"instruction": "Why do I need to commit the uv.lock file?",
- "output": "Key point: …\nReason: …\nNext step: …"}
-```
-
-- `data/sample_sft.jsonl`: about 50 self-written Korean Q&A pairs about the course.
-- Every answer follows the same **key point / reason / next step** three-line format — that's the "tone" we're changing.
-- No real people or institutions are named. The same rule applies to your team's data.
-
-**Question:** With 50 examples, what can it learn, and what can't it?
-
----
-
-## 3–7 min · The chat Template: How a String Becomes Input
-
-```text
-<|im_start|>system
-You are the assistant for the Open Source AI Applications course. …<|im_end|>
-<|im_start|>user
-Why do I need to commit the uv.lock file?<|im_end|>
-<|im_start|>assistant
-Key point: uv.lock is …<|im_end|>
-```
-
-- `tokenizer.apply_chat_template(messages)` adds the model's special tokens.
-- The template used in training **must match** the template used at inference.
-- Fix the system prompt to the **same sentence** across training and comparison too.
-
----
-
-## 7–10 min · Label Masking: Learning Only the Answer
-
-```text
-Tokens: [system…] [user…] [assistant\n] [Key point: …] [<|im_end|>]
-Labels:  -100 …     -100 …   -100          kept as-is    kept as-is
-```
-
-- Loss is computed only where the label isn't `-100`.
-- If you train on the prompt too, the model spends capacity **imitating the question**.
-- Demo: `uv run python train_lora.py --inspect`
-
-**Question:** If every label is `-100`, what happens to the loss?
-
----
-
-## 10–14 min · Trainer Structure
-
-```text
-TrainingArguments  ─ lr, epochs, batch, accumulation, seed, bf16, log interval
-Dataset            ─ input_ids · attention_mask · labels
-DataCollator       ─ pads each batch to a matching length (labels padded with -100)
-Trainer.train()    ─ repeats forward → loss → backward → optimizer.step()
-```
-
-```python
-trainer = Trainer(model=model, args=training_args,
-                  train_dataset=dataset, data_collator=collator)
-trainer.train()
-trainer.state.log_history   # per-step loss
-```
-
-This turns the model training loop **into configuration**.
-
----
-
-## 14–17 min · Five Hyperparameters
-
-| Name | Default | If you change it |
-|---|---|---|
-| `--lr` | 2e-4 | Too high: loss spikes. Too low: no change. |
-| `--epochs` | 2 | Too many: it memorizes (shows up in the Week 11 eval) |
-| `--batch-size` | 4 | Scales with VRAM |
-| `--grad-accum` | 2 | Effective batch = batch × accum |
-| `--rank` | 8 | See the Block 1 table |
-
-Change **only one at a time**, and give the run a new name.
-
----
-
-## 17–18 min · seed and Reproducibility
+## 9–12 min · Familiar Ollama chat
 
 ```powershell
-uv run python train_lora.py --seed 42 --run-name run-001
+uv run ex01
 ```
 
-- `set_seed(42)` fixes the randomness in initialization, shuffling, and dropout.
-- Same seed, data, and settings -> nearly identical loss curves (GPU kernel differences remain).
-- `adapters/run-001/run_config.json` automatically saves the full configuration.
+Question: `아테나를 소개해 줘.` (“Introduce Athena.”)
+
+Append a format instruction to `PROMPT` in `ex01_ollama` and rerun:
+
+```python
+PROMPT = SYSTEM_PROMPT + " 이름, 소개, 기억할 점을 한 줄씩 답하세요."
+```
+
+(Name, introduction, and a fact to remember: one line each.)
+
+Only the instruction changed. No training. Exit with `/bye`.
 
 ---
 
-## 18–20 min · Handoff to Lab
+## 12–15 min · A small model for training
 
-[Block 2 lab — LoRA-Training a Class-Assistant Tone](lab.md#2교시-실습--수업-도우미-말투로-lora-학습하기) · [Period files](examples/period2/README.md)
+Opening chat: `qwen3.5:2b` from the earlier weeks
+Training and comparison: `Qwen/Qwen2.5-0.5B-Instruct` (small enough to train in class)
 
-Completion criteria:
+```powershell
+uv run ex02
+```
 
-1. From the `--inspect` output, you recorded the number of masked tokens and the number of trainable tokens.
-2. `adapters/run-001/` contains the adapter and `run_config.json`.
-3. `outputs/train-run-001.json` records the first and last loss, and the measured peak VRAM.
+Add the same format instruction to `PROMPT` in `ex02`.
+Course test PC: the 2B model answered in three lines; the 0.5B model in one or two sentences.
+When a small model ignores the instruction, **teach the format with example answers**.
 
-30 min lab, then a 10 min break; Block 3 follows.
+No training yet. Measure training effects on the same 0.5B model.
+
+---
+
+## 15–18 min · Tokens and answer generation
+
+Read `load_model()` and `answer()` in `shared`.
+
+```text
+Question + system instruction
+    ↓ tokenizer.apply_chat_template
+Tokens the model can read
+    ↓ model.generate
+Newly generated tokens
+    ↓ tokenizer.decode
+An answer to display
+```
+
+Load the model once, then repeat the question loop.
+
+---
+
+## 18–20 min · Period 1 lab handoff
+
+[Period 1 lab](lab.md#1교시-실습--ollama-대화와-학습-도구-연결) · [Source guide](examples/period1/README.md)
+
+- `ex01`: answers before and after the format instruction
+- `ex02`: two questions → blank input → `/bye` → same format instruction
+- Explain inference versus training in one sentence
+- Save two questions to ask again later
+
+Each question is independent; this example has no chat memory.
+30-minute lab, then a 10-minute break.
 
 ---
 
 <!-- _class: lead -->
 
-# Block 3 · 20 min explanation
-## Saving, Comparing, and Logging Adapters
+# Period 2 · 20-minute lesson
+## Training LoRA on edited answer examples
 
 ---
 
-## 0–3 min · What's Inside an Adapter Folder
+## 0–3 min · A question and its target answer
+
+`src/shared/data/sample_sft.jsonl`
+
+```json
+{"instruction":"제우스는 누구야?",
+ "output":"이름: 제우스\n소개: ...\n기억할 점: ..."}
+```
+
+The actual file stores one JSON object per line.
+`\n` means a line break in the answer.
+
+24 myth summaries written for this course; the target is a three-line format.
+
+---
+
+## 3–6 min · What students change
+
+In all 24 answers, replace `기억할 점:` (“a fact to remember”) with a label of your own.
+VS Code `Ctrl+H` → Replace All
+
+```text
+기억할 점: 올빼미와 올리브나무가 상징입니다.
+    ↓
+한 줄 요약: 올빼미와 올리브나무가 상징입니다.
+```
+
+In period 3, check whether the answers after training use the new label.
+Editing one fact is optional; check it separately from the format.
+Do not add the evaluation answers to the training file.
+
+---
+
+## 6–9 min · What LoRA trains
+
+```text
+Base model: keep the pretrained weights fixed
+    +
+LoRA adapter: small weights updated on our examples
+    ↓
+Answer after training
+```
+
+We are not training a whole model from scratch.
+The saved adapter needs **the same base model**.
+Rank calculations belong to the optional advanced exercise.
+
+---
+
+## 9–12 min · Three operations in the training code
+
+`src/ex03_train/__init__.py`
+
+```python
+model = get_peft_model(base, LoraConfig(...))
+# Pass the prepared data and model to Trainer
+trainer.train()
+model.save_pretrained(ADAPTER_DIR)
+```
+
+Attach → train → save
+
+`shared/training.py` handles tokenization and answer-only labels.
+Students read that implementation in the optional exercise.
+
+---
+
+## 12–15 min · Settings and execution
+
+Constants at the top of `ex03_train`:
+
+```python
+STEPS = 30
+LEARNING_RATE = 5e-4
+RANK = 8
+```
+
+```powershell
+uv run ex03
+```
+
+For the first run, edit only the data and keep settings fixed.
+The 3-step CPU path checks training, saving, and reloading.
+
+---
+
+## 15–18 min · Loss and saved files
+
+Loss measures fit to the training answers.
+
+- It can go up and down during training.
+- Lower loss does not guarantee better answers to new questions.
 
 ```text
 adapters/run-001/
-├─ adapter_config.json          r, alpha, target_modules, base model name
-├─ adapter_model.safetensors    just the B·A matrices (a few MB)
-├─ tokenizer*.json, …           the same tokenizer, for comparison and serving
-└─ run_config.json              the training config and loss history this run leaves behind
+  adapter_config.json
+  adapter_model.safetensors
+  tokenizer files
 ```
 
-- The base model's weights are **not** included — you need the same base model to reattach it.
-- Commit the **log**, not the adapter, to the repository (`adapters/` is in `.gitignore`).
+Use a new `ADAPTER_DIR` for another training run.
 
 ---
 
-## 3–7 min · Three Paths: Load, Disable, Merge
+## 18–20 min · Period 2 lab handoff
+
+[Period 2 lab](lab.md#2교시-실습--내-답변-예시로-lora-학습) · [Source guide](examples/period2/README.md)
+
+- Rename the label and record why you chose it
+- Run `ex03`; check the new label in the first output and the actual loss
+- Check the adapter configuration and weights
+- Record the model, device, and settings used
+
+Successful training and improved answers are separate checks.
+30-minute lab, then a 10-minute break.
+
+---
+
+<!-- _class: lead -->
+
+# Period 3 · 20-minute lesson
+## Reloading and chatting with the result
+
+---
+
+## 0–3 min · Reloading the saved adapter
 
 ```python
-model = PeftModel.from_pretrained(base, "adapters/run-001")
-with model.disable_adapter():     # same object, base-model output
-    base_text = generate(...)
-lora_text = generate(...)         # output with the adapter on
-merged = model.merge_and_unload() # W + (alpha/r)·BA → a standalone model
+tokenizer, base = load_model()
+model = PeftModel.from_pretrained(base, ADAPTER_DIR).eval()
 ```
 
-- For comparison, use `disable_adapter()` — you never load the model twice.
-- For serving or conversion, use `merge_and_unload()` then `save_pretrained()`.
+```powershell
+uv run ex04
+```
 
-**Question:** Between a merged model and the adapter form, which one takes more storage?
+A new process loads the base model and the saved adapter.
+No retraining. Do not attach it to a different base model.
 
 ---
 
-## 7–11 min · Designing a Fair Before/After Comparison
+## 3–6 min · Before and after on the same question
 
-| Fix this | Value |
+`ex04` prints two answers for each question.
+
+```text
+나> 아테나를 소개해 줘.
+학습 전> (answer with the adapter disabled)
+학습 후> (answer with the adapter enabled)
+```
+
+`나>` = you, `학습 전>` = before training, `학습 후>` = after training
+
+Fixed: base model, question, system text, length, greedy decoding
+Changed: whether the adapter is enabled
+
+Do not use the 2B Ollama answer as the 0.5B baseline.
+
+---
+
+## 6–9 min · Check format and facts separately
+
+| Observation | What to check |
 |---|---|
-| Prompts | the same 5 (`data/eval_prompts.json`) |
-| System prompt | the same sentence used in training |
-| Decoding | greedy (`do_sample=False`), same `max_new_tokens` |
-| seed / dtype / device | the same values |
+| Format | Three lines that use your new label |
+| Facts | Whether the description matches reference material |
+| Side effects | Repetition, truncation, or forced myth formatting |
 
-- Mix in a **question outside the training topic** among the 5 (p4, p5).
-- Look at what got worse — repetition, unsupported claims — alongside what got better.
+Not in the training data: `다이달로스를 소개해 줘.` (“Introduce Daedalus.”)
+Outside mythology: `uv.lock 파일은 어떤 역할을 해?` (“What does the uv.lock file do?”)
+Read questions from `shared/data/eval_prompts.json` and type them.
+
+This short training run changes the format.
+For facts, add reference text as in the Week 6 RAG lab.
 
 ---
 
-## 11–15 min · Experiment Log Format: Only What Reproduction Needs
+## 9–12 min · Adapter and merged model
 
 ```text
-1 Purpose            what this experiment is meant to check
-2 Fixed values        model ID/revision, data version, system prompt, seed, device
-3 Configuration        r/alpha/dropout, targets, lr, epochs, batch×accum
-4 Results             steps, time, VRAM predicted vs. measured, loss start->end
-5 Sample outputs       3+ before/after pairs + format-compliance rate
-6 Observations/failures  what differed from expectations, the first line of any error
-7 Next experiment      the one variable to change next
+Base model + LoRA adapter
+    ↓ merge_and_unload()
+Model with the learned changes merged in
+    ↓ save_pretrained()
+models/merged-run-001/
 ```
 
-Copy `EXPERIMENT_TEMPLATE.md` into `experiments/run-001.md`. **Weeks 11–12 and Project 3 reuse this exact format.**
-
----
-
-## 15–17 min · Failures Are Data Too
-
-| Symptom | Check first |
-|---|---|
-| Loss never goes down | Is `trainable params` 0? Are all labels -100? |
-| Loss is NaN | Halve the lr; switch fp16 to bf16 |
-| CUDA out of memory | Halve batch, double accum, shrink `--max-len` |
-| Before/after outputs are identical | The adapter path, or where `disable_adapter()` is called |
-| The answer loops forever | Too many epochs; check `max_new_tokens` and eos |
-
-**Question:** What do you lose by deleting a failed run from your log?
-
----
-
-## 17–18 min · Extending: Importing into GGUF / Ollama
-
-```text
-merge.py  →  models/merged-run-001/ (safetensors)
-          →  imported via FROM in an Ollama Modelfile   (official import docs)
-          →  or converted to GGUF, then FROM ./model.gguf
+```powershell
+uv run ex05
 ```
 
-- The same flow as Week 4's `ollama create` — reused in the Week 12 service.
-- Check the exact procedure and supported architectures against Ollama's official documentation.
+This saves a full model: about 2 GB (adapter weights: about 2 MB).
+Instructor demonstration; optional for students with enough disk space.
 
 ---
 
-## 18–20 min · Handoff to Lab
+## 12–15 min · Running the result in Ollama
 
-[Block 3 lab — Before/After Comparison and the run-001 Experiment Log](lab.md#3교시-실습--전후-비교와-실험-기록-run-001) · [Period files](examples/period3/README.md)
-
-Completion criteria:
-
-1. `outputs/compare-run-001.md` has before/after outputs for all 5 prompts, and the format-compliance count.
-2. All 7 sections of `experiments/run-001.md` are filled in with real measured values.
-3. `git log` shows only log files committed — not the adapter weights.
-
-30 min lab, then a 10 min break, leading into this week's summary.
-
----
-
-## This Week's Summary
-
-```text
-Fix:  model ID/revision, data version, system prompt, seed, decoding settings
-Log:  trainable-parameter ratio, VRAM predicted vs. measured, loss curve, before/after outputs, failures
+```powershell
+ollama create week07-lora -f Modelfile
+ollama run week07-lora
 ```
 
-- LoRA is a way to learn by attaching **a small matrix next to frozen weights**.
-- Evidence that training worked isn't the loss — it's a **before/after comparison under matched conditions**.
-- Next week (Week 11): clean and split this data, then evaluate the before/after models quantitatively and qualitatively.
+Convert the merged folder to GGUF. [Prepare the converter](examples/ollama_import.md) before class.
+`Modelfile`: `FROM ./models/week07-lora.gguf`
+
+Set `MODEL = "week07-lora"` in `ex01` to reuse
+the original `uv run ex01` chat code.
+
+Importing is not training. Verify support before class.
+
+---
+
+## 15–18 min · Experiment record and limits
+
+`experiments/run-001.md`
+
+- The new label, why you chose it, and actual training settings
+- Loss observations and save/reload checks
+- Before/after answers and fact checks
+- What stayed the same or got worse; one thing to change next
+
+Running it in Ollama checks deployment behavior.
+Use `ex04` under matching conditions for training comparisons.
+A short run and a few questions do not prove general improvement.
+
+---
+
+## 18–20 min · Period 3 lab handoff
+
+[Period 3 lab](lab.md#3교시-실습--저장한-결과로-다시-대화) · [Source guide](examples/period3/README.md)
+
+- Compare before/after answers with `ex04`
+- Exit and restart to check save/reload behavior
+- Record format, facts, and side effects separately
+- Merging and Ollama import: demo or optional exercise
+
+Record unchanged or worse results too.
+30-minute lab, then a 10-minute break.
+
+---
+
+## Next class and optional topics
+
+Week 9 uses Streamlit to let users chat with a prepared model.
+We revisit this experiment in the later data and evaluation labs.
+
+[Rank, memory, and masking](examples/advanced.md)
+
+References: [PEFT](https://huggingface.co/docs/peft/quicktour) · [Model card](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct) · [Ollama import](https://docs.ollama.com/import)

@@ -91,7 +91,7 @@ uv run python runlog.py                                # 기록 표
 - `tensor_basics.py`의 `time_matmul`에 `dtype` 인자를 추가해 float16 행렬곱을 비교한다(1교시 확장). 함수 하나만 바꾸고 나머지 절은 그대로 둔다.
 - `train_loop.py`에 `--patience` 옵션을 추가해 early stopping을 구현한다(2교시 확장). `history`와 `summary` 형식은 바꾸지 않아야 앞선 기록과 비교할 수 있다.
 - `sentences.txt`는 `my_sentences.txt`로 복사한 뒤 바꾼다. 원본은 기본 5문장의 대조군으로 남긴다. 실명·학번·기관명을 넣지 않는다.
-- `runlog.py`는 자기 프로젝트에 그대로 복사해 쓴다. `RunLog(name, config, device)` → 실험 → `finish(metrics)` 순서만 지키면 된다. 7주차 `common.py`도 같은 항목(모델·설정·시간·최대 메모리)을 남긴다.
+- `runlog.py`는 자기 프로젝트에 그대로 복사해 쓴다. `RunLog(name, config, device)` → 실험 → `finish(metrics)` 순서만 지키면 된다. 7주차 실험 기록 양식(`EXPERIMENT_TEMPLATE.md`)에도 모델·설정·장치·소요 시간을 적는다.
 - `outputs/`는 커밋하지 않는다. 증거로 낼 JSON 3~4개는 개인 저장소의 `evidence/pytorch/`에 복사한다.
 
 ## 기본값과 환경 기준표

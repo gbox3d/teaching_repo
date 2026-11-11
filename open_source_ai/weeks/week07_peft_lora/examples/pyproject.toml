@@ -1,0 +1,35 @@
+[project]
+name = "osa-week07-lora"
+version = "0.1.0"
+description = "Ollama 대화에서 시작하는 작은 모델의 LoRA 학습"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "langchain-ollama",
+  "torch>=2.6,<3",
+  "transformers>=4.57,<5",
+  "peft>=0.17,<0.19",
+  "accelerate>=1.10,<2",
+]
+
+[project.scripts]
+prepare = "shared:prepare"
+ex01 = "ex01_ollama:main"
+ex02 = "ex02_transformers:main"
+ex03 = "ex03_train:main"
+ex04 = "ex04_compare:main"
+ex05 = "ex05_merge:main"
+
+[build-system]
+requires = ["uv_build>=0.8,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = ["ex01_ollama", "ex02_transformers", "ex03_train", "ex04_compare", "ex05_merge", "shared"]
+
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cuda", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]

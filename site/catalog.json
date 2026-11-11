@@ -546,12 +546,12 @@
           "id": "week07_peft_lora",
           "label": "7주차",
           "title": "PEFT/LoRA 경량 파인튜닝",
-          "description": "LoRA로 소형 모델을 경량 학습하고 전후 비교와 실험 기록을 남깁니다.",
+          "description": "Ollama 대화에서 시작해 신화 답변 예시를 수정하고, 작은 모델의 LoRA 학습·저장·복원과 전후 비교를 실습합니다.",
           "type": "week",
           "en": {
             "label": "Week 7",
             "title": "Lightweight Fine-Tuning with PEFT/LoRA",
-            "description": "Prepare small training data, train a LoRA adapter, and compare base and adapted models."
+            "description": "Begin with Ollama chat, edit myth answer examples, then train, save, reload, and compare a small model’s LoRA adapter."
           }
         },
         {

@@ -299,7 +299,7 @@ M3 · Week 15 · v0.1.0 release         green CI, tag, CHANGELOG, presentation  
 
 | Principle | Weak example | Strong example |
 |---|---|---|
-| Small (≤ 3 days) | Implement LoRA training | Train run-001 with `train_lora.py` and log the loss |
+| Small (≤ 3 days) | Implement LoRA training | Train run-001 with Week 7’s `uv run ex03` and record the loss |
 | Verifiable | Prepare data | `data/sft.jsonl` with 50 examples, passing `pii_check.py` |
 | One owner | The whole team | `student02` |
 | Belongs to a milestone | None | M1 |

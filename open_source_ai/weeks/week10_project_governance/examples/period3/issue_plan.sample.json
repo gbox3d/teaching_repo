@@ -35,7 +35,7 @@
       "days": 2,
       "labels": ["experiment"],
       "done_when": "adapters/run-001/ 생성, experiments/run-001.md 에 config·seed·시간·VRAM·loss 기록",
-      "body": "10주차 train_lora.py 를 팀 데이터로 실행한다."
+      "body": "7주차 uv run ex03 을 팀 데이터로 실행한다."
     },
     {
       "title": "기준 모델 vs run-001 출력 5개 비교표 작성",
@@ -44,7 +44,7 @@
       "days": 1,
       "labels": ["experiment"],
       "done_when": "experiments/run-001.md 에 같은 프롬프트 5개의 전후 출력과 한 줄 판정이 있다",
-      "body": "compare.py 결과를 그대로 붙이고 형식 준수 여부를 표시한다."
+      "body": "7주차 uv run ex04 결과를 그대로 붙이고 형식 준수 여부를 표시한다."
     },
     {
       "title": "평가셋 10문항으로 키워드 일치율·형식 준수율 측정",
