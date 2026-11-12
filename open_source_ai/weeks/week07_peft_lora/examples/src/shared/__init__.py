@@ -13,18 +13,20 @@ MAX_NEW_TOKENS = 120
 DEVICE = "auto"  # "cpu"로 바꾸면 GPU 없이 실행한다.
 DATA_DIR = Path(__file__).parent / "data"
 ADAPTER_DIR = Path("adapters/run-001")
+# ADAPTER_DIR = Path("adapters/run-002")
 MERGED_DIR = Path("models/merged-run-001")
 
 
-def load_model():
+def load_model(model_path=MODEL_ID):
     device = DEVICE
     if device == "auto":
         device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+    # Transformers 4.57.x의 로컬 Qwen 오탐을 피하고 원래 토큰 분할 규칙을 유지한다.
+    tokenizer = AutoTokenizer.from_pretrained(model_path, fix_mistral_regex=False)
     tokenizer.pad_token = tokenizer.eos_token
-    model = AutoModelForCausalLM.from_pretrained(MODEL_ID, dtype=torch.float32)
+    model = AutoModelForCausalLM.from_pretrained(model_path, dtype=torch.float32)
     model = model.to(device).eval()
-    print(f"모델: {MODEL_ID} / 장치: {device}")
+    print(f"모델: {model_path} / 장치: {device}")
     return tokenizer, model
 
 

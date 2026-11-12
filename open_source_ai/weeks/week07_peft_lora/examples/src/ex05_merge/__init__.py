@@ -1,4 +1,4 @@
-"""어댑터를 기본 모델과 합쳐 Ollama에 가져갈 모델 폴더를 만든다."""
+"""어댑터를 기본 모델과 합쳐 Python과 Ollama에서 사용할 모델 폴더를 만든다."""
 
 from peft import PeftModel
 
@@ -15,4 +15,4 @@ def main():
     merged = model.merge_and_unload()
     merged.save_pretrained(MERGED_DIR, safe_serialization=True)
     tokenizer.save_pretrained(MERGED_DIR)
-    print(f"병합 완료: {MERGED_DIR}. 다음은 README의 Ollama 가져오기 순서를 따르세요.")
+    print(f"병합 완료: {MERGED_DIR}. uv run ex06으로 병합 모델과 대화하세요.")

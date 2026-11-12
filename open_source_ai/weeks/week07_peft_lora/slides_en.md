@@ -21,7 +21,7 @@ Three 60-minute blocks: 20-minute lesson + 30-minute lab + 10-minute break
 |---|---|---|
 | 1 | Inference and training tools | Chat with Ollama and a small model |
 | 2 | Example answers and LoRA | Edit data, train, and save |
-| 3 | Reload, compare, and import | Compare matching questions and record |
+| 3 | Reload, compare, and run a merged model | Compare matching questions and record |
 
 Required: edit your data and chat with a saved adapter.
 Rank, VRAM estimates, and masking internals are optional.
@@ -163,6 +163,8 @@ Opening chat: `qwen3.5:2b` from the earlier weeks
 Training and comparison: `Qwen/Qwen2.5-0.5B-Instruct` (small enough to train in class)
 
 ```powershell
+# After /bye in ex01, unload the Ollama model (8 GB GPU)
+ollama stop qwen3.5:2b
 uv run ex02
 ```
 
@@ -385,38 +387,38 @@ Not in the training data: `다이달로스를 소개해 줘.` (“Introduce Daed
 Outside mythology: `uv.lock 파일은 어떤 역할을 해?` (“What does the uv.lock file do?”)
 Read questions from `shared/data/eval_prompts.json` and type them.
 
-This short training run changes the format.
-For facts, add reference text as in the Week 6 RAG lab.
+A changed format does not guarantee factual accuracy.
+With RAG, check both retrieved evidence and the answer.
 
 ---
 
-## 9–12 min · Adapter and merged model
+## 9–12 min · Python chat with the merged model
 
 ```text
 Base model + LoRA adapter
-    ↓ merge_and_unload()
-Model with the learned changes merged in
-    ↓ save_pretrained()
+    ↓ merge_and_unload() → save_pretrained()
 models/merged-run-001/
 ```
 
 ```powershell
 uv run ex05
+uv run ex06
 ```
 
-This saves a full model: about 2 GB (adapter weights: about 2 MB).
-Instructor demonstration; optional for students with enough disk space.
+`ex06` loads the model and tokenizer from `MERGED_DIR` with Transformers.
+Question → answer → next question → `/bye`. Each question is independent.
+The full model is about 2 GB (adapter: about 2 MB). Optional; check disk space first.
 
 ---
 
-## 12–15 min · Running the result in Ollama
+## 12–15 min · Optional: running the result in Ollama
 
 ```powershell
 ollama create week07-lora -f Modelfile
 ollama run week07-lora
 ```
 
-Convert the merged folder to GGUF. [Prepare the converter](examples/ollama_import.md) before class.
+After checking `ex06` chat, convert to GGUF. [Prepare the converter](examples/ollama_import.md) before class.
 `Modelfile`: `FROM ./models/week07-lora.gguf`
 
 Set `MODEL = "week07-lora"` in `ex01` to reuse
@@ -448,7 +450,7 @@ A short run and a few questions do not prove general improvement.
 - Compare before/after answers with `ex04`
 - Exit and restart to check save/reload behavior
 - Record format, facts, and side effects separately
-- Merging and Ollama import: demo or optional exercise
+- Optional: `ex05` merge → `ex06` Python chat → Ollama import
 
 Record unchanged or worse results too.
 30-minute lab, then a 10-minute break.

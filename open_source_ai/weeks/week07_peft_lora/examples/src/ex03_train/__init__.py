@@ -7,6 +7,7 @@ from shared import ADAPTER_DIR, DATA_DIR, DEVICE, load_model
 from shared.training import training_examples
 
 STEPS = 30  # 느린 CPU에서는 3으로 줄여 저장·불러오기부터 확인한다.
+# STEPS = 300  # 선택 실험. 횟수를 늘려도 답변 품질 개선을 보장하지 않는다.
 LEARNING_RATE = 5e-4
 RANK = 8
 MAX_LENGTH = 256

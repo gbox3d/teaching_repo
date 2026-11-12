@@ -21,7 +21,7 @@ Ollama 대화 → 데이터 수정·학습 → 저장·복원 → 다시 대화
 |---|---|---|
 | 1교시 | 실행과 학습 도구의 역할 | Ollama와 작은 모델에서 대화 |
 | 2교시 | 예시 답변과 LoRA 학습 | 데이터 수정·학습·저장 |
-| 3교시 | 불러오기·비교·Ollama 연결 | 같은 질문의 전후 비교와 기록 |
+| 3교시 | 불러오기·비교·병합 모델 실행 | 같은 질문의 전후 비교와 기록 |
 
 필수: 내 데이터를 고치고 저장한 어댑터로 다시 대화한다.
 rank·VRAM 계산·마스킹 구현은 선택 심화다.
@@ -157,6 +157,8 @@ PROMPT = SYSTEM_PROMPT + " 이름, 소개, 기억할 점을 한 줄씩 답하세
 학습·비교: `Qwen/Qwen2.5-0.5B-Instruct` (수업 시간 안에 학습하려고 고른 작은 모델)
 
 ```powershell
+# ex01을 /bye로 종료한 뒤 Ollama 모델 해제(8 GB GPU)
+ollama stop qwen3.5:2b
 uv run ex02
 ```
 
@@ -377,38 +379,38 @@ uv run ex04
 신화 밖 질문: `uv.lock 파일은 어떤 역할을 해?`
 질문 목록은 `shared/data/eval_prompts.json`에서 읽어 입력한다.
 
-이번 짧은 학습으로 바뀌는 것은 형식이다.
-사실에 맞는 답은 6주차 RAG처럼 자료를 넣어 얻는다.
+형식이 바뀌어도 사실의 정확성을 보장하지 않는다.
+RAG도 검색한 자료와 답변의 근거를 확인해야 한다.
 
 ---
 
-## 9–12분 · 어댑터와 병합 모델
+## 9–12분 · 병합 모델로 Python 대화
 
 ```text
 기본 모델 + LoRA 어댑터
-    ↓ merge_and_unload()
-학습한 변화를 합친 모델
-    ↓ save_pretrained()
+    ↓ merge_and_unload() → save_pretrained()
 models/merged-run-001/
 ```
 
 ```powershell
 uv run ex05
+uv run ex06
 ```
 
-기본 모델 전체를 저장하므로 약 2 GB다(어댑터 가중치는 약 2 MB).
-마지막 연결 시연이며 학생은 디스크 공간을 확인하고 선택해서 실행한다.
+`ex06`은 `MERGED_DIR`의 모델·토크나이저를 Transformers로 불러온다.
+질문 입력 → 응답 → 다음 질문 → `/bye`. 질문마다 독립적으로 답한다.
+전체 모델은 약 2 GB다(어댑터 약 2 MB). 디스크 공간을 확인하고 선택 실행한다.
 
 ---
 
-## 12–15분 · Ollama에서 다시 실행
+## 12–15분 · 선택 확장: Ollama에서 다시 실행
 
 ```powershell
 ollama create week07-lora -f Modelfile
 ollama run week07-lora
 ```
 
-병합 폴더를 GGUF로 변환한다. [변환기 준비](examples/ollama_import.md)는 수업 전에 마친다.
+`ex06` 대화 확인 뒤 GGUF로 변환한다. [변환기 준비](examples/ollama_import.md)는 수업 전에 마친다.
 `Modelfile`: `FROM ./models/week07-lora.gguf`
 
 등록 후 `ex01`의 `MODEL = "week07-lora"`로 바꾸면
@@ -440,7 +442,7 @@ Ollama 실행은 배포 동작 확인이다.
 - `ex04`로 질문별 전후 답변 확인
 - 종료 후 새로 실행해 저장·복원 확인
 - 형식·사실·부작용을 나눠 기록
-- 병합·Ollama 연결은 시연 또는 선택 실습
+- 선택: `ex05` 병합 → `ex06` Python 대화 → Ollama 연결
 
 변화가 없거나 나빠진 관찰도 기록한다.
 30분 실습 뒤 10분 휴식.

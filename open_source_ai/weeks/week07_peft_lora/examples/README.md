@@ -14,6 +14,7 @@ examples/
 │   ├── ex03_train/__init__.py
 │   ├── ex04_compare/__init__.py
 │   ├── ex05_merge/__init__.py
+│   ├── ex06_merged_chat/__init__.py
 │   └── shared/
 │       ├── __init__.py
 │       ├── training.py
@@ -109,6 +110,19 @@ uv run prepare
 
 공식 근거: [uv의 PyTorch 설치 설정](https://docs.astral.sh/uv/guides/integration/pytorch/) · [PyTorch 설치와 GPU 확인](https://pytorch.org/get-started/locally/) · [NVIDIA SMI의 CUDA Version 설명](https://docs.nvidia.com/deploy/nvidia-smi/index.html)
 
+### 8GB GPU 실행 조건과 확인 결과
+
+2026-11-12에 Windows·RTX 5060 8GB·Python 3.12·PyTorch 2.11.0+cu128·Transformers 4.57.6에서 기본 설정(24건, 30 step, rank 8, float32)으로 학습·비교·병합·병합 모델 대화를 확인했다. `ex03`은 모델 로드와 저장을 포함해 약 12초, Trainer가 기록한 학습 시간은 약 6초였다. `nvidia-smi`를 0.5초 간격으로 읽은 GPU 전체 메모리의 관측 최댓값은 5,284 MiB(약 5.2 GiB)였다. 화면 등 다른 사용량을 포함한 수치이며, 다른 GPU의 속도나 메모리 사용량을 보장하지 않는다.
+
+이 측정에서는 Ollama 모델을 GPU에서 해제했다. `ex01`을 `/bye`로 끝내도 Ollama 모델은 메모리에 남을 수 있다. 8GB GPU에서는 `ex02`로 넘어가기 전에 다음을 실행한다. `MODEL`을 바꿨다면 해당 모델 이름을 쓴다.
+
+```powershell
+ollama stop qwen3.5:2b
+ollama ps
+```
+
+`ollama ps`에서 해당 모델이 빠졌는지 확인한다. 이후 Transformers 예제도 한 번에 하나씩 실행한다.
+
 ## 실행 순서
 
 | 명령 | 하는 일 | 학생이 할 일 |
@@ -118,8 +132,9 @@ uv run prepare
 | `uv run ex03` | LoRA 학습·어댑터 저장 | [학습 데이터](src/shared/data/sample_sft.jsonl)의 `기억할 점:`을 자기 항목 이름으로 바꾸기 |
 | `uv run ex04` | 저장한 어댑터를 끄고 켜며 전후 비교 | [비교 질문](src/shared/data/eval_prompts.json) 입력 |
 | `uv run ex05` | 기본 모델에 어댑터를 합쳐 저장 | 시연 보기, 원하면 직접 실행 |
+| `uv run ex06` | 저장한 병합 모델을 Python에서 불러와 대화 | [ex06](src/ex06_merged_chat/__init__.py)에서 로컬 모델 폴더를 읽는 부분 확인, 시연 또는 선택 실습 |
 
-`ex01`, `ex02`, `ex04`는 빈 줄을 건너뛰고 `/bye`·입력 종료로 끝난다. 질문마다 독립적으로 답하므로 앞 대화를 기억하지 않는다. `ex04`는 질문 하나에 학습 전·후 답을 모두 출력한다. 긴 질문이나 답변이 잘리면 공용 `MAX_NEW_TOKENS`를 확인한다.
+`ex01`, `ex02`, `ex04`, `ex06`은 빈 줄을 건너뛰고 `/bye`·입력 종료로 끝난다. 질문마다 독립적으로 답하므로 앞 대화를 기억하지 않는다. `ex04`는 질문 하나에 학습 전·후 답을 모두 출력하고, `ex06`은 병합 모델의 답 하나를 출력한다. `ex02`, `ex04`, `ex06`의 생성 답변이 길이 제한으로 잘리면 공용 `MAX_NEW_TOKENS`를 확인한다. 이 값은 새로 생성하는 답변의 토큰 수만 제한하며 입력 질문의 길이를 조절하지 않는다.
 
 바꿀 값은 소스 위쪽의 상수로 둔다. `.env`와 명령행 옵션은 없다. 실행 결과 JSON을 따로 만들지 않고 관찰을 [실험 기록 양식](EXPERIMENT_TEMPLATE.md)에 적는다.
 
@@ -129,12 +144,34 @@ uv run prepare
 
 `adapters/run-001/`에 `adapter_config.json`과 `adapter_model.safetensors`가 생긴다. 어댑터는 기본 모델 전체가 아니므로 같은 기본 모델이 필요하다. 다시 학습할 때는 기존 어댑터를 덮어쓰지 않도록 공용 `ADAPTER_DIR`을 `adapters/run-002`로 바꾼다. 학습·비교·병합이 모두 이 경로를 쓴다.
 
-## Ollama로 다시 대화하기
+## 병합한 모델로 Python에서 대화하기
 
-3교시 설명 시간에 강의자가 병합·GGUF 변환·가져오기를 시연한다. 학생은 전후 비교를 마친 뒤 선택해서 따라 한다. 변환 도구는 [강의자 준비 순서](ollama_import.md)에 따라 수업 전에 설치한다. 프로젝트 루트에서 실행한다.
+`ex04`의 전후 비교를 마친 뒤 선택해서 실행한다. 기존 프로젝트에 `ex06` 소스와 `[project.scripts]` 변경을 반영했다면 `uv sync`를 다시 실행해 명령을 설치한다. 같은 `examples/` 프로젝트 루트에서 실행한다.
 
 ```powershell
+uv sync
 uv run ex05
+uv run ex06
+```
+
+`ex05`는 공용 `ADAPTER_DIR`의 어댑터를 기본 모델에 합치고, 공용 `MERGED_DIR`인 `models/merged-run-001/`에 모델과 토크나이저를 함께 저장한다. `ex06`은 이 폴더를 `load_model(MERGED_DIR)`로 읽는다. 어댑터를 다시 붙이거나 GGUF로 변환할 필요가 없고 Ollama 서버도 사용하지 않는다.
+
+Transformers 4.57.6에는 로컬에 저장한 Qwen 토크나이저에도 Mistral의 `incorrect regex pattern` 경고를 내는 [알려진 오탐](https://github.com/huggingface/transformers/issues/44031)이 있다. 교재의 Qwen 로더는 `fix_mistral_regex=False`를 명시해 원래 토큰 분할 규칙을 유지한다. 경고 문구만 보고 `True`로 바꾸면 Mistral용 보정이 적용된다. 이 설정은 현재 Qwen 예제 기준이며 다른 모델에 일괄 적용하지 않는다. 기존 병합 모델을 다시 학습하거나 병합할 필요 없이 프로그램을 종료한 뒤 재실행한다.
+
+| 저장 폴더 | 담긴 것 | 실행할 때 필요한 것 |
+|---|---|---|
+| `adapters/run-001/` | LoRA 어댑터 설정·가중치와 토크나이저 | 같은 기본 모델을 불러온 뒤 어댑터를 붙인다(`ex04`). |
+| `models/merged-run-001/` | 학습한 변화를 합친 전체 모델과 토크나이저 | 이 폴더의 모델을 직접 불러온다(`ex06`). 다른 곳으로 옮길 때는 폴더 전체를 복사한다. |
+
+병합 폴더의 `config.json`, 모델 가중치와 토크나이저 파일을 확인한다. 병합 모델은 float32 기본 모델 전체를 담으므로 약 2 GB로, 어댑터 가중치 파일(약 2 MB)보다 크다. 실행 전에 디스크 여유 공간을 확인한다. 기존 병합 폴더를 보존하며 다시 병합하려면 `shared`의 `MERGED_DIR`을 새 경로로 바꾼다. `ex05`와 `ex06`이 같은 경로를 사용한다.
+
+`ex06`에서 `아테나를 소개해 줘.`를 입력하고 답이 끝나면 다른 질문을 입력한다. 빈 입력은 건너뛰고 `/bye`로 종료한다. 각 질문은 독립적이므로 앞 대화를 기억하지 않는다. 어댑터를 켠 `ex04`의 답과 비교할 수 있지만, 병합 때의 계산 정밀도 때문에 글자가 항상 같다고 가정하지 않는다. 학습 전후 비교 기록은 `ex04`를 기준으로 남긴다. 병합·실행 성공은 필수 완료 조건에 추가하지 않는다.
+
+## Ollama로 다시 대화하기
+
+Python의 `ex06`과 별도로 Ollama에서 실행하고 싶을 때 선택한다. 변환 도구는 [강의자 준비 순서](ollama_import.md)에 따라 수업 전에 설치한다. 위 `ex05`로 저장한 병합 폴더를 이어 쓰며, 이미 병합했다면 `ex05`를 다시 실행하지 않는다. 프로젝트 루트에서 실행한다.
+
+```powershell
 # ollama_import.md의 변환 명령으로 models/week07-lora.gguf 생성
 ollama create week07-lora -f Modelfile
 ollama run week07-lora
@@ -142,7 +179,7 @@ ollama run week07-lora
 
 `Modelfile`의 `FROM`은 `models/week07-lora.gguf`를 가리킨다. 병합은 학습한 변화를 기본 가중치에 합치는 작업이고, GGUF 변환은 실행할 파일 형식을 바꾸는 작업이다. `ollama create`는 그 결과를 Ollama에 등록한다. `SYSTEM`만 바꿔 모델을 만드는 것은 학습이 아니다.
 
-병합 폴더는 float32 기본 모델 전체를 담으므로 약 2 GB이고, GGUF(f16) 파일에 약 1 GB가 더 필요하다. `ollama create`로 등록하면 GGUF가 Ollama 저장소에 한 번 더 저장된다. 어댑터 가중치 파일(약 2 MB)보다 훨씬 크므로 디스크 여유 공간을 먼저 확인한다.
+병합 폴더에 더해 GGUF(f16) 파일에 약 1 GB가 필요하다. `ollama create`로 등록하면 GGUF가 Ollama 저장소에 한 번 더 저장되므로 디스크 여유 공간을 먼저 확인한다.
 
 등록 후 [ex01](src/ex01_ollama/__init__.py)의 `MODEL`을 `"week07-lora"`로 바꾸면 `uv run ex01`의 같은 입력 반복문으로 대화할 수 있다. Ollama의 자체 대화 명령과 달리 이 예제는 이전 질문을 누적하지 않는다. 실행기·정밀도가 달라질 수 있으므로 학습 효과의 비교 근거는 `ex04`로 남긴다.
 
