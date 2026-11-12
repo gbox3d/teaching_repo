@@ -86,6 +86,7 @@ ESP32_BLE_FAKE1 (00:11:22:33:44:01)
 - 2일차는 1일차 완성본(`examples/day1`)에서 이어서 시작한다. 1일차에 못 끝낸 사람은 그 폴더를 받아 시작한다.
 - 에뮬레이터(AVD)는 **API 33 이상**. Fake로 번호 검사·오류 표시·입력 받기·끊김·재연결·시간 제한까지 모두 연습할 수 있다.
 - 실보드로 하려면 Android 실기기와 수업 보드(파랑 깜빡임 상태)가 있어야 한다. 학생은 펌웨어를 고치거나 올리지 않는다.
+- 보드가 없으면 PC의 Wi-Fi 시뮬레이터로 온습도·입력·끊김·재연결을 실제 통신으로 해 볼 수 있다(선택, [Wi-Fi 시뮬레이터 실습](../../iot_sim/lab.md)). 끊김은 시뮬레이터 화면의 [연결 끊기]로 만든다. 15주차 과제 캡처·시연은 Fake 또는 실보드 기준 그대로다.
 - [bleuno README의 명령 규약](../../bleuno/README.md)과 [가짜 클라이언트의 동작](../../bleuno/README.md#7-fakebleunoclient의-동작)을 미리 읽어 온다.
 - 다시 쓰는 것: 3주차 `?:`·회전, 5주차 `isEnabled`, 6주차 `Job`·`cancel()`·`suspend fun`·`delay`, 7주차 collect 틀·`ConnState`·`.value`, 10주차 `hasBlePermissions()`·익명 객체 틀·AlertDialog, 11주차 `ListView`·`ArrayAdapter`·`notifyDataSetChanged`·`setOnItemClickListener`·SharedPreferences, 12주차 `connect`·`useFake`, 13주차 `send`·`onMessage`·`BleunoMessage.result`·`listOf(…).contains(…)`.
 - `AndroidManifest.xml`과 `build.gradle.kts`에 더할 것이 없다. `dht11` 보내기와 재연결은 10주차에 넣은 `BLUETOOTH_CONNECT` 권한 안에 있고, `ArrayAdapter`·`Job`·`SimpleDateFormat`·`ContextCompat`은 4주차 의존성과 Android 기본 API에 들어 있다.

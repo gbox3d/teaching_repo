@@ -67,9 +67,10 @@ onServicesDiscovered(가짜) → onDescriptorWrite → 준비됨
 ## 준비
 
 - 11주차까지 만든 `SmartIO` 프로젝트(검색 목록·마지막 장치·[연락처 보기]가 있는 연결 화면). 없으면 11주차 완성본(`examples/day2`)을 받아 시작한다.
-- 제공 라이브러리 [bleuno 패키지](../../bleuno/README.md)의 `src/` 파일 8개. 1일차 처음에 프로젝트에 붙여 넣는다.
+- 제공 라이브러리 [bleuno 패키지](../../bleuno/README.md)의 `src/` 파일 9개. 1일차 처음에 프로젝트에 붙여 넣는다.
 - 에뮬레이터(AVD)는 **API 33 이상**을 쓴다. 이 이미지들은 가상 블루투스가 켜져 있어 Fake로 검색·연결 연습을 할 수 있다. 블루투스가 없는 이미지에서는 Fake여도 켜기 요청 창에서 막힐 수 있다.
 - 실보드 연결은 11주차에 USB 디버깅까지 확인한 **Android 실기기**(Android 12 이상 권장)와 수업 보드(파랑 깜빡임 상태)가 있어야 한다. 에뮬레이터는 실제 보드를 찾을 수 없다. 학생은 펌웨어 코딩·빌드·플래싱을 하지 않는다.
+- 보드가 없으면 PC의 Wi-Fi 시뮬레이터로 2일차의 검색·연결을 실제 통신으로 해 볼 수 있다(선택, [Wi-Fi 시뮬레이터 실습](../../iot_sim/lab.md)). 이번 주 관찰표·캡처·제출은 Fake 또는 실보드 기준 그대로다.
 - 3주차 `?.`·`?:`, 5주차 `isEnabled`·`visibility`, 7주차 `repeatOnLifecycle`·`collect`·`when`, 10주차 권한 흐름과 `onStart`/`onStop` 짝, 11주차 `mutableListOf`·`ArrayAdapter`·`setOnItemClickListener`
 - `BluetoothGatt`·`StateFlow`·`org.json`은 Android 기본과 4주차 의존성에 들어 있어 `build.gradle.kts`에 더할 것이 없다. `AndroidManifest.xml`의 BLE 권한은 10주차에 넣은 그대로 쓴다.
 

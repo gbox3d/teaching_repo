@@ -1,7 +1,7 @@
 # 10주차 따라하기 — 배터리 방송과 BLE 권한
 
 7주차 `SmartIO` 프로젝트를 그대로 이어서 쓴다. 처음에는 그대로 따라 하고, 각 단계의 결과가 화면에 보이면 다음 단계로 넘어간다.
-7주차 프로젝트가 없거나 실행되지 않으면 강의자에게 7주차 완성본(`examples/day2`)을 받아 시작한다.
+7주차 프로젝트가 없거나 실행되지 않으면 7주차 완성본([`../week07_flow_ui_state/examples/day2/`](../week07_flow_ui_state/examples/day2/))을 받아 시작한다.
 
 이번 주에 고치는 파일은 `MainActivity.kt`, `activity_main.xml`, `strings.xml`(1·2일차)과 `AndroidManifest.xml`(2일차)이고, 2일차에 `Permissions.kt`를 새로 붙여 넣는다.
 `ConnState.kt`, `ConnViewModel.kt`, `ControlActivity.kt`, `activity_control.xml`은 7주차 그대로 둔다. 전체 내용은 [7단계](#7-바꾸지-않는-파일-확인하기)에 있다.
@@ -221,15 +221,17 @@ Smart I/O Controller
 1. `onCreate`를 닫는 `}`(`// 9.` 틀 바로 다음 줄) **아래**, 클래스의 마지막 `}` **위**에 두 함수를 넣는다.
 
 ```kotlin
-    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다. 등록하자마자 마지막 배터리 값이 한 번 온다(10주차 1일차).
+    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다(10주차 1일차).
+    //     등록 함수는 마지막 배터리 방송을 돌려준다. Android 12 이하는 등록 직후 방송이 오지 않을 수 있어서, 돌려받은 값으로 문구를 한 번 바로 채운다.
     override fun onStart() {
         super.onStart()
-        ContextCompat.registerReceiver(
+        val lastBattery = ContextCompat.registerReceiver(
             this,
             batteryReceiver,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
+        batteryReceiver.onReceive(this, lastBattery)
     }
 
     // 11. 화면이 안 보이게 되면 등록을 푼다. onStart의 등록과 반드시 짝을 맞춘다(10주차 1일차).
@@ -250,8 +252,10 @@ Smart I/O Controller
 
 - `onStart`·`onStop`은 3주차 생명주기 콜백이다. `onCreate` 안에 넣으면 빨간 줄이 생긴다. 반드시 `onCreate`를 닫는 `}` 아래에 둔다.
 - `IntentFilter(Intent.ACTION_BATTERY_CHANGED)`: 여러 방송 가운데 "배터리가 바뀌었다" 방송만 골라 받는다.
-- `RECEIVER_NOT_EXPORTED`: 다른 앱이 보낸 방송은 받지 않는다. 배터리 방송은 시스템이 보내므로 받는다.
-- `ACTION_BATTERY_CHANGED`는 등록하자마자 마지막 값이 한 번 전달된다. 그래서 앱을 켜자마자 숫자가 보인다.
+- `RECEIVER_NOT_EXPORTED`: 다른 앱이 보낸 방송은 받지 않는다. 나중에 오는 배터리 방송은 시스템이 보내므로 받는다. 등록 직후 보관돼 있던 값은 Android 12 이하에서 걸러질 수 있어, 아래처럼 돌려받은 값으로 채운다.
+- `val lastBattery = ContextCompat.registerReceiver(…)`: 등록 함수는 마지막 배터리 방송(`Intent`)을 돌려준다. 그 값을 `lastBattery`에 담는다.
+- `batteryReceiver.onReceive(this, lastBattery)`: 돌려받은 값으로 `onReceive`를 한 번 직접 불러 문구를 바로 채운다. Android 12 이하에서는 등록 직후 방송이 `onReceive`로 오지 않을 수 있다. Android 12(API 31) 에뮬레이터에서 이 줄 없이 실행하면 방송이 오지 않아, 배터리 값이 바뀔 때까지 `배터리 ?`가 그대로인 것을 확인했다.
+- Android 13 이상은 등록하자마자 방송도 한 번 온다. 같은 값으로 두 번 채워질 뿐이라 화면은 같다.
 
 완성한 `MainActivity.kt` 전체는 아래와 같다. 같은 코드가 [examples/day1/MainActivity.kt](examples/day1/MainActivity.kt)에 있다.
 
@@ -403,15 +407,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다. 등록하자마자 마지막 배터리 값이 한 번 온다(10주차 1일차).
+    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다(10주차 1일차).
+    //     등록 함수는 마지막 배터리 방송을 돌려준다. Android 12 이하는 등록 직후 방송이 오지 않을 수 있어서, 돌려받은 값으로 문구를 한 번 바로 채운다.
     override fun onStart() {
         super.onStart()
-        ContextCompat.registerReceiver(
+        val lastBattery = ContextCompat.registerReceiver(
             this,
             batteryReceiver,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
+        batteryReceiver.onReceive(this, lastBattery)
     }
 
     // 11. 화면이 안 보이게 되면 등록을 푼다. onStart의 등록과 반드시 짝을 맞춘다(10주차 1일차).
@@ -437,7 +443,7 @@ class MainActivity : AppCompatActivity() {
 | 홈 버튼 → 슬라이더를 50으로 → 앱으로 돌아오기 | 돌아오자마자 `배터리 50% · …` |
 | 장치 이름을 넣고 [연결] → 제어 화면에서 [뒤로] | 연결 화면에 돌아오자마자 현재 값 |
 
-홈으로 나가면 `onStop`에서 해제되고, 돌아오면 `onStart`에서 다시 등록되어 마지막 값이 곧바로 온다.
+홈으로 나가면 `onStop`에서 해제되고, 돌아오면 `onStart`에서 다시 등록하고 돌려받은 마지막 값으로 문구를 곧바로 채운다.
 7주차 [검색] → `준비됨` 흐름과 Logcat `tag:Conn` 로그는 그대로다. 이번 주에는 새 로그를 찍지 않는다.
 
 ### 6. 캡처하고 보관하기
@@ -714,6 +720,9 @@ class ControlActivity : AppCompatActivity() {
 
 ## 2일차
 
+2일차 단계는 1일차까지 마친 `SmartIO` 프로젝트를 기준으로 넣을 위치를 말한다(`batteryReceiver`, `onStop`, `// 9.` 틀).
+새 프로젝트로 시작했다면 4주차 [프로젝트 만들기](../week04_fragments_navigation/walkthrough.md#1-새-프로젝트-만들기)와 7주차 완성본, 1일차 단계부터 갖춘다.
+
 ### 8. [권한 확인] 버튼 추가하기
 
 1. `strings.xml`의 `battery_unknown` 줄 **아래**에 한 줄을 넣는다.
@@ -949,7 +958,7 @@ class ControlActivity : AppCompatActivity() {
 
 1. Project 창 `app › kotlin+java › com.example.smartio`에서 오른쪽 클릭 → **New › Kotlin Class/File**을 누른다.
 2. 목록에서 **File**(Class가 아니다)을 고르고 이름에 `Permissions`를 넣는다.
-3. 생긴 파일의 내용을 모두 지우고 아래를 넣는다. 같은 코드가 [examples/day2/Permissions.kt](examples/day2/Permissions.kt)에 있다.
+3. 생긴 파일의 첫 줄 `package …`는 생긴 그대로 두고, 그 아래를 지운 뒤 아래 코드의 `package` 줄 다음부터 넣는다. 같은 코드가 [examples/day2/Permissions.kt](examples/day2/Permissions.kt)에 있다.
 
 ```kotlin
 package com.example.smartio
@@ -993,7 +1002,7 @@ fun blePermissions(): Array<String> {
     }
 ```
 
-`PackageManager`가 빨간색이면 Alt+Enter로 `android.content.pm.PackageManager`를 가져온다. `ContextCompat`은 1일차에 이미 가져왔다.
+`PackageManager`가 빨간색이면 Alt+Enter로 `android.content.pm.PackageManager`를 가져온다. `ContextCompat`은 1일차에 이미 가져왔다. 빨간색이면 `androidx.core.content.ContextCompat`을 가져온다.
 
 실행한다. 화면은 그대로다. 아직 부르는 곳이 없어서 함수 이름이 회색으로 보여도 괜찮다.
 
@@ -1003,10 +1012,10 @@ fun blePermissions(): Array<String> {
 
 ### 12. showPermissionDialog() 만들기
 
-`hasBlePermissions()` **아래**, 클래스의 마지막 `}` **위**에 거절했을 때 보여 줄 대화상자 함수를 넣는다.
+`hasBlePermissions()` **아래**, 클래스의 마지막 `}` **위**에 두 번 거절해 더는 물어볼 수 없을 때 보여 줄 대화상자 함수를 넣는다.
 
 ```kotlin
-    // 14. 거절했을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
+    // 14. 두 번 거절해 더는 물어볼 수 없을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
     private fun showPermissionDialog() {
         AlertDialog.Builder(this)
             .setTitle("권한이 필요합니다")
@@ -1028,6 +1037,7 @@ fun blePermissions(): Array<String> {
 | `AlertDialog` | `androidx.appcompat.app.AlertDialog` (`android.app.AlertDialog`가 아니다) |
 | `Settings` | `android.provider.Settings` |
 | `Uri` | `android.net.Uri` |
+| `Intent` | `android.content.Intent` (4주차에 이미 가져왔으면 빨간색이 아니다. 그대로 둔다) |
 
 실행한다. 화면은 그대로다. 빌드만 되면 된다.
 
@@ -1042,10 +1052,13 @@ fun blePermissions(): Array<String> {
 
 ```kotlin
     // 10주차 2일차: 권한 요청 창을 띄우고 결과를 받는 틀. 화면이 시작되기 전에 만들어 두어야 하므로 클래스 안(onCreate 밖)에 둔다.
-    // 사용자가 요청 창에서 고르면 { _ -> … }가 불린다. 넘어오는 결과는 쓰지 않고(_), 13번 함수로 지금 권한을 다시 확인한다.
+    // 요청 결과가 나오면 { _ -> … }가 불린다(창 없이 시스템이 곧바로 답할 때도). 넘어오는 결과는 쓰지 않고(_), 13번 hasBlePermissions()로 지금 권한을 다시 확인한다.
+    // 거절이면 둘로 나눈다. 다시 물어볼 수 있으면(처음 거절) 이유만 알리고, 더는 물어볼 수 없으면(두 번 거절) 14번 대화상자로 설정을 안내한다.
     private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
         if (hasBlePermissions()) {
             Toast.makeText(this, "권한 OK", Toast.LENGTH_SHORT).show()
+        } else if (blePermissions().any { permission -> shouldShowRequestPermissionRationale(permission) }) {
+            Toast.makeText(this, "권한이 있어야 장치를 찾을 수 있습니다", Toast.LENGTH_SHORT).show()
         } else {
             showPermissionDialog()
         }
@@ -1053,12 +1066,16 @@ fun blePermissions(): Array<String> {
 ```
 
 `ActivityResultContracts`가 빨간색이면 Alt+Enter로 `androidx.activity.result.contract.ActivityResultContracts`를 가져온다.
+`Toast`는 4주차에 이미 가져왔다. 빨간색이면 `android.widget.Toast`를 가져온다. `shouldShowRequestPermissionRationale`은 Activity의 함수라서 import가 없다.
 
 실행한다. 화면은 그대로다. 빌드만 되면 된다.
 
-- `registerForActivityResult(…) { }`: 권한 요청 창을 띄울 준비를 해 두는 **틀**이다. 사용자가 창에서 [허용]이나 [허용 안함]을 고르면 중괄호 안이 실행된다.
+- `registerForActivityResult(…) { }`: 권한 요청 창을 띄울 준비를 해 두는 **틀**이다. 요청 결과가 나오면(창에서 [허용]이나 [허용 안함]을 고르거나, 창 없이 시스템이 곧바로 답하면) 중괄호 안이 실행된다.
 - 이 틀은 반드시 클래스 변수 자리에서 만든다. 화면이 시작되기 전에 준비되어 있어야 하기 때문이다.
 - `{ _ -> }`: 결과 묶음이 넘어오지만 읽지 않는다. 대신 11단계의 `hasBlePermissions()`로 "지금 허용됐나"를 다시 본다.
+- `shouldShowRequestPermissionRationale(권한)`: 사용자가 거절한 적이 있지만 아직 다시 물어볼 수 있으면 `true`다. 한 번도 묻지 않았을 때, 더는 물어볼 수 없을 때(두 번 거절·다시 묻지 않음), Manifest에 선언하지 않았을 때는 `false`다.
+- `blePermissions().any { permission -> … }`: 묶음 안에 중괄호 조건이 `true`인 권한이 하나라도 있으면 `true`다. 11단계 `hasBlePermissions()`의 `for` 문처럼 하나씩 보는 것을 한 줄로 쓴 모양이다.
+- 그래서 거절은 두 갈래가 된다. 아직 다시 물어볼 수 있으면(처음 거절) Toast로 이유만 알리고, 더는 물어볼 수 없으면(두 번 거절) 12단계 대화상자로 설정을 안내한다.
 
 ### 14. [권한 확인] 버튼에 연결하기
 
@@ -1084,14 +1101,18 @@ fun blePermissions(): Array<String> {
 | 처음 [권한 확인] | 시스템 권한 창이 **한 번** 뜬다. Android 12 이상은 "근처 기기"를 찾고 연결하도록 허용할지 묻는다(SCAN·CONNECT가 같은 묶음이라 창이 하나다) |
 | 권한 창에서 [허용] (영어 화면은 Allow) | Toast `권한 OK` |
 | 그 뒤 다시 [권한 확인] | 창 없이 곧바로 Toast `권한 OK` |
-| 권한 창에서 [허용 안함] (영어 화면은 Don't allow) | 대화상자 `권한이 필요합니다`와 [취소]·[설정으로] |
+| 처음 권한 창에서 [허용 안함] (영어 화면은 Don't allow) | Toast `권한이 있어야 장치를 찾을 수 있습니다`. 대화상자는 뜨지 않고 설정으로 보내지 않는다 |
+| 다시 [권한 확인] | 권한 창이 한 번 더 뜬다 |
+| 두 번째에도 [허용 안함] | 대화상자 `권한이 필요합니다`와 [취소]·[설정으로] |
+| 그 뒤 [권한 확인] | 권한 창 없이 곧바로 대화상자 |
 | 대화상자 [취소] | 대화상자만 닫힌다 |
 | 대화상자 [설정으로] | 설정 앱의 `Smart I/O Controller` 앱 정보 화면 |
 | 설정에서 권한 › 근처 기기 › 허용 → 뒤로 → [권한 확인] | Toast `권한 OK` |
 
-- Android 11 이상에서는 같은 권한을 **두 번 거절**하면 그다음부터 권한 창이 뜨지 않는다. 그때는 [권한 확인]을 누르자마자 대화상자가 뜬다. 창 없이 곧바로 결과가 오고 `hasBlePermissions()`가 `false`이기 때문이다.
-- 설정에서 이미 허용한 권한을 **다시 끄면** 시스템이 앱을 종료한다. 앱으로 돌아오면 처음부터 다시 시작해 `연결 안 됨`이 보이는 것이 정상이다.
-- Android 11 이하 에뮬레이터에서는 권한 창이 "위치" 권한으로 뜬다. 흐름은 같다.
+- Android 11(API 30) 이상에서는 같은 권한을 **두 번 거절**하면 시스템이 '다시 묻지 않음'으로 처리한다. 그래서 두 번째 거절 뒤에 대화상자가 뜨고, 그다음부터는 [권한 확인]을 누르자마자 대화상자가 뜬다. 창 없이 곧바로 결과가 오고 `hasBlePermissions()`와 `shouldShowRequestPermissionRationale`이 모두 `false`이기 때문이다.
+- Android 10 이하에서는 거절할 때 '다시 묻지 않음'을 체크해야 대화상자가 뜬다. 체크하지 않고 거절하면 계속 Toast가 뜬다.
+- 설정에서 이미 허용한 권한을 **다시 끄면** 시스템이 앱을 종료한다. 앱으로 돌아오면 앱 프로세스가 끝나 화면이 새로 만들어지고 상태는 `연결 안 됨`으로 돌아간다. 입력한 장치 이름은 남을 수 있다.
+- Android 11 이하 에뮬레이터에서는 권한 창이 "위치" 권한으로 뜬다. Android 11은 흐름이 같고, Android 10 이하는 바로 위 항목처럼 '다시 묻지 않음'을 체크해야 대화상자가 뜬다.
 - 폰 크기 화면을 가로로 돌리면 위아래가 잘려 [권한 확인]이 반쯤 가리고 배터리 문구가 안 보인다. 확인할 항목이 안 보이면 세로로 되돌려 확인한다.
 
 완성한 `MainActivity.kt` 전체는 아래와 같다. 같은 코드가 [examples/day2/MainActivity.kt](examples/day2/MainActivity.kt)에 있다.
@@ -1151,10 +1172,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 10주차 2일차: 권한 요청 창을 띄우고 결과를 받는 틀. 화면이 시작되기 전에 만들어 두어야 하므로 클래스 안(onCreate 밖)에 둔다.
-    // 사용자가 요청 창에서 고르면 { _ -> … }가 불린다. 넘어오는 결과는 쓰지 않고(_), 13번 함수로 지금 권한을 다시 확인한다.
+    // 요청 결과가 나오면 { _ -> … }가 불린다(창 없이 시스템이 곧바로 답할 때도). 넘어오는 결과는 쓰지 않고(_), 13번 hasBlePermissions()로 지금 권한을 다시 확인한다.
+    // 거절이면 둘로 나눈다. 다시 물어볼 수 있으면(처음 거절) 이유만 알리고, 더는 물어볼 수 없으면(두 번 거절) 14번 대화상자로 설정을 안내한다.
     private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
         if (hasBlePermissions()) {
             Toast.makeText(this, "권한 OK", Toast.LENGTH_SHORT).show()
+        } else if (blePermissions().any { permission -> shouldShowRequestPermissionRationale(permission) }) {
+            Toast.makeText(this, "권한이 있어야 장치를 찾을 수 있습니다", Toast.LENGTH_SHORT).show()
         } else {
             showPermissionDialog()
         }
@@ -1268,15 +1292,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다. 등록하자마자 마지막 배터리 값이 한 번 온다(10주차 1일차).
+    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다(10주차 1일차).
+    //     등록 함수는 마지막 배터리 방송을 돌려준다. Android 12 이하는 등록 직후 방송이 오지 않을 수 있어서, 돌려받은 값으로 문구를 한 번 바로 채운다.
     override fun onStart() {
         super.onStart()
-        ContextCompat.registerReceiver(
+        val lastBattery = ContextCompat.registerReceiver(
             this,
             batteryReceiver,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
+        batteryReceiver.onReceive(this, lastBattery)
     }
 
     // 11. 화면이 안 보이게 되면 등록을 푼다. onStart의 등록과 반드시 짝을 맞춘다(10주차 1일차).
@@ -1295,7 +1321,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    // 14. 거절했을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
+    // 14. 두 번 거절해 더는 물어볼 수 없을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
     private fun showPermissionDialog() {
         AlertDialog.Builder(this)
             .setTitle("권한이 필요합니다")
@@ -1313,10 +1339,12 @@ class MainActivity : AppCompatActivity() {
 
 ### 15. 거절 대화상자와 설정 화면 캡처하기
 
-1. 권한 창에서 [허용 안함]을 누른 직후 `권한이 필요합니다` 대화상자가 떠 있는 연결 화면을 캡처한다. **제출 캡처 2다.**
-2. 대화상자의 [설정으로]를 누르고, 열린 앱 정보 화면(`Smart I/O Controller`가 보이는 화면)을 캡처한다. 권한 항목까지 들어가 "근처 기기"가 보이면 더 좋다. **제출 캡처 3이다.**
+1. 대화상자는 **두 번 거절해야** 나온다. 권한 창에서 [허용 안함]을 누르면 Toast만 뜬다. [권한 확인]을 다시 눌러 뜬 권한 창에서 한 번 더 [허용 안함]을 누른다(Android 10 이하는 '다시 묻지 않음'을 체크하고 거절한다).
+2. 두 번째 거절 직후 `권한이 필요합니다` 대화상자가 떠 있는 연결 화면을 캡처한다. **제출 캡처 2다.**
+3. 대화상자의 [설정으로]를 누르고, 열린 앱 정보 화면(`Smart I/O Controller`가 보이는 화면)을 캡처한다. 권한 항목까지 들어가 "근처 기기"가 보이면 더 좋다. **제출 캡처 3이다.**
 
-이미 [허용]을 눌러 대화상자를 만들 수 없으면, 설정 › 앱 › Smart I/O Controller › 권한 › 근처 기기 › **허용 안함**으로 되돌린 뒤 앱을 다시 실행하고 [권한 확인]을 누른다.
+이미 [허용]을 눌러 대화상자를 만들 수 없으면, 설정 › 앱 › Smart I/O Controller › 권한 › 근처 기기 › **허용 안함**으로 되돌린 뒤 앱을 다시 실행하고 [권한 확인]을 누른다. 권한 창이 뜨면 [허용 안함]을 누른다. 이때는 첫 거절에도 Toast 없이 곧바로 대화상자가 뜬다(Android 12 에뮬레이터에서 확인).
+앱을 지웠다가 다시 `Run ▶`하면 권한이 처음 상태로 돌아가므로, 1번부터 다시 해도 된다.
 
 - 대화상자가 뜬 채로 화면을 돌리면 대화상자는 사라진다. [권한 확인]을 다시 누르면 된다. 캡처는 세로에서 한다.
 - 설정 화면에 갔다 오면 `onStop` → `onStart`가 돌아 배터리 문구도 곧바로 새 값으로 바뀐다.
@@ -1327,7 +1355,7 @@ class MainActivity : AppCompatActivity() {
 
 1. `MainActivity.kt`, `AndroidManifest.xml`
 2. 캡처 1: Battery 값을 바꾼 뒤 배터리 문구가 보이는 연결 화면(1일차 6단계)
-3. 캡처 2: 권한을 거절한 뒤 뜬 `권한이 필요합니다` 대화상자
+3. 캡처 2: 권한을 두 번 거절한 뒤 뜬 `권한이 필요합니다` 대화상자
 4. 캡처 3: [설정으로]로 열린 `Smart I/O Controller` 앱 정보 화면
 
 ## 오류가 나면

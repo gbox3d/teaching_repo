@@ -416,10 +416,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 10주차 2일차: 권한 요청 창을 띄우고 결과를 받는 틀. 화면이 시작되기 전에 만들어 두어야 하므로 클래스 안(onCreate 밖)에 둔다.
-    // 사용자가 요청 창에서 고르면 { _ -> … }가 불린다. 넘어오는 결과는 쓰지 않고(_), 13번 함수로 지금 권한을 다시 확인한다.
+    // 요청 결과가 나오면 { _ -> … }가 불린다(창 없이 시스템이 곧바로 답할 때도). 넘어오는 결과는 쓰지 않고(_), 13번 hasBlePermissions()로 지금 권한을 다시 확인한다.
+    // 거절이면 둘로 나눈다. 다시 물어볼 수 있으면(처음 거절) 이유만 알리고, 더는 물어볼 수 없으면(두 번 거절) 14번 대화상자로 설정을 안내한다.
     private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
         if (hasBlePermissions()) {
             Toast.makeText(this, "권한 OK", Toast.LENGTH_SHORT).show()
+        } else if (blePermissions().any { permission -> shouldShowRequestPermissionRationale(permission) }) {
+            Toast.makeText(this, "권한이 있어야 장치를 찾을 수 있습니다", Toast.LENGTH_SHORT).show()
         } else {
             showPermissionDialog()
         }
@@ -566,15 +569,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다. 등록하자마자 마지막 배터리 값이 한 번 온다(10주차 1일차).
+    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다(10주차 1일차).
+    //     등록 함수는 마지막 배터리 방송을 돌려준다. Android 12 이하는 등록 직후 방송이 오지 않을 수 있어서, 돌려받은 값으로 문구를 한 번 바로 채운다.
     override fun onStart() {
         super.onStart()
-        ContextCompat.registerReceiver(
+        val lastBattery = ContextCompat.registerReceiver(
             this,
             batteryReceiver,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
+        batteryReceiver.onReceive(this, lastBattery)
     }
 
     // 11. 화면이 안 보이게 되면 등록을 푼다. onStart의 등록과 반드시 짝을 맞춘다(10주차 1일차).
@@ -593,7 +598,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    // 14. 거절했을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
+    // 14. 두 번 거절해 더는 물어볼 수 없을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
     private fun showPermissionDialog() {
         AlertDialog.Builder(this)
             .setTitle("권한이 필요합니다")
@@ -1219,6 +1224,7 @@ Android 폰이 있으면 이 단계로 캡처 3을 만든다. 없으면 15단계
 | [권한 확인] | Android 12 이상은 "근처 기기", 11 이하는 "위치" 권한 창 → Toast `권한 OK` |
 
 기기 목록에 폰이 안 보이면 케이블을 바꾸고, 폰의 허용 창을 놓치지 않았는지 보고, USB 디버깅을 껐다 켠 뒤 케이블을 다시 꽂는다.
+권한 창에서 거절했으면 Toast `권한이 있어야 장치를 찾을 수 있습니다`가 뜬다. [권한 확인]을 다시 눌러 허용한다. 두 번 거절해 `권한이 필요합니다` 대화상자가 뜨면 [설정으로] › 권한 › 근처 기기(11 이하는 위치) › 허용으로 바꾼다.
 
 **실기기에서 앱이 뜬 화면(가능하면 Toast `권한 OK`가 함께 보이게)이 제출 캡처 3이다.** 폰의 화면 캡처 기능으로 찍는다. 알림 내용이 보이지 않게 한다.
 
@@ -1407,7 +1413,7 @@ object ContactsReader {
 
 - 10주차 `permissionLauncher`와 같은 틀이다. 권한이 하나뿐이라 `arrayOf(…)`에 `READ_CONTACTS` 하나만 넣어 요청한다(19단계).
 - 결과 묶음은 읽지 않고(`_`) `checkSelfPermission`으로 지금 허용됐는지 다시 본다. 허용이면 17단계 `showContacts()`, 아니면 [확인]만 있는 안내 대화상자다.
-- 연락처는 선택 기능이라 거절해도 설정 화면으로 보내지 않는다.
+- 연락처는 선택 기능이라 거절해도 설정 화면으로 보내지 않는다. 10주차 `permissionLauncher`와 달리 처음 거절과 두 번 거절을 나누지 않고, 거절이면 늘 같은 안내 대화상자다.
 
 ### 19. [연락처 보기] 버튼에 연결하기
 
@@ -1498,10 +1504,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 10주차 2일차: 권한 요청 창을 띄우고 결과를 받는 틀. 화면이 시작되기 전에 만들어 두어야 하므로 클래스 안(onCreate 밖)에 둔다.
-    // 사용자가 요청 창에서 고르면 { _ -> … }가 불린다. 넘어오는 결과는 쓰지 않고(_), 13번 함수로 지금 권한을 다시 확인한다.
+    // 요청 결과가 나오면 { _ -> … }가 불린다(창 없이 시스템이 곧바로 답할 때도). 넘어오는 결과는 쓰지 않고(_), 13번 hasBlePermissions()로 지금 권한을 다시 확인한다.
+    // 거절이면 둘로 나눈다. 다시 물어볼 수 있으면(처음 거절) 이유만 알리고, 더는 물어볼 수 없으면(두 번 거절) 14번 대화상자로 설정을 안내한다.
     private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
         if (hasBlePermissions()) {
             Toast.makeText(this, "권한 OK", Toast.LENGTH_SHORT).show()
+        } else if (blePermissions().any { permission -> shouldShowRequestPermissionRationale(permission) }) {
+            Toast.makeText(this, "권한이 있어야 장치를 찾을 수 있습니다", Toast.LENGTH_SHORT).show()
         } else {
             showPermissionDialog()
         }
@@ -1684,15 +1693,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다. 등록하자마자 마지막 배터리 값이 한 번 온다(10주차 1일차).
+    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다(10주차 1일차).
+    //     등록 함수는 마지막 배터리 방송을 돌려준다. Android 12 이하는 등록 직후 방송이 오지 않을 수 있어서, 돌려받은 값으로 문구를 한 번 바로 채운다.
     override fun onStart() {
         super.onStart()
-        ContextCompat.registerReceiver(
+        val lastBattery = ContextCompat.registerReceiver(
             this,
             batteryReceiver,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
+        batteryReceiver.onReceive(this, lastBattery)
     }
 
     // 11. 화면이 안 보이게 되면 등록을 푼다. onStart의 등록과 반드시 짝을 맞춘다(10주차 1일차).
@@ -1711,7 +1722,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    // 14. 거절했을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
+    // 14. 두 번 거절해 더는 물어볼 수 없을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
     private fun showPermissionDialog() {
         AlertDialog.Builder(this)
             .setTitle("권한이 필요합니다")

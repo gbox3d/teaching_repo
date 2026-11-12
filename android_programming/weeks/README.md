@@ -38,7 +38,7 @@
 
 package는 1주 2일차~3주 `com.example.studentcard`, 4~15주 `com.example.smartio`다. 8주는 시작 코드가 없어 `StudentCard` 또는 새 Empty Views Activity를 쓴다.
 
-12~15주는 제공 라이브러리 [`../bleuno/`](../bleuno/README.md)를 쓴다. `bleuno/src/`의 파일을 `app/src/main/java/com/example/smartio/bleuno/`로 복사하며(package `com.example.smartio.bleuno`), 12~15주 `examples/`의 `bleuno/` 폴더에 같은 파일이 들어 있다. 보드 명령·응답 규약과 라이브러리 사용법은 [bleuno README](../bleuno/README.md)에 있다.
+12~15주는 제공 라이브러리 [`../bleuno/`](../bleuno/README.md)를 쓴다. `bleuno/src/`의 파일을 `app/src/main/java/com/example/smartio/bleuno/`로 복사하며(package `com.example.smartio.bleuno`), 12~15주 `examples/`의 `bleuno/` 폴더에 같은 파일이 들어 있다. 보드 명령·응답 규약과 라이브러리 사용법은 [bleuno README](../bleuno/README.md)에 있다. 보드가 없으면 PC에서 돌리는 [Wi-Fi 시뮬레이터](../iot_sim/README.md)에 TCP로 연결해 검색·연결(12주차 2일차 이후)과 같은 명령·응답(13주차 이후)을 해 볼 수 있다([실습](../iot_sim/lab.md)).
 
 PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code Marp 확장으로 HTML, PDF, PPTX로 내보낼 수 있다.
 
@@ -55,7 +55,7 @@ PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code 
 | 7 | ViewModel과 StateFlow: 회전해도 살아 있는 상태 | 회전해도 이어지는 `연결 중… 3`, 상태에 맞게 켜지는 버튼 | [`week07_flow_ui_state`](week07_flow_ui_state/) |
 | 8 | 중간고사(개인 실기) | 1~7주 실습 제출을 정리한 문제 은행(수업에서 나간 범위)으로 연습하고, 값만 바뀐 같은 문제로 시험 | [`week08_midterm`](week08_midterm/) |
 | 9 | 화면 없이 일하는 Service | 1일차 Logcat에 서비스 시작·중지와 스레드 이름, 2일차 화면에 올라가는 서비스 값과 화면을 옮겼다 와도 이어지는 숫자 | [`week09_services_project`](week09_services_project/) |
-| 10 | BroadcastReceiver와 런타임 권한 | 연결 화면 배터리 문구, [권한 확인] → 거절 AlertDialog → 설정 화면 | [`week10_receivers_permissions`](week10_receivers_permissions/) |
+| 10 | BroadcastReceiver와 런타임 권한 | 연결 화면 배터리 문구, [권한 확인] → 처음 거절은 Toast, 두 번 거절하면 AlertDialog → 설정 화면 | [`week10_receivers_permissions`](week10_receivers_permissions/) |
 | 11 | 목록과 저장: ListView·SharedPreferences·ContentProvider 비교 + 실기기 준비 | 장치 이름 목록, 앱을 다시 켜도 남는 `마지막 장치: …`, 실기기 실행 | [`week11_content_provider`](week11_content_provider/) |
 | 12 | BLE 기초: Bleuno 클라이언트로 검색·연결 | 보드 검색 목록, 목록 탭 → `준비됨`, 제어 화면 상태 표시 | [`week12_ble_gatt`](week12_ble_gatt/) |
 | 13 | BLE 출력 제어와 과제 계획안 발표 | 1일차 LED on/off 명령과 JSON 응답 로그, 2일차 과제 계획안 발표 | [`week13_ble_output`](week13_ble_output/) |

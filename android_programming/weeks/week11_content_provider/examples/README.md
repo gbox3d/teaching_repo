@@ -192,7 +192,7 @@ binding.contactsButton.setOnClickListener {
 | 연락처 두 명 추가 뒤 [연락처 보기] | 권한 창 없이 대화상자 `연락처`에 이름순 두 줄, [닫기] |
 | 권한 창 [허용 안함] | 대화상자 `연락처 권한 없음` |
 
-- `contactsLauncher`는 10주차 `permissionLauncher`와 같은 모양으로 클래스 변수 자리에 만든다. 결과는 `_`로 두고 `checkSelfPermission`으로 다시 확인한다.
+- `contactsLauncher`는 10주차 `permissionLauncher`와 같은 모양으로 클래스 변수 자리에 만든다. 결과는 `_`로 두고 `checkSelfPermission`으로 다시 확인한다. 10주차 틀과 달리 처음 거절과 두 번 거절을 나누지 않고, 거절이면 늘 `연락처 권한 없음`만 띄운다(설정으로 보내지 않는다).
 - 목록 대화상자는 `.setItems(names.toTypedArray(), null)`로 띄운다. `setItems`가 배열을 받아서 목록을 배열로 바꿔 넘긴다.
 - `Manifest`는 `android.Manifest`를 import한다.
 - Manifest 선언을 빼도 빌드는 된다. 그러면 권한 창 없이 곧바로 `연락처 권한 없음`이 뜬다.

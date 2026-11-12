@@ -145,15 +145,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다. 등록하자마자 마지막 배터리 값이 한 번 온다(10주차 1일차).
+    // 10. 화면이 보이기 시작하면 배터리 방송을 받도록 등록한다(10주차 1일차).
+    //     등록 함수는 마지막 배터리 방송을 돌려준다. Android 12 이하는 등록 직후 방송이 오지 않을 수 있어서, 돌려받은 값으로 문구를 한 번 바로 채운다.
     override fun onStart() {
         super.onStart()
-        ContextCompat.registerReceiver(
+        val lastBattery = ContextCompat.registerReceiver(
             this,
             batteryReceiver,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
+        batteryReceiver.onReceive(this, lastBattery)
     }
 
     // 11. 화면이 안 보이게 되면 등록을 푼다. onStart의 등록과 반드시 짝을 맞춘다(10주차 1일차).

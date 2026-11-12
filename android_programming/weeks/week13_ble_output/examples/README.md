@@ -12,7 +12,7 @@
 | [day1/activity_control.xml](day1/activity_control.xml) | `app › res › layout › activity_control.xml` | `pinEdit`에 `android:maxLength="2"`, `ledSwitch` 아래 `allOffButton` 추가 |
 | [day1/strings.xml](day1/strings.xml) | `app › res › values › strings.xml` | `pin_hint` 값 `핀 번호` → `LED 번호 (0~3)`(이름은 그대로), `all_off` 추가 |
 | `day1/MainActivity.kt`, `day1/activity_main.xml`, `day1/ContactsReader.kt` | 연결 화면·연락처 읽기 | 12주차 `week12_ble_gatt/examples/day2` 그대로, 바꾸지 않는다 |
-| [day1/bleuno/](day1/bleuno) 8개 | `app › kotlin+java › com.example.smartio › bleuno` | 12주차에 넣은 제공 코드 그대로. [bleuno/src](../../../bleuno/src)와 같다 |
+| [day1/bleuno/](day1/bleuno) 9개 | `app › kotlin+java › com.example.smartio › bleuno` | 12주차에 넣은 제공 코드 그대로. [bleuno/src](../../../bleuno/src)와 같다 |
 | `day1/AndroidManifest.xml`, `day1/res/values/themes.xml` | Manifest·테마 | 12주차 그대로. 명령 보내기·응답 받기는 10주차에 넣은 `BLUETOOTH_CONNECT` 권한 안에 들어 있다 |
 
 `ControlActivity.kt` 전체를 복사할 때 첫 줄 `package ...`는 내 프로젝트의 첫 줄을 그대로 둔다.

@@ -8,7 +8,7 @@
 
 | 시간 | 할 일 |
 |---|---|
-| 0–10분 | 11주차 `SmartIO`를 실행하고 `bleuno` 패키지에 제공 파일 8개를 붙여 넣는다. 11주차 `ConnState.kt`·`Permissions.kt`를 지우고 import와 이름을 고친다 |
+| 0–10분 | 11주차 `SmartIO`를 실행하고 `bleuno` 패키지에 제공 파일 9개를 붙여 넣는다. 11주차 `ConnState.kt`·`Permissions.kt`를 지우고 import와 이름을 고친다 |
 | 10–20분 | `useFake`·`client`·`bluetoothLauncher`를 만들고 `onCreate`에서 client를 받는다 |
 | 20–40분 | [검색]을 권한 → 블루투스 → `startScan` 순서로 바꾸고 [중지]는 `stopScan()`으로 바꾼다. 관찰표를 채운다 |
 | 40–50분 | `onStop`에서 검색을 멈추고, `startsWith` 글자를 바꿔 본 뒤 되돌린다 |
@@ -16,9 +16,9 @@
 
 ### 1. bleuno 넣고 11주차 파일 정리하기
 
-1. `com.example.smartio` 아래에 **New › Package**로 `bleuno` 패키지를 만들고 [bleuno/src](../../bleuno/src)의 8개 파일을 붙여 넣는다. 방법은 [따라하기 2단계](walkthrough.md#2-bleuno-패키지-넣기)에 있다.
+1. `com.example.smartio` 아래에 **New › Package**로 `bleuno` 패키지를 만들고 [bleuno/src](../../bleuno/src)의 9개 파일을 붙여 넣는다. 방법은 [따라하기 2단계](walkthrough.md#2-bleuno-패키지-넣기)에 있다.
 2. 11주차 `ConnState.kt`를 지운다. 빨간색이 된 `ConnState`(`MainActivity.kt`, `ConnViewModel.kt`)에 **Alt+Enter**(맥 ⌥+Enter)로 `com.example.smartio.bleuno.ConnState`를 import한다.
-3. 11주차 `Permissions.kt`를 지운다. `blePermissions()`를 부르던 두 곳을 `PermissionHelper.required()`로 바꾸고 import한다.
+3. 11주차 `Permissions.kt`를 지운다. `blePermissions()`를 부르던 세 곳(12번 [권한 확인], 13번 `hasBlePermissions()`, `permissionLauncher`의 `else if` 줄)을 `PermissionHelper.required()`로 바꾸고 import한다.
 4. 실행해 11주차와 똑같이 [검색] → `연결 중… 5` → 목록 A·B·C가 되면 다음으로 간다.
 
 - 두 파일을 지운 뒤 빌드 창의 빨간 줄이 어느 파일 몇 번째 줄인지 먼저 읽는다. [막혔을 때](#막혔을-때)에 문구가 있다.
@@ -114,7 +114,7 @@ if (hasBlePermissions() == false) {
 
 ### 6. 오늘 확인할 것
 
-- [ ] `bleuno` 패키지에 8개 파일이 있고, 11주차 `ConnState.kt`·`Permissions.kt`는 지웠다.
+- [ ] `bleuno` 패키지에 9개 파일이 있고, 11주차 `ConnState.kt`·`Permissions.kt`는 지웠다.
 - [ ] [검색]을 누르면 `검색 중…`과 ProgressBar가 보이고, Fake면 1초·2초 뒤 `ESP32_BLE_FAKE1`·`ESP32_BLE_FAKE2`가 한 줄씩 들어온 뒤 `검색 완료 · 장치 수: 2`가 된다.
 - [ ] [중지]를 누르면 곧바로 검색이 끝나고 [검색]이 다시 켜진다.
 - [ ] 검색 중에 홈으로 나가면 Logcat에 `stopScan(가짜)`가 찍힌다.
@@ -226,7 +226,8 @@ if (hasBlePermissions() == false) {
 | 상황 | 확인할 것 |
 |---|---|
 | `Unresolved reference 'Bleuno'.` (`ConnState`·`PermissionHelper`도 같은 모양) | 라이브러리는 다른 패키지(`com.example.smartio.bleuno`)라 import가 필요하다. 빨간 글자에 Alt+Enter(맥 ⌥+Enter) → Import |
-| `Unresolved reference 'blePermissions'.` (바로 위에 `Method 'iterator()' is ambiguous for this expression.`과 후보 목록이 먼저 보일 수 있다) | 위의 `iterator()` 목록은 이 오류의 여파다. `Permissions.kt`를 지웠는데 부르는 곳을 안 바꿨다. `blePermissions()`를 `PermissionHelper.required()`로 바꾼다 |
+| `Unresolved reference 'TcpBleunoClient'.` (`Bleuno.kt`에 표시된다) | 제공 파일 9개 가운데 `TcpBleunoClient.kt`를 빠뜨렸다. `Bleuno.kt`가 이 클래스를 부르므로 [bleuno/src](../../bleuno/src)의 9개를 모두 붙여 넣는다 |
+| `Unresolved reference 'blePermissions'.` (바로 위에 `Method 'iterator()' is ambiguous for this expression.`과 후보 목록이 먼저 보일 수 있다) | 위의 `iterator()` 목록은 이 오류의 여파다. `Permissions.kt`를 지웠는데 부르는 곳을 안 바꿨다. `blePermissions()`를 `PermissionHelper.required()`로 바꾼다. 12·13번과 `permissionLauncher`의 `else if` 줄, 세 곳이다 |
 | `Argument type mismatch: actual type is 'com.example.smartio.bleuno.BleunoDevice', but 'kotlin.String' was expected.` | `devices.add(device)`로 썼다. `devices`는 글자만 담는 목록이다. `device.name`·`device.address`로 꺼내 `"$name ($address)"`를 넣는다 |
 | `Suspend function 'suspend fun collect(collector: FlowCollector<String>): Nothing' should be called only from a coroutine or another suspend function.` | `collect`를 틀 밖에서 불렀다. MainActivity 7번처럼 `lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { … } }` 안에 둔다 |
 | `Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'com.example.smartio.bleuno.BleunoClient?'.` | 제어 화면에서 `Bleuno.client.connectionState`로 썼다. `Bleuno.client?.connectionState?.collect`로 `?.`를 쓴다. `!!`는 쓰지 않는다 |

@@ -65,8 +65,9 @@ private val batteryReceiver = object : BroadcastReceiver() {
 ```kotlin
 override fun onStart() {
     super.onStart()
-    ContextCompat.registerReceiver(this, batteryReceiver,
+    val lastBattery = ContextCompat.registerReceiver(this, batteryReceiver,
         IntentFilter(Intent.ACTION_BATTERY_CHANGED), ContextCompat.RECEIVER_NOT_EXPORTED)
+    batteryReceiver.onReceive(this, lastBattery)
 }
 override fun onStop() {
     super.onStop()
@@ -75,7 +76,7 @@ override fun onStop() {
 ```
 
 - 두 함수는 `onCreate()` **바깥**, 클래스 안에 둡니다. 3주차 생명주기 콜백과 같은 자리입니다.
-- `RECEIVER_NOT_EXPORTED`: 다른 앱이 보낸 방송은 받지 않습니다. 시스템 방송은 받습니다.
+- `RECEIVER_NOT_EXPORTED`: 다른 앱이 보낸 방송은 받지 않습니다. 나중에 오는 시스템 방송은 받습니다. 등록 직후 보관돼 있던 값은 Android 12 이하에서 걸러질 수 있어 돌려받은 값으로 채웁니다.
 - `ContextCompat`·`IntentFilter`가 빨간색이면 Alt+Enter(맥 ⌥+Enter)로 import합니다.
 
 ---
@@ -90,7 +91,7 @@ onStop  ─ 해제(unregisterReceiver) ─▶ 더 받지 않음
 
 - 화면이 **보이는 동안만** 받습니다. 안 보이는 화면의 글자를 고칠 필요가 없습니다.
 - 해제를 빼도 빌드는 됩니다. 그래서 짝을 눈으로 확인해야 합니다.
-- `ACTION_BATTERY_CHANGED`는 등록하자마자 **마지막 값이 한 번** 옵니다. 앱을 켜면 곧바로 숫자가 보입니다.
+- 등록 함수는 **마지막 배터리 방송**을 돌려줍니다. Android 12 이하는 등록 직후 방송이 안 올 수 있어 그 값으로 직접 채웁니다(13 이상은 방송도 옵니다).
 
 ---
 
@@ -149,24 +150,24 @@ binding.batteryText.text = "배터리 $percent% · $charging"
 
 `30분 설명·시연 → 60분 실습`
 
-1. 런타임 권한 5단계와 Manifest 선언
+1. 런타임 권한 흐름과 Manifest 선언
 2. 요청 창을 띄우고 결과 받기
-3. 거절하면 `AlertDialog`로 알리고 설정 화면 열기
+3. 처음 거절은 이유만 알리고, 두 번 거절하면 `AlertDialog`로 설정 화면 열기
 
 ---
 
-## 2일차 · 0–8분 ① — 런타임 권한 5단계
+## 2일차 · 0–8분 ① — 런타임 권한 흐름
 
 | 단계 | 하는 일 | 이번 주 코드 |
 |---|---|---|
 | ① 선언 | "이 권한을 쓴다"고 적는다 | `AndroidManifest.xml`의 `uses-permission` |
 | ② 확인 | 이미 허용됐나 본다 | `hasBlePermissions()` |
-| ③ 설명 | 왜 필요한지 알린다 | 거절 뒤 `AlertDialog` |
-| ④ 요청 | 시스템 권한 창을 띄운다 | `permissionLauncher.launch(…)` |
-| ⑤ 결과 | 허용·거절에 맞춰 화면을 바꾼다 | 요청 틀의 `{ _ -> … }` |
+| ③ 요청 | 시스템 권한 창을 띄운다 | `permissionLauncher.launch(…)` |
+| ④ 결과 처리 | 허용: Toast / 처음 거절: 이유 알림 / 두 번 거절: 설정 안내 | 요청 틀의 `{ _ -> … }` |
 
 - Manifest에 적기만 해서는 안 됩니다. **실행 중에** 사용자가 허락해야 합니다.
 - 앱을 켜자마자 묻지 않고, 사용자가 [권한 확인]을 누를 때 묻습니다.
+- 공식 문서는 요청 **전에** 이유를 보여 주는 단계를 권하지만, 이번 주에는 다루지 않습니다.
 
 ---
 
@@ -217,15 +218,17 @@ private val permissionLauncher =
     registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
         if (hasBlePermissions()) {
             Toast.makeText(this, "권한 OK", Toast.LENGTH_SHORT).show()
+        } else if (blePermissions().any { permission -> shouldShowRequestPermissionRationale(permission) }) {
+            Toast.makeText(this, "권한이 있어야 장치를 찾을 수 있습니다", Toast.LENGTH_SHORT).show()
         } else {
             showPermissionDialog()
         }
     }
 ```
 
-- 요청 틀은 **클래스 변수 자리**(`onCreate` 밖)에서 만듭니다. 버튼 안에서 만들면 누르는 순간 앱이 멈춥니다.
-- 버튼에서는 `permissionLauncher.launch(blePermissions())`로 요청 창을 띄웁니다.
-- `{ _ -> }`: 넘어오는 결과는 읽지 않고(`_`), 지금 권한을 **다시 확인**합니다.
+- **클래스 변수 자리**(`onCreate` 밖)에, 13·14번 함수를 만든 **뒤** 넣습니다(먼저 넣으면 두 이름이 빨간색). 버튼 안에서 만들면 누르는 순간 앱이 멈춥니다.
+- 버튼에서는 `permissionLauncher.launch(blePermissions())`로 요청 창을 띄웁니다. `{ _ -> }`는 결과를 읽지 않고(`_`) 지금 권한을 **다시 확인**합니다.
+- 거절은 두 갈래입니다. 아직 다시 물어볼 수 있으면 Toast, 더는 물어볼 수 없으면 대화상자(15–23분 ③).
 
 ---
 
@@ -248,7 +251,7 @@ private fun hasBlePermissions(): Boolean {
 
 ---
 
-## 2일차 · 15–23분 ① — 거절하면 AlertDialog
+## 2일차 · 15–23분 ① — 두 번 거절하면 AlertDialog
 
 ```kotlin
 private fun showPermissionDialog() {
@@ -280,6 +283,20 @@ private fun showPermissionDialog() {
 - `$packageName`은 이 앱의 package 이름(`com.example.smartio`)입니다.
 - 주소는 반드시 `package:`로 시작합니다. 빼면 [설정으로]를 누르는 순간 앱이 멈춥니다.
 - 설정에서 허용하고 돌아와도 글자가 저절로 바뀌지는 않습니다. [권한 확인]을 다시 누릅니다.
+
+---
+
+## 2일차 · 15–23분 ③ — 처음 거절과 두 번 거절
+
+| 조작 | 화면 |
+|---|---|
+| 처음 [허용 안함] | Toast `권한이 있어야 장치를 찾을 수 있습니다` |
+| 다시 [권한 확인] → 두 번째 [허용 안함] | 대화상자 `권한이 필요합니다` |
+| 그 뒤 [권한 확인] | 권한 창 없이 곧바로 대화상자 |
+
+- `shouldShowRequestPermissionRationale(권한)`: 거절한 적이 있지만 **아직 다시 물어볼 수 있으면** `true`입니다. 처음 묻기 전, 두 번 거절한 뒤, Manifest에 선언하지 않았을 때는 `false`입니다.
+- `any { permission -> … }`: 묶음 안에 조건이 `true`인 권한이 하나라도 있으면 `true`입니다. `for` 문을 한 줄로 쓴 모양입니다.
+- Android 11(API 30) 이상은 두 번 거절하면 시스템이 '다시 묻지 않음'으로 처리합니다. 10 이하는 '다시 묻지 않음'을 체크하고 거절해야 대화상자가 뜹니다.
 
 ---
 
@@ -326,11 +343,11 @@ binding.backButton.setOnClickListener {
 1. [권한 확인] 버튼, Manifest 권한 선언, `Permissions.kt`를 넣습니다.
 2. `hasBlePermissions()`와 `showPermissionDialog()`를 만듭니다.
 3. 요청 틀 `permissionLauncher`와 [권한 확인] 리스너를 넣습니다.
-4. 거절 대화상자와 설정 앱 화면을 캡처합니다.
+4. 두 번 거절해 뜬 대화상자와 설정 앱 화면을 캡처합니다.
 
 **설명 합계: 8+7+8+4+3 = 30분**
 
-권한 창이 안 뜨고 바로 대화상자가 나오면 Manifest의 `uses-permission`부터 확인합니다.
+처음 [권한 확인]부터 권한 창 없이 바로 대화상자가 나오면 Manifest의 `uses-permission`부터 확인합니다.
 
 ---
 
@@ -340,7 +357,7 @@ binding.backButton.setOnClickListener {
 
 1. **`MainActivity.kt`, `AndroidManifest.xml`**
 2. **캡처 1**: Battery 값을 바꾼 뒤 `배터리 80% · 충전 중`처럼 보이는 연결 화면(세로)
-3. **캡처 2**: 권한을 거절한 뒤 뜬 `권한이 필요합니다` 대화상자
+3. **캡처 2**: 권한을 두 번 거절한 뒤 뜬 `권한이 필요합니다` 대화상자
 4. **캡처 3**: [설정으로]를 눌러 열린 `Smart I/O Controller` 앱 정보 화면
 
 ---

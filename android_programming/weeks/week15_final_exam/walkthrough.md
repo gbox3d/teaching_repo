@@ -4,7 +4,7 @@
 리허설은 시험 연습이다. [실습지](lab.md)로 먼저 혼자 풀어 보고, 막힌 단계만 여기서 연다. 1~2단계(14주차 확인과 starter 넣기)는 시험 당일 강의자가 끝내서 나눠 주는 부분이다.
 
 이번 주에 바꾸는 파일은 두 개뿐이다. `MainActivity.kt`·`ControlActivity.kt`를 starter로 바꾼 뒤 TODO를 채운다.
-`AndroidManifest.xml`, `ContactsReader.kt`, `activity_main.xml`, `activity_control.xml`, `strings.xml`, `colors.xml`, `res/values/themes.xml`, `bleuno` 패키지 8개는 14주차 그대로 둔다. 전체 내용은 [부록 A](#부록-a--바꾸지-않는-파일-전체)와 [부록 B](#부록-b--제공-bleuno-파일-전체)에 있다.
+`AndroidManifest.xml`, `ContactsReader.kt`, `activity_main.xml`, `activity_control.xml`, `strings.xml`, `colors.xml`, `res/values/themes.xml`, `bleuno` 패키지 9개는 14주차 그대로 둔다. 전체 내용은 [부록 A](#부록-a--바꾸지-않는-파일-전체)와 [부록 B](#부록-b--제공-bleuno-파일-전체)에 있다.
 새로 배우는 문법은 없고, 넣을 import도 없다(필요한 import는 starter에 모두 들어 있다).
 
 에뮬레이터는 API 33 이상 이미지를 쓰고 연결 화면의 `useFake = true`는 그대로 둔다. 2일차 시연 준비(17단계)에서만 실기기와 보드를 쓴다.
@@ -29,7 +29,7 @@ on 3
 
 ### 2. starter 두 파일로 바꾸기
 
-1. 브라우저에서 [examples/rehearsal_starter/MainActivity.kt](examples/rehearsal_starter/MainActivity.kt)(472행)를 열어 전체를 복사한다. Project 창에서 `app › kotlin+java › com.example.smartio › MainActivity.kt`를 열고 **전체를 선택해 붙여 넣는다.** 첫 줄 `package com.example.smartio`는 내 프로젝트와 같다.
+1. 브라우저에서 [examples/rehearsal_starter/MainActivity.kt](examples/rehearsal_starter/MainActivity.kt)(475행)를 열어 전체를 복사한다. Project 창에서 `app › kotlin+java › com.example.smartio › MainActivity.kt`를 열고 **전체를 선택해 붙여 넣는다.** 첫 줄 `package com.example.smartio`는 내 프로젝트와 같다.
 2. 같은 방법으로 `ControlActivity.kt` 전체를 [examples/rehearsal_starter/ControlActivity.kt](examples/rehearsal_starter/ControlActivity.kt)(247행)로 바꾼다.
 
    두 파일은 14주차 완성본에서 TODO 아홉 곳의 **본문만** 비운 것이다. 함수를 여는 줄과 닫는 `}`, 그 위 주석, import는 한 줄도 바뀌지 않았다. 비운 자리는 아래처럼 TODO 주석만 남아 있다(`MainActivity.kt` 13번).
@@ -71,7 +71,7 @@ on 3
 | TODO | 파일 | 자리(주석 번호) | 할 일 | 단계 |
 |---|---|---|---|---|
 | (1) | `MainActivity.kt` | 13번 `private fun hasBlePermissions(): Boolean {` 안 | 권한을 하나씩 확인 | 4 |
-| (1) | `MainActivity.kt` | 14번 `private fun showPermissionDialog() {` 안 | 거절했을 때 안내 창 | 5 |
+| (1) | `MainActivity.kt` | 14번 `private fun showPermissionDialog() {` 안 | 두 번 거절했을 때 안내 창 | 5 |
 | (1) | `MainActivity.kt` | 클래스 안 `permissionLauncher = registerForActivityResult(…) { _ ->` 안 | 요청 창의 결과 받기 | 6 |
 | (1) | `MainActivity.kt` | onCreate 12번 `binding.permissionButton.setOnClickListener {` 안 | [권한 확인] 버튼 | 7 |
 | (2) | `ControlActivity.kt` | 12번 `private fun isAllowedIndex(index: Int): Boolean {` 안 | 보내도 되는 번호인지 확인 | 8 |
@@ -109,12 +109,12 @@ on 3
 2. 앱을 다시 열고 [검색]을 누른다. 시스템의 `근처 기기` 권한 요청 창이 뜬다(25번 [검색]이 13번을 부르기 시작했다).
 3. 허용을 눌러도 **아무 일도 없다.** 요청 창의 결과를 받는 곳이 아직 비어 있기 때문이다(6단계). [검색]을 다시 누르면 검색된다.
 
-### 5. TODO(1) ② showPermissionDialog() — 거절했을 때 안내 창
+### 5. TODO(1) ② showPermissionDialog() — 두 번 거절했을 때 안내 창
 
 14번 `private fun showPermissionDialog() {` 아래의 `// TODO(1)` **주석 네 줄**을 지우고 그 자리에 넣는다. 함수 전체는 아래와 같다.
 
 ```kotlin
-    // 14. 거절했을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
+    // 14. 두 번 거절해 더는 물어볼 수 없을 때 보여 주는 AlertDialog. [설정으로]를 누르면 이 앱의 정보(권한) 화면을 연다(10주차 2일차).
     private fun showPermissionDialog() {
         AlertDialog.Builder(this)
             .setTitle("권한이 필요합니다")
@@ -137,22 +137,28 @@ on 3
 
 ### 6. TODO(1) ③ permissionLauncher — 요청 창의 결과 받기
 
-클래스 안(onCreate 밖) `private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->` 아래의 `// TODO(1)` **주석 두 줄**을 지우고 그 자리에 넣는다. 위 주석 두 줄부터 닫는 `}`까지는 아래와 같다.
+클래스 안(onCreate 밖) `private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->` 아래의 `// TODO(1)` **주석 두 줄**을 지우고 그 자리에 넣는다. 위 주석 세 줄부터 닫는 `}`까지는 아래와 같다.
 
 ```kotlin
     // 10주차 2일차: 권한 요청 창을 띄우고 결과를 받는 틀. 화면이 시작되기 전에 만들어 두어야 하므로 클래스 안(onCreate 밖)에 둔다.
-    // 사용자가 요청 창에서 고르면 { _ -> … }가 불린다. 넘어오는 결과는 쓰지 않고(_), 13번 함수로 지금 권한을 다시 확인한다.
+    // 요청 결과가 나오면 { _ -> … }가 불린다(창 없이 시스템이 곧바로 답할 때도). 넘어오는 결과는 쓰지 않고(_), 13번 hasBlePermissions()로 지금 권한을 다시 확인한다.
+    // 거절이면 둘로 나눈다. 다시 물어볼 수 있으면(처음 거절) 이유만 알리고, 더는 물어볼 수 없으면(두 번 거절) 14번 대화상자로 설정을 안내한다.
     private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
         if (hasBlePermissions()) {
             Toast.makeText(this, "권한 OK", Toast.LENGTH_SHORT).show()
+        } else if (PermissionHelper.required().any { permission -> shouldShowRequestPermissionRationale(permission) }) {
+            Toast.makeText(this, "권한이 있어야 장치를 찾을 수 있습니다", Toast.LENGTH_SHORT).show()
         } else {
             showPermissionDialog()
         }
     }
 ```
 
-- 사용자가 요청 창에서 허용이나 거절을 고르면 `{ _ -> }`가 불린다. 넘어온 결과(`_`)는 쓰지 않고 13번으로 지금 권한을 다시 확인한다.
-- 바로 아래 11주차 `contactsLauncher`와 같은 모양이다. 이 중괄호는 클래스 안에 있는 틀이라 `this`가 Activity다. Toast에 그대로 쓴다.
+- 요청 결과가 나오면(요청 창에서 허용이나 거절을 고르거나, 창 없이 시스템이 곧바로 답하면) `{ _ -> }`가 불린다. 넘어온 결과(`_`)는 쓰지 않고 13번으로 지금 권한을 다시 확인한다.
+- `shouldShowRequestPermissionRationale(권한)`: 사용자가 거절한 적이 있지만 아직 다시 물어볼 수 있으면 `true`다. 한 번도 묻지 않았을 때, 더는 물어볼 수 없을 때(두 번 거절·다시 묻지 않음), Manifest에 선언하지 않았을 때는 `false`다. Activity의 함수라서 import가 없다(10주차).
+- `PermissionHelper.required().any { permission -> … }`: 묶음 안에 중괄호 조건이 `true`인 권한이 하나라도 있으면 `true`다. 13번의 `for` 문처럼 하나씩 보는 것을 한 줄로 쓴 모양이다.
+- 그래서 거절은 두 갈래다. 아직 다시 물어볼 수 있으면(처음 거절) Toast로 이유만 알리고, 더는 물어볼 수 없으면(두 번 거절) 14번 창으로 설정을 안내한다.
+- 바로 아래 11주차 `contactsLauncher`와 같은 틀이다. 다만 이쪽에는 가운데 `else if` 갈래가 하나 더 있다. 이 중괄호는 클래스 안에 있는 틀이라 `this`가 Activity다. Toast에 그대로 쓴다.
 - 요청 틀(`registerForActivityResult`)은 새로 만들지 않는다. 화면이 시작되기 전에 만들어야 하므로 이미 클래스 안에 있다.
 
 실행한다. 4단계처럼 권한을 끈 뒤 [검색]을 누른다.
@@ -160,10 +166,18 @@ on 3
 | 조작 | 보여야 할 것 |
 |---|---|
 | 요청 창에서 허용 | Toast `권한 OK`. [검색]을 한 번 더 누르면 검색된다 |
-| 권한을 다시 끄고 [검색] → 요청 창에서 거절 | `권한이 필요합니다` 창. 문구 `장치를 검색하고 연결하려면 권한이 필요합니다. 설정 › 권한에서 허용해 주세요.`, 버튼 [취소]·[설정으로] |
+
+거절은 권한을 처음 상태로 돌려 놓고 본다. 에뮬레이터 홈에서 Smart I/O Controller 아이콘을 길게 누르고 **앱 정보 › 제거**로 앱을 지운 뒤 `Run ▶`으로 다시 설치하면 권한이 처음 상태로 돌아간다. 그다음 [검색]을 누른다.
+
+| 조작 | 보여야 할 것 |
+|---|---|
+| 처음 요청 창에서 거절 | Toast `권한이 있어야 장치를 찾을 수 있습니다`. 창은 뜨지 않고 설정으로 보내지 않는다 |
+| [검색] → 요청 창에서 다시 거절 | `권한이 필요합니다` 창. 문구 `장치를 검색하고 연결하려면 권한이 필요합니다. 설정 › 권한에서 허용해 주세요.`, 버튼 [취소]·[설정으로] |
+| 그 뒤 [검색] | 요청 창 없이 곧바로 `권한이 필요합니다` 창 |
 | [설정으로] | Smart I/O Controller의 앱 정보 화면. 뒤로 가기로 앱에 돌아온다 |
 
-요청 창에서 거절한 뒤에는 Android가 요청 창을 더 띄우지 않고 곧바로 결과를 돌려주기도 한다. 앱 정보에서 끈 상태는 한 번, 새로 설치한 상태는 두 번 거절하면 그다음 [검색]부터 요청 창 없이 곧바로 `권한이 필요합니다` 창이 뜬다(Android 14 에뮬레이터에서 확인). 앱 정보에서 권한을 다시 바꾸면(`허용` → `허용 안함`) 요청 창이 다시 뜬다.
+Android 11(API 30) 이상은 같은 권한을 두 번 거절하면 시스템이 '다시 묻지 않음'으로 처리한다. 그래서 두 번째 거절 뒤에 창이 뜨고, 그다음부터는 요청 창 없이 곧바로 창이 뜬다. Android 10 이하는 거절할 때 '다시 묻지 않음'을 체크해야 창이 뜨고, 체크하지 않고 거절하면 계속 Toast가 뜬다.
+앱 정보에서 권한을 끈 상태에서 거절해 보려면, `권한이 필요합니다` 창이 나올 때까지 요청 창이 뜰 때마다 거절한다. 앱 정보에서 권한을 다시 바꾸면(`허용` → `허용 안함`) 요청 창이 다시 뜬다.
 
 ### 7. TODO(1) ④ [권한 확인] 버튼
 
@@ -188,7 +202,7 @@ onCreate 12번 `binding.permissionButton.setOnClickListener {` 아래의 `// TOD
 | 조작 | 보여야 할 것 |
 |---|---|
 | 권한이 허용된 상태에서 [권한 확인] | 요청 창 없이 Toast `권한 OK` |
-| 권한을 끈 상태에서 [권한 확인] | `근처 기기` 권한 요청 창 → 허용하면 `권한 OK`, 거절하면 `권한이 필요합니다` 창 |
+| 권한을 끈 상태에서 [권한 확인] | `근처 기기` 권한 요청 창 → 허용하면 `권한 OK`. 거절하면 6단계 표처럼 아직 다시 물어볼 수 있을 때는 Toast `권한이 있어야 장치를 찾을 수 있습니다`, 더는 물어볼 수 없을 때는 `권한이 필요합니다` 창 |
 
 TODO(1)이 끝났다. 권한 흐름에는 Logcat `tag:BLE` 줄이 없다. 다음 단계로 가기 전에 권한을 **허용**해 둔다.
 
@@ -318,7 +332,7 @@ onStart 8번 `Bleuno.client?.onMessage { json ->` 안, 마지막 가지 `} else 
 ```
 
 - `connectTimeoutJob?.cancel()`: 앞 연결에서 건 10초 예약이 남아 있으면 먼저 멈춘다. 아직 없으면(`null`) `?.`에서 멈춘다(6주차 `scanJob?.cancel()`과 같다).
-- `connectTimeoutJob = lifecycleScope.launch { … }`: 새 코루틴을 시작하고 그 `Job`을 보관한다. `connectTimeoutJob` 변수는 클래스 안 108행에 이미 있다.
+- `connectTimeoutJob = lifecycleScope.launch { … }`: 새 코루틴을 시작하고 그 `Job`을 보관한다. `connectTimeoutJob` 변수는 클래스 안 111행에 이미 있다.
 - 51번 `waitConnectTimeout()`은 `suspend fun`이라 `launch { }` 안에서 부른다. 밖에서 바로 부르면 `Suspend function 'suspend fun waitConnectTimeout(): Unit' should be called only from a coroutine or another suspend function.`
 
 **Build › Make Project**로 빌드만 확인한다. 이 함수는 목록 줄 탭(49번)·[재연결] 버튼(49번)·회전(52번)에서 이미 불리고 있었지만, 51번이 비어 있어 아직 아무 일도 하지 않는다.
@@ -371,16 +385,16 @@ onStart 8번 `Bleuno.client?.onMessage { json ->` 안, 마지막 가지 `} else 
 
 ### 14. 완성 파일 전체와 비교하기
 
-TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity.kt](examples/rehearsal_solution/MainActivity.kt)(493행)와 [examples/rehearsal_solution/ControlActivity.kt](examples/rehearsal_solution/ControlActivity.kt)(277행)다. 두 파일은 14주차 [examples/day2/MainActivity.kt](../week14_ble_input_project/examples/day2/MainActivity.kt)·[examples/day2/ControlActivity.kt](../week14_ble_input_project/examples/day2/ControlActivity.kt)와 글자 단위로 같아서 여기에는 다시 싣지 않는다. 4~12단계에서 채운 아홉 덩어리 말고는 starter와 한 글자도 다르지 않다.
+TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity.kt](examples/rehearsal_solution/MainActivity.kt)(498행)와 [examples/rehearsal_solution/ControlActivity.kt](examples/rehearsal_solution/ControlActivity.kt)(277행)다. 두 파일은 14주차 [examples/day2/MainActivity.kt](../week14_ble_input_project/examples/day2/MainActivity.kt)·[examples/day2/ControlActivity.kt](../week14_ble_input_project/examples/day2/ControlActivity.kt)와 글자 단위로 같아서 여기에는 다시 싣지 않는다. 4~12단계에서 채운 아홉 덩어리 말고는 starter와 한 글자도 다르지 않다.
 
 | 채운 곳 | 완성본 줄 | 단계 |
 |---|---|---|
-| `MainActivity.kt` `permissionLauncher` | 64~70행 | 6 |
-| `MainActivity.kt` 12번 [권한 확인] | 284~290행 | 7 |
-| `MainActivity.kt` 13번 `hasBlePermissions()` | 392~399행 | 4 |
-| `MainActivity.kt` 14번 `showPermissionDialog()` | 402~413행 | 5 |
-| `MainActivity.kt` 50번 `startConnectTimeout()` | 468~473행 | 11 |
-| `MainActivity.kt` 51번 `waitConnectTimeout()` | 478~492행 | 12 |
+| `MainActivity.kt` `permissionLauncher` | 65~73행 | 6 |
+| `MainActivity.kt` 12번 [권한 확인] | 287~293행 | 7 |
+| `MainActivity.kt` 13번 `hasBlePermissions()` | 397~404행 | 4 |
+| `MainActivity.kt` 14번 `showPermissionDialog()` | 407~418행 | 5 |
+| `MainActivity.kt` 50번 `startConnectTimeout()` | 473~478행 | 11 |
+| `MainActivity.kt` 51번 `waitConnectTimeout()` | 483~497행 | 12 |
 | `ControlActivity.kt` 2번 LED Switch | 58~81행 | 9 |
 | `ControlActivity.kt` 8번 응답 가지 | 195~210행 | 10 |
 | `ControlActivity.kt` 12번 `isAllowedIndex()` | 226~234행 | 8 |
@@ -394,7 +408,7 @@ TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity
 | 조작 | 화면 | Logcat `tag:BLE` |
 |---|---|---|
 | 권한을 허용한 채 [권한 확인] | 요청 창 없이 `권한 OK` | 없음 |
-| 권한을 끈 채 [권한 확인] → 거절 → [설정으로] | `권한이 필요합니다` 창 → 앱 정보 화면 | 없음 |
+| 권한을 끈 채 [권한 확인] → 거절(Toast만 뜨면 [권한 확인] → 한 번 더 거절) → [설정으로] | `권한이 필요합니다` 창 → 앱 정보 화면 | 없음 |
 | (권한 허용 뒤) [검색] → `ESP32_BLE_FAKE1` 줄 탭 | `연결 중` → `서비스 확인 중` → `준비됨`, 10초 뒤에도 안내 없음 | `connectGatt(가짜): 00:11:22:33:44:01` … `onServicesDiscovered(가짜) → onDescriptorWrite → 준비됨` |
 | `준비됨`에서 회전 | 그대로 `준비됨`, [해제]·[제어 화면] 켜짐 | 새 줄 없음 |
 | [제어 화면] → 빈 칸 Switch | Toast `LED 번호를 입력하세요` | 새 줄 없음 |
@@ -420,7 +434,7 @@ TODO를 모두 채운 전체 파일은 [examples/rehearsal_solution/MainActivity
 3. 1일차 리허설의 점검표(15단계)에서 TODO(1)이나 TODO(2)의 줄에 X가 남았다면, 먼저 `MainActivity.kt`·`ControlActivity.kt` 전체를 [rehearsal_solution/MainActivity.kt](examples/rehearsal_solution/MainActivity.kt)·[rehearsal_solution/ControlActivity.kt](examples/rehearsal_solution/ControlActivity.kt)로 바꾼다(2단계와 같은 방법). 완성본은 허용 자료다.
    - 시연 출력 제어의 응답 줄(O2)은 TODO(2)의 응답 가지가 있어야 생긴다. `LED 0 밝기` 막대로 LED만 켜서는 응답 줄이 붙지 않는다.
    - TODO(1)이 빈 starter는 권한을 늘 허용으로 본다. 권한이 없는 실기기에서 블루투스를 끈 채 [검색]을 누르면 앱이 멈춘다(Android 14 에뮬레이터에서 확인).
-4. `MainActivity.kt`에서 아래 줄을 찾아 `true`를 `false`로 바꾼다. 완성본에서는 88행이다(내가 채운 파일은 줄 번호가 조금 다를 수 있다).
+4. `MainActivity.kt`에서 아래 줄을 찾아 `true`를 `false`로 바꾼다. 완성본에서는 91행이다(내가 채운 파일은 줄 번호가 조금 다를 수 있다).
 
 ```kotlin
     // 12주차 1일차: true면 보드 없이 연습하는 가짜 클라이언트, false면 실제 보드에 연결하는 클라이언트를 만든다.
@@ -966,7 +980,7 @@ object ContactsReader {
 
 ## 부록 B — 제공 bleuno 파일 전체
 
-`app › kotlin+java › com.example.smartio › bleuno` 패키지의 8개 파일이다. 12주차에 넣은 그대로이며 제공 [bleuno/src](../../bleuno/src)와 글자 단위로 같다. 사용법은 [bleuno README](../../bleuno/README.md)에 있다. 고치지 않는다.
+`app › kotlin+java › com.example.smartio › bleuno` 패키지의 9개 파일이다. 12주차에 넣은 그대로이며 제공 [bleuno/src](../../bleuno/src)와 글자 단위로 같다. 사용법은 [bleuno README](../../bleuno/README.md)에 있다. 고치지 않는다.
 
 ### ConnState.kt
 
@@ -1054,6 +1068,14 @@ object Bleuno {
         } else {
             RealBleunoClient(context.applicationContext)
         }
+        client = created
+        return created
+    }
+
+    // PC에서 돌리는 시뮬레이터(android_programming/iot_sim)에 Wi-Fi(TCP)로 연결하는 클라이언트를 만든다.
+    // 보드와 블루투스 없이 같은 명령·응답으로 연습한다. 만든 객체는 client에 보관한 뒤 그대로 돌려준다.
+    fun createTcp(): BleunoClient {
+        val created: BleunoClient = TcpBleunoClient()
         client = created
         return created
     }
@@ -1718,6 +1740,385 @@ class RealBleunoClient(
             // 호출 자체가 실패하면 onCharacteristicWrite가 오지 않으므로 바로 다음 것을 시도한다
             writing = false
             writeNext()
+        }
+    }
+
+    override fun onMessage(listener: ((String) -> Unit)?) {
+        messageListener = listener
+    }
+}
+```
+
+### TcpBleunoClient.kt
+
+```kotlin
+package com.example.smartio.bleuno
+
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.BufferedWriter
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
+import java.net.DatagramPacket
+import java.net.DatagramSocket
+import java.net.InetAddress
+import java.net.InetSocketAddress
+import java.net.Socket
+import java.net.SocketTimeoutException
+import java.util.concurrent.Executors
+
+// PC에서 돌리는 시뮬레이터(android_programming/iot_sim)와 Wi-Fi(TCP)로 이야기하는 클라이언트.
+// 보드와 블루투스 없이 RealBleunoClient와 같은 명령·같은 JSON으로 연습한다. 앱 코드는 그대로다.
+//   검색: UDP로 "bleuno?"를 뿌리고, 답한 시뮬레이터마다 onFound(이름, "ip:포트"), timeoutMs 뒤 onFinished
+//   연결: connect("10.0.2.2:8266") → 연결 중 → 서비스 확인 중 → (첫 줄 hello를 받으면) 준비됨
+//         3초 안에 연결되지 않거나, 연결된 뒤 3초 안에 첫 줄이 오지 않으면 "끊김"
+//         (연결 3초는 IP 주소 기준이다. 이름을 넣으면 이름을 IP로 바꾸는 시간은 이 3초에 들지 않는다)
+//   전송: send → 한 줄 쓰기 → 응답 JSON 한 줄이 onMessage로
+//   끊김: 시뮬레이터를 끄거나 화면의 [연결 끊기]를 누르면 "끊김"
+// 소켓 일은 Thread에서 하고, 상태 변경과 리스너 호출은 모두 메인 스레드 Handler로 전달한다.
+// 모든 단계는 Log.d("TCP", …)로 남기므로 Logcat에서 태그 TCP로 순서를 볼 수 있다.
+class TcpBleunoClient : BleunoClient {
+
+    companion object {
+        const val TAG = "TCP"
+        const val DEFAULT_PORT = 8266              // 명령·응답 TCP 포트 (주소에 포트가 없으면 이 값)
+        const val DISCOVERY_PORT = 8267            // 검색용 UDP 포트
+        const val DISCOVERY_QUERY = "bleuno?"      // 검색할 때 보내는 글자
+        const val EMULATOR_HOST = "10.0.2.2"       // 에뮬레이터에서 보는 PC 주소
+        const val CONNECT_TIMEOUT = 3000           // connect 기다리는 시간(ms)
+        const val HELLO_TIMEOUT = 3000             // 연결된 뒤 첫 줄(hello)을 기다리는 시간(ms)
+        const val RECEIVE_TIMEOUT = 500            // UDP 응답을 한 번에 기다리는 시간(ms)
+    }
+
+    // 소켓 스레드에서 온 결과는 항상 이 Handler로 메인 스레드에서 처리한다
+    private val mainHandler = Handler(Looper.getMainLooper())
+    // 검색 시간 초과 전용 Handler (removeCallbacksAndMessages로 검색 예약만 취소하려고 따로 둔다)
+    private val scanHandler = Handler(Looper.getMainLooper())
+
+    private val _connectionState = MutableStateFlow(ConnState.DISCONNECTED)
+    override val connectionState: StateFlow<String> = _connectionState
+    override val isReady: Boolean
+        get() = _connectionState.value == ConnState.READY
+
+    // ---- 검색 ----
+    @Volatile private var isScanning = false
+    @Volatile private var scanSocket: DatagramSocket? = null
+    @Volatile private var scanId = 0                 // 검색 회차. startScan·stopScan마다 1 늘린다. 회차가 다른 검색 스레드는 곧 끝난다
+    private var onFoundListener: ((BleunoDevice) -> Unit)? = null
+    private var onFinishedListener: (() -> Unit)? = null
+    private val foundAddresses = HashSet<String>()   // 같은 시뮬레이터를 두 번 알리지 않기 위한 주소 집합
+
+    // ---- 연결 ----
+    @Volatile private var socket: Socket? = null     // 지금 회차의 소켓. 메인 스레드에서만 넣고 뺀다
+    @Volatile private var writer: BufferedWriter? = null
+    @Volatile private var connectId = 0              // 연결 회차. connect()·disconnect()·끊김 처리마다 1 늘린다. 회차가 다른 스레드의 결과는 버린다
+
+    // ---- 전송 ----
+    // 명령을 순서대로 하나씩 쓴다. 이 클라이언트는 앱 전체에 하나만 쓴다(Bleuno.client). 그래서 따로 닫지 않는다.
+    private val sendExecutor = Executors.newSingleThreadExecutor()
+
+    private var messageListener: ((String) -> Unit)? = null
+
+    // ---------------------------------------------------------------- 검색
+
+    override fun startScan(timeoutMs: Long, onFound: (BleunoDevice) -> Unit, onFinished: () -> Unit) {
+        if (isScanning) stopScan()
+        foundAddresses.clear()
+        onFoundListener = onFound
+        onFinishedListener = onFinished
+        val id = ++scanId
+        isScanning = true
+        Log.d(TAG, "startScan: ${timeoutMs}ms 동안 UDP $DISCOVERY_PORT 로 \"$DISCOVERY_QUERY\" 검색")
+        Thread {
+            runDiscovery(id)
+        }.start()
+        scanHandler.postDelayed({
+            Log.d(TAG, "scan timeout (${timeoutMs}ms)")
+            stopScan()
+        }, timeoutMs)
+    }
+
+    // 지금 회차의 검색인지 본다. stopScan()이나 새 startScan()이 불렸으면 false다.
+    private fun isCurrentScan(id: Int): Boolean {
+        return isScanning && id == scanId
+    }
+
+    // 검색 스레드. "bleuno?"를 두 곳에 보내고, 멈출 때까지 응답을 받는다.
+    private fun runDiscovery(id: Int) {
+        var udp: DatagramSocket? = null
+        try {
+            udp = DatagramSocket()
+            udp.broadcast = true
+            udp.soTimeout = RECEIVE_TIMEOUT
+            scanSocket = udp
+            // 소켓을 넣기 전에 stopScan()이 불렸으면 stopScan()은 닫을 소켓이 없었다. 회차를 보고 여기서 끝낸다.
+            if (!isCurrentScan(id)) return
+            val query = DISCOVERY_QUERY.toByteArray(Charsets.UTF_8)
+            // 같은 Wi-Fi의 PC(실기기)와 에뮬레이터를 띄운 PC, 두 곳에 보낸다
+            for (host in listOf("255.255.255.255", EMULATOR_HOST)) {
+                try {
+                    udp.send(DatagramPacket(query, query.size, InetAddress.getByName(host), DISCOVERY_PORT))
+                    Log.d(TAG, "UDP 보냄: $host:$DISCOVERY_PORT \"$DISCOVERY_QUERY\"")
+                } catch (e: IOException) {
+                    Log.w(TAG, "UDP 보내기 실패 ($host): $e")
+                }
+            }
+            val buffer = ByteArray(512)
+            while (isCurrentScan(id)) {
+                val packet = DatagramPacket(buffer, buffer.size)
+                try {
+                    udp.receive(packet)
+                } catch (e: SocketTimeoutException) {
+                    continue   // 500ms 동안 응답이 없었다. 멈출지 확인하고 다시 기다린다
+                }
+                val text = String(packet.data, packet.offset, packet.length, Charsets.UTF_8)
+                val ip = packet.address.hostAddress ?: continue
+                Log.d(TAG, "UDP 받음: $ip $text")
+                val json = try {
+                    JSONObject(text)
+                } catch (e: Exception) {
+                    Log.w(TAG, "UDP 응답이 JSON이 아님: $text")
+                    continue
+                }
+                val name = json.optString("name", "")
+                if (name.isEmpty()) continue
+                val port = json.optInt("port", DEFAULT_PORT)
+                val found = BleunoDevice(name, "$ip:$port", 0)
+                mainHandler.post {
+                    if (!isCurrentScan(id)) return@post
+                    if (!foundAddresses.add(found.address)) return@post   // 이미 알린 시뮬레이터
+                    Log.d(TAG, "onFound: ${found.name} ${found.address}")
+                    onFoundListener?.invoke(found)
+                }
+            }
+        } catch (e: IOException) {
+            // stopScan()이 소켓을 닫으면 receive가 여기로 풀린다. 검색 중이었다면 끝낸다.
+            scanFailed(id, e)
+        } catch (e: SecurityException) {
+            // INTERNET 권한이 없으면 여기로 온다. 앱을 끝내지 않고 검색만 끝낸다.
+            scanFailed(id, e)
+        } finally {
+            udp?.close()
+            if (scanSocket === udp) scanSocket = null
+        }
+    }
+
+    // 검색 스레드에서 오류가 났다. 지금 회차의 검색이면 메인 스레드에서 검색을 끝낸다.
+    private fun scanFailed(id: Int, e: Exception) {
+        if (isCurrentScan(id)) {
+            Log.w(TAG, "UDP 검색 중 오류: $e")
+            mainHandler.post { if (id == scanId) stopScan() }
+        }
+    }
+
+    override fun stopScan() {
+        if (!isScanning) return
+        isScanning = false
+        scanId++              // 회차를 올린다. 검색 스레드는 회차가 바뀐 것을 보고 곧 끝난다
+        scanHandler.removeCallbacksAndMessages(null)
+        scanSocket?.close()   // 검색 스레드의 receive를 풀어 준다
+        Log.d(TAG, "stopScan: 찾은 시뮬레이터 ${foundAddresses.size}개")
+        val finished = onFinishedListener
+        onFoundListener = null
+        onFinishedListener = null
+        finished?.invoke()
+    }
+
+    // ---------------------------------------------------------------- 연결
+
+    override fun connect(address: String) {
+        // 새 회차로 시작하고, 이전 연결이 남아 있으면 정리한다.
+        // disconnect()처럼 회차를 먼저 올린다. 그래야 소켓이 닫혀 풀린 지난 연결 스레드가 회차가 바뀐 것을 보고 Log.d만 남긴다.
+        val id = ++connectId
+        closeSocket()
+
+        // "host:port". 포트가 없으면 8266
+        val host = address.substringBefore(":").trim()
+        val portText = address.substringAfter(":", "").trim()
+        val port = if (portText.isEmpty()) DEFAULT_PORT else (portText.toIntOrNull() ?: -1)
+        if (host.isEmpty() || port !in 1..65535) {
+            // ":" 앞에 IP가 있어야 하고, 포트는 1~65535 숫자여야 한다. 잘못된 주소로는 연결하지 않고, 다른 실패와 같이 연결 중 → 끊김 순서로 둔다.
+            // IP가 빈 채(예: ":8266")로 연결하면 PC가 아니라 이 기기 자신(localhost)에 붙으려 한다. 그래서 여기서 막는다.
+            // StateFlow는 같은 값을 두 번 내보내지 않는다. 연결 중을 거쳐야 이미 끊김일 때도 화면이 끊김을 다시 받는다.
+            if (host.isEmpty()) {
+                Log.w(TAG, "connect: IP가 없음 (\"$address\") → 끊김")
+            } else {
+                Log.w(TAG, "connect: 포트가 잘못됨 (\"$address\") → 끊김")
+            }
+            _connectionState.value = ConnState.CONNECTING
+            endConnection(id)
+            return
+        }
+
+        // 소켓은 여기(메인 스레드)서 만들어 보관한 뒤 연결 스레드에 넘긴다.
+        // Socket()은 만들기만 하고 네트워크는 쓰지 않는다. 보관해 두었으므로 disconnect()가 언제든 닫을 수 있다.
+        val s = Socket()
+        socket = s
+        _connectionState.value = ConnState.CONNECTING
+        Log.d(TAG, "connect: $host:$port (${CONNECT_TIMEOUT}ms 안에 연결)")
+        Thread {
+            runConnection(id, s, host, port)
+        }.start()
+    }
+
+    // 연결 스레드. 연결 → 첫 줄(hello) → 준비됨 → 이후 줄마다 onMessage. 끊어지면 끊김.
+    private fun runConnection(id: Int, s: Socket, host: String, port: Int) {
+        try {
+            s.connect(InetSocketAddress(host, port), CONNECT_TIMEOUT)
+            Log.d(TAG, "connected: $host:$port → 서비스 확인 중")
+
+            val reader = BufferedReader(InputStreamReader(s.getInputStream(), Charsets.UTF_8))
+            val w = BufferedWriter(OutputStreamWriter(s.getOutputStream(), Charsets.UTF_8))
+            // writer는 회차가 같을 때만 넣는다. 메인 스레드에서 확인하므로 그사이 disconnect()가 불려도 섞이지 않는다.
+            mainHandler.post {
+                if (id == connectId) {
+                    writer = w
+                    _connectionState.value = ConnState.DISCOVERING
+                }
+            }
+
+            // 첫 줄(hello)은 3초만 기다린다. 다른 포트(예: 화면 주소 :8080)에 붙으면 첫 줄이 오지 않는다.
+            s.soTimeout = HELLO_TIMEOUT
+            val first = try {
+                reader.readLine()
+            } catch (e: SocketTimeoutException) {
+                Log.w(TAG, "hello 없음: ${HELLO_TIMEOUT}ms 안에 첫 줄이 오지 않았다. 포트가 $DEFAULT_PORT 인지 확인한다 → 끊김")
+                endConnection(id)
+                return
+            }
+            if (first == null) {
+                Log.d(TAG, "EOF: 첫 줄을 받기 전에 상대가 연결을 닫음")
+                endConnection(id)
+                return
+            }
+            // 첫 줄을 받았다. 이제부터는 시간 제한 없이 기다린다.
+            // keepAlive는 상대가 소리 없이 사라졌을 때(PC가 잠들거나 Wi-Fi가 바뀜) 그것을 알아내려고 켠다.
+            // 기본값으로는 2시간 동안 조용해야 확인을 시작하므로, 그런 끊김은 아주 늦게 안다.
+            s.soTimeout = 0
+            s.keepAlive = true
+            Log.d(TAG, "첫 줄 받음 → 준비됨: $first")
+            mainHandler.post { if (id == connectId) _connectionState.value = ConnState.READY }
+            // hello 줄은 앱에 전달하지 않는다. 첫 줄이 hello가 아니면 그 줄도 전달한다.
+            if (!isHello(first)) deliver(id, first)
+
+            while (true) {
+                val line = reader.readLine() ?: break   // null이면 상대가 닫았다(EOF)
+                deliver(id, line)
+            }
+            Log.d(TAG, "EOF: 상대가 연결을 닫음")
+            endConnection(id)
+        } catch (e: IOException) {
+            // 연결 실패(타임아웃·거부), 읽기 중 오류, disconnect()가 소켓을 닫은 경우
+            connectionFailed(id, e)
+        } catch (e: IllegalArgumentException) {
+            // 주소를 만들 수 없는 경우. 앱을 끝내지 않고 끊김으로 둔다.
+            connectionFailed(id, e)
+        } catch (e: SecurityException) {
+            // INTERNET 권한이 없는 경우. 앱을 끝내지 않고 끊김으로 둔다.
+            connectionFailed(id, e)
+        } finally {
+            closeQuietly(s)
+        }
+    }
+
+    // 연결 스레드에서 오류가 났다. 지난 회차(disconnect()·새 connect()·끊김 처리가 닫은 소켓)면 Log.d만 남기고 상태는 바꾸지 않는다.
+    private fun connectionFailed(id: Int, e: Exception) {
+        if (id == connectId) {
+            Log.w(TAG, "connect/read 오류: $e")
+        } else {
+            Log.d(TAG, "지난 연결 스레드 끝남: $e")
+        }
+        endConnection(id)
+    }
+
+    // 연결이 끝났다(시뮬레이터 종료·연결 실패·hello 없음·write 오류·잘못된 주소). 지금 회차일 때만 끊김으로 둔다.
+    // 끊김으로 둘 때 회차를 올린다. write 오류 뒤 여기서 소켓을 닫으면 읽기 스레드가 풀리는데, 그 결과는 지난 회차라 Log.d만 남는다.
+    // disconnect()는 회차를 올리므로, 사용자가 끊은 뒤에는 여기서 아무것도 바꾸지 않는다(연결 안 됨 그대로).
+    private fun endConnection(id: Int) {
+        mainHandler.post {
+            if (id != connectId) return@post
+            connectId++   // 이 회차는 끝났다. 소켓을 닫기 전에 올려야 풀린 스레드가 지난 회차로 본다
+            Log.d(TAG, "connection ended → 끊김")
+            closeSocket()
+            _connectionState.value = ConnState.LOST
+        }
+    }
+
+    // {"event":"hello", …} 줄인지 본다. JSON이 아니면 hello가 아니다.
+    private fun isHello(line: String): Boolean {
+        return try {
+            JSONObject(line).optString("event", "") == "hello"
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    // 지금 회차의 소켓을 닫는다. 연결 스레드의 readLine이 풀려 끝난다. 두 번 불려도 괜찮다. 메인 스레드에서 부른다.
+    private fun closeSocket() {
+        val s = socket
+        socket = null
+        writer = null
+        if (s != null) closeQuietly(s)
+    }
+
+    private fun closeQuietly(s: Socket) {
+        try {
+            s.close()
+        } catch (e: IOException) {
+            Log.w(TAG, "socket.close 오류: $e")
+        }
+    }
+
+    override fun disconnect() {
+        connectId++   // 회차를 올린다. 지금 연결 스레드가 보내는 결과(상태·메시지)는 모두 버려진다
+        if (socket == null) {
+            Log.d(TAG, "disconnect: 연결 없음 → 연결 안 됨")
+        } else {
+            Log.d(TAG, "disconnect: socket.close() → 연결 안 됨")
+            closeSocket()
+        }
+        _connectionState.value = ConnState.DISCONNECTED
+    }
+
+    // 받은 한 줄을 메인 스레드에서 리스너에 전달한다. 지난 회차의 줄은 버린다.
+    private fun deliver(id: Int, line: String) {
+        Log.d(TAG, "received: $line")
+        mainHandler.post {
+            if (id == connectId) messageListener?.invoke(line)
+        }
+    }
+
+    // ---------------------------------------------------------------- 전송
+
+    override fun send(command: String) {
+        if (!isReady) {
+            Log.w(TAG, "send: 준비되지 않아 무시함 (\"$command\", 상태=${_connectionState.value})")
+            return
+        }
+        val w = writer
+        if (w == null) {
+            Log.w(TAG, "send: writer 없음 → 무시함 (\"$command\")")
+            return
+        }
+        val id = connectId
+        // RealBleunoClient처럼 끝에 언제나 "\n"을 붙인다. 빈 글자도 거르지 않는다(빈 줄 하나를 보낸다).
+        val text = command + "\n"
+        // 단일 스레드 executor라서 보낸 순서대로 하나씩 쓴다
+        sendExecutor.execute {
+            try {
+                w.write(text)
+                w.flush()
+                Log.d(TAG, "sent: \"${text.trim()}\"")
+            } catch (e: IOException) {
+                Log.w(TAG, "write 오류: $e → 끊김")
+                endConnection(id)
+            }
         }
     }
 
