@@ -353,4 +353,4 @@ git log --all -p -S "hf_" | Select-String "hf_"
 
 - 오류는 한 번에 하나씩 읽는다
 - 판단에는 근거 한 줄을 붙인다
-- 다음 주 `week10_project_governance`는 팀 프로젝트 제안이다
+- 다음 주는 Streamlit으로 대화·문서 검색 앱을 만든다

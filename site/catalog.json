@@ -579,7 +579,7 @@
           }
         },
         {
-          "id": "week10_project_governance",
+          "id": "week10_simulator_control",
           "label": "10주차",
           "title": "시뮬레이터와 Ollama 툴 호출",
           "description": "Python 제어 함수와 Ollama 툴 호출을 연결하고 실제 LED 상태를 확인합니다.",
@@ -588,10 +588,13 @@
             "label": "Week 10",
             "title": "Simulator Control with Ollama Tools",
             "description": "Connect Python control functions to Ollama tool calls and inspect the actual LED state."
-          }
+          },
+          "formerIds": [
+            "week10_project_governance"
+          ]
         },
         {
-          "id": "week11_dataset_evaluation",
+          "id": "week11_tiny_tool_calling",
           "label": "11주차",
           "title": "초소형 모델의 툴 호출",
           "description": "Needle로 같은 시뮬레이터를 제어하고 호출 정확도와 응답 시간을 비교합니다.",
@@ -600,10 +603,13 @@
             "label": "Week 11",
             "title": "Tool Calling with a Tiny Model",
             "description": "Control the same simulator with Needle and compare call accuracy and response time."
-          }
+          },
+          "formerIds": [
+            "week11_dataset_evaluation"
+          ]
         },
         {
-          "id": "week12_ai_service_deploy",
+          "id": "week12_control_lora",
           "label": "12주차",
           "title": "제어 모델 LoRA 학습·복원",
           "description": "명령 데이터를 수정하고 Needle를 학습·저장·복원해 같은 조건으로 비교합니다.",
@@ -612,10 +618,13 @@
             "label": "Week 12",
             "title": "LoRA Training and Reloading for Control",
             "description": "Edit command examples, train and reload Needle, then compare under matching conditions."
-          }
+          },
+          "formerIds": [
+            "week12_ai_service_deploy"
+          ]
         },
         {
-          "id": "week13_test_ci_security",
+          "id": "week13_control_streamlit",
           "label": "13주차",
           "title": "제어 평가와 Streamlit 앱",
           "description": "실제 상태로 제어 성공을 평가하고 오류를 분석한 뒤 Streamlit 화면과 연결합니다.",
@@ -624,10 +633,13 @@
             "label": "Week 13",
             "title": "Control Evaluation and a Streamlit App",
             "description": "Check control success against the actual state, analyze failures, and connect a Streamlit interface."
-          }
+          },
+          "formerIds": [
+            "week13_test_ci_security"
+          ]
         },
         {
-          "id": "week14_release_feedback",
+          "id": "week14_chatbot_project",
           "label": "14주차",
           "title": "기말 챗봇 과제와 공개 성능 평가",
           "description": "공개 평가세트와 도구로 대학 소개 챗봇을 개선하고 개발 보고서를 작성합니다.",
@@ -636,10 +648,13 @@
             "label": "Week 14",
             "title": "Final Chatbot Project and Public Evaluation",
             "description": "Improve a university chatbot with public evaluation questions and tools, and document the development process."
-          }
+          },
+          "formerIds": [
+            "week14_release_feedback"
+          ]
         },
         {
-          "id": "week15_final_presentation",
+          "id": "week15_final_evaluation",
           "label": "15주차",
           "title": "AI 성능 평가와 개발 보고서",
           "description": "발표 점수를 비공개 AI 성능 평가로 대체하고 개발 보고서를 별도로 평가합니다.",
@@ -648,7 +663,10 @@
             "label": "Week 15",
             "title": "AI Performance and Development Report",
             "description": "Replace the presentation score with private AI performance evaluation and assess the development report separately."
-          }
+          },
+          "formerIds": [
+            "week15_final_presentation"
+          ]
         },
         {
           "id": "huggingface_hub",

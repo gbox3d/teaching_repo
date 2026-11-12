@@ -129,8 +129,8 @@ open_source_ai/
 |---:|---|---|
 | 4주 | 협업 저장소·Ollama 로컬 API | [`weeks/week04_ollama_local_llm/assignment_brief.md`](weeks/week04_ollama_local_llm/assignment_brief.md)와 100점 루브릭 |
 | 8주 | 라이선스 분석·RAG 미니프로젝트 | [`weeks/week08_midterm/assignment_brief.md`](weeks/week08_midterm/assignment_brief.md), 실기평가 구조·루브릭 |
-| 12주 | 초소형 제어 모델의 LoRA 학습·복원·전후 비교 | [`weeks/week12_ai_service_deploy/assignment_brief.md`](weeks/week12_ai_service_deploy/assignment_brief.md)와 루브릭 |
-| 15주 | 대학 소개 챗봇과 개발 보고서 | [14주차 공개 안내·평가](weeks/week14_release_feedback/README.md), [15주차 AI 성능·레포트 평가](weeks/week15_final_presentation/README.md) |
+| 12주 | 초소형 제어 모델의 LoRA 학습·복원·전후 비교 | [`weeks/week12_control_lora/assignment_brief.md`](weeks/week12_control_lora/assignment_brief.md)와 루브릭 |
+| 15주 | 대학 소개 챗봇과 개발 보고서 | [14주차 공개 안내·평가](weeks/week14_chatbot_project/README.md), [15주차 AI 성능·레포트 평가](weeks/week15_final_evaluation/README.md) |
 
 각 루브릭은 100점 상대 배점이다. 실제 성적 비율과 마감은 학교 운영 문서가 정한다.
 

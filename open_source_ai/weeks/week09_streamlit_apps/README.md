@@ -46,4 +46,4 @@ Ollama와 생성 모델 `qwen3.5:2b`, 임베딩 모델 `intfloat/multilingual-e5
 
 [OpenCV 얼굴 임베딩 예제](https://docs.opencv.org/4.x/d0/dd4/tutorial_dnn_face.html) · [Whisper 음성 인식](https://github.com/openai/whisper)
 
-다음 [10주차](../week10_project_governance/README.md)에는 모델이 선택한 함수를 Python에서 실행해 LED 시뮬레이터를 제어한다. 이 제어 기능을 13주차에 다시 Streamlit 화면과 연결한다.
+다음 [10주차](../week10_simulator_control/README.md)에는 모델이 선택한 함수를 Python에서 실행해 LED 시뮬레이터를 제어한다. 이 제어 기능을 13주차에 다시 Streamlit 화면과 연결한다.

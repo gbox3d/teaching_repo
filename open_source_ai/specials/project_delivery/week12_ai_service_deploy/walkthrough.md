@@ -23,7 +23,7 @@
 **할 일** — `$src`에는 교재 저장소의 `examples` 폴더 경로를 넣는다.
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week12_ai_service_deploy\examples"
+$src = "<교재 저장소>\open_source_ai\specials\project_delivery\week12_ai_service_deploy\examples"
 New-Item -ItemType Directory -Force C:\classwork\week12 | Out-Null
 if (-not (Test-Path C:\classwork\week12\period1)) {
     Copy-Item -Recurse -Force "$src\period1" C:\classwork\week12\period1

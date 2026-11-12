@@ -35,7 +35,7 @@
 교재 주차 폴더의 예제를 개인 실습 폴더로 복사한다. `$src`에는 교재 저장소의 이 주차 `examples` 폴더 경로를 넣는다. 저장 경로는 학기별 환경 기준표를 따른다(아래는 예시).
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week13_test_ci_security\examples"
+$src = "<교재 저장소>\open_source_ai\specials\project_delivery\week13_test_ci_security\examples"
 New-Item -ItemType Directory -Force C:\classwork\week13 | Out-Null
 if (-not (Test-Path C:\classwork\week13\ci_lab)) {
     Copy-Item -Recurse -Force "$src\period1" C:\classwork\week13\ci_lab
@@ -156,7 +156,7 @@ git commit -m "단위 테스트와 ruff 설정 추가"
 1교시 개인 저장소의 테스트·수정본·Git 이력은 유지한다. 2교시에 처음 필요한 workflow만 복사하고 감사 도구를 dev 의존성에 추가한다. 이미 수정한 `ci.yml`이 있으면 파일을 비교해 필요한 설정을 반영한다.
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week13_test_ci_security\examples"
+$src = "<교재 저장소>\open_source_ai\specials\project_delivery\week13_test_ci_security\examples"
 Set-Location C:\classwork\week13\ci_lab
 New-Item -ItemType Directory -Force .\.github\workflows | Out-Null
 if (-not (Test-Path .\.github\workflows\ci.yml)) {
@@ -286,7 +286,7 @@ git status --short          # 비어 있어야 한다
 기존 코드는 유지하고 3교시 점검 도구·리뷰 양식만 추가한 뒤 준비 commit을 만든다. 이 뒤부터 시작하는 가짜 토큰 실험은 커밋하지 않는다.
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week13_test_ci_security\examples"
+$src = "<교재 저장소>\open_source_ai\specials\project_delivery\week13_test_ci_security\examples"
 foreach ($file in @("audit_report.py", "security_check.ps1", "REVIEW_CHECKLIST.md")) {
     if (-not (Test-Path ".\$file")) { Copy-Item "$src\period3\$file" ".\$file" }
 }

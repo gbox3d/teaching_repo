@@ -179,10 +179,10 @@ ollama list
 
 | 주차 | 수업 전 준비 | 확인할 안내 |
 |---|---|---|
-| 10 | `qwen3.5:2b`, 시뮬레이터의 TCP 8266·HTTP 8080, 직접 제어와 Ollama 호출 | [10주 예제](weeks/week10_project_governance/examples/README.md) |
-| 11 | `cactus-compute==4.2.0`, Needle 가중치·엔진을 먼저 받아 추론 확인 | [11주 예제](weeks/week11_dataset_evaluation/examples/README.md) |
-| 12 | `cactus-compute[train]==4.2.0`, 체크포인트 다운로드와 실제 학습·복원 확인 | [12주 예제](weeks/week12_ai_service_deploy/examples/README.md) |
-| 13 | 12주차의 `baseline.cact`·`tuned.cact`, Streamlit 8501과 연결·해제 확인 | [13주 예제](weeks/week13_test_ci_security/examples/README.md) |
+| 10 | `qwen3.5:2b`, 시뮬레이터의 TCP 8266·HTTP 8080, 직접 제어와 Ollama 호출 | [10주 예제](weeks/week10_simulator_control/examples/README.md) |
+| 11 | `cactus-compute==4.2.0`, Needle 가중치·엔진을 먼저 받아 추론 확인 | [11주 예제](weeks/week11_tiny_tool_calling/examples/README.md) |
+| 12 | `cactus-compute[train]==4.2.0`, 체크포인트 다운로드와 실제 학습·복원 확인 | [12주 예제](weeks/week12_control_lora/examples/README.md) |
+| 13 | 12주차의 `baseline.cact`·`tuned.cact`, Streamlit 8501과 연결·해제 확인 | [13주 예제](weeks/week13_control_streamlit/examples/README.md) |
 
 각 주차 `examples/`에서 `uv sync --locked` 후 안내된 명령을 실행한다.
 시뮬레이터 실행은 [bleuno-sim 안내](../tools/bleuno-sim/README.md)를 따른다.

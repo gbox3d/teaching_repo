@@ -177,7 +177,7 @@ Get-Content outputs\masked.jsonl | ConvertFrom-Json | Group-Object source | Sele
 ### 준비
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week11_dataset_evaluation\examples"
+$src = "<교재 저장소>\open_source_ai\specials\project_delivery\week11_dataset_evaluation\examples"
 if (-not (Test-Path C:\classwork\week11\period2)) { Copy-Item -Recurse "$src\period2" C:\classwork\week11\period2 }
 Set-Location C:\classwork\week11\period2
 if ((Test-Path ..\period1\outputs) -and -not (Test-Path outputs)) { Copy-Item -Recurse ..\period1\outputs outputs }
@@ -318,7 +318,7 @@ Ollama가 모델을 VRAM에 올려 둔 채일 수 있다. `ollama ps`로 확인�
 ### 준비
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week11_dataset_evaluation\examples"
+$src = "<교재 저장소>\open_source_ai\specials\project_delivery\week11_dataset_evaluation\examples"
 if (-not (Test-Path C:\classwork\week11\period3)) { Copy-Item -Recurse "$src\period3" C:\classwork\week11\period3 }
 Set-Location C:\classwork\week11\period3
 if ((Test-Path ..\period2\outputs) -and -not (Test-Path outputs)) { Copy-Item -Recurse ..\period2\outputs outputs }

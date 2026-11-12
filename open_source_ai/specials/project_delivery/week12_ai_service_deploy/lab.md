@@ -37,7 +37,7 @@
 이미 만든 교시 폴더가 있으면 그 안에서 이어 한다. 아래 명령은 폴더와 `.env`가 없을 때만 복사하므로 개인 코드·설정을 보존한다.
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week12_ai_service_deploy\examples"
+$src = "<교재 저장소>\open_source_ai\specials\project_delivery\week12_ai_service_deploy\examples"
 New-Item -ItemType Directory -Force C:\classwork\week12 | Out-Null
 if (-not (Test-Path C:\classwork\week12\period1)) {
     Copy-Item -Recurse -Force "$src\period1" C:\classwork\week12\period1
@@ -159,7 +159,7 @@ uv run uvicorn app.main:app --port 8000
 ### 준비
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week12_ai_service_deploy\examples"
+$src = "<교재 저장소>\open_source_ai\specials\project_delivery\week12_ai_service_deploy\examples"
 if (-not (Test-Path C:\classwork\week12\period2)) {
     Copy-Item -Recurse -Force "$src\period2" C:\classwork\week12\period2
 }
@@ -277,7 +277,7 @@ UI 상단 설명줄의 `모드 stream`을 확인한다. 그다음 `smoke_test.py
 ### 준비
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week12_ai_service_deploy\examples"
+$src = "<교재 저장소>\open_source_ai\specials\project_delivery\week12_ai_service_deploy\examples"
 if (-not (Test-Path C:\classwork\week12\period3)) {
     Copy-Item -Recurse -Force "$src\period3" C:\classwork\week12\period3
     Copy-Item C:\classwork\week12\period2\app\*.py C:\classwork\week12\period3\app\ -Force

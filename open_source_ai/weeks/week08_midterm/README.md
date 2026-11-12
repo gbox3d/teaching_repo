@@ -80,7 +80,7 @@
 
 ## 다음 주 연결
 
-9주차 `week10_project_governance`에서는 2~3인 팀을 꾸려 오픈소스 AI 프로젝트 제안서를 쓰고 팀 저장소를 만든다. 이번 주 실기와 2차 과제에서 확인한 각자의 강점(재현성·Git·Ollama 응용·설명)을 팀 역할 분담의 근거로 가져간다. 다음 수업 전에 GitHub 계정과 2차 과제 저장소가 팀원에게 보이는지 확인한다.
+9주차 [Streamlit 앱](../week09_streamlit_apps/README.md)에서는 입력 위젯에서 대화·문서 검색 화면까지 만든다. 이어서 10주차 [시뮬레이터 제어](../week10_simulator_control/README.md)에서 Ollama의 툴 호출을 실제 LED 제어 함수와 연결한다.
 
 ## 참고 자료
 

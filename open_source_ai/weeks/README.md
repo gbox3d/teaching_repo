@@ -56,12 +56,12 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 7 | 2장 | PEFT/LoRA 경량 파인튜닝 | 작은 데이터·어댑터·전후 비교 | [실행 예제](week07_peft_lora/README.md) |
 | 8 | 2장 종합 | 수시평가와 2차 종합과제 | 실기평가, 출처 기록·RAG 미니프로젝트 | [`week08_midterm`](week08_midterm) |
 | 9 | 3장 | Streamlit으로 AI 앱 만들기 | 첫 화면, 대화 앱, 문서 RAG 앱 | [실행 예제](week09_streamlit_apps/README.md) |
-| 10 | 3장 | 시뮬레이터와 Ollama 툴 호출 | 자연어 요청·함수·인자·실제 LED 상태 | [실습 자료](week10_project_governance/README.md) |
-| 11 | 3장 | 초소형 모델의 툴 호출 | Needle 제어, 같은 문항의 정확도·시간 비교 | [`week11_dataset_evaluation`](week11_dataset_evaluation) |
-| 12 | 3장 종합 | 제어 모델 LoRA 학습·복원 | 명령 데이터, 어댑터, 같은 조건의 전후 비교 | [`week12_ai_service_deploy`](week12_ai_service_deploy) |
-| 13 | 4장 | 제어 평가와 Streamlit 앱 | 실패 분석, 개선 실험, LED 제어 화면 | [`week13_test_ci_security`](week13_test_ci_security) |
-| 14 | 4장 | 기말 챗봇 과제와 공개 성능 평가 | 공개 평가세트·도구, 개선 실험, 개발 보고서 | [`week14_release_feedback`](week14_release_feedback) |
-| 15 | 4장 종합 | AI 성능 평가와 개발 보고서 | 발표 항목을 비공개 성능 평가로 대체, 레포트 별도 평가 | [`week15_final_presentation`](week15_final_presentation) |
+| 10 | 3장 | 시뮬레이터와 Ollama 툴 호출 | 자연어 요청·함수·인자·실제 LED 상태 | [실습 자료](week10_simulator_control/README.md) |
+| 11 | 3장 | 초소형 모델의 툴 호출 | Needle 제어, 같은 문항의 정확도·시간 비교 | [`week11_tiny_tool_calling`](week11_tiny_tool_calling) |
+| 12 | 3장 종합 | 제어 모델 LoRA 학습·복원 | 명령 데이터, 어댑터, 같은 조건의 전후 비교 | [`week12_control_lora`](week12_control_lora) |
+| 13 | 4장 | 제어 평가와 Streamlit 앱 | 실패 분석, 개선 실험, LED 제어 화면 | [`week13_control_streamlit`](week13_control_streamlit) |
+| 14 | 4장 | 기말 챗봇 과제와 공개 성능 평가 | 공개 평가세트·도구, 개선 실험, 개발 보고서 | [`week14_chatbot_project`](week14_chatbot_project) |
+| 15 | 4장 종합 | AI 성능 평가와 개발 보고서 | 발표 항목을 비공개 성능 평가로 대체, 레포트 별도 평가 | [`week15_final_evaluation`](week15_final_evaluation) |
 
 ## 누적 프로젝트 줄거리
 

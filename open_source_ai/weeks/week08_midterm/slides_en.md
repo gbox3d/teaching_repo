@@ -353,4 +353,4 @@ Project: from a clean folder, README as written -> same result -> no secrets
 
 - Read errors one at a time.
 - Attach one line of reasoning to every judgment.
-- Next week (`week10_project_governance`) is the team project proposal.
+- Next week, build chat and document-search apps with Streamlit.
