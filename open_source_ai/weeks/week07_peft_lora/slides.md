@@ -28,6 +28,63 @@ rank·VRAM 계산·마스킹 구현은 선택 심화다.
 
 ---
 
+## 수업 전 준비 · CUDA용 PyTorch
+
+`examples/pyproject.toml`에는 다음 설정이 이미 들어 있다.
+`[project]`의 `dependencies`에는 `"torch>=2.6,<3"`을 선언한다.
+
+```toml
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cuda", marker = "sys_platform == 'win32' or sys_platform == 'linux'" },
+]
+```
+
+CUDA를 지원하는 **설치 파일을 고르는 설정**이다. 실행 장치 선택은 별도다.
+
+---
+
+## 수업 전 준비 · TOML 옵션의 의미
+
+| 설정 | 역할 |
+|---|---|
+| `[[tool.uv.index]]` | PyTorch 설치 파일을 받을 저장소 등록 |
+| `cu128` | CUDA 12.8용 빌드. GPU·드라이버와 환경 기준표에 맞춰 선택 |
+| `explicit = true` | 이 저장소를 명시한 패키지에만 사용 |
+| `[tool.uv.sources]` | `torch`를 `pytorch-cuda` 저장소에서 받도록 연결 |
+| `marker` | Windows·Linux에 적용. macOS는 PyPI 패키지 사용 |
+
+교재 복사본: `uv sync --locked`로 배포된 버전을 설치한다.
+TOML의 저장소를 바꾼 경우: `uv lock` → `uv sync`로 잠금 파일도 갱신한다.
+
+[설정 상세·공식 문서](examples/README.md#cuda용-pytorch-설치-설정)
+
+---
+
+## 수업 전 준비 · CUDA 사용 확인
+
+개인 프로젝트 루트에서 실행한다. `nvidia-smi`는 NVIDIA PC에서 확인한다.
+
+```powershell
+nvidia-smi
+uv sync --locked
+uv run python -c "import torch; print(torch.version.cuda, torch.cuda.is_available())"
+uv run prepare
+```
+
+- `12.8 True`: CUDA 빌드가 설치되었고 GPU를 사용할 수 있다.
+- `None False`: CPU용 빌드. `12.8 False`: GPU·드라이버 호환성 등을 확인한다.
+- `prepare`의 `장치: cuda`까지 확인한다. macOS는 MPS, GPU가 없으면 CPU.
+
+Ollama의 GPU 사용과 Python의 PyTorch 설치는 따로 확인한다.
+
+---
+
 <!-- _class: lead -->
 
 # 1교시 · 설명 20분

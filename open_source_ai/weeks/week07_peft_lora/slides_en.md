@@ -28,6 +28,67 @@ Rank, VRAM estimates, and masking internals are optional.
 
 ---
 
+## Before class · CUDA PyTorch in TOML
+
+`examples/pyproject.toml` already declares `torch>=2.6,<3` in `dependencies`.
+These settings select the package download source:
+
+```toml
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cuda", marker = "sys_platform == 'win32' or sys_platform == 'linux'" },
+]
+```
+
+Installing a CUDA build and choosing the runtime device are separate steps.
+
+<!-- Source: https://docs.astral.sh/uv/guides/integration/pytorch/ -->
+
+---
+
+## Before class · What the TOML options mean
+
+| Setting | Meaning |
+|---|---|
+| `cu128` | CUDA 12.8 wheels; the existing course example |
+| `explicit = true` | Use this index only for packages explicitly assigned to it |
+| `tool.uv.sources` | Assign `torch` to the `pytorch-cuda` index |
+| `marker` | Apply on Windows/Linux; macOS uses PyPI and can use MPS |
+
+Choose the CUDA build for the course baseline, GPU, and NVIDIA driver.
+For an unchanged copy: `uv sync --locked`.
+After editing the index: `uv lock` → `uv sync`; distribute the updated lock too.
+
+[Setup details](examples/README.md#cuda용-pytorch-설치-설정) · [uv PyTorch guide](https://docs.astral.sh/uv/guides/integration/pytorch/)
+
+---
+
+## Before class · Check GPU access
+
+Run in your personal project copy on a Windows/Linux NVIDIA PC:
+
+```powershell
+nvidia-smi
+uv sync --locked
+uv run python -c "import torch; print(torch.version.cuda, torch.cuda.is_available())"
+uv run prepare
+```
+
+- `12.8 True`: this CUDA build can use the GPU.
+- `None False`: CPU build; CUDA version + `False`: check GPU and driver compatibility.
+- `prepare` should report `장치: cuda`; auto selection otherwise uses MPS or CPU.
+
+Ollama using the GPU does not confirm that Python's PyTorch can use it.
+
+<!-- Sources: https://pytorch.org/get-started/locally/ ; https://docs.astral.sh/uv/guides/integration/pytorch/ -->
+
+---
+
 <!-- _class: lead -->
 
 # Period 1 · 20-minute lesson

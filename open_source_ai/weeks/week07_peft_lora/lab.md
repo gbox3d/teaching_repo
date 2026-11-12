@@ -23,11 +23,14 @@ $dst = "C:\classwork\week07"
 Copy-Item -Recurse $src $dst
 Set-Location $dst
 uv sync --locked
+uv run python -c "import torch; print(torch.__version__); print(torch.version.cuda, torch.cuda.is_available())"
 ollama list
 uv run prepare
 ```
 
 `ollama list`에 `qwen3.5:2b`가 있어야 한다. `uv run prepare`는 학습용 모델 `Qwen/Qwen2.5-0.5B-Instruct`를 내려받고 `모델 준비 완료`를 출력한다. 설치와 모델 다운로드는 수업 전에 마친다. 교시별 `period` 폴더에는 실행 파일이 아니라 소스 안내만 있다. 개인 저장소의 `experiments/run-001.md`에 [기록 양식](examples/EXPERIMENT_TEMPLATE.md)을 복사해 관찰을 적는다.
+
+NVIDIA PC는 [CUDA용 PyTorch 설치 설정](examples/README.md#cuda용-pytorch-설치-설정)을 확인한다. TOML에는 `cu128` 저장소와 `torch` 출처가 이미 지정되어 있다. 위 확인 명령에서 `12.8 True`, `prepare`에서 `장치: cuda`가 나오는지 확인한다. `None False`이면 CPU용 빌드이고, 버전은 있으나 `False`이면 GPU·드라이버 호환성 등을 확인한다. TOML을 바꾸면 `uv lock` → `uv sync`로 잠금 파일도 갱신한다. macOS의 MPS·GPU 없는 PC의 CPU 경로에서는 CUDA가 `False`인 것이 정상이다.
 
 ## 1교시 실습 — Ollama 대화와 학습 도구 연결
 

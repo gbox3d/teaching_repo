@@ -44,11 +44,70 @@ $dst = "C:\classwork\week07"
 Copy-Item -Recurse $src $dst
 Set-Location $dst
 uv sync --locked
+uv run python -c "import torch; print(torch.__version__); print(torch.version.cuda, torch.cuda.is_available())"
 ollama list
 uv run prepare
 ```
 
 Ollama에는 앞 주차의 `qwen3.5:2b`가 필요하다. `prepare`는 별도의 학습용 모델 `Qwen/Qwen2.5-0.5B-Instruct`와 토크나이저를 다운로드·로드한다. Ollama의 모델 캐시와 Hugging Face 캐시는 서로 다르다. 작은 모델도 다운로드와 메모리가 필요하므로 수업 시간에 처음 준비하지 않는다.
+
+## CUDA용 PyTorch 설치 설정
+
+Ollama에서 GPU를 쓰고 있어도 Python 프로젝트의 PyTorch가 CUDA용이라는 뜻은 아니다. `shared`의 `DEVICE = "auto"`는 **설치된 PyTorch가 사용할 수 있는 장치**를 고르며, CPU용 PyTorch를 CUDA용으로 바꾸지는 않는다.
+
+교재 [pyproject.toml](pyproject.toml)에는 `[project]`의 `dependencies`에 `"torch>=2.6,<3"`과 아래 설정이 이미 들어 있다. 복사본에는 중복해서 추가하지 않는다. 새 프로젝트에서 같은 설정을 만들 때는 의존성 선언과 저장소 설정을 함께 넣는다.
+
+```toml
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cuda", marker = "sys_platform == 'win32' or sys_platform == 'linux'" },
+]
+```
+
+| 항목 | 의미 |
+|---|---|
+| `[[tool.uv.index]]` | 패키지 설치 파일을 받을 저장소를 등록한다. `pytorch-cuda`는 이 프로젝트에서 붙인 이름이다. |
+| URL의 `cu128` | CUDA 12.8용 PyTorch 빌드를 뜻한다. 교재의 기존 예시이며 모든 PC에 맞는 최신 권장값이라는 뜻은 아니다. GPU·드라이버·PyTorch의 지원 조합을 확인해 학기별 환경 기준표에서 정한다. |
+| `explicit = true` | `sources`에서 이 저장소를 명시한 패키지만 여기서 받는다. 나머지 일반 패키지는 기본 PyPI에서 받는다. |
+| `[tool.uv.sources]`의 `torch` | 의존성 `torch`의 다운로드 출처를 위 저장소에 연결한다. 저장소 등록만으로는 이 연결이 생기지 않는다. |
+| `marker` | Windows(`win32`)·Linux에만 CUDA 저장소를 적용한다. GPU 유무를 검사하는 조건은 아니다. macOS에서는 PyPI 패키지를 설치하고 실행 시 MPS 또는 CPU를 고른다. |
+
+배포된 TOML과 `uv.lock`을 그대로 쓰면 `uv sync --locked`로 설치한다. 강의자가 GPU·드라이버에 맞춰 저장소 URL 등을 **변경했다면** 다음 순서로 잠금 파일을 갱신하고 설치한다. `--locked`는 설정 변경을 반영해 잠금 파일을 고치는 옵션이 아니며, 갱신이 필요하면 오류로 멈춘다. 새 프로젝트에는 `uv lock`이 잠금 파일을 생성한다.
+
+```powershell
+uv lock
+uv sync
+```
+
+변경한 `pyproject.toml`과 `uv.lock`은 함께 배포한다. 별도의 `pip install torch`로 가상환경만 바꾸면 다음 `uv sync`에서 프로젝트 설정에 따른 설치로 돌아갈 수 있다.
+
+### NVIDIA GPU에서 설치와 실행 확인
+
+프로젝트 루트에서 실행한다. GPU가 없는 PC와 macOS에서는 `nvidia-smi` 단계를 건너뛴다.
+
+```powershell
+nvidia-smi
+uv run python -c "import torch; print(torch.__version__); print(torch.version.cuda, torch.cuda.is_available())"
+uv run prepare
+```
+
+`nvidia-smi`에서는 GPU와 드라이버를 확인한다. 여기에 표시되는 `CUDA Version`은 드라이버가 지원하는 CUDA 상한이며, 설치된 PyTorch의 CUDA 버전과 반드시 같아야 하는 값은 아니다. PyTorch 빌드는 `torch.version.cuda`로, GPU 사용 가능 여부는 `torch.cuda.is_available()`로 확인한다.
+
+| 확인 결과 | 해석과 다음 행동 |
+|---|---|
+| `12.8 True` | 이 예시의 CUDA 빌드를 설치했고 GPU를 사용할 수 있다. `uv run prepare`에도 `장치: cuda`가 나오는지 확인한다. |
+| `None False` | CPU용 PyTorch다. 현재 프로젝트의 TOML·잠금 파일·`uv sync --locked` 실행 위치를 확인한다. |
+| `12.8 False`처럼 버전은 있으나 `False` | CUDA용 패키지는 설치했지만 GPU를 사용할 수 없다. NVIDIA GPU 유무, 드라이버·GPU와 해당 빌드의 호환성, GPU 접근 설정을 확인한다. |
+| `True`인데 `prepare`에 `장치: cpu` | `src/shared/__init__.py`의 `DEVICE`를 `"cpu"`로 바꿨는지 확인한다. 자동 선택은 `"auto"`다. |
+
+`True`만으로 모델 로드·학습까지 검증한 것은 아니다. `prepare`에서 장치와 모델 로드를 확인한 뒤 `ex03`의 실제 학습 결과를 확인한다. macOS에서는 CUDA가 `False`여도 MPS를 사용할 수 있으며, GPU가 없는 환경에서는 기존 CPU 대체 경로를 따른다.
+
+공식 근거: [uv의 PyTorch 설치 설정](https://docs.astral.sh/uv/guides/integration/pytorch/) · [PyTorch 설치와 GPU 확인](https://pytorch.org/get-started/locally/) · [NVIDIA SMI의 CUDA Version 설명](https://docs.nvidia.com/deploy/nvidia-smi/index.html)
 
 ## 실행 순서
 

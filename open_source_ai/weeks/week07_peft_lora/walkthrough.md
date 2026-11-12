@@ -7,10 +7,13 @@
 ```powershell
 Set-Location C:\classwork\week07
 uv sync --locked
+uv run python -c "import torch; print(torch.__version__); print(torch.version.cuda, torch.cuda.is_available())"
 uv run prepare
 ```
 
 모델 준비 완료가 출력되면 Hugging Face 모델을 사용할 수 있다. Ollama 모델은 `ollama list`에서 별도로 확인한다. 다운로드는 수업 전에 끝낸다.
+
+NVIDIA PC에서는 CUDA 확인 결과가 `12.8 True`인지, `prepare`가 `장치: cuda`를 출력하는지 확인한다. TOML의 저장소·출처 설정과 결과 해석은 [CUDA용 PyTorch 설치 설정](examples/README.md#cuda용-pytorch-설치-설정)을 따른다. `DEVICE = "auto"`만으로 CPU용 PyTorch가 CUDA용으로 바뀌지는 않는다. macOS는 MPS, GPU가 없는 PC는 CPU 경로로 이어 간다.
 
 ## 1교시: 질문 입력을 유지하며 도구를 바꾼다
 
@@ -51,6 +54,7 @@ ollama run week07-lora
 |---|---|
 | Ollama 연결 실패·모델 없음 | Ollama 실행 상태와 `ollama list`, `ex01`의 모델 이름 확인 |
 | Transformers 모델을 찾지 못함 | 준비 때와 같은 사용자·캐시 환경에서 `uv run prepare` 실행 |
+| NVIDIA GPU가 있는데 `장치: cpu` | CUDA 확인 명령의 버전·`True/False`, TOML의 `torch` 출처, `nvidia-smi`와 `shared`의 `DEVICE` 확인. TOML 변경 시 `uv lock` → `uv sync` |
 | JSON 오류 | 수정한 줄의 따옴표·쉼표·줄바꿈 확인, 새 항목 이름에 `"`나 `\`가 들어갔는지 확인 |
 | 답변이 길다는 오류 | 데이터의 질문·답변을 줄여 256토큰 이내로 유지 |
 | 학습이 느림·메모리 부족 | 기준 PC 사용 또는 CPU 대체 3 step으로 경로 확인 |

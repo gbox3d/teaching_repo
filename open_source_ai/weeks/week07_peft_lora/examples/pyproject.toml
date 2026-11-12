@@ -26,10 +26,13 @@ build-backend = "uv_build"
 [tool.uv.build-backend]
 module-name = ["ex01_ollama", "ex02_transformers", "ex03_train", "ex04_compare", "ex05_merge", "shared"]
 
+# CUDA용 PyTorch 설치 파일의 저장소. cu128은 CUDA 12.8용 예시이며 환경 기준표에 맞춘다.
+# explicit은 아래 sources에서 지정한 패키지에만 이 저장소를 쓰게 한다.
 [[tool.uv.index]]
 name = "pytorch-cuda"
 url = "https://download.pytorch.org/whl/cu128"
 explicit = true
 
 [tool.uv.sources]
+# Windows·Linux의 torch에 적용한다. macOS는 PyPI 패키지를 쓰며 실행 시 MPS/CPU를 선택한다.
 torch = [{ index = "pytorch-cuda", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]

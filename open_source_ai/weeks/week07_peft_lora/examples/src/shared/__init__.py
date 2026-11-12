@@ -7,6 +7,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
 SYSTEM_PROMPT = "당신은 그리스·로마 신화를 소개하는 안내자입니다. 한국어로 짧게 답하세요."
+# 입력 토큰을 제외하고 답변을 최대 120토큰까지 새로 생성한다. 토큰 수는 글자 수와 다르다.
+# 답변이 먼저 끝날 수도 있으며, 한도에 도달하면 문장 중간에도 잘릴 수 있다.
 MAX_NEW_TOKENS = 120
 DEVICE = "auto"  # "cpu"로 바꾸면 GPU 없이 실행한다.
 DATA_DIR = Path(__file__).parent / "data"

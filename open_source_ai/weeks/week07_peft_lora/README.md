@@ -30,6 +30,8 @@ Transformers는 모델과 토크나이저를 불러오고 실행하는 라이브
 
 Python 3.12와 uv를 사용한다. 모델 다운로드와 `uv sync --locked`, `uv run prepare`는 수업 전에 마친다. GPU에서는 CUDA 또는 Apple Silicon의 MPS를 자동 선택하고, 둘 다 없으면 CPU를 쓴다. 실제 소요 시간은 기준 PC에서 먼저 확인한다. CPU가 느리면 `STEPS = 3`으로 저장·복원 경로를 확인하고, 강의자가 제공한 같은 모델의 어댑터로 비교를 이어 간다. 이 경우 직접 학습한 것과 배포본을 사용한 것을 기록에 구분한다.
 
+NVIDIA GPU로 학습하려면 CUDA를 지원하는 PyTorch 빌드를 설치해야 한다. [예제 TOML](examples/pyproject.toml)에는 CUDA 저장소와 `torch`의 출처 설정이 이미 들어 있다. [CUDA용 PyTorch 설치 설정](examples/README.md#cuda용-pytorch-설치-설정)에서 `cu128`·`explicit`·`marker`의 의미, 잠금 파일 갱신 순서, GPU 사용 확인 방법을 확인한다. [슬라이드의 수업 전 준비](slides.md#수업-전-준비--cuda용-pytorch)에서도 같은 내용을 다룬다. Ollama가 GPU를 쓰는 것만으로 Python의 CUDA 준비가 확인되지는 않는다.
+
 ## 자료
 
 - [실습지](lab.md): 교시별 문제·시간·완료 조건

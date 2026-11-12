@@ -467,7 +467,7 @@
       "description": "Ollama → LangChain → RAG → LoRA → Streamlit 앱으로 이어지는 15주 과정과 Hugging Face·PyTorch 선택 특강입니다.",
       "status": "published",
       "accent": "#bc8cff",
-      "summary": "15개 주차 · 특강 2개 · 447장",
+      "summary": "15개 주차 · 특강 2개 · 450장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/open_source_ai",
       "chapters": [
         {
