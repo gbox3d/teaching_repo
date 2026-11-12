@@ -8,6 +8,7 @@ echo ========================================================
 echo.
 echo This removes Git/GitHub credentials for the CURRENT user.
 echo It also removes standard SSH keys and VS Code GitHub auth.
+echo Close all VS Code windows before continuing.
 echo Browser cookies are NOT removed.
 echo.
 choice /C YN /N /M "Continue? [Y/N]: "
