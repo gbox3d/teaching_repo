@@ -38,7 +38,7 @@
 
 package는 1주 2일차~3주 `com.example.studentcard`, 4~15주 `com.example.smartio`다. 8주는 시작 코드가 없어 `StudentCard` 또는 새 Empty Views Activity를 쓴다.
 
-12~15주는 제공 라이브러리 [`../bleuno/`](../bleuno/README.md)를 쓴다. `bleuno/src/`의 파일을 `app/src/main/java/com/example/smartio/bleuno/`로 복사하며(package `com.example.smartio.bleuno`), 12~15주 `examples/`의 `bleuno/` 폴더에 같은 파일이 들어 있다. 보드 명령·응답 규약과 라이브러리 사용법은 [bleuno README](../bleuno/README.md)에 있다. 보드가 없으면 PC에서 돌리는 [Wi-Fi 시뮬레이터](../iot_sim/README.md)에 TCP로 연결해 검색·연결(12주차 2일차 이후)과 같은 명령·응답(13주차 이후)을 해 볼 수 있다([실습](../iot_sim/lab.md)).
+12~15주는 제공 라이브러리 [`../bleuno/`](../bleuno/README.md)를 쓴다. `bleuno/src/`의 파일을 `app/src/main/java/com/example/smartio/bleuno/`로 복사하며(package `com.example.smartio.bleuno`), 12~15주 `examples/`의 `bleuno/` 폴더에 같은 파일이 들어 있다. 보드 명령·응답 규약과 라이브러리 사용법은 [bleuno README](../bleuno/README.md)에 있다. 보드가 없으면 PC에서 돌리는 [Wi-Fi 시뮬레이터](../../tools/bleuno-sim/README.md)에 TCP로 연결해 검색·연결(12주차 2일차 이후)과 같은 명령·응답(13주차 이후)을 해 볼 수 있다([실습](../iot_sim/lab.md)).
 
 PT 원고는 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code Marp 확장으로 HTML, PDF, PPTX로 내보낼 수 있다.
 

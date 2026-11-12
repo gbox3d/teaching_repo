@@ -15,7 +15,7 @@ PC에서 돌리는 Wi-Fi 시뮬레이터에 `Bleuno.createTcp()`로 연결해 �
 | 이 폴더의 `src/`와 주차별 SmartIO 예제 | 학생용 수업 코드. 같은 인터페이스로 Fake와 실제 보드를 바꿔 연습한다 |
 | [bleunoApp/BleunoTest](https://github.com/gbox3d/bleunoApp/tree/main/BleunoTest) | 강의자·조교의 보드 점검 및 명령 시연용 독립 앱 |
 | [bleunoApp](https://github.com/gbox3d/bleunoApp)의 `Ex01Scaner`, `ScanerSample` | 검색 기능을 따로 살펴보는 참고 예제 |
-| [iot_sim](../iot_sim/README.md) | 보드 없이 PC에서 돌리는 Wi-Fi 시뮬레이터. `TcpBleunoClient`로 연결해 같은 명령·응답을 연습한다 |
+| [bleuno-sim](../../tools/bleuno-sim/README.md) | 보드 없이 PC에서 돌리는 Wi-Fi 시뮬레이터. `TcpBleunoClient`로 연결해 같은 명령·응답을 연습한다 |
 | [bleuno](https://github.com/gbox3d/bleuno) | 펌웨어 정본. 마더보드 설계는 이 저장소의 `hardware/type_m/v1/`, `hardware/type_s/v1/`에서 모델별로 관리한다 |
 
 **BLEuno type_m v1의 모델명은 `type_m`, 하드웨어 버전은 `v1`**이며, 펌웨어 버전 `1.0.5_dev`와 구분한다.
@@ -112,7 +112,7 @@ DHT·CDS·DS18B20은 커넥터 표기이며 센서 실장이나 현재 펌웨어
 | [src/BleunoClient.kt](src/BleunoClient.kt) | 앱이 부르는 함수 목록(인터페이스) |
 | [src/RealBleunoClient.kt](src/RealBleunoClient.kt) | 실제 보드용. `BluetoothGatt` 콜백 사슬이 들어 있다 |
 | [src/FakeBleunoClient.kt](src/FakeBleunoClient.kt) | 보드 없이 연습용. 시간과 응답을 흉내 낸다 |
-| [src/TcpBleunoClient.kt](src/TcpBleunoClient.kt) | PC의 Wi-Fi 시뮬레이터([iot_sim](../iot_sim/README.md))에 TCP로 연결한다. 검색은 UDP |
+| [src/TcpBleunoClient.kt](src/TcpBleunoClient.kt) | PC의 Wi-Fi 시뮬레이터([bleuno-sim](../../tools/bleuno-sim/README.md))에 TCP로 연결한다. 검색은 UDP |
 | [src/Bleuno.kt](src/Bleuno.kt) | 앱 전체가 공유하는 `client` 한 개를 만들고 보관한다. `createTcp()`가 `TcpBleunoClient`를 부른다 |
 | [src/BleunoMessage.kt](src/BleunoMessage.kt) | 응답 JSON에서 `result`·`ms`·`value`·`event`를 꺼낸다 |
 | [src/PermissionHelper.kt](src/PermissionHelper.kt) | 필요한 권한 목록, 블루투스·위치 켜짐 확인 |
@@ -337,16 +337,16 @@ Fake도 같은 태그로 `(가짜)`가 붙은 로그를 남기므로, 앱 문제
 | `send`를 불렀는데 응답이 없다 | `client.isReady`가 `true`인가. `onMessage`를 `onStart`에서 등록했는가 |
 | `Unresolved reference 'bleuno'.` (`MainActivity.kt`·`ControlActivity.kt`의 `import` 줄) | 파일이 `com.example.smartio.bleuno` 패키지 폴더에 있는지, 첫 줄 `package`가 맞는지 |
 | `Unresolved reference 'TcpBleunoClient'.` (`Bleuno.kt`) | `Bleuno.kt`만 새 판으로 바꾸고 `TcpBleunoClient.kt`를 넣지 않았다. 두 파일은 함께 넣는다 |
-| Wi-Fi 시뮬레이터에 검색·연결이 안 된다 | 앱 쪽은 [Wi-Fi 시뮬레이터 실습의 막혔을 때](../iot_sim/lab.md#막혔을-때), 시뮬레이터 쪽은 [iot_sim README의 10. 막혔을 때](../iot_sim/README.md#10-막혔을-때)를 본다 |
+| Wi-Fi 시뮬레이터에 검색·연결이 안 된다 | 앱 쪽은 [Wi-Fi 시뮬레이터 실습의 막혔을 때](../iot_sim/lab.md#막혔을-때), 시뮬레이터 쪽은 [bleuno-sim README의 10. 막혔을 때](../../tools/bleuno-sim/README.md#10-막혔을-때)를 본다 |
 
 ## 10. 보드 없이 Wi-Fi 시뮬레이터로 연습하기
 
 보드도 실기기도 없으면 PC에서 BLEuno 시뮬레이터를 돌리고, 앱이 Wi-Fi(TCP)로 연결해 실제로 명령·응답을 주고받을 수 있다.
-시뮬레이터는 Python 표준 라이브러리만 쓰는 프로그램 하나이고, 브라우저 화면에 LED 4개·온습도 슬라이더·[입력 버튼]·[연결 끊기]가 있다.
+시뮬레이터는 Python 3.10 이상과 pygame-ce로 실행하는 프로그램 하나이고, 별도 창에 LED 4개·온습도 슬라이더·[입력 버튼]·[연결 끊기]가 있다.
 
 | 문서 | 내용 |
 |---|---|
-| [iot_sim/README.md](../iot_sim/README.md) | 시뮬레이터 실행 방법, 화면, 포트(명령 TCP 8266 · 검색 UDP 8267 · 화면 8080), 방화벽, 막혔을 때 |
+| [tools/bleuno-sim/README.md](../../tools/bleuno-sim/README.md) | 시뮬레이터 실행 방법, 화면, 포트(명령 TCP 8266 · 검색 UDP 8267 · HTTP API 8080), 방화벽, 막혔을 때 |
 | [iot_sim/lab.md](../iot_sim/lab.md) | 90분 실습. 12주차 2일차 이후 `SmartIO`에서 네 곳(두 파일, `INTERNET`, `useTcp`, 주소 직접 입력)을 바꿔 연결한다 |
 
 클라이언트를 고르는 곳은 아래 한 줄이다. 검색·연결·명령 코드(`startScan`·`connect`·`send`·`onMessage`)는 주차 코드 그대로다.
@@ -355,14 +355,14 @@ Fake도 같은 태그로 `(가짜)`가 붙은 로그를 남기므로, 앱 문제
 client = Bleuno.client ?: if (useTcp) Bleuno.createTcp() else Bleuno.create(this, useFake)
 ```
 
-- 명령과 응답은 2절 표와 같다. 다른 점은 `about`의 `app`이 `BLEuno-SIM`, `version`이 `1.0.5_sim`이라는 것, 연결 직후 `hello` 줄이 먼저 온다는 것이다. 그 밖의 차이(`dht11`은 화면 슬라이더 값, 입력 이벤트는 화면의 [입력 버튼]을 누를 때만, 공백만 있는 줄은 `need command`)는 [iot_sim README 1절 '무엇을 대신하나'](../iot_sim/README.md#1-무엇을-대신하나)와 [8절 '명령과 응답'](../iot_sim/README.md#8-명령과-응답)에 있다.
+- 명령과 응답은 2절 표와 같다. 다른 점은 `about`의 `app`이 `BLEuno-SIM`, `version`이 `1.0.5_sim`이라는 것, 연결 직후 `hello` 줄이 먼저 온다는 것이다. 그 밖의 차이(`dht11`은 화면 슬라이더 값, 입력 이벤트는 화면의 [입력 버튼]을 누를 때만, 공백만 있는 줄은 `need command`)는 [bleuno-sim README 1절 '시뮬레이터가 대신하는 것'](../../tools/bleuno-sim/README.md#1-시뮬레이터가-대신하는-것)와 [8절 '명령과 응답'](../../tools/bleuno-sim/README.md#8-명령과-응답)에 있다.
 - 앱이 연결되거나 끊길 때 LED를 모두 끄는 것과 빈 줄(길이 0)에 답하지 않는 것은 보드와 같다. 보드 쪽은 펌웨어 소스로 확인한 것이다([1절](#보드-led-색으로-상태-보기), [아래 표의 `send("")` 줄](#tcpbleunoclient의-동작-wi-fi-시뮬레이터)).
 - 에뮬레이터에서는 주소 `10.0.2.2:8266`으로 연결한다. 실기기는 PC와 같은 Wi-Fi에서 `PC의 IP:8266`을 쓴다. 실기기와 학교 Wi-Fi에서는 아직 확인하지 못했다.
 - 주차 실습의 관찰표·캡처·제출은 Fake 또는 실보드 기준이다. 시뮬레이터 실습은 그것을 대신하지 않는다.
 
 ### TcpBleunoClient의 동작 (Wi-Fi 시뮬레이터)
 
-PC에서 돌리는 [iot_sim](../iot_sim/README.md)과 소켓으로 이야기한다. 앱이 부르는 함수와 상태 문자열은 Real·Fake와 같다.
+PC에서 돌리는 [bleuno-sim](../../tools/bleuno-sim/README.md)과 소켓으로 이야기한다. 앱이 부르는 함수와 상태 문자열은 Real·Fake와 같다.
 아래 시간과 문구는 Android 에뮬레이터(API 31)와 같은 PC의 시뮬레이터로 확인한 것이다. 실기기는 확인하지 못했다.
 
 | 부른 것 / 일 | 일어나는 일 |
@@ -372,7 +372,7 @@ PC에서 돌리는 [iot_sim](../iot_sim/README.md)과 소켓으로 이야기한�
 | 첫 줄(`hello`) | 연결된 뒤 첫 줄을 받으면 `준비됨`. 시뮬레이터는 연결 직후 `{"event":"hello",…}` 줄을 먼저 보내고, 이 hello 줄은 `onMessage`로 넘기지 않는다(첫 줄이 hello가 아니면 그 줄은 넘긴다) |
 | `send("on 0")` | 끝에 언제나 `\n`을 붙여 부른 순서대로 쓴다. 응답 JSON 한 줄이 `onMessage`로 온다. `준비됨`이 아니면 Logcat 경고만 남긴다 |
 | `send("")` | 거르지 않고 빈 줄 하나(`\n`)를 보낸다(`RealBleunoClient`와 같다). 시뮬레이터는 길이 0인 줄에 답하지 않는다. 보드 펌웨어도 길이 0인 명령은 건너뛰고 답하지 않는다(`ble.cpp`의 `onWrite`. 펌웨어 소스로 확인했고 실제 보드로는 확인하지 못했다). `FakeBleunoClient`는 `send()`에서 빈 줄을 걸러 낸다. 그래서 셋 다 응답이 오지 않는다. 공백만 있는 줄(`send(" ")`)은 다르다. 시뮬레이터는 `{"result":"fail","ms":"need command"}`, 보드는 `{"result":"fail","ms":"unknown command"}`(펌웨어 소스 기준)로 답하고, Fake는 걸러 내 답하지 않는다 |
-| 시간 제한 | IP 주소로 연결할 때 3초 안에 연결되지 않으면 `끊김`. 그 전에 연결 오류가 오면 그때 `끊김`이 된다(예: 시뮬레이터가 꺼져 있으면 `ECONNREFUSED`, 없는 IP면 `EHOSTUNREACH`). 연결된 뒤 3초 안에 첫 줄이 오지 않아도 `끊김`(다른 포트, 예: 화면 주소 `:8080`). 주소에 이름(예: `abc`)을 넣으면 이름을 IP로 바꾸는 동안에는 이 3초 제한이 걸리지 않는다. 주소에는 IP를 쓴다 |
+| 시간 제한 | IP 주소로 연결할 때 3초 안에 연결되지 않으면 `끊김`. 그 전에 연결 오류가 오면 그때 `끊김`이 된다(예: 시뮬레이터가 꺼져 있으면 `ECONNREFUSED`, 없는 IP면 `EHOSTUNREACH`). 연결된 뒤 3초 안에 첫 줄이 오지 않아도 `끊김`(다른 포트, 예: HTTP API `:8080`). 주소에 이름(예: `abc`)을 넣으면 이름을 IP로 바꾸는 동안에는 이 3초 제한이 걸리지 않는다. 주소에는 IP를 쓴다 |
 | 잘못된 주소 | 포트가 1~65535 밖이거나 숫자가 아니면, 또는 `:` 앞의 IP가 비면(예: `:8266`) 연결하지 않고 `연결 중`을 거쳐 곧바로 `끊김`(이미 `끊김`이어도 다시 알린다). IP가 빈 주소는 기기 자신(localhost)을 가리키므로 막는다. 지금 연결이 있으면 먼저 닫는다. `RealBleunoClient`는 잘못된 주소를 받으면 Logcat 경고만 남기고 지금 연결과 상태를 그대로 둔다. 없는 이름(`abc`)은 `UnknownHostException` 뒤 `끊김`. 앱은 멈추지 않는다 |
 | 시뮬레이터 [연결 끊기]·Ctrl+C 종료 | `끊김`. Logcat은 `EOF: 상대가 연결을 닫음` → `connection ended → 끊김`. 명령을 쓰던 중이면 그 사이에 `write 오류: java.net.SocketException: Socket closed → 끊김`이 한 줄 더 찍힐 수 있지만 `끊김`은 한 번이다. 시뮬레이터 프로세스가 강제로 끝나면 `connect/read 오류: java.net.SocketException: Connection reset`. `connect(lastAddress)`로 재연결한다 |
 | `disconnect()` | 바로 `연결 안 됨`(`끊김`이 아니다) |

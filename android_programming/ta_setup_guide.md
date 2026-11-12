@@ -30,9 +30,11 @@
 |---|---|
 | Android 제조사 USB 드라이버 | 실기기가 인식되지 않고 제조사 드라이버가 필요한 경우 |
 | Windows 가상화 구성요소 | AVD 실행에 필요하며 전산실이 승인한 경우 |
-| Python 3.9 이상 | 실습실 PC에서 Wi-Fi 시뮬레이터 실습([iot_sim](iot_sim/README.md))을 할 때. 표준 라이브러리만 쓰므로 추가 패키지는 없다. `py --version`으로 확인한다 |
+| Python 3.10 이상과 pygame-ce | 실습실 PC에서 Wi-Fi 시뮬레이터 실습([bleuno-sim](../tools/bleuno-sim/README.md))을 할 때. `py --version`으로 확인하고 실행할 Python에 `py -m pip install pygame-ce`로 설치한다. 다른 Python 명령으로 실행하면 같은 명령으로 설치한다 |
 
-시뮬레이터에 실기기로 붙일 때는 PC에서 TCP 8266·UDP 8267 인바운드를 허용해야 한다([iot_sim README 7절](iot_sim/README.md#7-windows-방화벽)). 학생 계정에 관리자 권한이 없으면 조교가 연다. 관리자가 아닌 계정에서는 Windows가 시뮬레이터를 돌리는 Python을 막는 규칙을 남길 수 있고, 막는 규칙은 포트 허용보다 앞선다. 그래서 조교는 포트 규칙만 만들지 말고, 시뮬레이터를 켜 둔 채로 같은 절의 네 줄로 막는 규칙도 확인한다. 수업이 끝나면 같은 절대로 포트 규칙 두 개를 지우고 **Python 규칙 지우기**를 한다.
+시뮬레이터는 `tools/bleuno-sim` 폴더에서 `py sim.py`로 실행하며, LED·온습도·입력 버튼은 별도 창에 표시된다. `8080`은 브라우저 화면이 아니라 HTTP API 포트다. 창 없이 실행하는 `--no-window`는 Python 3.9 이상에서 추가 패키지 없이 사용할 수 있지만, 이 실습은 창에서 LED와 입력을 확인하므로 pygame-ce를 준비한다.
+
+시뮬레이터에 실기기로 붙일 때는 PC에서 TCP 8266·UDP 8267 인바운드를 허용해야 한다([bleuno-sim README 7절](../tools/bleuno-sim/README.md#7-windows-방화벽)). 학생 계정에 관리자 권한이 없으면 조교가 연다. 관리자가 아닌 계정에서는 Windows가 시뮬레이터를 돌리는 Python을 막는 규칙을 남길 수 있고, 막는 규칙은 포트 허용보다 앞선다. 그래서 조교는 포트 규칙만 만들지 말고, 시뮬레이터를 켜 둔 채로 같은 절의 네 줄로 막는 규칙도 확인한다. 수업이 끝나면 같은 절대로 포트 규칙 두 개를 지우고 **Python 규칙 지우기**를 한다.
 
 ## 별도 설치하지 않는 항목
 

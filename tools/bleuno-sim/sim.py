@@ -1,16 +1,23 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["pygame-ce>=2.5"]
+# ///
 # BLEuno 시뮬레이터 — PC에서 돌리는 가짜 보드.
 #
-# 보드 없이 Wi-Fi(TCP)로 앱을 연습할 때 쓴다. 명령·응답은 bleuno 보드와 같다.
+# 보드 없이 Wi-Fi(TCP)로 앱을 연습하거나, AI 에이전트 같은 다른 프로그램이 보드 대신 붙을 때 쓴다.
+# 명령·응답은 bleuno 보드와 같다.
 #   TCP  8266 : 한 줄 명령 → JSON 한 줄 응답 (앱이 붙는 곳)
 #   UDP  8267 : "bleuno?" 를 받으면 {"name":..,"port":8266} 로 답한다 (앱의 [검색])
-#   HTTP 8080 : 브라우저 화면. LED·온도·습도·입력 버튼·연결 끊기 (기본은 이 PC에서만 열린다)
+#   HTTP 8080 : HTTP API. GET /state, POST /set·/input·/drop (기본은 이 PC에서만 열린다)
+#   화면      : 따로 뜨는 창. LED·온도·습도·입력 버튼·연결 끊기·로그
 #
 # 실행: python sim.py [--name ESP32_BLE_SIM1] [--tcp 8266] [--udp 8267] [--http 8080]
-#                     [--bind 0.0.0.0] [--http-bind 127.0.0.1]
+#                     [--bind 0.0.0.0] [--http-bind 127.0.0.1] [--no-window]
 # 이름은 ESP32_BLE 로 시작해야 12~15주차 예제의 [검색] 목록에 나온다.
-# 끝내기: Ctrl+C
-# 표준 라이브러리만 쓴다(3.9 이상). 외부 패키지 설치가 필요 없다.
+# 끝내기: 시뮬레이터 창을 닫거나 Ctrl+C
+# 화면은 pygame-ce 로 그린다(Python 3.10 이상, 설치: py -m pip install pygame-ce).
+# --no-window 로 창 없이 돌리면 표준 라이브러리만 쓴다(Python 3.9 이상).
 
 import argparse
 import asyncio
@@ -62,7 +69,7 @@ def to_int(text):
 # ---------------------------------------------------------------- 보드 상태
 
 class Board:
-    """LED·온습도·로그를 한 곳에 둔다. HTTP 스레드와 asyncio 스레드가 함께 쓰므로 lock으로 지킨다."""
+    """LED·온습도·로그를 한 곳에 둔다. 명령(asyncio)·HTTP API·화면 스레드가 함께 쓰므로 lock으로 지킨다."""
 
     def __init__(self, name):
         self.name = name
@@ -81,7 +88,7 @@ class Board:
             self.log_lines.append(line)
         print(line, flush=True)
 
-    # ---- 화면이 0.5초마다 읽어 가는 JSON
+    # ---- 화면(초당 30번)과 GET /state 가 읽어 가는 상태
     def state(self):
         with self.lock:
             return {
@@ -94,12 +101,18 @@ class Board:
             }
 
     def set_env(self, temperature=None, humidity=None):
-        # 두 값을 먼저 숫자로 바꿔 본다. 하나라도 틀리면 아무것도 바꾸지 않는다(ValueError)
-        t = None if temperature is None else float(temperature)
-        h = None if humidity is None else float(humidity)
-        for v in (t, h):
-            if v is not None and not math.isfinite(v):
+        # JSON 의 숫자만 받는다. true·"30" 같은 값은 TypeError, NaN·Infinity 는 ValueError,
+        # float 로 바꿀 수 없는 큰 정수는 OverflowError. 두 값을 먼저 검사해 하나라도 틀리면 아무것도 바꾸지 않는다
+        def number(v):
+            if v is None:
+                return None
+            if isinstance(v, bool) or not isinstance(v, (int, float)):
+                raise TypeError("숫자가 아니다")
+            v = float(v)
+            if not math.isfinite(v):
                 raise ValueError("NaN·Infinity 는 받지 않는다")
+            return v
+        t, h = number(temperature), number(humidity)
         with self.lock:
             if t is not None:
                 self.temperature = t
@@ -205,6 +218,7 @@ class TcpSide:
         self.tasks = set()        # 연결마다 도는 작업. 끝나기 전에 사라지지 않게 잡아 둔다
         self.input_value = 0      # 입력 이벤트 value. 누를 때마다 0/1 바뀐다
         self.loop = None
+        self.main_task = None     # run() 작업. 화면을 닫으면 stop() 이 취소한다
         self.sock = None
         self.running = True
 
@@ -269,7 +283,9 @@ class TcpSide:
                 if not raw.endswith(b"\n"):
                     break                          # 상대가 끊음(EOF). 줄 끝 없이 남은 조각은 버린다
                 if raw in (b"\n", b"\r\n"):
-                    continue                       # 길이 0인 줄에는 보드처럼 답하지 않는다
+                    # 길이 0인 줄(\n)에는 보드처럼 답하지 않는다. \r\n 만 있는 줄에도 답하지 않는다
+                    # (보드는 펌웨어 소스로 보면 \r 을 명령으로 읽어 unknown command 로 답한다)
+                    continue
                 line = raw.decode("utf-8", "replace").strip()
                 resp = self.board.respond(line)
                 self.board.log("%s %s → %s" % (tag, line, resp))
@@ -298,30 +314,35 @@ class TcpSide:
         except Exception:
             pass
 
-    # ---- 화면 [입력 버튼]: 연결된 모두에게 input 이벤트
-    def send_input_event(self):
+    # ---- 화면 [입력 버튼]·POST /input: 연결된 모두에게 input 이벤트. src 는 로그에 남길 출처
+    def send_input_event(self, src="화면"):
         self.input_value = 1 - self.input_value
         event = dumps({"event": "input", "index": 0, "value": self.input_value})
-        self.board.log("[화면] 입력 버튼 → %s (%d개에 전송)" % (event, len(self.writers)))
+        self.board.log("[%s] 입력 버튼 → %s (%d개에 전송)" % (src, event, len(self.writers)))
         for w in list(self.writers):
             try:
                 w.write((event + "\n").encode("utf-8"))
             except Exception:
                 pass
 
-    # ---- 화면 [연결 끊기]: 소켓을 모두 닫는다. 앱은 "끊김"이 된다
-    def drop_all(self):
-        self.board.log("[화면] 연결 끊기 (%d개)" % len(self.writers))
+    # ---- 화면 [연결 끊기]·POST /drop: 소켓을 모두 닫는다. 앱은 "끊김"이 된다
+    def drop_all(self, src="화면"):
+        self.board.log("[%s] 연결 끊기 (%d개)" % (src, len(self.writers)))
         for w in list(self.writers):
             self._close(w)
 
-    # HTTP 스레드에서 부르는 통로. asyncio 스레드로 넘긴다
+    # HTTP·화면 스레드에서 부르는 통로. asyncio 스레드로 넘긴다
     def call_from_thread(self, fn):
         if self.loop is not None:
             try:
                 self.loop.call_soon_threadsafe(fn)
             except RuntimeError:
                 pass                           # 끝나는 중이라 루프가 이미 닫혔다
+
+    # ---- 화면을 닫거나 화면에서 Ctrl+C 를 받으면 메인 스레드가 부른다. run() 을 끝낸다
+    def stop(self):
+        if self.main_task is not None:
+            self.call_from_thread(self.main_task.cancel)
 
 
 # ---------------------------------------------------------------- UDP (장치 찾기)
@@ -377,146 +398,9 @@ class UdpSide:
             pass
 
 
-# ---------------------------------------------------------------- HTTP (브라우저 화면)
+# ---------------------------------------------------------------- HTTP API
 
-PAGE = r"""<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="data:,">
-<title>BLEuno 시뮬레이터 — __NAME__</title>
-<style>
-  body { font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; background: #f4f5f7; color: #222; margin: 0; padding: 16px; }
-  h1 { font-size: 20px; margin: 0 0 4px; }
-  .sub { color: #666; font-size: 13px; margin-bottom: 16px; }
-  .card { background: #fff; border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
-  .card h2 { font-size: 15px; margin: 0 0 10px; color: #444; }
-  .leds { display: flex; gap: 22px; align-items: flex-end; }
-  .led { text-align: center; font-size: 12px; color: #666; }
-  .led .dot { width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 6px; border: 2px solid #bbb;
-              background: #ddd; transition: background .2s, box-shadow .2s; }
-  .builtin { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 13px; color: #555; }
-  .builtin .dot { width: 14px; height: 14px; border-radius: 50%; background: #bbb; }
-  .builtin .dot.on { background: #2b7cff; animation: blink 1s steps(1) infinite; }
-  @keyframes blink { 50% { background: #bbb; } }
-  .row { display: flex; align-items: center; gap: 10px; margin: 8px 0; font-size: 14px; }
-  .row label { width: 48px; }
-  .row input[type=range] { flex: 1; }
-  .row .val { width: 72px; text-align: right; font-variant-numeric: tabular-nums; }
-  button { font-size: 14px; padding: 8px 14px; border-radius: 6px; border: 1px solid #999; background: #fafafa; cursor: pointer; }
-  button:hover { background: #eee; }
-  button.danger { border-color: #d33; color: #b00; }
-  .btns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-  .status { font-size: 14px; margin-left: auto; }
-  pre { background: #1e1e1e; color: #ddd; font-size: 12px; padding: 10px; border-radius: 6px; height: 300px;
-        overflow: auto; margin: 0; white-space: pre-wrap; word-break: break-all; }
-</style>
-</head>
-<body>
-<h1>BLEuno 시뮬레이터 — __NAME__</h1>
-<div class="sub">TCP __TCP__ · UDP __UDP__ · [검색]이 안 되면 앱의 주소 칸에 직접 넣는다: 에뮬레이터는 10.0.2.2:__TCP__, 실기기는 이 PC의 IP:__TCP__</div>
-
-<div class="card">
-  <h2>LED (인덱스 0~3, 밝기 0~255)</h2>
-  <div class="leds" id="leds"></div>
-  <div class="builtin"><div class="dot" id="builtin"></div><span id="builtin-text">내장 LED: 멈춤</span></div>
-</div>
-
-<div class="card">
-  <h2>DHT11 (dht11 명령이 읽어 가는 값)</h2>
-  <div class="row"><label>온도</label><input type="range" id="temp" min="-10" max="50" step="0.1"><span class="val" id="temp-val"></span></div>
-  <div class="row"><label>습도</label><input type="range" id="hum" min="0" max="100" step="0.1"><span class="val" id="hum-val"></span></div>
-</div>
-
-<div class="card">
-  <div class="btns">
-    <button id="btn-input">입력 버튼</button>
-    <button id="btn-drop" class="danger">연결 끊기</button>
-    <span class="status">연결 수: <b id="clients">0</b></span>
-  </div>
-</div>
-
-<div class="card">
-  <h2>최근 명령 로그</h2>
-  <pre id="log"></pre>
-</div>
-
-<script>
-(function () {
-  var ledsBox = document.getElementById('leds');
-  var dots = [];
-  for (var i = 0; i < 4; i++) {
-    var d = document.createElement('div');
-    d.className = 'led';
-    d.innerHTML = '<div class="dot"></div>LED ' + i + '<br><span class="v">0</span>';
-    ledsBox.appendChild(d);
-    dots.push(d);
-  }
-  var temp = document.getElementById('temp'), hum = document.getElementById('hum');
-  var tempVal = document.getElementById('temp-val'), humVal = document.getElementById('hum-val');
-
-  function post(path, body) {
-    return fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-                         body: body ? JSON.stringify(body) : '' }).catch(function () {});
-  }
-
-  function draw(s) {
-    for (var i = 0; i < 4; i++) {
-      var v = s.leds[i] || 0;
-      var dot = dots[i].querySelector('.dot');
-      if (v === 0) {
-        dot.style.background = '#ddd';
-        dot.style.boxShadow = 'none';
-      } else {
-        var a = 0.25 + 0.75 * v / 255;
-        dot.style.background = 'rgba(255, 60, 40, ' + a + ')';
-        dot.style.boxShadow = '0 0 ' + Math.round(18 * v / 255) + 'px rgba(255, 60, 40, ' + a + ')';
-      }
-      dots[i].querySelector('.v').textContent = v;
-    }
-    var b = document.getElementById('builtin');
-    b.className = 'dot' + (s.blink ? ' on' : '');
-    document.getElementById('builtin-text').textContent = '내장 LED: ' + (s.blink ? '깜빡임' : '멈춤');
-    // 슬라이더를 잡고 있는 동안은 서버 값으로 덮어쓰지 않는다
-    if (document.activeElement !== temp) temp.value = s.temperature;
-    if (document.activeElement !== hum) hum.value = s.humidity;
-    tempVal.textContent = Number(temp.value).toFixed(1) + ' °C';
-    humVal.textContent = Number(hum.value).toFixed(1) + ' %';
-    document.getElementById('clients').textContent = s.clients;
-    var log = document.getElementById('log');
-    var atBottom = log.scrollTop + log.clientHeight >= log.scrollHeight - 4;
-    log.textContent = s.log.join('\n');
-    if (atBottom) log.scrollTop = log.scrollHeight;
-  }
-
-  function poll() {
-    fetch('/state').then(function (r) { return r.json(); }).then(draw).catch(function () {});
-  }
-  setInterval(poll, 500);
-  poll();
-
-  function sendEnv() {
-    post('/set', { temperature: Number(temp.value), humidity: Number(hum.value) });
-    tempVal.textContent = Number(temp.value).toFixed(1) + ' °C';
-    humVal.textContent = Number(hum.value).toFixed(1) + ' %';
-  }
-  temp.addEventListener('input', sendEnv);
-  hum.addEventListener('input', sendEnv);
-  document.getElementById('btn-input').addEventListener('click', function () { post('/input'); });
-  document.getElementById('btn-drop').addEventListener('click', function () { post('/drop'); });
-})();
-</script>
-</body>
-</html>
-"""
-
-
-def make_handler(board, tcp, args):
-    page = (PAGE.replace("__NAME__", board.name.replace("<", "&lt;").replace(">", "&gt;"))
-                .replace("__TCP__", str(args.tcp))
-                .replace("__UDP__", str(args.udp))).encode("utf-8")
-
+def make_handler(board, tcp):
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *a):
             pass                                   # 요청마다 찍히는 기본 로그는 끈다
@@ -533,15 +417,13 @@ def make_handler(board, tcp, args):
             self._send(code, dumps(obj).encode("utf-8"), "application/json; charset=utf-8")
 
         def do_GET(self):
-            if self.path == "/" or self.path.startswith("/?"):
-                self._send(200, page, "text/html; charset=utf-8")
-            elif self.path == "/state":
+            if self.path == "/state":
                 self._json(board.state())
             else:
                 self._json({"result": "fail", "ms": "not found"}, 404)
 
         def do_POST(self):
-            # 화면이 보내는 본문은 수십 바이트다. 길이가 숫자가 아니거나 너무 크면 읽지 않는다
+            # /set 의 본문은 수십 바이트다. 길이가 숫자가 아니거나 너무 크면 읽지 않는다
             try:
                 length = int(self.headers.get("Content-Length") or 0)
             except ValueError:
@@ -554,20 +436,284 @@ def make_handler(board, tcp, args):
                 try:
                     data = json.loads(raw.decode("utf-8")) if raw else {}
                     board.set_env(data.get("temperature"), data.get("humidity"))
-                except (ValueError, TypeError, AttributeError):
+                except (ValueError, TypeError, AttributeError, OverflowError):
                     self._json({"result": "err", "ms": "need json {temperature, humidity}"}, 400)
                     return
                 self._json({"result": "ok"})
             elif self.path == "/input":
-                tcp.call_from_thread(tcp.send_input_event)
+                tcp.call_from_thread(lambda: tcp.send_input_event("API"))
                 self._json({"result": "ok"})
             elif self.path == "/drop":
-                tcp.call_from_thread(tcp.drop_all)
+                tcp.call_from_thread(lambda: tcp.drop_all("API"))
                 self._json({"result": "ok"})
             else:
                 self._json({"result": "fail", "ms": "not found"}, 404)
 
     return Handler
+
+
+# ---------------------------------------------------------------- 화면 (pygame 창)
+
+# 한글이 들어 있는 글꼴. 앞의 것부터 찾는다(Windows, macOS, Linux 순)
+FONT_NAMES = ["malgungothic", "applesdgothicneo", "nanumgothic", "notosanscjkkr", "notosanskr"]
+
+
+def load_pygame():
+    # 화면을 그리는 pygame-ce 와 못 불러온 까닭. 불러오면 (pygame, None), 못 불러오면 (None, 까닭).
+    # 가져올 때 찍히는 인사 줄은 끈다
+    os.environ.setdefault("PYGAME_HIDE_SUPPORT_PROMPT", "1")
+    try:
+        import pygame
+        import pygame.freetype
+    except ImportError as e:
+        return None, str(e)
+    return pygame, None
+
+
+def mix(a, b, t):
+    # 색 a 에서 b 쪽으로 t(0~1) 만큼 옮긴 색
+    return tuple(round(x + (y - x) * t) for x, y in zip(a, b))
+
+
+class Window:
+    """시뮬레이터 화면. 메인 스레드에서 초당 30번 상태를 읽어 다시 그린다.
+
+    명령(TCP)·검색(UDP)·HTTP API 는 다른 스레드에서 돈다. 다만 Windows 에서 창 제목 줄을 누르고
+    있는 동안에는 pygame 이 GIL 을 쥔 채 멈추므로 그 스레드들도 함께 멈췄다가, 놓으면 이어서 답한다.
+    """
+
+    W, H = 980, 484
+    BG = (244, 245, 247)
+    CARD = (255, 255, 255)
+    INK = (34, 34, 34)
+    HEAD = (68, 68, 68)
+    SUB = (102, 102, 102)
+    OFF = (221, 221, 221)
+    RING = (187, 187, 187)
+    RED = (255, 60, 40)
+    BLUE = (43, 124, 255)
+    TRACK = (210, 212, 216)
+    LOG_BG = (30, 30, 30)
+    LOG_INK = (221, 221, 221)
+    DANGER = (187, 0, 0)
+    LOG_CHARS = 300          # 로그 한 줄을 화면에 보일 때의 최대 글자 수(터미널에는 다 찍힌다)
+
+    def __init__(self, pg, board, tcp, args):
+        self.pg, self.board, self.tcp = pg, board, tcp
+        pg.display.init()
+        pg.freetype.init()
+        self.screen = pg.display.set_mode((self.W, self.H))
+        pg.display.set_caption("BLEuno 시뮬레이터 — %s" % board.name)
+        path = pg.font.match_font(FONT_NAMES)
+        if path is None:
+            print("주의: 한글 글꼴을 찾지 못했다. 화면의 한글이 네모로 보일 수 있다.", flush=True)
+
+        def font(size, bold=False):
+            f = pg.freetype.Font(path, size)
+            f.origin = True                    # 그리는 자리의 y 는 글자의 기준선
+            f.strong = bold
+            return f
+
+        self.f_title = font(20, True)
+        self.f_head = font(15, True)
+        self.f_text = font(14)
+        self.f_small = font(13)
+        self.f_log = font(12)
+        self.clock = pg.time.Clock()
+        self.drag = None                       # 끌고 있는 슬라이더("temperature"·"humidity")
+        self.wrapped = {}                      # 접은 줄 캐시
+        self.sub = ("TCP %d · UDP %d · [검색]에 나오지 않으면 앱의 주소 칸에 직접 입력하세요. "
+                    "에뮬레이터: 10.0.2.2:%d, 실기기: 이 PC의 IP:%d" % (args.tcp, args.udp, args.tcp, args.tcp))
+        R = pg.Rect
+        self.c_led = R(16, 92, 470, 182)
+        self.c_dht = R(16, 286, 470, 110)
+        self.c_btn = R(16, 408, 470, 60)
+        self.c_log = R(498, 92, self.W - 514, 376)
+        x, w = self.c_dht.x + 70, self.c_dht.w - 70 - 110
+        self.sliders = {
+            "temperature": ("온도", R(x, self.c_dht.y + 53, w, 6), -10.0, 50.0, "°C"),
+            "humidity": ("습도", R(x, self.c_dht.y + 83, w, 6), 0.0, 100.0, "%"),
+        }
+        self.b_input = R(self.c_btn.x + 16, self.c_btn.y + 12, 120, 36)
+        self.b_drop = R(self.c_btn.x + 148, self.c_btn.y + 12, 120, 36)
+
+    # ---- 글자 한 줄. y 는 줄의 위쪽. anchor 가 "right" 면 x 가 오른쪽 끝, "center" 면 가운데
+    def put(self, font, text, color, x, y, anchor="left"):
+        if anchor != "left":
+            w = font.get_rect(text).width
+            x -= w if anchor == "right" else w // 2
+        font.render_to(self.screen, (x, y + font.get_sized_ascender()), text, color)
+
+    # ---- 폭 width 에 맞게 글자 단위로 접는다
+    def wrap(self, font, text, width):
+        key = (id(font), text, width)
+        lines = self.wrapped.get(key)
+        if lines is None:
+            lines, cur, used = [], "", 0.0
+            for ch, m in zip(text, font.get_metrics(text)):
+                adv = m[4] if m else 0.0
+                if cur and used + adv > width:
+                    lines.append(cur)
+                    cur, used = "", 0.0
+                cur += ch
+                used += adv
+            lines.append(cur)
+            if len(self.wrapped) > 500:
+                self.wrapped.clear()
+            self.wrapped[key] = lines
+        return lines
+
+    # ---- 폭 width 를 넘으면 뒤를 줄이고 … 를 붙인다(아주 긴 --name)
+    def fit(self, font, text, width):
+        key = ("fit", id(font), text, width)
+        out = self.wrapped.get(key)
+        if out is None:
+            out = text
+            while len(out) > 1 and font.get_rect(out).width > width:
+                out = out[:-2] + "…"
+            self.wrapped[key] = out
+        return out
+
+    def led_center(self, i):
+        # 밝은 LED 의 번짐(반지름 46)이 카드 제목에 닿지 않는 높이
+        return self.c_led.x + 56 + i * 100, self.c_led.y + 80
+
+    def card(self, r, title=None):
+        self.pg.draw.rect(self.screen, self.CARD, r, border_radius=10)
+        if title:
+            self.put(self.f_head, title, self.HEAD, r.x + 16, r.y + 12)
+
+    def draw(self, s):
+        pg, scr = self.pg, self.screen
+        scr.fill(self.BG)
+        self.put(self.f_title, self.fit(self.f_title, "BLEuno 시뮬레이터 — %s" % self.board.name, self.W - 32),
+                 self.INK, 16, 12)
+        y = 46
+        for line in self.wrap(self.f_small, self.sub, self.W - 32)[:2]:
+            self.put(self.f_small, line, self.SUB, 16, y)
+            y += self.f_small.get_sized_height() + 3
+
+        # LED 4개와 내장 LED
+        c = self.c_led
+        self.card(c, "LED (인덱스 0~3, 밝기 0~255)")
+        for i in range(LED_COUNT):
+            v = s["leds"][i]
+            cx, cy = self.led_center(i)
+            if v:
+                a = 0.25 + 0.75 * v / 255
+                glow = round(18 * v / 255)
+                if glow:
+                    r = 28 + glow
+                    halo = pg.Surface((2 * r, 2 * r), pg.SRCALPHA)
+                    pg.draw.circle(halo, self.RED + (round(70 * a),), (r, r), r)
+                    scr.blit(halo, (cx - r, cy - r))
+                fill = mix(self.CARD, self.RED, a)
+            else:
+                fill = self.OFF
+            pg.draw.circle(scr, fill, (cx, cy), 28)
+            pg.draw.circle(scr, self.RING, (cx, cy), 28, 2)
+            self.put(self.f_small, "LED %d" % i, self.SUB, cx, cy + 36, "center")
+            self.put(self.f_small, str(v), self.INK, cx, cy + 54, "center")
+        on = s["blink"] and time.monotonic() % 1.0 < 0.5
+        dot_y = c.bottom - 22
+        pg.draw.circle(scr, self.BLUE if on else self.RING, (c.x + 23, dot_y), 7)
+        self.put(self.f_small, "내장 LED: " + ("깜빡임" if s["blink"] else "꺼짐"), self.SUB,
+                 c.x + 38, dot_y - self.f_small.get_sized_height() // 2)
+
+        # 온도·습도 슬라이더
+        c = self.c_dht
+        self.card(c, "DHT11 (dht11 명령이 읽어 가는 값)")
+        for key, (label, track, lo, hi, unit) in self.sliders.items():
+            val = s[key]
+            # HTTP API 로 넣은 아주 큰 값은 지수로 줄여 보인다
+            shown = ("%.1f " if abs(val) < 1e6 else "%.3g ") % val + unit
+            mid = track.centery - self.f_text.get_sized_height() // 2
+            self.put(self.f_text, label, self.INK, c.x + 16, mid)
+            pg.draw.rect(scr, self.TRACK, track, border_radius=3)
+            kx = track.x + round((min(max(val, lo), hi) - lo) / (hi - lo) * track.w)
+            if kx > track.x:
+                pg.draw.rect(scr, self.BLUE, (track.x, track.y, kx - track.x, track.h), border_radius=3)
+            pg.draw.circle(scr, self.CARD, (kx, track.centery), 9)
+            pg.draw.circle(scr, self.BLUE, (kx, track.centery), 9, 2)
+            self.put(self.f_text, shown, self.INK, c.right - 16, mid, "right")
+
+        # 버튼과 연결 수
+        c = self.c_btn
+        self.card(c)
+        mouse = pg.mouse.get_pos()
+        for r, label, danger in ((self.b_input, "입력 버튼", False), (self.b_drop, "연결 끊기", True)):
+            pg.draw.rect(scr, (238, 238, 238) if r.collidepoint(mouse) else (250, 250, 250), r, border_radius=6)
+            pg.draw.rect(scr, (221, 51, 51) if danger else (153, 153, 153), r, 1, border_radius=6)
+            self.put(self.f_text, label, self.DANGER if danger else self.INK,
+                     r.centerx, r.centery - self.f_text.get_sized_height() // 2, "center")
+        self.put(self.f_text, "연결 수: %d" % s["clients"], self.INK,
+                 c.right - 16, c.centery - self.f_text.get_sized_height() // 2, "right")
+
+        # 최근 명령 로그. 칸에 다 들어가지 않으면 최근 줄만 보인다
+        c = self.c_log
+        self.card(c, "최근 명령 로그")
+        box = pg.Rect(c.x + 12, c.y + 40, c.w - 24, c.h - 52)
+        pg.draw.rect(scr, self.LOG_BG, box, border_radius=6)
+        lh = self.f_log.get_sized_height() + 2
+        y = box.y + 8
+        for line in self.log_rows(s["log"], box.w - 20, (box.h - 16) // lh):
+            self.put(self.f_log, line, self.LOG_INK, box.x + 10, y)
+            y += lh
+
+    # ---- 로그 칸에 보일 줄. 긴 줄은 접고, fit 줄을 넘으면 최근 줄만 남긴다
+    def log_rows(self, log, width, fit):
+        rows = []
+        for entry in reversed(log):
+            if len(rows) >= fit:
+                break
+            if len(entry) > self.LOG_CHARS:
+                entry = entry[:self.LOG_CHARS] + "…"
+            # 제어 문자(앱이 보낸 \x00 등)와 글꼴에 없는 글자(이모지 등, metrics 가 None)는 ? 로 보인다.
+            # 글꼴에 없는 글자는 폭을 잴 수 없어 그대로 두면 줄을 접지 못한다
+            entry = "".join("?" if m is None or unicodedata.category(ch) == "Cc" else ch
+                            for ch, m in zip(entry, self.f_log.get_metrics(entry)))
+            rows[:0] = self.wrap(self.f_log, entry, width)
+        return rows[max(0, len(rows) - fit):] if fit > 0 else []
+
+    def slide(self, x):
+        _, track, lo, hi, _ = self.sliders[self.drag]
+        frac = min(max((x - track.x) / track.w, 0.0), 1.0)
+        value = round(lo + frac * (hi - lo), 1) + 0.0      # + 0.0: -0.0 을 0.0 으로
+        self.board.set_env(**{self.drag: value})
+
+    def handle(self, ev):
+        pg = self.pg
+        if ev.type == pg.MOUSEBUTTONDOWN and ev.button == 1:
+            if self.b_input.collidepoint(ev.pos):
+                self.tcp.call_from_thread(self.tcp.send_input_event)
+            elif self.b_drop.collidepoint(ev.pos):
+                self.tcp.call_from_thread(self.tcp.drop_all)
+            else:
+                for key, (_, track, _, _, _) in self.sliders.items():
+                    if track.inflate(24, 24).collidepoint(ev.pos):
+                        self.drag = key
+                        self.slide(ev.pos[0])
+        elif ev.type == pg.MOUSEMOTION and self.drag:
+            if ev.buttons[0]:
+                self.slide(ev.pos[0])
+            else:
+                self.drag = None
+        elif ev.type == pg.MOUSEBUTTONUP and ev.button == 1:
+            self.drag = None
+
+    # ---- 이벤트를 처리하고 한 번 그린다. 창을 닫으면 False
+    def step(self):
+        for ev in self.pg.event.get():
+            if ev.type == self.pg.QUIT:
+                return False
+            self.handle(ev)
+        self.draw(self.board.state())
+        self.pg.display.flip()
+        return True
+
+    def loop(self, alive):
+        while alive() and self.step():
+            self.clock.tick(30)
 
 
 # ---------------------------------------------------------------- 시작 안내
@@ -633,13 +779,13 @@ def print_banner(args):
     print("이 PC의 IPv4 주소(실기기용, 앞의 것부터): %s"
           % (", ".join(ip_label(ip) for ip in ips) if ips else "(찾지 못함. ipconfig 로 확인)"))
     print("에뮬레이터에서는 10.0.2.2:%d" % args.tcp)
-    page_host = "127.0.0.1" if args.http_bind in ("0.0.0.0", "") else args.http_bind
-    print("화면: http://%s:%d" % (page_host, args.http))
+    api_host = "127.0.0.1" if args.http_bind in ("0.0.0.0", "") else args.http_bind
+    print("HTTP API: http://%s:%d/state" % (api_host, args.http))
     if not args.name.startswith("ESP32_BLE"):
         print("주의: 이름이 ESP32_BLE 로 시작하지 않으면 12~15주차 예제의 [검색] 목록에 나오지 않는다.")
     print("Windows 방화벽 창이 뜨면 [액세스 허용]을 누른다. 안 뜨면 포트 %d·%d을 인바운드로 허용한다."
           % (args.tcp, args.udp))
-    print("끝내려면 Ctrl+C")
+    print("끝내려면 Ctrl+C" if args.no_window else "끝내려면 시뮬레이터 창을 닫거나 Ctrl+C")
     sys.stdout.flush()
 
 
@@ -653,15 +799,16 @@ class SimHTTPServer(ThreadingHTTPServer):
     daemon_threads = True
 
     def handle_error(self, request, client_address):
-        # 브라우저가 응답을 다 받기 전에 끊으면(탭 닫기·새로 고침) 조용히 넘어간다
+        # 요청한 쪽이 응답을 다 받기 전에 끊으면 조용히 넘어간다
         if isinstance(sys.exc_info()[1], ConnectionError):
             return
         super().handle_error(request, client_address)
 
 
-async def run(args, board, tcp, httpd):
+async def run(args, board, tcp, httpd, ready=None):
     loop = asyncio.get_running_loop()
     tcp.loop = loop
+    tcp.main_task = asyncio.current_task()
 
     # 끊긴 연결에서 나온 OSError(재설정 등)를 asyncio 가 끝날 때 따로 알리지 않게 한다.
     # 그 밖의 오류는 그대로 보인다
@@ -670,9 +817,10 @@ async def run(args, board, tcp, httpd):
             loop.default_exception_handler(context)
     loop.set_exception_handler(on_loop_error)
 
-    if sys.version_info < (3, 11):
+    if sys.version_info < (3, 11) and threading.current_thread() is threading.main_thread():
         # 3.9·3.10 의 asyncio.run 은 Ctrl+C 를 루프 안 아무 곳에서나 KeyboardInterrupt 로 던져서
         # 끝내기가 멈추거나 오류 줄이 남는다. 3.11 이후처럼 이 작업만 취소하게 한다
+        # (화면이 있으면 이 함수는 다른 스레드에서 돌고, Ctrl+C 는 화면 쪽이 받는다)
         main_task = asyncio.current_task()
 
         def on_sigint(signum, frame):
@@ -691,6 +839,8 @@ async def run(args, board, tcp, httpd):
     udp.start()
 
     board.log("시작: TCP %d, UDP %d, HTTP %d" % (args.tcp, args.udp, args.http))
+    if ready is not None:
+        ready.set()
 
     try:
         # Windows 에서 Ctrl+C 가 바로 먹도록 짧게 깨어난다
@@ -708,17 +858,74 @@ async def run(args, board, tcp, httpd):
             await asyncio.wait(list(tcp.tasks), timeout=1.0)
 
 
+def run_here(args, board, tcp, httpd):
+    # 창 없이(--no-window): 메인 스레드에서 asyncio 를 돌린다. Ctrl+C 로 끝난다
+    try:
+        asyncio.run(run(args, board, tcp, httpd))
+    except (KeyboardInterrupt, asyncio.CancelledError):
+        pass
+    except OSError as e:
+        print("포트를 열 수 없다: %s (--tcp/--udp 로 다른 포트를 준다)" % e)
+        return 1
+    return 0
+
+
+def run_with_window(args, board, tcp, httpd, pg):
+    # 화면이 있으면 asyncio 는 다른 스레드에서 돌리고 메인 스레드는 창을 그린다
+    # (macOS 는 창을 메인 스레드에서만 열 수 있다). 창을 닫거나 Ctrl+C 를 누르면 끝난다
+    ready = threading.Event()
+    failed = []
+
+    def net():
+        try:
+            asyncio.run(run(args, board, tcp, httpd, ready))
+        except asyncio.CancelledError:
+            pass                               # stop() 으로 끝났다
+        except OSError as e:
+            failed.append(e)
+
+    thread = threading.Thread(target=net, name="net", daemon=True)
+    thread.start()
+    code = 0
+    try:
+        while not ready.wait(0.1):
+            if not thread.is_alive():
+                print("포트를 열 수 없다: %s (--tcp/--udp 로 다른 포트를 준다)" % (failed[0] if failed else "?"),
+                      flush=True)
+                return 1
+        Window(pg, board, tcp, args).loop(thread.is_alive)
+        if not thread.is_alive():
+            code = 1                           # 창을 닫기 전에 명령 쪽이 멈췄다
+    except KeyboardInterrupt:
+        pass
+    except pg.error as e:
+        print("시뮬레이터 창을 열 수 없다: %s (화면이 없는 컴퓨터면 --no-window 로 실행한다)" % e, flush=True)
+        code = 1
+    finally:
+        # 끝내는 동안 Ctrl+C 를 한 번 더 눌러도 트레이스백 없이 끝나게 한다
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
+        pg.quit()
+        tcp.stop()
+        thread.join(5)
+    return code
+
+
 def main():
-    p = argparse.ArgumentParser(description="BLEuno 시뮬레이터 (표준 라이브러리만)")
+    p = argparse.ArgumentParser(description="BLEuno 시뮬레이터")
     p.add_argument("--name", default="ESP32_BLE_SIM1",
                    help="장치 이름 (기본 ESP32_BLE_SIM1). ESP32_BLE 로 시작해야 예제 목록에 나온다")
     p.add_argument("--tcp", type=int, default=8266, help="명령 포트 (기본 8266)")
     p.add_argument("--udp", type=int, default=8267, help="검색 포트 (기본 8267)")
-    p.add_argument("--http", type=int, default=8080, help="화면 포트 (기본 8080)")
+    p.add_argument("--http", type=int, default=8080, help="HTTP API 포트 (기본 8080)")
     p.add_argument("--bind", default="0.0.0.0", help="TCP·UDP 바인드 주소 (기본 0.0.0.0)")
     p.add_argument("--http-bind", default="127.0.0.1",
-                   help="화면 바인드 주소 (기본 127.0.0.1: 이 PC에서만 열린다)")
+                   help="HTTP API 바인드 주소 (기본 127.0.0.1: 이 PC에서만 열린다)")
+    p.add_argument("--no-window", action="store_true",
+                   help="시뮬레이터 창 없이 돌린다. pygame-ce 가 없어도 된다")
     args = p.parse_args()
+    # 글자로 바꿀 수 없는 바이트가 든 이름(POSIX 의 surrogateescape)은 ? 로 바꿔 둔다.
+    # 그대로 두면 창 제목·hello·검색 답을 만들다 멈춘다
+    args.name = args.name.encode("utf-8", "replace").decode("utf-8")
 
     # 터미널 인코딩이 무엇이든 로그 때문에 멈추지 않게 한다
     try:
@@ -726,25 +933,35 @@ def main():
     except Exception:
         pass
 
+    pg = None
+    if not args.no_window:
+        pg, why = load_pygame()
+        if pg is None:
+            print("화면을 그리는 pygame-ce 를 불러오지 못했다: %s" % why)
+            if os.name == "nt":
+                print("이 Python 에 한 번만 설치한다: py -m pip install pygame-ce"
+                      " (python sim.py 로 실행했으면 python -m pip install pygame-ce)")
+            else:
+                print("이 Python 에 한 번만 설치한다: python3 -m pip install pygame-ce")
+            print("이 Python: %s" % sys.executable)
+            print("창 없이 돌리려면 --no-window 를 붙인다.")
+            return 1
+
     board = Board(args.name)
     tcp = TcpSide(board)
     try:
-        httpd = SimHTTPServer((args.http_bind, args.http), make_handler(board, tcp, args))
+        httpd = SimHTTPServer((args.http_bind, args.http), make_handler(board, tcp))
     except OSError as e:
-        print("화면 %d 포트를 열 수 없다: %s (--http 로 다른 포트를 준다)" % (args.http, e))
+        print("HTTP API %d 포트를 열 수 없다: %s (--http 로 다른 포트를 준다)" % (args.http, e))
         return 1
 
     print_banner(args)
-    # 화면(HTTP)과 검색(UDP)은 따로 스레드에서 돈다. TCP 는 asyncio 가 맡는다
+    # HTTP API 와 검색(UDP)은 따로 스레드에서 돈다. TCP 는 asyncio 가 맡는다
     threading.Thread(target=httpd.serve_forever, name="http", daemon=True).start()
-    code = 0
-    try:
-        asyncio.run(run(args, board, tcp, httpd))
-    except (KeyboardInterrupt, asyncio.CancelledError):
-        pass
-    except OSError as e:
-        print("포트를 열 수 없다: %s (--tcp/--udp 로 다른 포트를 준다)" % e)
-        code = 1
+    if pg is None:
+        code = run_here(args, board, tcp, httpd)
+    else:
+        code = run_with_window(args, board, tcp, httpd, pg)
     # 끝내는 동안(최대 0.5초) Ctrl+C 를 한 번 더 눌러도 트레이스백 없이 끝나게 한다
     signal.signal(signal.SIGINT, signal.SIG_IGN)
     httpd.shutdown()

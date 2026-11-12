@@ -21,7 +21,7 @@
 - 주차별 색인: [`weeks/README.md`](weeks/README.md)
 - 각 주차: `README.md`, `slides.md`, `walkthrough.md`, `lab.md`, `examples/` (강의 대본·실습 해답은 강의자 별도 관리)
 - BLE 제공 라이브러리와 보드 명령 규약: [`bleuno/README.md`](bleuno/README.md)
-- 보드 없이 PC에서 돌리는 Wi-Fi 시뮬레이터: [`iot_sim/README.md`](iot_sim/README.md)(실행 방법), [`iot_sim/lab.md`](iot_sim/lab.md)(12주차 2일차 이후 90분 실습)
+- 보드 없이 PC에서 돌리는 Wi-Fi 시뮬레이터: [`tools/bleuno-sim/README.md`](../tools/bleuno-sim/README.md)(실행 방법), [`iot_sim/lab.md`](iot_sim/lab.md)(12주차 2일차 이후 90분 실습)
 - 보드 점검·시연용 별도 앱: [bleunoApp/BleunoTest](https://github.com/gbox3d/bleunoApp/tree/main/BleunoTest). 수업은 기존 SmartIO와 `bleuno` 공통 코드로 진행한다.
 - 펌웨어·하드웨어: [bleuno 저장소](https://github.com/gbox3d/bleuno)의 `hardware/type_m/v1/`. type_m v1 원본은 모터·서보용이므로 기존 LED·DHT11 실습을 바로 적용하지 않는다. [핀맵과 차이](https://github.com/gbox3d/bleuno/blob/main/hardware/type_m/v1/pinmap.md)는 BLE 제공 라이브러리 안내와 함께 확인한다.
 - 과목별 설치 프로그램: [`ta_setup_guide.md`](ta_setup_guide.md)

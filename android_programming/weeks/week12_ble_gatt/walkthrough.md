@@ -35,7 +35,7 @@ Smart I/O Controller
 
 ### 2. bleuno 패키지 넣기
 
-1. 제공 파일 9개를 받는다. [bleuno/src](../../bleuno/src) 폴더(또는 [examples/day1/bleuno](examples/day1/bleuno))의 `Bleuno.kt`, `BleunoClient.kt`, `BleunoDevice.kt`, `BleunoMessage.kt`, `ConnState.kt`, `FakeBleunoClient.kt`, `PermissionHelper.kt`, `RealBleunoClient.kt`, `TcpBleunoClient.kt`다. `TcpBleunoClient.kt`는 보드 없이 PC의 [Wi-Fi 시뮬레이터](../../iot_sim/README.md)로 연습할 때만 쓰지만, `Bleuno.kt`가 이 클래스를 부르므로 빼면 빌드되지 않는다. 넣어 두기만 하면 앱 동작은 그대로다. 내용은 [부록](#부록--제공-bleuno-파일-전체)에도 있다.
+1. 제공 파일 9개를 받는다. [bleuno/src](../../bleuno/src) 폴더(또는 [examples/day1/bleuno](examples/day1/bleuno))의 `Bleuno.kt`, `BleunoClient.kt`, `BleunoDevice.kt`, `BleunoMessage.kt`, `ConnState.kt`, `FakeBleunoClient.kt`, `PermissionHelper.kt`, `RealBleunoClient.kt`, `TcpBleunoClient.kt`다. `TcpBleunoClient.kt`는 보드 없이 PC의 [Wi-Fi 시뮬레이터](../../../tools/bleuno-sim/README.md)로 연습할 때만 쓰지만, `Bleuno.kt`가 이 클래스를 부르므로 빼면 빌드되지 않는다. 넣어 두기만 하면 앱 동작은 그대로다. 내용은 [부록](#부록--제공-bleuno-파일-전체)에도 있다.
 2. Project 창에서 `app › kotlin+java › com.example.smartio`를 오른쪽 클릭 → **New › Package**를 고른다.
 3. 이름 칸이 `com.example.smartio.bleuno`가 되게 끝에 `bleuno`를 쓰고 Enter.
 4. 파일 탐색기(맥은 Finder)에서 받은 9개 파일을 모두 골라 복사(Ctrl+C, 맥 ⌘+C)하고, Android Studio Project 창의 `bleuno` 패키지를 한 번 누른 뒤 붙여 넣는다(Ctrl+V, 맥 ⌘+V). 복사 확인 창이 뜨면 [OK].
@@ -1549,7 +1549,7 @@ object Bleuno {
         return created
     }
 
-    // PC에서 돌리는 시뮬레이터(android_programming/iot_sim)에 Wi-Fi(TCP)로 연결하는 클라이언트를 만든다.
+    // PC에서 돌리는 시뮬레이터(tools/bleuno-sim)에 Wi-Fi(TCP)로 연결하는 클라이언트를 만든다.
     // 보드와 블루투스 없이 같은 명령·응답으로 연습한다. 만든 객체는 client에 보관한 뒤 그대로 돌려준다.
     fun createTcp(): BleunoClient {
         val created: BleunoClient = TcpBleunoClient()
@@ -2250,7 +2250,7 @@ import java.net.Socket
 import java.net.SocketTimeoutException
 import java.util.concurrent.Executors
 
-// PC에서 돌리는 시뮬레이터(android_programming/iot_sim)와 Wi-Fi(TCP)로 이야기하는 클라이언트.
+// PC에서 돌리는 시뮬레이터(tools/bleuno-sim)와 Wi-Fi(TCP)로 이야기하는 클라이언트.
 // 보드와 블루투스 없이 RealBleunoClient와 같은 명령·같은 JSON으로 연습한다. 앱 코드는 그대로다.
 //   검색: UDP로 "bleuno?"를 뿌리고, 답한 시뮬레이터마다 onFound(이름, "ip:포트"), timeoutMs 뒤 onFinished
 //   연결: connect("10.0.2.2:8266") → 연결 중 → 서비스 확인 중 → (첫 줄 hello를 받으면) 준비됨
@@ -2460,7 +2460,7 @@ class TcpBleunoClient : BleunoClient {
                 }
             }
 
-            // 첫 줄(hello)은 3초만 기다린다. 다른 포트(예: 화면 주소 :8080)에 붙으면 첫 줄이 오지 않는다.
+            // 첫 줄(hello)은 3초만 기다린다. 다른 포트(예: HTTP API :8080)에 붙으면 첫 줄이 오지 않는다.
             s.soTimeout = HELLO_TIMEOUT
             val first = try {
                 reader.readLine()

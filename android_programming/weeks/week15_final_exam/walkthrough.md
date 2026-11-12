@@ -1072,7 +1072,7 @@ object Bleuno {
         return created
     }
 
-    // PC에서 돌리는 시뮬레이터(android_programming/iot_sim)에 Wi-Fi(TCP)로 연결하는 클라이언트를 만든다.
+    // PC에서 돌리는 시뮬레이터(tools/bleuno-sim)에 Wi-Fi(TCP)로 연결하는 클라이언트를 만든다.
     // 보드와 블루투스 없이 같은 명령·응답으로 연습한다. 만든 객체는 client에 보관한 뒤 그대로 돌려준다.
     fun createTcp(): BleunoClient {
         val created: BleunoClient = TcpBleunoClient()
@@ -1773,7 +1773,7 @@ import java.net.Socket
 import java.net.SocketTimeoutException
 import java.util.concurrent.Executors
 
-// PC에서 돌리는 시뮬레이터(android_programming/iot_sim)와 Wi-Fi(TCP)로 이야기하는 클라이언트.
+// PC에서 돌리는 시뮬레이터(tools/bleuno-sim)와 Wi-Fi(TCP)로 이야기하는 클라이언트.
 // 보드와 블루투스 없이 RealBleunoClient와 같은 명령·같은 JSON으로 연습한다. 앱 코드는 그대로다.
 //   검색: UDP로 "bleuno?"를 뿌리고, 답한 시뮬레이터마다 onFound(이름, "ip:포트"), timeoutMs 뒤 onFinished
 //   연결: connect("10.0.2.2:8266") → 연결 중 → 서비스 확인 중 → (첫 줄 hello를 받으면) 준비됨
@@ -1983,7 +1983,7 @@ class TcpBleunoClient : BleunoClient {
                 }
             }
 
-            // 첫 줄(hello)은 3초만 기다린다. 다른 포트(예: 화면 주소 :8080)에 붙으면 첫 줄이 오지 않는다.
+            // 첫 줄(hello)은 3초만 기다린다. 다른 포트(예: HTTP API :8080)에 붙으면 첫 줄이 오지 않는다.
             s.soTimeout = HELLO_TIMEOUT
             val first = try {
                 reader.readLine()

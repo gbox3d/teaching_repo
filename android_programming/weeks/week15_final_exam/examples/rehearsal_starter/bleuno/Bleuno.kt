@@ -21,7 +21,7 @@ object Bleuno {
         return created
     }
 
-    // PC에서 돌리는 시뮬레이터(android_programming/iot_sim)에 Wi-Fi(TCP)로 연결하는 클라이언트를 만든다.
+    // PC에서 돌리는 시뮬레이터(tools/bleuno-sim)에 Wi-Fi(TCP)로 연결하는 클라이언트를 만든다.
     // 보드와 블루투스 없이 같은 명령·응답으로 연습한다. 만든 객체는 client에 보관한 뒤 그대로 돌려준다.
     fun createTcp(): BleunoClient {
         val created: BleunoClient = TcpBleunoClient()
