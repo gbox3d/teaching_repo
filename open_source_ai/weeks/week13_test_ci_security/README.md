@@ -1,102 +1,105 @@
-# 13주차 — 테스트·CI·보안·코드리뷰
+# 13주차 시뮬레이터 제어 평가·개선·Streamlit
 
-## 이번 주 질문
-
-> 모델 호출이 들어간 코드를 어떻게 자동으로 검사하고, 다른 사람의 변경을 어떻게 안전하게 받아들이는가?
+12주차에서 만든 Needle 3 LoRA 모델을 시뮬레이터에 연결한다. 학습 전후 호출과 실제 상태를 비교하고, 실패 원인을 분류해 수정한 요청을 다시 입력한다. 마지막에는 9주차에서 배운 Streamlit으로 제어 화면을 구성한다.
 
 ## 학습 목표
 
-수업을 마치면 다음을 할 수 있다.
-
-1. pytest의 발견 규칙·`assert`·fixture·parametrize로 스키마와 서비스 로직의 단위 테스트를 작성한다.
-2. 의존성 주입으로 모델 호출을 격리해, Ollama 서버 없이 정상·오류 경로(422·503·404·502)를 자동으로 검사한다.
-3. 실제 서버가 필요한 느린 테스트를 마커로 분리하고, ruff로 lint·format 검사를 통과시킨다.
-4. GitHub Actions workflow(`on`·`jobs`·`steps`, `setup-uv`, 캐시)를 작성해 PR 상태 체크의 초록불·빨간불을 만들고 실패 로그에서 첫 오류를 찾는다.
-5. `uv export`→`pip-audit`으로 의존성 취약점을 감사하고, 비밀 패턴·pickle 모델 파일·`trust_remote_code`를 점검 스크립트로 찾아 조치를 기록한다.
-6. 체크리스트에 따라 다른 팀의 PR을 근거→문제→제안 구조로 리뷰하고 판정한다.
-
-## 누적 결과물
-
-이번 주 실습은 **4차 종합과제(15주)** "최종 오픈소스 릴리스 패키지"의 품질·보안 부분을 채운다. 수업 시간에는 예제 복사본 `ci_lab/`과 그것을 push한 연습 저장소 `week13-ci-lab`에서 테스트·workflow·감사·보안 점검을 만든다. 여기서 만든 `tests/`와 `.github/workflows/ci.yml`을 팀 저장소로 옮겨(요청 필드와 상태 코드는 팀 코드에 맞춘다) 초록불을 만드는 것이 다음 수업 전까지 끝내야 할 일이다. 14주차 `v0.1.0` 릴리스와 4차 과제의 `uv run pytest -q` 통과가 그 상태를 전제로 하기 때문이다. 12주차 3차 과제의 서비스 베타가 테스트 대상이다.
+- 같은 미학습 문항·도구·생성 조건과 같은 초기 상태에서 기본 모델과 학습 모델을 비교한다.
+- 함수 선택 오류, 인자 오류, 실행·연결 오류를 구분하고 관찰 근거를 설명한다.
+- 호출의 허용 목록과 인자를 검사한 뒤 실행하고, `GET /state`로 실제 상태를 확인한다.
+- 오류 분석에서 찾은 문제를 요청·도구 설명·학습 데이터 중 알맞은 위치에서 고친다.
+- Streamlit의 모델 캐시와 세션별 연결을 구분하고 중복 실행을 막는다.
 
 ## 수업 흐름
 
-| 블록 | 설명·시연 20분 | 직접 해결 실습 30분 | 핵심 증거 |
+| 교시 | 설명·시연 20분 | 실습 30분 | 확인할 자료 |
 |---|---|---|---|
-| 1교시 | pytest 구조(발견·assert·fixture·parametrize), 모델 호출 격리(가짜 클라이언트·의존성 주입), 단위 vs 통합과 느린 테스트 표시, ruff(lint·format) | 가짜 클라이언트로 서비스 테스트 만들기 | `uv run pytest` 출력(추가한 테스트 3개 포함 통과), `ruff check`·`ruff format --check` 통과 출력 |
-| 2교시 | GitHub Actions workflow 구조(`on`·`jobs`·`steps`), `astral-sh/setup-uv`와 캐시, PR 상태 체크·branch protection, 실패 로그 읽기 | GitHub Actions로 초록불과 빨간불 만들기 | Actions 실행 URL(성공 1·실패 1), 실패한 step 이름과 첫 오류 줄, 수정 commit |
-| 3교시 | 공급망 보안(`pip-audit`, lock 검증, 타이포스쿼팅), 비밀 유출 방지(gitignore·secret scanning·pre-commit), 모델 파일 안전(pickle vs safetensors, `trust_remote_code`), 교차 코드리뷰 체크리스트 | 의존성 감사와 비밀 검색, 교차 리뷰 | `outputs/audit-*.md`, `outputs/security-*.md`(깨끗한 결과 + 심어 둔 문제를 잡은 결과), 리뷰 코멘트 URL |
+| 1교시 | 비교 조건, 호출 판정, 실제 상태 조회 | `uv run ex01`로 학습 전후 제어 평가 | 같은 문항의 예상 호출·모델 호출·실제 상태 |
+| 2교시 | 오류 분류, 수정 이유, 평가 문항 분리 | `uv run ex02`에서 수정 요청을 반복 입력 | 원래 요청과 수정 요청, 오류 원인과 재확인 |
+| 3교시 | Streamlit 재실행, 모델 캐시, 세션 연결 | `uv run ex03`로 제어 UI 실행 | 요청·호출·함수 반환·상태 표시와 명시적 연결 해제 |
 
-각 블록은 설명·시연 20분, 실습 30분, 휴식 10분으로 운영한다. 분반 시간표에 따라 두 블록과 한 블록이 다른 날에 배치될 수 있으며, 블록 순서는 바꾸지 않는다.
+각 교시는 설명·시연 20분, 실습 30분, 휴식 10분이다. 실습 30분의 세부 시간은 [실습지](lab.md)를 따른다.
 
-## 준비물
+## 준비와 실행
 
-- Git, VS Code, uv, PowerShell (1주차 `env_check.md`로 확인한 상태). Ollama는 통합 테스트에만 필요하며 없어도 이번 주 실습은 진행된다.
-- GitHub 계정(2주차)과 팀 저장소(9주차). 2교시는 새 저장소를 만들어 push하므로 로그인 상태를 확인한다.
-- 12주차 서비스 코드(`ai_service/`)와 3차 과제 저장소. 예제 `ci_lab/`은 같은 구조를 줄여 다시 쓴 것이므로 12주차 코드가 없어도 실습은 가능하다(요청 필드·예외 이름·상태 코드는 12주차와 다르다).
-- 네트워크: 2교시 GitHub Actions와 3교시 `pip-audit`은 네트워크가 필요하다. 없을 때의 대체 경로는 [실행 예제](examples/README.md)에 있다.
-- 수업 전 `uv sync`를 한 번 실행해 패키지 캐시를 채워 둔다. 기본 모델(`OLLAMA_MODEL`)은 이미 캐시되어 있으며 실습 시간에 모델을 내려받지 않는다.
-- 정확한 도구 버전은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
-- 실제 이름, 학번, 전화번호, 비밀번호나 API 토큰은 실습 파일과 공개 저장소에 넣지 않는다. 3교시에 심어 두는 "가짜 토큰"은 커밋하지 않고 검출 확인 뒤 즉시 삭제한다. 표시 이름은 `student01`, 팀명은 `team-a` 같은 수업용 값을 쓴다.
+Python 3.12와 uv를 사용한다. `teaching_repo` 전체를 clone한 작업 폴더에서 실습한다. `examples/`만 복사하면 `tools/bleuno-control`의 로컬 패키지 `bleuno_control`을 찾지 못한다.
 
-## 교시별 예제
+수업 전 패키지·Cactus 엔진·기본 모델과 12주차 `tuned.cact`를 준비한다. 모델 다운로드는 실습 시간에 하지 않는다. 시뮬레이터의 TCP 제어와 HTTP 상태 조회가 모두 가능한지 확인한다. 준비된 파일이 없으면 실패한 준비 단계와 오류를 기록하고, 실행한 것처럼 결과를 채우지 않는다.
 
-| 교시 | 실습 코드·자료 |
+```sh
+# teaching_repo 루트에서
+cd open_source_ai/weeks/week13_test_ci_security/examples
+uv sync
+uv run ex01
+uv run ex02
+uv run ex03
+```
+
+명령은 순서대로 해당 교시에 실행한다. `ex03`는 Streamlit을 시작하는 진입점이다. `ex01`은 16문항을 순차 자동 평가한다. `ex02`는 요청을 반복 입력하며 빈 입력은 건너뛰고 `/bye`로 종료한다. 각 요청은 문맥을 초기화한 독립 요청이다. 자세한 준비·종료 절차는 [따라하기](walkthrough.md)와 [예제 안내](examples/README.md)를 따른다.
+
+| 명령 | 소스 |
 |---|---|
-| 1교시 | [period1](examples/period1/README.md) |
-| 2교시 | [period2](examples/period2/README.md) |
-| 3교시 | [period3](examples/period3/README.md) |
+| `uv run ex01` | [ex01_evaluate](examples/src/ex01_evaluate/__init__.py) |
+| `uv run ex02` | [ex02_improve](examples/src/ex02_improve/__init__.py) |
+| `uv run ex03` | [ex03_app](examples/src/ex03_app/__init__.py), [화면 코드](examples/src/ex03_app/app.py) |
 
-각 폴더의 README에 실습 시간별 파일, 실행 위치, 예상 출력과 이전 산출물을 적었다. 학생이 추가하는 기능·테스트와 팀별 기록은 실습지대로 작성한다.
+[shared.MODELS_DIR](examples/src/shared/__init__.py)은 12주차 `examples/models/`를 가리킨다. `baseline.cact`·`tuned.cact`를 13주차로 복사하지 않는다. `ex03`는 headless로 시작하므로 `http://127.0.0.1:8501`을 직접 연다. 한 PC에서는 제어 창 하나를 사용한다.
 
-## 자료 안내
+## 제어 함수 계약
 
-- [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료
-- [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
-- [실행 예제](examples/README.md): 가짜 클라이언트 테스트 + GitHub Actions workflow + 감사·보안 점검 스크립트 + 리뷰 체크리스트
-- 강의 대본: 강의자 별도 관리(비공개)
+| 함수 | 인자 | 허용 범위 |
+|---|---|---|
+| `turn_on(index)` | `index` | 정수 0~3 |
+| `turn_off(index)` | `index` | 정수 0~3 |
+| `set_brightness(index, value)` | `index`, `value` | 정수 0~3, 정수 0~255 |
+| `read_environment()` | 없음 | 센서 함수 반환에서 온도·습도를 읽음 |
 
-## 권장 진행 방식
+모델은 호출을 제안한다. 실행 코드는 함수 이름, 인자 이름·타입·범위를 먼저 검사한다. `"1"`, `1.5`, `True`를 정수 인덱스로 허용하지 않는다. 검증을 통과한 호출도 사용자의 의도와 다를 수 있으므로 정답 호출과 대조한다. LED 상태는 `GET /state`, 센서값은 `read_environment()`의 실제 반환으로 확인한다.
 
-1. 테스트를 쓰기 전에 "이 테스트가 실패하면 무엇이 잘못된 것인가"를 한 문장으로 적는다. 그 문장이 안 나오면 테스트가 아니라 실행 기록이다.
-2. 정상 경로 테스트를 먼저 통과시키고, 12주차에서 손으로 재현했던 실패 경로(연결 실패·모델 없음·잘못된 요청)를 가짜 클라이언트의 `fail_with`로 옮긴다.
-3. CI는 로컬에서 통과한 것만 push한다. 빨간불은 **일부러** 한 번 만들어 로그 읽는 순서를 몸에 익힌다.
-4. 감사·보안 점검 결과는 캡처 대신 `outputs/`의 Markdown을 증거로 쓴다. 찾은 비밀의 내용은 어디에도 다시 적지 않는다.
-5. 리뷰 코멘트는 근거(파일·줄·로그)가 없으면 남기지 않는다. 취향은 `nit`로 표시하고 판정에 넣지 않는다.
+시뮬레이터를 먼저 시작한다. 공용 `Board`의 기본 주소는 TCP `127.0.0.1:8266`, HTTP `http://127.0.0.1:8080`이다. TCP 연결은 대화나 세션 동안 한 번 유지한다. 연결을 해제하면 LED가 초기화되므로, 비교할 때는 매번 같은 초기 상태를 설정하고 조회한다. 브라우저를 닫는 것만으로 연결 해제를 보장하지 않는다.
 
-## 완료 기준
+## 비교와 개선의 기준
 
-- [ ] 예제 복사본에서 `uv run pytest -q`가 통과하고, 직접 추가한 테스트 3개(공백 prompt 거절·system 프롬프트 순서·모델 없음→404)가 포함되어 있다.
-- [ ] `uv run ruff check .`와 `uv run ruff format --check .`가 통과하며, 일부러 만든 lint 오류를 `--fix`로 고친 기록이 있다.
-- [ ] `uv run pytest -m integration`이 `RUN_INTEGRATION` 유무에 따라 `skipped` 또는 실제 실행으로 갈리는 것을 확인했다.
-- [ ] GitHub 저장소의 Actions에 성공 실행 1건과 실패 실행 1건이 있고, 실패한 step 이름과 첫 오류 줄을 기록했다.
-- [ ] PR이 초록불 상태로 merge되었다.
-- [ ] `outputs/audit-*.md`에 검사한 패키지 수·취약점 수와 다음 행동이 있다(네트워크가 없으면 `--sample` 결과와 그 사실).
-- [ ] `security_check.ps1`이 깨끗한 저장소에서 문제 0건, 심어 둔 `.env` 스테이지·가짜 토큰·`.pt` 파일을 모두 잡았고, 심은 것을 전부 제거했다.
-- [ ] 다른 팀 PR에 체크리스트 기반 코멘트 2개 이상과 판정을 남기고 코멘트 URL을 기록했다.
+기본 4bit·20층과 학습 4bit·20층을 비교한다. 배포 기본 2bit와 학습 4bit를 비교한 결과를 LoRA만의 효과로 설명하지 않는다. 공용 [control_cases.json](../../../tools/bleuno-control/src/bleuno_control/data/control_cases.json)의 16문항(한국어 8·영어 8, 호출 10·무호출 6)을 사용하고 도구 정의·생성 조건·문항별 대화 초기화도 맞춘다. 학습 원본 48개와 정확 문자열 중복은 없지만 의미까지 완전히 독립임을 증명하지는 않는다. 매 문항 초기 LED는 `[0, 64, 128, 255]`로 복원한다.
 
-## 제출 증거
+함수 선택, 인자까지의 호출 일치, 실제 상태·함수 반환을 포함한 성공을 나눠 읽는다. 미실행·연결 실패를 성공으로 세거나 분모에서 조용히 빼지 않는다. 수치는 자신의 실행에서 관찰한 값만 적는다. 학습 loss 감소는 미학습 제어 성공과 다른 근거다.
 
-이번 주는 별도 제출물이 없다. 아래 증거를 개인 저장소에 누적한다.
+2교시 `ex02_improve`의 `DESCRIPTIONS = {}`에 도구별 설명을 넣어 변경 실험을 한다. 설명 변경 전후 결과와 LoRA 전후 결과는 따로 기록한다. LoRA 전후에는 같은 설명을 쓴다. `ex03`는 저장한 `tuned.cact`와 공용 기본 설명을 사용하므로 `DESCRIPTIONS` 수정이 자동 전달되지 않는다. 같은 경로의 모델을 재학습했다면 UI 서버를 재시작해 캐시된 이전 모델을 비운다.
 
-1. `uv run pytest -q` 최종 출력과 추가한 테스트 3개의 commit id
-2. `ruff check`·`ruff format --check` 통과 출력, 일부러 만든 오류와 `--fix` 전후 diff 요약
-3. Actions 실행 URL 2개(성공·실패), 실패 step 이름·첫 오류 줄·수정 commit id, merge된 PR URL
-4. `evidence/week13/audit-*.md`, `evidence/week13/security-*.md`(깨끗한 결과 1 + 문제 검출 결과 1)
-5. `reviews/week13.md`: 리뷰한 PR URL, 판정, 코멘트 URL, 받은 응답 요약
+2교시의 수정 대화는 오류 분석 연습이다. 요청이나 도구 설명을 바꿨다면 1교시와 조건이 달라졌음을 기록한다. 미학습 평가 문항의 원문·정답을 학습 데이터에 옮기지 않는다. 재학습은 [12주차 LoRA 절차](../week12_ai_service_deploy/README.md)로 돌아가 저장·복원까지 수행한다.
 
-터미널 출력과 Markdown에는 사용자 홈 경로가 포함될 수 있다. 제출 전에 개인 식별 정보와 토큰 패턴이 없는지 `security_check.ps1`로 다시 확인한다.
+## 수업 준비 환경의 단일 실측
 
-## 다음 주 연결
+Mac arm64 CPU, JAX 0.12.0.1, cactus-compute 4.2.0에서 학습·저장 후 새 프로세스로 복원해 실제 제어를 비교한 결과다. 교재 준비 과정에서 측정한 1회 실측이다. 초기 LED `[0, 64, 128, 255]`, 같은 도구·엔진·생성 조건에서 기본·학습 4bit·20층을 비교했다.
 
-14주차 `week14_release_feedback`에서는 CI가 초록불인 팀 저장소를 `v0.1.0`으로 릴리스한다. README·LICENSE·CHANGELOG·Model Card를 점검표로 보완하고, 다른 팀이 README만 보고 재현하도록 한 뒤 피드백 Issue를 받는다. 이번 주 `REVIEW_CHECKLIST.md`의 보안·출처 항목이 릴리스 점검표에 그대로 들어간다. 다음 수업 전에 이번 주 `tests/`와 `.github/workflows/ci.yml`을 팀 저장소로 옮기고 Actions가 초록불인지 확인한다. 옮기지 못한 팀은 그 사실과 남은 작업을 팀 저장소 Issue로 남긴다.
+| 관찰 지표 | baseline | tuned |
+|---|---:|---:|
+| 실제 제어 성공 | 9/16 (56.25%) | 10/16 (62.5%) |
+| 무호출 문항의 오호출률 | 1/6 | 0/6 |
+| 영어 문항 성공 | 7/8 | 7/8 |
+| 한국어 문항 성공 | 2/8 | 3/8 |
+| 256토큰 예산 소진 오류 | 1문항 | 1문항 |
+| median | 68.5ms | 69.6ms |
+| p95 | 206.8ms | 236.9ms |
 
-## 참고 자료
+오류 문항도 전체 분모 16에 포함했다. p95는 정렬한 16개에서 `ceil(0.95 × 16)`번째이므로 이 표에서는 최댓값이다. 함수 정확도·호출 완전일치의 별도 실측은 제공되지 않아 추정하지 않는다. 작은 평가에서 한 문항이 달라진 결과이며 일반적인 성능 향상이나 학생 PC의 시간을 보장하지 않는다. 남은 한국어 오류와 예산 소진을 2교시 분석의 출발점으로 쓴다.
 
-- [pytest 공식 문서](https://docs.pytest.org/)
-- [Ruff 공식 문서](https://docs.astral.sh/ruff/)
-- [GitHub Actions 공식 문서](https://docs.github.com/en/actions)
-- [astral-sh/setup-uv 액션 README](https://github.com/astral-sh/setup-uv)
-- [pip-audit (PyPI)](https://pypi.org/project/pip-audit/)
-- [safetensors 공식 문서](https://huggingface.co/docs/safetensors/)
-- [GitHub secret scanning 문서](https://docs.github.com/en/code-security/secret-scanning)
+12주차 학습은 원본 48개 중 학습 42개·validation 6개, 4 epochs·batch 4·44 steps로 수행했다. 실제 최장 305토큰, 패딩 512로 처리했으며 `MAX_LEN=1024` 초과에 따른 자동 잘림은 없었다. 준비·최초 다운로드·학습·저장을 합친 339.4초(약 5분 39초)와 위 추론 응답 시간은 별개다. 339.4초를 순수 학습 시간이나 수업 시간 보장치로 해석하지 않는다.
+
+## 자료
+
+- [실습지](lab.md): 문제·30분 시간표·완료 기준
+- [따라하기](walkthrough.md): 준비부터 연결 해제까지의 실행 순서
+- [한국어 슬라이드](slides.md), [영어 슬라이드](slides_en.md): 같은 순서의 23장
+- [예제 안내](examples/README.md): 한 프로젝트의 세 진입점과 교시별 안내
+- 강의 대본과 실습 해설은 비공개 강의자 자료에 둔다.
+
+이번 주의 비교·수정 근거는 12주차 종합과제의 분석을 보완하는 학습 자료다. 학교별 제출·배점·마감은 해당 강좌 안내를 따른다. 15주차 원광대학교 소개 챗봇 기말과제와 구분한다. 다음 [14주차](../week14_release_feedback/README.md)에는 기말 챗봇의 공개 평가 규격을 다룬다.
+
+## 출처와 수업 설계
+
+[Cactus의 Needle Python Docs](https://cactuscompute.com/blog/needle-python-docs)는 `complete()`의 호출 제안, `reset()`의 대화 초기화, `.cact` 복원과 학습 모델의 `confidence=None`을 설명한다. [Fine-tuning Needle](https://cactuscompute.com/blog/finetuning-needle)은 로컬 LoRA의 4bit 학습·내보내기와 loss 해석을 설명한다. 시뮬레이터 함수, 동일 상태 비교, Streamlit 세션 운영은 이 수업의 설계다. 공식 API 설명과 수업 예제의 실행 확인을 구분한다.
+
+## 재학습 후 앱 재시작
+
+12주차에서 같은 `tuned.cact` 경로를 재학습해 덮어썼다면, 화면에서 연결을 해제하고 앱 서버 터미널에서 `Ctrl+C`를 누른 뒤 `uv run ex03`로 다시 시작한다. 브라우저 새로고침만으로 캐시된 가중치는 갱신되지 않는다.

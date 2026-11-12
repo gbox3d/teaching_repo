@@ -1,0 +1,68 @@
+[
+  {
+    "name": "turn_on",
+    "description": "Turn on one LED. Use the explicitly stated LED index 0 to 3.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      },
+      "required": [
+        "index"
+      ]
+    }
+  },
+  {
+    "name": "turn_off",
+    "description": "Turn off one LED. Use the explicitly stated LED index 0 to 3.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      },
+      "required": [
+        "index"
+      ]
+    }
+  },
+  {
+    "name": "set_brightness",
+    "description": "Set one LED brightness to the stated integer from 0 to 255.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        }
+      },
+      "required": [
+        "index",
+        "value"
+      ]
+    }
+  },
+  {
+    "name": "read_environment",
+    "description": "Read the current temperature and humidity. No changing sensor values.",
+    "parameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  }
+]

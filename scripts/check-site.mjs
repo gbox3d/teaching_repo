@@ -5,11 +5,11 @@ import { runInNewContext } from "node:vm";
 import { isDeepStrictEqual } from "node:util";
 
 const EXPECTED_DECKS = 50;
-const EXPECTED_SLIDES = 1076;
+const EXPECTED_SLIDES = 1052;
 const EXPECTED = {
   android: { slug: "android", decks: 15, slides: 304, status: "published" },
   web: { slug: "webprg", decks: 18, slides: 322, status: "published" },
-  "open-source-ai": { slug: "open_source_ai", decks: 17, slides: 450, status: "published" },
+  "open-source-ai": { slug: "open_source_ai", decks: 17, slides: 426, status: "published" },
 };
 const BLOB = "https://github.com/gbox3d/teaching_repo/blob/main";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");

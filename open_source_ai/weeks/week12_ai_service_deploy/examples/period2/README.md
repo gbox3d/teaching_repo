@@ -1,43 +1,34 @@
-# 12주차 2교시 — 스트리밍 채팅 UI
+# 12주차 2교시 짧은 로컬 LoRA 학습과 저장
 
-[해당 실습 단계·문제·완료 조건](../../lab.md#2교시-실습--스트리밍-채팅-ui-연결) · [교시별 색인](../README.md)
+[실습지](../../lab.md) · [예제 전체 안내](../README.md) · [따라하기](../../walkthrough.md)
 
-1교시 API에 SSE와 Gradio UI를 추가한 **누적 참조 구현**이다. 1교시 학생 과제 GET /models의 답은 포함하지 않았다. 개인 1교시 구현은 실습지 전환 절에 따라 옮긴다. Docker는 3교시 자료다.
+## 실행 위치와 소스
 
-## 시간별 파일 대응
-
-| 실습 시간 | 단계 | 이 폴더의 파일·경로 | 확인할 증거 |
-|---|---|---|---|
-| 0–4분 | 시간 예상 | `app/main.py`, `ui/gradio_app.py` | 첫 글자·전체 시간 예상 |
-| 4–10분 | SSE 원문 | `smoke_test.py --show-events` | delta·done, first_chunk_ms·total_ms |
-| 10–18분 | UI 두 모드 | `ui/gradio_app.py` | once/stream 비교표 |
-| 18–25분 | Stop·오류 | `ui/gradio_app.py`의 `ERROR_HINTS` | 중단·연결 실패·502 문구 |
-| 25–30분 | 검증·기록 | `outputs/ui-turns.jsonl` | 시간 및 error:true 2건 |
-
-파일명이 짧게 적힌 경우 바로 앞 열의 같은 하위 폴더를 기준으로 읽는다. 시간과 완료 조건은 연결된 실습지를 따른다.
-
-## 실행 위치와 명령
-
-이 `period2/` 폴더를 개인 실습 공간에 **처음 한 번 폴더째** 복사하고 그 안에서 실행한다. 숨김 파일도 포함한다. 이미 개인 교시 폴더가 있으면 다시 복사하지 않고 이어 한다. `.env`와 작성한 기록도 새 양식으로 덮어쓰지 않는다. 실제 준비 명령은 위 실습지 링크를 따른다. Python 명령은 `pyproject.toml` 옆에서 실행한다. `uv.lock`·`.venv/`는 배포하지 않았으므로 최초 `uv sync`로 개인 환경을 만든다.
+1교시와 같은 `open_source_ai/weeks/week12_ai_service_deploy/examples` 프로젝트에서 이어 간다. 이 `period2/`로 소스나 환경을 복사하지 않는다. `[project.scripts]`의 `ex02_train:main`과 [src/ex02_train/__init__.py](../src/ex02_train/__init__.py)를 읽는다.
 
 ```powershell
-uv sync
-uv run uvicorn app.main:app --port 8000 --reload
-# 다른 터미널도 이 폴더에서
-uv run python smoke_test.py --show-events --max-tokens 300
-uv run python ui/gradio_app.py --no-stream
-# UI를 Ctrl+C로 종료한 뒤
-uv run python ui/gradio_app.py
+uv run ex02
 ```
 
-## 기본 실행과 실습 후 검증
+공식 cactus 컴포넌트로 학습·내보내기를 수행한다. 의존성은 `cactus-compute[train]==4.2.0`이다. 학습 원본은 `src/shared/data/train_examples.jsonl`이다. 공용 함수가 스키마를 합친 `models/training_input.jsonl`을 만들며 이 파일은 평가 결과가 아닌 학습 입력이다. 산출 경로와 실패 시 확인 위치는 [전체 안내](../README.md)를 따른다. Mac arm64 CPU 실측은 [주차 안내](../../README.md)를 참고하고 Metal·CUDA 등 다른 환경은 수업 전에 확인한다.
 
-API는 8000, UI는 7860에서 열린다. SSE에 delta·done 이벤트가 보이고, 두 UI 모드의 first_ms·total_ms가 outputs/ui-turns.jsonl에 기록된다. ERROR_HINTS는 실습 문제 2에서 자기 팀 사용자에 맞게 고친다.
+## 실습 순서
 
-## 이전 산출물과 다음 단계
+30분의 세부 시간은 [실습지](../../lab.md)가 정본이다.
 
-1교시의 실패 예상표·outputs와 직접 만든 GET /models를 이어받는다. 이전 서버는 Ctrl+C로 종료하고 이 교시 폴더에서 새로 실행한다.
+| 순서 | 읽거나 실행할 것 | 확인할 근거 |
+|---|---|---|
+| 설정 | 학습 모듈 맨 위 `EPOCHS`, `BATCH_SIZE`, `MAX_LEN`, `LEARNING_RATE` | 실제 값과 선택 이유 |
+| 길이 | 도구 정의·reasoning·정답 호출을 포함한 렌더링 | 모든 예제의 최장 토큰 길이와 초과 여부 |
+| 학습 | `uv run ex02` | 실제 loss 변화, 완료 또는 실패 위치 |
+| 저장·내보내기 | `adapter.safetensors`, `tuned.cact` | 두 파일의 실제 위치와 생성 확인 |
 
-## 대체 경로
+현재 초기값은 `EPOCHS=4`, `BATCH_SIZE=4`, `MAX_LEN=1024`, `LEARNING_RATE=1e-4`이며 데이터·실행 환경에 맞춰 조정할 수 있다. 모든 렌더링 예제의 최장 토큰 길이를 학습 전에 검사하고 `MAX_LEN` 초과 시 중단한다.
 
-모델이 없으면 다운로드하지 않고 앱 서버 중단·없는 Ollama 포트의 UI 오류를 기록한다. 정상 스트리밍 비교는 캐시 모델이 있는 PC에서 마무리한다.
+`models/adapter.safetensors`는 LoRA 변화량이다. 내보내기는 기본 체크포인트와 변화량을 병합해 추론용 `models/tuned.cact`를 만든다. 공용 함수는 B=0인 `models/baseline_adapter.safetensors`와 기본 4bit·20L의 `models/baseline.cact`도 만든다. B=0 어댑터는 기본 가중치를 바꾸지 않는다. 기본 체크포인트는 `models/checkpoints/needle3.safetensors`다. 어댑터 파일을 추론 API의 `weights=`에 바로 넣지 않는다. 파일명을 바꾸는 것으로 형식을 변환할 수 없다.
+
+loss 감소와 미학습 문항 성공은 별도로 확인한다. 관찰하지 않은 학습 시간·성공률은 적지 않는다. 실습 시간이 끝나도 학습이 진행 중이면 그 상태를 기록한다. 사전 준비 산출물을 썼다면 자기 학습 결과와 구분한다.
+
+## 다음 교시에 넘길 내용
+
+수정 데이터와 실제 상수, 길이 점검, loss 관찰, 어댑터·`.cact`의 실제 저장 위치를 보존한다. 내보내기 실패는 저장 성공과 구분한다. 학습 프로세스를 종료한 뒤 3교시 `uv run ex03`의 새 프로세스에서 복원한다. scripts 자체를 고친 경우에는 먼저 `uv sync`를 다시 실행한다.

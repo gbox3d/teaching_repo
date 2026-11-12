@@ -3,388 +3,305 @@ marp: true
 theme: default
 paginate: true
 header: "오픈소스 AI 응용 · 13주차"
-footer: "테스트·CI·보안·코드리뷰"
+footer: "시뮬레이터 제어 평가·개선·Streamlit"
 ---
 
 # 13주차
-## 테스트·CI·보안·코드리뷰
+## 시뮬레이터 제어 평가·개선·Streamlit
 
-**60분 블록 × 3**<br>
-매 블록 설명·시연 20분 + 직접 해결 실습 30분 + 휴식 10분
+60분 블록 3개
+
+12주차 Needle 3 LoRA 결과를 제어 호출과 실제 상태로 확인한다.
+
 
 ---
 
-## 이번 주 세 블록
+## 전체 일정
 
-| 교시 | 설명·시연 20분 | 직접 해결 실습 30분 |
+| 교시 | 0–20분 설명·시연 | 20–50분 실습 |
 |---|---|---|
-| 1교시 | pytest 구조, 모델 호출 격리, 단위 vs 통합, ruff | 가짜 클라이언트로 서비스 테스트 만들기 |
-| 2교시 | GitHub Actions 구조, setup-uv·캐시, 상태 체크, 실패 로그 | GitHub Actions로 초록불과 빨간불 만들기 |
-| 3교시 | 공급망 보안, 비밀 유출 방지, 모델 파일 안전, 리뷰 체크리스트 | 의존성 감사와 비밀 검색, 교차 리뷰 |
+| 1교시 | 같은 조건의 학습 전후 비교 | `uv run ex01` 제어 평가 |
+| 2교시 | 오류 분류와 수정 근거 | `uv run ex02` 수정 대화 |
+| 3교시 | 캐시·세션·재실행 | `uv run ex03` Streamlit |
 
-이번 주 질문: **모델 호출이 들어간 코드를 어떻게 자동으로 검사하고, 다른 사람의 변경을 어떻게 안전하게 받아들이는가?**
+매 교시 50–60분은 휴식이다. 실습 세부 시간은 [lab.md](lab.md)를 따른다.
 
----
-
-<!-- _class: lead -->
-
-# 1교시 · 설명 20분
-## 모델을 끄고도 검사한다
 
 ---
 
-## 0–3분 · "내 PC에서는 됨"을 자동화한다
+## 1교시 0–4분: 비교 대상과 산출물
 
-12주차에 502·503·504를 **손으로** 재현했다 — 환경변수 바꾸고, 서버 재시작하고, 눈으로 확인.
+4주차 대화, 7주차 LoRA, 9주차 Streamlit을 이어 쓴다.
 
-- 리뷰어마다, PR마다 그 절차를 반복하면 결국 아무도 안 한다
-- 테스트 = 그 확인 절차를 **코드로 적어 둔 것**. `uv run pytest` 한 줄로 반복
-- 검사하는 것: 우리 코드의 변환·검증·오류 매핑
-- 검사하지 않는 것: 모델 답의 품질(11주차 평가의 일)
+12주차 `examples/models/`의 파일을 복사 없이 읽는다.
 
-**질문:** 모델 답이 매번 달라지는데, 무엇을 `assert`할 수 있는가?
+- `adapter.safetensors`: 학습한 변화량
+- `baseline_adapter.safetensors`: B=0, 기본 가중치 유지
+- `baseline.cact`·`tuned.cact`: 비교할 추론 파일
+
+<!-- 출처: https://cactuscompute.com/blog/finetuning-needle ; 파일 경로·baseline 생성은 수업 코드 -->
 
 ---
 
-## 3–6분 · pytest 구조 — 발견·assert·출력
+## 1교시 4–8분: 같은 평가 조건
 
-```python
-# tests/test_schemas.py   ← 파일 test_*.py, 함수 test_* 이면 자동으로 찾는다
-from app.schemas import ChatRequest
+기본 4bit·20층과 학습 4bit·20층을 비교한다.
 
-def test_valid_request_uses_defaults():
-    request = ChatRequest(prompt="질문")
-    assert request.temperature == 0.2   # 실패하면 양쪽 값을 함께 보여 준다
+- 평가 16문항: 한국어 8·영어 8, 호출 10·무호출 6
+- 같은 문항·순서·도구 설명·생성 조건, 요청마다 `reset()`
+- 매 문항 초기 LED `[0, 64, 128, 255]` 복원·조회
+
+학습 48문장과 정확 문자열 중복은 없다. 의미 독립성까지 보장하지는 않는다.
+
+<!-- 출처: https://cactuscompute.com/blog/finetuning-needle ; 평가 구성은 수업 데이터 -->
+
+---
+
+## 1교시 8–12분: 실행 전 호출 검증
+
+| 허용 함수 | 인자 범위 |
+|---|---|
+| `turn_on(index)` | 정수 0~3 |
+| `turn_off(index)` | 정수 0~3 |
+| `set_brightness(index, value)` | 정수 0~3, 정수 0~255 |
+| `read_environment()` | 인자 없음 |
+
+모델은 제안한다. 실행 코드는 목록 전체의 이름·타입·범위를 검사한다.
+형식이 맞아도 사용자 의도와 다를 수 있다.
+
+
+---
+
+## 1교시 12–16분: 호출과 실제 결과
+
+- 예상 호출과 제안한 함수·인자를 대조한다.
+- LED는 실행 후 `GET /state`로 확인한다.
+- 온도·습도는 `read_environment()`의 실제 반환에서 읽는다.
+- TCP 연결은 대화·세션 동안 한 번 유지한다.
+
+연결 해제 시 LED가 초기화된다. 다음 비교의 시작 상태를 다시 맞춘다.
+
+
+---
+
+## 1교시 16–20분: 평가 실행과 해석
+
+`uv run ex01`은 16문항을 자동 평가한다. CPU에서 측정한 결과(1회):
+
+| 지표 | baseline | tuned |
+|---|---:|---:|
+| 실제 제어 성공 | 9/16 (56.25%) | 10/16 (62.5%) |
+| 오호출률 | 1/6 | 0/6 |
+| median | 68.5ms | 69.6ms |
+| p95 | 206.8ms | 236.9ms |
+
+각 모델의 256토큰 예산 소진 1건도 분모 16에 포함했다.
+p95는 이 16개에서 최댓값이다. 한 문항 차이로 일반 성능을 보장하지 않는다.
+
+<!-- 출처: 2026-11-13 교재 준비 중 새 프로세스 복원·실제 제어 실측. Mac arm64 CPU, JAX 0.12.0.1, cactus-compute 4.2.0. -->
+
+---
+
+## 1교시 20–50분: 학습 전후 제어 평가 실습
+
+[실습지](lab.md#1교시-실습-학습-전후-제어-평가) · [예제 안내](examples/period1/README.md)
+
+`uv run ex01`
+
+확인할 근거:
+
+- 같은 미학습 문항·4bit·20층·초기 상태
+- 예상 호출, 모델 제안, 함수 반환과 실제 상태
+- 전체 시도 수와 실패 원인
+
+세부 시간은 실습지를 따른다. 끝나면 연결을 해제한다.
+
+
+---
+
+## 1교시 50–60분: 휴식
+
+제어 연결을 해제한 상태인지 확인한다.
+
+2교시에는 비교 기록의 오류 사례를 이어 쓴다.
+실행하지 못한 항목은 미확인으로 남긴다.
+
+
+---
+
+## 2교시 0–4분: 오류 분류
+
+| 관찰 사례 | 분류 |
+|---|---|
+| 끄기 요청에 `turn_on` | 함수 선택 오류 |
+| `turn_off`지만 다른 LED 번호 | 인자 의미 오류 |
+| 밝기 300 제안 | 인자 범위 검증 실패 |
+| 올바른 호출 뒤 상태 조회 실패 | 연결·실행 오류 |
+
+위 사례는 분류용 가상 예다. 자신의 실제 관찰을 근거로 판단한다.
+
+
+---
+
+## 2교시 4–8분: 수정 요청 재입력
+
+```sh
+uv run ex02
 ```
 
-```text
-uv run pytest -q
-...........F.......                                            [100%]
-FAILED tests/test_service.py::test_chat_converts_fake_response - assert 1500000.0 == 1500.0
+`src/ex02_improve/__init__.py`가 12주차 `tuned.cact`를 읽는다.
+
+필요한 번호·동작·밝기를 명시해 다시 입력한다.
+같은 초기 상태에서 원문·수정문·호출·상태를 비교한다.
+수정 요청의 성공은 원래 평가 점수와 구분한다.
+
+---
+
+## 2교시 8–12분: 반복 입력과 문맥 유지
+
+`ex02`는 반복 입력을 받지만 현재 요청은 모두 독립적이다.
+
+- 공용 predictor가 요청마다 `reset()`한다.
+- “그 LED”의 번호를 이전 문맥에서 추측하지 않는다.
+- 요청 재입력은 가중치 학습과 다르다.
+
+빈 입력은 건너뛰고 `/bye`로 종료한다.
+
+<!-- 출처: https://cactuscompute.com/blog/needle-python-docs ; 현재 초기화·종료 규격은 수업 설계 -->
+
+---
+
+## 2교시 12–16분: 설명·학습 데이터 수정
+
+`ex02_improve`의 `DESCRIPTIONS = {}`에서 도구 설명을 바꾼다.
+별도 개발 예로 변경 전후를 기록한다.
+
+LoRA 전후 비교에는 같은 설명을 쓴다.
+미학습 평가 원문·정답을 학습 데이터에 옮기지 않는다.
+
+UI는 저장한 `tuned.cact`와 공용 기본 설명을 사용한다.
+`ex02`의 설명 변경은 UI에 자동 전달되지 않는다.
+
+---
+
+## 2교시 16–20분: 재학습과 재평가
+
+재학습은 [12주차 절차](../week12_ai_service_deploy/README.md)를 따른다.
+
+시작값: `EPOCHS=4`, `BATCH_SIZE=4`, `MAX_LEN=1024`, `LEARNING_RATE=1e-4`
+최장 토큰이 `MAX_LEN`을 넘으면 학습 전 중단한다. 자동으로 자르지 않는다.
+
+어댑터·`.cact` 저장 후 새 프로세스에서 복원해 미학습 문항을 비교한다.
+loss 감소만으로 제어 개선을 단정하지 않는다. `confidence=None`은 0점이 아니다.
+
+<!-- 출처: https://cactuscompute.com/blog/finetuning-needle ; 상수·길이 검사는 수업 코드 -->
+
+---
+
+## 2교시 20–50분: 오류 분석과 수정 대화 실습
+
+[실습지](lab.md#2교시-실습-오류-분석과-수정-대화) · [예제 안내](examples/period2/README.md)
+
+`uv run ex02`
+
+원래 요청·수정 요청·실제 상태를 나란히 적는다.
+수정 위치와 이유, 다시 확인할 조건을 설명한다.
+
+반복 입력·문맥 유지·가중치 학습을 구분한다.
+세부 시간은 실습지를 따르고 종료 시 연결을 해제한다.
+
+
+---
+
+## 2교시 50–60분: 휴식
+
+수정 전후 기록을 남기고 연결을 해제한다.
+
+3교시에는 같은 제어 흐름을 Streamlit 화면에서 확인한다.
+
+
+---
+
+## 3교시 0–4분: Streamlit 시작
+
+```sh
+uv run ex03
 ```
 
-실패 요약의 `assert 왼쪽 == 오른쪽`이 첫 단서다. 스택을 다 읽기 전에 **두 값의 차이**를 말한다.
+headless 서버가 시작되면 `http://127.0.0.1:8501`을 직접 연다.
+
+“시뮬레이터 연결” 뒤 “제어 요청”을 적고 “요청 실행”을 누른다.
+한 PC에서는 제어 창 하나만 사용한다.
 
 ---
 
-## 6–9분 · fixture와 parametrize
+## 3교시 4–8분: 모델 캐시와 세션 연결
 
-```python
-@pytest.fixture
-def service(fake_client):                # 같은 이름의 인자에 주입된다
-    return ChatService(client=fake_client, model="fake-model:test", host="http://fake")
+- `st.cache_resource`로 모델 준비를 캐시한다.
+- TCP 연결은 `st.session_state`에서 재사용한다.
+- 공용 `Lock` 안에서 `reset()`과 `complete()`를 함께 처리한다.
+- 요청마다 대화 문맥을 초기화한다.
 
-@pytest.mark.parametrize("body", [
-    {"prompt": ""}, {"prompt": "안녕", "temperature": 5.0}, {"prompt": "안녕", "max_tokens": 0},
-])
-def test_out_of_range_request_is_rejected(body):
-    with pytest.raises(ValidationError):
-        ChatRequest(**body)
-```
-
-- fixture: 준비 코드를 한 곳에. `tests/conftest.py`에 두면 모든 테스트 파일이 공유한다
-- parametrize: 같은 검사를 여러 입력으로. 실패하면 **어느 입력**인지 표시된다
+소켓을 전역 모델 캐시에 섞지 않는다.
+시뮬레이터 상태는 여러 창에서 따로 분리되지 않는다.
 
 ---
 
-## 9–12분 · 모델 호출 격리 — 의존성 주입
+## 3교시 8–12분: 재실행과 중복 호출 방지
 
-```text
-운영:   main.py get_service() ─▶ ChatService(client=HttpOllamaClient) ─▶ Ollama :11434
-테스트: conftest.py            ─▶ ChatService(client=FakeOllamaClient) ─▶ 미리 정한 dict
-```
+새 호출은 “요청 실행”으로 입력을 확정했을 때 처리한다.
+화면 재실행에서는 현재 LED 상태를 조회한다.
 
-- 서비스는 구체 클래스가 아니라 **모양(Protocol)** — `chat()`·`list_models()` — 에만 의존한다
-- 가짜는 `reply`·`fail_with`로 정상·오류를 마음대로 만들고, `calls`로 무엇을 넘겼는지 본다
-- HTTP 계층은 `app.dependency_overrides[get_service]` + `TestClient` — uvicorn 없이 422·503을 확인
-- 12주차의 `get_client`가 바로 이 자리다
+- 입력 없는 재실행은 같은 제어 호출을 다시 실행하지 않는다.
+- 세션의 TCP 연결을 재사용한다.
+- 같은 문장을 새로 제출한 요청은 새 입력이다.
 
-**질문:** 가짜의 응답 모양이 실제 Ollama와 다르면, 통과한 테스트는 무엇을 보장하는가?
+LED가 같다는 관찰만으로 중복이 없었다고 판단하지 않는다.
 
 ---
 
-## 12–15분 · 단위·통합, 느린 테스트 표시
+## 3교시 12–16분: 화면의 관찰 근거
 
-| 종류 | 대상 | 필요한 것 | 속도 | 언제 |
-|---|---|---|---|---|
-| 단위 | 스키마·서비스 | 없음 | ms | 매 저장, 매 push |
-| HTTP 계층 | 라우팅·상태 코드 | TestClient | ms | 매 push |
-| 통합 | 실제 Ollama | 서버·모델·GPU | 초~분 | 릴리스 전 수동 |
+요청 원문, 호출 제안, 검증 결과를 표시한다.
 
-```toml
-[tool.pytest.ini_options]
-addopts = "-m 'not integration'"        # 기본 실행에서 제외
-markers = ["integration: 실제 Ollama 서버가 필요한 느린 테스트"]
-```
+함수 반환과 `GET /state`를 읽고 실제 LED 상태를 표시한다.
+센서값은 `read_environment()` 반환과 대조한다.
 
-파일 맨 위 `pytestmark = pytest.mark.integration` + `RUN_INTEGRATION=1`일 때만 실제로 돈다.
+빈 입력·호출 없음·검증 실패도 구분한다.
+모델이 만든 숫자를 센서값으로 표시하지 않는다.
+
 
 ---
 
-## 15–17분 · ruff — lint와 format
+## 3교시 16–20분: 연결 해제와 확인 범위
 
-```powershell
-uv run ruff check .             # 문제 목록. --fix 는 안전한 것만 자동 수정
-uv run ruff format --check .    # 고치지 않고 검사만 (CI 용)
-uv run ruff format .            # 실제로 고친다
-```
+“연결 해제”로 TCP를 닫고 LED 초기화를 확인한다.
+그 뒤 터미널에서 `Ctrl+C`로 서버를 종료한다.
+브라우저 탭 닫기만으로 해제를 보장하지 않는다.
 
-- lint: 안 쓰는 import(F401), 정의 안 된 이름(F821), import 순서(I), 흔한 버그(B), 긴 줄(E501)
-- format: 줄바꿈·따옴표·공백 — **취향 논쟁을 도구에 넘긴다**
-- 규칙은 `pyproject.toml`의 `[tool.ruff]`에 둔다. 팀 전체가 같은 규칙을 쓴다
-
-**질문:** "여기 공백 두 칸"이라는 코멘트가 사라지면 리뷰어는 무엇에 시간을 쓰게 되는가?
+12주차에서 같은 경로로 재학습했다면 서버를 종료한 뒤
+`uv run ex03`로 재시작한다. 브라우저 새로고침만으로 모델은 갱신되지 않는다.
 
 ---
 
-## 17–20분 · 실습 인계
+## 3교시 20–50분: Streamlit 제어 UI 실습
 
-[1교시 실습 — 가짜 클라이언트로 서비스 테스트 만들기](lab.md#1교시-실습--가짜-클라이언트로-서비스-테스트-만들기) · [1교시 파일](examples/period1/README.md)
+[실습지](lab.md#3교시-실습-streamlit-제어-ui) · [예제 안내](examples/period3/README.md)
 
-완료 조건:
+`uv run ex03`
 
-1. 테스트 3개(공백 prompt 거절·system 프롬프트 순서·모델 없음→404)를 추가해 `uv run pytest`가 통과한다
-2. `ruff check`·`ruff format --check`가 통과하고, 일부러 만든 오류를 `--fix`로 고친 기록이 있다
-3. `pytest -m integration`이 `RUN_INTEGRATION` 유무에 따라 `skipped`와 실제 실행으로 갈린다
+요청·호출·함수 반환·실제 상태를 대조한다.
+입력 없는 재실행과 새 요청 제출을 구분해 확인한다.
+연결 해제와 LED 초기화를 확인한다.
 
-실습 30분 뒤 휴식 10분.
+세부 시간은 실습지를 따른다. 실행하지 못한 항목을 구분해 기록한다.
 
----
-
-<!-- _class: lead -->
-
-# 2교시 · 설명 20분
-## 내 PC 밖에서 검사가 돈다
 
 ---
 
-## 0–3분 · CI가 하는 일
+## 3교시 50–60분: 휴식
 
-```text
-push / PR ─▶ GitHub 가 깨끗한 가상 머신을 빌린다 ─▶ checkout ─▶ uv sync ─▶ ruff ─▶ pytest ─▶ 초록 / 빨강
-```
+제어 연결을 해제하고 Streamlit 서버를 종료한다.
 
-- "내 PC에서는 됨"이 통하지 않는 곳에서 **매번 같은 절차**
-- 결과가 PR에 상태 체크로 붙는다 — 리뷰어는 로그 대신 초록불을 본다
-- 3주차 재현성(`uv sync`) + 1교시 테스트가 합쳐진 것
-
-**질문:** CI가 초록불이면 "버그가 없다"는 뜻인가?
-
----
-
-## 3–6분 · workflow 구조 — on·jobs·steps
-
-```text
-.github/workflows/ci.yml       ← 저장소 루트 기준 이 경로여야 인식한다
-├─ on:           언제 (push, pull_request, workflow_dispatch)
-├─ permissions:  토큰 권한 (contents: read 가 최소)
-└─ jobs:
-   └─ test:      runs-on: ubuntu-latest
-      └─ steps:  uses(남이 만든 액션) / run(셸 명령) 을 순서대로
-```
-
-- job은 서로 다른 머신에서 병렬로, step은 한 머신에서 순서대로
-- step 하나가 실패하면 그 job은 거기서 멈춘다 → **실패한 step 이름**이 첫 단서
-
----
-
-## 6–9분 · ci.yml 읽기
-
-```yaml
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v7
-        with: { enable-cache: true }
-      - run: uv python install          # requires-python 을 읽는다
-      - run: uv sync                    # lock 을 커밋했다면 --frozen
-      - run: uv run ruff check .
-      - run: uv run ruff format --check .
-      - run: uv run pytest -q
-```
-
-로컬에서 치던 명령과 **같은 명령**이다. 다른 것은 PC뿐이다.
-
----
-
-## 9–12분 · setup-uv, 캐시, lock 검증
-
-- `astral-sh/setup-uv`: uv 설치 + `enable-cache: true`면 내려받은 패키지를 다음 실행에 재사용
-- 첫 실행과 두 번째 실행의 `uv sync` 시간을 비교해 본다
-- `uv sync --frozen`: lock을 **검사하지 않고** 그대로 설치 — 어긋나도 통과한다. "lock을 안 올린 PR"은 `uv sync --locked`(또는 `uv lock --check`)가 **실패**로 잡는다
-- 러너는 Linux다 — `C:\` 경로, `.ps1`은 CI에서 돌지 않는다
-- 액션 메이저 버전(`@v5`, `@v7`)은 환경 기준표에서 확정한다
-
-**질문:** 캐시가 오래된 취약 버전을 붙들 수 있는가? 설치 버전을 결정하는 것은 무엇인가?
-
----
-
-## 12–15분 · PR 상태 체크와 branch protection
-
-| 표시 | 뜻 | 리뷰어의 행동 |
-|---|---|---|
-| 노란 원 | 실행 중 | 기다린다 |
-| 초록 체크 | required 잡 모두 통과 | 코드 리뷰 시작 |
-| 빨간 X | 하나 이상 실패 | 로그 링크를 코멘트에 붙이고 수정 요청 |
-
-- Settings → Branches → `main` 보호 규칙: **required status checks** + PR 필수
-- 빨간불이면 merge 버튼이 잠긴다. 관리자도 예외로 두지 않는다
-- 이 규칙을 9주차 `CONTRIBUTING.md`에 한 줄로 적는다
-
----
-
-## 15–17분 · 실패 로그 읽는 순서
-
-```text
-1. Actions 탭 → 실패한 실행 → 빨간 job 클릭
-2. step 목록에서 X 가 붙은 하나 → 그 step 의 명령이 무엇이었는가
-3. 로그의 첫 오류 줄(FAILED …, error:, E501 …)을 복사
-4. 로컬에서 같은 명령을 실행해 재현 → 고침 → push → 다시 초록불
-```
-
-- 맨 아래가 아니라 **첫 오류**를 본다. 뒤의 오류는 대개 첫 오류의 결과다
-- 로컬은 되는데 CI만 실패: OS 차이(경로·대소문자), 캐시 없는 상태, 환경변수 없음
-
-**질문:** 로컬 `pytest`는 통과하는데 CI에서 `ModuleNotFoundError`가 난다. 무엇부터 의심하는가?
-
----
-
-## 17–20분 · 실습 인계
-
-[2교시 실습 — GitHub Actions로 초록불과 빨간불 만들기](lab.md#2교시-실습--github-actions로-초록불과-빨간불-만들기) · [2교시 파일](examples/period2/README.md)
-
-완료 조건:
-
-1. 새 저장소에 push해 Actions 첫 실행이 초록불이고 PR에 상태 체크가 붙었다
-2. 일부러 깨뜨린 commit으로 빨간불을 만들고 **실패한 step 이름과 첫 오류 줄**을 기록했다
-3. 고친 commit으로 다시 초록불을 만들어 PR을 merge했다
-
-실습 30분 뒤 휴식 10분.
-
----
-
-<!-- _class: lead -->
-
-# 3교시 · 설명 20분
-## 남의 코드를 안전하게 받아들인다
-
----
-
-## 0–3분 · 공급망 — 내가 쓴 300줄, 가져온 수만 줄
-
-```text
-ci_lab (내 코드 약 300줄)
- ├─ fastapi ─ starlette ─ anyio ─ …
- ├─ pydantic ─ pydantic-core ─ typing-extensions
- ├─ httpx ─ httpcore ─ h11 ─ certifi
- └─ pytest, ruff, pip-audit ─ …           → uv export 로 세어 보면 40개가 넘는다
-```
-
-- 내 코드가 안전해도 의존성 하나의 구멍으로 서비스가 뚫린다
-- **모델 파일도 의존성이다** — 가중치 파일 안에 코드가 들어갈 수 있다
-
-**질문:** `uv sync` 한 번에 몇 개의 패키지가 들어오는지 세어 본 적이 있는가?
-
----
-
-## 3–6분 · pip-audit — 알려진 취약점 대조
-
-```powershell
-uv export --format requirements-txt --no-hashes -o outputs/requirements-audit.txt
-uv run pip-audit -r outputs/requirements-audit.txt --no-deps
-uv run python audit_report.py            # 위 둘 + outputs/audit-*.md 요약
-```
-
-결과 읽기: 패키지 · 설치 버전 · 취약점 ID(PYSEC·GHSA·CVE) · **고친 버전**
-
-- 고친 버전 있음 → 하한 올리기 → `uv lock` → 테스트 → PR
-- 고친 버전 없음 → 우리가 그 기능을 쓰는지 판단하고 기록
-- 취약점 DB 조회는 네트워크가 필요하다. CI의 `audit` 잡은 `continue-on-error`
-
----
-
-## 6–9분 · lock 검증과 타이포스쿼팅
-
-| 위험 | 예 | 방어 |
-|---|---|---|
-| 이름 한 글자 다른 패키지 | `requests` ↔ `reqeusts` | 설치 전 PyPI 페이지·저장소 링크·다운로드 수 확인 |
-| lock 없이 설치 | 오늘과 내일의 버전이 다름 | `uv.lock` 커밋 + `uv sync --frozen` |
-| 배포 파일 변조 | 같은 버전, 다른 내용 | lock의 sha256을 uv가 대조 |
-| "버전만 올렸어요" PR | 의존성 diff 미확인 | `uv.lock` diff 읽기 + CI 초록불 |
-
-`uv add` 전에 이름을 **한 번 더 읽는다**. 오타 패키지는 설치되는 순간 코드를 실행할 수 있다.
-
----
-
-## 9–12분 · 비밀 유출 방지 — 세 겹
-
-```text
-1겹 내 PC:   .gitignore(.env) + security_check.ps1(커밋 전)   ← pre-commit 훅으로 자동화 가능
-2겹 GitHub:  secret scanning + push protection(패턴이 보이면 push 자체를 막는다)
-3겹 사고 후: 히스토리에 남았다면 지우는 것으로 끝나지 않는다 → 토큰 회전(폐기·재발급)
-```
-
-- `security_check.ps1`: 토큰 패턴 · `.env` 추적 · pickle 모델 파일 · `trust_remote_code` — 찾은 줄의 **내용은 출력하지 않는다**
-- 3주차 `git log -p` 검사와 같은 원칙: 한 번 push된 비밀은 유출된 것으로 본다
-
-**질문:** push protection이 막았다. 그 토큰은 아직 안전한가?
-
----
-
-## 12–15분 · 모델 파일 안전 — pickle vs safetensors
-
-| 형식 | 로드 방식 | 위험 |
-|---|---|---|
-| `.pkl`, `.pt`, `.bin` (pickle) | Python 객체 역직렬화 = 코드 실행 가능 | 파일을 여는 것만으로 임의 코드 |
-| `.safetensors` | 텐서 데이터만, 코드 없음 | 낮음. Hub 기본(`Qwen/Qwen2.5-0.5B-Instruct` 등) |
-| `.gguf` (Ollama) | 가중치 + 메타데이터 | 낮음 |
-
-- `trust_remote_code=True`: 모델 저장소의 **Python 코드를 실행**한다 → 저장소·revision 고정, 코드를 읽고, 기록
-- 출처 불명 어댑터·체크포인트는 받지 않는다. `SOURCES.md`에 revision·해시를 남긴다
-
----
-
-## 15–17분 · 교차 코드리뷰 — 무엇을 보고 어떻게 말하는가
-
-순서: 설명·Issue → CI 초록불 → 테스트 유무 → 오류 경로 → 비밀·의존성 → 출처·문서 (`REVIEW_CHECKLIST.md`)
-
-```text
-[근거] app/service.py 42줄: total_duration 을 1_000 으로 나눈다.
-[문제] Ollama 는 나노초라서 결과가 ms 가 아니다. test_service 의 1500.0 과 어긋난다.
-[제안] 1_000_000 으로 나누고 변수 이름에 단위(duration_ms)를 남긴다.
-```
-
-- 코멘트 하나 = **근거(파일:줄) → 문제 → 제안**. 취향은 `nit`
-- 판정은 둘 중 하나: 승인 / 수정 요청(+ 무엇이 되면 승인할지)
-
-**질문:** "이 코드는 별로다"와 위 코멘트의 차이는 무엇인가?
-
----
-
-## 17–20분 · 실습 인계
-
-[3교시 실습 — 의존성 감사와 비밀 검색, 교차 리뷰](lab.md#3교시-실습--의존성-감사와-비밀-검색-교차-리뷰) · [3교시 파일](examples/period3/README.md)
-
-완료 조건:
-
-1. `outputs/audit-*.md`에 검사한 패키지 수·취약점 수·다음 행동이 있다
-2. `security_check.ps1`이 깨끗한 저장소에서 0건, 심어 둔 `.env`·가짜 토큰·`.pt`를 모두 잡았고 심은 것을 제거했다
-3. 다른 팀 PR에 체크리스트 기반 코멘트 2개 이상과 판정을 남기고 URL을 기록했다
-
-실습 30분 뒤 휴식 10분.
-
----
-
-## 이번 주 정리
-
-```text
-테스트: 가짜 클라이언트 주입 → 모델 없이 변환·검증·오류 매핑을 검사 → 느린 것은 마커로 분리
-CI:     push·PR → 깨끗한 머신 → uv sync → ruff → pytest → 초록불이어야 merge
-보안:   pip-audit(의존성) + security_check(비밀·모델 파일) + 체크리스트 리뷰(사람)
-```
-
-기계가 잡을 것은 기계에게(ruff·pytest·CI·pip-audit), 사람은 **근거 있는 판단**에 시간을 쓴다.
-
-다음 주(`week14_release_feedback`): 초록불이 켜진 저장소를 `v0.1.0`으로 릴리스한다.
+다음 14주차에는 기말 챗봇의 공개 평가 규격을 다룬다.
+12주차 제어 모델 종합과제와 15주차 원광대학교 소개 챗봇 기말과제를 구분한다.

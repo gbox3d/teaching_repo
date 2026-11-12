@@ -1,0 +1,20 @@
+[project]
+name = "osa-week13-control"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["bleuno-control[needle]","streamlit>=1.40,<2"]
+
+[project.scripts]
+ex01 = "ex01_evaluate:main"
+ex02 = "ex02_improve:main"
+ex03 = "ex03_app:main"
+
+[build-system]
+requires = ["uv_build>=0.8,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = ["ex01_evaluate","ex02_improve","ex03_app","shared"]
+
+[tool.uv.sources]
+bleuno-control = { path = "../../../../tools/bleuno-control", editable = true }

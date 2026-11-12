@@ -1,0 +1,179 @@
+[
+  {
+    "id": "control-01",
+    "language": "ko",
+    "query": "0번 LED를 켜 주세요",
+    "calls": [
+      {
+        "name": "turn_on",
+        "arguments": {
+          "index": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "control-02",
+    "language": "ko",
+    "query": "불이 켜진 3번 LED를 꺼 줘",
+    "calls": [
+      {
+        "name": "turn_off",
+        "arguments": {
+          "index": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "control-03",
+    "language": "ko",
+    "query": "2번 LED 밝기를 75로 맞춰 줘",
+    "calls": [
+      {
+        "name": "set_brightness",
+        "arguments": {
+          "index": 2,
+          "value": 75
+        }
+      }
+    ]
+  },
+  {
+    "id": "control-04",
+    "language": "ko",
+    "query": "지금 온도와 습도를 읽어 주세요",
+    "calls": [
+      {
+        "name": "read_environment",
+        "arguments": {}
+      }
+    ]
+  },
+  {
+    "id": "control-05",
+    "language": "en",
+    "query": "Switch LED 1 on.",
+    "calls": [
+      {
+        "name": "turn_on",
+        "arguments": {
+          "index": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "control-06",
+    "language": "en",
+    "query": "Please switch off LED 2.",
+    "calls": [
+      {
+        "name": "turn_off",
+        "arguments": {
+          "index": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "control-07",
+    "language": "en",
+    "query": "Set LED 0 brightness to 180.",
+    "calls": [
+      {
+        "name": "set_brightness",
+        "arguments": {
+          "index": 0,
+          "value": 180
+        }
+      }
+    ]
+  },
+  {
+    "id": "control-08",
+    "language": "en",
+    "query": "Read the current temperature and humidity.",
+    "calls": [
+      {
+        "name": "read_environment",
+        "arguments": {}
+      }
+    ]
+  },
+  {
+    "id": "control-09",
+    "language": "ko",
+    "query": "1번을 켜고 3번 LED를 꺼 주세요",
+    "calls": [
+      {
+        "name": "turn_on",
+        "arguments": {
+          "index": 1
+        }
+      },
+      {
+        "name": "turn_off",
+        "arguments": {
+          "index": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "control-10",
+    "language": "en",
+    "query": "Turn LED 2 off, then set LED 1 to brightness 90.",
+    "calls": [
+      {
+        "name": "turn_off",
+        "arguments": {
+          "index": 2
+        }
+      },
+      {
+        "name": "set_brightness",
+        "arguments": {
+          "index": 1,
+          "value": 90
+        }
+      }
+    ]
+  },
+  {
+    "id": "control-11",
+    "language": "ko",
+    "query": "그 불을 켜 줘",
+    "calls": []
+  },
+  {
+    "id": "control-12",
+    "language": "en",
+    "query": "Turn on LED 9.",
+    "calls": []
+  },
+  {
+    "id": "control-13",
+    "language": "ko",
+    "query": "2번 LED 밝기를 300으로 바꿔 줘",
+    "calls": []
+  },
+  {
+    "id": "control-14",
+    "language": "en",
+    "query": "Play some music.",
+    "calls": []
+  },
+  {
+    "id": "control-15",
+    "language": "ko",
+    "query": "온도를 30도로 바꿔 줘",
+    "calls": []
+  },
+  {
+    "id": "control-16",
+    "language": "en",
+    "query": "Leave all LEDs unchanged.",
+    "calls": []
+  }
+]

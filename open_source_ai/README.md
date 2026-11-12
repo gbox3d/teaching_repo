@@ -11,15 +11,18 @@
 ## 범위
 
 오픈소스 생태계와 Git·GitHub 협업, 라이선스, 재현 가능한 Python 환경(uv), Ollama 로컬 LLM,
-LangChain, 임베딩·RAG, PEFT/LoRA 경량 파인튜닝, Streamlit 앱, 데이터·모델 평가,
-서비스화, 테스트·CI·보안, 릴리스와 커뮤니티 피드백까지 연결하는 15주 오픈소스 AI 응용 교재다.
+LangChain, 임베딩·RAG, PEFT/LoRA 경량 파인튜닝, Streamlit 앱,
+초소형 모델의 시뮬레이터 제어·학습, 챗봇 성능 평가와 개발 보고서까지 연결하는 15주 오픈소스 AI 응용 교재다.
 
 ## 진입점
 
 - 15주 교재 색인: [`weeks/README.md`](weeks/README.md)
 - 선택 특강: [Hugging Face Hub와 공개 자원 분석](specials/huggingface_hub/README.md)
 - 선택 특강: [PyTorch 텐서·저장·회귀 모델](specials/pytorch_basics/README.md)
+- 선택 자료: [프로젝트 운영·서비스 배포·CI의 이전 강의](specials/project_delivery/README.md)
+- 시뮬레이터 제어·학습: [10주차 시작](weeks/week10_project_governance/README.md), [공용 제어 도구](../tools/bleuno-control/README.md)
 - 제작 계획과 품질 검수 기준: [`materials_plan.md`](materials_plan.md)
+- 기말 챗봇 과제와 공개 평가: [14주차 안내](weeks/week14_release_feedback/README.md)
 - 과목별 설치 프로그램: [`ta_setup_guide.md`](ta_setup_guide.md)
 - uv 설치·갱신·Python 환경·`uv run` 실습: [`uv_guide.md`](uv_guide.md)
 - GitHub 소스 배포와 `.gitignore` 주의사항: [`github_distribution.md`](github_distribution.md)
@@ -43,7 +46,7 @@ LangChain, 임베딩·RAG, PEFT/LoRA 경량 파인튜닝, Streamlit 앱, 데이�
 ## 환경 원칙
 
 - Python 패키지는 `uv` 기반 격리환경과 lock 파일로 재현한다.
-- Python·PyTorch·Ollama·모델 ID·양자화·GPU 드라이버·VRAM 기준은 환경 기준표에서 확정한다. 교재 예제는 환경변수 기본값([`weeks/README.md`](weeks/README.md#교재-검증용-기본값))으로 검증했다.
+- Python·학습 도구·모델·GPU 조건은 환경 기준표에서 확정한다. 주차별 상수와 lock 파일, [검증용 기본값](weeks/README.md#교재-검증용-기본값)을 함께 확인한다.
 - 모델 다운로드 크기와 캐시 위치를 먼저 계산하고, 수업 직전 여러 PC에서 동시에 내려받지 않는다.
 - GPU 실패 때 사용할 CPU 또는 소형 모델 대체 경로를 함께 검증한다.
 - 예제의 `uv.lock`은 환경 기준표 확정 후 기준 PC에서 생성해 커밋한다.

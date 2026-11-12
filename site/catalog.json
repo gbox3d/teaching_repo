@@ -464,10 +464,10 @@
       "slug": "open_source_ai",
       "title": "오픈소스 AI 응용",
       "eyebrow": "OPEN SOURCE AI",
-      "description": "Ollama → LangChain → RAG → LoRA → Streamlit 앱으로 이어지는 15주 과정과 Hugging Face·PyTorch 선택 특강입니다.",
+      "description": "Ollama·LangChain·RAG·LoRA·Streamlit에서 초소형 모델의 시뮬레이터 제어와 챗봇 성능 평가로 이어지는 15주 과정입니다.",
       "status": "published",
       "accent": "#bc8cff",
-      "summary": "15개 주차 · 특강 2개 · 450장",
+      "summary": "15개 주차 · 특강 2개 · 426장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/open_source_ai",
       "chapters": [
         {
@@ -581,73 +581,73 @@
         {
           "id": "week10_project_governance",
           "label": "10주차",
-          "title": "프로젝트 제안과 오픈소스 거버넌스",
-          "description": "거버넌스 문서를 분석하고 팀 프로젝트의 문제·범위·마일스톤을 제안합니다.",
+          "title": "시뮬레이터와 Ollama 툴 호출",
+          "description": "Python 제어 함수와 Ollama 툴 호출을 연결하고 실제 LED 상태를 확인합니다.",
           "type": "week",
           "en": {
             "label": "Week 10",
-            "title": "Project Planning and Open Source Governance",
-            "description": "Plan a team project using the working Streamlit prototype and define roles and scope."
+            "title": "Simulator Control with Ollama Tools",
+            "description": "Connect Python control functions to Ollama tool calls and inspect the actual LED state."
           }
         },
         {
           "id": "week11_dataset_evaluation",
           "label": "11주차",
-          "title": "데이터셋 구성과 모델 평가",
-          "description": "데이터를 정제·분할·점검하고 기준선과 비교해 모델을 정량·정성 평가합니다.",
+          "title": "초소형 모델의 툴 호출",
+          "description": "Needle로 같은 시뮬레이터를 제어하고 호출 정확도와 응답 시간을 비교합니다.",
           "type": "week",
           "en": {
             "label": "Week 11",
-            "title": "Dataset Curation and Model Evaluation",
-            "description": "Clean, split, and inspect data, then evaluate a model against a baseline both quantitatively and qualitatively."
+            "title": "Tool Calling with a Tiny Model",
+            "description": "Control the same simulator with Needle and compare call accuracy and response time."
           }
         },
         {
           "id": "week12_ai_service_deploy",
           "label": "12주차",
-          "title": "AI 서비스화와 배포",
-          "description": "FastAPI·Gradio로 모델을 서비스화하고 오류·스트리밍·패키징을 다룹니다.",
+          "title": "제어 모델 LoRA 학습·복원",
+          "description": "명령 데이터를 수정하고 Needle를 학습·저장·복원해 같은 조건으로 비교합니다.",
           "type": "week",
           "en": {
             "label": "Week 12",
-            "title": "AI Service Deployment",
-            "description": "Turn a model into a service with FastAPI and Gradio, covering error handling, streaming, and packaging."
+            "title": "LoRA Training and Reloading for Control",
+            "description": "Edit command examples, train and reload Needle, then compare under matching conditions."
           }
         },
         {
           "id": "week13_test_ci_security",
           "label": "13주차",
-          "title": "테스트·CI·보안·코드리뷰",
-          "description": "pytest·ruff·GitHub Actions·의존성 감사로 품질과 공급망 보안을 자동화합니다.",
+          "title": "제어 평가와 Streamlit 앱",
+          "description": "실제 상태로 제어 성공을 평가하고 오류를 분석한 뒤 Streamlit 화면과 연결합니다.",
           "type": "week",
           "en": {
             "label": "Week 13",
-            "title": "Testing, CI, Security, and Code Review",
-            "description": "Automate quality and supply-chain security with pytest, ruff, GitHub Actions, and dependency audits."
+            "title": "Control Evaluation and a Streamlit App",
+            "description": "Check control success against the actual state, analyze failures, and connect a Streamlit interface."
           }
         },
         {
           "id": "week14_release_feedback",
           "label": "14주차",
-          "title": "릴리스와 커뮤니티 피드백",
-          "description": "README·Model Card·SemVer 릴리스를 만들고 교차 재현과 피드백을 받습니다.",
+          "title": "기말 챗봇 과제와 공개 성능 평가",
+          "description": "공개 평가세트와 도구로 대학 소개 챗봇을 개선하고 개발 보고서를 작성합니다.",
           "type": "week",
           "en": {
             "label": "Week 14",
-            "title": "Release and Community Feedback",
-            "description": "Produce a README, Model Card, and SemVer release, then gather cross-reproduction and feedback."
+            "title": "Final Chatbot Project and Public Evaluation",
+            "description": "Improve a university chatbot with public evaluation questions and tools, and document the development process."
           }
         },
         {
           "id": "week15_final_presentation",
           "label": "15주차",
-          "title": "기말평가와 프로젝트 발표",
-          "description": "최종 시연과 교차 재현 검증으로 오픈소스 릴리스를 평가하고 회고합니다.",
+          "title": "AI 성능 평가와 개발 보고서",
+          "description": "발표 점수를 비공개 AI 성능 평가로 대체하고 개발 보고서를 별도로 평가합니다.",
           "type": "week",
           "en": {
             "label": "Week 15",
-            "title": "Final Assessment and Project Presentation",
-            "description": "Evaluate and reflect on the open-source release through a final demo and cross-reproduction verification."
+            "title": "AI Performance and Development Report",
+            "description": "Replace the presentation score with private AI performance evaluation and assess the development report separately."
           }
         },
         {
@@ -677,7 +677,7 @@
       ],
       "en": {
         "title": "Open Source AI Applications",
-        "description": "A 15-week path from Ollama to LangChain, RAG, LoRA, and Streamlit apps, with optional Hugging Face and PyTorch specials."
+        "description": "A 15-week course covering local LLMs, RAG, LoRA, Streamlit, tiny-model simulator control, and quantitative chatbot evaluation."
       }
     }
   ]

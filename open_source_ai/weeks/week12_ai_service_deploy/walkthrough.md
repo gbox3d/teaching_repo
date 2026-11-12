@@ -1,279 +1,121 @@
-# 12주차 따라하기 — 앱 서버, 스트리밍 UI, 포장과 재현
+# 12주차 따라하기 데이터 수정부터 새 프로세스 비교까지
 
-이 문서는 12주차 시연·실습을 **순서대로 그대로 재현**하기 위한 절차서다.
-강의자는 각 교시의 20분 시연을 이 순서로 진행하고, 학생은 실습·복습 때 같은 순서로 따라 한다.
-각 단계는 `할 일 → 예상 결과 → 확인` 순서로 되어 있다. 예상 결과가 다르면 다음 단계로 넘어가지 않는다.
+[실습지](lab.md)의 순서대로 진행한다. 아래 확인 항목으로 자신의 실행 결과를 점검한다. 실제 모듈·데이터·산출 경로는 [예제 안내](examples/README.md), 기준 PC의 학습·복원·16문항 제어 실측은 [주차 안내](README.md)에서 확인한다.
 
 ## 시작 전 준비
 
-- Git, uv, Ollama가 설치되어 있고 기본 모델이 캐시되어 있다. (`uv --version`, `ollama list`로 확인)
-- [교시별 예제](examples/README.md) 폴더를 개인 실습 폴더에 **복사**해서 사용한다. 수업 자료 원본은 수정하지 않는다.
-- 수업 전에 복사본에서 `uv sync`를 한 번 실행해 패키지 캐시를 채워 두었다. 1교시 단계 1의 `uv sync`는 캐시에서 몇 초 안에 끝나야 하며, 수 분이 걸리면 캐시가 없는 것이므로 강의자에게 알린다.
-- 터미널은 두 개를 쓴다. 터미널 A는 서버(앱 서버 또는 UI), 터미널 B는 점검 명령용이다. 둘 다 복사한 폴더 안에서 실행한다.
-- Docker Desktop은 3교시 경로 A에만 필요하다. 없으면 경로 B(uv)로 진행한다.
-
----
-
-## 1교시 — 앱 서버 세우기와 오류 응답 확인
-
-[이 교시 코드·자료](examples/period1/README.md)
-
-### 단계 1. 예제 복사와 의존성 설치
-
-**할 일** — `$src`에는 교재 저장소의 `examples` 폴더 경로를 넣는다.
+저장소 전체를 clone하고 Python 3.12·uv를 사용한다. 엔진, 기본 모델, 학습용 기본 체크포인트와 의존성은 수업 전에 준비한다. 주차 `examples/`만 복사하면 `tools/bleuno-control`의 `src/bleuno_control` 로컬 의존성을 찾을 수 없다.
 
 ```powershell
-$src = "<교재 저장소>\open_source_ai\weeks\week12_ai_service_deploy\examples"
-New-Item -ItemType Directory -Force C:\classwork\week12 | Out-Null
-if (-not (Test-Path C:\classwork\week12\period1)) {
-    Copy-Item -Recurse -Force "$src\period1" C:\classwork\week12\period1
-}
-Set-Location C:\classwork\week12\period1
-if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+git clone https://github.com/gbox3d/teaching_repo.git
+Set-Location teaching_repo/open_source_ai/weeks/week12_ai_service_deploy/examples
 uv sync
-ollama list
 ```
 
-**예상 결과** — `.venv/`가 생기고 `uv sync`가 오류 없이 끝난다. `ollama list`에 `.env`의 `OLLAMA_MODEL`과 같은 이름(교재 기본값 `qwen3:8b`)이 보인다.
+이미 clone했다면 다시 만들지 않고 해당 `examples/`로 이동한다. 세 명령 모두 이 위치에서 실행한다. `period1`~`period3`으로 이동해 별도 환경을 만들지 않는다. 의존성은 `cactus-compute[train]==4.2.0`이며 Metal·CUDA 선택은 강의자가 확인한 환경을 따른다. Mac arm64 CPU 실측은 [주차 안내](README.md)에서 확인한다.
 
-**확인** — [ ] `.env`를 열어 `OLLAMA_HOST`·`OLLAMA_MODEL`·`OLLAMA_TIMEOUT` 세 값을 읽었다. 모델 이름이 다르면 `.env`를 고쳤다.
+별도 개인 경로에서 `uv init --package --python 3.12 --vcs none week12-package-check`를 한 번 실행하고 `.python-version`, `pyproject.toml`, `src/`를 읽는다. `main()`은 진입 함수, `[project.scripts]`는 명령 연결, `[build-system]`의 `uv_build`는 패키지 빌드·설치 방법이다. scripts 변경 후에는 `uv sync`가 필요하다. 구조 확인 뒤 주차 프로젝트로 돌아온다. 세부 절차는 [실습지](lab.md)의 별도 경로 절을 따른다.
 
-### 단계 2. 앱 서버 실행과 `/docs`
+## 1교시 데이터 점검과 Needle 대화
 
-**할 일**
+### 단계 1 함수와 데이터 읽기
 
-1. 터미널 A에서 실행한다.
+`src/shared/data/train_examples.jsonl`의 48행을 읽는다. `query`는 명령, `answers`는 기대 호출 목록이다. 공용 도구 스키마는 한 번만 정의하고 원본 행마다 반복하지 않는다. `ex02`가 학습 입력 `models/training_input.jsonl`에 스키마를 합친다. 평가 결과 저장 파일과 구분한다. `reasoning`에는 인자 값을 명령의 어디서 얻었는지 적는다.
 
-```powershell
-uv run uvicorn app.main:app --port 8000 --reload
-```
-
-2. 브라우저에서 `http://localhost:8000/docs`를 연다.
-
-**예상 결과** — 터미널 A에 `모델 서버 http://localhost:11434, 기본 모델 qwen3:8b`와 `Uvicorn running on http://127.0.0.1:8000`이 보이고 명령이 끝나지 않은 채 대기한다. `/docs`에 `GET /health`, `POST /chat` 두 항목이 있다. 스트리밍은 2교시에 추가된다.
-
-**확인** — [ ] `/docs`에서 `POST /chat`을 펼쳐 요청 예시(`messages`, `temperature`, `max_tokens`)와 응답 코드 목록(200·422·502·503·504)을 봤다.
-
-### 단계 3. 정상 경로 — `/health`와 `/chat`
-
-**할 일** — 터미널 B에서 실행한다.
-
-```powershell
-uv run python smoke_test.py
-```
-
-**예상 결과** — `[health] 200 status=ok`, `[chat] 200 …ms '…'`가 출력되고 `기록: outputs\smoke-….json`이 보인다. 터미널 A에는 `GET /health -> 200`, `POST /chat -> 200 …ms` 로그가 남는다. JSON 안의 `chat.eval_count`와 `chat.eval_duration_ms`가 숫자다.
-
-**확인** — [ ] `eval_count ÷ (eval_duration_ms ÷ 1000)`으로 초당 토큰 수를 계산했다. [ ] `outputs/requests.jsonl`이 생겼고 한 줄에 `request_id`·`path`·`status`·`elapsed_ms`가 있다.
-
-### 단계 4. 실패 경로 — 없는 포트(502)
-
-**할 일**
-
-1. 예측을 적는다: "모델 서버 주소가 틀리면 `/health`와 `/chat`은 각각 무엇을 돌려줄까?"
-2. 터미널 A에서 `Ctrl+C` 후 환경변수를 바꿔 다시 띄운다.
-
-```powershell
-$env:OLLAMA_HOST = "http://localhost:11435"
-uv run uvicorn app.main:app --port 8000
-```
-
-3. 터미널 B에서 `uv run python smoke_test.py`을 다시 실행한다.
-
-**예상 결과** — `/health`는 200이지만 `status=degraded`이고 `ollama.reachable`이 `false`, `detail`에 "연결할 수 없다"가 있다. `/chat`은 **502**이며 본문은 `{"request_id", "error": "OllamaUnavailable", "detail": …}`다. 터미널 A에 `WARNING … OllamaUnavailable` 한 줄이 남는다.
-
-**확인** — [ ] 앱 서버는 살아 있는데(200) 준비는 안 된(degraded) 상태를 구분해 말할 수 있다. [ ] `Remove-Item Env:OLLAMA_HOST`로 원복했다.
-
-### 단계 5. 실패 경로 — 없는 모델(503), 짧은 타임아웃(504), 잘못된 요청(422)
-
-**할 일** — 각 항목마다 터미널 A를 `Ctrl+C` → 환경변수 설정 → 재실행하고, 터미널 B에서 `smoke_test.py`을 돌린다.
-
-1. `$env:OLLAMA_MODEL = "no-such-model"` → 실행 → 기록 → `Remove-Item Env:OLLAMA_MODEL`
-2. `$env:OLLAMA_TIMEOUT = "0.5"` → 실행 → 기록 → `Remove-Item Env:OLLAMA_TIMEOUT`
-3. 정상 재실행 후 `/docs`의 `POST /chat`에서 `temperature`를 `5`로 보낸다.
-
-**예상 결과** — 1은 `/health`가 `has_model: false`·`degraded`, `/chat`이 **503** `OllamaModelMissing`. 2는 `/health`가 `ok`(목록 조회는 빠르다)인데 `/chat`이 **504** `OllamaTimeout`. 3은 **422**이며 본문의 `detail`에 `temperature`와 `less than or equal to 2`가 들어 있다.
-
-**확인** — [ ] 502·503·504 세 상황의 `smoke-*.json`이 `outputs/`에 있고, 422는 `outputs/requests.jsonl`에 한 줄로 남았다(`smoke_test.py`는 늘 올바른 본문을 보내므로 422를 만들지 않는다). [ ] `Get-ChildItem Env:OLLAMA_*`가 비어 있다.
-
-### 단계 6. `GET /models` 추가
-
-**할 일**
-
-1. `app/main.py`의 `health` 함수 아래에 `GET /models` 라우트를 추가한다. `client.list_models()` 결과를 `{"models": [...]}`로 돌려준다. 시그니처는 `health`와 같은 방식으로 `client: OllamaClient = Depends(get_client)`를 받는다.
-2. `--reload`가 켜져 있으면 저장 즉시 재시작된다. `/docs`를 새로고침해 `GET /models`를 실행한다.
-3. 단계 4처럼 없는 포트로 재실행해 `/models`를 다시 부른다.
-
-**예상 결과** — 정상일 때 `ollama list`와 같은 이름 목록이 나온다. 없는 포트일 때는 `try` 없이도 **502**와 `OllamaUnavailable` 본문이 나온다 — `@app.exception_handler(OllamaError)`가 모든 라우트에 적용되기 때문이다.
-
-**확인** — [ ] 변경을 commit했다(`Add GET /models endpoint`). [ ] 환경변수를 원복하고 앱 서버를 정상 상태로 켜 두었다(2교시에서 이어 쓴다).
-
----
-
-## 2교시 — 스트리밍 채팅 UI 연결
-
-[이 교시 코드·자료](examples/period2/README.md)
-
-이어받는 것: 1교시 period1의 GET /models와 기록. 이전 서버를 끄고 [실습지 2교시 준비](lab.md#2교시-실습--스트리밍-채팅-ui-연결)대로 period2를 복사하고 직접 작성한 엔드포인트를 옮긴다. period2에서 uv sync 후 API를 새로 켠다. 아래 터미널도 period2에서 실행한다.
-
-### 단계 1. SSE 원문 관찰
-
-**할 일** — 터미널 B에서 실행한다.
-
-```powershell
-uv run python smoke_test.py --show-events --max-tokens 300
-```
-
-**예상 결과** — `[chat] 200 …ms` 다음에 `data: {"delta": "…"}` 형태의 줄이 5개 출력되고, `[stream] 200 first=…ms total=…ms events=…`가 보인다. `first`는 `[chat]`의 시간보다 훨씬 작고 `total`은 비슷하다. JSON의 `stream.reply_chars`가 0보다 크다.
-
-**확인** — [ ] 이벤트 한 건이 `data:` 한 줄과 빈 줄로 이루어진 것을 원문에서 봤다. [ ] 마지막 이벤트가 `{"done": true, "eval_count": …}`임을 JSON에서 확인했다.
-
-### 단계 2. 비스트리밍 UI
-
-**할 일**
-
-1. 터미널 B에서 UI를 띄운다(앱 서버는 터미널 A에 그대로).
-
-```powershell
-uv run python ui/gradio_app.py --no-stream
-```
-
-2. `http://localhost:7860`을 열고 긴 질문 "uv, Git, Ollama를 각각 세 문장으로 설명해 줘"를 보낸다.
-
-**예상 결과** — 상단 설명줄에 `모드 once`가 보인다. 보낸 뒤 몇 초 동안 답 영역이 비어 있다가 전체 답이 한 번에 나타난다. `outputs/ui-turns.jsonl`에 `"mode": "once"` 줄이 생기고 `first_ms`와 `total_ms`가 거의 같다.
-
-**확인** — [ ] 기다리는 동안 화면에 무엇이 보였는지 한 문장으로 적었다.
-
-### 단계 3. 스트리밍 UI와 Stop
-
-**할 일**
-
-1. 터미널 B에서 `Ctrl+C` 후 스트리밍 모드로 띄운다.
-
-```powershell
-uv run python ui/gradio_app.py
-```
-
-2. 같은 질문을 보낸다. 3. 한 번 더 보내고 답이 흐르는 도중 `Stop`을 누른다.
-
-**예상 결과** — `모드 stream`. 첫 글자가 1초 안팎에 나타나고 글자가 계속 늘어나며 입력창 자리에 `Stop`이 보인다. Stop을 누르면 지금까지의 텍스트가 남고 다음 질문을 보낼 수 있다. `ui-turns.jsonl`의 `"mode": "stream"` 줄에서 `first_ms`가 `total_ms`보다 뚜렷이 작다.
-
-**확인** — [ ] 두 모드의 `first_ms`·`total_ms`를 비교표에 옮겼다. [ ] Stop 뒤 터미널 A의 로그에 어떤 줄이 남는지 적었다.
-
-### 단계 4. 오류 상태 — 앱 서버 중단과 모델 서버 실패
-
-**할 일**
-
-1. 터미널 A의 앱 서버를 `Ctrl+C`로 끈다. UI에서 질문한다.
-2. 터미널 A를 `$env:OLLAMA_HOST = "http://localhost:11435"`로 재실행한다. UI에서 질문한다.
-3. `Remove-Item Env:OLLAMA_HOST` 후 정상 재실행한다.
-
-**예상 결과** — 1은 `[연결 실패] 앱 서버 http://localhost:8000 에 연결할 수 없다 …`. 2는 `[오류 502] … 연결할 수 없다 …` 다음 줄에 "모델 서버(Ollama)에 연결하지 못했다 …" 힌트. 두 문구가 서로 다른 원인을 가리킨다. `ui-turns.jsonl`에 `"error": true` 줄이 2개 생긴다.
-
-**확인** — [ ] 두 문구를 그대로 기록했다. [ ] `ERROR_HINTS`의 502·504 문구를 팀 사용자용으로 고쳤다(실제 연락처·이름 없음).
-
-### 단계 5. 기록 정리
-
-**할 일** — `outputs/ui-turns.jsonl`을 열어 `once`·`stream`·오류 턴을 표로 옮기고 "전체 시간이 같은데 스트리밍이 낫게 느껴지는 이유"를 한 문장으로 적는다.
-
-**예상 결과** — 표에 최소 4행(once 1, stream 1, error 2)이 있다.
-
-**확인** — [ ] `lab.md` 2교시 완료 조건 3개를 모두 체크했다.
-
----
-
-## 3교시 — Dockerfile과 재현 절차 검증
-
-[이 교시 코드·자료](examples/period3/README.md)
-
-이어받는 것: 2교시 period2의 API·UI. 앱 서버와 UI를 끈 뒤 [실습지 3교시 준비](lab.md#3교시-실습--dockerfile과-재현-절차-검증)대로 period3를 준비하고 개인 app/·ui/ 수정본을 옮긴다. 아래 명령은 period3에서 실행한다. Git 저장소가 아니면 이 폴더에서 git init 후 첫 commit을 만든다.
-
-### 단계 1. 설정 외부화 점검
-
-**할 일**
-
-```powershell
-.\reproduce_check.ps1
-git add -A
-git status --short
-```
-
-**예상 결과** — 스크립트가 필수 파일 9개를 `ok`로 표시하고 `.env 는 추적되지 않는다`, 실행 경로(docker 또는 uv)를 안내한다. `git status --short`에 `.env`와 `outputs/`가 **없다**.
-
-**확인** — [ ] `.env`가 목록에 나타났다면 `.gitignore`를 확인하고 `git restore --staged .env`로 내렸다.
-
-### 단계 2. Dockerfile 읽기
-
-**할 일** — `Dockerfile`을 열고 각 줄이 무엇을 만드는지 순서대로 말한다. 예측을 적는다: "`app/main.py`에 주석 한 줄을 추가하고 다시 빌드하면 어느 단계부터 다시 실행될까?"
-
-**예상 결과** — `COPY pyproject.toml uv.lock* ./` → `RUN uv sync` → `COPY . .` 순서다. 코드만 바뀌면 `uv sync` 레이어까지는 캐시를 쓰고 `COPY . .`부터 다시 만든다. `.dockerignore` 때문에 `.env`·`.venv`·`outputs`는 이미지에 들어가지 않는다.
-
-**확인** — [ ] 레이어 순서의 이유를 두 문장으로 적었다.
-
-### 단계 3. 경로 A — 빌드와 실행 (Docker가 있을 때)
-
-**할 일**
-
-```powershell
-docker build -t osa-ai-service:dev .
-docker run --rm -p 8001:8000 -e OLLAMA_HOST=http://host.docker.internal:11434 -e OLLAMA_MODEL=qwen3:8b osa-ai-service:dev
-```
-
-다른 터미널에서:
-
-```powershell
-uv run python smoke_test.py --api http://localhost:8001 --skip-stream
-```
-
-**예상 결과** — 첫 빌드는 베이스 이미지와 의존성 설치로 시간이 걸리고, 주석 한 줄을 추가한 두 번째 빌드는 `uv sync` 단계에 `CACHED`가 붙는다. 컨테이너 로그에 `모델 서버 http://host.docker.internal:11434`가 보인다. `/health`가 `ok`면 컨테이너에서 호스트의 Ollama에 닿은 것이다. `degraded`이고 `detail`이 연결 실패면 호스트의 Ollama가 `127.0.0.1`에서만 듣고 있는 것이다 — Ollama 서버 쪽 `OLLAMA_HOST=0.0.0.0` 설정이 필요하며, 실습실에서 바꿀 수 없으면 그 사실을 기록한다.
-
-**확인** — [ ] `CACHED`가 붙은 단계 이름을 적었다. [ ] `docker ps`의 `STATUS` 열에 잠시 뒤 `(healthy)`가 나타나는지 봤다. [ ] 끝나면 `Ctrl+C`로 컨테이너를 내렸다.
-
-### 단계 4. 경로 B — 깨끗한 폴더에서 uv로 (Docker가 없을 때, 또는 추가로)
-
-**할 일**
-
-```powershell
-git clone C:\classwork\week12\period3 C:\classwork\week12\clean
-Set-Location C:\classwork\week12\clean
-Copy-Item .env.example .env
-uv sync
-uv run uvicorn app.main:app --port 8001
-```
-
-다른 터미널에서 `uv run python smoke_test.py --api http://localhost:8001 --skip-stream`을 실행한다.
-
-**예상 결과** — clone된 폴더에 `.env`·`.venv`·`outputs`가 없다(추적되지 않았으므로). `.env.example`을 복사하고 `uv sync`만 하면 1교시와 같은 결과(`/health` ok, `/chat` 200)가 나온다.
-
-**확인** — [ ] `.env` 없이 실행해도 코드 기본값으로 뜨는지 한 번 확인했다(설정 계층의 맨 아래).
-
-### 단계 5. README 실행 절과 짝 검증, 3차 과제 점검
-
-**할 일**
-
-1. 팀 저장소 README에 「실행」 절을 쓴다: 전제 2줄 → 경로 A → 경로 B → 확인 명령 → 실패 시 볼 것.
-2. 짝과 저장소를 바꿔 README만 보고 5분 안에 `/health`가 `ok`가 되는지 시도한다. 막힌 줄과 이유를 받아 README에 반영한다.
-3. [`assignment_brief.md`](assignment_brief.md)의 「제출 전 검사」를 `assignment3_checklist.md`로 옮겨 O/X와 근거를 적는다.
-
-**예상 결과** — 짝의 기록에 "막힌 줄"이 0~2개 있고 각각 README에 반영된 commit이 있다. 점검표의 X 항목마다 담당자와 Issue 번호가 있다.
-
-**확인** — [ ] `lab.md` 3교시 완료 조건과 「제출 체크」를 모두 확인했다.
-
----
-
-## 문제가 생겼을 때
-
-| 증상 | 이 문서에서 돌아갈 단계 |
+| 확인 대상 | 통과 조건 |
 |---|---|
-| `uv run uvicorn`이 `No module named 'app'` | 1교시 단계 2 (현재 폴더가 `pyproject.toml`이 있는 곳인지) |
-| `/health`가 `degraded`인데 원인을 모르겠다 | 1교시 단계 4 (`detail` 읽기, `Get-ChildItem Env:OLLAMA_*`로 남은 변수 확인) |
-| 환경변수를 바꿨는데 결과가 같다 | 1교시 단계 4 (`Ctrl+C` 후 재실행, `--reload`는 파일만 감지) |
-| 504 대신 200이 나온다 | 1교시 단계 5 (`--max-tokens 400` 또는 `OLLAMA_TIMEOUT=0.1`) |
-| UI가 `[연결 실패]`를 보인다 | 2교시 단계 1 (`smoke_test.py`로 앱 서버부터 확인) |
-| 스트리밍인데 글자가 한꺼번에 나온다 | 2교시 단계 1 (`--show-events`의 `events` 수 확인) |
-| 7860·8000·8001 포트가 이미 사용 중 | 2교시 단계 2 / 3교시 시작 (이전 프로세스·컨테이너 종료) |
-| `docker build`가 데몬 연결 오류 | 3교시 단계 4 (경로 B로 진행) |
-| 컨테이너의 `/health`가 `reachable: false` | 3교시 단계 3 (`host.docker.internal`, Ollama 바인딩 주소) |
-| clone한 폴더에서 `uv sync` 후 실행이 다르다 | 3교시 단계 4 (`.env.example` 복사 여부, 기본값 확인) |
+| 함수 | `turn_on`, `turn_off`, `set_brightness`, `read_environment` 중 의도에 맞는 함수 |
+| `index` | 정수 0~3, 명령이 가리킨 LED와 일치 |
+| `value` | 정수 0~255, 밝기 명령의 값과 일치 |
+| 센서 | 인자 없는 `read_environment()` 호출, 수치는 반환값에서 확인 |
+| 도구 밖 입력 | 빈 호출 `[]` |
 
-세부 판정 기준과 힌트는 [`lab.md`](lab.md)에 있다. 정답과 해설은 실습이 끝난 뒤 강의자가 별도로 안내한다.
+잘못된 행을 수정하고 전후·이유를 기록한다. 오류가 없다면 직접 바꾼 명령과 정답 호출의 관계를 설명한다. 미학습 비교 문항은 따로 두고 학습 데이터로 옮기지 않는다.
+
+확인: 함수 이름만 맞는지 보지 않고 인자 값과 명령의 근거를 확인한다.
+
+### 단계 2 기본 모델 대화
+
+```powershell
+uv run ex01
+```
+
+“LED 2를 켜 줘”, “LED 1의 밝기를 80으로 맞춰 줘”처럼 인자가 드러난 명령을 입력한다. 호출 제안을 읽고 다음 입력을 보낸다. 도구 밖 명령도 입력해 빈 호출을 관찰한다. 예상과 실제가 달라도 그대로 기록한다. 빈 입력은 건너뛰고 `/bye`로 종료한다.
+
+확인: 입력·호출·다음 입력·종료를 직접 관찰했다. 일반 챗봇의 자유 답변과 툴 콜링 응답을 구분한다.
+
+### 단계 3 반복과 문맥 구분
+
+독립 명령을 반복하는 경우와 앞 명령을 가리키는 “그 LED” 입력을 비교한다. 제공 예제는 같은 모델을 재사용하되 질문마다 이력을 초기화한다. 앞 명령의 LED를 기억한다고 가정하지 말고 번호를 다시 적는다. 이력 전달이 있어야 문맥이 이어지며 반복문만으로 문맥 유지가 보장되지는 않는다.
+
+수업 전 시뮬레이터의 TCP·HTTP 연결을 준비한다. 함수 허용 목록·인자 이름·타입·범위를 검사한 뒤 실행하고 HTTP `GET /state`를 확인한다. `ex01` 기본 모델 관찰과 `ex03`의 동일 4bit·20L 비교를 구분한다. TCP는 대화·세션 동안 한 번 유지한다. 연결 해제 시 LED가 초기화되므로 입력마다 재연결하지 않는다.
+
+확인: 호출 제안과 실제 제어 확인을 구분해 기록했다.
+
+## 2교시 짧은 로컬 LoRA 학습과 저장
+
+### 단계 4 학습 설정과 길이 점검
+
+`pyproject.toml`의 `[project.scripts]`에서 `ex02`의 실제 패키지를 찾는다. 해당 모듈 맨 위 `EPOCHS`, `BATCH_SIZE`, `MAX_LEN`, `LEARNING_RATE`를 읽고 실제 값과 변경 이유를 기록한다. 값을 바꿀 때도 실행 명령은 같다.
+
+초기값은 `EPOCHS=4`, `BATCH_SIZE=4`, `MAX_LEN=1024`, `LEARNING_RATE=1e-4`다. 데이터·실행 환경에 맞춰 조정할 수 있다. 제공 코드는 도구 정의·reasoning·정답 호출을 포함한 모든 예제의 최장 토큰 길이를 학습 전에 검사한다. `MAX_LEN` 초과 시 중단하며 예제를 잘라 학습하지 않는다. 필요하면 학습 데이터 길이·상수를 검토한 뒤 다시 검사한다.
+
+확인: 수정한 학습 데이터와 실제 상수, 길이 검사 방법이 있다.
+
+### 단계 5 학습과 산출물 확인
+
+```powershell
+uv run ex02
+```
+
+공식 cactus 컴포넌트로 로컬 LoRA 학습·내보내기를 진행한다. 실제 loss 변화와 실패를 읽고 `models/adapter.safetensors`, `models/tuned.cact`를 각각 확인한다. 공용 제공 함수가 B=0인 `models/baseline_adapter.safetensors`와 기본 4bit·20L의 `models/baseline.cact`도 만든다. 기본 체크포인트는 `models/checkpoints/needle3.safetensors`다. B=0 어댑터는 기본 가중치를 바꾸지 않는다. 학습이 실습 시간 안에 끝난다고 가정하지 않는다. 측정하지 않은 시간·성공률을 쓰지 않는다.
+
+확인: 어댑터는 변화량, `.cact`는 기본 가중치에 병합한 추론 파일이라고 설명한다. 어댑터 저장만 성공하고 내보내기가 실패했다면 그 상태를 분리해 적는다. loss 감소만으로 미학습 문항 성공을 선언하지 않는다.
+
+## 3교시 새 프로세스 복원과 동일 문항 비교
+
+### 단계 6 학습 종료와 새 프로세스 실행
+
+학습 프로세스를 종료하고 같은 프로젝트에서 새 명령을 시작한다.
+
+```powershell
+uv run ex03
+```
+
+`src/ex03_restore/__init__.py`가 `models/baseline.cact`, `models/tuned.cact`를 차례로 읽어 16문항을 평가하는지 소스와 대조한다. `ex03`는 대화 입력을 기다리지 않는다. 공식 API의 `weights=`는 `.cact`를 받는다. 기본 체크포인트나 어댑터 파일을 직접 넣지 않는다. 파일 존재와 모델 로드 성공을 따로 확인한다.
+
+확인: 학습 때 남아 있던 메모리 속 모델을 다시 호출한 것이 아니라 새 프로세스에서 파일을 읽었다.
+
+### 단계 7 동일 조건으로 전후 비교
+
+제공된 같은 16문항(한국어 8·영어 8, 호출 10·무호출 6)을 기본 4bit·20L와 학습 4bit·20L로 평가한다. 학습 48개와 문자열이 다르지만 이 검사만으로 의미 독립성까지 증명하지는 않는다. 도구 정의·생성 조건·문항 사이 이력 초기화도 맞춘다. 일반 배포 기본 2bit 모델을 비교 기준으로 섞지 않는다. 현재 비교는 문항마다 이력을 초기화한다.
+
+매 문항 LED를 `[0, 64, 128, 255]`로 복원하고 `GET /state`로 확인한다. 연결은 세션 동안 유지하며 이력 초기화와 TCP 연결 해제를 구분한다. 센서값은 `read_environment()`의 함수 반환에서 읽는다.
+
+[실습지](lab.md)의 비교표에 기대 호출·학습 전·학습 후·판정 근거를 적는다. 함수 정확도, 호출 완전일치(호출 목록 순서·인자 값 포함), 실제 상태 성공, 오호출률, median·p95를 읽는다. 함수 호출 목록의 순서와 인자 이름·값의 대응을 확인하며 JSON 딕셔너리 키 나열 순서는 평가하지 않는다. 지연 출력은 초 단위다. 아래 기준 실측처럼 ms로 환산하면 단위를 함께 표시한다. 로컬 LoRA의 `confidence=None`을 기본 모델 점수와 같은 임계값으로 비교하지 않는다.
+
+확인: 형식·함수·인자를 나누어 비교했다. 실행한 경우에만 실제 상태를 제어 성공의 근거로 적었다.
+
+### 단계 8 오류 분석과 과제 점검
+
+틀린 함수, 틀린 인자, 실행·환경 오류를 나누고 실제 관찰·원인 가설·다음 확인 방법을 쓴다. 비교 문항을 학습에 그대로 옮겨 놓고 재평가하면 미학습 성능을 확인할 수 없다. 재학습은 별도 학습 예제를 수정한 뒤 이 주차의 학습·저장·복원 절차로 돌아간다.
+
+[종합과제 안내](assignment_brief.md)와 [정성 루브릭](assignment_rubric.md)을 읽고 근거·설명·질문을 점검한다. 실행한 연결은 명시적으로 해제하고 LED 초기화를 확인한다.
+
+## 막힌 위치와 다음 확인
+
+| 증상 | 다음 확인 |
+|---|---|
+| 명령을 찾을 수 없음 | 주차 `examples/`인지, `[project.scripts]`가 있는지, 수정 뒤 `uv sync`를 했는지 확인 |
+| 로컬 의존성 경로 없음 | 저장소 전체를 clone했는지, `tools/bleuno-control/src/bleuno_control`이 있는지 확인 |
+| 모델·엔진 다운로드 요청 | 수업 전 준비 상태를 확인하고 다운로드 시간을 학습 시간으로 기록하지 않음 |
+| 데이터 읽기 실패 | 실제 데이터 경로, JSONL 한 줄 구조와 인자 타입 확인 |
+| 학습 중 메모리·JAX 오류 | 실제 백엔드·상수·오류를 남기고 강의자가 검증한 환경과 대조 |
+| 어댑터만 있고 `.cact` 없음 | 내보내기 완료 여부와 기본 체크포인트 확인 |
+| `.cact` 로드 실패 | 실제 경로, 내보낸 패키지와 엔진 버전의 호환 확인 |
+| loss 감소 뒤 비교 실패 | 미학습 문항의 함수·인자, 길이 초과, 비교 조건을 별도로 점검 |
+| 호출은 맞는데 LED 상태가 다름 | 검사 결과·실행 반환·초기 상태·연결 해제 여부 확인 |
+
+## 공식 근거
+
+[Fine-tuning Needle](https://cactuscompute.com/blog/finetuning-needle)과 [Needle Python Docs](https://cactuscompute.com/blog/needle-python-docs)를 참고한다. `ex01`~`ex03`, 네 제어 함수와 수업 시간 배분은 수업 설계다. 공식 API 설명과 기준 PC의 단일 실측을 구분하고 자신의 실행 근거를 남긴다.

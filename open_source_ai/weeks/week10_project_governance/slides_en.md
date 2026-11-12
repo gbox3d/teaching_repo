@@ -3,381 +3,260 @@ marp: true
 theme: default
 paginate: true
 header: "Open Source AI Applications · Week 10"
-footer: "Project Proposals and Open Source Governance"
+footer: "Python functions and Ollama tool calls"
 ---
 
-# Week 10
-## Project Proposals and Open Source Governance
+<!-- _class: lead -->
 
-**Three 60-minute blocks**<br>
-Each block: 20 min explanation & demo + 30 min hands-on lab + 10 min break
+# Period 1 · 20-minute explanation
+## Direct Python control
 
 ---
 
-## This Week's Three Blocks
+## 0–3 min · Separate control functions
 
-| Session | 20 min explanation & demo | 30 min hands-on lab |
-|---|---|---|
-| Block 1 | Open source governance — roles, rules, health metrics | Governance document analysis table |
-| Block 2 | Defining the problem and justifying technical choices | Team proposal draft |
-| Block 3 | Milestones, roles, and the proposal pitch | Team repository and issue breakdown |
+Manual commands and natural language use different forms.
+The LED action and validation rules stay the same.
 
-Through Week 8 you worked alone. Starting this week, you grow **one team repository** all the way to the Week 15 release.
+Shared control functions let us change the input method.
+We begin with direct Python control.
 
-**Question:** In a repository with not a single line of code yet, what should be decided first?
+---
+
+## 3–6 min · Four functions and valid inputs
+
+| Function | Input |
+|---|---|
+| `turn_on(index)` / `turn_off(index)` | Integer 0–3 |
+| `set_brightness(index, value)` | Index 0–3, integer value 0–255 |
+| `read_environment()` | No arguments |
+
+Reject `True` and `False` for numeric arguments.
+
+---
+
+## 6–9 min · One project and a shared library
+
+Create a Python 3.12 package with `uv init --package --python 3.12 --vcs none`.
+Use a full clone of `teaching_repo` for the lab.
+
+Scripts connect `ex01`–`ex03` to package `main()` functions.
+`uv_build` installs them. Run `uv sync` after script changes.
+
+Weekly `shared` imports the relative path dependency `bleuno_control`.
+
+---
+
+## 9–12 min · Simulator and two connections
+
+In a separate terminal at the repository root:
+
+```powershell
+uv run --python 3.12 tools/bleuno-sim/sim.py --bind 127.0.0.1
+```
+
+TCP 8266 sends commands. HTTP 8080 serves `GET /state`.
+Add `--no-window` for checks without a window.
+
+---
+
+## 12–15 min · Persistent connection and events
+
+A `hello` event arrives after connection.
+Skip event lines while waiting for command replies.
+
+Keep the same TCP connection during control.
+New connections and disconnections reset the LEDs.
+
+Read the state before ending the program.
+
+---
+
+## 15–18 min · Manual command and observed state
+
+Run `uv run ex01` and follow its manual command syntax.
+
+Turn on LED 0, set LED 1 to 128, turn off LED 0, read sensors.
+Refresh `http://127.0.0.1:8080/state` after each command.
+
+Record arguments, command replies, and observed state.
+
+---
+
+## 18–20 min · Period 1 lab
+
+Follow the manual control tasks in the [lab](lab.md).
+
+Compare boundary values and invalid inputs.
+Check empty input, another command, and exit.
+Record why functions are shared and the state before exit.
+
+Lab: 30 minutes. Break: 10 minutes.
 
 ---
 
 <!-- _class: lead -->
 
-# Block 1 · 20 min explanation
-## Open Source Governance — Roles, Rules, Health Metrics
+# Period 2 · 20-minute explanation
+## Ollama tool calling
 
 ---
 
-## 0–3 min · What Gets Decided Before Code
+## 0–3 min · Natural language and call proposals
 
-```text
-Governance = who (role) decides and changes what (scope of decision) and how (process)
-```
+“Turn on LED 0.”
 
-- Working alone, "I decide" was enough.
-- With three people, you need merge rights, a review order, and a tiebreaker for conflicts.
-- If the rule isn't in a document, the rule belongs to whoever speaks loudest.
+The model proposes `turn_on` with `index=0`.
+Python validates the arguments and executes an allowed function.
+Then it reads the actual state.
 
-**Rules should be committed to the repository, just like code.**
-
-**Question:** If two teammates each insist on a different model, who decides, and how?
+A proposal alone does not change the device.
 
 ---
 
-## 3–6 min · Four Roles
+## 3–6 min · Tool names and arguments
 
-```text
-User ──▶ Contributor ──▶ Committer ──▶ Maintainer
- (runs it)   (Issues, PRs)  (merge rights)  (direction, releases, rules)
-```
+Give the model each tool's name, description, and argument schema.
 
-| Role | What they do | Authority |
-|---|---|---|
-| User | Runs it, reports bugs | None |
-| Contributor | Issues, PRs, review comments | Only within their fork |
-| Committer | Approves reviews, merges | Write access to branches |
-| Maintainer | Roadmap, releases, rule changes | Repository settings |
+`index`: LED number 0–3.
+`value`: integer brightness 0–255.
 
-On our team, all three of you are committers, and **the maintainer role rotates** (whoever handles the release).
+Declare only the four control functions.
+Do not expose sensor mutation with `POST /set`.
 
 ---
 
-## 6–9 min · Decision-Making Models
+## 6–9 min · Connect the same Ollama model
 
-| Model | Who decides | Example | Strength / weakness |
-|---|---|---|---|
-| BDFL | One founder | Small early-stage projects | Fast · bus factor of 1 |
-| Committee | Elected/appointed maintainers | Large community projects | Stable · slow |
-| Foundation | A technical committee under a legal entity | Projects shared across companies | Neutral · heavy process |
+Use `qwen3.5:2b`.
+`models.ollama_predict` requests tool calls from Ollama.
 
-- Look past the model's name to **where the decision gets recorded**: an Issue thread, an RFC doc, meeting minutes.
-- For a team project, "no consensus -> post reasoning in an Issue, then majority vote; a tie is broken by whoever owns this milestone" is enough.
+`uv run ex02`
 
----
-
-## 9–12 min · The Set of Rule Documents
-
-| File | Question it answers |
-|---|---|
-| `CODE_OF_CONDUCT.md` | How do we treat each other — adopting the Contributor Covenant |
-| `CONTRIBUTING.md` | How do you contribute — branches, PRs, review, response time |
-| `.github/ISSUE_TEMPLATE/*.md` | What has to be written for a report to count |
-| `.github/PULL_REQUEST_TEMPLATE.md` | How to describe a change |
-| `LICENSE` | Under what terms can it be used and shared |
-
-GitHub shows these files together on one screen at **Insights → Community Standards**.
-
-**Question:** What's the difference between a CoC that's copy-pasted in full and one that just declares "we adopt X"?
+Read the proposed function name and arguments.
+Compare the actual state before the next request.
 
 ---
 
-## 12–15 min · Project Health Metrics
+## 9–12 min · Validation before execution
 
-| Metric | Where to read it | What it tells you |
-|---|---|---|
-| First-response time | First comment time on the last 3 Issues | Is the maintainer active? |
-| Open/closed Issue ratio | Open and Closed counts on the Issues tab | How fast issues get handled |
-| Release cadence | Dates on the Releases tab | Predictable shipping |
-| Bus factor | Top-contributor share on Insights → Contributors | How many people leaving would stop the project |
+Is the function allowed?
+Are required arguments present without extra arguments?
+Are values integers in range, excluding booleans?
 
-- A single number doesn't say "good" or "bad" by itself. **Compare two projects by the same yardstick.**
-- Roughly estimate bus factor as "commit share of the top 3 contributors."
-
-**Question:** What does it mean when first response is fast but the release cadence is long?
+Execute only validated calls.
+Record a bad proposal separately from successful blocking.
 
 ---
 
-## 15–17 min · Demo — Two Repositories, the Same Table
+## 12–15 min · Rejected requests and state checks
 
-1. `huggingface/transformers` -> Insights -> Community Standards -> check each item.
-2. The `.github/` folder -> number of issue template types -> the last 5 release dates.
-3. Do the same for `ollama/ollama`.
-4. Fill in the numeric items with a script.
+`Turn on LED 4.`
+`Set the temperature to 30 degrees.`
 
-```powershell
-uv run python repo_health.py --repo huggingface/transformers --repo ollama/ollama
-```
+Request an invalid index and an unavailable operation.
+Separate the proposal, validation, and actual state.
 
-The output `outputs/health-*.json` records whether community files exist, release cadence, and top-3 commit share.
-**Evidence read in the browser comes first; the script only supports it.**
+A blocked bad proposal remains a model error.
 
 ---
 
-## 17–20 min · Handoff to Lab
+## 15–18 min · Repeated input and conversation state
 
-[Block 1 lab — Governance Document Analysis Table](lab.md#1교시-실습--거버넌스-문서-분석표) · [Period files](examples/period1/README.md)
+Accept another request after each response. Skip empty lines.
+Repeated input and retained conversation are different.
 
-Completion criteria:
+Distinguish “Turn it off” from “Turn off LED 0.”
+Evaluation items do not rely on earlier conversation.
 
-1. `governance_survey.md` lists, with source URLs, both projects' CoC, CONTRIBUTING, issue templates, release cadence, and maintainer count.
-2. You recorded a first-response-time sample (3 Issues) and the top-3 commit share.
-3. "Three rules our team will adopt" has a source and a plan for applying each one.
+Device connection state and model history are separate.
 
-30 min lab, then a 10 min break. Block 2 follows the break.
+---
+
+## 18–20 min · Period 2 lab
+
+Enter requests in `uv run ex02`.
+
+Compare valid, out-of-range, and unsupported requests.
+Record actual responses to Korean and English inputs.
+Separate success text from state agreement.
+
+Lab: 30 minutes. Break: 10 minutes.
 
 ---
 
 <!-- _class: lead -->
 
-# Block 2 · 20 min explanation
-## Defining the Problem and Justifying Technical Choices
+# Period 3 · 20-minute explanation
+## Repeated checks on the same inputs
 
 ---
 
-## 0–3 min · A Problem, Not an Idea
+## 0–3 min · A fixed set of 16 cases
 
-```text
-[User] runs into [problem] in [situation].
-Right now they solve it with [current solution], but it has [limitation].
-```
+Use the shared `control_cases.json`.
 
-- "We'll build a class-helper chatbot" is an idea. It isn't a problem.
-- "A student who hits a uv error during lab searches the web, but the answer misses our class context (uv, Ollama, Windows)" is a problem.
+8 Korean cases and 8 English cases.
+10 call cases and 6 no-call cases.
 
-**If the problem statement wobbles, your model and data choices wobble too.**
+Keep inputs and expected outputs fixed.
+Do not change answers to match model outputs.
 
 ---
 
-## 3–6 min · One User, One Situation
+## 3–6 min · Initial state and warm-up
 
-| Item | Example |
-|---|---|
-| User | A student taking this course |
-| Situation | Must fix an error within a 30-minute lab |
-| Current solution | Web search, asking a neighbor |
-| Limitation | Answers don't match the class setup; not enough people to ask |
-| Success signal | Enter the error message, get a first step back with a citation to a class document |
+Restore LEDs to `[0, 64, 128, 255]` over TCP before each case.
+Process model cases independently.
 
-- "All developers" is not a user. Pick **one person whose face you can picture**.
-- The success signal must be something you can actually measure in the Week 12 beta.
+Exclude one warm-up from scoring and timings.
+Record model preparation time separately.
 
-**Question:** How is your team's user solving this problem right now?
+Compare sensor reads with the current simulator state.
 
 ---
 
-## 6–9 min · Must / Should / Could
+## 6–10 min · Selection, exact match, and control
 
-| Grade | Meaning | Example |
-|---|---|---|
-| Must | No beta without it (3 items) | Error message in -> sourced answer, `/health`, a run-it README |
-| Should | Clearly good to have | Chat history, auto-updating class docs |
-| Could | If time allows | Web UI theme, voice input |
+Function selection: which functions did the model choose?
+Exact match: do names, arguments, and call order all match?
+Control success: exact match plus matching actual state.
 
-- Must is **exactly the 3 things that absolutely must be in the Week 12 beta (Project 3)**.
-- Should-or-higher becomes an Issue, but scheduled after milestone M3.
-- Over-scoping is the most common failure. 5 Musts is already too many.
+False-call rate: proposals on the 6 no-call cases.
+Count bad proposals even when validation blocks them.
 
 ---
 
-## 9–12 min · Four Criteria for Choosing a Model
+## 10–14 min · Median and p95 inference time
 
-| Criterion | How to check | What to record |
-|---|---|---|
-| License | The model card's SPDX ID or terms name | Commercial use and redistribution conditions |
-| VRAM | params × bits ÷ 8 + KV cache | Does it fit in 12 GB? |
-| Reproducibility | Ollama tag, pinned HF revision | The exact ID |
-| Korean quality | Compare the same 5 prompts | Reuse Week 4's `model_report.md` |
+Measure only model inference.
+Exclude LED restoration, execution, and HTTP state reads.
 
-```powershell
-uv run python vram_estimate.py --candidate "qwen3:8b,8.2B,4" --candidate "qwen3:0.6b,0.6B,4"
-```
+Median is the middle value. p95 is the 95th percentile.
+Handle warm-up and preparation separately.
 
-**Write the estimate and the measured value side by side.** An estimate alone isn't evidence.
+Record numbers only after measurement.
 
 ---
 
-## 12–15 min · Criteria for Choosing Data
+## 14–17 min · Run evaluation and reproduce failures
 
-| Criterion | Question |
-|---|---|
-| Availability | Self-written, public dataset, or user-generated — which is it? |
-| License | Is redistribution allowed, like CC-BY/CC0, or is it research-only? |
-| Privacy | Could emails, phone numbers, or name patterns show up? |
-| Volume | LoRA can start with as few as 40–60 self-written examples |
-| Eval split | Set aside 10–20 questions from the start that are never used for training |
+`uv run ex03`: fixed evaluation of the same model.
+`uv run ex02`: interactive reproduction of a failed input.
 
-- The sources of the texts you added to your Week 6 document assistant, plus Week 7's `SOURCES.md` and `experiments/run-001.md`, already stand as evidence for your data candidates.
-- "We'll get data later" is not a plan — it's a **risk**.
+Separate proposal, validation, transport, and state failures.
+Repeat the same input and record differences.
 
-**Question:** Who writes your team's first 50 examples, and when?
+Keep failed cases in the record.
 
 ---
 
-## 15–17 min · Risks and Mitigations
+## 17–20 min · Period 3 lab
 
-| Risk | Signal | Mitigation |
-|---|---|---|
-| No data | Zero training examples by Week 7 | Each of 3 teammates writes 20 |
-| VRAM shortage | OOM at load time | A smaller model, quantization, smaller `num_ctx` |
-| Over-scoping | 5+ Musts | Cut to 3 Musts, demote the rest to Should |
-| Team member drops out / goes silent | Commits landing on one person's branch only | Keep Issues small, cross-assign reviewers |
+Run the same 16 cases twice.
+Record accuracy metrics and inference median/p95 separately.
 
-Don't write a risk as "none." **The team that writes "none" is the one most stuck by Week 12.**
+Reproduce one failure in `ex02`.
+If all pass, explain one case's call and state evidence.
 
----
-
-## 17–20 min · Handoff to Lab
-
-[Block 2 lab — Team Proposal Draft](lab.md#2교시-실습--팀-제안서-초안) · [Period files](examples/period2/README.md)
-
-Completion criteria:
-
-1. `proposal.md` has one problem sentence, one user (situation, current solution, limitation, success signal), and 3 Musts.
-2. Two model candidates have license and VRAM estimate/measurement evidence; data candidates have how to get them, license, and a privacy check.
-3. Two risks each have a signal and a mitigation.
-
-30 min lab, then a 10 min break. Block 3 follows the break.
-
----
-
-<!-- _class: lead -->
-
-# Block 3 · 20 min explanation
-## Milestones, Roles, and the Proposal Pitch
-
----
-
-## 0–3 min · Counting Backward From Week 15
-
-| Week | Fixed | This week's decision |
-|---|---|---|
-| 15 | Final release package & pitch (Project 4) | What to demo |
-| 14 | `v0.1.0` tag & cross-reproduction | Who owns the release |
-| 13 | Testing, CI, security review | Which modules to test |
-| 12 | Service beta (Project 3) | The 3 Musts |
-| 10–11 | First LoRA experiment, data, evaluation | Model and data candidates |
-
-**A schedule is built by subtracting from the end, not adding from the start.**
-
-**Question:** Can you name, right now, one thing that absolutely must be in the Week 12 beta?
-
----
-
-## 3–6 min · Three Milestones
-
-```text
-M1 · Week 11 · First experiment log   experiments/run-001.md, DATA_CARD.md, 10-question eval set
-M2 · Week 12 · Service beta           /health, /chat, one UI, a run-it README   ← Project 3
-M3 · Week 15 · v0.1.0 release         green CI, tag, CHANGELOG, presentation   ← Project 4
-```
-
-- Define a milestone by "what has to exist for it to close." A milestone with only a date never closes.
-- Put Should/Could items in `Backlog`, after M3.
-
-**Question:** If M1 doesn't close by Week 11, what happens to M2?
-
----
-
-## 6–9 min · Principles for Breaking Down Issues
-
-| Principle | Weak example | Strong example |
-|---|---|---|
-| Small (≤ 3 days) | Implement LoRA training | Train run-001 with Week 7’s `uv run ex03` and record the loss |
-| Verifiable | Prepare data | `data/sft.jsonl` with 50 examples, passing `pii_check.py` |
-| One owner | The whole team | `student02` |
-| Belongs to a milestone | None | M1 |
-
-- Write the Issue title so it reads as a **completed state**.
-- An Issue with no "completion criteria" line can't be closed.
-
-```powershell
-uv run python issue_plan_check.py --plan issue_plan.json
-```
-
----
-
-## 9–12 min · PR Rules and Reviewers
-
-| Rule | Our team default |
-|---|---|
-| Branch name | `feat/<issue-number>-<short-description>` |
-| PR size | ≤ 300 changed lines, 1 PR per Issue |
-| Reviewer | Required: one teammate who isn't the author |
-| Self-merge | Forbidden (merge only after review approval) |
-| Expected response time | 48 hours after requesting review |
-
-- Write these in `CONTRIBUTING.md`, reflecting the 3 rules you chose in Block 1.
-- In Week 13 you'll **enforce these rules in the repository settings** via branch protection.
-
----
-
-## 12–15 min · Evidence of Individual Contribution
-
-```text
-Team repo -> Insights -> Contributors: who, when, how much
-Issues (assignee:@me) · Pull requests (author:@me) · Reviews (reviewed-by:@me)
-```
-
-- Even on a team project, **grading looks at each individual's commits, Issues, PRs, and Reviews**.
-- If everything is pushed under one account, the rest of the team's evidence disappears.
-- On shared PCs, each person logs in with their own account and logs out when done.
-
-**Question:** Code written together in pair programming — whose contribution does it register as?
-
----
-
-## 15–17 min · Structure of the 3-Minute Proposal Pitch
-
-| Time | Content | Rubric item |
-|---|---|---|
-| 0:00–0:30 | User and problem, in one sentence | Clarity of problem and user |
-| 0:30–1:15 | 3 Musts, model/data candidates and their licenses | Scope and technical justification, legality |
-| 1:15–2:15 | Architecture diagram, 3 milestones, roles | Realism of milestones and roles |
-| 2:15–3:00 | 2 risks and mitigations, Q&A | Timing and Q&A |
-
-- Criteria: [proposal_rubric.md](proposal_rubric.md). The presentation slot follows the school schedule.
-- Rehearse **with a timer running**. Record what you ran over on and what you left out.
-
----
-
-## 17–20 min · Handoff to Lab
-
-[Block 3 lab — Team Repository and Issue Breakdown](lab.md#3교시-실습--팀-저장소와-이슈-분해) · [Period files](examples/period3/README.md)
-
-Completion criteria:
-
-1. The team repository has LICENSE, CODE_OF_CONDUCT.md, CONTRIBUTING.md, and issue/PR templates, and `uv run team-project doctor` runs successfully.
-2. 3 milestones and 8–10 Issues are registered, each with completion criteria, an owner, and a milestone.
-3. `docs/rehearsal.md` has your 3-minute rehearsal record (time taken, what was missing, 2 expected questions).
-
-30 min lab, then a 10 min break.
-
----
-
-## This Week's Summary
-
-```text
-Governance: roles -> decision process -> rule documents -> health metrics
-Proposal:   one problem sentence -> one user -> 3 Musts -> model/data justification -> risks
-Execution:  count back from Week 15 -> 3 milestones -> 8-10 Issues -> PR rules -> individual evidence
-```
-
-Next week, `week07_peft_lora`: you actually LoRA-train one of the model candidates from your proposal.
-That experiment log is **the evidence that closes M1's first Issue**.
+Lab: 30 minutes. Break: 10 minutes.

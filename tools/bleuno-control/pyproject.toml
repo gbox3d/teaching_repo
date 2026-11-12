@@ -1,0 +1,14 @@
+[project]
+name = "bleuno-control"
+version = "0.1.0"
+description = "오픈소스 AI 실습의 공용 시뮬레이터 제어 함수"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+needle = ["cactus-compute==4.2.0"]
+train = ["cactus-compute[train]==4.2.0"]
+
+[build-system]
+requires = ["uv_build>=0.8,<0.9"]
+build-backend = "uv_build"

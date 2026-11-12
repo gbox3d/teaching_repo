@@ -1,0 +1,48 @@
+{"query":"LED 0 켜","answers":[{"name":"turn_on","arguments":{"index":0}}],"reasoning":"LED 0 is the index; 켜 asks to turn on."}
+{"query":"0번 LED 점등해","answers":[{"name":"turn_on","arguments":{"index":0}}],"reasoning":"0번 is index 0; 점등 means turn on."}
+{"query":"LED 0 꺼","answers":[{"name":"turn_off","arguments":{"index":0}}],"reasoning":"LED 0 is the index; 꺼 asks to turn off."}
+{"query":"0번 LED 소등해","answers":[{"name":"turn_off","arguments":{"index":0}}],"reasoning":"0번 is index 0; 소등 means turn off."}
+{"query":"Turn on LED 0","answers":[{"name":"turn_on","arguments":{"index":0}}],"reasoning":"Explicit LED index 0, turn on."}
+{"query":"Turn off LED 0","answers":[{"name":"turn_off","arguments":{"index":0}}],"reasoning":"Explicit LED index 0, turn off."}
+{"query":"LED 0 밝기 32로 설정","answers":[{"name":"set_brightness","arguments":{"index":0,"value":32}}],"reasoning":"LED 0 is index; 32 is brightness."}
+{"query":"LED 0 밝기 200로 설정","answers":[{"name":"set_brightness","arguments":{"index":0,"value":200}}],"reasoning":"LED 0 is index; 200 is brightness."}
+{"query":"LED 1 켜","answers":[{"name":"turn_on","arguments":{"index":1}}],"reasoning":"LED 1 is the index; 켜 asks to turn on."}
+{"query":"1번 LED 점등해","answers":[{"name":"turn_on","arguments":{"index":1}}],"reasoning":"1번 is index 1; 점등 means turn on."}
+{"query":"LED 1 꺼","answers":[{"name":"turn_off","arguments":{"index":1}}],"reasoning":"LED 1 is the index; 꺼 asks to turn off."}
+{"query":"1번 LED 소등해","answers":[{"name":"turn_off","arguments":{"index":1}}],"reasoning":"1번 is index 1; 소등 means turn off."}
+{"query":"Turn on LED 1","answers":[{"name":"turn_on","arguments":{"index":1}}],"reasoning":"Explicit LED index 1, turn on."}
+{"query":"Turn off LED 1","answers":[{"name":"turn_off","arguments":{"index":1}}],"reasoning":"Explicit LED index 1, turn off."}
+{"query":"LED 1 밝기 32로 설정","answers":[{"name":"set_brightness","arguments":{"index":1,"value":32}}],"reasoning":"LED 1 is index; 32 is brightness."}
+{"query":"LED 1 밝기 200로 설정","answers":[{"name":"set_brightness","arguments":{"index":1,"value":200}}],"reasoning":"LED 1 is index; 200 is brightness."}
+{"query":"LED 2 켜","answers":[{"name":"turn_on","arguments":{"index":2}}],"reasoning":"LED 2 is the index; 켜 asks to turn on."}
+{"query":"2번 LED 점등해","answers":[{"name":"turn_on","arguments":{"index":2}}],"reasoning":"2번 is index 2; 점등 means turn on."}
+{"query":"LED 2 꺼","answers":[{"name":"turn_off","arguments":{"index":2}}],"reasoning":"LED 2 is the index; 꺼 asks to turn off."}
+{"query":"2번 LED 소등해","answers":[{"name":"turn_off","arguments":{"index":2}}],"reasoning":"2번 is index 2; 소등 means turn off."}
+{"query":"Turn on LED 2","answers":[{"name":"turn_on","arguments":{"index":2}}],"reasoning":"Explicit LED index 2, turn on."}
+{"query":"Turn off LED 2","answers":[{"name":"turn_off","arguments":{"index":2}}],"reasoning":"Explicit LED index 2, turn off."}
+{"query":"LED 2 밝기 32로 설정","answers":[{"name":"set_brightness","arguments":{"index":2,"value":32}}],"reasoning":"LED 2 is index; 32 is brightness."}
+{"query":"LED 2 밝기 200로 설정","answers":[{"name":"set_brightness","arguments":{"index":2,"value":200}}],"reasoning":"LED 2 is index; 200 is brightness."}
+{"query":"LED 3 켜","answers":[{"name":"turn_on","arguments":{"index":3}}],"reasoning":"LED 3 is the index; 켜 asks to turn on."}
+{"query":"3번 LED 점등해","answers":[{"name":"turn_on","arguments":{"index":3}}],"reasoning":"3번 is index 3; 점등 means turn on."}
+{"query":"LED 3 꺼","answers":[{"name":"turn_off","arguments":{"index":3}}],"reasoning":"LED 3 is the index; 꺼 asks to turn off."}
+{"query":"3번 LED 소등해","answers":[{"name":"turn_off","arguments":{"index":3}}],"reasoning":"3번 is index 3; 소등 means turn off."}
+{"query":"Turn on LED 3","answers":[{"name":"turn_on","arguments":{"index":3}}],"reasoning":"Explicit LED index 3, turn on."}
+{"query":"Turn off LED 3","answers":[{"name":"turn_off","arguments":{"index":3}}],"reasoning":"Explicit LED index 3, turn off."}
+{"query":"LED 3 밝기 32로 설정","answers":[{"name":"set_brightness","arguments":{"index":3,"value":32}}],"reasoning":"LED 3 is index; 32 is brightness."}
+{"query":"LED 3 밝기 200로 설정","answers":[{"name":"set_brightness","arguments":{"index":3,"value":200}}],"reasoning":"LED 3 is index; 200 is brightness."}
+{"query":"온습도 확인해","answers":[{"name":"read_environment","arguments":{}}],"reasoning":"Read the sensors; no arguments."}
+{"query":"온도와 습도 알려 줘","answers":[{"name":"read_environment","arguments":{}}],"reasoning":"Read temperature and humidity."}
+{"query":"센서 값을 읽어","answers":[{"name":"read_environment","arguments":{}}],"reasoning":"Read the environmental sensor."}
+{"query":"Read temperature and humidity","answers":[{"name":"read_environment","arguments":{}}],"reasoning":"Read the sensors; no arguments."}
+{"query":"LED 켜","answers":[],"reasoning":"Missing a required value, outside the allowed range, or unsupported. Do not call."}
+{"query":"불 꺼","answers":[],"reasoning":"Missing a required value, outside the allowed range, or unsupported. Do not call."}
+{"query":"음악 틀어 줘","answers":[],"reasoning":"Missing a required value, outside the allowed range, or unsupported. Do not call."}
+{"query":"문을 잠가","answers":[],"reasoning":"Missing a required value, outside the allowed range, or unsupported. Do not call."}
+{"query":"7번 LED 켜","answers":[],"reasoning":"Missing a required value, outside the allowed range, or unsupported. Do not call."}
+{"query":"LED 1 밝기 -1","answers":[],"reasoning":"Missing a required value, outside the allowed range, or unsupported. Do not call."}
+{"query":"LED 2 밝기 999","answers":[],"reasoning":"Missing a required value, outside the allowed range, or unsupported. Do not call."}
+{"query":"Set the temperature to 20","answers":[],"reasoning":"Missing a required value, outside the allowed range, or unsupported. Do not call."}
+{"query":"Tell me the time","answers":[],"reasoning":"Missing a required value, outside the allowed range, or unsupported. Do not call."}
+{"query":"Do nothing","answers":[],"reasoning":"Missing a required value, outside the allowed range, or unsupported. Do not call."}
+{"query":"0번 LED 켜고 2번 LED 꺼","answers":[{"name":"turn_on","arguments":{"index":0}},{"name":"turn_off","arguments":{"index":2}}],"reasoning":"Turn on index 0, then turn off index 2."}
+{"query":"3번 LED 꺼서 0번 밝기를 32로","answers":[{"name":"turn_off","arguments":{"index":3}},{"name":"set_brightness","arguments":{"index":0,"value":32}}],"reasoning":"Turn off index 3, then set index 0 brightness to 32."}

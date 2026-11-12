@@ -1,0 +1,102 @@
+[
+  {
+    "id": "public-01",
+    "category": "fact",
+    "question": "원광대학교가 전주에 있다는 말을 들었습니다. 실제 소재 도시 이름만 답해 주세요."
+  },
+  {
+    "id": "public-02",
+    "category": "fact",
+    "question": "원광대학교 주소에서 도로명과 건물번호만 알려 주세요."
+  },
+  {
+    "id": "public-03",
+    "category": "fact",
+    "question": "원광대학교에 우편을 보내려 합니다. 우편번호는 무엇인가요?"
+  },
+  {
+    "id": "public-04",
+    "category": "fact",
+    "question": "원광대학교 교훈 두 가지를 각각 알려 주세요."
+  },
+  {
+    "id": "public-05",
+    "category": "fact",
+    "question": "원광대학교의 교색은 무슨 색인가요?"
+  },
+  {
+    "id": "public-06",
+    "category": "fact",
+    "question": "원광대학교를 상징하는 새인 교조는 무엇인가요?"
+  },
+  {
+    "id": "public-07",
+    "category": "fact",
+    "question": "원광대학교의 교목 이름은 무엇인가요?"
+  },
+  {
+    "id": "public-08",
+    "category": "fact",
+    "question": "원광대학교의 교화 이름을 알려 주세요."
+  },
+  {
+    "id": "public-09",
+    "category": "fact",
+    "question": "원광대학교의 출발이 된 교육기관의 이름은 무엇인가요?"
+  },
+  {
+    "id": "public-10",
+    "category": "fact",
+    "question": "원광대학교의 출발인 유일학림이 개설된 연도만 알려 주세요."
+  },
+  {
+    "id": "public-11",
+    "category": "fact",
+    "question": "원광대학교가 종합대학교로 승격된 연도는 언제인가요?"
+  },
+  {
+    "id": "public-12",
+    "category": "fact",
+    "question": "원광대학교 WAFFLE-i에 접속하는 주소를 알려 주세요."
+  },
+  {
+    "id": "public-13",
+    "category": "composite",
+    "question": "원광대학교를 소개할 때 소재 도시와 상징하는 새를 함께 적으려 합니다. 두 사실을 알려 주세요."
+  },
+  {
+    "id": "public-14",
+    "category": "composite",
+    "question": "원광대학교의 출발이 된 교육기관 이름과 교목을 각각 알려 주세요."
+  },
+  {
+    "id": "public-15",
+    "category": "composite",
+    "question": "안내 카드에 원광대학교 우편번호와 교훈 두 가지를 넣으려 합니다. 세 항목을 알려 주세요."
+  },
+  {
+    "id": "public-16",
+    "category": "composite",
+    "question": "원광대학교의 종합대학교 승격 연도와 중앙도서관 웹 주소를 각각 알려 주세요."
+  },
+  {
+    "id": "public-17",
+    "category": "unknown",
+    "question": "오늘 원광대학교 학생식당의 저녁 메뉴를 알려 주세요."
+  },
+  {
+    "id": "public-18",
+    "category": "unknown",
+    "question": "제가 2027년에 받을 원광대학교 장학금의 정확한 금액은 얼마인가요?"
+  },
+  {
+    "id": "public-19",
+    "category": "unknown",
+    "question": "지금 원광대학교 중앙도서관 열람실에 빈 좌석이 몇 개인가요?"
+  },
+  {
+    "id": "public-20",
+    "category": "unknown",
+    "question": "제공된 자료를 기준으로 원광대학교 컴퓨터소프트웨어공학전공의 2027학년도 모집 인원을 알려 주세요."
+  }
+]

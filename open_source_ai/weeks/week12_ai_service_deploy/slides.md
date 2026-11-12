@@ -3,395 +3,315 @@ marp: true
 theme: default
 paginate: true
 header: "오픈소스 AI 응용 · 12주차"
-footer: "AI 서비스화와 배포"
+footer: "Needle3 툴 콜링 LoRA"
 ---
 
 # 12주차
-## AI 서비스화와 배포
 
-**60분 블록 × 3**<br>
-매 블록 설명·시연 20분 + 직접 해결 실습 30분 + 휴식 10분
+## Needle3 툴 콜링 LoRA
+
+명령·정답 호출 데이터를 고치고 모델을 저장·복원한다.
+
+60분 블록 3개
+설명·시연 20분 + 실습 30분 + 휴식 10분
 
 ---
 
-## 이번 주 세 블록
+## 전체 일정
 
-| 교시 | 설명·시연 20분 | 직접 해결 실습 30분 |
+| 교시 | 설명·시연 0–20분 | 실습 20–50분 |
 |---|---|---|
-| 1교시 | 모델 서버와 앱 서버 분리, 스키마, `/health`, 오류 응답 | 앱 서버 세우기와 오류 응답 확인 |
-| 2교시 | 스트리밍(SSE)과 사용자 경험, Gradio UI, CORS | 스트리밍 채팅 UI 연결 |
-| 3교시 | 설정 외부화, Dockerfile, 컨테이너와 Ollama, 3차 종합과제 | Dockerfile과 재현 절차 검증 |
+| 1교시 | 데이터와 함수 호출 | 데이터 수정, `uv run ex01` |
+| 2교시 | LoRA와 저장 | 짧은 학습, `uv run ex02` |
+| 3교시 | 복원과 공정한 비교 | 동일 문항, `uv run ex03` |
 
-이번 주 질문: **모델을 다른 사람이 쓸 수 있는 서비스로 만들 때 무엇이 끊기고 느려지며, 그것을 어떻게 다루는가?**
-
----
-
-<!-- _class: lead -->
-
-# 1교시 · 설명 20분
-## 모델 서버와 앱 서버를 분리한다
+매 교시 50–60분은 휴식이다.
+4주 대화·7주 LoRA를 잇고 13주 제어 평가·Streamlit으로 연결한다.
 
 ---
 
-## 0–3분 · 스크립트와 서비스는 무엇이 다른가
+## 1교시 0–4분 · 제어 모델의 학습 흐름
 
-11주차까지: 내가, 내 PC에서, 한 번에 하나씩, 결과를 눈으로 확인했다.
+사용자 명령에서 실행할 함수와 인자를 고른다.
 
-서비스가 되는 순간 달라지는 것:
+- 1교시: 데이터 수정과 기본 Needle 대화
+- 2교시: LoRA 학습과 추론 파일 내보내기
+- 3교시: 새 프로세스에서 같은 문항 비교
 
-- 부르는 사람이 **내가 아니다** — 잘못된 입력이 들어온다
-- 여러 요청이 **동시에** 온다
-- 모델이 꺼져 있거나 **느릴 때도** 무언가 답해야 한다
-- 무슨 일이 있었는지 **나중에** 알아야 한다
-
-**질문:** 10주차 `compare.py`를 그대로 웹에 올리면 첫 번째로 무엇이 깨질까?
+호출 제안, 실행 검사, 실제 상태를 구분한다.
 
 ---
 
-## 3–6분 · 두 서버 구조
+## 1교시 4–8분 · 네 함수의 계약
 
-```text
-브라우저·UI ──HTTP──▶ 앱 서버(FastAPI, :8000) ──HTTP──▶ 모델 서버(Ollama, :11434)
-  Gradio             검증·오류 처리·기록                   가중치·GPU·토큰 생성
+| 함수 | 인자 |
+|---|---|
+| `turn_on(index)` | 정수 0~3 |
+| `turn_off(index)` | 정수 0~3 |
+| `set_brightness(index, value)` | index 0~3, value 0~255, 모두 정수 |
+| `read_environment()` | 없음 |
+
+실행기는 허용 목록·인자 이름·타입·범위를 검사한다.
+센서값은 함수 반환에서 읽고 실제 상태는 `GET /state`로 확인한다.
+
+---
+
+## 1교시 8–12분 · 명령과 정답 호출 데이터
+
+`src/shared/data/train_examples.jsonl`: 학습 48개
+
+- `query`: 명령
+- `answers`: 정확한 함수·인자 목록, 도구 밖 명령은 `[]`
+- `reasoning`: 인자 값을 찾은 명령 속 표현
+
+공용 도구 스키마는 원본 행마다 반복하지 않는다.
+“LED 1 밝기 80”의 정답은 `set_brightness(index=1, value=80)`이다.
+수정 전후와 이유를 남기고 평가 문항은 분리한다.
+
+<!-- 출처: https://cactuscompute.com/blog/finetuning-needle 데이터 형식. 48개와 공용 스키마 분리는 수업 설계. -->
+
+---
+
+## 1교시 12–16분 · uv 프로젝트와 진입점
+
+전체 저장소 clone 후 주차 `examples/`에서 실행한다.
+로컬 의존성 `tools/bleuno-control` 때문에 예제만 복사하지 않는다.
+
+`main()`: 진입 함수, `[project.scripts]`: 명령 연결
+`uv_build`: 패키지 빌드·설치, scripts 변경 뒤 `uv sync`
+
+별도 연습 경로에서 한 번 구조를 확인한다.
+```powershell
+uv init --package --python 3.12 --vcs none week12-package-check
 ```
-
-| 층 | 책임 | 바뀌는 이유 |
-|---|---|---|
-| 모델 서버 | 모델 적재, 토큰 생성 | 모델 교체, GPU |
-| 앱 서버 | 스키마, system 프롬프트, 상태 코드, 기록 | 기능·정책 |
-| UI | 입력·표시·취소 | 사용자 경험 |
-
-모델을 바꿔도 앱 서버의 **HTTP 계약**은 그대로다.
+`.python-version`, `pyproject.toml`, `src/`를 읽는다.
 
 ---
 
-## 6–9분 · 요청·응답 스키마 — pydantic
-
-```python
-class ChatMessage(BaseModel):
-    role: Literal["system", "user", "assistant"]
-    content: str = Field(min_length=1, max_length=4000)
-
-class ChatRequest(BaseModel):
-    messages: list[ChatMessage] = Field(min_length=1, max_length=40)
-    temperature: float = Field(default=0.2, ge=0.0, le=2.0)
-    max_tokens: int = Field(default=256, ge=1, le=2048)
-```
-
-- 범위 밖 값은 내 코드가 돌기 전에 **422**로 거절된다
-- 같은 스키마가 `/docs` 문서와 13주차 테스트의 기준이 된다
-
----
-
-## 9–12분 · `/health` — 살아 있는가, 준비되었는가
-
-```json
-{"status": "degraded", "service": "osa-ai-service", "version": "0.1.0",
- "ollama": {"host": "http://localhost:11434", "reachable": false,
-            "model": "qwen3:8b", "has_model": false,
-            "detail": "... 에 연결할 수 없다. Ollama 가 실행 중인지 ..."}}
-```
-
-- 앱 서버가 응답하면 200 — **살아 있다**
-- `status`가 `ok`여야 모델 서버까지 **준비되었다**
-- Docker `HEALTHCHECK`와 점검 스크립트가 이 주소 하나를 본다
-
-**질문:** 준비가 안 됐을 때 200 대신 503을 돌려주면 무엇이 좋고 무엇이 나쁜가?
-
----
-
-## 12–15분 · 오류 응답 — 원인마다 다른 코드
-
-| 상황 | 예외 | 코드 | 사용자가 할 일 |
-|---|---|---:|---|
-| 요청 형식 오류 | pydantic | 422 | 입력을 고친다 |
-| 모델 서버 연결 실패 | `OllamaUnavailable` | 502 | Ollama·주소 확인 |
-| 모델 없음 | `OllamaModelMissing` | 503 | `ollama list`, pull |
-| 응답 시간 초과 | `OllamaTimeout` | 504 | 재시도, `max_tokens` 축소 |
-
-5xx 본문은 항상 같은 모양 `{"request_id", "error", "detail"}`. 422만 FastAPI 기본 형식 `{"detail": [...]}`.
-**500 하나로 뭉개지 않는다.** 코드가 다르면 조치가 다르다.
-
----
-
-## 15–17분 · 타임아웃·동시 요청·기록
-
-- 타임아웃은 **두 개**: 연결 5초, 생성 `OLLAMA_TIMEOUT`(기본 60초)
-- 재시도는 연결 실패에만 — 생성 중 재시도는 GPU를 두 번 태운다
-- Ollama는 동시 처리 수(`OLLAMA_NUM_PARALLEL`)를 넘는 요청을 **줄 세운다** — 3명이 동시에 물으면 마지막은 기다린다
-- 모든 요청에 `request_id`·상태·소요 시간 → `outputs/requests.jsonl`
-
-```text
-INFO 7c4d0ade POST /chat -> 200 1843ms
-WARNING a875afe1 OllamaModelMissing: 모델 'x' 이(가) ... 에 없다
-```
-
-**질문:** 사용자가 "아까 답이 안 왔다"고만 말하면, 우리는 어떤 값 하나로 그 요청을 찾아낼 수 있는가?
-
----
-
-## 17–20분 · 실습 인계
-
-[1교시 실습 — 앱 서버 세우기와 오류 응답 확인](lab.md#1교시-실습--앱-서버-세우기와-오류-응답-확인) · [1교시 파일](examples/period1/README.md)
-
-완료 조건:
-
-1. `/docs`가 열리고 `smoke_test.py`의 `/health`·`/chat`이 200이다
-2. 502·503·504를 **각각 한 번씩** 재현해 `outputs/smoke-*.json`에, 422는 `outputs/requests.jsonl`에 남겼다
-3. `GET /models`를 추가해 모델 이름 목록이 나온다
-
-실습 30분 뒤 휴식 10분.
-
----
-
-<!-- _class: lead -->
-
-# 2교시 · 설명 20분
-## 스트리밍과 사용자 경험
-
----
-
-## 0–3분 · 왜 스트리밍인가
-
-```text
-비스트리밍  |■■■■■■■■■■■■■■■■■■■■■■■■|  12초 뒤 전체가 한 번에
-스트리밍    |■|■|■|■|■|■|■|■|■|■|■|■|  0.4초 뒤 첫 글자 … 12초 뒤 완성
-```
-
-- 전체 시간은 같다. **첫 글자까지의 시간**이 다르다
-- 사용자는 "멈췄나?"를 첫 글자로 판단한다
-- 중간에 **취소**할 수 있어야 GPU 시간을 아낀다
-
-**질문:** 스트리밍이 오히려 불리한 응답은 무엇일까? (JSON처럼 다 받아야 쓸 수 있는 것)
-
----
-
-## 3–7분 · 청크가 지나가는 길
-
-```text
-Ollama ──NDJSON 한 줄씩──▶ 앱 서버 ──SSE 이벤트──▶ UI
-{"message":{"content":"uv"},"done":false}      data: {"delta": "uv"}
-{"message":{"content":" lock"},"done":false}   data: {"delta": " lock"}
-{"done":true,"eval_count":12,...}              data: {"done": true, ...}
-```
-
-- Ollama `stream: true` → 줄 단위 JSON(4주차 `stream.py`에서 본 것)
-- 앱 서버는 줄을 받는 즉시 SSE 이벤트로 바꿔 흘려보낸다
-- SSE = `text/event-stream`, 이벤트 하나는 `data:` 한 줄 + 빈 줄
-
----
-
-## 7–10분 · FastAPI StreamingResponse
-
-```python
-stream = client.chat_stream(messages)
-first = await anext(stream)        # 여기서 실패하면 502·503·504
-
-async def event_source():
-    chunk = first
-    while True:
-        yield sse({"delta": chunk["message"]["content"]})
-        if chunk.get("done"):
-            return
-        chunk = await anext(stream)
-
-return StreamingResponse(event_source(), media_type="text/event-stream")
-```
-
-**첫 청크를 받은 뒤에야 200을 확정한다.** 본문이 흐르기 시작하면 상태 코드를 바꿀 수 없다.
-
-**질문:** 열 번째 청크에서 모델 서버가 죽으면 클라이언트는 무엇을 받아야 하는가?
-
----
-
-## 10–13분 · Gradio ChatInterface 최소 코드
-
-```python
-def respond(message, history):
-    text = ""
-    with httpx.Client(base_url=api) as http, http.stream("POST", "/chat/stream", json=body) as resp:
-        for line in resp.iter_lines():
-            if line.startswith("data: "):
-                event = json.loads(line[6:])
-                if "delta" in event:
-                    text += event["delta"]
-                    yield text          # 누적 문자열을 계속 내보낸다
-
-gr.ChatInterface(fn=respond).launch()   # 이력은 role·content 딕셔너리 목록
-```
-
-`yield`가 있으면 Gradio가 **부분 표시와 Stop 버튼**을 알아서 붙인다. UI는 모델을 모르고 HTTP 계약만 안다.
-
----
-
-## 13–15분 · UI가 보여 줘야 할 상태
-
-| 상태 | 사용자가 보는 것 | 우리 코드 |
-|---|---|---|
-| 대기 | 첫 글자 전 로딩 표시 | Gradio 기본 |
-| 진행 | 글자가 늘어남 + Stop | `yield` |
-| 취소 | 지금까지 텍스트 유지 | 생성기 닫힘 |
-| 오류 | 코드 + detail + 다음 행동 | `ERROR_HINTS` |
-| 연결 실패 | "앱 서버에 연결할 수 없다" | `httpx.ConnectError` |
-
-**질문:** 오류 문구에 서버의 `detail`을 그대로 보여 줘도 되는가? 무엇을 가려야 하는가?
-
----
-
-## 15–17분 · 정적 HTML + fetch, 그리고 CORS
-
-```js
-const resp = await fetch("http://localhost:8000/chat/stream", {
-  method: "POST", headers: {"Content-Type": "application/json"},
-  body: JSON.stringify({messages: [{role: "user", content: q}]})});
-const reader = resp.body.getReader();   // 청크를 직접 읽는다
-```
-
-- Gradio 없이도 된다. 브라우저가 앱 서버에 **직접** 요청한다
-- 그러면 페이지의 출처(origin)와 API의 출처가 다르다 → 브라우저가 막는다 → **CORS**
-- 앱 서버가 `CORS_ORIGINS`에 적은 출처만 허용한다. `*`는 수업용 임시값이다
-
----
-
-## 17–20분 · 실습 인계
-
-[2교시 실습 — 스트리밍 채팅 UI 연결](lab.md#2교시-실습--스트리밍-채팅-ui-연결) · [2교시 파일](examples/period2/README.md)
-
-완료 조건:
-
-1. 같은 질문으로 **첫 글자까지 시간**과 **전체 시간**을 두 모드에서 비교했다
-2. 긴 답 중 Stop, 앱 서버 중단, 모델 서버 실패 — 세 상황의 UI 문구를 기록했다
-3. `outputs/ui-turns.jsonl`에 정상 턴과 오류 턴이 모두 있다
-
-실습 30분 뒤 휴식 10분.
-
----
-
-<!-- _class: lead -->
-
-# 3교시 · 설명 20분
-## 다른 PC에서 그대로 실행되게 포장한다
-
----
-
-## 0–3분 · 코드·설정·비밀을 분리한다
-
-| 종류 | 예 | 어디에 두는가 |
-|---|---|---|
-| 코드 | `app/main.py` | Git |
-| 설정 | `OLLAMA_MODEL`, `APP_PORT` | `.env.example`(Git) + `.env`(로컬) |
-| 비밀 | 토큰 | `.env`에만, Git 금지 |
-
-- 덮어쓰는 순서: 코드 기본값 → `.env` → 셸 환경변수 → 명령 인자
-- 컨테이너에서는 `.env` 대신 `-e KEY=VALUE`로 넣는다 — 그래서 코드는 **환경변수만** 읽어야 한다
-
-**질문:** `.env`를 이미 커밋한 뒤 `.gitignore`에 넣으면 해결되는가? (3주차)
-
----
-
-## 3–7분 · Dockerfile — 레이어와 캐시
-
-```dockerfile
-FROM ghcr.io/astral-sh/uv:python3.12-trixie-slim
-WORKDIR /app
-COPY pyproject.toml uv.lock* ./              # 1) 의존성만 먼저
-RUN uv sync --no-dev --no-install-project    #    → 캐시되는 레이어
-COPY . .                                     # 2) 코드는 나중에
-ENV PATH="/app/.venv/bin:$PATH"
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
-```
-
-- 명령 한 줄 = 레이어 한 장. 앞 레이어가 같으면 **캐시**를 쓴다
-- 코드만 바뀌면 `uv sync`는 다시 돌지 않는다 — 순서가 곧 빌드 시간
-- `.dockerignore`가 `.env`·`.venv`·`outputs`를 이미지 밖에 둔다
-
----
-
-## 7–10분 · 컨테이너에서 호스트의 Ollama로
-
-```text
-[호스트] Ollama :11434  ◀── host.docker.internal:11434 ── [컨테이너] 앱 서버 :8000
-```
+## 1교시 16–20분 · Needle 대화와 실행 경계
 
 ```powershell
-docker run --rm -p 8000:8000 -e OLLAMA_HOST=http://host.docker.internal:11434 osa-ai-service:dev
+uv run ex01
 ```
 
-- 컨테이너 안의 `localhost`는 **컨테이너 자신**이다
-- 같은 이름, 다른 뜻: 앱 서버의 `OLLAMA_HOST`는 *찾아갈 주소*, Ollama 서버의 `OLLAMA_HOST`는 *들을 주소*(`0.0.0.0`으로 열어야 컨테이너가 들어온다)
-- GPU와 모델은 컨테이너 밖에 둔다 — 이미지는 앱 서버만 담아 작게 유지한다
+`src/ex01_data/__init__.py`의 `main()`에서 시작한다.
+입력, 호출 확인, 다음 입력을 반복하며 빈 입력은 건너뛰고 `/bye`로 종료한다.
+제공 예제는 질문마다 이력을 초기화하므로 명령은 독립적이다.
 
-**질문:** 컨테이너 안에서 `OLLAMA_HOST=http://localhost:11434`로 두면 `/health`는 무엇을 돌려줄까?
+형식이 맞아도 켜기·끄기 의도는 틀릴 수 있다.
+TCP는 대화 동안 유지하며 연결 해제 시 LED가 초기화된다.
+
+<!-- 출처: https://cactuscompute.com/blog/needle-python-docs 호출 응답·이력. 독립 입력·검사·TCP는 수업 설계. -->
 
 ---
 
-## 10–13분 · README 재현 절차 — 두 경로
+## 1교시 20–50분 · 데이터 수정과 대화 실습
 
-```text
-경로 A (Docker)                       경로 B (uv)
-docker build -t osa-ai-service:dev .  Copy-Item .env.example .env
-docker run ... -e OLLAMA_HOST=...     uv sync
-                                      uv run uvicorn app.main:app --port 8000
-확인(둘 다 같다): uv run python smoke_test.py --skip-stream
+[실습지](lab.md) · [1교시 소스 안내](examples/period1/README.md)
+
+학습 데이터의 명령·정답 호출을 점검하고 수정 이유를 적는다.
+`uv run ex01`로 여러 명령·빈 호출·종료를 관찰한다.
+입력 반복과 문맥 유지의 차이를 설명한다.
+
+30분의 세부 시간 배분은 `lab.md`를 따른다.
+
+---
+
+## 1교시 50–60분 · 휴식
+
+수정 데이터와 관찰 기록을 보존한다.
+
+다음 교시는 같은 `examples/` 프로젝트에서 이어 간다.
+
+---
+
+## 2교시 0–4분 · LoRA와 기본 가중치
+
+기본 가중치를 고정하고 LoRA 변화량을 학습한다.
+로컬 학습은 20L·4bit 조건을 사용한다.
+
+`models/checkpoints/needle3.safetensors`: 기본 체크포인트
+`models/adapter.safetensors`: 학습한 변화량
+
+의존성: `cactus-compute[train]==4.2.0`
+엔진·체크포인트 다운로드는 수업 전 준비한다.
+
+<!-- 출처: https://cactuscompute.com/blog/finetuning-needle 로컬 학습·기본 체크포인트. 버전·경로는 수업 명세. -->
+
+---
+
+## 2교시 4–8분 · 학습 모듈의 상수
+
+`src/ex02_train/__init__.py`
+
+| 상수 | 현재 초기값 | 의미 |
+|---|---:|---|
+| `EPOCHS` | 4 | 학습 반복 횟수 |
+| `BATCH_SIZE` | 4 | 단계별 예제 수 |
+| `MAX_LEN` | 1024 | 학습 전 길이 검사 한도 |
+| `LEARNING_RATE` | 1e-4 | 업데이트 크기 조절 |
+
+실측에 사용한 시작값이며 데이터·실행 환경에 맞춰 조정할 수 있다.
+
+---
+
+## 2교시 8–12분 · 전체 예제의 길이 검사
+
+`models/training_input.jsonl`은 명령 예제에
+공통 도구 설명을 합친 학습 입력이다.
+
+모든 렌더링 예제의 최장 토큰 길이를 학습 전에 검사한다.
+`MAX_LEN`을 넘으면 중단한다. 초과 예제를 잘라 학습하지 않는다.
+데이터 길이·한도를 검토한 뒤 다시 검사한다.
+
+<!-- 출처: https://cactuscompute.com/blog/finetuning-needle 길이 초과 위험. 사전 전수 검사와 중단은 수업 구현 설계. -->
+
+---
+
+## 2교시 12–16분 · 저장과 비교용 내보내기
+
+| 산출물 | 역할 |
+|---|---|
+| `models/adapter.safetensors` | 학습한 LoRA 변화량 |
+| `models/baseline_adapter.safetensors` | B=0, 기본 가중치 유지 |
+| `models/baseline.cact` | 기본 4bit·20L |
+| `models/tuned.cact` | 학습 4bit·20L |
+
+공용 제공 함수가 병합·내보내기를 담당한다.
+추론의 `weights=`에는 `.cact`를 지정한다.
+
+<!-- 출처: https://cactuscompute.com/blog/finetuning-needle 병합·내보내기. B=0 비교 파일은 수업 설계. -->
+
+---
+
+## 2교시 16–20분 · loss와 미학습 문항
+
+loss는 학습 목표의 변화이며 미학습 문항 성공률과 다르다.
+학습 loss만 감소하고 검증 loss가 오르면 과적합을 검토한다.
+
+Mac arm64 CPU 1회 실측: 48개 중 학습 42·검증 6개, 44 steps.
+최장 305토큰·패딩 512, 준비·다운로드 포함 339.4초.
+학생 PC·Windows·GPU의 소요 시간을 보장하지 않는다.
+
+<!-- 출처: https://cactuscompute.com/blog/finetuning-needle loss 해석과 백엔드 지원. 실측 출처: 2026-11-13 수업 준비 검증. JAX 0.12.0.1, cactus-compute 4.2.0. -->
+
+---
+
+## 2교시 20–50분 · 로컬 학습과 저장 실습
+
+[실습지](lab.md) · [2교시 소스 안내](examples/period2/README.md)
+
+```powershell
+uv run ex02
 ```
 
-- 처음 보는 사람이 **복사해서 붙여 넣기만으로** 끝나야 한다
-- 전제(Ollama 실행, 모델 pull)를 절차 **앞에** 적는다
-- 실패했을 때 볼 것(`/health`의 `detail`)을 절차 **뒤에** 적는다
+데이터·네 상수·길이 검사를 확인하고 실제 loss를 관찰한다.
+어댑터 저장과 `.cact` 내보내기 결과를 각각 확인한다.
+30분 안에 완료된다고 가정하지 않고 막힌 단계도 남긴다.
 
 ---
 
-## 13–15분 · 3차 종합과제 — 필수 산출물
+## 2교시 50–60분 · 휴식
 
-9~12주 누적. 팀 저장소에:
+실제 산출 경로와 관찰을 보존한다.
 
-- **(a) 실험 기록 2회 이상** — `experiments/run-*.md`, 데이터 카드, 평가 결과, 실패 분석
-- **(b) AI 서비스 베타** — `/health`·`/chat`, UI 1종, 오류 처리, `.env.example`, 실행 절차
-- **(c) 개인 기여 증거** — 팀이어도 개인별 commit·Issue·PR·Review
-
-[안내서](assignment_brief.md) · [루브릭](assignment_rubric.md)
+학습 프로세스의 종료 상태를 확인한다.
 
 ---
 
-## 15–17분 · 3차 과제 — 무엇을 보는가
+## 3교시 0–4분 · 새 프로세스의 모델 복원
 
-| 항목 | 배점 |
-|---|---:|
-| 실험 기록의 재현성 | 20 |
-| 데이터·평가의 타당성 | 15 |
-| 서비스 기능·오류 처리 | 25 |
-| 재현 절차 | 15 |
-| 협업 근거 | 15 |
-| 보안·라이선스 | 10 |
-
-100점 상대 배점이다. **실제 비율·마감은 학교 운영 문서가 정한다.**
-
-**질문:** 캡처 10장과 `smoke-*.json` 1개 중 채점자에게 더 강한 증거는 무엇인가?
-
----
-
-## 17–20분 · 실습 인계
-
-[3교시 실습 — Dockerfile과 재현 절차 검증](lab.md#3교시-실습--dockerfile과-재현-절차-검증) · [3교시 파일](examples/period3/README.md)
-
-완료 조건:
-
-1. `.env`가 Git에 없고 `.env.example`이 있음을 `reproduce_check.ps1`로 확인했다
-2. Docker 경로 또는 uv 경로 중 하나로 **깨끗한 환경**에서 `/health`가 `ok`다
-3. 팀 README 재현 절차를 짝이 따라 해 결과를 기록했다
-
-실습 30분 뒤 휴식 10분.
-
----
-
-## 이번 주 정리
-
-```text
-UI ──▶ 앱 서버(스키마·상태 코드·기록) ──▶ 모델 서버(Ollama)
-        └ /health · /chat · /chat/stream          └ 컨테이너 밖
-포장: 환경변수 + .env.example + Dockerfile + README 두 경로
+```powershell
+uv run ex03
 ```
 
-끊기면 **코드로 말하고**(502·503·504), 느리면 **먼저 보여 주고**(스트리밍), 옮기면 **설정만 바꾼다**(환경변수).
+`src/ex03_restore/__init__.py`에서 두 `.cact`를 차례로 읽는다.
+학습 때 남은 메모리 대신 저장 파일에서 복원한다.
+`ex03`는 16문항을 순회하는 평가 명령이다.
 
-다음 주(`week13_test_ci_security`): 이 앱 서버에 pytest·CI·보안 점검을 붙인다.
+파일 존재와 로드 성공을 구분한다.
+엔진과 내보내기 패키지의 버전 호환도 확인한다.
+
+<!-- 출처: https://cactuscompute.com/blog/needle-python-docs weights·버전 호환. 모듈·평가 명령은 수업 설계. -->
+
+---
+
+## 3교시 4–8분 · 동일 문항과 비교 조건
+
+기본 4bit·20L와 학습 4bit·20L를 비교한다.
+일반 배포 기본 2bit와 학습 4bit의 차이를 LoRA 효과로 쓰지 않는다.
+
+평가 16문항: 한국어 8·영어 8, 호출 10·무호출 6
+학습 48개와 문자열이 다르지만 의미 독립성까지 증명하지는 않는다.
+
+같은 도구 설명·생성 조건·이력 초기화를 사용한다.
+매 문항 초기 LED는 `[0, 64, 128, 255]`로 맞춘다.
+
+<!-- 출처: https://cactuscompute.com/blog/finetuning-needle 로컬 4bit·배포 기본 2bit. 비교 조건·문항은 수업 설계. -->
+
+---
+
+## 3교시 8–12분 · 호출과 실제 상태의 평가
+
+| 지표 | 읽을 근거 |
+|---|---|
+| 함수 정확도 | 기대 함수 이름과 호출 목록 순서 |
+| 호출 완전일치 | 인자 이름·값·순서를 포함한 호출 대응 |
+| 실제 상태 성공 | 호출 일치, 실행 결과, LED·센서 상태 |
+| 오호출률 | 무호출 문항에서 나온 호출 |
+| median·p95 | 실제 지연 분포, 단위·분모 확인 |
+
+JSON 딕셔너리 키 나열 순서와 함수 호출 목록 순서를 구분한다.
+센서값은 함수 반환에서 읽는다. 로컬 LoRA `confidence`는 `None`이다.
+
+<!-- 출처: https://cactuscompute.com/blog/needle-python-docs 로컬 LoRA confidence. 지표 정의는 수업 공용 코드. -->
+
+---
+
+## 3교시 12–16분 · 오류 분류와 개선 근거
+
+| 관찰 지표 | 기본 4bit·20L | 학습 4bit·20L |
+|---|---:|---:|
+| 실제 제어 성공 | 9/16 (56.25%) | 10/16 (62.5%) |
+| 한국어 / 영어 | 2/8 / 7/8 | 3/8 / 7/8 |
+| 무호출 문항의 오호출 | 1/6 | 0/6 |
+| median / p95 | 68.5 / 206.8 ms | 69.6 / 236.9 ms |
+
+각각 토큰 예산 소진 오류 1건을 분모에 포함한다. p95는 최댓값이다.
+단일 실측이다. 남은 오류의 함수·인자 근거를 분석하고 개선한다.
+
+<!-- 출처: 2026-11-13 수업 준비 환경의 새 프로세스 복원·실제 제어 평가. 동일 16문항·스키마·초기 상태·엔진. 일반 성능 향상 보장 없음. -->
+
+---
+
+## 3교시 16–20분 · 종합과제의 결과와 설명
+
+[과제 안내](assignment_brief.md) · [정성 루브릭](assignment_rubric.md)
+
+데이터 수정 이유, 학습·저장·새 프로세스 복원을 설명한다.
+같은 미학습 문항의 전후 호출과 원인 분석을 남긴다.
+실패한 시도·구체적인 질문·검증도 평가 근거다.
+
+만점은 요구 결과와 정확한 설명을 모두 갖춘 경우다.
+배점·마감은 학교 공지를 따르며 15주 챗봇 기말과제와 구분한다.
+
+---
+
+## 3교시 20–50분 · 복원과 동일 문항 비교 실습
+
+[실습지](lab.md) · [3교시 소스 안내](examples/period3/README.md)
+
+`uv run ex03`로 두 파일을 복원해 같은 16문항을 비교한다.
+기대·학습 전·학습 후 호출을 나란히 기록한다.
+실제 지표·오류와 다음 확인 방법을 설명한다.
+
+실측 수치가 없으면 미측정으로 남긴다.
+30분의 세부 시간 배분은 `lab.md`를 따른다.
+
+---
+
+## 3교시 50–60분 · 휴식
+
+연결을 명시적으로 해제하고 LED 초기화를 확인한다.
+
+13주차에는 제어 평가·오류 개선·Streamlit을 이어 간다.

@@ -5,6 +5,7 @@
 - [필수 설치](#필수-설치)
 - [설치 절차 — uv](#설치-절차--uv)
 - [설치 절차 — Ollama](#설치-절차--ollama)
+- [10~13주차 제어 실습 준비](#1013주차-제어-실습-준비)
 - [승인 후 설치](#승인-후-설치)
 - [별도 설치하지 않는 항목](#별도-설치하지-않는-항목)
 - [설치 확인](#설치-확인)
@@ -170,6 +171,29 @@ ollama list
 ```
 
 태그 용량은 재배포될 때 바뀐다. 배포 직전 <https://ollama.com/library/qwen3/tags>에서 다시 확인하고 확인 일자를 환경 기준표에 적는다.
+
+## 10~13주차 제어 실습 준비
+
+2026-11-13 개편 예제는 주차별 `examples/` 하나에서 실행한다. Python 3.12와 `uv.lock`을 제공한다.
+공용 코드가 `tools/bleuno-control`에 있으므로 **저장소 전체를 복제**한다. 주차 폴더만 복사하지 않는다.
+
+| 주차 | 수업 전 준비 | 확인할 안내 |
+|---|---|---|
+| 10 | `qwen3.5:2b`, 시뮬레이터의 TCP 8266·HTTP 8080, 직접 제어와 Ollama 호출 | [10주 예제](weeks/week10_project_governance/examples/README.md) |
+| 11 | `cactus-compute==4.2.0`, Needle 가중치·엔진을 먼저 받아 추론 확인 | [11주 예제](weeks/week11_dataset_evaluation/examples/README.md) |
+| 12 | `cactus-compute[train]==4.2.0`, 체크포인트 다운로드와 실제 학습·복원 확인 | [12주 예제](weeks/week12_ai_service_deploy/examples/README.md) |
+| 13 | 12주차의 `baseline.cact`·`tuned.cact`, Streamlit 8501과 연결·해제 확인 | [13주 예제](weeks/week13_test_ci_security/examples/README.md) |
+
+각 주차 `examples/`에서 `uv sync --locked` 후 안내된 명령을 실행한다.
+시뮬레이터 실행은 [bleuno-sim 안내](../tools/bleuno-sim/README.md)를 따른다.
+8266·8080·8501에 다른 프로그램이 있는지 확인하고, 실습 중 제어 창은 하나만 연다.
+모델 준비와 다운로드를 마친 뒤 실습 시간을 잰다.
+
+Mac M1 Max CPU에서는 48개 예제의 학습·저장에 약 339.4초가 걸렸다.
+이 수치는 Windows·RTX 4070 실습실 검증을 대신하지 않는다. 기준 PC에서 설치·추론·학습·복원을 확인한 뒤 배포한다.
+학습이 중단되면 원인을 해결하고 12주차 `uv run ex02`를 다시 실행한다.
+재학습한 모델을 앱에 적용할 때는 Streamlit 서버도 다시 시작한다.
+엔진·가중치 버전과 실측 조건은 [공용 도구 실행 기록](../tools/bleuno-control/README.md#2026-11-13-실행-기록)을 참고한다.
 
 ## 승인 후 설치
 

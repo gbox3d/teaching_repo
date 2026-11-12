@@ -1,90 +1,61 @@
-# 10주차 — 프로젝트 제안과 오픈소스 거버넌스
+# 10주차 · Python 함수와 Ollama 도구 호출
 
-## 이번 주 질문
+9주차에는 모델의 답을 앱 화면에 표시했다. 이번 주에는 Python 함수로 시뮬레이터의 LED를 제어한 뒤, 모델이 고른 함수와 인수를 검사해 같은 함수를 실행한다. 마지막에는 같은 입력을 반복해 호출 선택과 실제 상태를 따로 확인한다.
 
-> 우리 팀이 만들 오픈소스 AI 프로젝트는 어떤 문제를 누구를 위해 어떤 규칙으로 만들 것인가?
+## 목표와 교시별 결과
 
-## 학습 목표
-
-수업을 마치면 다음을 할 수 있다.
-
-1. 오픈소스 프로젝트의 역할(사용자·기여자·커미터·메인테이너)과 의사결정 모델(BDFL·위원회·재단)을 구분한다.
-2. 공개 저장소의 CODE_OF_CONDUCT·CONTRIBUTING·이슈 템플릿·릴리스 주기를 읽고 프로젝트 건강 지표(첫 응답 시간·버스 팩터)를 근거와 함께 기록한다.
-3. 사용자·상황·기존 해법의 한계로 문제를 한 문장으로 정의하고 Must/Should/Could로 범위를 나눈다.
-4. 모델·데이터 후보를 라이선스·VRAM·재현성·확보 가능성 기준으로 비교하고 위험과 완화책을 적는다.
-5. 10~15주 일정을 역산해 마일스톤 3개와 검증 가능한 Issue 8~10개로 분해하고 팀원별 역할을 정한다.
-6. 팀 저장소에 거버넌스 문서를 배치하고 3분 제안 발표를 구성한다.
-
-## 누적 결과물
-
-이번 주는 3장(9~12주)의 출발점이다. 팀 제안서(`proposal.md`), 거버넌스 문서를 갖춘 팀 저장소, 마일스톤·Issue 목록은 12주차 **3차 종합과제**(LoRA 실험 기록·AI 서비스 베타)의 저장소 골격이 되고, 15주차 **4차 종합과제**(최종 오픈소스 릴리스 패키지)와 최종 발표까지 그대로 이어진다. 1교시 거버넌스 조사에서 고른 규칙 3개는 팀 저장소의 `CONTRIBUTING.md`에 들어간다.
-
-## 수업 흐름
-
-| 블록 | 설명·시연 20분 | 직접 해결 실습 30분 | 핵심 증거 |
+| 교시 | 설명·시연 20분 | 실습 30분 | 실행 |
 |---|---|---|---|
-| 1교시 | 오픈소스 거버넌스 — 역할·규칙·건강 지표 | 거버넌스 문서 분석표 | `governance_survey.md` 2행 표 + "우리 팀이 가져올 규칙 3개" |
-| 2교시 | 문제 정의와 기술 선정 근거 | 팀 제안서 초안 | `proposal.md` 초안(문제·사용자·Must 3개·모델 후보 2개·데이터 후보·위험 2개) |
-| 3교시 | 마일스톤·역할·제안 발표 | 팀 저장소와 이슈 분해 | 팀 저장소 URL, Issue 8~10개·마일스톤 3개, 발표 리허설 기록 |
+| 1 | 제어 함수 분리, 연결 유지, 상태 읽기 | 수동 명령으로 LED·온습도 확인 | `uv run ex01` |
+| 2 | Ollama의 호출 제안과 Python 검증 | 자연어 입력 뒤 호출·실제 상태 대조 | `uv run ex02` |
+| 3 | 같은 입력의 반복 검사와 실패 분류 | 고정 평가셋 실행과 틀린 문항 재현 | `uv run ex03` |
 
-각 블록은 설명·시연 20분, 실습 30분, 휴식 10분으로 운영한다. 분반 시간표에 따라 두 블록과 한 블록이 다른 날에 배치될 수 있으며, 블록 순서는 바꾸지 않는다.
+각 교시는 설명·시연 20분, 실습 30분, 휴식 10분이다. `ex03`은 테스트 실행기다. 직접 대화할 때는 `ex02`를 사용한다. 모델은 세부 제어를 직접 실행하지 않고 호출할 함수와 인수를 제안한다.
 
-## 준비물
+## 준비와 프로젝트 구조
 
-- Git, VS Code, uv, PowerShell, 브라우저. GitHub 계정(2주차에 확인한 것)과 팀원 2~3명(팀명은 `team-a` 같은 수업용 값).
-- 8주차까지의 개인 저장소(LICENSE, `license_matrix.md`, `model_cards.md`, `SOURCES.md`, RAG 미니프로젝트). 2교시 모델·데이터 후보 표는 이 문서들을 재사용한다.
-- Ollama 서버가 켜져 있고 기본 모델이 사전 캐시되어 있으면 3교시 저장소 골격 검사(`doctor`)에 쓴다. 없어도 이번 주 실습은 진행된다.
-- 정확한 도구 버전은 [학기별 환경 기준표](../../../environment_baseline_template.md)에서 확정한다.
-- 실명·학번·전화번호·비밀번호·API 토큰을 제안서, 팀 저장소, 캡처에 넣지 않는다. GitHub 토큰은 `.env`에만 두고 `.env.example`만 커밋한다.
+Python 3.12, uv, Ollama와 `qwen3.5:2b`를 수업 전에 준비한다. [실습지](lab.md)의 프로젝트 생성 연습을 마친 뒤 `teaching_repo` 전체를 clone한 경로에서 실습한다. `examples`만 복사하면 상대 경로로 참조하는 공용 라이브러리가 빠진다.
 
-## 자료 안내
+한 주차의 `examples/`가 uv 프로젝트 하나다. 각 예제는 `src/`의 패키지이며 `main()`에서 시작한다. `[project.scripts]`는 `ex01`~`ex03` 명령과 함수를 연결하고, `[build-system]`의 `uv_build`는 패키지를 설치한다. scripts를 바꾸면 `uv sync`를 다시 실행한다. `period1`~`period3`에는 실행 순서를 안내하는 README만 둔다.
 
-- [PT 원고](slides.md): 세 번의 20분 설명·시연용 Marp 자료
-- [실습지](lab.md): 1·2·3교시 문제, 힌트, 검증, 확장
-- [실행 예제](examples/README.md): 실습에 맞춘 [1교시](examples/period1/README.md) · [2교시](examples/period2/README.md) · [3교시](examples/period3/README.md). 코드·양식·입력과 실행 위치는 각 교시 안내를 따른다. 기존 통합본은 호환 참고용이다.
-- 강의 대본: 강의자 별도 관리(비공개)
-- [제안서 양식](proposal_template.md): 팀 제안서 `proposal.md`의 항목과 작성 기준
-- [제안 발표 채점표](proposal_rubric.md): 3분 제안 발표 100점 상대 배점
+주차 `shared`는 저장소의 `tools/bleuno-control`에 있는 `bleuno_control`을 import한다. 이 의존성은 `[tool.uv.sources]`의 상대 path로 연결한다. TCP 통신 코드를 각 예제에 복사하지 않고, 모델·도구 설명처럼 비교할 값은 해당 소스의 상수에서 바꾼다.
 
-## 권장 진행 방식
+## 시뮬레이터와 제어 범위
 
-1. 1교시 조사표는 브라우저로 저장소를 직접 읽으며 채우고, 수치 항목만 `repo_health.py`로 보강한다. 스크립트 출력만 옮겨 적지 않는다.
-2. 2교시 제안서는 문제 문장 한 줄을 먼저 확정한 뒤 나머지 항목을 채운다. 문제가 흔들리면 모델·데이터 선택도 흔들린다.
-3. 모델 후보의 VRAM은 `vram_estimate.py`로 계산한 값과 4주차 `model_report.md`의 실측값을 나란히 적는다.
-4. 3교시 Issue는 GitHub에 올리기 전에 `issue_plan_check.py`로 완료 조건·담당·마일스톤 누락을 잡는다.
-5. 발표 리허설은 타이머를 켜고 3분을 재며, 넘긴 시간과 빠진 항목을 기록한다.
+저장소 루트의 별도 터미널에서 실행한다.
 
-## 완료 기준
+```powershell
+uv run --python 3.12 tools/bleuno-sim/sim.py --bind 127.0.0.1
+```
 
-- [ ] `governance_survey.md`에 공개 프로젝트 2개의 CoC·CONTRIBUTING·이슈 템플릿·릴리스 간격·메인테이너 수를 근거 URL과 함께 적었다.
-- [ ] "우리 팀이 가져올 규칙 3개"를 출처 프로젝트와 적용 방식으로 적었다.
-- [ ] `proposal.md`에 문제 한 문장, 사용자 한 명, Must 3개가 있다.
-- [ ] 모델 후보 2개에 라이선스(SPDX 또는 약관 이름)와 VRAM 추정 근거가 있고, 데이터 후보에 확보 방법과 라이선스가 있다.
-- [ ] 위험 2개에 각각 완화책이 있다.
-- [ ] 팀 저장소에 LICENSE, CODE_OF_CONDUCT.md, CONTRIBUTING.md, 이슈·PR 템플릿이 있고 `uv run team-project doctor`가 실행된다.
-- [ ] 마일스톤 3개와 Issue 8~10개가 등록되었고 각 Issue에 완료 조건·담당·마일스톤이 있다.
-- [ ] 3분 발표 리허설 기록(소요 시간, 빠진 항목, 예상 질문 2개)이 있다.
+창 없는 검증에는 같은 명령 끝에 `--no-window`를 붙인다. 명령은 TCP 8266, 실제 상태 조회는 HTTP 8080의 `GET /state`를 사용한다. 브라우저에서 `http://127.0.0.1:8080/state`를 열어 새로 고침할 수 있다.
 
-## 제출 증거
+| Python 함수 | 허용 입력 | 확인할 결과 |
+|---|---|---|
+| `turn_on(index)` | LED 번호 정수 0~3 | 해당 LED 밝기 255 |
+| `turn_off(index)` | LED 번호 정수 0~3 | 해당 LED 밝기 0 |
+| `set_brightness(index, value)` | 번호 0~3, 밝기 정수 0~255 | 해당 LED의 요청한 밝기 |
+| `read_environment()` | 인수 없음 | 현재 온도·습도 |
 
-이번 주는 별도 제출물이 없다. 아래 증거를 팀 저장소와 개인 저장소에 누적한다. 제안 발표의 평가는 [제안 발표 채점표](proposal_rubric.md)를 기준으로 하며, 발표 시각과 실제 반영 비율은 학교 운영 문서가 정한다.
+번호와 밝기에 `True`·`False`를 허용하지 않는다. 모델에는 위 네 함수만 제공하며 센서 값을 바꾸는 `POST /set`을 제공하지 않는다. 온습도는 시뮬레이터의 모의 값이다.
 
-1. 개인 저장소: `governance_survey.md`
-2. 팀 저장소 URL과 `docs/proposal.md` 초안의 commit id
-3. 팀 저장소의 Issue 목록(마일스톤별)과 본인이 등록한 Issue URL 1개 이상
-4. 발표 리허설 기록(`docs/rehearsal.md`: 소요 시간, 빠진 항목, 예상 질문 2개)
+연결 직후에는 `hello` 이벤트가 먼저 오며, 이후에도 이벤트 행이 명령 응답 사이에 들어올 수 있다. 라이브러리는 이벤트를 건너뛰고 명령 응답을 읽는다. TCP 연결을 유지한 상태에서 결과를 확인한다. 새 연결과 연결 종료는 LED를 초기화하므로, 종료 뒤의 상태를 명령 실패의 증거로 쓰지 않는다.
 
-터미널 출력과 저장소 설정 화면에는 사용자 홈 경로나 이메일이 포함될 수 있다. 제출 전에 개인 식별 정보가 없는지 확인한다.
+모델에 선언한 함수 이름은 호출 규약이다. 실제 실행은 공용 `Board.execute()`가 이름·인수를 검증한 뒤 TCP 명령으로 바꾼다. `tools.json`의 같은 명세를 두 모델이 사용한다.
 
-## 다음 주 연결
+## 자료와 완료 기준
 
-`week07_peft_lora`에서 팀 제안서의 모델 후보 1개를 실제로 LoRA 학습한다. 그 첫 실험 기록(`experiments/run-001.md`)이 이번 주 마일스톤 M1의 첫 Issue를 닫는 증거가 되고, 12주차 3차 종합과제의 첫 재료가 된다. 다음 수업 전에 팀 저장소를 clone하고 `uv sync`가 되는지 확인해 둔다.
+[한국어 슬라이드](slides.md) · [English slides](slides_en.md) · [실습지](lab.md) · [따라하기](walkthrough.md) · [예제](examples/README.md)
+
+- [ ] 수동 입력과 모델 입력이 같은 제어 함수를 사용하는 이유를 설명했다.
+- [ ] 모델의 함수 이름·인수와 Python 검증 결과를 구분했다.
+- [ ] 연결을 유지하며 `GET /state`의 LED 값과 온습도를 대조했다.
+- [ ] 범위 밖 번호·밝기와 불리언을 거부하는 이유를 설명했다.
+- [ ] 같은 평가셋의 성공·실패와 실제 측정 시간을 기록했다.
+- [ ] 틀린 입력을 `ex02`에서 재현하고 원인과 다음 확인 방법을 적었다.
+
+실측 전에는 정확도·속도를 예상 숫자로 채우지 않는다. 다음 주에는 같은 제어 함수와 평가 입력으로 [Needle3](../week11_dataset_evaluation/README.md)를 비교한다.
 
 ## 참고 자료
 
-- [GitHub Docs — 커뮤니티 프로필과 건강 파일](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/about-community-profiles-for-public-repositories)
-- [GitHub Docs — 이슈 템플릿 구성](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository)
-- [GitHub Docs — 마일스톤](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones)
-- [Contributor Covenant](https://www.contributor-covenant.org/)
-- [Open Source Guides — Leadership and Governance](https://opensource.guide/leadership-and-governance/)
-- [Choose a License](https://choosealicense.com/)
+[Ollama 도구 호출](https://docs.ollama.com/capabilities/tool-calling) · [시뮬레이터](../../../tools/bleuno-sim/README.md)

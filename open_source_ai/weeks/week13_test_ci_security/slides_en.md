@@ -3,388 +3,305 @@ marp: true
 theme: default
 paginate: true
 header: "Open Source AI Applications · Week 13"
-footer: "Testing, CI, Security, and Code Review"
+footer: "Simulator Control Evaluation, Improvement, and Streamlit"
 ---
 
 # Week 13
-## Testing, CI, Security, and Code Review
+## Simulator Control Evaluation, Improvement, and Streamlit
 
-**3 × 60-minute blocks**<br>
-Each block: 20 min explanation/demo + 30 min hands-on lab + 10 min break
+Three 60-minute blocks
+
+Evaluate the Week 12 Needle 3 LoRA through calls and actual state.
+
 
 ---
 
-## This Week's Three Sessions
+## Schedule
 
-| Session | 20 min explanation/demo | 30 min hands-on lab |
+| Block | 0–20 min explanation/demo | 20–50 min lab |
 |---|---|---|
-| Block 1 | pytest structure, isolating model calls, unit vs. integration, ruff | Build service tests with a fake client |
-| Block 2 | GitHub Actions structure, setup-uv/caching, status checks, reading failure logs | Turn GitHub Actions green, then red |
-| Block 3 | Supply-chain security, preventing secret leaks, model-file safety, review checklist | Dependency audit, secret scanning, cross-review |
+| 1 | Controlled before/after comparison | `uv run ex01` evaluation |
+| 2 | Error categories and reasons for changes | `uv run ex02` correction dialogue |
+| 3 | Cache, sessions, and reruns | `uv run ex03` Streamlit |
 
-This week's question: **How do we automatically check code that calls a model, and how do we safely accept someone else's changes?**
+Breaks run from 50–60 min in each block. [lab.md](lab.md) defines lab timing.
 
----
-
-<!-- _class: lead -->
-
-# Block 1 · 20 min Explanation
-## Check It Even With the Model Turned Off
 
 ---
 
-## 0–3 min · Automating "It Works on My PC"
+## Block 1, 0–4 min: Models and artifacts
 
-In Week 12 we reproduced 502/503/504 **by hand** — changing environment variables, restarting the server, checking with our own eyes.
+Build on Week 4 dialogue, Week 7 LoRA, and Week 9 Streamlit.
 
-- Repeat that procedure for every reviewer and every PR, and eventually nobody does it
-- Tests = that same checking procedure, **written down as code**. One line, `uv run pytest`, repeats it
-- What gets checked: our own code's conversion, validation, and error mapping
-- What doesn't get checked: the quality of the model's answers (that's Week 11's evaluation)
+Read files in Week 12 `examples/models/` without copying them.
 
-**Question:** The model's answer is different every time — so what can you actually `assert`?
+- `adapter.safetensors`: learned changes
+- `baseline_adapter.safetensors`: B=0, unchanged base weights
+- `baseline.cact` and `tuned.cact`: inference archives for comparison
+
+<!-- Source: https://cactuscompute.com/blog/finetuning-needle ; paths and baseline export are course code -->
 
 ---
 
-## 3–6 min · pytest Structure — Discovery, assert, Output
+## Block 1, 4–8 min: Matched evaluation conditions
 
-```python
-# tests/test_schemas.py   ← files named test_*.py, functions named test_*, found automatically
-from app.schemas import ChatRequest
+Compare base and tuned archives at 4 bits and 20 layers.
 
-def test_valid_request_uses_defaults():
-    request = ChatRequest(prompt="question")
-    assert request.temperature == 0.2   # on failure, both sides are shown together
+- 16 cases: 8 Korean, 8 English; 10 call, 6 no-call
+- Same cases, order, descriptions, and generation settings; `reset()` per request
+- Restore and read initial LEDs `[0, 64, 128, 255]` for every case
+
+No exact string overlap with 48 training prompts. This does not prove semantic independence.
+
+<!-- Source: https://cactuscompute.com/blog/finetuning-needle ; case composition is course data -->
+
+---
+
+## Block 1, 8–12 min: Call validation before execution
+
+| Allowed function | Argument range |
+|---|---|
+| `turn_on(index)` | Integer 0–3 |
+| `turn_off(index)` | Integer 0–3 |
+| `set_brightness(index, value)` | Integer 0–3, integer 0–255 |
+| `read_environment()` | No arguments |
+
+The model proposes calls. Validate every name, type, and range before execution.
+A valid shape can still express the wrong intent.
+
+
+---
+
+## Block 1, 12–16 min: Calls and actual results
+
+- Compare the expected call with the proposed function and arguments.
+- Read LED state with `GET /state` after execution.
+- Read temperature and humidity from the actual `read_environment()` return.
+- Keep one TCP connection for the dialogue or session.
+
+Disconnecting resets the LEDs. Restore the next comparison's initial state.
+
+
+---
+
+## Block 1, 16–20 min: Running and reading evaluation
+
+`uv run ex01` evaluates 16 cases automatically. Results from one CPU run:
+
+| Metric | baseline | tuned |
+|---|---:|---:|
+| Actual control success | 9/16 (56.25%) | 10/16 (62.5%) |
+| False-call rate | 1/6 | 0/6 |
+| Median | 68.5ms | 69.6ms |
+| p95 | 206.8ms | 236.9ms |
+
+Each model has one 256-token budget error, included in the 16 cases.
+p95 is the maximum here. One changed case does not establish general improvement.
+
+<!-- Source: course-preparation measurement with fresh-process restoration and actual control, 2026-11-13. Mac arm64 CPU, JAX 0.12.0.1, cactus-compute 4.2.0. -->
+
+---
+
+## Block 1, 20–50 min: Before/after control evaluation lab
+
+[Lab](lab.md#1교시-실습-학습-전후-제어-평가) · [Example guide](examples/period1/README.md)
+
+`uv run ex01`
+
+Evidence to inspect:
+
+- Same unseen cases, 4-bit/20-layer models, and initial state
+- Expected calls, proposed calls, function returns, and actual state
+- Total attempts and causes of failure
+
+Follow the lab's detailed timing. Disconnect when finished.
+
+
+---
+
+## Block 1, 50–60 min: Break
+
+Confirm that the control connection is disconnected.
+
+Carry the evaluation's error cases into Block 2.
+Mark unexecuted items as unverified.
+
+
+---
+
+## Block 2, 0–4 min: Error categories
+
+| Observation | Category |
+|---|---|
+| `turn_on` for an off request | Wrong function |
+| `turn_off` with the wrong LED index | Wrong argument meaning |
+| Proposed brightness of 300 | Range validation failure |
+| Correct call, failed state read | Connection or execution error |
+
+These are illustrative cases. Classify your own observed results.
+
+
+---
+
+## Block 2, 4–8 min: Re-entering a corrected request
+
+```sh
+uv run ex02
 ```
 
-```text
-uv run pytest -q
-...........F.......                                            [100%]
-FAILED tests/test_service.py::test_chat_converts_fake_response - assert 1500000.0 == 1500.0
+`src/ex02_improve/__init__.py` reads Week 12 `tuned.cact`.
+
+Re-enter the request with explicit index, action, and brightness.
+Compare original and revised inputs, calls, and state from the same initial state.
+Keep revised-request success separate from the original evaluation score.
+
+---
+
+## Block 2, 8–12 min: Repeated input and context
+
+`ex02` accepts repeated inputs, but every request is independent.
+
+- The shared predictor calls `reset()` for each request.
+- Do not infer the index of “that LED” from prior context.
+- Re-entering requests does not train the weights.
+
+Skip blank input and enter `/bye` to exit.
+
+<!-- Source: https://cactuscompute.com/blog/needle-python-docs ; reset and exit behavior are course design -->
+
+---
+
+## Block 2, 12–16 min: Tool descriptions and training data
+
+Change tool descriptions in `ex02_improve`'s `DESCRIPTIONS = {}`.
+Record before/after results with separate development examples.
+
+Keep descriptions identical in a LoRA before/after comparison.
+Keep unseen evaluation prompts and answers out of training data.
+
+The UI uses saved `tuned.cact` and the shared default descriptions.
+It does not automatically inherit description changes from `ex02`.
+
+---
+
+## Block 2, 16–20 min: Retraining and reevaluation
+
+Follow the [Week 12 procedure](../week12_ai_service_deploy/README.md) for retraining.
+
+Start with `EPOCHS=4`, `BATCH_SIZE=4`, `MAX_LEN=1024`, `LEARNING_RATE=1e-4`.
+Stop before training if the longest example exceeds `MAX_LEN`; do not truncate it.
+
+Save adapters and `.cact`, restore in a fresh process, and evaluate unseen cases.
+Lower loss alone does not establish better control. `confidence=None` is not zero.
+
+<!-- Source: https://cactuscompute.com/blog/finetuning-needle ; constants and length checks are course code -->
+
+---
+
+## Block 2, 20–50 min: Error analysis and correction lab
+
+[Lab](lab.md#2교시-실습-오류-분석과-수정-대화) · [Example guide](examples/period2/README.md)
+
+`uv run ex02`
+
+Record original requests, corrected requests, and actual state together.
+Explain the change, its reason, and conditions for checking it again.
+
+Distinguish repeated input, conversation context, and weight training.
+Follow lab timing and disconnect on exit.
+
+
+---
+
+## Block 2, 50–60 min: Break
+
+Keep your before/after notes and disconnect.
+
+In Block 3, inspect the same control flow in Streamlit.
+
+
+---
+
+## Block 3, 0–4 min: Starting Streamlit
+
+```sh
+uv run ex03
 ```
 
-The failure summary's `assert left == right` is your first clue. Read **the difference between the two values** before you read the whole stack trace.
+Open `http://127.0.0.1:8501` manually after the headless server starts.
+
+Click “시뮬레이터 연결”, enter a “제어 요청”, and click “요청 실행”.
+Use only one control window per PC.
 
 ---
 
-## 6–9 min · Fixtures and parametrize
+## Block 3, 4–8 min: Model cache and session connections
 
-```python
-@pytest.fixture
-def service(fake_client):                # injected into any parameter with this name
-    return ChatService(client=fake_client, model="fake-model:test", host="http://fake")
+- Cache model preparation with `st.cache_resource`.
+- Reuse TCP connections through `st.session_state`.
+- Group `reset()` and `complete()` inside the shared `Lock`.
+- Reset conversation context for every request.
 
-@pytest.mark.parametrize("body", [
-    {"prompt": ""}, {"prompt": "hi", "temperature": 5.0}, {"prompt": "hi", "max_tokens": 0},
-])
-def test_out_of_range_request_is_rejected(body):
-    with pytest.raises(ValidationError):
-        ChatRequest(**body)
-```
-
-- Fixture: setup code lives in one place. Put it in `tests/conftest.py` and every test file shares it
-- parametrize: run the same check against several inputs. On failure, it shows **which input** failed
+Keep sockets out of the global model cache.
+Separate windows do not receive separate simulator state.
 
 ---
 
-## 9–12 min · Isolating Model Calls — Dependency Injection
+## Block 3, 8–12 min: Reruns and duplicate calls
 
-```text
-Production: main.py get_service() ─▶ ChatService(client=HttpOllamaClient) ─▶ Ollama :11434
-Test:       conftest.py            ─▶ ChatService(client=FakeOllamaClient) ─▶ a fixed dict
-```
+Process a new call when the user submits with “요청 실행”.
+Read current LED state when the page reruns.
 
-- The service depends only on a **shape (Protocol)** — `chat()`, `list_models()` — not a concrete class
-- The fake lets you set `reply`/`fail_with` to produce success or failure at will, and `calls` lets you see what was passed in
-- The HTTP layer uses `app.dependency_overrides[get_service]` + `TestClient` — checks 422/503 without starting uvicorn
-- Week 12's `get_client` is exactly this seam
+- A rerun without input must not execute the same control call again.
+- Reuse the session's TCP connection.
+- The same sentence submitted again is a new input.
 
-**Question:** If the fake's response shape doesn't match the real Ollama, what does a passing test actually guarantee?
+Unchanged LEDs alone do not prove that no duplicate occurred.
 
 ---
 
-## 12–15 min · Unit vs. Integration, Marking Slow Tests
+## Block 3, 12–16 min: Evidence on screen
 
-| Kind | Target | Requires | Speed | When |
-|---|---|---|---|---|
-| Unit | schema, service | nothing | ms | every save, every push |
-| HTTP layer | routing, status codes | TestClient | ms | every push |
-| Integration | real Ollama | server, model, GPU | seconds–minutes | manually, before release |
+Display the original request, proposed calls, and validation result.
 
-```toml
-[tool.pytest.ini_options]
-addopts = "-m 'not integration'"        # excluded from the default run
-markers = ["integration: slow tests that need a real Ollama server"]
-```
+Read function returns and `GET /state` to display actual LED state.
+Compare sensor values with the `read_environment()` return.
 
-Add `pytestmark = pytest.mark.integration` at the top of the file, and it only actually runs when `RUN_INTEGRATION=1`.
+Distinguish blank input, no-call responses, and validation failures.
+Do not display model-generated numbers as sensor readings.
+
 
 ---
 
-## 15–17 min · ruff — Lint and Format
+## Block 3, 16–20 min: Disconnecting and verification scope
 
-```powershell
-uv run ruff check .             # list of issues. --fix only applies safe, automatic fixes
-uv run ruff format --check .    # check only, don't fix (for CI)
-uv run ruff format .            # actually fix it
-```
+Click “연결 해제” and confirm the LED reset.
+Then stop the server with `Ctrl+C` in the terminal.
+Closing a browser tab alone does not guarantee disconnection.
 
-- lint: unused imports (F401), undefined names (F821), import order (I), common bugs (B), long lines (E501)
-- format: line breaks, quotes, whitespace — **hand style arguments over to the tool**
-- Rules live under `[tool.ruff]` in `pyproject.toml`. The whole team shares the same rules
-
-**Question:** If "two spaces here" comments disappear, what does the reviewer spend their time on instead?
+After Week 12 retraining overwrites the same model path, stop the server
+and restart with `uv run ex03`. A browser refresh alone does not update the model.
 
 ---
 
-## 17–20 min · Handing Off to the Lab
+## Block 3, 20–50 min: Streamlit control UI lab
 
-[Block 1 lab — Build service tests with a fake client](lab.md#1교시-실습--가짜-클라이언트로-서비스-테스트-만들기) · [Block 1 files](examples/period1/README.md)
+[Lab](lab.md#3교시-실습-streamlit-제어-ui) · [Example guide](examples/period3/README.md)
 
-Done when:
+`uv run ex03`
 
-1. You added 3 tests (reject a blank prompt, system-prompt ordering, model-missing → 404) and `uv run pytest` passes
-2. `ruff check` and `ruff format --check` both pass, and you have a record of fixing a deliberately introduced issue with `--fix`
-3. `pytest -m integration` shows `skipped` or actually runs, depending on `RUN_INTEGRATION`
+Compare requests, calls, function returns, and actual state.
+Check reruns without input separately from new submissions.
+Confirm explicit disconnection and the LED reset.
 
-30 min lab, then a 10 min break.
+Follow the lab's detailed timing. Record which items you could not run.
 
----
-
-<!-- _class: lead -->
-
-# Block 2 · 20 min Explanation
-## The Checks Run Outside My PC
 
 ---
 
-## 0–3 min · What CI Does
+## Block 3, 50–60 min: Break
 
-```text
-push / PR ─▶ GitHub rents a clean virtual machine ─▶ checkout ─▶ uv sync ─▶ ruff ─▶ pytest ─▶ green / red
-```
+Disconnect control and stop the Streamlit server.
 
-- **The same procedure, every time**, in a place where "works on my PC" doesn't apply
-- The result shows up on the PR as a status check — reviewers see a green light instead of a log
-- This combines Week 3's reproducibility (`uv sync`) with Block 1's tests
-
-**Question:** Does a green CI light mean "there are no bugs"?
-
----
-
-## 3–6 min · Workflow Structure — on, jobs, steps
-
-```text
-.github/workflows/ci.yml       ← must be at exactly this path from the repo root to be recognized
-├─ on:           when (push, pull_request, workflow_dispatch)
-├─ permissions:  token permissions (contents: read is the minimum)
-└─ jobs:
-   └─ test:      runs-on: ubuntu-latest
-      └─ steps:  uses (someone else's action) / run (a shell command), in order
-```
-
-- Jobs run in parallel on separate machines; steps run in order on one machine
-- If a step fails, that job stops right there → **the name of the failed step** is your first clue
-
----
-
-## 6–9 min · Reading ci.yml
-
-```yaml
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v7
-        with: { enable-cache: true }
-      - run: uv python install          # reads requires-python
-      - run: uv sync                    # use --frozen if you committed the lock file
-      - run: uv run ruff check .
-      - run: uv run ruff format --check .
-      - run: uv run pytest -q
-```
-
-These are **the same commands** you'd type locally. Only the machine is different.
-
----
-
-## 9–12 min · setup-uv, Caching, and Lock Verification
-
-- `astral-sh/setup-uv`: installs uv, and with `enable-cache: true`, reuses downloaded packages on the next run
-- Compare the `uv sync` time between the first run and the second
-- `uv sync --frozen` installs from the lock file **without checking it** — it still passes even if the lock is stale. `uv sync --locked` (or `uv lock --check`) is what **fails** a PR that forgot to update the lock
-- The runner is Linux — `C:\` paths and `.ps1` scripts don't run in CI
-- Pin action major versions (`@v5`, `@v7`) using the environment baseline document
-
-**Question:** Can a cache hold onto an old, vulnerable version? What actually determines the installed version?
-
----
-
-## 12–15 min · PR Status Checks and Branch Protection
-
-| Indicator | Meaning | Reviewer action |
-|---|---|---|
-| Yellow circle | running | wait |
-| Green check | all required jobs passed | start the code review |
-| Red X | at least one failed | attach the log link in a comment and request changes |
-
-- Settings → Branches → `main` protection rule: **required status checks** + PR required
-- A red light locks the merge button. Even admins get no exception
-- Write this rule as one line in Week 9's `CONTRIBUTING.md`
-
----
-
-## 15–17 min · How to Read a Failure Log
-
-```text
-1. Actions tab → the failed run → click the red job
-2. In the step list, find the one marked X → what command did that step run?
-3. Copy the log's first error line (FAILED …, error:, E501 …)
-4. Reproduce locally with the same command → fix it → push → green again
-```
-
-- Look at the **first error**, not the last one. Later errors are usually consequences of the first
-- Passes locally but fails only in CI: OS differences (paths, case sensitivity), no cache yet, missing environment variables
-
-**Question:** `pytest` passes locally but CI raises `ModuleNotFoundError`. What do you suspect first?
-
----
-
-## 17–20 min · Handing Off to the Lab
-
-[Block 2 lab — Turn GitHub Actions green, then red](lab.md#2교시-실습--github-actions로-초록불과-빨간불-만들기) · [Block 2 files](examples/period2/README.md)
-
-Done when:
-
-1. You pushed to a new repository, the first Actions run went green, and the status check appears on a PR
-2. You caused a red light with a deliberately broken commit and recorded **the failed step's name and the first error line**
-3. You made it green again with a fix commit and merged the PR
-
-30 min lab, then a 10 min break.
-
----
-
-<!-- _class: lead -->
-
-# Block 3 · 20 min Explanation
-## Safely Accepting Someone Else's Code
-
----
-
-## 0–3 min · Supply Chain — the ~300 Lines I Wrote, the Tens of Thousands I Pulled In
-
-```text
-ci_lab (~300 lines of my own code)
- ├─ fastapi ─ starlette ─ anyio ─ …
- ├─ pydantic ─ pydantic-core ─ typing-extensions
- ├─ httpx ─ httpcore ─ h11 ─ certifi
- └─ pytest, ruff, pip-audit ─ …           → count them with `uv export` and it's over 40
-```
-
-- My code can be safe and the service still gets compromised through a hole in one dependency
-- **A model file is a dependency too** — a weights file can have code embedded inside it
-
-**Question:** Have you ever counted how many packages a single `uv sync` pulls in?
-
----
-
-## 3–6 min · pip-audit — Checking Against Known Vulnerabilities
-
-```powershell
-uv export --format requirements-txt --no-hashes -o outputs/requirements-audit.txt
-uv run pip-audit -r outputs/requirements-audit.txt --no-deps
-uv run python audit_report.py            # both of the above + a summary in outputs/audit-*.md
-```
-
-Reading the result: package · installed version · vulnerability ID (PYSEC/GHSA/CVE) · **fixed version**
-
-- A fixed version exists → raise the lower bound → `uv lock` → test → PR
-- No fixed version → decide whether we actually use that feature, and record it
-- Querying the vulnerability database needs network access. CI's `audit` job runs with `continue-on-error`
-
----
-
-## 6–9 min · Lock Verification and Typosquatting
-
-| Risk | Example | Defense |
-|---|---|---|
-| A package name one letter off | `requests` vs. `reqeusts` | check the PyPI page, repo link, and download count before installing |
-| Installing without a lock file | today's and tomorrow's versions differ | commit `uv.lock` + `uv sync --frozen` |
-| A tampered distribution file | same version, different contents | uv checks the sha256 against the lock |
-| A "just bumped the version" PR | dependency diff not reviewed | read the `uv.lock` diff + require a green CI |
-
-Read the package name **one more time** before `uv add`. A typo'd package can run code the moment it's installed.
-
----
-
-## 9–12 min · Preventing Secret Leaks — Three Layers
-
-```text
-Layer 1, my PC:    .gitignore(.env) + security_check.ps1 (before commit)   ← can be automated with a pre-commit hook
-Layer 2, GitHub:   secret scanning + push protection (blocks the push itself if a pattern matches)
-Layer 3, after:    if it's in history, deleting it doesn't end it → rotate the token (revoke and reissue)
-```
-
-- `security_check.ps1`: token patterns, tracked `.env`, pickle model files, `trust_remote_code` — it **never prints the content** of a matched line
-- Same principle as Week 3's `git log -p` check: once a secret is pushed, treat it as leaked
-
-**Question:** Push protection blocked it. Is that token still safe?
-
----
-
-## 12–15 min · Model-File Safety — pickle vs. safetensors
-
-| Format | Loading method | Risk |
-|---|---|---|
-| `.pkl`, `.pt`, `.bin` (pickle) | deserializes Python objects = can execute code | arbitrary code just from opening the file |
-| `.safetensors` | tensor data only, no code | low. the Hub default (e.g. `Qwen/Qwen2.5-0.5B-Instruct`) |
-| `.gguf` (Ollama) | weights + metadata | low |
-
-- `trust_remote_code=True` **runs the Python code in the model repo** → pin the repo and revision, read the code, and record it
-- Don't accept adapters or checkpoints of unknown origin. Record revisions and hashes in `SOURCES.md`
-
----
-
-## 15–17 min · Cross Code Review — What to Look At, How to Say It
-
-Order: description/Issue → green CI → tests present? → error paths → secrets/dependencies → provenance/docs (`REVIEW_CHECKLIST.md`)
-
-```text
-[Evidence] app/service.py line 42: total_duration is divided by 1_000.
-[Problem] Ollama reports nanoseconds, so the result isn't ms. It disagrees with test_service's 1500.0.
-[Suggestion] Divide by 1_000_000 instead, and name the variable with its unit (duration_ms).
-```
-
-- One comment = **evidence (file:line) → problem → suggestion**. Style preferences are `nit`
-- The verdict is one of two: approve / request changes (+ what would earn an approval)
-
-**Question:** What's the difference between "this code is bad" and the comment above?
-
----
-
-## 17–20 min · Handing Off to the Lab
-
-[Block 3 lab — Dependency audit, secret scanning, cross-review](lab.md#3교시-실습--의존성-감사와-비밀-검색-교차-리뷰) · [Block 3 files](examples/period3/README.md)
-
-Done when:
-
-1. `outputs/audit-*.md` states the number of packages checked, the number of vulnerabilities, and the next action
-2. `security_check.ps1` found 0 issues in a clean repo, caught every planted `.env`, fake token, and `.pt` file, and you removed what you planted
-3. You left 2+ checklist-based comments and a verdict on another team's PR, and recorded the URL
-
-30 min lab, then a 10 min break.
-
----
-
-## This Week's Wrap-Up
-
-```text
-Tests:   inject a fake client → check conversion/validation/error-mapping without a model → separate slow ones with a marker
-CI:      push/PR → clean machine → uv sync → ruff → pytest → must be green to merge
-Security: pip-audit (dependencies) + security_check (secrets, model files) + checklist review (humans)
-```
-
-Let the machine catch what a machine can catch (ruff, pytest, CI, pip-audit); humans spend their time on **judgment backed by evidence**.
-
-Next week (`week14_release_feedback`): release the green-lit repository as `v0.1.0`.
+Week 14 introduces the final chatbot's public evaluation specification.
+Keep the Week 12 control-model assignment separate from the Week 15 WKU introduction chatbot final.

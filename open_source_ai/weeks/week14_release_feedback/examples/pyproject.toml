@@ -1,0 +1,21 @@
+[project]
+name = "osa-week14-wku-chatbot"
+version = "0.1.0"
+description = "원광대학교 소개 챗봇과 공개 평가 도구"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+ex01 = "ex01_chat:main"
+ex02 = "ex02_evaluate:main"
+ex03 = "ex03_improve:main"
+evaluate = "ex02_evaluate:main"
+
+[build-system]
+requires = ["uv_build>=0.8,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = ["shared", "student_bot", "ex01_chat", "ex02_evaluate", "ex03_improve"]
+# shared/data/*.json은 패키지 내부 자료이므로 wheel과 sdist에 함께 포함된다.

@@ -1,41 +1,28 @@
-# 13주차 1교시 — 모델 없는 테스트
+# 13주차 1교시: 같은 조건의 학습 전후 제어 평가
 
-[해당 실습 단계·문제·완료 조건](../../lab.md#1교시-실습--가짜-클라이언트로-서비스-테스트-만들기) · [교시별 색인](../README.md)
+[실습 문제와 시간표](../../lab.md#1교시-실습-학습-전후-제어-평가) · [예제 색인](../README.md)
 
-스키마·서비스·HTTP 계층의 **19개 테스트 시작 코드**다. lab 문제 1의 세 테스트는 학생이 추가한다. workflow·감사·리뷰 파일은 아직 없다.
+## 이어받는 자료
 
-## 시간별 파일 대응
-
-| 실습 시간 | 단계 | 이 폴더의 파일·경로 | 확인할 증거 |
-|---|---|---|---|
-| 0–5분 | 기존 검사·예상 | `tests/conftest.py`, `tests/test_*.py` | 19 passed, 2 deselected |
-| 5–16분 | 3개 테스트 추가 | `test_schemas.py`, `test_service.py`, `test_api.py` | 실습 후 22 passed, 2 deselected |
-| 16–22분 | lint·format | `pyproject.toml`, `tests/` | F401·Would reformat 후 복구 |
-| 22–26분 | 느린 테스트 | `tests/test_integration.py`, `.env.example` | RUN_INTEGRATION 없으면 2 skipped |
-| 26–30분 | 검증·기록 | 추가 테스트·터미널 출력 | 실습 후 22개 통과와 개인 commit |
-
-파일명이 짧게 적힌 경우 바로 앞 열의 같은 하위 폴더를 기준으로 읽는다. 시간과 완료 조건은 연결된 실습지를 따른다.
+12주차의 `tuned.cact`와 비교용 기본 4bit·20층 모델을 사용한다. `adapter.safetensors`는 LoRA 변화량이며 바로 추론에 넣는 `.cact`와 다르다. 배포 기본 2bit를 비교 기준으로 섞지 않는다. `shared.MODELS_DIR`이 가리키는 12주차 `examples/models/baseline.cact`와 `tuned.cact`를 읽으므로 모델 복사는 필요 없다.
 
 ## 실행 위치와 명령
 
-이 `period1/` 폴더를 개인 실습 공간에 **처음 한 번 폴더째** 복사하고 그 안에서 실행한다. 숨김 파일도 포함한다. 이미 개인 교시 폴더가 있으면 다시 복사하지 않고 이어 한다. `.env`와 작성한 기록도 새 양식으로 덮어쓰지 않는다. 실제 준비 명령은 위 실습지 링크를 따른다. Python 명령은 `pyproject.toml` 옆에서 실행한다. `uv.lock`·`.venv/`는 배포하지 않았으므로 최초 `uv sync`로 개인 환경을 만든다.
+`teaching_repo` 전체 clone의 `open_source_ai/weeks/week13_test_ci_security/examples`에서 실행한다. 이 `period1/` 폴더는 안내만 담는다.
 
-```powershell
+```sh
 uv sync
-uv run pytest -q
-uv run ruff check .
-uv run ruff format --check .
-uv run pytest -m integration -q
+uv run ex01
 ```
 
-## 기본 실행과 실습 후 검증
+[ex01_evaluate](../src/ex01_evaluate/__init__.py)가 16문항을 순차 자동 처리한다. 대화 입력 반복이 아니다. 공용 도구·생성 조건은 [models.py](../../../../../tools/bleuno-control/src/bleuno_control/models.py), 초기 상태와 지표는 [evaluation.py](../../../../../tools/bleuno-control/src/bleuno_control/evaluation.py)에서 확인한다. 초기 LED `[0, 64, 128, 255]`를 매 문항 다시 설정하고 `GET /state`로 읽는다. 기본·학습 모델 모두 같은 미학습 문항과 독립 대화 조건을 사용한다.
 
-배포된 시작 코드는 19 passed, 2 deselected다. 실습의 세 테스트를 추가한 개인 복사본이 22 passed, 2 deselected가 된다. RUN_INTEGRATION을 설정하지 않은 느린 테스트는 2 skipped다.
+## 관찰할 내용
 
-## 이전 산출물과 다음 단계
+예상 호출, 모델의 호출 제안, 검증 통과 여부, 함수 반환, 실제 상태를 나란히 적는다. 함수 선택이 맞아도 인자가 틀릴 수 있고, 형식이 맞아도 의도가 틀릴 수 있다. 센서값은 함수 반환을 근거로 판단한다. 호출 없는 정답 문항에서 불필요한 제어가 발생했는지도 확인한다.
 
-12주차 서비스의 오류 응답 관찰을 이어받는다. 이 예제의 요청 필드와 상태 코드 매핑은 lab 설명대로 12주차와 다르다. 2교시에는 개인 테스트·commit을 유지하고 workflow와 의존성 선언만 추가한다.
+평가 문항은 한국어 8·영어 8, 호출 10·무호출 6이다. 학습 48개와 정확 문자열이 다르지만 의미 독립성까지 증명한 것은 아니다. 교재 준비 과정의 결과는 [실측 표](../../README.md#수업-준비-환경의-단일-실측)에서 읽는다. 실측하지 않은 성공률·시간은 채우지 않는다. 실행 실패를 분모에서 제외해 성공률을 높이지 않는다. 터미널 출력은 2교시 오류 분석에 이어 쓴다.
 
-## 대체 경로
+## 종료와 장애
 
-기본 검사는 GPU·Ollama 없이 실행된다. 네트워크가 없으면 사전 준비한 uv 캐시를 사용하고, 실제 통합 테스트는 skipped로 기록한다.
+평가가 끝나면 TCP 연결을 해제한다. 연결 해제 시 LED 초기화와 다음 비교의 초기 상태 설정은 별개다. 모델이 없으면 12주차 `examples/models/`의 저장 결과를 확인한다. 연결 실패는 시뮬레이터의 TCP `127.0.0.1:8266`과 HTTP `http://127.0.0.1:8080/state`를 확인한다. 실패 단계와 오류를 기록한다.

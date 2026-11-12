@@ -1,0 +1,26 @@
+version = 1
+revision = 3
+requires-python = ">=3.12"
+
+[[package]]
+name = "bleuno-control"
+version = "0.1.0"
+source = { editable = "../../../../tools/bleuno-control" }
+
+[package.metadata]
+requires-dist = [
+    { name = "cactus-compute", marker = "extra == 'needle'", specifier = "==4.2.0" },
+    { name = "cactus-compute", extras = ["train"], marker = "extra == 'train'", specifier = "==4.2.0" },
+]
+provides-extras = ["needle", "train"]
+
+[[package]]
+name = "osa-week10-control"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "bleuno-control" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "bleuno-control", editable = "../../../../tools/bleuno-control" }]

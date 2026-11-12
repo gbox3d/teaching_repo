@@ -1,0 +1,254 @@
+[
+  {
+    "id": "public-01",
+    "expected": [
+      [
+        "익산시",
+        "익산"
+      ]
+    ],
+    "sources": [
+      "wku-location"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-02",
+    "expected": [
+      [
+        "익산대로 460"
+      ]
+    ],
+    "sources": [
+      "wku-location"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-03",
+    "expected": [
+      [
+        "54538"
+      ]
+    ],
+    "sources": [
+      "wku-location"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-04",
+    "expected": [
+      [
+        "지덕겸수",
+        "知德兼修"
+      ],
+      [
+        "도의실천",
+        "道義實踐"
+      ]
+    ],
+    "sources": [
+      "wku-values"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-05",
+    "expected": [
+      [
+        "황금색",
+        "금색"
+      ]
+    ],
+    "sources": [
+      "wku-symbols"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-06",
+    "expected": [
+      [
+        "봉황"
+      ]
+    ],
+    "sources": [
+      "wku-symbols"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-07",
+    "expected": [
+      [
+        "은행나무"
+      ]
+    ],
+    "sources": [
+      "wku-symbols"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-08",
+    "expected": [
+      [
+        "백목련"
+      ]
+    ],
+    "sources": [
+      "wku-symbols"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-09",
+    "expected": [
+      [
+        "유일학림"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-10",
+    "expected": [
+      [
+        "1946",
+        "1946년"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-11",
+    "expected": [
+      [
+        "1971",
+        "1971년"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-12",
+    "expected": [
+      [
+        "https://lxp.wku.ac.kr/",
+        "https://lxp.wku.ac.kr",
+        "lxp.wku.ac.kr"
+      ]
+    ],
+    "sources": [
+      "wku-services"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-13",
+    "expected": [
+      [
+        "익산시",
+        "익산"
+      ],
+      [
+        "봉황"
+      ]
+    ],
+    "sources": [
+      "wku-location",
+      "wku-symbols"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-14",
+    "expected": [
+      [
+        "유일학림"
+      ],
+      [
+        "은행나무"
+      ]
+    ],
+    "sources": [
+      "wku-history",
+      "wku-symbols"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-15",
+    "expected": [
+      [
+        "54538"
+      ],
+      [
+        "지덕겸수",
+        "知德兼修"
+      ],
+      [
+        "도의실천",
+        "道義實踐"
+      ]
+    ],
+    "sources": [
+      "wku-location",
+      "wku-values"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-16",
+    "expected": [
+      [
+        "1971",
+        "1971년"
+      ],
+      [
+        "https://elibrary.wku.ac.kr/",
+        "https://elibrary.wku.ac.kr",
+        "elibrary.wku.ac.kr"
+      ]
+    ],
+    "sources": [
+      "wku-history",
+      "wku-services"
+    ],
+    "abstain": false
+  },
+  {
+    "id": "public-17",
+    "expected": [],
+    "sources": [],
+    "abstain": true
+  },
+  {
+    "id": "public-18",
+    "expected": [],
+    "sources": [],
+    "abstain": true
+  },
+  {
+    "id": "public-19",
+    "expected": [],
+    "sources": [],
+    "abstain": true
+  },
+  {
+    "id": "public-20",
+    "expected": [],
+    "sources": [],
+    "abstain": true
+  }
+]
