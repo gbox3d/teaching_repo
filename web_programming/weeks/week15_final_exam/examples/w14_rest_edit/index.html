@@ -1,0 +1,5 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PATCH·DELETE로 서버 글 변경</title><link rel="stylesheet" href="styles.css">
+<script src="config.example.js" defer></script><script src="view.js" defer></script><script src="app.js" defer></script></head>
+<body><h1>PATCH·DELETE로 서버 글 변경</h1><label for="id">대상 글 ID</label><input id="id" type="number" min="1"><label for="key">자기 편집 키</label><input id="key" type="password" autocomplete="off"><label for="message">수정 메시지</label><textarea id="message" maxlength="500"></textarea><button id="patch" type="button">수정</button><button id="delete" type="button">삭제</button><button id="reload" type="button">목록 확인</button><div id="notice" role="status"></div><ul id="list"></ul></body></html>

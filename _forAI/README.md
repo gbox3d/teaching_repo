@@ -29,12 +29,17 @@
 
 ## 현재 스냅샷
 
-- 확인일: `2026-11-12`
-- 저장소 경로: `C:\works\coworks\teaching_repo`
+- 확인일: `2026-11-14`
+- 저장소 경로: `D:\works\coworks\teaching_repo`
 - 대상 플랫폼: 공개 수업교재 저장소(GitHub `gbox3d/teaching_repo`) + GitHub Pages 슬라이드 도서관
-- 교재: 모바일프로그래밍 15주(12~15주 BLE 보드 수업 + 보드 없이 연습하는 Wi-Fi 시뮬레이터 `android_programming/iot_sim/`), 웹프로그래밍 15주·특강 1, 오픈소스 AI 응용 15주
+- 교재: 모바일프로그래밍 15주(12~15주 BLE 보드 수업 + `android_programming/iot_sim/`), 웹프로그래밍 15주와 지도·신시사이저·Supabase·홈 IoT 특강, 오픈소스 AI 응용 15주
+- 웹 개편: 12주 GET, 13주 POST, 14주 PATCH·DELETE, 15주 누적 복습·개인 실기. 레포트는 정규 14주 검사와 분리해 별도 공지한다.
+- 연구 특강: 방학 중 실습·비교 실험으로 운영하며 분량·회차·총시간을 제한하지 않는다. 홈 IoT는 Node.js HTTP 시뮬레이터로 학생 PC에서 실습한다.
+- Supabase: 강의자가 만든 공용 API를 학생 계정 없이 호출한다. 특강 예제 01~07은 각각 독립 폴더이며 06은 요청 실험, 07은 완성 방명록이다.
+- 검증 경계: 공용 about·help GET과 로컬 브라우저 조회, 방명록 GET·POST는 확인했다. 공용 PATCH·DELETE 권한과 예제의 GitHub Pages 실배포는 미검증이며 비공개 평가 자료의 전체 개편도 남아 있다.
 - 메인 엔트리포인트: `README.md`(교재 색인), `scripts/render-site.mjs`(빌드), `scripts/check-site.mjs`(검증), `site/catalog.json`(덱 목록)
-- 비공개 짝 저장소: `C:\works\coworks\univ_scoring_works\teaching_materials_private\`(강의 대본·실습 해답)
+- 최종 통합 검증 기준: 51개 덱, 한글·영문 각각 1,069장(Android 304·웹 339·오픈소스 AI 426). 과거 작업 로그의 장 수는 해당 시점 기록으로 보존한다.
+- 비공개 짝 저장소: `D:\works\coworks\univ_scoring_works\teaching_materials_private\`(강의 대본·실습 해답)
 
 ## 유지 규칙
 

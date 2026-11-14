@@ -1,0 +1,53 @@
+# VS Code REST Client: 같은 폴더의 .env.example을 .env로 복사한 뒤 공개 키를 설정하세요.
+# 요청 위 Send Request를 누릅니다. .http 테스트에는 화면용 로컬 서버가 필요 없습니다.
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+@bookId = {{$dotenv BOOK_ID}}
+
+### 1. 서버 소개: 200
+GET {{baseUrl}}/rest/v1/about
+apikey: {{apiKey}}
+
+### 2. API 사용법: 200
+GET {{baseUrl}}/rest/v1/help?order=step.asc
+apikey: {{apiKey}}
+
+### 3. 태그별 목록: 200
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&order=id.desc&limit=50
+apikey: {{apiKey}}
+
+### 4. 연습 글 생성: 201. 응답 id를 아래 수정·삭제에서 사용합니다.
+POST {{baseUrl}}/rest/v1/guestbook
+apikey: {{apiKey}}
+Content-Type: application/json
+Prefer: return=representation
+
+{"book_id":"{{bookId}}","name":"연습생","message":"REST Client 저장 연습"}
+
+### 수정: 본인이 POST한 연습 글만 지정합니다. 예상: 200 + 변경한 글 배열
+# @prompt entryId 본인이 만든 연습 글 ID를 입력하세요.
+# @prompt password 해당 방명록의 편집 키를 입력하세요.
+PATCH {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{entryId}}
+apikey: {{apiKey}}
+X-Edit-Key: {{password}}
+Content-Type: application/json
+Prefer: return=representation
+
+{"message":"REST Client에서 수정한 연습 글"}
+
+### 수정 후 대상 조회: PATCH 응답이 []이면 변경된 행이 없습니다. GET에서는 저장된 내용을 비교합니다.
+# @prompt entryId 방금 수정 요청한 연습 글 ID를 입력하세요.
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{entryId}}
+apikey: {{apiKey}}
+
+### 삭제: 본인이 POST한 연습 글만 지정합니다. 예상: 204 + 빈 본문
+# @prompt entryId 삭제할 연습 글 ID를 입력하세요.
+# @prompt password 해당 방명록의 편집 키를 입력하세요.
+DELETE {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{entryId}}
+apikey: {{apiKey}}
+X-Edit-Key: {{password}}
+
+### 삭제 후 대상 조회: 204여도 글이 남을 수 있습니다. 같은 ID의 GET 응답이 []인지 확인합니다.
+# @prompt entryId 방금 삭제 요청한 연습 글 ID를 입력하세요.
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{entryId}}
+apikey: {{apiKey}}

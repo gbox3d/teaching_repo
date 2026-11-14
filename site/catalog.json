@@ -213,10 +213,10 @@
       "slug": "webprg",
       "title": "웹프로그래밍",
       "eyebrow": "WEB PROGRAMMING",
-      "description": "브라우저와 Git의 기초에서 시작해 저장소 하나에 페이지를 쌓아 공개 사이트를 만들고, 목록·브라우저 저장·JSON 불러오기까지 다루는 15주 입문 과정입니다.",
+      "description": "HTML·CSS·JavaScript로 사이트를 만들고, 브라우저 저장에서 공용 REST API의 방명록 읽기·저장·수정·삭제로 이어지는 15주 입문 과정입니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 3개 특강 · 322장",
+      "summary": "15개 주차 + 4개 특강 · 339장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
@@ -369,40 +369,40 @@
         {
           "id": "week12_fetch_json",
           "label": "12주차",
-          "title": "fetch로 JSON 불러오기",
-          "description": "화면에 쓸 내용을 HTML 안에 직접 적지 않고, **따로 만든 파일에서 읽어 와** 카드로 그릴 수 있을까?",
+          "title": "REST API로 방명록 읽기",
+          "description": "GET 요청으로 서버의 JSON 배열을 읽고 방명록 목록에 표시합니다. Network에서 응답과 오류를 확인합니다.",
           "type": "week",
           "formerIds": [
             "week12_persistent_crud"
           ],
           "en": {
             "label": "Week 12",
-            "title": "Loading JSON with fetch",
-            "description": "Instead of writing the screen's content directly into HTML, can we **read it from a separate file** and draw it as cards?"
+            "title": "Reading a Guestbook through a REST API",
+            "description": "Read a server JSON array with GET, display the guestbook, and inspect responses and failures in Network."
           }
         },
         {
           "id": "week13_release_security",
           "label": "13주차",
-          "title": "보안·접근성·릴리스 점검",
-          "description": "지금까지 만든 네 페이지를, **다른 사람이 써도 안전하고 누구나 읽을 수 있게** 다듬어 내놓을 수 있을까?",
+          "title": "REST API로 방명록 저장하기",
+          "description": "폼의 이름과 메시지를 POST로 저장하고 다시 조회해 다른 브라우저에서도 같은 글을 확인합니다.",
           "type": "week",
           "en": {
             "label": "Week 13",
-            "title": "Security, Accessibility, and Release Checks",
-            "description": "Can we polish the four pages we've built so far to be **safe for anyone to use and readable by everyone**?"
+            "title": "Saving Guestbook Entries through a REST API",
+            "description": "POST form data as JSON, reload the list, and check the saved entry in another browser."
           }
         },
         {
           "id": "week14_project_presentation",
           "label": "14주차",
-          "title": "최종 프로젝트 발표",
-          "description": "3~13주에 한 주씩 쌓아 온 내 사이트를, 공개 주소 하나로 **3분 안에** 남에게 보여 줄 수 있을까? 그리고 그 설명을 저장소 첫 화면에 한 장으로 남길 수 있을까?",
+          "title": "REST API로 방명록 수정·삭제하기",
+          "description": "서버 id와 편집 키로 PATCH·DELETE를 보내고 재조회해 지정한 글의 변경을 확인합니다.",
           "type": "week",
           "en": {
             "label": "Week 14",
-            "title": "Final Project Presentation",
-            "description": "Can we show the site we built up week by week, from Week 3 through Week 13, to someone else **in under 3 minutes** using a single public address? And can we leave that explanation as one page on the repository's front screen?"
+            "title": "Editing and Deleting Guestbook Entries through REST",
+            "description": "Use server IDs and an edit key for PATCH and DELETE, then read again to verify the changes."
           }
         },
         {
@@ -432,13 +432,13 @@
         {
           "id": "supabase_guestbook",
           "label": "특강",
-          "title": "Supabase로 만드는 서버 방명록",
-          "description": "11주차 방명록의 저장 위치만 브라우저에서 Supabase 서버로 바꿔, 다른 PC에서도 같은 목록이 보이게 합니다.",
+          "title": "Supabase 공용 방명록 API 구축",
+          "description": "방학 연구 수업에서 방명록 REST API를 직접 구축하고 권한, 기기 간 저장, 요청과 실제 데이터 변경을 검증합니다.",
           "type": "special",
           "en": {
             "label": "Special",
-            "title": "Building a Server-Backed Guestbook with Supabase",
-            "description": "Moves only the storage location of the Week 11 guestbook from the browser to a Supabase server, so the same list shows up on other PCs too."
+            "title": "Building a Shared Guestbook API with Supabase",
+            "description": "Build a guestbook REST API in a vacation research course, then investigate permissions, cross-device persistence, and actual changes behind HTTP responses."
           }
         },
         {
@@ -452,11 +452,23 @@
             "title": "Building a Web Synthesizer — A Disco Player",
             "description": "Compare sound parts one at a time (waveform, pitch, envelope, chords, filter, drums), then assemble them into a disco player that loads a song JSON and plays it."
           }
+        },
+        {
+          "id": "home_iot_http",
+          "label": "특강",
+          "title": "HTTP로 제어하는 홈 IoT 시뮬레이터",
+          "description": "Node.js 가상 거실의 GET·PATCH 제어에서 출발해 주기적 조회, 자동 제어, 통신 실패와 복구를 비교 실험합니다.",
+          "type": "special",
+          "en": {
+            "label": "Special",
+            "title": "Controlling a Home IoT Simulator over HTTP",
+            "description": "Use GET and PATCH in a Node.js virtual room, then compare polling intervals, automatic control, and communication failure and recovery."
+          }
         }
       ],
       "en": {
         "title": "Web Programming",
-        "description": "A 15-week introductory course that starts with browser and Git basics, builds a public site page by page in one repository, and covers lists, browser storage, and loading JSON."
+        "description": "A 15-week introductory course from HTML, CSS and JavaScript to browser storage and reading, saving, editing and deleting a shared REST guestbook."
       }
     },
     {

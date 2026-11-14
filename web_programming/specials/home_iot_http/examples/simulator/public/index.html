@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>홈 IoT HTTP 실습실</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header class="page-header">
+      <div><p class="eyebrow">WEB PROGRAMMING / HTTP LAB</p><h1>내 방을 HTTP로 제어하기</h1><p>센서 값을 읽고, 요청을 보내고, 장치의 변화를 확인하세요.</p></div>
+      <div class="connection"><span class="dot" id="connection-dot"></span><span id="connection" role="status">연결 중</span></div>
+    </header>
+    <nav aria-label="실습 화면">
+      <a href="/examples/ex01/" target="_blank">01 상태 읽기</a><a href="/examples/ex02/" target="_blank">02 전등 제어</a><a href="/examples/ex03/" target="_blank">03 온도와 선풍기</a><a href="/examples/student/" target="_blank">직접 만들기</a><a href="/examples/reference/" target="_blank">실행 참고본</a>
+      <a href="/examples/automatic/" target="_blank">자동 제어 연구</a><a href="/examples/automatic_student/" target="_blank">제어 정책 작성</a>
+    </nav>
+    <div class="workspace">
+      <section class="card room-card" aria-labelledby="room-title">
+        <div class="section-heading"><div><p class="eyebrow">LIVE SIMULATOR</p><h2 id="room-title">거실</h2></div><span class="badge">가상 장치</span></div>
+        <div class="room" id="room" aria-label="가상 거실: 전등 꺼짐, 선풍기 정지">
+          <div class="window"><div></div></div>
+          <div class="light-beam" id="light-beam"></div><div class="pendant"><div class="cord"></div><div class="shade" id="shade"></div></div>
+          <div class="picture"><span></span></div>
+          <div class="sofa"><div class="cushion"></div><div class="cushion second"></div><div class="sofa-seat"></div></div>
+          <div class="plant"><div class="leaf left"></div><div class="leaf right"></div><div class="pot"></div></div>
+          <div class="fan"><div class="fan-cage"><div class="fan-blades" id="fan-blades"><i></i><i></i><i></i></div><div class="fan-hub"></div></div><div class="fan-pole"></div><div class="fan-base"></div></div>
+          <div class="floor"></div><div class="temperature-chip"><span>실내 온도</span><strong id="room-temperature">24.0 °C</strong></div>
+        </div>
+        <div class="state-strip"><div><span>전등</span><strong id="light-status">꺼짐</strong></div><div><span>밝기 설정</span><strong id="brightness-status">60%</strong></div><div><span>선풍기</span><strong id="fan-status">정지</strong></div></div>
+        <p class="note">실제 하드웨어와 연결되지 않은 시뮬레이터입니다. 온도는 오른쪽 슬라이더에서 정한 값이며, 선풍기가 온도를 자동으로 낮추지는 않습니다.</p>
+      </section>
+      <section class="card controls" aria-labelledby="controls-title">
+        <p class="eyebrow">CONTROL PANEL</p><h2 id="controls-title">장치와 환경</h2>
+        <fieldset><legend>거실 전등</legend><div class="button-row"><button id="light-on">켜기</button><button id="light-off" class="secondary">끄기</button></div><label for="brightness">밝기 <output id="brightness-value">60%</output></label><input id="brightness" type="range" min="0" max="100" value="60"><button id="brightness-apply" class="secondary wide">밝기 적용</button></fieldset>
+        <fieldset><legend>선풍기</legend><div class="button-row"><button id="fan-on">작동</button><button id="fan-off" class="secondary">정지</button></div></fieldset>
+        <fieldset><legend>가상 온도센서</legend><label for="temperature">온도 <output id="temperature-value">24.0 °C</output></label><input id="temperature" type="range" min="10" max="40" step="0.1" value="24"><button id="temperature-apply" class="secondary wide">온도 적용</button></fieldset>
+        <p id="notice" role="status" aria-live="polite">상태 조회 중</p>
+      </section>
+    </div>
+    <section class="card log-card" aria-labelledby="log-title"><div class="section-heading"><div><p class="eyebrow">REQUEST HISTORY</p><h2 id="log-title">최근 제어 요청</h2></div><span class="badge">최근 12건 · GET 제외</span></div><ol id="request-log"><li>제어 요청 없음</li></ol></section>
+    <footer>상태는 1초마다 GET으로 조회합니다. 서버를 종료하면 가상 장치 상태와 요청 기록이 초기화됩니다.</footer>
+  </main>
+</body>
+</html>

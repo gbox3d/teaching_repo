@@ -163,7 +163,7 @@ const back = JSON.parse(localStorage.getItem('ex05-json'));   // 3.
 
 - No. 1 stores `[object Object],[object Object]`. Stored as is, the contents are lost.
 - No. 2 stores `[{"name":"하늘",…}]`. Bring it back with `JSON.parse` (No. 3); then `back[0].name` works.
-- Remember the double-quoted `"name"` shape. It matches the JSON file in Week 12.
+- Remember the double-quoted `"name"` shape. Week 12 REST responses are JSON too.
 
 **stringify when you put it in, parse when you take it out.**
 
@@ -212,7 +212,7 @@ file:// on my PC   a different box           check on the public address
 ```
 
 - **You alone** own the saved list. Someone opening the same address does not see it.
-- To share it across PCs you need **an internet server DB and login** (optional special session).
+- Sharing across PCs requires server storage. In Weeks 12–14, we use the instructor's shared API.
 - On a shared lab PC, the preview address (`localhost:8000`, etc.) may still hold the previous student's posts: same PC, same address, same storage.
 
 **localStorage is storage for this browser and this address only.**
@@ -260,5 +260,5 @@ Keep your real name, student ID, and real email out of the screenshot.
 
 The list now stays **inside your browser**. But only you can see it.
 
-In Week 12 you start a new repository, `web-week12`, from today's files, load `data/projects.json` with `fetch`, and draw cards.
-The JSON file looks just like the value you saw in the Application tab today. Check and capture on the public address in Week 12, too.
+In Week 12, start `web-week12` from today's files and read the server guestbook with a REST GET request.
+Display the JSON array as a list. After connecting the shared HTTPS API, check the same list in another browser.

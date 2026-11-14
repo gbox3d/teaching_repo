@@ -110,8 +110,8 @@
 ## 다음 수업 연결
 
 이제 목록은 **내 브라우저 안**에 남는다. 다만 그 글은 나만 볼 수 있고, 다른 PC 에서 열면 비어 있다.
-12주차에는 새 저장소 `web-week12` 를 오늘 `web-week11` 의 파일에서 시작하고(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/web-week11/`](examples/day2/web-week11/)), JSON 파일 `data/projects.json` 을 `fetch` 로 불러와 카드로 그린다.
-JSON 파일의 글자 모양은 이번 주 Application 탭에서 본 `[{"name":…}]` 과 같다. 확인과 캡처는 12주차에도 공개 주소에서 한다.
+12주차에는 새 저장소 `web-week12`를 오늘 `web-week11`의 파일에서 시작하고(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/web-week11/`](examples/day2/web-week11/)), 공용 REST API의 방명록 목록을 `fetch`로 읽는다.
+서버가 보내는 JSON 배열은 이번 주 Application 탭에서 본 `[{"name":…}]`과 같은 형태다. 공용 HTTPS API를 연결한 뒤 다른 브라우저에서도 같은 목록을 확인한다.
 
 ## 공식 참고 자료
 

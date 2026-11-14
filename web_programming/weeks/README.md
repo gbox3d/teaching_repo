@@ -8,8 +8,8 @@
 - 1주차는 연습용 폴더 `week01`에서 로컬 Git을, 2주차는 GitHub 저장소 `my-web`과 Pages 등록을 배운다. **Git 설명은 2주차까지다.** 3주차는 `my-web`을 이어 쓰고, **4주차부터는 매주 새 저장소 `web-weekNN`을 만들어 올린다**(아래 실습 루틴).
 - 매주 시작점은 지난주 완성본이다(4주차부터 `examples/day2/web-weekNN/`, 그 전은 `examples/day2/`). 자기 코드로 이어 가도 되고, 막히면 교재의 지난주 완성본을 받아 이어 간다.
 - **매주 캡처 1장으로 끝난다.** 그 캡처가 README "완료 기준"의 화면이고 주차별 실습 점수의 근거다. 산출물이 보고서·표여서는 안 된다.
-- 주차별 실습 점수는 1~7주·10~13주 캡처로 산정한다(2주차는 고정본의 캡처 4장). 8·9·14·15주는 실습 점수 대상이 아니다.
-- 고정 평가 주: 8주 중간 개인 실기, 9주 1차 과제 발표, 14주 최종 프로젝트 발표, 15주 기말 개인 실기. 두 실기는 그때까지의 실습 제출로 만든 문제 은행에서 낸다(8주 1~7주, 15주 1~14주 누적).
+- 1~7주·10~14주는 주차별 구현 결과를 캡처한다(2주차는 고정본의 캡처 4장). 실제 실습 배점은 학기별 수업 공지를 따른다.
+- 고정 평가 주: 8주 중간 개인 실기, 9주 1차 과제 발표, 15주 기말 개인 실기. 14주는 REST 수정·삭제 실습이며 레포트는 별도 과제다. 두 실기는 그때까지의 실습 제출로 만든 문제 은행에서 낸다(8주 1~7주, 15주 1~14주 누적).
 - 기본 문제를 먼저 완성하고 남는 시간에 확장 문제를 수행한다.
 
 시험과 발표 주차는 대학 일정과 분반 인원에 따라 실제 평가 시간이 달라질 수 있다. 공개 자료에는 평가 구조와 연습 절차만 두며, 학기별 실제 문항·정답·학생 정보는 별도 비공개 공간에서 관리한다.
@@ -76,14 +76,14 @@ git push -u origin main
 - 만들기 파일은 하나에 60줄 이하로 두고, 학생이 직접 타이핑할 수 있는 크기를 넘지 않는다. 클래식 `<script src="app.js" defer>`만 쓰고(CDN·라이브러리·`type="module"` 없음), 페이지마다 자기 `.js` 파일 하나를 연결한다.
 - 모든 `dayN/index.html`(4주차부터는 `day2/web-weekNN/index.html`)은 브라우저 Console 오류 0으로 열린다. 비교 파일의 오류는 주석을 풀거나 버튼을 눌러 일부러 낼 때만 난다.
 
-시험·과제 주차는 같은 파일 세트에 다음을 더한다. 이 네 주차도 `README.md`·`slides.md`·`walkthrough.md`·`lab.md`는 똑같이 두며, `lab.md`에는 1일차 시간표(8·15주는 문제 은행 연습, 9·14주는 발표 준비)와 2일차 시험·발표 운영 시간표 2개를 둔다.
+시험·과제 주차는 같은 파일 세트에 다음을 더한다. 8·9·15주도 `README.md`·`slides.md`·`walkthrough.md`·`lab.md`를 두며, `lab.md`에는 1일차 연습·준비와 2일차 평가 시간표를 둔다. 14주는 다른 구현 주차처럼 2일간 실습한다.
 8·15주 `examples/`에는 날짜 폴더 대신 은행 목록 `README.md`와 문제 폴더 `wNN_*`를 둔다. 문제 하나는 한 주의 실습 제출이고, 시험은 같은 문제를 값만 바꿔 낸다. 해답은 공개하지 않는다.
 
 | 주차 | 추가 파일 |
 |---:|---|
 | 8 | `exam_structure.md`, `rubric.md`, `examples/README.md`(1~7주 문제 은행 목록), `examples/w01_*`~`w07_*`(문제 폴더) |
 | 9 | `project_brief.md`, `rubric.md` |
-| 14 | `project_brief.md`, `rubric.md`, `demo_outline.md` |
+| 14 | REST 수정·삭제 구현 자료. 기존 레포트 문서 경로에는 별도 과제 안내를 둔다 |
 | 15 | `rubric.md`, `examples/README.md`(1~14주 누적 문제 은행 목록), `examples/w09_*`~`w14_*`(문제 폴더. 1~7주 문제는 8주 폴더의 것을 함께 쓴다) |
 
 PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리한다. 필요할 때 Marp CLI 또는 VS Code Marp 확장으로 HTML, PDF, PPTX로 내보낼 수 있다.
@@ -103,12 +103,16 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 9 | 마크다운과 1차 과제 발표 | 표·그림·소스 코드·SVG 도표가 들어간 저장소 `README.md` 1차판과 2분 시연(방명록 목록에 두 줄 남기기 포함) | [`week09_readme_presentation`](week09_readme_presentation/) |
 | 10 | 배열 데이터를 목록으로 그리기 | 글을 배열에 모아 목록을 다시 그려, 3개를 쌓고 1개를 지운 뒤 "2개"가 표시된 방명록 | [`week10_array_list`](week10_array_list/) |
 | 11 | 객체와 localStorage | 새로고침해도 남는 방명록 3개와 Application › Local Storage의 `guestbook` 키 | [`week11_object_localstorage`](week11_object_localstorage/) |
-| 12 | fetch로 JSON 불러오기 | JSON에서 읽은 카드 3개와 Network 탭의 `projects.json` 200 | [`week12_fetch_json`](week12_fetch_json/) |
-| 13 | 보안·접근성·릴리스 점검 | 태그를 입력해도 글자 그대로 보이고 Console 오류가 0인 375px 화면 | [`week13_release_security`](week13_release_security/) |
-| 14 | 최종 프로젝트 발표 | 3분 시연과 README 최종판 | [`week14_project_presentation`](week14_project_presentation/) |
+| 12 | REST API로 방명록 읽기 | 서버의 방명록 목록과 Network GET 200 | [`week12_fetch_json`](week12_fetch_json/) |
+| 13 | REST API로 방명록 저장하기 | POST 201 뒤 다른 브라우저에도 보이는 글 | [`week13_release_security`](week13_release_security/) |
+| 14 | REST API로 방명록 수정·삭제하기 | 서버 id로 지정한 글의 수정·삭제와 재조회 | [`week14_project_presentation`](week14_project_presentation/) |
 | 15 | 기말 개인 실기 | 1일차 [1~14주 누적 문제 은행](week15_final_exam/examples/README.md) 연습, 2일차 기말 실기 — `web-week15/exam/` 공개 주소 · 저장소 주소 · Commits 탭 캡처 | [`week15_final_exam`](week15_final_exam/) |
 
 폴더 이름은 그 주의 주제를 따른다. 2026-10-25에 6·7·9·10·11·12주 폴더 이름을 실제 주제에 맞게 바꿨다. 옛 이름의 슬라이드 주소(`.../webprg/decks/<옛 폴더명>/`)는 새 덱으로 넘어간다.
+
+2026-11-13에 12~14주를 공용 REST 방명록으로 개편했다. 기존 링크를 유지하려고 이 세 주의 폴더 이름은 보존한다.
+강의자 서버 준비는 [`tools/guestbook-api`](../tools/guestbook-api/README.md)를 따른다.
+기본 예제 URL은 로컬 리허설용이다. 공개 페이지·다른 기기의 공유 확인은 검증한 공용 HTTPS API를 연결한 뒤 수행한다.
 
 ## 자료 작성 원칙
 
@@ -120,7 +124,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 - 예제는 한 번에 한 개념만 보여 주는 최소 코드로 만든다.
 - `lab.md`에는 정답 전체 대신 완료 조건과 단계별 힌트를 둔다. "막혔을 때" 항목은 실제로 재현해 본 Console·터미널 문구를 그대로 적는다.
 - **표준 API·표준 용어만 쓴다**: `document.querySelector`, `textContent`, `addEventListener`, `classList`, `createElement`/`append`, `localStorage`, `JSON`, `fetch`/`await`. 클릭·제출 리스너 안에서 화면을 직접 바꾼다. 목록을 다시 그리는 함수 이름은 `showList()`로 통일한다.
-- **학기 범위 밖**: 번들러, npm 패키지, 서버 DB·로그인, 화살표 함수, `map`·`filter`·`forEach`, 클래스, 구조 분해, spread, `git rebase`. 필요하면 "이 과목 범위 밖" 한 줄로만 말한다.
+- **학기 범위 밖**: 번들러, npm 패키지, 서버 DB 구축·로그인 구현, 화살표 함수, `map`·`filter`·`forEach`, 클래스, 구조 분해, spread, `git rebase`. 강의자가 준비한 서버를 REST로 호출하는 내용은 12~14주 정규 범위다.
 - 표준 입문 교재에 없는 설계 틀과 용어는 들여오지 않는다. 금지 목록은 강의자 설계 문서가 관리하며, 주차 검사 스크립트가 공개·비공개 문서를 모두 검사한다.
 - **문법·API는 한 주에 몰아넣지 않고 쓰는 주에 5분**으로 도입한다.
 
@@ -143,7 +147,8 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | `||`(if 안의 "또는", 값 자리의 `JSON.parse(…) || []`) | 11주 2일차 | 정식 항목(ex06) |
 | `async function`·`await fetch(url)`·`await response.json()` | 12주 1일차 | 복붙 틀 |
 | `try / catch`, `response.ok` | 12주 2일차 | 정식 항목 |
-| `Number()`, `isNaN()`, `new Date().getFullYear()` | 13주 1일차 | 오늘 문법 5분 |
+| POST, `headers`, `body`, `JSON.stringify` 요청 본문 | 13주 1일차 | 정식 항목 |
+| PATCH·DELETE, 서버 `id`, 편집 키 헤더, 204의 빈 본문 | 14주 | 정식 항목 |
 
 - **개인정보**: 예시 아이디는 `student01`, 이메일은 `student01@example.com`, 저장소는 3주차까지 `my-web`, 4주차부터 `web-week04`·`web-week05`…, 공개 주소는 `https://student01.github.io/web-week05/`이다. 공개 저장소·캡처·예제에 실명·학번·전화번호·실제 이메일을 넣지 않는다.
 - 시험 주(8·15주) 폴더에는 문제 은행(문제 문장·시작 파일)과 채점표만 두고, 시험에 내는 값과 해답은 별도 비공개 공간에서 관리한다.

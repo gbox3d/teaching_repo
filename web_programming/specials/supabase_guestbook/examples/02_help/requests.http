@@ -1,0 +1,8 @@
+# VS Code REST Client: 같은 폴더의 .env.example을 .env로 복사한 뒤 공개 키를 설정하세요.
+# 요청 위 Send Request를 누릅니다. .http 테스트에는 화면용 로컬 서버가 필요 없습니다.
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+
+### API 사용법: 예상 200 + method, path, description을 가진 배열
+GET {{baseUrl}}/rest/v1/help?order=step.asc
+apikey: {{apiKey}}

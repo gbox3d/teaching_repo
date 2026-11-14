@@ -8,12 +8,13 @@
 - [Build and validation commands](#build-and-validation-commands)
 - [Tests](#tests)
 - [Notes](#notes)
+- [웹 REST 교재와 연구 특강](#웹-rest-교재와-연구-특강)
 - [Android BLE 연계](#android-ble-연계)
 
 ## Repository
 
 - Name: `teaching_repo`
-- Path: `C:\works\coworks\teaching_repo`
+- Path: `D:\works\coworks\teaching_repo`
 - Summary: 대학·학기와 무관하게 재사용하는 공개 수업교재(모바일·웹·오픈소스 AI)의 단일 기준. Markdown 원고를 Marp로 렌더해 GitHub Pages 슬라이드 도서관으로 배포한다.
 
 ## Top-level structure
@@ -25,7 +26,10 @@ teaching_repo/
 ├─ ta_lab_setup_guide.md              실습조교 공통 설치 목록
 ├─ _shared/README.md                  과목 공통 자산 승격 기준(아직 내용 없음)
 ├─ android_programming/               모바일프로그래밍 15주 (weeks/weekNN_*/)
-├─ web_programming/                   웹프로그래밍 15주 + specials/kakao_aerial_map
+├─ web_programming/                   웹프로그래밍 15주 + specials/ 연구 특강 4종
+│  ├─ tools/guestbook-api/            공용 API SQL·학생 안내·로컬 모의 API
+│  ├─ tools/static-server/            HTML·CSS·JS 로컬 미리보기
+│  └─ specials/                       Supabase·지도·신시사이저·HTTP 홈 IoT
 ├─ open_source_ai/                    오픈소스 AI 응용 15주 (weeks/weekNN_*/)
 │  ├─ README.md · materials_plan.md · ta_setup_guide.md
 │  └─ weeks/README.md                 운영 기준(60분 블록 × 3)·주차 목록·검증용 기본값
@@ -46,23 +50,27 @@ teaching_repo/
 - 빌드 진입점: `scripts/render-site.mjs` — `site/catalog.json`의 `courses[].chapters[]`를 순회하며 `sourcePath(course, chapter)`로 원고 위치를 결정한다. course.id ↔ 폴더 매핑: `android`→`android_programming/weeks`, `web`→`web_programming/{weeks,specials}`, `open-source-ai`→`open_source_ai/weeks`.
 - 검증 진입점: `scripts/check-site.mjs` — 같은 `sourcePath` 매핑과 `EXPECTED` 상수(과목별 덱·슬라이드 수)로 `dist/`를 대조한다.
 - 도서관 UI: `site/index.html` + `site/assets/library.js`가 `catalog.json`을 읽어 카드 목록을 그린다. 덱 페이지는 `site/assets/deck.{css,js}`.
-- 비공개 짝 저장소: `C:\works\coworks\univ_scoring_works\teaching_materials_private\` — 같은 주차 폴더 구조로 `lecture_script.md`, `lab_solution.md`, `_shared/practice_operation.md`(실습 운영 대본)를 둔다. 비공개 `android_programming/`에는 주차 폴더 밖에 `tools/android_verify/`(`check_week.py`·`verify_rubric15_perm.py` 등), `tools/iot_sim/`(`test_sim.py`·`README.md`), `iot_sim/lab_solution.md`가 있다.
+- 비공개 짝 저장소: `D:\works\coworks\univ_scoring_works\teaching_materials_private\` — 같은 주차 폴더 구조로 `lecture_script.md`, `lab_solution.md`, `_shared/practice_operation.md`(실습 운영 대본)를 둔다. 비공개 `android_programming/`에는 주차 폴더 밖에 `tools/android_verify/`(`check_week.py`·`verify_rubric15_perm.py` 등), `tools/iot_sim/`(`test_sim.py`·`README.md`), `iot_sim/lab_solution.md`가 있다.
 
 ## Build and validation commands
 
 ```powershell
 npm ci
 npm run build     # node scripts/render-site.mjs → dist/
-npm test          # node scripts/check-site.mjs
+npm run check    # dist/ 사이트·링크 검사
+npm run test:labs # 방명록 API·홈 IoT·Supabase 통합 요청 시험
+npm test         # check + deck-fit 회귀 시험 + test:labs
 ```
 
 - Node.js 24 이상이 필요하다(스크립트가 검사).
+- 2026-11-14 최종 통합 검증 기준은 51개 덱, 한글·영문 각각 1,069장이다(Android 304·웹 339·오픈소스 AI 426). 이후 수치는 실제 빌드 결과로 갱신한다.
 - `render-site.mjs`와 `check-site.mjs`의 `EXPECTED_DECKS`, `EXPECTED_SLIDES`, `EXPECTED[course]`는 **정확한 수**를 고정 검사한다. 슬라이드를 추가·삭제하면 두 파일의 상수를 함께 갱신해야 빌드가 통과한다.
 - 원고 검사 규칙: `theme: default`는 파일당 정확히 1회, raw HTML은 줄 끝 `<br>`·`<code>`·HTML 주석만 허용, 상대 `.md` 링크는 GitHub blob URL로, 상대 자산은 `dist/decks/<course>/<chapter>/assets/`로 복사된다.
 
 ## Tests
 
-- 자동 테스트는 `npm test`(사이트 검증)뿐이다. 교재 코드 예제의 단위 테스트는 각 주차 `examples/`에 있는 것만 있으며(웹 5·특강, 오픈소스 AI 13주차), 저장소 수준 러너는 없다.
+- `npm test`는 사이트 검증, `scripts/deck-fit.test.mjs`, `npm run test:labs`를 차례로 실행한다. labs 대상은 `web_programming/tools/guestbook-api/server.test.mjs`, `web_programming/specials/home_iot_http/examples/simulator/server.test.mjs`, `web_programming/specials/supabase_guestbook/examples/06_http_lab/request.test.mjs`다.
+- 브라우저에서 실제 Supabase 응답을 읽는 검증과 `.http` 요청 검증은 자동 단위 시험과 구분한다. 클라우드의 수정·삭제 권한과 Pages 게시 결과는 별도 확인 대상이다.
 - 오픈소스 AI 예제는 Python 문법 검사(`uv run --no-project python -m py_compile`, 67개 파일)와 `ruff check --select E9,F63,F7,F82` 치명 오류 검사까지 했고, 모델·GPU 실행은 기준 PC 실측 대기 상태다.
 - `ruff`를 저장소 전체에 돌릴 때는 `--exclude open_source_ai/weeks/week08_midterm/examples/mock_exam/broken_project`를 붙인다. 그 폴더의 `pyproject.toml`은 8주차 모의 실기용으로 **일부러 깨뜨린** 파일이라 TOML 파싱이 실패한다.
 - Wi-Fi 시뮬레이터는 비공개 `tools/iot_sim/test_sim.py <이 저장소의 android_programming/iot_sim/sim.py>`로 시험한다(시험 23개. 검사할 시뮬레이터는 TCP 18266·UDP 18267·HTTP 18080으로 띄우고, 포트·이름 시험은 TCP 18081~18083·28267·28276과 UDP 28268을 잠깐 쓴다).
@@ -72,8 +80,51 @@ npm test          # node scripts/check-site.mjs
 
 - 강의 대본·실습 해답은 이 저장소에 두지 않는다(비공개 짝 저장소). 주차 README의 "강의 대본: 강의자 별도 관리(비공개)" 문구가 그 표시다.
 - 수업 시간 구조가 과목마다 다르다: 모바일·웹은 주 2회 × 90분(설명 30 + 실습 60), 오픈소스 AI는 60분 블록 × 3(설명 20 + 실습 30 + 휴식 10).
+- 위 시간 기준은 정규 주차에 적용한다. 웹 연구 특강은 차시·총시간·분량 제한 없이 단계별 도달 기준으로 운영한다.
 - 오픈소스 AI 예제는 uv 프로젝트이며 `uv.lock`을 아직 커밋하지 않았다(환경 기준표 확정 후 기준 PC에서 생성).
 - `dist/`는 빌드 산출물로 추적하지 않는다. `site/`가 원본이다.
+
+## 웹 REST 교재와 연구 특강
+
+정규 12~14주는 11주의 폼·배열 객체·JSON·localStorage 학습을 서버 저장으로 확장한다. 기존 폴더 이름은 링크 호환을 위해 유지한다.
+
+| 자료 | 위치·역할 |
+|---|---|
+| 12주 GET | `web_programming/weeks/week12_fetch_json/` |
+| 13주 POST | `web_programming/weeks/week13_release_security/` |
+| 14주 PATCH·DELETE | `web_programming/weeks/week14_project_presentation/` |
+| 15주 누적 복습·개인 실기 | `web_programming/weeks/week15_final_exam/` |
+| 강의자 서버 준비 | `web_programming/tools/guestbook-api/{README.md,schema.sql,about-help.sql,provision.mjs}` |
+| 학생 요청 안내 | `web_programming/tools/guestbook-api/student-guide.md` |
+| Supabase 구축 연구 | `web_programming/specials/supabase_guestbook/` |
+| Node HTTP 홈 IoT 연구 | `web_programming/specials/home_iot_http/` |
+
+Supabase `examples/` 루트에는 README만 둔다. 하위 `01_about`, `02_help`, `03_guestbook_get`, `04_guestbook_post`, `05_guestbook_edit`, `06_http_lab`, `07_guestbook_complete`는 각각 독립 실행·배포 폴더다.
+각 폴더에 `index.html`, `app.js`, `config.example.js`, `styles.css`, `requests.http`, `.env.example`이 있다. 06에는 `request.js`, `exercise.js`, 요청 시험이 더 있다.
+현재 공용 API는 `https://esoqbcwgzjtwcqszwvin.supabase.co`다. URL은 공개 설정이고 키 값은 `_forAI`에 기록하지 않는다.
+
+저장소 최상위에서 Supabase 화면 미리보기를 실행한다.
+
+```powershell
+node web_programming/tools/static-server/server.mjs web_programming/specials/supabase_guestbook/examples 8000
+```
+
+`http://localhost:8000/`은 자동 폴더 목록, `/01_about/`은 접속 확인, `/07_guestbook_complete/`는 완성 방명록이다.
+2026-11-14 작업 중 서버 실행을 확인했지만 상시 운영 서비스는 아니다. 다음 세션에서는 포트와 응답을 확인한 뒤 필요할 때 실행한다.
+공용 API 대신 로컬 리허설을 할 때만 별도 터미널에서 다음 명령을 실행하고 해당 폴더 설정을 로컬 API로 전환한다.
+
+```powershell
+node web_programming/tools/guestbook-api/server.mjs
+```
+
+로컬 API는 `http://127.0.0.1:8787`이다. Node HTTP 홈 IoT는 다음 명령으로 실행한다.
+
+```powershell
+node web_programming/specials/home_iot_http/examples/simulator/server.mjs
+```
+
+홈 IoT 화면은 `http://localhost:8014/`이며 상태 조회·장치 제어·주기 조회·자동 제어·통신 실패를 연구한다.
+이 Node 시뮬레이터와 아래 Android용 Python Wi-Fi 시뮬레이터는 별도 자료다.
 
 ## Android BLE 연계
 
@@ -88,4 +139,4 @@ npm test          # node scripts/check-site.mjs
 - 별도 `gbox3d/bleunoApp/BleunoTest`는 보드 점검·시연용 앱으로 연결한다. `Ex01Scaner`·`ScanerSample`은 검색 참고 예제다.
 - 펌웨어와 type_m v1 마더보드는 `gbox3d/bleuno`의 루트 및 `hardware/type_m/v1/`에서 관리한다. 이 교재에 설계를 복제하지 않는다.
 - type_m v1 원본은 `MovingTarget/MotorConT1`의 모터·서보 제어 보드다. 원본 확보·KiCad 이전·원본 대조는 완료했고, 전기적 미연결과 모듈 핀 표기 검토가 남아 있다. 원본 연결 근거는 `bleuno/hardware/type_m/v1/pinmap.md`에 있다.
-- 이번 로컬 경로는 `C:\Users\user\Desktop\work\teaching_repo`; 관련 저장소는 `C:\Users\user\Desktop\work\cronos\bleuno`, `bleunoApp`이다.
+- 2026-11-12 Android 작업 당시 경로는 `C:\Users\user\Desktop\work\teaching_repo`; 관련 저장소는 `C:\Users\user\Desktop\work\cronos\bleuno`, `bleunoApp`이었다. 현재 교재 작업 경로는 위 Repository 절을 따른다.

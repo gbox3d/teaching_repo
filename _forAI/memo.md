@@ -8,6 +8,8 @@
 - [동작 규칙](#동작-규칙)
 - [릴리스 전 검증 항목](#릴리스-전-검증-항목)
 - [반복 금지](#반복-금지)
+- [웹 REST와 Supabase 운영](#웹-rest와-supabase-운영)
+- [HTTP 홈 IoT 연구 기준](#http-홈-iot-연구-기준)
 - [Android BLE 보드 연계](#android-ble-보드-연계)
 
 ## 제품 기준선
@@ -39,6 +41,7 @@ Qwen3 계열은 thinking 출력이 섞이므로 Ollama API 호출에 `"think": f
 |---|---|
 | 모바일·웹 | 주 2회 × 90분, 매회 설명·시연 30분 + 실습 60분 |
 | 오픈소스 AI | 60분 블록 × 3(1·2·3교시), 매 블록 설명·시연 20분 + 실습 30분 + 휴식 10분. 분반에 따라 2+1 또는 1+2로 이틀 배치 |
+| 웹 연구 특강 | 방학 실습·연구. 분량·차시 수·총시간 제한 없이 단계별 결과를 확인 |
 
 ## 런타임 구조 메모
 
@@ -46,24 +49,25 @@ Qwen3 계열은 thinking 출력이 섞이므로 Ollama API 호출에 `"think": f
 - 슬라이드 수는 렌더된 HTML의 `<svg data-marpit-svg>` 개수로 센다. 원고의 `---` 줄 수와 다를 수 있으니(frontmatter 구분자 포함) 최종 값은 `npm run build` 출력으로 확정한다.
 - `render-site.mjs`는 원고의 `<br>`(줄 끝)을 Markdown 줄바꿈 `\`로, `<code>`를 백틱으로 바꾼 뒤 남은 raw HTML이 있으면 빌드를 실패시킨다.
 - 상대 `.md` 링크는 GitHub blob URL로 재작성되므로 원고에서 `lab.md#앵커` 링크를 써도 된다. 앵커 규칙은 GitHub 스타일(공백→`-`, 특수문자 제거, `—`가 빠지면 `--`가 남는다).
+- 슬라이드에서 실행 예제 HTML·JS를 상대 링크로 넣으면 renderer가 파일만 복사해 설정·스타일 의존성이 빠질 수 있다. 코드·화면 소스는 GitHub 절대 링크로 제공하고, 실행은 예제 폴더 전체를 내려받거나 별도 Pages에 게시하는 절차로 안내한다. `.http` 다운로드 링크는 상대 경로를 쓸 수 있다.
 
 ## 동작 규칙
 
 - 공용 교재에 학교명·분반·학수번호·실제 날짜·성적 비율·LMS 이름을 넣지 않는다. 루브릭은 100점 상대 배점만 둔다.
 - 소프트웨어 정확 버전을 본문에 고정하지 않는다. 버전은 `environment_baseline_template.md`를 학기용으로 복사해 확정한다.
 - 전역 `pip install`을 쓰지 않는다. Python 예제는 uv 프로젝트(`pyproject.toml`, 의존성 버전 미고정)이며 `uv.lock`은 기준 PC에서 생성해 커밋한다.
-- 비밀은 `.env.example`만 제공한다. 학생용 starter와 강의자용 해답을 물리적으로 분리한다.
+- 환경 설정은 `.env.example`에 자리표시자로 제공하고 실제 `.env`는 제외한다. Supabase의 브라우저용 publishable key는 공개 설정으로 사용할 수 있지만 편집 키·secret key·DB 비밀번호는 포함하지 않는다. 학생용 starter와 강의자용 해답을 물리적으로 분리한다.
 - 모델 다운로드는 실습 시간에 하지 않는다(사전 캐시).
 - 강의 대본(`lecture_script.md`)과 해답(`lab_solution.md`)은 `univ_scoring_works/teaching_materials_private/`에 둔다. 대본의 구간 제목·분 범위는 공개 `slides.md`와 같아야 한다.
 
 ## 릴리스 전 검증 항목
 
-원고를 크게 바꾼 뒤에는 다음을 확인한다. 자동 스크립트는 저장소에 두지 않으므로 필요할 때 만든다.
+원고를 크게 바꾼 뒤에는 다음을 확인한다. 사이트·슬라이드 맞춤·웹 실습 시험은 저장소의 `npm test`를 사용하고 추가 문서 검사는 필요한 범위에서 수행한다.
 
 1. 줄바꿈·인코딩: CRLF와 BOM이 없고 파일 끝 개행이 1개인가.
-2. 실행 산출물: `.ruff_cache/`, `__pycache__/`, `outputs/`, `.venv/`, `uv.lock`이 남아 있지 않은가.
+2. 실행 산출물: `.ruff_cache/`, `__pycache__/`, `outputs/`, `.venv/`가 포함되지 않았는가. `uv.lock`은 기준 PC에서 버전을 확정한 뒤 추적하는 계획과 구분한다.
 3. 금지 문자열: 학교명, 분반, 학수번호, 성적 비율(%), 정확한 소프트웨어 버전, 토큰.
-4. 시간 구조: 슬라이드 `## N–M분` 범위가 교시마다 0–20분으로 연속하는가. `lab.md` 시간표가 교시마다 0–30분으로 연속하는가.
+4. 시간 구조: 정규 주차는 과목별 시간 기준을 따른다. 오픈소스 AI는 설명 0–20분·실습 0–30분의 연속성을 확인한다. 웹 연구 특강에는 고정 시간 검사를 적용하지 않는다.
 5. Marp 제약: `theme: default` 주차당 1회, raw HTML은 줄 끝 `<br>`·`<code>`·주석만.
 6. 링크: 모든 상대 링크의 대상 파일과 `#앵커`가 실제로 있는가.
 7. 코드: 모든 `.py`가 `py_compile`을 통과하고 `ruff check --select E9,F63,F7,F82`가 깨끗한가(8주차 `broken_project` 제외).
@@ -81,6 +85,33 @@ Qwen3 계열은 thinking 출력이 섞이므로 Ollama API 호출에 `"think": f
 - 모델 태그가 가리키는 빌드가 그대로일 것이라고 가정하는 일. 제공자가 같은 태그를 다른 빌드로 옮긴다. 태그에 의존하는 동작(생각 모드 on/off, 도구 호출, 컨텍스트 길이)을 가르칠 때는 레지스트리 digest나 `ollama show`로 실제 빌드를 확인한다.
 - 학생용 실습지(`lab.md`)에 실측 결과를 정답처럼 적는 일. 실습지에는 예상·관찰 표와 힌트만 두고, 실측과 정답은 비공개 `lab_solution.md`에 둔다.
 - 측정하지 않은 실행시간·VRAM·tokens/s를 사실처럼 적는 일. 확인할 수 없으면 자리표시자와 "기준 PC 실측값으로 채운다"로 둔다.
+
+## 웹 REST와 Supabase 운영
+
+- 정규 12주는 GET, 13주는 POST, 14주는 PATCH·DELETE다. 15주는 누적 문제은행 복습과 개인 실기를 유지한다. 레포트는 별도 공지하며 14주 검사 주차를 되살리지 않는다.
+- 강의자가 준비한 서버를 학생 계정 없이 호출한다. Supabase 계정·SQL·키 등록은 구축 연구 특강의 담당자 작업이다. 특강 분량·회차·총시간은 제한하지 않는다.
+- 공용 프로젝트는 `esoqbcwgzjtwcqszwvin`, 기본 주소는 `https://esoqbcwgzjtwcqszwvin.supabase.co`다. 공용 등록 확인 태그는 `student01`, `student02`뿐이다. 로컬 API의 student01~30 안내 글을 클라우드 등록 현황으로 오해하지 않는다.
+- `book_id`는 분류·조회 조건이다. 공개 키로 다른 등록 태그의 조회·추가도 허용한다. 편집 키는 해당 방명록의 모든 글을 수정·삭제하는 권한이며 개인 작성자 인증이 아니다.
+- 모든 요청은 `apikey`를 사용한다. GET·POST에는 편집 키가 없고 PATCH·DELETE에는 `X-Edit-Key`가 필요하다. 이름은 30자, 메시지는 500자이며 빈 입력·공백만 있는 입력은 거부한다.
+- GET `/rest/v1/about`은 name·version·description·help_path 한 행을, GET `/rest/v1/help?order=step.asc`는 요청 안내 여섯 행을 배열로 반환한다. help의 요청 순서와 예제 폴더 01~07은 별개다.
+- 새 프로젝트는 `schema.sql` 다음에 `about-help.sql`을 실행하고 `provision.mjs`로 태그·편집 키 해시를 등록한다. 기존 방명록이 있는 프로젝트는 설치 SQL 전체를 다시 실행하지 않는다. 안내 API만 추가할 때는 `about-help.sql`을 쓴다.
+- `private.classroom_books`는 RLS를 켜고 클라이언트 허용 정책을 두지 않는다. 같은 소유자의 SECURITY DEFINER 함수가 편집 키 해시를 검사한다. `private`를 Data API 노출 스키마에 추가하지 않는다.
+- POST 201은 저장된 행의 배열이다. PATCH 200의 빈 배열과 DELETE 204만으로 실제 변경을 판단하지 않는다. book_id·id로 같은 글을 GET해 확인하고 204에 JSON 파싱을 하지 않는다.
+
+Supabase 예제는 루트 README와 독립 폴더 01~07로 구성한다. 06은 메서드·본문을 바꾸는 실험 화면, 07은 등록 폼·목록·선택 편집을 갖춘 완성 방명록이다.
+각 폴더의 `.env`는 REST Client의 `requests.http` 전용이다. 브라우저는 같은 폴더의 `config.example.js`를 HTML의 `defer` 스크립트로 먼저 읽는다. 한쪽 설정을 바꾸어도 다른 쪽은 자동으로 바뀌지 않는다.
+REST Client의 `{{$dotenv ...}}`는 `.http`와 같은 폴더의 `.env`를 읽는다. 편집 키는 password prompt로 입력하지만 요청 이력에는 헤더·본문이 남는다. 공유 전 값을 확인하고 실습 후 **Rest Client: Clear Request History**로 정리한다.
+API 예제를 만들 때 `.http`와 `.env.example`을 함께 제공하는 규칙은 `C:\Users\gbox3\.codex\AGENTS.md`에도 기록되어 있다. 이 전역 파일은 교재 저장소 밖에 있다.
+
+`localfiles/`, `.local/`, 실제 `.env`, 편집 키·비밀번호는 Git과 배포 ZIP·Pages에서 제외한다. `_forAI`에도 키 값을 복사하지 않는다.
+로컬 HTTP 화면이 공용 HTTPS API를 호출할 수 있으며 페이지 주소는 HTTP로 유지된다. 브라우저 CORS와 REST Client 성공은 따로 검증한다. 각 폴더를 Pages에 게시할 때는 화면과 API 모두 HTTPS를 사용한다.
+2026-11-14 확인 범위는 공용 about·help GET 200(1행·6행), localhost의 01·02 브라우저 조회, 방명록 GET·POST다. 공용 PATCH·DELETE 권한과 예제의 Pages 실배포는 미검증이다.
+
+## HTTP 홈 IoT 연구 기준
+
+`web_programming/specials/home_iot_http`는 Node.js 서버와 웹 UI로 가상 장치를 제어한다. 학생 PC의 `http://localhost:8014/`에서 GET·PATCH, 주기 조회, 단일 기준·26/29°C 히스테리시스, 통신 실패·복구를 비교한다.
+온도는 수동으로 정하는 모의 값이고 팬이 실내 온도를 낮추는 물리 모델은 없다. 실제 냉각 성능이나 센서 정밀도를 측정한 것으로 기록하지 않는다.
+상태와 제어 기록은 메모리에서 관리하며 서버 재시작 시 초기화된다. Android용 Python Wi-Fi 시뮬레이터와 코드를 섞지 않는다.
 
 ## Android BLE 보드 연계
 

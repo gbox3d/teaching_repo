@@ -1,51 +1,27 @@
-# student01의 웹 연습장
+# 13주차 온라인 방명록
 
-웹프로그래밍 수업에서 한 주씩 늘려 만든 자기소개 사이트입니다.
+## 목차
 
-## 공개 주소
+- [실행](#실행)
+- [설정](#설정)
+- [파일](#파일)
 
-- [https://student01.github.io/web-week13/](https://student01.github.io/web-week13/)
+## 실행
 
-## 페이지
+이 폴더를 정적 서버로 열고 `guestbook.html`로 이동한다. `file://`로 열지 않는다.
+강의자가 제공한 HTTPS API를 사용할 때 GitHub Pages에서도 같은 파일을 연다.
 
-- [홈 (index.html)](index.html) — 인사말, 소개, 취미 목록
-- [내 정보 (about.html)](about.html) — 아이디·이메일·관심 분야 표, 입학 연도 계산
-- [방명록 (guestbook.html)](guestbook.html) — 이름·메시지 폼과 남긴 글 목록
-- [프로젝트 (projects.html)](projects.html) — JSON 파일에서 읽어 오는 카드 세 장
+## 설정
 
-## 기능
+`config.example.js`의 API 주소·공개 키·방명록 번호를 강의자 안내값으로 바꾼다.
+기본값은 내 PC의 로컬 API `http://127.0.0.1:8787`이다. 공용 서비스 주소가 아니다.
+HTTPS 페이지에서 이 로컬 API를 호출하지 않는다. 로컬 연습은 HTTP 정적 서버를 함께 사용한다.
+공용 HTTPS API가 준비되기 전에는 로컬 실습으로 진행하며, 다른 기기 공유는 공용 API 설정 후 확인한다.
 
-- 홈의 "인사 바꾸기"와 "다크 모드" 버튼을 누르면 문장과 배경색이 바뀌고 클릭 횟수가 1씩 오릅니다.
-- 내 정보에서 입학 연도를 적고 "계산하기"를 누르면 몇 년차인지 나옵니다. 숫자가 아니면 안내 문장이 나옵니다.
-- 방명록에서 이름과 메시지를 적고 "남기기"를 누르면 목록에 한 줄이 쌓이고 "삭제"로 지울 수 있습니다.
-- 방명록 목록은 브라우저에 저장되어 새로고침해도 남아 있습니다. "전체 지우기"로 비웁니다.
-- 프로젝트 페이지는 data/projects.json 파일을 불러와 카드 세 장을 그립니다.
+## 파일
 
-## 화면
-
-![홈 화면](screenshots/home.png)
-
-![방명록 화면](screenshots/guestbook.png)
-
-![프로젝트 화면](screenshots/projects.png)
-
-## 사용 기술
-
-- HTML: header·nav·main·footer, table, form, label
-- CSS: 색·박스모델·flex·화면 폭 600px 아래 배치
-- JavaScript: addEventListener, textContent, classList, 배열과 객체, localStorage, fetch
-- GitHub Pages: main 브랜치 /(root)
-
-## 어려움과 해결
-
-- 새로고침하면 방명록이 사라졌습니다. localStorage에 저장하고 페이지를 열 때 다시 불러와 해결했습니다.
-- 파일을 두 번 눌러 열면 프로젝트 카드가 나오지 않았습니다. push한 뒤 공개 주소에서 열어 해결했습니다.
-- 방명록에 b 태그를 적어 보았습니다. textContent로 넣으므로 태그가 글자 그대로 보입니다.
-
-## 만든 과정
-
-- 9주차: README 1차판과 세 페이지 캡처
-- 10주차: 방명록 목록 추가·삭제
-- 11주차: 방명록을 브라우저에 저장(localStorage)
-- 12주차: projects.json 을 불러와 프로젝트 카드 그리기
-- 13주차: 방명록 글자 확인, alt·label 고치기, 입학 연도 계산
+- `guestbook.html`: 온라인 방명록 화면
+- `config.example.js`: 공개 설정 세 줄
+- `guestbook.js`: GET과 목록 표시
+- `submit.js`: POST와 폼 처리
+- `index.html`·`about.html`·`app.js`·`styles.css`·`images/profile.png`: 11주차에서 이어 쓰는 파일

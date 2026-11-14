@@ -16,17 +16,22 @@
 2주차에 `my-web`을 GitHub에 올려(push) Pages로 공개 주소를 만들고 브랜치와 merge까지 한다.
 3~7주차에는 그 저장소를 세 페이지 자기소개 사이트로 키운다 — 시맨틱 HTML과 form(3주), CSS와 반응형(4주),
 변수·`if`·함수(5주), DOM·이벤트(6주), 폼 입력 읽기와 결과 표시(7주).
-10~13주차에는 방명록을 배열 목록 그리기(10주) → 객체와 `localStorage`(11주) → `fetch`로 JSON 카드(12주) →
-보안·접근성·릴리스 점검(13주)으로 넓힌다.
-8주 중간 개인 실기, 9·14주 과제 발표, 15주 기말 개인 실기가 들어 있다.
+10~14주차에는 방명록을 배열 목록(10주) → 객체와 `localStorage`(11주) → REST GET으로 서버 목록 읽기(12주) →
+POST로 온라인 저장(13주) → PATCH·DELETE로 수정·삭제(14주)로 넓힌다.
+8주 중간 개인 실기, 9주 1차 과제 발표, 15주 기말 개인 실기가 들어 있다. 14주는 구현 수업이며 레포트는 별도 과제로 안내한다.
 
-서버 데이터베이스·로그인(Supabase)과 인증·권한은 정규 15주에 넣지 않는다. 희망하는 경우에만 선택 특강(`specials/`)으로 운영한다.
+12~14주 공용 API는 강의자가 준비한다. 학생은 Supabase 계정·SQL·SDK 없이 `fetch`로 요청한다.
+서버 구축·로그인 구현은 정규 범위 밖이다. 방학 연구 특강에서는 Supabase 공용 API 구축과 Node.js 홈 IoT 제어를 실험한다.
+특강은 분량·차시 수를 제한하지 않으며, 구현·측정·검증을 단계별로 이어 간다. 지도와 신시사이저 실습 자료도 제공한다.
 
 ## 진입점
 
 - 15주 교재 색인: [`weeks/README.md`](weeks/README.md)
 - 선택 특강: [`specials/README.md`](specials/README.md)
 - 수업용 정적 웹 서버(Node.js): [`tools/static-server/`](tools/static-server/README.md)
+- 강의자용 공용 방명록 API와 로컬 리허설: [`tools/guestbook-api/`](tools/guestbook-api/README.md)
+- Supabase 공용 방명록 API 구축 특강: [`specials/supabase_guestbook/`](specials/supabase_guestbook/README.md)
+- HTTP 홈 IoT 시뮬레이터 특강: [`specials/home_iot_http/`](specials/home_iot_http/README.md)
 - 실습실 PC 의 GitHub 로그인 정리(Windows·macOS·Linux): [`../tools/github-classroom-pc-reset/`](../tools/github-classroom-pc-reset/README.md)
 - 과목별 설치 프로그램: [`ta_setup_guide.md`](ta_setup_guide.md)
 - 공통 설치 프로그램: [`../ta_lab_setup_guide.md`](../ta_lab_setup_guide.md)
@@ -54,6 +59,8 @@
 - Git 인증은 **HTTPS + 브라우저 로그인**이 기본이다. 비밀번호나 토큰을 명령에 적지 않는다.
   공용 PC는 실습 끝에 자격 증명 관리자에서 `git:https://github.com`을 지운다(절차는 [`ta_setup_guide.md`](ta_setup_guide.md#공용-pc-운영)).
 - 학생 PC에는 Node.js LTS를 권장 설치한다(정적 서버용, npm 패키지는 쓰지 않는다). 설치가 막혀도 수업은 `file://`·공개 주소로 진행된다.
-- 예제는 파일 하나 60줄 이하, 클래식 `<script src="…" defer>`만 쓴다. CDN·라이브러리·`type="module"`은 쓰지 않는다.
+- 정규 주차의 학생 예제는 파일 하나 60줄 이하, 클래식 `<script src="…" defer>`만 쓴다. CDN·라이브러리·`type="module"`은 쓰지 않는다. 연구 특강의 서버·제어 코드는 해당 자료의 구성을 따른다.
 - 공개 저장소·캡처·예제에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`·`student01@example.com`이다.
 - GitHub 화면과 무료 정책은 개강 전에 공식 문서와 새 실습 계정으로 다시 확인한다.
+- 12~14주 기본 예제의 `127.0.0.1:8787`은 로컬 리허설 주소다. GitHub Pages와 다른 기기에서 확인하려면 강의자가 검증한 HTTPS API 주소와 공개 키로 바꾼다. 공용 클라우드 주소는 아직 준비 전이다.
+- 홈 IoT 특강은 학생 PC에서 Node.js 서버를 실행한다. 완료 확인은 `http://localhost:8014/`이며 GitHub Pages에서는 서버가 실행되지 않는다.

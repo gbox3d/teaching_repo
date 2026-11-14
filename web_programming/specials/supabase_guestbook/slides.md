@@ -2,230 +2,240 @@
 marp: true
 theme: default
 paginate: true
-header: "웹프로그래밍 특강"
-footer: "Supabase로 만드는 서버 방명록 · 선택 · 110분"
+header: "웹프로그래밍 연구 특강"
+footer: "Supabase 공용 방명록 API 구축"
 ---
 
-# Supabase로 만드는 서버 방명록
+# Supabase 공용 방명록 API 구축
 
-11주차 방명록은 **내 브라우저**에만 남았습니다.
-오늘은 같은 방명록을 **인터넷 서버**에 저장해 다른 PC에서도 보이게 합니다.
+방학 연구 특강 · 폴더별로 한 단계씩 진행한다.
 
-```text
-내 PC 브라우저 ── insert ──▶ Supabase 표 guestbook
-              ◀── select ──
-```
+01 접속 → 02 안내 → 03 조회 → 04 저장
+05 수정·삭제 → 06 비교 → 07 완성 방명록
 
----
-
-# 1부 — 프로젝트와 표 만들기
-
-`25분 설명·시연`
-
-1. 글이 저장되는 두 곳
-2. Supabase 프로젝트 만들기
-3. 제공 SQL 한 번 실행하기
-4. publishable key만 복사하기
-5. `config.js` 두 줄 바꾸기
+각 단계는 requests.http 요청을 먼저 보내고 브라우저 코드로 이어 간다.
+학생은 준비된 공용 API를 계정 없이 사용한다.
 
 ---
 
-## 1부 · 0–5분 — 글은 어디에 저장되나
+# 화면 주소와 API 주소
 
-```text
-11주차  브라우저 저장소 localStorage
-        └ 내 PC의 이 브라우저에만 있다
-
-오늘    인터넷 서버의 데이터베이스
-        └ 주소만 알면 다른 PC에서도 같은 글이 보인다
-```
-
-- 11주차 방명록을 다른 PC에서 열면 목록이 비어 있습니다. 글이 그 PC에 없기 때문입니다.
-- 오늘은 글을 **서버의 표 한 개**에 넣습니다. 페이지는 그 표를 읽어 화면에 그립니다.
-- 11주차 페이지는 그대로 두고 `my-web/online/`에 새 페이지를 만듭니다.
-
----
-
-## 1부 · 5–12분 — Supabase 프로젝트 만들기
-
-1. https://supabase.com → **Start your project** → GitHub 계정 또는 이메일로 가입
-2. **New project** → Name `my-web-guestbook`
-3. **Database Password**: 만들어 주는 값을 메모해 두고 **화면에 띄우지 않습니다**
-4. Region은 가까운 곳(예: Northeast Asia) → **Create new project**
-5. 준비되는 데 1~2분 걸립니다
-
-- project 하나가 데이터베이스 하나입니다. 주소 `https://<프로젝트>.supabase.co`가 붙습니다.
-- 이 비밀번호는 오늘 수업에서 한 번도 쓰지 않습니다. 브라우저에 넣는 값이 아닙니다.
-
----
-
-## 1부 · 12–18분 — SQL 한 번으로 표와 정책 만들기
-
-왼쪽 메뉴 **SQL Editor** → `schema.sql` 전체 붙여 넣기 → **Run**
-
-```sql
-create table if not exists public.guestbook ( ... );
-alter table public.guestbook enable row level security;
-grant select, insert on table public.guestbook to anon;
-create policy "guestbook read" ... for select ... using (true);
-create policy "guestbook write" ... for insert ... with check (true);
-```
-
-- `enable row level security`: 표를 잠급니다. 이제 **정책으로 허용한 것만** 됩니다.
-- 정책 두 개만 만들었습니다. 읽기와 새 글 넣기. 수정·삭제는 허용하지 않았으므로 안 됩니다.
-- **Table Editor**에서 빈 `guestbook` 표를 눈으로 확인합니다.
-
----
-
-## 1부 · 18–22분 — publishable key만 복사하기
-
-위쪽 **Connect** 버튼 — Project URL과 publishable key가 한 화면에 나옵니다.
-없으면 키는 **Project Settings › API Keys**, 주소는 **Project Settings › Data API**.
-
-| 값 | 어디에 두나 |
+| 대상 | 주소·역할 |
 |---|---|
-| Project URL `https://…supabase.co` | 브라우저 · 저장소 (공개해도 됨) |
-| **publishable key** `sb_publishable_…` | 브라우저 · 저장소 (공개해도 됨) |
-| secret key `sb_secret_…` | 어디에도 붙여 넣지 않음 |
-| Database Password | 어디에도 붙여 넣지 않음 |
+| 로컬 화면 | http://localhost:8000/ · 화면 파일 미리보기 |
+| 공용 API | Supabase HTTPS 주소 · 안내와 방명록 데이터 |
+| Pages 화면 | 배포된 HTTPS 주소 · 학생에게 공유할 화면 |
+| 선택 로컬 API | http://127.0.0.1:8787 · 리허설용 |
 
-publishable key가 공개돼도 되는 이유는 **표가 RLS로 잠겨 있고 정책이 읽기·쓰기만 허용**하기 때문입니다.
+로컬 HTTP 화면에서도 공용 HTTPS API를 호출한다.
+Node 정적 서버는 로컬 미리보기용이다.
 
 ---
 
-## 1부 · 22–25분 — config.js 두 줄
+# 시작 전 · 강의자 SQL 준비
 
-```js
-const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_YOUR_KEY';
+기존 공용 프로젝트에는 [about-help.sql](../../tools/guestbook-api/about-help.sql)을 한 번 추가 실행한다.
+새 프로젝트는 [schema.sql](../../tools/guestbook-api/schema.sql) 다음에 실행한다.
+
+- 읽기 전용 about·help 안내 뷰 추가
+- 기존 방명록 테이블 유지
+- 학생 계정·SQL 작업 불필요
+
+공용 방명록 GET·POST는 확인했다.
+2026-11-14 안내 SQL 설치·GET 확인: about 1행, help 6행.
+
+---
+
+# 요청 먼저 · VS Code REST Client
+
+1. 해당 단계의 .env.example을 .env로 복사한다.
+2. 공개 키를 넣고 방명록 단계에서는 BOOK_ID도 확인한다.
+3. 같은 폴더의 requests.http에서 **Send Request**를 누른다.
+4. 상태 번호·JSON을 확인한 뒤 index.html·app.js를 읽는다.
+
+.env는 .http와 같은 폴더에 둔다. Node 서버는 필요 없다.
+브라우저는 같은 폴더의 config.example.js를 따로 읽는다.
+[REST Client 사용법](https://github.com/Huachao/vscode-restclient#usage) · [설정 절차](examples/README.md#rest-client로-요청부터-확인하기)
+
+---
+
+# 01_about · API 접속 확인
+
+[requests.http](examples/01_about/requests.http) → [브라우저 화면 소스](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/01_about/index.html)
+
+```http
+GET /rest/v1/about
+apikey: <강의자가 배부한 공개 키>
 ```
 
-- `config.example.js`를 복사해 `config.js`로 만들고 **두 줄의 값만** 바꿉니다.
-- 이 파일은 GitHub에 올립니다. 공개 페이지가 읽어야 하는 값이기 때문입니다.
-- 여기에 secret key를 넣으면 안 되는 이유가 이것입니다. 올리는 순간 모두가 봅니다.
-
-**설명 합계: 5+7+6+4+3 = 25분**
+접속 확인 버튼을 누른다. 응답은 200과 객체 한 개의 배열이다.
+name · version · description · help_path를 읽는다.
+404라면 강의자에게 안내 SQL 적용 여부를 확인한다.
 
 ---
 
-# 2부 — 저장하고 불러오기
+# 01 · 요청과 코드를 연결하기
 
-`25분 설명·시연`
+[01_about/app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/01_about/app.js)를 읽는다.
 
-1. 페이지가 서버와 주고받는 두 가지
-2. 불러오기 `select`
-3. 저장하기 `insert`
-4. 오류를 화면에 보여 주기
-5. 실습 인계
+| 요청에서 본 것 | JavaScript에서 찾을 것 |
+|---|---|
+| GET 경로 | API_BASE_URL 뒤의 /rest/v1/about |
+| apikey 헤더 | API_PUBLIC_KEY를 넣는 headers |
+| 상태 번호 | response.status와 response.ok |
+| JSON 응답 | response.json() |
+
+이 단계에서는 글을 저장하거나 수정하지 않는다.
+REST Client 성공 뒤 브라우저 요청도 확인한다.
 
 ---
 
-## 2부 · 0–6분 — 페이지가 하는 두 가지
+# 02_help · API 사용 안내
+
+[requests.http](examples/02_help/requests.http) → [브라우저 화면 소스](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/02_help/index.html)
+
+```http
+GET /rest/v1/help?order=step.asc
+apikey: <강의자가 배부한 공개 키>
+```
+
+여섯 행의 step · method · path · description을 읽는다.
+order=step.asc는 단계 번호 순서다.
+about·help는 이 교재가 추가한 GET 전용 API다.
+
+---
+
+# 폴더 하나로 실행하기
 
 ```text
-페이지를 열 때        showList()  → select → 목록을 화면에 그린다
-[남기기]를 눌렀을 때   submit      → insert → 다시 showList()
+examples/
+  README.md              예제 목차
+  01_about/
+    index.html · app.js
+    config.example.js · styles.css
+    requests.http · .env.example
+  02_help/ ... 07_guestbook_complete/
 ```
 
-```html
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js" defer></script>
-<script src="guestbook.js" defer></script>
-```
-
-- 첫 줄은 Supabase가 만들어 둔 파일입니다. 이 줄 덕분에 `supabase.createClient`를 쓸 수 있습니다.
-- 순서가 중요합니다. `config.js`가 먼저 읽혀야 `guestbook.js`가 두 값을 씁니다.
+각 단계는 자신의 설정과 스타일을 읽는다.
+폴더 하나만 로컬에서 열거나 Pages에 게시할 수 있다. .env는 제외한다.
 
 ---
 
-## 2부 · 6–13분 — 불러오기 select
+# 03_guestbook_get · 태그로 읽기
 
-```js
-const result = await client
-  .from('guestbook')
-  .select('name, message, created_at')
-  .order('created_at', { ascending: false });
+[requests.http](examples/03_guestbook_get/requests.http) → [조회 화면 소스](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/03_guestbook_get/index.html)
+
+```http
+GET /rest/v1/guestbook?book_id=eq.student01
+apikey: <강의자가 배부한 공개 키>
 ```
 
-- `from('guestbook')`: 어느 표에서. `select(...)`: 어떤 칸을. `order(...)`: 어떤 순서로.
-- `await`는 "인터넷에서 답이 올 때까지 기다린다"는 표시입니다. 오늘은 틀로 씁니다.
-- 함수 앞의 `async`는 그 안에서 `await`를 쓰겠다는 표시입니다. 두 단어는 늘 짝입니다(정규 수업은 12주차).
-- 답은 `result.data`(글 배열)와 `result.error`(실패 이유) 두 칸으로 옵니다.
+book_id는 글을 묶는 태그, eq.는 같은 값 조건이다.
+조회 버튼으로 배열을 읽는다. 글이 없으면 []이 정상이다.
+태그는 권한 제한이 아니며 다른 등록 태그도 조회할 수 있다.
 
 ---
 
-## 2부 · 6–13분 — 받은 배열을 화면에 그리기
+# 03 · 응답과 조회 조건
 
-```js
-const items = result.data;
-list.innerHTML = '';
-for (let i = 0; i < items.length; i++) {
-  const li = document.createElement('li');
-  li.textContent = `${items[i].name}: ${items[i].message}`;
-  list.append(li);
-}
-```
-
-- 10·11주차에 쓴 `showList()`와 같은 모양입니다.
-- 달라진 것은 **배열이 어디서 왔는가** 하나뿐입니다. 서버가 준 배열입니다.
-
----
-
-## 2부 · 13–19분 — 저장하기 insert
-
-```js
-const result = await client
-  .from('guestbook')
-  .insert({ name: name, message: message });
-
-form.reset();
-showList();
-```
-
-- 11주차의 `items.push({ ... })` 자리에 `insert({ ... })`가 들어갔습니다.
-- `id`와 `created_at`은 적지 않습니다. 서버가 넣어 줍니다.
-- 저장한 뒤 `showList()`를 다시 불러 화면을 새 목록으로 바꿉니다.
-
----
-
-## 2부 · 19–22분 — 오류를 화면에 보여 주기
-
-```js
-if (result.error) {
-  notice.textContent = '저장하지 못했습니다: ' + result.error.message;
-  return;
-}
-```
-
-| 화면에 보이는 문구 | 먼저 볼 곳 |
+| 조건 | 역할 |
 |---|---|
-| `Invalid API key` | `config.js`의 key 한 줄 |
-| `Could not find the table …` | SQL을 실행한 프로젝트가 맞는지 |
-| `new row violates row-level security policy …` | 쓰기 정책(`schema.sql` 5번) |
+| select=id,name,message,created_at | 받을 열 선택 |
+| order=id.desc | 큰 글 번호부터 정렬 |
+| limit=50 | 최대 50개 조회 |
 
-인터넷을 거치는 일은 실패할 수 있습니다. 실패하면 **왜인지 화면에 적습니다**.
-
----
-
-## 2부 · 22–25분 — 이제 직접 해 보기
-
-[실습](lab.md#실습-60분) · [따라하기](walkthrough.md#1-온라인-방명록-폴더-만들기)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/specials/supabase_guestbook
-
-1. `online/` 폴더 → 프로젝트 만들기 → `schema.sql` 한 번 실행
-2. `config.js` 두 줄 → `guestbook.html`·`guestbook.js` 복사 → push
-3. 공개 주소에서 글을 남기고, 다른 PC에서도 보이는지 확인 → 캡처 1장
-
-**설명 합계: 6+7+6+3+3 = 25분**
-
-막히면 화면의 안내 문구와 Console의 빨간 줄을 먼저 읽습니다.
+JSON 배열의 각 객체가 글 한 개다.
+[조회 코드](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/03_guestbook_get/app.js)에서 응답과 화면 표시를 연결한다.
+같은 태그를 두 화면에서 읽어 같은 서버 데이터를 확인한다.
 
 ---
 
-## 오늘 쓰지 않은 것
+# 04_guestbook_post · 글 저장
 
-- 로그인·회원가입(Auth), 사용자별 소유자 권한
-- 글 수정·삭제 — 정책을 만들지 않았으므로 지금은 되지 않습니다
-- 관계 있는 두 표
+[requests.http](examples/04_guestbook_post/requests.http) → [저장 화면 소스](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/04_guestbook_post/index.html)
 
-정규 수업의 방명록은 `localStorage` 쪽입니다. 오늘 만든 페이지는 `online/`에 따로 있습니다.
+```json
+{"book_id":"student01","name":"별칭","message":"첫 글"}
+```
+
+POST /rest/v1/guestbook
+apikey · Content-Type: application/json · Prefer: return=representation
+
+201 배열의 새 id를 기록하고 GET으로 다시 읽는다.
+id·created_at은 서버가 만든다. 같은 POST를 반복하면 글이 더 생긴다.
+
+---
+
+# 05_guestbook_edit · 글 수정
+
+[requests.http](examples/05_guestbook_edit/requests.http) → [편집 화면 소스](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/05_guestbook_edit/index.html)
+
+목록에서 자신이 만든 글을 선택하거나 ID를 입력한다.
+PATCH에는 book_id·id 조건과 X-Edit-Key가 필요하다.
+
+```json
+{"message":"수정한 글"}
+```
+
+편집 키는 요청할 때 입력한다. 공개 설정에 저장하지 않는다.
+200이어도 빈 배열이면 바뀐 글이 없다. 같은 ID를 GET해 확인한다.
+
+---
+
+# 05 · 글 삭제와 빈 응답
+
+DELETE에 book_id·id 조건과 편집 키를 보낸다.
+
+- 204는 본문이 없는 응답이다.
+- 빈 본문을 response.json()으로 읽지 않는다.
+- 같은 ID를 GET해 실제로 사라졌는지 확인한다.
+- 다른 글은 그대로 남아 있는지도 확인한다.
+
+.http는 entryId·password 입력 창을 사용한다.
+키 입력은 마스킹되지만 요청 이력은 남는다. [이력 정리](examples/README.md#rest-client로-요청부터-확인하기)를 따른다.
+
+---
+
+# 06_http_lab · 조건을 바꾸어 비교
+
+[requests.http](examples/06_http_lab/requests.http) → [통합 화면 소스](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/06_http_lab/index.html)
+
+01~05를 확인한 뒤 메서드·ID·JSON 본문을 직접 바꾼다.
+POST·PATCH는 본문 예시를 넣고 한 조건만 수정한다.
+
+- 올바른 키와 다른 방명록 키
+- 존재하는 ID와 없는 ID
+- 허용된 message와 보호된 book_id
+
+[exercise.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/06_http_lab/exercise.js)에서 응답 해석을 확장한다.
+[요청 시험](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/06_http_lab/request.test.mjs)과 공용 서버 검증을 구분한다.
+
+---
+
+# GitHub Pages와 확인 범위
+
+원하는 예제 폴더 하나의 HTML·JS·설정·CSS를 함께 게시한다.
+Pages가 화면을 제공하고 브라우저가 Supabase HTTPS API를 호출한다.
+Node 서버·학생 계정은 필요 없다. .env·편집 키 파일은 게시하지 않는다.
+
+현재 확인: 공용 방명록 GET·POST, about·help GET과 로컬 01·02 화면.
+남은 확인: 이 화면의 Pages 실배포, 공용 PATCH·DELETE.
+
+REST Client 성공만으로 브라우저 CORS 성공을 판단하지 않는다.
+[Pages 사용 안내](examples/README.md#github-pages에서-사용하기)
+
+---
+
+# 07_guestbook_complete · 완성 방명록
+
+[requests.http](examples/07_guestbook_complete/requests.http) → [방명록 화면 소스](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/07_guestbook_complete/index.html)
+
+태그별 목록과 등록 폼을 한 화면에서 사용한다.
+글을 선택하고 편집 키를 입력해 수정·삭제한 뒤 같은 ID를 재조회한다.
+07은 완성 방명록, 06은 요청 조건을 바꾸는 실험 화면이다.
+연구 분량·회차는 제한하지 않고 관찰 결과와 남은 확인을 기록한다.
+
+[12주 GET](../../weeks/week12_fetch_json/README.md) · [13주 POST](../../weeks/week13_release_security/README.md) · [14주 수정·삭제](../../weeks/week14_project_presentation/README.md)
+[따라하기](walkthrough.md) · [연구 실습](lab.md) · [예제 안내](examples/README.md)
+[Supabase Data REST API](https://supabase.com/docs/guides/api)

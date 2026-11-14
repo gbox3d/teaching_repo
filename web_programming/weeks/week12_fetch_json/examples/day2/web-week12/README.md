@@ -1,43 +1,26 @@
-# student01의 웹 연습장
+# 12주차 온라인 방명록
 
-웹프로그래밍 수업에서 한 주씩 늘려 가는 **자기소개 사이트**입니다.
+## 목차
 
-## 공개 주소
+- [실행](#실행)
+- [설정](#설정)
+- [파일](#파일)
 
-- [https://student01.github.io/web-week09/](https://student01.github.io/web-week09/)
+## 실행
 
-## 페이지
+이 폴더를 정적 서버로 열고 `guestbook.html`로 이동한다. `file://`로 열지 않는다.
+강의자가 제공한 HTTPS API를 사용할 때 GitHub Pages에서도 같은 파일을 연다.
 
-| 페이지 | 파일 | 내용 |
-|---|---|---|
-| 홈 | [index.html](index.html) | 인사말, 소개, 취미 목록 |
-| 내 정보 | [about.html](about.html) | 아이디·이메일·관심 분야 표 |
-| 방명록 | [guestbook.html](guestbook.html) | 이름·메시지 폼 |
+## 설정
 
-![세 페이지가 메뉴로 서로 이어진 사이트 구조](images/site-map.svg)
+`config.example.js`의 API 주소·공개 키·방명록 번호를 강의자 안내값으로 바꾼다.
+기본값은 내 PC의 로컬 API `http://127.0.0.1:8787`이다. 공용 서비스 주소가 아니다.
+HTTPS 페이지에서 이 로컬 API를 호출하지 않는다. 로컬 연습은 HTTP 정적 서버를 함께 사용한다.
+공용 HTTPS API가 준비되기 전에는 로컬 실습으로 진행하며, 다른 기기 공유는 공용 API 설정 후 확인한다.
 
-## 기능
+## 파일
 
-- 홈의 "인사 바꾸기"와 "다크 모드" 버튼을 누르면 문장과 배경색이 바뀌고 클릭 횟수가 1씩 오릅니다.
-- 방명록에서 이름과 메시지를 적고 "남기기"를 누를 때마다 아래 목록에 한 줄씩 쌓입니다. 빈칸이면 안내 문장이 나옵니다.
-
-다크 모드 버튼은 `body` 에 class 하나를 붙였다 뗍니다.
-
-```js
-darkButton.addEventListener('click', function () {
-  document.body.classList.toggle('dark');
-  countUp();
-});
-```
-
-## 화면
-
-![인사 바꾸기를 누른 홈 화면](screenshots/home.png)
-
-![글을 남긴 방명록 화면](screenshots/guestbook.png)
-
-## 이번에 배운 것
-
-- HTML 뼈대와 nav로 세 페이지를 이어 놓는 법
-- CSS로 색·박스·flex·화면 폭에 따른 배치를 정하는 법
-- 버튼 클릭과 폼 제출을 자바스크립트로 받아 화면을 바꾸는 법
+- `guestbook.html`: 온라인 방명록 화면
+- `config.example.js`: 공개 설정 세 줄
+- `guestbook.js`: GET과 목록 표시
+- `index.html`·`about.html`·`app.js`·`styles.css`·`images/profile.png`: 11주차에서 이어 쓰는 파일

@@ -6,6 +6,18 @@
 
 ## Entries
 
+### 2026-11-14 — 웹 REST 교재와 방학 연구 특강 정리
+
+- 웹 12주를 GET 조회, 13주를 POST 저장, 14주를 PATCH·DELETE로 개편했다. 기존 주차 폴더 이름은 유지하고 README·한영 슬라이드·따라하기·실습·예제와 색인을 맞췄다. 15주 누적 문제은행·개인 실기의 REST 범위도 연결했다. 레포트는 별도 공지하며 14주 검사 주차를 없앴다.
+- Supabase 공용 방명록 API 구축과 Node HTTP 홈 IoT 제어를 방학 연구 특강으로 정리했다. 차시·분량·총시간 제한 없이 단계별 실행·비교 실험·기록으로 진행한다. IoT는 주기 조회, 단일 기준과 히스테리시스, 통신 실패·복구 실험을 제공한다.
+- 공용 프로젝트 `esoqbcwgzjtwcqszwvin`을 준비했다. 공개 기본 주소는 `https://esoqbcwgzjtwcqszwvin.supabase.co`이며 공용 등록 확인 태그는 student01·student02다. 학생은 계정 없이 공개 키와 태그로 조회·저장한다.
+- about-help.sql을 적용하고 about GET 200·1행(v1), help GET 200·6행(step 1~6)을 확인했다. 실제 localhost:8000의 01·02 화면에서도 Supabase HTTPS 응답과 CORS, 버튼 복구, 페이지 오류 없음을 확인했다. 방명록 GET·POST 저장 후 재조회도 확인했다.
+- Supabase 예제 루트는 README만 남기고 01_about부터 07_guestbook_complete까지 독립 폴더로 나눴다. 각 폴더는 HTML·앱·설정·스타일·requests.http·.env.example을 자체 보유한다. 06은 통합 요청 실험, 07은 완성 방명록이다. 폴더 하나만 내려받거나 Pages에 게시할 수 있다.
+- REST Client는 같은 폴더의 .env를, 브라우저는 HTML에서 defer로 읽는 config.example.js를 사용하도록 문서에 구분했다. 실제 환경 파일·localfiles·.local·편집 키는 배포에서 제외하고 공개 publishable key만 브라우저 설정에 사용한다. 요청 시 편집 키 입력과 이력 정리도 안내했다.
+- 사이트·슬라이드 맞춤·API 실습 시험을 npm test로 연결했다. 최종 통합 검증은 51개 덱, 한글·영문 각각 1,069장(Android 304·웹 339·오픈소스 AI 426)이다. 웹 API·시뮬레이터·통합 요청 시험과 브라우저 실습 확인을 수행했다. 원격 오픈소스 AI 개편은 별도 작업의 변경이며 이번 웹 개발 이력에 포함하지 않는다.
+- 사용자 요청으로 _forAI 5개 문서를 갱신했다. 기존 Android·오픈소스 AI 이력은 보존하고 현재 작업 경로, 실행 명령, API 계약, 비밀정보 제외 기준과 남은 일을 추가했다. 저장소 밖 전역 AGENTS.md의 REST Client 제공 규칙은 별도로 관리한다.
+- 남은 검증은 공용 PATCH·DELETE 권한·보호 열 거부·다른 기기 및 Pages 실배포다. 비공개 대본·해답·평가 자료의 전체 개편도 미완료다. 과거 실측 기록을 새 수업 검증 결과로 바꾸지 않는다. localhost:8000 서버는 작업 중 실행 상태를 확인했으며 영속 서비스로 운영하는 것은 아니다.
+
 ### 2026-11-12 — 보드 없이 연습하는 Wi-Fi 시뮬레이터(`iot_sim/`)와 bleuno TCP 분기
 
 - 새 폴더 `android_programming/iot_sim/`을 만들었다. 넣은 파일은 세 개다.

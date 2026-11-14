@@ -1,130 +1,104 @@
 [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security)
 
-# 13주차 — 보안·접근성·릴리스 점검
+# 13주차 · REST API로 방명록 저장하기
 
-이번 주도 부품을 하나씩 본다. 비교 예제 8개를 열어 값을 바꿔 보고, 마지막에 이번 주 새 저장소 `web-week13` 에 입학 연도 폼·`about.js`·카드 링크 글자·README 최종판을 조립한다.
-12주차까지 네 페이지(홈·내 정보·방명록·프로젝트)가 생겼다. 이번 주에는 새 기능보다 **내놓기 전 점검**이 중심이다. 입력한 글을 글자로 넣는지, 그림·입력 칸·링크에 무엇인지 알려 주는 글자가 붙어 있는지, 링크·Console·좁은 화면이 괜찮은지 본다.
-결과는 화면과 **F12 › Console**·**Elements**, 마크다운은 VS Code **Open Preview** 에서 본다. 예제 하나에 개념 하나. 다른 예제의 개념은 섞지 않는다.
+## 목차
 
-## 이번 주 질문
+- [학습 목표](#학습-목표)
+- [이번 주 결과물](#이번-주-결과물)
+- [2일 수업 흐름](#2일-수업-흐름)
+- [준비](#준비)
+- [이번 주 용어](#이번-주-용어)
+- [비교 예제](#비교-예제)
+- [수업 자료](#수업-자료)
+- [완료 기준](#완료-기준)
+- [다음 수업 연결](#다음-수업-연결)
 
-> 다른 사람이 글을 남기고, 누구나 읽을 수 있고, 어느 화면에서 열어도 괜찮은 페이지로 내놓으려면 무엇을 확인해야 하나?
-
-답은 세 가지 원리다.
-입력한 글은 `textContent` 로 넣는다. `innerHTML` 은 받은 글을 HTML 로 읽어서, 남이 적은 태그가 내 페이지의 진짜 요소가 된다. `innerHTML = ''` 은 비울 때만 쓴다.
-그림·입력 칸·링크·버튼에는 **무엇인지 알려 주는 글자**가 붙어 있어야 한다. 그림은 `alt`, 입력 칸은 `label for`, 링크·버튼은 그 안의 글자다.
-내놓기 전에는 **링크 → Console → 375 폭** 순서로 점검한다. README 는 `#`·`-`·링크·그림 네 가지 기호로 쓴다.
+12주에는 서버의 목록을 GET으로 읽었다. 이번 주에는 7주에 배운 폼 입력을 POST의 JSON 본문으로 보내고, 저장 후 GET으로 목록을 다시 읽는다. 저장한 글은 브라우저가 아니라 서버에 남는다.
 
 ## 학습 목표
 
-1. `Number()` 로 입력 칸의 글자를 숫자로 바꾸고, 숫자로 못 바꾸면 `NaN` 이 된다는 것을 `isNaN()` 으로 확인한다. `new Date().getFullYear()` 로 올해를 꺼내 몇 년차인지 계산한다.
-2. 같은 글을 `textContent` 와 `innerHTML` 로 넣었을 때의 차이를 말하고, 입력한 글은 `textContent` 로 넣는다. 공개 저장소와 캡처에 실명·학번·전화번호·실제 이메일·비밀번호를 넣지 않는다.
-3. 그림의 `alt`, 입력 칸의 `label for`, 링크·버튼 글자를 점검한다. 이름표를 눌러 커서가 칸으로 가는지, **Tab** 키로 옮겨 다니며 글자만 읽어도 무엇인지 아는지 본다.
-4. README 를 `#` 제목·`-` 목록·`[보이는 글](주소)` 링크·`![대체 글](경로)` 그림 네 가지로 쓰고, 그림 경로의 대소문자를 파일 이름과 맞춘다.
-5. 모든 링크 404 없음 → Console 빨간 줄 0 → 기기 모드 375 순서로 이번 주 사이트를 점검한다. push 한 뒤 공개 주소에서 링크를 한 번 더 누르고(내 PC 서버는 대소문자를 가리지 않는다), 공개 주소에서 캡처한다.
+1. GET과 POST가 서버에 요청하는 일이 어떻게 다른지 설명한다.
+2. method·headers·body를 지정하고 객체를 JSON.stringify로 바꿔 전송한다.
+3. 이름·메시지 입력을 POST에 연결하고 201 응답과 서버 id를 확인한다.
+4. 저장 중에는 버튼을 비활성화하고 성공·실패 안내를 구분한다.
+5. 저장 후 GET으로 다시 읽고 다른 기기에서도 글이 보이는지 확인한다.
 
 ## 이번 주 결과물
 
-```text
-[캡처 1] https://student01.github.io/web-week13/guestbook.html   (F12 기기 모드 375px)
-         방명록
-         홈 · 내 정보 · 방명록 · 프로젝트   ← 375 에서는 세로로 선다
-         … 한 줄 남기기 폼 …
-         남긴 글
-         · student02: <b>안녕</b> (남긴 날짜) [삭제]
-         1개
-         F12 › Console — 빨간 줄 없음(favicon.ico 404 한 줄은 세지 않는다)
-         ← 주소창이 함께 보이게 찍는다
-```
-
-- 제출은 이 캡처 **한 장**이다. `<b>안녕</b>` 이 굵은 글씨가 아니라 **글자 그대로** 보이는 것이 핵심이다.
-- 입학 연도 폼·카드 링크 글자·`README.md` 최종판·`screenshots/` 세 장도 이번 주 저장소에 함께 올린다. README 는 그대로 14주차 발표의 레포트가 되므로 소개 한 줄·기능 다섯 줄·그림 세 장·어려움과 해결 세 줄·만든 과정(9주차부터 주차마다 한 줄, 다섯 줄 이상)을 갖춘다. 이번 주 캡처 대상은 아니다.
-- `web-week13/ex/` 에 비교 예제를 저장하고 값을 바꾼 것은 push 로 남긴다. 기록물·표는 없다.
-- `student01` 은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다.
+내 폼에서 저장한 글이 서버 목록에 보이고 Network에 POST 201과 GET 200이 이어진 화면을 캡처 한 장으로 제출한다.
+새 저장소 `web-week13`의 홈·내 정보·방명록 세 페이지를 이어 쓴다.
+이번 주에는 프로젝트 카드나 레포트를 만들지 않는다.
 
 ## 2일 수업 흐름
 
-| 일차 | 설명 30분 | 실습 60분 | 결과 |
-|---|---|---|---|
-| 1일차 | 예제 폴더 하나에 파일(`index.html`·`app.js`) → ex01 `Number`·`isNaN` → ex02 `getFullYear` → ex03 `textContent` 와 `innerHTML` → 공개 저장소에 넣지 않는 것 → ex04 `alt` → ex05 `label for` | 새 폴더 `web-week13` 에 지난주 완성본 넣기 → `ex/` 에 1일차 예제 폴더 다섯 개 저장 → 값 바꿔 보기 → 새 저장소 만들어 올리기 · Pages 켜기 | `ex/` 비교 예제(확인용) |
-| 2일차 | ex06 링크·버튼 글자 → ex07 `#`·`-` → ex08 링크와 그림 → 내놓기 전 점검 순서 → 14주차 발표·15주차 문제 은행 안내 → 조립표 | 세 예제 값 바꿔 보기 → `about.html`·`about.js`·`projects.js`·`screenshots/`·`README.md` 조립 → 링크·Console·375 점검과 `alt`·이름표 → push → 공개 주소에서 링크 다시 누르기 → 공개 주소 캡처 | 캡처 1 |
-
-각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
+| 일차 | 설명·시연 30분 | 실습 60분 |
+|---|---|---|
+| 1일차 | 객체를 JSON으로 → POST → 헤더 → 서버 입력 검사 | ex01~ex03에서 요청 본문과 응답 비교 |
+| 2일차 | submit → 저장 중 → 실패 안내 → POST 다음 GET | ex04~ex06 비교 후 기존 방명록에 폼 연결 |
 
 ## 준비
 
-- 지난주 완성본. 내 `web-week12` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [12주차 `examples/day2/web-week12/`](../week12_fetch_json/examples/day2/web-week12/) 파일을 **Raw** 로 받는다
-- VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
-- Node.js LTS. 지난주 폴더의 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에도 둔다([사용 안내](../../tools/static-server/README.md)). `projects.html` 카드는 두 번 눌러 연 `file://` 화면에는 나오지 않는다(12주차). `node server.mjs` → `http://localhost:8000/` 이나 공개 주소에서 본다
-- **확인·캡처는 공개 주소에서 한다.** 방명록 글은 주소마다 따로 저장된다(11주차)
-- VS Code 마크다운 미리 보기(9주차): `.md` 파일을 열고 **Ctrl+K** 다음 **V**(macOS **⌘+K** 다음 **V**)로 옆에 띄운다
-- 화면 캡처 도구: Windows **Win+Shift+S**, macOS **⌘+Shift+4**
-- 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
+- 지난주 완성본: [web-week12](../week12_fetch_json/examples/day2/web-week12/)
+- VS Code·Git·Chrome과 Node.js. [정적 서버](../../tools/static-server/README.md)를 작업 폴더에 둔다.
+- 강의자가 제공한 HTTPS API 주소·공개 키·방명록 번호. 학생은 Supabase 계정을 만들지 않는다.
+- [강의자 API 준비·로컬 연습 안내](../../tools/guestbook-api/README.md). 설정 예제의 `127.0.0.1:8787`은 로컬 연습 주소이며 이미 배포된 공용 주소가 아니다.
+
+`config.example.js`의 세 값을 수정하며 파일 이름은 그대로 쓴다. 공개 키는 학생별 편집 키나 서버 비밀 키와 다르다.
+로컬 연습은 정적 서버 `http://localhost:8000`과 API `http://127.0.0.1:8787`을 함께 실행한다.
+GitHub Pages에서는 강의자가 제공한 HTTPS API를 사용한다. 공용 API가 준비되기 전에는 로컬 화면·Network 캡처로 실습을 확인하고, 다른 기기 공유는 공용 API 설정 후 확인한다.
 
 ## 이번 주 용어
 
 | 한국어 | English | 中文 |
 |---|---|---|
-| 글자로 넣기 | textContent | 按文本插入 |
-| HTML로 넣기 | innerHTML | 按 HTML 插入 |
-| 대체 글 | alt text | 替代文本 |
-| 이름표 연결 | label for | 标签关联 |
-| 접근성 | accessibility | 无障碍 |
-| 개인정보 | personal information | 个人信息 |
-| 내놓기 전 점검 | release check | 发布前检查 |
-| 마크다운 | Markdown | Markdown 标记语言 |
+| HTTP 메서드 | HTTP method | HTTP 方法 |
+| 본문 | body | 正文 |
+| 콘텐츠 형식 | Content-Type | 内容类型 |
+| 생성 | POST | 创建 |
+| 직렬화 | JSON.stringify | 序列化 |
+| 비활성화 | disabled | 禁用 |
+| 식별 번호 | id | 标识符 |
 
-## 이번 주 비교 예제
+## 비교 예제
 
-1일차 ex01~ex05 와 2일차 ex06 은 예제마다 폴더 하나에 내 사이트와 같은 이름의 파일(`index.html` 화면 · `app.js` 동작)을 둔다. `index.html` 을 열고, JavaScript 가 있는 ex01~ex03 의 원리는 `app.js` 에서 본다. ex01·ex02 는 같은 자리(입력 칸 하나·버튼 하나·결과 자리 하나)를 쓰지만 폴더를 따로 둔다. ex04·ex05·ex06 은 JavaScript 없이 HTML 만으로 보는 예제라 `index.html` 하나다(ex04 는 그림 `images/profile.png` 도 그 폴더에 있다). ex07·ex08 은 README 와 같은 마크다운 `.md` 파일이고 9주차처럼 VS Code 미리 보기로 본다. ex07 의 `#`·`-` 와 ex08 1~3번의 링크·그림은 9주차 ex01~ex03·ex05 에서 본 것이고, README 최종판을 쓰기 전에 다시 본다.
+각 예제는 `index.html`·`app.js`와 필요한 `config.example.js`로 구성된다.
+원리를 하나씩 확인하고 마지막에 [이번 주 완성본](examples/day2/web-week13/guestbook.html)을 조립한다.
 
-| 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
+| 예제 | 주제 | 확인할 것 | 바꿔 볼 값 |
 |---|---|---|---|
-| [ex01/index.html](examples/day1/ex01/index.html) + [app.js](examples/day1/ex01/app.js) | 1. 글자 + 1 / 2. `Number(글자)` + 1 / 3. `isNaN` | 입력 칸의 값은 늘 글자다. `Number()` 로 숫자로 바꾸고, 못 바꾸면 `NaN` 이다. `isNaN()` 은 `NaN` 이면 `true` | 칸에 `이천이십삼`·`2023년`·빈칸 |
-| [ex02/index.html](examples/day1/ex02/index.html) + [app.js](examples/day1/ex02/app.js) | 1. 올해 / 2. 올해 - 입학 연도 / 3. + 1 | `new Date().getFullYear()` 는 버튼을 누른 순간 컴퓨터 시계의 연도다. 입학한 해를 1년차로 세려고 1 을 더한다 | `2026` 을 직접 적기, 괄호 빼기 |
-| [ex03/index.html](examples/day1/ex03/index.html) + [app.js](examples/day1/ex03/app.js) | 1. `textContent` / 2. `innerHTML` / 3. `innerHTML = ''` | 입력한 글은 글자로 넣는다. `innerHTML` 은 받은 글을 HTML 로 읽어 태그가 진짜 요소가 된다. 비울 때만 `innerHTML` | 칸에 `<button>가짜 버튼</button>` |
-| [ex04/index.html](examples/day1/ex04/index.html) + [images/profile.png](examples/day1/ex04/images/profile.png) | 1. 무슨 그림인지 적은 `alt` / 2. `alt` 없음 / 3. `alt="그림"` | `alt` 는 그림이 안 보일 때 대신 읽히는 글이다. 그림이 무엇인지 적는다 | 세 `src` 를 `images/nothing.png` 로 |
-| [ex05/index.html](examples/day1/ex05/index.html) | 1. `for` = `id` / 2. 한 글자 다름 / 3. `label` 없음 | 이름표의 `for` 와 칸의 `id` 가 같아야 이어진다. 이어지면 이름표를 눌러도 커서가 칸으로 간다 | 2번 `id` 고치기, `for="#year1"` |
-| [ex06/index.html](examples/day2/ex06/index.html) | 1. 같은 글자 링크 셋 / 2. 목적지를 적은 링크 셋 / 3. 기호 버튼과 글자 버튼 | 링크·버튼 글자는 그것만 읽어도 어디로 가는지·무엇을 하는지 알게 쓴다 | **Tab** 키로 옮겨 다니며 읽기 |
-| [ex07_line_marks.md](examples/day2/ex07_line_marks.md) | 1. `#` 제목 / 2. `-` 목록 / 3. 기호 없이 줄만 바꿈 / 4. 띄어쓰기 없음 | 줄 맨 앞 기호와 띄어쓰기 한 칸이 그 줄의 모양을 정한다(9주차 ex01·ex02) | `#` 하나 더, 빈 줄 넣기 |
-| [ex08_link_image.md](examples/day2/ex08_link_image.md) | 1. 링크 / 2. 그림 / 3. `!` 를 뺀 그림 줄 / 4. 대소문자가 다른 경로 | 링크(9주차 ex03) 앞에 `!` 를 붙이면 그림이다(9주차 ex05). 대괄호 글자가 `alt` 다. 경로는 대소문자까지 같아야 GitHub 에서 보인다 | `!` 지웠다 되살리기 |
+| [ex01](examples/day1/ex01/index.html) | JSON 본문 만들기 | 객체와 전송할 JSON 글자를 비교한다 | message 값 |
+| [ex02](examples/day1/ex02/index.html) | 고정값 POST | 버튼을 누를 때만 글 한 줄을 저장한다 | 보내는 메시지 |
+| [ex03](examples/day1/ex03/index.html) | 서버 입력 검사 | 빈 메시지는 서버가 거절한다 | 빈 문자열 → 문장 |
+| [ex04](examples/day2/ex04/index.html) | 폼 입력 POST | 입력한 문장을 JSON 본문에 넣는다 | 입력 내용과 앞뒤 공백 |
+| [ex05](examples/day2/ex05/index.html) | 저장 중 버튼 | 응답을 기다리는 동안 다시 누를 수 없다 | Slow 3G → No throttling |
+| [ex06](examples/day2/ex06/index.html) | 저장 후 재조회 | POST 성공 뒤 GET 결과를 표시한다 | Network의 POST·GET 순서 |
 
 ## 수업 자료
 
-- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week13_release_security/index.html
-- [순서대로 따라하기](walkthrough.md)
-- [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(예제 폴더 `ex01/`~`ex05/`. 폴더마다 `index.html`, ex01~ex03 은 `app.js`, ex04 는 그림 `images/profile.png` 도), 2일차 `day2/`(예제 폴더 `ex06/` 의 `index.html`, ex07·ex08 의 `.md`, ex08 이 쓰는 그림 `images/profile.png`, 조립 `web-week13/`)
-- 2일차 끝의 `web-week13`(조립 결과): [about.html](examples/day2/web-week13/about.html) · [about.js](examples/day2/web-week13/about.js) · [projects.js](examples/day2/web-week13/projects.js) · [README.md](examples/day2/web-week13/README.md) · [screenshots/home.png](examples/day2/web-week13/screenshots/home.png) · [guestbook.png](examples/day2/web-week13/screenshots/guestbook.png) · [projects.png](examples/day2/web-week13/screenshots/projects.png)
-- 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
-- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security
+- [슬라이드](slides.md) · [영문 슬라이드](slides_en.md)
+- 교재 사이트: https://gbox3d.github.io/teaching_repo/webprg/decks/week13_release_security/index.html
+- [따라하기](walkthrough.md) · [실습지](lab.md) · [예제 설명](examples/README.md)
+- 강의 대본과 실습 해답은 강의자 별도 관리(비공개)다.
 
 ## 완료 기준
 
-- [ ] 새 저장소 `web-week13` 을 만들어 Pages 를 켰고, `ex/` 에 비교 예제가 있고, 각 예제에서 값을 하나 이상 바꿔 push 했다.
-- [ ] 공개 주소 `https://student01.github.io/web-week13/about.html` 에서 입학 연도를 적고 **계산하기**를 누르면 `…년차입니다.` 가 보이고, 숫자가 아니면 `입학 연도를 숫자로 적어 주세요.` 가 보인다.
-- [ ] `projects.html` 카드 세 장의 링크 글자가 서로 다르다.
-- [ ] 네 페이지의 nav 링크가 공개 주소에서도 모두 열리고(404 없음), 각 페이지 Console 에 빨간 줄이 없고(`favicon.ico` 404 는 세지 않는다), 기기 모드 375 에서 가로로 밀리지 않는다.
-- [ ] 그림 넷(홈 프로필, 프로젝트 카드 셋)에 `alt` 가 있고, 이름표 넷(방명록 세 칸, 입학 연도 칸)을 누르면 커서가 그 칸으로 간다.
-- [ ] 저장소 첫 화면에 `README.md` 최종판(일곱 절, 제목 아래 소개 한 줄, `## 만든 과정` 은 9주차부터 주차마다 한 줄씩 다섯 줄 이상)이 보이고 `screenshots/` 그림 세 장이 깨지지 않는다.
-- [ ] 기기 모드 375 공개 주소 방명록에서 `<b>안녕</b>` 이 글자 그대로 보이고 Console 이 깨끗한(`favicon.ico` 404 한 줄은 세지 않는다) 화면을 캡처 1장으로 제출한다.
+- [ ] 12주 GET 목록이 그대로 동작한다.
+- [ ] 이름과 메시지를 입력하면 POST 201 뒤 GET 200이 보인다.
+- [ ] 서버가 만든 id를 확인하고 새로고침해도 저장한 글이 보인다.
+- [ ] 저장 중에는 버튼이 비활성화되고, 실패하면 입력값을 보존한다.
+- [ ] 공용 HTTPS API를 사용하는 다른 브라우저·기기에서도 같은 글을 확인했다.
+- [ ] 캡처 한 장에 저장한 글과 POST 201·GET 200이 보인다.
+
+API에 처음 준비된 글 수는 환경에 따라 다르다. 특정 개수보다 요청·응답과 화면이 일치하는지 확인한다.
+실명·학번·실제 이메일을 사용하지 않고 수업용 별칭으로 실습한다.
 
 ## 다음 수업 연결
 
-이번 주로 네 페이지가 내놓을 수 있는 상태가 되었다. 14주차에는 새 저장소 `web-week14` 를 오늘 `web-week13` 의 파일에서 시작하고(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/web-week13/`](examples/day2/web-week13/)), 그 공개 주소로 **3분 시연**을 한다.
-레포트는 오늘 쓴 `README.md` 최종판이다. 시연 순서는 공개 주소 → 페이지 이동 → 다크 모드 → 폼 빈값 안내 → 방명록 추가·삭제 → 새로고침해도 남는 목록 → JSON 카드 → Commits 탭과 README 다.
-15주차 기말 실기는 1~14주 실습 제출로 만든 [문제 은행](../week15_final_exam/examples/README.md)에서 나온다. 이번 주 제출(`<b>안녕</b>` 이 글자 그대로 보이는 화면)도 그 안에 [w13_text_safe](../week15_final_exam/examples/w13_text_safe/) 문제로 들어 있다.
+14주에는 서버 id로 글 하나를 지정해 PATCH로 수정하고 DELETE로 삭제한다. 레포트는 별도 과제로 안내한다.
 
 ## 공식 참고 자료
 
-- [Node.textContent — MDN](https://developer.mozilla.org/ko/docs/Web/API/Node/textContent)
-- [Element.innerHTML — MDN](https://developer.mozilla.org/ko/docs/Web/API/Element/innerHTML)
-- [Number() — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Number/Number)
-- [isNaN() — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/isNaN)
-- [Date.prototype.getFullYear() — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Date/getFullYear)
-- [img 요소의 alt — MDN](https://developer.mozilla.org/ko/docs/Web/HTML/Reference/Elements/img)
-- [label 요소 — MDN](https://developer.mozilla.org/ko/docs/Web/HTML/Reference/Elements/label)
-- [접근성 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Accessibility)
-- [기본 작성 및 서식 구문 — GitHub Docs](https://docs.github.com/ko/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
-- [리포지토리 README 정보 — GitHub Docs](https://docs.github.com/ko/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
-- [기기 모드로 모바일 기기 시뮬레이션 — Chrome DevTools](https://developer.chrome.com/docs/devtools/device-mode?hl=ko)
+- [MDN · Fetch API 사용](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+- [MDN · HTTP 요청 메서드](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods)
+- [Supabase · Data REST API](https://supabase.com/docs/guides/api)

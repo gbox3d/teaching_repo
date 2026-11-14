@@ -2,250 +2,199 @@
 marp: true
 theme: default
 paginate: true
-header: "Web Programming · Week 12"
-footer: "Loading JSON with fetch · see the principle through comparison examples, then assemble at the end"
+header: "Web programming · Week 12"
+footer: "REST API"
 ---
 
-# Loading JSON with fetch
+# Read a guestbook through a REST API
 
-In Week 11 you put guestbook posts in **browser storage**. This week you write the page content in a **file** and load it with `fetch` to draw cards.
+Week 11: browser storage → Week 12: GET from a server
 
-Same method as before: look at **6 comparison examples** one at a time, then **assemble** `data/projects.json`, `projects.html`, and `projects.js` in a new repository, `web-week12`, built on last week's files.
-
-- JSON is **text**. Only text that follows the double-quote rule becomes an array.
-- `fetch` **requests** a file. It is blocked on a page opened by double-clicking (`file://`) and works on a server address.
-- Results show on screen, in **Console**, and in the **Network** tab, which is new this week.
-
----
-
-# Day 1 — JSON Files and fetch
-
-`30 min explanation & demo → 60 min lab`
-
-1. Example folders and the server — this week's examples open at addresses like `http://localhost:8000/ex/ex01/`
-2. ex01 — JSON text rules: double quotes and the last comma
-3. ex02 — the fetch template: `await fetch` → `await response.json()`, the Network tab
-4. ex03 — `file://` vs. `http://`: double-clicking blocks it
+- The instructor prepares the shared API.
+- Students send requests and display responses.
+- Result: the server list and GET 200 in Network.
+- Each day: 30 minutes of explanation + 60 minutes of practice.
 
 ---
 
-## Day 1 · 0–4 min — Example folders and opening with the server
+## Day 1 · 0–4 min — Page server and API server
 
-One folder per example (same as Week 11). Server: [server.mjs](../../tools/static-server/server.mjs)
+- A static server sends HTML, CSS and JavaScript.
+- An API server sends guestbook data as JSON.
+- 127.0.0.1:8787 is the local practice address.
+- GitHub Pages uses the instructor-provided HTTPS API.
+
+[Static server](../../tools/static-server/server.mjs) · [API setup](../../tools/guestbook-api/README.md)
+
+---
+
+## Day 1 · 4–9 min — JSON text and an array
+
+[Example 01](examples/day1/ex01/index.html) · [Code](examples/day1/ex01/app.js)
+
+```js
+const text = '[{"name":"student01","message":"Hello"}]';
+const items = JSON.parse(text);
+console.log(items[0].message);
+```
+
+JSON is text for transport. Parse it before reading array items.
+
+---
+
+## Day 1 · 9–16 min — GET and two awaits
+
+[Example 02](examples/day1/ex02/index.html) · [Code](examples/day1/ex02/app.js) · [Config](examples/day1/ex02/config.example.js)
+
+```js
+const response = await fetch(url, {
+  headers: { apikey: API_PUBLIC_KEY }
+});
+const items = await response.json();
+```
+
+fetch waits for a response. Its default method is GET.
+json reads and parses the response body.
+Use await inside an async function.
+
+---
+
+## Day 1 · 16–22 min — Read the Network panel
+
+1. Open Network and reload.
+2. Select the guestbook request under Fetch/XHR.
+3. Find the URL, GET and status 200 under Headers.
+4. Read the array under Response.
+
+The apikey header contains a publishable key, not a server secret.
+This GET request sends no JSON body.
+
+---
+
+## Day 1 · 22–27 min — Query parameters
+
+[Example 03](examples/day1/ex03/index.html) · [Code](examples/day1/ex03/app.js) · [Config](examples/day1/ex03/config.example.js)
 
 ```text
-ex02/
-  index.html      screen — one text spot
-  app.js          behavior — this week's ideas live here
-  projects.json   the file fetch reads
+/rest/v1/guestbook?book_id=eq.student01
+&select=id,name,message,created_at&order=id.desc&limit=2
 ```
 
-- Open a **folder address** such as `http://localhost:8000/ex/ex02/` served by `node server.mjs`, because `fetch` requests a file (ex03).
-- In `<head>`, `<script src="app.js" defer>` loads `app.js` from the same folder. Tell folders apart by the path bar (`ex › ex02`).
-- Check and capture on the **public address**; the server is a preview.
-
-**Open pages that use fetch on a server address or the public address.**
+The real URL is one line.
+- book_id selects a guestbook; select chooses response fields.
+- order sorts by newest id; limit caps the row count.
+- Change only limit and compare responses.
 
 ---
 
-## Day 1 · 4–11 min — ex01 JSON text rules
+## Day 1 · 27–30 min — Practice handoff
 
-[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) — `app.js` lines 7–8 (No. 1) · 13–14 (No. 2) · 18–19 (No. 3)
+- Create web-week12 from last week’s files.
+- Change one value at a time in examples 01–03.
+- Compare the request, response and visible result.
 
-```js
-const text1 = `[{"title": "자기소개 페이지"}, {"title": "방명록"}]`;
-const projects1 = JSON.parse(text1);
-// const text2 = `[{'title': '자기소개 페이지'}, {'title': '방명록'}]`;
-// const projects2 = JSON.parse(text2);
-// const text3 = `[{"title": "자기소개 페이지"}, {"title": "방명록"},]`;
-// const projects3 = JSON.parse(text3);
-```
+Explanation: 4 + 5 + 7 + 6 + 5 + 3 = 30 minutes.
 
-- JSON is **text**. No. 1: **double quotes**. No. 2: single quotes. No. 3: comma after the last `}`.
-- Uncomment No. 2 or 3: `JSON.parse` fails with a red line; No. 1 stays.
-
-**Only text that follows the rules becomes an array.**
+[Day 1 practice](lab.md#1일차-실습) · [Walkthrough](walkthrough.md)
 
 ---
 
-## Day 1 · 11–19 min — ex02 The fetch template and the Network tab
+## Day 2 · 0–5 min — Reuse the list code
 
-[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) · [projects.json](examples/day1/ex02/projects.json)
+- Week 10: loop over an array to create list items.
+- Week 11: read the array from localStorage.
+- Week 12: read an array from the server response.
+
+Reuse the DOM code.
+Server data does not automatically import localStorage data.
+
+---
+
+## Day 2 · 5–12 min — Display the response array
+
+[Example 04](examples/day2/ex04/index.html) · [Code](examples/day2/ex04/app.js) · [Config](examples/day2/ex04/config.example.js)
 
 ```js
-async function loadProjects() {   // await works only inside async
-    const response = await fetch('projects.json');       // 1. request and wait
-    const projects = await response.json();              // 2. text → array
-    result.textContent = `2. ${projects.length}개를 불러왔다 …`;
+for (let i = 0; i < items.length; i++) {
+  const li = document.createElement('li');
+  li.textContent = `${items[i].name}: ${items[i].message}`;
+  list.append(li);
 }
-loadProjects();                   // without this line, nothing happens
 ```
 
-- **F12 › Network**: one `projects.json` row, Status **200**, Type `fetch`.
-- Without `await` you get a value that has not arrived yet (`Promise`).
-
-**fetch requests the file; json() turns the text it got into an array.**
+Use textContent for server messages too.
+An empty array produces an empty list.
 
 ---
 
-## Day 1 · 19–26 min — ex03 file:// vs. http://
+## Day 2 · 12–18 min — HTTP failures are responses
 
-[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) · [projects.json](examples/day1/ex03/projects.json)
-
-```text
-http://localhost:8000/ex/ex03/   → screen 3. 2개를 불러왔다
-file:///…/ex/ex03/index.html     → screen 1. 불러오는 중 … (stuck)
-  Access to fetch at 'file:///…' … has been blocked by CORS policy …
-  Uncaught (in promise) TypeError: Failed to fetch
-```
-
-- Same code, different **address**. On a page opened as `file://`, the browser blocks the request.
-- Lines below the failing line (No. 2) do not run, so the screen stays at No. 1.
-- "The code is the same but it doesn't work" → look at the **address bar** first.
-
-**fetch works only on a server address (http, https).**
-
----
-
-## Day 1 · 26–30 min — Your turn
-
-[Day 1 lab](lab.md#1일차--json-파일과-fetch-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
-
-1. New folder `web-week12` with last week's files and `server.mjs`; three example folders in `ex/`.
-2. `node server.mjs` → open ex01–ex03 by folder address and change values in `app.js`. Say what will change first.
-3. Create the new repository `web-week12`, push, turn on Pages → open `…/ex/ex02/` on the public address too.
-
-**Total explanation: 4+7+8+7+4 = 30 min**
-
----
-
-# Day 2 — Cards, Error Messages, and Assembly
-
-`30 min explanation & demo → 60 min lab`
-
-1. ex04 — building cards: `img`, `h3`, `p`, `a` inside an `article`
-2. ex05 — `try / catch`: catch the error and tell the user on screen
-3. ex06 — `response.ok`: a 404 is not an error
-4. About the Week 14 final project
-5. Assembly — `data/projects.json`, `projects.html`, `projects.js` in `web-week12`
-
----
-
-## Day 2 · 0–7 min — ex04 Building cards
-
-[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js) · [picture.png](examples/day2/ex04/picture.png)
+[Example 05](examples/day2/ex05/index.html) · [Code](examples/day2/ex05/app.js) · [Config](examples/day2/ex05/config.example.js)
 
 ```js
-const article = document.createElement('article');  // one card
-article.classList.add('card');                       // the .card rule (Week 6)
-const image = document.createElement('img');         // 1. src · alt · width
-const title = document.createElement('h3');          // 2. title
-const description = document.createElement('p');     // 3. a real sentence, so p
-const link = document.createElement('a');            // 4. href
-article.append(image, title, description, link);     // in the order given
+if (!response.ok) {
+  throw new Error(`HTTP ${response.status}`);
+}
 ```
 
-- Same order as Week 10 `showList`: empty → `for` → create and append.
-- `alt` is the text shown when the picture cannot be found. Week 13 comes back to it.
-
-**One item in the array becomes one card.**
+A missing endpoint may still return a response.
+Check ok before displaying the JSON list.
+Error codes and bodies may differ between APIs.
 
 ---
 
-## Day 2 · 7–13 min — ex05 try / catch: tell the user
+## Day 2 · 18–23 min — Display connection failures
 
-[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js) · [projects.json](examples/day2/ex05/projects.json)
+[Example 06](examples/day2/ex06/index.html) · [Code](examples/day2/ex06/app.js) · [Config](examples/day2/ex06/config.example.js)
 
 ```js
-try {   // an error in here skips the lines below and goes to catch
-    const response = await fetch('projects.json');
-    const projects = await response.json();
-    notice.textContent = `1. try: ${projects.length}개를 불러왔다`;
+try {
+  // Request, validate and read JSON.
 } catch (error) {
-    notice.textContent = '2. catch: 프로젝트를 불러오지 못했습니다.';
+  loadNotice.textContent = 'Could not load the list.';
 }
 ```
 
-- Server: No. 1; `file://`: No. 2. Day 1 ex03's red `Uncaught` line is gone.
-
-**Catch the error and tell the user on screen.**
+Try Offline in Network, then restore the connection.
+Distinguish the old list from the failure message.
 
 ---
 
-## Day 2 · 13–19 min — ex06 response.ok: a 404 is not an error
-
-[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js) · [projects.json](examples/day2/ex06/projects.json)
+## Day 2 · 23–27 min — A button while waiting
 
 ```js
-const response = await fetch(fileName);
-if (!response.ok) {                 // false for a 404
-    notice.textContent = '프로젝트를 불러오지 못했습니다.';
-    return;                         // do not go on to json()
+reloadButton.disabled = true;
+try {
+  // Request the list.
+} catch (error) {
+  // Display a failure message.
+} finally {
+  reloadButton.disabled = false;
 }
-const projects = await response.json();
 ```
 
-- Even a missing file gets an **answer** (404 + HTML), so `fetch` goes on.
-- Read it unchecked and `json()` fails on the HTML: `Unexpected token '<'`.
-
-**Before reading, ask response.ok whether the answer is normal.**
+finally runs after either success or failure.
 
 ---
 
-## Day 2 · 19–24 min — About the Week 14 final project
+## Day 2 · 27–30 min — Assemble the reading page
 
-Week 14 is the **final presentation**. Nothing new to build: you demo the site you have made so far. Three things are required.
+- Configuration → GET → JSON array → showList.
+- Reload sends the same request again.
+- Capture the list and GET 200 together.
 
-1. Three pages + CSS + a click feature + form input with an empty-input message
-2. Guestbook add/delete with a count (Week 10) · a guestbook that survives reload (Week 11)
-3. Cards drawn from `data/projects.json` (Week 12)
+Explanation: 5 + 7 + 6 + 5 + 4 + 3 = 30 minutes.
 
-- The report is the final `README.md` in your repository. We write it together in Week 13.
-- A server database and login are covered in an optional special session.
-
-**Each week's finished files add up to the final project.**
+[Day 2 practice](lab.md#2일차-실습) · [Walkthrough](walkthrough.md)
 
 ---
 
-## Day 2 · 24–30 min — Assembly: web-week12, then the lab
+# Assembly files
 
-```text
-data/projects.json  3 objects · double quotes   ← ex01 · ex02 · ex04
-projects.html       #notice · #project-list     ← last week's guestbook.html · ex04 · ex05
-projects.js         showProjects(projects)      ← ex04
-                    loadProjects: try · fetch   ← ex02 · ex05
-                    if (!response.ok) … return  ← ex06
-                    catch → message · loadProjects(); ← ex05 · ex02
-nav on four pages   <a href="projects.html">    ← last week's nav
-```
+[Guestbook](examples/day2/web-week12/guestbook.html) · [GET](examples/day2/web-week12/guestbook.js) · [Config](examples/day2/web-week12/config.example.js)
+[Home](examples/day2/web-week12/index.html) · [About](examples/day2/web-week12/about.html) · [Home JS](examples/day2/web-week12/app.js)
+[CSS](examples/day2/web-week12/styles.css) · [Profile](examples/day2/web-week12/images/profile.png)
 
-[Day 2 lab](lab.md#2일차--카드와-오류-안내-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
+[Examples](examples/README.md) · [Practice](lab.md) · [Walkthrough](walkthrough.md)
 
-1. Save the three example folders ex04–ex06 in `ex/`, change values (until minute 28).
-2. Assemble → check with the server at 375 and 1280 → push → screenshot of the cards and Network on the public address.
-
-**Total explanation: 7+6+6+5+6 = 30 min**
-
----
-
-## What to Submit
-
-Submit **one** screenshot at the end of Day 2.
-
-```text
-https://student01.github.io/web-week12/projects.html
-3 cards ─ picture · title · description · 페이지 열기
-F12 › Network ─ projects.json   200
-Include the address bar in the screenshot
-```
-
-Check and capture on the public address. Keep your real name, student ID, and real email out of the screenshot.
-
----
-
-## Next Week Preview
-
-Today you loaded content from a file outside the HTML and drew cards.
-
-In Week 13 you start a new repository, `web-week13`, from today's files and review your four pages.
-You check that typed text goes in with `textContent` (security) and that pictures have `alt` and inputs have `label for` (accessibility), then write the final `README.md`.
+Keep filenames and script order. Use instructor-provided settings.

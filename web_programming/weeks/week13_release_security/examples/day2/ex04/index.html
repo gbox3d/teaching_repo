@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ex04 · 폼 입력을 POST 본문으로 보내기</title>
+  <script src="config.example.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <h1>폼 입력을 POST 본문으로 보내기</h1>
+  <p>app.js에서 값을 바꾸고 화면과 Network 탭을 확인하세요.</p>
+  <form id="example-form"><label for="message">메시지</label>
+    <input id="message" maxlength="500" required>
+    <button id="send-button" type="submit">저장</button></form>
+  <pre id="output" role="status"></pre>
+  <ul id="list"></ul>
+</body>
+</html>

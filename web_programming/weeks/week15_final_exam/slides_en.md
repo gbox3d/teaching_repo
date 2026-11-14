@@ -3,234 +3,132 @@ marp: true
 theme: default
 paginate: true
 header: "Web Programming · Week 15"
-footer: "Final Exam · Weeks 1–14 Problem Bank · Same Problems, New Values"
+footer: "Final practical exam · REST"
 ---
 
-# Final Hands-on Exam
+# Final practical exam
 
-Nothing new this week. Practice with a **problem bank** made from the Week 1–14 lab submissions, then take the exam.
-
-- Day 1: pick problems from the bank and solve them. Instead of answers, each has **What to check**.
-- Day 2: the 60-minute final exam. One problem per area A–E, **with only the values changed**.
-- Problems don't depend on each other. Each uses only what its own week taught.
-- This week's one repository is `web-week15`. Create it at the end of Day 1; the exam goes in it too.
-
-[Problem bank list](examples/README.md) · 13 problems · 8–12 min suggested each
+Practice with the Weeks 1–14 bank, then solve the same tasks with new values.
+Weeks 12–14: REST GET, POST, PATCH and DELETE.
+Reports are separate assignments.
 
 ---
 
-# Day 1 — Practicing with the Problem Bank
+# Day 1 · 0–5 min — Problem bank
 
-`30 min explanation & demo → 60 min practice`
+A page · B DOM · C forms/lists · D browser storage · E REST
 
-1. Bank and exam — same problems, only the values change
-2. How to read one problem — with w12_fetch_cards
-3. How to check — open it from the server, look in F12
-4. Today's order and this week's repository, `web-week15`
-
----
-
-## Day 1 · 0–8 min — Bank and Exam: Same Problems, New Values
-
-| Area | Points | [Bank problems](examples/README.md) (no. = week) |
-|---|---:|---|
-| A Page (HTML · CSS · README) | 3 | w01 · w02 · w03 · w04 · w09 · w14 |
-| B DOM | 3 | w05 · w06 · w13 |
-| C Forms · lists | 4 | w07 · w10 |
-| D Storage (localStorage) | 2 | w11 |
-| E Loading (fetch) | 3 | w12 |
-
-- One problem per area, **only the values change** (w01–w07: new values, unlike Week 8).
-- No answers are published. **확인할 것** (What to check) tells you.
-
-**Don't memorize values. Learn the tasks and how to check them.**
+[Bank](examples/README.md): 13 problems.
+The exam selects one problem per section.
+A POST task appears in C or E, never both.
 
 ---
 
-## Day 1 · 8–16 min — How to Read One Problem: w12_fetch_cards
+# Day 1 · 5–10 min — Read the task
 
-[examples/w12_fetch_cards/](examples/w12_fetch_cards/README.md) · from the Week 12 lab submission · E Loading (fetch) · 9 min
+Starter files → tasks → checks → values
+The page and support code are supplied. Complete the request TODO.
 
-```text
-Starting files  app.js: only loadCards() is empty. Don't edit the rest
-Tasks           ① fetch ② not OK → notice ③ JSON → showCards ④ try / catch
-What to check   3 cards · Network 200 · no red line · no file → notice text
-Values          data/html-docs.json · doc-list · …   ← the exam changes these
-```
-
-- Find what to edit in Starting files, do Tasks in order, check items top to bottom.
-- Copy values from the "이 문제의 값" (Values) table. The exam changes only these.
-
-**Every problem: same parts, same order. Only the values change.**
+[GET](examples/w12_rest_get/README.md) · [POST](examples/w13_rest_post/README.md)
+[PATCH/DELETE](examples/w14_rest_edit/README.md)
 
 ---
 
-## Day 1 · 16–24 min — How to Check: Server and F12
+# Day 1 · 10–15 min — API setup
 
-Put [server.mjs](../../tools/static-server/server.mjs) at the top of `web-week15` and run `node server.mjs`
+The instructor prepares the API and individual test guestbooks.
+Copy public configuration values only.
+Enter an edit key at runtime. Never commit it.
 
-```text
-http://localhost:8000/w12_fetch_cards/    ← one such address per problem
-Console      no red line (Uncaught), and the printed text
-Network      every file request is 200, no 404
-Elements     text · class · href, colors and spacing in Computed
-Application  the key and the saved value in Local Storage
-Device mode  Ctrl+Shift+M → width 375, no horizontal overflow
-```
-
-- `fetch` problems (w12) are blocked on `file://`. Check on the server or the public address.
-- README problems (w09 · w14): use **Open Preview**, then check on GitHub after pushing.
-
-**Judge by the text on screen and the values in F12, not by eye.**
+localhost means this PC. Pages needs the shared HTTPS API.
 
 ---
 
-## Day 1 · 24–30 min — Today's Order and web-week15
+# Day 1 · 15–20 min — Read after writing
 
-[Day 1 lab](lab.md#1일차--문제-은행으로-연습하기-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week15_final_exam)
+GET: display the array.
+POST: check stored data with GET.
+PATCH: check changed rows and read the saved message.
+DELETE: read the same ID and confirm absence.
 
-1. 0–5 min: three problems from different areas, weakest first, one or more from Weeks 9–14.
-2. 5–50 min: 15 min each. Download → open from the server → Tasks → What to check.
-3. 50–60 min: create `web-week15`, push in the Week 2 order, and turn on Pages.
-
-```text
-web-week15/
-  server.mjs
-  w12_fetch_cards/      ← folder name = the problem id, exactly
-  w04_box_style/        ← public address …/web-week15/w04_box_style/
-```
-
-**Explanation total: 8+8+8+6 = 30 min**
+Do not parse a 204 response as JSON.
 
 ---
 
-# Day 2 — The Final Exam
+# Day 1 · 20–25 min — Supplied code
 
-`30 min briefing → 60 min exam`
+view.js: rendering and supporting read requests.
+app.js: request TODO.
+config.example.js: public settings.
 
-1. Exam rules and the timetable
-2. The `exam` folder — receive, put at the top, open the index, first push
-3. Areas, points, grading — implementation 15 + demo 5 (URL reproduction 3 · oral 2)
-4. Before you finish — the last push and the three submissions
-
-Open yesterday's `web-week15` folder in VS Code. If the PC doesn't have it: `git clone https://github.com/student01/web-week15.git`, then **File › Open Folder**.
-
----
-
-## Day 2 · 0–8 min — Exam Rules and Timetable
-
-| Time | Task |
-|---|---|
-| 0–3 min | Put in `exam` → first push → skim `exam/README.md` |
-| 3–51 min | Problems A–E. Stuck for over 5 minutes? Move on |
-| 51–56 min | Last push → check the public address → Commits tab capture |
-| 56–60 min | Buffer |
-
-- Allowed: this course site, your repositories, MDN. Otherwise: the instructor's notice.
-- Scope: the Week 1–14 lab submissions. Extra features earn no extra points.
-- Questions: only about a problem's meaning, file locations, submitting, or outages.
-
-**Problems don't depend on each other. If you're stuck, move on.**
+[GET page](examples/w12_rest_get/index.html)
+[Code](examples/w12_rest_get/app.js) · [View](examples/w12_rest_get/view.js)
+[Configuration](examples/w12_rest_get/config.example.js) · [CSS](examples/w12_rest_get/styles.css)
 
 ---
 
-## Day 2 · 8–16 min — The exam Folder: Put In, Open, Push
+# Day 1 · 25–30 min — Practice
 
-```text
-web-week15/
-  exam/              ← handed out at the start; same name, at the top
-    README.md        ← the full text of all five problems
-    index.html       ← the index: one link per problem
-    a/ b/ c/ d/ e/   ← problem folders; starting files only
-  w12_fetch_cards/   ← leave your Day 1 practice folders as they are
-```
+Choose three sections, including at least one REST task.
 
-1. `node server.mjs` → open the index at `http://localhost:8000/exam/`.
-2. Push right away: `git add .` → `git commit -m "기말 실기 시작"` → `git push`
-3. After 1–3 min, the index shows at `https://student01.github.io/web-week15/exam/`.
-
-**For each problem, edit only the files in its own folder (`exam/a/` …).**
+**Explanation total: 5 + 5 + 5 + 5 + 5 + 5 = 30 min**
+[Lab](lab.md#1일차-실습) · [Walkthrough](walkthrough.md)
 
 ---
 
-## Day 2 · 16–24 min ① — Implementation 15: By "What to Check"
+# Day 2 · 0–5 min — Check the packet
 
-[Rubric](rubric.md) · 20 points (draft) = implementation 15 (A 3 · B 3 · C 4 · D 2 · E 3) + demo 5
+web-week15/exam/ contains an index and A–E folders.
+Check your assigned test guestbook and initial records.
 
-```text
-Fully met       every What to check item is right
-Partially met   a partial result runs — some items are right
-Not met         doesn't open · unrelated to the problem · missing
-```
-
-- One cause behind several failed items is deducted once, never beyond the area's points.
-- Whether "any visible attempt earns at least 5 points" applies is not decided yet.
-
-**If What to check is right, it's right, even if you wrote it differently.**
+Do not use practice data or another student’s test data.
+Keep the edit key out of source code.
 
 ---
 
-## Day 2 · 16–24 min ② — Demo 5: URL Reproduction 3 · Oral 2
+# Day 2 · 5–10 min — Proposed points
 
-```text
-URL reproduction 3   the grader opens …/web-week15/exam/ in a new private window
-                     → do all five problems work as required from the index?
-Oral 2               last 30 min of the exam, 1 minute at your seat
-                     → say what one line of your code, picked for you, does
-                     → that minute is added back to your deadline
-```
+A 3 + B 3 + C 4 + D 2 + E 3 = implementation 15.
+URL reproduction 3 + oral explanation 2 = 5.
 
-- Grading is done at the public address. What only works on your PC isn't submitted.
-- A slow Pages update costs no points. The grader opens it again the next day.
-
-**The oral check isn't a memorized answer. It's reading one line of your own code.**
+Total 20 is a proposal. The class announcement is authoritative.
+[Rubric](rubric.md)
 
 ---
 
-## Day 2 · 24–30 min — Before You Finish: Last Push, Three Items
+# Day 2 · 10–15 min — Verify changes
 
-[Day 2 lab](lab.md#2일차--기말-실기-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week15_final_exam)
+HTTP success does not prove a row changed.
+A rejected key may give PATCH 200 [] or DELETE 204.
 
-```text
-51 min  git add .  →  git commit -m "기말 실기 끝"  →  git push
-        refresh …/web-week15/exam/ → open each problem from the index
-        GitHub repository › Commits tab capture — top commit's hash and time
-```
-
-- Your submission is the **last commit** before the deadline, opened at the public address.
-- Push as often as you like, but never after the deadline.
-- On a shared PC, remove your saved credentials before leaving.
-
-**Explanation total: 8+8+8+6 = 30 min**
+GET the same ID. Check the saved value or absence.
 
 ---
 
-## What to Submit
+# Day 2 · 15–20 min — Server outages
 
-When the Day 2 exam ends, submit **three things**.
+Tell the supervisor when the API is unavailable.
+Use an equivalent local API with the same initial data.
+Compensate for outage time.
 
-```text
-① Public address      https://student01.github.io/web-week15/exam/
-② Repository address  https://github.com/student01/web-week15
-③ One capture         Commits tab — top commit's hash, time, and the address bar
-```
-
-If Pages is slow, a local screenshot plus the Commits tab capture is accepted. No deduction.
-Day 1 practice folders are for checking only and are not submitted.
-Keep your real name, student ID, and real email out of captures. Where and by when to submit follow the class notice; the commit deadline is the end of the exam.
+If no equivalent environment exists, defer REST assessment.
 
 ---
 
-## Next — Wrapping Up the Semester
+# Day 2 · 20–25 min — Submission
 
-Week 15 is the last class. There are no more classes after this.
+Submit public URL, repository URL and a Commits screenshot.
+Explain one line of your own code.
 
-```text
-Weeks 1–4    file links · public address · semantic HTML, forms · responsive CSS
-Weeks 5–7    values and functions · clicks and classes · reading form input
-Weeks 9–14   README · lists · localStorage · fetch · text as text · presentation
-```
+Do not submit edit keys. The instructor keeps their own copy.
+Reproduction uses a copy of the submitted server data.
 
-- Keep `web-week15` until grades are out, and don't push to it after the deadline.
-- How scores are released and reviewed follows the class notice.
-- Redo bank problems you skipped with values you change yourself. What to check is the standard.
+---
+
+# Day 2 · 25–30 min — Start the exam
+
+Read 3 min → implement 48 → push 5 → reserve 4.
+Add the one-minute oral check to the student’s deadline.
+
+**Explanation total: 5 + 5 + 5 + 5 + 5 + 5 = 30 min**
+[Exam](lab.md#2일차-시험) · [Walkthrough](walkthrough.md)

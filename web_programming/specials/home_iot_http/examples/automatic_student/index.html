@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>자동 제어 정책 작성</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="policy.js" defer></script>
+  <script src="../automatic/runner.js" defer></script>
+</head>
+<body>
+  <main class="lesson">
+    <p class="eyebrow">HOME IOT / CONTROL RESEARCH</p>
+    <h1>자동 제어 정책 작성</h1>
+    <p>policy.js의 TODO를 채워 판단 규칙을 구현하세요.</p>
+    <nav><a href="/" target="_blank">시뮬레이터</a><a href="/examples/automatic/">자동 제어 참고본</a><a href="/examples/automatic_student/">정책 작성</a></nav>
+    <section class="card" aria-label="자동 제어 설정">
+      <p>자동 제어 화면은 하나만 시작하세요. 설정을 바꾸려면 먼저 중지하세요.</p>
+      <div class="field"><label for="mode">제어 방식</label><select id="mode"><option value="single">단일 기준</option><option value="hysteresis">히스테리시스</option></select></div>
+      <div class="field"><label for="threshold">단일 기준 온도 (°C)</label><input id="threshold" type="number" min="10" max="40" step="0.1" value="27.5"></div>
+      <div class="field"><label for="low">정지 기준 (°C 이하)</label><input id="low" type="number" min="10" max="40" step="0.1" value="26"></div>
+      <div class="field"><label for="high">작동 기준 (°C 이상)</label><input id="high" type="number" min="10" max="40" step="0.1" value="29"></div>
+      <div class="field"><label for="interval">조회 완료 뒤 대기 간격 (ms)</label><input id="interval" type="number" min="500" max="10000" step="500" value="2000"></div>
+      <div class="button-row"><button id="start">시작</button><button id="stop" class="secondary" disabled>중지</button><button id="download" class="secondary">관찰 기록 다운로드</button></div>
+      <p id="notice" role="status" aria-live="polite">시작 대기</p>
+      <p id="counts">조회 0회 · 제어 0회 · 연속 실패 0회</p>
+      <pre id="result" aria-label="최근 판단 결과">아직 판단한 값이 없습니다.</pre>
+      <p class="note">한 검사에서 GET과 필요한 PATCH를 마친 뒤 다음 검사를 예약합니다. 응답 제한은 3초이며, 실패하면 재시도 대기를 늘려 최대 10초로 제한합니다.</p>
+    </section>
+    <section class="card"><h2>관찰 기록</h2><p class="note">화면은 최근 30건, 다운로드는 최근 500건입니다. 새로고침하면 기록이 초기화됩니다. 실험이 끝날 때 다운로드하세요.</p><ol id="history" class="research-log"></ol></section>
+    <footer>온도는 수동으로 정하는 가상 값입니다. 팬에 의한 물리적 냉각은 모델링하지 않습니다.</footer>
+  </main>
+</body>
+</html>

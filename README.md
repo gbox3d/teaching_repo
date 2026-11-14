@@ -72,7 +72,7 @@ dist/
 | 교재 | 기준 문서 | 현재 내용 |
 |---|---|---|
 | 모바일프로그래밍 | [`android_programming/README.md`](android_programming/README.md) | Android·Kotlin·XML View·BLE·ESP32-C3, 15주 자료 |
-| 웹프로그래밍 | [`web_programming/README.md`](web_programming/README.md) | Git·HTML·CSS·JavaScript·GitHub Pages·Supabase, 15주 자료와 특강 |
+| 웹프로그래밍 | [`web_programming/README.md`](web_programming/README.md) | Git·HTML·CSS·JavaScript·REST 방명록, 15주 자료와 API 구축·홈 IoT 등 방학 연구 특강 |
 | 오픈소스 AI 응용 | [`open_source_ai/README.md`](open_source_ai/README.md) | 오픈소스 협업·uv·Ollama·LangChain·RAG·LoRA·Streamlit 앱, 15주 자료와 선택 특강(60분 블록 × 3) |
 | 과목 공통 자산 | [`_shared/README.md`](_shared/README.md) | 공통 템플릿과 재사용 모듈의 승격 기준 |
 

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>01 · API 접속 확인</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.example.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header><p>01 · GET /rest/v1/about</p><h1>API 접속 확인</h1>
+    <p>GET 요청 한 번으로 서버 소개와 API 버전을 읽습니다. 방명록 데이터는 사용하지 않습니다.</p></header>
+  <main>
+    <section>
+      <h2>요청</h2>
+      <p id="api-address"></p>
+      <p>요청 헤더의 apikey에는 이 폴더의 설정의 공개 키를 사용합니다.</p>
+      <button id="load" type="button">접속 확인</button>
+      <p id="notice" role="status">요청 대기</p>
+    </section>
+    <section>
+      <h2>응답</h2>
+      <p id="response-status">응답 대기</p>
+      <pre id="response-body">응답 없음</pre>
+      <p>응답은 JSON 배열입니다. 첫 번째 객체의 name, version, help_path를 확인하세요.</p>
+    </section>
+  </main>
+  <footer><p>API 주소와 공개 키는 이 폴더의 config.example.js에서 설정합니다.</p>
+    <p><a href="requests.http">REST Client 요청 파일</a> · <a href="app.js">JavaScript 소스</a></p></footer>
+</body>
+</html>

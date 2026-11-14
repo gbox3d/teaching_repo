@@ -10,7 +10,7 @@
 # 1. 자격증명 · 로컬 설정
 #    (kakao_aerial_map 특강은 저장소 최상위 config.json에서
 #     Kakao JS 키를 읽고, supabase_guestbook 특강은 examples/ 의
-#     config.js 를 만들게 한다 — 하위 폴더 실수 커밋까지 막도록
+#     각 예제 폴더의 .env 를 사용한다 — 하위 폴더 실수 커밋까지 막도록
 #     전역 규칙으로 유지한다. config.example.* 는 추적된다)
 # ------------------------------------------------------------
 config.json
@@ -60,3 +60,6 @@ Desktop.ini
 *.bak
 *.orig
 ~$*
+
+# 강의자 로컬 비공개 파일
+localfiles/

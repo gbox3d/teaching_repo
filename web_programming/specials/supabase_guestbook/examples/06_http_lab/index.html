@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>06 · REST 통합 실험</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.example.js" defer></script>
+  <script src="request.js" defer></script>
+  <script src="exercise.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header><p>06 · SUPABASE REST API</p><h1>REST 통합 실험</h1>
+    <p>이 화면에서 공용 Supabase HTTPS API를 호출합니다. 요청 후 GET으로 저장된 값을 확인하세요.</p></header>
+  <main>
+    <section aria-labelledby="request-title">
+      <h2 id="request-title">요청 설정</h2>
+      <p id="api-address"></p>
+      <form id="request-form">
+        <div class="row">
+          <label>메서드<select id="method"><option>GET</option><option>POST</option><option>PATCH</option><option>DELETE</option></select></label>
+          <label>방명록 번호<input id="book" required pattern="[a-z0-9_-]{1,40}" maxlength="40"></label>
+          <label>글 ID<input id="id" type="number" min="1" step="1" placeholder="GET 전체 목록은 비워 두세요."></label>
+        </div>
+        <label for="edit-key">편집 키 (PATCH·DELETE에 사용)</label>
+        <input id="edit-key" type="password" autocomplete="off" aria-describedby="key-help">
+        <p id="key-help">실행 중에만 사용하며 요청 직전 입력 칸을 비웁니다. 키를 본문·코드·캡처에 넣지 마세요.</p>
+        <label for="body">JSON 본문 (POST·PATCH에 사용)</label>
+        <textarea id="body" rows="7" spellcheck="false"></textarea>
+        <div class="buttons"><button id="sample" type="button">본문 예시 넣기</button><button id="send" type="submit">요청 보내기</button></div>
+      </form>
+      <p id="notice" role="status">요청 대기</p>
+    </section>
+    <section aria-labelledby="response-title">
+      <h2 id="response-title">요청과 응답</h2>
+      <p>요청 요약에는 편집 키와 헤더 값을 출력하지 않습니다.</p>
+      <h3>요청 요약</h3><pre id="request-summary">아직 보낸 요청이 없습니다.</pre>
+      <h3>응답 상태</h3><p id="response-status">응답 대기</p>
+      <h3>응답 본문</h3><pre id="response-body">응답 없음</pre>
+      <h3>연구 과제</h3><p id="observation">GET으로 초기 상태를 확인하세요.</p>
+    </section>
+  </main>
+  <footer><p>API 주소와 공개 키는 이 폴더의 config.example.js에서 설정합니다.</p>
+    <p><a href="requests.http">REST Client 요청 파일</a> · <a href="app.js">JavaScript 소스</a></p></footer>
+</body>
+</html>

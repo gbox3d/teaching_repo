@@ -1,19 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex02 year</title>
-    <script src="app.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ex02 · POST 요청 한 번 보내기</title>
+  <script src="config.example.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
-    <h1>ex02 new Date().getFullYear(): 올해와 몇 년차</h1>
-    <p>칸에 입학 연도를 적고 눌러 보기를 누른다. F12 › Console 의 1·2·3번은 버튼을 누를 때 찍힌다. 결과 자리의 문장과 함께 비교한다.</p>
-    <div>
-        <label for="year">입학 연도</label>   <!-- label for 는 3주차 폼. 이름표가 칸에 이어지는지는 ex05 -->
-        <input id="year" type="text" value="2023">
-        <button id="btn">눌러 보기</button>
-    </div>
-    <div id="result">결과 자리 — 버튼을 누르면 바뀐다</div>
+  <h1>POST 요청 한 번 보내기</h1>
+  <p>app.js에서 값을 바꾸고 화면과 Network 탭을 확인하세요.</p>
+  <button id="run-button" type="button">요청</button>
+  <pre id="output" role="status"></pre>
+  <ul id="list"></ul>
 </body>
 </html>

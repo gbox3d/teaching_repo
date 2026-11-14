@@ -2,299 +2,191 @@
 marp: true
 theme: default
 paginate: true
-header: "Web Programming · Week 13"
-footer: "Security, Accessibility, and Release Check · see the principle through comparison examples, then assemble at the end"
+header: "Web programming · Week 13"
+footer: "REST API"
 ---
 
-# Security, Accessibility, and Release Check
+# Save guestbook messages through a REST API
 
-By Week 12 you built four pages. This week is less about new features and more about **checking before you release**.
+Week 12: GET → Week 13: POST, then GET again
 
-Same method as before: look at **8 comparison examples** one at a time, then **assemble** `about.html`, `about.js`, `projects.js`, and `README.md` in a new repository, `web-week13`, built on last week's files.
-
-- Put typed text in **as text** — `textContent`
-- Images, inputs, and links need **words that say what they are** — `alt`, `label for`, link text
-- Before release: **links → Console → 375**; write the README with four Markdown marks
-
----
-
-# Day 1 — Numbers, Text, and Accessibility
-
-`30 min explanation & demo → 60 min lab`
-
-1. Example folders — two files: `index.html`, `app.js`
-2. ex01 — `Number()` and `isNaN()`
-3. ex02 — `new Date().getFullYear()` and the year of study
-4. ex03 — `textContent` vs. `innerHTML`
-5. What never goes into a public repository
-6. ex04 `alt` · ex05 `label for`
+- Send form values as a JSON request body.
+- The server creates an id and timestamp.
+- Read the same message on another device.
+- Each day: 30 minutes of explanation + 60 minutes of practice.
 
 ---
 
-## Day 1 · 0–3 min — Example folders: a spot with an input
+## Day 1 · 0–4 min — GET and POST
 
-One folder per example, with the same file names as your site.
+- GET reads messages.
+- POST creates a new message.
+- The same endpoint can accept different methods.
 
-```text
-ex01/
-  index.html   screen — the year box · 눌러 보기 · the result spot
-  app.js       behavior — this week's ideas live here
-```
-
-- Open `index.html`. In `<head>`, `<script src="app.js" defer>` loads `app.js`.
-- Type in the box and press **눌러 보기** → look at the screen and Console. ex04 and ex05 have only `index.html`.
-- The names match your site's top-level files. Tell them apart by the path bar above the editor (`ex › ex01`).
-
-**What you type is read when the button is clicked.**
+Keep the list function from week 12.
+Add request code without changing server settings.
 
 ---
 
-## Day 1 · 3–8 min — ex01 Number() and isNaN()
+## Day 1 · 4–9 min — A JSON request body
 
-[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
+[Example 01](examples/day1/ex01/index.html) · [Code](examples/day1/ex01/app.js)
 
 ```js
-const text = yearInput.value;                     // the box value is text
-console.log('1. 글자 + 1 :', text + 1);            // 20231 — joined, not added
-const year = Number(text);                        // text to a number
-console.log('2. Number(글자) + 1 :', year + 1);    // 2024 — added
-console.log('3. isNaN(바꾼 값) :', isNaN(year));    // false
+const item = {
+  book_id: BOOK_ID, name: 'student01', message: 'Hello'
+};
+const body = JSON.stringify(item);
 ```
 
-- `Number('이천이십삼')` → `NaN` (Not a Number), `isNaN(NaN)` → `true`
-- An empty box: `Number('')` → `0`. That is why we also check `text === ''`.
-
-**Turn box text into a number with `Number()`, and ask whether it worked with `isNaN()`.**
+Serialize the object before sending it as the body.
+The server supplies id and created_at.
 
 ---
 
-## Day 1 · 8–12 min — ex02 This year and the year of study
+## Day 1 · 9–16 min — Three parts of a POST request
 
-[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
+[Example 02](examples/day1/ex02/index.html) · [Code](examples/day1/ex02/app.js) · [Config](examples/day1/ex02/config.example.js)
 
 ```js
-const thisYear = new Date().getFullYear();  // 1. this year → 2026
-console.log('2. 올해 - 입학 연도 :', thisYear - year);  // 2. 2026 - 2023 → 3
-const years = thisYear - year + 1;          // 3. the entry year is year 1 → 4
+const response = await fetch(url, {
+  method: 'POST',
+  headers: {
+    apikey: API_PUBLIC_KEY,
+    'Content-Type': 'application/json',
+    Prefer: 'return=representation'
+  },
+  body: JSON.stringify(item)
+});
 ```
-
-- This is `getFullYear()` from Week 5 ex10. Don't type `2026` by hand.
-- Forget the parentheses (`getFullYear;`) and you get `NaN년차` with no error. Call with parentheses.
-
-**Get this year with `new Date().getFullYear()`.**
 
 ---
 
-## Day 1 · 12–18 min — ex03 textContent vs. innerHTML
+## Day 1 · 16–22 min — Payload and Response
 
-[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
+- method is the action; headers describe the request.
+- body contains the data to send.
+- Payload contains book_id, name and message.
+- Response adds id and created_at. Status 201 means created.
+
+Prefer asks this API to return the inserted row.
+The publishable key is not a personal editing credential.
+
+---
+
+## Day 1 · 22–27 min — Server input validation
+
+[Example 03](examples/day1/ex03/index.html) · [Code](examples/day1/ex03/app.js) · [Config](examples/day1/ex03/config.example.js)
+
+- An empty message is rejected by the server.
+- Replace it with text and compare the response.
+- Read status, ok and the error body together.
+- The server checks inputs independently of the page.
+
+POST examples create real rows. Click once per experiment.
+
+---
+
+## Day 1 · 27–30 min — Practice handoff
+
+- Start web-week13 from week 12.
+- Compare body, status and generated ids in examples 01–03.
+- Check empty text and whitespace.
+
+Explanation: 4 + 5 + 7 + 6 + 5 + 3 = 30 minutes.
+
+[Day 1 practice](lab.md#1일차-실습) · [Walkthrough](walkthrough.md)
+
+---
+
+## Day 2 · 0–5 min — From form input to a request
+
+- Keep submit → preventDefault → value.trim from week 7.
+- Put validated values into the POST body.
+- Use an alias; messages have a 500-character limit.
+- Do not request email addresses or passwords.
+
+Keep input values until the server confirms success.
+
+---
+
+## Day 2 · 5–12 min — Connect the form to POST
+
+[Example 04](examples/day2/ex04/index.html) · [Code](examples/day2/ex04/app.js) · [Config](examples/day2/ex04/config.example.js)
 
 ```js
-output.textContent = input.value;   // 1. <b>안녕</b> shows as plain text
-output.innerHTML = input.value;     // 2. bold 안녕 — the tag becomes a real element
-output.innerHTML = '';              // 3. emptying — the only use of innerHTML
+form.addEventListener('submit', async function (event) {
+  event.preventDefault();
+  const message = messageInput.value.trim();
+  // Validate, then await fetch(...).
+});
 ```
 
-- Same input, same spot, **one word** different.
-- Type `<button>가짜 버튼</button>` → No. 2 makes a real button. What if someone else wrote it?
-
-**Put typed text in with `textContent`. Use `innerHTML` only to empty.**
+An async event handler can use await.
+Compare the input text with Network’s Payload.
 
 ---
 
-## Day 1 · 18–21 min — What never goes into a public repository
+## Day 2 · 12–18 min — Pending, success and failure
 
-| Never put in | Use this example instead |
-|---|---|
-| Real name, student ID, phone number | `student01` |
-| Real email | `student01@example.com` |
-| Passwords, login keys | Write nothing |
+[Example 05](examples/day2/ex05/index.html) · [Code](examples/day2/ex05/app.js) · [Config](examples/day2/ex05/config.example.js)
 
-- The repository is **Public**. Anyone with the address can open the files.
-- Once uploaded, it stays in GitHub's earlier history even after you delete it from the file. Keep it out **from the start**.
-- Screenshots too. Your ID in the address bar is fine.
+- Before the request: disable the button and show pending.
+- After success: show confirmation and clear inputs.
+- After failure: preserve inputs and check the saved list.
+- In finally: enable the button again.
 
-**Use only example values in a public repository.**
+Use Network throttling to observe the pending state.
+This reduces duplicate clicks; it is not a server guarantee.
 
 ---
 
-## Day 1 · 21–25 min — ex04 alt: the words read when an image can't be seen
+## Day 2 · 18–23 min — Read after saving
 
-[examples/day1/ex04/index.html](examples/day1/ex04/index.html) · image [images/profile.png](examples/day1/ex04/images/profile.png)
+[Example 06](examples/day2/ex06/index.html) · [Code](examples/day2/ex06/app.js) · [Config](examples/day2/ex06/config.example.js)
 
-```html
-<img src="images/profile.png" alt="student01의 프로필 그림" width="160">
-<img src="images/profile.png" width="160">
-<img src="images/profile.png" alt="그림" width="160">
+```js
+const saved = await response.json();
+notice.textContent = `Saved · id ${saved[0].id}`;
+await loadMessages();
 ```
 
-- 1 a fitting alt / 2 no alt / 3 the one word '그림'. All three look the same.
-- Change `src` to `images/nothing.png` and what is left in each spot differs.
-
-**`alt` is the text read in place of an image. Say what the image is.**
+GET the server list after POST succeeds.
+A failed reload does not mean saving failed.
 
 ---
 
-## Day 1 · 25–28 min — ex05 label for: connect the label to the box
+## Day 2 · 23–27 min — Check two browsers
 
-[examples/day1/ex05/index.html](examples/day1/ex05/index.html)
+1. Save a message in browser A.
+2. Read the same API and BOOK_ID in browser B.
+3. Reload A and find the same message.
 
-```html
-<label for="year1">입학 연도</label> <input id="year1">    <!-- 1. same -->
-<label for="year2">입학 연도</label> <input id="years2">   <!-- 2. different -->
-입학 연도 <input id="year3">                               <!-- 3. no label -->
-```
-
-- Click each label. Only No. 1 moves the cursor into its box.
-- No. 1 and No. 3 look the same. You only know they are connected by **clicking**.
-
-**`for` and `id` must match letter for letter to connect the label to the box.**
+Other devices need the shared HTTPS API.
+127.0.0.1 refers to each device itself.
+If the save response was lost, GET the list before retrying.
 
 ---
 
-## Day 1 · 28–30 min — Your turn
+## Day 2 · 27–30 min — Assemble the writing page
 
-[Day 1 lab](lab.md#1일차--숫자와-글자-그리고-접근성-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security)
+- guestbook.js: GET and list display.
+- submit.js: POST and save feedback.
+- Verify POST 201, GET 200 and the new message.
 
-1. New folder `web-week13` with last week's files; five example folders in `ex/`.
-2. ex01–ex05 — open each folder's `index.html` and change values. Say what will change first.
-3. Create the new repository `web-week13`, push, and turn on Pages.
+Explanation: 5 + 7 + 6 + 5 + 4 + 3 = 30 minutes.
 
-**Total explanation: 3+5+4+6+3+4+3+2 = 30 min**
-
----
-
-# Day 2 — README, Checks, and Assembly
-
-`30 min explanation & demo → 60 min lab`
-
-1. ex06 — link and button text, and the Tab key
-2. ex07 — Markdown `#` and `-`
-3. ex08 — links and images, one `!` apart
-4. The release check order — links → Console → 375
-5. Week 14 presentation · Week 15 problem bank
-6. Assembly — `about.html`, `about.js`, `projects.js`, `screenshots/`, `README.md`
+[Day 2 practice](lab.md#2일차-실습) · [Walkthrough](walkthrough.md)
 
 ---
 
-## Day 2 · 0–5 min — ex06 Link and button text
+# Assembly files
 
-[examples/day2/ex06/index.html](examples/day2/ex06/index.html)
+[Guestbook](examples/day2/web-week13/guestbook.html) · [GET](examples/day2/web-week13/guestbook.js) · [Config](examples/day2/web-week13/config.example.js)
+[POST](examples/day2/web-week13/submit.js)
+[Home](examples/day2/web-week13/index.html) · [About](examples/day2/web-week13/about.html) · [Home JS](examples/day2/web-week13/app.js)
+[CSS](examples/day2/web-week13/styles.css) · [Profile](examples/day2/web-week13/images/profile.png)
 
-```text
-1. 페이지 열기 · 페이지 열기 · 페이지 열기          ← where does each go?
-2. img 설명 열기 · label 설명 열기 · a 설명 열기    ← the text alone tells you
-3. [▶]  [계산하기]                                  ← what does it do?
-```
+[Examples](examples/README.md) · [Practice](lab.md) · [Walkthrough](walkthrough.md)
 
-- Move with the **Tab** key and read only the text of the outlined item.
-- In Week 12 all three card links said `페이지 열기`. You fix that in today's assembly.
-
-**Write link and button text that tells what it is on its own.**
-
----
-
-## Day 2 · 5–10 min — ex07 Markdown # and -
-
-[examples/day2/ex07_line_marks.md](examples/day2/ex07_line_marks.md) — Week 9 review · preview (Ctrl+K V)
-
-```markdown
-# 큰 제목
-## 작은 제목 — README 의 절 제목
-- 목록 한 줄
-#띄어쓰기가 없으면 글자 그대로
-```
-
-- Two plain lines with only a line break **join into one line** in the preview. That is why we add `- `.
-
-**The mark at the start of a line, plus one space, decides what the line becomes.**
-
----
-
-## Day 2 · 10–16 min — ex08 Links and images
-
-[examples/day2/ex08_link_image.md](examples/day2/ex08_link_image.md) · image [images/profile.png](examples/day2/images/profile.png)
-
-```markdown
-[13주차 실습 페이지](https://github.com/…)        1. a link
-![student01의 프로필 그림](images/profile.png)   2. ! before a link → an image
-[student01의 프로필 그림](images/profile.png)    3. without ! → a link
-![student01의 프로필 그림](images/Profile.png)   4. different capitals
-```
-
-- The text in the brackets is the image's `alt` (ex04).
-- No. 4 shows in your PC's preview but breaks once it is on GitHub.
-
-**An image is a link with `!` in front. Write the path exactly like the file name.**
-
----
-
-## Day 2 · 16–21 min — The release check order
-
-```text
-1. Links     click all four nav links and three card links — no 404
-2. Console   zero red lines on every page, also after clicks (favicon 404 aside)
-3. 375 wide  device mode (Ctrl+Shift+M) — nothing pushed sideways
-```
-
-- Keep the order. If you read Console while a link is broken, the causes get mixed.
-- Then check image `alt` (ex04), labels (ex05), and personal information once each.
-- Your PC's server opens files even when capitals differ. After pushing, click the links **once more at the public address**.
-
-**Find problems in order before fixing: links → Console → 375.**
-
----
-
-## Day 2 · 21–25 min — Week 14 presentation and the Week 15 problem bank
-
-- Week 14 is a **3-minute demo**, at the public address of `web-week14`, started from today's files.
-- Order: public address → move between pages → dark mode → empty-form notice → add and delete guestbook entries → reload → JSON cards → Commits tab and README
-- The report is today's final `README.md`. There is no separate document.
-- The Week 15 final practical comes from the [problem bank](../week15_final_exam/examples/README.md) built from Weeks 1–14 labs, with the values changed.
-- This week's submission is in it as the [w13_text_safe](../week15_final_exam/examples/w13_text_safe/README.md) problem.
-
-**A presentation shows the screen by clicking, not by talking.**
-
----
-
-## Day 2 · 25–30 min — Assembly: web-week13, then the lab
-
-```text
-about.html   script line · form · label for · result card  ← ex05 · ex06
-about.js     Number · isNaN · getFullYear · + 1             ← ex01 · ex02
-             submit · preventDefault · trim                 ← Week 12 guestbook.js
-projects.js  `${projects[i].title} 열기`                    ← ex06 No. 2
-README.md    # · ## · - · link · image lines                ← ex07 · ex08
-```
-
-[Day 2 lab](lab.md#2일차--readme-와-점검-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week13_release_security)
-
-1. ex06–ex08 values (to min 17) → assemble (README last) → links, Console, 375.
-2. Push → repo README → links again at the public URL → guestbook capture at 375.
-
-**Total explanation: 5+5+6+5+4+5 = 30 min**
-
----
-
-## What to Submit
-
-Submit **one** screenshot at the end of Day 2.
-
-```text
-https://student01.github.io/web-week13/guestbook.html   (device mode 375px)
-List ─ student02: <b>안녕</b> (date) [삭제]   ← plain text, not bold
-F12 › Console ─ no red lines (a favicon.ico 404 doesn't count)
-Include the address bar in the screenshot
-```
-
-Keep your real name, student ID, and real email out of the screenshot. Your ID is fine.
-
----
-
-## Next Week Preview
-
-This week your four pages became ready to release.
-
-In Week 14 you start a new repository, `web-week14`, from today's files and give a **3-minute demo** at its public address.
-The report is today's final `README.md`; there are no new features to build.
-The Week 15 final takes one problem per area from the problem bank built from Weeks 1–14 labs, with only the values changed.
+Keep filenames and script order. Use instructor-provided settings.

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>01 · 상태 읽기</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="lesson">
+    <p class="eyebrow">HOME IOT / FETCH PRACTICE</p>
+    <h1>01 · 상태 읽기</h1>
+    <p>GET으로 서버의 장치 상태를 읽습니다.</p>
+    <nav><a href="/" target="_blank">시뮬레이터</a><a href="/examples/student/">직접 만들기</a><a href="/examples/reference/">실행 참고본</a></nav>
+    <section class="card" aria-label="HTTP 요청 실습">
+      <button id="read">상태 조회</button>
+      <p id="notice" role="status" aria-live="polite">요청 대기</p>
+      <pre id="result" aria-label="JSON 응답">버튼을 눌러 요청하세요.</pre>
+    </section>
+    <footer>같은 PC에서 실행한 Node 서버의 가상 장치입니다. F12의 Network 탭에서 요청을 확인하세요.</footer>
+  </main>
+</body>
+</html>

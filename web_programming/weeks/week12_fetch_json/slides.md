@@ -3,249 +3,200 @@ marp: true
 theme: default
 paginate: true
 header: "웹프로그래밍 · 12주차"
-footer: "fetch로 JSON 불러오기 · 비교 예제로 원리를 보고 마지막에 조립"
+footer: "REST API · GET"
 ---
 
-# fetch로 JSON 불러오기
+# REST API로 방명록 읽기
 
-11주차에는 방명록 글을 **브라우저 저장소**에 넣었습니다. 이번 주에는 화면에 쓸 내용을 **파일**에 적어 두고 `fetch` 로 읽어 와 카드로 그립니다.
+11주: localStorage → 12주: 서버에 GET 요청
 
-이번 주 방식도 같습니다: **비교 예제 6개**를 하나씩 보고, 마지막에 새 저장소 `web-week12` 에 `data/projects.json`·`projects.html`·`projects.js` 를 **조립**합니다(지난주 완성본에서 시작).
-
-- JSON 은 **글자**입니다. 큰따옴표 규칙을 지킨 글자만 배열이 됩니다.
-- `fetch` 는 파일을 **요청**합니다. 두 번 눌러 연 `file://` 화면에서는 막히고 서버 주소에서 됩니다.
-- 결과는 화면, **Console**, 그리고 새로 쓰는 **Network** 탭에서 봅니다.
-
----
-
-# 1일차 — JSON 파일과 fetch
-
-`30분 설명·시연 → 60분 실습`
-
-1. 예제 폴더와 서버 — 이번 주 예제는 `http://localhost:8000/ex/ex01/` 처럼 연다
-2. ex01 — JSON 글자 규칙: 큰따옴표와 마지막 쉼표
-3. ex02 — fetch 틀: `await fetch` → `await response.json()`, Network 탭
-4. ex03 — `file://` 과 `http://`: 두 번 눌러 열면 막힌다
+- 강의자가 공용 API를 준비한다.
+- 학생은 요청을 보내고 응답을 화면에 표시한다.
+- 결과: 서버 목록과 Network의 GET 200.
+- 매 수업: 설명 30분 + 실습 60분.
 
 ---
 
-## 1일차 · 0–4분 — 예제 폴더와 서버로 열기
+## 1일차 · 0–4분 — 페이지와 API 서버
 
-예제마다 폴더 하나입니다(11주차와 같습니다). 서버: [server.mjs](../../tools/static-server/server.mjs)
+- 정적 서버: HTML·CSS·JS 파일을 보낸다.
+- API 서버: 방명록 데이터를 JSON으로 보낸다.
+- 127.0.0.1:8787은 내 PC 연습 주소다.
+- Pages에서는 강의자가 제공한 HTTPS API를 쓴다.
+
+[정적 서버](../../tools/static-server/server.mjs) · [API 안내](../../tools/guestbook-api/README.md)
+
+---
+
+## 1일차 · 4–9분 — JSON 글자와 배열
+
+[ex01](examples/day1/ex01/index.html) · [코드](examples/day1/ex01/app.js)
+
+JSON은 전송하는 글자다. parse 후 배열로 읽는다.
+
+```js
+const text = '[{"name":"student01","message":"안녕하세요"}]';
+const items = JSON.parse(text);
+console.log(items[0].message);
+```
+
+---
+
+## 1일차 · 9–16분 — GET과 두 번의 await
+
+[ex02](examples/day1/ex02/index.html) · [코드](examples/day1/ex02/app.js) · [설정](examples/day1/ex02/config.example.js)
+
+```js
+const response = await fetch(url, {
+  headers: { apikey: API_PUBLIC_KEY }
+});
+const items = await response.json();
+```
+
+- fetch는 응답을 기다린다. 기본 메서드는 GET이다.
+- json()은 응답 본문을 읽고 배열·객체로 바꾼다.
+- await를 쓰는 함수 앞에는 async를 붙인다.
+
+---
+
+## 1일차 · 16–22분 — Network에서 요청 읽기
+
+1. Network를 열고 새로고침한다.
+2. Fetch/XHR에서 guestbook 요청을 선택한다.
+3. Headers에서 URL·GET·상태 200을 확인한다.
+4. Response에서 글 배열을 읽는다.
+
+apikey는 공개 키다. 서버 비밀 키를 넣지 않는다.
+이번 GET에는 JSON 요청 본문이 없다.
+
+---
+
+## 1일차 · 22–27분 — 주소의 쿼리 문자열
+
+[ex03](examples/day1/ex03/index.html) · [코드](examples/day1/ex03/app.js) · [설정](examples/day1/ex03/config.example.js)
 
 ```text
-ex02/
-  index.html      화면 — 글자 자리 하나
-  app.js          동작 — 이번 주 원리는 여기
-  projects.json   fetch 가 읽어 오는 파일
+/rest/v1/guestbook?book_id=eq.student01
+&select=id,name,message,created_at&order=id.desc&limit=2
 ```
 
-- `node server.mjs` 로 띄운 `http://localhost:8000/ex/ex02/` 처럼 **폴더 주소**로 엽니다. `fetch` 가 파일을 요청하기 때문입니다(ex03).
-- `<head>` 의 `<script src="app.js" defer>` 가 같은 폴더의 `app.js` 를 불러옵니다. 경로 줄(`ex › ex02`)로 구분합니다.
-- 확인과 캡처는 **공개 주소**에서 합니다. 서버는 push 전에 미리 보는 도구입니다.
-
-**fetch 가 있는 페이지는 서버 주소나 공개 주소로 연다.**
+실제 주소는 줄바꿈 없이 한 줄이다.
+- book_id: 읽을 방명록, select: 응답 항목.
+- order: 최신 번호부터, limit: 최대 개수.
+- 제공 URL에서 limit 하나를 바꿔 비교한다.
 
 ---
 
-## 1일차 · 4–11분 — ex01 JSON 글자 규칙
+## 1일차 · 27–30분 — 실습 연결
 
-[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) — `app.js` 7~8행(1번) · 13~14행(2번) · 18~19행(3번)
+- web-week12에 지난주 완성본을 이어 쓴다.
+- ex01~ex03에서 값을 하나씩 바꾼다.
+- 요청·응답·화면의 변화를 비교한다.
 
-```js
-const text1 = `[{"title": "자기소개 페이지"}, {"title": "방명록"}]`;
-const projects1 = JSON.parse(text1);
-// const text2 = `[{'title': '자기소개 페이지'}, {'title': '방명록'}]`;
-// const projects2 = JSON.parse(text2);
-// const text3 = `[{"title": "자기소개 페이지"}, {"title": "방명록"},]`;
-// const projects3 = JSON.parse(text3);
-```
+**설명 합계: 4 + 5 + 7 + 6 + 5 + 3 = 30분**
 
-- JSON 은 **글자**입니다. 1번은 이름과 값이 **큰따옴표**, 2번은 작은따옴표, 3번은 끝 `}` 뒤에 쉼표.
-- 2·3번 주석을 풀면 `JSON.parse` 가 읽지 못하고 빨간 줄이 뜹니다. 위의 1번 화면은 남습니다.
-
-**규칙을 지킨 글자만 배열이 된다.**
+[1일차 실습](lab.md#1일차-실습) · [따라하기](walkthrough.md)
+실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json
 
 ---
 
-## 1일차 · 11–19분 — ex02 fetch 틀과 Network 탭
+## 2일차 · 0–5분 — 기존 목록 코드 재사용
 
-[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) · [projects.json](examples/day1/ex02/projects.json)
+- 10주: 배열을 읽어 li를 만들었다.
+- 11주: localStorage에서 배열을 읽었다.
+- 12주: 서버 응답에서 배열을 읽는다.
+
+목록을 그리는 DOM 코드는 이어 쓴다.
+11주 localStorage와 서버의 글은 자동으로 합쳐지지 않는다.
+
+---
+
+## 2일차 · 5–12분 — 서버 배열을 목록으로
+
+[ex04](examples/day2/ex04/index.html) · [코드](examples/day2/ex04/app.js) · [설정](examples/day2/ex04/config.example.js)
 
 ```js
-async function loadProjects() {   // await 는 async 함수 안에서만 쓴다
-    const response = await fetch('projects.json');       // 1. 요청하고 기다린다
-    const projects = await response.json();              // 2. 글자 → 배열
-    result.textContent = `2. ${projects.length}개를 불러왔다 …`;
+for (let i = 0; i < items.length; i++) {
+  const li = document.createElement('li');
+  li.textContent = `${items[i].name}: ${items[i].message}`;
+  list.append(li);
 }
-loadProjects();                   // 이 줄이 없으면 아무 일도 없다
 ```
 
-- **F12 › Network**: `projects.json` 한 줄, Status **200**, Type `fetch`.
-- `await` 를 빼면 아직 오지 않은 값(`Promise`)이 담깁니다.
-
-**fetch 는 파일을 요청하고, json() 은 받은 글자를 배열로 바꾼다.**
+서버의 메시지도 textContent로 넣는다.
+빈 배열이면 반복하지 않아 빈 목록이 된다.
 
 ---
 
-## 1일차 · 19–26분 — ex03 file:// 과 http://
+## 2일차 · 12–18분 — HTTP 실패도 응답이다
 
-[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) · [projects.json](examples/day1/ex03/projects.json)
-
-```text
-http://localhost:8000/ex/ex03/   → 화면 3. 2개를 불러왔다
-file:///…/ex/ex03/index.html     → 화면 1. 불러오는 중 … (멈춤)
-  Access to fetch at 'file:///…' … has been blocked by CORS policy …
-  Uncaught (in promise) TypeError: Failed to fetch
-```
-
-- 코드는 같고 **주소**가 다릅니다. `file://` 로 연 페이지에서는 브라우저가 요청을 막습니다.
-- 오류 난 줄(2번) 아래는 실행되지 않아 화면이 1번에 멈춥니다.
-- "코드가 똑같은데 안 돼요" → **주소창부터** 봅니다.
-
-**fetch 는 서버 주소(http·https)에서만 된다.**
-
----
-
-## 1일차 · 26–30분 — 이제 직접 해 보기
-
-[1일차 실습](lab.md#1일차--json-파일과-fetch-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
-
-1. 새 폴더 `web-week12` 에 지난주 완성본과 `server.mjs`, `ex/` 에 예제 폴더 세 개.
-2. `node server.mjs` → ex01~ex03 폴더 주소로 열고 `app.js` 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
-3. 새 저장소 `web-week12` 만들어 올리기 · Pages 켜기 → 공개 주소 `…/ex/ex02/` 에서도 열어 보기.
-
-**설명 합계: 4+7+8+7+4 = 30분**
-
----
-
-# 2일차 — 카드와 오류 안내, 그리고 조립
-
-`30분 설명·시연 → 60분 실습`
-
-1. ex04 — 카드 만들기: `article` 에 `img`·`h3`·`p`·`a`
-2. ex05 — `try / catch`: 오류를 받아 화면에 알린다
-3. ex06 — `response.ok`: 404 는 오류가 아니다
-4. 14주차 최종 과제 안내
-5. 조립 — `web-week12` 의 `data/projects.json`·`projects.html`·`projects.js`
-
----
-
-## 2일차 · 0–7분 — ex04 카드 만들기
-
-[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js) · [picture.png](examples/day2/ex04/picture.png)
+[ex05](examples/day2/ex05/index.html) · [코드](examples/day2/ex05/app.js) · [설정](examples/day2/ex05/config.example.js)
 
 ```js
-const article = document.createElement('article');  // 카드 한 장
-article.classList.add('card');                       // .card 규칙(6주차)
-const image = document.createElement('img');         // 1. src · alt · width
-const title = document.createElement('h3');          // 2. 제목
-const description = document.createElement('p');     // 3. 설명 — 실제 문장이라 p
-const link = document.createElement('a');            // 4. href
-article.append(image, title, description, link);     // 넣은 순서대로
+if (!response.ok) {
+  throw new Error(`HTTP ${response.status}`);
+}
 ```
 
-- 10주차 `showList` 와 같은 순서입니다: 비우기 → `for` → 만들어 붙이기.
-- `alt` 는 그림을 못 찾을 때 대신 보이는 글입니다. 13주차에 다시 봅니다.
-
-**배열의 항목 하나가 카드 한 장이 된다.**
+없는 끝점에도 응답을 받을 수 있다.
+ok를 먼저 확인하고 성공한 JSON 목록만 그린다.
+실패 번호·오류 본문은 API별로 다를 수 있다.
 
 ---
 
-## 2일차 · 7–13분 — ex05 try / catch: 오류를 받아 화면에 알리기
+## 2일차 · 18–23분 — 연결 실패 표시
 
-[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js) · [projects.json](examples/day2/ex05/projects.json)
+[ex06](examples/day2/ex06/index.html) · [코드](examples/day2/ex06/app.js) · [설정](examples/day2/ex06/config.example.js)
 
 ```js
-try {   // 이 안에서 오류가 나면 아래 줄은 건너뛰고 catch 로 간다
-    const response = await fetch('projects.json');
-    const projects = await response.json();
-    notice.textContent = `1. try: ${projects.length}개를 불러왔다`;
+try {
+  // 요청, 응답 검사, JSON 읽기
 } catch (error) {
-    notice.textContent = '2. catch: 프로젝트를 불러오지 못했습니다.';
+  loadNotice.textContent = '목록을 불러오지 못했습니다.';
 }
 ```
 
-- 서버로 열면 1번, `file://` 로 열면 2번. 1일차 ex03 의 `Uncaught` 빨간 줄이 사라집니다.
-
-**오류를 catch 로 받아 화면에 알린다.**
+Network를 Offline으로 바꿔 보고 복구한다.
+이전 목록과 실패 안내를 구별한다.
 
 ---
 
-## 2일차 · 13–19분 — ex06 response.ok: 404 는 오류가 아니다
-
-[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js) · [projects.json](examples/day2/ex06/projects.json)
+## 2일차 · 23–27분 — 기다리는 동안 버튼
 
 ```js
-const response = await fetch(fileName);
-if (!response.ok) {                 // 404 면 ok 는 false
-    notice.textContent = '프로젝트를 불러오지 못했습니다.';
-    return;                         // 아래 json() 으로 가지 않는다
+reloadButton.disabled = true;
+try {
+  // 목록 요청
+} catch (error) {
+  // 실패 안내
+} finally {
+  reloadButton.disabled = false;
 }
-const projects = await response.json();
 ```
 
-- 없는 파일에도 서버는 **답합니다**(404 와 HTML 페이지). `fetch` 는 멈추지 않습니다.
-- 묻지 않고 읽으면 `json()` 이 HTML 을 읽다가 `Unexpected token '<'` 를 냅니다.
-
-**읽기 전에 response.ok 로 정상인지 묻는다.**
+finally는 성공·실패 어느 쪽에서도 마무리한다.
 
 ---
 
-## 2일차 · 19–24분 — 14주차 최종 과제 안내
+## 2일차 · 27–30분 — 방명록 읽기 조립
 
-14주차는 **최종 발표**입니다. 새로 만들 것은 없고, 지금까지 만든 사이트를 시연합니다. 필수 기능은 셋입니다.
+- 설정 → GET → JSON 배열 → showList 순서다.
+- 새로 불러오기 버튼이 GET을 다시 보낸다.
+- 서버 목록과 GET 200을 캡처 한 장으로 확인한다.
 
-1. 세 페이지 + CSS + 클릭 기능 + 폼 입력·빈값 안내
-2. 방명록 목록 추가·삭제와 개수(10주차) · 새로고침해도 남는 방명록(11주차)
-3. `data/projects.json` 을 읽어 그리는 카드(12주차)
+**설명 합계: 5 + 7 + 6 + 5 + 4 + 3 = 30분**
 
-- 레포트는 저장소 `README.md` 최종판입니다. 양식은 13주차에 함께 씁니다.
-- 서버 데이터베이스와 로그인은 선택 특강에서 다룹니다.
-
-**매주 완성본이 쌓여 최종 과제가 된다.**
+[2일차 실습](lab.md#2일차-실습) · [따라하기](walkthrough.md)
+실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json
 
 ---
 
-## 2일차 · 24–30분 — 조립: web-week12, 그리고 실습 인계
+# 만들기 파일
 
-```text
-data/projects.json  객체 3개 · 큰따옴표        ← ex01 · ex02 · ex04
-projects.html       #notice · #project-list     ← 지난주 guestbook.html · ex04 · ex05
-projects.js         showProjects(projects)      ← ex04
-                    loadProjects: try · fetch   ← ex02 · ex05
-                    if (!response.ok) … return  ← ex06
-                    catch → 안내 · loadProjects(); ← ex05 · ex02
-nav 네 페이지       <a href="projects.html">    ← 지난주 nav
-```
+[방명록](examples/day2/web-week12/guestbook.html) · [GET 코드](examples/day2/web-week12/guestbook.js) · [설정](examples/day2/web-week12/config.example.js)
+[홈](examples/day2/web-week12/index.html) · [내 정보](examples/day2/web-week12/about.html) · [홈 JS](examples/day2/web-week12/app.js)
+[CSS](examples/day2/web-week12/styles.css) · [프로필](examples/day2/web-week12/images/profile.png)
 
-[2일차 실습](lab.md#2일차--카드와-오류-안내-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
+[예제 설명](examples/README.md) · [실습](lab.md) · [따라하기](walkthrough.md)
 
-1. ex04~ex06 예제 폴더 세 개를 `ex/` 에 저장, 값 바꾸기(28분까지).
-2. 조립 → 서버·375·1280 확인 → push → 공개 주소에서 카드와 Network 캡처.
-
-**설명 합계: 7+6+6+5+6 = 30분**
-
----
-
-## 제출하기
-
-2일차가 끝나면 캡처 **한 장**을 제출합니다.
-
-```text
-https://student01.github.io/web-week12/projects.html
-카드 3장 ─ 그림 · 제목 · 설명 · 페이지 열기
-F12 › Network ─ projects.json   200
-주소창이 함께 보이게 찍습니다
-```
-
-확인과 캡처는 공개 주소에서 합니다. 캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
-
----
-
-## 다음 주 미리 보기
-
-오늘은 HTML 밖의 파일에서 내용을 읽어 카드로 그렸습니다.
-
-13주차에는 새 저장소 `web-week13` 을 오늘 완성본에서 시작하고, 지금까지 만든 네 페이지를 점검합니다.
-입력한 글을 `textContent` 로 넣는지(보안), 그림의 `alt` 와 입력 칸의 `label for` 가 있는지(접근성) 보고, `README.md` 를 최종판으로 씁니다.
+파일 이름과 script 순서를 유지한다. 설정값은 강의자 안내값을 쓴다.

@@ -3,249 +3,174 @@ marp: true
 theme: default
 paginate: true
 header: "웹프로그래밍 · 14주차"
-footer: "최종 프로젝트 발표 · 비교 예제로 확인하고 3분 시연"
+footer: "REST API · PATCH · DELETE"
 ---
 
-# 최종 프로젝트 발표
+# REST API로 방명록 수정·삭제
 
-3~13주에 쌓은 사이트를 새 저장소 `web-week14` 에 담아, 2일차에 공개 주소 하나로 **3분** 동안 보여 줍니다.
+13주 POST로 저장한 글을 ID로 고친다.
 
-이번 주 방식도 같습니다: **비교 예제 3개**를 보고, 지난주 완성본에 홈 목록·공개 주소 행·README 를 **조립**합니다.
+1일차: ID · DELETE · 204 · 재조회
+2일차: PATCH · 폼 · 변경 확인
 
-```text
-발표 3분   공개 주소 → 네 페이지 → 버튼 → 폼 안내 → 목록 → 새로고침 → 카드 → Commits
-레포트     저장소 README.md 최종판
-```
-
-- 새 문법은 없습니다. 2일차 90분은 모두 발표입니다.
-- 배점은 **20점**입니다. 발표 12 + 레포트 8.
+레포트와 발표는 별도 과제다.
 
 ---
 
-# 1일차 — 발표 준비와 마지막 조립
-
-`30분 설명·시연 → 60분 실습`
-
-1. 발표 순서와 3분 규칙 · 채점표 20점
-2. ex01 — 시연 순서를 홈에 번호 목록으로
-3. ex02 — 공개 주소가 안 열리면: 로컬 시연은 서버로
-4. ex03 — 저장한 글은 주소·창마다 따로
-5. 좋은 시작·피할 시작 · 조립
-
----
-
-## 1일차 · 0–4분 — 발표 순서와 3분 규칙
-
-```text
-0:00  공개 주소를 열고 한 줄 소개      1:15  글을 남기고 한 줄 삭제
-0:20  nav 로 네 페이지                 1:45  새로고침 — 목록이 남아 있다
-0:40  [다크 모드] 클릭                 2:05  프로젝트 카드
-0:55  빈 칸으로 [남기기] → 안내        2:35  Commits 탭과 README
-```
-
-- 여덟 가지입니다. 하나에 20~30초씩입니다. 9주차보다 1분 늘었습니다(목록·저장·카드).
-- 코드는 띄우지 않습니다. **공개 주소에서 동작하는 화면**만 보여 줍니다.
-- 탭을 미리 열어 둡니다. 주소를 치는 시간도 3분에 들어갑니다.
-
-**순서를 정해 두고 그대로 하는 것이 3분을 지키는 방법이다.**
-
----
-
-## 1일차 · 4–10분 — 채점표 20점 (발표 12 · 레포트 8)
-
-| 발표 12 | 점수 | 레포트 8 | 점수 |
-|---|---:|---|---:|
-| URL·페이지 이동 | 2 | URL·한 줄 소개 | 1 |
-| 클릭 이벤트·폼 안내 | 3 | 기능 목록 5개 | 2 |
-| 목록 추가·삭제·새로고침 유지 | 3 | 캡처 3장 | 2 |
-| JSON 카드 | 2 | 사용 기술·만든 과정 | 1 |
-| 시간·설명(구술 포함) | 2 | 어려움과 해결 3줄 | 2 |
-
-레포트는 저장소 `README.md` 한 장입니다. 13주차 최종판에서 세 곳만 고칩니다([채점표](rubric.md)).
-**새로고침은 실제로 누른다. 말로만 하면 그 1점이 없다.**
-
----
-
-## 1일차 · 10–15분 — ex01 시연 순서를 홈에 번호 목록으로
-
-[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) · [3분 시연 흐름 표](demo_outline.md)
-
-```html
-<ol>                                          <!-- 1. 번호 목록 -->
-    <li>위 메뉴로 네 페이지를 오갑니다.</li>    <!-- 번호는 쓰지 않는다 -->
-</ol>
-<ul> … 같은 다섯 줄 … </ul>                    <!-- 2. 점 목록 -->
-```
-
-- 번호는 파일에 쓰지 않습니다. 브라우저가 줄 차례대로 붙입니다.
-- 시연 흐름 표 둘째~일곱째 줄을 홈의 다섯 줄로 넣습니다.
-- 바꿔 보기: `</ol>` 을 지우면? 뒤의 제목과 목록이 1번 상자 안으로 들어갑니다.
-
-**차례가 뜻을 가지면 `<ol>`, 아니면 `<ul>` 이다.**
-
----
-
-## 1일차 · 15–20분 — ex02 공개 주소가 안 열리면: 로컬 시연은 서버로
-
-[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) · [message.json](examples/day1/ex02/message.json)
-
-```text
-① 발표 전날 조교가 제출한 공개 주소를 모두 열어 본다
-② 내 화면에서만 열리면 → 새 시크릿 창에서 연다
-③ 그래도 안 열리면 → 로컬 시연: node server.mjs → http://localhost:8000/ (같은 배점)
-```
+# 1일차 · 0–5분 — 배열 위치와 서버 ID
 
 ```js
-const response = await fetch('message.json');   // 1. 서버로 열면 읽는다
-// 2. 두 번 눌러 연 file:// 에서는 읽지 못해 catch 로 간다
+const items = [{ id: 41 }, { id: 73 }];
+console.log(items[0].id); // 41
 ```
 
-- 두 번 눌러 열면 Console 에 `… blocked by CORS policy` 빨간 줄. 내 사이트라면 카드가 안 나옵니다.
-
-**`fetch` 는 서버나 공개 주소로 연 페이지에서만 파일을 읽는다.**
+배열 위치는 0부터 세지만 서버 ID는 글의 번호다.
+목록을 정렬해도 ID는 바뀌지 않는다.
+[ex01 화면](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) · [설정](examples/day1/ex01/config.example.js)
 
 ---
 
-## 1일차 · 20–24분 — ex03 저장한 글은 주소·창마다 따로
+# 1일차 · 5–10분 — DELETE 요청
 
-[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
+```text
+DELETE /rest/v1/guestbook?id=eq.41&book_id=eq.student01
+```
+
+- 삭제할 ID와 자기 방명록 번호를 지정한다.
+- 목록의 배열 위치를 보내지 않는다.
+- 자신의 연습 글로 실행한다.
+[ex02 화면](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) · [설정](examples/day1/ex02/config.example.js)
+
+---
+
+# 1일차 · 10–15분 — 편집 키를 헤더에 넣기
 
 ```js
-let countVar = 0;                                                      // 1. 변수
-let countSaved = JSON.parse(localStorage.getItem('ex03-count')) || 0;  // 2. 저장 칸
+headers: {
+  apikey: API_PUBLIC_KEY,
+  "X-Edit-Key": editKey
+}
 ```
 
-- 세 번 누르고 새로고침하면 1번은 0, 2번은 3. 남는 것은 저장 칸(11주)의 값입니다.
-- 서버 주소나 새 시크릿 창에서는 2번이 0 부터입니다. 거꾸로 같은 아이디의 `github.io` 주소(`web-week13`·`web-week14`)는 한 칸을 함께 씁니다.
-- 그래서 방명록 글은 2일차 발표 직전에 **발표할 그 창**에서 두세 줄 남깁니다.
-
-**새로고침해도 남는 글은 그 주소·그 창의 저장 칸에 있다.**
+공개 키는 API 호출용, 편집 키는 자기 방명록의 변경 허용용이다.
+편집 키는 실행 중 입력한다. 코드·URL·캡처에 적지 않는다.
+`BOOK_ID`만 안다고 수정 권한이 생기지 않는다.
 
 ---
 
-## 1일차 · 24–27분 — 좋은 시작·피할 시작
+# 1일차 · 15–20분 — 204는 본문 없음
 
-좋은 시작:
+```js
+if (!response.ok) {
+  throw new Error(`HTTP ${response.status}`);
+}
+// DELETE 204 뒤 response.json()을 쓰지 않는다.
+```
 
-> `student01`의 웹 연습장입니다. 네 페이지가 있고, 방명록에 남긴 글이 새로고침해도 남습니다.
-
-피할 시작:
-
-> 어… 목록이 원래 되는데요. 다시 해 볼게요. JSON이 안 불러와져서…
-
-- 첫 20초에 **무엇을 만들었는지** 한 문장으로 말합니다.
-- 안 되는 것부터 말하지 않습니다. 되는 것을 먼저 보여 줍니다.
-- 한 번 소리 내어 읽어 보면 20초가 얼마나 짧은지 알게 됩니다.
-
-**첫 문장은 무엇을 만들었는지다.**
+Network에서 Method, Status, Response를 본다.
+204는 응답 본문이 없다는 뜻이다.
 
 ---
 
-## 1일차 · 27–30분 — 조립: web-week14, 그리고 직접 해 보기
+# 1일차 · 20–25분 — GET으로 삭제 확인
+
+같은 ID를 GET으로 다시 읽는다.
+
+- 배열이 비었으면 그 ID의 글이 없다.
+- 글이 남아 있으면 편집 키와 ID를 확인한다.
+- 잘못된 키에도 204가 올 수 있으므로 번호만으로 판단하지 않는다.
+
+[재조회 예제](examples/day2/ex04/index.html) · [app.js](examples/day2/ex04/app.js) · [설정](examples/day2/ex04/config.example.js)
+
+---
+
+# 1일차 · 25–30분 — 실습 연결
+
+자기 방명록에 세 글을 남기고 가운데 ID만 삭제한다.
+
+1. DELETE 요청 전 ID 확인
+2. Network의 204 확인
+3. GET으로 실제 삭제 확인
+
+**설명 합계: 5 + 5 + 5 + 5 + 5 + 5 = 30분**
+[1일차 실습](lab.md#1일차-실습) · [따라하기](walkthrough.md)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation)
+
+---
+
+# 2일차 · 0–5분 — PATCH는 기존 글 수정
 
 ```text
-index.html   <h2> + <ol class="card"> 다섯 줄       ← ex01 1번 · 13주차 .card
-about.html   <tr> 공개 주소 행(<td> 두 칸)          ← 13주차 표의 행
-README.md    공개 주소 · 홈 줄 · 만든 과정 14주차 줄 ← 13주차 README 의 같은 줄
+POST   /rest/v1/guestbook           새 글
+PATCH  /rest/v1/guestbook?id=eq.41&book_id=eq.student01
 ```
 
-[1일차 실습](lab.md#1일차--비교-예제-조립-3분-리허설-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation)
-
-1. `web-week14` 에 지난주 완성본, `ex/` 에 예제 폴더 세 개. 값 바꿔 보기.
-2. 조립 → **31분에** 새 저장소 `web-week14` 올리기·Pages 켜기(2일차가 발표라서 일찍).
-3. 공개 주소 확인·그림 다시 찍기 → 조교 확인·짝과 3분 리허설 → 끝 루틴.
-
-**설명 합계: 4+6+5+5+4+3+3 = 30분**
+PATCH는 ID로 고른 글의 일부 값을 바꾼다.
+[ex03 화면](examples/day2/ex03/index.html) · [app.js](examples/day2/ex03/app.js) · [설정](examples/day2/ex03/config.example.js)
 
 ---
 
-# 2일차 — 3분 발표
+# 2일차 · 5–10분 — 수정할 값을 JSON으로
 
-`90분 전체가 발표입니다`
-
-```text
-0–5분    안내
-5–68분   발표 3분 × 21명
-68–80분  총평과 15주차 예고
-80–90분  지연 여유
+```js
+method: "PATCH",
+body: JSON.stringify({ message: message })
 ```
 
-설명 30 + 실습 60으로 나누지 않습니다. 인원이 다르면 차례와 시각을 다시 공지합니다.
+헤더: `Content-Type: application/json`
+헤더: `Prefer: return=representation`
+공개 키와 편집 키도 헤더에 넣는다.
+`id`와 `book_id`는 본문으로 바꾸지 않는다.
 
 ---
 
-## 2일차 · 0–2분 — 오늘 순서와 탭 세 개
+# 2일차 · 10–15분 — 기존 글을 폼에 넣기
 
-```text
-탭 1  https://student01.github.io/web-week14/            ← 발표할 창
-탭 2  https://github.com/student01/web-week14            ← README 가 보이는 첫 화면
-탭 3  https://github.com/student01/web-week14/commits    ← Commits 탭
+```js
+editId.value = item.id;
+editMessage.value = item.message;
+editMessage.focus();
 ```
 
-- 자기 차례 **두 사람 앞**에서 탭 세 개를 열어 둡니다.
-- 방명록은 **글 두세 줄이 있는 상태**로 시작합니다. 시크릿 창은 닫으면 지워지니 그 창에서 다시 남깁니다(ex03).
-- 다크 모드는 꺼 두고 시작합니다. 0:40 에 눌러서 바뀌는 것을 보여 줍니다.
+수정 버튼은 클릭한 글의 객체를 사용한다.
+새 글 폼과 수정 폼은 구별한다.
+[actions.js](examples/day2/web-week14/actions.js)
 
 ---
 
-## 2일차 · 2–4분 — 채점표와 구술 한 문항
+# 2일차 · 15–20분 — 빈 배열도 확인
 
-- 발표 12점: URL·이동 2 / 클릭·폼 안내 3 / 목록·삭제·새로고침 3 / JSON 카드 2 / 시간·설명 2
-- 레포트 8점: 채점자는 저장소 첫 화면의 `README.md` 만 엽니다.
-- 구술은 **한 문항**입니다. 예: "이 버튼을 누르면 어느 함수가 실행됩니까?"
-
-버튼 → Elements 의 `id` → `.js` 에서 그 `id` 로 찾은 줄 → `addEventListener` 안의 함수 순서로 따라가면 답이 나옵니다.
-
-점수를 가장 많이 잃는 자리는 둘입니다. **새로고침을 건너뛰는 것**, **캡처가 동작 전 화면인 것**.
-
----
-
-## 2일차 · 4–5분 — 공개 주소가 안 열리면
-
-| 증상 | 할 일 |
-|---|---|
-| 시크릿 창에서 404 | 저장소 `web-week14` 맨 위에 `index.html` 이 있는지 본다 |
-| 옛 화면 | **Commits** 탭을 함께 보인다. 5분 넘으면 로컬 시연 |
-| 카드가 안 그려진다 | 두 번 눌러 연 것이다. 공개 주소나 `node server.mjs` 로 다시 연다(ex02) |
-| 목록이 비어 있다 | 주소가 다르거나 시크릿 창이면 저장 칸이 따로다. 그 자리에서 한 줄 남긴다(ex03) |
-
-혼자 고치려고 발표 시간을 쓰지 않습니다. 손을 들어 알립니다. 로컬 시연도 **같은 배점**입니다.
-
----
-
-## 2일차 · 5–30분 — 발표 시작 (1번부터)
-
-[2일차 실습](lab.md#2일차--3분-발표-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation)
-
-- 1번부터 3분씩 시작합니다. 1:45 와 2:35 에 신호를 한 번씩 줍니다.
-- 다음 차례 두 사람은 탭 세 개를 열어 둡니다.
-- 듣는 사람도 채점표를 보며 듣고, 끝나면 박수 한 번 칩니다.
-- 남의 발표 중에 자기 코드를 고치지 않습니다.
-
-30분부터는 실습지 2일차 시간표대로 발표를 이어 갑니다.
-
-**설명 합계: 2+2+1+25 = 30분** (25분은 발표 1~8번)
-
----
-
-## 제출하기
-
-```text
-① 발표 3분 (2일차 수업 시간)
-② 공개 주소   https://student01.github.io/web-week14/
-③ 저장소 주소 https://github.com/student01/web-week14
-④ 캡처 1장    저장소 첫 화면 — README 최종판과 캡처 3장이 보이게
+```js
+const changed = await response.json();
+if (changed.length !== 1) {
+  throw new Error("편집 키와 글 번호를 확인하세요.");
+}
 ```
 
-캡처에 실명·학번·실제 이메일이 보이지 않게 합니다. 아이디는 보여도 됩니다.
-과제 범위는 [2차 과제 안내](project_brief.md)에 있습니다.
+PATCH가 200이어도 `[]`이면 바뀐 글이 없다.
+다시 GET해 메시지가 실제로 바뀌었는지 확인한다.
+[edit.js](examples/day2/web-week14/edit.js) · [delete.js](examples/day2/web-week14/delete.js)
 
 ---
 
-## 다음 주 미리 보기
+# 2일차 · 20–25분 — 13주 방명록에 연결
 
-15주차는 **기말 개인 실기**입니다.
+- 기존 GET: `guestbook.js`
+- 기존 POST: `submit.js`
+- ID·키·수정 폼: `actions.js`
+- 수정·삭제: `edit.js`, `delete.js`
 
-범위는 1~14주 누적이고, **새 저장소** `web-week15` 에서 혼자 풉니다.
-1일차에 [문제 은행](../week15_final_exam/examples/README.md)으로 연습하고 저장소를 만들어 Pages 를 켭니다. 2일차 60분이 기말 실기이며, 은행 문제를 영역마다 하나씩 값만 바꿔 냅니다.
-구현 15 + 시연 5이고, 시연 5는 채점자가 제출한 공개 주소를 직접 여는 것과 구술 한 문항입니다.
+[방명록](examples/day2/web-week14/guestbook.html) · [GET](examples/day2/web-week14/guestbook.js) · [POST](examples/day2/web-week14/submit.js)
+[설정](examples/day2/web-week14/config.example.js) · [CSS](examples/day2/web-week14/styles.css)
+[홈](examples/day2/web-week14/index.html) · [내 정보](examples/day2/web-week14/about.html) · [홈 JS](examples/day2/web-week14/app.js) · [프로필](examples/day2/web-week14/images/profile.png)
+
+---
+
+# 2일차 · 25–30분 — 실습 연결
+
+수정한 글과 남은 글을 새로고침 후 확인한다.
+키 입력 칸을 비우고 결과와 Network를 캡처한다.
+
+**설명 합계: 5 + 5 + 5 + 5 + 5 + 5 = 30분**
+[2일차 실습](lab.md#2일차-실습) · [따라하기](walkthrough.md)
+[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation)

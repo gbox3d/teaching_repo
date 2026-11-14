@@ -7,7 +7,8 @@
   "scripts": {
     "build": "node scripts/render-site.mjs",
     "check": "node scripts/check-site.mjs",
-    "test": "npm run check && node --test scripts/deck-fit.test.mjs"
+    "test": "npm run check && node --test scripts/deck-fit.test.mjs && npm run test:labs",
+    "test:labs": "node --test web_programming/tools/guestbook-api/server.test.mjs web_programming/specials/home_iot_http/examples/simulator/server.test.mjs web_programming/specials/supabase_guestbook/examples/06_http_lab/request.test.mjs"
   },
   "engines": {
     "node": ">=24.0.0"

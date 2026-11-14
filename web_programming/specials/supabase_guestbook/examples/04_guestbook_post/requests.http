@@ -1,0 +1,17 @@
+# VS Code REST Client: 같은 폴더의 .env.example을 .env로 복사한 뒤 공개 키를 설정하세요.
+# 요청 위 Send Request를 누릅니다. .http 테스트에는 화면용 로컬 서버가 필요 없습니다.
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+@bookId = {{$dotenv BOOK_ID}}
+
+### 새 글 저장: 예상 201 + 저장한 글 배열. 응답 id를 기록합니다.
+POST {{baseUrl}}/rest/v1/guestbook
+apikey: {{apiKey}}
+Content-Type: application/json
+Prefer: return=representation
+
+{"book_id":"{{bookId}}","name":"연습생","message":"REST Client 저장 연습"}
+
+### 저장 후 조회: 방금 저장한 글을 확인합니다.
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&order=id.desc&limit=50
+apikey: {{apiKey}}

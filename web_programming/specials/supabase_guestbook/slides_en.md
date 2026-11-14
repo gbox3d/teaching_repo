@@ -2,230 +2,240 @@
 marp: true
 theme: default
 paginate: true
-header: "Web Programming Special Lecture"
-footer: "Building a Server-Backed Guestbook with Supabase · Optional · 110 min"
+header: "Web Programming Research Workshop"
+footer: "Build a shared guestbook API with Supabase"
 ---
 
-# Building a Server-Backed Guestbook with Supabase
+# Build a shared guestbook API with Supabase
 
-The Week 11 guestbook only lived in **your own browser**.
-Today you store that same guestbook on an **internet server**, so it shows up on other PCs too.
+A research workshop with one example folder per step.
 
-```text
-My PC's browser ── insert ──▶ Supabase table guestbook
-                ◀── select ──
-```
+01 Connect → 02 Read help → 03 Read entries → 04 Post
+05 Edit → 06 Compare → 07 Complete guestbook
 
----
-
-# Part 1 — Create a Project and a Table
-
-`25 min explanation & demo`
-
-1. Two places where entries can be stored
-2. Create a Supabase project
-3. Run the provided SQL once
-4. Copy only the publishable key
-5. Change two lines in `config.js`
+Send requests.http first, then study the browser implementation.
+Students use the prepared shared API without a Supabase account.
 
 ---
 
-## Part 1 · 0–5 min — Where Does an Entry Get Stored?
+# Page address and API address
 
-```text
-Week 11   browser storage, localStorage
-          └ exists only in this browser on my PC
-
-Today     a database on an internet server
-          └ anyone who knows the address sees the same entries, from any PC
-```
-
-- Open the Week 11 guestbook on a different PC, and the list is empty — the entries aren't on that PC.
-- Today, entries go into **one table on a server**. The page reads that table and draws it on screen.
-- Leave the Week 11 page as it is. You'll build a new page at `my-web/online/`.
-
----
-
-## Part 1 · 5–12 min — Create a Supabase Project
-
-1. https://supabase.com → **Start your project** → sign up with a GitHub account or email
-2. **New project** → Name it `my-web-guestbook`
-3. **Database Password**: note down the generated value, and **don't display it on screen**
-4. Choose a nearby region (e.g., Northeast Asia) → **Create new project**
-5. It takes 1–2 minutes to become ready
-
-- One project is one database. It gets an address like `https://<project>.supabase.co`.
-- You won't use this password even once in today's class. It's not a value you put in the browser.
-
----
-
-## Part 1 · 12–18 min — Create the Table and Policies with One SQL Run
-
-Left menu **SQL Editor** → paste all of `schema.sql` → **Run**
-
-```sql
-create table if not exists public.guestbook ( ... );
-alter table public.guestbook enable row level security;
-grant select, insert on table public.guestbook to anon;
-create policy "guestbook read" ... for select ... using (true);
-create policy "guestbook write" ... for insert ... with check (true);
-```
-
-- `enable row level security`: locks the table. Now **only what a policy allows** can happen.
-- You made just two policies: reading, and inserting new entries. Updating and deleting aren't allowed, since you made no policy for them.
-- Check the empty `guestbook` table in **Table Editor**.
-
----
-
-## Part 1 · 18–22 min — Copy Only the Publishable Key
-
-The **Connect** button at the top shows the Project URL and publishable key on one screen.
-If you don't see it: the key is under **Project Settings › API Keys**, the address under **Project Settings › Data API**.
-
-| Value | Where it goes |
+| Target | Address and purpose |
 |---|---|
-| Project URL `https://…supabase.co` | Browser · repository (fine to make public) |
-| **publishable key** `sb_publishable_…` | Browser · repository (fine to make public) |
-| secret key `sb_secret_…` | Never paste this anywhere |
-| Database Password | Never paste this anywhere |
+| Local page | http://localhost:8000/ · preview static files |
+| Shared API | Supabase HTTPS URL · metadata and guestbook data |
+| Pages site | Published HTTPS URL · share the interface |
+| Optional local API | http://127.0.0.1:8787 · local rehearsal |
 
-The publishable key can be public because **the table is locked by RLS, and the policies allow only reading and inserting**.
+A local HTTP page can call the shared HTTPS API.
+The Node static server is for local preview only.
 
 ---
 
-## Part 1 · 22–25 min — Two Lines in config.js
+# Before class · Instructor SQL setup
 
-```js
-const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_YOUR_KEY';
+Run [about-help.sql](../../tools/guestbook-api/about-help.sql) once in the existing shared project.
+For a new project, run it after [schema.sql](../../tools/guestbook-api/schema.sql).
+
+- Add read-only about and help views.
+- Keep the existing guestbook table.
+- Students do not need accounts or SQL access.
+
+Shared guestbook GET and POST have been checked.
+Installed and GET verified on 2026-11-14: about returns 1 row, help returns 6.
+
+---
+
+# Start with VS Code REST Client
+
+1. Copy the step folder's .env.example to .env.
+2. Set the public key and, for guestbook steps, BOOK_ID.
+3. Click Send Request in requests.http in the same folder.
+4. Inspect status and JSON, then open index.html and app.js.
+
+Keep .env beside the .http file. No Node server is needed for these requests.
+Browsers read config.example.js in the same folder instead.
+[REST Client usage](https://github.com/Huachao/vscode-restclient#usage) · [Setup](examples/README.md#rest-client로-요청부터-확인하기)
+
+---
+
+# 01_about · Check API connectivity
+
+[requests.http](examples/01_about/requests.http) → [Browser page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/01_about/index.html)
+
+```http
+GET /rest/v1/about
+apikey: <public key supplied by the instructor>
 ```
 
-- Copy `config.example.js` to `config.js`, and change **only these two values**.
-- You push this file to GitHub — your public page needs to read these values.
-- This is exactly why you must never put the secret key here. The moment you push it, everyone can see it.
-
-**Explanation total: 5+7+6+4+3 = 25 min**
+Click the connection button. Expect 200 and an array with one object.
+Read name, version, description and help_path.
+For a 404, ask whether the metadata SQL was applied.
 
 ---
 
-# Part 2 — Saving and Loading
+# 01 · Map the request to code
 
-`25 min explanation & demo`
+Read [01_about/app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/01_about/app.js).
 
-1. Two things the page exchanges with the server
-2. Loading, `select`
-3. Saving, `insert`
-4. Showing errors on screen
-5. Handing off the lab
+| In the request | In JavaScript |
+|---|---|
+| GET path | /rest/v1/about after API_BASE_URL |
+| apikey header | API_PUBLIC_KEY in headers |
+| HTTP status | response.status and response.ok |
+| JSON response | response.json() |
+
+This step does not create or edit entries.
+Check the browser request after REST Client succeeds.
 
 ---
 
-## Part 2 · 0–6 min — The Page's Two Jobs
+# 02_help · Read the API guide
+
+[requests.http](examples/02_help/requests.http) → [Browser page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/02_help/index.html)
+
+```http
+GET /rest/v1/help?order=step.asc
+apikey: <public key supplied by the instructor>
+```
+
+Read six rows with step, method, path and description.
+order=step.asc sorts the guide by step number.
+The course adds these GET-only about and help APIs.
+
+---
+
+# Run one independent folder
 
 ```text
-When the page opens     showList()  → select → draws the list on screen
-When you click [Post]   submit      → insert → calls showList() again
+examples/
+  README.md              example guide
+  01_about/
+    index.html · app.js
+    config.example.js · styles.css
+    requests.http · .env.example
+  02_help/ ... 07_guestbook_complete/
 ```
 
-```html
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js" defer></script>
-<script src="guestbook.js" defer></script>
-```
-
-- The first line is a file Supabase provides. It's what lets you use `supabase.createClient`.
-- The order matters. `config.js` must be read before `guestbook.js` uses those two values.
+Each step reads its own configuration and styles.
+Run or publish one folder independently. Exclude .env from deployment.
 
 ---
 
-## Part 2 · 6–13 min — Loading with select
+# 03_guestbook_get · Read by tag
 
-```js
-const result = await client
-  .from('guestbook')
-  .select('name, message, created_at')
-  .order('created_at', { ascending: false });
+[requests.http](examples/03_guestbook_get/requests.http) → [Read page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/03_guestbook_get/index.html)
+
+```http
+GET /rest/v1/guestbook?book_id=eq.student01
+apikey: <public key supplied by the instructor>
 ```
 
-- `from('guestbook')`: which table. `select(...)`: which columns. `order(...)`: in what order.
-- `await` means "wait until an answer comes back from the internet." Treat it as a template for today.
-- `async` before a function means "I'll use `await` inside here." The two words always come in pairs (covered properly in Week 12).
-- The answer comes back in two parts: `result.data` (an array of entries) and `result.error` (the reason it failed).
+book_id groups entries; eq. means equals.
+Read the array. An empty guestbook correctly returns [].
+A tag is a filter, not a permission boundary.
 
 ---
 
-## Part 2 · 6–13 min — Drawing the Returned Array
+# 03 · Response and query options
 
-```js
-const items = result.data;
-list.innerHTML = '';
-for (let i = 0; i < items.length; i++) {
-  const li = document.createElement('li');
-  li.textContent = `${items[i].name}: ${items[i].message}`;
-  list.append(li);
-}
-```
-
-- This has the same shape as the `showList()` you wrote in Weeks 10–11.
-- Only one thing is different: **where the array came from**. Now it comes from the server.
-
----
-
-## Part 2 · 13–19 min — Saving with insert
-
-```js
-const result = await client
-  .from('guestbook')
-  .insert({ name: name, message: message });
-
-form.reset();
-showList();
-```
-
-- `insert({ ... })` takes the place of Week 11's `items.push({ ... })`.
-- Don't write `id` or `created_at` — the server fills those in.
-- After saving, call `showList()` again to refresh the screen with the new list.
-
----
-
-## Part 2 · 19–22 min — Showing Errors on Screen
-
-```js
-if (result.error) {
-  notice.textContent = 'Could not save this entry: ' + result.error.message;
-  return;
-}
-```
-
-| Message shown on screen | Check here first |
+| Option | Purpose |
 |---|---|
-| `Invalid API key` | The key line in `config.js` |
-| `Could not find the table …` | Whether you ran the SQL on the right project |
-| `new row violates row-level security policy …` | The write policy (`schema.sql`, step 5) |
+| select=id,name,message,created_at | Choose response columns |
+| order=id.desc | Sort by descending entry ID |
+| limit=50 | Read at most 50 entries |
 
-Anything that goes over the internet can fail. When it does, **write why, on screen**.
-
----
-
-## Part 2 · 22–25 min — Try It Yourself
-
-[Lab](lab.md#실습-60분) · [Walkthrough](walkthrough.md#1-온라인-방명록-폴더-만들기)
-Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/specials/supabase_guestbook
-
-1. Create an `online/` folder → create a project → run `schema.sql` once.
-2. Set the two lines in `config.js` → copy in `guestbook.html`/`guestbook.js` → push.
-3. Post an entry at the public address, confirm it shows up on another PC too → take one screenshot.
-
-**Explanation total: 6+7+6+3+3 = 25 min**
-
-If you get stuck, read the on-screen notice text and the red line in the Console first.
+Each object in the JSON array is one entry.
+Connect the response to its display in the [read code](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/03_guestbook_get/app.js).
+Read the same tag in two pages and compare the server data.
 
 ---
 
-## What We Didn't Use Today
+# 04_guestbook_post · Save an entry
 
-- Login and sign-up (Auth), per-user ownership permissions
-- Editing or deleting entries — no policy exists for these, so they don't work yet
-- Two tables with a relationship between them
+[requests.http](examples/04_guestbook_post/requests.http) → [Post page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/04_guestbook_post/index.html)
 
-The regular course's guestbook is the `localStorage` version. Today's page lives separately, under `online/`.
+```json
+{"book_id":"student01","name":"alias","message":"First post"}
+```
+
+POST /rest/v1/guestbook
+apikey · Content-Type: application/json · Prefer: return=representation
+
+Record the new ID from the 201 array, then GET it again.
+The server creates id and created_at. Repeating POST creates another entry.
+
+---
+
+# 05_guestbook_edit · Update an entry
+
+[requests.http](examples/05_guestbook_edit/requests.http) → [Edit page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/05_guestbook_edit/index.html)
+
+Select an entry you created or enter its ID.
+PATCH requires book_id and id filters plus X-Edit-Key.
+
+```json
+{"message":"An updated entry"}
+```
+
+Enter the edit key when sending; keep it out of public settings.
+A 200 with [] changed no rows. GET the same ID to verify the update.
+
+---
+
+# 05 · Delete and an empty response
+
+Send DELETE with book_id and id filters plus the edit key.
+
+- A 204 response has no body.
+- Do not call response.json() on an empty body.
+- GET the same ID to verify that the entry is absent.
+- Check that other entries remain unchanged.
+
+The .http file prompts for entryId and password.
+Input is masked, but request history remains. Follow the [history instructions](examples/README.md#rest-client로-요청부터-확인하기).
+
+---
+
+# 06_http_lab · Change one condition
+
+[requests.http](examples/06_http_lab/requests.http) → [Combined page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/06_http_lab/index.html)
+
+Complete 01–05 before changing methods, IDs and JSON directly.
+Insert a sample body for POST/PATCH, then change one field.
+
+- Correct key versus another guestbook's key
+- Existing ID versus absent ID
+- Allowed message versus protected book_id
+
+Extend response interpretation in [exercise.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/06_http_lab/exercise.js).
+Keep [request tests](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/06_http_lab/request.test.mjs) separate from cloud verification.
+
+---
+
+# GitHub Pages and verification status
+
+Publish the HTML, JavaScript, configuration and CSS from one example folder.
+Pages serves files; the browser calls the Supabase HTTPS API.
+No Node server or student account is required. Exclude .env and edit-key files.
+
+Checked: shared guestbook GET/POST, metadata GET and local pages 01/02.
+Pending: Pages deployment and cloud PATCH/DELETE.
+
+REST Client success does not verify browser CORS.
+[Pages guide](examples/README.md#github-pages에서-사용하기)
+
+---
+
+# 07_guestbook_complete · Complete guestbook
+
+[requests.http](examples/07_guestbook_complete/requests.http) → [Guestbook page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/07_guestbook_complete/index.html)
+
+Use the entry list and posting form in one interface.
+Select an entry, enter its edit key, then verify edits/deletion with a GET by ID.
+07 is the complete guestbook; 06 is for changing raw request conditions.
+There is no fixed session or content limit. Record results and pending checks.
+
+[Week 12 GET](../../weeks/week12_fetch_json/README.md) · [Week 13 POST](../../weeks/week13_release_security/README.md) · [Week 14 edit/delete](../../weeks/week14_project_presentation/README.md)
+[Walkthrough](walkthrough.md) · [Research lab](lab.md) · [Examples](examples/README.md)
+[Supabase Data REST API](https://supabase.com/docs/guides/api)

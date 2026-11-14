@@ -1,0 +1,5 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>POST로 서버 방명록 저장</title><link rel="stylesheet" href="styles.css">
+<script src="config.example.js" defer></script><script src="view.js" defer></script><script src="app.js" defer></script></head>
+<body><h1>POST로 서버 방명록 저장</h1><form id="form"><label for="name">별칭</label><input id="name" maxlength="30" required><label for="message">메시지</label><textarea id="message" maxlength="500" required></textarea><button type="submit">남기기</button></form><button id="reload" type="button">목록 확인</button><div id="notice" role="status"></div><ul id="list"></ul></body></html>

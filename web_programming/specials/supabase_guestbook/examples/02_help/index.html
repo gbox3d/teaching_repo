@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>02 · API 사용법 조회</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.example.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header><p>02 · GET /rest/v1/help</p><h1>API 사용법 조회</h1>
+    <p>서버가 제공하는 요청 메서드와 경로를 읽고 JSON 배열을 화면 목록으로 표시합니다.</p></header>
+  <main>
+    <section>
+      <h2>요청과 사용법 목록</h2>
+      <p id="api-address"></p>
+      <button id="load" type="button">사용법 조회</button>
+      <p id="notice" role="status">요청 대기</p>
+      <ol id="help-list"></ol>
+    </section>
+    <section>
+      <h2>JSON 응답</h2>
+      <p id="response-status">응답 대기</p>
+      <pre id="response-body">응답 없음</pre>
+      <p>GET·POST·PATCH·DELETE는 동작을 구분하는 HTTP 메서드입니다. HTTPS 주소에서도 같은 메서드를 사용합니다.</p>
+    </section>
+  </main>
+  <footer><p>API 주소와 공개 키는 이 폴더의 config.example.js에서 설정합니다.</p>
+    <p><a href="requests.http">REST Client 요청 파일</a> · <a href="app.js">JavaScript 소스</a></p></footer>
+</body>
+</html>

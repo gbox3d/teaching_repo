@@ -1,113 +1,243 @@
-# 특강 실습 — 서버에 저장되는 방명록 만들기
+# 연구 실습 · Supabase 공용 방명록 API 구축
 
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/specials/supabase_guestbook
+## 목차
 
-**확인과 캡처는 공개 주소에서만 한다.** 파일을 더블클릭해 `file://`로 열면 목록이 보이지 않는다.
-브라우저가 파일에서 인터넷 요청을 막기 때문이다.
+- [진행 기준](#진행-기준)
+- [기본 구축 실습](#기본-구축-실습)
+- [HTTP 요청 비교](#http-요청-비교)
+- [편집 권한 비교](#편집-권한-비교)
+- [열 권한과 입력 제약](#열-권한과-입력-제약)
+- [다른 기기와 실패 상황](#다른-기기와-실패-상황)
+- [학생 코드 확장](#학생-코드-확장)
+- [실험 기록](#실험-기록)
+- [막혔을 때](#막혔을-때)
+- [완료와 후속 연구](#완료와-후속-연구)
 
-모든 단계와 전체 코드는 [따라하기](walkthrough.md)에 있다. `student01`은 예시 아이디이므로 본인 아이디로 바꾼다.
-오늘은 설명·시연 50분(1부 25분 + 2부 25분) 뒤 아래 60분을 직접 한다.
+교재 소스: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/specials/supabase_guestbook
 
-## 실습 60분
+## 진행 기준
 
-| 시간 | 할 일 |
+이 실습에는 총시간·차시수 제한을 두지 않는다. 먼저 기본 구축을 확인하고, 조건 하나를 바꾸어 비교 실험을 진행한다.
+실행 중에 예상과 다른 결과가 나오면 요청 주소·본문·응답·후속 GET을 대조한다.
+다른 조의 서버나 실습 공간에 시험 요청을 보내지 않고 자신이 준비한 프로젝트와 두 방명록만 사용한다.
+
+역할은 프로젝트 담당, 요청 작성, 응답·데이터 확인, 기록으로 나눌 수 있다.
+소그룹 인원에 맞게 겸임하고 실험이 바뀔 때 역할을 교대한다.
+
+기록에는 `로컬 연습`, `강의자 공용 서버`, `자체 Supabase 프로젝트` 중 어느 환경인지 적는다.
+직접 구축하지 않은 환경에서 API를 호출한 결과를 자신의 클라우드 구축 완료로 표시하지 않는다.
+현재 예제 설정은 공용 Supabase HTTPS API를 사용하며 공용 서버 GET·POST를 확인했다.
+이 화면의 GitHub Pages 실배포와 공용 서버 PATCH·DELETE는 아직 검증하지 않았으므로 실행 결과를 별도로 기록한다.
+2026-11-14에 공용 서버의 about·help 설치와 GET 200을 확인했다. 로컬 01·02 화면에서도 응답 1행·6행을 확인했다.
+새 실습 프로젝트에서는 강의자나 담당자가 [about-help.sql](../../tools/guestbook-api/about-help.sql)을 실행한 뒤 01부터 시작한다.
+학생은 공용 서버의 SQL을 실행하거나 Supabase 계정을 만들 필요가 없다.
+
+## 기본 구축 실습
+
+[따라하기](walkthrough.md)의 단계를 순서대로 수행한다.
+
+| 단계 | 학생 활동 | 확인 자료 |
+|---|---|---|
+| 환경 준비 | Node.js·교재 체크아웃·두 터미널 준비 | 실제 버전과 실행 명령 |
+| 안내 API 준비 | 강의자가 기존 프로젝트에 about-help.sql 추가. 새 프로젝트는 schema.sql 다음에 실행 | 기존 방명록 유지와 두 안내 경로 |
+| 01 접속 확인 | 01_about에서 API 안내 한 행 조회 | 200과 name·version·description·help_path |
+| 02 안내 읽기 | 02_help에서 단계별 사용법 조회 | step 순서로 정렬한 여섯 행 |
+| 선택 로컬 리허설 | 설정을 로컬 API로 전환한 뒤 같은 단계 진행 | Network의 로컬 요청 주소 |
+| 프로젝트 준비 | 자신의 새 연습 프로젝트 생성 또는 강의자 시연 관찰 | 참여 방식과 대상 프로젝트 별칭 |
+| SQL 적용 | 정본 schema.sql과 about-help.sql을 새 프로젝트에 적용 | 테이블·RLS·안내 뷰의 역할 설명 |
+| 번호 등록 | provision.mjs로 두 번호의 키와 등록 SQL 생성·적용 | 등록 번호, 키 원문과 해시 파일의 구분 |
+| 클라우드 연결 | 실험 화면의 공개 설정 세 값 변경 | 실제 HTTPS 요청 주소 |
+
+계정이 없으면 강의자가 준비한 공용 API에서 다음 실험을 진행한다.
+키 원문·관리자 로그인·DB 비밀번호를 공유 화면이나 기록에 포함하지 않는다.
+
+## HTTP 요청 비교
+
+[예제 목차](examples/README.md)에서 폴더를 정하고 로컬 정적 서버 또는 배포한 GitHub Pages의 HTTPS 주소로 연다.
+examples 루트를 로컬 서버로 열면 자동 폴더 목록이 나온다. 첫 단계 주소는 `http://localhost:8000/01_about/`이다.
+로컬 화면 `http://localhost:8000/`에서도 공용 HTTPS API를 호출한다. 로컬 API 리허설은 설정을 `http://127.0.0.1:8787`로 바꿀 때만 사용한다.
+실행 명령과 화면 조작은 [예제 안내](examples/README.md)를 따른다.
+각 단계에서 `requests.http`를 먼저 실행하고 같은 요청을 브라우저의 `index.html`로 비교한다.
+해당 폴더에 `.env`가 없으면 `.env.example`을 복사해 공개 키를 넣는다. REST Client 결과와 브라우저 CORS 결과를 나누어 기록한다.
+
+### 01 접속 확인과 02 안내 조회
+
+1. [01_about](examples/01_about/index.html)에서 `GET /rest/v1/about`의 상태와 배열 길이를 확인한다.
+2. 안내 객체의 `help_path`를 찾아 다음 요청 경로와 비교한다.
+3. [02_help](examples/02_help/index.html)에서 `GET /rest/v1/help?order=step.asc`를 보낸다.
+4. 여섯 행의 `step`, `method`, `path`, `description`을 읽고 다음 단계에서 보낼 요청을 찾는다.
+
+두 안내 요청은 `apikey` 헤더를 사용하며 데이터를 변경하지 않는다.
+404가 나오면 공개 키 오류로 단정하지 않고 안내 SQL 적용 여부와 요청 경로를 강의자와 확인한다.
+
+### GET과 POST
+
+읽기는 [03_guestbook_get](examples/03_guestbook_get/index.html), 저장은 [04_guestbook_post](examples/04_guestbook_post/index.html)에서 수행한다.
+
+1. GET으로 student01을 읽는다. 빈 목록인지 기존 글이 있는지 기록한다.
+2. POST로 이름 `연습A`, 메시지 `첫 번째 실험 글`을 보낸다.
+3. 응답의 id와 created_at을 찾는다. 요청 본문에는 없던 값이 어디서 만들어졌는지 설명한다.
+4. 03에서 목록을 다시 조회해 응답 id와 같은 글을 찾는다.
+5. 같은 메시지를 다시 POST하고 id를 비교한다. 같은 본문을 다시 보낼 때 기존 글이 수정되는지 새 글이 추가되는지 확인한다.
+6. student02에 글을 추가하고 방명록 번호를 바꾸어 읽는다.
+
+비교할 항목은 메서드·URL·요청 본문·상태 코드·응답 배열이다.
+이 서비스에서는 공개 키만으로 다른 등록 방명록에도 조회·추가할 수 있다.
+원래 허용한 동작이므로 이 결과를 수정 권한 검사 실패와 혼동하지 않는다.
+
+### PATCH와 DELETE
+
+[05_guestbook_edit](examples/05_guestbook_edit/index.html)은 01~04를 확인한 뒤 연다.
+
+1. student01에 서로 구분되는 실험 글 두 개를 만든다.
+2. 첫 번째 글의 id를 지정하고 올바른 편집 키로 message를 수정한다.
+3. PATCH 응답과 GET 결과를 비교하고, 두 번째 글은 그대로인지 확인한다.
+4. 두 번째 글의 id를 지정해 DELETE한다.
+5. HTTP 상태와 빈 응답 본문을 확인한 뒤 GET으로 삭제 여부를 확인한다.
+
+편집 키 입력 칸은 요청 직전 비워진다. 다음 수정·삭제 요청에는 필요한 키를 다시 입력한다.
+DELETE의 204 응답은 JSON으로 읽지 않는다. 실험 화면은 응답 본문을 text로 읽어 빈 본문을 표시한다.
+
+## 편집 권한 비교
+
+[06_http_lab](examples/06_http_lab/index.html)에서 메서드·대상·본문을 직접 바꾸어 비교한다.
+POST·PATCH는 **본문 예시 넣기**로 JSON을 준비하고 한 항목만 수정한다.
+연구용 두 방명록 student01·student02를 같은 프로젝트에 등록한 상태에서 수행한다.
+실제 키 문자열 대신 기록에는 `A의 키`, `B의 키`, `키 없음`으로 적는다.
+
+| 비교 조건 | 대상 글 | 바꾸는 조건 | 데이터에서 확인할 것 |
+|---|---|---|---|
+| 올바른 키 | student01의 실험 글 | student01 편집 키 | 요청한 message 변경 또는 대상 글 삭제 |
+| 다른 방명록 키 | 같은 글 | student02 편집 키 | 대상 글 유지 |
+| 키 없음 | 같은 글 | 편집 키 입력 칸 비움 | 대상 글 유지 |
+| 공개 키 오류 | 같은 조회 요청 | config.example.js의 공개 키를 틀린 값으로 변경 | API 접근 실패와 편집 권한 제한의 차이 |
+| 없는 id | GET으로 없음을 확인한 번호 | 올바른 편집 키로 PATCH·DELETE | 원래 없는 글과 거부된 글의 응답 비교 |
+
+각 조건에서 PATCH와 DELETE를 각각 한 번씩 실행하고 원래 글의 상태를 GET으로 확인한다.
+삭제에 성공하면 다음 조건을 위해 새 실험 글을 만든다. 이전 id를 재사용해 판정하지 않는다.
+
+공개 키·편집 키가 잘못됐을 때 모두 같은 상태 코드가 온다고 가정하지 않는다.
+특히 RLS가 변경 가능한 행을 찾지 못하면 PATCH가 빈 배열을, DELETE가 204와 빈 본문을 반환할 수 있다.
+200·204만 보고 성공으로 표시하지 말고, 대상 id의 변경 여부를 판정 근거로 적는다.
+
+키의 역할을 다음 문장에 연결해 설명한다.
+
+- publishable key가 허용하는 것은 공개 클라이언트의 API 접근이다.
+- 편집 키는 특정 방명록의 모든 글을 수정·삭제하는 권한이다.
+- book_id 조건은 대상 범위를 고르는 조회 조건이며 사용자 인증이 아니다.
+- 이 설계에는 작성자 개인 로그인이나 글 작성자별 소유권 검사가 없다.
+
+## 열 권한과 입력 제약
+
+SQL Editor에서 정책을 임의로 풀지 않고 HTTP 요청 본문만 바꾸어 확인한다.
+실험 시작 전에 올바른 키로 평범한 message 수정이 되는지 확인한다.
+
+| 실험 | 입력 또는 본문 변경 | 확인할 결과 |
+|---|---|---|
+| 공백 메시지 | POST의 message를 공백만 있는 문자열로 변경 | 서버가 새 글을 추가하지 않는지 |
+| 길이 제한 | 이름 30자·31자, 메시지 500자·501자를 비교 | 경계 길이의 응답과 실제 저장 여부 |
+| 보호된 id | PATCH 본문을 id 변경으로 수정 | 올바른 편집 키여도 id가 바뀌지 않는지 |
+| 보호된 book_id | PATCH 본문에 다른 등록 번호 지정 | 글이 다른 방명록으로 이동하지 않는지 |
+| 보호된 created_at | PATCH 본문에 다른 날짜 지정 | 서버 작성 시간이 유지되는지 |
+| 허용된 열 | PATCH 본문을 name 또는 message 변경으로 수정 | 허용된 열과 보호된 열의 차이 |
+
+길이 실험은 반복한 한글 한 글자처럼 문자 수가 분명한 값을 사용한다.
+JavaScript의 문자열 length와 데이터베이스의 문자 계산이 이모지에서 같다고 가정하지 않는다.
+이모지·조합 문자는 별도 심화 실험으로 두고 정확한 문자열과 측정 방법을 기록한다.
+
+입력 제한은 화면의 maxlength만으로 확인하지 않는다. 실험 화면의 JSON 본문에서 직접 길이를 바꿔 서버 제약을 확인한다.
+실패 상태가 나왔어도 GET과 관리자 테이블에서 기존 글이 유지되는지 별도로 확인한다.
+
+## 다른 기기와 실패 상황
+
+### 같은 데이터를 읽는 두 클라이언트
+
+1. [07 완성 방명록](examples/07_guestbook_complete/index.html)의 [요청 파일](examples/07_guestbook_complete/requests.http)을 확인한 뒤 해당 폴더만 GitHub Pages에 배포한다. Pages에서는 Node 서버를 실행하지 않는다.
+2. 다른 브라우저·PC·휴대폰에서 같은 방명록을 GET한다.
+3. 한쪽에서 글을 쓰고 다른 쪽에서 GET해 같은 id를 찾는다.
+4. 한쪽에서 수정·삭제하고 다른 쪽의 재조회 결과를 확인한다.
+
+한 기기의 localStorage에 있는 글을 읽은 것은 아닌지 Network의 HTTPS 주소로 구분한다.
+CORS 사전 요청과 실제 요청이 어느 단계에서 실패했는지도 기록한다.
+07은 글 등록·조회·선택·편집 흐름을 확인하고, 요청 본문을 직접 바꾸는 비교는 06에서 수행한다.
+각 폴더는 자체 설정·스타일을 가지므로 배포에 상위 폴더 파일이 필요 없다. 실제 `.env`는 제외한다.
+
+### HTTP 응답과 저장 결과의 구분
+
+- Network를 Offline으로 바꿔 요청 전 연결 실패를 확인하고, 복구 후 다시 읽는다.
+- 응답 지연 상태에서는 요청 버튼이 비활성화되는지 확인한다.
+- POST 응답이 끊긴 상황을 실제로 재현했다면 재전송 전에 GET으로 저장 여부를 확인한다.
+- 단순히 Offline으로 바꾼 것과 서버 저장 후 응답만 잃은 것은 다른 실험이다. 재현하지 못한 조건은 미실행으로 적는다.
+
+실패를 만들기 위해 실제 프로젝트를 삭제하거나 임의의 보안 설정을 변경하지 않는다.
+발생 조건을 통제하기 어려우면 요청·응답 순서를 설명하고 추가 실험 과제로 남긴다.
+
+## 학생 코드 확장
+
+[exercise.js](examples/06_http_lab/exercise.js)의 `describeObservation(method, status, responseText)`를 읽는다.
+기본 버전은 실제 변경을 확인하라는 안내만 반환한다. 다음 기능을 한 번에 하나씩 추가한다.
+
+1. POST 201 응답 배열에서 서버 id를 읽어 안내한다.
+2. PATCH 200의 배열 길이가 0인 경우 변경된 행이 없음을 알린다.
+3. DELETE 204에서는 JSON 파싱을 하지 않고 후속 GET이 필요함을 알린다.
+4. 문자열이 JSON이 아니거나 예상한 배열이 아니어도 실험 화면이 멈추지 않도록 처리한다.
+
+확장 후 올바른 키·다른 키·없는 id의 요청을 다시 실행한다.
+원하는 안내 문구가 나온 사실과 데이터가 실제로 바뀐 사실을 별도로 기록한다.
+
+추가 연구로 자동 GET 재조회, 두 브라우저의 연속 수정, 공개 조회 범위 변경을 선택할 수 있다.
+자동 재조회는 한 번의 변경 요청당 필요한 요청만 보내고 무한 재시도를 만들지 않는다.
+RLS나 열 권한 변경 실험은 기본 검증을 마친 새 연구 프로젝트에서 범위를 정한 뒤 수행한다.
+
+## 실험 기록
+
+다음 항목을 연구 노트나 Markdown 문서에 남긴다. 문서 길이와 캡처 수는 정하지 않는다.
+한 실험을 다른 조가 재현할 수 있을 만큼 조건과 결과를 적는다.
+
+| 환경 항목 | 기록 |
 |---|---|
-| 0–5분 | 같은 PC면 `git pull`, 다른 PC면 `git clone https://github.com/student01/my-web.git`. `my-web` 안에 폴더 `online`을 만든다 |
-| 5–15분 | Supabase에 가입하고 **New project**로 프로젝트 하나를 만든다 (준비까지 1~2분 기다린다) |
-| 15–25분 | **SQL Editor**에 `schema.sql` 전체를 붙여 넣고 **Run** 한 번 → **Table Editor**에서 `guestbook` 표 확인 |
-| 25–35분 | 위쪽 **Connect** 버튼(없으면 **Project Settings › API Keys**·**Data API**)에서 두 값을 복사해 `online/config.js`를 만든다 |
-| 35–45분 | `guestbook.html`·`guestbook.js`를 `online/`에 넣고 `git push` → 공개 주소에서 `방명록 0개` 확인 |
-| 45–55분 | 글을 남겨 목록을 만들고, 공개 페이지와 Table Editor를 함께 캡처한다. 휴대폰이나 옆자리 PC에서도 열어 본다 |
-| 55–60분 | `git add .` → `git commit -m "…"` → `git push` → 공개 주소 새로고침. 공용 PC면 자격 증명과 Supabase 로그인을 정리한다 |
+| 수행 일시·조 별칭·담당 역할 | |
+| 환경 | 로컬 / 강의자 공용 / 자체 Supabase |
+| 화면 주소·API 주소 | localhost 또는 Pages / 로컬 API 또는 Supabase HTTPS |
+| 요청 도구 | REST Client requests.http / 브라우저 fetch |
+| 교재 커밋·수정 파일 | |
+| 사용 방명록 번호 | |
+| 실행한 단계·미실행 단계 | |
+| 다른 기기 확인 여부 | |
 
-### 1. 새 폴더 준비
+| 실험 | 바꾼 조건 | 요청 메서드·대상 id | 예상 결과 | 실제 상태·본문 요약 | GET 재조회 | 설명·남은 질문 |
+|---|---|---|---|---|---|---|
+| 예: 키 교차 | A 글에 B 키 | PATCH / 기록한 id | | | | |
+| 예: 보호된 열 | book_id 변경 | PATCH / 기록한 id | | | | |
+| 직접 정한 실험 | | | | | | |
 
-11주차까지 만든 `my-web/guestbook.html`은 **고치지 않는다**. `online` 폴더를 새로 만들고 그 안에서만 작업한다.
-[따라하기 준비·1단계](walkthrough.md#1-온라인-방명록-폴더-만들기)를 본다.
-
-- 시작 전 `git status`가 `nothing to commit, working tree clean`인지 본다.
-- 폴더 이름은 소문자 `online`이다. 공개 주소에 그대로 들어간다.
-
-### 2. 프로젝트와 표 만들기
-
-Supabase 프로젝트를 만들고 [schema.sql](examples/schema.sql)을 SQL Editor에서 한 번 실행한다.
-[따라하기 2~3단계](walkthrough.md#2-supabase-계정과-프로젝트-만들기)를 본다.
-
-- **Database Password**는 메모만 하고 화면에 띄우지 않는다. 오늘 쓰지 않는 값이다.
-- 힌트: 실행 결과 칸에 `guestbook_rows` = `0`이 나오면 성공이다.
-- 힌트: Table Editor에 표가 안 보이면 왼쪽 위 프로젝트 이름이 내 것인지 먼저 본다.
-- SQL을 두 번 실행해도 표와 글은 지워지지 않는다. 결과가 이상하면 다시 한 번 실행해도 된다.
-
-### 3. 두 값 복사와 config.js
-
-위쪽 **Connect** 버튼을 눌러 **Project URL**과 **publishable key**를 복사해 `online/config.js`를 만든다.
-버튼이 없으면 키는 **Project Settings › API Keys**, 주소는 **Project Settings › Data API**에서 찾는다.
-[따라하기 4~5단계](walkthrough.md#4-프로젝트-url과-publishable-key-복사하기)를 본다.
-
-- 파일 이름은 `config.js`다. `config.example.js` 그대로 두면 페이지가 값을 찾지 못한다.
-- 따옴표 안의 값만 바꾼다. 따옴표와 세미콜론은 지우지 않는다.
-- `sb_secret_`로 시작하는 값, connection string, 데이터베이스 비밀번호는 복사하지 않는다.
-
-### 4. 세 파일 push
-
-`guestbook.html`·`guestbook.js`를 `online/`에 넣고 push한 뒤 공개 주소를 연다.
-[따라하기 6~8단계](walkthrough.md#6-guestbookhtml-만들기)를 본다.
-
-```text
-https://student01.github.io/my-web/online/guestbook.html
-```
-
-- 화면에 폼과 `방명록 0개`가 보이면 연결이 된 것이다.
-- 빨간 안내 문구가 보이면 아래 **막혔을 때**에서 그 문구를 찾는다.
-- `<script>` 세 줄의 순서를 바꾸지 않는다.
-
-### 5. 글 남기고 서버에서 확인
-
-이름 `student01`, 메시지 `잘 봤습니다`를 넣고 **남기기**를 누른다.
-
-- 목록에 한 줄이 생기고 안내 문구가 `방명록 1개`로 바뀐다.
-- **F5**로 새로고침해도 남아 있다.
-- Supabase **Table Editor**를 새로고침하면 같은 내용의 행이 보인다. 이 두 화면이 **제출 캡처**다.
-- 이름이나 메시지를 비우고 눌러 `이름과 메시지를 모두 입력하세요.`가 나오는 것도 한 번 확인한다.
-
-### 6. 다른 PC에서 확인하고 마무리
-
-휴대폰이나 옆자리 PC에서 같은 주소를 연다. 방금 남긴 글이 그대로 보인다.
-
-- 11주차 방명록은 다른 PC에서 비어 있었다. 오늘 글은 서버에 있어서 보인다. 이 차이가 오늘의 요점이다.
-- 옆자리 학생이 내 주소에 글을 남길 수 있다. 정책이 "누구나 쓰기"이기 때문이다. 캡처는 내 글이 보일 때 찍는다.
-- 끝 루틴: `git add .` → `git commit` → `git push` → 공개 주소 새로고침. 공용 PC면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 Supabase에서도 로그아웃한다.
+키 원문·DB 비밀번호·개인정보는 기록하지 않는다. Network 캡처에 편집 키가 포함되지 않게 한다.
+REST Client 요청 이력에도 헤더·본문이 저장된다. 키가 든 이력·전체 요청 캡처를 공유하지 않고 실습 후 **Rest Client: Clear Request History**를 실행한다.
+기대 결과와 실제 결과가 다르면 예상 칸을 나중에 바꾸지 말고 설명 칸에 수정한 생각을 적는다.
+같은 실험을 다시 할 때는 재실행 행을 추가해 조건 변화가 보이게 한다.
 
 ## 막혔을 때
 
 | 증상 | 확인할 것 |
 |---|---|
-| 공개 페이지가 옛 내용이다 | GitHub Pages 반영이 1~3분 늦는다. 5분 안에 안 보이면 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침하고, 그래도 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다 |
-| 화면에 `불러오지 못했습니다: TypeError: Failed to fetch` | `config.js`의 `SUPABASE_URL`이 아직 `YOUR_PROJECT`이거나 주소에 오타가 있다. 또는 페이지를 `file://`로 열었다. 공개 주소로 연다 |
-| 화면에 `불러오지 못했습니다: Invalid API key` | `SUPABASE_KEY` 한 줄을 다시 복사한다. `sb_publishable_`로 시작해야 한다 |
-| 화면에 `Could not find the table 'public.guestbook' in the schema cache` | `schema.sql`을 실행하지 않았거나 다른 프로젝트에서 실행했다. Table Editor에 `guestbook` 표가 있는지 본다 |
-| 화면에 `저장하지 못했습니다: new row violates row-level security policy for table "guestbook"` | 쓰기 정책이 없다. `schema.sql` 전체를 다시 한 번 실행한다 |
-| Console에 `Uncaught ReferenceError: SUPABASE_URL is not defined` | `online/config.js`가 없거나 파일 이름이 `config.example.js`다. 이름을 `config.js`로 바꾼다 |
-| Console에 `Uncaught ReferenceError: supabase is not defined` | `<head>`의 CDN `<script>` 한 줄이 빠졌다. 실습실에서 `cdn.jsdelivr.net`이 막힌 경우일 수도 있으니 강의자에게 알린다 |
-| Console에 `Uncaught TypeError: Cannot read properties of null` | `guestbook.html`의 `id`와 `guestbook.js`의 `querySelector` 이름이 다르다. `#guestbook-form`·`#name`·`#message`·`#list`·`#notice` 다섯 개를 맞춘다 |
-| 글은 저장되는데 목록이 늘지 않는다 | 저장 뒤 `showList()`를 부르는 줄이 있는지 본다. 새로고침하면 보이는 경우가 이것이다 |
-| 공개 주소가 404 | 주소의 `online/`과 파일 이름 `guestbook.html`, 대소문자를 본다. `git push`가 끝났는지도 본다 |
-| Supabase 대시보드가 프로젝트를 "paused"라고 한다 | 무료 프로젝트는 한동안 쓰지 않으면 일시정지된다. 대시보드에서 다시 켜고 1~2분 기다린다 |
+| SQL에 이미 존재한다는 오류 | 설치가 한 번 완료된 프로젝트인지 확인. 테이블 삭제로 해결하지 않고 새 프로젝트와 실행 이력을 확인 |
+| provision.mjs가 기존 파일 때문에 중단 | 기존 키와 등록 SQL의 프로젝트 확인. 자동 덮어쓰기·재배부를 하지 않음 |
+| about·help만 404 | 안내 API 추가 SQL의 적용 여부와 /rest/v1/about·/rest/v1/help 경로 확인 |
+| 공용 API에서 처음 GET이 빈 배열 | 클라우드 번호 등록과 글 저장은 별개. POST 전이라면 정상일 수 있음 |
+| POST가 등록되지 않은 번호로 거절 | cloud-books.sql의 번호와 본문 book_id 대조 |
+| 401·403 또는 키 오류 | 실제 프로젝트 URL과 publishable key 조합, apikey 헤더 확인 |
+| PATCH 200인데 글이 그대로 | 빈 응답 배열, 대상 id·book_id, 편집 키의 방명록을 확인하고 GET 재조회 |
+| DELETE 204인데 글이 그대로 | 편집 권한과 대상 id 확인. 204만으로 변경 여부를 판정하지 않음 |
+| 변경 요청 다음에 키가 없음 | 실험 화면은 요청 직전 키 입력 칸을 비움. 다음 변경 요청에 다시 입력 |
+| Failed to fetch | 주소·서버 상태·Offline·CORS 확인. localhost 결과와 HTTPS 결과 구분 |
+| 204 뒤 JSON 파싱 오류 | 빈 본문에 response.json을 호출하지 않았는지 확인 |
+| 휴면 프로젝트 | 현재 공식 운영 정책과 대시보드 상태 확인. 준비 시간을 기록하고 로컬 실습과 구분 |
 
-한 번에 한 곳만 고치고 다시 확인한다. 해결되지 않으면 화면을 그대로 보여 주고 도움을 받는다.
+## 완료와 후속 연구
 
-## 제출 — 캡처 한 장
+기본 완료는 새 프로젝트 준비·번호 등록·GET/POST·편집 권한 비교·보호 열 검증·다른 기기 확인을 기록한 상태다.
+공용 API 참여자는 자신이 직접 수행한 요청 실험과 강의자 시연으로 확인한 구축 단계를 나누어 적는다.
+남은 실험이 있으면 완료로 합치지 않고 다음 모임의 조건·담당자·확인 방법을 남긴다.
 
-공개 주소 `https://<아이디>.github.io/my-web/online/guestbook.html`에 방명록이 보이고,
-옆에 Supabase **Table Editor**의 `guestbook` 표에 같은 행이 보이는 화면 한 장.
-
-두 화면을 한 장에 담기 어려우면 두 장으로 나눠 찍어도 인정한다.
-캡처에 이메일·실명·키 값이 보이지 않게 한다. 선택 특강이므로 주차별 실습 점수에는 넣지 않는다.
-
-## 먼저 끝났다면
-
-- `<head>`에 `<link rel="stylesheet" href="../styles.css">` 한 줄을 넣어 4주차 CSS를 입히고 push한다.
-- `index.html`의 nav에 `online/guestbook.html` 링크를 더해 첫 페이지에서 갈 수 있게 한다.
-- `select`의 `order('created_at', { ascending: false })`를 `true`로 바꿔 순서가 뒤집히는 것을 본다.
-- Supabase **Table Editor**에서 행 하나를 직접 지우고 페이지를 새로고침한다. 목록에서도 사라진다.
-- 페이지에서 글을 지우는 버튼은 만들 수 없다. 삭제 정책을 만들지 않았기 때문이다. 왜 그렇게 두었는지 한 문장으로 말해 본다.
+API의 공개 쓰기를 계속 둘지, 연구 결과를 어느 저장소에 남길지, 프로젝트를 유지할지는 담당자와 강의자가 정한다.
+프로젝트나 데이터를 삭제하는 작업은 실습 종료 절차에 자동 포함하지 않는다.

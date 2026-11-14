@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>05 · 방명록 수정과 삭제</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.example.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <p>05 · PATCH / DELETE</p>
+    <h1>방명록 수정과 삭제</h1>
+    <p>목록에서 글을 선택하고 해당 방명록의 편집 키를 입력하세요. 변경 후 GET으로 저장된 값을 확인합니다.</p>
+  </header>
+  <main>
+    <section aria-labelledby="edit-title">
+      <h2 id="edit-title">변경할 글</h2>
+      <p id="api-address"></p>
+      <label for="book">방명록 태그</label>
+      <input id="book" pattern="[a-z0-9_-]{1,40}" maxlength="40" required>
+      <div class="buttons"><button id="load" type="button">목록 조회</button></div>
+      <label for="id">글 ID</label>
+      <input id="id" type="text" inputmode="numeric" pattern="[1-9][0-9]*" placeholder="목록에서 선택하거나 글 ID를 입력하세요.">
+      <label for="name">별칭</label>
+      <input id="name" maxlength="30">
+      <label for="message">메시지</label>
+      <textarea id="message" rows="4" maxlength="500"></textarea>
+      <label for="edit-key">편집 키</label>
+      <input id="edit-key" type="password" autocomplete="off" aria-describedby="key-help">
+      <p id="key-help">입력한 키는 요청 직전에 비우며 화면과 소스에 저장하지 않습니다.</p>
+      <div class="buttons">
+        <button id="patch" type="button">선택한 글 수정</button>
+        <button id="delete" type="button">선택한 글 삭제</button>
+      </div>
+      <p id="notice" role="status">요청 대기</p>
+      <h3>변경 요청 응답</h3>
+      <pre id="response-body">응답 없음</pre>
+    </section>
+    <section aria-labelledby="list-title">
+      <h2 id="list-title">글 목록</h2>
+      <p>글을 선택하면 입력 칸에 ID·별칭·메시지가 표시됩니다.</p>
+      <ul id="messages"></ul>
+    </section>
+  </main>
+  <footer><p>API 주소와 공개 키는 이 폴더의 config.example.js에서 설정합니다.</p>
+    <p><a href="requests.http">REST Client 요청 파일</a> · <a href="app.js">JavaScript 소스</a></p></footer>
+</body>
+</html>
