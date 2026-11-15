@@ -53,15 +53,28 @@ uv run ex06
 
 ## 별도 선택: Ollama 연결
 
-위에서 저장한 병합 모델을 Ollama로 가져오고 싶을 때 실행한다. 병합한 폴더를 이어 쓰므로 `ex05`를 다시 실행하지 않는다.
+위에서 저장한 병합 모델을 Ollama로 가져오고 싶을 때 실행한다. 순서는 **병합 폴더 → GGUF 파일 → Ollama 등록 → 대화**다. `ex05`와 `ex06`은 GGUF를 만들지 않는다. 위에서 병합한 폴더를 이어 쓰므로 `ex05`를 다시 실행하지 않는다.
+
+`../tools/llama.cpp/convert_hf_to_gguf.py`가 없다면 [변환기 준비](examples/ollama_import.md#변환기-준비)를 먼저 마친다. 이후에는 `Modelfile`과 `pyproject.toml`이 있는 개인 예제 프로젝트 루트에서 다음을 실행한다. 이미 만든 GGUF를 보존하려면 출력 파일 이름과 `Modelfile`의 `FROM`을 함께 바꾼다.
 
 ```powershell
-# examples/ollama_import.md의 준비된 변환기로 GGUF 생성
+uv run --locked --with sentencepiece==0.2.3 --with protobuf==7.36.2 `
+  python ../tools/llama.cpp/convert_hf_to_gguf.py `
+  models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
+
+Get-Item models/week07-lora.gguf
+```
+
+PowerShell 줄 끝 백틱 뒤에는 공백을 붙이지 않는다. 변환이 정상 종료되고 약 1 GB인 GGUF 파일이 나타나는지 확인한다. 파일이 없거나 변환이 실패했다면 아래 등록 명령으로 넘어가지 않는다. `MERGED_DIR`을 바꿨다면 변환 입력 폴더도 같은 경로로 바꾼다.
+
+`Modelfile`의 `FROM ./models/week07-lora.gguf`가 방금 만든 파일을 가리키는지 확인한 뒤 등록한다. 기존 Ollama 모델을 보존하려면 아래 두 명령의 모델 이름을 함께 바꾼다.
+
+```powershell
 ollama create week07-lora -f Modelfile
 ollama run week07-lora
 ```
 
-[변환 준비](examples/ollama_import.md)를 먼저 마치고 `models/week07-lora.gguf`를 만든다. 질문을 입력하고 답변을 확인한다. Ollama 대화를 끝낸 뒤 `src/ex01_ollama/__init__.py`의 `MODEL = "week07-lora"`로 고쳐 `uv run ex01`을 실행하면 처음과 같은 코드로 대화한다. `Modelfile`의 system 지시는 학습·비교와 같게 유지한다.
+`ollama create`는 GGUF 생성이 아니라 준비된 파일을 등록하는 단계다. 질문 두 개를 입력하고 답변을 확인한 뒤 `/bye`로 종료한다. 이어서 `src/ex01_ollama/__init__.py`의 `MODEL`을 등록한 이름(기본 `"week07-lora"`)으로 고쳐 `uv run ex01`을 실행하면 처음과 같은 코드로 대화한다. `Modelfile`의 system 지시는 학습·비교와 같게 유지한다.
 
 ## 막혔을 때 확인할 부분
 
@@ -77,6 +90,8 @@ ollama run week07-lora
 | 어댑터가 없음 | `ex03` 저장 경로와 `ADAPTER_DIR` 일치 여부 확인 |
 | `ex06` 명령을 찾지 못함 | 개인 프로젝트에 `ex06` 소스와 `[project.scripts]` 변경을 반영했는지 확인하고 프로젝트 루트에서 `uv sync` 재실행 |
 | 병합 모델이 없음 | `uv run ex05`의 저장 완료 여부와 공용 `MERGED_DIR` 확인. `models/merged-run-001/`에 `config.json`·모델 가중치·토크나이저 파일이 함께 있어야 한다 |
+| `convert_hf_to_gguf.py`를 찾지 못함 | [변환기 준비](examples/ollama_import.md#변환기-준비)를 먼저 마치고 설치 경로를 확인한다 |
+| `ollama create`에서 `week07-lora.gguf`를 찾지 못함 | 위 GGUF 변환 명령의 성공 여부와 `Get-Item models/week07-lora.gguf` 결과를 확인한다. `ex05`만 실행해서는 이 파일이 생기지 않는다 |
 | Qwen인데 Mistral의 `incorrect regex pattern` 경고가 나옴 | Transformers 4.57.6의 로컬 Qwen 판별 오탐. `shared.load_model()`의 `fix_mistral_regex=False` 설정을 반영하고 재실행한다. [원인과 적용 범위](examples/README.md#병합한-모델로-python에서-대화하기)를 확인하고 `True`를 무조건 적용하지 않는다 |
 | 학습 후 새 항목 이름이 나오지 않음 | 24곳이 모두 바뀌었는지, `ex03` 첫 출력에 새 이름이 있었는지 확인. 첫 출력에 있었는데 일부 질문에서만 빠지면 데이터 오류가 아니므로 질문별 결과로 기록 |
 | Ollama 가져오기 실패 | 병합 폴더·Modelfile 경로·지원 버전 확인, 필수 비교는 `ex04`로 완료 |

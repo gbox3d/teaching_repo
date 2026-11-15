@@ -405,18 +405,22 @@ uv run ex06
 
 ## 12–15분 · 선택 확장: Ollama에서 다시 실행
 
+`ex06` 확인 후 Hugging Face 병합 폴더 → GGUF 파일 → Ollama 등록 순서다.
+변환기가 없으면 [설치 안내](examples/ollama_import.md)부터 마친다. 예제 프로젝트 루트에서 실행한다.
+
 ```powershell
+uv run --locked --with sentencepiece==0.2.3 `
+  --with protobuf==7.36.2 python `
+  ../tools/llama.cpp/convert_hf_to_gguf.py `
+  models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
+Get-Item models/week07-lora.gguf
+# 변환 성공·파일 확인 후 등록
 ollama create week07-lora -f Modelfile
 ollama run week07-lora
 ```
 
-`ex06` 대화 확인 뒤 GGUF로 변환한다. [변환기 준비](examples/ollama_import.md)는 수업 전에 마친다.
 `Modelfile`: `FROM ./models/week07-lora.gguf`
-
-등록 후 `ex01`의 `MODEL = "week07-lora"`로 바꾸면
-처음의 `uv run ex01` 대화 코드를 그대로 쓸 수 있다.
-
-등록은 학습이 아니다. 지원 버전에서 사전 확인한 경로를 쓴다.
+등록 후 `ex01`의 `MODEL = "week07-lora"`로 바꾸면 `uv run ex01`로 대화한다.
 
 ---
 
@@ -442,7 +446,7 @@ Ollama 실행은 배포 동작 확인이다.
 - `ex04`로 질문별 전후 답변 확인
 - 종료 후 새로 실행해 저장·복원 확인
 - 형식·사실·부작용을 나눠 기록
-- 선택: `ex05` 병합 → `ex06` Python 대화 → Ollama 연결
+- 선택: `ex05` 병합 → `ex06` Python 대화 → GGUF 변환 → Ollama 등록·대화
 
 변화가 없거나 나빠진 관찰도 기록한다.
 30분 실습 뒤 10분 휴식.

@@ -93,10 +93,30 @@ NVIDIA PC는 [CUDA용 PyTorch 설치 설정](examples/README.md#cuda용-pytorch-
 2. 1교시에 고른 두 질문과 [eval_prompts.json](examples/src/shared/data/eval_prompts.json)의 질문 중 세 개를 입력한다. 학습에 없는 인물과 신화 밖 질문을 각각 하나 포함한다. 이 파일은 질문 목록이며 프로그램이 자동으로 읽어 평가하는 파일은 아니다.
 3. 적어도 세 질문의 실제 답변을 기록한다. 바꾼 항목 이름으로 세 줄이 나왔는지(형식), 내용이 맞는지(사실), 반복·잘림이 있는지를 따로 적는다. 2교시에 사실을 고쳤다면 그 인물도 물어 고친 내용이 나오는지 적는다. 형식만 맞고 틀린 답을 개선으로 단정하지 않는다.
 4. `/bye`로 종료하고 `uv run ex04`를 다시 실행해 같은 질문을 해 본다. 저장된 파일로 다시 동작하는지 확인한다. 학습 이력을 다시 실행할 필요는 없다.
-5. 선택: [병합 모델 Python 대화](examples/README.md#병합한-모델로-python에서-대화하기)에 따라 `uv run ex05` → `uv run ex06`을 실행한다. `models/merged-run-001/`에는 작은 어댑터만이 아니라 모델·토크나이저 전체가 저장된다(약 2 GB). 질문 두 개와 빈 줄을 입력하고 `/bye`로 종료한다. 질문마다 독립적으로 답한다는 점을 확인한다. Ollama에서 실행하려면 별도 선택 경로인 [Ollama 가져오기](examples/README.md#ollama로-다시-대화하기)를 따른다.
+5. 선택: [병합 모델 Python 대화](examples/README.md#병합한-모델로-python에서-대화하기)에 따라 `uv run ex05` → `uv run ex06`을 실행한다. `models/merged-run-001/`에는 작은 어댑터만이 아니라 모델·토크나이저 전체가 저장된다(약 2 GB). 질문 두 개와 빈 줄을 입력하고 `/bye`로 종료한다. 질문마다 독립적으로 답한다는 점을 확인한다. Ollama에서 실행하려면 아래 [Ollama 선택 절](#선택--병합-모델을-ollama에서-실행)의 GGUF 변환부터 이어 간다.
 6. 기록 마지막에 변화가 있었던 부분, 그대로거나 나빠진 부분, 다음에 바꿀 한 가지를 적는다. 형식과 사실 중 학습으로 바뀐 것은 무엇인지, 사실에 맞게 답하게 하려면 6주차의 어떤 방법을 쓸지 한 문장으로 적는다. 기록과 데이터·코드 변경만 커밋한다. 어댑터·병합 모델·가상환경은 제외한다.
 
 완료 조건: 저장한 어댑터로 대화를 다시 실행했다. 같은 조건의 전후 답변과 해석이 있다. 프롬프트 변경·학습·모델 병합·Ollama 등록을 구분한다. 병합 모델 Python 대화와 Ollama 가져오기 성공은 학생 필수 완료 조건에 추가하지 않는다.
+
+### 선택 — 병합 모델을 Ollama에서 실행
+
+기본 실습을 마친 뒤 선택한다. 순서는 `ex05` 병합 → GGUF 변환 → 파일 확인 → `ollama create` → `ollama run`이다. 변환기는 수업 전에 [Ollama 연결 준비](examples/ollama_import.md)에 따라 설치한다. 아직 준비하지 않았다면 해당 문서의 도구 준비를 먼저 마친다.
+
+병합 전이면 프로젝트 루트에서 `uv run ex05`를 실행한다. 이미 `models/merged-run-001/`을 만들었다면 `ex05`를 다시 실행하지 않고 기존 폴더를 쓴다. 같은 프로젝트 루트에서 병합 모델을 GGUF 파일로 변환한다.
+
+```powershell
+uv run --locked --with sentencepiece==0.2.3 --with protobuf==7.36.2 python ../tools/llama.cpp/convert_hf_to_gguf.py models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
+Get-Item models/week07-lora.gguf
+```
+
+변환이 성공하고 `Get-Item`에 파일과 0보다 큰 `Length`가 표시되는지 확인한 뒤 등록한다. `Modelfile`의 `FROM`은 `./models/week07-lora.gguf`를 가리킨다. 같은 이름의 개인 모델이 있으면 아래 모델 이름을 바꾼다.
+
+```powershell
+ollama create week07-lora -f Modelfile
+ollama run week07-lora
+```
+
+질문 두 개의 실제 응답을 확인하고 `/bye`로 종료한다. 이 선택 경로는 필수 완료 조건이나 30분 실습 시간에 추가하지 않는다.
 
 ## 선택 심화
 

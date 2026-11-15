@@ -413,18 +413,22 @@ The full model is about 2 GB (adapter: about 2 MB). Optional; check disk space f
 
 ## 12–15 min · Optional: running the result in Ollama
 
+After checking `ex06`: Hugging Face merged folder → GGUF file → Ollama registration.
+If the converter is missing, [install it first](examples/ollama_import.md). Run from the example project root.
+
 ```powershell
+uv run --locked --with sentencepiece==0.2.3 `
+  --with protobuf==7.36.2 python `
+  ../tools/llama.cpp/convert_hf_to_gguf.py `
+  models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
+Get-Item models/week07-lora.gguf
+# Register only after conversion succeeds and the file is checked
 ollama create week07-lora -f Modelfile
 ollama run week07-lora
 ```
 
-After checking `ex06` chat, convert to GGUF. [Prepare the converter](examples/ollama_import.md) before class.
 `Modelfile`: `FROM ./models/week07-lora.gguf`
-
-Set `MODEL = "week07-lora"` in `ex01` to reuse
-the original `uv run ex01` chat code.
-
-Importing is not training. Verify support before class.
+After registration, set `MODEL = "week07-lora"` in `ex01` and chat with `uv run ex01`.
 
 ---
 
@@ -450,7 +454,7 @@ A short run and a few questions do not prove general improvement.
 - Compare before/after answers with `ex04`
 - Exit and restart to check save/reload behavior
 - Record format, facts, and side effects separately
-- Optional: `ex05` merge → `ex06` Python chat → Ollama import
+- Optional: `ex05` merge → `ex06` Python chat → GGUF conversion → Ollama registration and chat
 
 Record unchanged or worse results too.
 30-minute lab, then a 10-minute break.

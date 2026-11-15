@@ -32,6 +32,8 @@ Python 3.12와 uv를 사용한다. 모델 다운로드와 `uv sync --locked`, `u
 
 병합 모델을 실행하려면 [예제 안내](examples/README.md#병합한-모델로-python에서-대화하기)에 따라 `uv run ex05` 다음에 `uv run ex06`을 실행한다. `ex06`은 모델·토크나이저가 저장된 `models/merged-run-001/`을 읽어 Python에서 대화한다. 기존 프로젝트에 새 명령을 반영한 뒤에는 `uv sync`를 다시 실행한다. 병합 모델 대화와 Ollama 가져오기는 필수 완료 조건이 아니다.
 
+Ollama 선택 경로는 `ex05` 병합 → GGUF 변환 → 생성 파일 확인 → `ollama create` 등록 → `ollama run` 대화 순서다. 변환기는 [Ollama 연결 준비](examples/ollama_import.md)에 따라 수업 전에 준비한다. 이미 병합했다면 `ex05`를 다시 실행하지 않고 `models/merged-run-001/`을 이어 쓴다. 실제 변환 명령은 [실습지의 Ollama 선택 절](lab.md#선택--병합-모델을-ollama에서-실행)에 있다.
+
 NVIDIA GPU로 학습하려면 CUDA를 지원하는 PyTorch 빌드를 설치해야 한다. [예제 TOML](examples/pyproject.toml)에는 CUDA 저장소와 `torch`의 출처 설정이 이미 들어 있다. [CUDA용 PyTorch 설치 설정](examples/README.md#cuda용-pytorch-설치-설정)에서 `cu128`·`explicit`·`marker`의 의미, 잠금 파일 갱신 순서, GPU 사용 확인 방법을 확인한다. [슬라이드의 수업 전 준비](slides.md#수업-전-준비--cuda용-pytorch)에서도 같은 내용을 다룬다. Ollama가 GPU를 쓰는 것만으로 Python의 CUDA 준비가 확인되지는 않는다.
 
 ## 자료

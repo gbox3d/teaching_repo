@@ -169,15 +169,53 @@ Transformers 4.57.6에는 로컬에 저장한 Qwen 토크나이저에도 Mistral
 
 ## Ollama로 다시 대화하기
 
-Python의 `ex06`과 별도로 Ollama에서 실행하고 싶을 때 선택한다. 변환 도구는 [강의자 준비 순서](ollama_import.md)에 따라 수업 전에 설치한다. 위 `ex05`로 저장한 병합 폴더를 이어 쓰며, 이미 병합했다면 `ex05`를 다시 실행하지 않는다. 프로젝트 루트에서 실행한다.
+Python의 `ex06`과 별도로 Ollama에서 실행하고 싶을 때 선택한다. 순서는 **`ex05` 병합 → GGUF 변환 → 파일 확인 → Ollama 등록 → 대화**다. `ex05`는 Hugging Face 형식의 폴더만 저장하며 GGUF 파일은 만들지 않는다. `ex06`도 이 폴더를 직접 읽으므로 GGUF 변환을 대신하지 않는다.
+
+아래 명령은 `pyproject.toml`과 `Modelfile`이 있는 `examples/` 프로젝트 루트에서 실행한다. 이미 병합했다면 `ex05`를 다시 실행하지 않는다. 처음부터 준비하는 상세 순서는 [GGUF 변환·Ollama 실행 안내](ollama_import.md)에 있다.
+
+### 1. 변환기 준비 — 처음 한 번
+
+수업 전에 준비한다. 아래 폴더가 없을 때만 clone하고 검증한 버전으로 맞춘다. 이미 `../tools/llama.cpp`에 같은 버전의 변환기를 준비했다면 이 단계는 건너뛴다.
+
+현재 작업 폴더는 `examples/`다. `../tools/llama.cpp`는 한 단계 위의 `tools` 폴더 아래에 변환기를 둔다는 뜻이다. clone·버전 선택·변환 명령 모두 `examples/`에서 실행하며 작업 폴더를 바꾸지 않는다.
 
 ```powershell
-# ollama_import.md의 변환 명령으로 models/week07-lora.gguf 생성
+git clone https://github.com/ggml-org/llama.cpp.git ../tools/llama.cpp
+git -C ../tools/llama.cpp checkout ccd360f060a0f17b87ee0d4c5d91ee84cfdff484
+```
+
+### 2. 병합 폴더를 GGUF 파일로 변환
+
+`models/merged-run-001/`이 없다면 먼저 `uv run ex05`를 실행한다. 기존 GGUF를 보존하려면 `--outfile`에 새 이름을 쓰고 `Modelfile`의 `FROM`도 같은 파일로 바꾼다.
+
+```powershell
+uv run --locked --with sentencepiece==0.2.3 --with protobuf==7.36.2 `
+  python ../tools/llama.cpp/convert_hf_to_gguf.py `
+  models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
+
+Get-Item models/week07-lora.gguf
+```
+
+PowerShell의 줄 끝 백틱은 다음 줄까지 같은 명령이라는 뜻이다. 백틱 뒤에 공백을 붙이지 않는다. `--with`는 이 실행에만 추가 패키지를 제공하며 프로젝트 의존성을 바꾸지 않는다. `f16`은 16비트 부동소수점 저장이며 4비트 양자화가 아니다.
+
+변환이 정상 종료되고 `Get-Item`에 약 1 GB인 파일이 나오는지 확인한 뒤 등록한다. 파일이 없거나 변환이 실패했다면 다음 단계로 넘어가지 않는다. `MERGED_DIR`을 바꿨다면 변환 명령의 입력 폴더도 맞춘다. 입력은 어댑터 폴더가 아니라 병합 모델 폴더다.
+
+### 3. GGUF를 Ollama에 등록하고 실행
+
+`Modelfile`에 다음 경로가 있는지 확인한다.
+
+```dockerfile
+FROM ./models/week07-lora.gguf
+```
+
+기존 `Modelfile`의 나머지 설정은 이어 쓴다. 같은 이름의 개인 Ollama 모델을 보존하려면 아래 두 명령의 모델 이름을 함께 바꾼다.
+
+```powershell
 ollama create week07-lora -f Modelfile
 ollama run week07-lora
 ```
 
-`Modelfile`의 `FROM`은 `models/week07-lora.gguf`를 가리킨다. 병합은 학습한 변화를 기본 가중치에 합치는 작업이고, GGUF 변환은 실행할 파일 형식을 바꾸는 작업이다. `ollama create`는 그 결과를 Ollama에 등록한다. `SYSTEM`만 바꿔 모델을 만드는 것은 학습이 아니다.
+병합은 학습한 변화를 기본 가중치에 합치는 작업이고, GGUF 변환은 실행할 파일 형식을 바꾸는 작업이다. `ollama create`는 준비된 GGUF를 Ollama에 등록한다. 이 예제의 GGUF를 생성하는 명령은 아니다. `SYSTEM`만 바꿔 모델을 만드는 것은 학습이 아니다.
 
 병합 폴더에 더해 GGUF(f16) 파일에 약 1 GB가 필요하다. `ollama create`로 등록하면 GGUF가 Ollama 저장소에 한 번 더 저장되므로 디스크 여유 공간을 먼저 확인한다.
 

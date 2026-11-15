@@ -1,6 +1,8 @@
-# Ollama 연결 시연 준비
+# GGUF 변환과 Ollama 실행
 
-강의자가 수업 전에 준비하는 변환 경로다. 학생 필수 실습은 `ex04`의 저장·복원·전후 비교까지이며, 변환 도구를 수업 중 새로 설치하게 하지 않는다. 이 문서는 예제 프로젝트 루트에서 실행한다.
+**`ex05` 병합 → GGUF 변환 → 파일 확인 → Ollama 등록 → 대화**의 전체 순서다. `ex05`는 Hugging Face 형식의 모델 폴더를 저장하고 `ex06`은 그 폴더를 Python에서 읽는다. 두 명령 모두 GGUF 파일은 만들지 않으며, 이 문서의 변환 명령을 별도로 실행해야 한다.
+
+학생 필수 실습은 `ex04`의 저장·복원·전후 비교까지다. Ollama 경로는 시연 또는 선택 실습이며, 변환기는 수업 전에 준비한다. 이 문서의 변환·등록 명령은 `pyproject.toml`과 `Modelfile`이 있는 예제 프로젝트 루트에서 실행한다.
 
 ## 병합 모델을 GGUF로 변환
 
@@ -8,24 +10,40 @@
 
 병합 폴더는 Hugging Face 형식이다. Ollama의 Safetensors 직접 가져오기는 모델 구조와 실행기에 따라 지원 여부가 다르므로, 이 예제의 기본 연결 경로는 GGUF 파일이다.
 
-변환기는 [llama.cpp의 공식 스크립트](https://github.com/ggml-org/llama.cpp/blob/master/convert_hf_to_gguf.py)를 쓴다. 아래는 교재 예제 명령이 아니라 외부 도구의 준비·변환 명령이다. Python 버전·학습 패키지는 현재 uv 프로젝트를 사용하며 추가 두 패키지만 해당 실행에 포함한다. 프로젝트의 의존성을 변경하지 않는다.
+## 변환기 준비
 
-처음 준비할 때 별도 도구 폴더에 저장소를 받는다. 이미 있는 개인 폴더를 덮어쓰지 않는다.
+변환기는 [검증한 버전의 llama.cpp 공식 스크립트](https://github.com/ggml-org/llama.cpp/blob/ccd360f060a0f17b87ee0d4c5d91ee84cfdff484/convert_hf_to_gguf.py)를 쓴다. 아래는 외부 도구의 준비·변환 명령이다. Python 버전·학습 패키지는 현재 uv 프로젝트를 사용하며 추가 두 패키지만 해당 실행에 포함한다. 프로젝트의 의존성을 변경하지 않는다.
+
+처음 준비할 때 별도 도구 폴더에 저장소를 받는다. 이미 `../tools/llama.cpp`에 같은 버전으로 준비했다면 clone과 checkout을 다시 하지 않는다. 다른 작업에 쓰던 폴더가 같은 위치에 있으면 새 도구 폴더를 쓰고 아래 변환 명령의 스크립트 경로도 바꾼다.
+
+`examples/`에서 실행하면 `../tools/llama.cpp`는 `examples`와 나란한 `tools` 폴더 아래에 생긴다. 뒤의 변환 명령도 같은 작업 폴더에서 실행한다.
 
 ```powershell
-git clone https://github.com/ggml-org/llama.cpp.git C:\classwork\tools\llama.cpp
-git -C C:\classwork\tools\llama.cpp checkout ccd360f060a0f17b87ee0d4c5d91ee84cfdff484
+git clone https://github.com/ggml-org/llama.cpp.git ../tools/llama.cpp
+git -C ../tools/llama.cpp checkout ccd360f060a0f17b87ee0d4c5d91ee84cfdff484
 ```
 
 이 commit으로 아래 변환을 확인했다(macOS, Windows). Windows에서는 2026-11-12에 Ollama 0.40.16으로 새로 학습·병합한 모델의 GGUF 변환, 등록, `ex01`의 두 질문과 종료까지 확인했다. 다른 버전이나 PC에서는 변환과 실제 응답을 수업 전에 다시 확인한다.
 
+## GGUF 파일 생성과 확인
+
+다시 예제 프로젝트 루트에서 실행한다. 입력 `models/merged-run-001`은 `ex05`의 병합 결과이고, 출력 `models/week07-lora.gguf`는 새로 생성할 파일이다. 기존 GGUF를 보존하려면 `--outfile`의 파일 이름과 `Modelfile`의 `FROM`을 함께 바꾼다.
+
 ```powershell
-uv run --locked --with sentencepiece==0.2.3 --with protobuf==7.36.2 python C:\classwork\tools\llama.cpp\convert_hf_to_gguf.py models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
+uv run --locked --with sentencepiece==0.2.3 --with protobuf==7.36.2 `
+  python ../tools/llama.cpp/convert_hf_to_gguf.py `
+  models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
+
+Get-Item models/week07-lora.gguf
 ```
 
-macOS·Linux에서는 도구 경로를 자신의 checkout 경로로 바꾼다. `f16` 파일도 약 1GB가 필요하고, 등록하면 Ollama 저장소에 같은 크기가 한 번 더 저장된다. `shared`의 `MERGED_DIR`을 바꿨다면 변환 명령의 입력 경로도 맞춘다. 어댑터 파일 자체를 변환기의 입력으로 주지 않는다.
+PowerShell의 줄 끝 백틱 뒤에는 공백을 붙이지 않는다. 변환이 정상 종료되고 `Get-Item`에서 약 1 GB인 파일을 확인한 다음 등록한다. 파일이 없거나 변환이 실패했다면 여기서 원인을 확인하고 다음 단계로 넘어가지 않는다. `f16`은 16비트 부동소수점 저장이며 4비트 양자화가 아니다.
+
+macOS·Linux에서는 변환 명령의 줄 끝 백틱을 제거하고 한 줄로 합친다. `examples/`에서 실행하면 같은 상대 경로를 쓴다. `f16` 파일도 약 1GB가 필요하고, 등록하면 Ollama 저장소에 같은 크기가 한 번 더 저장된다. `shared`의 `MERGED_DIR`을 바꿨다면 변환 명령의 입력 경로도 맞춘다. 어댑터 파일 자체를 변환기의 입력으로 주지 않는다.
 
 ## 등록과 실제 응답 확인
+
+`Modelfile`의 `FROM ./models/week07-lora.gguf`가 앞에서 확인한 파일을 가리켜야 한다. `ollama create`는 이 파일을 등록하며, 병합 폴더에서 GGUF를 생성하는 단계가 아니다. 같은 이름의 개인 모델을 보존하려면 아래 두 명령의 모델 이름을 함께 바꾼다.
 
 ```powershell
 ollama create week07-lora -f Modelfile
