@@ -19,10 +19,10 @@
 1. `com.example.smartio` 아래에 **New › Package**로 `bleuno` 패키지를 만들고 [bleuno/src](../../bleuno/src)의 9개 파일을 붙여 넣는다. 방법은 [따라하기 2단계](walkthrough.md#2-bleuno-패키지-넣기)에 있다.
 2. 11주차 `ConnState.kt`를 지운다. 빨간색이 된 `ConnState`(`MainActivity.kt`, `ConnViewModel.kt`)에 **Alt+Enter**(맥 ⌥+Enter)로 `com.example.smartio.bleuno.ConnState`를 import한다.
 3. 11주차 `Permissions.kt`를 지운다. `blePermissions()`를 부르던 세 곳(12번 [권한 확인], 13번 `hasBlePermissions()`, `permissionLauncher`의 `else if` 줄)을 `PermissionHelper.required()`로 바꾸고 import한다.
-4. 실행해 11주차와 똑같이 [검색] → `연결 중… 5` → 목록 A·B·C가 되면 다음으로 간다.
+4. 실행해 11주차와 똑같이 [검색] → `검색 중… 5` → 목록 A·B·C가 되면 다음으로 간다(11주차 상태 글자 바로잡기를 하지 않았으면 `연결 중… 5`로 보인다. 2일차에 그 코드를 모두 지우므로 그대로 진행해도 된다).
 
 - 두 파일을 지운 뒤 빌드 창의 빨간 줄이 어느 파일 몇 번째 줄인지 먼저 읽는다. [막혔을 때](#막혔을-때)에 문구가 있다.
-- `bleuno`의 `ConnState`는 11주차 파일과 이름·값이 같다. 그래서 import만 바꾸면 7번 `when`은 그대로 동작한다.
+- `bleuno`의 `ConnState`는 11주차 파일과 이름·값이 같다. 그래서 import만 바꾸면 7번 `when`은 그대로 동작한다. 같은 `when`의 `ScanState.SCANNING`(11주차에 만든 검색 중 상수)은 `ConnViewModel.kt` 안에 있어 그대로 둔다.
 
 ### 2. client와 블루투스 켜기 요청 틀
 
@@ -149,7 +149,7 @@ if (hasBlePermissions() == false) {
 
 1. `// 7.` collect 틀에서 `viewModel.state.collect`를 `client.connectionState.collect`로 바꾼다.
 2. 8번 "먼저 모두 끄고"에 `binding.controlButton.isEnabled = false`를 더하고, `READY` 가지에 `binding.controlButton.isEnabled = true`를 더한다.
-3. `CONNECTING` 가지의 `binding.stopButton.isEnabled = true` 한 줄을 지운다([중지]는 이제 검색 멈춤이다).
+3. 11주차에 넣은 `ScanState.SCANNING` 가지(주석 한 줄과 네 줄)를 지운다. 검색 중 모양은 1일차부터 [검색]의 26·29번이 직접 바꾸고, `client.connectionState`에는 검색 상태가 오지 않는다. **6번에서 `ConnViewModel.kt`를 지우기 전에** 한다(`ScanState`가 그 파일 안에 있다). 11주차 바로잡기를 하지 않은 코드라면 대신 `CONNECTING` 가지의 `binding.stopButton.isEnabled = true` 한 줄을 지운다([중지]는 검색 멈춤이라 연결 중에는 켜지 않는다).
 4. `// 9.` 남은 초 collect 블록 전체를 지운다.
 5. `// 5.` [다시 시도] 몸체를 `binding.scanButton.performClick()`으로, `// 6.` [해제] 몸체를 `client.disconnect()`로 바꾼다.
 6. `private val viewModel: ConnViewModel by viewModels()`와 그 주석, 회색이 된 `import androidx.activity.viewModels`를 지우고, Project 창에서 `ConnViewModel.kt`를 지운다.
@@ -164,7 +164,7 @@ if (hasBlePermissions() == false) {
 | `끊김` |  |  |  |
 
 - 틀(`lifecycleScope.launch` · `repeatOnLifecycle` · `collect`)은 7주차 그대로다. 바뀌는 것은 받는 대상뿐이다.
-- `viewModel`에 빨간 줄이 남아 있으면 5·6·7·9번 가운데 아직 안 바꾼 곳이 있다.
+- `viewModel`에 빨간 줄이 남아 있으면 5·6·7·9번 가운데 아직 안 바꾼 곳이 있다. `ScanState`에 빨간 줄이 남아 있으면 3번(`ScanState.SCANNING` 가지 지우기)을 빠뜨린 것이다.
 
 ### 3. 목록 줄 누르기 → 연결, 그리고 [제어 화면]
 
@@ -225,6 +225,7 @@ if (hasBlePermissions() == false) {
 
 | 상황 | 확인할 것 |
 |---|---|
+| `Unresolved reference 'ScanState'.` (2일차 `ConnViewModel.kt`를 지운 뒤) | 7번 `when`에 11주차 `ScanState.SCANNING` 가지가 남아 있다. 그 가지를 지운다(따라하기 12단계처럼 7번 블록을 통째로 바꾸면 함께 없어진다) |
 | `Unresolved reference 'Bleuno'.` (`ConnState`·`PermissionHelper`도 같은 모양) | 라이브러리는 다른 패키지(`com.example.smartio.bleuno`)라 import가 필요하다. 빨간 글자에 Alt+Enter(맥 ⌥+Enter) → Import |
 | `Unresolved reference 'TcpBleunoClient'.` (`Bleuno.kt`에 표시된다) | 제공 파일 9개 가운데 `TcpBleunoClient.kt`를 빠뜨렸다. `Bleuno.kt`가 이 클래스를 부르므로 [bleuno/src](../../bleuno/src)의 9개를 모두 붙여 넣는다 |
 | `Unresolved reference 'blePermissions'.` (바로 위에 `Method 'iterator()' is ambiguous for this expression.`과 후보 목록이 먼저 보일 수 있다) | 위의 `iterator()` 목록은 이 오류의 여파다. `Permissions.kt`를 지웠는데 부르는 곳을 안 바꿨다. `blePermissions()`를 `PermissionHelper.required()`로 바꾼다. 12·13번과 `permissionLauncher`의 `else if` 줄, 세 곳이다 |

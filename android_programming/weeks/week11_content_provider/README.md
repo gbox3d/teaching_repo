@@ -4,7 +4,7 @@
 
 > 검색한 장치 이름을 화면에 한 줄씩 쌓아 고르게 하고, 마지막으로 연결한 장치를 앱을 껐다 켜도 기억하려면 어떻게 써야 할까?
 
-10주차에는 배터리 방송을 받고 [권한 확인]으로 BLE 권한을 요청했다. 이번 주 1일차에는 연결 화면에 **ListView**를 두고, [검색]을 누르면 1초마다 가짜 장치 이름(`ESP32_BLE_A`…)을 목록에 넣는다. 한 줄을 누르면 그 이름이 장치 이름 칸에 들어가 [연결]로 제어 화면에 넘어간다.
+10주차에는 배터리 방송을 받고 [권한 확인]으로 BLE 권한을 요청했다. 이번 주 1일차에는 연결 화면에 **ListView**를 두고, [검색]을 누르면 1초마다 가짜 장치 이름(`ESP32_BLE_A`…)을 목록에 넣는다. 한 줄을 누르면 그 이름이 장치 이름 칸에 들어가 [연결]로 제어 화면에 넘어간다. 그 사이에 [검색] 뒤 상태 글자도 바로잡는다. 장치를 찾는 5초는 `검색 중… N`, 이어지는 가짜 연결 2초는 `연결 중`이다(7주차 2일차부터 `연결 중… N`·`서비스 확인 중`으로 잘못 보여 주던 것).
 2일차에는 마지막으로 연결한 장치 이름을 **SharedPreferences**에 저장해 앱을 다시 켜도 `마지막 장치: …`로 보여 준다. 다른 앱의 데이터를 읽는 **ContentProvider**는 연락처 읽기 시연으로 비교하고, 12주차 BLE 수업 전에 **실기기**에서 앱을 실행해 둔다.
 
 ## 학습 목표
@@ -53,7 +53,7 @@ Smart I/O Controller
 
 | 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
 |---|---|---|---|
-| 1일차 | `mutableListOf`·`add`·`size`, ListView와 `ArrayAdapter`, `notifyDataSetChanged`, `setOnItemClickListener` | 목록 자리 → 목록과 어댑터 → [검색]에서 1초마다 이름 넣기·[중지] → 한 줄 누르기 → 캡처 1 | 장치 이름을 골라 연결하는 목록 화면 |
+| 1일차 | `mutableListOf`·`add`·`size`, ListView와 `ArrayAdapter`, 상태 글자 바로잡기(`검색 중`과 `연결 중`), `notifyDataSetChanged`, `setOnItemClickListener` | 목록 자리 → 목록과 어댑터 → 상태 글자 바로잡기 → [검색]에서 1초마다 이름 넣기·[중지] → 한 줄 누르기 → 캡처 1 | 장치 이름을 골라 연결하는 목록 화면 |
 | 2일차 | SharedPreferences 저장·꺼내기, ContentProvider 비교와 연락처 읽기 시연, 실기기 준비, RecyclerView 소개 | 마지막 장치 저장·표시 → 앱 재시작 캡처 2 → 실기기 실행 캡처 3(없으면 연락처 읽기) | 마지막 장치를 기억하는 연결 화면 |
 
 각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
@@ -62,7 +62,7 @@ Smart I/O Controller
 ## 준비
 
 - 10주차까지 만든 `SmartIO` 프로젝트(배터리 문구와 [권한 확인]이 있는 연결 화면). 없으면 10주차 완성본(`examples/day2`)을 받아 시작한다.
-- 6주차에 배운 `lifecycleScope.launch`·`delay`와 `Job`·`cancel()`, 10주차에 배운 `for (permission in blePermissions())`
+- 6주차에 배운 `lifecycleScope.launch`·`delay`와 `Job`·`cancel()`, 7주차 2일차에 배운 `object ConnState` 상수 묶음과 `when (state)`, 10주차에 배운 `for (permission in blePermissions())`
 - 3주차 null 안전성 `?:`와 4주차 `getStringExtra(…) ?: ""`, `isEmpty()`
 - 10주차 런타임 권한 흐름(`registerForActivityResult(RequestMultiplePermissions())`, `AlertDialog`)
 - 2일차: Android 폰이 있으면 **데이터 전송이 되는 USB 케이블**을 가져온다. 없으면 에뮬레이터로 연락처 읽기를 한다.
@@ -74,6 +74,8 @@ Smart I/O Controller
 |---|---|
 | `val devices = mutableListOf<String>()` | 글자를 담는, 늘리고 비울 수 있는 빈 목록. `<String>`은 "글자만 담는다"는 표시 |
 | `devices.add(name)` / `devices.clear()` / `devices.size` | 끝에 하나 넣기 / 모두 비우기 / 들어 있는 개수 |
+| `object ScanState { const val SCANNING = "검색 중" }` | [검색] 뒤 장치를 찾는 5초의 상태 글자. 검색은 연결 상태가 아니라서 `ConnState`와 따로 `ConnViewModel.kt` 맨 위(class 밖)에 둔다. 7주차 2일차 상수 묶음과 같은 모양 |
+| `deviceJob?.cancel()` | [검색]이 새 코루틴을 시작하기 전에 앞 코루틴을 멈춘다. 변수에 새로 넣어도 앞 코루틴은 저절로 멈추지 않는다 |
 | `<ListView android:id="@+id/deviceList" android:layout_height="0dp" android:layout_weight="1" />` | 여러 줄을 세로로 쌓아 보여 주는 View. 남는 세로 공간을 모두 차지한다 |
 | `ArrayAdapter(this, android.R.layout.simple_list_item_1, devices)` | 목록과 ListView를 잇는 어댑터. 가운데 값은 Android가 준비한 한 줄짜리 모양 |
 | `binding.deviceList.adapter = adapter` | ListView에 어댑터를 끼운다 |
@@ -99,7 +101,7 @@ ContentProvider를 직접 만드는 법, 파일·데이터베이스 저장, Recy
 - [순서대로 따라하기](walkthrough.md)
 - [실습과 제출 안내](lab.md)
 - [예제 설명](examples/README.md)
-- 1일차 완성 코드: [MainActivity.kt](examples/day1/MainActivity.kt) · [activity_main.xml](examples/day1/activity_main.xml) · [strings.xml](examples/day1/strings.xml)
+- 1일차 완성 코드: [MainActivity.kt](examples/day1/MainActivity.kt) · [ConnViewModel.kt](examples/day1/ConnViewModel.kt) · [ConnState.kt](examples/day1/ConnState.kt) · [activity_main.xml](examples/day1/activity_main.xml) · [strings.xml](examples/day1/strings.xml)
 - 2일차 완성 코드: [MainActivity.kt](examples/day2/MainActivity.kt) · [ContactsReader.kt](examples/day2/ContactsReader.kt) · [AndroidManifest.xml](examples/day2/AndroidManifest.xml) · [activity_main.xml](examples/day2/activity_main.xml) · [strings.xml](examples/day2/strings.xml)
 
 ## 완료 기준

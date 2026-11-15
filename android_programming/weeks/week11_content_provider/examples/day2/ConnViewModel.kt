@@ -12,10 +12,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
+// 11주차 1일차: [검색]이 장치를 찾는 동안 보여 줄 상태 글자. 찾는 일(검색)은 붙는 일(연결)과 달라서 ConnState에 넣지 않고 따로 둔다.
+// 7주차 2일차 ConnState와 같은 object 상수 묶음이다. 12주차 라이브러리의 ConnState에도 검색은 들어 있지 않다.
+object ScanState {
+    const val SCANNING = "검색 중"
+}
+
 // 7주차 1일차: 연결 화면의 일을 맡는 ViewModel. 화면(Activity)보다 오래 살아서 회전해도 그대로 남는다.
 class ConnViewModel : ViewModel() {
     // 1. 화면에 보여 줄 값 두 가지: 연결 상태와 카운트다운 남은 초.
     //    바꾸는 쪽(_state, _seconds)은 안에만 두고, 화면에는 읽기 전용(state, seconds)만 보여 준다(7주차 2일차).
+    //    _state에는 ConnState의 연결 상태 말고도 검색 중(ScanState.SCANNING)이 들어간다(11주차 1일차).
     private val _state = MutableStateFlow(ConnState.DISCONNECTED)
     val state: StateFlow<String> = _state
     private val _seconds = MutableStateFlow(0)
@@ -24,16 +31,17 @@ class ConnViewModel : ViewModel() {
     // 2. [검색]·[다시 시도]가 시작한 코루틴. 6주차에는 MainActivity에 있던 변수다(7주차 1일차).
     private var scanJob: Job? = null
 
-    // 3. [검색]: 연결 중으로 바꾸고 5초를 센 뒤 가짜 연결을 시도한다. 값은 _state·_seconds에 넣는다(7주차 2일차).
+    // 3. [검색]: 검색 중으로 바꾸고 5초를 센 뒤 가짜 연결을 시도한다. 값은 _state·_seconds에 넣는다(7주차 2일차).
+    //    11주차 1일차: 5초를 세는 동안은 장치를 찾는 중이라 상태를 "연결 중"에서 "검색 중"으로 바로잡았다.
     fun startScan() {
         // 이미 돌고 있으면 새로 시작하지 않는다(7주차 1일차).
         if (scanJob?.isActive == true) {
             return
         }
         scanJob = viewModelScope.launch {
-            _state.value = ConnState.CONNECTING
+            _state.value = ScanState.SCANNING
             for (i in 5 downTo 1) {
-                Log.d("Conn", "연결 중… $i")
+                Log.d("Conn", "검색 중… $i")
                 _seconds.value = i
                 delay(1000)
             }
@@ -71,8 +79,9 @@ class ConnViewModel : ViewModel() {
     }
 
     // 가짜 연결을 시도하고 결과 상태를 _state에 넣는다.
+    // 11주차 1일차: 기다리는 2초는 연결하는 중이라 상태를 "서비스 확인 중"에서 "연결 중"으로 바로잡았다.
     private suspend fun tryConnect() {
-        _state.value = ConnState.DISCOVERING
+        _state.value = ConnState.CONNECTING
         try {
             connectFake()
             _state.value = ConnState.READY

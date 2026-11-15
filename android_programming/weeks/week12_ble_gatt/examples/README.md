@@ -11,8 +11,8 @@
 | 11주차 `ConnState.kt`, `Permissions.kt` | `com.example.smartio` 바로 아래 | 1일차에 **지운다**. `bleuno`의 `ConnState`, `PermissionHelper.required()`를 쓴다 |
 | [day1/MainActivity.kt](day1/MainActivity.kt) | `app › kotlin+java › com.example.smartio › MainActivity.kt` | `useFake`·`client`·`bluetoothLauncher`, client 받기(24번), [검색] 교체(25~29번), [중지] 교체(30번), `onStop`에 `stopScan()`, `blePermissions()` → `PermissionHelper.required()`(12·13번, `permissionLauncher`의 `else if` 줄) |
 | [day1/ConnViewModel.kt](day1/ConnViewModel.kt) | `ConnViewModel.kt` | `import com.example.smartio.bleuno.ConnState` 한 줄 추가 |
-| [day2/MainActivity.kt](day2/MainActivity.kt) | `MainActivity.kt` | 주소 목록(31~33번), 0개 안내(34번), [다시 시도]·[해제] 35·36번, collect 대상 교체(37번), 줄 누르면 연결(38번), [제어 화면] 39번, 위치 확인(40~42번). `viewModel`과 9번 삭제 |
-| `day2`에 없는 `ConnViewModel.kt` | `ConnViewModel.kt` | 2일차에 **지운다** |
+| [day2/MainActivity.kt](day2/MainActivity.kt) | `MainActivity.kt` | 주소 목록(31~33번), 0개 안내(34번), [다시 시도]·[해제] 35·36번, collect 대상 교체(37번), 줄 누르면 연결(38번), [제어 화면] 39번, 위치 확인(40~42번). `viewModel`과 9번 삭제, 8번의 11주차 `ScanState.SCANNING` 가지 삭제 |
+| `day2`에 없는 `ConnViewModel.kt` | `ConnViewModel.kt` | 2일차에 **지운다**. 맨 위의 11주차 `ScanState`도 함께 없어지므로 8번의 `ScanState.SCANNING` 가지를 먼저 지운다 |
 | [day2/ControlActivity.kt](day2/ControlActivity.kt) | `ControlActivity.kt` | 상태 collect(4번) 추가 |
 | [day2/activity_main.xml](day2/activity_main.xml) | `app › res › layout › activity_main.xml` | `connectButton` 아래 `controlButton` 추가 |
 | [day2/activity_control.xml](day2/activity_control.xml) | `activity_control.xml` | `deviceText` 아래 `stateText` 추가 |

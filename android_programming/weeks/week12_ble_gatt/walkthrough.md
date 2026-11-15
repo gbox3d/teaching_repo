@@ -30,7 +30,7 @@ Smart I/O Controller
 배터리 100% · 충전 중
 ```
 
-3. [검색]을 한 번 눌러 11주차처럼 `연결 중… 5`와 함께 목록에 `ESP32_BLE_A`·`B`·`C`가 1초마다 들어오는지 본다. 이 가짜 이름을 오늘 진짜 검색으로 바꾼다.
+3. [검색]을 한 번 눌러 11주차처럼 `검색 중… 5`와 함께 목록에 `ESP32_BLE_A`·`B`·`C`가 1초마다 들어오는지 본다. 이 가짜 이름을 오늘 진짜 검색으로 바꾼다. `연결 중… 5`로 보이면 11주차 1일차 4단계(상태 글자 바로잡기)를 하지 않은 코드다. 그 부분은 2일차에 모두 지우므로 그대로 진행해도 되지만, 12주차 완성 파일을 통째로 붙여 넣을 생각이면 11주차 4단계를 먼저 한다(`ScanState`가 없으면 빨간 줄이 된다).
 4. Logcat 창의 필터에 `package:mine tag:BLE`를 넣어 둔다. 지금은 아무 줄도 없다.
 
 ### 2. bleuno 패키지 넣기
@@ -51,7 +51,7 @@ Smart I/O Controller
 11주차 두 파일은 라이브러리에 같은 일을 하는 것이 들어 있어 지운다.
 
 1. Project 창에서 `com.example.smartio` 바로 아래의 `ConnState.kt`(bleuno 안의 것이 **아니다**)를 오른쪽 클릭 → **Delete** → [OK]. 사용하는 곳이 있다는 창이 뜨면 그대로 지운다.
-2. `MainActivity.kt`의 7번 `when` 안 `ConnState`가 빨간색이 된다. 빨간 `ConnState`에 커서를 두고 **Alt+Enter**(맥 ⌥+Enter) → **Import** → `com.example.smartio.bleuno.ConnState`를 고른다.
+2. `MainActivity.kt`의 7번 `when` 안 `ConnState`가 빨간색이 된다. 빨간 `ConnState`에 커서를 두고 **Alt+Enter**(맥 ⌥+Enter) → **Import** → `com.example.smartio.bleuno.ConnState`를 고른다. 같은 `when`의 `ScanState.SCANNING`은 `ConnViewModel.kt` 안에 있어 빨간색이 되지 않는다.
 3. `ConnViewModel.kt`를 열어 같은 방법으로 import한다. `import androidx.lifecycle.viewModelScope` 아래에 한 줄이 생긴다.
 
 ```kotlin
@@ -90,6 +90,7 @@ import com.example.smartio.bleuno.ConnState
 6. 실행한다. 11주차와 똑같이 [검색] → 카운트다운과 A·B·C 목록, [권한 확인] → `권한 OK`가 되면 성공이다.
 
 - bleuno의 `ConnState`는 11주차 파일과 이름·값(`연결 안 됨`·`연결 중`·`서비스 확인 중`·`준비됨`·`끊김`)이 같다. 그래서 import만 바꾸면 된다. 11주차 `ConnState.kt` 주석에 "12주차에는 이 파일 대신 import만 바꾼다"라고 적어 두었던 일이다.
+- 11주차 1일차에 만든 `ScanState`(검색 중)는 연결 상태가 아니라 라이브러리 `ConnState`에 없다. `ConnViewModel.kt` 맨 위에 그대로 남고, 2일차에 `ConnViewModel.kt`와 함께 없어진다.
 - `PermissionHelper.required()`는 10주차 `blePermissions()`와 같은 권한 목록(Android 12 이상 `BLUETOOTH_SCAN`·`BLUETOOTH_CONNECT`, 그 이하 `ACCESS_FINE_LOCATION`)을 돌려준다.
 - 세 곳 중 한 곳이라도 빠뜨리고 빌드하면 `Unresolved reference 'blePermissions'.` 오류가 남는다. 그 위에 `Method 'iterator()' is ambiguous…`와 긴 목록이 먼저 보여도 아래의 `Unresolved reference` 줄을 먼저 읽는다.
 
@@ -111,10 +112,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
+// 11주차 1일차: [검색]이 장치를 찾는 동안 보여 줄 상태 글자. 찾는 일(검색)은 붙는 일(연결)과 달라서 ConnState에 넣지 않고 따로 둔다.
+// 7주차 2일차 ConnState와 같은 object 상수 묶음이다. 12주차 라이브러리의 ConnState에도 검색은 들어 있지 않다.
+object ScanState {
+    const val SCANNING = "검색 중"
+}
+
 // 7주차 1일차: 연결 화면의 일을 맡는 ViewModel. 화면(Activity)보다 오래 살아서 회전해도 그대로 남는다.
 class ConnViewModel : ViewModel() {
     // 1. 화면에 보여 줄 값 두 가지: 연결 상태와 카운트다운 남은 초.
     //    바꾸는 쪽(_state, _seconds)은 안에만 두고, 화면에는 읽기 전용(state, seconds)만 보여 준다(7주차 2일차).
+    //    _state에는 ConnState의 연결 상태 말고도 검색 중(ScanState.SCANNING)이 들어간다(11주차 1일차).
     private val _state = MutableStateFlow(ConnState.DISCONNECTED)
     val state: StateFlow<String> = _state
     private val _seconds = MutableStateFlow(0)
@@ -123,16 +131,17 @@ class ConnViewModel : ViewModel() {
     // 2. [검색]·[다시 시도]가 시작한 코루틴. 6주차에는 MainActivity에 있던 변수다(7주차 1일차).
     private var scanJob: Job? = null
 
-    // 3. [검색]: 연결 중으로 바꾸고 5초를 센 뒤 가짜 연결을 시도한다. 값은 _state·_seconds에 넣는다(7주차 2일차).
+    // 3. [검색]: 검색 중으로 바꾸고 5초를 센 뒤 가짜 연결을 시도한다. 값은 _state·_seconds에 넣는다(7주차 2일차).
+    //    11주차 1일차: 5초를 세는 동안은 장치를 찾는 중이라 상태를 "연결 중"에서 "검색 중"으로 바로잡았다.
     fun startScan() {
         // 이미 돌고 있으면 새로 시작하지 않는다(7주차 1일차).
         if (scanJob?.isActive == true) {
             return
         }
         scanJob = viewModelScope.launch {
-            _state.value = ConnState.CONNECTING
+            _state.value = ScanState.SCANNING
             for (i in 5 downTo 1) {
-                Log.d("Conn", "연결 중… $i")
+                Log.d("Conn", "검색 중… $i")
                 _seconds.value = i
                 delay(1000)
             }
@@ -170,8 +179,9 @@ class ConnViewModel : ViewModel() {
     }
 
     // 가짜 연결을 시도하고 결과 상태를 _state에 넣는다.
+    // 11주차 1일차: 기다리는 2초는 연결하는 중이라 상태를 "서비스 확인 중"에서 "연결 중"으로 바로잡았다.
     private suspend fun tryConnect() {
-        _state.value = ConnState.DISCOVERING
+        _state.value = ConnState.CONNECTING
         try {
             connectFake()
             _state.value = ConnState.READY
@@ -350,10 +360,10 @@ stopScan(가짜)
 - 이 줄이 없으면 화면이 안 보이는 동안 검색이 끝나 29번이 보이지 않는 화면을 고치게 된다.
 - `onStart`에서 검색을 다시 시작하지는 않는다. 검색은 [검색]을 누를 때만 시작한다.
 
-완성한 `MainActivity.kt` 전체는 [examples/day1/MainActivity.kt](examples/day1/MainActivity.kt)에 있다(357줄). 파일을 열어 내 코드와 위에서부터 한 블록씩 비교한다. 이번 단계까지 넣은 곳은 import 5줄(`BluetoothAdapter`·`Bleuno`·`BleunoClient`·`ConnState`·`PermissionHelper`), 클래스 변수 3개, 24번, 3·4번 블록, 11번 `onStop`, 12·13번과 `permissionLauncher` `else if` 줄의 `PermissionHelper.required()`다.
+완성한 `MainActivity.kt` 전체는 [examples/day1/MainActivity.kt](examples/day1/MainActivity.kt)에 있다(362줄). 파일을 열어 내 코드와 위에서부터 한 블록씩 비교한다. 이번 단계까지 넣은 곳은 import 5줄(`BluetoothAdapter`·`Bleuno`·`BleunoClient`·`ConnState`·`PermissionHelper`), 클래스 변수 3개, 24번, 3·4번 블록, 11번 `onStop`, 12·13번과 `permissionLauncher` `else if` 줄의 `PermissionHelper.required()`다.
 
 `package com.example.smartio` 줄은 내 프로젝트의 첫 줄과 같아야 한다. 다르면 첫 줄은 내 것을 그대로 둔다.
-11주차까지의 코드(주석 1~23)가 내 코드와 조금 달라도 동작이 같으면 그대로 둔다. 1일차에는 상태가 늘 `연결 안 됨`이라 [다시 시도]·[해제]는 누를 일이 없다. 2일차에 정리한다.
+11주차까지의 코드(주석 1~23)가 내 코드와 조금 달라도 동작이 같으면 그대로 둔다. 1일차에는 상태가 늘 `연결 안 됨`이라 [다시 시도]·[해제]는 누를 일이 없다. [검색]이 `viewModel.startScan()`을 부르지 않으므로 8번의 `ScanState.SCANNING` 가지와 9번(`검색 중… N`)도 실행되지 않는다. 오늘 검색 중 화면은 26번이 `검색 중…`으로 직접 쓴다. 2일차에 정리한다.
 
 ### 8. startsWith 글자 바꿔 보기
 
@@ -1071,9 +1081,9 @@ class ControlActivity : AppCompatActivity() {
 
 ### 12. 상태를 client에서 받고 ConnViewModel 지우기
 
-7주차부터 연결 상태는 `ConnViewModel`이 가짜 카운트다운으로 만들었다. 오늘부터는 라이브러리가 진짜 연결 상태를 만들어 주므로 `client.connectionState`를 받고 ViewModel은 지운다.
+7주차부터 화면의 상태 글자는 `ConnViewModel`이 가짜 검색(5초 세기)과 가짜 연결(2초)로 만들었다. 오늘부터는 라이브러리가 진짜 연결 상태를 만들어 주므로 `client.connectionState`를 받고 ViewModel은 지운다.
 
-1. `MainActivity.kt`의 `// 7.` 상태 collect 블록을 통째로 아래 코드로 바꾼다. 바뀌는 곳은 다섯 군데다. 주석 `37.` 한 줄 추가, `viewModel.state.collect` → `client.connectionState.collect`, 8번 아래 `controlButton` 끄기 한 줄, `CONNECTING` 가지의 `stopButton` 켜기 줄을 주석 두 줄로, `READY` 가지에 `controlButton` 켜기.
+1. `MainActivity.kt`의 `// 7.` 상태 collect 블록을 통째로 아래 코드로 바꾼다. 바뀌는 곳은 여섯 군데다. 주석 `37.` 한 줄 추가, `viewModel.state.collect` → `client.connectionState.collect`, 8번 아래 `controlButton` 끄기 한 줄, 11주차에 넣은 `ScanState.SCANNING` 가지(주석 한 줄과 네 줄) 지우기, `CONNECTING` 가지에 주석 두 줄 넣기, `READY` 가지에 `controlButton` 켜기. `ScanState`는 `ConnViewModel.kt` 안에 있으므로 이 블록을 먼저 바꿔야 5번에서 `ConnViewModel.kt`를 지워도 빨간 줄이 남지 않는다.
 
 ```kotlin
         // 7. 상태를 받아 화면을 고친다. 화면이 보일 때(STARTED)만 받고, 회전 뒤에는 마지막 값을 바로 다시 받는다(7주차 2일차).
@@ -1119,13 +1129,14 @@ class ControlActivity : AppCompatActivity() {
 2. 바로 아래의 `// 9.` 남은 초 collect 블록을 **통째로** 지운다. 지울 블록은 아래와 같다.
 
 ```kotlin
-        // 9. 남은 초를 받아 "연결 중… 3"처럼 붙여 보여 준다. 7번과 같은 틀을 하나 더 쓴다(7주차 2일차).
-        //    반드시 7번 틀 아래에 둔다. 7번이 "연결 중"을 먼저 쓰고 9번이 숫자를 붙여야 회전 뒤에도 숫자가 보인다.
+        // 9. 남은 초를 받아 "검색 중… 3"처럼 붙여 보여 준다. 7번과 같은 틀을 하나 더 쓴다(7주차 2일차).
+        //    반드시 7번 틀 아래에 둔다. 7번이 "검색 중"을 먼저 쓰고 9번이 숫자를 붙여야 회전 뒤에도 숫자가 보인다.
+        //    11주차 1일차: 5초를 세는 동안은 장치를 찾는 중이라 글자를 "연결 중… N"에서 "검색 중… N"으로 바로잡았다.
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.seconds.collect { seconds ->
                     if (seconds > 0) {
-                        binding.stateText.text = "연결 중… $seconds"
+                        binding.stateText.text = "검색 중… $seconds"
                     }
                 }
             }
@@ -1149,15 +1160,17 @@ class ControlActivity : AppCompatActivity() {
 ```
 
 4. 클래스 변수 자리 맨 위의 `// 7주차 1일차: …` 주석과 `private val viewModel: ConnViewModel by viewModels()` 두 줄을 지운다. 파일 위쪽에서 회색이 된 `import androidx.activity.viewModels`도 지운다.
-5. Project 창에서 `ConnViewModel.kt`를 오른쪽 클릭 → **Delete** → [OK].
+5. Project 창에서 `ConnViewModel.kt`를 오른쪽 클릭 → **Delete** → [OK]. 11주차 1일차에 이 파일 맨 위에 둔 `ScanState`도 함께 없어진다.
 6. 실행한다. 앱 시작 화면은 상태 `연결 안 됨`, [검색]만 켜짐, [제어 화면] 꺼짐이다. [검색]은 1일차처럼 FAKE1·FAKE2를 찾는다. 목록 줄을 눌러도 아직 연결하지 않는다(13단계).
 
-- 틀(`lifecycleScope.launch` · `repeatOnLifecycle(Lifecycle.State.STARTED)` · `collect`)과 `when` 다섯 가지는 7주차 그대로다. 받는 대상만 `client.connectionState`로 바뀌었다. 값은 bleuno `ConnState`의 문자열 다섯 개라서 `stateText`에 그대로 들어간다.
-- `CONNECTING`: 7주차에는 [중지]로 카운트다운을 멈출 수 있었지만 12주차 [중지]는 검색 멈춤이다. 그래서 연결 중에는 7번이 켜는 버튼([검색]·[중지]·[해제]·[제어 화면])이 모두 꺼지고 ProgressBar만 돈다. 7번이 건드리지 않는 [연결]·[권한 확인]·[연락처 보기]는 그대로 켜져 있다. 보드가 응답하지 않으면 한참(보통 30초쯤) 뒤 `끊김`이 된다.
+- 틀(`lifecycleScope.launch` · `repeatOnLifecycle(Lifecycle.State.STARTED)` · `collect`)은 7주차 그대로다. 받는 대상만 `client.connectionState`로 바뀌었다. 값은 bleuno `ConnState`의 문자열 다섯 개라서 `stateText`에 그대로 들어가고, `when`도 그 다섯 가지만 남는다.
+- `ScanState.SCANNING` 가지를 지우는 까닭: 11주차 가짜 검색에서는 이 가지가 5초 동안 [중지]를 켰다. 12주차의 검색 중 모양은 1일차부터 3번 [검색]의 26·29번이 직접 바꾸고, `client.connectionState`에는 검색 상태가 오지 않는다(검색은 연결 상태가 아니다).
+- `CONNECTING`: 코드는 11주차 그대로이고 주석 두 줄만 더한다. [중지]는 검색을 멈추는 버튼이라 연결 중에는 켜지 않는다(11주차 1일차에 바로잡은 그대로다). 그래서 연결 중에는 7번이 켜는 버튼([검색]·[중지]·[해제]·[제어 화면])이 모두 꺼지고 ProgressBar만 돈다. 7번이 건드리지 않는 [연결]·[권한 확인]·[연락처 보기]는 그대로 켜져 있다. 보드가 응답하지 않으면 한참(보통 30초쯤) 뒤 `끊김`이 된다.
 - `READY`: [해제]와 [제어 화면]을 켠다. `준비됨`이 아닐 때는 8번에서 끈 그대로다.
 - `// 35.` `performClick()`은 코드로 버튼을 누른다. [다시 시도]를 누르면 [검색]을 누른 것과 똑같이 권한·블루투스 확인부터 다시 한다.
 - `// 36.` `client.disconnect()`: 연결을 끊는다. 끊기면 `connectionState`가 `연결 안 됨`이 되어 7번이 화면을 고친다.
-- `viewModel`에 빨간 줄이 남아 있으면 5·6·7·9번 가운데 아직 안 바꾼 곳이 있다.
+- `viewModel`에 빨간 줄이 남아 있으면 5·6·7·9번 가운데 아직 안 바꾼 곳이 있다. `ScanState`에 빨간 줄이 남아 있으면(`Unresolved reference 'ScanState'.`) 7번 블록을 통째로 바꾸지 않아 `ScanState.SCANNING` 가지가 남은 것이다.
+- 11주차 바로잡기를 하지 않은 코드(8번 `CONNECTING` 가지에 [중지] 켜는 줄, `ScanState` 없음)도 1번에서 7번 블록을 통째로 바꾸고 2번에서 9번을 통째로 지우면 같은 결과가 된다.
 
 ### 13. 목록 줄을 누르면 연결하기
 
@@ -1412,7 +1425,7 @@ class ControlActivity : AppCompatActivity() {
 - `// 40.` `showLocationDialog()`: 10주차 14번 `showPermissionDialog()`와 같은 모양이다. `Settings.ACTION_LOCATION_SOURCE_SETTINGS`는 위치 설정 화면을 여는 암시적 Intent다.
 - `// 41.` 확인 순서는 권한 → 블루투스 → 위치다. 안내창은 [검색]을 누른 순간(클릭 리스너)에만 띄운다. 5초 뒤에 불리는 `onFinished`에서 창을 띄우면 그사이 화면이 돌거나 닫혔을 때 사라진 화면에 창을 띄우게 된다. `onFinished` 안에서는 글자와 버튼만 바꾼다.
 
-완성한 `MainActivity.kt` 전체는 [examples/day2/MainActivity.kt](examples/day2/MainActivity.kt)에 있다(405줄). 파일을 열어 내 코드와 위에서부터 한 블록씩 비교한다. 2일차에 바뀐 곳은 import(`Build` 추가, `viewModels` 삭제), `viewModel` 선언 삭제, 31~39번, 5·6·7번, 9번 삭제, 40·41·42번이다.
+완성한 `MainActivity.kt` 전체는 [examples/day2/MainActivity.kt](examples/day2/MainActivity.kt)에 있다(405줄). 파일을 열어 내 코드와 위에서부터 한 블록씩 비교한다. 2일차에 바뀐 곳은 import(`Build` 추가, `viewModels` 삭제), `viewModel` 선언 삭제, 31~39번, 5·6·7번(8번의 `ScanState.SCANNING` 가지 삭제 포함), 9번 삭제, 40·41·42번이다.
 1일차 코드와 무엇이 다른지 한눈에 보려면 Android Studio에서 두 파일을 골라 오른쪽 클릭 › **Compare Files**를 쓴다.
 
 `package com.example.smartio` 줄은 내 프로젝트의 첫 줄과 같아야 한다. 다르면 첫 줄은 내 것을 그대로 둔다.

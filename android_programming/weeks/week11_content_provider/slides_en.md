@@ -26,7 +26,8 @@ ESP32_BLE_C
 
 1. Build a list with `mutableListOf` and grow it with `add`.
 2. Attach an `ArrayAdapter` to a `ListView`, and call `notifyDataSetChanged()` after every change.
-3. Pull the tapped row's name out with `setOnItemClickListener`.
+3. Correct the status text after [Scan]: the 5 seconds are `검색 중… N` (Scanning… N), the next 2 seconds `연결 중` (Connecting).
+4. Pull the tapped row's name out with `setOnItemClickListener`.
 
 ---
 
@@ -46,7 +47,7 @@ println("Device count: $count")          // Device count: 2
 
 ---
 
-## Day 1 · 5–15 min ① — The Adapter Between the List and the ListView
+## Day 1 · 5–13 min ① — The Adapter Between the List and the ListView
 
 ```text
 devices (list)          ArrayAdapter                       ListView (screen)
@@ -61,7 +62,7 @@ devices (list)          ArrayAdapter                       ListView (screen)
 
 ---
 
-## Day 1 · 5–15 min ② — Placing a ListView in XML
+## Day 1 · 5–13 min ② — Placing a ListView in XML
 
 ```xml
 <ListView
@@ -78,7 +79,7 @@ devices (list)          ArrayAdapter                       ListView (screen)
 
 ---
 
-## Day 1 · 5–15 min ③ — Building and Attaching an ArrayAdapter
+## Day 1 · 5–13 min ③ — Building and Attaching an ArrayAdapter
 
 ```kotlin
 // Inside onCreate, above the [Scan] block
@@ -94,7 +95,27 @@ binding.deviceList.adapter = adapter
 
 ---
 
-## Day 1 · 15–22 min ① — After Changing the List, Call notifyDataSetChanged()
+## Day 1 · 13–17 min — Correction: Scanning vs. Connecting
+
+| After pressing [Scan] | What the app does | Text so far | Correct text |
+|---|---|---|---|
+| 5-second count | **Finding** devices | `연결 중… 5` (Connecting… 5) | `검색 중… 5` (Scanning… 5) |
+| 2-second wait | Fake **connection** | `서비스 확인 중` (Discovering services) | `연결 중` (Connecting) |
+
+```kotlin
+// Top of ConnViewModel.kt (outside the class): finding is not connecting, so keep it apart from ConnState
+object ScanState {
+    const val SCANNING = "검색 중"
+}
+```
+
+- `startScan()` puts `ScanState.SCANNING` into `_state`; `tryConnect()` puts `ConnState.CONNECTING`.
+- Add a `ScanState.SCANNING` branch to the `when` in #8 (it enables [Stop]) and delete the [Stop] line from the `CONNECTING` branch. Change the text in #9 to `"검색 중… $seconds"`.
+- When buttons turn on and how long things take stay the same. This goes back to the `검색 중…` of week 6 and week 7 day 1.
+
+---
+
+## Day 1 · 17–23 min ① — After Changing the List, Call notifyDataSetChanged()
 
 ```kotlin
 deviceJob = lifecycleScope.launch {
@@ -110,11 +131,11 @@ deviceJob = lifecycleScope.launch {
 
 - `add` only changes the list. The ListView redraws only when you **tell it to**.
 - `for (name in arrayOf(…))` is the same shape as week 10's `for (permission in blePermissions())`.
-- The status countdown (week 7's ViewModel) keeps running separately, unaffected.
+- The 5-second status count (`검색 중… N`) keeps running separately in week 7's ViewModel.
 
 ---
 
-## Day 1 · 15–22 min ② — What Happens Without the Notify Call
+## Day 1 · 17–23 min ② — What Happens Without the Notify Call
 
 | | with `notifyDataSetChanged()` | without it |
 |---|---|---|
@@ -124,12 +145,12 @@ deviceJob = lifecycleScope.launch {
 Demo: delete just the `notifyDataSetChanged()` line inside the `for` loop and tap [Scan].
 
 - Even with correct data, the screen only updates once it's notified. It's the line most often left out.
-- Notify again after `devices.clear()` at the start of [Scan] too. Skip clearing and you get `A B C A B C`.
+- At the start of [Scan], stop the previous coroutine first with `deviceJob?.cancel()`, and notify again after `devices.clear()`. Skip clearing and you get `A B C A B C`.
 - [Stop] cancels adding names with `deviceJob?.cancel()`, just like week 6.
 
 ---
 
-## Day 1 · 22–27 min — Tapping a Row: setOnItemClickListener
+## Day 1 · 23–27 min — Tapping a Row: setOnItemClickListener
 
 ```kotlin
 binding.deviceList.setOnItemClickListener { _, _, position, _ ->
@@ -152,10 +173,11 @@ binding.deviceList.setOnItemClickListener { _, _, position, _ ->
 
 1. Add a title and `deviceList` to `strings.xml` and `activity_main.xml`.
 2. Create `devices` and `adapter` **above** the [Scan] block.
-3. Have [Scan] add one name per second, [Stop] cancel it, and a row tap fill in the name field.
-4. Take a **portrait** screenshot showing all three device names. Rotating clears the list.
+3. Correct the status text: 5 seconds of `검색 중… N`, then 2 seconds of `연결 중`.
+4. Have [Scan] add one name per second, [Stop] cancel it, and a row tap fill in the name field.
+5. Take a **portrait** screenshot showing all three device names. Rotating clears the list.
 
-**Explanation total: 5+10+7+5+3 = 30 min**
+**Explanation total: 5+8+4+6+4+3 = 30 min**
 
 If you see `Unresolved reference 'devices'.`, check whether lines 15–16 sit above the [Scan] block.
 

@@ -7,7 +7,7 @@
 
 | 예제 파일 | 내 프로젝트에서 바꿀 파일 | 이번 주 변경 |
 |---|---|---|
-| [day1/MainActivity.kt](day1/MainActivity.kt) | `app › kotlin+java › com.example.smartio › MainActivity.kt` | `deviceJob`, 목록과 어댑터(15·16번), [검색]에서 이름 넣기(17번), [중지]에서 멈추기(18번), 한 줄 누르기(19번) |
+| [day1/MainActivity.kt](day1/MainActivity.kt) | `app › kotlin+java › com.example.smartio › MainActivity.kt` | `deviceJob`, 목록과 어댑터(15·16번), [검색]에서 이름 넣기(17번, 첫머리 `deviceJob?.cancel()`), [중지]에서 멈추기(18번), 한 줄 누르기(19번), 상태 글자 바로잡기(8번 `when`에 `ScanState.SCANNING` 가지, 9번 글자 `검색 중… N`) |
 | [day1/activity_main.xml](day1/activity_main.xml) | `app › res › layout › activity_main.xml` | `stateText` 아래에 제목 TextView와 `deviceList` 추가 |
 | [day1/strings.xml](day1/strings.xml) | `app › res › values › strings.xml` | `device_list_title` 추가 |
 | [day2/MainActivity.kt](day2/MainActivity.kt) | `MainActivity.kt` | `contactsLauncher`, [연결]에서 저장(20번), 마지막 장치 표시(21번), [연락처 보기] 리스너(22번), `showContacts()`(23번) |
@@ -15,14 +15,15 @@
 | [day2/AndroidManifest.xml](day2/AndroidManifest.xml) | `app › manifests › AndroidManifest.xml` | `READ_CONTACTS` 권한 선언 추가 |
 | [day2/activity_main.xml](day2/activity_main.xml) | `activity_main.xml` | 제목 아래 `lastDeviceText`, `permissionButton` 아래 `contactsButton` 추가 |
 | [day2/strings.xml](day2/strings.xml) | `strings.xml` | `last_device_none`, `show_contacts` 추가 |
-| `dayN/ConnState.kt`, `dayN/ConnViewModel.kt` | 상태 상수·ViewModel | 7주차 그대로, 바꾸지 않는다 |
+| `dayN/ConnViewModel.kt` | ViewModel | 1일차에 상태 글자를 바로잡는다: 맨 위(class 밖)에 `object ScanState` 추가, `startScan()`은 `ScanState.SCANNING`, `tryConnect()`는 `ConnState.CONNECTING` |
+| `dayN/ConnState.kt` | 연결 상태 상수 | 주석만 고친다. 상수 다섯 개의 이름·값은 그대로다(12주차 라이브러리와 같다) |
 | `dayN/ControlActivity.kt`, `dayN/activity_control.xml` | 제어 화면 | 7주차 그대로, 바꾸지 않는다 |
 | `dayN/Permissions.kt` | 권한 목록 함수 | 10주차 그대로, 바꾸지 않는다 |
 | `day1/AndroidManifest.xml`, `dayN/res/values/themes.xml` | Manifest·테마 | 10주차 그대로. 내 파일에는 아이콘 등 줄이 더 있어도 된다 |
 
 `MainActivity.kt` 전체를 복사할 때 첫 줄 `package ...`는 내 프로젝트의 첫 줄을 그대로 둔다.
 `ListView`, `ArrayAdapter`, `SharedPreferences`, `ContentResolver`, `ContactsContract`는 Android 기본 기능이라 `build.gradle.kts`에 더할 것이 없다.
-주석 번호는 10주차 1~14에 이어 15~19(1일차), 20~23(2일차)를 붙였다. 번호는 넣은 순서라서 파일 안에서는 차례대로 놓이지 않는다. 15·16번은 2번과 3번 사이에 있고, 19·21·22번은 `onCreate` 안이라 10·11번보다 위에 있다.
+주석 번호는 10주차 1~14에 이어 15~19(1일차), 20~23(2일차)를 붙였다. 1일차 상태 글자 바로잡기는 7주차의 8·9번을 고치는 것이라 새 번호가 없다. 번호는 넣은 순서라서 파일 안에서는 차례대로 놓이지 않는다. 15·16번은 2번과 3번 사이에 있고, 19·21·22번은 `onCreate` 안이라 10·11번보다 위에 있다.
 
 ## 1. `mutableListOf`·`add`·`size` — 늘어나는 목록
 
@@ -66,9 +67,52 @@ binding.deviceList.adapter = adapter
 - 두 `val`은 `onCreate` 안, 이 둘을 쓰는 리스너들(3·4·19번)보다 **위**에 둔다. 아래에 두면 `Unresolved reference 'devices'.` 오류가 난다.
 - `layout_height="0dp"` + `layout_weight="1"`은 남는 세로 공간을 목록이 모두 차지하게 한다. 연결 화면은 스크롤이 없다. 폰 크기 화면을 가로로 돌리면 위아래가 잘려 일부 버튼·글자가 안 보일 수 있고, 목록은 높이가 0이 되어 보이지 않는다. 확인할 항목이 안 보이면 세로로 되돌려 확인한다.
 
-## 3. `notifyDataSetChanged()` — 바꿨으면 알린다
+## 3. 상태 글자 바로잡기 — `검색 중`과 `연결 중`
+
+7주차 2일차부터 [검색] 뒤 5초(장치를 찾는 시간)를 `연결 중… N`, 이어지는 2초(가짜 연결)를 `서비스 확인 중`으로 보여 주었다. 이번 주에 `검색 중… N`과 `연결 중`으로 바로잡는다.
 
 ```kotlin
+// ConnViewModel.kt 맨 위(import 아래, class 밖)
+object ScanState {
+    const val SCANNING = "검색 중"
+}
+```
+
+```kotlin
+// startScan(): 5초를 세는 동안
+_state.value = ScanState.SCANNING
+// tryConnect(): 가짜 연결 2초 동안
+_state.value = ConnState.CONNECTING
+```
+
+```kotlin
+// MainActivity.kt 8번 when: 검색 중 가지를 늘리고, 연결 중 가지에서는 [중지] 줄을 뺀다
+ScanState.SCANNING -> {
+    binding.stopButton.isEnabled = true
+    binding.scanProgress.visibility = View.VISIBLE
+}
+ConnState.CONNECTING -> {
+    binding.scanProgress.visibility = View.VISIBLE
+}
+```
+
+| 실행 결과 | 상태 글자 | 가로 줄에서 켜진 버튼 | ProgressBar |
+|---|---|---|---|
+| [검색] 뒤 5초 | `검색 중… 5` → `1` | [중지] | 보임 |
+| 이어지는 2초 | `연결 중` | 없음 | 보임 |
+| 성공 | `준비됨` | [해제] | 숨김 |
+| 실패 | `끊김`, [다시 시도]가 보인다 | [검색] | 숨김 |
+
+- 검색은 연결 상태가 아니라서 `ConnState`에 넣지 않는다. `ConnState`는 12주차 라이브러리와 이름·값이 같아야 12주차에 import만 바꿀 수 있다.
+- `object ScanState`를 `class ConnViewModel`의 중괄호 안에 넣거나 빠뜨리면 `Unresolved reference 'ScanState'.`, import 줄보다 위에 두면 `Syntax error: imports are only allowed in the beginning of file.` 오류가 난다.
+- 9번 글자도 `"검색 중… $seconds"`로 바꾼다. 안 바꾸면 7번이 쓴 `검색 중`을 9번이 `연결 중… 5`로 덮어쓴다.
+- `서비스 확인 중`(`ConnState.DISCOVERING`)은 이번 주 가짜 연결에서는 나오지 않고 12주차에 라이브러리로 연결하면 나온다. 버튼이 켜지는 때와 걸리는 시간은 그대로다.
+- 가짜 검색이 끝나면 목록에서 고르지 않아도 가짜 연결을 한 번 시도한다(6주차 2일차부터의 흐름). 고른 보드에만 연결하는 것은 12주차 2일차다.
+
+## 4. `notifyDataSetChanged()` — 바꿨으면 알린다
+
+```kotlin
+deviceJob?.cancel()
 devices.clear()
 adapter.notifyDataSetChanged()
 deviceJob = lifecycleScope.launch {
@@ -84,17 +128,18 @@ deviceJob = lifecycleScope.launch {
 
 | 실행 결과 | 화면 | Logcat `package:mine tag:Scan` |
 |---|---|---|
-| [검색] 직후 | 목록 비움, 상태 `연결 중… 5` | — |
+| [검색] 직후 | 목록 비움, 상태 `검색 중… 5` | — |
 | 1초·2초·3초 뒤 | `ESP32_BLE_A` → `B` → `C`가 한 줄씩 늘어남 | `추가: ESP32_BLE_A, 장치 수: 1` … `장치 수: 3` |
 | 이름 두 개일 때 [중지] — `deviceJob?.cancel()` | 상태 `연결 안 됨`, A·B만 남음 | 두 줄에서 멈춤 |
 | `끊김` 뒤 다시 [검색] | 목록이 비워지고 A·B·C가 다시 들어감 | 1부터 다시 |
 | 화면 돌리기 | 상태는 이어지지만 목록은 비워지고 추가도 멈춤 | 멈춤 |
 
 - `add`는 목록만 바꾼다. `notifyDataSetChanged()`로 알려야 ListView가 다시 그린다. `for` 안의 이 줄을 빼면 Logcat 개수는 늘어도 목록은 비어 있다. 상태가 `준비됨`이 되는 순간 세 줄이 한꺼번에 나타나고, `끊김`이면 끝까지 비어 있다.
-- 이름을 넣는 코루틴은 화면의 `lifecycleScope`에서 돈다(6주차). 상태 카운트다운은 7주차 ViewModel에서 따로 돈다.
+- 이름을 넣는 코루틴은 화면의 `lifecycleScope`에서 돈다(6주차). 상태 글자의 5초 세기(`검색 중… N`)는 7주차 ViewModel에서 따로 돈다.
+- 첫 줄 `deviceJob?.cancel()`: 변수에 새 코루틴을 넣어도 앞 코루틴은 저절로 멈추지 않으므로 새로 시작하기 전에 앞 코루틴부터 멈춘다. 완성 코드에서는 검색 중에 [검색]이 꺼져 있고 18번 [중지]도 멈춰 주므로, 이 줄이 없어도 화면이 달라지는 일은 드물다.
 - 회전하면 `devices`가 새 화면에서 빈 목록으로 다시 만들어진다. 이번 주에는 고치지 않는다.
 
-## 4. `setOnItemClickListener` — 누른 줄의 이름 꺼내기
+## 5. `setOnItemClickListener` — 누른 줄의 이름 꺼내기
 
 ```kotlin
 binding.deviceList.setOnItemClickListener { _, _, position, _ ->
@@ -115,7 +160,7 @@ binding.deviceList.setOnItemClickListener { _, _, position, _ ->
 - EditText에는 `setText(name)`으로 넣는다. `binding.deviceNameEdit.text = name`은 `Assignment type mismatch: actual type is 'kotlin.String', but 'android.text.Editable!' was expected.` 오류가 난다.
 - 1번 [연결]은 장치 이름 칸을 읽으므로 고치지 않는다.
 
-## 5. SharedPreferences — 앱을 꺼도 남는 마지막 장치
+## 6. SharedPreferences — 앱을 꺼도 남는 마지막 장치
 
 ```kotlin
 // [연결] 리스너의 else 안 (20번)
@@ -146,7 +191,7 @@ if (lastName.isEmpty()) {
 - `.apply()`를 빠뜨리면 빌드는 되지만 저장되지 않는다(예상).
 - 3주차 `onSaveInstanceState`는 회전할 때만 값을 넘긴다. SharedPreferences는 앱을 껐다 켜도 남는다.
 
-## 6. ContentProvider와 `ContactsReader`(제공) — 다른 앱의 데이터 읽기
+## 7. ContentProvider와 `ContactsReader`(제공) — 다른 앱의 데이터 읽기
 
 | | SharedPreferences | ContentProvider |
 |---|---|---|
@@ -169,7 +214,7 @@ val cursor = resolver.query(
 - 결과 `cursor`를 `while (cursor.moveToNext())`로 한 줄씩 읽어 이름을 목록에 넣고, 다 읽으면 `cursor.close()`한다. 전체는 [day2/ContactsReader.kt](day2/ContactsReader.kt)다.
 - 연락처가 없으면 빈 목록을 돌려준다. 0건은 실패가 아니다.
 
-## 7. `READ_CONTACTS` 요청과 연락처 대화상자
+## 8. `READ_CONTACTS` 요청과 연락처 대화상자
 
 ```xml
 <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -198,13 +243,14 @@ binding.contactsButton.setOnClickListener {
 - Manifest 선언을 빼도 빌드는 된다. 그러면 권한 창 없이 곧바로 `연락처 권한 없음`이 뜬다.
 - 권한 창 문구와 버튼 이름은 OS 버전과 언어 설정에 따라 조금 다르다.
 
-## 8. 2일차 완성 — 목록, 저장, 연락처
+## 9. 2일차 완성 — 목록, 저장, 연락처
 
 [day2](day2) 파일을 모두 넣고 실행한 흐름:
 
 ```text
 앱 시작(onCreate) → 저장소 smartio의 last 읽기 → 마지막 장치: 없음 / 이름
 [검색] → 목록 비움 → 1초마다 A·B·C 추가 ─ [중지] ▶ 추가 멈춤
+       → 상태 검색 중… 5→1(5초) → 연결 중(2초) → 준비됨 또는 끊김
 목록 한 줄 누르기 → 장치 이름 칸 + Toast 선택: 이름
 [연결] → last에 이름 저장 → 제어 화면 장치: 이름
 앱을 끄고 다시 켜기 → 마지막 장치: 이름

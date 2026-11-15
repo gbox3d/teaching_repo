@@ -298,8 +298,8 @@ lifecycleScope.launch {
 ```
 
 - The pattern is unchanged from week 7 — only **what you collect** changes. The values are the five `ConnState` strings.
-- The library now produces the state, so delete `ConnViewModel.kt` and step 9 (the remaining-seconds collect).
-- The screen shows `연결 중` → `서비스 확인 중` → `준비됨` in order. There's no countdown number.
+- The library now produces the state, so delete the `ScanState.SCANNING` branch in step 8 (first), step 9 (the remaining-seconds collect), and `ConnViewModel.kt`.
+- The screen shows `연결 중` → `서비스 확인 중` → `준비됨` in order. `서비스 확인 중` is a step week 11's fake connection never showed.
 
 ---
 
@@ -320,7 +320,7 @@ ConnState.READY -> {
 }
 ```
 
-- [중지] (Stop), which used to turn on during week 7's `CONNECTING`, now means **stop scanning**, so it's not enabled here.
+- [중지] (Stop), which week 11's `ScanState.SCANNING` branch used to enable, goes away with that branch. [Stop] means **stop scanning**, so #26 and #29 in [Scan] turn it on and off.
 
 ---
 
@@ -388,7 +388,7 @@ if (hasBlePermissions() == false) {
 [Day 2 lab](lab.md#2일차--연결하고-두-화면에서-상태-보기-60분) · [Walkthrough](walkthrough.md#2일차)
 
 1. Add the [제어 화면] (Control Screen) button and a state-text spot on the control screen.
-2. Change collect step 7 to `client.connectionState` and delete `ConnViewModel.kt`.
+2. Change collect step 7 to `client.connectionState` (removing week 11's `ScanState.SCANNING` branch too) and delete `ConnViewModel.kt`.
 3. Address list → tap a row → `connect` → [제어 화면] enabled when `준비됨` → control screen shows `상태: 준비됨`.
 4. Add the zero-result message and location check, then capture the `준비됨` screen + Logcat `tag:BLE`.
 

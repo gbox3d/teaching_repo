@@ -9,10 +9,11 @@
 | 시간 | 할 일 |
 |---|---|
 | 0–10분 | 10주차 `SmartIO`를 실행하고 `strings.xml`·`activity_main.xml`에 목록 자리(`deviceList`)를 만든다 |
-| 10–20분 | `devices` 목록과 `adapter`를 만들어 ListView에 끼운다 |
-| 20–38분 | [검색]에서 1초마다 이름 세 개를 넣고 [중지]로 멈춘다. `notifyDataSetChanged()`를 빼 보고 되돌린다 |
-| 38–52분 | 목록의 한 줄을 누르면 장치 이름 칸에 넣고, [연결]로 제어 화면에 이름을 넘긴다 |
-| 52–60분 | 캡처 1을 찍고 프로젝트를 저장한다 |
+| 10–17분 | `devices` 목록과 `adapter`를 만들어 ListView에 끼운다 |
+| 17–26분 | 상태 글자를 바로잡는다: [검색] 뒤 5초는 `검색 중… N`, 이어지는 2초는 `연결 중` |
+| 26–42분 | [검색]에서 1초마다 이름 세 개를 넣고 [중지]로 멈춘다. `notifyDataSetChanged()`를 빼 보고 되돌린다 |
+| 42–54분 | 목록의 한 줄을 누르면 장치 이름 칸에 넣고, [연결]로 제어 화면에 이름을 넘긴다 |
+| 54–60분 | 캡처 1을 찍고 프로젝트를 저장한다 |
 
 ### 1. 목록 자리 만들기
 
@@ -39,12 +40,61 @@ val devices = mutableListOf<String>()
 - 두 `val`을 [검색] 블록 **아래**에 두면 빌드 오류가 난다. [막혔을 때](#막혔을-때)의 문구를 읽어 본다.
 - 이 단계에서 실행하면 목록에 아무 줄도 없다. 왜 그런지 한 문장으로 적어 둔다.
 
-### 3. [검색]에서 이름 넣기와 [중지]
+### 3. 상태 글자 바로잡기: 검색 중과 연결 중
+
+7주차 2일차에 상태 글자를 `ConnState`로 모으면서 [검색] 뒤 5초를 `연결 중… N`, 이어지는 2초를 `서비스 확인 중`으로 보여 주었다. 그 5초는 장치를 **찾는** 시간이고, 연결은 이어지는 2초에 한다. 6주차와 7주차 1일차의 `검색 중… N`이 맞다. 목록이 생기는 이번 주에 글자를 바로잡는다. 버튼이 켜지는 때와 걸리는 시간은 바꾸지 않는다.
+
+| [검색]을 누른 뒤 | 앱이 하는 일 | 지금 보이는 글자 | 바로잡을 글자 |
+|---|---|---|---|
+| 5초를 세는 동안 | 장치 찾기(흉내) | `연결 중… 5` | `검색 중… 5` |
+| 이어지는 2초 | 가짜 연결 | `서비스 확인 중` | `연결 중` |
+
+1. `ConnViewModel.kt`의 import 줄들 **아래**, `class ConnViewModel` **위**(클래스 중괄호 밖)에 7주차 2일차 `ConnState`와 같은 모양으로 상수 묶음을 만든다. 이름은 `ScanState`, 상수는 `SCANNING` 하나, 값은 `검색 중`이다.
+2. 같은 파일에서 세 곳을 고친다.
+
+| 고칠 곳 | 지금 | 바꿀 것 |
+|---|---|---|
+| `startScan()`의 `_state.value = …` | `ConnState.CONNECTING` | 1번에서 만든 상수 |
+| `startScan()`의 `Log.d("Conn", …)` | `"연결 중… $i"` | `연결` 두 글자만 `검색`으로 |
+| `tryConnect()`의 `_state.value = …` | `ConnState.DISCOVERING` | `ConnState`에서 값이 `연결 중`인 상수 |
+
+3. `MainActivity.kt`의 `// 8.` 아래 `when (state)`를 고친다. 가지를 바꾸지 않고 하나 **늘린다**.
+
+```kotlin
+when (state) {
+    ConnState.DISCONNECTED -> {
+        binding.scanButton.isEnabled = true
+    }
+    // 새 가지: 상태가 검색 중이면 [중지]를 켜고 ProgressBar를 보인다
+    ConnState.CONNECTING -> {
+        // [중지]를 켜던 줄은 위의 새 가지로 옮긴다. ProgressBar 줄만 남긴다
+    }
+    // DISCOVERING, READY, LOST 가지는 그대로
+}
+```
+
+4. `// 9.`에서 화면에 쓰는 글자 `"연결 중… $seconds"`의 `연결`을 `검색`으로 바꾼다. `…`는 그대로 둔다.
+5. 실행하기 전에 '예상 글자' 칸을 먼저 채우고, [검색]을 눌러 나머지 칸을 채운다. 셋째 줄은 `끊김`이 나왔을 때만 채운다.
+
+| 때 | 예상 글자 | 실제 글자 | 가로 줄에서 켜진 버튼 | ProgressBar |
+|---|---|---|---|---|
+| [검색]을 누른 뒤 5초 |  |  |  |  |
+| 이어지는 2초 |  |  |  |  |
+| `끊김`에서 [다시 시도] |  |  |  |  |
+
+- 상수 이름은 직접 치지 말고 `ScanState.`까지 친 뒤 자동 완성에서 고른다.
+- `ConnState.kt`의 상수 다섯 개는 값을 바꾸지 않는다. `ConnState`는 12주차 라이브러리와 이름·값이 같아야 하고, 검색은 연결 상태가 아니다. `서비스 확인 중`은 이번 주 가짜 연결에서는 나오지 않고 12주차에 라이브러리로 연결할 때 다시 나온다.
+- `ConnViewModel.kt`만 고치고 `// 8.`을 그대로 두면 5초 동안 [중지]는 켜질까? `// 8.`의 '먼저 모두 끄는' 다섯 줄을 보고 한 문장으로 적는다.
+- 가짜 검색이 끝나면 목록에서 고르지 않아도 가짜 연결을 한 번 시도한다. 6주차 2일차부터 해 온 흐름이다. 목록에서 고른 보드에만 연결하는 것은 12주차 2일차에 만든다.
+- 주석은 치지 않아도 동작은 같다. 막히면 [따라하기 4단계](walkthrough.md#4-상태-글자-바로잡기-검색-중과-연결-중)를 본다.
+
+### 4. [검색]에서 이름 넣기와 [중지]
 
 1. 클래스 변수 자리, `permissionLauncher` 블록 **아래**에 6주차 `scanJob`과 같은 모양의 `private var deviceJob: Job? = null`을 만든다.
 2. [검색] 리스너의 `viewModel.startScan()` **아래**에 아래 모양을 채운다. `Job`, `delay`, `Log`가 빨간색이면 import한다.
 
 ```kotlin
+deviceJob?.cancel()   // 앞에서 시작한 이름 넣기 코루틴이 아직 돌고 있으면 먼저 멈춘다(변수에 새로 넣어도 앞 코루틴은 저절로 멈추지 않는다)
 devices.clear()
 adapter.notifyDataSetChanged()
 deviceJob = lifecycleScope.launch {
@@ -76,7 +126,7 @@ deviceJob = lifecycleScope.launch {
 
 `장치 수`는 `"장치 수: $count"`처럼 `$count` 뒤에 한글을 바로 붙이지 않는다.
 
-### 4. 목록의 한 줄 누르기
+### 5. 목록의 한 줄 누르기
 
 `onCreate` 안, `// 12.` [권한 확인] 블록 **아래**·`onCreate`를 닫는 `}` **위**에 리스너를 만든다.
 
@@ -98,12 +148,13 @@ binding.deviceList.setOnItemClickListener { _, _, position, _ ->
 - EditText에 글자를 넣을 때는 `text = name`이 아니라 `setText(name)`이다.
 - 막히면 [1일차 완성 코드](examples/day1/MainActivity.kt)와 한 줄씩 비교한다.
 
-### 5. 오늘 확인할 것
+### 6. 오늘 확인할 것
 
+- [ ] [검색]을 누르면 5초 동안 `검색 중… N`과 켜진 [중지]가, 이어지는 2초 동안 `연결 중`이 보인다.
 - [ ] [검색]을 누르면 목록이 비워지고 이름 세 개가 1초마다 한 줄씩 늘어난다.
 - [ ] [중지]를 누르면 더 늘지 않고, 들어간 이름은 남는다.
 - [ ] 한 줄을 누르면 장치 이름 칸에 그 이름이 들어가고 Toast `선택: 이름`이 뜬다.
-- [ ] 3번 표를 채웠고 `notifyDataSetChanged()`는 되돌렸다.
+- [ ] 4번 표를 채웠고 `notifyDataSetChanged()`는 되돌렸다.
 - [ ] 세 줄이 모두 보이는 **세로** 연결 화면을 캡처했다(캡처 1).
 
 화면을 돌리면 상태는 이어지지만 목록은 비워진다. 폰 크기 화면을 가로로 돌리면 위아래가 잘려 일부 버튼·글자가 안 보일 수 있다. 확인할 항목이 안 보이면 세로로 되돌려 확인한다. 캡처는 돌리기 전에 세로에서 한다.
@@ -223,6 +274,12 @@ Android 폰이 있으면 [따라하기 14단계](walkthrough.md#14-실기기-준
 |---|---|
 | `Unresolved reference 'ArrayAdapter'.` | `ArrayAdapter`에 커서를 두고 Alt+Enter(맥 ⌥+Enter) → `android.widget.ArrayAdapter`를 import한다 |
 | `Unresolved reference 'devicesList'.` (내가 쓴 이름이 따옴표 안에 나온다) | Kotlin의 `binding.` 뒤 이름과 `activity_main.xml`의 `android:id="@+id/deviceList"`가 글자까지 같은지 본다 |
+| `Unresolved reference 'ScanState'.` | `object ScanState`가 `ConnViewModel.kt`의 import 줄 아래, `class ConnViewModel`의 중괄호 **밖**에 있는지 본다. 중괄호 안에 넣거나 빠뜨리면 이 오류가 난다 |
+| `Syntax error: imports are only allowed in the beginning of file.` | `object ScanState`를 import 줄보다 위에 두었다. 마지막 import 줄 아래로 옮긴다 |
+| (예상) [검색] 뒤 5초 동안 [중지]가 꺼져 있다 | `startScan()`이 `_state.value = ScanState.SCANNING`을 넣는지, `// 8.` `when (state)`에 `ScanState.SCANNING` 가지가 있는지 본다. 8번은 먼저 모두 끄고 `when`에서 맞는 가지만 켠다 |
+| (예상) 고쳤는데도 5초 동안 `연결 중… 5`로 보인다 | `// 9.`의 글자를 `"검색 중… $seconds"`로 바꿨는지 본다. 7번이 쓴 `검색 중`을 9번이 곧바로 덮어쓴다 |
+| (예상) 5초 뒤 2초 동안 `서비스 확인 중`으로 보인다 | `tryConnect()` 첫 줄이 `_state.value = ConnState.CONNECTING`인지 본다 |
+| (예상) `연결 중`(2초) 동안 [중지]가 켜져 있고, 누르면 `연결 안 됨`이 됐다가 `끊김`이 된다 | `when`의 `ConnState.CONNECTING` 가지에서 `binding.stopButton.isEnabled = true` 한 줄만 지운다. 가지와 `binding.scanProgress.visibility = View.VISIBLE`은 남긴다 |
 | `Unresolved reference 'clear'.` 과 `Unresolved reference 'add'.` | 목록을 `listOf<String>()`로 만들었다. 넣고 비울 수 있는 `mutableListOf<String>()`로 바꾼다 |
 | `Unresolved reference 'devices'.` (`'adapter'`와 함께 여러 줄 나온다) | `val devices`·`val adapter`가 [검색] 블록보다 **아래**에 있다. 선언한 줄보다 위에서는 쓸 수 없으니 [검색] 블록 위로 옮긴다 |
 | `Assignment type mismatch: actual type is 'kotlin.String', but 'android.text.Editable!' was expected.` | `binding.deviceNameEdit.text = name`으로 썼다. EditText에는 `binding.deviceNameEdit.setText(name)`으로 넣는다 |
@@ -246,7 +303,7 @@ Android 폰이 있으면 [따라하기 14단계](walkthrough.md#14-실기기-준
 3. **캡처 2**: 앱을 완전히 끄고 다시 켠 첫 화면. 제목 아래 `마지막 장치: 이름`, 빈 목록, `연결 안 됨`이 보여야 한다
 4. **캡처 3**: 실기기에서 앱이 실행된 연결 화면. 위쪽 상태 표시줄이 보여 실기기임을 알 수 있어야 한다(에뮬레이터 창을 찍은 캡처는 실기기 캡처로 보지 않는다). 실기기가 없으면 연락처 이름 목록, `연락처가 0건입니다`, `연락처 권한 없음` 대화상자 중 하나
 
-채점은 [README 완료 기준](README.md#완료-기준)의 항목을 이 제출물로 확인한다. 실습지의 관찰표(1일차 3·4번, 2일차 3·5번 표)와 실기기 체크리스트, "내 폰" 표는 스스로 점검하는 것이라 제출하지 않고 채점하지 않는다.
+채점은 [README 완료 기준](README.md#완료-기준)의 항목을 이 제출물로 확인한다. 실습지의 관찰표(1일차 3·4·5번, 2일차 3·5번 표)와 실기기 체크리스트, "내 폰" 표는 스스로 점검하는 것이라 제출하지 않고 채점하지 않는다.
 1일차 목록(캡처 1)과 2일차 저장·복원(캡처 2)까지 동작하면 기본 성공이다. 실기기 준비와 연락처 읽기는 예제와 도움을 받아 마무리해도 된다.
 캡처에 계정·알림 내용·실제 연락처가 보이지 않게 한다. 제출 위치와 마감은 수업 공지를 따른다.
 

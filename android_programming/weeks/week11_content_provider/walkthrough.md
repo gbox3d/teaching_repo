@@ -3,8 +3,8 @@
 10주차 `SmartIO` 프로젝트를 그대로 이어서 쓴다. 처음에는 그대로 따라 하고, 각 단계의 결과가 화면에 보이면 다음 단계로 넘어간다.
 10주차 프로젝트가 없거나 실행되지 않으면 강의자에게 10주차 완성본(`examples/day2`)을 받아 시작한다.
 
-이번 주에 고치는 파일은 `MainActivity.kt`, `activity_main.xml`, `strings.xml`(1·2일차)과 `AndroidManifest.xml`(2일차)이고, 2일차에 `ContactsReader.kt`를 새로 붙여 넣는다.
-`ConnState.kt`, `ConnViewModel.kt`, `ControlActivity.kt`, `Permissions.kt`, `activity_control.xml`은 10주차 그대로 둔다. 전체 내용은 [9단계](#9-바꾸지-않는-파일-확인하기)에 있다.
+이번 주에 고치는 파일은 `MainActivity.kt`, `activity_main.xml`, `strings.xml`(1·2일차), `ConnViewModel.kt`(1일차)와 `AndroidManifest.xml`(2일차)이고, 2일차에 `ContactsReader.kt`를 새로 붙여 넣는다. `ConnState.kt`는 1일차에 주석만 고친다(4단계).
+`ControlActivity.kt`, `Permissions.kt`, `activity_control.xml`은 10주차 그대로 둔다. 전체 내용은 [9단계](#9-바꾸지-않는-파일-확인하기)에 있다.
 
 ## 1일차
 
@@ -24,7 +24,7 @@ Smart I/O Controller
 배터리 100% · 충전 중
 ```
 
-3. [검색]을 한 번 눌러 `연결 중… 5` → … → `준비됨` 또는 `끊김`까지 7주차처럼 바뀌는지 본다. [권한 확인]도 10주차처럼 동작하면 된다.
+3. [검색]을 한 번 눌러 `연결 중… 5` → … → `준비됨` 또는 `끊김`까지 7주차처럼 바뀌는지 본다. [권한 확인]도 10주차처럼 동작하면 된다. 이 `연결 중… 5`는 4단계에서 `검색 중… 5`로 바로잡는다.
 
 ### 2. 목록 자리 만들기
 
@@ -227,9 +227,261 @@ Smart I/O Controller
 - `ArrayAdapter(this, android.R.layout.simple_list_item_1, devices)`: 목록(`devices`)과 ListView(화면) 사이를 잇는 어댑터다. 세 값은 화면(`this`), 한 줄의 모양, 목록이다.
 - `android.R.layout.simple_list_item_1`: 우리 앱의 `R`이 아니라 **Android가 미리 준비한** 한 줄짜리 글자 모양이다. 그래서 앞에 `android.`이 붙는다.
 - `binding.deviceList.adapter = adapter`: ListView에 어댑터를 끼운다. 이제 ListView는 "몇 줄인가, 몇 번 줄에 무엇을 쓰나"를 어댑터에게 묻는다.
-- 두 `val`은 반드시 [검색] 블록보다 **위**, `onCreate` **안**에 둔다. 4·6·7단계의 리스너들이 5주차 "람다 안에서 바깥 변수 쓰기"로 이 둘을 쓰는데, 선언한 줄보다 위에서는 쓸 수 없다.
+- 두 `val`은 반드시 [검색] 블록보다 **위**, `onCreate` **안**에 둔다. 5·6·7단계의 리스너들이 5주차 "람다 안에서 바깥 변수 쓰기"로 이 둘을 쓰는데, 선언한 줄보다 위에서는 쓸 수 없다.
 
-### 4. [검색]에서 1초마다 이름 넣기
+### 4. 상태 글자 바로잡기: 검색 중과 연결 중
+
+7주차 2일차에 상태 글자를 `ConnState` 다섯 개로 모으면서 [검색]을 누른 뒤 5초를 `연결 중… N`, 이어지는 2초를 `서비스 확인 중`으로 보여 주었다. 그 5초는 장치를 **찾는** 시간이고, 연결은 이어지는 2초에 한다. 6주차와 7주차 1일차에 쓰던 `검색 중… N`이 맞는 글자다. 찾은 장치를 보여 줄 목록이 생기는 이번 주에 바로잡는다. 7~10주차 자료와 예제의 `연결 중… N`·`서비스 확인 중`은 그 주차 화면 그대로 두었고, 11주차부터는 이 단계의 글자가 기준이다.
+
+| [검색]을 누른 뒤 | 앱이 하는 일 | 고치기 전 | 고친 뒤 |
+|---|---|---|---|
+| 5초를 세는 동안 | 장치 찾기(흉내) | `연결 중… 5` | `검색 중… 5` |
+| 이어지는 2초 | 가짜 연결 | `서비스 확인 중` | `연결 중` |
+| 결과 | — | `준비됨` 또는 `끊김` | 그대로 |
+
+버튼이 켜지는 때와 걸리는 시간은 바꾸지 않는다. 바뀌는 것은 두 글자와, [중지]를 켜는 가지가 `연결 중`에서 `검색 중`으로 옮겨 가는 것이다. `ConnViewModel.kt`를 먼저 고치고 `MainActivity.kt`의 8번·9번까지 고친 뒤에 실행한다. 주석은 치지 않아도 동작은 같다.
+
+1. `ConnViewModel.kt`를 연다. 마지막 `import` 줄 **아래**, `// 7주차 1일차: …` 주석과 `class ConnViewModel` 줄 **위**에 한 줄을 비우고 상수 묶음을 넣는다. 클래스의 중괄호 **밖**이다.
+
+```kotlin
+// 11주차 1일차: [검색]이 장치를 찾는 동안 보여 줄 상태 글자. 찾는 일(검색)은 붙는 일(연결)과 달라서 ConnState에 넣지 않고 따로 둔다.
+// 7주차 2일차 ConnState와 같은 object 상수 묶음이다. 12주차 라이브러리의 ConnState에도 검색은 들어 있지 않다.
+object ScanState {
+    const val SCANNING = "검색 중"
+}
+```
+
+2. `startScan()`에서 두 줄을 바꾼다. `_state.value`에 넣는 값과 `Log.d`의 글자다. `Log.d`는 `연결` 두 글자만 `검색`으로 바꾸고 `…`(한 글자짜리 줄임표)는 그대로 둔다.
+
+```kotlin
+    // 3. [검색]: 검색 중으로 바꾸고 5초를 센 뒤 가짜 연결을 시도한다. 값은 _state·_seconds에 넣는다(7주차 2일차).
+    //    11주차 1일차: 5초를 세는 동안은 장치를 찾는 중이라 상태를 "연결 중"에서 "검색 중"으로 바로잡았다.
+    fun startScan() {
+        // 이미 돌고 있으면 새로 시작하지 않는다(7주차 1일차).
+        if (scanJob?.isActive == true) {
+            return
+        }
+        scanJob = viewModelScope.launch {
+            _state.value = ScanState.SCANNING
+            for (i in 5 downTo 1) {
+                Log.d("Conn", "검색 중… $i")
+                _seconds.value = i
+                delay(1000)
+            }
+            _seconds.value = 0
+            tryConnect()
+        }
+    }
+```
+
+3. `tryConnect()`의 첫 줄에서 `_state.value`에 넣는 값을 바꾼다.
+
+```kotlin
+    // 가짜 연결을 시도하고 결과 상태를 _state에 넣는다.
+    // 11주차 1일차: 기다리는 2초는 연결하는 중이라 상태를 "서비스 확인 중"에서 "연결 중"으로 바로잡았다.
+    private suspend fun tryConnect() {
+        _state.value = ConnState.CONNECTING
+        try {
+            connectFake()
+            _state.value = ConnState.READY
+        } catch (e: Exception) {
+            _state.value = ConnState.LOST
+        }
+        Log.d("Conn", _state.value)
+    }
+```
+
+| 고친 곳 | 고치기 전 | 고친 뒤 |
+|---|---|---|
+| `startScan()`의 상태 | `ConnState.CONNECTING` | `ScanState.SCANNING` |
+| `startScan()`의 `Log.d` 글자 | `"연결 중… $i"` | `"검색 중… $i"` |
+| `tryConnect()`의 상태 | `ConnState.DISCOVERING` | `ConnState.CONNECTING` |
+
+고친 `ConnViewModel.kt` 전체는 아래와 같다. 같은 코드가 [examples/day1/ConnViewModel.kt](examples/day1/ConnViewModel.kt)에 있다.
+
+```kotlin
+package com.example.smartio
+
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.random.Random
+
+// 11주차 1일차: [검색]이 장치를 찾는 동안 보여 줄 상태 글자. 찾는 일(검색)은 붙는 일(연결)과 달라서 ConnState에 넣지 않고 따로 둔다.
+// 7주차 2일차 ConnState와 같은 object 상수 묶음이다. 12주차 라이브러리의 ConnState에도 검색은 들어 있지 않다.
+object ScanState {
+    const val SCANNING = "검색 중"
+}
+
+// 7주차 1일차: 연결 화면의 일을 맡는 ViewModel. 화면(Activity)보다 오래 살아서 회전해도 그대로 남는다.
+class ConnViewModel : ViewModel() {
+    // 1. 화면에 보여 줄 값 두 가지: 연결 상태와 카운트다운 남은 초.
+    //    바꾸는 쪽(_state, _seconds)은 안에만 두고, 화면에는 읽기 전용(state, seconds)만 보여 준다(7주차 2일차).
+    //    _state에는 ConnState의 연결 상태 말고도 검색 중(ScanState.SCANNING)이 들어간다(11주차 1일차).
+    private val _state = MutableStateFlow(ConnState.DISCONNECTED)
+    val state: StateFlow<String> = _state
+    private val _seconds = MutableStateFlow(0)
+    val seconds: StateFlow<Int> = _seconds
+
+    // 2. [검색]·[다시 시도]가 시작한 코루틴. 6주차에는 MainActivity에 있던 변수다(7주차 1일차).
+    private var scanJob: Job? = null
+
+    // 3. [검색]: 검색 중으로 바꾸고 5초를 센 뒤 가짜 연결을 시도한다. 값은 _state·_seconds에 넣는다(7주차 2일차).
+    //    11주차 1일차: 5초를 세는 동안은 장치를 찾는 중이라 상태를 "연결 중"에서 "검색 중"으로 바로잡았다.
+    fun startScan() {
+        // 이미 돌고 있으면 새로 시작하지 않는다(7주차 1일차).
+        if (scanJob?.isActive == true) {
+            return
+        }
+        scanJob = viewModelScope.launch {
+            _state.value = ScanState.SCANNING
+            for (i in 5 downTo 1) {
+                Log.d("Conn", "검색 중… $i")
+                _seconds.value = i
+                delay(1000)
+            }
+            _seconds.value = 0
+            tryConnect()
+        }
+    }
+
+    // 4. [중지]: 카운트다운 코루틴을 취소하고 연결 안 됨으로 돌린다(7주차 2일차).
+    fun stopScan() {
+        scanJob?.cancel()
+        _seconds.value = 0
+        _state.value = ConnState.DISCONNECTED
+    }
+
+    // 5. [다시 시도]: 카운트다운 없이 연결만 다시 시도한다(7주차 1일차).
+    fun retry() {
+        scanJob = viewModelScope.launch {
+            tryConnect()
+        }
+    }
+
+    // 6. [해제]: 연결 안 됨으로 돌린다(7주차 2일차).
+    fun disconnect() {
+        _state.value = ConnState.DISCONNECTED
+    }
+
+    // 연결을 흉내 낸다. 2초 걸리고 절반은 실패한다. 진짜 막히는 일이므로 IO로 옮긴다.
+    private suspend fun connectFake(): Boolean = withContext(Dispatchers.IO) {
+        Thread.sleep(2000)
+        if (Random.nextBoolean()) {
+            throw Exception("연결 실패")
+        }
+        true
+    }
+
+    // 가짜 연결을 시도하고 결과 상태를 _state에 넣는다.
+    // 11주차 1일차: 기다리는 2초는 연결하는 중이라 상태를 "서비스 확인 중"에서 "연결 중"으로 바로잡았다.
+    private suspend fun tryConnect() {
+        _state.value = ConnState.CONNECTING
+        try {
+            connectFake()
+            _state.value = ConnState.READY
+        } catch (e: Exception) {
+            _state.value = ConnState.LOST
+        }
+        Log.d("Conn", _state.value)
+    }
+}
+```
+
+여기서는 아직 실행하지 않는다. `ConnViewModel.kt`만 고친 채 실행하면 [검색] 뒤 5초 동안 [중지]가 켜지지 않는다. `MainActivity.kt`의 8번 `when`에 `검색 중`을 받는 가지가 아직 없기 때문이다.
+
+4. `MainActivity.kt`의 `// 8.` 아래 `when (state)`를 고친다. `ConnState.DISCONNECTED` 가지와 `ConnState.CONNECTING` 가지 **사이**에 `ScanState.SCANNING` 가지를 **새로** 넣고, `ConnState.CONNECTING` 가지에서 `binding.stopButton.isEnabled = true` 한 줄을 지운다. `CONNECTING` 가지는 지우지 않는다. `when` 전체는 아래와 같다.
+
+```kotlin
+                    when (state) {
+                        ConnState.DISCONNECTED -> {
+                            binding.scanButton.isEnabled = true
+                        }
+                        // 검색 중(5초를 세는 동안)에만 [중지]를 켠다(11주차 1일차).
+                        ScanState.SCANNING -> {
+                            binding.stopButton.isEnabled = true
+                            binding.scanProgress.visibility = View.VISIBLE
+                        }
+                        ConnState.CONNECTING -> {
+                            binding.scanProgress.visibility = View.VISIBLE
+                        }
+                        ConnState.DISCOVERING -> {
+                            binding.scanProgress.visibility = View.VISIBLE
+                        }
+                        ConnState.READY -> {
+                            binding.disconnectButton.isEnabled = true
+                        }
+                        ConnState.LOST -> {
+                            binding.scanButton.isEnabled = true
+                            binding.retryButton.visibility = View.VISIBLE
+                        }
+                    }
+```
+
+5. 바로 아래 `// 9.` 블록에서 화면에 쓰는 글자의 `연결`을 `검색`으로 바꾼다.
+
+```kotlin
+        // 9. 남은 초를 받아 "검색 중… 3"처럼 붙여 보여 준다. 7번과 같은 틀을 하나 더 쓴다(7주차 2일차).
+        //    반드시 7번 틀 아래에 둔다. 7번이 "검색 중"을 먼저 쓰고 9번이 숫자를 붙여야 회전 뒤에도 숫자가 보인다.
+        //    11주차 1일차: 5초를 세는 동안은 장치를 찾는 중이라 글자를 "연결 중… N"에서 "검색 중… N"으로 바로잡았다.
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.seconds.collect { seconds ->
+                    if (seconds > 0) {
+                        binding.stateText.text = "검색 중… $seconds"
+                    }
+                }
+            }
+        }
+```
+
+6. `ConnState.kt`를 열어 주석만 맞춘다. 상수의 이름과 값 다섯 개는 한 글자도 바꾸지 않는다. 주석은 그대로 둬도 동작은 같다. 전체는 아래와 같다. 같은 코드가 [examples/day1/ConnState.kt](examples/day1/ConnState.kt)에 있다.
+
+```kotlin
+package com.example.smartio
+
+// 1. 연결 상태를 나타내는 한글 문자열 모음. 화면의 TextView에 그대로 넣어 보여 준다(7주차 2일차).
+// 12주차 bleuno 라이브러리의 ConnState와 이름·값이 같다. 12주차에는 이 파일 대신 import만 바꾼다.
+// 장치를 찾는 동안의 "검색 중"은 연결 상태가 아니라서 여기에 넣지 않고 ConnViewModel.kt의 ScanState에 따로 둔다(11주차 1일차).
+object ConnState {
+    const val DISCONNECTED = "연결 안 됨"   // 처음 상태, 또는 [중지]·[해제]를 누른 뒤
+    const val CONNECTING = "연결 중"        // 가짜 연결(2초)을 기다리는 중
+    const val DISCOVERING = "서비스 확인 중" // 이번 주 가짜 연결에서는 나오지 않는다. 12주차에 라이브러리로 연결하면 "연결 중" 다음에 나온다
+    const val READY = "준비됨"              // 연결 성공
+    const val LOST = "끊김"                 // 연결 실패
+}
+```
+
+7. Logcat 필터를 7주차처럼 `package:mine tag:Conn`으로 두고, 실행해 [검색]을 누른다.
+
+| 때 | 상태 글자 | 가로 줄에서 켜진 버튼 | ProgressBar |
+|---|---|---|---|
+| 앱 시작 | `연결 안 됨` | [검색] | 숨김 |
+| [검색] 뒤 5초 | `검색 중… 5` → `4`·`3`·`2`·`1` | [중지] | 보임 |
+| 이어지는 2초 | `연결 중` | 없음 | 보임 |
+| 성공 | `준비됨` | [해제] | 숨김 |
+| 실패 | `끊김` | [검색], 아래에 [다시 시도]가 보인다 | 숨김 |
+| `끊김`에서 [다시 시도] | `연결 중`(2초) → `준비됨` 또는 `끊김` | 없음 | 보임 |
+
+Logcat에는 `검색 중… 5`부터 `검색 중… 1`까지 다섯 줄이 찍히고, 이어서 `준비됨` 또는 `끊김` 한 줄이 찍힌다. 목록은 아직 비어 있다. 이름은 5단계에서 넣는다.
+
+- `object ScanState { const val SCANNING = "검색 중" }`: 7주차 2일차 `ConnState`와 같은 상수 묶음이다. 상수가 하나뿐이어도 묶음에 두면 넣는 쪽(`ConnViewModel`)과 비교하는 쪽(`MainActivity`의 `when`)이 같은 이름을 써서 글자가 어긋나지 않는다.
+- 파일을 새로 만들지 않고 `ConnViewModel.kt` 맨 위에 둔다. 한 파일에 `object`와 `class`를 함께 둘 수 있다. 그래서 Project 창에 `ScanState.kt`는 없다. `class ConnViewModel`의 중괄호 **안**에 넣으면 `MainActivity.kt`에서 `ScanState.SCANNING`으로 부를 수 없다.
+- `ConnState`에 `SCANNING`을 더하지 않는 까닭: `ConnState`는 **연결** 상태 다섯 개이고, 12주차 제공 라이브러리의 `ConnState`와 이름·값이 같아야 12주차에 이 파일 대신 import만 바꿀 수 있다. 검색은 연결 상태가 아니다.
+- `_state.value = ScanState.SCANNING`: `_state`는 글자를 담는 상자(`StateFlow<String>`)라 `ConnState`의 글자든 `ScanState`의 글자든 넣을 수 있다.
+- `ScanState.SCANNING -> { … }`: 7주차 `when (state)`의 가지와 같은 모양이다. 가지를 바꾸는 것이 아니라 하나 **늘린다**. [중지]는 5초 세기를 멈추는 버튼이라 켜는 줄을 `검색 중` 가지로 옮겼다. `연결 중`(2초) 동안에는 7번이 켜는 가로 줄 버튼이 모두 꺼진다.
+- `ConnState.DISCOVERING`(`서비스 확인 중`)은 상수도 `when` 가지도 그대로 둔다. 이번 주 가짜 연결에서는 나오지 않고, 12주차에 라이브러리로 연결하면 `연결 중` 다음에 나온다.
+- `끊김`은 연결에 실패했을 때도 나온다. 6주차에는 `연결 실패`였다. 12주차 라이브러리가 연결 실패와 연결이 끊어진 것을 모두 `끊김`으로 알려 주므로 그 글자에 맞춰 둔다.
+- 가짜 검색 5초가 끝나면 목록에서 고르지 않아도(자동 연결 Switch와 관계없이) 가짜 연결을 한 번 시도한다. 6주차 2일차부터 해 온 흐름이다. 목록에서 고른 보드에만 연결하는 것은 12주차 2일차에 만든다.
+
+### 5. [검색]에서 1초마다 이름 넣기
 
 1. 클래스 안, `permissionLauncher` 블록을 닫는 `}` **아래**에 한 줄을 비우고 변수를 넣는다. `onCreate` **밖**이다.
 
@@ -248,6 +500,8 @@ Smart I/O Controller
             viewModel.startScan()
             // 17. 목록을 비우고, 1초마다 가짜 장치 이름을 하나씩 추가한다(11주차 1일차).
             //     목록을 바꾼 뒤에는 notifyDataSetChanged()로 어댑터에 알려야 화면의 ListView가 다시 그려진다.
+            //     앞에서 시작한 코루틴이 아직 돌고 있으면 먼저 멈춘다. 변수에 새 코루틴을 넣어도 앞 코루틴이 저절로 멈추지는 않는다.
+            deviceJob?.cancel()
             devices.clear()
             adapter.notifyDataSetChanged()
             deviceJob = lifecycleScope.launch {
@@ -275,11 +529,11 @@ Smart I/O Controller
 
 | 시간 | 상태 글자 | 목록 |
 |---|---|---|
-| 누른 직후 | `연결 중… 5` | 비어 있음 |
-| 1초 뒤 | `연결 중… 4` | `ESP32_BLE_A` |
-| 2초 뒤 | `연결 중… 3` | `ESP32_BLE_A`, `ESP32_BLE_B` |
-| 3초 뒤 | `연결 중… 2` | `ESP32_BLE_A`, `ESP32_BLE_B`, `ESP32_BLE_C` |
-| 5초 뒤부터 | `서비스 확인 중` → `준비됨` 또는 `끊김` | 세 줄 그대로 |
+| 누른 직후 | `검색 중… 5` | 비어 있음 |
+| 1초 뒤 | `검색 중… 4` | `ESP32_BLE_A` |
+| 2초 뒤 | `검색 중… 3` | `ESP32_BLE_A`, `ESP32_BLE_B` |
+| 3초 뒤 | `검색 중… 2` | `ESP32_BLE_A`, `ESP32_BLE_B`, `ESP32_BLE_C` |
+| 5초 뒤부터 | `연결 중` → `준비됨` 또는 `끊김` | 세 줄 그대로 |
 
 5. Logcat 창의 필터에 `package:mine tag:Scan`을 넣는다. [검색] 한 번에 아래 세 줄이 찍힌다.
 
@@ -291,20 +545,19 @@ Smart I/O Controller
 
 6. `끊김`이 되면 [검색]을 다시 눌러 본다(`준비됨`이면 [해제]를 누른 뒤 [검색]). 목록이 비워졌다가 A·B·C가 다시 1초마다 들어가면 성공이다.
 
+- `deviceJob?.cancel()`: 변수에 새 코루틴을 넣어도 앞 코루틴은 저절로 멈추지 않는다. 그래서 새로 시작하기 전에 6주차 `scanJob?.cancel()`처럼 앞 코루틴부터 멈춘다. 아직 [검색]을 한 번도 안 눌렀으면 `deviceJob`이 `null`이라 `?.`로 부른다. 완성 코드에서는 검색 중에 8번이 [검색]을 꺼 두고 [중지](6단계의 18번)도 이 코루틴을 멈추므로 이 줄이 없어도 화면이 달라지는 일은 드물다. 그래도 화면이 시작한 코루틴은 화면 코드가 스스로 정리한다.
 - `devices.clear()`: 목록을 모두 비운다. 이것이 없으면 두 번째 [검색]에서 `A B C A B C`로 쌓인다.
 - `for (name in arrayOf(…))`: 10주차 `for (permission in blePermissions())`처럼 묶음 안의 이름을 하나씩 꺼내 반복한다.
 - `devices.add(name)`: 목록 끝에 이름 하나를 넣는다.
 - `adapter.notifyDataSetChanged()`: 어댑터에게 "목록이 바뀌었다"고 알린다. 알림을 받아야 ListView가 다시 그려진다.
 - `val count = devices.size`: 목록에 든 개수다. `"장치 수: $count"`처럼 `$count` 뒤에 공백이나 기호를 둔다. `"장치 $count개"`로 쓰면 Kotlin이 `count개`까지 변수 이름으로 읽어 빌드 오류가 난다.
-- 목록을 채우는 코루틴은 6주차처럼 화면의 `lifecycleScope.launch`에서 돈다. 상태 카운트다운은 7주차 그대로 ViewModel에서 따로 돈다.
+- 목록을 채우는 코루틴은 6주차처럼 화면의 `lifecycleScope.launch`에서 돈다. 상태 글자의 5초 세기(`검색 중… N`)는 7주차 그대로 ViewModel에서 따로 돈다.
 
-### 5. notifyDataSetChanged를 빼 보기
+이어서 `notifyDataSetChanged()`를 빼 본다. 한 곳만 바꾸고 실행한 뒤 반드시 되돌린다.
 
-한 곳만 바꾸고 실행한 뒤 반드시 되돌린다.
-
-1. `for` **안**에 있는 `adapter.notifyDataSetChanged()` 한 줄을 지운다. `devices.clear()` 바로 아래의 것은 그대로 둔다. 빌드는 된다.
-2. 실행하고 [검색]을 누른 뒤 목록과 Logcat `tag:Scan`을 함께 본다. Android 14 에뮬레이터에서는 이렇게 보인다. Logcat에는 `장치 수: 1`~`3`이 그대로 찍히는데 목록은 늘지 않고 비어 있다. 상태가 `준비됨`이 되는 순간(약 7~8초 뒤) 세 줄이 한꺼번에 나타나고, `끊김`으로 끝나면 끝까지 비어 있다. 내 화면에서 어느 쪽이 보였는지 적는다.
-3. 관찰한 결과를 [실습지](lab.md#3-검색에서-이름-넣기와-중지)의 표에 적고, 지운 줄을 되돌린다.
+7. `for` **안**에 있는 `adapter.notifyDataSetChanged()` 한 줄을 지운다. `devices.clear()` 바로 아래의 것은 그대로 둔다. 빌드는 된다.
+8. 실행하고 [검색]을 누른 뒤 목록과 Logcat `tag:Scan`을 함께 본다. Android 14 에뮬레이터에서는 이렇게 보인다. Logcat에는 `장치 수: 1`~`3`이 그대로 찍히는데 목록은 늘지 않고 비어 있다. 상태가 `준비됨`이 되는 순간(약 7~8초 뒤) 세 줄이 한꺼번에 나타나고, `끊김`으로 끝나면 끝까지 비어 있다. 내 화면에서 어느 쪽이 보였는지 적는다.
+9. 관찰한 결과를 [실습지](lab.md#4-검색에서-이름-넣기와-중지)의 표에 적고, 지운 줄을 되돌린다.
 
 목록(데이터)이 바뀌어도 화면은 알림을 받아야 바뀐다. 이번 주 목록 코드에서 가장 자주 빠뜨리는 한 줄이다.
 
@@ -475,6 +728,8 @@ class MainActivity : AppCompatActivity() {
             viewModel.startScan()
             // 17. 목록을 비우고, 1초마다 가짜 장치 이름을 하나씩 추가한다(11주차 1일차).
             //     목록을 바꾼 뒤에는 notifyDataSetChanged()로 어댑터에 알려야 화면의 ListView가 다시 그려진다.
+            //     앞에서 시작한 코루틴이 아직 돌고 있으면 먼저 멈춘다. 변수에 새 코루틴을 넣어도 앞 코루틴이 저절로 멈추지는 않는다.
+            deviceJob?.cancel()
             devices.clear()
             adapter.notifyDataSetChanged()
             deviceJob = lifecycleScope.launch {
@@ -520,8 +775,12 @@ class MainActivity : AppCompatActivity() {
                         ConnState.DISCONNECTED -> {
                             binding.scanButton.isEnabled = true
                         }
-                        ConnState.CONNECTING -> {
+                        // 검색 중(5초를 세는 동안)에만 [중지]를 켠다(11주차 1일차).
+                        ScanState.SCANNING -> {
                             binding.stopButton.isEnabled = true
+                            binding.scanProgress.visibility = View.VISIBLE
+                        }
+                        ConnState.CONNECTING -> {
                             binding.scanProgress.visibility = View.VISIBLE
                         }
                         ConnState.DISCOVERING -> {
@@ -539,13 +798,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 9. 남은 초를 받아 "연결 중… 3"처럼 붙여 보여 준다. 7번과 같은 틀을 하나 더 쓴다(7주차 2일차).
-        //    반드시 7번 틀 아래에 둔다. 7번이 "연결 중"을 먼저 쓰고 9번이 숫자를 붙여야 회전 뒤에도 숫자가 보인다.
+        // 9. 남은 초를 받아 "검색 중… 3"처럼 붙여 보여 준다. 7번과 같은 틀을 하나 더 쓴다(7주차 2일차).
+        //    반드시 7번 틀 아래에 둔다. 7번이 "검색 중"을 먼저 쓰고 9번이 숫자를 붙여야 회전 뒤에도 숫자가 보인다.
+        //    11주차 1일차: 5초를 세는 동안은 장치를 찾는 중이라 글자를 "연결 중… N"에서 "검색 중… N"으로 바로잡았다.
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.seconds.collect { seconds ->
                     if (seconds > 0) {
-                        binding.stateText.text = "연결 중… $seconds"
+                        binding.stateText.text = "검색 중… $seconds"
                     }
                 }
             }
@@ -627,113 +887,8 @@ class MainActivity : AppCompatActivity() {
 
 ### 9. 바꾸지 않는 파일 확인하기
 
-아래 파일은 10주차에 만든 그대로이며 이번 주 1일차에는 손대지 않는다. 내 프로젝트의 파일에 줄이 몇 개 더 있어도 괜찮다.
+아래 파일은 10주차에 만든 그대로이며 이번 주 1일차에는 손대지 않는다. 내 프로젝트의 파일에 줄이 몇 개 더 있어도 괜찮다. 4단계에서 고친 `ConnViewModel.kt`·`ConnState.kt` 전체는 4단계에 있다.
 같은 코드가 [examples/day1](examples/day1)에 있다. `AndroidManifest.xml`을 뺀 나머지는 2일차에도 바꾸지 않는다.
-
-`ConnState.kt` — [examples/day1/ConnState.kt](examples/day1/ConnState.kt)
-
-```kotlin
-package com.example.smartio
-
-// 1. 연결 상태를 나타내는 한글 문자열 모음. 화면의 TextView에 그대로 넣어 보여 준다(7주차 2일차).
-// 12주차 bleuno 라이브러리의 ConnState와 이름·값이 같다. 12주차에는 이 파일 대신 import만 바꾼다.
-object ConnState {
-    const val DISCONNECTED = "연결 안 됨"   // 처음 상태, 또는 [중지]·[해제]를 누른 뒤
-    const val CONNECTING = "연결 중"        // 5초를 세는 중
-    const val DISCOVERING = "서비스 확인 중" // 가짜 연결(2초)을 기다리는 중
-    const val READY = "준비됨"              // 연결 성공
-    const val LOST = "끊김"                 // 연결 실패
-}
-```
-
-`ConnViewModel.kt` — [examples/day1/ConnViewModel.kt](examples/day1/ConnViewModel.kt)
-
-```kotlin
-package com.example.smartio
-
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.random.Random
-
-// 7주차 1일차: 연결 화면의 일을 맡는 ViewModel. 화면(Activity)보다 오래 살아서 회전해도 그대로 남는다.
-class ConnViewModel : ViewModel() {
-    // 1. 화면에 보여 줄 값 두 가지: 연결 상태와 카운트다운 남은 초.
-    //    바꾸는 쪽(_state, _seconds)은 안에만 두고, 화면에는 읽기 전용(state, seconds)만 보여 준다(7주차 2일차).
-    private val _state = MutableStateFlow(ConnState.DISCONNECTED)
-    val state: StateFlow<String> = _state
-    private val _seconds = MutableStateFlow(0)
-    val seconds: StateFlow<Int> = _seconds
-
-    // 2. [검색]·[다시 시도]가 시작한 코루틴. 6주차에는 MainActivity에 있던 변수다(7주차 1일차).
-    private var scanJob: Job? = null
-
-    // 3. [검색]: 연결 중으로 바꾸고 5초를 센 뒤 가짜 연결을 시도한다. 값은 _state·_seconds에 넣는다(7주차 2일차).
-    fun startScan() {
-        // 이미 돌고 있으면 새로 시작하지 않는다(7주차 1일차).
-        if (scanJob?.isActive == true) {
-            return
-        }
-        scanJob = viewModelScope.launch {
-            _state.value = ConnState.CONNECTING
-            for (i in 5 downTo 1) {
-                Log.d("Conn", "연결 중… $i")
-                _seconds.value = i
-                delay(1000)
-            }
-            _seconds.value = 0
-            tryConnect()
-        }
-    }
-
-    // 4. [중지]: 카운트다운 코루틴을 취소하고 연결 안 됨으로 돌린다(7주차 2일차).
-    fun stopScan() {
-        scanJob?.cancel()
-        _seconds.value = 0
-        _state.value = ConnState.DISCONNECTED
-    }
-
-    // 5. [다시 시도]: 카운트다운 없이 연결만 다시 시도한다(7주차 1일차).
-    fun retry() {
-        scanJob = viewModelScope.launch {
-            tryConnect()
-        }
-    }
-
-    // 6. [해제]: 연결 안 됨으로 돌린다(7주차 2일차).
-    fun disconnect() {
-        _state.value = ConnState.DISCONNECTED
-    }
-
-    // 연결을 흉내 낸다. 2초 걸리고 절반은 실패한다. 진짜 막히는 일이므로 IO로 옮긴다.
-    private suspend fun connectFake(): Boolean = withContext(Dispatchers.IO) {
-        Thread.sleep(2000)
-        if (Random.nextBoolean()) {
-            throw Exception("연결 실패")
-        }
-        true
-    }
-
-    // 가짜 연결을 시도하고 결과 상태를 _state에 넣는다.
-    private suspend fun tryConnect() {
-        _state.value = ConnState.DISCOVERING
-        try {
-            connectFake()
-            _state.value = ConnState.READY
-        } catch (e: Exception) {
-            _state.value = ConnState.LOST
-        }
-        Log.d("Conn", _state.value)
-    }
-}
-```
 
 `ControlActivity.kt` — [examples/day1/ControlActivity.kt](examples/day1/ControlActivity.kt)
 
@@ -1580,6 +1735,8 @@ class MainActivity : AppCompatActivity() {
             viewModel.startScan()
             // 17. 목록을 비우고, 1초마다 가짜 장치 이름을 하나씩 추가한다(11주차 1일차).
             //     목록을 바꾼 뒤에는 notifyDataSetChanged()로 어댑터에 알려야 화면의 ListView가 다시 그려진다.
+            //     앞에서 시작한 코루틴이 아직 돌고 있으면 먼저 멈춘다. 변수에 새 코루틴을 넣어도 앞 코루틴이 저절로 멈추지는 않는다.
+            deviceJob?.cancel()
             devices.clear()
             adapter.notifyDataSetChanged()
             deviceJob = lifecycleScope.launch {
@@ -1625,8 +1782,12 @@ class MainActivity : AppCompatActivity() {
                         ConnState.DISCONNECTED -> {
                             binding.scanButton.isEnabled = true
                         }
-                        ConnState.CONNECTING -> {
+                        // 검색 중(5초를 세는 동안)에만 [중지]를 켠다(11주차 1일차).
+                        ScanState.SCANNING -> {
                             binding.stopButton.isEnabled = true
+                            binding.scanProgress.visibility = View.VISIBLE
+                        }
+                        ConnState.CONNECTING -> {
                             binding.scanProgress.visibility = View.VISIBLE
                         }
                         ConnState.DISCOVERING -> {
@@ -1644,13 +1805,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 9. 남은 초를 받아 "연결 중… 3"처럼 붙여 보여 준다. 7번과 같은 틀을 하나 더 쓴다(7주차 2일차).
-        //    반드시 7번 틀 아래에 둔다. 7번이 "연결 중"을 먼저 쓰고 9번이 숫자를 붙여야 회전 뒤에도 숫자가 보인다.
+        // 9. 남은 초를 받아 "검색 중… 3"처럼 붙여 보여 준다. 7번과 같은 틀을 하나 더 쓴다(7주차 2일차).
+        //    반드시 7번 틀 아래에 둔다. 7번이 "검색 중"을 먼저 쓰고 9번이 숫자를 붙여야 회전 뒤에도 숫자가 보인다.
+        //    11주차 1일차: 5초를 세는 동안은 장치를 찾는 중이라 글자를 "연결 중… N"에서 "검색 중… N"으로 바로잡았다.
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.seconds.collect { seconds ->
                     if (seconds > 0) {
-                        binding.stateText.text = "연결 중… $seconds"
+                        binding.stateText.text = "검색 중… $seconds"
                     }
                 }
             }

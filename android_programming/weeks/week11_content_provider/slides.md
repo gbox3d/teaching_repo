@@ -26,7 +26,8 @@ ESP32_BLE_C
 
 1. `mutableListOf`로 목록을 만들고 `add`로 늘리기
 2. `ListView`에 `ArrayAdapter`를 끼우고, 바꿨으면 `notifyDataSetChanged()`
-3. `setOnItemClickListener`로 누른 줄의 이름 꺼내기
+3. [검색] 뒤 상태 글자 바로잡기: 5초는 `검색 중… N`, 이어지는 2초는 `연결 중`
+4. `setOnItemClickListener`로 누른 줄의 이름 꺼내기
 
 ---
 
@@ -46,7 +47,7 @@ println("장치 수: $count")               // 장치 수: 2
 
 ---
 
-## 1일차 · 5–15분 ① — 목록과 ListView 사이의 어댑터
+## 1일차 · 5–13분 ① — 목록과 ListView 사이의 어댑터
 
 ```text
 devices (목록)        ArrayAdapter                  ListView (화면)
@@ -61,7 +62,7 @@ devices (목록)        ArrayAdapter                  ListView (화면)
 
 ---
 
-## 1일차 · 5–15분 ② — XML에 ListView 놓기
+## 1일차 · 5–13분 ② — XML에 ListView 놓기
 
 ```xml
 <ListView
@@ -78,7 +79,7 @@ devices (목록)        ArrayAdapter                  ListView (화면)
 
 ---
 
-## 1일차 · 5–15분 ③ — ArrayAdapter 만들어 끼우기
+## 1일차 · 5–13분 ③ — ArrayAdapter 만들어 끼우기
 
 ```kotlin
 // onCreate 안, [검색] 블록보다 위
@@ -94,7 +95,27 @@ binding.deviceList.adapter = adapter
 
 ---
 
-## 1일차 · 15–22분 ① — 목록을 바꿨으면 notifyDataSetChanged()
+## 1일차 · 13–17분 — 바로잡기: 검색 중과 연결 중
+
+| [검색]을 누른 뒤 | 하는 일 | 지금까지 글자 | 맞는 글자 |
+|---|---|---|---|
+| 5초 세기 | 장치 **찾기** | `연결 중… 5` | `검색 중… 5` |
+| 2초 기다리기 | 가짜 **연결** | `서비스 확인 중` | `연결 중` |
+
+```kotlin
+// ConnViewModel.kt 맨 위(class 밖): 찾는 일은 연결이 아니라서 ConnState와 따로 둔다
+object ScanState {
+    const val SCANNING = "검색 중"
+}
+```
+
+- `startScan()`은 `ScanState.SCANNING`을, `tryConnect()`는 `ConnState.CONNECTING`을 `_state`에 넣습니다.
+- 8번 `when`에 `ScanState.SCANNING` 가지([중지] 켬)를 더하고 `CONNECTING` 가지의 [중지] 줄은 지웁니다. 9번 글자는 `"검색 중… $seconds"`로 바꿉니다.
+- 버튼이 켜지는 때와 시간은 그대로입니다. 6주차·7주차 1일차의 `검색 중…`으로 되돌리는 것입니다.
+
+---
+
+## 1일차 · 17–23분 ① — 목록을 바꿨으면 notifyDataSetChanged()
 
 ```kotlin
 deviceJob = lifecycleScope.launch {
@@ -110,11 +131,11 @@ deviceJob = lifecycleScope.launch {
 
 - `add`는 목록만 바꿉니다. ListView는 **알려 줘야** 다시 그립니다.
 - `for (name in arrayOf(…))`: 10주차 `for (permission in blePermissions())`와 같은 모양입니다.
-- 상태 카운트다운(7주차 ViewModel)은 그대로 따로 돕니다.
+- 상태 글자의 5초 세기(`검색 중… N`)는 7주차 ViewModel에서 따로 돕니다.
 
 ---
 
-## 1일차 · 15–22분 ② — 알리지 않으면 어떻게 되나
+## 1일차 · 17–23분 ② — 알리지 않으면 어떻게 되나
 
 | | `notifyDataSetChanged()` 있음 | 없음 |
 |---|---|---|
@@ -124,12 +145,12 @@ deviceJob = lifecycleScope.launch {
 시연: `for` 안의 `notifyDataSetChanged()` 한 줄만 지우고 [검색]을 누릅니다.
 
 - 데이터가 맞아도 화면은 알림을 받아야 바뀝니다. 가장 자주 빠뜨리는 한 줄입니다.
-- [검색] 첫머리 `devices.clear()` 뒤에도 알립니다. 안 비우면 `A B C A B C`가 됩니다.
+- [검색] 첫머리에서 `deviceJob?.cancel()`로 앞 코루틴부터 멈추고, `devices.clear()` 뒤에도 알립니다. 안 비우면 `A B C A B C`가 됩니다.
 - [중지]에서는 6주차처럼 `deviceJob?.cancel()`로 이름 넣기를 멈춥니다.
 
 ---
 
-## 1일차 · 22–27분 — 한 줄 누르기: setOnItemClickListener
+## 1일차 · 23–27분 — 한 줄 누르기: setOnItemClickListener
 
 ```kotlin
 binding.deviceList.setOnItemClickListener { _, _, position, _ ->
@@ -152,10 +173,11 @@ binding.deviceList.setOnItemClickListener { _, _, position, _ ->
 
 1. `strings.xml`·`activity_main.xml`에 제목과 `deviceList`를 넣습니다.
 2. `devices`·`adapter`를 [검색] 블록 **위**에 만듭니다.
-3. [검색]에서 1초마다 이름 3개, [중지]에서 멈춤, 한 줄 누르면 이름 칸에 넣기.
-4. 이름 세 줄이 보이는 **세로 화면**을 캡처합니다. 돌리면 목록이 비워집니다.
+3. 상태 글자를 바로잡습니다: 5초는 `검색 중… N`, 이어지는 2초는 `연결 중`.
+4. [검색]에서 1초마다 이름 3개, [중지]에서 멈춤, 한 줄 누르면 이름 칸에 넣기.
+5. 이름 세 줄이 보이는 **세로 화면**을 캡처합니다. 돌리면 목록이 비워집니다.
 
-**설명 합계: 5+10+7+5+3 = 30분**
+**설명 합계: 5+8+4+6+4+3 = 30분**
 
 `Unresolved reference 'devices'.`가 나오면 15·16번이 [검색] 블록보다 위에 있는지 봅니다.
 

@@ -221,8 +221,12 @@ class MainActivity : AppCompatActivity() {
                         ConnState.DISCONNECTED -> {
                             binding.scanButton.isEnabled = true
                         }
-                        ConnState.CONNECTING -> {
+                        // 검색 중(5초를 세는 동안)에만 [중지]를 켠다(11주차 1일차).
+                        ScanState.SCANNING -> {
                             binding.stopButton.isEnabled = true
+                            binding.scanProgress.visibility = View.VISIBLE
+                        }
+                        ConnState.CONNECTING -> {
                             binding.scanProgress.visibility = View.VISIBLE
                         }
                         ConnState.DISCOVERING -> {
@@ -240,13 +244,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 9. 남은 초를 받아 "연결 중… 3"처럼 붙여 보여 준다. 7번과 같은 틀을 하나 더 쓴다(7주차 2일차).
-        //    반드시 7번 틀 아래에 둔다. 7번이 "연결 중"을 먼저 쓰고 9번이 숫자를 붙여야 회전 뒤에도 숫자가 보인다.
+        // 9. 남은 초를 받아 "검색 중… 3"처럼 붙여 보여 준다. 7번과 같은 틀을 하나 더 쓴다(7주차 2일차).
+        //    반드시 7번 틀 아래에 둔다. 7번이 "검색 중"을 먼저 쓰고 9번이 숫자를 붙여야 회전 뒤에도 숫자가 보인다.
+        //    11주차 1일차: 5초를 세는 동안은 장치를 찾는 중이라 글자를 "연결 중… N"에서 "검색 중… N"으로 바로잡았다.
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.seconds.collect { seconds ->
                     if (seconds > 0) {
-                        binding.stateText.text = "연결 중… $seconds"
+                        binding.stateText.text = "검색 중… $seconds"
                     }
                 }
             }

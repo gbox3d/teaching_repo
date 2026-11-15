@@ -298,8 +298,8 @@ lifecycleScope.launch {
 ```
 
 - 틀은 7주차 그대로, **받는 대상만** 바뀝니다. 값은 `ConnState` 문자열 다섯 가지입니다.
-- 상태를 라이브러리가 만들어 주므로 `ConnViewModel.kt`와 9번(남은 초 collect)은 지웁니다.
-- 화면에는 `연결 중` → `서비스 확인 중` → `준비됨`이 그대로 보입니다. 카운트다운 숫자는 없습니다.
+- 상태를 라이브러리가 만들어 주므로 8번의 `ScanState.SCANNING` 가지(먼저), 9번(남은 초 collect), `ConnViewModel.kt`를 지웁니다.
+- 화면에는 `연결 중` → `서비스 확인 중` → `준비됨`이 차례로 보입니다. `서비스 확인 중`은 11주차 가짜 연결에서는 나오지 않던 단계입니다.
 
 ---
 
@@ -320,7 +320,7 @@ ConnState.READY -> {
 }
 ```
 
-- 7주차 `CONNECTING`에서 켜던 [중지]는 이제 **검색 멈춤**이라 켜지 않습니다.
+- 11주차 `ScanState.SCANNING` 가지에서 켜던 [중지]는 그 가지와 함께 지웁니다. [중지]는 **검색 멈춤**이라 [검색]의 26·29번이 켜고 끕니다.
 
 ---
 
@@ -388,7 +388,7 @@ if (hasBlePermissions() == false) {
 [2일차 실습](lab.md#2일차--연결하고-두-화면에서-상태-보기-60분) · [따라하기](walkthrough.md#2일차)
 
 1. [제어 화면] 버튼과 제어 화면 상태 글자 자리를 만듭니다.
-2. 7번 collect를 `client.connectionState`로 바꾸고 `ConnViewModel.kt`를 지웁니다.
+2. 7번 collect를 `client.connectionState`로 바꾸고(11주차 `ScanState.SCANNING` 가지도 지움) `ConnViewModel.kt`를 지웁니다.
 3. 주소 목록 → 줄 누르면 `connect` → `준비됨`이면 [제어 화면] → 제어 화면 `상태: 준비됨`.
 4. 0개 안내·위치 확인을 넣고, `준비됨` 화면 + Logcat `tag:BLE`를 캡처합니다.
 
