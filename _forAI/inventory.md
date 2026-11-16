@@ -13,8 +13,10 @@
 
 ## Repository
 
+강의 편집·게시 작업의 로컬 폴더와 다른 저장소의 스킬 연결은 [강의 영상 인수인계](lecture-video.md)를 따른다. `output/`은 Git 제외이며 편집 결과가 소스 동기화로 전달되지는 않는다.
+
 - Name: `teaching_repo`
-- Path: `D:\works\coworks\teaching_repo`
+- Path: 현재 체크아웃에서 `git rev-parse --show-toplevel`로 확인한다. 과거 기록의 `D:\works\coworks\teaching_repo`는 특정 호스트의 경로다.
 - Summary: 대학·학기와 무관하게 재사용하는 공개 수업교재(모바일·웹·오픈소스 AI)의 단일 기준. Markdown 원고를 Marp로 렌더해 GitHub Pages 슬라이드 도서관으로 배포한다.
 
 ## Top-level structure
