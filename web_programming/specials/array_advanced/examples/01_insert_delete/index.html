@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>배열 삽입과 삭제</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+    <link rel="stylesheet" href="../../../../shared/examples.css">
+    <script src="app.js" defer></script>
+</head>
+<body class="w3-content teaching-example">
+    <h1>배열 삽입과 삭제</h1>
+    <label for="value">추가할 값</label>
+    <input class="w3-input w3-border w3-round" id="value" type="text">
+    <label for="position">위치 (0부터 시작)</label>
+    <input class="w3-input w3-border w3-round" id="position" type="number" min="0" step="1" value="0">
+    <button class="w3-button w3-border w3-round" id="push" type="button">push · 뒤에 추가</button>
+    <button class="w3-button w3-border w3-round" id="unshift" type="button">unshift · 앞에 추가</button>
+    <button class="w3-button w3-border w3-round" id="pop" type="button">pop · 뒤에서 삭제</button>
+    <button class="w3-button w3-border w3-round" id="shift" type="button">shift · 앞에서 삭제</button>
+    <button class="w3-button w3-border w3-round" id="insert" type="button">splice · 위치에 삽입</button>
+    <button class="w3-button w3-border w3-round" id="delete" type="button">splice · 위치에서 삭제</button>
+    <button class="w3-button w3-border w3-round" id="reset" type="button">초기화</button>
+    <h2>현재 배열</h2>
+    <pre id="array-output"></pre>
+    <p>길이: <output id="length-output"></output></p>
+    <h2>반환값</h2>
+    <pre id="return-output">실행 전</pre>
+    <p id="status" role="status">대기</p>
+</body>
+</html>

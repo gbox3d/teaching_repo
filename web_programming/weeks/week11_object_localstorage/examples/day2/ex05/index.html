@@ -3,11 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex05 json</title>
+    <title>ex05 JSON 저장과 복원</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+    <link rel="stylesheet" href="../../../../../shared/examples.css">
     <script src="app.js" defer></script>
 </head>
-<body>
-    <h1>ex05 JSON: 배열을 글자로, 글자를 배열로</h1>
-    <p>이 예제는 화면에 쓰지 않는다. F12 › Console 1~3번과 F12 › Application 탭의 두 키(ex05-raw · ex05-json)를 비교한다.</p>
+<body class="w3-content teaching-example">
+    <h1>ex05 JSON 저장과 복원</h1>
+    <h2>저장할 배열</h2>
+    <pre id="source-json"></pre>
+    <button class="w3-button w3-border w3-round" id="save-button" type="button">JSON 저장</button>
+    <button class="w3-button w3-border w3-round" id="read-button" type="button">저장 원문 조회</button>
+    <button class="w3-button w3-border w3-round" id="parse-button" type="button">JSON 복원</button>
+    <button class="w3-button w3-border w3-round" id="remove-button" type="button">지우기</button>
+    <h2>저장 원문</h2>
+    <pre id="stored-json">조회 전</pre>
+    <h2>복원한 필드</h2>
+    <ul id="restored-items"></ul>
+    <p id="status" role="status">대기</p>
 </body>
 </html>

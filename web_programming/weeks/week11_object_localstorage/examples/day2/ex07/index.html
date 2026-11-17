@@ -1,13 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex07 remove</title>
-    <script src="app.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ex07 탭 간 동기화</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+    <link rel="stylesheet" href="../../../../../shared/examples.css">
+  <script src="app.js" defer></script>
 </head>
-<body>
-    <h1>ex07 removeItem: 저장 칸 지우기</h1>
-    <p>이 예제는 화면에 쓰지 않는다. F12 › Console 1~3번과 F12 › Application 탭(ex07-list · ex07-other)을 본다.</p>
+<body class="w3-content teaching-example">
+  <h1>탭 간 동기화</h1>
+  <a href="./" target="_blank" rel="noopener">같은 페이지 새 탭</a>
+  <p><label for="memo">메모</label></p>
+  <textarea class="w3-input w3-border w3-round" id="memo" rows="3"></textarea>
+  <button class="w3-button w3-border w3-round" id="save" type="button">저장</button>
+  <button class="w3-button w3-border w3-round" id="load" type="button">불러오기</button>
+  <button class="w3-button w3-border w3-round" id="remove" type="button">지우기</button>
+  <p id="status" role="status">대기</p>
+  <h2>다른 탭에서 받은 이벤트</h2>
+  <pre id="event-result">수신 없음</pre>
 </body>
 </html>

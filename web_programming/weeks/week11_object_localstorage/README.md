@@ -2,127 +2,87 @@
 
 # 11주차 — 객체와 localStorage
 
-이번 주도 부품을 하나씩 본다. 비교 예제 7개를 열어 값을 바꿔 보고, 마지막에 이번 주 새 저장소 `web-week11` 의 `guestbook.html`·`guestbook.js` 를 그 부품으로 조립한다.
-10주차 방명록은 한 줄이 `하늘: 안녕하세요` 같은 **글자 한 덩어리**였고, 새로고침하면 목록이 사라졌다. 이번 주에는 한 줄을 이름·메시지·날짜 **객체**로 바꾸고, 목록을 브라우저의 **저장 칸**(`localStorage`)에 남겨 새로고침해도 남게 한다.
-결과는 화면과 **F12 › Console**, 그리고 이번 주에 처음 쓰는 **F12 › Application** 탭에서 본다. **이번 주부터 확인·캡처는 공개 주소에서만 한다.** 내 PC 에서 연 화면과 공개 주소는 저장 칸이 따로다.
+이번 주는 객체를 읽고, 입력한 값을 브라우저에 저장했다가 불러오는 방법을 익힌다. 각 수업은 **강의·시연 60분 + 실습 30분**이다.
 
-## 이번 주 질문
-
-> 방명록 한 줄에 이름·메시지·날짜를 함께 담고, 새로고침해도 목록이 남게 하려면 무엇을 알아야 하나?
-
-답은 세 가지 원리다.
-**객체** `{ }` 는 이름표가 붙은 값 묶음이다. 배열 안의 객체는 대괄호로 **몇 번째**인지, 점으로 **무슨 값**인지 골라 `items[i].name` 처럼 꺼낸다.
-변수는 새로고침하면 처음으로 돌아가고, **저장 칸**(`localStorage`)에 적은 것은 남는다. 저장 칸은 **글자만** 받으므로 배열은 `JSON.stringify` 로 글자로 바꿔 넣고, 꺼낸 뒤 `JSON.parse` 로 되살린다.
-처음 여는 사람의 저장 칸은 비어 있어 `null` 이 나온다. 그래서 되살리는 줄 끝에 `|| []` 를 붙이고, 전체 지우기는 배열과 저장 칸을 **둘 다** 비운다.
+1일차 실습은 객체 예제 ex01~ex03, 2일차 실습은 문자열·JSON·폼 저장 예제 ex04~ex06으로 한정한다. 방명록 완성본은 강의자 시연과 12주차 준비 자료다. 수업 중 새 저장소 생성이나 방명록 전체 구현을 요구하지 않는다.
 
 ## 학습 목표
 
-1. `{ name: …, message: …, date: … }` 객체를 만들고 `item.name` 처럼 **점 표기**로 값을 꺼낸다. 없는 이름표는 빨간 줄 없이 `undefined` 라는 것을 확인한다.
-2. 배열 안의 객체에서 `items[i].name` 으로 "몇 번째 글의 어떤 값"을 읽고, 목록 한 줄을 `` `${items[i].name}: ${items[i].message} (${items[i].date})` `` 로 쓴다. 객체를 그대로 넣으면 `[object Object]` 가 된다.
-3. `localStorage.setItem / getItem` 으로 글자를 저장하고 꺼낸다. **Application › Local Storage** 에서 키와 값을 본다.
-4. `JSON.stringify` 로 배열을 글자로 바꿔 저장하고, `JSON.parse(localStorage.getItem('guestbook')) || []` 로 페이지를 열 때 되살린다. `||` 의 두 쓰임(if 안·값 자리)을 말한다.
-5. `localStorage.removeItem` 과 `items = []` 로 전체 지우기를 만들고, 둘 중 하나만 하면 무엇이 남는지 말한다.
-
-## 이번 주 결과물
-
-```text
-[캡처 1] https://student01.github.io/web-week11/guestbook.html
-         글 3개를 남기고 새로고침한 뒤, F12 › Application › Local Storage 를 함께 연 화면
-
-         남긴 글
-         · 하늘: 안녕하세요 (2026. 11. 11.)      [삭제]
-         · 바다: 잘 봤습니다 (2026. 11. 11.)     [삭제]
-         · 노을: 반갑습니다 (2026. 11. 11.)      [삭제]
-         3개                                     ← 새로고침해도 그대로
-         Key: guestbook  Value: [{"name":"하늘","message":"안녕하세요",…}]
-         ← 주소창이 함께 보이게 찍는다
-```
-
-- 제출은 이 캡처 **한 장**이다. 날짜는 글을 남긴 날이고, 모양은 브라우저 언어 설정에 따라 다르다.
-- `web-week11/ex/` 에 비교 예제를 저장하고 값을 바꾼 것은 push 로 남긴다. 기록물·표는 없다.
-- `student01` 은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다.
+1. 객체의 속성을 `item.name`, `items[i].name`으로 읽는다.
+2. 객체의 필드를 화면에 표시한다.
+3. `setItem`, `getItem`, `removeItem`으로 문자열을 저장·불러오기·삭제한다.
+4. `JSON.stringify`와 `JSON.parse`로 객체를 저장하고 복원한다.
+5. 새로고침한 뒤 이름·메시지 폼을 복원하고 저장된 JSON을 확인한다.
 
 ## 2일 수업 흐름
 
-| 일차 | 설명 30분 | 실습 60분 | 결과 |
+| 일차 | 강의·시연 60분 | 실습 30분 | 확인 결과 |
 |---|---|---|---|
-| 1일차 | 예제 폴더 하나에 파일 두 개(`index.html`·`app.js`) → ex01 객체와 점 표기 → ex02 배열 안의 객체와 날짜 틀 → ex03 객체를 목록 한 줄로 | 새 폴더 `web-week11` 에 지난주 완성본 넣기 → `ex/` 에 예제 폴더 세 개(파일 여섯 개) 저장 → 값 바꿔 보기 → 새 저장소 만들어 올리기 · Pages 켜기 | `ex/` 비교 예제(확인용) |
-| 2일차 | ex04 저장 칸과 Application 탭 → ex05 JSON → ex06 `\|\|` 또는 → ex07 removeItem → 내 목록은 내 브라우저에만 → 조립표 | `ex/` 에 예제 폴더 네 개(파일 여덟 개) 저장 → 값 바꿔 보기 → `guestbook.html`·`guestbook.js` 조립 → push → 공개 주소에서 확인 → 캡처 | 캡처 1 |
+| 1일차 | 실행 환경 10분 → 객체 15분 → 객체 배열 15분 → 목록 표시 15분 → 실습 안내 5분 | ex01~ex03의 값·속성을 바꾸고 결과 비교 | 객체 필드와 배열 인덱스를 구분한다 |
+| 2일차 | 문자열 저장 10분 → JSON 15분 → 폼 복원 15분 → 저장 범위 10분 → 검증 순서 5분 → 실습 안내 5분 | ex04 저장·삭제 → ex05 원문·복원 → ex06 폼 복원·캡처 | 새로고침 후 복원한 폼과 저장 JSON |
 
-각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
+강의 시간에는 강의자가 조작과 코드를 함께 보여 준다. 학생은 뒤의 30분에 기본 예제를 실행한다. 배열 심화와 탭 동기화는 정규 수업 범위에 포함하지 않는다.
 
-## 준비
+## 준비와 실행
 
-- 지난주 완성본. 내 `web-week10` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [10주차 `examples/day2/web-week10/`](../week10_array_list/examples/day2/web-week10/) 파일을 **Raw** 로 받는다
-- VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
-- Node.js LTS(선택). 5주차에 받은 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에도 둔다([사용 안내](../../tools/static-server/README.md)). 서버로 연 주소(`http://localhost:8000/`)도 공개 주소와 저장 칸이 다르다
-- 개발자 도구의 **Console** 탭과 이번 주 2일차에 처음 쓰는 **Application** 탭 위치(**F12**, 또는 오른쪽 클릭 › **검사**)
-- 10주차 [비교 예제](../week10_array_list/examples/README.md)의 배열·`for`·`showList()` 를 기억해 둔다. 이번 주는 그 배열에 담는 값을 글자에서 객체로 바꾼다
-- 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
+VS Code, Chrome, Node.js를 준비한다. 교재를 내려받을 때 `web_programming`의 폴더 구조와 `shared` 폴더를 유지한다. 예제 HTML·JS만 따로 복사하면 공용 CSS 경로가 끊길 수 있다.
 
-## 이번 주 용어
+`teaching_repo` 폴더에서 실행한다.
 
-| 한국어 | English | 中文 |
-|---|---|---|
-| 객체 | object | 对象 |
-| 속성(이름표) | property | 属性 |
-| 점 표기 | dot notation | 点表示法 |
-| 브라우저 저장 칸 | localStorage | 本地存储 |
-| 키 | key | 键 |
-| 글자로 바꾸기 | JSON.stringify | 转成 JSON 字符串 |
-| 글자를 되살리기 | JSON.parse | 解析 JSON |
-| 또는 | logical OR (`\|\|`) | 逻辑或 |
+```powershell
+node web_programming/tools/static-server/server.mjs web_programming 8111
+```
 
-## 이번 주 비교 예제
+- 1일차: [ex01 열기](http://localhost:8111/weeks/week11_object_localstorage/examples/day1/ex01/)
+- 2일차: [ex04 열기](http://localhost:8111/weeks/week11_object_localstorage/examples/day2/ex04/)
+- 스타일: [W3.CSS CDN 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css) · [추가 공용 스타일](../../shared/examples.css)
 
-예제마다 폴더 하나에 내 사이트와 같은 이름의 두 파일(`index.html` 화면 · `app.js` 동작)을 둔다. `index.html` 을 열고, 원리는 `app.js` 에서 본다. ex01·ex02 는 Console 에만, ex03 은 화면의 두 목록에 쓴다. 2일차 ex04~ex07 은 Console 과 Application 탭에서 본다. ex04 의 **저장하기** 버튼은 그 폴더의 `index.html` 에 있다. Console 의 번호가 코드의 형제 번호와 같다.
-2일차 예제는 저장 칸 키 이름을 `ex04-memo` 처럼 예제 번호로 시작하게 했다. 같은 주소의 저장 칸은 예제 폴더가 달라도 함께 쓰므로(두 번 눌러 연 `file://` 은 폴더가 달라도 칸 하나다) 예제끼리, 그리고 완성본의 `guestbook` 키와 섞이지 않게 하려는 것이다.
+예제마다 `index.html`은 화면, `app.js`는 동작이다. 2일차 ex04~ex07은 W3.CSS를 CDN에서 읽고 추가 공용 스타일 `shared/examples.css`를 불러온다. CDN 스타일을 읽으려면 인터넷 연결이 필요하다. 1일차 예제는 기존 구성을 유지한다. 설명과 조작 순서는 README에서 읽는다. [정적 서버 안내](../../tools/static-server/README.md)
 
-| 파일 | 비교하는 것 | 원리 | 바꿔 볼 값 |
-|---|---|---|---|
-| [ex01/index.html](examples/day1/ex01/index.html) + [app.js](examples/day1/ex01/app.js) | 1. 객체 통째로 / 2·3. 점 표기로 값 하나 / 4. 없는 이름표 / 5. 값 자리에 변수 | 객체는 이름표가 붙은 값 묶음이다. 점 뒤에 이름표를 쓰면 그 값이 나오고, 없는 이름표는 `undefined` 다 | 객체 안 쉼표 하나 지우기 → 파일 전체가 실행되지 않는다. `name: name` 의 오른쪽에 따옴표 |
-| [ex02/index.html](examples/day1/ex02/index.html) + [app.js](examples/day1/ex02/app.js) | 1·2. 글자를 쌓은 배열 / 3·4·5. 객체를 쌓은 배열 | 대괄호로 몇 번째 묶음인지, 점으로 무슨 값인지 고른다. `new Date().toLocaleDateString()` 은 날짜 글자 틀이다 | `app.js` 17행 쉼표 뒤의 `items[0].name` 을 `items.name[0]` 으로 → 빨간 줄. `.toLocaleDateString()` 지우기 |
-| [ex03/index.html](examples/day1/ex03/index.html) + [app.js](examples/day1/ex03/app.js) | 1. 객체를 그대로 넣은 줄 / 2. 점 표기로 꺼내 넣은 줄 | 글자 자리에 객체를 넣으면 `[object Object]` 가 되고 빨간 줄은 없다. 점 표기로 값을 꺼내 템플릿 문자열에 넣는다 | `items[i].nmae` → `undefined: …`. 백틱을 작은따옴표로 |
-| [ex04/index.html](examples/day2/ex04/index.html) + [app.js](examples/day2/ex04/app.js) | 1. 변수 `memo` / 2. 저장 칸 `ex04-memo` | 변수는 열 때마다 처음 값으로 시작하고, `setItem` 으로 적은 글자는 새로고침해도 `getItem` 으로 꺼낼 수 있다. 적은 적 없는 키는 `null` | 꺼내는 쪽(`getItem`) 키 철자 바꾸기 → `null`, 표에는 `ex04-memo` 그대로. 값 자리에 배열 → 글자 `하늘,바다` |
-| [ex05/index.html](examples/day2/ex05/index.html) + [app.js](examples/day2/ex05/app.js) | 1. 배열을 그대로 저장 / 2. `JSON.stringify` 해서 저장 / 3. `JSON.parse` 로 되살리기 | 저장 칸은 글자만 받는다. 배열은 JSON 글자로 바꿔 넣고, 꺼낸 글자는 다시 배열로 되살린다 | 4번 주석 풀기 → `is not valid JSON` 빨간 줄. `stringify` 줄을 둘째 `push` 위로 → 하나만 저장된다 |
-| [ex06/index.html](examples/day2/ex06/index.html) + [app.js](examples/day2/ex06/app.js) | 1. if 안의 `\|\|` / 2. `\|\|` 없이 되살리기 / 3. `\|\| []` 붙여 되살리기 | `\|\|` 는 "또는"이다. if 안에서는 둘 중 하나라도 참이면 참, 값 자리에서는 앞이 없으면(`null`) 뒤 값을 쓴다 | `app.js` 4·5행 두 값 바꾸기. 4번 주석 풀기 → `null` 의 `length` 빨간 줄 |
-| [ex07/index.html](examples/day2/ex07/index.html) + [app.js](examples/day2/ex07/app.js) | 1. `items = []` / 2. `removeItem` / 3. 다른 키 | 배열 변수와 저장 칸은 따로다. 배열만 비우면 저장 칸은 그대로다. `removeItem` 은 그 키 하나만 지운다 | `removeItem` 줄을 주석으로 → 저장 칸이 남는다 |
+저장 실습은 `file://` 대신 위의 localhost 주소에서 진행한다. 저장 공간은 브라우저의 origin(프로토콜·호스트·포트)별로 구분된다. 같은 origin의 폴더들은 저장 공간을 공유하고, 포트나 호스트가 다르면 별도 공간이다. [MDN localStorage](https://developer.mozilla.org/ko/docs/Web/API/Window/localStorage)
+
+## 기본 예제
+
+| 예제 | 확인할 내용 |
+|---|---|
+| [ex01](examples/day1/ex01/index.html) · [코드](examples/day1/ex01/app.js) | 객체 전체와 `item.name`, 없는 속성의 `undefined` |
+| [ex02](examples/day1/ex02/index.html) · [코드](examples/day1/ex02/app.js) | 문자열 배열과 객체 배열, `items[0].name` |
+| [ex03](examples/day1/ex03/index.html) · [코드](examples/day1/ex03/app.js) | 객체 그대로 표시한 목록과 속성을 꺼낸 목록 |
+| [ex04](examples/day2/ex04/index.html) · [코드](examples/day2/ex04/app.js) | 문자열 저장·불러오기·지우기, `''`와 `null`의 차이 |
+| [ex05](examples/day2/ex05/index.html) · [코드](examples/day2/ex05/app.js) | JSON 문자열 저장 → 원문 조회 → 배열·필드 복원 |
+| [ex06](examples/day2/ex06/index.html) · [코드](examples/day2/ex06/app.js) | 이름·메시지 저장 → 새로고침 → 폼 복원 |
+
+## 완료 기준과 제출
+
+2일차 ex06에서 이름과 메시지를 저장하고 새로고침한 뒤 불러온다. **복원된 입력, 저장된 JSON, 주소창**이 보이는 화면 한 장을 제출한다. localhost 실습 화면을 인정하며, 공개 업로드는 수업 후 정리로 분리한다.
+
+- [ ] ex04에서 빈 문자열 저장과 키 삭제의 결과를 구분했다.
+- [ ] ex05에서 저장 원문과 파싱한 이름·메시지 필드를 확인했다.
+- [ ] ex06에서 새로고침 후 입력을 복원했다.
+- [ ] ex06에서 지우기 후 다시 불러와 저장 값이 없는지 확인했다.
+- [ ] 캡처용으로 다시 저장·새로고침·불러오기를 수행했다.
+
+실명·학번·실제 이메일은 사용하지 않는다. 자세한 순서와 오류 해결은 [실습지](lab.md)에 있다.
+
+## 강의자 시연과 다음 주 준비
+
+[web-week11 완성 방명록](examples/day2/web-week11/README.md)은 객체 배열을 저장·복원하는 시연 자료다. 학생의 이번 주 필수 구현·제출에 포함하지 않는다. 전체 HTML·JS는 [따라하기 부록](walkthrough.md#부록-강의자용-방명록-완성본)에 있다.
+
+12주차에는 이 준비된 완성본을 출발점으로 공용 REST API의 JSON 배열을 읽는다. 학생이 11주차에 방명록 전체를 만들었다고 가정하지 않는다.
+
+## 별도 보강 자료
+
+- [배열 심화 특강](../../specials/array_advanced/README.md): 삽입·삭제·순회·filter·map·reduce를 별도 시간에 다룬다.
+- [고급 저장 참고](examples/day2/README.md#고급-저장-참고): ex07의 탭 동기화는 참고 자료다.
 
 ## 수업 자료
 
-- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week11_object_localstorage/index.html
-- [순서대로 따라하기](walkthrough.md)
-- [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(예제 폴더 `ex01/`~`ex03/`, 폴더마다 `index.html`·`app.js`), 2일차 `day2/`(예제 폴더 `ex04/`~`ex07/`, 폴더마다 `index.html`·`app.js`, 조립 `web-week11/`)
-- 2일차 끝의 `web-week11`(조립 결과): [guestbook.html](examples/day2/web-week11/guestbook.html) · [guestbook.js](examples/day2/web-week11/guestbook.js) · [index.html](examples/day2/web-week11/index.html) · [about.html](examples/day2/web-week11/about.html) · [app.js](examples/day2/web-week11/app.js) · [styles.css](examples/day2/web-week11/styles.css) · [README.md](examples/day2/web-week11/README.md)
-- 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
-- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage
-
-## 완료 기준
-
-- [ ] 새 저장소 `web-week11` 을 만들어 Pages 를 켰고, `ex/` 에 비교 예제가 있고, 각 예제에서 값을 하나 이상 바꿔 push 했다.
-- [ ] 공개 주소 `https://student01.github.io/web-week11/guestbook.html` 에서 글을 남기면 목록 한 줄에 `하늘: 안녕하세요 (2026. 11. 11.)` 처럼 이름·메시지·날짜가 함께 보인다.
-- [ ] 새로고침해도 목록과 개수가 그대로 남는다. 줄 하나를 **[삭제]** 한 뒤 새로고침해도 그 줄이 돌아오지 않는다.
-- [ ] **F12 › Application › Local Storage** 에 `guestbook` 키가 있고 값이 `[{"name":…}]` 모양이다.
-- [ ] **[전체 지우기]** 를 누르면 목록이 비고 `아직 남긴 글이 없습니다.` 가 보이며, 새로고침해도 비어 있다. F12 Console 에 `Uncaught` 로 시작하는 빨간 줄이 없다(`favicon.ico` 404 한 줄은 세지 않는다).
-- [ ] 글 3개를 남기고 새로고침한 뒤 Application 탭을 함께 연 화면과 주소창이 보이는 캡처 1장을 제출한다.
-
-## 다음 수업 연결
-
-이제 목록은 **내 브라우저 안**에 남는다. 다만 그 글은 나만 볼 수 있고, 다른 PC 에서 열면 비어 있다.
-12주차에는 새 저장소 `web-week12`를 오늘 `web-week11`의 파일에서 시작하고(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/web-week11/`](examples/day2/web-week11/)), 공용 REST API의 방명록 목록을 `fetch`로 읽는다.
-서버가 보내는 JSON 배열은 이번 주 Application 탭에서 본 `[{"name":…}]`과 같은 형태다. 공용 HTTPS API를 연결한 뒤 다른 브라우저에서도 같은 목록을 확인한다.
+- [한글 슬라이드](slides.md) · [영문 슬라이드](slides_en.md)
+- [따라하기](walkthrough.md) · [실습과 제출](lab.md)
+- [예제 안내](examples/README.md) · [2일차 안내](examples/day2/README.md)
 
 ## 공식 참고 자료
 
 - [객체로 작업하기 — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Working_with_objects)
-- [속성 접근자 — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Property_accessors)
-- [Date.prototype.toLocaleDateString() — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString)
-- [Window.localStorage — MDN](https://developer.mozilla.org/ko/docs/Web/API/Window/localStorage)
-- [Storage.setItem() — MDN](https://developer.mozilla.org/ko/docs/Web/API/Storage/setItem)
-- [Storage.getItem() — MDN](https://developer.mozilla.org/ko/docs/Web/API/Storage/getItem)
-- [Storage.removeItem() — MDN](https://developer.mozilla.org/ko/docs/Web/API/Storage/removeItem)
-- [JSON.stringify() — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
-- [JSON.parse() — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse)
-- [논리 OR (||) — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Logical_OR)
-- [로컬 저장소 보기 및 수정 — Chrome DevTools](https://developer.chrome.com/docs/devtools/storage/localstorage?hl=ko)
+- [localStorage — MDN](https://developer.mozilla.org/ko/docs/Web/API/Window/localStorage)
+- [JSON.stringify (MDN)](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) · [JSON.parse (MDN)](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse)

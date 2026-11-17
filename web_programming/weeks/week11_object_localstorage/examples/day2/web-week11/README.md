@@ -1,43 +1,26 @@
-# student01의 웹 연습장
+# 11주차 방명록 완성본
 
-웹프로그래밍 수업에서 한 주씩 늘려 가는 **자기소개 사이트**입니다.
+강의자 시연과 12주차 시작 자료다. 11주차 실습 30분의 필수 구현 대상은 ex04~ex06이며, 이 폴더 전체를 수업 중 다시 작성하지 않는다.
 
-## 공개 주소
+## 확인할 기능
 
-- [https://student01.github.io/web-week09/](https://student01.github.io/web-week09/)
+- 이름·메시지·날짜를 객체 배열로 보관한다.
+- `guestbook` 키에 JSON 문자열을 저장하고 페이지를 열 때 복원한다.
+- 글 하나 삭제와 전체 지우기 후 새로고침해도 결과가 유지된다.
 
-## 페이지
+`guestbook.html`을 열어 글을 두 개 남기고 새로고침한다. 한 줄을 삭제한 뒤 다시 새로고침하고, 마지막으로 전체 지우기를 확인한다. [강의자용 따라하기](../../../walkthrough.md)에 수정 단계와 전체 코드가 있다.
 
-| 페이지 | 파일 | 내용 |
-|---|---|---|
-| 홈 | [index.html](index.html) | 인사말, 소개, 취미 목록 |
-| 내 정보 | [about.html](about.html) | 아이디·이메일·관심 분야 표 |
-| 방명록 | [guestbook.html](guestbook.html) | 이름·메시지 폼 |
+## 파일
 
-![세 페이지가 메뉴로 서로 이어진 사이트 구조](images/site-map.svg)
+| 파일 | 용도 |
+|---|---|
+| [guestbook.html](guestbook.html) · [guestbook.js](guestbook.js) | 브라우저에 저장하는 방명록 |
+| [index.html](index.html) · [app.js](app.js) | 이전 주차의 홈 화면과 버튼 동작 |
+| [about.html](about.html) | 예시 자기소개 |
+| [styles.css](styles.css) | 이 완성 사이트의 스타일 |
 
-## 기능
+이 폴더는 기존 완성 사이트를 유지하며 자체 `styles.css`를 사용한다. 기본 저장 예제의 공용 CSS 구조와는 별개다. `screenshots/`는 이전 주차 화면 자료다.
 
-- 홈의 "인사 바꾸기"와 "다크 모드" 버튼을 누르면 문장과 배경색이 바뀌고 클릭 횟수가 1씩 오릅니다.
-- 방명록에서 이름과 메시지를 적고 "남기기"를 누를 때마다 아래 목록에 한 줄씩 쌓입니다. 빈칸이면 안내 문장이 나옵니다.
+## 다음 주 준비
 
-다크 모드 버튼은 `body` 에 class 하나를 붙였다 뗍니다.
-
-```js
-darkButton.addEventListener('click', function () {
-  document.body.classList.toggle('dark');
-  countUp();
-});
-```
-
-## 화면
-
-![인사 바꾸기를 누른 홈 화면](screenshots/home.png)
-
-![글을 남긴 방명록 화면](screenshots/guestbook.png)
-
-## 이번에 배운 것
-
-- HTML 뼈대와 nav로 세 페이지를 이어 놓는 법
-- CSS로 색·박스·flex·화면 폭에 따른 배치를 정하는 법
-- 버튼 클릭과 폼 제출을 자바스크립트로 받아 화면을 바꾸는 법
+12주차에는 이 완성본을 `web-week12` 시작 자료로 사용한다. `guestbook`의 로컬 데이터를 서버로 옮기는 과정은 없으며, 공용 REST API를 읽는 코드를 추가한다.

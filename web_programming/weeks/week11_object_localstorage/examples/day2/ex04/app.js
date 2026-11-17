@@ -1,14 +1,41 @@
-// ex04 저장 칸 localStorage: setItem 으로 적은 글자는 새로고침해도 남는다
-// 저장하기를 누르기 전·후에 새로고침하며 Console 1·2번을 비교한다. Application 탭의 ex04-memo 도 본다.
+const key = 'week11-ex04-text';
+const memoInput = document.querySelector('#memo');
+const result = document.querySelector('#result');
+const status = document.querySelector('#status');
 
-const saveButton = document.querySelector('#save-button');   // 같은 폴더 index.html 의 저장하기 버튼
+document.querySelector('#save-button').addEventListener('click', function () {
+    try {
+        localStorage.setItem(key, memoInput.value);
+        result.textContent = memoInput.value === '' ? '"" (빈 문자열)' : memoInput.value;
+        status.textContent = '저장 완료';
+    } catch {
+        status.textContent = '저장 실패';
+    }
+});
 
-let memo = '(처음 값)';                                   // 1. 변수: 페이지를 열 때마다 이 줄부터 다시 시작한다
-console.log('1. 변수 memo :', memo);
-console.log('2. 저장 칸 ex04-memo :', localStorage.getItem('ex04-memo'));   // 2. 저장 칸에서 꺼낸다. 적은 적이 없으면 null
+document.querySelector('#load-button').addEventListener('click', function () {
+    try {
+        const saved = localStorage.getItem(key);
+        if (saved === null) {
+            result.textContent = 'null';
+            status.textContent = '저장된 값 없음';
+        } else {
+            memoInput.value = saved;
+            result.textContent = saved === '' ? '"" (빈 문자열)' : saved;
+            status.textContent = '불러오기 완료';
+        }
+    } catch {
+        status.textContent = '불러오기 실패';
+    }
+});
 
-saveButton.addEventListener('click', function () {
-    memo = '안녕하세요';                                   // 1. 변수에 담는다
-    localStorage.setItem('ex04-memo', '안녕하세요');        // 2. 저장 칸에 적는다(키, 값)
-    console.log('눌렀다 — 1. 변수 :', memo, '/ 2. 저장 칸 :', localStorage.getItem('ex04-memo'));
+document.querySelector('#remove-button').addEventListener('click', function () {
+    try {
+        localStorage.removeItem(key);
+        memoInput.value = '';
+        result.textContent = 'null';
+        status.textContent = '지우기 완료';
+    } catch {
+        status.textContent = '지우기 실패';
+    }
 });

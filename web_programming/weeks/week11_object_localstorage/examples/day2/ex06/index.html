@@ -3,11 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex06 or</title>
+    <title>ex06 입력 폼 저장과 복원</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+    <link rel="stylesheet" href="../../../../../shared/examples.css">
     <script src="app.js" defer></script>
 </head>
-<body>
-    <h1>ex06 || 또는</h1>
-    <p>이 예제는 화면에 쓰지 않는다. F12 › Console 1~3번을 본다. app.js 4·5행의 두 값(name·message)을 바꿔 가며 새로고침한다.</p>
+<body class="w3-content teaching-example">
+    <h1>ex06 입력 폼 저장과 복원</h1>
+    <form id="entry-form">
+        <label for="name">이름</label>
+        <input class="w3-input w3-border w3-round" id="name" type="text">
+        <label for="message">메시지</label>
+        <textarea class="w3-input w3-border w3-round" id="message" rows="4"></textarea>
+        <button class="w3-button w3-border w3-round" id="save-button" type="submit">저장</button>
+        <button class="w3-button w3-border w3-round" id="load-button" type="button">불러오기</button>
+        <button class="w3-button w3-border w3-round" id="remove-button" type="button">지우기</button>
+    </form>
+    <h2>저장한 JSON</h2>
+    <pre id="stored-json">조회 전</pre>
+    <p id="status" role="status">대기</p>
 </body>
 </html>

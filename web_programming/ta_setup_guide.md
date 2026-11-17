@@ -31,9 +31,11 @@
 | [Node.js LTS](https://nodejs.org/en/download) | 수업용 정적 서버 [`tools/static-server/server.mjs`](tools/static-server/README.md) 실행용(`node server.mjs` → `http://localhost:8000/`). 5주차부터 쓴다. npm 패키지는 설치하지 않는다 |
 
 **5주차 시작 전에 실습실 PC에서 `node -v`가 `v18` 이상으로 나오는지 확인한다.**
-막히면 설치 승인을 담당 교수에게 받는다. 설치가 막혀도 4~11주차 예제는 파일을 두 번 눌러(`file://`) 열 수 있고,
+막히면 설치 승인을 담당 교수에게 받는다. 설치가 막혀도 4~10주차 예제는 파일을 두 번 눌러(`file://`) 열 수 있고,
 12주차 `fetch`와 15주차 기말은 "한 번에 한 가지만 고쳐 push → Pages 확인"으로 진행한다(수정마다 1~3분 대기).
 Live Server 확장·`python3 -m http.server`도 같은 일을 하지만, 수업 자료는 `server.mjs` 기준으로 쓴다.
+
+11주차 저장 예제와 배열 심화 특강은 W3.CSS를 cdnjs CDN에서 불러오므로 인터넷 연결을 확인한다. 추가 스타일 파일 `web_programming/shared/examples.css`는 예제와 함께 준비한다. 저장소 루트에서 `node web_programming/tools/static-server/server.mjs web_programming 8111`로 실행한다. 11주차 실습 30분에는 저장·복원 확인만 진행하고, 설치·폴더 준비는 수업 전에 마친다.
 
 ## 필요할 때만 설치
 

@@ -288,7 +288,7 @@
       "description": "HTML·CSS·JavaScript로 사이트를 만들고, 브라우저 저장에서 공용 REST API의 방명록 읽기·저장·수정·삭제로 이어지는 15주 입문 과정입니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 4개 특강 · 339장",
+      "summary": "15개 주차 + 5개 특강 · 353장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
@@ -427,7 +427,7 @@
           "id": "week11_object_localstorage",
           "label": "11주차",
           "title": "객체와 localStorage",
-          "description": "방명록에 남긴 글을 **새로고침해도 남게** 할 수 있을까? 그리고 한 줄에 이름·메시지·날짜 **세 값**을 함께 담을 수 있을까?",
+          "description": "강의 60분·실습 30분 구성으로 객체와 localStorage를 익히고 문자열·JSON·폼의 저장과 복원을 확인합니다.",
           "type": "week",
           "formerIds": [
             "week11_auth_rls"
@@ -435,7 +435,7 @@
           "en": {
             "label": "Week 11",
             "title": "Objects and localStorage",
-            "description": "Can we make guestbook entries **survive a refresh**? And can one line hold **all three values** — name, message, and date — together?"
+            "description": "Use a 60-minute lecture and 30-minute lab to learn objects and localStorage, then save and restore strings, JSON and form data."
           }
         },
         {
@@ -487,6 +487,18 @@
             "label": "Week 15",
             "title": "Final Individual Exam",
             "description": "Can you practice with a problem bank built from the lab submissions of Weeks 1–14, then solve the same problems with changed values in 60 minutes and submit them at a public URL?"
+          }
+        },
+        {
+          "id": "array_advanced",
+          "label": "특강",
+          "title": "배열 심화",
+          "description": "보강 수업에서 삽입·삭제·순회·filter·map·reduce를 조작하고 원본, 반환값, 누적 과정을 비교합니다.",
+          "type": "special",
+          "en": {
+            "label": "Special",
+            "title": "Advanced Array Methods",
+            "description": "Practice insertion, deletion, iteration, filter, map and reduce in a supplemental class, comparing source arrays, return values and accumulation steps."
           }
         },
         {

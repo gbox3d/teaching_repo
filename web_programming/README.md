@@ -23,11 +23,14 @@ POST로 온라인 저장(13주) → PATCH·DELETE로 수정·삭제(14주)로 �
 12~14주 공용 API는 강의자가 준비한다. 학생은 Supabase 계정·SQL·SDK 없이 `fetch`로 요청한다.
 서버 구축·로그인 구현은 정규 범위 밖이다. 방학 연구 특강에서는 Supabase 공용 API 구축과 Node.js 홈 IoT 제어를 실험한다.
 특강은 분량·차시 수를 제한하지 않으며, 구현·측정·검증을 단계별로 이어 간다. 지도와 신시사이저 실습 자료도 제공한다.
+11주차는 한 회 강의·시연 60분과 실습 30분으로 운영한다. 2일차 필수 실습은 문자열·JSON·폼 저장이며, 완성 방명록은 시연과 다음 주 준비 자료로 제공한다. 배열 심화는 별도 보강 특강이다.
 
 ## 진입점
 
 - 15주 교재 색인: [`weeks/README.md`](weeks/README.md)
 - 선택 특강: [`specials/README.md`](specials/README.md)
+- 배열 심화 보강 특강: [`specials/array_advanced/`](specials/array_advanced/README.md)
+- 예제 공용 CSS: [`shared/README.md`](shared/README.md)
 - 수업용 정적 웹 서버(Node.js): [`tools/static-server/`](tools/static-server/README.md)
 - 강의자용 공용 방명록 API와 로컬 리허설: [`tools/guestbook-api/`](tools/guestbook-api/README.md)
 - Supabase 공용 방명록 API 구축 특강: [`specials/supabase_guestbook/`](specials/supabase_guestbook/README.md)
@@ -52,14 +55,13 @@ POST로 온라인 저장(13주) → PATCH·DELETE로 수정·삭제(14주)로 �
 - **확인과 캡처의 표준은 GitHub Pages 공개 URL이다.** 그 주 저장소에 push → 공개 주소 새로고침 → 캡처 순서로 마친다.
   반영은 1~3분 늦으므로, 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다.
 - 3~10주차는 작업 중 미리 보기를 `file://`(파일 더블클릭)로 해도 된다. 이 구간에는 미리 보기에 서버가 필요한 기능이 없다.
-- **11주차부터 확인·캡처는 공개 URL에서만 한다.** `localStorage`는 `file://`과 공개 주소가 서로 다른 저장소를 쓰므로
-  "새로고침해도 남는다"가 로컬 화면으로는 재현되지 않는다.
+- 11주차의 30분 실습은 localhost에서 저장·새로고침·복원·삭제를 확인하고 캡처한다. 공개 업로드는 수업 후 정리로 분리한다. localhost와 공개 주소의 데이터는 origin이 달라 자동으로 공유되지 않는다.
 - 로컬 미리보기는 수업용 정적 서버 [`tools/static-server/server.mjs`](tools/static-server/README.md)로 한다(`node server.mjs` → `http://localhost:8000/`, 5주차에 처음 설명). `fetch`(12주차)처럼 `file://`로 안 되는 기능도 공개 주소와 같은 조건으로 미리 볼 수 있다.
   Node가 없는 PC에서는 push → Pages 확인만으로 수업과 시험이 그대로 성립한다.
 - Git 인증은 **HTTPS + 브라우저 로그인**이 기본이다. 비밀번호나 토큰을 명령에 적지 않는다.
   공용 PC는 실습 끝에 자격 증명 관리자에서 `git:https://github.com`을 지운다(절차는 [`ta_setup_guide.md`](ta_setup_guide.md#공용-pc-운영)).
 - 학생 PC에는 Node.js LTS를 권장 설치한다(정적 서버용, npm 패키지는 쓰지 않는다). 설치가 막혀도 수업은 `file://`·공개 주소로 진행된다.
-- 정규 주차의 학생 예제는 파일 하나 60줄 이하, 클래식 `<script src="…" defer>`만 쓴다. CDN·라이브러리·`type="module"`은 쓰지 않는다. 연구 특강의 서버·제어 코드는 해당 자료의 구성을 따른다.
+- 정규 주차의 JavaScript는 클래식 `<script src="…" defer>`와 브라우저 기본 API를 사용한다. 11주차 저장 예제와 배열 심화 특강은 W3.CSS를 cdnjs CDN에서 불러오고, 추가 스타일은 `shared/examples.css`를 사용한다. 예제를 배포할 때 추가 CSS의 상대 경로를 유지한다. 연구 특강의 서버·제어 코드는 해당 자료의 구성을 따른다.
 - 공개 저장소·캡처·예제에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`·`student01@example.com`이다.
 - GitHub 화면과 무료 정책은 개강 전에 공식 문서와 새 실습 계정으로 다시 확인한다.
 - 12~14주 기본 예제의 `127.0.0.1:8787`은 로컬 리허설 주소다. GitHub Pages와 다른 기기에서 확인하려면 강의자가 검증한 HTTPS API 주소와 공개 키로 바꾼다. 공용 클라우드 주소는 아직 준비 전이다.

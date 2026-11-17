@@ -1,217 +1,112 @@
 [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
 
-# 11주차 실습 — 값을 바꿔 보고 마지막에 조립하기
+# 11주차 실습 — 객체 확인과 폼 저장
 
-**11주부터 확인·캡처는 공개 URL에서만 한다**(로컬과 공개 주소는 저장소가 다르다).
-내 PC 에서 연 화면(두 번 눌러 연 `file://`, 서버로 연 `http://localhost:8000/`)에 남긴 글은 공개 주소 `https://student01.github.io/…` 에 나타나지 않는다. 값 바꿔 보기와 조립 중 미리 보기는 내 PC 에서 하고, 완료 확인과 제출 캡처는 공개 주소에서 만든다.
+양일 모두 강의·시연 60분 뒤 실습 30분을 진행한다. 교재를 `shared` 폴더와 함께 받아 정적 서버로 연다. 새 저장소 생성, 방명록 전체 구현, 공개 업로드는 수업 중 필수 작업이 아니다.
 
-이번 주 실습도 코드를 새로 쓰는 것이 아니라 **값을 바꿔 보는 것**이다.
-비교 예제 7개를 이번 주 새 저장소 `web-week11` 의 `ex/` 폴더에 저장하고(예제마다 폴더 하나에 `index.html`·`app.js` 두 파일. 1일차는 폴더 세 개, 2일차는 네 개), 값이나 줄 하나를 바꾼 뒤 결과가 어떻게 달라지는지 본다.
-결과는 화면, **F12 › Console**, 그리고 2일차에 처음 쓰는 **F12 › Application** 에서 본다. DevTools 는 실습 내내 열어 둔다.
-2일차 끝에 그 부품으로 `web-week11` 맨 위의 `guestbook.html`·`guestbook.js` 를 조립한다. 두 파일은 지난주 완성본에서 가져온다. 채점 대상은 2일차 캡처 1장이다.
-`student01` 은 예시 아이디이므로 본인 아이디로 바꾼다.
+## 실행 준비
 
-파일을 받는 법, 예제 폴더 여는 법, Application 탭 여는 법은 [따라하기](walkthrough.md)에 있다.
-"바꿔 보기"는 **무엇이 달라질지 먼저 말해 보고** 저장 → 새로고침으로 확인한다. 확인했으면 원래대로 되돌리고 다음으로 간다.
+`teaching_repo` 폴더에서 다음 명령을 실행한다. 이미 실행 중이면 그대로 사용한다.
 
-## 1일차 — 객체와 점 표기 (60분)
-
-| 시간 | 할 일 |
-|---|---|
-| 0–5분 | 새 폴더 `web-week11` 을 만들어 VS Code 로 연다(**File › Open Folder**). 지난주 완성본을 넣는다: 내 `web-week10` 저장소 GitHub 화면 › **Code › Download ZIP** → 압축을 풀어 맨 위 파일과 `images/`·`screenshots/` 를 넣는다. 못 받으면 교재 [10주차 `examples/day2/web-week10/`](../week10_array_list/examples/day2/web-week10/) 파일을 **Raw** 로 받는다. `ex` 폴더와 그 안에 `ex01`·`ex02`·`ex03` 폴더를 만든다. 예제 파일은 문항마다 교재 [`examples/day1/`](examples/day1/) 의 같은 이름 폴더에서 받는다 |
-| 5–20분 | ex01 객체와 점 표기 |
-| 20–33분 | ex02 배열 안의 객체와 날짜 |
-| 33–47분 | ex03 객체를 목록 한 줄로 |
-| 47–50분 | 확인: `ex/` 안에 예제 폴더 세 개가 있고 폴더마다 두 파일이 있는지, 각 예제에서 값 하나 이상을 바꿨는지. 일부러 낸 오류는 되돌려 두었는지 |
-| 50–60분 | 이번 주 저장소 만들어 올리기: GitHub 에 새 저장소 `web-week11` → [올리기 명령](#이번-주-저장소-만들어-올리기) → **Settings › Pages** → 공개 주소 `https://student01.github.io/web-week11/ex/ex03/` 확인 → 공용 PC면 자격 증명 삭제 |
-
-1일차 예제는 폴더마다 따로 연다. 문항의 폴더에서 `index.html` 을 Chrome 으로 열고, 코드는 같은 폴더의 `app.js` 에서 고친 뒤 저장 → 새로고침으로 본다. 아래 문항의 `N행` 은 모두 그 폴더 `app.js` 의 줄 번호다.
-Console 에 객체·배열이 찍힌 줄은 그 값(`{…}`·`[…]`) 바로 앞의 ▶ 를 눌러 펼칠 수 있다.
-
-### 1. ex01 객체와 점 표기 (`{ 이름표: 값 }` · `item.name`)
-
-교재 [index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) 를 **Raw** 로 받아 `ex/ex01/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex01/index.html` 을 연다. 고치는 파일은 `ex/ex01/app.js` 다.
-
-- 바꿔 보기: Console 1번 줄 `{name: …}` 앞의 ▶ 를 눌러 펼친다. 이름표 몇 개와 값이 보이나? `[[Prototype]]` 줄이 보이면 그것은 내가 적은 이름표가 아니다. 2·3번은 그중 어느 값인가? 4번은 왜 `undefined` 인가?
-- 바꿔 보기: 4행 객체에서 `'하늘'` 뒤의 쉼표를 지운다. Console 에 무엇이 뜨나? 1~5번 중 찍히는 줄이 있나? 확인했으면 되돌린다.
-- 바꿔 보기: 14행 `name: name` 의 오른쪽 `name` 에 따옴표를 붙여 `name: 'name'` 으로 바꾼다. 5번은 무엇인가? 따옴표가 없을 때 오른쪽 `name` 은 무엇이었나? 확인했으면 되돌린다.
-- 흔한 실수: 이름표 철자를 틀린다(4번 `item.nmae`). 빨간 줄 없이 `undefined` 가 나온다. Console 이 조용하니 찍힌 값을 읽어서 찾는다.
-
-### 2. ex02 배열 안의 객체와 날짜 (`items[0].name` · `toLocaleDateString()`)
-
-교재 [index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) 를 **Raw** 로 받아 `ex/ex02/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex02/index.html` 을 연다. 고치는 파일은 `ex/ex02/app.js` 다.
-
-- 바꿔 보기: Console 1번과 3번 줄을 펼쳐 비교한다. 1번 한 칸에는 무엇이, 3번 한 칸에는 무엇이 들었나? 2번 글자에서 이름 `하늘` 만 따로 꺼낼 수 있나? 4번은?
-- 바꿔 보기: 17행 쉼표 뒤(따옴표 밖)의 `items[0].name` 을 `items[1].name` 으로 바꾼다. 4번은? 되돌린 뒤 `items[0].name` 을 `items.name[0]` 으로(대괄호와 점의 순서를 바꿔) 바꾼다. 빨간 줄과 `파일:줄` 은? 5번은 찍히나? 확인했으면 되돌린다.
-- 바꿔 보기: 12행 끝의 `.toLocaleDateString()` 을 지워 `new Date();` 만 남긴다. 5번은 어떤 모양인가? 목록 한 줄에 넣기 좋은 쪽은? 확인했으면 되돌린다.
-- 흔한 실수: 배열 `[ ]` 과 객체 `{ }` 를 헷갈린다. 여러 개를 순서대로 담으면 `[ ]`, 이름표를 붙여 한 묶음으로 담으면 `{ }` 다. 꺼낼 때는 대괄호(몇 번째)가 먼저, 점(무슨 값)이 다음이다.
-
-### 3. ex03 객체를 목록 한 줄로 (`[object Object]` · 점 표기 템플릿)
-
-교재 [index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) 를 **Raw** 로 받아 `ex/ex03/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex03/index.html` 을 연다. 고치는 파일은 `ex/ex03/app.js` 다.
-
-- 바꿔 보기: 화면의 1번 목록과 2번 목록을 읽는다. 1번 줄의 글자는 무엇인가? Console 에 빨간 줄이 있나?
-- 바꿔 보기: 16행 `items[i].name` 을 `items[i].nmae` 로 바꾼다. 2번 목록은? 빨간 줄은? 확인했으면 되돌린다.
-- 바꿔 보기: 16행의 백틱(`` ` ``) 두 개를 작은따옴표(`'`)로 바꾼다. 2번 목록은 어떻게 보이나? 5주차 ex05 의 몇 번과 같은가? 확인했으면 되돌린다.
-- 바꿔 보기: 12행 `items[i]` 를 `items[i].message` 로 바꾼다. 1번 목록은? 확인했으면 되돌린다.
-- 흔한 실수: `li.textContent = items[i];` 를 그대로 둔다. 화면에 `[object Object]` 가 보이고 Console 은 조용하다. 점 표기로 값을 하나씩 꺼내 넣는다.
-
-### 이번 주 저장소 만들어 올리기
-
-GitHub 에서 **New repository** → 이름 `web-week11`, **Public**, README 는 추가하지 않는다. VS Code 터미널(현재 폴더 `web-week11`)에서 2주차에 배운 순서 그대로 친다.
-
-```bash
-git init
-git add .
-git commit -m "11주차 1일차"
-git branch -M main
-git remote add origin https://github.com/student01/web-week11.git
-git push -u origin main
+```powershell
+node web_programming/tools/static-server/server.mjs web_programming 8111
 ```
 
-저장소 **Settings › Pages › Branch: main, /(root) › Save** → 1~3분 뒤 `https://student01.github.io/web-week11/ex/ex03/` 를 연다. `ex/ex03/index.html` 의 화면(ex03 제목과 채워진 두 목록)이 보이면 된 것이다. 공용 PC면 자격 증명을 지우고 나간다.
-오늘 올린 것은 확인용이다. 제출은 2일차에 캡처 한 장만 한다.
+1일차는 [ex01](http://localhost:8111/weeks/week11_object_localstorage/examples/day1/ex01/), 2일차는 [ex04](http://localhost:8111/weeks/week11_object_localstorage/examples/day2/ex04/)부터 연다. `app.js`를 고친 뒤 저장하고 브라우저를 새로고침한다. 공용 CSS 경로를 유지하기 위해 예제 폴더만 따로 옮기지 않는다.
 
-## 2일차 — 저장 칸에 남기고 되살리기, 그리고 조립 (60분)
+## 1일차 — 객체와 점 표기 (30분)
 
-| 시간 | 할 일 |
+| 실습 시간 | 작업 |
 |---|---|
-| 0–5분 | 같은 PC에 `web-week11` 폴더가 남아 있으면 그대로 연다. 없으면 `git clone https://github.com/student01/web-week11.git` 뒤 **File › Open Folder**. `ex/` 안에 `ex04`·`ex05`·`ex06`·`ex07` 폴더를 만든다. 예제 파일은 문항마다 교재 [`examples/day2/`](examples/day2/) 의 같은 이름 폴더에서 받는다 |
-| 5–11분 | ex04 저장 칸 localStorage |
-| 11–17분 | ex05 JSON |
-| 17–23분 | ex06 `\|\|` 또는 |
-| 23–29분 | ex07 removeItem |
-| 29–48분 | 조립: `guestbook.html` 두 곳, `guestbook.js` 를 조립표 순서로 고친다. 내 PC 에서 미리 보며 고친다 |
-| 48–55분 | 올리고 확인: `git add .` → `git commit -m "11주차 2일차"` → `git push` → 1~3분 뒤 공개 주소 `https://student01.github.io/web-week11/guestbook.html` 에서 글 남기기·새로고침·375·1280 폭 확인 |
-| 55–60분 | 끝 루틴: 공개 주소에서 **캡처 1장**(전체 지우기 → 글 세 개 → 새로고침 → Application 탭) → 고친 것이 있으면 `git add .` → `git commit -m "11주차 2일차"` → `git push` → 공용 PC면 **[전체 지우기]** 를 누르고 자격 증명 삭제 |
+| 0–5분 | 서버와 ex01을 열고 Console 위치 확인 |
+| 5–13분 | ex01의 객체와 속성 값 비교 |
+| 13–21분 | ex02의 배열 인덱스와 속성 비교 |
+| 21–28분 | ex03의 두 목록 비교 |
+| 28–30분 | 바꾼 내용과 결과 확인 |
 
-2일차 예제도 폴더마다 따로 연다. 문항의 폴더에서 `index.html` 을 열고, 코드는 같은 폴더의 `app.js` 에서 고친 뒤 저장 → 새로고침으로 본다. 아래 문항의 `N행` 은 모두 그 폴더 `app.js` 의 줄 번호다. ex04 의 **저장하기** 버튼은 `ex/ex04/index.html` 에 있다.
-오늘은 **F12 › Application** 탭을 연다. 왼쪽 **Local Storage** 아래의 주소 한 줄을 누르면 오른쪽 표에 Key(키)와 Value(값)가 보인다. 예제의 키는 `ex04-memo` 처럼 예제 번호로 시작한다. 저장 칸은 예제 폴더가 달라도 같은 주소면 함께 쓰므로(두 번 눌러 연 `file://` 은 폴더가 달라도 칸 하나다) 표에는 앞 예제의 키도 함께 보인다. 키 이름으로 예제끼리, 그리고 완성본의 `guestbook` 키와 섞이지 않게 했다.
-파일마다 **바꿔 보기를 하나 이상** 하고 넘어간다. 29분이 되면 남은 것은 두고 조립을 시작한다. 남은 바꿔 보기는 캡처까지 끝낸 뒤 한다.
+### ex01 객체의 값 읽기
 
-### 4. ex04 저장 칸 localStorage (`setItem` · `getItem` · Application 탭)
+[화면](examples/day1/ex01/index.html) · [코드](examples/day1/ex01/app.js)
 
-교재 [index.html](examples/day2/ex04/index.html) · [app.js](examples/day2/ex04/app.js) 를 **Raw** 로 받아 `ex/ex04/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex04/index.html` 을 연다. 고치는 파일은 `ex/ex04/app.js` 다. Application 탭 여는 법은 [따라하기 6단계](walkthrough.md#6-폴더-열고-2일차-예제-폴더-네-개-가져오기)에 있다.
+객체의 `name` 값을 바꾸고 새로고침한다. Console에서 전체 객체와 `item.name`이 함께 바뀌는지 확인한다. `item.nmae`가 `undefined`인 이유를 속성 이름과 비교한다.
 
-- 바꿔 보기: **저장하기**를 누르기 전에 새로고침한다. Console 1·2번은? 이제 **저장하기**를 누르고 새로고침한다. 1번과 2번 중 어느 쪽이 남았나? Application › Local Storage 표에 무엇이 생겼나?
-- 바꿔 보기: 표에 `ex04-memo` 가 있는 상태에서 8행 `getItem` 의 키를 `'ex04-Memo'`(대문자 M)로 바꾸고 새로고침한다. 2번은? Application 표의 키는 무엇인가? 확인했으면 되돌린다.
-- 바꿔 보기: Application 표에서 `ex04-memo` 줄을 오른쪽 클릭 › **Delete** 로 지우고 새로고침한다. 2번은?
-- 바꿔 보기: 12행 값 자리의 `'안녕하세요'` 를 `['하늘', '바다']` 로 바꾸고 **저장하기** → 새로고침한다. 2번은 어떤 글자인가? 저장 칸에는 무엇만 들어가나? 확인했으면 되돌린다.
-- 흔한 실수: 적을 때(`setItem`)와 꺼낼 때(`getItem`)의 키 철자가 다르다. 빨간 줄 없이 `null` 이 나온다.
+### ex02 배열에서 객체 고르기
 
-### 5. ex05 JSON (`JSON.stringify` · `JSON.parse`)
+[화면](examples/day1/ex02/index.html) · [코드](examples/day1/ex02/app.js)
 
-교재 [index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js) 를 **Raw** 로 받아 `ex/ex05/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex05/index.html` 을 연다. 고치는 파일은 `ex/ex05/app.js` 다.
+`items[0].name`을 `items[1].name`으로 바꾼다. 출력되는 이름을 예상한 뒤 확인한다. `items[0]`은 객체 하나, `.name`은 그 객체의 속성이라는 점을 말로 설명한다.
 
-- 바꿔 보기: Application 표에서 `ex05-raw` 와 `ex05-json` 의 값을 비교한다. 이름 `하늘` 이 남은 쪽은? 2번 글자에서 이름표를 감싼 것은 큰따옴표인가 작은따옴표인가?
-- 바꿔 보기: 22행 맨 앞의 `// ` 를 지워 주석을 푼다. 빨간 줄은 무엇이라고 하나? 오른쪽 `파일:줄` 은 `app.js` 의 22행을 가리키나? 1~3번은 찍히나? 확인했으면 되돌린다.
-- 바꿔 보기: 13행 `const text = JSON.stringify(items);` 를 잘라 6행(둘째 `items.push`) **위**에 붙인다. 2번 글자에 이름이 몇 개인가? 3번 개수는? 확인했으면 되돌린다.
-- 흔한 실수: `setItem` 할 때 `JSON.stringify` 를 빠뜨린다. 저장 칸에 `[object Object]` 같은 글자가 적히고, 다음에 열 때 `JSON.parse` 에서 빨간 줄이 뜬다.
+### ex03 화면에 필드 표시
 
-### 6. ex06 `||` 또는 (if 안 · 값 자리)
+[화면](examples/day1/ex03/index.html) · [코드](examples/day1/ex03/app.js)
 
-교재 [index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js) 를 **Raw** 로 받아 `ex/ex06/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex06/index.html` 을 연다. 고치는 파일은 `ex/ex06/app.js` 다.
+`[object Object]`가 보이는 목록과 이름·메시지·날짜가 보이는 목록을 비교한다. `items[i].name`의 철자를 바꿔 결과를 확인한 뒤 되돌린다. 1일차는 별도 공개 업로드나 제출 캡처를 요구하지 않는다.
 
-- 바꿔 보기: 5행 `const message = '';` 를 `const message = '잘 봤습니다';` 로 바꾼다. 1번은? 이어서 4행 `'하늘'` 을 `''` 로 바꾼다. 1번은? 확인했으면 되돌린다.
-- 바꿔 보기: 23행 맨 앞의 `// ` 를 지운다. 빨간 줄은? 2번에서 본 `saved` 는 무엇이었나? 확인했으면 되돌린다.
-- 바꿔 보기: Application 표의 빈 줄을 두 번 눌러 키 `ex06-none`, 값 `["하늘"]` 을 만든 뒤 새로고침한다. 2번과 3번은? `||` 뒤의 `[]` 가 쓰였나? 확인했으면 그 키를 지운다.
-- 흔한 실수: 되살리는 줄 끝의 `|| []` 를 빠뜨린다. 저장 칸에 값이 있는 내 PC 에서는 멀쩡하고, 저장 칸이 빈 사람(처음 여는 사람)에게만 빨간 줄이 뜬다.
+## 2일차 — 저장과 폼 복원 (30분)
 
-### 7. ex07 removeItem (`localStorage.removeItem` · `items = []`)
-
-교재 [index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js) 를 **Raw** 로 받아 `ex/ex07/` 에 저장하고(따라하기 6단계에서 받았으면 건너뛴다) `ex/ex07/index.html` 을 연다. 고치는 파일은 `ex/ex07/app.js` 다.
-
-- 바꿔 보기: 1번과 2번 줄의 "저장 칸" 값을 비교한다. 배열을 비운 1번 뒤에도 저장 칸에 무엇이 남았나? Application 표에는 어느 키가 남았나?
-- 바꿔 보기: 13행 `localStorage.removeItem('ex07-list');` 앞에 `//` 를 붙인다. 2번은? 전체 지우기에서 이 줄을 빠뜨리면 새로고침할 때 어떻게 되겠나? 확인했으면 되돌린다.
-- 바꿔 보기: 13행의 키를 `'ex07-other'` 로 바꾼다. 2번과 3번은? 확인했으면 되돌린다.
-- 흔한 실수: 전체 지우기에서 `items = [];` 만 쓴다. 화면은 비지만 저장 칸은 그대로여서 새로고침하면 목록이 되살아난다.
-
-### 8. 조립 — `guestbook.html` 두 곳, `guestbook.js` (`saveList` · `JSON.parse` · `removeItem`)
-
-이제 `ex/` 가 아니라 `web-week11` 맨 위의 `guestbook.html`·`guestbook.js` 를 연다. 전문과 단계는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
-
-- `guestbook.html`: `<div id="empty">…</div>` 줄을 지우고, `<div id="count">` 의 처음 글자를 `아직 남긴 글이 없습니다.` 로 바꾸고, 그 아래에 **[전체 지우기]** 버튼 줄을 넣는다.
-- `guestbook.js`: 지난주 파일을 고쳐 쓴다. 지울 줄은 `const empty …` 한 줄, `function clearNotice() { … }` 세 줄, 맨 아래 `input` 리스너 두 줄, 두 번째 `if (message === '') { … }` 덩어리, `clearNotice();` 한 줄이다. 넣고 바꿀 줄은 아래 조립표 순서대로다.
-
-| 조립할 줄 | 어느 ex 에서 본 것 |
+| 실습 시간 | 작업 |
 |---|---|
-| `guestbook.html` 의 `<div id="count">아직 남긴 글이 없습니다.</div>`(`#empty` 줄은 지운다)와 `showList()` 끝의 `if (items.length === 0) { … } else { … }` — 안내 문장과 개수를 모두 `count` 에 쓴다 | 10주 완성본의 빈 목록 문장과 `if / else` 그대로. 쓰는 자리만 `empty` → `count` |
-| `if (name === '' \|\| message === '') { notice.textContent = '이름과 메시지를 모두 입력하세요.'; … }` | ex06 1번 |
-| `notice.textContent = '';` | 10주 완성본 `clearNotice()` 안의 줄 |
-| `const today = new Date().toLocaleDateString();` | ex02 (날짜 틀) |
-| `items.push({ name: name, message: message, date: today });` | ex01 5번 (값 자리에 변수) · ex02 3번 (배열에 객체 쌓기) |
-| `` li.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`; `` | ex03 2번 |
-| `function saveList() { localStorage.setItem('guestbook', JSON.stringify(items)); }` | ex05 2번 (+ ex04 `setItem`) |
-| `items.push(…)` 바로 아래와 삭제 버튼 틀 안 `items.splice(i, 1);` 바로 아래의 `saveList();` | ex05 셋째 바꿔 보기(저장은 배열이 바뀐 뒤에) |
-| `let items = JSON.parse(localStorage.getItem('guestbook')) \|\| [];` | ex06 3번 (+ ex04 `getItem`, ex05 `JSON.parse`) |
-| `guestbook.html` 의 `<div><button id="clear-button" type="button">전체 지우기</button></div>` 와 `const clearButton = document.querySelector('#clear-button');` | ex04 (`index.html` 의 버튼 줄 `<div><button id="save-button">`, 찾아 두기 `const saveButton = …`). `type="button"` 은 10주 완성본 `index.html` 의 버튼과 같다 |
-| `clearButton.addEventListener('click', function () { items = []; localStorage.removeItem('guestbook'); showList(); });` | ex04 (버튼 클릭 등록) + ex07 1·2번 + 10주 완성본 `showList()` |
+| 0–8분 | ex04 저장·불러오기·지우기 |
+| 8–16분 | ex05 JSON 원문과 복원 결과 비교 |
+| 16–27분 | ex06 저장·새로고침·폼 복원·지우기 |
+| 27–30분 | ex06을 다시 저장·복원하고 캡처 |
 
-- 확인(미리 보기): 저장하고 내 PC 에서 `guestbook.html` 을 연다(두 번 눌러 열기, 또는 `node server.mjs` → `http://localhost:8000/guestbook.html`). 앞 단계에서 남긴 글이 보이면 **[전체 지우기]** 를 먼저 누른다. 글을 하나 남기면 `하늘: 안녕하세요 (…)` 한 줄과 `1개` 가 보이고, 새로고침해도 그대로면 된 것이다. 이 화면의 저장 칸은 내 PC 의 것이다. 완료 확인은 9번에서 공개 주소로 한다.
-- 바꿔 보기: **[전체 지우기]** 를 누르고 새로고침한다. 목록과 Application 표의 `guestbook` 키는 어떻게 되나?
-- 흔한 실수: `guestbook.html` 에 버튼 줄을 넣지 않고 `guestbook.js` 만 고친다. `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` 가 뜨고, 그 줄 아래 맨 끝 `showList();` 가 실행되지 않아 열 때 목록이 그려지지 않는다. **HTML 을 먼저 고친다.**
+### ex04 문자열 저장
 
-### 9. 공개 주소에서 확인 (375·1280 폭)
+[화면](examples/day2/ex04/index.html) · [코드](examples/day2/ex04/app.js)
 
-- 48분이 되면 `git add .` → `git commit -m "11주차 2일차"` → `git push` 한다. 1~3분 뒤 `https://student01.github.io/web-week11/guestbook.html` 을 연다.
-- 글을 두 개 남기고 새로고침한다. 두 줄과 `2개` 가 그대로이고, Application › Local Storage › `https://student01.github.io` 에 `guestbook` 키가 있으면 된 것이다.
-- DevTools 의 기기 툴바(**Ctrl+Shift+M**, macOS **⌘+Shift+M**)로 폭 375 와 1280 에서 본다. 375 에서는 메뉴가 세로로 선다(4주차 `@media`).
-- 내 PC 에서 남긴 글은 여기 없다. 저장 칸이 주소마다 따로이기 때문이다. 고장이 아니다.
+1. 문자열 입력 → 저장 → 입력 변경 → 불러오기를 실행한다.
+2. 새로고침 후 불러와도 저장한 값이 남는지 확인한다.
+3. 빈 문자열을 저장했을 때 `""`, 지우고 불러왔을 때 `null`을 비교한다.
+
+확인할 키는 `week11-ex04-text`다. `setItem`, `getItem`, `removeItem`이 각 버튼과 연결되는 위치를 찾는다.
+
+### ex05 JSON 저장과 복원
+
+[화면](examples/day2/ex05/index.html) · [코드](examples/day2/ex05/app.js)
+
+1. JSON 저장 → 저장 원문 조회를 실행한다. 원문에서 `[]`, `{}`, `"name"`을 찾는다.
+2. JSON 복원을 실행해 두 객체의 이름·메시지와 개수 2를 확인한다.
+3. 지우기 후 다시 복원해 저장 값이 없는 상태를 확인한다.
+
+키는 `week11-ex05-items`다. 저장할 때 `JSON.stringify`, 읽은 문자열을 복원할 때 `JSON.parse`를 사용한다.
+
+### ex06 입력 폼 저장과 복원
+
+[화면](examples/day2/ex06/index.html) · [코드](examples/day2/ex06/app.js)
+
+1. 이름 `하늘`, 메시지 `안녕하세요`를 입력하고 저장한다.
+2. 입력만 바꾼 뒤 불러와 저장한 값으로 돌아오는지 확인한다.
+3. 새로고침 → 불러오기를 실행한다. 두 입력과 저장 JSON을 확인한다.
+4. 지우기 → 불러오기를 실행해 저장 값이 없는 상태를 확인한다.
+5. 캡처용으로 다시 입력·저장·새로고침·불러오기를 실행한다.
+
+키는 `week11-ex06-entry`다. 이 예제는 빈 입력도 객체의 문자열 필드로 저장한다. 초기 화면을 열기만 해서는 저장하지 않는다.
+
+## 제출 — 복원한 폼 캡처 한 장
+
+ex06에서 새로고침 후 불러온 화면을 캡처한다. 다음 내용이 함께 보이면 된다.
+
+- 복원된 이름·메시지 입력
+- `{"name":"하늘","message":"안녕하세요"}` 형태의 저장 JSON
+- `http://localhost:8111/.../day2/ex06/` 주소창
+
+로컬 실습 화면을 인정한다. Application 탭은 저장 값을 추가로 확인할 때 사용하며 캡처에 반드시 넣을 필요는 없다. 실명·학번·실제 이메일은 쓰지 않는다. 제출 위치와 마감은 수업 공지를 따른다.
 
 ## 막혔을 때
 
 | 증상 | 확인할 것 |
 |---|---|
-| 공개 주소에 방금 push한 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다 |
-| push 가 거부되거나 로그인 창이 안 뜬다 | [2주차 막혔을 때](../week02_github_pages/lab.md#막혔을-때) 표를 본다 |
-| 내 PC 에서는 목록이 남는데 공개 주소에서는 비어 있다 | 고장이 아니다. 저장 칸은 주소마다 따로 있다. 이번 주 확인과 캡처는 공개 주소에서만 한다 |
-| 화면이 생각과 다른데 이유를 모르겠다 | **Console 을 먼저 연다.** 빨간 줄 오른쪽 `파일:줄` 로 간다. 오류 난 줄 아래는 실행되지 않으므로 그 줄부터 본다. 빨간 줄이 없으면 화면(목록)·배열(Console 에 `items`)·저장 칸(Application 표) 세 곳을 나란히 본다 |
-| 예제를 열었는데 Console 에 번호 줄이 없다(ex03 은 두 목록이 비어 있다) | `app.js` 가 그 `index.html` 과 같은 폴더(`ex/ex01/` 등)에 있는지 본다. `Failed to load resource` 줄이 `app.js` 와 함께 보이면 그 폴더에 `app.js` 가 없거나 이름 철자가 틀린 것이다(`favicon.ico` 와 함께 보이는 줄은 바로 아래 줄을 본다). 다른 예제 폴더에 저장해 같은 이름 파일을 덮어썼으면 그 폴더의 두 파일을 교재에서 다시 **Raw** 로 받는다 |
-| Console 에 `Failed to load resource: the server responded with a status of 404 (Not Found)` 빨간 줄이 `favicon.ico` 와 함께 보인다 | 서버(`node server.mjs`)로 열면 브라우저가 탭 아이콘 `favicon.ico` 를 찾는데, 폴더에 그 파일이 없어서 생긴 줄이다. 내 코드의 오류가 아니다(공개 주소에서도 보일 수 있다). `Uncaught` 로 시작하는 빨간 줄만 본다 |
-| 목록 한 줄이 `[object Object]` 로 보인다 | `li.textContent = items[i];` 를 그대로 두었다. 점 표기로 값을 꺼내 넣는다(ex03 2번). Console 은 조용하다 |
-| 목록이 `undefined: 안녕하세요 (…)` 처럼 보인다 | 이름표 철자가 다르다. `items.push({ … })` 에 적은 `name`·`message`·`date` 와 `items[i].name` 을 나란히 놓고 비교한다(ex01 4번) |
-| `Uncaught ReferenceError: today is not defined` | `const today = new Date().toLocaleDateString();` 줄이 빠졌다. `items.push` 바로 **위**에 넣는다 |
-| `Uncaught ReferenceError: Cannot access 'today' before initialization` | `const today …` 줄이 `items.push` 보다 **아래**에 있다. 만들기 전에 썼다는 뜻이다. `items.push` 위로 옮긴다 |
-| `Uncaught TypeError: Cannot set properties of null (setting 'textContent')` | `guestbook.html` 에서 `<div id="empty">` 를 지웠는데 `guestbook.js` 에 `empty` 가 남아 있다. `const empty …` 줄을 지우고, `showList()` 끝의 여섯 줄(`count.textContent = …` 한 줄과 `if / else`)을 [따라하기 8단계](walkthrough.md#8-빈-목록-안내를-개수-자리로)의 다섯 줄로 바꾼다(목록이 비면 안내 문장, 아니면 개수를 `count` 에 쓴다). `empty` 줄만 지우면 빈 목록에서도 `0개` 가 남는다. 찾기(Ctrl+F)로 `empty` 가 한 군데도 없는지 본다 |
-| `Uncaught ReferenceError: clearNotice is not defined` | `function clearNotice() { … }` 를 지웠는데 그 이름을 쓰는 줄이 남았다. 맨 아래 `input` 리스너 두 줄은 지우고, submit 안의 `clearNotice();` 는 `notice.textContent = '';` 로 바꾼다([따라하기 9단계](walkthrough.md#9-안내-문구를-하나로)). 그 줄이 있어야 제대로 제출했을 때 안내 문구가 지워진다. 찾기(Ctrl+F)로 `clearNotice` 가 한 군데도 없는지 본다. `input` 두 줄이 남았으면 열자마자 그 줄에서 멈춰 맨 끝 `showList();` 도 실행되지 않는다 |
-| `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` | `#clear-button` 을 못 찾았다. `guestbook.html` 에 **[전체 지우기]** 버튼 줄이 있는지, `id` 철자가 같은지 본다. 이 줄 아래 맨 끝 `showList();` 가 실행되지 않아 열 때 목록이 그려지지 않는다 |
-| `Uncaught SyntaxError: Identifier 'clearButton' has already been declared` | 10주차 "먼저 끝났다면"의 **[전체 지우기]** 를 남겨 둔 채 같은 줄을 또 넣었다. 이 빨간 줄이 뜨면 `guestbook.js` 전체가 실행되지 않는다. 10주에 더한 버튼 줄(`guestbook.html`)·`const clearButton` 줄·클릭 등록 덩어리(`removeItem` 이 없는 쪽)를 지워 한 벌만 남긴다 |
-| `Uncaught TypeError: Cannot read properties of null (reading 'length')` | 되살리는 줄 끝의 `\|\| []` 가 빠졌다. 저장 칸이 비어 있으면 `null` 이 들어와 목록을 그리다 멈춘다(ex06 4번) |
-| `Uncaught SyntaxError: Unexpected token 'h', "hello" is not valid JSON` | 저장 칸에 JSON 이 아닌 글자가 들어 있다. Application 탭에서 값을 손으로 고쳤을 때 난다. `guestbook` 키를 지우고 새로고침한다. 이 빨간 줄의 `파일:줄` 은 `guestbook.js` 의 줄이 아니다(JSON 글자를 읽다가 났다). 되살리는 줄(`JSON.parse`)과 Application 표의 값을 본다 |
-| `Uncaught SyntaxError: … is not valid JSON` — 저장한 글이 하나면 `"[object Object]" is not valid JSON`, 둘 이상이면 `Unexpected token 'o', "[object Obj"... is not valid JSON` | `JSON.stringify` 없이 배열을 그대로 저장했다(ex05 1번). `saveList()` 안을 고치고, Application 탭에서 `guestbook` 키를 한 번 지운 뒤 다시 남긴다. 바로 위 줄처럼 `파일:줄` 이 `guestbook.js` 를 가리키지 않으니 Application 표의 값을 본다 |
-| 새로고침하면 목록이 사라진다 | 저장만 하고 되살리지 않았다. `let items = [];` 가 그대로면 되살리는 한 줄로 바꾼다(ex06 3번). 되살리는 줄이 있는데도 사라지면 `getItem` 의 키 철자가 `setItem` 의 `'guestbook'` 과 같은지 본다(빨간 줄 없이 빈 목록이 된다) |
-| Application 표에 `guestbook` 키가 없다 | `saveList();` 를 부르는 곳이 없거나 키 철자가 다르다. 왼쪽 **Local Storage** 아래에서 지금 주소를 골랐는지도 본다 |
-| 삭제했는데 새로고침하면 그 줄이 다시 나온다 | 삭제 버튼 틀 안의 `saveList();` 가 빠졌다. `items.splice(i, 1);` 바로 아래에 넣는다 |
-| **[전체 지우기]** 를 누르면 비는데 새로고침하면 되살아난다 | `localStorage.removeItem('guestbook');` 가 빠졌다. `items = [];` 만으로는 저장 칸이 남는다(ex07 1번) |
-| **[전체 지우기]** 를 누르면 `Uncaught TypeError: Assignment to constant variable.` | `items` 를 `const` 로 만들었다. 통째로 다시 담는 변수는 `let` 이다 |
-| 공개 주소를 열었는데 글이 이미 있다 | 대개 9번에서 남긴 내 글이다. 같은 아이디의 `github.io` 주소는 저장소가 달라도 저장 칸을 함께 쓰므로, 다른 저장소의 방명록에 남긴 글일 수도 있다. **[전체 지우기]** 를 누르고 다시 남긴다 |
-| 내 PC 미리 보기에 모르는 글이 있다 | 이 PC 를 먼저 쓴 사람이 같은 Chrome 으로 남긴 글이다. 미리 보기의 저장 칸은 이 PC 의 Chrome 에 있다. `http://localhost:8000` 은 앞사람과 주소가 같고, 두 번 눌러 연 파일(`file://`)은 폴더가 달라도 칸 하나를 함께 쓴다. **[전체 지우기]** 를 누른다. 확인과 캡처는 공개 주소에서 하므로 제출과는 상관없다 |
-| 날짜 모양이 옆 사람과 다르다 | 브라우저 언어 설정에 따라 다르다. 날짜가 보이면 된 것이다. 틀 안은 고치지 않는다 |
-| 공개 주소 `…/web-week11/ex/ex03/` 가 404 다 | ① 주소가 `ex/` 에서 끝나지 않고 `ex/ex03/` 까지 있는지 본다(`ex/` 바로 아래에는 `index.html` 이 없어서 `…/ex/` 만 열면 늘 404 다. `ex/` 에 `index.html` 을 만들거나 옮기지 않는다) ② 폴더 이름이 `ex`·`ex03` 이고 `ex03` 안에 `index.html` 이 있는지 ③ 저장소 이름이 `web-week11` 이고 **Settings › Pages** 가 켜져 있는지 본다 |
+| 버튼을 눌러도 반응이 없다 | Console의 오류와 `app.js` 경로를 확인한다 |
+| 스타일이 적용되지 않는다 | W3.CSS CDN 연결을 위한 인터넷 상태와 `shared/examples.css` 경로를 확인한다. 서버 루트는 `web_programming`이다 |
+| 저장한 값이 없다고 나온다 | 저장·불러오기의 키, 브라우저, 프로토콜·호스트·포트가 같은지 확인한다 |
+| 새로고침 후 입력이 비었다 | ex06은 자동 복원이 아니다. 불러오기 버튼을 누른다 |
+| JSON 복원 실패가 표시된다 | 해당 예제의 지우기를 누르고 다시 저장한다. 다른 예제의 키는 건드리지 않는다 |
+| 파일을 두 번 눌러 열면 결과가 다르다 | `file://` 대신 위의 localhost 주소를 사용한다 |
+| 서버 포트가 사용 중이라고 나온다 | 기존 서버 주소를 먼저 열어 본다. 같은 서버를 중복 실행하지 않는다 |
 
-한 번에 한 곳만 고치고 새로고침한다. 해결되지 않으면 Console 화면을 그대로 보여 주고 도움을 받는다.
+## 수업 후 정리와 별도 자료
 
-## 제출 — 캡처 한 장
+공개 업로드나 개인 저장소 정리는 수업 후 필요에 따라 진행한다. 저장된 값은 origin별이므로 localhost에서 남긴 데이터가 공개 사이트로 자동 이전되지는 않는다.
 
-공개 주소 `https://student01.github.io/web-week11/guestbook.html` (본인 아이디) 에서 아래 순서로 만든 화면을 캡처한다.
-
-1. 이미 남긴 글(9번에서 남긴 글 등)이 보이면 **[전체 지우기]** 를 먼저 누른다.
-2. 이름·메시지를 넣어 글 **세 개**를 남긴다.
-3. **새로고침**한다. 세 줄과 `3개` 가 그대로 남아 있어야 한다.
-4. F12 **Application › Local Storage** 에서 내 공개 주소를 고르고 `guestbook` 키를 누른다.
-5. 목록과 Application 탭이 한 화면에 보이게 찍는다.
-
-- 목록 한 줄에 이름·메시지·날짜가 함께 보인다.
-- **주소창이 함께 보이게** 찍는다. 화면이 좁아 한 장에 담기지 않으면 강의자 안내를 따른다.
-- 시크릿 창이 아니라 일반 창에서 찍는다.
-
-1일차 push 와 `ex/` 실험 파일은 확인용이며 따로 제출하지 않는다.
-캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 제출 위치와 마감은 수업 공지를 따른다.
-
-## 먼저 끝났다면
-
-- 다크 모드 기억하기: `app.js` 의 다크 모드 버튼 안에서 `toggle` 다음에 다크 모드가 켜졌으면 `localStorage.setItem('dark', 'on')`, 꺼졌으면 `localStorage.removeItem('dark')` 를 한다. 파일 맨 끝에서 `localStorage.getItem('dark') === 'on'` 이면 `document.body.classList.add('dark')` 로 되살린다. 켜졌는지는 6주차 "먼저 끝났다면"의 `document.body.classList.contains('dark')` 로 안다. 키는 `guestbook` 과 겹치지 않게 `dark` 로 둔다.
-- 값 깨뜨려 보기: Application 표에서 `guestbook` 의 값을 두 번 눌러 `hello` 로 고치고 새로고침한다. 어느 줄에서 어떤 빨간 줄이 뜨나? 확인했으면 그 키를 지운다.
-- 이메일도 담기: `guestbook.js` 에서 `#email` 을 찾아 두고, 객체에 `email: emailInput.value.trim()` 을 더하고, 목록 한 줄 끝에 `` ` · ${items[i].email}` `` 을 붙인다. 이메일을 넣기 **전에** 남긴 글은 어떻게 보이나? 왜 그런가?
-
-추가 과제는 선택 사항이며 채점하지 않는다.
+[완성 방명록](examples/day2/web-week11/README.md)은 강의자 시연·12주차 준비 자료이며 이번 제출에 포함하지 않는다. [배열 심화 특강](../../specials/array_advanced/README.md)과 [고급 저장 참고](examples/day2/README.md#고급-저장-참고)는 정규 30분 실습 범위 밖이다.

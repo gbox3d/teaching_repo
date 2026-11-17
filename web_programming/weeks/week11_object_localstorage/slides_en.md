@@ -3,54 +3,53 @@ marp: true
 theme: default
 paginate: true
 header: "Web Programming · Week 11"
-footer: "Objects and localStorage · see the principle through comparison examples, then assemble at the end"
+footer: "Objects and localStorage · 60-minute lecture · 30-minute lab"
 ---
 
 # Objects and localStorage
 
 In Week 10, each guestbook line was **one lump of text**, and the list disappeared on reload.
 
-Same method as last week: look at **7 comparison examples** one at a time, then **assemble** `guestbook.html` and `guestbook.js` in a new repository, `web-week11`, built on last week's files.
+Each class has a **60-minute lecture and demo plus a 30-minute lab**. Day 2 requires ex04–ex06 only. The completed guestbook is an instructor demo and Week 12 starter.
 
 - Day 1: turn each line into an **object** with a name, a message, and a date.
-- Day 2: keep the list in the browser's **storage** (`localStorage`) so it survives a reload.
-- **From this week, check and capture on the public address only.** Your PC and the public address have different storage.
+- Day 2: save the name/message and restore the form after reloading.
+- Submit the restored ex06 form and saved JSON. **Localhost screenshots are accepted.**
 
 ---
 
 # Day 1 — Objects and Dot Notation
 
-`30 min explanation & demo → 60 min lab`
+`60-minute lecture and demo → 30-minute lab`
 
-1. Example folders — two files: `index.html`, `app.js`
+1. Repository folders, shared CSS, and the static server
 2. ex01 — objects `{ }` and dot notation (today's syntax)
 3. ex02 — objects inside an array · the date template line
 4. ex03 — an object as one list line
 
 ---
 
-## Day 1 · 0–4 min — One example folder, two files
+## Day 1 · 0–10 min — Folder structure and server
 
-One folder per example, with the same two file names as your site.
+Keep the repository's `web_programming` folder structure.
 
 ```text
-ex01/
-  index.html   screen — the spots the example uses
-  app.js       behavior — this week's ideas live here
+web_programming/
+  shared/examples.css
+  weeks/week11_object_localstorage/examples/
 ```
 
-- Open `index.html`. In `<head>`, `<script src="app.js" defer>` loads `app.js`.
-- Edit the code in `app.js`; see the result by reloading `index.html`.
-- ex01 and ex02 write to the Console; ex03 writes to the two lists on screen.
-- The names match your site's top-level files. Tell them apart by the path bar above the editor (`ex › ex01`).
+- Serve `web_programming` on port `8111`.
+- Day 2 loads W3.CSS from a CDN and `shared/examples.css`. The CDN needs internet access.
+- ex01/ex02 use the Console; ex03 compares two lists.
 
-**Screen in HTML, behavior in JS — two files in one folder.**
+Command and URLs: [Walkthrough](walkthrough.md#준비)
 
 ---
 
-## Day 1 · 4–11 min — ex01 Objects and dot notation
+## Day 1 · 10–25 min — ex01 Objects and dot notation
 
-[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
+[examples/day1/ex01/index.html](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex01/index.html) · [app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex01/app.js)
 
 ```js
 const item = { name: '하늘', message: '안녕하세요', date: '2026. 11. 11.' };
@@ -67,9 +66,9 @@ const item5 = { name: name, message: message, date: '…' };   // 5.
 
 ---
 
-## Day 1 · 11–19 min — ex02 Objects in an array · date template
+## Day 1 · 25–40 min — ex02 Objects in an array · date template
 
-[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
+[examples/day1/ex02/index.html](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex02/index.html) · [app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex02/app.js)
 
 ```js
 texts.push('하늘: 안녕하세요');                  // 1·2. Week 10: one lump
@@ -86,9 +85,9 @@ console.log(items[0].name);                     // 4. 하늘
 
 ---
 
-## Day 1 · 19–27 min — ex03 An object as one list line
+## Day 1 · 40–55 min — ex03 An object as one list line
 
-[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
+[examples/day1/ex03/index.html](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex03/index.html) · [app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex03/app.js)
 
 ```js
 li1.textContent = items[i];   // 1. the object as is
@@ -106,159 +105,154 @@ li2.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`;
 
 ---
 
-## Day 1 · 27–30 min — Your turn
+## Day 1 · 55–60 min — The 30-minute lab
 
-[Day 1 lab](lab.md#1일차--객체와-점-표기-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
+[Day 1 lab](lab.md#1일차--객체와-점-표기-30분) · [Walkthrough](walkthrough.md#1일차)
 
-1. New folder `web-week11` with last week's files; three example folders in `ex/`.
-2. ex01–ex03 — open each folder's `index.html`, change values in `app.js`. Say what will change first.
-3. Create the new repository `web-week11`, push, and turn on Pages.
+| Lab time | Check |
+|---|---|
+| 0–5 min | Open the server, ex01, and Console |
+| 5–13 min | Compare the object's name and property output |
+| 13–21 min | Compare array indices 0 and 1 |
+| 21–28 min | Compare lists and property spelling |
+| 28–30 min | Explain the changed value and result |
 
-**Total explanation: 4+7+8+8+3 = 30 min**
-
----
-
-# Day 2 — Saving, Restoring, and Assembly
-
-`30 min explanation & demo → 60 min lab`
-
-1. ex04 — `localStorage` storage and the **Application** tab
-2. ex05 — `JSON.stringify` / `JSON.parse`
-3. ex06 — `||` (or) (today's syntax)
-4. ex07 — `removeItem`
-5. My list lives only in my browser
-6. Assembly — `guestbook.html` and `guestbook.js` in `web-week11`
-
-As yesterday, open each example folder's `index.html` (`ex/ex04/` to `ex/ex07/`).
+Lecture: 10+15+15+15+5 = 60 min. Public deployment is outside this lab.
 
 ---
 
-## Day 2 · 0–7 min — ex04 localStorage storage
+# Day 2 — Save and restore a form
 
-[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [app.js](examples/day2/ex04/app.js)
+60-minute lecture and demo → 30-minute lab
+
+- Required: ex04 strings, ex05 JSON arrays, ex06 form data.
+- Verify storage boundaries and saved values.
+- Capture the restored ex06 form and its JSON.
+- The completed guestbook is an instructor demo, not required lab work.
+
+[Day 2 lab](lab.md#2일차--저장과-폼-복원-30분) · [Example guide](examples/README.md)
+
+---
+
+## Day 2 · 0–10 min — ex04 Save, load, and delete text
+
+[index.html](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex04/index.html) · [app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex04/app.js)
 
 ```js
-let memo = '(처음 값)';                 // 1. variable: restarts on open
-localStorage.getItem('ex04-memo');      // 2. read; null if none
-localStorage.setItem('ex04-memo', '안녕하세요');   // write (key, value)
+const key = 'week11-ex04-text';
+localStorage.setItem(key, memoInput.value); // Save
+const saved = localStorage.getItem(key);   // Load
+localStorage.removeItem(key);              // Delete this key
 ```
 
-- Save → reload: No. 1 is `(처음 값)`, No. 2 is `안녕하세요`.
-- **F12 › Application › Local Storage** › the current address: keys and values in a table.
-- Storage is separate **for each address** and holds **text only**.
-
-**A variable starts over on reload; what you write in storage stays.**
+Type → Save → reload → Load. Then Delete → Load: the result is null.
+An empty string is still a stored value; null means the key is absent.
+Inspect the key and value in F12 → Application → Local Storage.
 
 ---
 
-## Day 2 · 7–13 min — ex05 JSON: array to text, text to array
+## Day 2 · 10–25 min — ex05 A fixed array as JSON
 
-[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js)
+[index.html](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex05/index.html) · [app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex05/app.js)
 
 ```js
-localStorage.setItem('ex05-raw', items);                      // 1.
-localStorage.setItem('ex05-json', JSON.stringify(items));     // 2.
-const back = JSON.parse(localStorage.getItem('ex05-json'));   // 3.
+const items = [
+  { name: '하늘', message: '안녕하세요' },
+  { name: '바다', message: '잘 봤습니다' }
+];
+localStorage.setItem('week11-ex05-items', JSON.stringify(items));
+const text = localStorage.getItem('week11-ex05-items');
+const restored = JSON.parse(text); // restored[0].name
 ```
 
-- No. 1 stores `[object Object],[object Object]`. Stored as is, the contents are lost.
-- No. 2 stores `[{"name":"하늘",…}]`. Bring it back with `JSON.parse` (No. 3); then `back[0].name` works.
-- Remember the double-quoted `"name"` shape. Week 12 REST responses are JSON too.
-
-**stringify when you put it in, parse when you take it out.**
+Save JSON → Read raw text → Restore JSON: inspect the two restored rows.
+Change a fixed value in app.js, reload, and save again to compare results.
 
 ---
 
-## Day 2 · 13–18 min — ex06 || (or) (today's syntax)
+## Day 2 · 25–40 min — ex06 Save and restore a form
 
-[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js)
+[index.html](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex06/index.html) · [app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex06/app.js)
 
 ```js
-if (name === '' || message === '') { … }    // 1. either one is empty
-const items = JSON.parse(localStorage.getItem('ex06-none')) || [];   // 3.
+const entry = { name: nameInput.value, message: messageInput.value };
+localStorage.setItem('week11-ex06-entry', JSON.stringify(entry));
+// After confirming that the stored key exists:
+const back = JSON.parse(localStorage.getItem('week11-ex06-entry'));
+nameInput.value = back.name;
+messageInput.value = back.message;
 ```
 
-- `||` means **or**. Inside an if: "true if either one is true".
-- In a value spot: "if the left is missing (`null`), use the right". A first visitor's storage is empty.
-- Without `|| []`, reading `length` of `null` gives a red line (comment No. 4).
-
-**For first visitors, end the restore line with `|| []`.**
+Enter name and message → Save → change the fields → Load.
+Empty fields are allowed here: this example isolates saving and restoring.
+After reloading, press Load to restore the fields.
 
 ---
 
-## Day 2 · 18–23 min — ex07 removeItem: clearing storage
+## Day 2 · 40–50 min — Storage belongs to an origin and browser
 
-[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js)
+Origin = protocol + host + port. A URL path is not a storage boundary.
 
-```js
-items = [];                             // 1. array emptied, storage kept
-localStorage.removeItem('ex07-list');   // 2. key removed → null
-```
+- Different example folders on the same origin share localStorage.
+- Use distinct keys such as week11-ex04-text and week11-ex06-entry.
+- A different browser, profile, or device has a separate stored list.
+- localhost and the public HTTPS site have different storage.
+- Use localhost or HTTPS for practice. Do not open examples with file://.
 
-- Clear-all does **both**. Empty only the array and the list comes back on reload.
-- `removeItem` removes **one** key. Other keys (`ex07-other`) stay.
-- `github.io` addresses of the same ID **share** storage. That is why the example keys start with `ex07-`.
-
-**The array and the storage are separate. Clear both.**
+Shared lab PCs may retain the previous user's data in the same profile.
+Sharing a list across devices requires the server API introduced next week.
 
 ---
 
-## Day 2 · 23–26 min — My list lives only in my browser
+## Day 2 · 50–55 min — Verify the stored result
+
+| Action | Expected result |
+|---|---|
+| Save, change input, then Load | Saved value is restored |
+| Reload, then Load | Same values and JSON are restored |
+| Delete, then Load | No stored value |
+| Save and restore again for capture | Inputs match the JSON |
+
+Locate `setItem` → `getItem` → `JSON.parse` after checking the screen.
+The key and origin must match to read the same stored value.
+
+---
+
+## Day 2 · 55–60 min — The 30-minute lab
+
+| Lab time | Task |
+|---|---|
+| 0–8 min | ex04: save, load, delete |
+| 8–16 min | ex05: compare raw JSON and restored fields |
+| 16–27 min | ex06: save, reload, restore, delete |
+| 27–30 min | Save and restore ex06 again; capture |
+
+[Day 2 lab](lab.md#2일차--저장과-폼-복원-30분) · [Walkthrough](walkthrough.md#2일차)
+Lecture total: 10+15+15+10+5+5 = 60 min.
+
+---
+
+## Submission — One restored-form screenshot
+
+In ex06, use Save → reload → Load.
 
 ```text
-Chrome on my PC    my posts in 'guestbook'   only I see them
-PC next to me      empty                     my posts are not there
-file:// on my PC   a different box           check on the public address
+Name: 하늘
+Message: 안녕하세요
+Stored JSON: {"name":"하늘","message":"안녕하세요"}
+Status: 폼 복원 완료
 ```
 
-- **You alone** own the saved list. Someone opening the same address does not see it.
-- Sharing across PCs requires server storage. In Weeks 12–14, we use the instructor's shared API.
-- On a shared lab PC, the preview address (`localhost:8000`, etc.) may still hold the previous student's posts: same PC, same address, same storage.
-
-**localStorage is storage for this browser and this address only.**
+Capture the inputs, JSON, and address bar. **Localhost is accepted.**
+Public deployment is after-class work. Use sample names and messages.
 
 ---
 
-## Day 2 · 26–30 min — Assembly: web-week11, then the lab
+## Next week and separate materials
 
-```text
-guestbook.html  remove #empty · [전체 지우기] button   ← Week 10 · ex04
-guestbook.js    if (name === '' || message === '')     ← ex06 No. 1
-                const today · push({ name: name, … })  ← ex02 · ex01 No. 5
-                li.textContent = `${items[i].name}: …`  ← ex03 No. 2
-                saveList() — setItem + JSON.stringify   ← ex04 · ex05
-                let items = JSON.parse(getItem(…)) || [] ← ex05 · ex06 No. 3
-                clear-all: items = [] + removeItem      ← ex07
-```
+The [completed guestbook](examples/day2/web-week11/README.md) is an instructor demo and Week 12 starter. Students do not need to build it in this week's lab.
 
-[Day 2 lab](lab.md#2일차--저장-칸에-남기고-되살리기-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
+Week 12 uses the prepared screen to read a JSON list from the shared REST API.
 
-1. Save the four example folders ex04–ex07 in `ex/`, change values (until minute 29).
-2. Assemble → push → check on the **public address** → screenshot.
-
-**Total explanation: 7+6+5+5+3+4 = 30 min**
-
----
-
-## What to Submit
-
-Submit **one** screenshot at the end of Day 2.
-
-```text
-https://student01.github.io/web-week11/guestbook.html
-Three posts, reloaded, with F12 › Application › Local Storage open
-하늘: 안녕하세요 (2026. 11. 11.)  [삭제]   …   3개
-Key: guestbook   Value: [{"name":"하늘","message":"안녕하세요",…}, …]
-```
-
-Include the address bar. If posts from your check are still there, press **[전체 지우기]** first.
-Keep your real name, student ID, and real email out of the screenshot.
-
----
-
-## Next Week Preview
-
-The list now stays **inside your browser**. But only you can see it.
-
-In Week 12, start `web-week12` from today's files and read the server guestbook with a REST GET request.
-Display the JSON array as a list. After connecting the shared HTTPS API, check the same list in another browser.
+- [Advanced arrays](../../specials/array_advanced/README.md) is a separate supplementary class.
+- [ex07 cross-tab synchronization](examples/day2/README.md#고급-저장-참고) is reference material.

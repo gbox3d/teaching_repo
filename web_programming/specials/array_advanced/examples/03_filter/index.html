@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배열 03 filter 조건 선택</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+    <link rel="stylesheet" href="../../../../shared/examples.css">
+    <script src="app.js" defer></script>
+</head>
+<body class="w3-content teaching-example">
+    <main>
+        <h1>배열 03 filter 조건 선택</h1>
+        <label for="minimum-score">최소 점수</label>
+        <input class="w3-input w3-border w3-round" id="minimum-score" type="number" step="any" value="70">
+        <button class="w3-button w3-border w3-round" id="run-button" type="button">filter 실행</button>
+        <h2>원본 배열</h2>
+        <pre id="original"></pre>
+        <h2>결과 배열</h2>
+        <pre id="result">실행 전</pre>
+        <p>결과 개수: <output id="count">—</output></p>
+        <p id="status" role="status">대기</p>
+    </main>
+</body>
+</html>

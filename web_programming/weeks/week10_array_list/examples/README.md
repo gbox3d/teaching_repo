@@ -23,6 +23,8 @@ ex01·ex02 는 Console 에만 찍는다. 그래서 `index.html` 에 제목과 �
 
 ## 비교 예제
 
+`push`·`for`·`splice`를 익힌 뒤에는 별도 보강 수업인 [배열 심화 특강](../../../specials/array_advanced/README.md)에서 앞·뒤 삽입과 삭제, `forEach`, `filter`, `map`, `reduce`를 화면으로 확인한다.
+
 | 예제 | 열면 보이는 것 | 보여 주는 원리 | 바꿔 볼 값 |
 |---|---|---|---|
 | [day1/ex01/index.html](day1/ex01/index.html) + [app.js](day1/ex01/app.js) | 화면은 제목과 안내 문장. Console 1번 `0`, 2번 `3` 과 배열, 3번 `student01: 안녕하세요`, 4번 `student03: 반갑습니다`, 5번 `undefined`, 6번 `2` 와 배열 | 배열은 값을 순서대로 담는다. `push` 는 맨 뒤에 더한다. 번호는 0 부터라서 마지막 번호는 개수보다 하나 작고, 없는 번호는 `undefined` 다. 6번처럼 대괄호 안에 쉼표로 나눠 적으면 처음부터 값이 든 배열이다(ex02·ex05·ex07 이 이 모양으로 시작한다) | `app.js` 8행 앞에 `//` → 2번 `2`, 4번 `undefined`. 12행 `items[0]` 을 `items[1]` 로. 16행 배열에 `, 'student03'` → 6번 `3`. Console 입력 칸에 `items` |

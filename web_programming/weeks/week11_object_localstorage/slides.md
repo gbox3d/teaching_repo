@@ -3,54 +3,53 @@ marp: true
 theme: default
 paginate: true
 header: "웹프로그래밍 · 11주차"
-footer: "객체와 localStorage · 비교 예제로 원리를 보고 마지막에 조립"
+footer: "객체와 localStorage · 강의 60분 · 실습 30분"
 ---
 
 # 객체와 localStorage
 
 10주차 방명록은 한 줄이 **글자 한 덩어리**였고, 새로고침하면 목록이 사라졌습니다.
 
-이번 주 방식도 같습니다: **비교 예제 7개**를 하나씩 보고, 마지막에 새 저장소 `web-week11` 의 `guestbook.html`·`guestbook.js` 를 **조립**합니다(지난주 완성본에서 시작).
+각 수업은 **강의·시연 60분 + 실습 30분**입니다. 2일차 필수 실습은 ex04~ex06이며, 완성 방명록은 강의자 시연·12주차 준비 자료입니다.
 
 - 1일차: 한 줄을 이름·메시지·날짜 **객체**로 바꿉니다.
-- 2일차: 목록을 브라우저 **저장 칸**(`localStorage`)에 남겨 새로고침해도 남게 합니다.
-- **이번 주부터 확인·캡처는 공개 주소에서만** 합니다. 내 PC 와 공개 주소는 저장 칸이 다릅니다.
+- 2일차: 이름·메시지를 저장하고 새로고침 후 폼에 복원합니다.
+- 제출은 ex06의 복원된 폼과 저장 JSON입니다. **localhost 캡처를 인정합니다.**
 
 ---
 
 # 1일차 — 객체와 점 표기
 
-`30분 설명·시연 → 60분 실습`
+`강의·시연 60분 → 실습 30분`
 
-1. 예제 폴더 — `index.html`·`app.js` 두 파일
+1. 교재 폴더와 공용 CSS, 정적 서버
 2. ex01 — 객체 `{ }` 와 점 표기 (오늘 문법)
 3. ex02 — 배열 안의 객체 · 날짜 틀
 4. ex03 — 객체를 목록 한 줄로
 
 ---
 
-## 1일차 · 0–4분 — 예제 폴더 하나에 파일 두 개
+## 1일차 · 0–10분 — 교재 폴더와 실행 환경
 
-예제마다 폴더 하나. 내 사이트와 같은 이름의 두 파일입니다.
+교재의 `web_programming` 폴더 구조를 유지합니다.
 
 ```text
-ex01/
-  index.html   화면 — 예제가 쓰는 자리
-  app.js       동작 — 이번 주 원리는 여기
+web_programming/
+  shared/examples.css
+  weeks/week11_object_localstorage/examples/
 ```
 
-- 여는 것은 `index.html`. `<head>` 의 `<script src="app.js" defer>` 가 `app.js` 를 불러옵니다.
-- 코드는 `app.js` 에서 고치고, 결과는 `index.html` 을 새로고침해 봅니다.
-- ex01·ex02 는 Console 에, ex03 은 화면의 두 목록에 씁니다.
-- 맨 위 내 사이트 파일과 이름이 같습니다. 편집기 위쪽 경로 줄(`ex › ex01`)로 구분합니다.
+- 서버 루트는 `web_programming`, 포트는 `8111`입니다.
+- 2일차는 W3.CSS CDN과 `shared/examples.css`를 읽습니다. CDN에는 인터넷 연결이 필요합니다.
+- ex01·ex02는 Console, ex03은 화면의 두 목록을 비교합니다.
 
-**화면은 HTML, 동작은 JS — 두 파일을 한 폴더에.**
+실행 명령과 주소: [따라하기](walkthrough.md#준비)
 
 ---
 
-## 1일차 · 4–11분 — ex01 객체와 점 표기
+## 1일차 · 10–25분 — ex01 객체와 점 표기
 
-[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
+[examples/day1/ex01/index.html](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex01/index.html) · [app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex01/app.js)
 
 ```js
 const item = { name: '하늘', message: '안녕하세요', date: '2026. 11. 11.' };
@@ -67,9 +66,9 @@ const item5 = { name: name, message: message, date: '…' };   // 5.
 
 ---
 
-## 1일차 · 11–19분 — ex02 배열 안의 객체 · 날짜 틀
+## 1일차 · 25–40분 — ex02 배열 안의 객체 · 날짜 틀
 
-[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
+[examples/day1/ex02/index.html](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex02/index.html) · [app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex02/app.js)
 
 ```js
 texts.push('하늘: 안녕하세요');                  // 1·2. 글자 한 덩어리
@@ -86,9 +85,9 @@ console.log(items[0].name);                     // 4. 하늘
 
 ---
 
-## 1일차 · 19–27분 — ex03 객체를 목록 한 줄로
+## 1일차 · 40–55분 — ex03 객체를 목록 한 줄로
 
-[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
+[examples/day1/ex03/index.html](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex03/index.html) · [app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day1/ex03/app.js)
 
 ```js
 li1.textContent = items[i];   // 1. 객체를 그대로
@@ -106,159 +105,157 @@ li2.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`;
 
 ---
 
-## 1일차 · 27–30분 — 이제 직접 해 보기
+## 1일차 · 55–60분 — 30분 실습 안내
 
-[1일차 실습](lab.md#1일차--객체와-점-표기-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
+[1일차 실습](lab.md#1일차--객체와-점-표기-30분) · [따라하기](walkthrough.md#1일차)
 
-1. 새 폴더 `web-week11` 에 지난주 완성본, `ex/` 에 예제 폴더 세 개.
-2. ex01~ex03 — 폴더마다 `index.html` 을 열고 `app.js` 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
-3. 새 저장소 `web-week11` 만들어 올리기 · Pages 켜기.
+| 실습 시간 | 확인 |
+|---|---|
+| 0–5분 | 서버·ex01·Console 열기 |
+| 5–13분 | 객체의 이름과 속성 출력 비교 |
+| 13–21분 | 배열 인덱스 0과 1 비교 |
+| 21–28분 | 목록과 속성 철자 비교 |
+| 28–30분 | 변경한 값과 결과 설명 |
 
-**설명 합계: 4+7+8+8+3 = 30분**
-
----
-
-# 2일차 — 저장 칸에 남기고 되살리기, 그리고 조립
-
-`30분 설명·시연 → 60분 실습`
-
-1. ex04 — 저장 칸 `localStorage` 와 **Application** 탭
-2. ex05 — `JSON.stringify` / `JSON.parse`
-3. ex06 — `||` 또는 (오늘 문법)
-4. ex07 — `removeItem`
-5. 내 목록은 내 브라우저에만 있다
-6. 조립 — `web-week11` 의 `guestbook.html`·`guestbook.js`
-
-예제는 어제처럼 폴더마다 `index.html` 을 엽니다(`ex/ex04/` ~ `ex/ex07/`).
+강의 합계: 10+15+15+15+5 = 60분. 공개 업로드는 실습에 포함하지 않습니다.
 
 ---
 
-## 2일차 · 0–7분 — ex04 저장 칸 localStorage
+# 2일차 — 문자열에서 폼 저장까지
 
-[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [app.js](examples/day2/ex04/app.js)
+`강의·시연 60분 → 실습 30분`
+
+1. ex04 — 문자열 저장·불러오기·지우기
+2. ex05 — JSON 문자열과 복원한 배열 비교
+3. ex06 — 이름·메시지 폼 저장·복원
+4. 저장 범위와 검증 순서
+5. 30분 실습과 캡처 안내
+
+필수는 **ex04~ex06 세 개**입니다. 화면에서 입력하고 버튼을 누른 다음 코드를 읽습니다.
+
+---
+
+## 2일차 · 0–10분 — ex04 문자열 저장
+
+[화면 소스](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex04/index.html) · [JavaScript](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex04/app.js)
 
 ```js
-let memo = '(처음 값)';                 // 1. 변수: 열 때마다 다시 시작
-localStorage.getItem('ex04-memo');      // 2. 꺼내기. 없으면 null
-localStorage.setItem('ex04-memo', '안녕하세요');   // 적기(키, 값)
+localStorage.setItem('week11-ex04-text', '안녕하세요');
+const text = localStorage.getItem('week11-ex04-text');
+localStorage.removeItem('week11-ex04-text');
 ```
 
-- 저장하기 → 새로고침: 1번은 `(처음 값)`, 2번은 `안녕하세요`.
-- **F12 › Application › Local Storage** › 지금 주소: 키와 값이 표로 보입니다.
-- 저장 칸은 **주소마다** 따로 있고, **글자만** 담습니다.
-
-**변수는 새로고침하면 처음으로 돌아가고, 저장 칸에 적은 것은 남는다.**
+- 입력 → **저장** → 입력 변경 → **불러오기**로 저장한 값을 확인합니다.
+- 새로고침 후에도 **불러오기**로 읽을 수 있습니다.
+- 빈 문자열을 저장하면 `''`, 키를 지우면 `null`입니다.
+- **Application › Local Storage**에서 현재 origin의 키와 값을 확인합니다.
 
 ---
 
-## 2일차 · 7–13분 — ex05 JSON: 배열을 글자로, 글자를 배열로
+## 2일차 · 10–25분 — ex05 JSON 저장과 복원
 
-[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js)
+[화면 소스](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex05/index.html) · [JavaScript](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex05/app.js)
 
 ```js
-localStorage.setItem('ex05-raw', items);                      // 1.
-localStorage.setItem('ex05-json', JSON.stringify(items));     // 2.
-const back = JSON.parse(localStorage.getItem('ex05-json'));   // 3.
+localStorage.setItem('week11-ex05-items', JSON.stringify(items));
+const text = localStorage.getItem('week11-ex05-items');
+const restored = JSON.parse(text); // 저장된 JSON이 있을 때
 ```
 
-- 1번 값은 `[object Object],[object Object]`. 그대로 넣으면 내용이 사라집니다.
-- 2번 값은 `[{"name":"하늘",…}]`. 3번 `JSON.parse` 로 되살려야 `back[0].name` 이 됩니다.
-- 큰따옴표 `"name"` 모양을 기억해 둡니다. 12주차 REST 응답도 JSON입니다.
+1. **JSON 저장**: 고정된 두 객체의 배열을 문자열로 저장합니다.
+2. **저장 원문 조회**: `[{"name":"하늘",…}]`를 확인합니다.
+3. **JSON 복원**: 각 객체의 이름·메시지와 개수 2를 확인합니다.
 
-**넣을 때 stringify, 꺼낼 때 parse.**
+코드의 배열을 바꾸어도 기존 저장 값은 그대로입니다. 다시 저장한 뒤 비교합니다.
 
 ---
 
-## 2일차 · 13–18분 — ex06 || 또는 (오늘 문법)
+## 2일차 · 25–40분 — ex06 입력 폼 저장과 복원
 
-[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js)
+[화면 소스](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex06/index.html) · [JavaScript](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week11_object_localstorage/examples/day2/ex06/app.js)
 
 ```js
-if (name === '' || message === '') { … }    // 1. 둘 중 하나라도 비면
-const items = JSON.parse(localStorage.getItem('ex06-none')) || [];   // 3.
+const entry = { name: nameInput.value, message: messageInput.value };
+const text = JSON.stringify(entry);
+localStorage.setItem(key, text);
+// 저장된 JSON이 있는 상태에서 불러오기
+const restored = JSON.parse(localStorage.getItem(key));
+nameInput.value = restored.name;
+messageInput.value = restored.message;
 ```
 
-- `||` 는 **또는**입니다. if 안에서는 "둘 중 하나라도 참이면 참".
-- 값 자리에서는 "앞이 없으면(`null`) 뒤 값". 처음 여는 사람의 저장 칸은 비어 있습니다.
-- `|| []` 가 없으면 `null` 의 `length` 를 읽다가 빨간 줄이 뜹니다(4번 주석).
-
-**처음 여는 사람을 위해 되살리는 줄 끝에 `|| []` 를 붙인다.**
+- 이름·메시지 입력 → **저장** → 입력 변경 → **불러오기**.
+- 새로고침 후 불러와도 두 입력이 복원됩니다. **지우기**는 키와 입력을 비웁니다.
+- 이 예제는 빈 입력도 저장합니다. 새로고침한 뒤에는 불러오기를 눌러 복원합니다.
 
 ---
 
-## 2일차 · 18–23분 — ex07 removeItem: 저장 칸 지우기
-
-[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js)
-
-```js
-items = [];                             // 1. 배열만 빈다. 저장 칸은 그대로
-localStorage.removeItem('ex07-list');   // 2. 그 키를 지운다 → null
-```
-
-- 전체 지우기는 **둘 다** 합니다. 배열만 비우면 새로고침할 때 되살아납니다.
-- `removeItem` 은 키 **하나**만 지웁니다. 다른 키(`ex07-other`)는 남습니다.
-- 같은 아이디의 `github.io` 주소는 저장 칸을 **함께** 씁니다. 그래서 예제 키에 `ex07-` 를 붙였습니다.
-
-**배열과 저장 칸은 따로다. 지울 때도 둘 다 지운다.**
-
----
-
-## 2일차 · 23–26분 — 내 목록은 내 브라우저에만 있다
+## 2일차 · 40–50분 — 저장 공간은 브라우저·origin별
 
 ```text
-내 PC 의 Chrome     'guestbook' 키에 내 글     내 화면에만 보인다
-옆자리 PC           비어 있다                  내가 남긴 글이 없다
-내 PC 의 file://    공개 주소와 다른 칸         그래서 확인은 공개 주소에서
+localhost:8111의 ex04·ex06  같은 origin, 다른 키
+localhost:8000             다른 포트 → 다른 저장 공간
+127.0.0.1:8111             다른 호스트 → 다른 저장 공간
+공개 HTTPS 사이트         다른 origin → 다른 저장 공간
 ```
 
-- 저장한 목록의 주인은 **나 하나**입니다. 옆 사람이 같은 주소를 열어도 안 보입니다.
-- 다른 PC에서도 함께 보려면 서버에 저장해야 합니다. 12~14주에는 강의자의 공용 API를 사용합니다.
-- 공용 PC 의 미리 보기 주소(`localhost:8000` 등)에는 앞사람 글이 남아 있을 수 있습니다. 같은 PC·같은 주소의 칸이기 때문입니다.
-
-**localStorage 는 이 브라우저·이 주소에만 있는 저장 칸이다.**
+- origin은 **프로토콜·호스트·포트**입니다. 폴더 경로는 포함하지 않습니다.
+- 같은 origin이어도 다른 브라우저나 다른 PC와 공유하지 않습니다.
+- `file://`의 저장 동작은 브라우저마다 다를 수 있으므로 정적 서버로 엽니다.
+- 다른 PC와 공유하는 서버 방명록은 12~14주에 만듭니다.
 
 ---
 
-## 2일차 · 26–30분 — 조립: web-week11, 그리고 실습 인계
+## 2일차 · 50–55분 — 저장 결과 검증
+
+| 조작 | 예상 결과 |
+|---|---|
+| 저장 후 입력만 바꾸고 불러오기 | 저장한 값으로 복원 |
+| 새로고침 후 불러오기 | 같은 값과 JSON 복원 |
+| 지우기 후 불러오기 | 저장된 값 없음 |
+| 캡처용으로 다시 저장·복원 | 입력과 JSON 일치 |
+
+화면에서 확인한 뒤 `setItem` → `getItem` → `JSON.parse`를 코드에서 찾습니다.
+저장 키와 origin이 같아야 같은 값을 읽습니다.
+
+---
+
+## 2일차 · 55–60분 — 30분 실습 안내
+
+| 실습 시간 | 작업 |
+|---|---|
+| 0–8분 | ex04 저장·불러오기·지우기 |
+| 8–16분 | ex05 원문·복원 비교 |
+| 16–27분 | ex06 저장·새로고침·폼 복원·지우기 |
+| 27–30분 | ex06을 다시 저장·복원하고 캡처 |
+
+[2일차 실습](lab.md#2일차--저장과-폼-복원-30분) · [따라하기](walkthrough.md#2일차)
+
+강의 합계: 10+15+15+10+5+5 = 60분
+
+---
+
+## 제출 — 복원한 폼 한 장
+
+ex06에서 저장 → 새로고침 → 불러오기를 실행합니다.
 
 ```text
-guestbook.html  #empty 줄 지우기 · [전체 지우기] 버튼   ← 10주 완성본 · ex04
-guestbook.js    if (name === '' || message === '')       ← ex06 1번
-                const today · push({ name: name, … })    ← ex02 · ex01 5번
-                li.textContent = `${items[i].name}: …`    ← ex03 2번
-                saveList() — setItem + JSON.stringify     ← ex04 · ex05
-                let items = JSON.parse(getItem(…)) || []  ← ex05 · ex06 3번
-                전체 지우기: items = [] + removeItem      ← ex07
+이름: 하늘
+메시지: 안녕하세요
+저장 JSON: {"name":"하늘","message":"안녕하세요"}
+상태: 폼 복원 완료
 ```
 
-[2일차 실습](lab.md#2일차--저장-칸에-남기고-되살리기-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week11_object_localstorage)
-
-1. ex04~ex07 예제 폴더 네 개를 `ex/` 에 저장, 값 바꾸기(29분까지).
-2. 조립 → push → **공개 주소**에서 확인 → 캡처.
-
-**설명 합계: 7+6+5+5+3+4 = 30분**
+입력·JSON·주소창을 함께 캡처합니다. **localhost 화면을 인정합니다.**
+공개 업로드는 수업 후 정리하며, 실명·학번·실제 이메일은 쓰지 않습니다.
 
 ---
 
-## 제출하기
+## 다음 주 준비와 별도 자료
 
-2일차가 끝나면 캡처 **한 장**을 제출합니다.
+[완성 방명록](examples/day2/web-week11/README.md)은 강의자가 시연하고 12주차 준비 자료로 제공합니다. 이번 주 학생 필수 구현 대상이 아닙니다.
 
-```text
-https://student01.github.io/web-week11/guestbook.html
-글 3개 → 새로고침 → F12 › Application › Local Storage 를 연 화면
-하늘: 안녕하세요 (2026. 11. 11.)  [삭제]   …   3개
-Key: guestbook   Value: [{"name":"하늘","message":"안녕하세요",…}, …]
-```
+12주차에는 준비된 화면에서 공용 REST API의 JSON 목록을 읽습니다.
 
-주소창이 함께 보이게 찍습니다. 확인할 때 남긴 글이 보이면 **[전체 지우기]** 를 먼저 누릅니다.
-캡처에 실명·학번·실제 이메일이 보이지 않게 합니다.
-
----
-
-## 다음 주 미리 보기
-
-목록이 이제 **내 브라우저 안**에 남습니다. 다만 그 글은 나만 볼 수 있습니다.
-
-12주차에는 새 저장소 `web-week12`를 오늘 완성본에서 시작하고, REST GET으로 서버의 방명록 목록을 읽습니다.
-응답의 JSON 배열을 오늘 만든 목록에 표시합니다. 공용 HTTPS API 연결 후 다른 브라우저에서도 같은 목록을 확인합니다.
+- [배열 심화](../../specials/array_advanced/README.md)는 별도 보강특강입니다.
+- [ex07 탭 동기화](examples/day2/README.md#고급-저장-참고)은 참고 자료입니다.

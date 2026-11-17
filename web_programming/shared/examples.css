@@ -1,0 +1,19 @@
+[hidden] { display: none !important; }
+.teaching-example { max-width: 48rem; margin: 2rem auto; padding: 0 1rem; font: 1rem/1.6 system-ui, sans-serif; color: #1f2933; background: #fff; }
+.teaching-example h1 { margin: 0 0 1.5rem; font: 600 1.7rem/1.3 system-ui, sans-serif; }
+.teaching-example h2 { margin: 1.5rem 0 .65rem; font: 600 1.2rem/1.4 system-ui, sans-serif; }
+.teaching-example label { display: block; margin-top: .75rem; font-weight: 600; }
+.teaching-example .w3-input { margin: .5rem 0 1rem; }
+.teaching-example textarea { resize: vertical; }
+.teaching-example .w3-button { max-width: 100%; margin: 0 .25rem .5rem 0; white-space: normal; }
+.teaching-example label.inline-label { display: inline-flex; align-items: center; gap: .5rem; margin: .5rem .75rem .75rem 0; font-weight: 400; }
+.teaching-example .w3-check { width: 1.15rem; height: 1.15rem; top: 0; margin: 0; }
+.teaching-example pre { padding: .75rem; background: #f3f4f6; border-radius: 4px; white-space: pre-wrap; }
+.teaching-example pre, .teaching-example code, .teaching-example li, .teaching-example p, .teaching-example dd { overflow-wrap: anywhere; }
+.teaching-example li { margin: .5rem 0; }
+.teaching-example [role="status"] { min-height: 1.6em; font-weight: 600; }
+.teaching-example table { table-layout: fixed; }
+.teaching-example th, .teaching-example td { padding: .5rem .4rem; text-align: center; vertical-align: top; overflow-wrap: anywhere; }
+.teaching-example th:first-child { width: 4rem; }
+.teaching-example caption { margin-bottom: .5rem; text-align: left; font-size: .9rem; }
+.teaching-example :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
