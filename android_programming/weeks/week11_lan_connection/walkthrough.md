@@ -20,7 +20,7 @@ Android Studio에서 New Project → Empty Views Activity를 선택한다. 이�
 
 [공통 라이브러리 설치](../../../tools/wleno/android/README.md)의 SDK·ViewBinding 설정을 적용한다. 조교가 제공한 AAR을 사용하므로 통신 소스를 직접 복사하지 않는다.
 
-[wleno-android-0.1.0.aar](https://github.com/gbox3d/teaching_repo/releases/download/wleno-android-v0.1.0/wleno-android-0.1.0.aar) 파일 한 개를 다운로드하고 학생 프로젝트의 `app/libs/`에 넣는다. 폴더가 없으면 만든다. `app/build.gradle.kts`의 기존 `dependencies` 블록에 다음 두 줄을 추가하고 Sync한다.
+[wleno-android-0.1.0.aar](https://github.com/gbox3d/teaching_repo/releases/download/wleno-android-v0.1.0/wleno-android-0.1.0.aar) 파일 한 개를 다운로드하고 압축을 풀지 않은 채 학생 프로젝트의 `app/libs/`에 넣는다. ZIP이나 공통 Kotlin 소스를 함께 넣지 않는다. 폴더가 없으면 만든다. `app/build.gradle.kts`의 기존 `dependencies` 블록에 다음 두 의존성 중 없는 항목만 추가하고 Gradle Sync를 실행한다.
 
 ```kotlin
 dependencies {
@@ -30,6 +30,13 @@ dependencies {
 ```
 
 공통 Kotlin 소스는 내부 구현 참고용이다. AAR을 사용할 때는 같은 클래스가 중복되지 않도록 `app/src/main/java/com/example/roomcontrol/wleno/`에 복사했던 공통 소스를 제거한다. 앱의 `MainActivity.kt`와 `ControlActivity.kt`는 유지한다.
+
+`Wleno`와 `ConnState` 클래스는 AAR 안에 있다. 다음 import는 예제 Activity 파일 위쪽의 `package` 다음에 있으며, 클래스를 직접 만들거나 소스 폴더에서 찾을 필요가 없다.
+
+```kotlin
+import com.example.roomcontrol.wleno.ConnState
+import com.example.roomcontrol.wleno.Wleno
+```
 
 ### 3. 연결 화면 배치
 
@@ -54,15 +61,15 @@ val address = binding.addressEdit.text.toString().trim()
 
 입력한 주소를 문자열로 읽는다. 빈 칸이면 입력 오류를 표시하고, 값이 있으면 `client.connect(address)`를 호출한다. 실제 네트워크 작업은 제공 클라이언트가 수행한다.
 
-같은 PC의 에뮬레이터에서는 `10.0.2.2:8266`을 넣는다. `10.0.2.2`는 PC를 가리키고 `8266`은 시뮬레이터의 TCP 포트다. `http://`는 붙이지 않는다.
+WlEno와 같은 PC의 에뮬레이터에서는 `10.0.2.2:8266`을 넣는다. WlEno를 다른 PC에서 실행했다면 에뮬레이터도 그 PC의 LAN IPv4와 `:8266`을 넣는다. `10.0.2.2`는 에뮬레이터를 실행한 PC만 가리킨다. `8266`은 시뮬레이터의 TCP 포트이며 `http://`는 붙이지 않는다.
 
-실기기에서는 [Wi-Fi 설정 (실기기)]으로 시스템 설정을 연다. 수업 LAN에 접속한 뒤 앱으로 돌아와 PC의 IPv4 주소와 `:8266`을 넣는다. PC가 유선 LAN이어도 휴대전화에서 그 주소로 통신할 수 있으면 된다.
+실기기에서는 [Wi-Fi 설정 (실기기)]으로 시스템 설정을 연다. 수업 LAN에 접속한 뒤 앱으로 돌아와 WlEno 실행 PC의 LAN IPv4와 `:8266`을 넣는다. PC가 유선 LAN이어도 휴대전화에서 그 주소로 통신할 수 있으면 된다. 다른 PC나 실기기에서 접속할 때는 WlEno 실행 PC의 TCP 8266 방화벽 허용도 확인한다. 주소와 네트워크 조건은 [연결 점검 표](../../iot_sim/lab.md#2-앱에-넣을-주소-결정)를 따른다.
 
 ### 5. 연결 결과 확인
 
 앱을 실행하고 [제어 시작]을 누른다. 상태가 `연결 중`, `응답 확인 중`을 거쳐 `준비됨`이 된다. 빠른 PC에서는 중간 상태가 눈에 보이지 않을 수 있다.
 
-[해제]를 누르면 `연결 안 됨`으로 돌아간다. 주소를 `10.0.2.2:8265`로 바꿔 실패를 확인한 뒤 원래 `8266`으로 복원한다. 다른 서비스가 8265를 쓰는 PC에서는 시뮬레이터를 종료한 상태로 실패를 확인한다. 실패해도 앱이 종료되지 않아야 한다.
+[해제]를 누르면 `연결 안 됨`으로 돌아간다. 시뮬레이터를 종료한 뒤 같은 주소로 연결해 `끊김`을 확인한다. 시뮬레이터를 다시 실행하고 재연결하면 `준비됨`이 되어야 한다. 실패해도 앱이 종료되지 않아야 한다.
 
 1일차는 이 화면까지 완성한다. 장치 검색, 목록, 마지막 주소 저장은 넣지 않는다.
 
@@ -111,12 +118,13 @@ binding.offButton.setOnClickListener { send("off 0") }
 
 | 증상 | 확인 |
 |---|---|
+| `Wleno`·`ConnState` import 오류 | `app/libs/`의 AAR 파일명과 Gradle 의존성 확인 후 Sync. 클래스를 새로 만들지 않음 |
 | `Duplicate class` 오류 | AAR과 공통 `wleno` 소스가 함께 들어갔는지 확인하고 복사한 공통 소스 제거 |
 | Manifest에서 `ScrollView` 오류 | 화면 XML을 `res/layout/activity_main.xml`로 옮기고 Manifest 예제 복원 |
 | ActivityMainBinding을 찾을 수 없음 | ViewBinding 설정과 XML 오류 확인, Sync 후 빌드 |
 | ControlActivity를 찾을 수 없음 | 파일 패키지와 Manifest 등록 확인 |
 | 상태가 끊김 | 시뮬레이터 실행 여부, 주소, TCP 8266 확인 |
-| 휴대전화에서만 연결 실패 | 같은 LAN·방화벽·단말 격리 확인, 에뮬레이터로 진행 |
+| 다른 PC의 에뮬레이터·휴대전화에서만 연결 실패 | WlEno 실행 PC의 LAN IPv4·TCP 8266 방화벽·단말 격리 확인 |
 | 연결 직후 제어 화면이 끊김 | 2일차 MainActivity의 `openingControl` 처리 확인 |
 | 조명 버튼이 비활성화됨 | 연결 화면으로 돌아가 재연결 |
 

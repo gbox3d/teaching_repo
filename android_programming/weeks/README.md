@@ -38,7 +38,7 @@
 
 package는 1주 2일차~3주 `com.example.studentcard`, 4~10주 `com.example.smartio`, 11~15주 `com.example.roomcontrol`이다. 8주는 시작 코드가 없어 `StudentCard` 또는 새 Empty Views Activity를 쓴다.
 
-11~15주차는 [WlEno Android 라이브러리](../../tools/wleno/android/README.md)의 `wleno-android-0.1.0.aar`와 [PC 시뮬레이터](../../tools/wleno/README.md)를 사용한다. 학생은 AAR을 `app/libs/`에 넣고 Gradle 의존성을 설정한다. 공통 소스는 선택 참고 자료이며 AAR과 함께 넣지 않는다. 통신은 LAN 위의 TCP이고 UDP 검색은 선택 보충이다. PC는 유선 LAN 또는 Wi-Fi에 접속할 수 있다. 에뮬레이터와 시뮬레이터를 한 PC에서 실행하면 외부 LAN 연결 없이도 실습한다.
+11~15주차는 [WlEno Android 라이브러리](../../tools/wleno/android/README.md)의 `wleno-android-0.1.0.aar`와 [PC 시뮬레이터](../../tools/wleno/README.md)를 사용한다. 학생은 AAR 한 개를 압축 해제 없이 `app/libs/`에 넣고 Gradle 의존성 설정 후 Sync한다. ZIP이나 공통 소스는 함께 넣지 않는다. 통신은 LAN 위의 TCP이고 UDP 검색은 선택 보충이다. PC는 유선 LAN 또는 Wi-Fi에 접속할 수 있다. WlEno와 같은 PC의 에뮬레이터는 `10.0.2.2:8266`, 다른 PC의 에뮬레이터와 실기기는 `WlEno 실행 PC의 LAN IPv4:8266`을 사용한다. [주소와 방화벽 조건](../iot_sim/lab.md#2-앱에-넣을-주소-결정)을 확인한다.
 
 학생이 작성하는 기능은 연결 화면과 제어 화면이다. 소켓·스레드·검색 코드는 제공한다. 기존 11~15주의 예제와 연락처·BLE 수업은 [특강](../specials/README.md)에 보존했다. 학습 범위는 아래 주제와 각 폴더의 새 README를 따른다.
 

@@ -72,11 +72,11 @@ Each student uses a simulator on their own PC.
 
 | Environment | Address |
 |---|---|
-| Android emulator on the same PC | `10.0.2.2:8266` |
-| Android phone | `PC_LAN_IPv4:8266` |
+| Emulator on the same PC as WlEno | `10.0.2.2:8266` |
+| Emulator on another PC or Android phone | `WlEno_PC_LAN_IPv4:8266` |
 
-`10.0.2.2` refers to the host PC from the emulator.
-`8266` is the simulator's TCP port.
+`10.0.2.2` refers only to the PC running the emulator.
+For other devices, allow inbound TCP 8266 on the WlEno PC.
 
 Do not add `http://`.
 
@@ -93,7 +93,7 @@ client.connect(address)
 ```
 
 Keep the empty-input check from the example.
-Place the provided AAR in `app/libs/`.
+Place one AAR in `app/libs/` without extracting it. Do not add a ZIP.
 Follow the [shared setup](../../../tools/wleno/android/README.md) for Gradle and ViewBinding.
 
 ---

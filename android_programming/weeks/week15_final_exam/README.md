@@ -22,7 +22,7 @@
 
 PC의 WlEno와 Android 에뮬레이터를 준비한다. 실기기를 사용할 때도 같은 시뮬레이터와 평가 기준을 쓴다. 실제 보드, 연락처 접근, 블루투스 권한은 평가 조건이 아니다.
 
-`RoomControl` 프로젝트(package `com.example.roomcontrol`)에 공통 [WlEno AAR](../../../tools/wleno/android/README.md)과 리허설 파일을 넣는다. 같은 PC의 에뮬레이터 연결 주소는 `10.0.2.2:8266`이다. 소켓·UDP 구현은 제공 코드이므로 채점 대상에서 제외한다.
+`RoomControl` 프로젝트(package `com.example.roomcontrol`)에 공통 [WlEno AAR](../../../tools/wleno/android/README.md)과 리허설 파일을 넣는다. WlEno와 같은 PC의 에뮬레이터 연결 주소는 `10.0.2.2:8266`이다. 다른 PC의 에뮬레이터나 실기기는 [주소와 방화벽 조건](../../iot_sim/lab.md#2-앱에-넣을-주소-결정)을 확인한다. 소켓·UDP 구현은 제공 코드이므로 채점 대상에서 제외한다.
 
 ## 완료 기준
 

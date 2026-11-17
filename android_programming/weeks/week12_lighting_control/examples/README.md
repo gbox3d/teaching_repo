@@ -2,7 +2,7 @@
 
 `day1`은 책상·침대 조명 선택, `day2`는 밝기 조절과 전체 끄기를 추가한 완성본이다.
 
-새 독립 프로젝트 이름은 `RoomControl`, package는 `com.example.roomcontrol`이다. 10주차 이전 프로젝트는 필요하지 않다. [공통 설정](../../../../tools/wleno/android/README.md)대로 Empty Views Activity를 만든다.
+11주차의 `RoomControl` 프로젝트를 이어 쓴다. package는 `com.example.roomcontrol`이다. 프로젝트가 없으면 [공통 설정](../../../../tools/wleno/android/README.md)대로 Empty Views Activity를 만든다. 10주차 이전 프로젝트는 필요하지 않다.
 
 | 예제 파일 | 프로젝트 위치 |
 |---|---|
@@ -15,7 +15,7 @@
 
 `compileSdk=36`, `targetSdk=36`, `minSdk=26`, ViewBinding, AppCompat·Lifecycle 의존성은 공통 설정을 따른다. 같은 일차의 Kotlin과 XML을 함께 사용한다.
 
-[wleno-android-0.1.0.aar](https://github.com/gbox3d/teaching_repo/releases/download/wleno-android-v0.1.0/wleno-android-0.1.0.aar) 파일 한 개를 다운로드하고 학생 프로젝트의 `app/libs/`에 넣는다. 폴더가 없으면 만든다. `app/build.gradle.kts`의 기존 `dependencies` 블록에 다음 두 줄을 추가하고 Sync한다.
+[wleno-android-0.1.0.aar](https://github.com/gbox3d/teaching_repo/releases/download/wleno-android-v0.1.0/wleno-android-0.1.0.aar) 파일 한 개를 다운로드하고 압축을 풀지 않은 채 학생 프로젝트의 `app/libs/`에 넣는다. ZIP이나 공통 Kotlin 소스를 함께 넣지 않는다. 폴더가 없으면 만든다. `app/build.gradle.kts`의 기존 `dependencies` 블록에 다음 두 의존성 중 없는 항목만 추가하고 Gradle Sync를 실행한다.
 
 ```kotlin
 dependencies {

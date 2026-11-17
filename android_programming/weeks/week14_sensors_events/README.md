@@ -13,7 +13,7 @@
 
 13주차 [완성 예제](../week13_room_control_project/examples/day1/) 또는 이 주차 [예제](examples/README.md)를 사용한다. 프로젝트 이름은 `RoomControl`, package는 `com.example.roomcontrol`이다. 공통 연결 코드는 [WlEno 안내](../../../tools/wleno/android/README.md)대로 한 번만 넣는다.
 
-PC에서 `tools/wleno`로 이동하여 `uv run main`을 실행한다. 같은 PC의 에뮬레이터에서는 `10.0.2.2:8266`, 다른 기기에서는 PC의 LAN IPv4 주소와 `:8266`을 입력한다. PC의 유선 LAN과 휴대전화의 Wi-Fi가 같은 LAN이면 함께 사용할 수 있다.
+PC에서 `tools/wleno`로 이동하여 `uv run main`을 실행한다. WlEno와 같은 PC의 에뮬레이터는 `10.0.2.2:8266`, 다른 PC의 에뮬레이터와 실기기는 `WlEno 실행 PC의 LAN IPv4:8266`을 입력한다. [주소와 방화벽 조건](../../iot_sim/lab.md#2-앱에-넣을-주소-결정)을 확인한다.
 
 ## 2일 수업 흐름
 

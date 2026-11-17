@@ -32,8 +32,8 @@ footer: RoomControl · LAN/TCP
 
 PC: WlEno 실행
 
-에뮬레이터 주소: `10.0.2.2:8266`
-실기기 주소: PC의 LAN IPv4 + `:8266`
+WlEno와 같은 PC의 에뮬레이터: `10.0.2.2:8266`
+다른 PC의 에뮬레이터·실기기: WlEno 실행 PC의 LAN IPv4 + `:8266`
 
 연결 화면 코드는 그대로 사용한다.
 

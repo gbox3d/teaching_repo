@@ -32,8 +32,8 @@ Desk lamp → indoor temperature and humidity → call history
 
 Run WlEno on the PC.
 
-Emulator: `10.0.2.2:8266`
-Physical device: PC LAN IPv4 + `:8266`
+Emulator on the WlEno PC: `10.0.2.2:8266`
+Emulator on another PC or phone: WlEno PC LAN IPv4 + `:8266`
 
 Reuse the connection screen.
 

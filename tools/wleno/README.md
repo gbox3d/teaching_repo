@@ -11,8 +11,11 @@ WlEno는 PC 시뮬레이터와 Android 공통 클라이언트를 한 폴더에�
 | 위치 | 용도 |
 |---|---|
 | [sim.py](sim.py), [pyproject.toml](pyproject.toml) | PC 시뮬레이터와 `uv run main` 실행 설정 |
-| [android/README.md](android/README.md) | Android 프로젝트 설정과 공통 코드 설치 |
-| [android/src](android/src) | 학생 프로젝트에 복사할 Kotlin 공통 소스 다섯 개 |
+| [android/INSTALL.md](android/INSTALL.md) | 학생용 AAR 파일 한 개 설치와 연결 확인 |
+| [android/README.md](android/README.md) | Android 프로젝트 설정과 라이브러리 API |
+| [android/src](android/src) | AAR을 만드는 Kotlin 소스. 학생은 복사하지 않는다 |
+
+학생 실습 순서는 [AAR 다운로드·설치](android/INSTALL.md) → Gradle Sync → WlEno 실행 → [실행 위치에 맞는 IPv4:포트 입력](#6-앱에서-붙을-주소) → 연결 → 제어다. `wleno-android-0.1.0.aar`는 압축을 풀지 않고 앱의 `app/libs/`에 넣는다.
 
 저장소 루트(`teaching_repo`)에서 다음 명령을 실행하면 시뮬레이터 창이 열린다. uv가 설치되어 있어야 한다.
 
@@ -40,13 +43,18 @@ uv run main
 ## 1. 시뮬레이터가 대신하는 것
 
 시뮬레이터는 **보드와 블루투스**를 대신한다. 앱이 보내는 명령과 받는 JSON의 모양은 보드와 같다.
-정규 앱은 [WlenoClient](android/README.md)를 사용한다. 아래 비교표의 `TcpBleunoClient`는 이전 SmartIO 특강용 클래스다.
+정규 앱은 AAR의 [WlenoClient](android/README.md)를 사용한다. BLE·Fake 설정 없이 TCP 주소로 연결한다.
+
+<details>
+<summary>보충: 기존 BLE·Fake 클라이언트와 비교</summary>
+
+아래 비교표의 `TcpBleunoClient`는 이전 SmartIO 특강용 클래스다.
 아래 표의 '실제 보드' 칸과 이 문서에서 '펌웨어 소스 기준'이라고 적은 보드 동작은 bleuno 펌웨어(`1.0.5_dev`) 소스를 읽고 적은 것이다. 실제 보드로는 확인하지 못했다.
 
 | 항목 | 실제 보드 (펌웨어 소스 기준) | Fake (`useFake = true`) | 시뮬레이터 |
 |---|---|---|---|
 | 앱 쪽 클래스 | `RealBleunoClient` | `FakeBleunoClient` | `TcpBleunoClient` |
-| 연결 | 블루투스(BLE) | 없음. 앱 안에서 흉내 낸다 | Wi-Fi(TCP 8266) |
+| 연결 | 블루투스(BLE) | 없음. 앱 안에서 흉내 낸다 | LAN(TCP 8266) |
 | [검색]에 나오는 이름 | `ESP32_BLE` + 칩 ID | `ESP32_BLE_FAKE1`, `ESP32_BLE_FAKE2` | `--name`으로 준 이름. 기본은 `WlEno_SIM1`이며, 기존 특강의 검색에는 `--name ESP32_BLE_0423`을 지정한다 |
 | LED | 보드의 LED | 보이지 않는다 | 화면의 원 4개 |
 | `dht11` 값 | 센서가 잰 값 | `[24.5,40.0]` → `[25.0,41.0]` → `[25.5,42.0]` 반복 | 화면 슬라이더 값 |
@@ -64,6 +72,8 @@ uv run main
 - LED는 보드처럼 앱이 연결될 때와 연결이 끝날 때 모두 꺼진다(보드 쪽은 펌웨어 소스 기준). 보드에는 앱이 하나만 붙지만 시뮬레이터에는 여럿이 붙을 수 있다. 그래서 여러 앱이 붙어 있을 때 한 앱이 새로 붙거나 끊겨도 LED가 모두 꺼진다.
 - 길이 0인 줄(빈 줄)에는 보드처럼 답하지 않는다(보드 쪽은 펌웨어 소스 기준).
 
+</details>
+
 시뮬레이터는 포트 세 개를 연다. 화면은 포트가 아니라 시뮬레이터가 띄우는 창이다.
 
 | 포트 | 쓰는 쪽 | 하는 일 |
@@ -77,7 +87,7 @@ uv run main
 - **uv.** `uv --version`으로 설치 여부를 확인한다. 없으면 [uv 설치 안내](https://docs.astral.sh/uv/getting-started/installation/)를 따른다.
 - 이 폴더의 `pyproject.toml`, `uv.lock`, `sim.py`. Windows와 macOS에서 같은 파일과 `uv run main` 명령을 쓴다.
 - Python 3.10 이상과 pygame-ce가 필요하다. uv가 프로젝트의 `.venv`에 의존성을 설치하고, 필요한 Python이 없으면 다운로드한다. 가상 환경 활성화나 별도 `pip install`은 필요 없다.
-- 에뮬레이터로 연습하면 에뮬레이터를 띄운 PC에서, 실기기로 연습하면 휴대폰과 통신이 허용된 같은 LAN에 붙은 PC에서 실행한다.
+- WlEno는 에뮬레이터와 같은 PC 또는 통신이 허용된 같은 LAN의 다른 PC에서 실행한다. 실기기를 사용해도 같은 LAN의 PC에서 실행한다. 실행 위치에 따라 [앱에 넣을 주소](#6-앱에서-붙을-주소)가 달라진다.
 
 수업 전에 `tools/wleno`에서 `uv sync`를 실행하면 실행 환경을 미리 준비할 수 있다.
 `uv run main`도 필요한 동기화를 자동으로 수행하므로 실행할 때마다 `uv sync`를 따로 할 필요는 없다.
@@ -133,7 +143,7 @@ uv run main --help
 
 **끝내기**: 시뮬레이터 창을 닫거나, 시뮬레이터를 돌리는 터미널에서 Ctrl+C(macOS는 control+C)를 누른다. 붙어 있던 앱마다 `해제` 줄이 찍히고, 마지막 줄에 `종료`가 찍힌 뒤 프롬프트로 돌아온다.
 붙어 있던 앱은 연결이 끊겨 `끊김`이 된다. 끈 뒤 바로 다시 실행해도 같은 포트로 뜬다.
-Windows에서 방화벽 창의 [액세스 허용]을 눌렀거나 [7절](#7-windows-방화벽)의 네 줄로 규칙을 바꿨다면, 수업이 끝나 마지막으로 끄기 전에 7절의 **Python 규칙 지우기**를 한다.
+수업용 방화벽 규칙을 만들었다면 수업이 끝난 뒤 [7절](#7-windows-방화벽)의 삭제 명령으로 해당 규칙만 지운다.
 
 ## 4. 시작 메시지와 로그
 
@@ -156,10 +166,10 @@ Windows 방화벽 창이 뜨면 [액세스 허용]을 누른다. 안 뜨면 포�
 |---|---|
 | `=== WlEno 시뮬레이터 (WlEno_0423) ===` | `--name`으로 준 이름. [검색] 목록에 이 이름이 나온다 |
 | `명령(TCP) 포트 8266, 검색(UDP) 포트 8267, 바인드 0.0.0.0` | 앱이 붙는 포트, [검색] 포트, 받는 주소 |
-| `이 PC의 IPv4 주소(실기기용, 앞의 것부터): …` | 실기기의 주소 칸에 넣을 IP. 인터넷으로 나가는 어댑터(노트북은 보통 Wi-Fi)의 주소를 맨 앞에 두고, 그 뒤에 사설 주소(`192.168.…`, `10.…`, `172.16.…`~`172.31.…`)를 둔다. WSL·Hyper-V·VirtualBox 같은 가상 어댑터의 주소도 사설 주소라 표시 없이 섞일 수 있다. `(VPN?)`·`(자동 할당)`이 붙은 주소는 맨 뒤에 두며, 쓰지 않는다 |
-| `에뮬레이터에서는 10.0.2.2:8266` | 에뮬레이터의 주소 칸에 넣을 값 |
+| `이 PC의 IPv4 주소(실기기용, 앞의 것부터): …` | 실기기 또는 다른 PC의 에뮬레이터에서 연결할 IP. 인터넷으로 나가는 어댑터(노트북은 보통 Wi-Fi)의 주소를 맨 앞에 두고, 그 뒤에 사설 주소(`192.168.…`, `10.…`, `172.16.…`~`172.31.…`)를 둔다. WSL·Hyper-V·VirtualBox 같은 가상 어댑터의 주소도 사설 주소라 표시 없이 섞일 수 있다. `(VPN?)`·`(자동 할당)`이 붙은 주소는 맨 뒤에 두며, 쓰지 않는다 |
+| `에뮬레이터에서는 10.0.2.2:8266` | WlEno와 에뮬레이터가 같은 PC일 때만 넣는 값. 다른 PC의 WlEno는 그 PC의 LAN IPv4를 쓴다 |
 | `HTTP API: http://127.0.0.1:8080/state` | 다른 프로그램이 상태를 읽는 주소([11절](#11-다른-프로그램에서-쓰기)). 앱은 이 주소를 쓰지 않는다 |
-| `Windows 방화벽 창이 뜨면 …` | [7절](#7-windows-방화벽). macOS에서도 이 줄은 찍힌다 |
+| `Windows 방화벽 창이 뜨면 …` | 정규 연결에 필요한 포트는 TCP 8266이며 UDP 8267은 선택 검색용이다. 필요한 규칙은 [7절](#7-windows-방화벽)에서 확인한다. macOS에서도 이 줄은 찍힌다 |
 | `[14:02:11] 시작: TCP 8266, UDP 8267, HTTP 8080` | 세 포트를 모두 열었다. 이 줄이 보이면 앱에서 붙어도 된다. 시뮬레이터 창은 이 줄 다음에 뜬다 |
 
 그 뒤로는 일이 생길 때마다 시각과 함께 한 줄씩 찍힌다. 같은 줄이 화면의 `최근 명령 로그`에도 나온다. `[시:분:초]`가 없는 줄(시작 안내와 마지막 `종료`)은 터미널에만 찍힌다.
@@ -200,10 +210,15 @@ Windows 방화벽 창이 뜨면 [액세스 허용]을 누른다. 안 뜨면 포�
 
 ## 6. 앱에서 붙을 주소
 
-| 앱을 돌리는 곳 | 주소 칸에 넣을 값 | 조건 |
+| 앱과 WlEno 실행 위치 | 주소 칸에 넣을 값 | 조건 |
 |---|---|---|
-| 에뮬레이터 | `10.0.2.2:8266` | 시뮬레이터와 에뮬레이터가 같은 PC. 에뮬레이터 안에서 `10.0.2.2`는 그 PC를 가리킨다 |
-| 실기기 | `PC의 IPv4:8266` (예: `192.168.0.10:8266`) | 휴대폰과 PC가 통신이 허용된 같은 LAN. Windows는 방화벽 허용([7절](#7-windows-방화벽)) |
+| 에뮬레이터와 WlEno가 같은 PC | `10.0.2.2:8266` | `10.0.2.2`는 에뮬레이터를 실행한 PC를 가리킨다 |
+| 에뮬레이터와 WlEno가 다른 PC | `WlEno PC의 LAN IPv4:8266` (예: `192.168.0.10:8266`) | 두 PC 사이 LAN 통신과 WlEno PC의 TCP 8266 인바운드 허용 |
+| Android 실기기 | `WlEno PC의 LAN IPv4:8266` (예: `192.168.0.10:8266`) | 휴대폰과 PC 사이 LAN 통신과 WlEno PC의 TCP 8266 인바운드 허용 |
+
+WlEno의 기본 `--bind 0.0.0.0`은 모든 IPv4 네트워크 인터페이스에서 연결을 받는 설정이다. 앱에는 `0.0.0.0`이 아닌 위 표의 실제 주소를 넣는다. 앱의 `127.0.0.1`은 Android 자신을 가리킨다. [Android 에뮬레이터 주소 안내](https://developer.android.com/studio/run/emulator-networking-address)
+
+PC의 LAN IPv4는 시작 메시지나 `ipconfig`에서 현재 사용하는 유선·Wi-Fi 어댑터를 확인한다. Windows 방화벽은 [7절](#7-windows-방화벽)을 따른다. 외부 인터넷에서는 이 LAN 주소만으로 접속할 수 없으며 별도 네트워크 구성이 필요하다. 외부 접속은 정규 LAN 실습 범위에 포함하지 않는다.
 
 정규 RoomControl 앱에서는 [시뮬레이터 주소]에 주소를 넣고 [제어 시작]을 누른다. 연결 성공 후 제어 화면이 열린다(11주차 1일차는 연결 상태까지만 확인한다). TCP 포트는 8266이다.
 
@@ -219,53 +234,30 @@ Windows 방화벽 창이 뜨면 [액세스 허용]을 누른다. 안 뜨면 포�
 
 ## 7. Windows 방화벽
 
-실기기는 Wi-Fi를 거쳐 PC로 들어오므로, 방화벽이 막으면 [검색]도 연결도 되지 않는다.
+다른 PC의 에뮬레이터나 실기기에서 연결하려면 WlEno를 실행한 PC에서 TCP 8266 인바운드 연결이 허용되어야 한다. IP 직접 연결에는 UDP 8267이나 HTTP 8080 허용이 필요 없다.
 
-**창이 뜨면**: 시뮬레이터를 처음 실행할 때 Python의 네트워크 접근을 허용할지 묻는 창이 뜨면 **[액세스 허용]을 누른다**.
-창에 `개인`·`공용` 네트워크 체크 칸이 있으면 둘 다 체크한다. 체크하지 않은 종류의 네트워크에서는 계속 막힌다. 이 허용은 그 Python의 TCP와 UDP에 함께, 포트를 가리지 않고 적용된다. 수업이 끝나면 시뮬레이터를 끄기 전에 아래 **Python 규칙 지우기**를 따른다.
-
-**지금 Wi-Fi의 종류 보기**: PowerShell에서 `Get-NetConnectionProfile | Format-Table InterfaceAlias, NetworkCategory`를 실행한다. `InterfaceAlias`가 `Wi-Fi`인 줄의 `NetworkCategory`를 본다. `Public`이 공용, `Private`이 개인이다. VPN처럼 연결이 둘 이상이면 줄이 여러 개 나온다.
-
-**창이 뜨지 않았는데 실기기가 붙지 않으면**: PowerShell을 **관리자 권한으로 실행**해 포트 두 개를 연다.
+주소와 실행 상태가 맞는데 연결되지 않으면 조교가 방화벽 규칙을 확인한다. 규칙 추가가 필요한 수업용 PC에서는 관리자 권한 PowerShell에서 다음 명령을 실행한다. `LocalSubnet`은 같은 서브넷에서 들어오는 연결로 허용 범위를 제한한다. [Microsoft New-NetFirewallRule 안내](https://learn.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule)
 
 ```powershell
-New-NetFirewallRule -DisplayName "WlEno SIM TCP 8266" -Direction Inbound -Protocol TCP -LocalPort 8266 -Action Allow
-New-NetFirewallRule -DisplayName "WlEno SIM UDP 8267" -Direction Inbound -Protocol UDP -LocalPort 8267 -Action Allow
+New-NetFirewallRule -DisplayName "WlEno SIM TCP 8266" -Direction Inbound -Protocol TCP -LocalPort 8266 -RemoteAddress LocalSubnet -Action Allow
 ```
 
-수업이 끝나면 관리자 권한 PowerShell에서 지운다.
+선택 UDP 검색을 사용할 때만 다음 규칙도 추가한다.
+
+```powershell
+New-NetFirewallRule -DisplayName "WlEno SIM UDP 8267" -Direction Inbound -Protocol UDP -LocalPort 8267 -RemoteAddress LocalSubnet -Action Allow
+```
+
+수업이 끝나면 관리자 권한 PowerShell에서 이번 수업에 만든 규칙만 지운다. UDP 규칙을 만들지 않았다면 둘째 줄은 실행하지 않는다.
 
 ```powershell
 Remove-NetFirewallRule -DisplayName "WlEno SIM TCP 8266"
 Remove-NetFirewallRule -DisplayName "WlEno SIM UDP 8267"
 ```
 
-이전 안내로 `BLEuno SIM TCP 8266`·`BLEuno SIM UDP 8267` 규칙을 만들었다면 삭제 명령의 `-DisplayName`에 해당 이름을 넣는다.
+명시적인 차단 규칙은 허용 규칙보다 우선할 수 있다. 위 규칙을 추가해도 연결되지 않거나 Python 접근 허용 창이 뜨면 조교가 현재 네트워크 프로필과 해당 Python의 규칙을 확인한다. 다른 프로그램의 규칙을 일괄 변경하거나 삭제하지 않는다. [Microsoft 방화벽 규칙 우선순위](https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/rules)
 
-**포트를 열어도 실기기가 붙지 않거나, 창에서 [취소]를 눌렀거나, 관리자가 아닌 계정이라면**: Windows가 그 Python을 막는 규칙을 남겼을 수 있다. 관리자가 아닌 계정에서는 창에서 무엇을 눌러도 막는 규칙이 생길 수 있다. 막는 규칙은 위의 허용 규칙보다 앞서므로, 포트를 열어도 실기기가 붙지 않는다.
-시뮬레이터를 켜 둔 채로 PowerShell 창을 하나 더 관리자 권한으로 열어 아래 네 줄을 실행한다. `--tcp`로 포트를 바꿨으면 첫 줄의 8266을 그 번호로 바꾼다.
-
-1. 첫 줄은 시뮬레이터를 돌리는 Python(8266 포트를 연 Python)의 경로를 `$py`에 담는다. 시뮬레이터가 꺼져 있으면 오류가 난다.
-2. 둘째 줄은 그 경로를 보여 준다. 경로가 나오지 않으면 나머지 줄은 아무것도 바꾸지 않는다. 시뮬레이터가 켜져 있는지 보고 첫 줄부터 다시 실행한다. 그래도 나오지 않으면 조교에게 묻는다.
-3. 셋째 줄은 그 Python의 규칙을 보여 준다.
-4. 넷째 줄은 그 가운데 `Action`이 `Block`인 규칙을 허용으로 바꾼다. 네 줄을 다 실행해도 실기기가 붙지 않으면 위의 포트 규칙을 만들고, 그래도 붙지 않으면 조교에게 묻는다.
-
-```powershell
-$py = (Get-Process -Id (Get-NetTCPConnection -LocalPort 8266 -State Listen).OwningProcess | Where-Object Name -like 'python*').Path
-$py
-Get-NetFirewallApplicationFilter | Where-Object Program -eq $py | Get-NetFirewallRule | Format-Table DisplayName, Action, Profile
-Get-NetFirewallApplicationFilter | Where-Object Program -eq $py | Get-NetFirewallRule | Where-Object Action -eq Block | Set-NetFirewallRule -Action Allow
-```
-
-**Python 규칙 지우기**: [액세스 허용]으로 생긴 규칙이나 위에서 허용으로 바꾼 규칙이 남아 있으면, 그 Python으로 돌리는 다른 프로그램도 허용한 종류의 네트워크에서 들어오는 연결을 받는다. 수업이 끝나면 시뮬레이터를 끄기 전에(이미 껐으면 처음과 같은 명령으로 다시 켠다) PowerShell 창을 하나 더 관리자 권한으로 열어 아래 세 줄을 실행한다. 첫 두 줄은 위와 같다. 둘째 줄에 경로가 나오지 않으면 아무것도 지워지지 않는다. 셋째 줄은 그 Python의 규칙을 모두 지운다. 수업 전부터 있던 그 Python의 규칙(다른 수업에서 허용해 둔 것 등)도 함께 지워진다. 다음에 시뮬레이터를 실행할 때 창이 다시 뜨면 [액세스 허용]을 누른다.
-
-```powershell
-$py = (Get-Process -Id (Get-NetTCPConnection -LocalPort 8266 -State Listen).OwningProcess | Where-Object Name -like 'python*').Path
-$py
-Get-NetFirewallApplicationFilter | Where-Object Program -eq $py | Get-NetFirewallRule | Remove-NetFirewallRule
-```
-
-관리자 권한이 없는 PC면 조교에게 묻는다. 조교는 포트 규칙만 만들지 말고 위의 네 줄로 막는 규칙도 확인한다. macOS에서 들어오는 연결을 허용할지 묻는 창이 뜨면 [허용]을 누른다.
+관리자 권한이 없는 PC나 학교에서 관리하는 PC는 조교·관리자에게 설정을 요청한다. macOS에서 들어오는 연결을 허용할지 묻는 창이 뜨면 수업용 Python인지 확인하고 [허용]을 누른다.
 
 ## 8. 명령과 응답
 
@@ -322,9 +314,9 @@ uv run main --name WlEno_0423
 - 이름은 `WlEno_` 뒤에 **학번 뒤 4자리**를 붙인다. 학번이 20260423이면 `WlEno_0423`이다.
 - 정규 RoomControl은 이름 접두사를 검사하지 않는다. 이전 BLE 특강 예제의 검색을 사용할 때만 `uv run main --name ESP32_BLE_0423`으로 실행한다.
 - 뒤 4자리가 같은 사람이 있으면 이니셜을 더 붙인다(예: `WlEno_0423_KM`).
-- 정규 앱의 주소 칸에 **내 PC의 IPv4와 포트**를 넣고 [제어 시작]을 누른다. 선택 UDP 검색이나 보존 특강을 사용한다면 목록에서 내 이름을 선택한다. 내 터미널에 `연결 (1개)` 줄이 찍혔는지 본다.
+- 정규 앱의 주소 칸에 [실행 위치에 맞는 주소](#6-앱에서-붙을-주소)를 넣고 [제어 시작]을 누른다. 선택 UDP 검색이나 보존 특강을 사용한다면 목록에서 내 이름을 선택한다. 내 터미널에 `연결 (1개)` 줄이 찍혔는지 본다.
 - 시뮬레이터 창은 내 PC에만 뜨고 HTTP API(8080)도 기본값으로 이 PC에서만 열리므로, 다른 사람이 내 화면의 버튼을 누를 수 없다. 수업 중에는 `--http-bind 0.0.0.0`을 쓰지 않는다.
-- 학교 Wi-Fi가 기기끼리의 통신을 막아 두었으면(AP 격리) 실기기로는 [검색]도 연결도 되지 않는다. 이때는 에뮬레이터로 한다.
+- 학교 Wi-Fi가 기기끼리의 통신을 막아 두었으면(AP 격리) PC 사이 또는 실기기와 PC 사이 연결이 막힐 수 있다. 이때는 WlEno와 에뮬레이터를 같은 PC에서 실행하고 `10.0.2.2:8266`으로 연결한다.
 
 ## 10. 막혔을 때
 
@@ -345,13 +337,13 @@ uv run main --name WlEno_0423
 | `HTTP API 8080 포트를 열 수 없다: [WinError 10048] 각 소켓 주소(프로토콜/네트워크 주소/포트)는 하나만 사용할 수 있습니다 (--http 로 다른 포트를 준다)` 한 줄만 나오고 끝난다 | 시뮬레이터가 다른 터미널(VS Code 터미널 포함)에서 이미 돌고 있을 수 있다. 작업 표시줄에 시뮬레이터 창이 있는지 본다. 있으면 그 창을 그대로 쓰거나, 닫고 다시 실행한다. 없으면 다른 프로그램이 8080을 쓰는 것이니 `--http 8081`처럼 바꾼다 |
 | `끝내려면 …` 줄 바로 다음에(`시작:` 줄 없이) `포트를 열 수 없다: …`와 `종료`가 찍힌다 | 8266(TCP)이나 8267(UDP)을 다른 프로그램이 쓴다. 다른 터미널에서 돌고 있는 시뮬레이터일 때가 많다(`--http`만 바꿔 두 번째로 띄운 경우). 그 시뮬레이터 창을 닫거나 그 터미널에서 Ctrl+C로 끈다. 메시지에 `while attempting to bind on address ('0.0.0.0', 8266)`이 있으면 8266이고, 없으면 8267이다. 꼭 바꿔야 하면 `--tcp`(주소도 바꾼 포트로) 또는 `--udp`(그러면 [검색]이 안 되므로 주소를 직접 넣는다) |
 | [검색] 목록에 내 시뮬레이터가 없다 | 터미널에 `bleuno? →` 줄이 찍혔는지 먼저 본다. **안 찍혔다**: 질문이 PC까지 오지 않았다. 통신이 허용된 같은 LAN인지, 방화벽([7절](#7-windows-방화벽)), 학교 Wi-Fi의 AP 격리를 본다. **찍혔다**: 보존 BLE 특강의 앱이라면 `--name ESP32_BLE_0423`으로 실행했는지 확인한다. 정규 클라이언트는 접두사 제한이 없다. 에뮬레이터는 설정에 따라 답이 앱까지 돌아오지 않을 수 있다. 어느 경우든 주소 칸에 직접 넣는다([6절](#6-앱에서-붙을-주소)) |
-| 주소를 넣었는데 앱이 `연결 중` 뒤 `끊김`이 되고, 터미널에 `연결` 줄이 없다 | 시뮬레이터가 켜져 있는가(마지막 줄이 `종료`가 아닌가) · IP와 포트에 오타가 없는가 · 시작 메시지의 IPv4 주소가 여러 개면 다음 주소도 넣어 보았는가 · 실기기면 통신이 허용된 같은 LAN인가, 방화벽을 열었는가 · AP 격리면 실기기로는 안 되므로 에뮬레이터로 한다 |
+| 주소를 넣었는데 앱이 `연결 중` 뒤 `끊김`이 되고, 터미널에 `연결` 줄이 없다 | WlEno 실행 상태와 [실행 위치별 주소](#6-앱에서-붙을-주소)를 확인한다. 다른 PC·실기기는 LAN 통신과 TCP 8266 방화벽 허용을 확인한다. AP 격리 환경에서는 WlEno와 에뮬레이터를 같은 PC에서 실행한다 |
 | 잘 되다가 앱이 `끊김` | 터미널의 마지막 두 줄을 본다. `[화면] 연결 끊기 (1개)` 다음에 `해제 (0개)`가 있으면 화면에서 [연결 끊기]를 누른 것이다. 맨 끝이 `종료`면 시뮬레이터가 꺼진 것이니 다시 켠다. 어느 경우든 앱에서 다시 연결한다 |
 | 켜 둔 LED가 저절로 모두 꺼졌다 | 앱이 새로 붙었거나 연결이 끊긴 것이다. 시뮬레이터는 그때 LED를 모두 끈다([1절](#1-시뮬레이터가-대신하는-것)의 결정된 사항). 터미널에 `연결`·`해제` 줄이 찍혔는지 본다 |
 | 응답은 `ok`인데 내 화면의 LED가 그대로다 | 다른 사람 시뮬레이터에 붙었을 수 있다. 내 터미널에 그 명령 줄이 찍혔는지 본다. `on 9`처럼 범위 밖 번호는 `ok`여도 아무것도 바뀌지 않는다 |
 | 시뮬레이터 창이 보이지 않는다 | 터미널의 끝부분(마지막 서너 줄)을 본다. `pygame-ce 를 불러오지 못했다`, `시뮬레이터 창을 열 수 없다`, `포트를 열 수 없다` 가운데 하나가 있으면 그 줄을 이 표에서 찾는다. 셋 다 없고 마지막 줄이 `종료`가 아니면 시뮬레이터는 돌고 있다. 창이 다른 창 뒤에 있으니 작업 표시줄에서 찾는다 |
 | 시뮬레이터 창이 저절로 닫혔다 | 시뮬레이터가 끝났다. 터미널의 `종료` 앞 줄을 본다 |
-| 실기기에 넣을 IP를 모르겠다 | `이 PC의 IPv4 주소` 줄의 맨 앞 주소부터 넣어 본다. `(VPN?)`·`(자동 할당)`이 붙은 주소는 쓰지 않는다. `(자동 할당)`이 붙은 주소는 그 어댑터가 주소를 받지 못한 것이다. 앞 주소로 안 되거나 `(찾지 못함. ipconfig 로 확인)`이 나오면, Windows는 `ipconfig`의 `무선 LAN 어댑터 Wi-Fi:` 아래 `IPv4 주소`(영문 화면은 `IPv4 Address`)를, macOS는 `ipconfig getifaddr en0`의 결과를 쓴다 |
+| 다른 PC·실기기에서 연결할 IP를 모르겠다 | WlEno PC에서 `이 PC의 IPv4 주소` 줄을 확인한다. Windows는 `ipconfig`에서 현재 사용하는 유선·Wi-Fi 어댑터의 `IPv4 주소`를 확인한다. 가상 어댑터나 `(VPN?)`·`(자동 할당)` 주소는 수업용 LAN 주소로 쓰지 않는다 |
 | 목록에 모르는 이름이 많다 | 통신이 허용된 같은 LAN의 다른 학생 시뮬레이터다. 내 이름을 고른다 |
 
 오류 번호와 글자(`[WinError 10048] 각 소켓 주소…`, TCP는 `[Errno 10048] …`)는 Windows 언어나 운영체제에 따라 다르게 나온다. `포트를 열 수 없다`가 들어간 앞부분은 같다.
@@ -390,6 +382,6 @@ HTTP API(8080)는 화면에서 하는 일을 프로그램으로 한다. 기본�
 
 그 밖의 주소는 404이고 본문은 `{"result":"fail","ms":"not found"}`다.
 
-- `--http-bind 0.0.0.0`을 주면 같은 네트워크의 다른 기기에서도 HTTP API가 열린다. 그러면 누구나 [입력 버튼]·[연결 끊기]와 같은 일을 할 수 있다. Windows에서는 시뮬레이터를 돌리는 Python을 허용하는 규칙(방화벽 창의 [액세스 허용]으로 생기거나 7절의 네 줄로 바꾼 것)이 있을 때만 열린다. [7절](#7-windows-방화벽)의 포트 규칙만 만들었다면 8080은 막혀 있다. 이때도 시작 메시지의 `HTTP API:` 줄은 `http://127.0.0.1:8080/state`로 나온다.
+- `--http-bind 0.0.0.0`을 주고 방화벽도 허용하면 같은 네트워크의 다른 기기에서 HTTP API를 사용할 수 있다. 접속한 프로그램은 [입력 버튼]·[연결 끊기]와 같은 일을 할 수 있다. [7절](#7-windows-방화벽)의 수업용 규칙은 HTTP 8080을 허용하지 않는다. 정규 수업은 기본값 `--http-bind 127.0.0.1`을 유지한다. `--http-bind 0.0.0.0`을 주어도 시작 메시지의 `HTTP API:` 줄은 `http://127.0.0.1:8080/state`로 나온다.
 - 화면이 없는 컴퓨터(원격 서버, 모니터 없이 도는 Linux 장비)에서는 `--no-window`로 실행한다. pygame-ce 없이 표준 라이브러리만 쓴다.
 - 이 폴더에서는 `uv run main`으로 실행한다. `sim.py`만 복사한 경우에는 `uv run sim.py`로 실행하며, 파일 머리의 `# /// script` 부분에 적은 pygame-ce를 uv가 받아 쓴다.

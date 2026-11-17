@@ -22,7 +22,7 @@
 
 [공통 설정](../../../tools/wleno/android/README.md)대로 만든 RoomControl 프로젝트와 [WlEno](../../../tools/wleno/README.md)를 준비한다. 연결 화면은 11주차 2일차 완성본을 그대로 사용한다. 프로젝트가 없으면 새 Empty Views Activity에 [예제 파일](examples/README.md)을 배치한다.
 
-에뮬레이터는 `10.0.2.2:8266`, 휴대전화는 PC의 LAN IPv4와 `:8266`으로 연결한다. PC는 유선 LAN, 휴대전화는 Wi-Fi를 사용할 수 있다. 교실에서 기기 간 통신이 막히면 같은 PC의 에뮬레이터와 WlEno로 진행한다.
+WlEno와 같은 PC의 에뮬레이터는 `10.0.2.2:8266`, 다른 PC의 에뮬레이터와 실기기는 `WlEno 실행 PC의 LAN IPv4:8266`으로 연결한다. [주소와 방화벽 조건](../../iot_sim/lab.md#2-앱에-넣을-주소-결정)을 확인한다. 교실에서 기기 간 통신이 막히면 같은 PC의 에뮬레이터와 WlEno로 진행한다.
 
 ## 수업 자료
 

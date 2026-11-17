@@ -1,6 +1,6 @@
 # WlEno Android 라이브러리
 
-11~15주차 정규 실습은 PC의 [WlEno 시뮬레이터](../README.md)에 LAN/TCP로 연결한다. 실기기는 Wi-Fi, PC는 유선이나 Wi-Fi로 같은 LAN에 참여할 수 있다. 에뮬레이터는 호스트 주소 `10.0.2.2`로 연결하므로 실제 Wi-Fi가 필요하지 않다.
+11~15주차 정규 실습은 PC의 [WlEno 시뮬레이터](../README.md)에 LAN/TCP로 연결한다. 실기기는 Wi-Fi, PC는 유선이나 Wi-Fi로 같은 LAN에 참여할 수 있다. WlEno와 에뮬레이터가 같은 PC이면 `10.0.2.2:8266`으로 연결하며 실제 Wi-Fi가 필요하지 않다. WlEno가 다른 PC에서 실행 중이면 에뮬레이터도 그 PC의 LAN IPv4를 사용한다.
 
 ## 학생 설치: AAR 파일 한 개
 
@@ -16,6 +16,8 @@ implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
 기존 코루틴 의존성은 중복 선언하지 않는다. 파일 AAR의 의존성은 앱에서 함께 선언해야 한다. [Android 공식 라이브러리 안내](https://developer.android.com/studio/projects/android-library)
 
 앱 패키지와 관계없이 `com.example.roomcontrol.wleno.Wleno`와 `ConnState`를 import한다. 이미 공통 소스를 복사한 프로젝트는 다섯 파일을 제거한 뒤 AAR을 추가한다.
+
+설치 후 순서는 Gradle Sync → [WlEno 실행](../README.md#3-실행과-끝내기) → [실행 위치별 주소 입력](#통신-확인) → [제어 시작] → 제어다. BLE 권한·Fake 모드·UDP 검색은 정규 RoomControl 연결에 필요하지 않다.
 
 ## RoomControl 화면 프로젝트 설정
 
@@ -80,6 +82,7 @@ macOS/Linux에서는 `sh ./gradlew packageDistribution`을 실행한다. Gradle 
 
 ```kotlin
 val client = Wleno.client
+// WlEno와 에뮬레이터가 같은 PC인 경우
 client.connect("10.0.2.2:8266")
 ```
 
@@ -141,6 +144,14 @@ UDP 8267에 호환 검색 문자열 `bleuno?`를 보내며, 응답의 이름과 
 
 ## 통신 확인
 
-앱 주소는 에뮬레이터에서 `10.0.2.2:8266`, 실기기에서 `PC의 LAN IPv4:8266`이다. `127.0.0.1`은 앱 자신을 가리킨다. [에뮬레이터 주소 공간](https://developer.android.com/studio/run/emulator-networking-address)
+| 앱과 WlEno 실행 위치 | 앱에 넣을 주소 |
+|---|---|
+| 에뮬레이터와 WlEno가 같은 PC | `10.0.2.2:8266` |
+| 에뮬레이터와 WlEno가 다른 PC | `WlEno PC의 LAN IPv4:8266` |
+| Android 실기기 | `WlEno PC의 LAN IPv4:8266` |
 
-시뮬레이터의 HTTP 8080은 PC에서 상태를 확인하거나 입력을 재현하는 보조 API다. Android 앱은 TCP 8266을 사용한다. Logcat의 `tag:TCP`와 시뮬레이터 터미널 로그를 함께 확인한다.
+다른 PC·실기기는 WlEno PC와 LAN 통신이 허용되어야 한다. Windows에서는 WlEno PC의 TCP 8266 인바운드 규칙을 확인한다. [주소와 방화벽 안내](../README.md#6-앱에서-붙을-주소)
+
+`0.0.0.0`은 WlEno의 기본 바인드 설정이며 앱에 입력할 주소가 아니다. `127.0.0.1`은 Android 자신을 가리킨다. 외부 인터넷에서는 LAN 주소만으로 접속할 수 없으며 별도 네트워크 구성이 필요하다. [에뮬레이터 주소 공간](https://developer.android.com/studio/run/emulator-networking-address)
+
+시뮬레이터의 HTTP 8080은 PC에서 상태를 확인하거나 입력을 재현하는 보조 API다. Android 앱은 TCP 8266을 사용하며 UDP 8267은 선택 검색용이다. Logcat의 `tag:TCP`와 시뮬레이터 터미널 로그를 함께 확인한다.

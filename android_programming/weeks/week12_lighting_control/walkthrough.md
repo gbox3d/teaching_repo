@@ -1,12 +1,12 @@
 # 12주차 따라하기 · 책상 조명과 침대 조명
 
-RoomControl은 11주차부터 시작한 독립 앱이다. 새 Empty Views Activity에서 시작한다. 연결 화면과 설치한 WlEno AAR은 유지하고 `ControlActivity.kt`, `activity_control.xml`을 수정한다.
+11주차에서 만든 RoomControl 프로젝트를 이어 쓴다. 프로젝트가 없으면 [공통 설정](../../../tools/wleno/android/README.md)대로 새 Empty Views Activity를 만든다. 연결 화면과 설치한 WlEno AAR은 유지하고 `ControlActivity.kt`, `activity_control.xml`을 수정한다.
 
 ## 1일차
 
 ### 1. 내 방 제어 화면 열기
 
-저장소의 `tools/wleno`에서 `uv run main`을 실행한다. 앱의 연결 화면에서 에뮬레이터 주소 `10.0.2.2:8266`을 입력하고 [제어 시작]을 누른다. 휴대전화는 PC의 LAN IPv4를 사용한다. 제어 화면이 열리면 준비가 끝난다.
+저장소의 `tools/wleno`에서 `uv run main`을 실행한다. WlEno와 같은 PC의 에뮬레이터는 `10.0.2.2:8266`, 다른 PC의 에뮬레이터와 실기기는 `WlEno 실행 PC의 LAN IPv4:8266`을 입력한다. [제어 시작]을 눌러 제어 화면이 열리면 준비가 끝난다.
 
 ### 2. 조명 선택 UI 배치
 

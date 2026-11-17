@@ -28,9 +28,9 @@
 
 [uv](https://docs.astral.sh/uv/getting-started/installation/)를 설치하고 저장소의 `tools/wleno`에서 `uv sync`, `uv run main`을 실행한다. 학생 한 명당 자기 PC의 시뮬레이터 한 개를 사용한다. 별도 보드나 휴대전화는 필요 없다.
 
-Android Studio에서 새 `RoomControl` 프로젝트와 AVD를 준비하고 [공통 라이브러리 배포·설치](../tools/wleno/android/README.md)를 따른다. 학생은 [wleno-android-0.1.0.aar](https://github.com/gbox3d/teaching_repo/releases/download/wleno-android-v0.1.0/wleno-android-0.1.0.aar) 파일 한 개를 다운로드하고 `app/libs/`에 넣어 Gradle 의존성을 설정한다. 공통 Kotlin 파일 다섯 개를 따로 복사하지 않는다. 기존 SmartIO 프로젝트와 BLE 권한은 정규 11~15주차의 준비물이 아니다. 첫 수업 전 `10.0.2.2:8266` 연결 → 제어 화면 → LED 0 켜기·끄기를 확인한다.
+Android Studio에서 새 `RoomControl` 프로젝트와 AVD를 준비하고 [공통 라이브러리 배포·설치](../tools/wleno/android/README.md)를 따른다. 학생은 [wleno-android-0.1.0.aar](https://github.com/gbox3d/teaching_repo/releases/download/wleno-android-v0.1.0/wleno-android-0.1.0.aar) 파일 한 개를 다운로드하고 압축 해제 없이 `app/libs/`에 넣어 Gradle 의존성 설정 후 Sync한다. ZIP이나 공통 Kotlin 소스를 함께 복사하지 않는다. 기존 SmartIO 프로젝트와 BLE 권한은 정규 11~15주차의 준비물이 아니다. 첫 수업 전에 1일차 예제의 `준비됨`과 2일차 예제의 제어 화면 → LED 0 켜기·끄기를 확인한다.
 
-실기기를 선택하면 휴대전화 Wi-Fi와 PC 유선 LAN/Wi-Fi 사이에 통신이 허용되는지 확인한다. 무선 AP의 단말 격리로 접속이 막히면 같은 PC의 에뮬레이터를 사용한다. UDP 검색 성공은 수업 참여 조건이 아니다.
+WlEno와 같은 PC의 에뮬레이터는 `10.0.2.2:8266`, 다른 PC의 에뮬레이터와 실기기는 `WlEno 실행 PC의 LAN IPv4:8266`을 사용한다. 실기기를 선택하면 휴대전화 Wi-Fi와 PC 유선 LAN/Wi-Fi 사이에 통신이 허용되는지 확인한다. 무선 AP의 단말 격리로 접속이 막히면 같은 PC의 에뮬레이터를 사용한다. UDP 검색 성공은 수업 참여 조건이 아니다. [주소별 연결 점검](iot_sim/lab.md)을 따른다.
 
 ## 필요할 때만 설치
 
@@ -42,7 +42,7 @@ Android Studio에서 새 `RoomControl` 프로젝트와 AVD를 준비하고 [공�
 
 직접 설치한 Python을 쓰는 대체 경로는 `tools/wleno` 폴더의 `py sim.py`이며, LED·온습도·입력 버튼은 별도 창에 표시된다. `8080`은 브라우저 화면이 아니라 HTTP API 포트다. 창 없이 실행하는 `--no-window`는 Python 3.9 이상에서 추가 패키지 없이 사용할 수 있지만, 이 실습은 창에서 LED와 입력을 확인하므로 pygame-ce를 준비한다.
 
-시뮬레이터에 실기기로 붙일 때는 PC에서 TCP 8266·UDP 8267 인바운드를 허용해야 한다([WlEno README 7절](../tools/wleno/README.md#7-windows-방화벽)). 학생 계정에 관리자 권한이 없으면 조교가 연다. 관리자가 아닌 계정에서는 Windows가 시뮬레이터를 돌리는 Python을 막는 규칙을 남길 수 있고, 막는 규칙은 포트 허용보다 앞선다. 그래서 조교는 포트 규칙만 만들지 말고, 시뮬레이터를 켜 둔 채로 같은 절의 네 줄로 막는 규칙도 확인한다. 수업이 끝나면 같은 절대로 포트 규칙 두 개를 지우고 **Python 규칙 지우기**를 한다.
+다른 PC의 에뮬레이터나 실기기로 접속할 때는 WlEno 실행 PC의 TCP 8266 인바운드를 허용한다. UDP 8267은 선택 기능인 검색에만 필요하다. 학생 계정에 관리자 권한이 없으면 조교가 [WlEno 방화벽 안내](../tools/wleno/README.md#7-windows-방화벽)에 따라 차단 여부를 확인하고 해당 WlEno 규칙만 관리한다.
 
 ## 별도 설치하지 않는 항목
 
@@ -58,7 +58,7 @@ adb --version
 adb devices
 ```
 
-Android Studio의 **Help > About**, **SDK Manager**, **Device Manager** 화면에서 실제 버전을 확인한다.
+Android Studio의 Help > About, SDK Manager, Device Manager 화면에서 실제 버전을 확인한다.
 정확한 Android Studio·SDK·AVD·기기 OS 값은 [학기별 환경 기준표](../environment_baseline_template.md)에서 담당 교수가 확정한다.
 
 ## 특강용 BLE 보드 점검

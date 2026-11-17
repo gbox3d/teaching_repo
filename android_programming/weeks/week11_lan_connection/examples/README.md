@@ -8,7 +8,7 @@ Android Studio의 Empty Views Activity로 `RoomControl`을 만든다. 패키지�
 
 [공통 라이브러리 배포·설치 안내](../../../../tools/wleno/android/README.md)를 따라 AAR을 준비하고 ViewBinding과 의존성을 설정한다. 기준은 `minSdk 26`, `targetSdk 36`, `compileSdk 36`이다.
 
-[wleno-android-0.1.0.aar](https://github.com/gbox3d/teaching_repo/releases/download/wleno-android-v0.1.0/wleno-android-0.1.0.aar) 파일 한 개를 다운로드하고 학생 프로젝트의 `app/libs/`에 넣는다. 폴더가 없으면 만든다. `app/build.gradle.kts`의 기존 `dependencies` 블록에 다음 두 줄을 추가하고 Sync한다.
+[wleno-android-0.1.0.aar](https://github.com/gbox3d/teaching_repo/releases/download/wleno-android-v0.1.0/wleno-android-0.1.0.aar) 파일 한 개를 다운로드하고 압축을 풀지 않은 채 학생 프로젝트의 `app/libs/`에 넣는다. ZIP이나 공통 Kotlin 소스를 함께 넣지 않는다. 폴더가 없으면 만든다. `app/build.gradle.kts`의 기존 `dependencies` 블록에 다음 두 의존성 중 없는 항목만 추가하고 Gradle Sync를 실행한다.
 
 ```kotlin
 dependencies {
@@ -36,7 +36,7 @@ dependencies {
 
 ## 1일차: 연결
 
-시뮬레이터를 `tools/wleno`에서 `uv run main`으로 실행한다. 에뮬레이터는 기본 주소 `10.0.2.2:8266`을 사용한다. 실제 Wi-Fi 연결 없이 호스트 PC로 접근한다. 실기기는 [Wi-Fi 설정 (실기기)]에서 PC와 같은 LAN의 AP를 선택하고 PC의 IPv4 주소를 입력한다. PC가 유선 LAN에 연결되어 있어도 된다.
+시뮬레이터를 `tools/wleno`에서 `uv run main`으로 실행한다. WlEno와 같은 PC의 에뮬레이터는 `10.0.2.2:8266`을 사용한다. 실제 Wi-Fi 연결 없이 호스트 PC로 접근한다. WlEno가 다른 PC에서 실행 중이면 에뮬레이터도 그 PC의 LAN IPv4와 `:8266`을 입력한다. 실기기는 [Wi-Fi 설정 (실기기)]에서 수업 LAN에 연결한 뒤 WlEno 실행 PC의 LAN IPv4와 `:8266`을 입력한다. [주소와 방화벽 조건](../../../iot_sim/lab.md#2-앱에-넣을-주소-결정)을 확인한다.
 
 [제어 시작]을 누르면 `연결 중` → `응답 확인 중` → `준비됨`으로 바뀐다. [해제] 뒤에는 `연결 안 됨`이 된다. 1일차는 연결 확인까지 진행한다.
 
