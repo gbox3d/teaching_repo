@@ -1,45 +1,38 @@
 # 모바일프로그래밍 공용 교재
 
-## 목차
+Kotlin과 Android 화면 구성을 배우고, 11주차부터 새 앱 **RoomControl(내 방 제어)**을 만든다. 연결 화면에서 PC의 WlEno 시뮬레이터에 접속한 뒤, 제어 화면에서 조명과 실내 온습도를 다룬다.
 
-- [범위](#범위)
-- [진입점](#진입점)
-- [학교 적용](#학교-적용)
-- [미확정 기준](#미확정-기준)
+1~10주차 교재는 기존 구성을 유지한다. 11주차는 새 Empty Views Activity 프로젝트로 시작하며 이전 앱의 화면과 코드를 가져오지 않는다. 학생은 제공 AAR 라이브러리로 연결·전송을 수행하고, 버튼을 누른 결과를 시뮬레이터에서 확인한다. 통신 소스 복사는 필요하지 않다.
 
-## 범위
+## 11주차 이후 학습 흐름
 
-프로그래밍 경험이 거의 없는 학생을 기준으로, Kotlin 출력문에서 시작해 BLE(Bluetooth Low Energy, 저전력 블루투스) 입출력 제어 앱까지 15주 동안 한 걸음씩 쌓는 공용 교재다.
-1주차는 Android Studio에서 `StudentCard` 프로젝트를 만들어 Kotlin을 연습하고, 2~3주차는 그 프로젝트로 첫 앱(화면·카운터·생명주기)을 만든다.
-4주차부터는 `SmartIO`(Smart I/O Controller) 한 앱을 매주 키우며 ViewBinding·두 번째 화면(4주), Thread·Handler(5주),
-코루틴(6주), ViewModel·StateFlow(7주), BroadcastReceiver·런타임 권한(10주), ListView·SharedPreferences(11주)를 배운다.
-12~15주차에는 제공 라이브러리 `bleuno`로 사전 플래시된 ESP32-C3 보드를 검색·연결하고, LED 명령과 응답·온습도 입력·끊김과 재연결을 다룬다.
-보드가 없어도 라이브러리의 가짜 클라이언트로 같은 흐름을 연습할 수 있다. 8주 중간고사, 13주 과제 계획안 발표, 15주 기말고사와 과제 최종 제출이 들어 있다.
+| 주차 | 학생이 완성할 동작 |
+|---|---|
+| 11 | 주소 입력 → 연결 성공 → 제어 화면 → 책상 조명 켜기·끄기 |
+| 12 | 조명 선택, 밝기 조절, 처리 결과 표시 |
+| 13 | 공부·취침 장면의 조명 조작 점검, 과제 계획안 발표 |
+| 14 | 실내 온습도 읽기, 호출 버튼 입력 표시 |
+| 15 | 연결·제어 기능 개인 실기와 과제 제출 |
 
-## 진입점
+통신은 LAN 위의 TCP·UDP를 사용한다. Wi-Fi는 LAN 접속 방법 중 하나이며 PC의 유선 LAN도 사용할 수 있다. 기본 실습은 같은 PC의 Android 에뮬레이터와 시뮬레이터로 진행한다. TCP 직접 연결이 필수이고 UDP 자동 검색은 보충이다.
 
-- 주차별 색인: [`weeks/README.md`](weeks/README.md)
-- 각 주차: `README.md`, `slides.md`, `walkthrough.md`, `lab.md`, `examples/` (강의 대본·실습 해답은 강의자 별도 관리)
-- BLE 제공 라이브러리와 보드 명령 규약: [`bleuno/README.md`](bleuno/README.md)
-- 보드 없이 PC에서 돌리는 Wi-Fi 시뮬레이터: [`tools/bleuno-sim/README.md`](../tools/bleuno-sim/README.md)(실행 방법), [`iot_sim/lab.md`](iot_sim/lab.md)(12주차 2일차 이후 90분 실습)
-- 보드 점검·시연용 별도 앱: [bleunoApp/BleunoTest](https://github.com/gbox3d/bleunoApp/tree/main/BleunoTest). 수업은 기존 SmartIO와 `bleuno` 공통 코드로 진행한다.
-- 펌웨어·하드웨어: [bleuno 저장소](https://github.com/gbox3d/bleuno)의 `hardware/type_m/v1/`. type_m v1 원본은 모터·서보용이므로 기존 LED·DHT11 실습을 바로 적용하지 않는다. [핀맵과 차이](https://github.com/gbox3d/bleuno/blob/main/hardware/type_m/v1/pinmap.md)는 BLE 제공 라이브러리 안내와 함께 확인한다.
-- 과목별 설치 프로그램: [`ta_setup_guide.md`](ta_setup_guide.md)
-- 공통 설치 프로그램: [`../ta_lab_setup_guide.md`](../ta_lab_setup_guide.md)
-- 환경 기준표: [`../environment_baseline_template.md`](../environment_baseline_template.md)
+## 수업 자료
 
-1주차는 Android Studio의 `StudentCard` 프로젝트에서 학번·이름을 출력하며
-출력문, 변수, 문자열·숫자, `if`와 `fun`을 연습한다. 문법별로 실행해 보는 짧은 `.kt` 예제 일곱 개가 포함되어 있다.
-2주차부터 `examples/dayN`은 그날 수업이 끝났을 때의 완성본 전체 파일이며 Empty Views Activity 템플릿 프로젝트에 넣으면 빌드된다.
-파일을 넣는 위치 규칙은 [`weeks/README.md`](weeks/README.md#주차-폴더-구성)에 있다.
+- [전체 주차 색인](weeks/README.md)
+- [11주차: LAN 연결과 제어 화면](weeks/week11_lan_connection/README.md)
+- [공통 라이브러리 AAR 설치와 새 프로젝트 설정](../tools/wleno/android/README.md)
+- [WlEno 설치·실행](../tools/wleno/README.md)
+- [수업 전 연결 점검](iot_sim/lab.md)
+- [조교 설치 안내](ta_setup_guide.md)
 
-## 학교 적용
+각 주차는 README, 한국어·영어 슬라이드, 따라하기, 실습지, 날짜별 완성 예제로 구성한다. 11~15주차의 패키지는 `com.example.roomcontrol`이다.
 
-- 학교명·분반·실제 배점·시험·마감·LMS 정보는 학교 폴더에서 관리한다.
-- 학교별 표지와 일정은 배포본에서 적용하고 공용 원고에 직접 넣지 않는다.
+## 선택 특강
 
-## 미확정 기준
+기존 11~15주차 예제 전체와 전화번호부 접근은 [특강 목록](specials/README.md)으로 옮겼다. 연락처·ContentProvider, BLE 검색·GATT·실보드 제어, 기존 기말 연습은 정규 실습의 선수 조건이나 평가 항목이 아니다. 특강용 [bleuno 코드와 보드 자료](bleuno/README.md)도 보존한다.
 
-Android Studio, 내장 JDK, Gradle/AGP/Kotlin, `compileSdk`·`targetSdk`·`minSdk`, 기준 기기 OS,
-BLE UUID·GPIO·메시지 규약과 펌웨어 복구 이미지는 학기별 환경 기준표에서 교수 승인을 받아 확정한다.
-값이 `TBD`이면 조교나 학생이 임의로 정하지 않는다.
+## 수업 운영
+
+15주, 주 2회 90분을 기준으로 한다. 일반 수업은 설명·시연 30분과 실습 60분으로 구성한다. 8주 중간고사, 13주 2일차 계획안 발표, 15주 기말 실기·과제 제출은 유지한다.
+
+학교명·분반·실제 배점·시험·마감·LMS 정보는 학교별 자료에서 관리한다. 정규 11~15주차는 `targetSdk 36`을 기준으로 하며 빌드 설정은 [공통 코드 안내](../tools/wleno/android/README.md)를 따른다. 그 밖의 학기별 환경은 [기준표](../environment_baseline_template.md)에 기록한다.

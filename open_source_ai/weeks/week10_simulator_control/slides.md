@@ -52,7 +52,7 @@ Python 3.12로 `uv init --package --python 3.12 --vcs none`.
 저장소 루트의 별도 터미널:
 
 ```powershell
-uv run --python 3.12 tools/bleuno-sim/sim.py --bind 127.0.0.1
+uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1
 ```
 
 TCP 8266: 명령 전송. HTTP 8080: `GET /state`.

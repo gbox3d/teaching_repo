@@ -4,10 +4,10 @@ import { fileURLToPath } from "node:url";
 import { runInNewContext } from "node:vm";
 import { isDeepStrictEqual } from "node:util";
 
-const EXPECTED_DECKS = 51;
-const EXPECTED_SLIDES = 1070;
+const EXPECTED_DECKS = 56;
+const EXPECTED_SLIDES = 1143;
 const EXPECTED = {
-  android: { slug: "android", decks: 15, slides: 305, status: "published" },
+  android: { slug: "android", decks: 20, slides: 378, status: "published" },
   web: { slug: "webprg", decks: 19, slides: 339, status: "published" },
   "open-source-ai": { slug: "open_source_ai", decks: 17, slides: 426, status: "published" },
 };
@@ -55,6 +55,9 @@ async function walk(directory) {
 function sourcePath(course, chapter) {
   if (course.id === "android" && chapter.type === "week") {
     return path.posix.join("android_programming", "weeks", chapter.id, "slides.md");
+  }
+  if (course.id === "android" && chapter.type === "special") {
+    return path.posix.join("android_programming", "specials", chapter.id, "slides.md");
   }
   if (course.id === "web" && chapter.type === "week") {
     return path.posix.join("web_programming", "weeks", chapter.id, "slides.md");

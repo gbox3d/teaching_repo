@@ -112,9 +112,9 @@ Manifest에 적는 Receiver, 앱이 직접 방송 보내기는 다루지 않는�
 
 ## 다음 수업 연결
 
-다음 주는 [11주차 — 목록과 저장: ListView·SharedPreferences·ContentProvider 비교 + 실기기 준비](../week11_content_provider/README.md)다.
-연결 화면에 장치 이름 목록을 두고, 마지막으로 연결한 장치 이름을 앱을 껐다 켜도 남게 저장한다.
-2일차에는 이번 주 권한 흐름으로 연락처를 읽는 시연을 보고, 12주차 BLE 수업 전에 실기기를 연결해 권한까지 확인해 둔다.
+다음 주는 [11주차: LAN 연결과 내 방 제어](../week11_lan_connection/README.md)다.
+새 `RoomControl` 프로젝트에서 시뮬레이터에 TCP로 연결하고, 제어 화면에서 책상 조명을 켜고 끈다.
+이전 연락처·BLE 수업은 [선택 특강](../../specials/README.md)에서 진행한다.
 
 ## 공식 참고 자료
 

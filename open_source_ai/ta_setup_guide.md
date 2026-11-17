@@ -185,7 +185,7 @@ ollama list
 | 13 | 12주차의 `baseline.cact`·`tuned.cact`, Streamlit 8501과 연결·해제 확인 | [13주 예제](weeks/week13_control_streamlit/examples/README.md) |
 
 각 주차 `examples/`에서 `uv sync --locked` 후 안내된 명령을 실행한다.
-시뮬레이터 실행은 [bleuno-sim 안내](../tools/bleuno-sim/README.md)를 따른다.
+시뮬레이터 실행은 [WlEno 안내](../tools/wleno/README.md)를 따른다.
 8266·8080·8501에 다른 프로그램이 있는지 확인하고, 실습 중 제어 창은 하나만 연다.
 모델 준비와 다운로드를 마친 뒤 실습 시간을 잰다.
 

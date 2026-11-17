@@ -4,8 +4,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const EXPECTED_NODE_MAJOR = 24;
-const EXPECTED_DECKS = 51;
-const EXPECTED_SLIDES = 1070;
+const EXPECTED_DECKS = 56;
+const EXPECTED_SLIDES = 1143;
 const REPOSITORY_BLOB_URL = "https://github.com/gbox3d/teaching_repo/blob/main";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -67,6 +67,9 @@ function assertIdentifier(value, label) {
 function sourcePath(course, chapter) {
   if (course.id === "android" && chapter.type === "week") {
     return path.posix.join("android_programming", "weeks", chapter.id, "slides.md");
+  }
+  if (course.id === "android" && chapter.type === "special") {
+    return path.posix.join("android_programming", "specials", chapter.id, "slides.md");
   }
   if (course.id === "web" && chapter.type === "week") {
     return path.posix.join("web_programming", "weeks", chapter.id, "slides.md");

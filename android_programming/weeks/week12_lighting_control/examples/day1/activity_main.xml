@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="내 방 제어" android:textSize="28sp" android:textStyle="bold" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="에뮬레이터: 10.0.2.2:8266
+실기기: PC의 LAN IPv4:8266" android:paddingTop="12dp" />
+        <Button android:id="@+id/wifiButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Wi-Fi 설정 (실기기)" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="시뮬레이터 주소" android:layout_marginTop="16dp" />
+        <EditText android:id="@+id/addressEdit" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textUri" android:singleLine="true" android:hint="IPv4:포트" android:text="10.0.2.2:8266" android:selectAllOnFocus="true" />
+        <Button android:id="@+id/connectButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="제어 시작" />
+        <Button android:id="@+id/disconnectButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="해제" android:enabled="false" />
+        <TextView android:id="@+id/stateText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="상태: 연결 안 됨" android:textSize="20sp" />
+    </LinearLayout>
+</ScrollView>

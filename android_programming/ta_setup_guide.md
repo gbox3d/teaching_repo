@@ -6,7 +6,7 @@
 - [필요할 때만 설치](#필요할-때만-설치)
 - [별도 설치하지 않는 항목](#별도-설치하지-않는-항목)
 - [설치 확인](#설치-확인)
-- [BLE 수업 전 보드 점검](#ble-수업-전-보드-점검)
+- [특강용 BLE 보드 점검](#특강용-ble-보드-점검)
 
 ## 필수 설치
 
@@ -19,10 +19,18 @@
 |---|---|---|
 | [Git for Windows](https://git-scm.com/install/windows) | Git 공식 사이트 | 수업 프로젝트 받기 |
 | [Android Studio](https://developer.android.com/studio/install) | Android 공식 사이트 | 내장 JBR/JDK 사용 |
-| Android SDK Platform | Android Studio의 SDK Manager | 정확한 버전은 TBD |
+| Android SDK Platform | Android Studio의 SDK Manager | 정규 11~15주는 API 36 계열, targetSdk 36 |
 | Android SDK Build Tools | Android Studio의 SDK Manager | 정확한 버전은 TBD |
 | Android SDK Platform Tools | Android Studio의 SDK Manager | ADB 포함 |
 | Android Emulator·AVD system image | Android Studio의 Device Manager | 승인된 기기 profile과 image 사용 |
+
+## 11주차부터 필요한 시뮬레이터
+
+[uv](https://docs.astral.sh/uv/getting-started/installation/)를 설치하고 저장소의 `tools/wleno`에서 `uv sync`, `uv run main`을 실행한다. 학생 한 명당 자기 PC의 시뮬레이터 한 개를 사용한다. 별도 보드나 휴대전화는 필요 없다.
+
+Android Studio에서 새 `RoomControl` 프로젝트와 AVD를 준비하고 [공통 라이브러리 배포·설치](../tools/wleno/android/README.md)를 따른다. 학생은 [wleno-android-0.1.0.aar](https://github.com/gbox3d/teaching_repo/releases/download/wleno-android-v0.1.0/wleno-android-0.1.0.aar) 파일 한 개를 다운로드하고 `app/libs/`에 넣어 Gradle 의존성을 설정한다. 공통 Kotlin 파일 다섯 개를 따로 복사하지 않는다. 기존 SmartIO 프로젝트와 BLE 권한은 정규 11~15주차의 준비물이 아니다. 첫 수업 전 `10.0.2.2:8266` 연결 → 제어 화면 → LED 0 켜기·끄기를 확인한다.
+
+실기기를 선택하면 휴대전화 Wi-Fi와 PC 유선 LAN/Wi-Fi 사이에 통신이 허용되는지 확인한다. 무선 AP의 단말 격리로 접속이 막히면 같은 PC의 에뮬레이터를 사용한다. UDP 검색 성공은 수업 참여 조건이 아니다.
 
 ## 필요할 때만 설치
 
@@ -30,11 +38,11 @@
 |---|---|
 | Android 제조사 USB 드라이버 | 실기기가 인식되지 않고 제조사 드라이버가 필요한 경우 |
 | Windows 가상화 구성요소 | AVD 실행에 필요하며 전산실이 승인한 경우 |
-| Python 3.10 이상과 pygame-ce | 실습실 PC에서 Wi-Fi 시뮬레이터 실습([bleuno-sim](../tools/bleuno-sim/README.md))을 할 때. `py --version`으로 확인하고 실행할 Python에 `py -m pip install pygame-ce`로 설치한다. 다른 Python 명령으로 실행하면 같은 명령으로 설치한다 |
+| Python 직접 설치(uv를 사용할 수 없는 경우) | 실습실 PC에서 Wi-Fi 시뮬레이터 실습([WlEno](../tools/wleno/README.md))을 할 때. `py --version`으로 확인하고 실행할 Python에 `py -m pip install pygame-ce`로 설치한다. 다른 Python 명령으로 실행하면 같은 명령으로 설치한다 |
 
-시뮬레이터는 `tools/bleuno-sim` 폴더에서 `py sim.py`로 실행하며, LED·온습도·입력 버튼은 별도 창에 표시된다. `8080`은 브라우저 화면이 아니라 HTTP API 포트다. 창 없이 실행하는 `--no-window`는 Python 3.9 이상에서 추가 패키지 없이 사용할 수 있지만, 이 실습은 창에서 LED와 입력을 확인하므로 pygame-ce를 준비한다.
+직접 설치한 Python을 쓰는 대체 경로는 `tools/wleno` 폴더의 `py sim.py`이며, LED·온습도·입력 버튼은 별도 창에 표시된다. `8080`은 브라우저 화면이 아니라 HTTP API 포트다. 창 없이 실행하는 `--no-window`는 Python 3.9 이상에서 추가 패키지 없이 사용할 수 있지만, 이 실습은 창에서 LED와 입력을 확인하므로 pygame-ce를 준비한다.
 
-시뮬레이터에 실기기로 붙일 때는 PC에서 TCP 8266·UDP 8267 인바운드를 허용해야 한다([bleuno-sim README 7절](../tools/bleuno-sim/README.md#7-windows-방화벽)). 학생 계정에 관리자 권한이 없으면 조교가 연다. 관리자가 아닌 계정에서는 Windows가 시뮬레이터를 돌리는 Python을 막는 규칙을 남길 수 있고, 막는 규칙은 포트 허용보다 앞선다. 그래서 조교는 포트 규칙만 만들지 말고, 시뮬레이터를 켜 둔 채로 같은 절의 네 줄로 막는 규칙도 확인한다. 수업이 끝나면 같은 절대로 포트 규칙 두 개를 지우고 **Python 규칙 지우기**를 한다.
+시뮬레이터에 실기기로 붙일 때는 PC에서 TCP 8266·UDP 8267 인바운드를 허용해야 한다([WlEno README 7절](../tools/wleno/README.md#7-windows-방화벽)). 학생 계정에 관리자 권한이 없으면 조교가 연다. 관리자가 아닌 계정에서는 Windows가 시뮬레이터를 돌리는 Python을 막는 규칙을 남길 수 있고, 막는 규칙은 포트 허용보다 앞선다. 그래서 조교는 포트 규칙만 만들지 말고, 시뮬레이터를 켜 둔 채로 같은 절의 네 줄로 막는 규칙도 확인한다. 수업이 끝나면 같은 절대로 포트 규칙 두 개를 지우고 **Python 규칙 지우기**를 한다.
 
 ## 별도 설치하지 않는 항목
 
@@ -53,7 +61,9 @@ adb devices
 Android Studio의 **Help > About**, **SDK Manager**, **Device Manager** 화면에서 실제 버전을 확인한다.
 정확한 Android Studio·SDK·AVD·기기 OS 값은 [학기별 환경 기준표](../environment_baseline_template.md)에서 담당 교수가 확정한다.
 
-## BLE 수업 전 보드 점검
+## 특강용 BLE 보드 점검
+
+아래 보드·펌웨어 점검은 선택 특강 전용이다. 정규 과정은 WlEno LAN 시뮬레이터를 사용한다.
 
 학생은 SmartIO 앱에 [교재의 `bleuno` 클래스](bleuno/README.md)를 넣어 수업을 이어 간다.
 강의자·조교는 [별도 저장소의 `BleunoTest`](https://github.com/gbox3d/bleunoApp/tree/main/BleunoTest)를 Android Studio에서 열어 보드를 먼저 점검할 수 있다.
@@ -77,7 +87,7 @@ type_m 사전 점검은 CCCD 알림 구독 → `about`의 `type_m/1 fw=1.0.0` �
 
 이번 보드는 펌웨어 업로드·Flash hash 검증과 BLE 비구동 검사29개를 통과했다. IM_L101(API34)에서 검색·제어 준비·STOP 응답·배경 진입 후 연결 해제·재연결 준비를 확인했고, 시리얼의 모터·서보 duty는 각 단계에서 0이었다. 0이 아닌 모터 명령과 유효한 서보 각도 명령은 전송하지 않았으며 실제 부하 구동·파형 계측은 남아 있다.
 
-처음에는 모터·서보를 분리한 채 명령·응답을 확인한다. 부하를 연결하기 전에는 원본 핀맵의 VCC·신호·GND 순서와 실제 외부 전원을 점검하고, USB만으로 큰 모터·서보 전류를 공급하지 않는다. 실습 자료의 확인표로 슬라이더 해제 정지, STOP, 배경 진입·연결 해제, 1500ms watchdog을 구분해서 검사한다. 펌웨어 업로드·Android 실기 연결·부하 구동의 결과는 확인된 범위만 기록한다. 검증 전 정규 SmartIO 수업은 기존 보드 또는 Fake 모드로 유지한다.
+처음에는 모터·서보를 분리한 채 명령·응답을 확인한다. 부하를 연결하기 전에는 원본 핀맵의 VCC·신호·GND 순서와 실제 외부 전원을 점검하고, USB만으로 큰 모터·서보 전류를 공급하지 않는다. 실습 자료의 확인표로 슬라이더 해제 정지, STOP, 배경 진입·연결 해제, 1500ms watchdog을 구분해서 검사한다. 펌웨어 업로드·Android 실기 연결·부하 구동의 결과는 확인된 범위만 기록한다. 이 보드 실기 검증은 특강 범위에서 관리한다. 정규 RoomControl 수업은 WlEno 시뮬레이터를 사용한다.
 
 type_s v1 센서·입출력 커넥터 보드는 [별도 원본 핀맵](https://github.com/gbox3d/bleuno/blob/main/hardware/type_s/v1/pinmap.md)을 확인한다.
 DHT·CDS·DS18B20 표기는 헤더 이름이며 센서 실장·펌웨어 지원·제작 검증을 뜻하지 않는다. 기존 LED 설정은 센서·분압 입력과 충돌하고 `dht11pin=7`은 D2에 해당한다.

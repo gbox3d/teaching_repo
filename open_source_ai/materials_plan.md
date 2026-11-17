@@ -201,7 +201,7 @@ open_source_ai/
 
 ### 시뮬레이터는 기존 도구를 재사용한다
 
-대상은 [`tools/bleuno-sim`](../tools/bleuno-sim/README.md)이다.
+대상은 [`tools/wleno`](../tools/wleno/README.md)이다.
 자연어 요청을 `turn_on(index)`, `turn_off(index)`, `set_brightness(index, value)`,
 `read_environment()` 같은 짧은 함수로 연결한다. 이 함수들은 공용 제어 코드에 구현했다.
 실제 시뮬레이터 명령은 TCP의 `on`, `off`, `pwm`, `dht11`이다.

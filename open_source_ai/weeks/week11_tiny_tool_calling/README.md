@@ -33,7 +33,7 @@ Python 3.12와 `cactus-compute==4.2.0`을 사용한다. 수업 전에 패키지�
 시뮬레이터는 저장소 루트의 별도 터미널에서 실행한다.
 
 ```powershell
-uv run --python 3.12 tools/bleuno-sim/sim.py --bind 127.0.0.1
+uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1
 ```
 
 창 없는 검증에는 `--no-window`를 추가한다. TCP 8266 연결을 유지하고, HTTP 8080의 `GET /state`에서 실제 상태를 확인한다. `hello`·이벤트 행을 명령 응답으로 세지 않는다.

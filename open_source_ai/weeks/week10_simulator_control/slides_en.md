@@ -52,7 +52,7 @@ Weekly `shared` imports the relative path dependency `bleuno_control`.
 In a separate terminal at the repository root:
 
 ```powershell
-uv run --python 3.12 tools/bleuno-sim/sim.py --bind 127.0.0.1
+uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1
 ```
 
 TCP 8266 sends commands. HTTP 8080 serves `GET /state`.

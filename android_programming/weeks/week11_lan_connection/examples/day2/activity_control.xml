@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/main"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="내 방 제어" android:textSize="28sp" android:textStyle="bold" />
+        <TextView android:id="@+id/stateText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="상태: 준비됨" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="책상 조명 (LED 0)" android:textSize="20sp" android:layout_marginTop="24dp" />
+        <Button android:id="@+id/onButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="조명 켜기" android:enabled="false" />
+        <Button android:id="@+id/offButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="조명 끄기" android:enabled="false" />
+        <TextView android:id="@+id/commandText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="보낸 명령 없음" android:layout_marginTop="24dp" android:textSize="12sp" android:textIsSelectable="true" />
+        <TextView android:id="@+id/responseText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="응답 대기" android:textSize="12sp" android:textIsSelectable="true" />
+        <Button android:id="@+id/backButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="연결 화면" />
+    </LinearLayout>
+</ScrollView>

@@ -4,7 +4,7 @@
 
 ## 준비 확인
 
-저장소 루트의 터미널 A에서 `uv run --python 3.12 tools/bleuno-sim/sim.py --bind 127.0.0.1`을 실행한다. 창 없는 검증에는 `--no-window`를 추가한다. 터미널 B는 주차 `examples/`에서 `uv sync`를 실행한다. 모델·패키지 최초 준비는 비교 측정 전에 마친다.
+저장소 루트의 터미널 A에서 `uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1`을 실행한다. 창 없는 검증에는 `--no-window`를 추가한다. 터미널 B는 주차 `examples/`에서 `uv sync`를 실행한다. 모델·패키지 최초 준비는 비교 측정 전에 마친다.
 
 ## 1교시 · Needle 명령 입력
 

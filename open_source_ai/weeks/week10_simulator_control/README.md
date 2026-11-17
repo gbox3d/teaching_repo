@@ -25,7 +25,7 @@ Python 3.12, uv, Ollama와 `qwen3.5:2b`를 수업 전에 준비한다. [실습�
 저장소 루트의 별도 터미널에서 실행한다.
 
 ```powershell
-uv run --python 3.12 tools/bleuno-sim/sim.py --bind 127.0.0.1
+uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1
 ```
 
 창 없는 검증에는 같은 명령 끝에 `--no-window`를 붙인다. 명령은 TCP 8266, 실제 상태 조회는 HTTP 8080의 `GET /state`를 사용한다. 브라우저에서 `http://127.0.0.1:8080/state`를 열어 새로 고침할 수 있다.
@@ -58,4 +58,4 @@ uv run --python 3.12 tools/bleuno-sim/sim.py --bind 127.0.0.1
 
 ## 참고 자료
 
-[Ollama 도구 호출](https://docs.ollama.com/capabilities/tool-calling) · [시뮬레이터](../../../tools/bleuno-sim/README.md)
+[Ollama 도구 호출](https://docs.ollama.com/capabilities/tool-calling) · [시뮬레이터](../../../tools/wleno/README.md)

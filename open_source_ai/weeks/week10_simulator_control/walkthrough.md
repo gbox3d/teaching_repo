@@ -4,7 +4,7 @@
 
 ## 준비 확인
 
-터미널 A에서 `uv run --python 3.12 tools/bleuno-sim/sim.py --bind 127.0.0.1`을 실행한다. 창 없이 확인할 때는 `--no-window`를 추가한다. 터미널 B에서 `uv sync`를 실행하고 Ollama의 `qwen3.5:2b`가 준비됐는지 확인한다. 브라우저에서는 `http://127.0.0.1:8080/state`를 연다.
+터미널 A에서 `uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1`을 실행한다. 창 없이 확인할 때는 `--no-window`를 추가한다. 터미널 B에서 `uv sync`를 실행하고 Ollama의 `qwen3.5:2b`가 준비됐는지 확인한다. 브라우저에서는 `http://127.0.0.1:8080/state`를 연다.
 
 ## 1교시 · 수동 명령
 

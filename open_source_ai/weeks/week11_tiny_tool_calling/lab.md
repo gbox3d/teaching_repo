@@ -22,7 +22,7 @@ cd teaching_repo
 터미널 A는 저장소 루트에 두고 시뮬레이터를 실행한다.
 
 ```powershell
-uv run --python 3.12 tools/bleuno-sim/sim.py --bind 127.0.0.1
+uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1
 ```
 
 창 없이 확인할 때만 `--no-window`를 추가한다. 시뮬레이터는 켜 둔다. 터미널 B도 같은 저장소 루트에서 시작한 뒤 다음과 같이 이동한다.

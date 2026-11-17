@@ -16,10 +16,10 @@
       "slug": "android",
       "title": "모바일프로그래밍(Android)",
       "eyebrow": "ANDROID PROGRAMMING",
-      "description": "Kotlin과 Android 프레임워크의 실행 구조에서 BLE 기반 Smart I/O 통합 프로젝트까지 이어지는 15주 과정입니다.",
+      "description": "Kotlin과 Android 화면 구성을 배우고, 새 RoomControl 앱으로 LAN 시뮬레이터의 조명과 실내 상태를 제어하는 15주 과정입니다.",
       "status": "published",
       "accent": "#3ddc84",
-      "summary": "15개 주차 · 305장",
+      "summary": "15개 주차 · 특강 5개",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/android_programming",
       "chapters": [
         {
@@ -143,69 +143,141 @@
           }
         },
         {
-          "id": "week11_content_provider",
+          "id": "week11_lan_connection",
           "label": "11주차",
-          "title": "목록과 저장: ListView·SharedPreferences·ContentProvider 비교 + 실기기 준비",
-          "description": "검색한 장치 이름을 목록에 쌓아 고르고 마지막 장치를 기억하려면? ListView·SharedPreferences를 쓰고 ContentProvider를 비교합니다.",
+          "title": "LAN 연결과 내 방 제어",
+          "description": "새 RoomControl 앱에서 시뮬레이터에 연결하고 제어 화면의 버튼으로 책상 조명을 켜고 끕니다.",
           "type": "week",
           "en": {
             "label": "Week 11",
-            "title": "Lists and Storage: ListView, SharedPreferences, ContentProvider Compared + Getting a Physical Device Ready",
-            "description": "How do you stack scanned device names into a pickable list and remember the last device? Use ListView and SharedPreferences, and compare them with ContentProvider."
-          }
+            "title": "LAN Connection and Room Control",
+            "description": "Connect to WlEno and open a new control screen to switch a desk light."
+          },
+          "formerIds": [
+            "week11_content_provider"
+          ]
         },
         {
-          "id": "week12_ble_gatt",
+          "id": "week12_lighting_control",
           "label": "12주차",
-          "title": "BLE 기초: Bleuno 클라이언트로 검색·연결",
-          "description": "검색 목록에 진짜 보드를 띄우고 연결 상태를 두 화면에서 함께 보려면? 제공 라이브러리 bleuno로 검색·연결합니다.",
+          "title": "조명 선택과 밝기 조절",
+          "description": "책상·침대 조명을 선택하고 켜기·끄기와 밝기 조절 결과를 확인합니다.",
           "type": "week",
           "en": {
             "label": "Week 12",
-            "title": "BLE Basics: Scan and Connect with the Bleuno Client",
-            "description": "Want to show a real board in the scan list and see connection state on both screens together? Scan and connect using the provided bleuno library."
-          }
+            "title": "Light Selection and Brightness",
+            "description": "Select a desk or bedside light and adjust its brightness."
+          },
+          "formerIds": [
+            "week12_ble_gatt"
+          ]
         },
         {
-          "id": "week13_ble_output",
+          "id": "week13_room_control_project",
           "label": "13주차",
-          "title": "BLE 출력 제어와 과제 계획안 발표",
-          "description": "LED Switch로 보드의 LED를 켜고 보드의 대답까지 확인하려면? send로 명령을 보내고 onMessage로 응답을 받은 뒤, 과제 계획안을 발표합니다.",
+          "title": "내 방 제어 점검과 계획안 발표",
+          "description": "생활 장면에 맞춰 제어 화면을 점검하고 과제 계획안을 발표합니다.",
           "type": "week",
           "en": {
             "label": "Week 13",
-            "title": "BLE Output Control and the Project Plan Presentation",
-            "description": "Want to turn the board's LED on and off and see the board reply? Send commands with send, read responses with onMessage, then present your project plan."
-          }
+            "title": "Room Control Checks and Project Plan",
+            "description": "Check room-control scenarios and present a project plan."
+          },
+          "formerIds": [
+            "week13_ble_output"
+          ]
         },
         {
-          "id": "week14_ble_input_project",
+          "id": "week14_sensors_events",
           "label": "14주차",
-          "title": "안전한 명령 전송과 입력 수신·재연결",
-          "description": "허용되지 않는 번호를 막고, 온습도를 3초마다 받아 쌓고, 연결이 끊기면 다시 연결하려면? 검사·차단·오류 표시와 입력 이력·재연결을 만듭니다.",
+          "title": "실내 온습도와 호출 확인",
+          "description": "제어 화면에서 온습도를 읽고 시뮬레이터의 입력 버튼을 호출 이력으로 표시합니다.",
           "type": "week",
           "en": {
             "label": "Week 14",
-            "title": "Safe Command Sending, Input Reception, and Reconnecting",
-            "description": "Want to block out-of-range numbers, collect temperature and humidity every 3 seconds, and reconnect after a drop? Add checks, error dialogs, input history, and reconnect."
-          }
+            "title": "Room Climate and Call Events",
+            "description": "Read room temperature and humidity and display simulator input events."
+          },
+          "formerIds": [
+            "week14_ble_input_project"
+          ]
         },
         {
           "id": "week15_final_exam",
           "label": "15주차",
-          "title": "기말고사(개인 실기)와 과제 최종 제출",
-          "description": "권한 확인·LED 명령과 응답·연결 시간 제한을 혼자 60분 안에 다시 쓸 수 있을까? 리허설 뒤 본시험과 개인 시연을 하고, 과제 완성본을 제출합니다.",
+          "title": "내 방 제어 기말 실습",
+          "description": "연결 화면과 제어 화면에서 조명·온습도·호출 표시를 완성하고 시연합니다.",
           "type": "week",
           "en": {
             "label": "Week 15",
-            "title": "Final Exam (Individual Hands-On) and Project Submission",
-            "description": "Can you rewrite the permission check, LED command and response, and connect timeout on your own in 60 minutes? Rehearse, take the exam, demo in person, and submit your finished project."
+            "title": "Room Control Final Lab",
+            "description": "Complete and demonstrate connection, lighting, climate, and call displays."
+          }
+        },
+        {
+          "id": "legacy_week11_content_provider",
+          "label": "특강 1",
+          "title": "기존 목록과 저장: ListView·SharedPreferences·ContentProvider 비교 + 실기기 준비",
+          "description": "기존 11주차 자료를 보존한 선택 특강입니다. 현재 정규 과정의 필수 평가에는 포함하지 않습니다.",
+          "type": "special",
+          "en": {
+            "label": "Special 1",
+            "title": "Archived: Lists and Storage: ListView, SharedPreferences, ContentProvider Compared + Getting a Physical Device Ready",
+            "description": "Preserved Week 11 materials for an optional workshop, outside the regular assessment."
+          }
+        },
+        {
+          "id": "legacy_week12_ble_gatt",
+          "label": "특강 2",
+          "title": "기존 BLE 기초: Bleuno 클라이언트로 검색·연결",
+          "description": "기존 12주차 자료를 보존한 선택 특강입니다. 현재 정규 과정의 필수 평가에는 포함하지 않습니다.",
+          "type": "special",
+          "en": {
+            "label": "Special 2",
+            "title": "Archived: BLE Basics: Scan and Connect with the Bleuno Client",
+            "description": "Preserved Week 12 materials for an optional workshop, outside the regular assessment."
+          }
+        },
+        {
+          "id": "legacy_week13_ble_output",
+          "label": "특강 3",
+          "title": "기존 BLE 출력 제어와 과제 계획안 발표",
+          "description": "기존 13주차 자료를 보존한 선택 특강입니다. 현재 정규 과정의 필수 평가에는 포함하지 않습니다.",
+          "type": "special",
+          "en": {
+            "label": "Special 3",
+            "title": "Archived: BLE Output Control and the Project Plan Presentation",
+            "description": "Preserved Week 13 materials for an optional workshop, outside the regular assessment."
+          }
+        },
+        {
+          "id": "legacy_week14_ble_input_project",
+          "label": "특강 4",
+          "title": "기존 안전한 명령 전송과 입력 수신·재연결",
+          "description": "기존 14주차 자료를 보존한 선택 특강입니다. 현재 정규 과정의 필수 평가에는 포함하지 않습니다.",
+          "type": "special",
+          "en": {
+            "label": "Special 4",
+            "title": "Archived: Safe Command Sending, Input Reception, and Reconnecting",
+            "description": "Preserved Week 14 materials for an optional workshop, outside the regular assessment."
+          }
+        },
+        {
+          "id": "legacy_week15_final_exam",
+          "label": "특강 5",
+          "title": "기존 기말고사(개인 실기)와 과제 최종 제출",
+          "description": "기존 15주차 자료를 보존한 선택 특강입니다. 현재 정규 과정의 필수 평가에는 포함하지 않습니다.",
+          "type": "special",
+          "en": {
+            "label": "Special 5",
+            "title": "Archived: Final Exam (Individual Hands-On) and Project Submission",
+            "description": "Preserved Week 15 materials for an optional workshop, outside the regular assessment."
           }
         }
       ],
       "en": {
         "title": "Mobile Programming (Android)",
-        "description": "A 15-week course that goes from how Kotlin and the Android framework run to an integrated BLE-based Smart I/O project."
+        "description": "Learn Kotlin and Android UI, then build a new RoomControl app for a LAN simulator. Includes optional archived BLE and contacts workshops."
       }
     },
     {

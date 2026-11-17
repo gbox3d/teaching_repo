@@ -22,7 +22,7 @@ Python 3.12를 사용한다. 각 패키지의 `main()`을 `[project.scripts]`가
 시뮬레이터는 저장소 루트의 별도 터미널에서 켜 둔다.
 
 ```powershell
-uv run --python 3.12 tools/bleuno-sim/sim.py --bind 127.0.0.1
+uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1
 ```
 
 창 없는 검증에는 `--no-window`를 추가한다. 대화 예제는 빈 줄을 건너뛰고 `/bye`로 종료한다. 입력 반복과 대화 이력 유지는 구분한다.

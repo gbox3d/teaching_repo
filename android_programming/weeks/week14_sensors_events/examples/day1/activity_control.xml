@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/main"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="내 방 제어" android:textSize="28sp" android:textStyle="bold" />
+        <TextView android:id="@+id/stateText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="상태: 준비됨" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="공간에 맞는 조명 선택" android:textSize="20sp" android:layout_marginTop="24dp" />
+        <RadioGroup android:id="@+id/lampGroup" android:layout_width="match_parent" android:layout_height="wrap_content" android:checkedButton="@id/deskRadio">
+            <RadioButton android:id="@+id/deskRadio" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="책상 조명 · LED 0" />
+            <RadioButton android:id="@+id/bedRadio" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="침대 조명 · LED 1" />
+        </RadioGroup>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <Button android:id="@+id/onButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="조명 켜기" android:enabled="false" />
+            <Button android:id="@+id/offButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="조명 끄기" android:enabled="false" />
+        </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="선택한 조명의 밝기" android:textSize="20sp" android:layout_marginTop="24dp" />
+        <SeekBar android:id="@+id/brightnessBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:max="255" android:progress="128" android:contentDescription="선택한 조명 밝기" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="왼쪽: 꺼짐 · 오른쪽: 최대 밝기" android:textSize="12sp" />
+        <Button android:id="@+id/pwmButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="밝기 적용" android:enabled="false" />
+        <Button android:id="@+id/allOffButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="방 조명 모두 끄기" android:enabled="false" />
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="실내 환경" android:textSize="20sp" android:layout_marginTop="24dp" />
+        <Button android:id="@+id/sensorButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:enabled="false" android:text="온습도 확인" />
+        <TextView android:id="@+id/sensorText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="실내 온습도: 확인 전" android:textSize="20sp" />
+        <TextView android:id="@+id/resultText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="조명 선택 후 제어" android:textSize="20sp" android:textStyle="bold" android:paddingTop="20dp" android:paddingBottom="20dp" />
+        <TextView android:id="@+id/commandText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="보낸 명령 없음" android:textSize="12sp" android:textIsSelectable="true" />
+        <TextView android:id="@+id/responseText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="응답 대기 중" android:textSize="12sp" android:textIsSelectable="true" />
+        <Button android:id="@+id/backButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="연결 화면" />
+    </LinearLayout>
+</ScrollView>

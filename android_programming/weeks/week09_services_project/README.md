@@ -53,8 +53,8 @@ onDestroy                       ← [서비스 중지]
 - **10주차 시작점은 7주차 완성본(`week07/examples/day2`)이다.** 9주차에 더한 [서비스 시작]·[서비스 중지] 버튼과 `LogService.kt`·`ServiceState.kt`, 숫자를 보여 주는 줄은 10주차 이후 예제에 들어가지 않는다.
 - 1일차 예제([examples/day1](examples/day1))는 7주차 완성본에 `LogService`와 버튼 두 개만 더한 것이다. 2일차는 이 상태에서 이어서 만든다.
 - 2일차 예제([examples/day2](examples/day2))는 1일차 예제에 `ServiceState.kt`와 숫자를 보여 주는 줄만 더한 2일차 끝 완성본이다. 같은 프로젝트(package `com.example.smartio`)이므로 새 프로젝트를 만들지 않는다.
-- 두 날에 더한 파일과 버튼은 내 프로젝트에 남겨 두어도 되고 확인한 뒤 지워도 된다. 지우면 7주차 완성본과 같아진다. `SmartIO`는 학기 끝까지 Activity 두 개(`MainActivity`·`ControlActivity`)로 간다.
-- 학기 과제는 BLE로 보드를 찾는 법을 배우는 12주차 1일차에 공지한다. 13주차 2일차에 계획안을 발표하고, 15주차에 완성본을 낸다. → [12주차](../week12_ble_gatt/README.md)
+- 두 날에 더한 파일과 버튼은 내 프로젝트에 남겨 두어도 되고 확인한 뒤 지워도 된다. 지우면 7주차 완성본과 같아진다. 11주차부터는 독립 프로젝트 `RoomControl`을 새로 만든다.
+- 학기 과제는 RoomControl로 진행한다. 13주차 2일차에 계획안을 발표하고, 15주차에 완성본을 낸다. [과제 안내](../week13_room_control_project/project_brief.md)를 따른다.
 
 ## 준비
 
