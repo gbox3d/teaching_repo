@@ -36,6 +36,7 @@ nav a {
 
 input,
 textarea {
+  box-sizing: border-box;
   width: 280px;
   max-width: 100%;
 }

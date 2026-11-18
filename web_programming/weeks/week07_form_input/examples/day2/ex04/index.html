@@ -1,24 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex04 reset focus</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ex04 변환 전 방명록</title>
+    <link rel="stylesheet" href="../web-week07/styles.css">
+    <link rel="stylesheet" href="shared/examples.css">
     <script src="app.js" defer></script>
-</head>
-<body>
-    <h1>ex04 reset 과 focus: 다음 입력 준비</h1>
-    <p>두 칸을 채우고 남기기를 누른다. F12 › Console 1·2번을 비교하고, 칸이 비었는지와 커서가 어디서 깜박이는지(3번) 본다.</p>
-    <form id="form">
-        <div>
+  </head>
+  <body>
+    <header>
+      <h1>방명록</h1>
+      <nav>
+        <a href="../web-week07/index.html">홈</a>
+        <a href="../web-week07/about.html">내 정보</a>
+        <a href="index.html" aria-current="page">방명록</a>
+      </nav>
+    </header>
+    <main>
+      <h2>글 남기기</h2>
+      <form id="guestbook-form">
+        <div class="composer-fields">
+          <p>
             <label for="name">이름</label>
             <input id="name" type="text">
+          </p>
+          <p>
+            <label for="email">이메일 (선택)</label>
+            <input id="email" type="email">
+          </p>
         </div>
-        <div>
-            <label for="message">메시지</label>
-            <textarea id="message" rows="3"></textarea>
-        </div>
+        <p>
+          <label for="message">메시지</label>
+          <textarea id="message" rows="2"></textarea>
+        </p>
         <button type="submit">남기기</button>
-    </form>
-</body>
+      </form>
+      <div id="notice" aria-live="polite"></div>
+      <div class="feed-heading">
+        <h2>남긴 글</h2>
+        <span>최신순</span>
+      </div>
+      <ul id="list" class="card example-output" aria-live="polite"></ul>
+      <p class="feed-empty">아직 남긴 글이 없습니다. 첫 메시지를 남겨 보세요.</p>
+    </main>
+    <footer><p>수업용 연습 페이지 · student01</p></footer>
+  </body>
 </html>

@@ -1,33 +1,69 @@
-// ex05 빈값 검사: 칸이 비었으면 안내하고 return 으로 그 자리에서 멈춘다
-// 칸을 비우거나 채워서 남기기를 누른다. Console 의 번호로 어디까지 실행됐는지 보고, 안내 자리와 결과 자리를 본다.
-
-const form = document.querySelector('#form');
+const form = document.querySelector('#guestbook-form');
 const nameInput = document.querySelector('#name');
 const messageInput = document.querySelector('#message');
 const notice = document.querySelector('#notice');
-const last = document.querySelector('#last');
+const list = document.querySelector('#list');
+const dateFormat = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeStyle: 'short' });
+
+function clearNotice() {
+  notice.textContent = '';
+}
+
+function createPost(name, message, createdAt) {
+  const li = document.createElement('li');
+  const post = document.createElement('article');
+  post.className = 'post';
+
+  const avatar = document.createElement('span');
+  avatar.className = 'post-avatar';
+  avatar.setAttribute('aria-hidden', 'true');
+  avatar.textContent = Array.from(name)[0];
+
+  const content = document.createElement('div');
+  content.className = 'post-content';
+  const meta = document.createElement('div');
+  meta.className = 'post-meta';
+  const author = document.createElement('h3');
+  author.className = 'post-author';
+  author.textContent = name;
+  const time = document.createElement('time');
+  time.dateTime = createdAt.toISOString();
+  time.textContent = dateFormat.format(createdAt);
+
+  const body = document.createElement('p');
+  body.className = 'post-body';
+  body.textContent = message;
+  meta.append(author, time);
+  content.append(meta, body);
+  post.append(avatar, content);
+  li.append(post);
+  return li;
+}
 
 form.addEventListener('submit', function (event) {
-    event.preventDefault();                       // ex01
-    const name = nameInput.value.trim();          // ex02·ex03: 빈칸만 넣어도 '' 가 된다
-    const message = messageInput.value.trim();
+  event.preventDefault();
 
-    // 1. 이름이 비었으면 안내하고 멈춘다
-    if (name === '') {
-        notice.textContent = '이름을 입력하세요.';
-        console.log('1. 이름이 비었다 → return');
-        return;
-    }
+  const name = nameInput.value.trim();
+  const message = messageInput.value.trim();
 
-    // 2. 메시지가 비었으면 안내하고 멈춘다. 1번에서 멈추면 여기까지 오지 않는다
-    if (message === '') {
-        notice.textContent = '메시지를 입력하세요.';
-        console.log('2. 메시지가 비었다 → return');
-        return;
-    }
+  if (name === '') {
+    notice.textContent = '이름을 입력하세요.';
+    nameInput.focus();
+    return;
+  }
 
-    // 3. 두 칸이 다 차 있을 때만 여기까지 온다. 지난 안내를 지우고 결과를 쓴다
-    notice.textContent = '';
-    last.textContent = `${name}: ${message}`;
-    console.log('3. 끝까지 왔다');
+  if (message === '') {
+    notice.textContent = '메시지를 입력하세요.';
+    messageInput.focus();
+    return;
+  }
+
+  clearNotice();
+  const li = createPost(name, message, new Date());
+  list.prepend(li);
+  form.reset();
+  nameInput.focus();
 });
+
+nameInput.addEventListener('input', clearNotice);
+messageInput.addEventListener('input', clearNotice);

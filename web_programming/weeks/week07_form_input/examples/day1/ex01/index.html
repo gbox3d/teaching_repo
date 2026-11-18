@@ -1,25 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex01 submit</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ex01 CDN 연결</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
     <script src="app.js" defer></script>
-</head>
-<body>
-    <h1>ex01 폼 제출과 preventDefault</h1>
-    <p>두 칸에 아무 글자나 넣고 2번 → 1번 순서로 보내기를 누른다. 주소창 끝, 입력 칸, 결과 자리, F12 › Console 을 본다.</p>
-    <form id="form1">
-        <label for="word1">1번 칸</label>
-        <input id="word1" type="text">
-        <button type="submit">1. 보내기</button>
-    </form>
-    <div id="out1">1번 결과 자리</div>
-    <form id="form2">
-        <label for="word2">2번 칸</label>
-        <input id="word2" type="text">
-        <button type="submit">2. 보내기</button>
-    </form>
-    <div id="out2">2번 결과 자리</div>
-</body>
+  </head>
+  <body class="w3-container">
+    <h1>ex01 CDN 연결</h1>
+    <nav><a href="before.html">연결 전</a> · <a href="index.html">연결 후</a></nav>
+    <p><button id="button" class="w3-button w3-teal" type="button">클릭</button></p>
+    <p id="result" aria-live="polite">클릭 횟수: 0</p>
+  </body>
 </html>

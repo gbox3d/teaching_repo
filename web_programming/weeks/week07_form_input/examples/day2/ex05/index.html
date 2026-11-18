@@ -1,26 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex05 empty</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ex05 W3.CSS 방명록</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+    <link rel="stylesheet" href="shared/examples.css">
     <script src="app.js" defer></script>
-</head>
-<body>
-    <h1>ex05 빈값 검사와 return</h1>
-    <p>칸을 비우거나 채워서 남기기를 누른다. F12 › Console 의 번호로 어디까지 실행됐는지 보고, 폼 아래의 안내 자리(처음에는 비어 있다)와 결과 자리를 본다.</p>
-    <form id="form">
-        <div>
-            <label for="name">이름</label>
-            <input id="name" type="text">
-        </div>
-        <div>
+  </head>
+  <body class="w3-light-grey guestbook-page">
+    <header class="w3-container w3-teal w3-padding-16">
+      <h1>방명록</h1>
+    </header>
+    <nav class="w3-bar w3-white w3-card" aria-label="주 메뉴">
+      <a class="w3-bar-item w3-button w3-mobile" href="../web-week07/index.html">홈</a>
+      <a class="w3-bar-item w3-button w3-mobile" href="../web-week07/about.html">내 정보</a>
+      <a class="w3-bar-item w3-button w3-mobile w3-teal" href="index.html" aria-current="page">방명록</a>
+    </nav>
+    <main class="w3-content w3-padding">
+      <section class="w3-container w3-card w3-white w3-margin-top">
+        <h2>글 남기기</h2>
+        <form id="guestbook-form">
+          <div class="composer-fields">
+            <p>
+              <label for="name">이름</label>
+              <input id="name" class="w3-input w3-border" type="text">
+            </p>
+            <p>
+              <label for="email">이메일 (선택)</label>
+              <input id="email" class="w3-input w3-border" type="email">
+            </p>
+          </div>
+          <p>
             <label for="message">메시지</label>
-            <textarea id="message" rows="3"></textarea>
+            <textarea id="message" class="w3-input w3-border" rows="2"></textarea>
+          </p>
+          <p><button class="w3-button w3-teal" type="submit">남기기</button></p>
+        </form>
+        <p id="notice" class="w3-text-red" aria-live="polite"></p>
+      </section>
+      <section class="w3-container w3-card w3-white w3-margin-top">
+        <div class="feed-heading">
+          <h2>남긴 글</h2>
+          <span>최신순</span>
         </div>
-        <button type="submit">남기기</button>
-    </form>
-    <div id="notice"></div>
-    <div id="last">아직 남긴 글이 없습니다.</div>
-</body>
+        <ul id="list" class="w3-ul example-output feed-list" aria-live="polite"></ul>
+        <p class="feed-empty">아직 남긴 글이 없습니다. 첫 메시지를 남겨 보세요.</p>
+      </section>
+    </main>
+    <footer class="w3-container w3-center w3-text-grey w3-padding-16">
+      <p>수업용 연습 페이지 · student01</p>
+    </footer>
+  </body>
 </html>

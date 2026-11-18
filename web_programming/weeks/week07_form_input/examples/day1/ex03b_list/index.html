@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>수업 타임라인</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+    <link rel="stylesheet" href="shared/examples.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body class="w3-light-grey">
+    <main class="timeline w3-white">
+      <header class="w3-container w3-teal">
+        <h1>수업 타임라인</h1>
+      </header>
+      <button id="show-post" class="w3-button w3-block" type="button" aria-controls="posts">새 글 1개 보기</button>
+      <ol id="posts" class="w3-ul" aria-label="최신 글부터">
+        <li id="new-post" hidden>
+          <article class="post" aria-labelledby="author-minseo">
+            <span class="avatar w3-circle w3-pale-green" aria-hidden="true">민</span>
+            <div class="post-text">
+              <header class="byline">
+                <h2 id="author-minseo" tabindex="-1">김민서</h2>
+                <time datetime="2026-11-18T10:42:00+09:00">10:42</time>
+              </header>
+              <p>실습실 창가 자리에서 파란색 USB를 주웠습니다. 앞쪽 교탁에 맡겨 두었습니다.</p>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="post" aria-labelledby="author-junho">
+            <span class="avatar w3-circle w3-pale-blue" aria-hidden="true">준</span>
+            <div class="post-text">
+              <header class="byline">
+                <h2 id="author-junho">박준호</h2>
+                <time datetime="2026-11-18T10:35:00+09:00">10:35</time>
+              </header>
+              <p>어제 해 질 무렵에 찍은 운동장 사진을 자기소개 페이지에 올렸습니다. 같은 자리에서 세로로 찍은 사진도 있는데 다음 수업 때 두 장을 나란히 놓고 보고 싶습니다.</p>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="post" aria-labelledby="author-sua">
+            <span class="avatar w3-circle w3-sand" aria-hidden="true">수</span>
+            <div class="post-text">
+              <header class="byline">
+                <h2 id="author-sua">이수아</h2>
+                <time datetime="2026-11-18T10:21:00+09:00">10:21</time>
+              </header>
+              <p>공용 태블릿 충전을 마쳤습니다. 모바일 화면을 확인할 분은 창가 자리에서 사용하세요.</p>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="post" aria-labelledby="author-haneul">
+            <span class="avatar w3-circle w3-pale-red" aria-hidden="true">하</span>
+            <div class="post-text">
+              <header class="byline">
+                <h2 id="author-haneul">정하늘</h2>
+                <time datetime="2026-11-18T09:58:00+09:00">09:58</time>
+              </header>
+              <p>오늘 실습 짝을 구합니다. 저는 강의실 둘째 줄에 있습니다.</p>
+            </div>
+          </article>
+        </li>
+      </ol>
+    </main>
+  </body>
+</html>

@@ -1,20 +1,69 @@
-// ex04 다음 입력 준비: form.reset() 은 폼 안의 칸을 모두 비우고, focus() 는 커서를 그 칸으로 옮긴다
-// 두 칸을 채우고 남기기를 누른다. Console 1·2번을 비교하고, 칸이 비었는지와 커서가 어디서 깜박이는지(3번) 본다.
-
-const form = document.querySelector('#form');
+const form = document.querySelector('#guestbook-form');
 const nameInput = document.querySelector('#name');
 const messageInput = document.querySelector('#message');
+const notice = document.querySelector('#notice');
+const list = document.querySelector('#list');
+const dateFormat = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeStyle: 'short' });
+
+function clearNotice() {
+  notice.textContent = '';
+}
+
+function createPost(name, message, createdAt) {
+  const li = document.createElement('li');
+  const post = document.createElement('article');
+  post.className = 'post';
+
+  const avatar = document.createElement('span');
+  avatar.className = 'post-avatar';
+  avatar.setAttribute('aria-hidden', 'true');
+  avatar.textContent = Array.from(name)[0];
+
+  const content = document.createElement('div');
+  content.className = 'post-content';
+  const meta = document.createElement('div');
+  meta.className = 'post-meta';
+  const author = document.createElement('h3');
+  author.className = 'post-author';
+  author.textContent = name;
+  const time = document.createElement('time');
+  time.dateTime = createdAt.toISOString();
+  time.textContent = dateFormat.format(createdAt);
+
+  const body = document.createElement('p');
+  body.className = 'post-body';
+  body.textContent = message;
+  meta.append(author, time);
+  content.append(meta, body);
+  post.append(avatar, content);
+  li.append(post);
+  return li;
+}
 
 form.addEventListener('submit', function (event) {
-    event.preventDefault();                       // ex01
+  event.preventDefault();
 
-    // 1. 비우기 전에 읽는다 — 아직 칸에 글자가 있다
-    console.log(`1. 비우기 전 : [${nameInput.value}] [${messageInput.value}]`);
+  const name = nameInput.value.trim();
+  const message = messageInput.value.trim();
 
-    form.reset();                                 // 폼 안의 칸을 모두 비운다(메시지 칸도)
+  if (name === '') {
+    notice.textContent = '이름을 입력하세요.';
+    nameInput.focus();
+    return;
+  }
 
-    // 2. 비운 뒤에 읽는다 — 두 칸 다 빈 글자다
-    console.log(`2. 비운 뒤 : [${nameInput.value}] [${messageInput.value}]`);
+  if (message === '') {
+    notice.textContent = '메시지를 입력하세요.';
+    messageInput.focus();
+    return;
+  }
 
-    nameInput.focus();                            // 3. 커서를 이름 칸으로 옮긴다. 다음 글을 바로 칠 수 있다
+  clearNotice();
+  const li = createPost(name, message, new Date());
+  list.prepend(li);
+  form.reset();
+  nameInput.focus();
 });
+
+nameInput.addEventListener('input', clearNotice);
+messageInput.addEventListener('input', clearNotice);

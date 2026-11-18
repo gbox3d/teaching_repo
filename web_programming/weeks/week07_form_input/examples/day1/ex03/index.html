@@ -1,18 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex03 trim</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ex03 W3.CSS 배치</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+    <link rel="stylesheet" href="shared/examples.css">
     <script src="app.js" defer></script>
-</head>
-<body>
-    <h1>ex03 trim(): 앞뒤 빈칸 떼기</h1>
-    <p>이름 칸에 스페이스 두세 번, student01, 스페이스 두세 번을 차례로 넣고 남기기를 누른다. F12 › Console 의 [ ] 안을 비교한다.</p>
-    <form id="form">
-        <label for="name">이름</label>
-        <input id="name" type="text">
-        <button type="submit">남기기</button>
-    </form>
-</body>
+  </head>
+  <body class="w3-light-grey">
+    <header class="w3-container w3-teal">
+      <h1>ex03 카드와 메뉴</h1>
+    </header>
+    <nav class="w3-bar w3-white w3-card" aria-label="실습 메뉴">
+      <a class="w3-bar-item w3-button w3-mobile" href="#form">입력</a>
+      <a class="w3-bar-item w3-button w3-mobile" href="#preview">미리보기</a>
+    </nav>
+    <main class="w3-content w3-padding">
+      <section class="w3-container w3-card w3-white w3-margin-top">
+        <h2>한 줄 입력</h2>
+        <form id="form">
+          <p>
+            <label for="name">이름</label>
+            <input id="name" class="w3-input w3-border" type="text">
+          </p>
+          <p>
+            <label for="message">메시지</label>
+            <textarea id="message" class="w3-input w3-border" rows="3"></textarea>
+          </p>
+          <p><button class="w3-button w3-teal" type="submit">미리보기</button></p>
+        </form>
+      </section>
+      <section id="preview" class="w3-container w3-card w3-white w3-margin-top">
+        <h2>미리보기</h2>
+        <p id="result" class="example-output" aria-live="polite"></p>
+      </section>
+    </main>
+  </body>
 </html>

@@ -1,128 +1,134 @@
 [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
 
-# 7주차 — 폼 입력 읽기와 결과 표시
+# 7주차 CSS 응용
 
-이번 주도 부품을 하나씩 본다. 비교 예제 8개를 열어 값을 바꿔 보고, 마지막에 그 부품으로 이번 주 새 저장소 `web-week07` 의 `guestbook.html` 을 고치고 `guestbook.js` 를 조립한다.
-6주차에는 버튼을 누르면 **정해 둔 글자**를 띄웠다. 이번 주에는 방명록 폼에 **사용자가 입력한 글자**를 읽어, 남길 때마다 아래 목록에 **한 줄씩 붙인다**. 칸이 비어 있으면 안내 문구를 보이고 커서를 그 칸으로 옮긴다.
-결과는 화면과 **주소창**, **F12 › Console** 에서 본다. 예제 하나에 개념 하나. 다른 예제의 개념은 섞지 않는다.
+4주차에 익힌 색상·여백·반응형 배치를 실제 화면에 적용한다. 1일차에는 W3.CSS 클래스로 카드와 메뉴를 꾸미고 짧은 글을 최신순으로 읽는 타임라인을 살펴본다. 2일차에는 같은 배치를 방명록에 적용한다. 매일 강의·시연 60분과 실습 30분이다.
 
-## 이번 주 질문
+방명록의 JavaScript는 제공한다. 글을 등록한 뒤 작성자와 시각이 본문과 구분되는지, 여러 줄로 쓴 글과 긴 단어가 좁은 화면에서도 읽히는지 확인한다.
 
-> 3주차에 만든 방명록 폼은 **남기기**를 누르면 주소창 끝에 `?` 만 붙고 처음 화면으로 돌아갔다. 입력한 이름과 메시지를 읽어, 남길 때마다 화면 목록에 한 줄씩 쌓으려면 무엇을 알아야 하나?
+## 예제 바로 실행
 
-답은 네 가지 원리다.
-폼을 보내면 브라우저는 페이지를 **다시 연다**. 폼의 `submit` 을 듣고 첫 줄에서 `event.preventDefault()` 로 그 일을 막아야 내 코드가 바꾼 화면이 남는다.
-입력 칸의 글자는 `value` 다. 누를 **때** 읽어야 그때 적힌 글자가 나온다. `trim()` 으로 앞뒤 빈칸을 떼면 빈칸만 친 칸도 빈 칸으로 볼 수 있다.
-칸이 비었으면 안내 문구를 쓰고 `focus()` 로 커서를 옮긴 뒤 `return` 으로 **거기서 멈춘다**. 다 채워졌으면 목록에 한 줄을 붙이고 `form.reset()` 으로 칸을 비운다.
-목록에 한 줄을 더하려면 `document.createElement('li')` 로 줄을 **새로 만들고** `textContent` 로 글자를 넣은 뒤 `append` 로 목록 맨 뒤에 **붙인다**. 자리 하나의 `textContent` 를 바꾸기만 하면 늘 마지막 한 줄만 남는다.
+Node.js가 설치된 PC에서 교재 저장소의 맨 위 폴더(`web_programming`이 보이는 위치)를 터미널로 연다. Windows PowerShell과 macOS 터미널에서 같은 명령을 쓴다.
+
+```sh
+node web_programming/tools/static-server/server.mjs web_programming/weeks/week07_form_input 8000
+```
+
+서버를 실행한 채로 아래 예제를 연다. 두 화면을 모두 확인한 뒤 터미널에서 `Ctrl+C`로 서버를 종료한다.
+
+| 예제 | 확인할 동작 |
+|---|---|
+| [1일차 수업 타임라인 열기](http://localhost:8000/examples/day1/ex03b_list/index.html) | **새 글 1개 보기**를 누르면 박준호의 10:35 글 위에 김민서의 10:42 글이 나타난다. |
+| [2일차 완성 방명록 열기](http://localhost:8000/examples/day2/web-week07/guestbook.html) | 이름을 `student01`로 쓰고 메시지 ‘첫 글’과 ‘둘째 글’을 차례로 남긴다. ‘둘째 글’이 맨 위에 보여야 한다. |
 
 ## 학습 목표
 
-1. 폼을 보내면 페이지가 다시 열리는 것(주소 끝 `?`)을 보고, `addEventListener('submit', function (event) { })` 의 첫 줄 `event.preventDefault()` 로 막는다. Enter 로 보내도 같은 `submit` 이다.
-2. `input.value`·`textarea.value` 로 칸에 지금 적힌 글자를 읽는다. 읽는 줄은 리스너 **안**에 둔다.
-3. `trim()` 으로 앞뒤 빈칸을 떼고, `if (name === '') { … return; }` 로 빈 칸이면 안내하고 멈춘다. 검사는 위에서부터 차례로 한다.
-4. `form.reset()` 으로 칸을 비우고 `focus()` 로 커서를 옮겨 다음 입력을 준비한다. 값은 비우기 **전에** 읽는다.
-5. `'input'` 이벤트는 칸의 글자가 바뀔 때마다 일어난다. 다시 입력하면 안내 문구를 지우는 데 쓴다.
-6. 미리 만든 함수를 맡길 때는 이름만 쓴다(`addEventListener('input', clearNotice)`). 괄호는 부를 때만 붙인다(`clearNotice();`).
-7. `document.createElement('li')`·`textContent`·`append` 로 남길 때마다 목록 `<ul>` 에 한 줄씩 붙인다. 자리 하나의 `textContent` 를 바꾸면 늘 한 줄뿐인 것과 비교한다.
-
-## 이번 주 결과물
-
-```text
-[캡처 1] https://student01.github.io/web-week07/guestbook.html
-         글 두 개를 차례로 남긴 화면
-         남긴 글
-         · student01: 안녕하세요
-         · student02: 반갑습니다     ← 남길 때마다 한 줄씩 쌓인다
-         ← 주소창이 함께 보이게 찍는다
-```
-
-- 제출은 이 캡처 **한 장**이다. 빈값 안내 문구(`이름을 입력하세요.`)는 실습 중에 확인하는 것이고 캡처에는 없어도 된다.
-- `web-week07/ex/` 에 비교 예제를 저장하고 값을 바꾼 것은 push 로 남긴다. 기록물·표는 없다.
-- `student01` 은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다.
+- 색상·여백·테두리 클래스를 조합해 메뉴, 카드, 버튼의 역할을 구분한다.
+- 375px와 1280px에서 메뉴 배치를 비교하고, 좁은 화면에서 긴 글이 가로로 넘치지 않게 한다.
+- 작성자와 시각을 본문 위에 배치하고 글 사이에 여백과 구분선을 두어 한 글의 시작과 끝이 보이는 피드를 구성한다.
+- 제공된 JavaScript가 사용하는 `id`를 유지하면서 스타일을 바꾸고 새 글이 맨 위에 표시되는지 확인한다.
 
 ## 2일 수업 흐름
 
-| 일차 | 설명 30분 | 실습 60분 | 결과 |
-|---|---|---|---|
-| 1일차 | 3주차 폼 다시 보기(주소 끝 `?`) → ex01 폼 제출과 preventDefault → ex02 입력 칸의 value → ex03 trim | 새 폴더 `web-week07` 에 지난주 완성본 넣기 → `ex/` 에 예제 폴더 세 개(파일 여섯 개) 저장 → 값 바꿔 보기 → 새 저장소 만들어 올리기 · Pages 켜기 | `ex/` 비교 예제(확인용) |
-| 2일차 | 예제 폴더 하나에 파일 두 개 → ex04 reset 과 focus → ex05 빈값 검사와 return → ex06 input 이벤트 → ex07 함수 이름만 맡기기 → ex08 바꾸기 vs 붙이기 → 조립표 | `ex/` 에 예제 폴더 다섯 개 저장 → 다섯 예제 값 바꿔 보기 → `guestbook.html`·`guestbook.js` 조립 → 375·1280 폭과 서버로 확인 → push | 캡처 1 |
-
-각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
-
-## 준비
-
-- 지난주 완성본. 내 `web-week06` 저장소 GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [6주차 `examples/day2/web-week06/`](../week06_dom_events/examples/day2/web-week06/) 파일을 **Raw** 로 받는다
-- VS Code, Chrome(DevTools), Git (`git --version` 으로 확인)
-- Node.js LTS(선택). 5주차에 받은 [server.mjs](../../tools/static-server/server.mjs) 를 이번 주 폴더에도 둔다([사용 안내](../../tools/static-server/README.md)). Node 가 없는 PC 는 파일을 두 번 눌러 열어도 이번 주 결과는 같다
-- 개발자 도구의 **Console** 탭. 이번 주에는 Console 설정 ⚙ › **Preserve log** 를 켠다(폼이 페이지를 다시 열어도 Console 줄이 남는다. [따라하기 3단계](walkthrough.md#3-여는-법과-preserve-log))
-- 6주차 비교 예제 [ex02](../week06_dom_events/examples/day1/ex02/app.js)(열 때 vs 클릭할 때)·[ex06](../week06_dom_events/examples/day2/ex06/app.js)(함수 하나를 두 곳에서 부르기)를 기억해 둔다. 이번 주가 그 두 파일에서 이어진다. 3주차에 만든 방명록 폼(`guestbook.html`)이 이번 주에 동작한다
-- 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
-
-## 이번 주 용어
-
-| 한국어 | English | 中文 |
+| 일차 | 강의·시연 60분 | 실습 30분 |
 |---|---|---|
-| 폼 제출 | submit | 提交表单 |
-| 기본 동작 막기 | preventDefault | 阻止默认行为 |
-| 입력 값 | value | 输入值 |
-| 앞뒤 빈칸 떼기 | trim | 去除首尾空格 |
-| 안내 문구 | notice | 提示文字 |
-| 커서 옮기기 | focus | 聚焦 |
-| 폼 비우기 | reset | 重置表单 |
-| 입력 이벤트 | input event | 输入事件 |
-| 요소 만들기 | createElement | 创建元素 |
-| 붙이기 | append | 添加 |
+| 1일차 | CDN과 CSS 클래스 10분 → ex01 연결 전후 15분 → ex02 입력창·버튼 15분 → ex03 카드·메뉴 7분 → ex03b 타임라인 8분 → 확인 5분 | CDN 확인 5분 → 입력창·버튼 변경 5분 → 메뉴·카드 확인 5분 → 피드 여백·화면 폭 비교 10분 → 결과 점검 5분 |
+| 2일차 | ex04 실행 10분 → 제공 JS 읽기 10분 → ex05 입력 폼 변환 10분 → 메뉴·피드 배치 10분 → 같은 JS와 `class`·`id` 확인 10분 → 동작·모바일 검증 10분 | CDN 교체 5분 → 클래스 적용·색상 변경 13분 → 동작·375px 점검 7분 → 캡처 5분 |
 
-## 이번 주 비교 예제
+다운로드, 새 저장소 생성, Git 설정은 수업 전에 준비하고, push와 Pages 확인은 수업 뒤에 진행한다. 수업 중 실습 시간은 화면 변경과 실행 확인에 쓴다.
 
-예제마다 폴더 하나에 내 사이트와 같은 이름의 두 파일(`index.html` 화면 · `app.js` 동작)을 둔다. `index.html` 을 열고, 원리는 `app.js` 에서 본다. `index.html` 에는 그 예제가 쓰는 자리만 있다(1일차는 폼과 결과 자리, 2일차는 방명록 모양 폼·안내 자리·결과 자리 가운데 그 예제가 쓰는 것, ex08 은 글 칸·버튼·목록). 화면과 Console 의 번호가 코드의 형제 번호와 같다. ex07 은 Console 에 찍지 않고 안내 자리만 본다. 아래 `N행` 은 모두 그 폴더 `app.js` 의 줄 번호다.
+각 차시 첫 5분은 첫 10분 구간 안에서 파일·서버 준비 상태를 확인한다. 마지막 5분에는 결과 확인과 함께 다음 실습·수업을 안내한다. ex01~ex05는 강의자 비교 시연이며, 학생은 1일차에 ex02·ex03의 클래스와 ex03b의 글 사이 여백, 2일차에 제공 시작 파일의 CDN·매핑 클래스·색상 한 곳을 수정한다. 제공 JS 재작성과 추가 기능은 필수가 아니다.
 
-| 예제 | 비교하는 것 | 원리 | 바꿔 볼 값 |
-|---|---|---|---|
-| [ex01/index.html](examples/day1/ex01/index.html) + [app.js](examples/day1/ex01/app.js) | 1. 막지 않는 폼 / 2. `event.preventDefault()` 로 막는 폼 | 폼을 보내면 브라우저는 페이지를 다시 연다(주소 끝 `?`). 리스너 첫 줄에서 막아야 바꾼 화면이 남는다. 버튼을 눌러도 Enter 를 쳐도 같은 `submit` 이다 | 17행 `event.preventDefault();` 앞에 `//` → 2번도 다시 열린다 |
-| [ex02/index.html](examples/day1/ex02/index.html) + [app.js](examples/day1/ex02/app.js) | 1. 열 때 읽은 `value` / 2. 누를 때 읽은 `value` / 3. textarea 의 `value` | `value` 는 칸에 **지금** 적힌 글자다. 읽는 줄이 리스너 안에 있어야 누를 때의 글자가 나온다(6주차 ex02 와 같은 원리) | 이름을 바꿔 다시 누르기 → 2번만 바뀐다. 16행 `value` 를 `textContent` 로 → 3번이 빈다 |
-| [ex03/index.html](examples/day1/ex03/index.html) + [app.js](examples/day1/ex03/app.js) | 1. `value` 그대로 / 2. `trim()` 한 값 | `trim()` 은 앞뒤 빈칸만 뗀 값을 돌려준다. 빈칸만 친 칸은 빈 글자 `''` 가 된다. 가운데 빈칸은 남는다 | 빈칸만 넣기 → 2번 `[]`. 10행 `trim()` 을 `trm()` 으로 → 빨간 줄 |
-| [ex04/index.html](examples/day2/ex04/index.html) + [app.js](examples/day2/ex04/app.js) | 1. 비우기 전에 읽은 값 / 2. `form.reset()` 뒤에 읽은 값 / 3. `focus()` 로 커서 옮기기 | 다음 입력 준비다. `reset()` 은 폼 안의 칸을 모두 비운다. 그래서 값은 비우기 전에 읽는다. `focus()` 는 커서를 그 칸으로 옮긴다 | 14행 `form.reset();` 을 2번 `console.log` 줄 아래로 → 2번에도 글자가 있다. 19행 `nameInput` 을 `messageInput` 으로 → 커서가 메시지 칸으로 |
-| [ex05/index.html](examples/day2/ex05/index.html) + [app.js](examples/day2/ex05/app.js) | 1. 이름이 빔 / 2. 메시지가 빔 / 3. 둘 다 찼음 | `if` 안의 `return` 은 함수를 그 자리에서 끝낸다. 검사는 위에서부터라 둘 다 비면 1번 안내만 나온다 | 19행 `return;` 앞에 `//` → 결과에 `: 안녕하세요` 가 남는다 |
-| [ex06/index.html](examples/day2/ex06/index.html) + [app.js](examples/day2/ex06/app.js) | 1. 이름 칸(`input`)의 `'input'` / 2. 메시지 칸(`textarea`)의 `'input'` | `'input'` 은 칸의 글자가 바뀔 때마다(칠 때도, 지울 때도) 일어난다. 한 줄 칸과 여러 줄 칸이 같다 | `abc` 를 한 글자씩 → 1번이 세 줄. 11행 `'input'` 을 `'inptu'` 로 → 이름 칸에 쳐도 빨간 줄 없이 아무 일도 없다 |
-| [ex07/index.html](examples/day2/ex07/index.html) + [app.js](examples/day2/ex07/app.js) | 1. `function () { clearNotice(); }` 를 맡김 / 2. 이름만 맡긴 `clearNotice` | 미리 만든 함수는 이름만 맡기면 칠 때마다 브라우저가 대신 부른다. 괄호는 부를 때만 붙인다. 두 모양은 하는 일이 같다 | 18행 `clearNotice` 를 `clearNotice()` 로 → 메시지 칸에 쳐도 안내가 남는다. 14행 `clearNotice();` 를 `clearNotice;` 로 → 이름 칸에 쳐도 안내가 남는다 |
-| [ex08/index.html](examples/day2/ex08/index.html) + [app.js](examples/day2/ex08/app.js) | 1. `textContent` 로 바꾸기 / 2. `createElement`·`append` 로 붙이기 | 바꾸기는 같은 자리의 글자를 갈아 끼워 늘 한 줄이다. 붙이기는 누를 때마다 새 `<li>` 를 **만들고** 글자를 넣어 목록 맨 뒤에 **붙이므로** 앞 줄이 남는다 | 20행 `list.append(li);` 앞에 `//` → 2번을 눌러도 목록이 빈다(빨간 줄 없음). 18행을 리스너 밖(8행 아래)으로 → 목록이 늘 한 줄 |
+## 수업 전 준비
+
+VS Code, Chrome, Git, 인터넷 연결을 준비한다. 제공 파일로 `web-week07` 작업 폴더를 만들고 이번 주 `examples/`를 폴더 구조 그대로 가져온다. `guestbook.before.html`을 `guestbook.html`로 복사하여 변환 전 방명록에서 시작한다. [따라하기](walkthrough.md#수업-전-준비)에 준비 순서가 있다. CDN을 읽으려면 인터넷 연결이 필요하다.
+
+W3.CSS는 다음 주소를 `<head>`에 연결한다. 라이브러리 파일을 저장소에 내려받지 않는다.
+
+```html
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+```
+
+ex02~ex05와 완성본 방명록은 긴 입력이 화면을 넘치지 않도록 제공된 `shared/examples.css`의 `example-output`을 사용한다. ex03b의 `shared/examples.css`에서 타임라인의 여백을 바꾼다. 2일차 방명록의 같은 이름 파일에는 [공통 스타일](../../shared/examples.css)과 피드 전용 배치가 함께 들어 있다. ex04는 변환 전 비교를 위해 `../web-week07/styles.css`도 읽고, W3.CSS 예제와 완성본 방명록은 위 CDN을 읽는다. 완성본의 홈·소개 페이지는 기존 `styles.css`를 사용한다.
+
+## 예제와 변경 범위
+
+| 예제 | 관찰할 내용 | 학생이 바꿀 내용 |
+|---|---|---|
+| [ex01](examples/day1/ex01/README.md) | `before.html`과 `index.html`의 CDN 연결 전후, 같은 버튼 동작 | CDN 확인, 색상 변경은 시연·선택 |
+| [ex02](examples/day1/ex02/README.md) | `w3-input`, `w3-border`, `w3-button`을 적용한 입력 미리보기 | 버튼 색상 또는 입력창 테두리 |
+| [ex03](examples/day1/ex03/README.md) | 카드·컨테이너·메뉴, `w3-mobile`의 화면 폭에 따른 배치 | 메뉴 색상 또는 카드 여백 |
+| [ex03b 타임라인](examples/day1/ex03b_list/README.md) | 작성자·시각·본문과 글 사이 구분선 | 글 사이 여백 변경, 375px·1280px 비교 |
+| [ex04](examples/day2/ex04/README.md) | 기존 CSS로 만든 동작하는 방명록 | 제공 JS를 읽고 동작 확인 |
+| [ex05](examples/day2/ex05/README.md) | ex04와 같은 JS를 쓰는 W3.CSS 방명록 | 클래스 적용 전후 비교 |
+| [web-week07](examples/day2/web-week07/) | 변환 전 시작 파일과 변환 후 대조 파일 | 시작 파일의 CDN·클래스 변경, 색상 한 곳 변경 |
+
+## 화면 요소별 CSS
+
+| 범주 | 대표 클래스 | 적용 위치 |
+|---|---|---|
+| 입력창과 버튼 | `w3-input`, `w3-border`, `w3-button` | 이름·메시지 입력, 남기기 버튼 |
+| 색상과 여백 | `w3-teal`, `w3-blue`, `w3-padding` | 제목·버튼·카드 내부 |
+| 카드와 컨테이너 | `w3-container`, `w3-content`, `w3-card` | 화면 내용과 입력 영역 |
+| 타임라인 | `.feed-list`, `.post`, `.post-body` | 작성자·시각·본문 정렬, 글 사이 여백과 구분선 |
+| 메뉴와 모바일 배치 | `w3-bar`, `w3-bar-item`, `w3-mobile` | 메뉴 항목과 좁은 화면 |
+
+`class`에는 공백으로 여러 클래스를 붙일 수 있다. 이 예제의 `w3-*` 클래스는 스타일을 정하고, `id`는 JavaScript가 요소를 찾는 데 쓴다. 이 구분은 이번 예제의 사용 방식이며 CSS도 `id`를, JavaScript도 `class`를 선택자로 사용할 수 있다.
+
+### 방명록 피드
+
+![375px 방명록 피드. 작성자와 시각 아래에 본문이 표시되고 두 번째로 쓴 글이 맨 위에 놓인다.](images/guestbook-feed.png)
+
+왼쪽 열에는 아바타를 두고 오른쪽 열에는 작성자, 시각, 본문을 놓는다. `minmax(0, 1fr)`로 오른쪽 열이 화면 폭에 맞게 줄어들도록 한다. 본문의 `white-space: pre-wrap`은 학생이 넣은 줄바꿈을 보존하고, `overflow-wrap: anywhere`는 긴 단어도 화면 안에서 나눈다.
+
+### 화면이 예상과 다를 때
+
+| 증상 | 확인할 곳 |
+|---|---|
+| 타임라인의 글 사이 여백을 바꿔도 그대로다. | [타임라인 CSS](examples/day1/ex03b_list/shared/examples.css)에서 `.post`의 `padding-block` 값을 바꿨는지 확인한다. 저장하고 새로고침한 뒤 개발자 도구의 Elements에서 `article.post`를 선택해 적용된 값을 본다. |
+| 방명록 버튼 색상은 보이지만 아바타와 본문이 한 줄에 나란히 놓이지 않는다. | 개발자 도구의 Network를 열고 새로고침한다. `shared/examples.css`가 404이면 방명록 HTML과 같은 폴더에 `shared/`를 복사한다. 버튼 색상까지 빠졌다면 CDN의 `w3.min.css` 요청도 확인한다. |
+| 방명록에서 둘째 글이 첫 글 아래에 붙는다. | Elements에서 `ul#list`의 첫 번째 `li`를 확인한다. 첫 번째 `li`가 ‘첫 글’이면 [제공 JS](examples/day2/web-week07/guestbook.js)의 `list.prepend(li)`와 내 코드를 비교한다. |
+
+## 제공 JavaScript 읽기
+
+ex04와 ex05의 `app.js`, 완성본의 `guestbook.js`는 같은 코드다. JavaScript를 다시 작성하는 대신 아래 흐름을 코드에서 찾고 실행 결과와 연결한다.
+
+| 코드 | 방명록에서 하는 일 |
+|---|---|
+| `submit` · `event.preventDefault()` | 폼 제출을 받고 페이지가 다시 열리는 기본 동작을 막는다 |
+| `.value.trim()` | 제출 시 입력값을 읽고 앞뒤 공백을 제거한다 |
+| 빈값 검사 · `return` | 빈 입력을 안내하고 목록 추가 전에 함수를 끝낸다 |
+| `textContent` · `prepend` | 작성자와 본문을 글자로 표시하고 새 항목을 목록 맨 앞에 넣는다 |
+| `form.reset()` · `focus()` | 입력을 초기값으로 되돌리고 이름 칸으로 커서를 옮긴다 |
+| `input` · `clearNotice` | 다시 입력하면 안내 문구를 지운다 |
+
+제공된 입력 칸의 초기값은 비어 있으므로 `reset()` 뒤에 칸이 빈다. 이메일은 선택 입력이며 현재 JS는 이름과 메시지만 읽는다. 이메일을 입력하면 브라우저가 `type="email"` 형식을 먼저 검사한다. 형식이 틀리면 JS의 submit 처리 전에 제출을 막으므로, 기본 실습에서는 비워 두거나 `student01@example.com`을 쓴다. 새로고침하면 목록이 사라진다. 저장 기능은 11주차에 다룬다.
+
+## 완료 기준과 제출
+
+- CDN 요청이 성공하고 Console에 예제 코드 오류가 없다.
+- 빈 입력은 안내하고, 글 두 건을 등록하면 두 번째 글이 첫 번째 글 위에 표시된다. 입력 후 칸이 비고 이름 칸에 커서가 있다.
+- 버튼이나 제목의 색상을 바꾸고, 375px에서 메뉴·작성자·시각·여러 줄 본문이 가로로 넘치지 않는지 확인한다.
+- 주소와 글 두 건이 보이는 375px 실행 화면 한 장을 제출한다. 색상 변경이 같은 화면에 보이면 된다. 비교표나 코드 전문은 제출하지 않는다.
+
+공개 저장소와 캡처에는 `student01` 같은 예시 이름을 쓴다. 제출 방법은 [실습지](lab.md#제출--캡처-한-장)에 있다.
 
 ## 수업 자료
 
-- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week07_form_input/index.html
-- [순서대로 따라하기](walkthrough.md)
-- [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(예제 폴더 `ex01/`~`ex03/`), 2일차 `day2/`(예제 폴더 `ex04/`~`ex08/`, 조립 `web-week07/`). 폴더마다 `index.html`·`app.js`
-- 2일차 끝의 `web-week07`(조립 결과): [guestbook.html](examples/day2/web-week07/guestbook.html) · [guestbook.js](examples/day2/web-week07/guestbook.js) · [index.html](examples/day2/web-week07/index.html) · [about.html](examples/day2/web-week07/about.html) · [app.js](examples/day2/web-week07/app.js) · [styles.css](examples/day2/web-week07/styles.css) · [images/profile.png](examples/day2/web-week07/images/profile.png)
-- 정적 서버: [server.mjs](../../tools/static-server/server.mjs) · [사용 안내](../../tools/static-server/README.md)
-- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input
-
-## 완료 기준
-
-- [ ] 새 저장소 `web-week07` 을 만들어 Pages 를 켰고, `ex/` 에 비교 예제가 있고, 각 예제에서 값을 하나 이상 바꿔 push 했다.
-- [ ] `guestbook.html` 의 `<head>` 에 `<script src="guestbook.js" defer></script>` 가 있고, `<form id="guestbook-form">` 아래에 `#notice` 자리와 `<ul class="card" id="list">` 목록이 있다.
-- [ ] 공개 주소 `https://student01.github.io/web-week07/guestbook.html` 에서 이름·메시지를 넣고 **남기기**를 누르면 주소가 그대로이고, 목록에 `이름: 메시지` 한 줄이 붙고, 칸이 비고 커서가 이름 칸에 있다. 한 번 더 남기면 앞 줄 아래에 한 줄이 더 붙는다.
-- [ ] 이름이나 메시지를 비우고 누르면 그 칸의 안내 문구가 보이고 커서가 그 칸으로 간다. 그 칸에 한 글자를 치면 안내가 사라진다.
-- [ ] Console 을 비우고(오른쪽 클릭 › **Clear console**) `guestbook.html` 을 새로고침한 뒤 글을 남겨 봐도 F12 Console 에 빨간 줄이 없다(브라우저가 탭 아이콘을 찾다 낸 `favicon.ico` 404 줄은 괜찮다).
-- [ ] 목록에 두 줄이 쌓인 화면과 주소창이 함께 보이는 캡처 1장을 제출한다.
+- [슬라이드](slides.md) · [English slides](slides_en.md) · [교재 사이트 덱](https://gbox3d.github.io/teaching_repo/webprg/decks/week07_form_input/index.html)
+- [실습과 제출 안내](lab.md) · [순서대로 따라하기](walkthrough.md) · [예제 설명](examples/README.md)
+- [변환 전 시작 HTML](examples/day2/web-week07/guestbook.before.html) · [완성본 HTML](examples/day2/web-week07/guestbook.html) · [제공 JS](examples/day2/web-week07/guestbook.js)
+- [정적 서버](../../tools/static-server/server.mjs) · [서버 사용 안내](../../tools/static-server/README.md)
 
 ## 다음 수업 연결
 
-이번 주로 8주차 중간 실기 범위(1~7주 실습 제출)가 모두 채워졌다. 6주차 2일차에 안내한 대로 8주차는 [문제 은행](../week08_midterm/examples/README.md)에서 값을 바꿔 출제한다. 폼 문제 [w07_form_line](../week08_midterm/examples/w07_form_line/README.md)은 이번 주 실습에서 나왔다.
-이번 주 목록은 **화면에만** 있다. 한 줄만 지우거나 개수를 세려면 글을 배열에 모아 두고 목록을 다시 그려야 한다. 그것이 10주차이고, 새로고침해도 남게 하는 것은 11주차다. 9주차는 오늘 `web-week07` 의 파일에서 시작한다(**Code › Download ZIP**, 못 받으면 교재의 이번 주 [`examples/day2/web-week07/`](examples/day2/web-week07/)).
+8주차 중간 실기에서는 [문제 은행](../week08_midterm/examples/README.md)으로 앞선 수업을 확인한다. 출제 범위와 연습 항목은 문제 은행과 분반 안내에서 확인한다. 9주차는 시험 답안 대신 `web-week07` 완성본에서 시작하며 웹 파일을 유지한 채 README·캡처·SVG를 더한다. 10주차에는 배열로 목록을 관리한다. 11주차 필수 실습은 폼 한 건 저장·복원이며, 전체 저장 방명록은 제공 시연본이다.
 
-## 공식 참고 자료
+## 참고 자료
 
-- [첫 번째 폼 만들기 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Extensions/Forms/Your_first_form)
-- [HTMLFormElement: submit 이벤트 — MDN](https://developer.mozilla.org/ko/docs/Web/API/HTMLFormElement/submit_event)
-- [Event.preventDefault() — MDN](https://developer.mozilla.org/ko/docs/Web/API/Event/preventDefault)
-- [HTMLInputElement — MDN](https://developer.mozilla.org/ko/docs/Web/API/HTMLInputElement)
-- [String.prototype.trim() — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/trim)
-- [HTMLElement.focus() — MDN](https://developer.mozilla.org/ko/docs/Web/API/HTMLElement/focus)
-- [HTMLFormElement.reset() — MDN](https://developer.mozilla.org/ko/docs/Web/API/HTMLFormElement/reset)
-- [Element: input 이벤트 — MDN](https://developer.mozilla.org/ko/docs/Web/API/Element/input_event)
-- [Document.createElement() — MDN](https://developer.mozilla.org/ko/docs/Web/API/Document/createElement)
-- [Element.append() — MDN](https://developer.mozilla.org/ko/docs/Web/API/Element/append)
-- [Console 기능 참고(로그 보존 Preserve log) — Chrome DevTools](https://developer.chrome.com/docs/devtools/console/reference?hl=ko#persist)
+- [cdnjs W3.CSS 4.1.0](https://cdnjs.com/libraries/w3-css)
+- [W3.CSS 입력창](https://www.w3schools.com/w3css/w3css_input.asp)
+- [W3.CSS 컨테이너](https://www.w3schools.com/w3css/w3css_containers.asp)
+- [W3.CSS 카드](https://www.w3schools.com/w3css/w3css_cards.asp)
+- [W3.CSS 탐색 메뉴](https://www.w3schools.com/w3css/w3css_navigation.asp)
+- [W3.CSS 반응형 화면](https://www.w3schools.com/w3css/w3css_responsive.asp)

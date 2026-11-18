@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>my-web · 변환 전 방명록</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="shared/examples.css">
+    <script src="guestbook.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>방명록</h1>
+      <nav>
+        <a href="index.html">홈</a>
+        <a href="about.html">내 정보</a>
+        <a href="guestbook.html" aria-current="page">방명록</a>
+      </nav>
+    </header>
+    <main>
+      <h2>글 남기기</h2>
+      <form id="guestbook-form">
+        <div class="composer-fields">
+          <p>
+            <label for="name">이름</label>
+            <input id="name" type="text">
+          </p>
+          <p>
+            <label for="email">이메일 (선택)</label>
+            <input id="email" type="email">
+          </p>
+        </div>
+        <p>
+          <label for="message">메시지</label>
+          <textarea id="message" rows="2"></textarea>
+        </p>
+        <button type="submit">남기기</button>
+      </form>
+      <div id="notice" aria-live="polite"></div>
+      <div class="feed-heading">
+        <h2>남긴 글</h2>
+        <span>최신순</span>
+      </div>
+      <ul id="list" class="card example-output" aria-live="polite"></ul>
+      <p class="feed-empty">아직 남긴 글이 없습니다. 첫 메시지를 남겨 보세요.</p>
+    </main>
+    <footer><p>수업용 연습 페이지 · student01</p></footer>
+  </body>
+</html>

@@ -64,5 +64,7 @@ examples/
 | [screenshots/home.png](day2/web-week09/screenshots/home.png) · [screenshots/guestbook.png](day2/web-week09/screenshots/guestbook.png) | `screenshots/` | [1일차 5단계](../walkthrough.md#5-화면-두-장-캡처와-도표-파일) — 내 화면을 직접 찍어 넣는다(동작한 뒤의 화면) |
 | [index.html](day2/web-week09/index.html) · [styles.css](day2/web-week09/styles.css) · [app.js](day2/web-week09/app.js) | 같은 이름 | 7주차 그대로. 이번 주에 고치지 않는다 |
 | [about.html](day2/web-week09/about.html) · [guestbook.html](day2/web-week09/guestbook.html) · [guestbook.js](day2/web-week09/guestbook.js) | 같은 이름 | 7주차 그대로. 방명록 글은 화면에만 있다 |
+| [shared/examples.css](day2/web-week09/shared/examples.css) | `shared/examples.css` | 7주차 피드 배치, 긴 글 줄바꿈 |
+| [guestbook.before.html](day2/web-week09/guestbook.before.html) | `guestbook.before.html` | 7주 변환 전 비교본, 발표 메뉴에는 연결하지 않음 |
 | [images/profile.png](day2/web-week09/images/profile.png) | `images/profile.png` | 3주차와 같은 파일. 바꾸지 않는다 |
 | [images/site-map.svg](day2/web-week09/images/site-map.svg) | `images/site-map.svg` | [1일차 5단계](../walkthrough.md#5-화면-두-장-캡처와-도표-파일) — ex10 의 SVG 에서 맨 위 주석을 지운 것. 10~14주 완성본이 그대로 이어받는다 |

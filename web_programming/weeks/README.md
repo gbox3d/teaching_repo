@@ -100,7 +100,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 4 | CSS와 반응형 UI | 기기 모드 375px에서 nav가 세로로 접히는 꾸민 `index.html` | [`week04_responsive_css`](week04_responsive_css/) |
 | 5 | JavaScript 데이터와 함수 | 함수가 만든 인사말이 페이지에 보이고 Console에 값이 찍힌 화면 | [`week05_javascript_data`](week05_javascript_data/) |
 | 6 | DOM과 클릭 이벤트 | [다크 모드]로 배경이 바뀌고 "클릭 N회"가 표시된 `index.html` | [`week06_dom_events`](week06_dom_events/) |
-| 7 | 폼 입력 읽기와 결과 표시 | 이름·메시지를 넣고 [남기기]를 누를 때마다 아래 목록에 한 줄씩 쌓이는 `guestbook.html`(두 줄 캡처) | [`week07_form_input`](week07_form_input/) |
+| 7 | CSS 응용 | 반응형 메뉴와 타임라인을 구성하고, 방명록에서 작성자·시각·본문을 최신 글부터 확인한다 | [`week07_form_input`](week07_form_input/) |
 | 8 | 중간 개인 실기 | 1일차 [1~7주 문제 은행](week08_midterm/examples/README.md) 연습, 2일차 중간 실기 — `web-week08/exam/` 공개 주소 · 저장소 주소 · Commits 탭 캡처 | [`week08_midterm`](week08_midterm/) |
 | 9 | 마크다운과 1차 과제 발표 | 표·그림·소스 코드·SVG 도표가 들어간 저장소 `README.md` 1차판과 2분 시연(방명록 목록에 두 줄 남기기 포함) | [`week09_readme_presentation`](week09_readme_presentation/) |
 | 10 | 배열 데이터를 목록으로 그리기 | 글을 배열에 모아 목록을 다시 그려, 3개를 쌓고 1개를 지운 뒤 "2개"가 표시된 방명록 | [`week10_array_list`](week10_array_list/) |
@@ -138,9 +138,10 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | `document.querySelector('#greeting').textContent = …` | 5주 2일차 | 정식 항목(ex09) |
 | `addEventListener('click', function () { })` | 6주 1일차 | 정식 항목 |
 | `classList.add / remove / toggle` | 6주 2일차 | 정식 항목 |
-| `addEventListener('submit', function (event) { })`, `event.preventDefault()`, `input.value`, `trim()` | 7주 1일차 | 정식 항목 |
-| `focus()`, `form.reset()`, `if` 안의 `return` | 7주 2일차 | 정식 항목(ex04·ex05) |
-| `addEventListener('input', …)`, 미리 만든 함수 이름만 맡기기 | 7주 2일차 | 정식 항목(ex06·ex07) |
+| W3.CSS CDN·입력·버튼·카드·메뉴 클래스 | 7주 | 정식 항목 |
+| `addEventListener('submit', function (event) { })`, `event.preventDefault()`, `input.value`, `trim()` | 7주 2일차 | 제공 폼 코드의 동작 확인 |
+| `focus()`, `form.reset()`, `if` 안의 `return` | 7주 2일차 | 제공 폼 코드의 입력 확인·초기화 |
+| `addEventListener('input', …)`, 미리 만든 함수 이름만 맡기기 | 7주 2일차 | 제공 폼 코드 참고. 직접 구현 평가는 하지 않는다 |
 | 배열 `[ ]`·`push`·`length`·`[i]`·고전 `for` | 10주 1일차 | 오늘 문법 5분(정식 도입) |
 | `createElement`·`textContent`·`append`, `innerHTML = ''`(비우기 전용) | 10주 1·2일차 | 정식 항목 |
 | `splice(i, 1)` | 10주 2일차 | 복붙 틀(삭제 버튼 틀 안) |

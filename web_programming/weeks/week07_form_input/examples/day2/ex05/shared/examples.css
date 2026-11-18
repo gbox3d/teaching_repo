@@ -1,0 +1,97 @@
+[hidden] { display: none !important; }
+.example-output { overflow-wrap: anywhere; }
+.teaching-example, .teaching-example * { box-sizing: border-box; }
+.teaching-example { max-width: 48rem; margin: 2rem auto; padding: 0 1rem; font: 1rem/1.6 system-ui, sans-serif; color: #1f2933; background: #fff; }
+.teaching-example h1 { margin: 0 0 1.5rem; font: 600 1.7rem/1.3 system-ui, sans-serif; }
+.teaching-example h2 { margin: 1.5rem 0 .65rem; font: 600 1.2rem/1.4 system-ui, sans-serif; }
+.teaching-example label { display: block; margin-top: .75rem; font-weight: 600; }
+.teaching-example .w3-input { margin: .5rem 0 1rem; }
+.teaching-example textarea { resize: vertical; }
+.teaching-example .w3-button { max-width: 100%; margin: 0 .25rem .5rem 0; white-space: normal; }
+.teaching-example label.inline-label { display: inline-flex; align-items: center; gap: .5rem; margin: .5rem .75rem .75rem 0; font-weight: 400; }
+.teaching-example .w3-check { width: 1.15rem; height: 1.15rem; top: 0; margin: 0; }
+.teaching-example pre { padding: .75rem; background: #f3f4f6; border-radius: 4px; white-space: pre-wrap; }
+.teaching-example pre, .teaching-example code, .teaching-example li, .teaching-example p, .teaching-example dd { overflow-wrap: anywhere; }
+.teaching-example li { margin: .5rem 0; }
+.teaching-example [role="status"] { min-height: 1.6em; font-weight: 600; }
+.teaching-example table { table-layout: fixed; }
+.teaching-example th, .teaching-example td { padding: .5rem .4rem; text-align: center; vertical-align: top; overflow-wrap: anywhere; }
+.teaching-example th:first-child { width: 4rem; }
+.teaching-example caption { margin-bottom: .5rem; text-align: left; font-size: .9rem; }
+.teaching-example :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+
+/* 방명록 변환 전후에 쓰는 글 구조 */
+.feed-heading,
+.post-meta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .25rem .75rem;
+}
+.feed-heading { justify-content: space-between; }
+.feed-heading span, .post-meta time { color: #50635f; font-size: .875rem; }
+.post-avatar { display: none; }
+.post-author { margin: 0; font: inherit; font-weight: 700; overflow-wrap: anywhere; }
+.post-body { margin: .35rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.card.example-output:empty { margin: 0; padding: 0; border: 0; }
+.card.example-output > li { margin: .65rem 0 .65rem 1rem; }
+#list:not(:empty) + .feed-empty { display: none; }
+
+/* W3.CSS 방명록 */
+.guestbook-page { color: #18332e; font-family: system-ui, sans-serif; }
+.guestbook-page > header h1 {
+  max-width: 42rem;
+  margin: 0 auto;
+  font: 700 1.8rem/1.2 system-ui, sans-serif;
+}
+.guestbook-page > nav {
+  padding-inline: max(0px, calc((100% - 44rem) / 2));
+}
+.guestbook-page > main { max-width: 44rem; }
+.guestbook-page main > section {
+  border: 1px solid #d7e2de;
+  border-radius: .65rem;
+  box-shadow: 0 1px 3px #18332e12;
+}
+.guestbook-page main h2 { margin: 1rem 0 .75rem; font: 700 1.2rem/1.35 system-ui, sans-serif; }
+
+.guestbook-page .composer-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.guestbook-page form p { margin: 0 0 .65rem; }
+.guestbook-page form label { display: block; margin-bottom: .2rem; font-size: .9rem; font-weight: 600; }
+.guestbook-page .w3-input { width: 100%; box-sizing: border-box; border-radius: .35rem; }
+.guestbook-page textarea { display: block; resize: vertical; }
+.guestbook-page form button { border-radius: .35rem; }
+.guestbook-page #notice:empty { margin: 0; }
+
+.guestbook-page .feed-heading { border-bottom: 1px solid #d7e2de; }
+.w3-ul.feed-list { margin: 0; padding: 0; list-style: none; }
+.w3-ul.feed-list > li { padding-inline: 0; padding-block: 1rem; border-bottom: 1px solid #d7e2de; }
+.w3-ul.feed-list > li:last-child { border-bottom: 0; }
+.feed-list .post {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  gap: .8rem;
+}
+.feed-list .post-avatar {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  color: #07574b;
+  background: #d9eee8;
+  font-weight: 700;
+}
+.feed-list .post-body { line-height: 1.6; }
+.guestbook-page .feed-empty { margin: 0; padding: 1.25rem 0; color: #50635f; }
+
+@media (max-width: 600px) {
+  .guestbook-page > nav .w3-bar-item { padding-block: .3rem; }
+}
+@media (max-width: 340px) {
+  .guestbook-page .composer-fields { grid-template-columns: 1fr; gap: 0; }
+}

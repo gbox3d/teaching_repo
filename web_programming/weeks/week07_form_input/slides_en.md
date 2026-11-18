@@ -3,308 +3,271 @@ marp: true
 theme: default
 paginate: true
 header: "Web Programming · Week 7"
-footer: "Reading Form Input and Displaying Results · see the principle through comparison examples, then assemble at the end"
+footer: "Applied CSS"
 ---
 
-# Reading Form Input and Displaying Results
+# Applied CSS
 
-In Week 6 a button showed **text we wrote in advance**. This week the guestbook form reads **text the user types** and adds it to a list, **one line per entry**.
+Style cards and navigation, then arrange guestbook posts in a newest-first feed.
 
-Same method as last week: look at **8 comparison examples** one at a time, then **assemble** `guestbook.html` and `guestbook.js` in a new repository, `web-week07`, built on last week's files.
+- Day 1: W3.CSS classes, cards, navigation and a timeline
+- Day 2: style the guestbook feed and check authors, timestamps and post text on mobile
+- Each day: **60 min lecture and demo + 30 min lab**
 
-- When a form is sent, the browser **opens the page again**. Stop that, or the result disappears.
-- Results show on screen, in the **address bar**, and in **Console**.
-- One example = one idea. The lab is about **changing values** and watching.
-
----
-
-# Day 1 — Form Submit and Input Values
-
-`30 min explanation & demo → 60 min lab`
-
-1. The Week 3 form again — press [남기기] and `?` appears at the end of the address
-2. ex01 — form submit and `event.preventDefault()`
-3. ex02 — the input's `value`: on open vs. on submit
-4. ex03 — `trim()`: cutting spaces at both ends
+Read and run the supplied form JS. Later lessons reuse its input-processing flow.
 
 ---
 
-## Day 1 · 0–5 min — The Week 3 form again
+# Day 1 W3.CSS Basics
 
-`guestbook.html` from last week's files — the form you made in Week 3.
+| Lecture time | Topic |
+|---|---|
+| 0–10 min | CDN and CSS classes |
+| 10–25 min | ex01 before and after connecting CSS |
+| 25–40 min | ex02 inputs and buttons |
+| 40–47 min | ex03 cards and mobile navigation |
+| 47–55 min | ex03b timeline and post spacing |
+| 55–60 min | Classes, IDs, and execution checks |
+
+A 30 min lab follows. Download files and prepare Git before class. Use the first 5 min of the opening block for file/server checks and the last 5 min for lab instructions.
+
+---
+
+## Day 1 · 0–10 min Connect CSS from a CDN
+
+W3.CSS provides styles selected by class names.
+
+```html
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+```
+
+- Add the version-pinned CDN URL to `<head>`.
+- Network: Disable cache → reload → confirm `w3.min.css` returns 200.
+- Internet access is required. Do not store a library copy in the repo.
+
+[W3.CSS on cdnjs](https://cdnjs.com/libraries/w3-css)
+
+---
+
+## Day 1 · 10–25 min ex01 Before and After
+
+[Before HTML](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day1/ex01/before.html) · [After HTML](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day1/ex01/index.html) · [Shared JS](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day1/ex01/app.js)
+
+```html
+<button id="button" class="w3-button w3-teal">클릭</button>
+```
+
+Both buttons have the same classes. The page connected to the CDN receives their styles.
+
+1. Click the button on each page and check the count.
+2. The instructor changes `w3-teal` to `w3-blue`; students may try this optionally.
+3. Check both the color and the click behavior.
+
+---
+
+## Day 1 · 25–40 min ex02 Inputs and Buttons
+
+[HTML](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day1/ex02/index.html) · [Supplied JS](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day1/ex02/app.js)
+
+```html
+<input id="name" class="w3-input w3-border" type="text">
+<button class="w3-button w3-teal" type="submit">미리보기</button>
+```
+
+- `w3-input`: input styling; `w3-border`: border
+- `w3-button`: button styling; `w3-teal`: color
+- Enter a name and message, then preview. The input values remain.
+
+Change one button color and confirm that the same result appears.
+
+---
+
+## Day 1 · 40–47 min ex03 Cards and Navigation
+
+[HTML](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day1/ex03/index.html) · [Notes](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day1/ex03/README.md)
+
+| Classes | Use |
+|---|---|
+| `w3-container`, `w3-padding` | Content spacing |
+| `w3-content`, `w3-card` | Content width and card appearance |
+| `w3-bar`, `w3-bar-item`, `w3-button` | Navigation and its items |
+| `w3-mobile` | Stack items at widths of 600px or less |
+
+Compare navigation at 375px and 1280px. Both cards remain stacked at all widths. The preview JS is the same as ex02.
+
+---
+
+## Day 1 · 47–55 min Reading a Timeline
+
+[Open the ex03b timeline](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input/examples/day1/ex03b_list)
+
+1. Find the author and time next to the avatar. Read the text below them. The divider marks the start of the next post.
+2. Compare the same post at 375px and 1280px. Its lines should wrap while its author stays with the post.
+3. Change `.post` padding-block from `0.5rem` to `1rem`. Compare the space between posts.
+
+**55–60 min check** · Identify one styling class and one ID used by the supplied JavaScript.
+
+---
+
+# Day 1 Lab · 30 min
+
+| Time | Task |
+|---|---|
+| 0–5 min | ex01: compare CDN connection and click behavior |
+| 5–10 min | ex02: change a button color or input border |
+| 10–15 min | ex03: change navigation or card styling |
+| 15–25 min | ex03b: change post spacing and compare 375px with 1280px |
+| 25–30 min | Check CDN status 200 and Console |
+
+[Lab](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/lab.md) · [Walkthrough](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/walkthrough.md)
+
+Read the same post at both widths and compare where its lines wrap.
+
+---
+
+# Day 2 Restyle the Existing Guestbook
+
+| Lecture time | Topic |
+|---|---|
+| 0–10 min | Run the existing guestbook in ex04 |
+| 10–20 min | Read the supplied JS flow |
+| 20–30 min | Restyle the form in ex05 |
+| 30–40 min | Restyle cards and navigation |
+| 40–50 min | Confirm identical JS and preserve IDs |
+| 50–60 min | Check behavior and the mobile screen |
+
+A 30 min lab follows. Start from the unconverted `guestbook.html`. Within these blocks, reserve the first 5 min for preparation checks and the final 5 min for lab/next-lesson instructions.
+
+---
+
+## Day 2 · 0–10 min ex04 Working Guestbook
+
+[Before HTML](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day2/ex04/index.html) · [Supplied JS](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day2/ex04/app.js)
+
+Check the existing behavior before changing its CSS.
+
+1. Submit with an empty name: a notice appears; no item is added.
+2. Submit a name and message: one item is added to the list.
+3. Submit again: the new post appears above the previous one.
+4. After submission, fields clear and focus returns to the name.
+
+Keep this behavior while changing the HTML stylesheet link and classes.
+
+---
+
+## Day 2 · 10–20 min Read the Supplied JS
+
+| Code | Behavior |
+|---|---|
+| `submit` · `preventDefault()` | Handle submission without reopening the page |
+| `.value.trim()` | Read input; remove leading/trailing whitespace |
+| Empty-value checks · `return` | Show a notice; stop before adding an item |
+| `textContent` · `prepend` | Display author and body as text, then insert the post at the top |
+| `reset()` · `focus()` | Restore initial values; focus the name input |
+| `input` · `clearNotice` | Clear the notice when typing resumes |
+
+Later lessons reuse this flow. Keep the supplied JS unchanged.
+
+---
+
+## Day 2 · 20–30 min ex05 Restyle the Form
+
+[After HTML](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day2/ex05/index.html)
+
+Replace the `styles.css` link with the W3.CSS CDN link.
+
+| Target | Classes |
+|---|---|
+| Name, email, and message inputs | `w3-input w3-border` |
+| Submit button | `w3-button w3-teal` |
+| Notice `#notice` | `w3-text-red` |
+| List `#list` | Apply `w3-ul example-output feed-list` |
+
+Keep IDs and the `guestbook.js` link. Email is optional and the JS does not read it. If entered, an invalid email format blocks submission in the browser.
+
+---
+
+## Day 2 · 30–40 min Cards and Navigation
+
+Move navigation immediately after the header. Wrap the form/notice and the list in separate sections.
+
+| Target | Classes |
+|---|---|
+| Navigation | `w3-bar w3-white w3-card` |
+| Each navigation item | `w3-bar-item w3-button w3-mobile` |
+| main | `w3-content w3-padding` |
+| Both sections | `w3-container w3-card w3-white w3-margin-top` |
+
+Change one heading or button color. The remaining mapping is in the [walkthrough](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/walkthrough.md).
+
+---
+
+## Day 2 · 40–50 min Same JS and IDs
+
+[ex04 JS](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day2/ex04/app.js) · [ex05 JS](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day2/ex05/app.js) · [Site JS](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day2/web-week07/guestbook.js)
+
+In VS Code: Select for Compare → Compare with Selected.
+All three files contain the same code.
 
 ```text
-Type a name and message, press [남기기]
-  → address: …/guestbook.html?   ← a ? at the end
-  → fields empty, page back to start   no red line in Console
+IDs selected by JS
+guestbook-form · name · message · notice · list
 ```
 
-- It is not an error. The browser tried to **send** the form, so it opened the same file again.
-- Today: **stop** that, and **read** what was typed with our own code.
-
-**Sending a form makes the browser open the page again.**
+JS still finds the same elements after styling changes. Home and About keep their existing CSS. In `shared/examples.css`, the `.post` grid places the avatar beside the text. `.post-body` preserves the author’s line breaks.
 
 ---
 
-## Day 1 · 5–13 min — ex01 Form submit and preventDefault
+## Day 2 · 50–60 min Execution Checks
 
-[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
+| Check | Expected result |
+|---|---|
+| Empty name or message | Notice appears; no item added |
+| Submit two entries | Newest first, with author, timestamp and body; fields reset |
+| 375px screen | Stacked navigation; no horizontal input overflow |
+| Network and Console | CDN 200; no example-code errors |
 
-```js
-form2.addEventListener('submit', function (event) {
-    event.preventDefault();          // 2. stop the reopening
-    out2.textContent = '2. 제출을 받았다';
-});
-```
+Reloading clears the list. Persistence is covered in Week 11.
 
-- Form 1 (not stopped): `?` at the end, the changed text is gone. Form 2: it stays.
-- `'submit'` takes the place of Week 6's `'click'`. A button press or **Enter** both fire the form's `submit`.
-- Turn on Console ⚙ › **Preserve log** and Console lines stay even when the page reopens.
-
-**Stop it with `event.preventDefault()` on the listener's first line, or the result won't stay.**
+Lecture total: **10 + 10 + 10 + 10 + 10 + 10 = 60 min**
 
 ---
 
-## Day 1 · 13–21 min — ex02 The input's value
+# Day 2 Lab · 30 min
 
-[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
+Work on `guestbook.html`, copied from `guestbook.before.html`.
+Keep the completed version as `guestbook.reference.html` for comparison.
 
-```js
-const atOpen = nameInput.value;             // 1. once, on open
-form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const atSubmit = nameInput.value;       // 2. on every submit
-    const message = messageInput.value;     // 3. textarea uses value too
-});
-```
+| Time | Task |
+|---|---|
+| 0–5 min | Replace the existing CSS link with the specified CDN |
+| 5–18 min | Apply mapped classes; change one color |
+| 18–25 min | Check empty inputs, two entries, and 375px |
+| 25–30 min | Capture the running page |
 
-- On first open No. 1 is empty; No. 2 is what is typed now. Same idea as Week 6 ex02 (on open vs. on click).
-- Text typed into a textarea is in `value`, not `textContent`.
-
-**The text in a field is `value`. Read it inside the listener.**
+[Starter HTML](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day2/web-week07/guestbook.before.html) · [Reference HTML](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/examples/day2/web-week07/guestbook.html) · [Lab](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/weeks/week07_form_input/lab.md)
 
 ---
 
-## Day 1 · 21–28 min — ex03 trim(): cut spaces at both ends
+## Submit One Screenshot
 
-[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
+Capture the 375px screen with these items visible:
 
-```js
-const raw = nameInput.value;              // 1. [  student01  ]
-const trimmed = nameInput.value.trim();   // 2. [student01]
-```
+- The address and the W3.CSS guestbook
+- The newer post by `student02` above the post by `student01`
+- The button or heading color you changed
 
-- Spaces only: No. 1 is `[   ]`, No. 2 is `[]`. A field with only spaces becomes the empty string `''`.
-- A space in the middle (`student 01`) stays. Count spaces inside Console's `[ ]`.
-- Drop the parentheses (`.trim`) and you get the function, not a value. Call with parentheses.
+Check empty-input notices during the lab. No separate comparison table or source listing is required. Do not use real names, student IDs, or real email addresses.
 
-**`trim()` returns the value with only the end spaces cut.**
+After class, push, publish with Pages, and check the public URL.
 
 ---
 
-## Day 1 · 28–30 min — Your turn
+## Next Lessons and References
 
-[Day 1 lab](lab.md#1일차--폼-제출과-입력-값-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
+- Week 8: [midterm exercise bank](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week08_midterm/examples). Check your section’s announcement for the exam scope.
+- Week 9: reuse the completed `web-week07` web files, rather than the exam answers.
+- Week 10: manage an array list. Week 11: save/restore one form; the full persistent guestbook is a supplied demo.
 
-1. New folder `web-week07` with last week's files; three example folders in `ex/` (`index.html` and `app.js` in each).
-2. ex01–ex03 — open each folder's `index.html`, change values in `app.js`. Say what will change first. Turn on Preserve log.
-3. Create the new repository `web-week07`, push, and turn on Pages.
-
-**Total explanation: 5+8+8+7+2 = 30 min**
-
----
-
-# Day 2 — Empty-Field Notices, the Next Entry, and Assembly
-
-`30 min explanation & demo → 60 min lab`
-
-1. Example folders — again one folder with `index.html` and `app.js`
-2. ex04 — `form.reset()` and `focus()`: getting ready for the next entry
-3. ex05 — empty-field check and `return`
-4. ex06 — the `'input'` event: every time the text changes
-5. ex07 — hand over only the function's name
-6. ex08 — replace vs. append: `createElement` and `append`
-7. Assembly — `guestbook.html` and `guestbook.js` in `web-week07`
-
----
-
-## Day 2 · 0–3 min — Example folders: one folder, two files again
-
-Same as Day 1. One folder per example, with the same file names as your site.
-
-```text
-ex04/
-  index.html   screen — only the fields and spots the example uses
-  app.js       behavior — today's ideas live here
-```
-
-- ex04 has the form only; ex05 adds the notice and result spots; ex06 and ex07 have two fields and the notice; ex08 has a text field, buttons, and a list.
-- In `<head>`, `<script src="app.js" defer>` loads the `app.js` in the same folder.
-- Many files share a name. Check the folder in the save dialog and the path bar above the editor (`ex › ex04`).
-
-**Screen in HTML, behavior in JS — two files in one folder.**
-
----
-
-## Day 2 · 3–8 min — ex04 reset and focus: ready for the next entry
-
-[examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [app.js](examples/day2/ex04/app.js)
-
-```js
-// 1. read before emptying → [student01]
-console.log(`1. 비우기 전 : [${nameInput.value}] …`);
-form.reset();            // empties every field in the form
-// 2. read after emptying → []
-console.log(`2. 비운 뒤 : [${nameInput.value}] …`);
-nameInput.focus();       // 3. cursor to the name field
-```
-
-- Read after `reset()` and you get empty text. So **read first, then empty**.
-- `focus()` moves the cursor. The next note can be typed right away.
-
-**`reset()` empties the fields and `focus()` moves the cursor. Read before you empty.**
-
----
-
-## Day 2 · 8–13 min — ex05 Empty-field check and return
-
-[examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js)
-
-```js
-if (name === '') {
-    notice.textContent = '이름을 입력하세요.';
-    return;                                  // 1. stop here
-}
-if (message === '') { … return; }            // 2.
-last.textContent = `${name}: ${message}`;    // 3. only when both are filled
-```
-
-- Checks go from the top. If both are empty, only notice No. 1 shows.
-- Without `return`, the lines below run too and `: 안녕하세요` is left behind.
-
-**If a field is empty, show a notice and stop right there with `return`.**
-
----
-
-## Day 2 · 13–16 min — ex06 The input event: every time the text changes
-
-[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js)
-
-```js
-// 1. name field — every letter typed or deleted (2. textarea too)
-nameInput.addEventListener('input', function () {
-    notice.textContent = '';
-    console.log('1. 이름 칸 input :', nameInput.value);
-});
-```
-
-- Type `abc` letter by letter: three No. 1 lines; notice gone after `a`.
-- Misspell the event name (`'inptu'`): nothing happens, no red line.
-
-**`'input'` fires every time the text in a field changes.**
-
----
-
-## Day 2 · 16–19 min — ex07 Hand over only the function's name
-
-[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js)
-
-```js
-function clearNotice() { notice.textContent = ''; }
-// 1. call it with parentheses inside function () { }
-nameInput.addEventListener('input', function () { clearNotice(); });
-// 2. hand over the name only — the browser calls it on every change
-messageInput.addEventListener('input', clearNotice);
-```
-
-- No. 1 and No. 2 do the same job. Type in either field and the notice goes away.
-- Hand it over as `clearNotice()` and it runs once on that line, and that's all. Typing leaves the notice, with no red line.
-
-**To hand over a function, write only its name; to call it, add parentheses.**
-
----
-
-## Day 2 · 19–24 min — ex08 Replace vs. append
-
-[examples/day2/ex08/index.html](examples/day2/ex08/index.html) · [app.js](examples/day2/ex08/app.js)
-
-```js
-out1.textContent = textInput.value;          // 1. replace — always one line
-const li = document.createElement('li');     // 2. make a new line,
-li.textContent = textInput.value;            //    put the text in,
-list.append(li);                             //    attach it at the end of the list
-```
-
-- Change the text between clicks: spot No. 1 keeps only the last text; the list grows by one line per No. 2 click.
-- Drop `append` and the new line is neither on screen nor in Elements. No red line either.
-- The `<li>` you typed by hand inside `<ul>` in Week 3 is now made and attached by JavaScript.
-
-**To pile lines up, don't replace — make a line and append it.**
-
----
-
-## Day 2 · 24–27 min — Assembly ① guestbook.html
-
-```text
-<head>  <script src="guestbook.js" defer>   ← Week 6 app.js line
-<form id="guestbook-form">                  ← ex01 · ex02
-delete <p>지금은 눌러도 …</p>, and in its place
-  <div id="notice"></div>                   ← ex05 spot
-  <h3>남긴 글</h3>
-  <ul class="card" id="list"></ul>          ← ex08 list · .card
-```
-
-- One js per page: `index.html` loads `app.js`, `guestbook.html` loads `guestbook.js`.
-- Leave the `<ul>` empty. JavaScript makes and attaches the lines.
-- `index.html`, `app.js`, `styles.css`, and `about.html` stay as they were in Week 6.
-
-**In HTML, only add the `id`s to find and the spots to write results.**
-
----
-
-## Day 2 · 27–30 min — Assembly ② guestbook.js, then the lab
-
-```text
-const form·nameInput·messageInput·notice·list     ← ex02 · ex05 · ex08
-function clearNotice() { … }                      ← ex07
-submit listener + event.preventDefault()          ← ex01 No. 2
-const name·message = … .value.trim()              ← ex02 · ex03
-if name · if message { notice · focus() · return } ← ex05 · ex04
-clearNotice() · make and append li · reset · focus ← ex07 · ex08 No. 2 · ex04
-two input listeners (clearNotice, name only)       ← ex06 · ex07 No. 2
-```
-
-[Day 2 lab](lab.md#2일차--빈값-안내와-다음-입력-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week07_form_input)
-
-1. ex04–ex08 (to min 29) → assemble → check → push → screenshot.
-2. Week 8 reuses the [problem bank](../week08_midterm/examples/README.md) with new values; today's form too.
-
-**Total explanation: 3+5+5+3+3+5+3+3 = 30 min**
-
----
-
-## What to Submit
-
-Submit **one** screenshot at the end of Day 2.
-
-```text
-https://student01.github.io/web-week07/guestbook.html
-Two notes left one after the other
-남긴 글
-· student01: 안녕하세요
-· student02: 반갑습니다
-Include the address bar in the screenshot
-```
-
-The empty-field notice (`이름을 입력하세요.`) is for checking during the lab; it need not be in the screenshot.
-Keep your real name, student ID, and real email out of the screenshot.
-
----
-
-## Next Week Preview
-
-Week 8 is the **individual midterm practical**. Day 1 is practice with the problem bank; Day 2 is the practical. The repository is `web-week08`.
-
-The [problem bank](../week08_midterm/examples/README.md) is public. Instead of answers, each problem has a "what to check" list to test yourself.
-
-Today's list lives only on screen. Deleting one line at a time is Week 10 (redrawing from an array); keeping notes after reload is Week 11.
+[W3.CSS inputs](https://www.w3schools.com/w3css/w3css_input.asp) · [Containers](https://www.w3schools.com/w3css/w3css_containers.asp) · [Navigation](https://www.w3schools.com/w3css/w3css_navigation.asp) · [cdnjs](https://cdnjs.com/libraries/w3-css)

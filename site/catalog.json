@@ -369,16 +369,16 @@
         {
           "id": "week07_form_input",
           "label": "7주차",
-          "title": "폼 입력 읽기와 결과 표시",
-          "description": "3주차에 만든 방명록 폼의 **[남기기]** 버튼은 눌러도 주소창만 바뀌고 아무 일도 일어나지 않았다. 입력한 이름과 메시지를 읽어 화면에 띄우려면 무엇이 더 필요할까?",
+          "title": "CSS 응용",
+          "description": "W3.CSS 클래스로 카드와 반응형 메뉴를 꾸밉니다. 작성자·시각·본문이 보이는 타임라인을 방명록에 적용하고 모바일 화면에서 확인합니다.",
           "type": "week",
           "formerIds": [
             "week07_async_modules"
           ],
           "en": {
             "label": "Week 7",
-            "title": "Reading Form Input and Displaying Results",
-            "description": "Press [남기기] on the guestbook form you built in Week 3, and only the address bar changes — nothing else happens. What more do you need to read the name and message you typed and show them on screen?"
+            "title": "Applied CSS",
+            "description": "Style cards and responsive navigation with W3.CSS. Apply a timeline layout to a guestbook and check how authors, timestamps and posts appear on mobile."
           }
         },
         {
