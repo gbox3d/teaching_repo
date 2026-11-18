@@ -106,13 +106,16 @@ NVIDIA PC는 [CUDA용 PyTorch 설치 설정](examples/README.md#cuda용-pytorch-
 
 ```powershell
 uv run --locked --with sentencepiece==0.2.3 --with protobuf==7.36.2 python ../tools/llama.cpp/convert_hf_to_gguf.py models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
-Get-Item models/week07-lora.gguf
+Get-Item ./models/week07-lora.gguf | Select-Object Name, Length
 ```
 
-변환이 성공하고 `Get-Item`에 파일과 0보다 큰 `Length`가 표시되는지 확인한 뒤 등록한다. `Modelfile`의 `FROM`은 `./models/week07-lora.gguf`를 가리킨다. 같은 이름의 개인 모델이 있으면 아래 모델 이름을 바꾼다.
+변환이 끝나면 `Name` 열에서 `week07-lora.gguf`를 확인한다. `Length`는 바이트 단위의 크기다. 파일이 없거나 크기가 0이면 변환 오류와 출력 경로를 확인한다.
+
+`ollama create`는 `Modelfile`의 `FROM ./models/week07-lora.gguf`를 읽어 내 PC의 Ollama에 `week07-lora`라는 모델을 등록한다. `ollama list`에서 `week07-lora:latest`를 확인한 뒤 `ollama run`으로 대화한다. 같은 이름의 모델을 보존하려면 `create`와 `run`에 새 이름을 쓴다.
 
 ```powershell
 ollama create week07-lora -f Modelfile
+ollama list
 ollama run week07-lora
 ```
 

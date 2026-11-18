@@ -12,6 +12,6 @@
 
 선택 실습은 `uv run ex05` → `uv run ex06` 순서다. 기존 프로젝트에 새 명령을 반영한 뒤에는 먼저 `uv sync`를 다시 실행한다. 어댑터만 담은 `adapters/run-001/`과 달리 `models/merged-run-001/`에는 모델·토크나이저 전체가 있으므로 `ex06`은 이 폴더를 직접 읽는다.
 
-Ollama 가져오기는 `ex05` 병합 → GGUF 변환 → 생성 파일 확인 → `ollama create` → `ollama run`으로 이어지는 [별도 선택 경로](../../lab.md#선택--병합-모델을-ollama에서-실행)다. 변환기가 없으면 [Ollama 연결 준비](../ollama_import.md)를 먼저 마친다. 이미 병합했다면 `ex05`를 다시 실행하지 않고 기존 병합 폴더를 변환한다. Python 대화와 Ollama 경로 모두 필수 완료 조건에 추가하지 않는다.
+내 PC의 Ollama로도 대화하려면 병합 모델을 `models/week07-lora.gguf` 파일로 변환한다. `ollama create week07-lora -f Modelfile`로 이 파일을 **내 PC의 Ollama 모델 목록**에 등록한다. `ollama list`에 `week07-lora:latest`가 보이면 `ollama run week07-lora`로 대화한다. [Ollama 선택 실습](../../lab.md#선택--병합-모델을-ollama에서-실행) 변환기가 없으면 [Ollama 연결 준비](../ollama_import.md)를 먼저 마친다. 이미 병합했다면 `ex05`를 다시 실행하지 않고 기존 병합 폴더를 변환한다. Python 대화와 Ollama 경로 모두 필수 완료 조건에 추가하지 않는다.
 
 대화 예제는 질문을 반복 입력하고 `/bye`로 끝낸다. 빈 줄은 건너뛰며, 앞 질문을 기억하지 않는다. 수정할 값은 소스 위쪽의 상수다. 교시마다 프로젝트나 데이터를 복사하지 않는다. 시간 배분과 완료 조건은 실습지를 따른다.

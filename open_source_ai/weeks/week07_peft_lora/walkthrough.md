@@ -62,15 +62,16 @@ uv run --locked --with sentencepiece==0.2.3 --with protobuf==7.36.2 `
   python ../tools/llama.cpp/convert_hf_to_gguf.py `
   models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
 
-Get-Item models/week07-lora.gguf
+Get-Item ./models/week07-lora.gguf | Select-Object Name, Length
 ```
 
-PowerShell 줄 끝 백틱 뒤에는 공백을 붙이지 않는다. 변환이 정상 종료되고 약 1 GB인 GGUF 파일이 나타나는지 확인한다. 파일이 없거나 변환이 실패했다면 아래 등록 명령으로 넘어가지 않는다. `MERGED_DIR`을 바꿨다면 변환 입력 폴더도 같은 경로로 바꾼다.
+PowerShell 줄 끝 백틱 뒤에는 공백을 붙이지 않는다. 변환이 끝나면 `Get-Item`의 `Name` 열에서 `week07-lora.gguf`를 확인한다. `Length`는 바이트 단위의 크기이며 이 예제 파일은 약 1 GB다. 파일이 없거나 크기가 0이면 변환 오류와 출력 경로를 확인한다. `MERGED_DIR`을 바꿨다면 변환 입력 폴더도 같은 경로로 바꾼다.
 
-`Modelfile`의 `FROM ./models/week07-lora.gguf`가 방금 만든 파일을 가리키는지 확인한 뒤 등록한다. 기존 Ollama 모델을 보존하려면 아래 두 명령의 모델 이름을 함께 바꾼다.
+`Modelfile`의 `FROM ./models/week07-lora.gguf`는 방금 만든 파일을 가리킨다. `ollama create`로 이 파일을 내 PC의 Ollama에 `week07-lora`라는 모델로 등록한다. `ollama list`의 `NAME` 열에 `week07-lora:latest`가 보이면 대화를 시작한다. 기존 모델을 보존하려면 `create`와 `run`에 새 이름을 쓴다.
 
 ```powershell
 ollama create week07-lora -f Modelfile
+ollama list
 ollama run week07-lora
 ```
 

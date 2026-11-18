@@ -27,30 +27,42 @@ git -C ../tools/llama.cpp checkout ccd360f060a0f17b87ee0d4c5d91ee84cfdff484
 
 ## GGUF 파일 생성과 확인
 
-다시 예제 프로젝트 루트에서 실행한다. 입력 `models/merged-run-001`은 `ex05`의 병합 결과이고, 출력 `models/week07-lora.gguf`는 새로 생성할 파일이다. 기존 GGUF를 보존하려면 `--outfile`의 파일 이름과 `Modelfile`의 `FROM`을 함께 바꾼다.
+① `examples/`에서 아래 변환 명령을 실행한다. 변환기는 `ex05`가 저장한 `models/merged-run-001/` 폴더를 읽어 `models/week07-lora.gguf` 파일 하나를 만든다. `--outfile`은 저장할 경로이고, `--outtype f16`은 가중치를 16비트 부동소수점 형식으로 저장하라는 뜻이다.
+
+PowerShell에서는 아래 세 줄이 한 명령이다. 줄 끝의 백틱 뒤에는 공백을 두지 않는다. macOS·Linux 터미널에서는 백틱을 빼고 세 줄을 한 줄로 이어서 실행한다.
 
 ```powershell
 uv run --locked --with sentencepiece==0.2.3 --with protobuf==7.36.2 `
   python ../tools/llama.cpp/convert_hf_to_gguf.py `
   models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
-
-Get-Item models/week07-lora.gguf
 ```
 
-PowerShell의 줄 끝 백틱 뒤에는 공백을 붙이지 않는다. 변환이 정상 종료되고 `Get-Item`에서 약 1 GB인 파일을 확인한 다음 등록한다. 파일이 없거나 변환이 실패했다면 여기서 원인을 확인하고 다음 단계로 넘어가지 않는다. `f16`은 16비트 부동소수점 저장이며 4비트 양자화가 아니다.
+② 변환이 오류 없이 끝나면, 같은 폴더에서 방금 만든 파일을 확인한다. PowerShell의 `Get-Item`은 지정한 파일의 정보를 보여 준다. 아래 명령은 그중 이름과 크기를 표시한다.
 
-macOS·Linux에서는 변환 명령의 줄 끝 백틱을 제거하고 한 줄로 합친다. `examples/`에서 실행하면 같은 상대 경로를 쓴다. `f16` 파일도 약 1GB가 필요하고, 등록하면 Ollama 저장소에 같은 크기가 한 번 더 저장된다. `shared`의 `MERGED_DIR`을 바꿨다면 변환 명령의 입력 경로도 맞춘다. 어댑터 파일 자체를 변환기의 입력으로 주지 않는다.
+```powershell
+Get-Item ./models/week07-lora.gguf | Select-Object Name, Length
+```
+
+`Name`에는 `week07-lora.gguf`, `Length`에는 파일 크기가 **바이트 단위**로 표시된다. 이 예제 모델을 f16으로 변환하면 약 1 GB이므로 10억 바이트 안팎의 숫자가 나온다. macOS·Linux에서는 `ls -lh ./models/week07-lora.gguf`로 파일 이름과 크기를 확인한다. 파일을 찾을 수 없거나 크기가 0이면 위 변환 명령의 오류와 `--outfile` 경로를 확인한다.
+
+병합 폴더 경로를 바꿨다면 변환 명령에도 그 경로를 넣는다. 기존 GGUF 파일을 보존하려면 `--outfile`에 새 파일 이름을 쓰고 아래 `Modelfile`의 `FROM`도 같은 경로로 바꾼다. Ollama에 등록할 때는 모델 파일 크기만큼 디스크 공간이 추가로 필요하다.
 
 ## 등록과 실제 응답 확인
 
-`Modelfile`의 `FROM ./models/week07-lora.gguf`가 앞에서 확인한 파일을 가리켜야 한다. `ollama create`는 이 파일을 등록하며, 병합 폴더에서 GGUF를 생성하는 단계가 아니다. 같은 이름의 개인 모델을 보존하려면 아래 두 명령의 모델 이름을 함께 바꾼다.
+③ 방금 만든 파일을 내 PC의 Ollama에서 `week07-lora`라는 이름으로 쓰려면 다음 명령을 실행한다. `-f Modelfile`로 지정한 설정 파일에는 `FROM ./models/week07-lora.gguf`가 들어 있다. Ollama는 이 줄을 읽어 가져올 파일을 찾는다. 이미 같은 이름으로 등록한 모델을 보존하려면 `ollama create`와 `ollama run`에 새 모델 이름을 쓴다.
 
 ```powershell
 ollama create week07-lora -f Modelfile
+```
+
+④ `ollama list`로 내 PC의 모델 목록을 연다. `NAME` 열에 `week07-lora:latest`가 보이면 `ollama run week07-lora`로 대화를 시작한다.
+
+```powershell
+ollama list
 ollama run week07-lora
 ```
 
-`Modelfile`의 `FROM`은 `./models/week07-lora.gguf`다. 같은 이름의 개인 모델이 있으면 새 모델 이름을 사용한다. `아테나를 소개해 줘.` 등 두 질문을 입력하고 실제 응답을 확인한다. 등록 성공만으로 시연 준비 완료로 보지 않는다.
+대화 입력창에 `아테나를 소개해 줘.`를 입력한다. 답이 나오면 다른 질문도 입력해 보고 `/bye`로 종료한다.
 
 이어서 `src/ex01_ollama/__init__.py`의 `MODEL`을 `"week07-lora"`로 바꾸고 `uv run ex01`에서 질문 → 응답 → 다음 질문 → `/bye`를 확인한다. `ex01`의 `PROMPT`가 `SYSTEM_PROMPT`로 되돌려져 있는지 확인한다. 학습·비교와 같은 system 지시를 써야 한다. Ollama 내 대화는 이력을 누적하지만 ex01은 질문을 독립적으로 보낸다.
 

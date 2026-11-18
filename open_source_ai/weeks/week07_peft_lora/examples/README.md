@@ -193,12 +193,12 @@ uv run --locked --with sentencepiece==0.2.3 --with protobuf==7.36.2 `
   python ../tools/llama.cpp/convert_hf_to_gguf.py `
   models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
 
-Get-Item models/week07-lora.gguf
+Get-Item ./models/week07-lora.gguf | Select-Object Name, Length
 ```
 
 PowerShell의 줄 끝 백틱은 다음 줄까지 같은 명령이라는 뜻이다. 백틱 뒤에 공백을 붙이지 않는다. `--with`는 이 실행에만 추가 패키지를 제공하며 프로젝트 의존성을 바꾸지 않는다. `f16`은 16비트 부동소수점 저장이며 4비트 양자화가 아니다.
 
-변환이 정상 종료되고 `Get-Item`에 약 1 GB인 파일이 나오는지 확인한 뒤 등록한다. 파일이 없거나 변환이 실패했다면 다음 단계로 넘어가지 않는다. `MERGED_DIR`을 바꿨다면 변환 명령의 입력 폴더도 맞춘다. 입력은 어댑터 폴더가 아니라 병합 모델 폴더다.
+변환이 끝나면 PowerShell 출력에서 `Name`이 `week07-lora.gguf`인지 확인한다. `Length`는 바이트 단위의 파일 크기다. 이 예제의 f16 모델은 약 1 GB다. 파일을 찾을 수 없거나 크기가 0이면 변환 오류와 `--outfile` 경로부터 확인한다. `MERGED_DIR`을 바꿨다면 변환 명령의 입력 경로를 해당 병합 폴더로 맞춘다.
 
 ### 3. GGUF를 Ollama에 등록하고 실행
 
@@ -208,10 +208,11 @@ PowerShell의 줄 끝 백틱은 다음 줄까지 같은 명령이라는 뜻이�
 FROM ./models/week07-lora.gguf
 ```
 
-기존 `Modelfile`의 나머지 설정은 이어 쓴다. 같은 이름의 개인 Ollama 모델을 보존하려면 아래 두 명령의 모델 이름을 함께 바꾼다.
+`ollama create`는 위 파일을 내 PC의 Ollama에 `week07-lora`라는 모델로 등록한다. `ollama list`의 `NAME` 열에서 `week07-lora:latest`를 확인하고 `ollama run`으로 대화를 시작한다. 같은 이름의 모델을 보존하려면 `create`와 `run`에 새 이름을 쓴다.
 
 ```powershell
 ollama create week07-lora -f Modelfile
+ollama list
 ollama run week07-lora
 ```
 

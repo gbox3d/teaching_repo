@@ -405,22 +405,21 @@ uv run ex06
 
 ## 12–15분 · 선택 확장: Ollama에서 다시 실행
 
-`ex06` 확인 후 Hugging Face 병합 폴더 → GGUF 파일 → Ollama 등록 순서다.
-변환기가 없으면 [설치 안내](examples/ollama_import.md)부터 마친다. 예제 프로젝트 루트에서 실행한다.
+[변환 안내](examples/ollama_import.md)에 따라 병합 모델을 `models/week07-lora.gguf`로 저장한다. 아래 명령은 `examples/`에서 실행한다.
+
+**1. GGUF 파일 확인** · `Name`에 `week07-lora.gguf`가 보이고 `Length`에 파일 크기(바이트)가 표시되는지 확인한다.
 
 ```powershell
-uv run --locked --with sentencepiece==0.2.3 `
-  --with protobuf==7.36.2 python `
-  ../tools/llama.cpp/convert_hf_to_gguf.py `
-  models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
-Get-Item models/week07-lora.gguf
-# 변환 성공·파일 확인 후 등록
-ollama create week07-lora -f Modelfile
-ollama run week07-lora
+Get-Item ./models/week07-lora.gguf | Select-Object Name, Length
 ```
 
-`Modelfile`: `FROM ./models/week07-lora.gguf`
-등록 후 `ex01`의 `MODEL = "week07-lora"`로 바꾸면 `uv run ex01`로 대화한다.
+**2. 내 PC의 Ollama에 등록** · `Modelfile`이 가리키는 GGUF 파일을 `week07-lora`라는 이름으로 가져온다.
+
+```powershell
+ollama create week07-lora -f Modelfile
+```
+
+`ollama list`에서 `week07-lora:latest`를 확인하고 `ollama run week07-lora`로 대화한다.
 
 ---
 

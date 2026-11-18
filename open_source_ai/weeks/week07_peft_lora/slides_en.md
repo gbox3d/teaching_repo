@@ -413,22 +413,21 @@ The full model is about 2 GB (adapter: about 2 MB). Optional; check disk space f
 
 ## 12–15 min · Optional: running the result in Ollama
 
-After checking `ex06`: Hugging Face merged folder → GGUF file → Ollama registration.
-If the converter is missing, [install it first](examples/ollama_import.md). Run from the example project root.
+Follow the [conversion guide](examples/ollama_import.md) to save the merged model as `models/week07-lora.gguf`. Run these commands from `examples/`.
+
+**1. Check the GGUF file.** Look for `week07-lora.gguf` under `Name` and its size in bytes under `Length`.
 
 ```powershell
-uv run --locked --with sentencepiece==0.2.3 `
-  --with protobuf==7.36.2 python `
-  ../tools/llama.cpp/convert_hf_to_gguf.py `
-  models/merged-run-001 --outfile models/week07-lora.gguf --outtype f16
-Get-Item models/week07-lora.gguf
-# Register only after conversion succeeds and the file is checked
-ollama create week07-lora -f Modelfile
-ollama run week07-lora
+Get-Item ./models/week07-lora.gguf | Select-Object Name, Length
 ```
 
-`Modelfile`: `FROM ./models/week07-lora.gguf`
-After registration, set `MODEL = "week07-lora"` in `ex01` and chat with `uv run ex01`.
+**2. Import into local Ollama.** Name the model `week07-lora`. The `FROM` line in `Modelfile` points to the GGUF file.
+
+```powershell
+ollama create week07-lora -f Modelfile
+```
+
+Check for `week07-lora:latest` with `ollama list`, then chat with `ollama run week07-lora`.
 
 ---
 
