@@ -10,7 +10,10 @@
     "sources": [
       "wku-location"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-location"
+    ]
   },
   {
     "id": "public-02",
@@ -22,7 +25,10 @@
     "sources": [
       "wku-location"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-location"
+    ]
   },
   {
     "id": "public-03",
@@ -34,24 +40,35 @@
     "sources": [
       "wku-location"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-location"
+    ]
   },
   {
     "id": "public-04",
     "expected": [
       [
         "지덕겸수",
-        "知德兼修"
+        "知德兼修",
+        "지덕겸수(知德兼修)",
+        "知德兼修(지덕겸수)"
       ],
       [
         "도의실천",
-        "道義實踐"
+        "道義實踐",
+        "도의실천(道義實踐)",
+        "道義實踐(도의실천)"
       ]
     ],
     "sources": [
       "wku-values"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-values",
+      "wku-values"
+    ]
   },
   {
     "id": "public-05",
@@ -64,7 +81,10 @@
     "sources": [
       "wku-symbols"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-symbols"
+    ]
   },
   {
     "id": "public-06",
@@ -76,7 +96,10 @@
     "sources": [
       "wku-symbols"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-symbols"
+    ]
   },
   {
     "id": "public-07",
@@ -88,7 +111,10 @@
     "sources": [
       "wku-symbols"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-symbols"
+    ]
   },
   {
     "id": "public-08",
@@ -100,7 +126,10 @@
     "sources": [
       "wku-symbols"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-symbols"
+    ]
   },
   {
     "id": "public-09",
@@ -112,7 +141,10 @@
     "sources": [
       "wku-history"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
   },
   {
     "id": "public-10",
@@ -125,7 +157,10 @@
     "sources": [
       "wku-history"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
   },
   {
     "id": "public-11",
@@ -138,7 +173,10 @@
     "sources": [
       "wku-history"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
   },
   {
     "id": "public-12",
@@ -146,13 +184,17 @@
       [
         "https://lxp.wku.ac.kr/",
         "https://lxp.wku.ac.kr",
-        "lxp.wku.ac.kr"
+        "lxp.wku.ac.kr",
+        "lxp.wku.ac.kr/"
       ]
     ],
     "sources": [
       "wku-services"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-services"
+    ]
   },
   {
     "id": "public-13",
@@ -169,7 +211,11 @@
       "wku-location",
       "wku-symbols"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-location",
+      "wku-symbols"
+    ]
   },
   {
     "id": "public-14",
@@ -185,7 +231,11 @@
       "wku-history",
       "wku-symbols"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-history",
+      "wku-symbols"
+    ]
   },
   {
     "id": "public-15",
@@ -195,18 +245,27 @@
       ],
       [
         "지덕겸수",
-        "知德兼修"
+        "知德兼修",
+        "지덕겸수(知德兼修)",
+        "知德兼修(지덕겸수)"
       ],
       [
         "도의실천",
-        "道義實踐"
+        "道義實踐",
+        "도의실천(道義實踐)",
+        "道義實踐(도의실천)"
       ]
     ],
     "sources": [
       "wku-location",
       "wku-values"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-location",
+      "wku-values",
+      "wku-values"
+    ]
   },
   {
     "id": "public-16",
@@ -216,39 +275,57 @@
         "1971년"
       ],
       [
+        "063-850-5114",
+        "0638505114",
+        "(063)850-5114",
+        "063)850-5114",
+        "063.850.5114"
+      ],
+      [
         "https://elibrary.wku.ac.kr/",
         "https://elibrary.wku.ac.kr",
-        "elibrary.wku.ac.kr"
+        "elibrary.wku.ac.kr",
+        "elibrary.wku.ac.kr/"
       ]
     ],
     "sources": [
       "wku-history",
+      "wku-location",
       "wku-services"
     ],
-    "abstain": false
+    "abstain": false,
+    "fact_sources": [
+      "wku-history",
+      "wku-location",
+      "wku-services"
+    ]
   },
   {
     "id": "public-17",
     "expected": [],
     "sources": [],
-    "abstain": true
+    "abstain": true,
+    "fact_sources": []
   },
   {
     "id": "public-18",
     "expected": [],
     "sources": [],
-    "abstain": true
+    "abstain": true,
+    "fact_sources": []
   },
   {
     "id": "public-19",
     "expected": [],
     "sources": [],
-    "abstain": true
+    "abstain": true,
+    "fact_sources": []
   },
   {
     "id": "public-20",
     "expected": [],
     "sources": [],
-    "abstain": true
+    "abstain": true,
+    "fact_sources": []
   }
 ]

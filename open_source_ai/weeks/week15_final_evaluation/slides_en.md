@@ -163,7 +163,7 @@ Student PC performance earns no points. Response time is recorded only.
 | `unknown` | 100 only for `true` abstention and two empty lists |
 | Format/execution error or over 30 seconds | 0 for that item |
 
-Set F1 measures overlap with expected sets, after aliases and normalization.
+In v1.1, source F1 counts only cited documents supporting a matched fact in the numerator. The denominator includes all cited documents and all documents required for the item. [Week 14 worked example](../week14_chatbot_project/evaluation_spec.md#사실과-출처-점수)
 80/20 weights the item metric. It does not combine performance and report grades.
 
 ---

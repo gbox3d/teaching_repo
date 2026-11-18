@@ -58,7 +58,7 @@ Speaking skill and presentation duration earn no points. School points and deadl
 | `wku-history` | Early history |
 | `wku-services` | Website service links |
 
-[Shared documents and sources](examples/src/shared/data/README.md): v1, checked 2026-11-12.
+The v1.1 evaluation uses the five summaries checked on 2026-11-12. [Shared documents and sources](examples/src/shared/data/README.md)
 These five summaries define the evaluation scope. Do not guess beyond them.
 
 ---
@@ -153,8 +153,8 @@ Expected {A, B}, returned {A, B, C} : 2 × 2 / (3 + 2) = 4/5
 ```
 
 Both missing and extra facts matter. Order and duplicates add no points.
-Matching normalizes NFKC, case, whitespace, and final periods, then applies allowed `aliases`.
-An arbitrary paraphrase is not automatically a match.
+Normalized answers match aliases in `expected` one-to-one.
+Spaces between words are ignored. Spaces inside URLs and bare hostnames are preserved.
 
 ---
 
@@ -167,8 +167,9 @@ Item score = 80 × fact set F1 + 20 × source set F1
 If fact F1 is 0, source credit is also 0
 ```
 
-Source F1 compares expected and returned document ID sets.
-One of two facts, with all correct sources, earns about 73.33 points.
+Source F1 = 2 × cited documents supporting matched facts / (documents cited + documents required for the whole item). Count each ID once.
+
+On public item 13, returning only the city earns **66.67** with the location document, **53.33** with the bird document, or **63.33** with both. [Worked example](evaluation_spec.md#사실과-출처-점수)
 
 **80/20 belongs inside this performance metric.** It does not combine performance and report grades.
 

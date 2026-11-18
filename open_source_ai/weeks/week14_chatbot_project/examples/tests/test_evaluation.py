@@ -82,6 +82,38 @@ class ScoringTests(unittest.TestCase):
         self.assertEqual(spam["score"], 60)
         self.assertEqual(score_response(response(sources=["doc", "noise", "extra"]), gold())["score"], 90)
 
+    def test_partial_fact_credit_depends_on_which_document_was_cited(self):
+        legacy = gold([["익산시"], ["봉황"]], ["location", "symbols"])
+        linked = dict(legacy, fact_sources=["location", "symbols"])
+        for citations, source_f1, displayed in (
+            (["location"], 2 / 3, "66.67"),
+            (["symbols"], 0, "53.33"),
+            (["location", "symbols"], 1 / 2, "63.33"),
+            (["location", "symbols", "extra"], 2 / 5, "61.33"),
+        ):
+            with self.subTest(citations=citations):
+                result = score_response(response(["익산시"], citations), linked)
+                self.assertAlmostEqual(result["subscores"]["source_f1"], source_f1)
+                self.assertEqual(format(result["score"], ".2f"), displayed)
+        wrong = score_response(response(["전주시"], ["location"]), linked)
+        self.assertEqual(wrong["subscores"]["source_f1"], 0)
+        self.assertEqual(wrong["score"], 0)
+        both = response(["익산시"], ["location", "symbols"])
+        self.assertAlmostEqual(score_response(both, legacy)["score"], 80 * 2 / 3 + 20)
+
+    def test_sources_follow_matched_groups_and_count_shared_documents_once(self):
+        linked = dict(gold([["a", "b"], ["missing"], ["a"]], ["one", "two"]),
+                      fact_sources=["one", "two", "one"])
+        # a를 세 번째 그룹으로 옮겨야 b도 매칭된다. 두 사실의 근거는 같은 문서다.
+        result = score_response(response(["a", "b"], ["one", " ONE. ", "two"]), linked)
+        self.assertEqual(result["subscores"]["matched_facts"], 2)
+        self.assertEqual(result["subscores"]["source_f1"], .5)
+        second_group = score_response(response(["missing"], ["two"]), linked)
+        self.assertEqual(second_group["subscores"]["source_f1"], 2 / 3)
+        # 두 그룹에 속하는 별칭 하나에는 실제 배정된 첫 번째 그룹의 근거만 인정한다.
+        overlapping = dict(gold([["a"], ["a"]], ["one", "two"]), fact_sources=["one", "two"])
+        self.assertEqual(score_response(response(["a"], ["two"]), overlapping)["subscores"]["source_f1"], 0)
+
     def test_normalized_duplicates_not_counted_twice(self):
         self.assertEqual(score_response(response(["익산시", " 익 산 시. ", "익산시．．"],
                                                 ["doc", " ＤＯＣ. "]), gold())["score"], 100)
@@ -99,6 +131,24 @@ class ScoringTests(unittest.TestCase):
         self.assertEqual(normalize("0.5"), "0.5")
         self.assertEqual(normalize("063-850-5114"), "063-850-5114")
         self.assertNotEqual(normalize("https://a/"), normalize("https://a"))
+
+    def test_internal_url_whitespace_keeps_only_that_fact_from_matching(self):
+        address = "lxp.wku.ac.kr"
+        aliases = [address, address + "/", "https://" + address, "https://" + address + "/"]
+        linked = dict(gold([["익산대로 460"], aliases], ["location", "services"]),
+                      fact_sources=["location", "services"])
+        for invalid in ("ht tps://" + address, "https: / /" + address,
+                        "https://lx p.wku.ac.kr", "lx\tp.wku.ac.kr", "lxp. wku.ac.kr",
+                        "lxp.wku.ac.\nkr", address + " /", "https://" + address + "\u00a0/"):
+            with self.subTest(invalid=invalid):
+                result = score_response(response(["익산대로460", invalid], linked["sources"]), linked)
+                self.assertEqual(result["status"], "ok")
+                self.assertEqual(result["subscores"]["matched_facts"], 1)
+                self.assertEqual(result["score"], 50)
+        for valid in ("  HTTPS://" + address.upper() + "/  ", "  ＬＸＰ．ｗｋｕ．ａｃ．ｋｒ  "):
+            with self.subTest(valid=valid):
+                result = score_response(response(["익산대로460", valid], linked["sources"]), linked)
+                self.assertEqual(result["score"], 100)
 
     def test_aliases_exact_and_maximum_bipartite_matching(self):
         self.assertEqual(score_response(response(["익산"]), gold())["score"], 100)
@@ -133,6 +183,20 @@ class ScoringTests(unittest.TestCase):
                 self.assertEqual(scored["status"], "invalid_response")
         self.assertIs(validate_response(response())["abstain"], False)
 
+    def test_fact_sources_schema(self):
+        known = gold([["익산시"], ["봉황"]], ["location", "symbols"])
+        for invalid in (None, "location", [], ["location"], ["location", "symbols", "symbols"],
+                        ["location", "other"], ["location", "location"], ["", "symbols"],
+                        [1, "symbols"], [["location"], "symbols"]):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                score_response(response(), dict(known, fact_sources=invalid))
+        unknown = dict(gold([], [], abstain=True), fact_sources=[])
+        self.assertEqual(score_response(response([], [], abstain=True), unknown)["score"], 100)
+        with self.assertRaises(ValueError):
+            score_response(response(), dict(unknown, fact_sources=["location"]))
+        self.assertEqual(score_response(dict(response(), fact_sources=["doc"]), gold())["status"],
+                         "invalid_response")
+
 
 class DatasetTests(unittest.TestCase):
     def setUp(self):
@@ -149,10 +213,28 @@ class DatasetTests(unittest.TestCase):
         for question in self.questions:
             expected = by_id[question["id"]]
             with self.subTest(item_id=question["id"]):
+                self.assertIn("fact_sources", expected)
                 prediction = response([group[0] for group in expected["expected"]],
                                       expected["sources"], abstain=expected["abstain"])
                 self.assertEqual(score_response(prediction, expected)["score"], 100)
                 self.assertTrue(set(expected["sources"]) <= corpus_ids)
+
+    def test_public_fact_sources_and_registered_aliases(self):
+        by_id = validate_dataset(self.questions, self.answers)
+        for citations, displayed in ((["wku-location"], "66.67"), (["wku-symbols"], "53.33"),
+                                     (["wku-symbols", "wku-location"], "63.33")):
+            with self.subTest(citations=citations):
+                result = score_response(response(["익산"], citations), by_id["public-13"])
+                self.assertEqual(format(result["score"], ".2f"), displayed)
+        for item_id, answers in (
+            ("public-12", ["lxp.wku.ac.kr/"]),
+            ("public-15", ["도의실천(道義實踐)", "54538", "知德兼修(지덕겸수)"]),
+            ("public-16", ["(063)850-5114", "elibrary.wku.ac.kr/", "1971년"]),
+        ):
+            with self.subTest(item_id=item_id):
+                expected = by_id[item_id]
+                result = score_response(response(answers, expected["sources"]), expected)
+                self.assertEqual(result["score"], 100)
 
     def test_wrong_ids_labels_missing_and_extra_columns_rejected(self):
         mutations = [

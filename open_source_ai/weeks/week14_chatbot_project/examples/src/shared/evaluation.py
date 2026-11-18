@@ -23,8 +23,9 @@ CATEGORIES = ("fact", "composite", "unknown")
 
 
 def validate_gold(gold: object) -> dict:
-    if type(gold) is not dict or set(gold) != {"id", "expected", "sources", "abstain"}:
-        raise ValueError("정답에는 id, expected, sources, abstain만 있어야 합니다.")
+    required = {"id", "expected", "sources", "abstain"}
+    if type(gold) is not dict or set(gold) not in (required, required | {"fact_sources"}):
+        raise ValueError("정답의 필수 키는 id, expected, sources, abstain이고 선택 키는 fact_sources입니다.")
     validate_id(gold["id"])
     if type(gold["abstain"]) is not bool:
         raise ValueError("정답 abstain은 bool이어야 합니다.")
@@ -36,6 +37,12 @@ def validate_gold(gold: object) -> dict:
         if not group:
             raise ValueError("expected의 별칭 그룹은 비어 있으면 안 됩니다.")
     validate_strings(gold["sources"], "정답 sources", MAX_SOURCE_LENGTH)
+    if "fact_sources" in gold:
+        fact_sources = validate_strings(gold["fact_sources"], "정답 fact_sources", MAX_SOURCE_LENGTH)
+        if len(fact_sources) != len(expected):
+            raise ValueError("fact_sources에는 expected의 사실마다 문서 ID가 하나씩 필요합니다.")
+        if set(fact_sources) != set(gold["sources"]):
+            raise ValueError("fact_sources와 sources의 문서 ID 집합이 다릅니다.")
     if gold["abstain"]:
         if expected or gold["sources"]:
             raise ValueError("unknown 정답에는 사실과 출처가 없어야 합니다.")
@@ -79,8 +86,8 @@ def validate_dataset(questions: object, answers: object) -> dict[str, dict]:
     return gold_by_id
 
 
-def match_facts(predictions: set[str], groups: list[set[str]]) -> int:
-    """증가 경로로 최대 이분 매칭을 구한다. 응답 하나는 사실 하나에만 배정한다."""
+def matched_fact_indices(predictions: set[str], groups: list[set[str]]) -> set[int]:
+    """최대 일대일 매칭에서 응답이 배정된 사실 그룹의 인덱스를 반환한다."""
     owners: dict[int, str] = {}
 
     def assign(prediction: str, visited: set[int]) -> bool:
@@ -93,7 +100,9 @@ def match_facts(predictions: set[str], groups: list[set[str]]) -> int:
                 return True
         return False
 
-    return sum(assign(prediction, set()) for prediction in sorted(predictions))
+    for prediction in sorted(predictions):
+        assign(prediction, set())
+    return set(owners)
 
 
 def f1(matches: int, predicted: int, expected: int) -> float:
@@ -125,14 +134,18 @@ def score_response(response: object, gold: dict) -> dict:
         return result
     predictions = {normalize(item) for item in response["answers"]}
     groups = [{normalize(alias) for alias in group} for group in gold["expected"]]
-    matches = match_facts(predictions, groups)
-    answer_f1 = f1(matches, len(predictions), len(groups))
+    matched = matched_fact_indices(predictions, groups)
+    answer_f1 = f1(len(matched), len(predictions), len(groups))
     sources = {normalize(item) for item in response["sources"]}
     expected_sources = {normalize(item) for item in gold["sources"]}
-    source_f1 = f1(len(sources & expected_sources), len(sources), len(expected_sources))
+    if "fact_sources" in gold:
+        supported_sources = {normalize(gold["fact_sources"][index]) for index in matched}
+    else:
+        supported_sources = expected_sources  # v1 정답은 문항 단위의 출처만 제공한다.
+    source_f1 = f1(len(sources & supported_sources), len(sources), len(expected_sources))
     source_points = 20 * source_f1 if answer_f1 > 0 else 0.0
     result["subscores"].update(
-        answer_f1=answer_f1, source_f1=source_f1, matched_facts=matches,
+        answer_f1=answer_f1, source_f1=source_f1, matched_facts=len(matched),
         answer_points=80 * answer_f1, source_points=source_points,
     )
     result["score"] = 80 * answer_f1 + source_points

@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+import re
 import sys
 import unicodedata
 
@@ -11,9 +12,18 @@ MAX_ANSWER_LENGTH = 256
 MAX_SOURCE_LENGTH = 128
 MAX_QUESTION_LENGTH = 4000
 
+# 스킴을 생략한 호스트도 포트·경로·질의·프래그먼트를 포함할 수 있다.
+BARE_HOST = re.compile(r"(?:[a-z0-9-]+\.)+[a-z]{2,}(?::\d+)?(?:[/?#].*)?")
+
+
 def normalize(text: str) -> str:
-    """NFKC, casefold, 공백, 끝의 ASCII 마침표만 정규화한다."""
-    return "".join(unicodedata.normalize("NFKC", text).casefold().split()).rstrip(".")
+    """단어 사이의 공백은 무시하고 URL과 호스트 내부의 공백은 보존한다."""
+    folded = unicodedata.normalize("NFKC", text).casefold().strip()
+    compact = "".join(folded.split()).rstrip(".")
+    # 공백을 지운 모양은 주소를 식별하는 데만 쓴다.
+    if "://" in compact or BARE_HOST.fullmatch(compact):
+        return re.sub(r"[\s.]+$", "", folded)
+    return compact
 
 
 def validate_strings(value: object, name: str, max_length: int) -> list[str]:
