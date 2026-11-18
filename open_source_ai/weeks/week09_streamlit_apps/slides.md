@@ -19,11 +19,15 @@ Ollama → LangChain → RAG → LoRA에서 확인한 기능을 사용자가 입
 
 ---
 
-## 3–6분 · 패키지에서 앱을 실행한다
+## 3–6분 · 첫 위젯 앱을 실행한다
 
-Python 3.12로 uv 패키지 프로젝트를 확인한다. main은 시작 함수, scripts는 명령 연결, build-system은 설치 방법이다.
+`examples/` 폴더에서 실행한다.
 
-`uv run ex01`이 Streamlit을 실행한다. 루트에서 실행하고 Ctrl+C로 종료한다.
+```sh
+uv run streamlit run src/ex01_widgets/app.py
+```
+
+브라우저에서 첫 화면을 확인한다. 서버를 종료할 때는 터미널에서 Ctrl+C를 누른다.
 
 ---
 
@@ -75,6 +79,10 @@ if st.button("인사 출력"):
 5주차 ChatOllama와 같은 서버·모델을 쓴다. API 키가 새로 필요하지 않다.
 
 연결 설정은 shared의 OLLAMA_MODEL·OLLAMA_HOST다.
+
+```sh
+uv run streamlit run src/ex02_chat/app.py
+```
 
 ---
 
@@ -130,6 +138,10 @@ st.write_stream에 문자열 조각을 전달한다. 완성한 답은 메시지 
 기본 자료는 가상 도서관 안내다. 다른 문서는 UTF-8 txt로 업로드한다.
 
 빈 줄로 나눈 문단을 검색 단위로 쓴다.
+
+```sh
+uv run streamlit run src/ex03_rag/app.py
+```
 
 ---
 

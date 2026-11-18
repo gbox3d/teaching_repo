@@ -6,15 +6,15 @@
 
 | 교시 | 설명·시연 20분 | 실습 30분 | 실행 |
 |---|---|---|---|
-| 1 | 위젯, 버튼, 재실행 | 수업용 이름을 입력하는 첫 앱 | `uv run ex01` |
-| 2 | chat_input·chat_message·session_state | 기억하며 스트리밍하는 Ollama 채팅 앱 | `uv run ex02` |
-| 3 | 파일 업로드, 캐시, 검색 문단 표시 | 텍스트 문서에 질문하는 RAG 앱 | `uv run ex03` |
+| 1 | 위젯, 버튼, 재실행 | 수업용 이름을 입력하는 첫 앱 | `uv run streamlit run src/ex01_widgets/app.py` |
+| 2 | chat_input·chat_message·session_state | 기억하며 스트리밍하는 Ollama 채팅 앱 | `uv run streamlit run src/ex02_chat/app.py` |
+| 3 | 파일 업로드, 캐시, 검색 문단 표시 | 텍스트 문서에 질문하는 RAG 앱 | `uv run streamlit run src/ex03_rag/app.py` |
 
 교시마다 설명·시연 20분, 실습 30분, 휴식 10분이다. 먼저 동작하는 앱 하나를 만들고 입력·답변·검색 근거를 확인한다.
 
 ## 준비
 
-[실습지](lab.md)대로 Python 3.12 패키지 프로젝트를 확인하고 `examples` 전체를 복사한다. 한 프로젝트 루트에서 세 명령을 실행한다. `main()`은 Streamlit 실행 시작점이고 scripts는 명령 연결, build-system은 패키지 설치 방법이다. scripts 수정 뒤에는 `uv sync`를 다시 실행한다.
+[실습지](lab.md)대로 Python 3.12 패키지 프로젝트를 확인하고 `examples` 전체를 복사한다. `examples/`에서 `uv sync`를 실행한 뒤 위 표의 명령을 사용한다. 각 명령 끝의 `app.py`가 해당 교시에서 수정할 화면 코드다.
 
 Ollama와 생성 모델 `qwen3.5:2b`, 임베딩 모델 `intfloat/multilingual-e5-small`을 사용한다. 설치·다운로드는 수업 전에 마친다. 생성 모델은 `OLLAMA_MODEL`·`OLLAMA_HOST`, 임베딩 모델은 `HF_EMBED_MODEL`로 지정한다.
 

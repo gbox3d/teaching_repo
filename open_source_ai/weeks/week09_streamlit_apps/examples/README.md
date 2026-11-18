@@ -1,14 +1,14 @@
 # Streamlit 실행 예제
 
-한 프로젝트 루트에서 `uv sync`를 마친다. 세 앱은 차례로 실행하고 서버를 바꾸기 전에 Ctrl+C로 종료한다.
+9주차 `examples/` 폴더에서 `uv sync`를 실행한다. 세 앱은 차례로 실행하고 서버를 바꾸기 전에 Ctrl+C로 종료한다.
 
 | 교시 | 코드 | 명령 |
 |---|---|---|
-| 1 | [첫 위젯](src/ex01_widgets/app.py) | `uv run ex01` |
-| 2 | [채팅](src/ex02_chat/app.py) | `uv run ex02` |
-| 3 | [문서 RAG](src/ex03_rag/app.py) | `uv run ex03` |
+| 1 | [첫 위젯](src/ex01_widgets/app.py) | `uv run streamlit run src/ex01_widgets/app.py` |
+| 2 | [채팅](src/ex02_chat/app.py) | `uv run streamlit run src/ex02_chat/app.py` |
+| 3 | [문서 RAG](src/ex03_rag/app.py) | `uv run streamlit run src/ex03_rag/app.py` |
 
-`src/<모듈>/__init__.py`의 `main()`이 공용 실행 함수를 부르고 Streamlit이 같은 패키지의 `app.py`를 실행한다. scripts는 명령 연결, build-system은 설치 방법이다. 수정 뒤 `uv sync`한다. 모델·검색·서버 실행은 [shared](src/shared/__init__.py)에서 공유한다.
+`uv run`은 프로젝트 환경에서 명령을 실행한다. `streamlit run` 뒤에 지정한 `app.py`가 브라우저에 보이는 화면을 만든다. 채팅과 문서 검색 앱은 [shared](src/shared/__init__.py)의 모델 함수를 함께 사용한다. [Streamlit 공식 실행 안내](https://docs.streamlit.io/develop/concepts/architecture/run-your-app)
 
 ## 수업 전 준비
 

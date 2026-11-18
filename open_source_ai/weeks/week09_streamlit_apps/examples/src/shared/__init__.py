@@ -1,9 +1,7 @@
-"""앱 실행과 로컬 모델·검색 함수를 모은다."""
+"""채팅과 문서 검색 앱에서 사용하는 모델·검색 함수."""
 
 import os
 from pathlib import Path
-import subprocess
-import sys
 
 import streamlit as st
 
@@ -11,11 +9,6 @@ MODEL = os.getenv("OLLAMA_MODEL", "qwen3.5:2b")
 HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 EMBED_MODEL = os.getenv("HF_EMBED_MODEL", "intfloat/multilingual-e5-small")
 DOCUMENT = Path(__file__).parent / "data/library.txt"
-
-
-def launch(module_file):
-    app = Path(module_file).with_name("app.py")
-    subprocess.run([sys.executable, "-m", "streamlit", "run", str(app), *sys.argv[1:]], check=True)
 
 
 def prepare():

@@ -6,9 +6,6 @@ requires-python = ">=3.12"
 dependencies = ["streamlit", "langchain-ollama", "sentence-transformers"]
 
 [project.scripts]
-ex01 = "ex01_widgets:main"
-ex02 = "ex02_chat:main"
-ex03 = "ex03_rag:main"
 prepare = "shared:prepare"
 
 [build-system]

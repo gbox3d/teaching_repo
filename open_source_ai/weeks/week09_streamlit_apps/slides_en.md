@@ -17,9 +17,15 @@ After Ollama, LangChain, RAG, and LoRA, expose working features on a page users 
 
 ---
 
-## 3–6 min · Launch the Packaged App
+## 3–6 min · Run the First Widget App
 
-Use Python 3.12 and a uv package project. main starts the command, scripts maps it, and build-system installs it. Run ex01 from the root; Ctrl+C stops the server.
+From the `examples/` directory, run the widget app.
+
+```sh
+uv run streamlit run src/ex01_widgets/app.py
+```
+
+Open the local URL in your browser. Press Ctrl+C in the terminal to stop the server.
 
 ---
 
@@ -57,6 +63,10 @@ Change the title and one output sentence. Identify which code controls each visi
 ## 0–3 min · Reuse the Local Model
 
 Reuse Week 5 ChatOllama and the same server and model. Shared settings read OLLAMA_MODEL and OLLAMA_HOST.
+
+```sh
+uv run streamlit run src/ex02_chat/app.py
+```
 
 ---
 
@@ -100,6 +110,10 @@ Tell the model a color, ask for it, then clear the chat. A browser session is no
 ## 0–3 min · Start with a Small Document
 
 Use the fictional library guide or upload a UTF-8 txt file. Blank-line-separated paragraphs form the retrieval units.
+
+```sh
+uv run streamlit run src/ex03_rag/app.py
+```
 
 ---
 

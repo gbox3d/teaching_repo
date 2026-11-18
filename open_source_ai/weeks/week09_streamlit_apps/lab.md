@@ -6,7 +6,7 @@
 uv init --package --python 3.12 --vcs none streamlit-skeleton
 ```
 
-`src/`·`pyproject.toml`·`.python-version`을 확인하고 교재의 `examples` 전체를 별도 작업 폴더에 복사한다. 그 루트에서 `uv sync`를 수업 전에 마친다. `main()`·scripts·build-system의 연결을 읽고 scripts 수정 뒤에는 다시 sync한다. 모델은 [예제 준비](examples/README.md)를 따른다.
+`src/`·`pyproject.toml`·`.python-version`을 확인하고 교재의 `examples` 전체를 별도 작업 폴더에 복사한다. 그 루트에서 `uv sync`를 수업 전에 마친다. 각 교시에는 `streamlit run` 뒤에 적힌 `app.py`를 연다. 모델은 [예제 준비](examples/README.md)를 따른다.
 
 ## 1교시 실습 — 첫 화면
 
@@ -17,7 +17,7 @@ uv init --package --python 3.12 --vcs none streamlit-skeleton
 | 15–25분 | 제목·출력 문장 변경 |
 | 25–30분 | 재실행 관찰·기록 |
 
-1. 프로젝트 루트에서 `uv run ex01`을 실행하고 표시된 로컬 주소를 브라우저로 연다.
+1. 프로젝트 루트에서 `uv run streamlit run src/ex01_widgets/app.py`을 실행하고 표시된 로컬 주소를 브라우저로 연다.
 2. 수업용 이름을 입력하고 버튼을 누른다. 실명은 입력하지 않는다.
 3. 소스의 `st.title`·`st.text_input`·`st.button`·`st.write`가 화면 어느 부분인지 찾는다.
 4. 제목과 출력 문장을 하나씩 바꾸고 저장해 화면 변화를 확인한다.
@@ -32,7 +32,7 @@ uv init --package --python 3.12 --vcs none streamlit-skeleton
 | 15–25분 | 대화 지우기·역할 문장 수정 |
 | 25–30분 | 상태와 스트리밍 기록 |
 
-1. 앞 서버를 종료하고 `uv run ex02`를 실행한다.
+1. 앞 서버를 종료하고 `uv run streamlit run src/ex02_chat/app.py`를 실행한다.
 2. 좋아하는 색을 알려 준 뒤 다시 묻는다. 답이 조각으로 출력되는지 확인한다.
 3. `session_state.messages`가 재실행 사이에 대화를 보존하는 부분을 찾는다.
 4. 대화 지우기를 누르고 이전 메시지가 사라졌는지 확인한다.
@@ -47,7 +47,7 @@ uv init --package --python 3.12 --vcs none streamlit-skeleton
 | 15–25분 | 내 텍스트 문서로 교체 |
 | 25–30분 | 자료 밖 질문·한계 기록 |
 
-1. 앞 서버를 종료하고 `uv run ex03`을 실행한다.
+1. 앞 서버를 종료하고 `uv run streamlit run src/ex03_rag/app.py`을 실행한다.
 2. 기본 문서는 수업용 가상 도서관 안내다. 대출 기간과 운영 시간 질문을 입력한다.
 3. 검색한 문단을 펼쳐 답의 근거와 문단 번호가 맞는지 확인한다. 유사도 점수는 확률이 아니다.
 4. 개인정보 없는 작은 UTF-8 `.txt` 문서를 업로드한다. 빈 줄로 나눈 문단을 임베딩해 검색한다.
