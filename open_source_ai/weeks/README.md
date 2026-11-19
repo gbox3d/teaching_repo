@@ -63,9 +63,13 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 14 | 4장 | 기말 챗봇 과제와 공개 성능 평가 | 공개 평가세트·도구, 개선 실험, 개발 보고서 | [`week14_chatbot_project`](week14_chatbot_project) |
 | 15 | 4장 종합 | AI 성능 평가와 개발 보고서 | 발표 항목을 비공개 성능 평가로 대체, 레포트 별도 평가 | [`week15_final_evaluation`](week15_final_evaluation) |
 
-## 누적 프로젝트 줄거리
+## 선택 자료
 
-선택 특강은 [Hugging Face Hub 분석](../specials/huggingface_hub/README.md)과 [PyTorch 텐서·회귀 모델](../specials/pytorch_basics/README.md)이다. 정규 앱 실습의 선행 조건으로 두지 않는다. 앱 완성 후 남는 시간의 얼굴·이미지 유사도, 음성 인식·출력, 소형 모델 비교는 [9주차 선택 확장](week09_streamlit_apps/README.md#남는-시간의-선택-확장)을 참고한다.
+선택 특강으로 [Hugging Face Hub 분석](../specials/huggingface_hub/README.md)과 [PyTorch 텐서·회귀 모델](../specials/pytorch_basics/README.md)이 있다. 앱 완성 후 남는 시간의 얼굴·이미지 유사도, 음성 인식·출력, 소형 모델 비교는 [9주차 선택 확장](week09_streamlit_apps/README.md#남는-시간의-선택-확장)을 참고한다.
+
+독립 복습 자료: [팁엔트릭엔 추론](../specials/reasoning_tips/README.md).
+
+## 누적 프로젝트 줄거리
 
 학생(또는 팀)은 학기 내내 "로컬 AI 도우미"를 구현하며 배운 내용을 이어 쓴다. 기말과제는 14주차에 공개한 대학 소개 챗봇과 공통 평가 규격을 따른다. 개인·팀 제출 방식은 강좌 공지에서 정한다.
 

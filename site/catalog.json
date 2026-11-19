@@ -575,7 +575,7 @@
       "description": "Ollama·LangChain·RAG·LoRA·Streamlit에서 초소형 모델의 시뮬레이터 제어와 챗봇 성능 평가로 이어지는 15주 과정입니다.",
       "status": "published",
       "accent": "#bc8cff",
-      "summary": "15개 주차 · 특강 2개 · 426장",
+      "summary": "15개 주차 · 특강 2개 · 복습 자료 1개 · 432장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/open_source_ai",
       "chapters": [
         {
@@ -798,6 +798,18 @@
             "label": "Special",
             "title": "PyTorch Tensors and a Small Regression Model",
             "description": "An optional special on tensor operations, persistence, and regression on small data."
+          }
+        },
+        {
+          "id": "reasoning_tips",
+          "label": "복습",
+          "title": "팁엔트릭엔 추론",
+          "description": "추론 모드, 반복 감지, 답변 이어쓰기를 터미널 예제로 복습하는 독립 자료입니다.",
+          "type": "special",
+          "en": {
+            "label": "Review",
+            "title": "Reasoning Tips and Tricks",
+            "description": "Independent terminal examples for reviewing reasoning modes, repetition detection, and answer continuation."
           }
         }
       ],

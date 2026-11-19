@@ -68,7 +68,7 @@ npm test        # npm run check + scripts/deck-fit.test.mjs + npm run test:labs
 | `npm run check` | `dist/` 검사만 다시 돌린다. 빌드 뒤에만 의미가 있다 |
 | `npm run test:labs` | 웹 정적 서버·방명록 API·홈 IoT·Supabase 06 시험과 지도 시험. `dist/`가 필요 없어 과목 작업 중에 돌려도 된다 |
 
-2026-11-18 작업 트리(커밋 안 된 변경 포함)의 기대값은 58개 덱, 언어별 1,175장이다. 과목별 값은 `scripts/check-site.mjs`의 `EXPECTED`에 있다. 덱이나 장 수를 바꾸면 다음을 같은 작업에서 고친다.
+전체 덱과 슬라이드의 기대값은 `scripts/check-site.mjs`의 `EXPECTED_DECKS`·`EXPECTED_SLIDES`에 있고 과목별 값은 `EXPECTED`에 있다. 덱이나 장 수를 바꾸면 다음을 같은 작업에서 고친다.
 
 - `scripts/render-site.mjs`와 `scripts/check-site.mjs`의 `EXPECTED_DECKS`·`EXPECTED_SLIDES`, `check-site.mjs`의 `EXPECTED[과목]`
 - `site/catalog.json`의 과목 `summary`에 장 수가 적혀 있으면 그 수

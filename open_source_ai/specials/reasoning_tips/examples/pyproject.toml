@@ -1,0 +1,18 @@
+[project]
+name = "osa-reasoning-tips"
+version = "0.1.0"
+description = "터미널에서 Ollama의 추론과 최종 답변을 비교하는 복습 예제"
+requires-python = ">=3.12"
+dependencies = ["langchain-core>=1.1,<2", "langchain-ollama>=1.1,<2"]
+
+[project.scripts]
+ex01 = "ex01_baseline:main"
+ex02 = "ex02_observe:main"
+ex03 = "ex03_recover:main"
+
+[build-system]
+requires = ["uv_build>=0.8,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = ["ex01_baseline", "ex02_observe", "ex03_recover", "shared"]

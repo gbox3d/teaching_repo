@@ -25,7 +25,8 @@ open_source_ai/
 ├─ weeks/README.md         운영 기준, 주차 목록, 검증용 기본값
 ├─ weeks/weekNN_<주제>/     정규 15주
 └─ specials/
-   ├─ huggingface_hub/, pytorch_basics/   사이트에 올린 선택 특강
+   ├─ huggingface_hub/, pytorch_basics/    사이트에 올린 선택 특강
+   ├─ reasoning_tips/                     팁엔트릭엔 추론, 독립 복습 자료
    └─ project_delivery/                    이전 10~13주차 원고 보존(사이트 미등록)
 ```
 
@@ -57,6 +58,7 @@ open_source_ai/
 - 예제 하나에 새 개념 하나를 중심으로 가르친다. 짧고 읽기 쉬운 반복문과 공식 라이브러리를 우선하고, 실습에 불필요한 클래스·공통 프레임워크·복잡한 설정 계층을 추가하지 않는다.
 - 비교 실습은 같은 질문과 필요한 조건만 바꿔 관찰할 수 있게 한다. 필수 실습과 선택 확장을 구분하고 모델·의존성 다운로드는 수업 전에 준비한다.
 - 정규 흐름은 4주차 Ollama, 5주차 LangChain, 6주차 임베딩·RAG, 7주차 LoRA, 8주차 평가, 9주차 Streamlit 앱 순서다. Hugging Face 상세 분석과 PyTorch는 선택 특강으로 둔다. PyTorch 특강은 텐서 연산·저장·불러오기부터 작은 가상 데이터의 회귀 모델로 마무리하며 정규 수업의 선행 조건으로 두지 않는다. 특강 보고서를 정규 과제의 필수 조건으로 다시 넣지 않는다.
+- `specials/reasoning_tips`의 「팁엔트릭엔 추론」은 터미널 예제를 쓰는 독립 복습 자료다. 주차·교시·수업 시간을 배정하거나 정규 주차의 후속 실습으로 연결하지 않는다. 사이트에서는 `special` 유형을 재사용하되 한국어 표시는 `복습`, 영어 표시는 `Review`로 구분한다.
 - Ollama 다음에 학습 도구를 도입할 때는 기존 대화, 실행과 학습의 차이, 짧은 Transformers 대화, 데이터 수정·LoRA 학습·저장·복원 순서로 연결한다(2026-11-11 사용자 승인). 도구 전환 이유를 설명하기 전에 rank·VRAM 계산·Trainer 내부·마스킹 구현을 필수 과제로 요구하지 않는다. 학습 전후는 같은 기본 모델과 입력·생성 조건에서 비교하고, Ollama 재사용은 사전에 검증한 가져오기 경로로 시연한다.
 - 2026-11-13 승인에 따라 10~13주차는 시뮬레이터 제어, 초소형 툴 호출 모델, 로컬 LoRA 학습·저장·복원, 제어 평가와 Streamlit 앱으로 연결한다. 공용 TCP 연결·검증·평가는 `tools/bleuno-control`을 재사용한다. 모델의 호출 제안과 실제 실행을 분리하고, 명령의 응답과 함께 시뮬레이터 상태로 성공을 확인한다. 학습 전후에는 같은 모델·깊이·양자화·입력 조건을 적용한다.
 - WlEno(프로토콜 2.0.0)는 TCP 연결·해제 때 LED·센서 상태를 초기화하지 않고, 범위 밖 번호·밝기를 오류로 거부한다. 비교할 초기 상태(문항마다 LED `[0, 64, 128, 255]`)는 명령으로 맞추고 `GET /state`로 확인한다. 모델 도구는 `turn_on`·`turn_off`·`set_brightness`·`read_environment` 네 개이며 센서 값을 바꾸는 `POST /set`은 모델에 주지 않는다.
@@ -74,14 +76,28 @@ open_source_ai/
 - `uv.lock`은 3·4주차 일부 교시와 5·6·7·9~14주차에 커밋되어 있다. 의존성을 바꿀 때만 `uv lock`으로 갱신하고, 검증할 때는 `--frozen`이나 `--locked`로 lock을 바꾸지 않는다.
 - 코드 변경 시 README·실습지·따라하기·슬라이드의 실행 및 입력 안내도 맞춘다. 실제 입력, 응답, 다음 입력, 종료 흐름을 검증하고 확인하지 못한 실행 결과는 단정하지 않는다.
 
+### LangChain 터미널 예제와 추론 복습
+
+5주차처럼 각 예제의 `main()`에서 `input()`으로 질문을 받고 모델을 호출한 뒤 결과를 출력하는 흐름이 보이게 쓴다. 모델 설정과 출력·복구 도우미는 `src/shared/`에 두고 입력 반복문은 예제에 둔다. 완성된 답과 종료 사유는 `invoke()`로 읽는다. 답을 도착하는 대로 보여 주거나 생성 도중 추론 반복을 멈추는 예제에서 `stream()`을 쓴다.
+
+[추론 복습 예제](specials/reasoning_tips/README.md)는 같은 질문을 세 프로그램에 각각 입력해 비교한다.
+
+| 예제 | 학생이 터미널에서 확인할 내용 |
+|---|---|
+| ex01 · 기본 호출 | 모델의 추론을 켜 둔 채 `AI>`에 본문을 출력한다. 본문이 비면 안내를 표시한다. |
+| ex02 · 완성 응답 관찰 | 한 번의 `invoke()`가 끝나면 모델이 보낸 `reasoning_content` 원문을 `추론>`에 표시하고 글자 수·종료 사유와 `AI>` 본문을 차례로 출력한다. |
+| ex03 · 생성 중 복구 | `추론>`에는 받은 원문을 조각마다 즉시 출력한다. `AI>` 본문은 터미널에서 한 글자씩 표시한다. 이어쓰기용 추론은 해당 요청에만 쓰고 대화 이력에는 사용자 질문과 최종 답을 남긴다. |
+
+이 복습 자료를 고치면 세 예제에 같은 질문을 입력해 출력 순서를 확인한다. 교육 흐름, 실행 동작, 설치·실행 재현성은 독립 검토자 세 명이 각각 10점 만점으로 평가한다. 세 점수가 모두 9점을 넘을 때까지 지적 사항을 수정하고 다시 검증한다.
+
 ## 고친 뒤 같이 맞출 곳
 
 | 바꾼 것 | 같이 고칠 곳 |
 |---|---|
 | 예제 코드, 실행 명령, 입력 방식 | 주차 `README.md`, `examples/README.md`, `examples/periodN/README.md`, `lab.md`, `walkthrough.md`의 코드·명령 인용, `slides.md`·`slides_en.md` |
 | `slides.md` 내용 | `slides_en.md`를 같은 장 수로 맞춘다. 비공개 대본의 구간 제목·분 범위도 바뀐다 |
-| 슬라이드 장 수 | `scripts/render-site.mjs`의 `EXPECTED_SLIDES`, `scripts/check-site.mjs`의 `EXPECTED_SLIDES`와 `EXPECTED["open-source-ai"].slides`, `site/catalog.json` 과목 `summary`(현재 "15개 주차 · 특강 2개 · 426장") |
-| 덱 추가·삭제·이름 변경 | `site/catalog.json`의 chapters와 `formerIds`, 두 스크립트의 `EXPECTED_DECKS`와 과목 `decks`(현재 17) |
+| 슬라이드 장 수 | `scripts/render-site.mjs`의 `EXPECTED_SLIDES`, `scripts/check-site.mjs`의 `EXPECTED_SLIDES`와 `EXPECTED["open-source-ai"].slides`, `site/catalog.json` 과목 `summary` |
+| 덱 추가·삭제·이름 변경 | `site/catalog.json`의 chapters와 `formerIds`, 두 스크립트의 `EXPECTED_DECKS`와 과목 `decks` |
 | 시뮬레이터 실행 명령 | 10주차 6개 파일(README, `examples/README.md`, lab, walkthrough, slides 한영), 11주차 4개 파일(README, `examples/README.md`, lab, walkthrough), 12주차 `examples/period1/README.md`. `git grep -n "wleno/main.py" -- open_source_ai`로 찾는다 |
 | `tools/bleuno-control`의 함수·검증·평가·학습, `tools.json`, `control_cases.json` | 10~13주차 문서와 `src/shared`, `materials_plan.md` 10절, `weeks/README.md` 기본값 표, `ta_setup_guide.md` 10~13주차 표 |
 | `tools/wleno`의 명령·응답·포트 | Android 11~15주차(`android_programming/iot_sim/lab.md`, `tools/wleno/android/`)도 같은 시뮬레이터를 쓴다. 혼자 바꾸지 않고 Android 담당 작업과 맞춘다 |
@@ -116,7 +132,7 @@ npm test
 | WlEno 시험 | 35개 OK |
 | `bleuno-control` 시험 | 15개 OK |
 | 14주차 채점 도구 시험 | 28개 OK(2026-11-19 평가셋 v1.1 뒤) |
-| `npm run build` | 이 과목 17개 덱·426장, 영문판도 같은 수. `영문판 장수가 한국어판과 다릅니다` 경고가 이 과목에 없어야 한다(경고만 내고 빌드는 계속된다) |
+| `npm run build` | 이 과목의 덱·장 수가 `scripts/check-site.mjs`의 `EXPECTED["open-source-ai"]`와 맞고 영문판도 같은 수여야 한다. `영문판 장수가 한국어판과 다릅니다` 경고가 이 과목에 없어야 한다(경고만 내고 빌드는 계속된다) |
 | `npm test` | 사이트 검사, 슬라이드 맞춤 시험, 실습 시험 모두 통과 |
 
 `uv run`은 해당 폴더에 `.venv/`를 만들며 이 폴더는 Git에서 제외된다. 여러 작업이 동시에 `npm run build`를 돌리면 `dist/`가 충돌하므로 한 번에 하나만 실행한다.

@@ -19,6 +19,7 @@ LangChain, 임베딩·RAG, PEFT/LoRA 경량 파인튜닝, Streamlit 앱,
 - 15주 교재 색인: [`weeks/README.md`](weeks/README.md)
 - 선택 특강: [Hugging Face Hub와 공개 자원 분석](specials/huggingface_hub/README.md)
 - 선택 특강: [PyTorch 텐서·저장·회귀 모델](specials/pytorch_basics/README.md)
+- 독립 복습 자료: [팁엔트릭엔 추론](specials/reasoning_tips/README.md)
 - 선택 자료: [프로젝트 운영·서비스 배포·CI의 이전 강의](specials/project_delivery/README.md)
 - 시뮬레이터 제어·학습: [10주차 시작](weeks/week10_simulator_control/README.md), [공용 제어 도구](../tools/bleuno-control/README.md)
 - 제작 계획과 품질 검수 기준: [`materials_plan.md`](materials_plan.md)
