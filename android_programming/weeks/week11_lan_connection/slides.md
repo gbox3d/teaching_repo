@@ -60,7 +60,7 @@ TCP는 연결·명령 전송, UDP는 선택 기능인 장치 검색에 쓴다.
 저장소의 `tools/wleno`에서 실행한다.
 
 ```powershell
-uv run main
+python main.py
 ```
 
 LED 네 개가 있는 창을 열어 둔다.
@@ -192,7 +192,7 @@ binding.offButton.setOnClickListener { send("off 0") }
 - 조명 버튼이 비활성화된다.
 - [연결 화면]으로 돌아가 다시 연결한다.
 
-새로 연결하면 LED는 꺼진 상태다.
+다시 연결해도 LED 상태는 유지된다.
 연결한 뒤 [조명 켜기]를 누른다.
 
 ---

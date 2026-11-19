@@ -13,7 +13,7 @@ def ollama_predict(question, model="qwen3.5:2b", url="http://127.0.0.1:11434/api
     body = http_json(url, {
         "model": model,
         "messages": [
-            {"role": "system", "content": "Use only the provided LED tools. LED indices are 0 to 3 and brightness is 0 to 255. Never guess missing indices or values. Unsupported, ambiguous, or invalid requests require no tool call. Each request is independent."},
+            {"role": "system", "content": "Use only the provided LED tools. LED indices are 0 to 3 and brightness is 0 to 255. Never guess missing indices or values. Unsupported, ambiguous, or invalid requests require no tool call. Never substitute a supported read for a requested write. Setting or changing temperature or humidity is unsupported and requires no tool call. Each request is independent."},
             {"role": "user", "content": question},
         ],
         "tools": [{"type": "function", "function": tool} for tool in TOOLS],

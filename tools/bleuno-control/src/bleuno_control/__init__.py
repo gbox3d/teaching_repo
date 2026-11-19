@@ -37,7 +37,7 @@ def validate_calls(calls):
 
 
 class Board:
-    """한 실습 동안 유지하는 TCP 연결. 닫으면 시뮬레이터 LED가 초기화된다."""
+    """한 실습 동안 유지하는 TCP 연결. 닫아도 WlEno의 보드 상태는 유지된다."""
 
     def __init__(self, host="127.0.0.1", port=8266, http_url="http://127.0.0.1:8080"):
         self.http_url = http_url

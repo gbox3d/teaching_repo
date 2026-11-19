@@ -1,0 +1,29 @@
+@baseUrl = http://127.0.0.1:8080
+
+### 1. 초기화 전 상태: 200, input_value와 input_sequence를 기록한다.
+GET {{baseUrl}}/state
+Accept: application/json
+
+### 2. 초기화: 200, result=ok, revision 증가. 연결은 유지된다.
+POST {{baseUrl}}/reset
+Accept: application/json
+Content-Type: application/json
+
+{}
+
+### 3. 초기값 확인: leds=[0,0,0,0], blink=false, temperature=24.5, humidity=40.0, input_value=0
+# input_sequence는 0으로 초기화하지 않는다. 이전 input_value=1이면 1 증가하고, 0이면 유지된다.
+GET {{baseUrl}}/state
+Accept: application/json
+
+### 4. TCP 연결 종료 요청: 대상이 있으면 202와 requested>0, 없으면 200과 requested=0
+POST {{baseUrl}}/drop
+Accept: application/json
+Content-Type: application/json
+
+{}
+
+### 5. 종료 확인: 200, clients=0. 아직 연결이 남으면 이 요청을 다시 실행한다.
+# 연결 종료는 leds/blink/센서/input_value/revision/input_sequence를 바꾸지 않는다.
+GET {{baseUrl}}/state
+Accept: application/json

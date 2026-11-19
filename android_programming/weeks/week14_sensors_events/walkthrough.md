@@ -4,7 +4,7 @@
 
 ### 1. 연결과 책상 조명 확인
 
-1. `tools/wleno`에서 `uv run main`을 실행한다.
+1. `tools/wleno`에서 `python main.py`를 실행한다.
 2. Android Studio에서 `RoomControl`을 실행한다.
 3. [실행 위치에 맞는 주소](../../iot_sim/lab.md#2-앱에-넣을-주소-결정)를 입력하고 [제어 시작]을 누른다. WlEno와 같은 PC의 에뮬레이터 주소는 `10.0.2.2:8266`이다.
 4. 제어 화면이 열리면 책상 조명을 켰다가 끈다. WlEno의 LED 0이 앱의 책상 조명에 해당한다.

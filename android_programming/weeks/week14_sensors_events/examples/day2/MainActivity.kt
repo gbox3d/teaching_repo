@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             if (address.isBlank()) {
                 binding.addressEdit.error = "IPv4 주소와 포트를 입력하세요."
             } else {
+                binding.addressEdit.error = null
                 pendingConnect = true
                 client.connect(address)
             }

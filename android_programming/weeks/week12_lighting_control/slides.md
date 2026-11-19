@@ -188,7 +188,7 @@ binding.allOffButton.setOnClickListener {
 
 다시 사용하려면 [제어 시작]을 누른다.
 
-WlEno는 연결·해제 때 LED를 초기화한다.
+WlEno는 연결·해제 때 LED 상태를 유지한다.
 
 홈 화면 이동이나 회전 뒤에도 다시 연결한다.
 

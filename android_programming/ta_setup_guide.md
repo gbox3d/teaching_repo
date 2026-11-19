@@ -26,7 +26,7 @@
 
 ## 11주차부터 필요한 시뮬레이터
 
-[uv](https://docs.astral.sh/uv/getting-started/installation/)를 설치하고 저장소의 `tools/wleno`에서 `uv sync`, `uv run main`을 실행한다. 학생 한 명당 자기 PC의 시뮬레이터 한 개를 사용한다. 별도 보드나 휴대전화는 필요 없다.
+Python 3.10 이상을 준비하고 저장소의 `tools/wleno`에서 `python -m tkinter`로 Tk 시험 창을 확인한 뒤 `python main.py`를 실행한다. 추가 pip 패키지는 필요 없다. Windows는 `py`, macOS·Linux는 `python3`로 같은 명령을 사용할 수 있다. 학생 한 명당 자기 PC의 시뮬레이터 한 개를 사용한다. 별도 보드나 휴대전화는 필요 없다.
 
 Android Studio에서 새 `RoomControl` 프로젝트와 AVD를 준비하고 [공통 라이브러리 배포·설치](../tools/wleno/android/README.md)를 따른다. 학생은 [wleno-android-0.1.0.aar](https://github.com/gbox3d/teaching_repo/releases/download/wleno-android-v0.1.0/wleno-android-0.1.0.aar) 파일 한 개를 다운로드하고 압축 해제 없이 `app/libs/`에 넣어 Gradle 의존성 설정 후 Sync한다. ZIP이나 공통 Kotlin 소스를 함께 복사하지 않는다. 기존 SmartIO 프로젝트와 BLE 권한은 정규 11~15주차의 준비물이 아니다. 첫 수업 전에 1일차 예제의 `준비됨`과 2일차 예제의 제어 화면 → LED 0 켜기·끄기를 확인한다.
 
@@ -38,9 +38,9 @@ WlEno와 같은 PC의 에뮬레이터는 `10.0.2.2:8266`, 다른 PC의 에뮬레
 |---|---|
 | Android 제조사 USB 드라이버 | 실기기가 인식되지 않고 제조사 드라이버가 필요한 경우 |
 | Windows 가상화 구성요소 | AVD 실행에 필요하며 전산실이 승인한 경우 |
-| Python 직접 설치(uv를 사용할 수 없는 경우) | 실습실 PC에서 Wi-Fi 시뮬레이터 실습([WlEno](../tools/wleno/README.md))을 할 때. `py --version`으로 확인하고 실행할 Python에 `py -m pip install pygame-ce`로 설치한다. 다른 Python 명령으로 실행하면 같은 명령으로 설치한다 |
+| Python 3.10 이상 | 11주차 WlEno 실습 전에 설치한다. `python --version`, `python -m tkinter`로 버전과 Tkinter를 확인한다. Windows에서 `py`를 쓴다면 두 명령도 `py`로 확인한다 |
 
-직접 설치한 Python을 쓰는 대체 경로는 `tools/wleno` 폴더의 `py sim.py`이며, LED·온습도·입력 버튼은 별도 창에 표시된다. `8080`은 브라우저 화면이 아니라 HTTP API 포트다. 창 없이 실행하는 `--no-window`는 Python 3.9 이상에서 추가 패키지 없이 사용할 수 있지만, 이 실습은 창에서 LED와 입력을 확인하므로 pygame-ce를 준비한다.
+`tools/wleno` 폴더에서 `python main.py`를 실행하면 LED·온습도·입력 버튼이 별도 창에 표시된다. `8080`은 HTTP API 포트다. `--no-window`는 Tkinter와 디스플레이 없이 실행하지만, 이 실습은 창에서 LED와 입력을 확인하므로 Tkinter가 포함된 Python을 준비한다. 배포판별 Tkinter 설치는 [WlEno 준비 안내](../tools/wleno/README.md#2-준비)를 따른다.
 
 다른 PC의 에뮬레이터나 실기기로 접속할 때는 WlEno 실행 PC의 TCP 8266 인바운드를 허용한다. UDP 8267은 선택 기능인 검색에만 필요하다. 학생 계정에 관리자 권한이 없으면 조교가 [WlEno 방화벽 안내](../tools/wleno/README.md#7-windows-방화벽)에 따라 차단 여부를 확인하고 해당 WlEno 규칙만 관리한다.
 

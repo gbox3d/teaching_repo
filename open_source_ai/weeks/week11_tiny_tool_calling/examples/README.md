@@ -22,7 +22,7 @@ Python 3.12를 사용한다. 각 패키지의 `main()`을 `[project.scripts]`가
 시뮬레이터는 저장소 루트의 별도 터미널에서 켜 둔다.
 
 ```powershell
-uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1
+python tools/wleno/main.py --bind 127.0.0.1
 ```
 
 창 없는 검증에는 `--no-window`를 추가한다. 대화 예제는 빈 줄을 건너뛰고 `/bye`로 종료한다. 입력 반복과 대화 이력 유지는 구분한다.
@@ -37,6 +37,6 @@ uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1
 
 ## 실행 결과 확인
 
-TCP 8266 연결을 유지한 채 HTTP 8080의 `GET /state`를 읽는다. `hello`·이벤트 행은 명령 응답에서 제외한다. 연결·해제 때 LED가 초기화되므로 종료 전 상태를 기록한다.
+TCP 8266 연결을 유지한 채 HTTP 8080의 `GET /state`를 읽는다. `hello`·이벤트 행은 명령 응답에서 제외한다. 연결·해제는 LED 상태를 유지한다. 제어 전후 상태를 기록한다.
 
 함수는 `turn_on(index)`, `turn_off(index)`, `set_brightness(index, value)`, `read_environment()` 네 개다. 번호 0~3·밝기 0~255의 정수만 허용하고 불리언은 거부한다. 센서 값을 바꾸는 `POST /set`은 모델 도구가 아니다.

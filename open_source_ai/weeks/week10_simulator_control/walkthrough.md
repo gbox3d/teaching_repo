@@ -4,13 +4,13 @@
 
 ## 준비 확인
 
-터미널 A에서 `uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1`을 실행한다. 창 없이 확인할 때는 `--no-window`를 추가한다. 터미널 B에서 `uv sync`를 실행하고 Ollama의 `qwen3.5:2b`가 준비됐는지 확인한다. 브라우저에서는 `http://127.0.0.1:8080/state`를 연다.
+터미널 A에서 `python tools/wleno/main.py --bind 127.0.0.1`을 실행한다. 창 없이 확인할 때는 `--no-window`를 추가한다. 터미널 B에서 `uv sync`를 실행하고 Ollama의 `qwen3.5:2b`가 준비됐는지 확인한다. 브라우저에서는 `http://127.0.0.1:8080/state`를 연다.
 
 ## 1교시 · 수동 명령
 
 `uv run ex01`을 실행한다. `on 0`, `pwm 1 128`, `off 0`, `sensor`를 차례로 입력한다. 종료는 `/bye`다. 매번 `/state`를 새로 고침한다. 빈 줄은 명령을 보내지 않아야 한다. 번호 4와 밝기 256을 요청했을 때 상태가 바뀌지 않는지 확인한다.
 
-`ex01_manual`이 입력을 네 제어 함수로 연결하는 부분과 `shared`의 `bleuno_control` import를 읽는다. 연결 직후 `hello`와 중간 이벤트를 제외하는 이유를 설명한다. 종료 전에 상태를 기록하고 종료 뒤 LED 초기화와 비교한다.
+`ex01_manual`이 입력을 네 제어 함수로 연결하는 부분과 `shared`의 `bleuno_control` import를 읽는다. 연결 직후 `hello`와 중간 이벤트를 제외하는 이유를 설명한다. 종료 전에 상태를 기록하고 종료 뒤에도 LED 상태가 유지되는지 확인한다.
 
 ## 2교시 · 자연어 명령
 

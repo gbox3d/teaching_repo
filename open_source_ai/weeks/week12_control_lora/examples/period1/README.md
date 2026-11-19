@@ -6,6 +6,14 @@
 
 전체 저장소를 clone한 뒤 `open_source_ai/weeks/week12_control_lora/examples`에서 실행한다. 이 `period1/`은 안내 폴더이며 별도 프로젝트가 아니다. Python 3.12, 수업 전 준비한 의존성·엔진·기본 모델을 사용한다.
 
+같은 `examples/` 위치의 다른 터미널에서 WlEno를 먼저 시작한다. WlEno는 Python 표준 라이브러리만 사용하며 uv 환경을 만들지 않는다.
+
+```powershell
+python ../../../../tools/wleno/main.py
+```
+
+TCP `127.0.0.1:8266`과 HTTP `http://127.0.0.1:8080`이 준비되면 AI 예제 터미널에서 다음 명령을 실행한다. 연결 확인은 [WlEno REST Client 안내](../../../../../tools/wleno/examples/README.md)의 `01_connection/requests.http`를 따른다. `GET /state`의 `leds`와 센서값을 대화 출력과 대조한다.
+
 ```powershell
 uv sync
 uv run ex01
@@ -26,7 +34,9 @@ uv run ex01
 
 함수는 `turn_on(index)`, `turn_off(index)`, `set_brightness(index, value)`, `read_environment()`다. `index`는 정수 0~3, `value`는 정수 0~255다. 도구와 무관한 명령은 빈 호출로 다룬다. 인자 값을 추측해 채우지 않는다.
 
-입력 반복은 문맥 유지를 보장하지 않는다. 제공 예제는 모델을 재사용하되 질문마다 이력을 초기화한다. “그 LED”만으로 이전 대상을 기억한다고 가정하지 않고 번호를 다시 적는다. 실제 실행은 허용 목록·인자 검사 뒤 진행하고 `GET /state`를 확인한다. 센서값은 함수 반환에서 읽는다. TCP 연결은 대화 동안 유지하며 해제하면 LED가 초기화된다.
+입력 반복은 문맥 유지를 보장하지 않는다. 제공 예제는 모델을 재사용하되 질문마다 이력을 초기화한다. “그 LED”만으로 이전 대상을 기억한다고 가정하지 않고 번호를 다시 적는다. 실제 실행은 허용 목록·인자 검사 뒤 진행하고 `GET /state`를 확인한다. 센서값은 함수 반환에서 읽는다. TCP 연결은 대화 동안 유지하며 해제해도 LED 상태는 유지된다.
+
+잘못된 호출은 오류를 표시하고 다음 입력을 받는다. WlEno 연결이 끊기면 대화를 종료하므로 시뮬레이터가 실행 중인지 확인한 뒤 `uv run ex01`을 다시 실행한다. WlEno를 계속 실행한 상태에서 AI 예제만 재시작하면 기존 LED·센서 상태로 이어진다.
 
 ## 다음 교시에 넘길 내용
 

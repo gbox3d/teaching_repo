@@ -52,7 +52,7 @@ Weekly `shared` imports the relative path dependency `bleuno_control`.
 In a separate terminal at the repository root:
 
 ```powershell
-uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1
+python tools/wleno/main.py --bind 127.0.0.1
 ```
 
 TCP 8266 sends commands. HTTP 8080 serves `GET /state`.
@@ -66,7 +66,7 @@ A `hello` event arrives after connection.
 Skip event lines while waiting for command replies.
 
 Keep the same TCP connection during control.
-New connections and disconnections reset the LEDs.
+New connections and disconnections preserve LED states.
 
 Read the state before ending the program.
 

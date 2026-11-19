@@ -99,7 +99,7 @@ Enter a command, inspect the call, and repeat. Blank input is skipped. Enter `/b
 The example resets history for each input, so commands are independent.
 
 A valid format can still reverse the user's on/off intent.
-Keep TCP open for the dialogue. Disconnecting resets the LEDs.
+Keep TCP open for the dialogue. Disconnecting preserves LED states.
 
 <!-- Source: https://cactuscompute.com/blog/needle-python-docs Calls and history. Independent inputs, checks, and TCP are course design. -->
 
@@ -312,6 +312,6 @@ Use `lab.md` for the detailed 30-minute schedule.
 
 ## Block 3, 50–60 min · Break
 
-Explicitly disconnect and verify the LED reset.
+Explicitly disconnect and verify that LED states are preserved.
 
 Continue with control evaluation, error improvement, and Streamlit in Week 13.

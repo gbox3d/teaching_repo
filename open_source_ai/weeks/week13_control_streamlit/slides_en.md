@@ -79,7 +79,7 @@ A valid shape can still express the wrong intent.
 - Read temperature and humidity from the actual `read_environment()` return.
 - Keep one TCP connection for the dialogue or session.
 
-Disconnecting resets the LEDs. Restore the next comparison's initial state.
+Disconnecting preserves LED states. Restore the next comparison's initial state.
 
 
 ---
@@ -275,7 +275,7 @@ Do not display model-generated numbers as sensor readings.
 
 ## Block 3, 16–20 min: Disconnecting and verification scope
 
-Click “연결 해제” and confirm the LED reset.
+Click “연결 해제” and confirm that LED states are preserved.
 Then stop the server with `Ctrl+C` in the terminal.
 Closing a browser tab alone does not guarantee disconnection.
 
@@ -292,7 +292,7 @@ and restart with `uv run ex03`. A browser refresh alone does not update the mode
 
 Compare requests, calls, function returns, and actual state.
 Check reruns without input separately from new submissions.
-Confirm explicit disconnection and the LED reset.
+Confirm explicit disconnection and preserved LED states.
 
 Follow the lab's detailed timing. Record which items you could not run.
 

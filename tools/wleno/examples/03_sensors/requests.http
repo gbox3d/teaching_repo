@@ -1,0 +1,41 @@
+@baseUrl = http://127.0.0.1:8080
+
+### 1. 온도·습도 설정: 200, result=ok, revision 증가
+POST {{baseUrl}}/set
+Accept: application/json
+Content-Type: application/json
+
+{"temperature":30.5,"humidity":55}
+
+### 2. 상태 확인: 200, temperature=30.5, humidity=55
+GET {{baseUrl}}/state
+Accept: application/json
+
+### 3. 온도만 변경: 200. 생략한 humidity는 55로 유지된다.
+POST {{baseUrl}}/set
+Accept: application/json
+Content-Type: application/json
+
+{"temperature":26.0}
+
+### 4. 거부 전 상태 확인: 200, temperature=26.0, humidity=55
+GET {{baseUrl}}/state
+Accept: application/json
+
+### 5. 문자열 숫자 거부: 400. 유효한 humidity=80도 함께 반영되지 않는다.
+POST {{baseUrl}}/set
+Accept: application/json
+Content-Type: application/json
+
+{"temperature":"30.5","humidity":80}
+
+### 6. 알 수 없는 필드 거부: 400
+POST {{baseUrl}}/set
+Accept: application/json
+Content-Type: application/json
+
+{"temperature":30.5,"humidty":80}
+
+### 7. 거부 후 상태 확인: 200, 센서 값과 revision은 4번 조회와 같다.
+GET {{baseUrl}}/state
+Accept: application/json

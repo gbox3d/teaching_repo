@@ -1,0 +1,34 @@
+@baseUrl = http://127.0.0.1:8080
+
+### 1. 입력 전 상태: 200, input_value/input_sequence/revision을 기록한다.
+GET {{baseUrl}}/state
+Accept: application/json
+
+### 2. 입력 버튼: 200은 실제 반영 완료. value는 반전되고 sequence/revision은 1 증가한다.
+POST {{baseUrl}}/input
+Accept: application/json
+Content-Type: application/json
+
+{}
+
+### 3. 반영 확인: 200, input_value/input_sequence/revision이 2번 응답과 같다.
+GET {{baseUrl}}/state
+Accept: application/json
+
+### 4. 한 번 더 입력: 200, value가 다시 반전되고 sequence/revision은 1 증가한다.
+POST {{baseUrl}}/input
+Accept: application/json
+Content-Type: application/json
+
+{}
+
+### 5. 추가 필드 거부: 400. /input은 임의의 값을 받지 않고 버튼 동작만 수행한다.
+POST {{baseUrl}}/input
+Accept: application/json
+Content-Type: application/json
+
+{"value":1}
+
+### 6. 반영 확인: 200, input_value/input_sequence/revision이 4번 응답과 같다.
+GET {{baseUrl}}/state
+Accept: application/json

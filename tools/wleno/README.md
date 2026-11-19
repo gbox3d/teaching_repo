@@ -1,242 +1,132 @@
-# WlEno — LAN 제어 실습 도구
+# WlEno LAN 제어 실습 도구
 
-WlEno는 PC 시뮬레이터와 Android 공통 클라이언트를 한 폴더에서 제공한다. LAN은 유선 또는 Wi-Fi를 사용하며, 같은 PC의 Android 에뮬레이터에서도 접속한다. `sim.py`가 BLEuno 보드와 같은 명령을 받아 같은 모양의 JSON 한 줄로 답하고, LED·온도·습도·입력 버튼을 시뮬레이터 창에 보여 준다.
-정규 11~15주차는 새 [RoomControl 앱](../../android_programming/weeks/week11_lan_connection/README.md)에서 주소 입력 → TCP 연결 → 제어 화면 순서로 실습한다. [공통 클라이언트](android/README.md)는 연결과 명령 전송을 담당한다. UDP 검색은 보충이며, 수업은 IP 직접 연결만으로 진행한다.
-기존 SmartIO·Bleuno 클라이언트를 설명하는 비교표와 세부 안내는 [보존 특강](../../android_programming/specials/README.md)에 해당한다. 새 정규 앱에는 BLE 권한, 이름 접두사 필터, Fake 모드가 없다.
-앱이 아닌 프로그램(AI 에이전트, 시험 스크립트)도 같은 TCP 명령으로 보드 대신 쓸 수 있다([11절](#11-다른-프로그램에서-쓰기)).
-이 문서는 시뮬레이터만 다룬다. 정규 앱의 준비와 연결 점검은 [실습 안내](../../android_programming/iot_sim/lab.md)에, 보드의 명령 규약은 [bleuno README](../../android_programming/bleuno/README.md)에 있다.
+WlEno는 Python으로 실행하는 PC 시뮬레이터다. Android 앱은 TCP로 LED와 온습도를 제어하고, VS Code REST Client나 AI 프로그램은 HTTP API로 같은 상태를 읽고 바꾼다. Tkinter 창에는 LED 4개, 내장 LED 깜빡임, 온습도, 입력 버튼과 연결 상태를 표시한다.
 
-프로그램 이름은 `WlEno`, 폴더·패키지 이름은 `wleno`다. 기본 장치 이름은 `WlEno_SIM1`이며 정규 앱은 이름 접두사를 검사하지 않는다. 기존 BLE 특강에서 검색할 때만 `--name ESP32_BLE_0423`처럼 지정한다. UDP 검색 메시지 `bleuno?`는 기존 클라이언트와의 호환을 위해 유지한다.
-
-| 위치 | 용도 |
-|---|---|
-| [sim.py](sim.py), [pyproject.toml](pyproject.toml) | PC 시뮬레이터와 `uv run main` 실행 설정 |
-| [android/INSTALL.md](android/INSTALL.md) | 학생용 AAR 파일 한 개 설치와 연결 확인 |
-| [android/README.md](android/README.md) | Android 프로젝트 설정과 라이브러리 API |
-| [android/src](android/src) | AAR을 만드는 Kotlin 소스. 학생은 복사하지 않는다 |
-
-학생 실습 순서는 [AAR 다운로드·설치](android/INSTALL.md) → Gradle Sync → WlEno 실행 → [실행 위치에 맞는 IPv4:포트 입력](#6-앱에서-붙을-주소) → 연결 → 제어다. `wleno-android-0.1.0.aar`는 압축을 풀지 않고 앱의 `app/libs/`에 넣는다.
-
-저장소 루트(`teaching_repo`)에서 다음 명령을 실행하면 시뮬레이터 창이 열린다. uv가 설치되어 있어야 한다.
+Python 3.10 이상을 준비하고 저장소 루트에서 다음 명령을 실행한다. 추가 pip 패키지나 가상환경은 필요 없다.
 
 ```powershell
 cd tools/wleno
-uv run main
+python main.py
 ```
 
-처음 실행할 때 uv가 가상 환경과 pygame-ce를 준비한다. 종료는 창 닫기 또는 `Ctrl+C`다.
+`python`은 설치된 Python을 실행하는 명령이다. Windows의 Store 실행 별칭만 등록된 경우에는 [준비](#2-준비)의 전체 경로 실행 방법을 따른다. 종료는 창 닫기 또는 `Ctrl+C`다.
 
-## 목차
-
-- [1. 시뮬레이터가 대신하는 것](#1-시뮬레이터가-대신하는-것)
-- [2. 준비](#2-준비)
-- [3. 실행과 끝내기](#3-실행과-끝내기)
-- [4. 시작 메시지와 로그](#4-시작-메시지와-로그)
-- [5. 시뮬레이터 화면](#5-시뮬레이터-화면)
-- [6. 앱에서 붙을 주소](#6-앱에서-붙을-주소)
-- [7. Windows 방화벽](#7-windows-방화벽)
-- [8. 명령과 응답](#8-명령과-응답)
-- [9. 수업에서 여럿이 쓸 때](#9-수업에서-여럿이-쓸-때)
-- [10. 막혔을 때](#10-막혔을-때)
-- [11. 다른 프로그램에서 쓰기](#11-다른-프로그램에서-쓰기)
+| 자료 | 용도 |
+|---|---|
+| [Android AAR 설치](android/INSTALL.md) | 학생 앱에 통신 라이브러리 추가 |
+| [Android 클라이언트 API](android/README.md) | `WlenoClient` 사용법 |
+| [RoomControl 연결 실습](../../android_programming/iot_sim/lab.md) | 주소 입력과 연결 점검 |
+| [HTTP 실습 예제](examples/README.md) | 연결 확인부터 LED·센서·입력 제어까지 실행하는 `.http` 요청 |
+| [AI 제어 도구](../bleuno-control/README.md) | TCP 명령 실행과 상태 검증 |
 
 ## 1. 시뮬레이터가 대신하는 것
 
-시뮬레이터는 **보드와 블루투스**를 대신한다. 앱이 보내는 명령과 받는 JSON의 모양은 보드와 같다.
-정규 앱은 AAR의 [WlenoClient](android/README.md)를 사용한다. BLE·Fake 설정 없이 TCP 주소로 연결한다.
+정규 Android 11~15주차의 RoomControl 앱은 실제 보드 대신 WlEno의 TCP 서버에 연결한다. 장치 이름은 기본 `WlEno_SIM1`이며, 정규 앱은 이름 접두사를 검사하지 않는다. UDP 검색은 선택 기능이고 수업은 IP 직접 연결만으로 진행한다.
 
-<details>
-<summary>보충: 기존 BLE·Fake 클라이언트와 비교</summary>
-
-아래 비교표의 `TcpBleunoClient`는 이전 SmartIO 특강용 클래스다.
-아래 표의 '실제 보드' 칸과 이 문서에서 '펌웨어 소스 기준'이라고 적은 보드 동작은 bleuno 펌웨어(`1.0.5_dev`) 소스를 읽고 적은 것이다. 실제 보드로는 확인하지 못했다.
-
-| 항목 | 실제 보드 (펌웨어 소스 기준) | Fake (`useFake = true`) | 시뮬레이터 |
-|---|---|---|---|
-| 앱 쪽 클래스 | `RealBleunoClient` | `FakeBleunoClient` | `TcpBleunoClient` |
-| 연결 | 블루투스(BLE) | 없음. 앱 안에서 흉내 낸다 | LAN(TCP 8266) |
-| [검색]에 나오는 이름 | `ESP32_BLE` + 칩 ID | `ESP32_BLE_FAKE1`, `ESP32_BLE_FAKE2` | `--name`으로 준 이름. 기본은 `WlEno_SIM1`이며, 기존 특강의 검색에는 `--name ESP32_BLE_0423`을 지정한다 |
-| LED | 보드의 LED | 보이지 않는다 | 화면의 원 4개 |
-| `dht11` 값 | 센서가 잰 값 | `[24.5,40.0]` → `[25.0,41.0]` → `[25.5,42.0]` 반복 | 화면 슬라이더 값 |
-| 입력 이벤트 | 지금 펌웨어에는 없다 | 10초마다 저절로 | 화면의 [입력 버튼]을 누를 때만 |
-| `끊김` 만들기 | 보드 전원 끄기 | `simulateLost()` | 화면의 [연결 끊기], 또는 시뮬레이터 끄기. 앱의 [끊김 시험] 버튼은 `useFake = false`라 보이지 않는다 |
-| `about`의 `app`·`version` | `BLEuno`·`1.0.5_dev` | `BLEuno`·`1.0.5_dev` | `WlEno`·`1.0.5_sim` |
-| 앱이 연결·해제될 때 LED | 모두 꺼진다 | LED 상태가 없다 | 모두 꺼진다 |
-| 빈 줄(길이 0) | 답하지 않는다 | 답하지 않는다 | 답하지 않는다 |
-| 공백만 있는 줄(예: 띄어쓰기 하나) | `unknown command`로 답한다 | 답하지 않는다 | `need command`로 답한다 |
-
-**결정된 사항**: 보드·Fake와 다르게 두기로 정한 것과, 보드에 맞춘 것이다.
-
-- `dht11`은 화면 슬라이더 값을 준다. Fake는 세 값을 돌려 가며 주므로, 특강 보존본 14주차의 Fake 실행 예시와 값이 다르다. 슬라이더를 움직이면 다음 `dht11`부터 값이 바뀐다.
-- 입력 이벤트는 화면의 [입력 버튼]을 누를 때만 보낸다(Fake는 10초마다). 기존 Fake 예제의 자동 입력을 기다리는 대신 [입력 버튼]을 누른다. 정규 14주차는 처음부터 버튼 입력을 기준으로 한다. 참고로 보드 펌웨어에도 입력 이벤트를 보내는 코드가 없다(`ble.cpp`에서 `notify()`를 부르는 곳은 `onWrite` 안의 명령 응답뿐이다).
-- LED는 보드처럼 앱이 연결될 때와 연결이 끝날 때 모두 꺼진다(보드 쪽은 펌웨어 소스 기준). 보드에는 앱이 하나만 붙지만 시뮬레이터에는 여럿이 붙을 수 있다. 그래서 여러 앱이 붙어 있을 때 한 앱이 새로 붙거나 끊겨도 LED가 모두 꺼진다.
-- 길이 0인 줄(빈 줄)에는 보드처럼 답하지 않는다(보드 쪽은 펌웨어 소스 기준).
-
-</details>
-
-시뮬레이터는 포트 세 개를 연다. 화면은 포트가 아니라 시뮬레이터가 띄우는 창이다.
-
-| 포트 | 쓰는 쪽 | 하는 일 |
+| 서비스 | 기본 주소·포트 | 용도 |
 |---|---|---|
-| TCP 8266 | 앱 | 명령 한 줄을 보내고 JSON 한 줄을 받는다 |
-| UDP 8267 | 선택 UDP 검색·보존 특강의 [검색] | `bleuno?`를 보내면 이름과 TCP 포트가 돌아온다 |
-| TCP 8080 | 이 PC의 다른 프로그램 | 상태 읽기와 화면 조작(HTTP API, [11절](#11-다른-프로그램에서-쓰기)). 앱은 쓰지 않는다 |
+| TCP | `0.0.0.0:8266` | 명령 한 줄과 JSON 응답·이벤트 한 줄 |
+| UDP | `0.0.0.0:8267` | `bleuno?` 장치 검색 |
+| HTTP | `127.0.0.1:8080` | API 도움말, 상태 조회, 제어 |
+
+모든 연결과 화면은 보드 상태 하나를 공유한다. TCP 연결·해제는 LED나 센서 상태를 초기화하지 않는다. 상태를 처음 값으로 되돌릴 때는 화면의 초기화 기능 또는 `POST /reset`을 사용한다.
+
+WlEno 프로토콜 버전은 `2.0.0`이다. 정상 `on`·`off`·`pwm`·`dht11`·`about`·`blink`·`stopblk` 명령과 기존 Android 응답 형식을 유지한다. 잘못된 정수·범위·필드는 요청 전체를 거부한다. 실제 BLEuno 보드와 보존 특강의 Fake 클라이언트에는 별도 동작 규칙이 있으므로 [보드 문서](../../android_programming/bleuno/README.md)를 구분해서 읽는다.
 
 ## 2. 준비
 
-- **uv.** `uv --version`으로 설치 여부를 확인한다. 없으면 [uv 설치 안내](https://docs.astral.sh/uv/getting-started/installation/)를 따른다.
-- 이 폴더의 `pyproject.toml`, `uv.lock`, `sim.py`. Windows와 macOS에서 같은 파일과 `uv run main` 명령을 쓴다.
-- Python 3.10 이상과 pygame-ce가 필요하다. uv가 프로젝트의 `.venv`에 의존성을 설치하고, 필요한 Python이 없으면 다운로드한다. 가상 환경 활성화나 별도 `pip install`은 필요 없다.
-- WlEno는 에뮬레이터와 같은 PC 또는 통신이 허용된 같은 LAN의 다른 PC에서 실행한다. 실기기를 사용해도 같은 LAN의 PC에서 실행한다. 실행 위치에 따라 [앱에 넣을 주소](#6-앱에서-붙을-주소)가 달라진다.
+Python 3.10 이상과 이 폴더의 Python 모듈들이 필요하다. `main.py`가 나머지 모듈을 불러오므로 폴더를 함께 보관한다.
 
-수업 전에 `tools/wleno`에서 `uv sync`를 실행하면 실행 환경을 미리 준비할 수 있다.
-`uv run main`도 필요한 동기화를 자동으로 수행하므로 실행할 때마다 `uv sync`를 따로 할 필요는 없다.
+창을 사용하려면 해당 Python에 Tkinter와 Tcl/Tk가 있어야 한다. 실행에 사용할 명령으로 확인한다.
 
-`sim.py` 한 파일만 복사한 경우에는 `uv run sim.py`를 사용한다. 이 명령은 파일 머리의 의존성 설정을 사용한다.
-기존 Python 직접 실행(`py sim.py`, macOS는 `python3 sim.py`)도 유지된다. 이 경우 실행할 Python 환경에 pygame-ce를 설치해야 한다.
-직접 `python sim.py --no-window`로 실행하면 pygame-ce 없이 Python 3.9 이상에서 사용할 수 있다.
-`uv run main --no-window`는 프로젝트 설정대로 Python 3.10 이상과 pygame-ce를 준비한다.
+```powershell
+python --version
+python -m tkinter
+```
+
+시험 창이 열리면 닫고 `python main.py`를 실행한다. Windows에서 `python`이 Microsoft Store 안내만 출력하면 설치된 Python의 전체 경로를 사용한다. 아래 경로는 예시이므로 실제 설치 경로로 바꾼다. PowerShell의 `&`는 따옴표로 묶은 실행 파일을 호출한다.
+
+```powershell
+& 'C:\Python314\python.exe' --version
+& 'C:\Python314\python.exe' -m tkinter
+& 'C:\Python314\python.exe' main.py
+```
+
+`py` 실행기가 설치되어 있으면 `py main.py`도 사용할 수 있다. macOS·Linux에서는 보통 `python3 main.py`로 실행한다. Tkinter는 선택 표준 모듈이다. Linux 시스템 Python은 버전에 맞는 `python3-tk` 등의 운영체제 패키지가 필요할 수 있으며, `pip install tkinter`로 설치하지 않는다. 화면을 사용하지 않는 `--no-window` 실행에는 Tkinter가 필요 없다.
+
+Windows에서 실행을 검증했다. macOS·Linux 실행은 아직 검증하지 않았다.
 
 ## 3. 실행과 끝내기
 
-터미널에서 `tools/wleno` 폴더로 이동한 뒤 실행한다.
+다음 명령은 `tools/wleno`에서 실행한다. 필요한 명령 하나를 선택한다.
 
 ```powershell
-cd 내려받은_폴더\tools\wleno
-uv run main
+python main.py
+python main.py --name WlEno_0423
+python main.py --no-window
+python main.py --no-tcp --no-udp
+python main.py --no-http
+python main.py --help
 ```
 
-macOS에서는 이렇게 한다.
+`--no-tcp --no-udp`는 HTTP와 화면만 사용한다. `--no-http`는 TCP·UDP와 화면을 사용한다. 모든 서비스를 끄고 화면만 실행할 수도 있다. `--no-window`를 사용할 때는 서비스를 하나 이상 활성화한다.
 
-```bash
-cd 내려받은_폴더/tools/wleno
-uv run main
-```
-
-터미널에 시작 메시지가 찍힌 뒤 시뮬레이터 창이 따로 뜬다([5절](#5-시뮬레이터-화면)).
-옵션은 모두 생략할 수 있다. Windows와 macOS 모두 다음 명령을 사용한다.
-이름 규칙은 [9절](#9-수업에서-여럿이-쓸-때)에 있다.
-
-```powershell
-uv run main --name WlEno_0423
-uv run main --no-window
-uv run main --help
-```
-
-위 명령은 각각 장치 이름 지정, 창 없이 실행, 도움말 확인이다. 필요한 명령 하나를 선택한다.
-
-| 옵션 | 기본값 | 뜻 |
+| 옵션 | 기본값 | 의미 |
 |---|---|---|
-| `--name` | `WlEno_SIM1` | 장치 이름. [검색] 답, 연결 직후의 hello 줄, 화면 제목에 쓰인다 |
-| `--tcp` | `8266` | 명령 포트. 앱이 붙는 곳 |
-| `--udp` | `8267` | 검색 포트. 앱의 [검색]이 `bleuno?`를 보내는 곳 |
-| `--http` | `8080` | HTTP API 포트([11절](#11-다른-프로그램에서-쓰기)) |
-| `--bind` | `0.0.0.0` | TCP·UDP를 받을 주소. `0.0.0.0`은 이 PC의 모든 네트워크다 |
-| `--http-bind` | `127.0.0.1` | HTTP API를 받을 주소. 기본값이면 이 PC에서만 열린다 |
-| `--no-window` | (없음) | 시뮬레이터 창 없이 돌린다. pygame-ce가 없어도 된다. 끝낼 때는 Ctrl+C |
+| `--name` | `WlEno_SIM1` | 장치 이름 |
+| `--tcp` | `8266` | TCP 명령 포트 |
+| `--udp` | `8267` | UDP 검색 포트 |
+| `--http` | `8080` | HTTP API 포트 |
+| `--bind` | `0.0.0.0` | TCP·UDP 수신 주소 |
+| `--http-bind` | `127.0.0.1` | HTTP 수신 주소 |
+| `--no-window` | 사용 안 함 | Tkinter 창 없이 실행 |
+| `--no-tcp` | 사용 안 함 | TCP 서버 비활성화 |
+| `--no-udp` | 사용 안 함 | UDP 서버 비활성화 |
+| `--no-http` | 사용 안 함 | HTTP 서버 비활성화 |
 
-포트는 바꾸지 않는 것이 기본이다. 바꾸면 이렇게 된다.
+포트를 바꾸면 클라이언트 주소도 맞춘다. Android 공통 클라이언트의 선택 UDP 검색은 기본 8267을 사용하므로 UDP 포트를 바꾼 경우에는 IP로 직접 연결한다. 창을 닫거나 실행 터미널에서 `Ctrl+C`를 누르면 활성 서버와 연결을 정리하고 종료한다.
 
-- `--http`: 8080을 다른 프로그램이 쓰고 있을 때만 `--http 8081`처럼 바꾼다. HTTP API 주소만 달라진다.
-- `--tcp`: [검색] 답에 바뀐 포트가 들어간다. 주소를 직접 넣을 때도 `IP:바꾼 포트`로 쓴다.
-- `--udp`: 앱은 8267로만 묻는다. 바꾸면 [검색]에 나오지 않으므로 주소를 직접 넣는다.
+## 4. 코드 구조
 
-**끝내기**: 시뮬레이터 창을 닫거나, 시뮬레이터를 돌리는 터미널에서 Ctrl+C(macOS는 control+C)를 누른다. 붙어 있던 앱마다 `해제` 줄이 찍히고, 마지막 줄에 `종료`가 찍힌 뒤 프롬프트로 돌아온다.
-붙어 있던 앱은 연결이 끊겨 `끊김`이 된다. 끈 뒤 바로 다시 실행해도 같은 포트로 뜬다.
-수업용 방화벽 규칙을 만들었다면 수업이 끝난 뒤 [7절](#7-windows-방화벽)의 삭제 명령으로 해당 규칙만 지운다.
+실행 진입점은 `main.py` 하나다. 메시지 형식, 보드 상태 전이, 상태 소유권과 통신 처리를 다음과 같이 나눈다.
 
-## 4. 시작 메시지와 로그
-
-`uv run main --name WlEno_0423`을 실행하면 아래처럼 나온다. IP 주소와 시각은 PC마다 다르다.
-
-```text
-=== WlEno 시뮬레이터 (WlEno_0423) ===
-명령(TCP) 포트 8266, 검색(UDP) 포트 8267, 바인드 0.0.0.0
-이 PC의 IPv4 주소(실기기용, 앞의 것부터): 192.168.0.10, 100.80.1.2(VPN?)
-에뮬레이터에서는 10.0.2.2:8266
-HTTP API: http://127.0.0.1:8080/state
-Windows 방화벽 창이 뜨면 [액세스 허용]을 누른다. 안 뜨면 포트 8266·8267을 인바운드로 허용한다.
-끝내려면 시뮬레이터 창을 닫거나 Ctrl+C
-[14:02:11] 시작: TCP 8266, UDP 8267, HTTP 8080
-```
-
-`--no-window`로 실행하면 `끝내려면` 줄이 `끝내려면 Ctrl+C`로 나온다. 나머지는 같다.
-
-| 줄 | 읽는 법 |
+| 파일 | 책임 |
 |---|---|
-| `=== WlEno 시뮬레이터 (WlEno_0423) ===` | `--name`으로 준 이름. [검색] 목록에 이 이름이 나온다 |
-| `명령(TCP) 포트 8266, 검색(UDP) 포트 8267, 바인드 0.0.0.0` | 앱이 붙는 포트, [검색] 포트, 받는 주소 |
-| `이 PC의 IPv4 주소(실기기용, 앞의 것부터): …` | 실기기 또는 다른 PC의 에뮬레이터에서 연결할 IP. 인터넷으로 나가는 어댑터(노트북은 보통 Wi-Fi)의 주소를 맨 앞에 두고, 그 뒤에 사설 주소(`192.168.…`, `10.…`, `172.16.…`~`172.31.…`)를 둔다. WSL·Hyper-V·VirtualBox 같은 가상 어댑터의 주소도 사설 주소라 표시 없이 섞일 수 있다. `(VPN?)`·`(자동 할당)`이 붙은 주소는 맨 뒤에 두며, 쓰지 않는다 |
-| `에뮬레이터에서는 10.0.2.2:8266` | WlEno와 에뮬레이터가 같은 PC일 때만 넣는 값. 다른 PC의 WlEno는 그 PC의 LAN IPv4를 쓴다 |
-| `HTTP API: http://127.0.0.1:8080/state` | 다른 프로그램이 상태를 읽는 주소([11절](#11-다른-프로그램에서-쓰기)). 앱은 이 주소를 쓰지 않는다 |
-| `Windows 방화벽 창이 뜨면 …` | 정규 연결에 필요한 포트는 TCP 8266이며 UDP 8267은 선택 검색용이다. 필요한 규칙은 [7절](#7-windows-방화벽)에서 확인한다. macOS에서도 이 줄은 찍힌다 |
-| `[14:02:11] 시작: TCP 8266, UDP 8267, HTTP 8080` | 세 포트를 모두 열었다. 이 줄이 보이면 앱에서 붙어도 된다. 시뮬레이터 창은 이 줄 다음에 뜬다 |
+| [main.py](main.py) | 옵션 처리, 앱 구성, 서비스 시작·종료, Tkinter 화면 |
+| [protocol.py](protocol.py) | `WlenoProtocol`: TCP 문법, HTTP 경로·필드, 응답·오류·이벤트·검색 JSON 규약 |
+| [simulator.py](simulator.py) | 불변 `State`와 입력에 따른 순수 상태 전이 |
+| [session.py](session.py) | 보드 상태 소유, 잠금, 원자적 변경, 입력 이벤트 기록 |
+| [tcp.py](tcp.py) | TCP 연결, 줄 송수신, 이벤트 전달 |
+| [udp.py](udp.py) | UDP 데이터그램 송수신 |
+| [http_api.py](http_api.py) | HTTP 요청·본문 수신과 응답 전송 |
 
-그 뒤로는 일이 생길 때마다 시각과 함께 한 줄씩 찍힌다. 같은 줄이 화면의 `최근 명령 로그`에도 나온다. `[시:분:초]`가 없는 줄(시작 안내와 마지막 `종료`)은 터미널에만 찍힌다.
-
-| 로그 줄(예) | 뜻 |
-|---|---|
-| `[14:02:58] [192.168.0.31:51234] bleuno? → {"name":"WlEno_0423","port":8266}` | 앱의 [검색]에 답했다. 대괄호 안은 물어 온 쪽의 IP와 포트 |
-| `[14:03:05] [192.168.0.31:40122] 연결 (1개)` | 앱이 붙었다. 괄호 안은 지금 연결 수 |
-| `[14:03:07] [192.168.0.31:40122] on 0 → {"result":"ok","ms":"led(s) on"}` | 받은 명령 → 보낸 응답 |
-| `[14:03:20] [화면] 입력 버튼 → {"event":"input","index":0,"value":1} (1개에 전송)` | 화면에서 [입력 버튼]을 눌렀다. 괄호 안은 이벤트를 받은 연결 수. HTTP API로 누르면 `[화면]` 대신 `[API]`가 붙는다 |
-| `[14:03:31] [화면] 연결 끊기 (1개)` | 화면에서 [연결 끊기]를 눌렀다. HTTP API로 누르면 `[API]`가 붙는다 |
-| `[14:03:31] [192.168.0.31:40122] 해제 (0개)` | 연결이 끝났다. 괄호 안은 남은 연결 수 |
-| `종료` | 시뮬레이터가 꺼졌다(터미널에만 찍힌다) |
-
-연결 직후 보내는 hello 줄과 화면의 슬라이더 조작은 로그에 남지 않는다. 빈 줄(길이 0)은 답도 로그도 없다. 공백만 있는 줄은 `need command` 응답과 함께 찍히고, `→` 앞의 명령 자리가 비어 있다.
+화면과 통신 처리는 세션을 거쳐 상태를 바꾼다. 요청 전체를 검증한 뒤 상태를 반영하므로 `on 0 9`처럼 일부만 유효한 명령도 LED 0을 먼저 바꾸지 않는다. 전송 모듈에서 LED 규칙이나 응답 JSON을 따로 정의하지 않는다.
 
 ## 5. 시뮬레이터 화면
 
-시작 메시지 뒤에 `WlEno 시뮬레이터 — 이름` 창이 뜬다. 창은 1초에 30번 시뮬레이터의 상태를 다시 그린다. 왼쪽에 LED·온습도·버튼이, 오른쪽에 로그가 있다.
+LED 0~3은 밝기 `0~255`를 표시한다. `0`은 꺼짐, `255`는 최대 밝기다. 내장 LED의 깜빡임 상태는 `blink`·`stopblk` 명령으로 바꾼다. 온습도 초기값은 `24.5 °C`, `40.0 %`이며 화면이나 HTTP에서 바꾼 값이 다음 `dht11` 응답에 반영된다.
 
-| 부분 | 보이는 것 | 하는 일 |
-|---|---|---|
-| 제목 | `WlEno 시뮬레이터 — WlEno_0423` | `--name` 확인 |
-| 안내 줄 | `LAN/TCP 8266 · 앱의 [시뮬레이터 주소]에 입력하고 [제어 시작]을 누르세요. …` | 앱에 넣을 주소([6절](#6-앱에서-붙을-주소)) |
-| `LED (인덱스 0~3, 밝기 0~255)` | 원 4개(LED 0~3)와 그 아래 밝기 숫자. 0이면 회색, 밝을수록 진한 빨강이고 둘레가 번진다 | `on`·`off`·`pwm`의 결과. 앱이 붙거나 끊기면 모두 꺼진다 |
-| 내장 LED | 작은 점과 `내장 LED: 꺼짐`. `blink`를 받으면 점이 파랗게 깜빡이고 `내장 LED: 깜빡임` | `blink`·`stopblk`의 결과. 보드는 앱이 연결된 동안 `blink`를 받아도 깜빡이지 않는다(펌웨어 소스 기준) |
-| `DHT11 (dht11 명령이 읽어 가는 값)` | 온도(-10~50 °C)·습도(0~100 %) 슬라이더와 그 값. 처음 값은 24.5 °C·40.0 % | 막대를 누르거나 손잡이를 끌면 곧바로 바뀌고, 다음 `dht11` 응답에 소수 첫째 자리로 들어간다. 마우스로는 약 0.2 °C·0.3 % 간격으로 움직인다 |
-| [입력 버튼] | 버튼 | 연결된 모든 앱에 입력 이벤트 한 줄을 보낸다([8절](#8-명령과-응답)) |
-| [연결 끊기] | 빨간 글자 버튼 | 붙어 있는 앱의 연결을 모두 끊는다. 앱은 `끊김`이 되고 LED는 모두 꺼진다(재연결 연습용) |
-| `연결 수:` | 숫자 | 지금 붙어 있는 앱 수 |
-| `최근 명령 로그` | 오른쪽 검은 칸 | 터미널 로그의 최근 줄. 칸에는 17행까지 들어가고, 긴 줄은 칸 폭에서 접으므로 그보다 적은 줄이 보일 수 있다. 칸에 다 들어가지 않으면 최근 줄만 보인다. 한 줄이 300자를 넘으면 300자까지만 보이고, 제어 문자와 글꼴에 없는 글자(이모지 등)는 `?`로 보인다(터미널에는 그대로 찍힌다) |
-
-- 시뮬레이터 창은 시뮬레이터를 실행한 PC에만 뜬다. 다른 사람은 내 화면의 버튼을 누를 수 없다.
-- 창을 닫으면 시뮬레이터가 끝난다. 터미널에서 Ctrl+C를 누른 것과 같다.
-- Windows에서 창 제목 줄을 마우스로 누르고 있는 동안(창을 끌어 옮길 때)에는 앱의 명령과 [검색]에 답하지 않는다. 손을 떼면 이어서 답한다. 앱이 연결하는 동안 3초 넘게 누르고 있으면 앱은 `끊김`이 된다.
-- HTTP API로 슬라이더 범위 밖의 값(예: 온도 100)을 넣으면 손잡이는 끝에 머물고 숫자는 넣은 값을 보인다. 100만이 넘는 값은 `1e+07 °C`처럼 줄여 보인다.
-- 한글이 네모로 보이면 [10절](#10-막혔을-때)을 본다.
+입력 버튼은 값 `0`과 `1`을 번갈아 반영하고 연결된 TCP 클라이언트에 이벤트를 보낸다. 연결 끊기 기능은 연결을 종료하며 보드 상태를 유지한다. 초기화 기능은 LED·깜빡임·센서·입력값을 처음 값으로 되돌린다. 연결 수와 로그는 통신 상태를 확인하는 자료다.
 
 ## 6. 앱에서 붙을 주소
 
-| 앱과 WlEno 실행 위치 | 주소 칸에 넣을 값 | 조건 |
-|---|---|---|
-| 에뮬레이터와 WlEno가 같은 PC | `10.0.2.2:8266` | `10.0.2.2`는 에뮬레이터를 실행한 PC를 가리킨다 |
-| 에뮬레이터와 WlEno가 다른 PC | `WlEno PC의 LAN IPv4:8266` (예: `192.168.0.10:8266`) | 두 PC 사이 LAN 통신과 WlEno PC의 TCP 8266 인바운드 허용 |
-| Android 실기기 | `WlEno PC의 LAN IPv4:8266` (예: `192.168.0.10:8266`) | 휴대폰과 PC 사이 LAN 통신과 WlEno PC의 TCP 8266 인바운드 허용 |
+| 앱과 WlEno 실행 위치 | 앱 주소 칸 |
+|---|---|
+| Android 에뮬레이터와 WlEno가 같은 PC | `10.0.2.2:8266` |
+| 에뮬레이터와 WlEno가 다른 PC | WlEno PC의 LAN IPv4와 포트, 예: `192.168.0.10:8266` |
+| Android 실기기 | WlEno PC의 LAN IPv4와 포트, 예: `192.168.0.10:8266` |
 
-WlEno의 기본 `--bind 0.0.0.0`은 모든 IPv4 네트워크 인터페이스에서 연결을 받는 설정이다. 앱에는 `0.0.0.0`이 아닌 위 표의 실제 주소를 넣는다. 앱의 `127.0.0.1`은 Android 자신을 가리킨다. [Android 에뮬레이터 주소 안내](https://developer.android.com/studio/run/emulator-networking-address)
+`10.0.2.2`는 Android 에뮬레이터에서 호스트 PC를 가리킨다. 앱의 `127.0.0.1`은 Android 자신이다. `0.0.0.0`은 서버 수신 설정이며 앱에 넣는 목적지 주소가 아니다. LAN 주소는 Windows `ipconfig`에서 현재 사용하는 유선·Wi-Fi 어댑터를 확인한다.
 
-PC의 LAN IPv4는 시작 메시지나 `ipconfig`에서 현재 사용하는 유선·Wi-Fi 어댑터를 확인한다. Windows 방화벽은 [7절](#7-windows-방화벽)을 따른다. 외부 인터넷에서는 이 LAN 주소만으로 접속할 수 없으며 별도 네트워크 구성이 필요하다. 외부 접속은 정규 LAN 실습 범위에 포함하지 않는다.
+RoomControl의 [시뮬레이터 주소]에 주소를 넣고 [제어 시작]을 누른다. 11주차 1일차는 연결 상태를 확인하고, 2일차부터는 연결 후 제어 화면을 연다. 정규 화면에는 UDP 검색이 필요 없다. 외부 인터넷 접속은 이 LAN 실습의 범위에 포함하지 않는다.
 
-정규 RoomControl 앱에서는 [시뮬레이터 주소]에 주소를 넣고 [제어 시작]을 누른다. 연결 성공 후 제어 화면이 열린다(11주차 1일차는 연결 상태까지만 확인한다). TCP 포트는 8266이다.
-
-### 선택 기능: UDP 검색
-
-아래 절차는 UDP 검색 화면을 별도로 구현했거나 보존 특강의 [검색]을 사용하는 경우다. 정규 RoomControl 화면에는 [검색]이 없다. 기존 BLE 특강의 검색 필터를 사용할 때는 `--name ESP32_BLE_0423`으로 실행한다.
-
-1. 앱이 UDP 8267로 `bleuno?`를 보낸다. 통신이 허용된 같은 LAN 전체(브로드캐스트)와 `10.0.2.2`(에뮬레이터를 띄운 PC) 두 곳이다.
-2. 시뮬레이터는 물어 온 쪽에 `{"name":"WlEno_0423","port":8266}`로 답하고, 터미널에 `bleuno? →` 줄을 찍는다.
-3. 앱 목록에 `WlEno_0423 (192.168.0.10:8266)`처럼 이름과 `IP:포트`가 들어간다.
-
-위 이름은 선택 UDP 검색의 예시다. 보존 BLE 특강에서는 지정한 `ESP32_BLE_0423` 이름이 응답과 목록에 표시된다.
+선택 UDP 검색은 `bleuno?`를 보내 이름과 TCP 포트를 받는다. 기존 BLE 특강의 이름 필터를 사용하는 경우에만 `--name ESP32_BLE_0423`처럼 지정한다. TCP가 비활성화되어 응답의 `port`가 `null`이면 TCP 연결 대상이 아니다.
 
 ## 7. Windows 방화벽
 
-다른 PC의 에뮬레이터나 실기기에서 연결하려면 WlEno를 실행한 PC에서 TCP 8266 인바운드 연결이 허용되어야 한다. IP 직접 연결에는 UDP 8267이나 HTTP 8080 허용이 필요 없다.
+다른 PC나 Android 실기기에서 연결하려면 WlEno PC의 TCP 8266 인바운드가 허용되어야 한다. UDP 8267은 선택 검색에만 필요하며 HTTP 8080은 기본적으로 이 PC에서만 사용한다.
 
-주소와 실행 상태가 맞는데 연결되지 않으면 조교가 방화벽 규칙을 확인한다. 규칙 추가가 필요한 수업용 PC에서는 관리자 권한 PowerShell에서 다음 명령을 실행한다. `LocalSubnet`은 같은 서브넷에서 들어오는 연결로 허용 범위를 제한한다. [Microsoft New-NetFirewallRule 안내](https://learn.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule)
+주소와 실행 상태가 맞는데 접속되지 않을 때 조교가 방화벽 규칙을 확인한다. 수업용 규칙이 필요하면 관리자 PowerShell에서 다음 명령을 실행한다. `LocalSubnet`은 같은 서브넷에서 들어오는 연결로 범위를 제한한다.
 
 ```powershell
 New-NetFirewallRule -DisplayName "WlEno SIM TCP 8266" -Direction Inbound -Protocol TCP -LocalPort 8266 -RemoteAddress LocalSubnet -Action Allow
@@ -248,140 +138,98 @@ New-NetFirewallRule -DisplayName "WlEno SIM TCP 8266" -Direction Inbound -Protoc
 New-NetFirewallRule -DisplayName "WlEno SIM UDP 8267" -Direction Inbound -Protocol UDP -LocalPort 8267 -RemoteAddress LocalSubnet -Action Allow
 ```
 
-수업이 끝나면 관리자 권한 PowerShell에서 이번 수업에 만든 규칙만 지운다. UDP 규칙을 만들지 않았다면 둘째 줄은 실행하지 않는다.
+수업이 끝나면 이번에 만든 규칙만 삭제한다. UDP 규칙을 만들지 않았다면 둘째 줄은 실행하지 않는다.
 
 ```powershell
 Remove-NetFirewallRule -DisplayName "WlEno SIM TCP 8266"
 Remove-NetFirewallRule -DisplayName "WlEno SIM UDP 8267"
 ```
 
-명시적인 차단 규칙은 허용 규칙보다 우선할 수 있다. 위 규칙을 추가해도 연결되지 않거나 Python 접근 허용 창이 뜨면 조교가 현재 네트워크 프로필과 해당 Python의 규칙을 확인한다. 다른 프로그램의 규칙을 일괄 변경하거나 삭제하지 않는다. [Microsoft 방화벽 규칙 우선순위](https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/rules)
-
-관리자 권한이 없는 PC나 학교에서 관리하는 PC는 조교·관리자에게 설정을 요청한다. macOS에서 들어오는 연결을 허용할지 묻는 창이 뜨면 수업용 Python인지 확인하고 [허용]을 누른다.
+학교 관리 PC는 조교·관리자에게 설정을 요청한다. 허용 규칙을 추가해도 명시적인 차단 규칙이나 Wi-Fi AP 격리 때문에 접속되지 않을 수 있다. 이때는 같은 PC에서 WlEno와 에뮬레이터를 실행하고 `10.0.2.2:8266`으로 연결한다.
 
 ## 8. 명령과 응답
 
-한 줄이 명령 하나다(끝에 `\n`. 앱의 `send`가 붙인다). 응답은 JSON 한 줄이고, 명령을 보낸 앱에만 간다.
-응답 글자는 Fake와 같다. 다른 것은 `dht11` 값(화면 슬라이더), `about`의 `app`·`version`, 공백만 있는 줄이다([1절](#1-시뮬레이터가-대신하는-것)의 표와 결정된 사항). 빈 줄(길이 0)에는 보드·Fake처럼 답하지 않는다. 공백만 있는 줄에는 `need command`로 답한다. 보드는 `unknown command`로 답하고, Fake는 `send()`에서 걸러 보내지 않으므로 답이 없다. 띄어쓰기 자리에 탭이나 전각 공백(U+3000) 같은 다른 공백 글자를 넣으면 시뮬레이터는 띄어쓰기로 읽는다. 보드는 반각 띄어쓰기로만 나누므로, 명령 이름 바로 뒤에 다른 공백 글자를 쓰면 `unknown command`로 답한다. 줄 맨 앞에 띄어쓰기가 있으면 시뮬레이터와 Fake는 지우고 읽지만, 보드는 `unknown command`로 답한다. 이 문단의 보드 동작은 모두 펌웨어 소스 기준이다.
+TCP는 UTF-8 명령 한 줄(`\n`으로 종료)을 받고 JSON 한 줄로 응답한다. 연결 직후 hello 이벤트가 먼저 도착한다. 입력 이벤트는 명령 응답 사이에도 올 수 있으므로 `event` 키가 있는 줄을 구분한다.
 
-| 보내는 명령 | 받는 응답 | 화면 |
+| 명령 | 동작 | 성공 응답 |
 |---|---|---|
-| `on N` / `on N N …` | `{"result":"ok","ms":"led(s) on"}` | 그 LED 밝기 255 |
-| `on -1` | `{"result":"ok","ms":"led(s) on"}` | 4개 모두 255 |
-| `on` (번호 없음) | `{"result":"err","ms":"need pin index"}` | 그대로 |
-| `off N` / `off -1` | `{"result":"ok","ms":"led(s) off"}` | 그 LED(또는 모두) 밝기 0 |
-| `off` (번호 없음) | `{"result":"err","ms":"need pin index"}` | 그대로 |
-| `pwm N V` (N은 0~3, V는 0~255) | `{"result":"ok","ms":"pwm set"}` | LED N 밝기 V |
-| `pwm -1 V` | `{"result":"ok","ms":"pwm set"}` | 4개 모두 밝기 V |
-| `pwm 4 10`, `pwm 9 100` (N이 3보다 큼) | `{"result":"err","ms":"pwm pin index error"}` | 그대로 |
-| `pwm 0 300`, `pwm 0 -1` (V가 0~255 밖) | `{"result":"err","ms":"pwm value range 0~255"}` | 그대로 |
-| `pwm 0`, `pwm` (값이 모자람) | `{"result":"err","ms":"need pin index and pwm value"}` | 그대로 |
-| `dht11` | `{"result":"ok","value":"[24.5,40.0]"}` | 슬라이더 값(온도, 습도) |
-| `about` | `{"result":"ok","os":"cronos-v1","app":"WlEno","version":"1.0.5_sim","author":"gbox3d","chipid":1234567890}` | — |
-| `blink` / `stopblk` | `{"result":"ok","ms":"led blink"}` / `{"result":"ok","ms":"led stop blink"}` | 내장 LED 깜빡임 / 꺼짐 |
-| 빈 줄(길이 0) | 답하지 않는다 | — |
-| 공백만 있는 줄 | `{"result":"fail","ms":"need command"}` | — |
-| 그 밖의 글자(`hello`, 대문자 `ON 0` 등) | `{"result":"fail","ms":"unknown command"}` | — |
+| `on 0`, `on 0 2`, `on -1` | 지정 LED 또는 전체 밝기 255 | `{"result":"ok","ms":"led(s) on"}` |
+| `off 0`, `off -1` | 지정 LED 또는 전체 밝기 0 | `{"result":"ok","ms":"led(s) off"}` |
+| `pwm 1 128`, `pwm -1 128` | 지정 LED 또는 전체 밝기 설정 | `{"result":"ok","ms":"pwm set"}` |
+| `dht11` | 온도와 습도 조회 | `{"result":"ok","value":"[24.5,40.0]"}` |
+| `about` | 앱 정보 조회 | `{"result":"ok","app":"WlEno","version":"2.0.0","name":"WlEno_SIM1"}` |
+| `blink`, `stopblk` | 내장 LED 깜빡임 시작·중지 | `result: "ok"`, `ms: "led blink"` 또는 `"led stop blink"` |
 
-범위 밖이나 잘못된 값은 이렇게 처리한다.
+LED 번호는 정수 `0~3`, 전체 지정은 `-1`이다. 밝기는 정수 `0~255`다. `on abc`, `on 0 9`, `pwm -2 100`, `pwm -1 300`, `pwm 0 127.5`는 오류이며 보드 상태와 리비전은 바뀌지 않는다. 정수가 아닌 값을 `0`으로 대체하거나 범위 밖 밝기를 보정하지 않는다. 명령 이름은 소문자를 사용한다. 빈 줄에는 응답하지 않는다.
 
-- `on 9`처럼 0~3 밖의 번호는 무시하고 `ok`를 준다. `on 1 9`는 LED 1만 켠다. 실제 보드는 `on`·`off`의 번호를 검사하지 않으므로(펌웨어 소스 기준), 앱이 보내기 전에 `0~3` 또는 `-1`인지 검사한다([bleuno README](../../android_programming/bleuno/README.md) 2절).
-- `on`·`off`에서 `-1`이 아닌 음수(`on -2`)는 범위 밖 번호처럼 무시하고 `ok`를 준다. `pwm`은 음수 번호를 모두 4개 전체로 처리한다(`pwm -3 10`은 4개 모두 밝기 10).
-- 번호가 음수면 `pwm`은 밝기 값을 검사하지 않는다. `pwm -1 300`은 `ok`이고 4개 모두 255가 된다.
-- 번호나 값이 정수가 아니면 0으로 읽는다. `on abc`는 LED 0을 켜고, `pwm 2 abc`는 LED 2를 끈다. 소수(`pwm 0 127.5`), 밑줄이 든 수(`1_0`), 32비트 정수 범위를 넘는 수(`99999999999`)도 0이다. Fake(`toIntOrNull()`)와 같은 규칙이다.
-- 명령은 소문자만 안다. `ON 0`은 `unknown command`다.
+`dht11.value`는 JSON 배열이 아닌 문자열이며, 온도와 습도를 소수 첫째 자리까지 표현한다. 기존 Android의 `WlenoMessage.value()`가 이 문자열을 읽는다.
 
-시뮬레이터가 먼저 보내는 줄도 있다.
+| 이벤트·검색 | 예시 |
+|---|---|
+| TCP 연결 직후 | `{"event":"hello","name":"WlEno_SIM1","app":"WlEno"}` |
+| 입력값 변경 | `{"event":"input","index":0,"value":1,"sequence":1}` |
+| UDP 검색, TCP 활성 | `{"name":"WlEno_SIM1","port":8266}` |
+| UDP 검색, TCP 비활성 | `{"name":"WlEno_SIM1","port":null,"services":{"tcp":null,"http":8080}}` |
 
-| 언제 | 시뮬레이터가 보내는 줄 | 받는 곳 |
-|---|---|---|
-| 연결 직후 한 번 | `{"event":"hello","name":"WlEno_0423","app":"WlEno"}` | 붙은 앱. 앱은 이 줄을 받으면 `준비됨`이 되고, 이 줄은 `onMessage`로 넘기지 않는다 |
-| 화면의 [입력 버튼]을 누를 때 | `{"event":"input","index":0,"value":1}`. 누를 때마다 `value`가 1, 0, 1, …로 바뀐다 | 연결된 모든 앱 |
-| UDP 8267로 `bleuno?`가 올 때 | `{"name":"WlEno_0423","port":8266}` | 물어 온 쪽 |
-
-- 입력 이벤트는 Fake처럼 10초마다 오지 않는다. [입력 버튼]을 누를 때만 온다. 기존 Fake 예제의 자동 입력을 기다리는 대신 [입력 버튼]을 누른다. 정규 14주차는 처음부터 버튼 입력을 기준으로 한다.
-- `value`는 시뮬레이터를 켠 뒤부터 센다. 아무도 연결되지 않았을 때 누른 것도 세므로, 앱이 받는 첫 이벤트가 `"value":0`일 수 있다.
-- UDP 8267은 앞뒤 공백·줄바꿈을 뺀 글자가 `bleuno?`일 때만 답한다.
+입력 이벤트의 `sequence`는 세션의 입력 변경 순서이며 초기화해도 0으로 돌아가지 않는다. 앱이 연결되지 않은 동안에도 입력값과 순서는 유지된다. 초기화할 때 입력값이 `1`이었다면 `value: 0` 이벤트가 발생한다. TCP 비활성 상태에서 HTTP도 꺼져 있으면 UDP 응답의 `services.http`도 `null`이다.
 
 ## 9. 수업에서 여럿이 쓸 때
 
-여러 명이 같은 LAN에서 실습할 때는 자기 PC의 IPv4 주소로 연결한다. 이름도 다르게 지정하면 창 제목과 연결 로그를 대조하기 쉽다.
+학생 한 명당 자기 PC에서 WlEno 한 개를 실행한다. 이름을 구분하려면 `python main.py --name WlEno_0423`처럼 학번 뒤 네 자리를 붙인다. 같은 번호가 있으면 이니셜을 덧붙인다. 여러 앱이 한 WlEno에 연결하면 같은 보드 상태를 함께 바꾸므로 창 제목과 로그에서 접속 대상을 확인한다.
 
-```powershell
-uv run main --name WlEno_0423
-```
-
-- 이름은 `WlEno_` 뒤에 **학번 뒤 4자리**를 붙인다. 학번이 20260423이면 `WlEno_0423`이다.
-- 정규 RoomControl은 이름 접두사를 검사하지 않는다. 이전 BLE 특강 예제의 검색을 사용할 때만 `uv run main --name ESP32_BLE_0423`으로 실행한다.
-- 뒤 4자리가 같은 사람이 있으면 이니셜을 더 붙인다(예: `WlEno_0423_KM`).
-- 정규 앱의 주소 칸에 [실행 위치에 맞는 주소](#6-앱에서-붙을-주소)를 넣고 [제어 시작]을 누른다. 선택 UDP 검색이나 보존 특강을 사용한다면 목록에서 내 이름을 선택한다. 내 터미널에 `연결 (1개)` 줄이 찍혔는지 본다.
-- 시뮬레이터 창은 내 PC에만 뜨고 HTTP API(8080)도 기본값으로 이 PC에서만 열리므로, 다른 사람이 내 화면의 버튼을 누를 수 없다. 수업 중에는 `--http-bind 0.0.0.0`을 쓰지 않는다.
-- 학교 Wi-Fi가 기기끼리의 통신을 막아 두었으면(AP 격리) PC 사이 또는 실기기와 PC 사이 연결이 막힐 수 있다. 이때는 WlEno와 에뮬레이터를 같은 PC에서 실행하고 `10.0.2.2:8266`으로 연결한다.
+HTTP는 기본 `127.0.0.1` 바인드를 유지한다. `--http-bind 0.0.0.0`으로 바꾸면 LAN의 다른 프로그램도 HTTP 제어 요청을 보낼 수 있다. Android TCP 연결을 위해 HTTP 바인드를 바꿀 필요는 없다.
 
 ## 10. 막혔을 때
 
-[검색] 관련 항목은 선택 UDP 검색이나 보존 특강에서만 적용한다. 정규 RoomControl은 주소 직접 입력으로 연결한다.
-
-| 증상 | 확인할 것 |
+| 증상 | 확인 |
 |---|---|
-| `uv` 명령을 찾을 수 없다 | [uv 설치 안내](https://docs.astral.sh/uv/getting-started/installation/)에 따라 설치한 뒤 터미널을 새로 열고 `uv --version`을 확인한다 |
-| `uv run main`에서 `Failed to spawn: main`이 나온다 | `pyproject.toml`이 있는 `tools/wleno`에서 실행했는지 확인한다. `tools/bleuno-control`에 있다면 `cd ../wleno`으로 이동한다. `sim.py`만 복사한 경우에는 `uv run sim.py`를 사용한다 |
-| `Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.` | Windows가 Python을 찾지 못했다. `py --version`을 해 보고, 그것도 안 되면 Python 3.10 이상을 설치한 뒤 터미널을 새로 연다 |
-| `'py'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는 배치 파일이 아닙니다.` (Windows PowerShell에서는 `py : 'py' 용어가 cmdlet, 함수, 스크립트 파일 또는 실행할 수 있는 프로그램 이름으로 인식되지 않습니다.`, PowerShell 7에서는 `py: 'py' 용어는 cmdlet, 함수, 스크립트 파일 또는 실행 프로그램의 이름으로 인식되지 않습니다.`) | `py` 실행기가 없다. `python sim.py`로 해 보고(설치도 `python -m pip`로), 그것도 안 되면 Python을 설치한다 |
-| `can't open file '…sim.py': [Errno 2] No such file or directory` | 터미널이 `sim.py`가 있는 폴더가 아니다. `cd`로 `tools\wleno` 폴더에 간다 |
-| `화면을 그리는 pygame-ce 를 불러오지 못했다: No module named 'pygame'`과 `이 Python:` 줄이 나오고 끝난다 | `py sim.py`처럼 Python으로 직접 실행했다면 `uv run main`으로 실행한다. uv 실행에서도 같거나 `DLL load failed`가 나오면 이 폴더에서 `uv sync --reinstall-package pygame-ce`를 실행한다. 계속 실패하면 `이 Python:` 줄과 오류를 조교에게 보여 준다 |
-| `pip install pygame`이 오류로 끝난다 | 원래 판 `pygame`을 설치하려 했다. 원래 판에는 Python 3.14용 설치 파일이 없다. `pygame-ce`를 설치한다 |
-| macOS에서 설치할 때 `error: externally-managed-environment`가 나온다 | Homebrew로 설치한 Python은 `pip`로 바로 설치하지 못하게 막혀 있다. 가상 환경을 만들어 그 안에 설치하고 그 Python으로 실행한다: `python3 -m venv ~/bleuno-venv` → `~/bleuno-venv/bin/python -m pip install pygame-ce` → `~/bleuno-venv/bin/python sim.py` |
-| `시뮬레이터 창을 열 수 없다: …`가 나오고 끝난다 | 화면이 없는 컴퓨터(원격 서버 등)다. `--no-window`로 실행한다 |
-| 화면의 한글이 네모로 보인다(시작할 때 `주의: 한글 글꼴을 찾지 못했다` 줄이 나온다) | 한글 글꼴(Windows 맑은 고딕, macOS Apple SD 산돌고딕 Neo, Linux 나눔고딕이나 Noto Sans CJK KR)이 없다. 글꼴을 설치하거나 터미널 로그를 본다 |
-| `HTTP API 8080 포트를 열 수 없다: [WinError 10048] 각 소켓 주소(프로토콜/네트워크 주소/포트)는 하나만 사용할 수 있습니다 (--http 로 다른 포트를 준다)` 한 줄만 나오고 끝난다 | 시뮬레이터가 다른 터미널(VS Code 터미널 포함)에서 이미 돌고 있을 수 있다. 작업 표시줄에 시뮬레이터 창이 있는지 본다. 있으면 그 창을 그대로 쓰거나, 닫고 다시 실행한다. 없으면 다른 프로그램이 8080을 쓰는 것이니 `--http 8081`처럼 바꾼다 |
-| `끝내려면 …` 줄 바로 다음에(`시작:` 줄 없이) `포트를 열 수 없다: …`와 `종료`가 찍힌다 | 8266(TCP)이나 8267(UDP)을 다른 프로그램이 쓴다. 다른 터미널에서 돌고 있는 시뮬레이터일 때가 많다(`--http`만 바꿔 두 번째로 띄운 경우). 그 시뮬레이터 창을 닫거나 그 터미널에서 Ctrl+C로 끈다. 메시지에 `while attempting to bind on address ('0.0.0.0', 8266)`이 있으면 8266이고, 없으면 8267이다. 꼭 바꿔야 하면 `--tcp`(주소도 바꾼 포트로) 또는 `--udp`(그러면 [검색]이 안 되므로 주소를 직접 넣는다) |
-| [검색] 목록에 내 시뮬레이터가 없다 | 터미널에 `bleuno? →` 줄이 찍혔는지 먼저 본다. **안 찍혔다**: 질문이 PC까지 오지 않았다. 통신이 허용된 같은 LAN인지, 방화벽([7절](#7-windows-방화벽)), 학교 Wi-Fi의 AP 격리를 본다. **찍혔다**: 보존 BLE 특강의 앱이라면 `--name ESP32_BLE_0423`으로 실행했는지 확인한다. 정규 클라이언트는 접두사 제한이 없다. 에뮬레이터는 설정에 따라 답이 앱까지 돌아오지 않을 수 있다. 어느 경우든 주소 칸에 직접 넣는다([6절](#6-앱에서-붙을-주소)) |
-| 주소를 넣었는데 앱이 `연결 중` 뒤 `끊김`이 되고, 터미널에 `연결` 줄이 없다 | WlEno 실행 상태와 [실행 위치별 주소](#6-앱에서-붙을-주소)를 확인한다. 다른 PC·실기기는 LAN 통신과 TCP 8266 방화벽 허용을 확인한다. AP 격리 환경에서는 WlEno와 에뮬레이터를 같은 PC에서 실행한다 |
-| 잘 되다가 앱이 `끊김` | 터미널의 마지막 두 줄을 본다. `[화면] 연결 끊기 (1개)` 다음에 `해제 (0개)`가 있으면 화면에서 [연결 끊기]를 누른 것이다. 맨 끝이 `종료`면 시뮬레이터가 꺼진 것이니 다시 켠다. 어느 경우든 앱에서 다시 연결한다 |
-| 켜 둔 LED가 저절로 모두 꺼졌다 | 앱이 새로 붙었거나 연결이 끊긴 것이다. 시뮬레이터는 그때 LED를 모두 끈다([1절](#1-시뮬레이터가-대신하는-것)의 결정된 사항). 터미널에 `연결`·`해제` 줄이 찍혔는지 본다 |
-| 응답은 `ok`인데 내 화면의 LED가 그대로다 | 다른 사람 시뮬레이터에 붙었을 수 있다. 내 터미널에 그 명령 줄이 찍혔는지 본다. `on 9`처럼 범위 밖 번호는 `ok`여도 아무것도 바뀌지 않는다 |
-| 시뮬레이터 창이 보이지 않는다 | 터미널의 끝부분(마지막 서너 줄)을 본다. `pygame-ce 를 불러오지 못했다`, `시뮬레이터 창을 열 수 없다`, `포트를 열 수 없다` 가운데 하나가 있으면 그 줄을 이 표에서 찾는다. 셋 다 없고 마지막 줄이 `종료`가 아니면 시뮬레이터는 돌고 있다. 창이 다른 창 뒤에 있으니 작업 표시줄에서 찾는다 |
-| 시뮬레이터 창이 저절로 닫혔다 | 시뮬레이터가 끝났다. 터미널의 `종료` 앞 줄을 본다 |
-| 다른 PC·실기기에서 연결할 IP를 모르겠다 | WlEno PC에서 `이 PC의 IPv4 주소` 줄을 확인한다. Windows는 `ipconfig`에서 현재 사용하는 유선·Wi-Fi 어댑터의 `IPv4 주소`를 확인한다. 가상 어댑터나 `(VPN?)`·`(자동 할당)` 주소는 수업용 LAN 주소로 쓰지 않는다 |
-| 목록에 모르는 이름이 많다 | 통신이 허용된 같은 LAN의 다른 학생 시뮬레이터다. 내 이름을 고른다 |
+| `python` 실행 시 Microsoft Store 안내 | 설치된 Python 전체 경로 사용. `py`가 설치되었다면 `py --version` 확인 |
+| `can't open file ...main.py` | 현재 폴더가 `tools/wleno`인지 확인 |
+| `No module named tkinter` 또는 Tcl/Tk 오류 | 같은 Python의 `-m tkinter` 확인. 화면이 필요 없으면 `--no-window` 사용 |
+| 포트 사용 중 오류 | 이미 실행 중인 WlEno 확인. 다른 프로그램의 포트라면 `--tcp`, `--udp`, `--http`로 변경 |
+| 앱이 연결되지 않음 | `--no-tcp` 여부, 실행 위치별 주소, TCP 포트, 방화벽 확인 |
+| 다른 PC·실기기만 연결되지 않음 | LAN 통신·AP 격리·TCP 인바운드 확인 |
+| HTTP 요청이 연결 거부됨 | `--no-http` 여부, HTTP 포트, `.http` 파일의 `@baseUrl` 확인 |
+| HTTP 400 | JSON 형식, 필드 이름, 숫자·불리언 타입과 범위 확인 |
+| TCP 응답은 성공인데 예상한 LED가 아님 | 접속한 PC·포트와 LED 번호 확인. 자기 WlEno 로그와 대조 |
 
-오류 번호와 글자(`[WinError 10048] 각 소켓 주소…`, TCP는 `[Errno 10048] …`)는 Windows 언어나 운영체제에 따라 다르게 나온다. `포트를 열 수 없다`가 들어간 앞부분은 같다.
-한 번에 한 곳만 바꾸고 다시 해 본다. 그래도 안 되면 터미널과 앱 화면을 그대로 보여 주고 도움을 받는다.
+연결·해제는 보드 초기화 조건이 아니다. LED가 바뀌었다면 다른 연결의 명령, 화면 조작이나 HTTP 제어·초기화 기록을 확인한다.
 
 ## 11. 다른 프로그램에서 쓰기
 
-앱 대신 다른 프로그램(AI 에이전트, 시험 스크립트, 다른 언어의 클라이언트)이 시뮬레이터를 보드처럼 쓸 수 있다. 수업에는 필요 없다.
+HTTP는 JSON API다. [REST Client 예제](examples/README.md)는 연결·도움말 확인부터 제어까지 순서대로 실행할 수 있다. POST JSON 본문에는 `Content-Type: application/json`, 응답 선택에는 `Accept: application/json`을 사용한다.
 
-**명령(TCP 8266)**은 앱과 같다. 붙으면 hello 줄이 먼저 온다. 그다음 명령 한 줄(`\n`으로 끝)을 보내고 JSON 한 줄을 받는다. [입력 버튼]의 이벤트 줄은 아무 때나 끼어들므로, 받은 줄에 `event` 키가 있으면 응답이 아니라 이벤트로 다룬다.
+| 요청 | JSON 본문 | 정상 상태·응답 |
+|---|---|---|
+| `GET /info` | 없음 | 200, `app`·`version`·`name`·`endpoints`·`services` |
+| `GET /state` | 없음 | 200, 보드 상태와 실행 정보 |
+| `POST /leds` | `{"indices":[0,1],"brightness":128}` | 200, `result: "ok"`와 `revision` |
+| `POST /blink` | `{"enabled":true}` | 200, `result: "ok"`와 `revision` |
+| `POST /set` | `{"temperature":30.5,"humidity":55}` | 200, `result: "ok"`와 `revision`. 온도·습도 중 하나만 보내도 됨 |
+| `POST /input` | 빈 본문 또는 `{}` | 200, `{"result":"ok","value":1,"sequence":1,"revision":1}`. 숫자는 당시 상태에 따라 달라짐 |
+| `POST /reset` | 빈 본문 또는 `{}` | 200, `result: "ok"`와 `revision`. LED·깜빡임·온습도·입력값 초기화 |
+| `POST /drop` | 빈 본문 또는 `{}` | 연결 종료를 요청했으면 202, `{"result":"ok","requested":1}`. 대상이 없으면 200, `requested: 0` |
 
-```python
-import json
-import socket
+HTTP의 `indices`는 `0~3` 정수 배열이다. 전체 LED를 지정할 때는 `[0,1,2,3]`을 사용한다. `-1`은 TCP 명령에만 있는 전체 지정 표현이다.
 
-with socket.create_connection(("127.0.0.1", 8266)) as s:
-    f = s.makefile("rw", encoding="utf-8", newline="\n")
-    print(json.loads(f.readline()))            # {"event":"hello",...}
-    for cmd in ("on 0", "pwm 1 128", "dht11"):
-        f.write(cmd + "\n")
-        f.flush()
-        reply = json.loads(f.readline())
-        while "event" in reply:                # 입력 이벤트는 건너뛰고 응답을 기다린다
-            reply = json.loads(f.readline())
-        print(cmd, "→", reply)
+`GET /state`는 `leds`, `blink`, `temperature`, `humidity`, `input_value`, `revision`, `input_sequence`와 실행 정보 `clients`, `log`, `services`를 반환한다. `revision`은 성공한 상태 변경 요청마다 1씩 증가하며 같은 값을 다시 설정해도 증가한다. 조회·연결·해제·거부된 요청으로는 증가하지 않는다. `input_sequence`는 입력 이벤트가 발생할 때만 증가한다.
+
+`POST /input`의 200 응답은 실제 입력값 반영이 끝났음을 뜻한다. 반환된 값·순서·리비전으로 직후 상태를 대조한다. `POST /drop`의 202는 연결 종료 요청을 받았다는 뜻이므로 `GET /state`의 `clients`가 0이 되는지 확인한다. TCP가 꺼져 있거나 연결이 없으면 종료 요청 수는 0이다.
+
+존재하지 않는 경로는 404, 해당 경로에서 허용하지 않는 메서드는 405, 잘못된 JSON·필드·타입·범위는 400이다. 오류 응답은 `result: "err"`와 원인을 설명하는 `ms`를 갖는다. 센서 값에는 유한한 JSON 숫자를 사용한다. 문자열 숫자, 불리언, NaN, Infinity는 허용하지 않는다. HTTP 전송 계층은 본문 크기 64 KiB 제한과 읽기 시간 제한을 적용한다.
+
+화면 없이 HTTP만 검증하려면 다음 명령을 사용한다.
+
+```powershell
+python main.py --no-window --no-tcp --no-udp
 ```
 
-HTTP API(8080)는 화면에서 하는 일을 프로그램으로 한다. 기본값으로 이 PC에서만 열린다.
+## 개발 검증
 
-| 요청 | 본문 | 응답 | 하는 일 |
-|---|---|---|---|
-| `GET /state` | 없음 | `{"leds":[255,128,0,0],"blink":false,"temperature":24.5,"humidity":40.0,"clients":1,"log":[…]}` | LED 밝기, 내장 LED 깜빡임, 온습도, 연결 수, 최근 로그 20줄 |
-| `POST /set` | `{"temperature":30.5,"humidity":55}` (하나만 보내도 된다) | `{"result":"ok"}` | 슬라이더를 움직인 것과 같다. 값은 JSON 숫자만 받는다. 문자열(`"30"`)·`true`·NaN·Infinity·실수로 바꿀 수 없는 큰 수는 400이고 아무것도 바뀌지 않는다 |
-| `POST /input` | 없음 | `{"result":"ok"}` | [입력 버튼]을 누른 것과 같다. 로그에는 `[API]`로 남는다 |
-| `POST /drop` | 없음 | `{"result":"ok"}` | [연결 끊기]를 누른 것과 같다 |
+`tools/wleno`에서 다음 명령으로 상태 전이, 프로토콜, 통신과 앱 통합 테스트를 실행한다.
 
-그 밖의 주소는 404이고 본문은 `{"result":"fail","ms":"not found"}`다.
+```powershell
+python -m unittest discover -s tests -v
+```
 
-- `--http-bind 0.0.0.0`을 주고 방화벽도 허용하면 같은 네트워크의 다른 기기에서 HTTP API를 사용할 수 있다. 접속한 프로그램은 [입력 버튼]·[연결 끊기]와 같은 일을 할 수 있다. [7절](#7-windows-방화벽)의 수업용 규칙은 HTTP 8080을 허용하지 않는다. 정규 수업은 기본값 `--http-bind 127.0.0.1`을 유지한다. `--http-bind 0.0.0.0`을 주어도 시작 메시지의 `HTTP API:` 줄은 `http://127.0.0.1:8080/state`로 나온다.
-- 화면이 없는 컴퓨터(원격 서버, 모니터 없이 도는 Linux 장비)에서는 `--no-window`로 실행한다. pygame-ce 없이 표준 라이브러리만 쓴다.
-- 이 폴더에서는 `uv run main`으로 실행한다. `sim.py`만 복사한 경우에는 `uv run sim.py`로 실행하며, 파일 머리의 `# /// script` 부분에 적은 pygame-ce를 uv가 받아 쓴다.
+실제 Tk 창을 사용하는 테스트는 디스플레이와 해당 Python의 Tkinter·Tcl/Tk가 있어야 수행한다. 실행 검증 환경은 Windows이며 macOS·Linux는 아직 검증하지 않았다.

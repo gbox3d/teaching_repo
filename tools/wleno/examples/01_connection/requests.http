@@ -1,0 +1,20 @@
+@baseUrl = http://127.0.0.1:8080
+
+### 1. 연결과 API 도움말: 200, app=WlEno, version=2.0.0, endpoints와 services
+GET {{baseUrl}}/info
+Accept: application/json
+
+### 2. 상태 확인: 200, leds/blink/temperature/humidity/input_value/revision/input_sequence
+GET {{baseUrl}}/state
+Accept: application/json
+
+### 3. 없는 경로: 404, result=err. 보드 상태는 유지된다.
+GET {{baseUrl}}/missing
+Accept: application/json
+
+### 4. 허용되지 않는 메서드: 405, result=err. /state는 GET만 허용한다.
+POST {{baseUrl}}/state
+Accept: application/json
+Content-Type: application/json
+
+{}

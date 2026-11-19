@@ -60,7 +60,7 @@ TCP handles commands. UDP discovery is optional.
 Run from `tools/wleno` in the repository.
 
 ```powershell
-uv run main
+python main.py
 ```
 
 Keep the window with four LEDs open.
@@ -192,7 +192,7 @@ Press Disconnect clients in the simulator.
 - Light buttons become disabled.
 - Return to the connection screen and reconnect.
 
-LEDs reset to off on connection.
+LED states are preserved across connections.
 Send Light on again after reconnecting.
 
 ---

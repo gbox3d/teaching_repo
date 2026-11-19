@@ -186,7 +186,7 @@ Returning to the connection screen closes the control connection.
 
 Tap Start control again to use it.
 
-WlEno resets LEDs on connection and disconnection.
+WlEno preserves LED states on connection and disconnection.
 
 Reconnect after leaving the app or rotating the screen.
 

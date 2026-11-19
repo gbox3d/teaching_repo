@@ -52,7 +52,7 @@ Python 3.12로 `uv init --package --python 3.12 --vcs none`.
 저장소 루트의 별도 터미널:
 
 ```powershell
-uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1
+python tools/wleno/main.py --bind 127.0.0.1
 ```
 
 TCP 8266: 명령 전송. HTTP 8080: `GET /state`.
@@ -66,7 +66,7 @@ TCP 8266: 명령 전송. HTTP 8080: `GET /state`.
 중간 이벤트 행도 명령 응답에서 건너뛴다.
 
 제어 중에는 같은 TCP 연결을 유지한다.
-새 연결·연결 종료는 LED를 초기화한다.
+새 연결·연결 종료는 LED 상태를 유지한다.
 
 상태 확인은 프로그램을 종료하기 전에 한다.
 

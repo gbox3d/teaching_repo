@@ -3,7 +3,13 @@ from shared import Board
 
 def main():
     print("명령: on 0 / off 0 / pwm 1 128 / sensor. 종료: /bye")
-    with Board() as board:
+    try:
+        board = Board()
+    except (ValueError, OSError, RuntimeError) as error:
+        print("연결 오류:", error)
+        print("시뮬레이터 실행 상태를 확인하고 프로그램을 다시 실행하세요.")
+        return
+    with board:
         while True:
             try:
                 text = input("직접 제어> ").strip()
@@ -30,3 +36,6 @@ def main():
                 break
             except (ValueError, OSError, RuntimeError) as error:
                 print("오류:", error)
+                if board.closed:
+                    print("연결이 닫혔습니다. 프로그램을 다시 실행하세요.")
+                    break

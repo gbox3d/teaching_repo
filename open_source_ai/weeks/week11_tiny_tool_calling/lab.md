@@ -22,7 +22,7 @@ cd teaching_repo
 터미널 A는 저장소 루트에 두고 시뮬레이터를 실행한다.
 
 ```powershell
-uv run --python 3.12 tools/wleno/sim.py --bind 127.0.0.1
+python tools/wleno/main.py --bind 127.0.0.1
 ```
 
 창 없이 확인할 때만 `--no-window`를 추가한다. 시뮬레이터는 켜 둔다. 터미널 B도 같은 저장소 루트에서 시작한 뒤 다음과 같이 이동한다.
@@ -34,7 +34,7 @@ uv sync
 
 이후 세 교시의 `uv run ex01`~`uv run ex03`은 모두 터미널 B에서 실행한다. `period1`~`period3`로 이동하지 않는다. `examples/`만 복사하면 `[tool.uv.sources]`의 상대 path가 끊긴다. 주차 `shared`가 import하는 `bleuno_control`은 저장소의 `tools/bleuno-control`에 있다.
 
-브라우저에서 `http://127.0.0.1:8080/state`를 연다. TCP 8266은 명령을 보내는 연결이고 HTTP 8080은 상태를 읽는 주소다. 연결 직후의 `hello`와 중간 이벤트는 명령 응답에서 제외한다. TCP 연결을 새로 만들거나 끊으면 LED가 초기화되므로 프로그램을 종료하기 전에 상태를 확인한다.
+브라우저에서 `http://127.0.0.1:8080/state`를 연다. TCP 8266은 명령을 보내는 연결이고 HTTP 8080은 상태를 읽는 주소다. 연결 직후의 `hello`와 중간 이벤트는 명령 응답에서 제외한다. TCP 연결을 새로 만들거나 끊어도 LED 상태는 유지된다. 제어 전후 상태를 확인한다.
 
 `cactus-compute==4.2.0`과 Needle 모델의 준비를 수업 전에 마친다. `uv sync`는 주차의 고정 의존성을 설치한다. Ollama를 실행하고 `qwen3.5:2b`도 확인한다. 모델을 처음 준비하는 시간은 실습 비교 시간에서 분리해 기록한다.
 

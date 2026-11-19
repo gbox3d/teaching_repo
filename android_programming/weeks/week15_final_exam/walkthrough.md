@@ -4,7 +4,7 @@
 
 `examples/rehearsal_starter` 파일을 [예제 위치 표](examples/README.md)대로 `RoomControl`에 넣는다. 파일을 중복해서 추가하지 않고 같은 이름의 파일을 교체한다. `app/libs/wleno-android-0.1.0.aar`와 Gradle 의존성은 유지한다.
 
-PC에서 `tools/wleno`의 `uv run main`을 실행하고 앱에서 연결한다. 제어 화면은 열리지만 비어 있는 TODO 기능은 동작하지 않는다. 통신 코드를 새로 작성하지 않는다.
+PC에서 `tools/wleno`의 `python main.py`를 실행하고 앱에서 연결한다. 제어 화면은 열리지만 비어 있는 TODO 기능은 동작하지 않는다. 통신 코드를 새로 작성하지 않는다.
 
 ## 2. TODO 1: 책상 조명 버튼
 

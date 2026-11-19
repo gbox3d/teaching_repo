@@ -36,7 +36,7 @@
 
 Android Studio의 Empty Views Activity로 `RoomControl`, 패키지 `com.example.roomcontrol`을 새로 만든다. [공통 코드 설치](../../../tools/wleno/android/README.md)를 따른다.
 
-PC에서는 저장소의 `tools/wleno`로 이동해 `uv run main`을 실행한다. WlEno와 같은 PC의 에뮬레이터는 `10.0.2.2:8266`, 다른 PC의 에뮬레이터와 실기기는 `WlEno 실행 PC의 LAN IPv4:8266`을 입력한다. PC는 유선 LAN이나 Wi-Fi를 사용할 수 있다. [주소와 방화벽 조건](../../iot_sim/lab.md#2-앱에-넣을-주소-결정)을 확인한다.
+PC에서는 저장소의 `tools/wleno`로 이동해 `python main.py`를 실행한다. WlEno와 같은 PC의 에뮬레이터는 `10.0.2.2:8266`, 다른 PC의 에뮬레이터와 실기기는 `WlEno 실행 PC의 LAN IPv4:8266`을 입력한다. PC는 유선 LAN이나 Wi-Fi를 사용할 수 있다. [주소와 방화벽 조건](../../iot_sim/lab.md#2-앱에-넣을-주소-결정)을 확인한다.
 
 ## 수업 자료
 

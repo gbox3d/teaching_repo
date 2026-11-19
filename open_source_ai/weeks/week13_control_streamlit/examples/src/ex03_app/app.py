@@ -28,8 +28,8 @@ if st.button("연결 해제", disabled="board" not in st.session_state):
     st.session_state.pop("board").close()
     st.rerun()
 
-st.caption("연결됨" if "board" in st.session_state else "연결 안 됨")
-st.caption("한 PC에서는 제어 창 하나만 사용하세요. 다른 연결이 시작·종료되어도 LED가 초기화됩니다.")
+connection_status = st.empty()
+st.caption("한 PC에서는 제어 창 하나만 사용하세요. 연결·해제 시 LED 상태는 유지됩니다. 다른 연결의 제어 명령은 같은 보드에 반영됩니다.")
 with st.form("control"):
     question = st.text_input("제어 요청", placeholder="2번 LED 밝기를 75로 맞춰 줘")
     submitted = st.form_submit_button("요청 실행")
@@ -59,4 +59,6 @@ if "board" in st.session_state:
         st.write("현재 LED 밝기", st.session_state.board.state()["leds"])
     except Exception as error:
         st.error(f"상태 확인 실패: {error}")
+connected = "board" in st.session_state and not st.session_state.board.closed
+connection_status.caption("연결됨" if connected else "연결 안 됨")
 st.caption("종료할 때 연결 해제를 누른 뒤 실행 터미널에서 Ctrl+C를 누르세요.")

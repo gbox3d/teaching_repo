@@ -1,0 +1,48 @@
+@baseUrl = http://127.0.0.1:8080
+
+### 1. LED 0·1 밝기 128: 200, result=ok, revision 증가
+POST {{baseUrl}}/leds
+Accept: application/json
+Content-Type: application/json
+
+{"indices":[0,1],"brightness":128}
+
+### 2. 상태 확인: 200, leds[0]과 leds[1]은 128
+GET {{baseUrl}}/state
+Accept: application/json
+
+### 3. 내장 LED 깜빡임: 200, result=ok
+POST {{baseUrl}}/blink
+Accept: application/json
+Content-Type: application/json
+
+{"enabled":true}
+
+### 4. 상태 확인: 200, blink=true
+GET {{baseUrl}}/state
+Accept: application/json
+
+### 5. 잘못된 번호를 포함한 요청: 400, LED 0도 바뀌지 않고 revision 유지
+POST {{baseUrl}}/leds
+Accept: application/json
+Content-Type: application/json
+
+{"indices":[0,9],"brightness":255}
+
+### 6. 거부 후 상태 확인: 200, leds와 revision은 4번 조회와 같다.
+GET {{baseUrl}}/state
+Accept: application/json
+
+### 7. 전체 LED 끄기: 200. HTTP 전체 지정은 [0,1,2,3]이며 -1을 쓰지 않는다.
+POST {{baseUrl}}/leds
+Accept: application/json
+Content-Type: application/json
+
+{"indices":[0,1,2,3],"brightness":0}
+
+### 8. 깜빡임 중지: 200, result=ok
+POST {{baseUrl}}/blink
+Accept: application/json
+Content-Type: application/json
+
+{"enabled":false}
