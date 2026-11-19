@@ -40,7 +40,7 @@ open_source_ai/
 
 15주차 `presentation_rubric.md`는 파일 이름만 남았고 내용은 기존 발표 항목을 대신하는 AI 성능 루브릭이다.
 
-- 5·6·7·9~14주차 `examples/`는 아래 '예제 코드'의 5주차 규격을 따르는 uv 프로젝트 하나다(`.python-version` 3.12, `uv.lock` 포함). `examples/`에서 `uv sync` 후 `uv run exNN`으로 실행한다.
+- 5·6·7·9~14주차 `examples/`는 아래 '예제 코드'의 5주차 규격을 따르는 uv 프로젝트 하나다(`.python-version` 3.12, `uv.lock` 포함). `examples/`에서 `uv sync` 후 `uv run exNN`으로 실행한다. 9주차 Streamlit 앱은 예외로 `uv run streamlit run src/<예제>/app.py`를 쓴다(아래 '예제 코드').
 - 1~4·8주차는 교시 폴더별 파일·템플릿 구조이고, 15주차 `examples/`에는 안내 README만 있다. 이 주차들을 크게 고칠 때는 5주차 규격으로 옮긴다.
 - 10~13주차는 `[tool.uv.sources]`의 상대 경로로 저장소의 `tools/bleuno-control`을 쓴다. 저장소 전체를 복제해야 실행되며 주차 폴더만 떼어 내면 경로가 끊긴다. 13주차는 12주차 `examples/models/`의 학습 결과를 그대로 읽는다(`src/shared`의 `MODELS_DIR`).
 - 시뮬레이터 `tools/wleno`는 uv 프로젝트가 아니다. Python 3.10 이상의 표준 라이브러리로 실행되고 창은 Tkinter를 쓴다. 수업 문서는 저장소 루트에서 `python tools/wleno/main.py --bind 127.0.0.1`로 켜게 한다(TCP 8266, HTTP 8080).
@@ -115,7 +115,7 @@ npm test
 | `compileall` | 종료 코드 0 |
 | WlEno 시험 | 35개 OK |
 | `bleuno-control` 시험 | 15개 OK |
-| 14주차 채점 도구 시험 | 23개 OK |
+| 14주차 채점 도구 시험 | 28개 OK(2026-11-19 평가셋 v1.1 뒤) |
 | `npm run build` | 이 과목 17개 덱·426장, 영문판도 같은 수. `영문판 장수가 한국어판과 다릅니다` 경고가 이 과목에 없어야 한다(경고만 내고 빌드는 계속된다) |
 | `npm test` | 사이트 검사, 슬라이드 맞춤 시험, 실습 시험 모두 통과 |
 

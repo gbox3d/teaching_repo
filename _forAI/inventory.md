@@ -103,7 +103,7 @@ npm test           # check + scripts/deck-fit.test.mjs + test:labs
 |---|---|---|
 | WlEno | `python -B -m unittest discover -s tools/wleno/tests` | 35개 OK |
 | bleuno-control | `uv run --frozen --project tools/bleuno-control python -B -m unittest discover -s tools/bleuno-control/tests` | 15개 OK(`tools/bleuno-control/.venv` 생성) |
-| 오픈소스 AI 14주 채점 도구 | `uv run --frozen --directory open_source_ai/weeks/week14_chatbot_project/examples python -B -m unittest discover -s tests` | 23개 OK |
+| 오픈소스 AI 14주 채점 도구 | `uv run --frozen --directory open_source_ai/weeks/week14_chatbot_project/examples python -B -m unittest discover -s tests` | 28개 OK(2026-11-19 평가셋 v1.1 뒤) |
 | Python 문법 | `PYTHONPYCACHEPREFIX`를 저장소 밖 폴더로 둔 뒤 `python -m compileall -q open_source_ai tools/bleuno-control tools/wleno` | .py 214개 통과 |
 | GitHub 로그인 정리 도구 | `tools/github-classroom-pc-reset/README.md`의 PowerShell 시험 3개 | 이번 기준일에 실행 기록 없음 |
 
