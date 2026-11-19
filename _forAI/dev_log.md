@@ -6,6 +6,58 @@
 
 ## Entries
 
+최신 날짜가 위에 온다. 2026-11-18의 두 항목은 나중에 한 일(지침 정비)을 위에 두었다.
+
+### 2026-11-18 — 저장소·과목 에이전트 지침 정비와 _forAI 갱신
+
+- 사용자 요청: 저장소 전체 갱신 내용을 정리해 문서에 기록하고, 새 에이전트가 쓸 지침을 만든다. 과목마다 별도 작업 에이전트가 독립적으로 작업하고, 독립 검증 에이전트가 10점 만점으로 채점해 7점 이상이면 통과, 미달이면 다시 작업하게 했다.
+- 작업은 2026-11-18 21시 작업 트리(커밋 `5f701e7`과 커밋 안 된 변경)를 복사한 사본에서 했다. 사본에는 git 원격이 없다. 이 결과 파일을 원래 작업 트리로 옮길지와 커밋 여부는 사용자가 정한다.
+- 과목 결과는 세 과목 모두 1회차에 통과했다. 통과 뒤 총괄이 검증이 남긴 고칠 점(must_fix) 가운데 지침·`_forAI`의 사실 오류를 실물과 대조해 바로 고쳤다(아래 '통과 뒤 반영'). 교재 본문의 문제는 `plan.md` 과목별 절에 남겼다.
+
+| 과목 | 만든 파일 | 회차 | 점수 |
+|---|---|---|---|
+| Android | `android_programming/AGENTS.md`(새로), `android_programming/CLAUDE.md` | 1 | 7/10 |
+| 웹 | `web_programming/AGENTS.md`(커밋 안 된 C01 수정판 예제 지침을 과목 전체 지침으로 다시 씀), `web_programming/CLAUDE.md` | 1 | 8/10 |
+| 오픈소스 AI | `open_source_ai/AGENTS.md`(기존 규칙을 보존하고 구조·전파·검증·보고 절 추가), `open_source_ai/CLAUDE.md` | 1 | 8/10 |
+
+- 통합: 루트 `AGENTS.md`(저장소 지도, 공개 저장소 규칙, 사이트 빌드·검증, 여러 에이전트 작업 방식과 채점 루브릭)와 `CLAUDE.md`(`@AGENTS.md` 한 줄)를 새로 만들고 `_forAI` 5개 문서를 갱신했다. 통합 결과도 독립 검증에서 1회차 8/10으로 통과했다.
+- 통과 뒤 반영(검증 지적을 실물과 대조한 뒤 고침):
+  - Android 지침: 채점표 배점(100점 → 8주 20점, 13주 10+20점, 15주 20점), 말투(슬라이드는 덱의 기존 말투, 1~10주 합쇼체·11~15주 해라체), 권한 규칙 범위(정규 11~15주), 새 파일 줄바꿈 확인 명령(`-o --exclude-standard`), 슬라이드 구간 제목 형식 차이.
+  - 웹 지침: walkthrough 인용 범위(4~6·11·12·14주 전문, 7·9·10·13주 구역), 9주 → 15주 `w09_readme_links` 사본 관계, 11~14주 `styles.css` 결정 전 행동, `_forAI`와 다를 때의 우선순위.
+  - 오픈소스 AI 지침: 생성 모델 기본값 두 갈래(`qwen3.5:2b`·`qwen3:8b`, 8주차 혼재), 시험 명령의 `-B`와 `PYTHONPYCACHEPREFIX`.
+  - `_forAI`: 웹 15주 채점표 20점, 8주차의 `OLLAMA_MODEL`·모델 표, 이전 plan의 비공개 확인 항목 두 가지 복원.
+- `_forAI` 정리 내용:
+  - README 스냅샷을 2026-11-18 작업 트리 기준(58개 덱·1,175장, 과목별 구조, 미커밋 표시)으로 바꿨다.
+  - inventory에 `tools/`, 과목 지침, 특강·개편 기록 폴더, 새 시험 명령을 넣었다.
+  - memo의 Android 서술을 보존 특강과 공용 시뮬레이터 WlEno로 나눴다.
+  - plan 11번(`dev/android/blueno` 병합)은 `6af3108`에서 끝나 지웠다.
+  - 공개 저장소 규칙에 맞게 `_forAI`에서 작업 PC 절대 경로와 Supabase 프로젝트 주소를 지웠다. 주소는 교재의 설정 파일을 가리키게 했다.
+  - dev_log의 2026-09-02 항목을 2026-09-03 두 항목 아래로 옮겨 최신순을 맞췄다.
+- 검증: 바꾼 7개 문서의 문체 검사(`check_doc_style.py`) 위반 0건, 절대 경로 검색 0건. WlEno 시험 `python -B -m unittest discover -s tools/wleno/tests` 35개 OK를 통합 단계에서 다시 확인했다. 사이트는 총괄이 같은 작업 트리에서 실행한 결과("교재 도서관 빌드 완료: 58개 덱, 1175장 (영문판 58개 덱, 1175장)", `npm test` 통과)를 썼다.
+- 커밋하지 않았다.
+
+### 2026-11-18 — Android 11~15주 LAN 시뮬레이터 전환, 웹 7·11주 커밋, 미커밋 웹 C01·WlEno 2.0.0
+
+2026-11-13 이후 커밋과 21시 작업 트리를 `git log --since='2026-11-13 00:00'`, `git status --porcelain -uall`, `git diff HEAD --stat`으로 대조했다. 11-13·11-15의 커밋은 아래 해당 날짜 항목에 보충했다.
+
+Android 커밋(11-18):
+
+- `738c81f`(01:11): 정규 11~15주를 새 앱 RoomControl(`com.example.roomcontrol`)과 PC 시뮬레이터 수업으로 바꿨다. 11주 주소 입력·연결·책상 조명, 12주 조명 선택·밝기, 13주 장면 점검과 계획안 발표, 14주 온습도·호출 입력 이력, 15주 기말 실기다. 옛 11~15주(연락처·BLE)는 `specials/legacy_week11~15`의 특강 1~5(109장)로 옮겼고, 옛 주차 id는 새 정규 주차의 `formerIds`로 남겼다. 통신 코드는 `tools/wleno/android/` Gradle 프로젝트가 만드는 `wleno-android-0.1.0.aar` 한 개로 제공한다. `tools/bleuno-sim`은 `tools/wleno`로 옮기고 `pyproject.toml`·`uv.lock`을 더했다(`uv run main`). `iot_sim/lab.md`는 RoomControl 수업 전 연결 점검으로 다시 썼다. 사이트의 Android는 15개 덱·305장에서 20개 덱·378장이 됐다. 같은 커밋에 오픈소스 AI 12개 파일의 시뮬레이터 경로 변경이 들어 있다.
+- `df20c68`(01:33): 주소 규칙(같은 PC의 에뮬레이터 `10.0.2.2:8266`, 다른 PC·실기기는 WlEno 실행 PC의 LAN IPv4와 8266)과 AAR 설치 순서(압축 해제 없이 `app/libs/`, Gradle Sync)를 문서 25개에 맞췄다.
+
+웹 커밋(11-18):
+
+- `17fa624`(01:30): 11주를 강의·시연 60분 + 실습 30분과 문자열 → JSON → 폼 저장 순서로 줄였다. 배열 삽입·삭제·순회·filter·map·reduce를 `specials/array_advanced/`(예제 5개)로 분리했다. W3.CSS cdnjs 4.1.0, `shared/examples.css`·`shared/README.md`, 과목 `AGENTS.md`(예제 작성 규칙)를 처음 두었다. 웹은 19개 덱·339장에서 20개 덱·353장이 됐다.
+- `5f701e7`(21:01): 7주를 W3.CSS 반응형 메뉴·카드·모바일 타임라인과 최신 글이 위에 오는 방명록 피드로 개편하고, 9주 완성본을 같은 내용으로 맞췄다.
+
+커밋 안 된 변경(21시 기준 수정 450, 삭제 27, 새 파일 358. 새 파일 358개는 새 항목 221개를 `-uall`로 펼친 수):
+
+- 웹 C01 개편(`web_programming` 수정 380, 삭제 24, 새 파일 341): 독립안 9개 중 C01을 골라 15주와 특강 6개에 반영했다. 일반 27차시를 60+30으로 통일하고, 12~14주에 설정 패널 `shared/api-settings.js`(값은 메모리에만)와 예제별 `requests.http`·`.env.example`을 두었다. 13·14주 방명록 동작을 `guestbook.js` 하나로 모으고 15주 문제은행을 13문항으로 재구성했다. SPA는 14주 뒤 선택 특강 `specials/hash_spa/`(한영 각 18장)로 신설했다. 정적 서버는 `.env`·`.git`·`.local`·`localfiles`를 403으로 막는다. 개편 기록은 `reviews/2026-11-18-course-audit/`(96개 파일)에 있고, 최종 독립 심사는 9.0·8.9·9.3이다.
+- 루트(웹 개편에 딸림): `render-site.mjs`가 웹 슬라이드에 연결된 단원의 예제 의존 파일과 `web_programming/shared`를 함께 복사한다. `check-site.mjs`는 로컬 설정 유출을 검사하고 기대값이 58개 덱·1,175장(웹 21개·371장)이 됐다. `package.json`의 `test:labs`에 정적 서버 시험과 `test:maps`가 들어갔고, `catalog.json`에 hash SPA와 웹 주차 설명 수정이 들어갔다.
+- WlEno 2.0.0(`tools/wleno` 수정 3, 삭제 3, 새 파일 17): 단일 `sim.py`·`pyproject.toml`·`uv.lock`을 지우고 `main.py`와 모듈 6개, 시험 35개, REST Client 예제 `examples/01~05`를 더했다. 실행은 `python main.py`(Python 3.10 이상, Tkinter, 추가 패키지 없음)다. TCP 연결·해제가 LED·센서 상태를 초기화하지 않고, 잘못된 정수·번호·밝기는 요청 전체를 거부한다. 2026-11-12 결정(연결·해제 때 LED 끄기)을 바꾼 것인데 결정 출처는 저장소에 없다.
+- WlEno 반영: Android 범위 27개 파일(11·12·14·15주 실행 명령, 상태 유지 서술, 11~15주 `MainActivity.kt` 9곳의 `binding.addressEdit.error = null`, `bleuno/README.md` 10절, `ta_setup_guide.md`)과 오픈소스 AI 32개 파일(10~13주 실행 명령 `python tools/wleno/main.py --bind 127.0.0.1`, LED 유지 서술, `materials_plan.md` 10절, 10주 `ex01_manual`·13주 `ex03_app`의 연결 끊김 처리)을 고쳤다. `tools/bleuno-control`은 README에 시뮬레이터 실행 절을 더하고 `Board` docstring과 Ollama 시스템 프롬프트(두 문장)를 고쳤다.
+- 확인한 것(과목 담당): WlEno 시험 35개, bleuno-control 시험 15개, 오픈소스 AI 14주 채점 도구 시험 23개, `compileall`(.py 214개), 웹 `npm run test:labs`(26개와 지도 시험 25개), 바꾼 웹 JS·MJS 115개 `node --check`, `api-settings.js` 사본 22개 동일. 하지 않은 것: Android 예제 빌드와 AAR 재빌드, 실기기·학교 Wi-Fi, Ollama·Needle·GPU 실행, 공용 API 쓰기, Pages 배포, 비공개 짝 저장소 대조.
+
 ### 2026-11-16 — 강의 영상 제작·게시 인수인계 정리
 
 - [강의 영상 인수인계](lecture-video.md)를 추가하고 README·inventory·memo에서 연결했다. 재사용 절차와 범용 검사기는 `myAISkills`의 `lecture-video-editing` 스킬에서 관리하고, 이 저장소는 교재 대응과 로컬 작업 기록의 진입점을 제공한다.
@@ -14,17 +66,39 @@
 - 변경 문서의 목차·로컬 링크·앵커·UTF-8/LF와 diff를 검사했다. `myAISkills`의 스킬 구조 검사, 검사기 실제 실행(17개 통과·전체 디코딩은 미실행), 최종 스킬 8파일의 현재 설치본 일치를 확인했다. 전체 디코딩은 동일 해시의 이전 근거를 재사용했다. 상세 검토 보고서는 `output/workflow_docs_review_2026-11-16/`에 있으며 Git 제외다.
 - 교재·사이트의 2026-11-14 통합 검증은 당시 기록으로 보존했다. 이번 변경은 인수인계 문서이며 수업 코드·사이트 빌드를 변경하지 않는다.
 
+### 2026-11-15 — 오픈소스 AI 7주차 GGUF 보완과 Android 11주차 상태 글자 수정
+
+2026-11-18에 커밋 기록으로 보충한 항목이다.
+
+- `4cd9695`: 오픈소스 AI 7주차 GGUF 변환 순서를 `ex05` 병합 → llama.cpp 변환(고정 커밋, `../tools/llama.cpp`) → 파일 확인 → Ollama 등록 → 대화로 나눴다. `examples/`가 작업 폴더라는 것과 `../tools` 상대 경로의 뜻을 설명하고, 7주차 `.gitignore`에 `/tools/llama.cpp/`를 넣었다(9개 파일).
+- `52903f5`: Android 당시 11주차(SmartIO)의 [검색] 뒤 상태 글자에 `ScanState.SCANNING`(검색 중)을 더해 검색 상태와 연결 상태를 나눴고 12주차 서술도 맞췄다. Android 장 수가 304장에서 305장이 됐다. 이 두 주차는 2026-11-18 `738c81f`에서 `legacy_week11`·`legacy_week12` 특강으로 옮겨졌다.
+
 ### 2026-11-14 — 웹 REST 교재와 방학 연구 특강 정리
 
 - 웹 12주를 GET 조회, 13주를 POST 저장, 14주를 PATCH·DELETE로 개편했다. 기존 주차 폴더 이름은 유지하고 README·한영 슬라이드·따라하기·실습·예제와 색인을 맞췄다. 15주 누적 문제은행·개인 실기의 REST 범위도 연결했다. 레포트는 별도 공지하며 14주 검사 주차를 없앴다.
 - Supabase 공용 방명록 API 구축과 Node HTTP 홈 IoT 제어를 방학 연구 특강으로 정리했다. 차시·분량·총시간 제한 없이 단계별 실행·비교 실험·기록으로 진행한다. IoT는 주기 조회, 단일 기준과 히스테리시스, 통신 실패·복구 실험을 제공한다.
-- 공용 프로젝트 `esoqbcwgzjtwcqszwvin`을 준비했다. 공개 기본 주소는 `https://esoqbcwgzjtwcqszwvin.supabase.co`이며 공용 등록 확인 태그는 student01·student02다. 학생은 계정 없이 공개 키와 태그로 조회·저장한다.
+- 공용 프로젝트를 준비했다(주소는 `web_programming/tools/guestbook-api/README.md`와 Supabase 특강 예제의 설정 파일에 있다). 공용 등록 확인 태그는 student01·student02다. 학생은 계정 없이 공개 키와 태그로 조회·저장한다.
 - about-help.sql을 적용하고 about GET 200·1행(v1), help GET 200·6행(step 1~6)을 확인했다. 실제 localhost:8000의 01·02 화면에서도 Supabase HTTPS 응답과 CORS, 버튼 복구, 페이지 오류 없음을 확인했다. 방명록 GET·POST 저장 후 재조회도 확인했다.
 - Supabase 예제 루트는 README만 남기고 01_about부터 07_guestbook_complete까지 독립 폴더로 나눴다. 각 폴더는 HTML·앱·설정·스타일·requests.http·.env.example을 자체 보유한다. 06은 통합 요청 실험, 07은 완성 방명록이다. 폴더 하나만 내려받거나 Pages에 게시할 수 있다.
 - REST Client는 같은 폴더의 .env를, 브라우저는 HTML에서 defer로 읽는 config.example.js를 사용하도록 문서에 구분했다. 실제 환경 파일·localfiles·.local·편집 키는 배포에서 제외하고 공개 publishable key만 브라우저 설정에 사용한다. 요청 시 편집 키 입력과 이력 정리도 안내했다.
 - 사이트·슬라이드 맞춤·API 실습 시험을 npm test로 연결했다. 최종 통합 검증은 51개 덱, 한글·영문 각각 1,069장(Android 304·웹 339·오픈소스 AI 426)이다. 웹 API·시뮬레이터·통합 요청 시험과 브라우저 실습 확인을 수행했다. 원격 오픈소스 AI 개편은 별도 작업의 변경이며 이번 웹 개발 이력에 포함하지 않는다.
 - 사용자 요청으로 _forAI 5개 문서를 갱신했다. 기존 Android·오픈소스 AI 이력은 보존하고 현재 작업 경로, 실행 명령, API 계약, 비밀정보 제외 기준과 남은 일을 추가했다. 저장소 밖 전역 AGENTS.md의 REST Client 제공 규칙은 별도로 관리한다.
 - 남은 검증은 공용 PATCH·DELETE 권한·보호 열 거부·다른 기기 및 Pages 실배포다. 비공개 대본·해답·평가 자료의 전체 개편도 미완료다. 과거 실측 기록을 새 수업 검증 결과로 바꾸지 않는다. localhost:8000 서버는 작업 중 실행 상태를 확인했으며 영속 서비스로 운영하는 것은 아니다.
+
+### 2026-11-13 — 오픈소스 AI 10~15주차 개편과 폴더 이름 변경
+
+2026-11-18에 커밋 기록으로 보충한 항목이다. `materials_plan.md` 10절의 개편안을 이날 사용자가 승인했고, 기말 발표 점수를 AI 성능 평가로 대체하는 것은 11-12 사용자 지시다.
+
+- `0b2048c`(06:12): 이전 10~13주차 원고(프로젝트 거버넌스, 데이터셋 평가, AI 서비스 배포, 테스트·CI·보안)를 `specials/project_delivery/`로 옮겨 보존했다(사이트 미등록).
+  - 10주차: Python 함수 4개(`turn_on`·`turn_off`·`set_brightness`·`read_environment`)로 시뮬레이터를 제어하고 Ollama `qwen3.5:2b` 툴 호출에 연결해 고정 16문항으로 확인한다.
+  - 11주차: Needle 3(`cactus-compute==4.2.0`)와 Ollama의 정확도·시간을 비교한다.
+  - 12주차: 48개 명령 예제로 Needle LoRA를 학습·저장·복원한다.
+  - 13주차: 제어 평가와 오류 개선 뒤 Streamlit 제어 화면을 만든다.
+  - 14주차: 원광대학교 소개 챗봇 과제와 공개 평가(공개 20문항, 출처 요약 5개, `evaluation_spec.md`, 채점 도구 시험 23개)를 둔다.
+  - 15주차: 발표 항목을 비공개 문항 AI 성능 평가로 대체하고 레포트를 따로 평가한다.
+  - 공용 `tools/bleuno-control`(평가 16문항 `control_cases.json`)을 새로 만들었다.
+- `29a667a`(07:52): 10~15주차 폴더 이름을 주제에 맞게 바꿨다(`week10_simulator_control`, `week11_tiny_tool_calling`, `week12_control_lora`, `week13_control_streamlit`, `week14_chatbot_project`, `week15_final_evaluation`). `site/catalog.json`의 `formerIds` 6개가 옛 덱 주소를 넘긴다.
+- 2026-09-04~11-12의 오픈소스 AI 커밋 23개(10-29 과정 순서 개편, 11-05 6주차 RAG, 11-12 7주차 LoRA 등)는 아직 이 문서에 없다(`plan.md` 오픈소스 AI 후속 작업 6번).
 
 ### 2026-11-12 — 보드 없이 연습하는 Wi-Fi 시뮬레이터(`iot_sim/`)와 bleuno TCP 분기
 
@@ -54,6 +128,7 @@
 - 이 작업은 Android 작업 갈래 `dev/android/blueno`에 커밋했다. 이 갈래에는 main의 2026-11-02 재구성이 없다. main과 합치는 일은 `plan.md` 11번에 적었다.
 - 시뮬레이터 코드(`sim.py`·`README.md`·`test_sim.py`)는 별도 작업 세션이 만들고 시험했다. 앱 쪽 코드와 실습지, 저장소 반영은 이 작업에서 했다.
 - 후속 커밋: 시뮬레이터 작업 세션이 고친 README와 비공개 자동 시험을 넣었다(`sim.py`는 그대로). README 7절에 시뮬레이터를 돌리는 Python의 방화벽 규칙만 보고 바꾸는 네 줄, 'Python 규칙 지우기', 관리자가 아닌 계정에서 생기는 막는 규칙, 포트 규칙은 관리자 권한 PowerShell에서 지운다는 것을 더했고, 보드 동작 문장에 '펌웨어 소스 기준'을 붙였다. 같은 뜻으로 실습지의 끝내기·확인 목록에 방화벽 규칙 지우기를, `bleuno/README.md`에 연결 중 `blink`·`stopblk`의 동작과 `on`·`off`만 번호를 검사하지 않는다는 것을, 조교 설치 안내에 막는 규칙 확인과 수업 뒤 지우기를 더했다. `plan.md` 9번의 `blink` 항목도 맞췄다. 시뮬레이터 자동 시험은 저장소 배치에서 Python 3.9~3.14 모두 23/23이다.
+- 이후 경과(2026-11-18 덧붙임): `dev/android/blueno`는 같은 날 `6af3108`에서 main에 합쳐졌다. `iot_sim/sim.py`는 `cc92e34`에서 `tools/bleuno-sim`으로, `738c81f`에서 `tools/wleno`로 옮겨졌고, 작업 트리에서는 WlEno 2.0.0으로 대체됐다(미커밋).
 
 ### 2026-11-11 — 10주차 권한 거절 흐름과 배터리 첫 표시 수정, 11~15주차에 전파
 
@@ -77,16 +152,6 @@
 - 기존 `_forAI/` 문서에 이번 Android 연계 결정만 추가했다. Android 하위 중복 `_forAI/`는 만들지 않았다. 런타임 코드 수정·Git 커밋·Android 빌드·실기 검증은 하지 않았다.
 - 이후 확보한 EasyEDA 원본은 `MovingTarget/MotorConT1`의 모터·서보 제어 보드였다. 회로도·PCB 12부품·52핀 네트 매핑을 대조하고, 기존 LED·DHT11 설정의 충돌과 SEN1·VIN 미연결을 교재 안내에 반영했다. 원본 확보·KiCad 이전·원본 대조 완료와 남은 전기적 설계 검토·실기 검증을 구분했다.
 
-### 2026-09-02 — 오픈소스 AI 응용 15주 교재 초판 작성
-
-- 원광대 수업계획서의 15주 주제를 공용 청사진으로 옮겨 `open_source_ai/weeks/weekNN_slug/` 15개 폴더를 만들었다. 각 폴더에 `README.md`, `slides.md`(Marp), `lab.md`, `examples/`(uv 프로젝트·템플릿)를 두고, 1·3·4·7·10·12주차에 `walkthrough.md`, 4·8·9·12·15주차에 평가 문서를 추가했다.
-- 수업 시간 구조를 60분 블록 × 3(설명·시연 20분 + 실습 30분 + 휴식 10분)으로 확정하고 `open_source_ai/weeks/README.md`에 운영 기준·주차 목록·검증용 환경변수 기본값을 기록했다.
-- 강의 대본 `lecture_script.md`와 실습 해답 `lab_solution.md` 15세트를 비공개 짝 저장소 `univ_scoring_works/teaching_materials_private/open_source_ai/weeks/`에 작성하고, `_shared/practice_operation.md`에 「60분 블록 수업 보정」 절을 추가했다.
-- `open_source_ai/README.md`를 진입점 형식으로 바꾸고 `materials_plan.md`의 폴더 구조·제작 단계 상태·다음 작업을 갱신했다. 루트 `README.md` 교재 색인 문구를 갱신했다.
-- 사이트: `site/catalog.json`의 `open-source-ai`를 `published`로 바꾸고 15개 chapter를 등록했다. `scripts/render-site.mjs`·`check-site.mjs`에 `open-source-ai → open_source_ai/weeks` 매핑을 추가하고 덱·슬라이드 수 상수를 빌드 결과로 갱신했다.
-- 검수: 주차별 기술·형식 검수와 교육적 정합성 검수를 거쳤고 Python 예제는 문법 검사(`py_compile`)와 ruff 치명 오류 검사를 통과했다. 모델·GPU 실행은 기준 PC 실측 대기.
-- `_forAI/` 문서 세트를 실제 구조·명령·규칙으로 채웠다.
-
 ### 2026-09-03 — 15주 자료 마무리와 전체 정합성 검증
 
 - 미완성 주차의 교재·예제를 채우고 슬라이드 원고를 15주 모두 같은 형식으로 맞췄다. 최종 규모는 285개 파일, Markdown 19,349줄, Python 8,017줄이다.
@@ -108,3 +173,13 @@
 - 검수 에이전트가 보고한 "저장소 파일이 CRLF"라는 관찰은 사실이 아니었다. `git ls-files --eol` 결과가 index·working tree 모두 `lf`이고 HEAD blob에 CR이 없다.
 - 순수 Python 예제 9개(1·3·4·8·9·13·14·15주차)를 스크래치 복사본에서 `uv sync`부터 실제로 실행했다. 34개 확인 항목이 모두 의도대로 동작했다. Ollama 서버가 없을 때의 실패 경로(4주차 chat.py, 8주차 check_env.py)와 8주차 깨진 프로젝트의 의도된 TOML 오류도 확인했다. torch·gradio·Ollama가 필요한 예제(5·6·7·10·11·12주차)는 이 PC에서 실행하지 않았다.
 - `_forAI/plan.md`의 남은 일을 전문 용어 없이 다시 썼다.
+
+### 2026-09-02 — 오픈소스 AI 응용 15주 교재 초판 작성
+
+- 원광대 수업계획서의 15주 주제를 공용 청사진으로 옮겨 `open_source_ai/weeks/weekNN_slug/` 15개 폴더를 만들었다. 각 폴더에 `README.md`, `slides.md`(Marp), `lab.md`, `examples/`(uv 프로젝트·템플릿)를 두고, 1·3·4·7·10·12주차에 `walkthrough.md`, 4·8·9·12·15주차에 평가 문서를 추가했다.
+- 수업 시간 구조를 60분 블록 × 3(설명·시연 20분 + 실습 30분 + 휴식 10분)으로 확정하고 `open_source_ai/weeks/README.md`에 운영 기준·주차 목록·검증용 환경변수 기본값을 기록했다.
+- 강의 대본 `lecture_script.md`와 실습 해답 `lab_solution.md` 15세트를 비공개 짝 저장소 `univ_scoring_works/teaching_materials_private/open_source_ai/weeks/`에 작성하고, `_shared/practice_operation.md`에 「60분 블록 수업 보정」 절을 추가했다.
+- `open_source_ai/README.md`를 진입점 형식으로 바꾸고 `materials_plan.md`의 폴더 구조·제작 단계 상태·다음 작업을 갱신했다. 루트 `README.md` 교재 색인 문구를 갱신했다.
+- 사이트: `site/catalog.json`의 `open-source-ai`를 `published`로 바꾸고 15개 chapter를 등록했다. `scripts/render-site.mjs`·`check-site.mjs`에 `open-source-ai → open_source_ai/weeks` 매핑을 추가하고 덱·슬라이드 수 상수를 빌드 결과로 갱신했다.
+- 검수: 주차별 기술·형식 검수와 교육적 정합성 검수를 거쳤고 Python 예제는 문법 검사(`py_compile`)와 ruff 치명 오류 검사를 통과했다. 모델·GPU 실행은 기준 PC 실측 대기.
+- `_forAI/` 문서 세트를 실제 구조·명령·규칙으로 채웠다.
