@@ -33,6 +33,12 @@ Open the local URL in your browser. Press Ctrl+C in the terminal to stop the ser
 
 Use text_input, button, and write. Enter a classroom alias and press the button to see output.
 
+```python
+name = st.text_input("수업용 이름")
+if st.button("인사 출력"):
+    st.write(f"{name}님, 안녕하세요.")
+```
+
 ---
 
 ## 9–12 min · Widgets Trigger Reruns
@@ -84,19 +90,21 @@ Store messages in session_state and render them on the next rerun. Check both pa
 
 ## 9–12 min · Render Answer Chunks
 
-Feed string pieces to write_stream and store the complete answer. Call the model only when a new question is submitted.
+Feed string pieces to write_stream and store the complete answer. Call the model only for a new question. If the answer is empty or whitespace-only, show a warning and omit the assistant entry.
 
 ---
 
 ## 12–16 min · Clear and Compare
 
-Tell the model a color, ask for it, then clear the chat. A browser session is not permanent storage.
+Say that there are three strawberries, then that two people ate one each, and finally ask how many remain.
+
+Check history delivery and arithmetic separately. Clear the chat and ask only the last question again. A session is not permanent storage.
 
 ---
 
 ## 16–20 min · Lab Handoff
 
-[Block 2 lab](lab.md#2교시-실습--채팅-앱). Verify two turns and clearing history. Lab: 30 minutes; break: 10 minutes.
+[Block 2 lab](lab.md#2교시-실습--채팅-앱). Check prior context, the calculation, and clearing history. Lab: 30 minutes; break: 10 minutes.
 
 ---
 

@@ -28,4 +28,7 @@ if question := st.chat_input("문서에 관한 질문을 입력하세요"):
     system = "한국어로 짧게 답한다. 다음 자료에 근거해 답하고 [문단 번호]를 표시한다. 자료에 없으면 찾을 수 없다고 답한다.\n\n" + context
     with st.chat_message("assistant"):
         answer = st.write_stream(stream_text([{"role": "system", "content": system}, *st.session_state.messages]))
-    st.session_state.messages.append({"role": "assistant", "content": answer})
+        if answer and answer.strip():
+            st.session_state.messages.append({"role": "assistant", "content": answer})
+        else:
+            st.warning("모델이 답변 본문을 보내지 않았습니다. 질문을 다시 입력하세요.")

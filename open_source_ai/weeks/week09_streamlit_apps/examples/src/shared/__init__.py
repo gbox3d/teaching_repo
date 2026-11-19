@@ -9,6 +9,10 @@ MODEL = os.getenv("OLLAMA_MODEL", "qwen3.5:2b")
 HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 EMBED_MODEL = os.getenv("HF_EMBED_MODEL", "intfloat/multilingual-e5-small")
 DOCUMENT = Path(__file__).parent / "data/library.txt"
+CHAT_PROMPT = (
+    "한국어로 짧게 답한다. 사용자가 사실만 알려 주면 짧게 확인한다. "
+    "수량을 물으면 앞선 대화의 수와 변화를 반영해 계산식과 단위를 쓴다."
+)
 
 
 def prepare():
@@ -23,7 +27,8 @@ def stream_text(messages):
 
     model = ChatOllama(model=MODEL, base_url=HOST, temperature=0, reasoning=False)
     for part in model.stream(messages):
-        yield part.content or ""
+        if part.text:
+            yield part.text
 
 
 @st.cache_resource
