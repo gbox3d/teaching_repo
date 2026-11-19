@@ -1,17 +1,68 @@
-document.querySelector('#send').addEventListener('click', async function () {
-  const id = document.querySelector('#id').value;
-  const key = document.querySelector('#key').value;
-  document.querySelector('#key').value = '';
-  if (id === '' || key === '') return;
-  const notice = document.querySelector('#notice');
-  try {
-    const response = await fetch(`${API_BASE_URL}/rest/v1/guestbook?id=eq.${id}&book_id=eq.${encodeURIComponent(BOOK_ID)}`, {
-      method: 'DELETE', headers: { apikey: API_PUBLIC_KEY, 'X-Edit-Key': key }
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    notice.textContent = `HTTP ${response.status}. 삭제 여부는 GET으로 확인하세요.`;
-    // 204에는 본문이 없다. response.json()을 호출하지 않는다.
-  } catch (error) {
-    notice.textContent = `요청 실패: ${error.message}`;
+const form = document.querySelector('#request-form');
+const idInput = document.querySelector('#id');
+const button = document.querySelector('#send');
+const notice = document.querySelector('#notice');
+const result = document.querySelector('#result');
+// 제공 코드: 설정을 바꾼 뒤 도착한 이전 응답은 표시하지 않는다.
+let latestRequest = 0;
+let settingsVersion = 0;
+let pending = false;
+
+form.addEventListener('submit', async function (event) {
+  event.preventDefault();
+  if (pending) return;
+  const id = idInput.value;
+  const keyInput = document.querySelector('#key');
+  const key = keyInput.value.trim();
+  keyInput.value = '';
+
+  if (!/^[1-9][0-9]*$/.test(id) || key === '') {
+    notice.textContent = '글 ID, 편집 키를 확인하세요.';
+    return;
   }
+  const requestId = ++latestRequest;
+  const requestVersion = settingsVersion;
+  const publicKey = API_PUBLIC_KEY;
+  // 학생 수정 1: 배열 위치가 아닌 서버 ID와 자기 방명록 번호를 지정한다.
+  const url = `${API_BASE_URL}/rest/v1/guestbook?id=eq.${encodeURIComponent(id)}&book_id=eq.${encodeURIComponent(BOOK_ID)}`;
+  pending = true;
+  button.disabled = true;
+  result.textContent = '';
+  notice.textContent = '요청 중';
+  try {
+    const response = await fetch(url, {
+      // 학생 수정 2: 삭제 메서드를 지정한다.
+      method: 'DELETE',
+      // 학생 수정 3: 공개 키와 편집 키를 헤더에 넣는다.
+      headers: { apikey: publicKey, 'X-Edit-Key': key }
+    });
+    if (requestVersion !== settingsVersion || requestId !== latestRequest) return;
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    // DELETE 204에는 JSON 본문이 없다.
+    // 제공 코드: 같은 URL로 다시 조회해 실제 변경을 확인한다.
+    const checked = await fetch(url, { headers: { apikey: publicKey } });
+    if (!checked.ok) throw new Error(`재조회 HTTP ${checked.status}`);
+    const items = await checked.json();
+    if (requestVersion !== settingsVersion || requestId !== latestRequest) return;
+    if (!Array.isArray(items)) throw new Error('JSON 배열이 아닙니다');
+    result.textContent = JSON.stringify(items, null, 2);
+    if (items.length !== 0) {
+      throw new Error('편집 키와 글 번호를 확인하세요.');
+    }
+    notice.textContent = '삭제 확인 완료';
+  } catch (error) {
+    if (requestVersion !== settingsVersion || requestId !== latestRequest) return;
+    notice.textContent = `확인 실패: ${error.message}. 다시 요청하기 전에 조회하세요.`;
+  } finally {
+    pending = false;
+    button.disabled = false;
+  }
+});
+
+setupApiSettings(function () {
+  settingsVersion++;
+  latestRequest++;
+  form.reset();
+  result.textContent = '';
+  notice.textContent = '설정 변경 완료 · 글 ID와 편집 키를 다시 입력하세요.';
 });

@@ -1,302 +1,42 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list)
+# 10주차 따라하기
 
-# 10주차 따라하기 — 비교 예제로 원리를 보고 마지막에 조립
+[실습 시간표](lab.md)에 맞춰 필수 부분만 작성한다. 일곱 비교 예제 전체를 새로 만드는 과제가 아니다.
 
-이번 주는 새 저장소 `web-week10`을 만든다. 지난주 완성본을 넣고, 비교 예제는 그 안의 `ex/` 폴더에 저장한다. 값·줄을 바꾼 뒤 결과를 화면과 **F12 › Console**, **F12 › Elements**에서 본다.
-명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
+## 수업 전 준비
 
-비교 예제 7개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list/examples/day1)(1일차 예제 폴더 ex01~ex04)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list/examples/day2)(2일차 예제 폴더 ex05~ex07) 폴더에 있다.
-각 파일이 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
+[10주 제공 폴더](examples/day2/web-week10/) 전체를 새 `web-week10`으로 복사한다. 9주에 수정한 홈·내 정보가 있으면 그 HTML·`app.js`·`styles.css`·이미지를 새 폴더로 옮긴다. 방명록 HTML·JS와 `shared/examples.css`는 10주 제공 파일을 사용한다. 9주 타임라인은 최신 글을 먼저 보여 줬다. 이번 시작 파일은 문자열을 등록순으로 표시해 첫 줄부터 배열 인덱스를 대조할 수 있다.
+
+저장소 루트에서 Node.js 24로 실행한다.
+
+```powershell
+node web_programming/tools/static-server/server.mjs web_programming/weeks/week10_array_list/examples 8000
+```
 
 ## 1일차
 
-### 1. web-week10 폴더 만들고 지난주 완성본 넣기
-
-저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week10`을 만들고 VS Code **File › Open Folder**로 연다.
-
-지난주 완성본을 넣는다. 내 `web-week09` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`guestbook.js`·`README.md`·`server.mjs`)과 `images/`·`screenshots/`를 `web-week10`으로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
-ZIP을 못 받았으면 교재 [9주차 `examples/day2/web-week09/`](../week09_readme_presentation/examples/day2/web-week09/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
-
-이어서 `web-week10` 안에 `ex` 폴더를 만든다. 현재 폴더: `web-week10`
-
-```bash
-mkdir ex
-```
-
-**예상 결과** — VS Code 탐색기가 아래 모양이다.
-
-```text
-web-week10/
-  ex/            ← 아직 비어 있다
-  images/
-  screenshots/
-  about.html
-  app.js
-  guestbook.html
-  guestbook.js
-  index.html
-  README.md
-  server.mjs
-  styles.css
-```
-
-- `guestbook.html`을 두 번 눌러 열면 9주차 방명록이 보인다. **남기기**를 누를 때마다 `남긴 글` 목록에 한 줄씩 붙는다(7주차 ex08). 그런데 이 줄은 화면에만 붙어 있어서 한 줄만 지우거나 개수를 셀 방법이 없다. 이번 주는 여기서 시작한다.
-- `guestbook.html`·`guestbook.js`는 오늘 건드리지 않는다. 2일차 끝에 조립한다.
-
-### 2. 비교 예제 가져오기
-
-오늘 예제는 네 개이고, 예제마다 **폴더 하나**에 파일이 두 개 있다. 내 사이트와 같은 이름의 `index.html`(화면)·`app.js`(동작)다. 이번 주에 배우는 원리는 모두 `app.js`에 있다. `index.html`에는 그 예제가 쓰는 자리만 있다. ex01·ex02는 Console에만 찍어서 제목과 안내 문장뿐이다.
-
-| 폴더 | 파일 | 비교하는 것(`app.js`) |
-|---|---|---|
-| `ex01` | [index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js) | 빈 배열 / `push` 세 번 / `items[0]`·`items[2]`·`items[3]` / 처음 값을 넣어 만든 배열 |
-| `ex02` | [index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js) | 끝을 `3`으로 적은 `for` / 끝을 `items.length`로 적은 `for` |
-| `ex03` | [index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js) | 만들기만 / 만들고 붙이기 / 하나 더 붙이기(7주차 ex08 복습). 화면은 빈 목록 `#list` |
-| `ex04` | [index.html](examples/day1/ex04/index.html) · [app.js](examples/day1/ex04/app.js) | 누를 때 배열에 넣기 / 화면에 붙이기 / 개수 쓰기. 화면은 글 칸 `#text`·**더하기** `#add`·빈 목록 `#list`·개수 `#count` |
-
-먼저 `ex` 안에 같은 이름의 폴더 네 개를 만든다. VS Code 탐색기에서 `ex`를 고르고 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week10`
-
-```bash
-mkdir ex/ex01
-mkdir ex/ex02
-mkdir ex/ex03
-mkdir ex/ex04
-```
-
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list/examples/day1)에서 `ex01` 폴더를 누르고, 파일을 하나씩 눌러 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 내 `web-week10/ex/ex01/`에 저장한다. 두 파일을 받았으면 `ex02`~`ex04`도 같은 방법으로 자기 폴더에 받는다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
-
-**예상 결과** — `ex/` 안에 폴더 네 개가 있고, 폴더마다 파일 두 개가 있다.
-
-```text
-ex/
-  ex01/
-    app.js
-    index.html
-  ex02/
-    app.js
-    index.html
-  ex03/
-    app.js
-    index.html
-  ex04/
-    app.js
-    index.html
-```
-
-- 저장 창에서 폴더 이름을 먼저 본다. 네 폴더의 파일 이름이 같아서, 다른 폴더에 저장하면 그 폴더의 같은 이름 파일을 덮어쓴다. 덮어썼으면 그 폴더의 파일을 교재에서 다시 **Raw**로 받는다.
-- 저장한 파일 이름이 `.txt`로 끝나면 이름을 고친다. 이름은 VS Code 탐색기에서 확인한다.
-- 예제 폴더의 `index.html`·`app.js`는 맨 위 내 사이트 파일과 이름이 같지만 다른 파일이다. 편집기 위쪽 경로 줄(`ex › ex01 › app.js`)로 구분한다.
-
-### 3. 예제 폴더 열기와 Console 입력 칸
-
-`ex/ex01/index.html`을 Chrome으로 연다(VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**, macOS는 **Reveal in Finder** → 두 번 누르기). `app.js`는 두 번 누르지 않는다. `index.html`의 `<head>`에 있는 `<script src="app.js" defer></script>`가 같은 폴더의 `app.js`를 불러온다. 다른 예제를 볼 때는 그 폴더의 `index.html`을 연다.
-
-**예상 결과** — 화면에는 ex01 제목과 안내 문장만 있다(ex01은 Console에만 찍는다). F12 › **Console**에 여섯 줄이 찍혀 있다.
-
-```text
-1. 빈 배열의 개수 : 0                                     app.js:5
-2. push 세 번 뒤의 개수 : 3 (3) ['student01: 안녕하세요', 'student02: 고맙습니다', 'student03: 반갑습니다']   app.js:10
-3. 첫 번째 items[0] : student01: 안녕하세요               app.js:12
-4. 마지막 items[2] : student03: 반갑습니다                app.js:13
-5. 없는 번호 items[3] : undefined                         app.js:14
-6. 처음 값을 넣어 만든 배열의 개수 : 2 (2) ['student01', 'student02']   app.js:17
-```
-
-이번 주에는 Console **입력 칸**도 쓴다. Console 맨 아래 `>` 표시 옆을 누르고 `items`를 친 뒤 Enter를 누른다. 이어서 `items.length`, `items[0]`도 쳐 본다.
-
-**예상 결과** — 입력한 줄 아래에 답이 나온다.
-
-```text
-> items
-< (3) ['student01: 안녕하세요', 'student02: 고맙습니다', 'student03: 반갑습니다']
-> items.length
-< 3
-> items[0]
-< 'student01: 안녕하세요'
-```
-
-- 배열 앞의 ▶를 누르면 펼쳐져 `0`·`1`·`2` 번호와 값, 그리고 `length: 3`이 보인다. 번호는 0부터, 개수는 3이다.
-- 6번은 `push` 없이 대괄호 안에 값을 쉼표로 나눠 적어 만든 배열이다. ex02·ex05·ex07이 이 모양으로 배열을 시작한다.
-- 입력 칸은 파일을 고치지 않고 지금 페이지의 변수를 들여다보는 곳이다. 새로고침하면 파일을 다시 읽어 처음 값으로 돌아간다.
-- `items is not defined`가 나오면 지금 연 예제에 `items`가 없거나(ex03은 배열이 없다), 같은 폴더에 `app.js`가 없어 불러오지 못한 것이다. 주소창 끝의 폴더 이름(`…/ex/ex01/index.html`)부터 본다.
-
-### 4. 값 바꾸는 요령
-
-실험은 늘 같은 순서다. **VS Code에서 고치고 저장**(Ctrl+S, macOS는 ⌘+S) → **브라우저에서 새로고침**(F5, macOS는 ⌘+R) → **화면·Console·Elements**를 본다.
-바꾸기 전에 무엇이 달라질지 먼저 말해 보고 확인한다.
-
-**눌러 보기** — `ex/ex04/index.html`을 연다. 글 칸을 `student01: 안녕하세요` → `student02: 고맙습니다` → `student03: 반갑습니다`로 바꿔 가며 **더하기**를 세 번 누른다.
-
-**예상 결과** — 화면의 빈 목록에 세 줄이 쌓이고 개수 자리가 `3개`가 된다.
-
-```text
-• student01: 안녕하세요
-• student02: 고맙습니다
-• student03: 반갑습니다
-3개
-```
-
-Console에는 누를 때마다 1·2·3번이 한 묶음씩 찍힌다. 3번 개수가 `1`·`2`·`3`으로 오른다. 입력 칸에 `items`를 치면 화면의 세 줄과 같은 값이 배열로 보인다.
-
-- F12 › **Elements**에서 `<ul id="list">`를 펼치면 `<li>` 세 개가 보인다. 페이지 소스 보기(**Ctrl+U**, macOS **⌘+Option+U**)의 `<ul id="list"></ul>`은 비어 있다. JavaScript가 만들어 붙인 줄은 DOM에만 있다(6주차 ex01).
-- 새로고침하면 목록이 비고 `0개`로 돌아간다. 브라우저가 파일을 다시 읽어 배열과 DOM을 새로 만들기 때문이다.
-- 값을 원래대로 못 돌리겠으면 교재에서 그 예제 폴더의 파일을 다시 **Raw**로 받아 같은 폴더에 덮어쓴다.
-- 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--배열과-목록-한-줄-60분)에 있다.
-
-### 5. 이번 주 저장소 만들어 올리기
-
-1일차 50–60분에 한다. 네 예제에서 각각 값 하나 이상을 바꿔 봤으면 올린다.
-
-GitHub에서 **New repository**를 누르고 이름 `web-week10`, **Public**으로 만든다. README는 추가하지 않는다.
-터미널에서 2주차에 배운 순서 그대로 친다. 현재 폴더: `web-week10`
-
-```bash
-git init
-git add .
-git commit -m "10주차 1일차"
-git branch -M main
-git remote add origin https://github.com/student01/web-week10.git
-git push -u origin main
-```
-
-저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
-
-**예상 결과** — GitHub 저장소 화면을 새로고침하면 `ex/`·`images/`·`screenshots/`와 맨 위 파일들이 보이고, 그 아래에 지난주 `README.md` 내용이 보인다.
-1~3분 뒤 `https://student01.github.io/web-week10/ex/ex01/`를 연다. ex01의 제목과 안내 문장이 보인다(F12 › Console에 1~6번). 이 화면은 **확인용**이다.
-공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
-
-- 404가 나면 주소의 `web-week10/ex/ex01/`이 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다. `ex/` 바로 아래에는 `index.html`이 없어서 `…/ex/`까지만 치면 404다.
-- push가 거부되거나 로그인 창이 안 뜨면 [2주차 실습지의 막혔을 때](../week02_github_pages/lab.md#막혔을-때)를 본다.
-
-## 2일차
-
-### 6. 폴더 열고 비교 예제 세 개 가져오기
-
-같은 PC에 `web-week10` 폴더가 남아 있으면 VS Code로 그대로 연다. 없으면 받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
-
-```bash
-git clone https://github.com/student01/web-week10.git
-```
-
-내려받은 `web-week10`을 **File › Open Folder**로 연다.
-
-오늘 예제는 세 개이고, 1일차처럼 예제마다 폴더 하나에 `index.html`·`app.js` 두 파일이 있다.
-
-| 폴더 | 파일 | 비교하는 것(`app.js`) · 화면 |
-|---|---|---|
-| `ex05` | [index.html](examples/day2/ex05/index.html) · [app.js](examples/day2/ex05/app.js) | 비우지 않고 그리기 / 비우고 그리기. 화면은 버튼 두 개와 빈 목록 |
-| `ex06` | [index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js) | 열 때 `showList()` / **더하기** 뒤 `showList()`. 화면은 글 칸·**더하기**·목록·안내 문장·개수 |
-| `ex07` | [index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js) | 줄마다 **[삭제]** 버튼 틀. 화면은 세 줄로 시작하는 목록과 개수 |
-
-`ex` 안에 같은 이름의 폴더 세 개를 만든다. 현재 폴더: `web-week10`
-
-```bash
-mkdir ex/ex05
-mkdir ex/ex06
-mkdir ex/ex07
-```
-
-[교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week10_array_list/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 폴더마다 두 파일을 받는다. 저장 창에서 폴더 이름(`ex05` 등)을 먼저 본다. 같은 `day2` 안의 `web-week10/`은 조립 결과라서 지금 받지 않는다.
-
-**예상 결과** — `ex/`에 예제 폴더가 일곱 개 있다(1일차 네 개 + 오늘 세 개, 폴더마다 `app.js`·`index.html`).
-`ex/ex07/index.html`을 열면 세 줄마다 **[삭제]** 가 있고 `3개`다. 가운데 **[삭제]** 를 누르면 `student01: 안녕하세요`와 `student03: 반갑습니다` 두 줄과 `2개`가 남는다.
-
-- 여는 것은 `index.html`이다. `app.js`는 같은 폴더에서 `index.html`이 불러온다. `app.js`를 빠뜨리면 목록이 그려지지 않는다.
-- `ex05`는 1번을 누를 때마다 줄이 세 줄씩 늘고, 2번은 몇 번을 눌러도 세 줄이다.
-- `ex06`은 열자마자 `아직 남긴 글이 없습니다.`와 `0개`이고, **더하기**를 누르면 안내 문장이 사라진다.
-- 파일마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--다시-그리기와-삭제-버튼-그리고-조립-60분)에 있다.
-
-### 7. 조립표
-
-29분부터 조립한다. 이제 `ex/`가 아니라 `web-week10` 맨 위의 `guestbook.html`·`guestbook.js`를 연다. 예제 폴더에도 같은 이름 파일(`index.html`·`app.js`)이 있으니, 편집기 위쪽 경로 줄이 `web-week10 › guestbook.js`처럼 `ex` 없이 보이는지 확인한다.
-조립하는 줄은 모두 비교 예제와 9주차 완성본에서 본 것이다.
-
-왜 바꾸나. 9주차 방명록은 남길 때마다 줄을 화면에 바로 붙였다. 그 줄은 화면에만 있어서 한 줄만 지우거나 개수를 셀 수 없다. 글을 배열 `items`에 모아 두고 목록은 `showList()`가 배열대로 다시 그리게 하면, 지우기는 "배열에서 하나 빼고 다시 그리기"가 되고 개수는 `items.length`가 된다. 11주차에는 이 배열을 그대로 저장한다.
-
-| 조립할 줄 | 출처 |
-|---|---|
-| `guestbook.html`의 `<h3>남긴 글</h3>`·`<ul class="card" id="list"></ul>` | 9주차 그대로(7주차 조립). 고치지 않는다 |
-| `guestbook.html`의 `#empty`·`#count` 두 줄 | [ex06](examples/day2/ex06/index.html) 안내 자리와 개수 자리 |
-| `const empty`·`count`(`const list`는 9주차에 있다) | [ex06](examples/day2/ex06/app.js) 찾아서 `const`에 담기 |
-| `let items = [];` | [ex01](examples/day1/ex01/app.js) 1번 빈 배열 |
-| `showList()`의 `list.innerHTML = '';` | [ex05](examples/day2/ex05/app.js) 2번 비우고 그리기 |
-| `for (let i = 0; i < items.length; i++)` | [ex02](examples/day1/ex02/app.js) 2번 |
-| `createElement('li')`·`textContent`·`list.append(li)` | [ex03](examples/day1/ex03/app.js) 2번 + [ex05](examples/day2/ex05/app.js). 9주차 submit 안의 세 줄과 같고 넣는 글자만 `items[i]` |
-| 삭제 버튼 틀 일곱 줄 | [ex07](examples/day2/ex07/app.js) 그대로 |
-| `` count.textContent = `${items.length}개`; `` | [ex04](examples/day1/ex04/app.js) 3번 |
-| `if (items.length === 0) { … } else { … }` | [ex06](examples/day2/ex06/app.js) |
-| submit 안 `` items.push(`${name}: ${message}`); `` | [ex04](examples/day1/ex04/app.js) 1번 `push`. 넣는 문장은 9주차 `li.textContent`의 오른쪽 그대로 |
-| submit 안 `showList();` · 파일 맨 끝 `showList();` | [ex06](examples/day2/ex06/app.js) 2번(넣고 다시 그리기) · 1번(열 때 한 번) |
-
-옮겨 적을 때 출처 ex 파일을 옆에 열어 두고, 같은 줄이 거기서 무엇을 했는지 떠올린다.
-
-### 8. guestbook.html 목록 아래에 두 줄 더하기
-
-`web-week10/guestbook.html`을 열고 `</form>` 아래에서 9주차에 만든 목록 줄을 찾는다.
-
-```html
-      <h3>남긴 글</h3>
-      <ul class="card" id="list"></ul>
-```
-
-이 두 줄은 그대로 두고, `<ul class="card" id="list"></ul>` **바로 아래**에 두 줄을 넣는다.
-
-```html
-      <div id="empty">아직 남긴 글이 없습니다.</div>
-      <div id="count">0개</div>
-```
-
-- `<ul>` 안은 9주차처럼 **비워 둔다.** 목록 줄은 JavaScript가 만들어 붙인다. 손으로 `<li>`를 적지 않는다.
-- `id`는 `guestbook.js`가 찾을 이름이다. `empty`·`count`를 글자 단위로 같게 쓴다.
-- `class="card"`는 4주차 카드 모양이다. 비어 있을 때도 테두리 상자가 보인다.
-
-**예상 결과** — 저장하고 `guestbook.html`을 새로고침하면 폼 아래에 `남긴 글` 제목, 빈 카드, `아직 남긴 글이 없습니다.`, `0개`가 차례로 보인다. 아직 `guestbook.js`를 고치지 않았으므로 **남기기**를 누르면 9주차처럼 목록에 줄이 붙지만, `아직 남긴 글이 없습니다.`와 `0개`는 그대로다. 새 두 자리를 고치는 코드가 아직 없기 때문이다. 9~11단계에서 배열과 `showList()`가 맡는다.
-
-### 9. guestbook.js 맨 위 — 찾아 두기와 빈 배열
-
-`web-week10/guestbook.js`를 연다. 맨 위 다섯째 줄 `const list = document.querySelector('#list');` **바로 아래**에 세 줄을 넣는다. `const list` 줄은 9주차에 이미 있으니 다시 쓰지 않는다.
+1. `http://localhost:8000/day1/ex01/`에서 배열 3개와 인덱스 값을 확인한다. app.js의 첫째·셋째 push 문자열을 바꾼다. 더하기는 뒤에 추가하고 초기화는 빈 배열로 바꾼다.
+2. `http://localhost:8000/day1/ex02/start.html`을 연다. app.start.js의 TODO 다섯 줄을 다음으로 채운다.
 
 ```js
-const empty = document.querySelector('#empty');
-const count = document.querySelector('#count');
-let items = [];
-```
-
-- 앞 두 줄은 8단계에서 넣은 두 자리를 찾아 `const`에 담는다(ex06). 목록 `#list`는 9주차에 이미 찾아 두었다.
-- `let items = [];`는 남긴 글을 모을 빈 배열이다(ex01). 이 줄을 빠뜨려도 지금은 빨간 줄이 없다. 11단계에서 맨 끝 `showList();`를 넣은 뒤에 열자마자 `items is not defined`가 뜬다.
-
-**예상 결과** — 새로고침해 Console에 빨간 줄이 없으면 된다. **남기기**도 아직 9주차처럼 줄을 바로 붙인다(배열은 아직 쓰지 않는다). `const list = …`를 한 번 더 썼다면 열자마자 `Uncaught SyntaxError: Identifier 'list' has already been declared`가 뜨고 파일 전체가 실행되지 않아, **남기기**를 누르면 페이지가 다시 열린다(주소 끝 `?`). 새로 넣은 줄을 지운다.
-
-### 10. showList 함수 넣기
-
-`clearNotice` 함수 **아래**에 `showList` 함수를 넣는다. ex06의 함수와 같은 모양이다.
-
-```js
-function showList() {
-  list.innerHTML = '';
   for (let i = 0; i < items.length; i++) {
     const li = document.createElement('li');
     li.textContent = items[i];
     list.append(li);
   }
-  count.textContent = `${items.length}개`;
-  if (items.length === 0) {
-    empty.textContent = '아직 남긴 글이 없습니다.';
-  } else {
-    empty.textContent = '';
-  }
-}
 ```
 
-- 첫 줄은 목록을 비운다(ex05 2번). 이 수업에서 `innerHTML`은 비우기에만 쓴다.
-- `for` 안의 세 줄은 배열의 `i`번째 글로 한 줄을 만들어 붙인다(ex02 2번, ex03).
-- 개수와 안내 문장은 `for` **밖**에서 한 번 쓴다(ex04 3번, ex06).
+3. 저장·새로고침한다. 처음 네 값이면 위 목록은 세 줄, 아래 목록은 네 줄이다. `items.push('student04');`를 주석 처리하고 배열을 0·1·3개로 바꾼다. 아래 목록과 배열 개수가 항상 같아야 한다. 위 목록은 비교를 위해 숫자 3을 고정한 코드다.
+4. 완료한 다섯 줄을 ex02의 app.js와 비교한다. `i++`는 매 반복 뒤 i를 1 더한다. `items.length`는 개수이므로 마지막 유효 번호는 length−1이다.
 
-**예상 결과** — 새로고침해도 화면은 8단계와 같다. 함수를 만들기만 하고 아직 부르는 곳이 없기 때문이다(5주차 ex08). Console에 빨간 줄이 없으면 된다.
+ex03은 만들기·글자 넣기·붙이기의 차이를 보여 준다. ex04는 데이터 배열과 DOM을 따로 바꾸므로 둘 중 한 줄을 빠뜨렸을 때 어긋나는 시연이다. 추가 수정은 선택이다.
 
-### 11. submit 안 두 줄과 맨 끝 한 줄
+## 2일차
 
-submit 리스너 안 `clearNotice();` 아래에서 9주차에 줄을 붙이던 세 줄을 찾는다.
+`http://localhost:8000/day2/web-week10/guestbook.start.html`을 연다. DOM 선택·빈 배열·showList·이벤트·빈칸 안내·시작 호출은 이미 있다.
+
+### 등록 두 줄
+
+`guestbook.start.js` submit 안 TODO 아래 세 줄을 지운다.
 
 ```js
   const li = document.createElement('li');
@@ -304,212 +44,38 @@ submit 리스너 안 `clearNotice();` 아래에서 9주차에 줄을 붙이던 �
   list.append(li);
 ```
 
-이 세 줄을 지우고 그 자리에 두 줄을 넣는다.
+같은 자리에 두 줄을 쓴다.
 
 ```js
   items.push(`${name}: ${message}`);
   showList();
 ```
 
-이어서 파일 **맨 끝**(input 리스너 두 줄 아래)에 한 줄을 더한다.
+기존 세 줄을 함께 남기면 showList가 그린 뒤 같은 글을 한 번 더 붙인다. `form.reset()`과 `nameInput.focus()`는 유지한다.
+
+### 삭제 두 줄
+
+삭제 버튼의 click 함수 안 TODO 두 줄을 다음으로 바꾼다.
 
 ```js
-showList();
-```
-
-- `items.push(…)`는 배열 맨 뒤에 한 줄을 넣는다(ex04 1번). 넣는 문장은 9주차 `li.textContent`의 오른쪽과 같다.
-- 줄을 만들어 붙이는 일은 이제 `showList()` 안의 `for`가 배열의 글마다 한다(10단계). submit에서는 직접 붙이지 않는다. 옛 세 줄을 `showList();` 아래에 남겨 두면 방금 쓴 글이 **[삭제]** 없이 한 줄 더 보인다.
-- 넣은 뒤 `showList();`로 목록 전체를 다시 그린다(ex06 2번). 맨 끝 `showList();`는 페이지를 열 때 한 번 그린다(ex06 1번).
-- 빈칸 안내·`form.reset()`·`nameInput.focus()`는 7주차 그대로 둔다. 빈칸이면 `return`으로 끝나 배열에 들어가지 않는다.
-
-**예상 결과** — 저장하고 새로고침한다. 이름·메시지를 넣고 **남기기**를 누를 때마다 목록에 한 줄씩 쌓이고 `1개`·`2개`·`3개`로 오른다. 첫 글을 남기면 `아직 남긴 글이 없습니다.`가 사라진다. 이름을 비우고 누르면 `이름을 입력하세요.`만 보이고 목록·개수는 그대로다.
-
-### 12. 삭제 버튼 틀 붙이기
-
-`showList` 안 `li.textContent = items[i];` 줄과 `list.append(li);` 줄 **사이**에 ex07의 일곱 줄을 그대로 옮겨 쓴다.
-
-```js
-    const removeButton = document.createElement('button');
-    removeButton.textContent = '삭제';
-    removeButton.addEventListener('click', function () {
       items.splice(i, 1);
       showList();
-    });
-    li.append(removeButton);
 ```
 
-- 이 일곱 줄은 **틀**이다. 뜯어보지 않고 그대로 쓴다. `showList()`가 다시 그릴 때 버튼마다 번호를 새로 붙인다.
-- 누르면 `items.splice(i, 1);`로 배열에서 하나를 빼고 `showList();`로 다시 그린다. 개수와 안내 문장도 함께 다시 쓴다.
-- `li.append(removeButton)`은 버튼을 그 **줄** 안에, `list.append(li)`는 그 줄을 **목록**에 붙인다. 붙이는 상자가 다르다.
+첫 인자는 0부터 시작하는 위치, 둘째 인자는 삭제할 개수다. showList가 목록을 다시 만들 때 삭제 버튼도 새 인덱스 i를 사용한다. 버튼 생성과 W3.CSS 클래스는 제공 코드다.
 
-**예상 결과** — 줄마다 **[삭제]** 가 생긴다. 글 세 개를 남기고 **가운데** 줄의 **[삭제]** 를 누르면 그 줄만 사라지고 위아래 두 줄과 `2개`가 남는다. 남은 두 줄도 지우면 `아직 남긴 글이 없습니다.`와 `0개`가 보인다.
+### 완성 확인
 
-### 13. guestbook.html 전문
+세 글을 등록하고 가운데 글을 삭제한다. 2개와 첫째·셋째 글이 남는다. 모두 삭제하면 0개와 빈 안내가 보인다. 다시 세 글을 등록해 가운데를 삭제하고 캡처한다. 완성한 시작 JS를 `guestbook.js`로 복사한 뒤 일반 `guestbook.html`에서도 확인한다.
 
-8단계까지 마친 `guestbook.html` 전체다. 내 파일과 한 줄씩 비교한다. 9주차 파일과 다른 곳은 `<ul class="card" id="list"></ul>` 아래 두 줄뿐이다.
+공백 검사는 JavaScript, 잘못된 이메일 형식은 브라우저 기본 검사다. 이메일은 저장하지 않는다. 새로고침하면 `items = []`부터 다시 실행하므로 글은 사라진다.
 
-```html
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>my-web · 방명록</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="guestbook.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <h1>방명록</h1>
-      <nav>
-        <a href="index.html">홈</a>
-        <a href="about.html">내 정보</a>
-        <a href="guestbook.html">방명록</a>
-      </nav>
-    </header>
-    <main>
-      <h2>한 줄 남기기</h2>
-      <h3>쓰는 순서</h3>
-      <ol>
-        <li>이름을 적는다.</li>
-        <li>메시지를 적는다.</li>
-        <li>남기기 버튼을 누른다.</li>
-      </ol>
-      <form id="guestbook-form">
-        <p>
-          <label for="name">이름</label>
-          <input id="name" type="text">
-        </p>
-        <p>
-          <label for="email">이메일</label>
-          <input id="email" type="email">
-        </p>
-        <p>
-          <label for="message">메시지</label>
-          <textarea id="message" rows="4"></textarea>
-        </p>
-        <button type="submit">남기기</button>
-      </form>
-      <div id="notice"></div>
-      <h3>남긴 글</h3>
-      <ul class="card" id="list"></ul>
-      <div id="empty">아직 남긴 글이 없습니다.</div>
-      <div id="count">0개</div>
-    </main>
-    <footer>
-      <p>수업용 연습 페이지 · student01</p>
-    </footer>
-  </body>
-</html>
-```
+## 제공 함수
 
-같은 파일이 [examples/day2/web-week10/guestbook.html](examples/day2/web-week10/guestbook.html)에 있다.
+showList의 흐름은 목록 비우기 → for로 글·버튼 생성 → 개수 표시 → 빈 상태 표시다. `innerHTML`은 빈 문자열로 비울 때만 사용하며 입력은 textContent에 넣는다. 개수와 빈 안내는 for 뒤에서 실행하므로 배열이 0개여도 갱신된다.
 
-### 14. guestbook.js 전문
+[완성 HTML](examples/day2/web-week10/guestbook.html) · [완성 JS](examples/day2/web-week10/guestbook.js) · [시작 JS](examples/day2/web-week10/guestbook.start.js)
 
-12단계까지 마친 `guestbook.js` 전체다. 교재 파일은 submit 안의 빈 줄을 뺐다. 내 파일에 빈 줄이 남아 있어도 동작은 같다.
+## 수업 뒤 업로드
 
-```js
-const form = document.querySelector('#guestbook-form');
-const nameInput = document.querySelector('#name');
-const messageInput = document.querySelector('#message');
-const notice = document.querySelector('#notice');
-const list = document.querySelector('#list');
-const empty = document.querySelector('#empty');
-const count = document.querySelector('#count');
-let items = [];
-
-function clearNotice() {
-  notice.textContent = '';
-}
-
-function showList() {
-  list.innerHTML = '';
-  for (let i = 0; i < items.length; i++) {
-    const li = document.createElement('li');
-    li.textContent = items[i];
-    const removeButton = document.createElement('button');
-    removeButton.textContent = '삭제';
-    removeButton.addEventListener('click', function () {
-      items.splice(i, 1);
-      showList();
-    });
-    li.append(removeButton);
-    list.append(li);
-  }
-  count.textContent = `${items.length}개`;
-  if (items.length === 0) {
-    empty.textContent = '아직 남긴 글이 없습니다.';
-  } else {
-    empty.textContent = '';
-  }
-}
-
-form.addEventListener('submit', function (event) {
-  event.preventDefault();
-  const name = nameInput.value.trim();
-  const message = messageInput.value.trim();
-  if (name === '') {
-    notice.textContent = '이름을 입력하세요.';
-    nameInput.focus();
-    return;
-  }
-  if (message === '') {
-    notice.textContent = '메시지를 입력하세요.';
-    messageInput.focus();
-    return;
-  }
-  clearNotice();
-  items.push(`${name}: ${message}`);
-  showList();
-  form.reset();
-  nameInput.focus();
-});
-
-nameInput.addEventListener('input', clearNotice);
-messageInput.addEventListener('input', clearNotice);
-showList();
-```
-
-같은 파일이 [examples/day2/web-week10/guestbook.js](examples/day2/web-week10/guestbook.js)에 있다.
-
-- 5행 목록 찾기는 9주차 그대로다. 6~8행은 안내·개수 자리를 찾아 두고 빈 배열을 만든다(ex06, ex01).
-- 14~34행 `showList`는 비우고(ex05) → 배열을 처음부터 끝까지(ex02) → 줄마다 만들고 **[삭제]** 를 붙인 뒤 목록에 붙이고(ex03, ex07) → 개수와 안내 문장을 쓴다(ex04, ex06).
-- 51~52행은 배열에 넣고 다시 그린다(9주차에는 이 자리에서 줄을 바로 붙였다). 59행은 열 때 한 번 그린다(ex06).
-- 나머지는 9주차 그대로(7주차에 만든 폼 코드)다.
-
-`index.html`·`about.html`·`app.js`·`styles.css`·`README.md`와 `images/`·`screenshots/`는 9주차 그대로다. 이번 주에 열지 않는다.
-
-### 15. 375·1280 폭과 서버로 확인
-
-DevTools의 기기 툴바(**Ctrl+Shift+M**, macOS **⌘+Shift+M**)를 켜고 폭을 375와 1280으로 바꿔 가며 글 하나를 남기고 지워 본다.
-
-**예상 결과** — 두 폭 모두 목록 줄과 **[삭제]** 가 보이고 개수가 맞는다. 375에서는 메뉴가 세로로 선다(4주차 `@media`).
-
-이어서 서버로 연다. 현재 폴더: `web-week10`
-
-```bash
-node server.mjs
-```
-
-주소창에 `http://localhost:8000/guestbook.html`을 친다. 두 번 눌러 연 것과 결과가 같으면 된 것이다. 터미널에는 브라우저가 받아 간 파일마다 한 줄씩 찍힌다(`200 GET /guestbook.html`·`200 GET /guestbook.js`·`200 GET /styles.css`. `guestbook.js` 와 `styles.css` 줄의 순서는 바뀔 수 있다). `404 GET /favicon.ico` 줄과 Console의 `Failed to load resource: … 404 (Not Found)`(`favicon.ico`) 줄도 하나씩 보일 수 있는데 괜찮다. 탭 아이콘을 찾는 요청이다([서버 사용 안내](../../tools/static-server/README.md#터미널에-찍히는-줄-읽기) 참고). 확인이 끝나면 터미널에서 **Ctrl+C**로 서버를 멈춘다.
-쓰는 법은 [서버 사용 안내](../../tools/static-server/README.md)에 있다. Node가 없는 PC는 `guestbook.html`을 두 번 눌러 연 것으로 대신한다.
-
-### 16. push와 캡처
-
-현재 폴더: `web-week10`
-
-```bash
-git add .
-git commit -m "10주차 2일차"
-git push
-```
-
-1~3분 뒤 `https://student01.github.io/web-week10/guestbook.html`을 연다. 이름·메시지를 바꿔 가며 글 세 개를 남기고 **가운데** 줄의 **[삭제]** 를 누른다.
-
-**예상 결과** — 두 줄이 남고 줄마다 **[삭제]**, 목록 아래 `2개`가 보인다. 주소창이 함께 보이게 캡처한다. 이 캡처 한 장이 제출이다.
-공용 PC라면 자격 증명을 지우고 나간다.
-
-- 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
-- 캡처하기 전에 새로고침하면 목록이 비어 버린다. 글을 남긴 **그 화면**에서 바로 찍는다.
-- 막히면 [실습지의 막혔을 때](lab.md#막혔을-때)를 본다.
+이번 주 폴더에서 기존 Git 절차로 commit·push한다. Pages 배포가 완료되면 공개 주소에서 등록·삭제를 다시 확인한다. localhost 캡처는 수업 내 결과로 인정한다. 공개 페이지를 새로 열면 배열도 새로 생기므로 캡처할 글을 다시 입력한다.

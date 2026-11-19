@@ -1,39 +1,21 @@
-# 13주차 예제 · REST API로 방명록 저장하기
+# 13주차 예제 · POST와 재조회
 
-## 목차
+각 폴더 전체를 정적 서버로 열며 [따라하기](../walkthrough.md)의 사전 준비·설정 절차를 따른다. ex01은 JSON 변환만 수행한다. ex02~ex06과 완성본에는 런타임 `api-settings.js`, `.env.example`, `.gitignore`, `requests.http`, 독립 실행 README가 있다.
 
-- [실행](#실행)
-- [비교 예제](#비교-예제)
-- [조립표](#조립표)
+| 예제 | 수업 구분 | 바꾸거나 확인할 것 |
+|---|---|---|
+| [ex01](day1/ex01/README.md) | 시연 | 입력 → 객체 → JSON 문자열, 서버 저장 없음 |
+| [ex02](day1/ex02/README.md) | 1차시 필수 요청의 비교본 | `.http` message 한 값·POST 201·서버 id |
+| [ex03](day1/ex03/README.md) | 1차시 거절 비교 | 빈 문자열 400과 정상 201 |
+| [ex04](day2/ex04/README.md) | 시연 | trim한 폼 값·JSON 본문 |
+| [ex05](day2/ex05/README.md) | 시연 | 대기 중 버튼 잠금·실패 입력 보존 |
+| [ex06](day2/ex06/README.md) | 시연 | POST 다음 GET·상태 분리 |
+| [web-week13](day2/web-week13/README.md) | 2차시 필수 세 구역 수정 | 폼 값·JSON 본문·loadMessages |
 
-## 실행
+## 조립과 시간
 
-[따라하기](../walkthrough.md)의 설정·서버 실행부터 진행한다.
-`config.example.js`는 공개 설정 파일이며 HTML이 직접 읽는다. 이름을 바꾸지 않는다.
-예제 폴더를 작업 저장소의 `ex/ex01/`처럼 복사해 `http://localhost:8000/ex/ex01/`로 연다.
-`ex01`은 API가 필요 없고, 나머지는 강의자 API 또는 로컬 연습 API가 필요하다.
+1차시는 `.http` message·POST 10분, id·GET 10분, 빈값 비교 10분이다. 2차시는 제공 `guestbook.js`의 학생 수정 세 구역 15분, 대기·실패 확인 7분, 다른 브라우저·캡처 8분이다. 각 차시 앞 강의·시연은 60분이다. 파일 배부·저장소는 사전 준비, 업로드는 수업 뒤 정리다.
 
-## 비교 예제
+[guestbook.js](day2/web-week13/guestbook.js) 하나에 GET·POST 함수와 이벤트를 모았다. `api-settings.js`는 설정 제공 파일이며 초기 조회는 모든 초기화 뒤에 실행한다. 이전 `submit.js`·`config.example.js`에는 이동 안내만 남겼고 HTML에서 읽지 않는다. 설정·이전 응답 방지 코드는 학생 평가 대상이 아니다.
 
-| 파일 | 열면 보이는 것 | 보여 주는 원리 | 바꿔 볼 값 |
-|---|---|---|---|
-| [ex01/index.html](day1/ex01/index.html) · [app.js](day1/ex01/app.js) | 객체와 전송할 JSON 글자를 비교한다 | JSON 본문 만들기 | message 값 |
-| [ex02/index.html](day1/ex02/index.html) · [app.js](day1/ex02/app.js) · [설정](day1/ex02/config.example.js) | 버튼을 누를 때만 글 한 줄을 저장한다 | 고정값 POST | 보내는 메시지 |
-| [ex03/index.html](day1/ex03/index.html) · [app.js](day1/ex03/app.js) · [설정](day1/ex03/config.example.js) | 빈 메시지는 서버가 거절한다 | 서버 입력 검사 | 빈 문자열 → 문장 |
-| [ex04/index.html](day2/ex04/index.html) · [app.js](day2/ex04/app.js) · [설정](day2/ex04/config.example.js) | 입력한 문장을 JSON 본문에 넣는다 | 폼 입력 POST | 입력 내용과 앞뒤 공백 |
-| [ex05/index.html](day2/ex05/index.html) · [app.js](day2/ex05/app.js) · [설정](day2/ex05/config.example.js) | 응답을 기다리는 동안 다시 누를 수 없다 | 저장 중 버튼 | Slow 3G → No throttling |
-| [ex06/index.html](day2/ex06/index.html) · [app.js](day2/ex06/app.js) · [설정](day2/ex06/config.example.js) | POST 성공 뒤 GET 결과를 표시한다 | 저장 후 재조회 | Network의 POST·GET 순서 |
-
-## 조립표
-
-최종 [web-week13/guestbook.html](day2/web-week13/guestbook.html)은 지난주 홈·내 정보 페이지와 같은 CSS를 쓴다.
-
-| 만들기 파일 | 가져오는 개념 |
-|---|---|
-| [config.example.js](day2/web-week13/config.example.js) | 강의자 공개 설정 세 값 |
-| [guestbook.js](day2/web-week13/guestbook.js) | 12주 GET·목록 함수를 그대로 사용 |
-| [submit.js](day2/web-week13/submit.js) | ex01 JSON 본문, ex02 POST, ex04 폼, ex05 버튼, ex06 재조회 |
-| [guestbook.html](day2/web-week13/guestbook.html) | 7주 폼에 이름·메시지·저장 버튼을 연결 |
-
-이름은 30자, 메시지는 500자 이내다. 화면에 넣을 때는 `textContent`를 쓴다.
-서버 목록과 11주 localStorage 목록은 자동으로 합쳐지지 않는다.
+모든 방명록·비교 화면은 [W3.CSS CDN 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)과 각 폴더의 `shared/examples.css`를 사용한다. 홈·내 정보는 이전 CSS를 이어 쓴다. 이미지·이전 캡처는 참고 자산이며 최신 서버 저장 결과는 직접 캡처한다.

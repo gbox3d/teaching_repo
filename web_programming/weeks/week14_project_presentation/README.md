@@ -1,77 +1,40 @@
 [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week14_project_presentation)
 
-# 14주차 — REST API로 방명록 수정·삭제
+# 14주차 방명록 수정·삭제
 
-13주에 서버에 저장한 글을 ID로 골라 수정하고 삭제한다. 14주는 구현 실습 주차다. 레포트와 발표는 이 주차에서 평가하지 않으며, 별도 과제는 강의자 공지를 따른다. 기존 링크를 유지하기 위해 폴더 이름은 그대로 둔다.
+13주 서버 방명록에 DELETE·PATCH를 연결한다. 각 차시는 강의·시연 60분과 학생 실습 30분이다. 레포트 검사와 발표 평가는 포함하지 않는다. 기존 폴더·덱 주소를 유지하며 별도 과제의 내용·배점·마감은 강의자 공지를 따른다.
 
-## 학습 목표
+## 학습 목표와 결과
 
-1. 배열의 위치와 서버가 부여한 `id`를 구분한다.
-2. `DELETE`로 지정한 글 하나를 삭제하고 `204` 응답에는 JSON 본문이 없음을 확인한다.
-3. 편집 키를 요청 헤더에 넣고, `BOOK_ID`는 글 구분값일 뿐 권한을 증명하지 않음을 설명한다.
-4. 기존 글을 폼에 불러와 `PATCH`의 JSON 본문으로 메시지를 고친다.
-5. 요청 후 `GET`으로 다시 읽어 실제 변경 결과를 확인한다.
+배열 인덱스와 서버 ID를 구분하고 자기 방명록의 지정 ID만 변경한다. DELETE 204에 JSON 본문이 없음을 확인하고 PATCH 응답 배열과 같은 ID의 GET으로 실제 변경을 판단한다. 세 글을 만든 뒤 가운데 글을 삭제하고 남은 글을 수정한 결과를 캡처한다.
 
-## 이번 주 결과물
+## 양일 운영
 
-온라인 방명록에 글 세 개를 남긴 뒤 가운데 글을 삭제하고, 남은 글 하나의 메시지를 수정한다. 새로고침 후 두 글과 수정한 메시지가 보인다. Network에서 PATCH 또는 DELETE 뒤 GET 요청을 확인한다. 편집 키 입력 칸은 비운 뒤 캡처한다.
-
-## 2일 수업 흐름
-
-| 일차 | 설명 30분 | 실습 60분 | 결과 |
+| 차시 | 강의·시연 60분 | 학생 실습 30분 | 필수 수정 |
 |---|---|---|---|
-| 1일차 | ID, DELETE, 편집 키, 204, 재조회 | ex01·ex02, 내 연습 글 삭제, 서버 결과 확인 | 지정한 ID 한 개 삭제 |
-| 2일차 | PATCH, JSON 본문, 폼에 기존 글 넣기, 재조회 | ex03·ex04, 수정·삭제 버튼을 13주 방명록에 연결 | 수정·삭제되는 온라인 방명록 |
+| 1일차 | 준비 5, 인덱스와 ID 15, 편집 키 10, DELETE·204 15, 대상 재조회 10, 안내 5 | 자기 ID·.http 확인 5, 삭제 틀 12, 정답 키·틀린 키 재조회 13 | 대상 URL·method·헤더 3곳 |
+| 2일차 | 준비 5, PATCH 15, 기존 글→폼 10, 응답 배열·재조회 15, 전체 동작 10, 안내 5 | PATCH 틀 12, 세 글 수정·가운데 삭제·실패 복구 13, 키 지우고 캡처 5 | 대상 URL·JSON 본문·같은 ID 재조회 3곳 |
 
-## 준비
+ex01·ex04와 완성본 전체 조립은 강의자 시연이다. 학생은 제공된 guestbook.js에서 지정한 요청 부분을 수정한다. 설정·키 처리·DOM 연결·최초 초기화·중복 요청·늦은 응답 보호는 제공 코드이며 작성 과제가 아니다. 나머지 예제 재작성은 선택이다.
 
-- [13주 완성본](../week13_release_security/examples/day2/web-week13/)에서 시작한다. 새 저장소는 `web-week14`다.
-- 강의자가 제공한 API 주소·공개 키·`BOOK_ID`를 `config.example.js`에 넣는다. 편집 키는 코드에 넣지 않는다.
-- 강의자가 배부한 자기 방명록의 편집 키를 실행 중 입력한다. 새로고침하면 다시 입력한다.
-- 로컬 리허설: [공용 API 안내](../../tools/guestbook-api/README.md)에 따라 API를 8787번에서 실행하고, 학생 폴더는 [정적 서버](../../tools/static-server/README.md)로 8000번에서 연다.
-- 인터넷 실습은 강의자가 준비한 HTTPS API를 쓴다. `127.0.0.1`은 현재 PC이므로 클라우드 주소처럼 사용할 수 없다.
+## 사전 준비와 수업 뒤 정리
 
-## 이번 주 용어
+수업 전 [13주 완성본](../week13_release_security/examples/day2/web-week13/)과 이번 주 제공 파일을 새 web-week14 폴더·저장소에 준비한다. 공개 업로드는 30분 실습 뒤 정리 단계에서 한다. 수업 첫 5분에는 서버와 파일 준비 상태를 확인한다.
 
-| 한국어 | English | 中文 |
-|---|---|---|
-| 식별자 | identifier | 标识符 |
-| 일부 수정 | PATCH | 部分修改 |
-| 삭제 | DELETE | 删除 |
-| 요청 헤더 | request header | 请求头 |
-| 편집 키 | edit key | 编辑密钥 |
-| 본문 없음 | No Content | 无内容 |
-| 다시 조회 | fetch again | 再次查询 |
+브라우저의 API 설정 패널에 API 주소·공개 키·BOOK_ID를 입력한다. 기본값은 로컬 http://127.0.0.1:8787, classroom-local, student01이다. 공용 HTTPS 설정은 메모리에만 두며 새로고침 뒤 재입력한다. 편집 키는 별도 입력으로 적용하고 키 지우기로 메모리에서도 지운다. 실제 키를 소스·URL·localStorage·캡처에 넣지 않는다. 공개 키와 방명록 번호만으로 편집 권한이 생기지 않는다.
 
-## 이번 주 범위
+로컬 API는 [강의자 안내](../../tools/guestbook-api/README.md), 화면 서버는 [정적 서버 안내](../../tools/static-server/README.md)를 따른다. REST Client의 .env와 브라우저 설정은 서로 별개다. [예제 안내](examples/README.md)의 폴더별 README와 requests.http를 사용한다.
 
-- 기존 `GET`·`POST`는 유지한다. 새 요청은 `PATCH`와 `DELETE`다.
-- 서버 ID는 목록 순서가 바뀌어도 같은 글을 가리킨다. 배열 인덱스를 ID로 보내지 않는다.
-- 편집 키는 메모리 변수에만 둔다. 저장소·스크린샷·URL·localStorage에 넣지 않는다.
-- 서버 정책 때문에 잘못된 키로 `PATCH`하면 `200 []`, `DELETE`하면 `204`라도 글이 바뀌지 않을 수 있다. HTTP 성공과 실제 변경을 나누어 확인한다.
-- 회원가입·로그인 화면, DB 설정, 서버 권한 정책 작성은 학생 실습 범위 밖이다.
+## 결과 확인
 
-## 수업 자료
+틀린 키의 PATCH 200 []나 DELETE 204도 변경이 없을 수 있다. 같은 ID를 GET으로 확인한다. 통신 오류 뒤에는 같은 쓰기를 반복하기 전에 조회한다. 설정 변경은 선택 ID·폼·편집 키를 지우며, 이전 설정의 늦은 응답은 현재 화면에 표시하지 않는다.
 
-- [슬라이드](slides.md) · [영문 슬라이드](slides_en.md)
-- 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week14_project_presentation/index.html
-- [따라하기](walkthrough.md) · [실습지](lab.md) · [예제 안내](examples/README.md)
-- 강의 대본과 해답은 강의자 별도 관리다.
+수업 내 확인과 캡처는 localhost에서 수행할 수 있다. 공용 HTTPS API가 준비된 경우 수업 뒤 Pages와 다른 브라우저에서 같은 데이터인지 확인한다. 로컬 리허설을 다른 기기·공용 서버 검증 완료로 표시하지 않는다.
 
-## 완료 기준
+## 자료와 다음 수업
 
-- [ ] 새 저장소 `web-week14`와 Pages 주소가 있다.
-- [ ] 삭제 대상의 `id`만 사라지고 다른 글은 남는다.
-- [ ] 수정한 메시지가 GET 응답과 다른 브라우저에서 확인된다.
-- [ ] 자기 공간에서 틀린 편집 키를 넣었을 때 변경되지 않은 사실을 확인한다.
-- [ ] 편집 키를 비운 화면과 Network 요청을 캡처 한 장으로 제출한다.
-- [ ] 코드·주소·캡처에 편집 키와 개인정보가 없다.
+- [한글 슬라이드](slides.md) · [영문 슬라이드](slides_en.md) · [따라하기](walkthrough.md) · [실습지](lab.md)
+- [덱](https://gbox3d.github.io/teaching_repo/webprg/decks/week14_project_presentation/index.html)
+- [별도 과제 안내](project_brief.md) · [기존 평가 안내](rubric.md) · [기존 발표 안내](demo_outline.md)
 
-## 다음 수업 연결
-
-15주는 1~14주 문제은행과 기말 개인 실기다. REST 문제는 강의자가 마련한 시험용 방명록에서 실행한다. 수업용 방명록의 글을 시험 중 변경하지 않는다.
-
-## 공식 참고 자료
-
-- [MDN Fetch API](https://developer.mozilla.org/ko/docs/Web/API/Fetch_API/Using_Fetch)
-- [Supabase Data REST API](https://supabase.com/docs/guides/api)
+15주 기말 REST 기본 문제는 PATCH 또는 DELETE 한 요청이다. 나머지 요청 틀과 재조회는 제공한다. SPA 직접 전환은 별도 선택 특강이며 14주 정규 실습에 포함하지 않는다.

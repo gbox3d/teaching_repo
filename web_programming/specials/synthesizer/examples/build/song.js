@@ -56,8 +56,10 @@ export function tagColor(tag) {
 
 // 멜로디를 반음 shift 만큼 옮긴다(새 배열)
 export function transpose(notes, shift) {
+    if (!Number.isInteger(shift)) throw new Error('옮김 값은 정수로 입력하세요');
     return notes.map(function (n) {
         const midi = n.midi + shift;
+        if (midi < 0 || midi > 127) throw new Error('옮긴 음이 MIDI 범위(0~127)를 벗어납니다');
         return { step: n.step, note: noteName(midi), midi: midi, duration_steps: n.duration_steps };
     });
 }
@@ -70,7 +72,8 @@ export function songToBars(song) {
         if (!Array.isArray(section.progression)) throw new Error(`구간 '${section.section}' 에 progression 배열이 없습니다`);
         for (const bar of section.progression) {
             if (typeof bar.chord !== 'string') throw new Error(`구간 '${section.section}' ${bar.bar}마디에 chord 가 없습니다`);
-            const melody = Array.isArray(bar.melody) ? bar.melody : [];
+            if (bar.melody !== undefined && !Array.isArray(bar.melody)) throw new Error('melody는 배열이어야 합니다');
+            const melody = bar.melody || [];
             for (const n of melody) {
                 const whole = function (x, lo, hi) { return Number.isInteger(x) && x >= lo && x <= hi; };
                 if (!whole(n.step, 1, 16) || !whole(n.midi, 0, 127) || !whole(n.duration_steps, 1, 64)) {

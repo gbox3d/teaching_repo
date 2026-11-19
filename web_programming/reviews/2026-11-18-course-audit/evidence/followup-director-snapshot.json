@@ -1,0 +1,698 @@
+{
+  "timestamp": "2026-11-18T12:52:24.449Z",
+  "head": "5f701e7b69a0dfbe1367c7974deff2e8bcdacf39",
+  "scope": "Current working-tree source, not HEAD alone; follow-up director reviewed documents/source selectively and browser-tested handoff boundaries",
+  "scopes": [
+    "README.md",
+    "site/catalog.json",
+    "web_programming/AGENTS.md",
+    "web_programming/README.md",
+    "web_programming/weeks/README.md",
+    "web_programming/ta_setup_guide.md",
+    "web_programming/weeks/week07_form_input",
+    "web_programming/weeks/week08_midterm",
+    "web_programming/weeks/week09_readme_presentation",
+    "web_programming/weeks/week10_array_list",
+    "web_programming/weeks/week15_final_exam/examples/w09_readme_links"
+  ],
+  "totalFiles": 169,
+  "fingerprint": "18ad60e464ec6c01ca385a6eddaf2416b5ae81964ebc294d5396379dab884dab",
+  "files": [
+    {
+      "file": "README.md",
+      "sha256": "0f7785df60b1b0f7a39d5edce937d1730e5fc2856ce6b11e45c8be2278f28d67"
+    },
+    {
+      "file": "site/catalog.json",
+      "sha256": "5708644ad5e56f8acba83acafb0ea9a3fbfc9bb95266e3be2ef0c18e814b1cdc"
+    },
+    {
+      "file": "web_programming/AGENTS.md",
+      "sha256": "f35d323bf57c2e741009be25ffb0b39d482b539faf370af716b202030fbea916"
+    },
+    {
+      "file": "web_programming/README.md",
+      "sha256": "fccb505d220c44443b59ca7031873b6483ad141101618f6c483d93b5e8b8443f"
+    },
+    {
+      "file": "web_programming/ta_setup_guide.md",
+      "sha256": "bb4d1bd5df9b07fd611a0daadd699701d8ada1ff88d60759f757ea10ba32004f"
+    },
+    {
+      "file": "web_programming/weeks/README.md",
+      "sha256": "143c745f342cea3231252b05fe6856a5f634efde0a2ff3b358a5e24a5a89b864"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/README.md",
+      "sha256": "42f156e131e5a38d9f3ab8988028229e17599b502c4f810057f7d27263b707e1"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/README.md",
+      "sha256": "240560368ada7600267ea9e030cf892c4814b2e400d6b8019956b2b57966b747"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex01/README.md",
+      "sha256": "403dcdcfaa0041927eec81ea91acdaba05f9f80264efe7ad3141036cc96aea5d"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex01/app.js",
+      "sha256": "9e0a4c0775d26871967947031f03b792b97521b1167b1b9e605d73c87aa1c69d"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex01/before.html",
+      "sha256": "f86b33fc93c35b1864c76781f5968a810aa7c43ce2cfb149c9e27fca54112ee6"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex01/index.html",
+      "sha256": "63ea6398f5c0afb5d9c692deb0266464b8efe7ba00cfd455b82c5ee71dabd892"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex02/README.md",
+      "sha256": "01c49723b67e69e329e6e200803c861a04aea8a7a8275ec23daea8552239b393"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex02/app.js",
+      "sha256": "3c62c2cbca49c18ea01037f5239b23dc9c5e1e7b043bb414b5bfe636a1d4de46"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex02/index.html",
+      "sha256": "677937a8b687c4c6989eea952384358cd70e0eb83cca315dc57ea80a102a952b"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex02/shared/examples.css",
+      "sha256": "379890ff2c37c1bf932b126b6eabcca0ebd8ad12c892b7164a3ed53439e89cab"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex03/README.md",
+      "sha256": "cb2f8bd6cc1d38bfc03c4731bf5defaa834baf312829259015f5a18c41468de6"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex03/app.js",
+      "sha256": "3c62c2cbca49c18ea01037f5239b23dc9c5e1e7b043bb414b5bfe636a1d4de46"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex03/index.html",
+      "sha256": "f16c2570c311c82ac1c5c47d7bf622eee1bfd960ec226eb2e35f44ee365a15e0"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex03/shared/examples.css",
+      "sha256": "379890ff2c37c1bf932b126b6eabcca0ebd8ad12c892b7164a3ed53439e89cab"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex03b_list/README.md",
+      "sha256": "b0ebe96cd27b3f8000eeaf2c81a1bbfa4b8a33eaf480e6983dc69b8ce993ed3b"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex03b_list/app.js",
+      "sha256": "7af2f75cdb102e31f1df9ceb2d356b2b3de3230340783e692748bb38dce0b1c7"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex03b_list/index.html",
+      "sha256": "0c0495bb6f84eaffb6a83d7c5cef5f0a6d00dfd30d2a9ad12777ebc06b90a225"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex03b_list/shared/examples.css",
+      "sha256": "d6fab978eed099fde7f4d74d5d5bd243726d2a944701828e7c0d1ad2cecdc2f1"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/ex04/README.md",
+      "sha256": "991022118a60a81404dca69cb6601972959478ce15af0fb0c254ec7769f0960f"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/ex04/app.js",
+      "sha256": "135eafc7ea892e73e21e8e3ab0f671b7cc03419cbe5374825a4e5a16b056b578"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/ex04/index.html",
+      "sha256": "eff3d6e7e9fe39f0ba51e224908b8cd91b337e5d1b365b947ceaea90a3a08f50"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/ex04/shared/examples.css",
+      "sha256": "0c9215b397f4a92656f86f57fc804d82148b70df3ca3e09b30d0cbfd396c8bb3"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/ex05/README.md",
+      "sha256": "d768d0cc3575b96635b2d7a8d2e10b8c79c23ed7b050a6e9fbabff72ef464381"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/ex05/app.js",
+      "sha256": "135eafc7ea892e73e21e8e3ab0f671b7cc03419cbe5374825a4e5a16b056b578"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/ex05/index.html",
+      "sha256": "74a35ea5eebe3b7ee136468efc0d6d7292011b6d99cc236c934b477dd4c32bea"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/ex05/shared/examples.css",
+      "sha256": "0c9215b397f4a92656f86f57fc804d82148b70df3ca3e09b30d0cbfd396c8bb3"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/about.html",
+      "sha256": "03837204a3c193d003753175be19529e5918d282484eef7f46aaadfd54f08330"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/app.js",
+      "sha256": "afcbab54ce3377999d6dbea4071911f10f9eadc39ab0dff49c087755461e2645"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/guestbook.before.html",
+      "sha256": "726ac7895384cc0fd2c8d2bf7baabe1359032a57acae4e9b0bb9549fcb3b3610"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/guestbook.html",
+      "sha256": "f5686fc1374470e07ddeaca6148b22aea26a7627682bd56b3a88f342b812a29d"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/guestbook.js",
+      "sha256": "135eafc7ea892e73e21e8e3ab0f671b7cc03419cbe5374825a4e5a16b056b578"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/images/profile.png",
+      "sha256": "3dbf451ccc9d269aead36cd75f87432b2a8c0049640c490913df1c2a56768fca"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/index.html",
+      "sha256": "2c9e71757d9a481d100b1b9cde05c5ce124a4544b6ea291365ed29301a01c815"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/shared/examples.css",
+      "sha256": "0c9215b397f4a92656f86f57fc804d82148b70df3ca3e09b30d0cbfd396c8bb3"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/styles.css",
+      "sha256": "0236017851b09051c4dc068938c03cee393178efc946fe5e7a1ec31139aa6703"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/images/guestbook-feed.png",
+      "sha256": "2740833ef21ee7fff809c23db3c41f9ffbf3db90f906fb274ee965825ae0edcc"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/lab.md",
+      "sha256": "2032864b42d69c973dad4435038a9386694c9f12794a242513d47ccf2d293577"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/slides.md",
+      "sha256": "5d5b265f0921adbb2d86aa967e14e0dc2ed70766a89d52225e5d650124562220"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/slides_en.md",
+      "sha256": "7b6a148165250ad10894e05f1e7e2656416dc46b7ff5871885ffbb6b0f1c70f0"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/walkthrough.md",
+      "sha256": "6bb529c5e63fa376da36aa9f21e8af370ecd32de9946b8677935c5f2eea3fbfc"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/README.md",
+      "sha256": "7d82c4e38861e299645590a34985f9b318a20b959cee7f1868b73beaabc76a38"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/exam_structure.md",
+      "sha256": "40e6bbe544cb1e3ae376819dbff9182c20d5ba45f771054681c535d6429f0737"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/README.md",
+      "sha256": "c879e42ef7cb5103989d99de86eb9ed078838092468b39837504ae24a68cddab"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w01_first_page/README.md",
+      "sha256": "e42ad7aa5be34dbd918964f3eda77371c67f800746cd5255910f9431edb5f955"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w01_first_page/index.html",
+      "sha256": "5346b80f7340422e2eb2eaa92c2f495e51baa2c8f1ec07290f71436b72c7b6f3"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w02_push_repo/README.md",
+      "sha256": "703e6d8180d01454401b5995bceccf9645a71c4a656e0fa2cc6b807d0ce11382"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w02_push_repo/index.html",
+      "sha256": "f883ed6da7070d638d07a331ba6f62d0e86e2cfe161859f1f56776e097b6e1e0"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w03_second_page/README.md",
+      "sha256": "503df1b6df2394063b26818232bb2a8b41083e604c8c05ccb6e7630df262c65e"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w03_second_page/index.html",
+      "sha256": "0ad885025049d56d4aa323152d7f504b7f3b3c173672824a066035ddd05c1415"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w04_box_style/README.md",
+      "sha256": "b2a1857f7ba8f7c5bb7b6f933f2cabc62a2a46dbf5cc1cc46d91a4ea112580d2"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w04_box_style/index.html",
+      "sha256": "66f3ee41194e4f2c60ea1e78f7cb4608926ee9b0557a45fcc125eb9b7c339406"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w05_box_position/README.md",
+      "sha256": "9772517610eb7ed4d03011e797903211096c2ac537ae3abaf99d02e994ebe484"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w05_box_position/index.html",
+      "sha256": "32a126e0bc50359d83048beaeecd478db1f2c0a43aa1ee0902c2a7cca44c2365"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w06_click_text/README.md",
+      "sha256": "d395985381fbf994eb6a52249b3a7fe92fc998a8ecce18f520ed67e74ceced59"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w06_click_text/app.js",
+      "sha256": "1c8ef3a6e8386b7c8da80bc59150df6b734ce765f5b7641fc4187a253fb3c524"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w06_click_text/index.html",
+      "sha256": "6752c6f13c6fe3f265ef1ea0d6261e3fa03f2432dca1a613dbff08baa404a7ee"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w07_form_line/README.md",
+      "sha256": "3e00c5ce6793e356cacde1736a2ebfe1eac5c62b9883a70e7357c88ebc63008b"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w07_form_line/app.js",
+      "sha256": "25aa034261d121602a719a3cefa6be31b0602ed4bc37e2604d485e9879e2d9c1"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w07_form_line/index.html",
+      "sha256": "bef4e5558ba43077c8fdf77db74d383c25a63ed697fa84fb160fec92cfb4b484"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w07_form_line/shared/examples.css",
+      "sha256": "379890ff2c37c1bf932b126b6eabcca0ebd8ad12c892b7164a3ed53439e89cab"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/lab.md",
+      "sha256": "12d7b3c4e83fb02289711c586aea99a46fbcbc99f7f642a1b009820ed8b164c9"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/rubric.md",
+      "sha256": "f4fccdfd30d4d7223126a1f0bd5721afe45303d381f5184880392c3ad32aa3ba"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/slides.md",
+      "sha256": "48050ee3e0725b3089f9506ed46b65385666a7944203d8b4af6f0712d507ea97"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/slides_en.md",
+      "sha256": "6716a3fe513b14c4a80bc2007af4ce68782d9963be19225984888b1c12d48e8f"
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/walkthrough.md",
+      "sha256": "3b57d1282cb01356c612aee4cd93b0bc9a881c54c3a0c1f851ac0e6430cabedd"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/README.md",
+      "sha256": "2213d175fb2428e21b2857158a80451e3f67627a6148e03032280ee590207737"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/README.md",
+      "sha256": "d823383952b6a486f42281942d3b181dc34a3bbb6ab131f525dd40a99896496b"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex01_heading.md",
+      "sha256": "2381d80c384ed9668bfd2207bacadfed805a5d94f48112b0610ecbff8534ba9d"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex02_list.md",
+      "sha256": "5868ae6c8f4fb82b0067cf308ea5420671191922fa72ea88d8a4c97507a34a1c"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex03_link.md",
+      "sha256": "d66e2149e3cd478dc1beb91a877d733d385e596f56f864e1f6f5992f3ceab7ee"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex04_emphasis.md",
+      "sha256": "c5fe76555ca8b52f26940fb2a6d61c1904e8bc50f6730a4c25d0ef003fdc9fe0"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex05_image.md",
+      "sha256": "206d7952af40f3e31bb4d7664edbb77bd3f461b660e8346b79f7b92aea03044d"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex06_code.md",
+      "sha256": "c36a517e48df42a46351df0658972c1fcbd37048f44f3dd21661adce062dc985"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex07_table.md",
+      "sha256": "d58b370351907a7d37eacb9a2d66ece8b32365b0febdbb3a6740f4900e0ed33d"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex08_quote_rule.md",
+      "sha256": "7d11aaa0252efb5111e4c271519d13e13f32e96b1b85b5f2ded6e67f88c5dba5"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex09_shapes.svg",
+      "sha256": "5eefe3ae5ede4ab62c80dfe3cae7149ee8de9ec717f196a7c126ea006a0de368"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex09_svg.md",
+      "sha256": "f7e0ab68a0105f5ebb72adc586238483885dd4f800de8af19d7e998711e24a60"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex10_diagram.md",
+      "sha256": "edeba3816253ba6c4fd10da3df3d0b5340c6576993cde8fbbec82538455b8fa2"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex10_site_map.svg",
+      "sha256": "ba8e8e4e362af7f3a58677d015925fd4e0cd1566b800eb56183408c1446d6fb8"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/ex11_mermaid.md",
+      "sha256": "93e4a8c8980d0fcbd2186b8f4dd2b087e6c02f0bd722f147a1efe49ed11301ed"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day1/images/profile.png",
+      "sha256": "3dbf451ccc9d269aead36cd75f87432b2a8c0049640c490913df1c2a56768fca"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/README.md",
+      "sha256": "9f73721d3ebf2fdbe62a535297fcb9ce4e2a89549421100818436f1afdc0ea13"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/README.start.md",
+      "sha256": "5a5de56a5a3b69cc5e91dc6624fc1304806903589489ccbb23be4ca0a4ad7b23"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/about.html",
+      "sha256": "03837204a3c193d003753175be19529e5918d282484eef7f46aaadfd54f08330"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/app.js",
+      "sha256": "afcbab54ce3377999d6dbea4071911f10f9eadc39ab0dff49c087755461e2645"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/guestbook.before.html",
+      "sha256": "726ac7895384cc0fd2c8d2bf7baabe1359032a57acae4e9b0bb9549fcb3b3610"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/guestbook.html",
+      "sha256": "f5686fc1374470e07ddeaca6148b22aea26a7627682bd56b3a88f342b812a29d"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/guestbook.js",
+      "sha256": "135eafc7ea892e73e21e8e3ab0f671b7cc03419cbe5374825a4e5a16b056b578"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/images/profile.png",
+      "sha256": "3dbf451ccc9d269aead36cd75f87432b2a8c0049640c490913df1c2a56768fca"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/images/site-map.svg",
+      "sha256": "cc29c52a3467afbb4ee610fdf75500a329e1e9eb70228e352d7b89ce84776ff6"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/index.html",
+      "sha256": "2c9e71757d9a481d100b1b9cde05c5ce124a4544b6ea291365ed29301a01c815"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/screenshots/guestbook.png",
+      "sha256": "ad3582eba948b3e10dc89edbda94b4ae2090ff21a09fcb8085c5d892a12a4d07"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/screenshots/home.png",
+      "sha256": "b75999a21b88e836c67262b3fdff9c3458fde78e2f7a1ad9d6dcdedd1e2138d9"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/shared/examples.css",
+      "sha256": "0c9215b397f4a92656f86f57fc804d82148b70df3ca3e09b30d0cbfd396c8bb3"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/styles.css",
+      "sha256": "0236017851b09051c4dc068938c03cee393178efc946fe5e7a1ec31139aa6703"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/lab.md",
+      "sha256": "9bef1133af8551c32d480138197ad0cd0e76b37452536214ff6a2b00d7b7d886"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/project_brief.md",
+      "sha256": "29c1913526e8a3343d44542bf3d580c8296dae860e094dd1b7ccd4e8e4aa602a"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/rubric.md",
+      "sha256": "92e292eb408c4c317471c578b82c6f40b9fa91ec7b1270b35da574e9a6c27b6b"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/slides.md",
+      "sha256": "c3ce52d04b50f1b4434315d6f6bb82c6e1f8f45e607871075dae2efd50cc70e1"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/slides_en.md",
+      "sha256": "a6e0d36e8f595ee7e754248bd7da9070e13afca2b69ff11a3f5045ad84f63169"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/walkthrough.md",
+      "sha256": "2bccd5f88b90dbb63b38fc8dca490512812004cc0c9104b87e1cf3f5912e3160"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/README.md",
+      "sha256": "0aab78805691131cf41624ce6a9a7387e55b0e0536a93de0b85d19606c0bfa73"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/README.md",
+      "sha256": "117d215b3c859b7824f0e619782c5bf0e3ad12e6536cc09c5fe6343776482abf"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex01/README.md",
+      "sha256": "e90498fa01f131a4347730bf55953fd0099d184c2d1712dc1a1e3159f83b7991"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex01/app.js",
+      "sha256": "450b8f10d08f9ba5021148d91935cbe2459cb05af0788491203eda9b67e62d60"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex01/index.html",
+      "sha256": "56a5de75e867434df24bdba75e1884cd8bfcee4d40908cef496aaea7cdd048a0"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex01/shared/examples.css",
+      "sha256": "379890ff2c37c1bf932b126b6eabcca0ebd8ad12c892b7164a3ed53439e89cab"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex02/README.md",
+      "sha256": "83616ffb77823d53cd7ec759def6ce6bc65748cedb265e13c5d59fa672a19e5e"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex02/app.js",
+      "sha256": "5530e045ccdce6535944750efcef99966374459a6d27e223f71fff854d6a94cc"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex02/app.start.js",
+      "sha256": "ed91d848394154a18b65072fe491e80ad614463e6532a48daf6547e5d9d72b5b"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex02/index.html",
+      "sha256": "169f6194850ba6c8a93d6a1d270f56a421f8fa6135753dbf4c63d28069bf0b92"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex02/shared/examples.css",
+      "sha256": "379890ff2c37c1bf932b126b6eabcca0ebd8ad12c892b7164a3ed53439e89cab"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex02/start.html",
+      "sha256": "1ade0e25e4d640cb9a50e691675a5e329c6474a5753ecf5526367495f183e118"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex03/README.md",
+      "sha256": "24753180061cd5cb9a2e2f9e50b9271aaa08acc9413bd3bc8f75ea0078f1e6df"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex03/app.js",
+      "sha256": "72fb162fa31bd9391fe6a48ae2b3887739a54a30ea72aa1b723c6dfd040551cc"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex03/index.html",
+      "sha256": "02d6fd2d545d0523ef1b85f23fcdff300439c9502396e1cfc2a7f6fbd0874557"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex03/shared/examples.css",
+      "sha256": "379890ff2c37c1bf932b126b6eabcca0ebd8ad12c892b7164a3ed53439e89cab"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex04/README.md",
+      "sha256": "d6a2ca01f7f8d94f14f2c18b6d37327f47ad2e2baa8b19c7ff07a06fdd1d2e62"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex04/app.js",
+      "sha256": "2f1f4059090a78dc74c69279a4b6010fc4f9a3c8603d229dc807068aeed4d74c"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex04/index.html",
+      "sha256": "abcc33069d8fefcb0d1c62b1b2a53afdef74e0427bbb5aed90734d6223ac529a"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex04/shared/examples.css",
+      "sha256": "379890ff2c37c1bf932b126b6eabcca0ebd8ad12c892b7164a3ed53439e89cab"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex05/README.md",
+      "sha256": "cc968675dd6d912013fa9a2187f9f9e889da615c9a0798c57e2b399ab4519e20"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex05/app.js",
+      "sha256": "e5d3d0290325dd54314da320acc94c6fad1165696ec629aee009c91dad8c529a"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex05/index.html",
+      "sha256": "67dc153672e8993c16e2e345a36d54a97c7640a3000be26d9ba2f1f7f225c17f"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex05/shared/examples.css",
+      "sha256": "379890ff2c37c1bf932b126b6eabcca0ebd8ad12c892b7164a3ed53439e89cab"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex06/README.md",
+      "sha256": "0b3af43275cb2dd60ead4d65d3a133c1bb0c98ad1ec2954b1b32cd6bb2d561f9"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex06/app.js",
+      "sha256": "11f4c6a35d787dba5a6f2ecc13c6b70b50eafe4243b1a506edf33d3db89e859e"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex06/index.html",
+      "sha256": "af6e3d5e36aa203d6f55e864b30cc64b47b3237c192d8756af2fe373bc66919b"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex06/shared/examples.css",
+      "sha256": "379890ff2c37c1bf932b126b6eabcca0ebd8ad12c892b7164a3ed53439e89cab"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex07/README.md",
+      "sha256": "dda7e1e5ea1aa127559df7bbcece597189553b84917d7603ffdca56f3b73e5a6"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex07/app.js",
+      "sha256": "b99cdbc4f219d2b424b0364558eedfb1ceb1a6521e5da33bd59e27a172333c03"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex07/index.html",
+      "sha256": "e543b3d09278fcb8c6d681de4ccbeda49a47a2a92c3a6aefc3a99e53a65f7e11"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex07/shared/examples.css",
+      "sha256": "379890ff2c37c1bf932b126b6eabcca0ebd8ad12c892b7164a3ed53439e89cab"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/README.md",
+      "sha256": "8b81999557fcfe55342035938942409fb5b97affc71b7ed1cc248b010e73602d"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/about.html",
+      "sha256": "03837204a3c193d003753175be19529e5918d282484eef7f46aaadfd54f08330"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/app.js",
+      "sha256": "afcbab54ce3377999d6dbea4071911f10f9eadc39ab0dff49c087755461e2645"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/guestbook.html",
+      "sha256": "4a508f7a34ed39cca1ca25370a54326d79c12aa22467b58adeef205b310573e5"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/guestbook.js",
+      "sha256": "05e573b7fabaeca040b71a8f1d04ad1ead185a68cad05dd2ebaf358cad8dfc26"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/guestbook.start.html",
+      "sha256": "586eb95140b88c7f59689528a645ffdad75e7dec4fd148e71dc1d1a0057910df"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/guestbook.start.js",
+      "sha256": "11cfc79ebd5dce2ae92b012bedfb6316b8d72ede446275bc72298097ca9c20ce"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/images/profile.png",
+      "sha256": "3dbf451ccc9d269aead36cd75f87432b2a8c0049640c490913df1c2a56768fca"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/images/site-map.svg",
+      "sha256": "cc29c52a3467afbb4ee610fdf75500a329e1e9eb70228e352d7b89ce84776ff6"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/index.html",
+      "sha256": "2c9e71757d9a481d100b1b9cde05c5ce124a4544b6ea291365ed29301a01c815"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/screenshots/guestbook.png",
+      "sha256": "21d1c591de69416cef1488f68cc0b18f30e6d452898070789f89c6b2a8375e42"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/screenshots/home.png",
+      "sha256": "b506129055bac1ef663bc878af5b8f1d8bd7f7459612c060474c19a7ab3d0c3e"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/shared/examples.css",
+      "sha256": "379890ff2c37c1bf932b126b6eabcca0ebd8ad12c892b7164a3ed53439e89cab"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/styles.css",
+      "sha256": "0236017851b09051c4dc068938c03cee393178efc946fe5e7a1ec31139aa6703"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/lab.md",
+      "sha256": "57d6e23d69fdbfc90a8abdca1b9257b454b85912185b0c018d80602d5ee5c5b6"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/slides.md",
+      "sha256": "181495c27ed9a2a572d01a25e73b7484a574eb0c8cd784343fd1af122019bebe"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/slides_en.md",
+      "sha256": "bbafea3482073cb0fb50a7d78d097702b46e19c4d7daab96dfbfa257bc0e4252"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/walkthrough.md",
+      "sha256": "c51019ab486ea202711d7686cfc83a235694d22b9593dcac93f7438de7b47858"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/README.md",
+      "sha256": "d7a73efb042e99e410d7c789d69537056be2691595b56865fee67c10f58512ea"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/README.start.md",
+      "sha256": "7ec1e74a690a2c8b153e59f1ec08befbb33246ec8e578670d92cfe281e47d381"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/about.html",
+      "sha256": "03837204a3c193d003753175be19529e5918d282484eef7f46aaadfd54f08330"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/app.js",
+      "sha256": "afcbab54ce3377999d6dbea4071911f10f9eadc39ab0dff49c087755461e2645"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/guestbook.html",
+      "sha256": "f5686fc1374470e07ddeaca6148b22aea26a7627682bd56b3a88f342b812a29d"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/guestbook.js",
+      "sha256": "135eafc7ea892e73e21e8e3ab0f671b7cc03419cbe5374825a4e5a16b056b578"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/images/profile.png",
+      "sha256": "3dbf451ccc9d269aead36cd75f87432b2a8c0049640c490913df1c2a56768fca"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/index.html",
+      "sha256": "2c9e71757d9a481d100b1b9cde05c5ce124a4544b6ea291365ed29301a01c815"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/screenshots/guestbook.png",
+      "sha256": "ad3582eba948b3e10dc89edbda94b4ae2090ff21a09fcb8085c5d892a12a4d07"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/screenshots/home.png",
+      "sha256": "b75999a21b88e836c67262b3fdff9c3458fde78e2f7a1ad9d6dcdedd1e2138d9"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/shared/examples.css",
+      "sha256": "0c9215b397f4a92656f86f57fc804d82148b70df3ca3e09b30d0cbfd396c8bb3"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/styles.css",
+      "sha256": "0236017851b09051c4dc068938c03cee393178efc946fe5e7a1ec31139aa6703"
+    }
+  ]
+}

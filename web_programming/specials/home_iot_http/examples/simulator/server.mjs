@@ -7,8 +7,17 @@ import { fileURLToPath } from 'node:url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const examples = path.dirname(here);
 const publicRoot = path.join(here, 'public');
-const pages = new Set(['ex01', 'ex02', 'ex03', 'student', 'reference', 'automatic', 'automatic_student']);
+const pages = new Set(['00_about_help', 'ex01', 'ex02', 'ex03', 'student', 'reference', 'automatic', 'automatic_student']);
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8' };
+const about = { name: '홈 IoT 시뮬레이터', version: 'v1', help: '/api/help' };
+const help = [
+  { method: 'GET', path: '/api/about', description: '서버 소개와 버전' },
+  { method: 'GET', path: '/api/help', description: '요청 문법 안내' },
+  { method: 'GET', path: '/api/state', description: '장치·온도·최근 제어 기록' },
+  { method: 'PATCH', path: '/api/devices/light', body: { on: true, brightness: 40 } },
+  { method: 'PATCH', path: '/api/devices/fan', body: { on: true } },
+  { method: 'PATCH', path: '/api/environment', body: { temperature: 29 } }
+];
 
 function reply(res, status, body, type = 'application/json; charset=utf-8', extra = {}) {
   const text = type.startsWith('application/json') ? JSON.stringify(body) : body;
@@ -61,12 +70,17 @@ export function createSimulator() {
     try { pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname); }
     catch { return reply(res, 400, { error: '요청 주소를 확인하세요.' }); }
     if (pathname.startsWith('/api/')) {
-      if (pathname === '/api/state' && req.method === 'GET') return reply(res, 200, state);
-      const target = pathname === '/api/devices/light' ? 'light' : pathname === '/api/devices/fan' ? 'fan' : pathname === '/api/environment' ? 'environment' : null;
-      if (!target && pathname !== '/api/state') return reply(res, 404, { error: '요청한 장치 또는 API가 없습니다.' });
-      if (req.method !== 'PATCH' || pathname === '/api/state') {
+      const readOnly = ['/api/about', '/api/help', '/api/state'].includes(pathname);
+      if (readOnly) {
+        if (req.method === 'GET') return reply(res, 200, pathname === '/api/about' ? about : pathname === '/api/help' ? help : state);
         req.resume();
-        return reply(res, 405, { error: '이 주소에서 허용한 HTTP 메서드를 확인하세요.' }, undefined, { Allow: pathname === '/api/state' ? 'GET' : 'PATCH' });
+        return reply(res, 405, { error: '이 주소는 GET으로 조회하세요.' }, undefined, { Allow: 'GET' });
+      }
+      const target = pathname === '/api/devices/light' ? 'light' : pathname === '/api/devices/fan' ? 'fan' : pathname === '/api/environment' ? 'environment' : null;
+      if (!target) return reply(res, 404, { error: '요청한 장치 또는 API가 없습니다.' });
+      if (req.method !== 'PATCH') {
+        req.resume();
+        return reply(res, 405, { error: '이 주소에서 허용한 HTTP 메서드를 확인하세요.' }, undefined, { Allow: 'PATCH' });
       }
       let body;
       let status = 200;

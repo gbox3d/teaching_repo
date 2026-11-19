@@ -1,131 +1,42 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
+# 5주차 예제와 제공 코드
 
-# 5주차 예제 — 비교 예제 10개와 조립 하나
+각 exNN 폴더는 index.html·app.js·README.md로 구성한다. 화면에는 제목·버튼·입력·결과만 두고 개념과 조작 순서는 각 README에 둔다. 화면 출력과 버튼 연결은 제공 코드이며 Console은 비교·오류 확인에 함께 쓴다.
 
-예제는 쓰는 날짜별 폴더에 있다. 번호는 한 주 안에서 이어 센다.
+## 예제 범위
 
-```text
-examples/
-  day1/   ex01/ ~ ex05/   스크립트와 값 (예제마다 폴더 하나: index.html + app.js)
-  day2/   ex06/ ~ ex10/   조건과 함수, 화면에 쓰기, 날짜 (예제마다 폴더 하나: index.html + app.js)
-          web-week05/     2일차 끝의 web-week05 — 비교 예제에서 본 줄을 모은 조립
-```
-
-예제 폴더 `exNN/` 하나는 **개념 하나**다. 예제마다 같은 일을 다르게 한 **형제**(1·2·3번…)를 나란히 놓는다.
-결과는 **F12 › Console** 에서 본다. Console 의 번호와 코드의 형제 번호가 같다. 값이나 주석을 바꾸고 저장 → 새로고침으로 무엇이 달라지는지 본다.
-**다른 예제의 개념은 섞지 않는다.** 화면 글자를 바꾸는 것(찾고 → 바꾸기)은 ex09 의 주제라서 ex01~ex08·ex10 은 화면에 쓰지 않고 `console.log` 로만 결과를 보인다. 버튼을 찾아 클릭을 등록하는 한 줄(`document.getElementById('…').addEventListener(…)`)만은 클릭을 보이는 데 꼭 필요해 ex01 부터 쓴다.
-작년 수업에서 JavaScript 를 시작한 순서다. 첫날은 버튼 + 클릭 + `console.log`, 다음은 버튼으로 숫자 바꾸기(`innerText`), 그다음은 `parseInt` 덧셈기(입력 칸 + 버튼으로 두 수를 더하는 페이지)였다.
-만들기는 마지막 하나, [`day2/web-week05/`](day2/web-week05/) 뿐이다.
-
-예제는 폴더마다 내 사이트와 같은 이름의 두 파일을 둔다. `index.html` 은 화면(제목·안내와 그 예제가 쓰는 버튼·입력 칸·글자 자리), `app.js` 는 코드다. 이번 주의 원리는 모두 `app.js` 에 있다. 브라우저로 여는 것은 `index.html` 이고, `app.js` 는 `index.html` 의 `<head>` 에 있는 `<script src="app.js" defer>` 가 불러온다(조립한 내 사이트 `index.html` 과 같은 모양이다. `defer` 는 ex02 에서 본다). 그래서 두 파일이 같은 폴더에 있어야 한다. 이번 주 예제에는 모양(CSS)을 볼 것이 없어서 `styles.css` 는 없다.
-**ex02 만 다르다.** 주제가 `script` 를 두는 자리라서 `index.html` 안에 `<script>` 두 개(head 안·body 끝)를 그대로 두고, `<head>` 에서 `defer` 로 `app.js` 를 부른다. 그 자리와 `defer` 가 이 예제의 비교 대상이다.
-내려받아 이번 주 저장소 `web-week05` 의 `ex/` 폴더 안에 같은 이름의 폴더(`ex01`~`ex10`)를 만들어 저장한다(교재 저장소에서 **Raw** → 저장. Raw 가 열리지 않을 때만 주석 줄까지 타이핑). 날짜 폴더(`day1`·`day2`)는 만들지 않는다. 가져오는 방법은 [따라하기 1일차](../walkthrough.md#1일차)에 있다.
-
-## 비교 예제
-
-| 예제 | 열면 보이는 것(Console) | 보여 주는 원리 | 바꿔 볼 값 |
-|---|---|---|---|
-| [day1/ex01/index.html](day1/ex01/index.html) + [app.js](day1/ex01/app.js) | 버튼 하나. 열자마자 Console 에 A·C 두 줄. 버튼을 누를 때마다 B 한 줄 | 스크립트는 위에서 아래로 한 번 실행되고, `addEventListener` 안쪽은 **등록만** 했다가 클릭할 때마다 실행된다. 작년 예제의 `() => {}` 도 여기서는 `function () {}` 와 같은 뜻이다(주석) | 버튼을 여러 번 누르기 → B 만 늘고 A·C 는 그대로. 새로고침 → A·C 가 다시 찍힌다 |
-| [day1/ex02/index.html](day1/ex02/index.html) + [app.js](day1/ex02/app.js) | Console 세 줄이 1 → 2 → 3 순서. 셋 다 `document.body` 를 찍는데 1번은 `null`(없다는 값), 2·3번은 `<body>` | 스크립트는 브라우저가 그 줄을 **읽는 순간** 실행된다. head 를 읽는 동안에는 body 가 아직 없어서 `null`. `defer` 는 HTML 을 끝까지 읽은 뒤 실행한다 | `index.html` 12행 `<script src="app.js" defer>` 에서 `defer` 지우기 → 3번도 `null`, 순서가 1 → 3 → 2 로 바뀐다(`defer` 없는 script 는 head 에서 읽는 순간 실행) |
-| [day1/ex03/index.html](day1/ex03/index.html) + [app.js](day1/ex03/app.js) | 버튼 셋. 열자마자 `처음 값 : 0 0 0`. let 두 번 → `1. let a = 1`·`= 2`, var 한 번 → `3. var c = 1`, const → 빨간 줄 `Uncaught TypeError: Assignment to constant variable.` 만 | `let`·`var` 는 다시 담을 수 있고 `const` 는 안 된다. 다시 담을 일이 없는 값을 `const` 로 두면, 실수로 다시 담을 때 Console 이 알려 준다. 오류는 열 때가 아니라 **그 줄이 실행될 때**(클릭할 때) 나고, 오류 난 줄 아래는 실행되지 않는다 | 빨간 줄 오른쪽 `app.js:13` 으로 가 보기. `app.js` 5행 `const b = 0;` 을 `let b = 0;` 으로 바꿔 다시 누르기 |
-| [day1/ex04/index.html](day1/ex04/index.html) + [app.js](day1/ex04/app.js) | Console 1~5번 `3 number` · `12 string` · `12 string` · `3 number` · `13 number`. 입력 칸 1 과 2 로 6번 → `12`, 7번 → `3` | `+` 는 둘 다 숫자면 더하고 한쪽이라도 문자열이면 잇는다. 입력 칸의 `value` 는 **늘 문자열**이라 `Number()` 로 바꿔야 더해진다(작년 `parseInt` 덧셈기) | 입력 칸 값을 `10`·`5` 로(6번 `105`, 7번 `15`). 3번의 `'1' + 2` 를 `1 + '2'` 로(값과 `typeof` 괄호 안, 줄 앞 글자도 같이) |
-| [day1/ex05/index.html](day1/ex05/index.html) + [app.js](day1/ex05/app.js) | 1·2번 같은 문장 `안녕하세요, student01님! 지금은 9시입니다.`, 3번은 `안녕하세요, ${name}님!` 글자 그대로, 4번 `한 시간 뒤는 10시입니다.` | 백틱(`` ` ``)으로 감싼 문자열만 `${}` 안을 **계산해** 넣는다. 작은따옴표면 글자 그대로다 | `name`·`hour` 값 바꾸기. 3번의 작은따옴표를 백틱으로 |
-| [day2/ex06/index.html](day2/ex06/index.html) + [app.js](day2/ex06/app.js) | Console 1~6번 `true` · `false` · `true` · `false` · `false` · `true` | 비교의 결과는 `true`/`false` **값**이다. `===` 는 종류(숫자·문자열)까지 같아야 참. 문자열끼리는 첫 글자부터 비교해 `'10' < '9'` | `12 > 12` 를 `12 > 11` 로. `'10' > '9'` 를 `'10' > '09'` 로(줄 앞 글자도 같이) |
-| [day2/ex07/index.html](day2/ex07/index.html) + [app.js](day2/ex07/app.js) | `hour = 20` 으로 1~4번 오후 / 오후 / **저녁** / **오후**. 9 로 바꾸면 (담긴 것 없음) / 오전 / 아침 / 아침 | 위에서부터 보다가 **처음 참인 한 곳만** 실행하고 나머지는 보지 않는다. `else` 는 위가 모두 거짓일 때. 그래서 조건 순서가 결과를 바꾼다 | `app.js` 4행 `const hour = 20;` 을 9 · 12 · 15 로 바꿔 새로고침. 3번과 4번이 언제 같고 언제 다른지 |
-| [day2/ex08/index.html](day2/ex08/index.html) + [app.js](day2/ex08/app.js) | 맨 위에 `안녕하세요, student01님!`(greetLog 가 찍은 것), 1번 `undefined`, 2번 `안녕하세요, student01님!`, 3번 student02 / student03. `이 줄은 찍히지 않는다` 는 없다 | 정의는 이름을 붙여 두기만 하고, 괄호를 붙여 **부를 때** 실행된다. `return` 이 부른 곳에 값을 돌려준다. 없으면 `undefined` | `app.js` 5행 `console.log(…)` 를 `return …` 으로 바꾸기. 13행 `const a = greetLog('student01');` 위에 `neverCalled();` 한 줄 더하기 |
-| [day2/ex09/index.html](day2/ex09/index.html) + [app.js](day2/ex09/app.js) | 열자마자 Console 에 찾은 요소 두 개와 `null`. 바꾸기 버튼 → 1·2번 글자 바뀜, 3번은 `<b>3. 굵게 될까?</b>` 글자 그대로(굵어지지 않음), 입력 칸 값 바뀜 | 화면을 바꾸려면 **먼저 찾고(요소 값을 받아) 그다음 바꾼다**. 두 찾기 방법은 같은 id 면 같은 요소를 준다(`querySelector` 는 CSS 선택자를 받는다. `#` 은 id 를 뜻한다). 넣은 글자는 태그가 아니라 글자 그대로다. 입력 칸은 `value` | `app.js` 10행 `console.log(document.querySelector('#out9'));` 아래에 `document.querySelector('#out9').textContent = '…';` 한 줄 더하기 → null 오류, 바꾸기 버튼도 동작하지 않는다. `querySelector('#out2')` 에서 `#` 을 빼 보기 → Console 에 `null`, 버튼을 누르면 14행 오류, 3·4번은 안 바뀐다 |
-| [day2/ex10/index.html](day2/ex10/index.html) + [app.js](day2/ex10/app.js) | Console 에 `now` 한 줄과 1~6번 시 · 분 · 연도 · 월(0부터) · 월 + 1 · 요일(0 = 일요일). 여섯 식의 뜻은 `app.js` 맨 위 주석에 | `new Date()` 는 그 줄이 실행된 순간의 날짜·시각을 담은 **값**이고, `.getHours()` 는 그 값에게 "몇 시야?" 묻는 것이다. 월은 0부터 센다 | 새로고침 → 분이 다시 잰 값. `now.getSeconds()` 를 찍는 줄 더하기 |
-
-### 파일 안의 모양
-
-형제 번호가 주석 첫머리와 `console.log` 앞 글자에 있다. [ex02/index.html](day1/ex02/index.html)에서 인용:
-
-```html
-<script>
-    // 1. head 안의 script: 아직 body 를 읽기 전이다 → document.body 가 없다(null)
-    console.log('1. head 안 script :', document.body);
-</script>
-<!-- 3. defer: 파일을 받아 두었다가 HTML 을 끝까지 읽은 뒤에 실행한다 -->
-<script src="app.js" defer></script>
-```
-
-주석은 설명과 실험 거리다. `defer` 한 단어를 지우면 3번 파일(`app.js`)이 head 에서 읽는 순간 실행되어 1번처럼 `null` 을 찍는다.
-
-같은 조건, 다른 순서는 [ex07/app.js](day2/ex07/app.js)의 3·4번이다.
-
-```js
-if (hour >= 12) {
-    m4 = '오후';                 // 20 도 여기서 true → 아래는 보지 않는다
-} else if (hour >= 18) {
-    m4 = '저녁';                 // 이 줄에는 영영 오지 못한다
-} else {
-    m4 = '아침';
-}
-```
-
-3번은 `hour >= 18` 을 먼저 본다. 그래서 20시에 3번은 `저녁`, 4번은 `오후` 다. 큰 수부터 물어야 하는 이유다.
-
-## `day2/web-week05/` — 2일차 끝의 web-week05
-
-[`day2/web-week05/`](day2/web-week05/) 는 2일차 끝의 `web-week05` 저장소 맨 위(`index.html` 등이 있는 자리) **전체**다. 6주차 새 저장소 `web-week06` 의 시작점이다. 비교 예제를 저장한 `ex/` 폴더와 서버 `server.mjs` 는 여기 넣지 않는다.
-
-| `day2/web-week05/` 파일 | 내 `web-week05` 의 위치 | 따라하기 단계 |
+| 예제 | 수업 범위 | 확인 결과 |
 |---|---|---|
-| [index.html](day2/web-week05/index.html) | `index.html` | [2일차 8·10단계](../walkthrough.md#2일차) — `<head>` 에 `<script src="app.js" defer></script>`, `<main>` 첫 줄에 `#greeting` 카드. 두 줄만 늘어난다 |
-| [app.js](day2/web-week05/app.js) | `app.js` | [2일차 9·11단계](../walkthrough.md#2일차) — 2주차 카운터 코드를 지우고 조립표 순서로 쓴다. 1행의 아이디(`student01` 자리)만 다르고 나머지는 이 파일과 글자 단위로 같아진다 |
-| [about.html](day2/web-week05/about.html) | `about.html` | 4주차 그대로. 이번 주에 열지 않는다 |
-| [guestbook.html](day2/web-week05/guestbook.html) | `guestbook.html` | 4주차 그대로. 이번 주에 열지 않는다 |
-| [styles.css](day2/web-week05/styles.css) | `styles.css` | 4주차 그대로. `.card` 가 인사말 카드에도 쓰인다 |
-| [images/profile.png](day2/web-week05/images/profile.png) | `images/profile.png` | 3주차와 같은 파일. 바꾸지 않는다 |
+| [ex01](day1/ex01/README.md) | 실행 순서 시연 | 처음 A·C, 클릭마다 B |
+| [ex02](day1/ex02/README.md) | defer 시연 | 기본 1→2→3, defer 제거 시 1→3→2 |
+| [ex03](day1/ex03/README.md) | 1일차 필수 a·b 2값, 오류 1건 수정 | 10→11, const 오류 후 let으로 20→21. var는 선택 |
+| [ex04](day1/ex04/README.md) | 숫자/문자열 시연 | 1·2는 연결 12와 합 3. parseInt는 선택 |
+| [ex05](day1/ex05/README.md) | 1일차 필수 name·hour 2값 | student02·15시 출력 |
+| [ex06](day2/ex06/README.md) | 비교 시연 | true/false 결과. ==는 선택 |
+| [ex07](day2/ex07/README.md) | if 시연 | 9시와 15시, 조건 순서 차이 |
+| [ex08](day2/ex08/README.md) | 함수 시연 | return 없는 결과 undefined와 인사 문자열 |
+| [ex09](day2/ex09/README.md) | DOM 시연 | 글자 변경, 태그는 문자로 표시. 다른 DOM 접근법은 선택 |
+| [ex10](day2/ex10/README.md) | 날짜 시연·선택 | 페이지를 읽은 순간의 날짜·시각 |
+| [시작 app.js](day2/start/README.md) | 2일차 학생 작업 | 함수·조건·출력 각 1곳 수정 |
+| [완성 홈](day2/web-week05/index.html) | 강의자 조립본·비교본 | greet·hello가 만든 인사말 |
 
-`app.js` 에 남아 있던 2주차 카운터 코드를 지우는 이유: 그 코드가 찾던 버튼은 3주차에 `index.html` 에서 사라졌다. 찾으면 `null` 이 오고, `null` 에 `addEventListener` 를 쓰면 빨간 오류가 나서 그 아래 줄이 실행되지 않는다(없으면 `null` 은 ex02·ex09, 오류 난 줄 아래가 멈추는 것은 ex03 에서 본 것).
+필수 수정은 [실습지](../lab.md)의 30분 상한에 따른다. 10개 예제를 모두 수정하는 과제는 없다. 이벤트와 출력 지원 코드는 제공하므로 학생이 새로 작성하지 않는다.
 
-### 조립표 — `web-week05` 의 줄은 어느 ex 에서 본 것인가
+## 4주에서 5주로 넘기는 파일
 
-`index.html` 두 줄과 `app.js` 21줄은 새로 배우는 것이 없다. 비교 예제에서 본 것을 한 곳에 모은 것이다.
+수업 전에 4주 완성본을 새 `web-week05` 폴더에 제공하고 비교 예제를 `ex/` 아래에 복사한다. Node.js 24 이상과 [공용 server.mjs](../../../tools/static-server/server.mjs)도 미리 준비한다. server.mjs는 공용 원본을 배부하며 이 폴더에 중복 보관하지 않는다.
 
-| `web-week05` 의 줄 | 어느 ex 에서 본 것 |
-|---|---|
-| `index.html` `<head>` 의 `<script src="app.js" defer></script>` | ex02 3번. HTML 을 다 읽은 뒤 실행하므로 아래의 `#greeting` 을 찾을 수 있다 |
-| `index.html` 의 `<div class="card" id="greeting">인사말을 준비 중입니다.</div>` | ex09 (찾을 자리에 `id`), 4주차 ex01 (클래스 선택자, `.red` 와 같은 원리), `.card` 규칙은 4주차 `styles.css` |
-| `const name = 'student01';` | ex03 (`const`) |
-| `const hour = new Date().getHours();` | ex10 (지금 시각 → 시) + ex03 |
-| `` function greet(name) { return `안녕하세요, ${name}님!`; } `` | ex08 (정의 · `return`) + ex05 (템플릿 문자열) |
-| `function hello(hour) { if (hour >= 12) { return … } else { return … } }` | ex07 (`if / else`) + ex06 (`>=`) + ex08 (`return`) |
-| `` const message = `${greet(name)} ${hello(hour)}`; `` | ex05 (`${}` 안은 계산된다 — 함수 호출도) + ex08 (호출) |
-| `console.log(hour);` · `console.log(message);` | ex01 (Console) |
-| `document.querySelector('#greeting').textContent = message;` | ex09 2번 (찾고 → 바꾼다) |
+| 파일 | 제공 준비 | 학생 작업 |
+|---|---|---|
+| [index.html](day2/web-week05/index.html) | 4주 홈에 defer script와 greeting 카드 각 1줄 추가 | 연결과 id 확인 |
+| [시작 app.js](day2/start/app.js) | 기존 카운터 JS를 시작 파일로 교체 | 표시한 세 곳 수정 |
+| [완성 app.js](day2/web-week05/app.js) | 완성 비교본 | 9·15시 검증 후 현재 시각 식 복원 |
+| [about.html](day2/web-week05/about.html) | 4주 그대로 | 메뉴 이동 확인 |
+| [guestbook.html](day2/web-week05/guestbook.html) | 4주 정적 폼 그대로 | 미저장 상태 확인 |
+| [styles.css](day2/web-week05/styles.css) | 4주 자체 CSS 그대로 | 375/1280px 확인 |
+| [profile.png](day2/web-week05/images/profile.png) | 기존 프로필 그림 | 표시 확인 |
 
-마지막 두 덩어리가 이번 주 질문의 답이다. [day2/web-week05/app.js](day2/web-week05/app.js)에서 인용:
+방명록은 유효하지 않은 이메일을 브라우저가 거절한다. 유효한 폼은 같은 URL을 GET으로 다시 탐색하며 메시지를 저장하지 않는다. 입력 name 속성이 없으므로 입력값도 전송되지 않는다. 이 주에는 JS 방명록을 구현하지 않는다.
 
-```js
-function hello(hour) {
-  if (hour >= 12) {
-    return '좋은 오후입니다.';
-  } else {
-    return '좋은 아침입니다.';
-  }
-}
+## 6주 인계
 
-const message = `${greet(name)} ${hello(hour)}`;
-
-console.log(hour);
-console.log(message);
-
-document.querySelector('#greeting').textContent = message;
-```
-
-`hello(hour)` 는 처음 참인 한 갈래의 문장을 돌려준다. 백틱 안의 `${}` 가 두 함수를 부르고, 돌아온 두 문장을 이어 `message` 에 담는다. 마지막 줄이 `#greeting` 을 찾아 그 글자를 바꾼다.
-그래서 `day2/web-week05/index.html` 을 열면 카드 글자가 `인사말을 준비 중입니다.` 에서 `안녕하세요, student01님! 좋은 아침입니다.` 로 바뀐다. 12시가 지나면 `좋은 오후입니다.` 다. 둘 다 정답이다.
-카드 글자가 `인사말을 준비 중입니다.` 그대로면 마지막 줄까지 가지 못한 것이다. Console 의 빨간 줄과 오른쪽 `app.js:줄` 을 먼저 본다.
-
-## 공식 참고 자료
-
-- [변수에 필요한 정보 저장하기 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Scripting/Variables)
-- [템플릿 리터럴 — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Template_literals)
-- [조건문 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Scripting/Conditionals)
-- [나만의 함수 만들기 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Scripting/Build_your_own_function)
-- [EventTarget.addEventListener() — MDN](https://developer.mozilla.org/ko/docs/Web/API/EventTarget/addEventListener)
-- [Document.querySelector() — MDN](https://developer.mozilla.org/ko/docs/Web/API/Document/querySelector)
-- [Node.textContent — MDN](https://developer.mozilla.org/ko/docs/Web/API/Node/textContent)
-- [Date — MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Date)
+완성 폴더의 세 페이지·CSS·그림과 공용 server.mjs를 넘긴다. `#greeting`, `greet(name)`, `hello(hour)`를 바꾸지 않는다. 6주는 이 이름에 이벤트와 카운터를 연결한다. 5주의 시작 app.js를 다음 주 완성본 대신 넘기지 않는다.

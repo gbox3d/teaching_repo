@@ -12,11 +12,13 @@
 
 특강 폴더 home_iot_http에서 node examples/simulator/server.mjs를 실행하고 http://localhost:8014/를 연다.
 Node는 시뮬레이터의 HTTP API와 화면을 함께 제공한다. HTML을 더블클릭하거나 정적 서버만 실행하면 제어 API가 없다.
+먼저 [00 접속·도움말](00_about_help/README.md)에서 요청을 확인한다. 모든 실습 폴더에는 VS Code REST Client (`humao.rest-client`)용 `requests.http`가 있다. 맨 위 `@baseUrl`의 포트를 현재 서버에 맞추고 **Send Request**로 200과 JSON을 확인한다. 키·`.env`는 필요 없으며 PATCH에는 `Content-Type: application/json`을 지정한다. 상세 응답은 요청 위 주석에 있다.
 
 ## 기초 비교 예제
 
 | 파일 | 관찰할 동작 | 변경 변수 |
 |---|---|---|
+| [00_about_help](00_about_help/README.md) · [requests.http](00_about_help/requests.http) | about·help GET 200 | 실행 포트와 API 경로 |
 | [ex01/index.html](ex01/index.html) · [app.js](ex01/app.js) | GET으로 상태 객체 읽기 | 표시할 응답 필드 |
 | [ex02/index.html](ex02/index.html) · [app.js](ex02/app.js) | PATCH로 전등 변경 | 밝기 20·65·90, 오류 값 101 |
 | [ex03/index.html](ex03/index.html) · [app.js](ex03/app.js) | GET→온도 비교→팬 PATCH | 기준 온도 28·30 |

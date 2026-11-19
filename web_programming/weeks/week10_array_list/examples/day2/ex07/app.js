@@ -13,6 +13,7 @@ function showList() {                               // 비우고 다시 그리�
         // ↓ 삭제 버튼 틀(일곱 줄). 그대로 옮겨 쓴다. showList() 가 다시 그릴 때 버튼마다 번호를 새로 붙인다
         const removeButton = document.createElement('button');
         removeButton.textContent = '삭제';
+        removeButton.className = 'w3-button w3-small w3-border w3-margin-left';
         removeButton.addEventListener('click', function () {
             items.splice(i, 1);              // 1. 배열에서 i 번째 하나를 뺀다
             showList();                      // 2. 바뀐 배열대로 다시 그린다

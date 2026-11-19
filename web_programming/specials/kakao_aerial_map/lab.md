@@ -1,6 +1,6 @@
 # 특강 실습 — 사람·AI 공동 Kakao 항공 지도 Canvas
 
-70분 동안 위치·권한, StaticMap 단일 이미지 relay, 공동 작업 API, Canvas 이미지 공유와 사람 전용 저장을 검증한다. 각 활동은 **문제 → 예상 → 구현 → 관찰 → 오류 설명 → 확장** 순서를 지킨다.
+다음 70분은 도입 실습 배분 예시다. 분량 제한 없이 위치·권한, StaticMap 단일 이미지 relay, 공동 작업 API, Canvas 이미지 공유와 사람 전용 저장을 검증한다. 각 활동은 **문제 → 예상 → 구현 → 관찰 → 오류 설명 → 확장** 순서를 지킨다.
 
 ## 준비 5분
 
@@ -113,7 +113,7 @@ execute()는 command 이름을 확인한 뒤 ________ code로 거부한다.
 ### 3. 구현
 
 1. 현재 위치·지도 level을 정한다.
-2. 사람 UI의 **정적 항공뷰를 사람·AI 작업공간에 전달**을 누르거나 AI에서 다음을 실행한다.
+2. 사람 UI의 **정적 항공뷰 불러오기**을 누르거나 AI에서 다음을 실행한다.
 
 ~~~js
 await window.aerialCanvasLab.execute("loadAerialView");
@@ -247,7 +247,7 @@ console.log(blob.type, blob.size, dataUrl.startsWith("data:image/jpeg"));
 
 2. UI activity에서 <code>readAerialImage</code> 두 건을 확인한다.
 3. 사람이 PNG·JPEG·WebP 로컬 파일을 직접 선택한다.
-4. source kind가 <code>local-file</code>, <code>attributionWidth</code>와 <code>attributionHeight</code>가 모두 0인지 확인한다.
+4. source kind가 <code>local-file</code>, 공개 workspace의 <code>protectedWidth</code>와 <code>protectedHeight</code>가 모두 0인지 확인한다.
 5. AI가 밝기·대비를 적용하고 사람이 undo 또는 초기화를 수행한다.
 6. 사람이 PNG 또는 JPEG 버튼으로 최종 저장한다.
 

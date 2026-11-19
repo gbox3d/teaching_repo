@@ -1,0 +1,16 @@
+# VS Code REST Client(humao.rest-client). .env.example을 .env로 복사합니다.
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+@bookId = {{$dotenv BOOK_ID}}
+
+### 1. 접속 확인: 200 + API 정보 배열
+GET {{baseUrl}}/rest/v1/about
+apikey: {{apiKey}}
+
+### 2. 도움말: 200 + 단계별 사용법 배열
+GET {{baseUrl}}/rest/v1/help?order=step.asc
+apikey: {{apiKey}}
+
+### 3. 자기 목록: 200 + 글 배열. []도 정상 응답입니다.
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&select=id,name,message,created_at&order=id.desc&limit=50
+apikey: {{apiKey}}

@@ -31,7 +31,7 @@ Each class has a **60-minute lecture and demo plus a 30-minute lab**. Day 2 requ
 
 ## Day 1 · 0–10 min — Folder structure and server
 
-Keep the repository's `web_programming` folder structure.
+Prepare the files and server before class. Keep the repository's `web_programming` folder structure.
 
 ```text
 web_programming/
@@ -40,8 +40,8 @@ web_programming/
 ```
 
 - Serve `web_programming` on port `8111`.
-- Day 2 loads W3.CSS from a CDN and `shared/examples.css`. The CDN needs internet access.
-- ex01/ex02 use the Console; ex03 compares two lists.
+- ex01–ex07 load W3.CSS 4.1.0 from a CDN and `shared/examples.css`. The CDN needs internet access.
+- Use Apply Name in ex01 and Check Array Result in ex02. The Console is an extra check; ex03 compares two lists.
 
 Command and URLs: [Walkthrough](walkthrough.md#준비)
 
@@ -111,11 +111,10 @@ li2.textContent = `${items[i].name}: ${items[i].message} (${items[i].date})`;
 
 | Lab time | Check |
 |---|---|
-| 0–5 min | Open the server, ex01, and Console |
-| 5–13 min | Compare the object's name and property output |
-| 13–21 min | Compare array indices 0 and 1 |
-| 21–28 min | Compare lists and property spelling |
-| 28–30 min | Explain the changed value and result |
+| 0–8 min | ex01: change the property value; compare on screen |
+| 8–16 min | ex02: change the last screen output index from 0 to 1 |
+| 16–25 min | ex03: change name to message; restore the field |
+| 25–30 min | Check the changed values and results |
 
 Lecture: 10+15+15+15+5 = 60 min. Public deployment is outside this lab.
 
@@ -167,6 +166,7 @@ const restored = JSON.parse(text); // restored[0].name
 
 Save JSON → Read raw text → Restore JSON: inspect the two restored rows.
 Change a fixed value in app.js, reload, and save again to compare results.
+Error handling and type checks are provided code; do not rewrite them.
 
 ---
 
@@ -252,7 +252,9 @@ Public deployment is after-class work. Use sample names and messages.
 
 The [completed guestbook](examples/day2/web-week11/README.md) is an instructor demo and Week 12 starter. Students do not need to build it in this week's lab.
 
-Week 12 uses the prepared screen to read a JSON list from the shared REST API.
+Week 12 preserves the local version as `guestbook.local.html` and `guestbook.local.js`, separate from the server list. Local entries are not moved or deleted.
+
+The demo uses `week11-guestbook-items`. Damaged data triggers a notice; Delete All removes only this key. Recovery is provided code, outside student implementation.
 
 - [Advanced arrays](../../specials/array_advanced/README.md) is a separate supplementary class.
 - [ex07 cross-tab synchronization](examples/day2/README.md#고급-저장-참고) is reference material.

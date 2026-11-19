@@ -1,0 +1,1286 @@
+{
+  "mode": "Baseline page-load inspection; external APIs mocked with empty arrays; non-CDN external requests blocked; not feature or live API validation",
+  "count": 160,
+  "results": [
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w14_rest_edit/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w14_readme_images/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w13_text_safe/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w13_rest_post/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w12_rest_get/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w12_fetch_cards/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w11_local_storage/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w10_list_delete/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/day2/web-week09/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week14_project_presentation/examples/day2/web-week14/projects.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week14_project_presentation/examples/day2/web-week14/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week14_project_presentation/examples/day2/web-week14/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week14_project_presentation/examples/day2/web-week14/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/ex10_melody.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 728,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/ex09_fetch_song.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/ex08_pattern.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 430,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/ex07_timing.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/ex06_drums.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/ex05_filter.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 488,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/ex04_chord.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/ex03_envelope.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 488,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/ex02_pitch.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/ex01_wave.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 488,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w07_form_line/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w06_click_text/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day2/web-week05/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/build/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 441,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/synthesizer/examples/build/compose.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w05_box_position/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day2/web-week05/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day2/web-week05/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w04_box_style/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day2/ex10/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day2/ex09/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day2/ex08/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day2/ex07/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day2/ex06/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w03_second_page/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day1/ex05/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day1/ex04/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week01_web_git/examples/day2/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 391,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day1/ex02/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w02_push_repo/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day1/ex03/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week14_project_presentation/examples/day2/ex04/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week03_semantic_html/examples/day2/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week05_javascript_data/examples/day1/ex01/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week08_midterm/examples/w01_first_page/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week01_web_git/examples/day1/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 391,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week03_semantic_html/examples/day2/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week03_semantic_html/examples/day2/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week14_project_presentation/examples/day2/ex03/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week14_project_presentation/examples/day1/ex03/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/supabase_guestbook/examples/07_guestbook_complete/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week14_project_presentation/examples/day1/ex02/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week03_semantic_html/examples/day1/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week14_project_presentation/examples/day1/ex01/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/home_iot_http/examples/student/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/supabase_guestbook/examples/06_http_lab/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/guestbook.before.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/web-week07/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week02_github_pages/examples/day1/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 391,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week02_github_pages/examples/day2/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 391,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week02_github_pages/examples/day2/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 391,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week03_semantic_html/examples/day1/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 391,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day2/web-week04/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day2/web-week04/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/ex05/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week06_dom_events/examples/day2/web-week06/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day2/ex12/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day2/ex14/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/supabase_guestbook/examples/05_guestbook_edit/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day2/web-week04/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/home_iot_http/examples/simulator/public/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week06_dom_events/examples/day2/web-week06/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week06_dom_events/examples/day2/web-week06/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day2/ex04/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/home_iot_http/examples/reference/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day2/ex13/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week12_fetch_json/examples/day2/web-week12/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week06_dom_events/examples/day2/ex06/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/home_iot_http/examples/automatic/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/home_iot_http/examples/ex03/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/supabase_guestbook/examples/04_guestbook_post/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week06_dom_events/examples/day2/ex05/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day2/ex11/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex03/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/home_iot_http/examples/ex02/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week12_fetch_json/examples/day2/web-week12/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week12_fetch_json/examples/day2/web-week12/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day2/ex10/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex01/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex01/before.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/examples/day1/ex02/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/supabase_guestbook/examples/03_guestbook_get/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/home_iot_http/examples/automatic_student/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/home_iot_http/examples/ex01/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/array_advanced/examples/05_reduce/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/array_advanced/examples/02_iteration/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week06_dom_events/examples/day2/ex04/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week12_fetch_json/examples/day2/ex06/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/array_advanced/examples/04_map/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/array_advanced/examples/01_insert_delete/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week11_object_localstorage/examples/day2/ex07/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week12_fetch_json/examples/day2/ex05/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/array_advanced/examples/03_filter/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week06_dom_events/examples/day1/ex03/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week11_object_localstorage/examples/day2/ex06/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/supabase_guestbook/examples/01_about/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week12_fetch_json/examples/day2/ex04/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week11_object_localstorage/examples/day2/ex05/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week06_dom_events/examples/day1/ex02/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week11_object_localstorage/examples/day1/ex03/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week11_object_localstorage/examples/day2/ex04/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week11_object_localstorage/examples/day2/web-week11/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week11_object_localstorage/examples/day2/web-week11/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week11_object_localstorage/examples/day2/web-week11/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week06_dom_events/examples/day1/ex01/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week11_object_localstorage/examples/day1/ex02/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/kakao_aerial_map/examples/app/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week11_object_localstorage/examples/day1/ex01/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week12_fetch_json/examples/day1/ex03/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week13_release_security/examples/day2/web-week13/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week12_fetch_json/examples/day1/ex01/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/specials/supabase_guestbook/examples/02_help/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week12_fetch_json/examples/day1/ex02/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week13_release_security/examples/day2/ex04/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week13_release_security/examples/day2/web-week13/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week13_release_security/examples/day2/web-week13/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex04/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week13_release_security/examples/day2/ex06/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week13_release_security/examples/day2/ex05/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day2/ex07/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex03/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/about.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day2/ex08/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex01/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/guestbook.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/web-week10/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex07/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex06/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day1/ex02/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/day2/ex05/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day1/ex02/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day1/ex01/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week13_release_security/examples/day1/ex03/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day1/ex04/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 648,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day1/ex05/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day1/ex06/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week13_release_security/examples/day1/ex01/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 493,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day1/ex03/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week13_release_security/examples/day1/ex02/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    },
+    {
+      "file": "web_programming/weeks/week04_responsive_css/examples/day2/ex09/index.html",
+      "status": 200,
+      "width": 375,
+      "scrollWidth": 375,
+      "duplicateIds": [],
+      "errors": []
+    }
+  ]
+}

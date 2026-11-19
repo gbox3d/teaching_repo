@@ -24,6 +24,8 @@ let out = null;
 let noise = null;
 let session = null;     // 이번 연주의 소리가 모이는 게인. 정지하면 줄이고 끊어 남은 소리도 멈춘다
 let timer = null;
+let playVersion = 0;
+let loadVersion = 0;
 let frame = 0;          // 화면 그리기 requestAnimationFrame 번호
 let nextTime = 0;
 let playBar = 0;        // 다음에 예약할 마디(source() 안의 번호)
@@ -67,7 +69,7 @@ function renderLibrary() {
     const box = $('library');
     box.innerHTML = '';
     if (library.length === 0) {
-        box.textContent = '비어 있다. 위에서 곡을 열거나 더한다.';
+        box.textContent = '멜로디 없음';
         return;
     }
     library.forEach(function (item, k) {
@@ -81,6 +83,7 @@ function renderLibrary() {
         listen.addEventListener('click', function () { preview(k); });
         const add = document.createElement('button');
         add.textContent = '+';
+        add.setAttribute('aria-label', `${tagLabel(k)} 마디 추가`);
         add.addEventListener('click', function () {
             insertBar({ section: currentSection(), chord: item.chord, melody: k, shift: 0 });
         });
@@ -118,7 +121,7 @@ function renderCells() {
     const box = $('arrangement');
     box.innerHTML = '';
     arrangement.forEach(function (bar, k) {
-        const cell = document.createElement('div');
+        const cell = document.createElement('button');
         cell.className = k === selected ? 'bar selected' : 'bar';
         if (k === 0 || arrangement[k - 1].section !== bar.section) {
             const name = document.createElement('small');
@@ -138,7 +141,7 @@ function renderCells() {
         box.append(cell);
     });
     const seconds = arrangement.length * 16 * secondsPerStep();
-    $('arrangement-info').textContent = `— ${arrangement.length}마디 · ${seconds.toFixed(1)}초 · 마디를 누르면 아래에서 고친다`;
+    $('arrangement-info').textContent = `— ${arrangement.length}마디 · ${seconds.toFixed(1)}초`;
 }
 
 function renderEditor() {
@@ -173,7 +176,7 @@ function renderEditor() {
 // 'F G' → 마디를 반씩. 이름이 틀리면 chordToMidis 가 던진다
 function readChords(text) {
     const parts = text.trim().split(/\s+/);
-    if (parts.length === 0 || parts[0] === '') throw new Error('코드를 적는다 (예: Am, F G)');
+    if (parts.length === 0 || parts[0] === '') throw new Error('코드를 입력하세요 (예: Am, F G)');
     return parts.map(chordToMidis);
 }
 
@@ -214,12 +217,25 @@ function setupEditor() {
     $('ed-melody').addEventListener('change', function () {
         if (selected < 0) return;
         arrangement[selected].melody = Number($('ed-melody').value);
+        arrangement[selected].shift = 0;
         renderArrangement();
     });
     $('ed-shift').addEventListener('input', function () {
         if (selected < 0) return;
-        arrangement[selected].shift = Math.max(-12, Math.min(12, Math.round(Number($('ed-shift').value) || 0)));
+        const shift = Number($('ed-shift').value);
+        const bar = arrangement[selected];
+        try {
+            if (!$('ed-shift').validity.valid || $('ed-shift').value === '') throw new Error('옮김은 -12~12의 정수로 입력하세요');
+            transpose(bar.melody >= 0 ? library[bar.melody].notes : [], shift);
+            bar.shift = shift;
+            say('');
+        } catch (error) {
+            say(error.message);
+        }
         renderCells();
+    });
+    $('ed-shift').addEventListener('change', function () {
+        if (selected >= 0) $('ed-shift').value = arrangement[selected].shift;
     });
     $('ed-left').addEventListener('click', function () { move(-1); });
     $('ed-right').addEventListener('click', function () { move(1); });
@@ -302,7 +318,7 @@ function tick() {
         const bars = source();
         if (bars.length === 0) {
             stop();
-            say('마디가 없어서 멈췄다.');
+            say('마디 없음 · 재생 정지');
             return;
         }
         if (playBar >= bars.length) {
@@ -343,6 +359,8 @@ function arrangementSource() {
 }
 
 async function start(from, loop) {
+    stop();
+    const version = playVersion;
     if (!ctx) {
         ctx = new AudioContext();
         const compressor = ctx.createDynamicsCompressor();
@@ -352,9 +370,9 @@ async function start(from, loop) {
         noise = createNoise(ctx);
     }
     await ctx.resume();
-    stop();
+    if (version !== playVersion) return;
     if (from().length === 0) {
-        say('편곡 줄이 비어 있다. 라이브러리에서 + 로 마디를 더한다.');
+        say('편곡이 비어 있습니다. 마디를 추가하세요.');
         return;
     }
     say('');
@@ -370,6 +388,7 @@ async function start(from, loop) {
 }
 
 function stop() {
+    playVersion += 1;
     clearInterval(timer);
     timer = null;
     cancelAnimationFrame(frame);
@@ -388,7 +407,7 @@ function stop() {
 // 라이브러리 조각 하나를 그 코드와 함께 한 마디 듣는다
 function preview(k) {
     const bar = { section: '', chord: library[k].chord, melody: k, shift: 0 };
-    start(function () { return [bar]; }, false);
+    start(function () { return [bar]; }, false).catch(function (error) { say(error.message); });
 }
 
 // ---------- 불러오기 · 내보내기 ----------
@@ -418,7 +437,18 @@ function useSong(song, replace) {
     renderLibrary();
     renderArrangement();
     const fresh = library.length - before;
-    say(replace ? `열었다: ${bars.length}마디, 멜로디 조각 ${library.length}개` : `라이브러리에 새 조각 ${fresh}개를 더했다(이미 있는 것은 건너뜀)`);
+    say(replace ? `불러오기 완료 · ${bars.length}마디 · 멜로디 ${library.length}개` : `라이브러리 추가 완료 · 새 멜로디 ${fresh}개`);
+}
+
+// 마지막으로 요청한 파일만 반영한다. 실패하면 현재 편곡과 입력을 유지한다.
+async function loadSong(read, replace) {
+    const version = ++loadVersion;
+    try {
+        const song = await read();
+        if (version === loadVersion) useSong(song, replace);
+    } catch (error) {
+        if (version === loadVersion) say(`불러오지 못했습니다: ${error.message}`);
+    }
 }
 
 async function fetchSong(file) {
@@ -429,7 +459,7 @@ async function fetchSong(file) {
 
 function exportSong() {
     if (arrangement.length === 0) {
-        say('내보낼 마디가 없다.');
+        say('내보낼 마디가 없습니다.');
         return;
     }
     const title = $('title').value.trim() || '내 편곡';
@@ -446,11 +476,11 @@ function exportSong() {
     link.click();
     link.remove();
     setTimeout(function () { URL.revokeObjectURL(link.href); }, 1000);
-    say(`내보냈다: ${link.download} — 연주기 폴더에 두고 index.html 의 곡 선택에 더하면 연주기에서도 열린다`);
+    say(`내보내기 완료 · ${link.download}`);
 }
 
 export default async function main() {
-    $('play').addEventListener('click', function () { start(arrangementSource, on('loop')); });
+    $('play').addEventListener('click', function () { start(arrangementSource, on('loop')).catch(function (error) { say(error.message); }); });
     $('stop').addEventListener('click', stop);
     $('loop').addEventListener('change', function () {
         if (source === arrangementSource) looping = on('loop');      // 미리 듣기(한 마디)는 늘 한 번만
@@ -460,32 +490,26 @@ export default async function main() {
         renderArrangement();
     });
     $('open-song').addEventListener('click', function () {
-        fetchSong($('song').value).then(function (song) { useSong(song, true); }).catch(function (error) { say(`불러오지 못했습니다: ${error.message}`); });
+        const file = $('song').value;
+        loadSong(function () { return fetchSong(file); }, true);
     });
     $('add-song').addEventListener('click', function () {
-        fetchSong($('song').value).then(function (song) { useSong(song, false); }).catch(function (error) { say(`불러오지 못했습니다: ${error.message}`); });
+        const file = $('song').value;
+        loadSong(function () { return fetchSong(file); }, false);
     });
     // 내 컴퓨터의 곡 JSON. 서버에 올리지 않고 브라우저가 바로 읽는다
     for (const [id, replace] of [['file-open', true], ['file-add', false]]) {
         $(id).addEventListener('change', async function () {
             const file = $(id).files[0];
             if (!file) return;
-            try {
-                useSong(JSON.parse(await file.text()), replace);
-            } catch (error) {
-                say(`${file.name} 을 읽지 못했습니다: ${error.message}`);
-            }
+            await loadSong(async function () { return JSON.parse(await file.text()); }, replace);
             $(id).value = '';           // 같은 파일을 다시 골라도 change 가 나도록
         });
     }
     $('export').addEventListener('click', exportSong);
     setupEditor();
 
-    try {
-        useSong(await fetchSong('only_you.json'), true);
-    } catch (error) {
-        say(`불러오지 못했습니다: ${error.message}`);
-        renderLibrary();
-        renderArrangement();
-    }
+    renderLibrary();
+    renderArrangement();
+    await loadSong(function () { return fetchSong('only_you.json'); }, true);
 }

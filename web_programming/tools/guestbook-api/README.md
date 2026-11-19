@@ -13,7 +13,7 @@
 
 ## 수업과 서버의 역할
 
-12주는 GET으로 읽고, 13주는 POST로 저장하고, 14주는 PATCH·DELETE로 고친다.
+12주는 about·help로 접속을 확인한 뒤 GET으로 읽고, 13주는 POST로 저장하고, 14주는 PATCH·DELETE로 고친다.
 강의자가 서버와 방명록 번호를 준비한다. 학생은 Supabase 가입이나 SQL 작성 없이
 브라우저의 `fetch`와 화면 구현을 연습한다. SDK나 npm 패키지는 필요 없다.
 
@@ -31,7 +31,7 @@
 이 안내와 프로젝트의 publishable key, 개인별 `BOOK_ID`를 배부한다. 현재 공용 서버에서 등록을 확인한 태그는 `student01`, `student02`다.
 추가 태그는 아래 등록 절차를 거친 뒤 배부한다.
 특강 예제는 [01~07 폴더별 안내](../../specials/supabase_guestbook/examples/README.md)를 따른다. examples 루트에는 README만 둔다.
-각 폴더는 자체 `config.example.js`·`styles.css`를 가지므로 하나만 별도로 배포할 수 있다.
+각 폴더는 자체 `config.example.js`·`shared/examples.css`를 가지므로 하나만 별도로 배포할 수 있다. W3.CSS는 고정 CDN에서 읽는다.
 완성 화면은 [07 방명록](../../specials/supabase_guestbook/examples/07_guestbook_complete/index.html), 요청 문법은 [07 requests.http](../../specials/supabase_guestbook/examples/07_guestbook_complete/requests.http)에서 확인한다.
 
 강의자는 [프로젝트 Data API](https://supabase.com/dashboard/project/esoqbcwgzjtwcqszwvin/integrations/data_api/overview)에서
@@ -66,8 +66,8 @@ node server.mjs
 `web_programming/tools/static-server/server.mjs`로 `http://localhost:8000/`에 연다.
 두 서버의 역할은 각각 데이터 처리와 화면 파일 제공이다.
 로컬 HTTP 화면에서 공용 Supabase HTTPS API를 호출할 수도 있다. 이 경우 화면 주소는 HTTP로 유지되고 API 요청만 HTTPS를 사용한다.
-로컬 API를 연습할 예제의 `config.example.js`를 아래 값으로 설정한다.
-Supabase 특강 예제는 현재 공용 HTTPS 주소로 설정되어 있으므로 로컬 연습 때만 전환한다.
+정규 12~14주 예제는 아래 로컬 연습값으로 시작한다. 화면의 **API 설정**을 펼쳐 공용 주소·공개 키·방명록 번호를 적용한다. 설정은 현재 페이지의 메모리에만 남으며 새로고침하면 다시 입력한다.
+Supabase 특강 예제는 `config.example.js`의 현재 공용 HTTPS 주소를 사용하므로 로컬 연습 때만 아래 값으로 바꾼다. `.http`는 각 폴더의 `.env`를 별도로 읽는다.
 
 ```js
 const API_BASE_URL = 'http://127.0.0.1:8787';
@@ -99,7 +99,7 @@ node --test server.test.mjs
    ```
 
 4. 생성된 `.local/cloud-books.sql`을 SQL Editor에서 실행한다. 키의 해시만 DB에 저장된다.
-5. 프로젝트 URL과 **publishable key**를 학생에게 배부한다. 학생은 예제의 `API_BASE_URL`, `API_PUBLIC_KEY`, `BOOK_ID` 세 줄을 바꾼다.
+5. 프로젝트 URL과 **publishable key**, 개인별 `BOOK_ID`를 학생에게 배부한다. 정규 예제는 화면의 **API 설정**에 입력한다. Supabase 특강 예제는 `config.example.js`의 세 값을 바꾸고, REST Client는 `.env`를 설정한다.
 6. 14주에는 `.local/cloud-edit-keys.json`의 해당 번호 키만 따로 배부한다. 학생은 웹 화면의 편집 키 칸에 입력한다. 키는 JavaScript 메모리에서만 사용하고 소스 파일에 적지 않는다.
 7. 아래 검증을 완료한 뒤 수업 주소로 공지한다.
 
@@ -153,6 +153,7 @@ SQL과 Supabase 게이트웨이의 실제 동작은 별도 공용 프로젝트�
 격리 Chrome의 로컬 01·02 화면에서도 실제 Supabase HTTPS 응답 200, JSON 1행·6행, 도움말 목록 6개를 확인했다.
 이 브라우저 검증은 `127.0.0.1` 임시 포트에서 수행했으며 CORS·버튼 복구가 정상이고 페이지 오류는 없었다.
 독립 폴더로 나눈 뒤에도 `http://localhost:8000/01_about/`와 `/02_help/`에서 각 폴더 설정·스타일을 읽고 실제 HTTPS API GET 200, 페이지 오류 없음을 확인했다.
+2026-11-18에는 정규 12주 예제의 localhost HTTP 화면에서 Supabase HTTPS about·help GET 200과 없는 필드 GET 400을 확인했다. [브라우저 읽기 기록](../../reviews/2026-11-18-course-audit/live-browser-read.json)에 범위를 남겼다.
 공용 서버 PATCH·DELETE 권한, 다른 기기와 GitHub Pages에서의 접속, 잘못된 입력과 보호 열 변경 거부는 아직 검증하지 않았다.
 로컬 자동 시험 통과를 이 항목들의 공용 서버 검증 완료로 표시하지 않는다.
 

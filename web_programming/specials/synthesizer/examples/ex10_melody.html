@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ex10 melody</title>
+    <link rel="stylesheet" href="shared/examples.css">
 </head>
 <body>
-    <h1>ex10 멜로디: 음 하나 = 높이 · 시작 칸 · 길이</h1>
-    <p>Only You 벌스 "On-ly you" — 이끔 마디 하나 + 8마디(109 BPM, 16분음표 한 칸 0.138초). 마디 뒤쪽 11 · 13 · 15칸에서 당겨 들어온다. 같은 음 높이(midi)를 쓰고, 시작 칸(step)과 길이(duration_steps)를 쓰는 방법만 다르다.</p>
-    <button id="b1">1. 악보 그대로 — step 칸에서 duration_steps 칸 동안</button>
+    <h1>ex10 멜로디</h1>
+    <button id="b1">1. 원래 시작·길이</button>
     <button id="b2">2. 길이만 모두 1칸</button>
-    <button id="b3">3. 시작 칸 무시 — 2칸마다 차례로(당김이 사라진다)</button>
-    <p id="result">누르면 2마디의 음이 여기에 적힌다.</p>
-    <canvas id="roll" width="720" height="130" style="background: #111"></canvas>
+    <button id="b3">3. 2칸 간격</button>
+    <button id="stop">정지</button>
+    <p id="result">재생 대기</p>
+    <canvas id="roll" width="720" height="130"></canvas>
 
     <script>
         // 마디마다 음 목록. step 은 1~16(마디의 몇 번째 칸에서 시작), duration_steps 는 몇 칸 동안 소리를 내나
@@ -92,6 +93,12 @@
         document.getElementById('b1').addEventListener('click', function () { play(asWritten); });
         document.getElementById('b2').addEventListener('click', function () { play(oneStep); });
         document.getElementById('b3').addEventListener('click', function () { play(everyTwo); });
+
+        document.getElementById('stop').addEventListener('click', function () {
+            for (const osc of playing) osc.stop();
+            playing = [];
+            document.getElementById('result').textContent = '정지';
+        });
 
         // 2마디의 음을 칸과 초로 적는다. 칸은 악보처럼 1부터 센다(2마디 1칸 = 곡의 17번째 칸)
         function report(notes) {

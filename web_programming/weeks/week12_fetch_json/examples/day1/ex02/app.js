@@ -1,17 +1,31 @@
 const output = document.querySelector('#output');
+const button = document.querySelector('#run-button');
+const responseBody = document.querySelector('#response-body');
+
+let latestRequest = 0;
+
 async function readMessages() {
+  const requestId = ++latestRequest;
+  button.disabled = true;
+  output.textContent = '불러오는 중';
   try {
-    const response = await fetch(`${API_BASE_URL}/rest/v1/guestbook?book_id=eq.${encodeURIComponent(BOOK_ID)}&select=id,name,message,created_at&order=id.desc&limit=50`, {
+    const url = `${API_BASE_URL}/rest/v1/help?order=step.asc`;
+    const response = await fetch(url, {
       headers: { apikey: API_PUBLIC_KEY }
     });
-    console.log('응답:', response);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const items = await response.json();
-    console.log('본문 배열:', items);
+    if (requestId !== latestRequest) return false;
+    responseBody.textContent = JSON.stringify(items, null, 2);
     output.textContent = `GET ${response.status} · ${items.length}개`;
   } catch (error) {
-    output.textContent = '요청에 실패했습니다. API 주소와 Network 탭을 확인하세요.';
-    console.log(error.message);
+    if (requestId !== latestRequest) return false;
+    output.textContent = `요청 실패: ${error.message}. 주소와 연결을 확인하세요.`;
+  } finally {
+    if (requestId === latestRequest) button.disabled = false;
   }
 }
+
+button.addEventListener('click', readMessages);
+setupApiSettings(readMessages);
 readMessages();

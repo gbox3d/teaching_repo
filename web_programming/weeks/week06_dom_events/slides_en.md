@@ -14,13 +14,13 @@ Same method as last week: look at **6 comparison examples** one at a time, then 
 
 - The browser reads the HTML file and builds the **DOM** (element boxes). JS finds those boxes and changes them.
 - Results show on screen, in **Console**, and in the **Elements** tab, which is new this week.
-- One example = one idea. The lab is about **changing values** and watching.
+- Required edits: six counter lines on Day 1; two CSS values and three event-handler lines on Day 2. Extra comparisons are optional.
 
 ---
 
 # Day 1 — The DOM and Clicks
 
-`30 min explanation & demo → 60 min lab`
+`60 min lecture & demo → 30 min student lab`
 
 1. Example folders — three files: `index.html`, `styles.css`, `app.js`
 2. ex01 — HTML file vs. DOM: Elements and page source
@@ -29,9 +29,9 @@ Same method as last week: look at **6 comparison examples** one at a time, then 
 
 ---
 
-## Day 1 · 0–4 min — One example folder, three files
+## Day 1 · 0–5 min — One example folder, three files
 
-One folder per example, with the same three file names as your site.
+Use the first five minutes to check the pre-supplied folders and server. Each example has the same three file names as your site.
 
 ```text
 ex01/
@@ -48,7 +48,7 @@ ex01/
 
 ---
 
-## Day 1 · 4–12 min — ex01 The HTML file and the DOM
+## Day 1 · 5–20 min — ex01 The HTML file and the DOM
 
 [examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) · [app.js](examples/day1/ex01/app.js)
 
@@ -70,7 +70,7 @@ message.textContent = '3. JavaScript 가 바꾼 글자';
 
 ---
 
-## Day 1 · 12–20 min — ex02 Change on open vs. change on click
+## Day 1 · 20–35 min — ex02 Change on open vs. change on click
 
 [examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [styles.css](examples/day1/ex02/styles.css) · [app.js](examples/day1/ex02/app.js)
 
@@ -89,7 +89,7 @@ btn.addEventListener('click', function () {
 
 ---
 
-## Day 1 · 20–28 min — ex03 Counting clicks: variable outside the function
+## Day 1 · 35–50 min — ex03 Counting clicks: variable outside the function
 
 [examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [styles.css](examples/day1/ex03/styles.css) · [app.js](examples/day1/ex03/app.js)
 
@@ -110,21 +110,25 @@ btn.addEventListener('click', function () {
 
 ---
 
-## Day 1 · 28–30 min — Your turn
+## Day 1 · 50–60 min — Your turn
 
-[Day 1 lab](lab.md#1일차--dom-과-클릭-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
+[Day 1 lab](lab.md#1일차) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
-1. New folder `web-week06` with last week's files; three example folders in `ex/`.
-2. ex01–ex03 — open each folder's `index.html`, change values in `app.js`. Say what will change first.
-3. Create the new repository `web-week06`, push, and turn on Pages.
+Minutes 50–55: demonstrate a wrong ID and an inside count. Minutes 55–60: lab handoff.
 
-**Total explanation: 4+8+8+8+2 = 30 min**
+1. Match button IDs: 5 minutes.
+2. Write six count/textContent lines in the [ex03 starter](examples/day1/ex03/app.start.js): 15 minutes.
+3. Three clicks → 3; reload → 0: 10 minutes.
+
+The completed example's inside variable and console logs are supplied demo code. Prepare files and the repository before class; upload after class.
+
+**Lecture 5+15+15+15+5+5 = 60 min; lab 5+15+10 = 30 min**
 
 ---
 
 # Day 2 — Classes, Functions, and Assembly
 
-`30 min explanation & demo → 60 min lab`
+`60 min lecture & demo → 30 min student lab`
 
 1. ex04 — `classList.add / remove / toggle`
 2. ex05 — dark mode: the `body.dark` rule and `toggle('dark')`
@@ -134,7 +138,7 @@ btn.addEventListener('click', function () {
 
 ---
 
-## Day 2 · 0–7 min — ex04 classList: add and remove a class
+## Day 2 · 0–20 min — Setup 5 min and ex04 demo 15 min
 
 [examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js)
 
@@ -155,7 +159,7 @@ box.classList.toggle('on');   // 3. removes if there, adds if not
 
 ---
 
-## Day 2 · 7–14 min — ex05 Dark mode: one class on body
+## Day 2 · 20–35 min — ex05 Dark mode: one class on body
 
 [examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [styles.css](examples/day2/ex05/styles.css) · [app.js](examples/day2/ex05/app.js)
 
@@ -173,11 +177,11 @@ darkButton.addEventListener('click', function () {
 - `document.body` is the `<body>` element. Use it directly; no need to find it.
 - Try: delete rule 2 in `styles.css`. Only the card stays white (a descendant selector, like `nav a` in Week 4).
 
-**Write the colors in CSS ahead of time; JS is one line, `toggle('dark')`.**
+The home page supplies `body.dark` rules for h1, h2, and nav a (`#a7c5ff`), and footer (`#c8d4eb`). Elements with their own color do not inherit the body color.
 
 ---
 
-## Day 2 · 14–20 min — ex06 One function for two buttons
+## Day 2 · 35–50 min — ex06 One function for two buttons
 
 [examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [styles.css](examples/day2/ex06/styles.css) · [app.js](examples/day2/ex06/app.js)
 
@@ -197,19 +201,19 @@ countUp();
 
 ---
 
-## Day 2 · 20–25 min — About the Week 8 midterm practical
+## Day 2 · 50–55 min — About the Week 8 midterm practical
 
-- Week 8 is an **individual midterm practical**. Questions come from a **problem bank** built from Weeks 1–7 lab submissions, **with the values changed**.
+- Week 8 is an individual midterm practical. Questions come from a problem bank built from Weeks 1–7 lab submissions, with the values changed.
 - The problem bank is already public: [Week 8 examples](../week08_midterm/examples/README.md). Each problem has starter files, the task, and what to check.
 - Answers are not published. Doing each week's lab **yourself** is the practice.
-- You may look at the course materials during the exam. Scope: Pages, HTML, CSS, DOM, and forms (through Week 7).
+- You may look at the course materials during the exam. Scope: Pages, HTML, CSS, DOM, and W3.CSS (through Week 7).
 - Adding and deleting list items is Week 10; keeping data after reload is Week 11.
 
 **Each week's lab is your exam prep.**
 
 ---
 
-## Day 2 · 25–30 min — Assembly: web-week06, then the lab
+## Day 2 · 55–60 min — Assembly: web-week06, then the lab
 
 ```text
 index.html  two buttons · #count card              ← ex02 · ex03
@@ -222,18 +226,21 @@ app.js      four const … = querySelector('#…')     ← ex01
             dark button: toggle('dark') + countUp() ← ex05 · ex06
 ```
 
-[Day 2 lab](lab.md#2일차--class-와-함수-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
+[Day 2 lab](lab.md#2일차) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
-1. Save example folders `ex04`–`ex06` in `ex/`, change values (until minute 29).
-2. Assemble → check at 375 and 1280 and with the server → push → dark-mode screenshot.
+1. Change two supplied dark-mode CSS values: 5 minutes.
+2. Connect three toggle/countUp lines in the [home starter](examples/day2/web-week06/app.start.js): 10 minutes.
+3. Check both buttons at 375/1280px: 10 minutes; capture: 5 minutes.
 
-**Total explanation: 7+7+6+5+5 = 30 min**
+HTML, greet, hello, countUp, and listener skeletons are supplied. Do not rewrite the whole app.js.
+
+**Lecture 5+15+15+15+5+5 = 60 min; lab 5+10+10+5 = 30 min**
 
 ---
 
 ## What to Submit
 
-Submit **one** screenshot at the end of Day 2.
+Submit **one** screenshot from localhost or a file URL during class. Commit and push after class, then check this public URL.
 
 ```text
 https://student01.github.io/web-week06/
@@ -251,5 +258,5 @@ Keep your real name, student ID, and real email out of the screenshot.
 
 Today the buttons showed **text we wrote in advance**.
 
-In Week 7 you start a new repository, `web-week07`, from today's files and show **text the user types** into the guestbook form.
-You keep using today's `addEventListener` and `textContent`, and listen for the form's `submit` instead of `click`.
+In Week 7 you restyle today's guestbook using W3.CSS: a CDN stylesheet and classes for inputs, buttons, cards, and navigation.
+The form behavior is supplied. Keep the IDs used by JavaScript while changing the visual classes.

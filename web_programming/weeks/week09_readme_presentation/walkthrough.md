@@ -3,7 +3,7 @@
 # 9주차 따라하기 — 마크다운 기본 기능으로 README 1차판을 쓰고 발표하기
 
 이번 주는 새 저장소 `web-week09` 를 만든다. 7주차 완성본을 넣고, 비교 예제(마크다운 `.md` 파일과 SVG 파일)는 그 안의 `ex/` 폴더에 저장한다. 기호나 숫자를 바꾼 뒤 결과를 **VS Code 미리 보기**와, 올린 뒤의 **GitHub 저장소 화면**에서 본다.
-1일차 끝에 `web-week09` 맨 위에 `README.md` 1차판, 화면 캡처 두 장, 도표 `images/site-map.svg` 를 넣고 올린다. 사이트의 HTML·CSS·JavaScript 는 고치지 않는다. 2일차는 발표다.
+1일차 강의·시연 60분 뒤 실습 30분에 README·캡처·제공 SVG 글자를 완성한다. 파일·저장소는 수업 전에 준비하고 업로드는 수업 뒤에 한다. 사이트의 HTML·CSS·JavaScript 는 고치지 않는다. 2일차는 발표다.
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
 비교 예제 11개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation/examples/day1) 폴더에 있다.
@@ -11,11 +11,13 @@
 
 ## 1일차
 
+1·2단계는 수업 전 준비다. 3·4단계 비교는 강의자 시연·참고이며 11개 모두 수정하지 않는다. 학생 필수는 5~8단계이고 [30분 실습표](lab.md#1일차--readme-작성-실습-30분)를 따른다. 강조·인용·도형 좌표·Mermaid는 선택이다.
+
 ### 1. web-week09 폴더 만들고 7주차 완성본 넣기
 
 저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week09` 를 만들고 VS Code **File › Open Folder** 로 연다.
 
-7주차 완성본을 넣는다. 내 `web-week07` 저장소 GitHub 화면에서 **Code › Download ZIP** 을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`guestbook.js`·`server.mjs`)과 `images/` 를 `web-week09` 로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다. 8주차 시험 저장소 `web-week08` 은 쓰지 않는다.
+7주차 완성본을 넣는다. 내 `web-week07` 저장소 GitHub 화면에서 **Code › Download ZIP** 을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`guestbook.js`·`server.mjs`)과 `images/`·`shared/`를 `web-week09`로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다. 8주차 시험 저장소 `web-week08` 은 쓰지 않는다.
 ZIP 을 못 받았으면 교재 [7주차 `examples/day2/web-week07/`](../week07_form_input/examples/day2/web-week07/) 의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs) 도 같은 방법으로 받는다.
 
 이어서 `web-week09` 안에 `ex` 폴더를 만든다. 현재 폴더: `web-week09`
@@ -30,6 +32,7 @@ mkdir ex
 web-week09/
   ex/            ← 아직 비어 있다
   images/
+  shared/examples.css
   about.html
   app.js
   guestbook.html
@@ -45,7 +48,7 @@ web-week09/
 
 ### 2. 비교 예제 가져오기
 
-오늘 파일은 마크다운 열한 개와 SVG 두 개, 그림 한 개다. 마크다운 예제는 브라우저로 열지 않고 VS Code 미리 보기와 GitHub 화면에서 보므로 `index.html` 이 없다.
+참고 파일은 마크다운 열한 개와 SVG 두 개, 그림 한 개다. 학생은 [README 시작 틀](examples/day2/web-week09/README.start.md)을 web-week09 맨 위의 README.md로 복사한다. 모든 참고 파일의 수정·제출을 요구하지 않는다. 마크다운 예제는 브라우저로 열지 않고 VS Code 미리 보기와 GitHub 화면에서 보므로 `index.html` 이 없다.
 
 | 파일 | 비교하는 것 |
 |---|---|
@@ -61,7 +64,7 @@ web-week09/
 | [ex10_diagram.md](examples/day1/ex10_diagram.md) · [ex10_site_map.svg](examples/day1/ex10_site_map.svg) | 사각형·선·글자로 그린 사이트 구조 |
 | [ex11_mermaid.md](examples/day1/ex11_mermaid.md) | 언어 이름 `mermaid` / `text` |
 
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation/examples/day1)에서 파일을 누르고 오른쪽 위 **Raw** 를 누른다. 원문만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 `web-week09/ex/` 에 저장한다. 파일 이름은 교재와 **같게** 둔다. 그림 [images/profile.png](examples/day1/images/profile.png) 는 `ex` 안에 `images` 폴더를 만들어 `ex/images/profile.png` 로 저장한다(GitHub 화면의 **Download raw file** 단추). `.svg` 파일을 **Raw** 로 열면 브라우저에 그림으로 보일 수 있는데, 그대로 **Ctrl+S** 로 저장하면 된다.
+[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation/examples/day1)에서 파일을 누르고 오른쪽 위 Raw 를 누른다. 원문만 보이는 화면에서 Ctrl+S(macOS는 ⌘+S)로 `web-week09/ex/` 에 저장한다. 파일 이름은 교재와 같게 둔다. 그림 [images/profile.png](examples/day1/images/profile.png) 는 `ex` 안에 `images` 폴더를 만들어 `ex/images/profile.png` 로 저장한다(GitHub 화면의 Download raw file 단추). `.svg` 파일을 Raw 로 열면 브라우저에 그림으로 보일 수 있는데, 그대로 Ctrl+S 로 저장하면 된다.
 
 **예상 결과** — `ex/` 가 아래 모양이다.
 
@@ -89,7 +92,7 @@ ex/
 
 ### 3. 미리 보기 — 원문 옆에 렌더된 모양
 
-VS Code 에서 `ex/ex01_heading.md` 를 연다. **Ctrl+K** 를 누르고 손을 뗀 뒤 **V**(macOS **⌘+K** 다음 **V**)를 누르면 오른쪽에 미리 보기가 열린다. 편집기 오른쪽 위의 미리 보기 아이콘(**Open Preview to the Side**)을 눌러도 된다.
+VS Code 에서 `ex/ex01_heading.md` 를 연다. Ctrl+K 를 누르고 손을 뗀 뒤 V(macOS ⌘+K 다음 V)를 누르면 오른쪽에 미리 보기가 열린다. 편집기 오른쪽 위의 미리 보기 아이콘(Open Preview to the Side)을 눌러도 된다.
 
 **예상 결과** — 왼쪽은 원문, 오른쪽은 렌더된 모양이다. 세 줄은 글자(`공개 주소`)가 같고 `#` 개수와 띄어쓰기만 다르다.
 
@@ -118,7 +121,7 @@ VS Code 에서 `ex/ex01_heading.md` 를 연다. **Ctrl+K** 를 누르고 손을 
 
 - 원문에서 줄을 바꾸기만 하면 렌더된 모양에서는 한 문단으로 이어진다. 빈 줄이 문단을 나눈다.
 - 확인했으면 넣은 빈 줄을 지워 되돌린다. 원래대로 못 돌리겠으면 교재에서 그 파일을 다시 **Raw** 로 받아 덮어쓴다.
-- 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--마크다운-기본-기능과-readme-1차판-60분)에 있다.
+- 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--readme-작성-실습-30분)에 있다.
 
 ### 5. 화면 두 장 캡처와 도표 파일
 
@@ -139,7 +142,7 @@ mkdir screenshots
 - **동작한 뒤의 화면**을 찍는다. `클릭 0회` 나 빈 목록인 캡처는 눌러 보지 않은 것으로 보인다.
 - 파일 이름은 영문 소문자로 한다. 한글·공백·대문자가 섞이면 README 경로에서 틀리기 쉽다.
 
-이어서 도표를 만든다. `ex/ex10_site_map.svg` 를 복사해 `images/site-map.svg` 로 저장하고 맨 위 주석 한 줄을 지운다. 내 사이트에서 페이지 이름을 바꿨다면 글자도 고친다. 아래가 교재 예시 전문이다.
+이어서 제공 도표를 복사한다. 좌표·도형 작성은 하지 않는다. `ex/ex10_site_map.svg` 를 복사해 `images/site-map.svg` 로 저장하고 맨 위 주석 한 줄을 지운다. 맨 위 글자 홈을 첫 화면으로 고친다. 상자 글자는 짧게 유지한다. 아래가 교재 예시 전문이다.
 
 ```xml
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 170" width="520" height="170" font-family="sans-serif">
@@ -179,7 +182,7 @@ mkdir screenshots
 
 ### 7. README 1차판 조립하기
 
-`web-week09` 맨 위(`index.html` 옆)에 새 파일 `README.md` 를 만든다. 이미 있으면 내용을 모두 지운다. 이름은 대문자 `README` 와 `.md` 를 그대로 쓴다.
+`web-week09` 맨 위(`index.html` 옆)에 제공 README.start.md를 README.md로 복사한다. 기존 README는 이번 초안으로 교체한다. 이름은 대문자 `README` 와 `.md` 를 그대로 쓴다.
 조립표 순서로 쓴다.
 
 1. 큰 제목 한 줄 — `# ` 와 내 사이트 이름(ex01 1번). 이름은 홈 `index.html` 맨 위 `<h1>` 글자와 같게 쓴다.
@@ -247,11 +250,11 @@ darkButton.addEventListener('click', function () {
 
 **예상 결과** — 미리 보기를 옆에 띄우면 큰 제목, 소개 문장(일부 굵게), 작은 제목 다섯, 표, 도표, 색이 입혀진 코드, 캡처 그림 두 장이 차례로 보인다. 링크는 네 개다(공개 주소 하나, 표 안의 페이지 셋). 줄 맨 앞의 `#`·`- `·`|` 와 `![`·`](`·`)` 는 미리 보기에 보이지 않는다.
 
-### 8. 확인 — 링크와 서버(시간이 남으면)
+### 8. 확인 — 링크와 서버
 
-미리 보기에서 표 안의 링크를 하나씩 눌러 그 파일이 열리는지 본다. 공개 주소 링크는 아직 저장소와 Pages 가 없으니 9단계에서 누른다.
+미리 보기에서 표 안의 링크를 하나씩 눌러 그 파일이 열리는지 본다. 공개 주소는 수업 뒤 업로드가 반영된 뒤 확인한다.
 
-서버 확인과 폭 확인은 **시간이 남으면** 한다. 사이트 파일은 7주차와 같다. 현재 폴더: `web-week09`
+마지막 5분에 링크와 기존 동작을 확인한다. 사이트 파일은 7주차와 같다. 현재 폴더: `web-week09`
 
 ```bash
 node server.mjs
@@ -262,12 +265,11 @@ node server.mjs
 **예상 결과** — 세 페이지는 두 번 눌러 연 것과 같게 동작한다. 터미널에는 브라우저가 받아 간 파일마다 `200 GET /…` 한 줄씩 찍힌다. `404 GET /favicon.ico` 줄도 보일 수 있는데 괜찮다([서버 사용 안내](../../tools/static-server/README.md#터미널에-찍히는-줄-읽기) 참고). DevTools Console 에도 같은 `favicon.ico` 의 404 빨간 줄(`Failed to load resource: the server responded with a status of 404 (Not Found)`) 하나가 보일 수 있는데 이것도 괜찮다. `README.md` 는 렌더되지 않고 기호가 그대로 있는 원문 글자로 보인다. 브라우저는 `.md` 를 받으면 글자 그대로 보여 준다. README 를 렌더해 보여 주는 곳은 GitHub 저장소 화면이다.
 확인이 끝나면 터미널에서 **Ctrl+C** 로 서버를 멈춘다. 쓰는 법은 [서버 사용 안내](../../tools/static-server/README.md)에 있다. Node 가 없는 PC 는 `index.html` 을 두 번 눌러 연 것으로 대신한다.
 
-- DevTools 의 기기 툴바(**Ctrl+Shift+M**, macOS **⌘+Shift+M**)로 폭 375 와 1280 에서 세 페이지를 본다. 375 에서는 메뉴가 세로로 선다(4주차 `@media`). 발표 화면이 좁아도 세 페이지가 깨지지 않으면 된 것이다.
+- DevTools 의 기기 툴바(**Ctrl+Shift+M**, macOS **⌘+Shift+M**)로 폭 375 와 1280 에서 세 페이지를 본다. 375에서는 홈·소개 메뉴가 4주차 @media로, 방명록 메뉴는 W3.CSS의 w3-mobile로 세로가 된다. 발표 화면이 좁아도 세 페이지가 깨지지 않으면 된 것이다.
 
 ### 9. 이번 주 저장소 만들어 올리기
 
-1일차 50–60분에 한다. GitHub 에서 **New repository** 를 누르고 이름 `web-week09`, **Public** 으로 만든다. README 는 추가하지 않는다. 내 PC 에서 쓴 `README.md` 를 올린다.
-터미널에서 2주차에 배운 순서 그대로 친다. 현재 폴더: `web-week09`
+1일차 수업 뒤에 한다. 수업 전에 만든 Public 저장소 web-week09에 로컬 파일을 올린다. 아직 원격 저장소를 연결하지 않은 폴더라면 아래 순서로 연결한다. 이미 연결했으면 git add·commit·push만 실행한다. 현재 폴더: `web-week09`
 
 ```bash
 git init
@@ -282,7 +284,7 @@ git push -u origin main
 
 **예상 결과** — GitHub 저장소 화면 `https://github.com/student01/web-week09` 를 새로고침하면 파일 목록 아래에 README 가 렌더되어 보인다. 큰 제목, 작은 제목 다섯, 표, 도표, 코드, 그림 두 장이 보인다. 이 화면을 캡처한다. 길어서 한 화면에 안 들어오면 브라우저를 축소하거나 나눠 찍어 한 파일로 낸다. **제출 캡처 1장**이다.
 `ex` 폴더를 눌러 `ex01_heading.md` 를 열면 렌더된 모양이 보인다. 위쪽 **Code** 를 누르면 원문, **Preview** 를 누르면 다시 렌더된 모양이다. `ex09_svg.md` 를 열면 1번 그림만 보이고 2번 자리는 비어 있다. `ex11_mermaid.md` 를 열면 1번이 도표로 그려지고 2번은 글자 그대로다.
-1~3분 뒤 `https://student01.github.io/web-week09/` 를 열어 세 페이지·버튼·폼을 확인하고, README 의 공개 주소 링크도 눌러 본다.
+배포 완료 뒤 `https://student01.github.io/web-week09/`를 열어 세 페이지·버튼·폼을 확인하고, README 의 공개 주소 링크도 눌러 본다.
 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com` 을 지우고 나간다.
 
 - README 가 안 보이면 파일이 맨 위에 있는지, 이름이 `README.md` 인지 본다.
@@ -292,6 +294,8 @@ git push -u origin main
 다음 시간 전에 [1차 과제 안내](project_brief.md#2분-발표-순서)의 2분 발표 순서를 읽고, 시계를 보며 한 번 해 보고 온다.
 
 ## 2일차
+
+안내 5분·발표 75분·피드백 10분이다. 30명까지 2분 시연+30초 전환이며, 31명 이상은 [사전 영상·표본 시연·개인 설명 방식](project_brief.md#발표-인원과-운영)을 적용한다.
 
 ### 10. 폴더 열기와 탭 세 개
 
@@ -314,7 +318,7 @@ git clone https://github.com/student01/web-week09.git
 **예상 결과** — 세 탭이 모두 열려 있다. 탭 1 은 홈 화면 처음 상태(`클릭 0회`)이고, 탭 2 는 파일 목록 아래에 README 가 보이고, 탭 3 에는 `9주차 1일차` commit 이 있다.
 
 - 방명록은 비워 둔 상태로 시작한다. 발표 중에 직접 두 줄 남겨 목록에 쌓이는 것을 보인다.
-- 다크 모드를 켜 두었으면 끄고 시작한다. 첫 화면이 밝아야 글씨가 잘 보인다.
+- 다크 모드를 켜 두었으면 끄고 시작한다. 발표 화면의 글자가 보이는지 확인한다.
 - 다른 사이트나 로그인 화면이 보이는 탭은 닫는다.
 
 ### 11. 2분 발표 순서대로
@@ -324,9 +328,9 @@ git clone https://github.com/student01/web-week09.git
 1. 탭 1을 보이며 "`student01`의 웹 연습장입니다. 세 페이지가 있습니다."
 2. nav 로 홈 → 내 정보 → 방명록 → 홈.
 3. **인사 바꾸기**를 누르며 "버튼을 누르면 문장이 바뀌고 클릭 횟수가 오릅니다."
-4. 방명록에서 이름·메시지를 넣고 **남기기**, 메시지를 바꿔 한 번 더. 목록에 두 줄이 쌓인다.
+4. 방명록에서 이름·메시지를 넣고 **남기기**, 비워진 이름과 두 번째 메시지를 다시 넣고 한 번 더. 목록에 두 줄이 쌓인다.
 5. 이름을 비우고 **남기기** → `이름을 입력하세요.`
-6. 탭 2 의 README 다섯 항목을 짚고, 탭 3 의 **Commits** 탭은 올린 기록만 잠깐 보이며 마무리.
+6. 탭 2 의 README 다섯 항목을 짚고, 탭 3의 Commits 탭을 잠깐 보인다. 마지막 10초에는 짧은 구술 질문 하나에 답한다.
 
 **예상 결과** — 2분 안에 끝나고, 채점자가 공개 주소·세 페이지·버튼·폼·README 를 화면에서 확인한다.
 
@@ -337,7 +341,7 @@ git clone https://github.com/student01/web-week09.git
 
 ### 12. 발표가 끝나면 — 끝 루틴
 
-2일차 55–60분에 한다. README 를 고쳤으면 올린다. 고치지 않았으면 이 단계는 하지 않는다. 현재 폴더: `web-week09`
+2일차 수업 뒤에 한다. README 를 고쳤으면 올린다. 고치지 않았으면 이 단계는 하지 않는다. 현재 폴더: `web-week09`
 
 ```bash
 git add .

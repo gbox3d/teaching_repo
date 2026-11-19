@@ -9,11 +9,16 @@ body {
 }
 
 .card {
+  box-sizing: border-box;
   width: min(36rem, calc(100% - 2rem));
   padding: 2rem;
   border-radius: 1rem;
   background: white;
   box-shadow: 0 1rem 2.5rem rgb(30 50 100 / 12%);
+}
+
+h1 {
+  word-break: keep-all;
 }
 
 .eyebrow {

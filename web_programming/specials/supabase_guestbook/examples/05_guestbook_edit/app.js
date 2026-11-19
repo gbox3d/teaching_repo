@@ -33,6 +33,7 @@ async function loadMessages(book) {
     text.textContent = `#${row.id} · ${row.name}: ${row.message}`;
     const select = document.createElement('button');
     select.type = 'button';
+    select.className = 'w3-button w3-white w3-border';
     select.textContent = `글 ${row.id} 선택`;
     select.disabled = busy;
     select.addEventListener('click', function () {

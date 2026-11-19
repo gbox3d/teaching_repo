@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-11-18T11:36:42.016Z",
+  "scope": "Actual generated dist, Chrome desktop 1440x1000; each slide advanced through viewer",
+  "results": [
+    {
+      "chapter": "week10_array_list",
+      "lang": "ko",
+      "slides": 16,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week10_array_list",
+      "lang": "en",
+      "slides": 16,
+      "minFont": 28,
+      "failures": []
+    },
+    {
+      "chapter": "week15_final_exam",
+      "lang": "ko",
+      "slides": 13,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week15_final_exam",
+      "lang": "en",
+      "slides": 13,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "synthesizer",
+      "lang": "ko",
+      "slides": 16,
+      "minFont": 27,
+      "failures": []
+    },
+    {
+      "chapter": "synthesizer",
+      "lang": "en",
+      "slides": 16,
+      "minFont": 25,
+      "failures": []
+    }
+  ],
+  "screenshots": [],
+  "failures": []
+}

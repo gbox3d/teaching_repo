@@ -1,0 +1,14 @@
+@baseUrl = http://localhost:3000
+
+### 브라우저 문맥 헤더 누락: 403
+GET {{baseUrl}}/api/kakao-static-image
+
+### 같은 origin 문맥이지만 source 누락: 400
+GET {{baseUrl}}/api/kakao-static-image
+Sec-Fetch-Site: same-origin
+Referer: {{baseUrl}}/
+
+### 지원하지 않는 메서드: 405
+POST {{baseUrl}}/api/kakao-static-image
+Sec-Fetch-Site: same-origin
+Referer: {{baseUrl}}/

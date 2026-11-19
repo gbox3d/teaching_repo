@@ -10,7 +10,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 [실습 화면 열기](http://localhost:8111/weeks/week11_object_localstorage/examples/day2/ex05/)
 
-이 예제는 W3.CSS CDN과 [추가 공용 스타일](../../../../../shared/README.md)의 `shared/examples.css`를 사용한다. CDN 스타일을 읽으려면 인터넷 연결이 필요하다. 예제와 `web_programming/shared/`의 상대 위치를 유지한다.
+이 예제는 [W3.CSS CDN 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)과 [추가 공용 스타일](../../../../../shared/README.md)의 `shared/examples.css`를 사용한다. CDN 스타일을 읽으려면 인터넷 연결이 필요하다. 예제와 `web_programming/shared/`의 상대 위치를 유지한다.
 
 저장 키는 `week11-ex05-items`다. 화면의 고정 배열은 이름과 메시지를 가진 객체 두 개다.
 
@@ -35,6 +35,8 @@ if (saved !== null) {
 
 저장 칸에는 배열 대신 문자열이 들어간다. 복원 후에 `restored[0].name`처럼 객체 필드를 읽을 수 있다.
 화면을 열 때는 배열을 화면에만 표시한다. 저장값은 버튼을 눌렀을 때만 바꾼다.
+
+오류 처리와 형식 검사는 제공 코드다. 학생은 저장·복원 결과를 확인하며 이 부분을 다시 작성하지 않는다.
 
 ## 빈 값과 JSON 오류 확인
 

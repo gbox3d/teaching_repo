@@ -17,7 +17,7 @@
 
 ## 1. 파일과 서버 준비
 
-할 일: home_iot_http 폴더 전체를 VS Code로 연다. examples 안에 simulator, ex01~ex03, student, reference, automatic, automatic_student가 있는지 확인한다.
+할 일: home_iot_http 폴더 전체를 VS Code로 연다. examples 안에 simulator, 00_about_help, ex01~ex03, student, reference, automatic, automatic_student가 있는지 확인한다.
 현재 폴더: home_iot_http
 
 ```bash
@@ -25,6 +25,8 @@ node examples/simulator/server.mjs
 ```
 
 예상 결과: 터미널에 http://localhost:8014/ 주소가 나타난다. 브라우저에서 가상 거실이 열린다. 전등은 꺼짐, 팬은 정지, 온도는 24°C다.
+
+REST Client (`humao.rest-client`)를 설치하고 [00 requests.http](examples/00_about_help/requests.http)를 연다. `@baseUrl`의 포트를 확인한 뒤 **Send Request**로 about·help를 순서대로 요청한다. 둘 다 200이며 소개는 객체, 도움말은 6개 항목 배열이다. 인증 키는 필요 없다. 대시보드의 00 접속·도움말에서도 같은 응답을 확인한다.
 
 ## 2. GET과 PATCH
 

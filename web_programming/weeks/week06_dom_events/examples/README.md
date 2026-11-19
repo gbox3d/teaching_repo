@@ -1,65 +1,36 @@
-[실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
+# 6주차 예제 파일 안내
 
-# 6주차 예제 — 비교 예제 6개와 조립 하나
+각 예제의 index.html·styles.css·app.js는 같은 폴더에서 연다. 1~6주에는 자체 CSS를 사용하며 CDN이 필요 없다. 파일은 수업 전에 배부한다. [주차 실습지](../lab.md)의 필수 변경만 30분 안에 작성하고, 비교 예제의 추가 수정은 선택이다.
 
-예제는 쓰는 날짜별 폴더에 있다. 번호는 한 주 안에서 이어 센다.
-
-```text
-examples/
-  day1/   ex01/ ~ ex03/   DOM, 클릭할 때 바꾸기, 클릭 횟수 (예제마다 폴더 하나: index.html + styles.css + app.js)
-  day2/   ex04/ ~ ex06/   classList, 다크 모드, 함수 하나를 두 버튼에 (1일차와 같은 예제 폴더)
-          web-week06/     2일차 끝의 web-week06 — 비교 예제에서 본 줄을 모은 조립
-```
-
-예제 폴더 `exNN/` 하나는 **개념 하나**다. 같은 일을 다르게 한 **형제**(1·2·3번)를 나란히 놓는다.
-결과는 화면과 **F12 › Console**, 그리고 이번 주에 처음 쓰는 **F12 › Elements** 탭에서 본다. 값이나 줄을 바꾸고 저장 → 새로고침으로 무엇이 달라지는지 본다.
-**다른 예제의 개념은 섞지 않는다.** 1일차 예제와 ex06 의 `class="card"` 는 HTML 에 처음부터 적어 둔 모양용이다. JS 로 class 를 붙이고 떼는 것은 ex04 의 주제라서 1일차 예제에는 없다.
-만들기는 마지막 하나, [`day2/web-week06/`](day2/web-week06/) 뿐이다.
-
-예제는 폴더마다 내 사이트와 같은 이름의 세 파일을 둔다. `index.html` 은 화면(예제가 쓰는 자리), `styles.css` 는 모양, `app.js` 는 동작이다. 브라우저로 여는 것은 `index.html` 이고, `styles.css` 와 `app.js` 는 `index.html` 이 불러온다(`<head>` 의 `<link>` 와 `<script src="app.js" defer>`. 내 사이트 `index.html` 과 같은 모양이다). 그래서 세 파일이 같은 폴더에 있어야 한다.
-1일차 ex01~ex03 과 2일차 ex06 의 `styles.css` 는 자리에 배경색을 칠하는 `.card` 규칙 하나뿐이고 원리는 모두 `app.js` 에 있다. 2일차 ex04·ex05 는 모양을 정하는 CSS 규칙(`.on`, `body.dark`)이 원리의 반이라 `styles.css` 와 `app.js` 를 함께 본다.
-내려받아 이번 주 저장소 `web-week06` 의 `ex/` 폴더 안에 같은 이름의 폴더(`ex01`~`ex06`)를 만들어 세 파일씩 넣는다(교재 저장소에서 **Raw** → 저장). 날짜 폴더(`day1`·`day2`)는 만들지 않는다. 가져오는 방법은 [따라하기 1일차](../walkthrough.md#1일차)와 [2일차](../walkthrough.md#2일차)에 있다.
-
-## 비교 예제
-
-| 예제 | 열면 보이는 것 | 보여 주는 원리 | 바꿔 볼 값 |
-|---|---|---|---|
-| [day1/ex01/index.html](day1/ex01/index.html) + [styles.css](day1/ex01/styles.css) + [app.js](day1/ex01/app.js) | 상자 안 글자가 `3. JavaScript 가 바꾼 글자`. Console 1번 `#document`, 2번 `<div id="message" class="card">` 요소 | 브라우저는 HTML 파일을 읽어 요소 상자(**DOM**)를 만들고, 화면은 DOM 을 보여 준다. JS 가 바꾸는 것은 DOM 이다. Elements 탭은 바뀐 DOM 을, 페이지 소스 보기는 바뀌지 않은 파일을 보여 준다 | Elements 의 글자와 페이지 소스(Ctrl+U)의 글자 비교. `app.js` 4행 `'#message'` 를 `'#msg'` 로 → 2번 `null`, 10행 빨간 줄 |
-| [day1/ex02/index.html](day1/ex02/index.html) + [styles.css](day1/ex02/styles.css) + [app.js](day1/ex02/app.js) | 열자마자 상자 `1. 열자마자 바꾼 글자`, Console 1번 한 줄. 버튼을 누를 때마다 화면 `2. 버튼을 눌러 바꾼 글자`, Console 2번 한 줄씩 | 바꾸는 줄을 `addEventListener` 안에 넣으면 **누를 때** 실행된다. 밖에 두면 열 때 한 번 실행된다(5주차 ex01 과 같은 원리) | `app.js` 13행을 `});` 아래로 옮기기 → 열자마자 2번 글자 |
-| [day1/ex03/index.html](day1/ex03/index.html) + [styles.css](day1/ex03/styles.css) + [app.js](day1/ex03/app.js) | 버튼을 누를 때마다 상자 `클릭 1회`·`2회`·`3회`, Console 1번 1·2·3, 2번은 늘 1 | 횟수를 담는 변수는 함수 **밖**에 둔다. 밖의 `let count` 는 열 때 한 번 0 이 되고, 안의 `let inside` 는 누를 때마다 다시 0 이 된다 | `app.js` 7행 `let count = 0;` 을 함수 안 첫 줄로 옮기기 → 늘 `클릭 1회`. 새로고침 → `클릭 0회` |
-| [day2/ex04/index.html](day2/ex04/index.html) + [styles.css](day2/ex04/styles.css) + [app.js](day2/ex04/app.js) | 상자 하나와 버튼 셋. 1 add → 노란 배경, 2 remove → 배경 없음, 3 toggle → 누를 때마다 번갈아. Elements 의 `<div id="box">` 줄에 `class="on"` 이 생겼다 사라진다 | 모양은 CSS 규칙(`.on`)이 정하고, JS 는 class 이름만 붙였다 뗀다. `add` 는 이미 있으면 그대로, `remove` 는 없으면 그대로, `toggle` 은 있으면 떼고 없으면 붙인다 | `styles.css` 3행 `.on` 의 색 바꾸기(JS 는 그대로). `app.js` 15행 `'on'` 을 `'On'` 으로 → class 는 붙는데 색이 안 바뀐다 |
-| [day2/ex05/index.html](day2/ex05/index.html) + [styles.css](day2/ex05/styles.css) + [app.js](day2/ex05/app.js) | **다크 모드** 버튼을 누를 때마다 배경과 글자색, 카드까지 어둡게 ↔ 원래대로. Elements 의 `<body>` 줄에 `class="dark"` | 색은 CSS 의 `body.dark` 규칙에 미리 적어 두고 JS 는 `document.body.classList.toggle('dark')` 한 줄만 쓴다. `body.dark .card` 는 "어두운 body 안의 카드"(4주차 `nav a` 와 같은 자손 선택자) | `styles.css` 11~13행 `body.dark .card` 규칙 지우기 → 카드만 흰 채로. `app.js` 6행 `toggle` 을 `add` 로 → 한 번 켜면 꺼지지 않는다 |
-| [day2/ex06/index.html](day2/ex06/index.html) + [styles.css](day2/ex06/styles.css) + [app.js](day2/ex06/app.js) | A·B 어느 버튼이든 상자의 `클릭 N회` 가 하나로 이어서 는다. Console 에 1번(A)·2번(B) | 두 버튼이 같은 일을 하면 그 일을 함수 `countUp()` 하나에 적고 두 곳에서 부른다. 고칠 때 한 곳만 고친다 | `app.js` 14행 `countUp();` 을 `countUp;` 으로(괄호 빠짐) → 오류 없이 횟수만 안 는다 |
-
-### 파일 안의 모양
-
-형제 번호가 주석 첫머리와 `console.log` 앞 글자에 있다. [ex03/app.js](day1/ex03/app.js) 에서 인용:
-
-```js
-let count = 0;                     // 1. 함수 밖: 열 때 한 번만 0 이 된다
-
-btn.addEventListener('click', function () {
-    count = count + 1;             // 누를 때마다 1 씩 는다
-    countBox.textContent = `클릭 ${count}회`;
-    console.log('1. 밖에 둔 count :', count);
-
-    let inside = 0;                // 2. 함수 안: 누를 때마다 다시 0 이 된다
-    inside = inside + 1;
-    console.log('2. 안에 둔 inside :', inside);
-});
-```
-
-1번과 2번은 `+ 1` 하는 줄이 똑같다. 다른 것은 `let` 줄이 함수 **밖**에 있느냐 **안**에 있느냐 하나다.
-
-## `day2/web-week06/` — 2일차 끝의 web-week06
-
-[`day2/web-week06/`](day2/web-week06/) 는 2일차 끝의 `web-week06` 저장소 맨 위(`index.html` 등이 있는 자리) **전체**다. 7주차 새 저장소 `web-week07` 의 시작점이다. 비교 예제를 저장한 `ex/` 폴더와 서버 `server.mjs` 는 여기 넣지 않는다.
-
-| `day2/web-week06/` 파일 | 내 `web-week06` 의 위치 | 따라하기 단계 |
+| 폴더 | HTML·CSS·JS | README와 수업 범위 |
 |---|---|---|
-| [index.html](day2/web-week06/index.html) | `index.html` | [2일차 8단계](../walkthrough.md#2일차) — `#greeting` 카드 아래에 버튼 줄과 `#count` 카드가 늘어난다 |
-| [styles.css](day2/web-week06/styles.css) | `styles.css` | [2일차 9단계](../walkthrough.md#2일차) — 맨 아래에 `body.dark` 규칙 하나가 늘어난다(ex05) |
-| [app.js](day2/web-week06/app.js) | `app.js` | [2일차 10단계](../walkthrough.md#2일차) — 조립표 순서로 다시 쓴다. 1행의 아이디(`student01` 자리)만 다르고 나머지는 이 파일과 글자 단위로 같아진다 |
-| [about.html](day2/web-week06/about.html) | `about.html` | 5주차 그대로. 이번 주에 열지 않는다 |
-| [guestbook.html](day2/web-week06/guestbook.html) | `guestbook.html` | 5주차 그대로. 그 폼이 동작하는 것은 7주차다 |
-| [images/profile.png](day2/web-week06/images/profile.png) | `images/profile.png` | 3주차와 같은 파일. 바꾸지 않는다 |
+| day1/ex01 | [HTML](day1/ex01/index.html), [CSS](day1/ex01/styles.css), [JS](day1/ex01/app.js) | [DOM·소스 비교](day1/ex01/README.md), 시연 |
+| day1/ex02 | [HTML](day1/ex02/index.html), [CSS](day1/ex02/styles.css), [JS](day1/ex02/app.js) | [열 때·클릭할 때](day1/ex02/README.md), 시연 |
+| day1/ex03 | [HTML](day1/ex03/index.html), [CSS](day1/ex03/styles.css), [JS](day1/ex03/app.js), [시작 틀](day1/ex03/app.start.js) | [카운터](day1/ex03/README.md), 여섯 줄 필수·inside 비교 시연 |
+| day2/ex04 | [HTML](day2/ex04/index.html), [CSS](day2/ex04/styles.css), [JS](day2/ex04/app.js) | [classList](day2/ex04/README.md), 시연 |
+| day2/ex05 | [HTML](day2/ex05/index.html), [CSS](day2/ex05/styles.css), [JS](day2/ex05/app.js) | [다크 모드](day2/ex05/README.md), 시연 |
+| day2/ex06 | [HTML](day2/ex06/index.html), [CSS](day2/ex06/styles.css), [JS](day2/ex06/app.js) | [함수 재사용](day2/ex06/README.md), 시연 |
+
+ex01은 원래 HTML과 바뀐 DOM, ex02는 실행 시점, ex03은 count 1·2·3과 inside 1·1·1을 비교한다. ex04는 add·remove를 반복해도 상태가 유지되는 것과 toggle 전환을 비교한다. ex05는 body와 카드 배경, ex06은 두 버튼의 공유 함수를 확인한다. 설명과 실습 순서는 각 README에 두고 HTML에는 제목·버튼·결과만 둔다.
+
+## 5주에서 6주로 이어 쓰는 파일
+
+완성 [web-week06](day2/web-week06/README.md)은 7주차 시작점이다. 학생은 개인 본문과 이미지를 유지한다. 강의자가 HTML·CSS와 JS 시작 틀을 사전에 준비하고, 학생은 CSS 색 두 곳과 JS 세 줄만 완성한다.
+
+| 파일 | 5주 대비 변경 | 제공·직접 수정 구분 |
+|---|---|---|
+| [index.html](day2/web-week06/index.html) | #greeting 뒤 #hello-button·#dark-button·#count 추가 | 제공 HTML, 개인 본문 유지 |
+| [styles.css](day2/web-week06/styles.css) | body.dark의 배경·카드·제목·메뉴·푸터 규칙 추가 | 규칙 제공, 배경·글자 두 값 변경 |
+| [app.start.js](day2/web-week06/app.start.js) | 요소 선택·count·countUp·리스너 틀 | 개인 app.js로 복사, TODO 세 줄 직접 작성 |
+| [app.js](day2/web-week06/app.js) | 두 버튼이 countUp 공유, 다크 버튼 toggle | 비교용 완성본, 추가 script로 로드하지 않음 |
+| [about.html](day2/web-week06/about.html) | 5주 그대로 | 왕복 링크 확인 |
+| [guestbook.html](day2/web-week06/guestbook.html) | 5주 정적 폼 그대로 | 7주에 W3.CSS 변환과 제공 폼 코드 연결 |
+| [images/profile.png](day2/web-week06/images/profile.png) | 3주부터 이어 쓰는 이미지 | 개인 이미지 유지 |
+
+## 시작 틀 사용
+
+개인 ex03 폴더에서는 app.start.js를 app.js로 복사하고 여섯 줄을 작성한다. 완성 app.js의 inside와 로그는 강의자 비교용이다. 개인 홈에서는 별도의 app.start.js를 app.js로 복사하고 두 리스너 안의 TODO만 채운다. 각 페이지는 동작 파일 app.js 하나만 읽는다.
+
+## 정적 방명록 설명
+
+이름·이메일·메시지를 입력하고 남기기를 누르는 순서다. 이메일 형식이 잘못되면 브라우저가 제출을 막는다. 유효하거나 빈 입력은 같은 문서로 기본 GET 탐색을 하며 저장되지 않는다. input과 textarea에 name 속성이 없으므로 입력 값도 URL에 포함되지 않는다. 7주에서 제공 JS가 입력 검사와 DOM 추가를 담당한다. 이메일은 HTML 입력 종류 비교용이며 이후 서버 필드가 아니다.

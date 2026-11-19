@@ -4,7 +4,7 @@
 
 출처: [4주차 실습 제출](../../../week04_responsive_css/lab.md#제출--캡처-한-장) · 권장 10분 · 중간 B(CSS) · 기말 A(화면(HTML·CSS·README))
 
-6주차 실습(검은 상자·글자색·테두리)과 같은 상자를 다른 값으로 만든다. 상자 안의 세 줄은 가로·세로 모두 가운데에 둔다.
+4주차 실습(검은 상자·글자색·테두리)과 같은 상자를 다른 값으로 만든다. 상자 안의 세 줄은 가로·세로 모두 가운데에 둔다.
 
 ## 시작 파일
 
@@ -29,8 +29,8 @@
 
 ## 힌트
 
-- 6주차에 쓴 속성 그대로다. `width`, `height`, `background-color`, `color`, `border: 두께 모양 색`, `padding`.
-- 글자를 가운데로 모으는 것은 7주차 배치와 같은 속성이다. `flex-direction: column` 일 때는 `justify-content` 가 세로, `align-items` 가 가로를 맡는다. 둘 다 `center` 로 둔다.
+- 4주차에 쓴 속성 그대로다. `width`, `height`, `background-color`, `color`, `border: 두께 모양 색`, `padding`.
+- 글자를 가운데로 모으는 것은 4주차 배치와 같은 속성이다. `flex-direction: column` 일 때는 `justify-content` 가 세로, `align-items` 가 가로를 맡는다. 둘 다 `center` 로 둔다.
 - `text-align: center` 만 쓰면 가로만 가운데가 되고 세로는 위에 붙는다.
 
 ## 이 문제의 값
@@ -59,3 +59,5 @@
 - `node server.mjs` 로 연 주소나 공개 주소에서는 `favicon.ico` 404 한 줄이 Console·Network 에 보여도 괜찮다(빨간 줄로 세지 않는다). 공개 주소에서 새로고침하면 Status 가 `304` 로 보일 수 있다. 이미 받은 파일을 다시 쓴다는 뜻이다.
 - 올린 뒤 공개 주소는 `https://student01.github.io/web-week08/w04_box_style/`(15주에 풀었다면 `web-week15`)이다.
 - 해답은 공개하지 않는다. 위 "확인할 것"이 모두 맞으면 된 것이다.
+
+연습 파일은 수업 전에 준비한다. 1일차 공개 업로드는 수업 뒤에 한다. 시험의 제출 시간과 형식은 분반 공지를 따른다.

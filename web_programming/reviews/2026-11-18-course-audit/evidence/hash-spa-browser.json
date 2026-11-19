@@ -1,0 +1,60 @@
+{
+  "timestamp": "2026-11-18T11:00:30.996Z",
+  "checks": [
+    {
+      "name": "01 MPA actual HTML navigation, reload, back/forward, Korean and literal HTML text",
+      "newDocumentRequests": true
+    },
+    {
+      "name": "02 two screens: ten cycles, single counter event, no document request, keyboard, reload"
+    },
+    {
+      "name": "03 hash routes: direct/reload/back/forward, empty/unknown, input preserved for ten cycles, keyboard focus"
+    },
+    {
+      "name": "04 root/subdirectory URL, direct entry, reload, empty/unknown, history, keyboard and unique IDs",
+      "path": "/specials/hash_spa/examples/04_rest_guestbook/index.html"
+    },
+    {
+      "name": "04 root/subdirectory URL, direct entry, reload, empty/unknown, history, keyboard and unique IDs",
+      "path": "/index.html"
+    },
+    {
+      "name": "04 browser CRUD: three posts, middle ID PATCH/DELETE, wrong keys, text rendering, GET confirmation",
+      "posts": 3,
+      "remainingRows": 3,
+      "deletedId": 32,
+      "hashOnlyGets": 0
+    },
+    {
+      "name": "04 offline GET and recovery: inputs preserved and button re-enabled"
+    },
+    {
+      "name": "04 responsive layout",
+      "widths": [
+        {
+          "viewport": 375,
+          "scroll": 375
+        },
+        {
+          "viewport": 1280,
+          "scroll": 1280
+        }
+      ]
+    },
+    {
+      "name": "04 reload resets draft/settings/key while server rows remain"
+    },
+    {
+      "name": "REST about and help before manual request workflow",
+      "about": 200,
+      "help": 200
+    }
+  ],
+  "limitations": [
+    "Public API, deployed Pages, cross-device access and novice timing not tested.",
+    "REST request syntax was executed against the local API; VS Code Send Request UI was not operated."
+  ],
+  "pageErrors": [],
+  "result": "passed"
+}

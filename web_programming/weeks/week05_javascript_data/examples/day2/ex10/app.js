@@ -16,3 +16,8 @@ console.log('4. now.getMonth() →', now.getMonth());
 console.log('5. now.getMonth() + 1 →', now.getMonth() + 1);
 console.log('6. now.getDay() →', now.getDay());
 // web-week05 의 new Date().getHours() 는 위 두 줄(now 만들기 → getHours)을 한 줄로 이어 쓴 것이다
+
+// 제공 출력 코드: 비교 결과를 화면에서도 확인한다.
+document.querySelector('#btn').addEventListener('click', function () {
+    document.querySelector('#result').textContent = `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일 ${now.getHours()}시 ${now.getMinutes()}분 / 요일: ${now.getDay()}`;
+});

@@ -2,10 +2,12 @@ import { Marp } from "@marp-team/marp-core";
 import { copyFile, mkdir, readFile, realpath, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 
 const EXPECTED_NODE_MAJOR = 24;
-const EXPECTED_DECKS = 57;
-const EXPECTED_SLIDES = 1157;
+const EXPECTED_DECKS = 58;
+const EXPECTED_SLIDES = 1175;
 const REPOSITORY_BLOB_URL = "https://github.com/gbox3d/teaching_repo/blob/main";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -516,7 +518,61 @@ async function copyDeckAssets(context, deckDirectory, canonicalRoot) {
     const destination = path.join(deckDirectory, ...outputRelative.split("/"));
     assertInside(deckDirectory, destination, "생성된 교재 자산");
     await mkdir(path.dirname(destination), { recursive: true });
-    await copyFile(canonicalSource, destination);
+    if (relative.startsWith("web_programming/") && relative.endsWith(".html")) {
+      const html = (await readFile(canonicalSource, "utf8")).replace(
+        /(href\s*=\s*)(["'])([^"']+\.md(?:[?#][^"']*)?)\2/gi,
+        (whole, prefix, quote, target) => {
+          if (/^(?:[a-z]+:|\/\/)/i.test(target)) return whole;
+          const resolved = resolveRepositoryTarget(target, relative);
+          return `${prefix}${quote}${repositoryUrl(resolved.relative)}${resolved.suffix}${quote}`;
+        },
+      );
+      await writeFile(destination, html, "utf8");
+    } else {
+      await copyFile(canonicalSource, destination);
+    }
+  }
+}
+
+async function publicWebExampleFiles() {
+  const { stdout } = await promisify(execFile)("git", [
+    "ls-files", "--cached", "--others", "--exclude-standard", "-z", "--", "web_programming",
+  ], { cwd: root, maxBuffer: 8 * 1024 * 1024 });
+  const files = [...new Set(stdout.split("\0"))].filter((file) =>
+    (/\.(?:html|css|js|mjs|json|svg|png|jpe?g|webp|gif|ico|http)$/.test(file) || file.endsWith("/.env.example")) &&
+    !file.split("/").some((part) => (part.startsWith(".") && part !== ".env.example") || part === "localfiles" || part === "reviews") &&
+    !/\/(?:config\.json|config\.js)$/.test(file),
+  );
+  const present = await Promise.all(files.map((file) => isFile(path.join(root, file))));
+  return files.filter((_file, index) => present[index]);
+}
+
+async function includeWebExampleDependencies(context, files) {
+  const exampleRoots = new Set();
+  const inspected = new Set();
+  let previousSize = -1;
+  while (previousSize !== context.assets.size) {
+    previousSize = context.assets.size;
+    for (const file of context.assets.keys()) {
+      const match = file.match(/^(web_programming\/(?:weeks|specials)\/[^/]+\/examples\/).*\.html$/);
+      if (match) exampleRoots.add(match[1]);
+    }
+    if (!exampleRoots.size) return;
+    for (const file of files) {
+      if (file.startsWith("web_programming/shared/") || [...exampleRoots].some((prefix) => file.startsWith(prefix))) {
+        context.assets.set(file, path.posix.join("assets", file));
+      }
+    }
+    for (const file of context.assets.keys()) {
+      if (!file.startsWith("web_programming/") || !file.endsWith(".html") || inspected.has(file)) continue;
+      inspected.add(file);
+      const html = await readFile(path.join(root, file), "utf8");
+      for (const [, target] of html.matchAll(/href\s*=\s*["']([^"']+\.html(?:[?#][^"']*)?)["']/gi)) {
+        if (/^(?:[a-z]+:|\/\/|\/)/i.test(target)) continue;
+        const resolved = resolveRepositoryTarget(target, file);
+        context.assets.set(resolved.relative, path.posix.join("assets", resolved.relative));
+      }
+    }
   }
 }
 
@@ -540,6 +596,7 @@ async function main() {
   installUrlRewriter(marp);
   marp.themeSet.add(theme);
   const canonicalRoot = await realpath(root);
+  const webExampleFiles = await publicWebExampleFiles();
   const records = new Map();
   let initialized = false;
   let totalSlides = 0;
@@ -569,6 +626,7 @@ async function main() {
         const prepared = prepareMarkdown(await readFile(path.resolve(root, ...relative.split("/")), "utf8"), relative);
         const context = { assets: new Map(), relativeSource: relative, rewrittenLinks: 0 };
         const rendered = marp.render(prepared, { teaching: context });
+        await includeWebExampleDependencies(context, webExampleFiles);
         rewrittenLinks += context.rewrittenLinks;
         copiedAssets += context.assets.size;
         const slides = slideCount(rendered.html);

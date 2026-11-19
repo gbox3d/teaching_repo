@@ -36,6 +36,26 @@ test('GET과 PATCH가 전등·선풍기·온도 상태를 공유한다', async (
   assert.equal(state.log.length, 3);
 });
 
+test('소개·도움말은 GET 전용이며 장치 상태를 바꾸지 않는다', async (t) => {
+  const api = await start(t);
+  const before = await (await api.get('/api/state')).json();
+  const response = await api.get('/api/about');
+  assert.equal(response.status, 200);
+  const about = await response.json();
+  assert.equal(about.version, 'v1');
+  const helpResponse = await api.get(about.help);
+  assert.equal(helpResponse.status, 200);
+  const help = await helpResponse.json();
+  assert.equal(help.length, 6);
+  assert.deepEqual(help.map(row => row.method), ['GET', 'GET', 'GET', 'PATCH', 'PATCH', 'PATCH']);
+  for (const route of ['/api/about', '/api/help']) {
+    const denied = await api.patch(route, { on: true });
+    assert.equal(denied.status, 405);
+    assert.equal(denied.headers.get('allow'), 'GET');
+  }
+  assert.deepEqual(await (await api.get('/api/state')).json(), before);
+});
+
 test('부분 변경은 다른 상태를 보존하고 가상 팬이 온도를 바꾸지 않는다', async (t) => {
   const api = await start(t);
   await api.patch('/api/devices/light', { brightness: 0 });
@@ -81,7 +101,7 @@ test('다른 사이트의 제어 요청과 서버 소스 접근을 거절한다'
 
 test('대시보드와 모든 실습 화면·코드를 제공한다', async (t) => {
   const api = await start(t);
-  const exerciseFiles = ['ex01', 'ex02', 'ex03', 'student', 'reference'].flatMap((name) => ['/examples/' + name + '/', '/examples/' + name + '/app.js']);
+  const exerciseFiles = ['00_about_help', 'ex01', 'ex02', 'ex03', 'student', 'reference'].flatMap((name) => ['/examples/' + name + '/', '/examples/' + name + '/app.js']);
   exerciseFiles.push('/examples/automatic/', '/examples/automatic/policy.js', '/examples/automatic/runner.js', '/examples/automatic_student/', '/examples/automatic_student/policy.js');
   for (const url of ['/', '/styles.css', '/app.js', ...exerciseFiles]) {
     const response = await api.get(url);

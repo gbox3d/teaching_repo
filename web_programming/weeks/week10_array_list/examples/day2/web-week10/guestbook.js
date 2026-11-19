@@ -18,6 +18,7 @@ function showList() {
     li.textContent = items[i];
     const removeButton = document.createElement('button');
     removeButton.textContent = '삭제';
+    removeButton.className = 'w3-button w3-small w3-border w3-margin-left';
     removeButton.addEventListener('click', function () {
       items.splice(i, 1);
       showList();

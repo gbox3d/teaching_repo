@@ -1,6 +1,6 @@
 # 2주차 따라하기 — GitHub에 올리고 브랜치로 나눠 올리기
 
-처음에는 그대로 따라 하고, 결과가 나오면 본인 아이디와 문구로 바꾼다.
+각 차시는 강의·시연 60분과 개별 실습 30분이다. 제공 파일을 복사한 뒤 본인 아이디와 문구로 바꾼다. 아래 전문은 비교·복구용이며 전체 타이핑은 필수가 아니다.
 각 단계의 예상 결과가 화면에 보이면 다음 단계로 넘어간다.
 
 `student01`은 연습용 아이디다. 명령과 주소에 있는 `student01`은 본인 GitHub 아이디로 바꾼다.
@@ -8,6 +8,10 @@
 명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
 
 ## 1일차
+
+사전 준비: VS Code·Git·브라우저와 GitHub 계정·이메일 확인, 1주 세 파일·이번 주 배부본 확보. 계정 가입 설명은 준비 지원용이다. 강의는 준비 5, GitHub·remote 15, 첫 push 15, Pages 15, 공개 경로 5, 안내 5분이다.
+
+학생 실습은 `my-web` 준비 5분 → push 10분 → 제목 변경·push 5분 → Pages·캡처 10분이다. 새 저장소 생성과 Git 명령은 수업 안에서 수행한다.
 
 ### 1. 연습 폴더 만들기
 
@@ -26,7 +30,7 @@ cd my-web
 
 ### 2. 세 파일 만들기
 
-VS Code 왼쪽 탐색기의 **New File** 아이콘으로 파일 세 개를 만들고 아래 내용을 그대로 넣는다.
+1주 세 파일 또는 배부한 `examples/day1/`의 세 파일을 복사한다. 누락된 파일은 VS Code의 **New File**로 만들고 아래 전문을 붙여 넣어 복구한다. CSS·JS는 제공 코드 그대로 쓴다.
 `index.html`의 `<h1>`은 일부러 `내 첫 페이지`로 둔다. 8단계에서 한 줄만 고칠 것이다.
 
 `index.html`:
@@ -67,11 +71,16 @@ body {
 }
 
 .card {
+  box-sizing: border-box;
   width: min(36rem, calc(100% - 2rem));
   padding: 2rem;
   border-radius: 1rem;
   background: white;
   box-shadow: 0 1rem 2.5rem rgb(30 50 100 / 12%);
+}
+
+h1 {
+  word-break: keep-all;
 }
 
 .eyebrow {
@@ -104,7 +113,7 @@ countButton.addEventListener('click', () => {
 console.info('my-web ready');
 ```
 
-**예상 결과** — 탐색기에서 `index.html`을 오른쪽 클릭 → **Reveal in File Explorer**(macOS는 **Reveal in Finder**)로 폴더를 열고 `index.html`을 더블클릭하면
+예상 결과 — 탐색기에서 `index.html`을 오른쪽 클릭 → Reveal in File Explorer(macOS는 Reveal in Finder)로 폴더를 열고 `index.html`을 더블클릭하면
 카드 한 장에 `내 첫 페이지`, **방문 버튼**, `클릭 횟수: 0`이 보인다. 버튼을 누르면 숫자가 올라간다.
 
 ### 3. 로컬 저장소 만들고 첫 commit 하기 (1주차 복습)
@@ -115,7 +124,7 @@ console.info('my-web ready');
 git init
 git branch -M main
 git config user.name "student01"
-git config user.email "본인 이메일"
+git config user.email "본인 noreply 이메일"
 git add .
 git commit -m "첫 페이지 만들기"
 git log --oneline
@@ -125,17 +134,17 @@ git log --oneline
 
 ```text
 [main (root-commit) 0be6182] 첫 페이지 만들기
- 3 files changed, 60 insertions(+)
+ 3 files changed
  create mode 100644 app.js
  create mode 100644 index.html
  create mode 100644 styles.css
 ```
 
-`git log --oneline`에는 `0be6182 첫 페이지 만들기` 한 줄이 보인다. 앞의 일곱 글자는 PC마다 다르다.
+`git log --oneline`에는 `0be6182 첫 페이지 만들기` 한 줄이 보인다. 해시는 실행마다 다르며 줄 수는 복사한 파일에 따라 달라진다.
 
 - `git add .`: 폴더 안에서 바뀐 파일을 모두 다음 commit에 넣는다. 1주차의 `git add index.html`을 세 파일에 한 번에 한 것이다.
 - `git config` 두 줄은 **저장소마다 따로** 적용된다. 1주차 폴더에서 적었어도 새 폴더에서 다시 적어야 내 별칭으로 기록된다.
-  건너뛰면 오류 없이 commit되면서 PC 계정 이름이 공개 저장소에 그대로 올라간다. 공용 PC에서는 `--global`을 붙이지 않는다.
+  기존 Git 설정이 있으면 그 이름·이메일로 기록될 수 있고, 설정이 없으면 commit이 중단될 수 있다. `git config user.name`·`git config user.email`로 확인한다. GitHub 비공개 이메일 설정에서 본인 noreply 주소를 확인해 쓸 수 있다. 공용 PC에서는 `--global`을 붙이지 않는다.
 
 ### 4. GitHub 계정 만들기
 
@@ -146,14 +155,14 @@ git log --oneline
    소문자·숫자·하이픈만 쓰고 실명·학번을 넣지 않는다.
 3. 확인 메일에 온 코드를 입력한다.
 
-**예상 결과** — 오른쪽 위에 프로필 아이콘이 보인다. 확인 메일을 마치지 않으면 저장소를 만들 수 없다.
+**예상 결과** — 본인 계정으로 로그인되어 있다. 수업 전 이메일 확인까지 마치고, 화면의 인증 안내가 남으면 강의자에게 준비 지원을 요청한다.
 
 ### 5. 빈 저장소 만들기
 
 1. 오른쪽 위 **+ › New repository**를 누른다.
 2. **Repository name**에 `my-web`을 적는다. Description은 비워 둔다.
 3. **Public**을 고른다.
-4. **Add a README file**은 체크하지 않는다. **Add .gitignore**와 **Choose a license**는 **None**으로 둔다.
+4. Add a README file은 체크하지 않는다. Add .gitignore와 Choose a license는 None으로 둔다.
 5. **Create repository**를 누른다.
 
 **예상 결과** — "Quick setup" 화면이 열린다. **HTTPS**가 선택된 상태에서 `https://github.com/student01/my-web.git` 주소가 보이고,
@@ -166,7 +175,7 @@ git push -u origin main
 ```
 
 이 세 줄이 6·7단계의 명령이다. 가운데 줄은 3단계에서 이미 했다. 이 화면을 닫지 않는다.
-README를 체크했다면 7단계의 push가 거부된다. 그때는 **Settings** 맨 아래 **Delete this repository**로 지우고 다시 만드는 것이 빠르다.
+README를 자동 생성했다면 원격에 별도 commit이 생겨 첫 push가 거부될 수 있다. 삭제·강제 push 대신 [실습지의 복구 안내](lab.md#막혔을-때)를 따른다. 새 이름의 빈 저장소로 연결했다면 이 문서의 저장소 이름과 Pages 주소도 함께 바꾼다.
 
 ### 6. remote 연결하기
 
@@ -196,10 +205,9 @@ origin	https://github.com/student01/my-web.git (push)
 git push -u origin main
 ```
 
-1. **Connect to GitHub** 창이 뜨면 **Sign in with your browser**를 누른다.
-2. 브라우저에 GitHub 로그인 화면이 열리면 로그인하고 **Authorize git-ecosystem**을 누른다.
-   "Authentication Succeeded"가 보이면 그 탭은 닫아도 된다.
-3. 터미널로 돌아오면 push가 이어진다.
+1. Git Credential Manager가 설정되어 있고 인증이 필요하면 브라우저 로그인 안내가 열린다. 화면의 **Sign in with your browser** 등 브라우저 로그인 항목을 선택한다.
+2. 본인 GitHub 계정인지 확인하고 요청된 인증·권한 확인을 마친다. 문구는 GCM 버전에 따라 달라질 수 있다.
+3. 인증 성공 후 터미널에서 push 결과를 확인한다. 기존 인증이 있으면 로그인 창이 생략될 수 있다.
 
 **예상 결과** — `Enumerating objects` 같은 줄 몇 개 뒤에 아래가 보인다.
 
@@ -212,8 +220,8 @@ branch 'main' set up to track 'origin/main'.
 4. 브라우저에서 저장소 화면 `https://github.com/student01/my-web`을 새로고침한다.
    `app.js`, `index.html`, `styles.css` 세 파일과 commit 메시지 `첫 페이지 만들기`가 보인다. 이 화면이 **캡처 1**이다.
 
-- 로그인은 이 PC에 저장되어 다음 push부터는 창이 뜨지 않는다. 비밀번호나 토큰을 명령에 적지 않는다.
-- 로그인 창 대신 터미널에 `Username for 'https://github.com':`가 나오면 (Git Credential Manager가 없는 macOS 등) 강의자 안내를 따른다.
+- 인증 정보가 이 PC에 저장되면 이후 push에서 다시 묻지 않을 수 있다. 비밀번호나 토큰을 명령에 적지 않는다.
+- 로그인 창 대신 터미널에 `Username for 'https://github.com':`가 나오면 (GCM 설정 확인이 필요한 환경) 강의자 안내를 따른다.
 - `-u`는 "다음부터 `git push`만 쳐도 `origin`의 `main`으로 보낸다"는 뜻이다. 8단계부터는 `git push`만 쓴다.
 
 ### 8. 제목 한 줄 고치고 push 하기
@@ -259,7 +267,7 @@ To https://github.com/student01/my-web.git
    0be6182..911638a  main -> main
 ```
 
-3. GitHub 저장소 화면을 새로고침한다. 오른쪽 위 commit 수가 **2 Commits**가 되고, `index.html`을 누르면 13행이 `<h1>내 첫 GitHub 페이지</h1>`이다.
+3. GitHub 저장소 화면을 새로고침하고 제목 변경 commit과 `index.html`의 `<h1>내 첫 GitHub 페이지</h1>`을 확인한다. 새 폴더에서 이 순서로 시작했다면 commit은 2개이며, 기존 파일·기록을 이어 썼다면 개수와 행 번호는 다를 수 있다.
 
 - 1주차의 `add → commit` 뒤에 `push` 한 줄이 붙었다. 저장만 하고 push하지 않으면 GitHub는 그대로다.
 - 7단계에서 `-u`를 썼기 때문에 이번에는 `git push`만으로 된다.
@@ -269,16 +277,18 @@ To https://github.com/student01/my-web.git
 1. 저장소 화면 위쪽 **Settings** 탭 → 왼쪽 메뉴 **Pages**를 누른다.
 2. **Build and deployment › Source**가 **Deploy from a branch**인지 확인한다.
 3. **Branch**에서 `None`을 `main`으로 바꾸고, 폴더는 `/(root)` 그대로 두고 **Save**를 누른다.
-4. 1분쯤 기다렸다가 새로고침한다. 위쪽에 "Your site is live at https://student01.github.io/my-web/"와 **Visit site** 버튼이 보인다.
+4. Pages의 배포 상태를 확인한다. 배포가 끝나면 공개 주소와 **Visit site**에서 사이트를 연다. 최대 10분이 걸릴 수 있다.
 5. **Visit site**를 누르거나 새 탭에 주소를 직접 친다.
 
-**예상 결과** — `https://student01.github.io/my-web/`에서 `내 첫 GitHub 페이지` 카드가 열리고 **방문 버튼**이 동작한다. 이 화면이 **캡처 2**다.
+예상 결과 — `https://student01.github.io/my-web/`에서 `내 첫 GitHub 페이지` 카드가 열리고 방문 버튼이 동작한다. 이 화면이 캡처 2다.
 
 - 주소는 `https://` + 아이디 + `.github.io/` + 저장소 이름 + `/`이다. 끝의 `/`를 빼지 않는다.
-- 404가 보이면 1~2분 더 기다렸다가 새로고침한다. GitHub 공식 문서는 최대 10분까지 걸릴 수 있다고 안내한다.
-- 이제 push할 때마다 1분쯤 뒤 이 주소의 내용이 바뀐다.
+- 404가 보이면 저장소 이름·`index.html`·배포 상태를 확인한다. [GitHub 공식 문서](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)는 push 뒤 최대 10분의 반영 시간을 안내한다.
+- 실습 시간이 끝나면 로컬 화면과 GitHub commit을 먼저 캡처하고 공개 배포 화면을 나중에 보완한다. 대기 중인 배포를 완료로 표시하지 않는다.
 
 ## 2일차
+
+강의·시연: 준비 5, branch·switch 15, 파일 추가 10, merge 15, Pages 비교 10, 안내 5분. 학생 실습: about 브랜치 5분 → 제공 HTML의 소개·왕복 링크 10분 → commit·push·merge 10분 → 확인 5분이다. 16단계 브랜치 삭제와 문서 끝의 clone·pull은 수업 뒤 선택이다.
 
 ### 10. 저장소 다시 열기
 
@@ -328,7 +338,7 @@ Switched to branch 'about'
 
 ### 12. about.html 추가하고 링크 넣기
 
-1. 탐색기에서 `about.html`을 새로 만들고 아래 내용을 넣는다. 같은 파일이 [examples/day2/about.html](examples/day2/about.html)에 있다.
+1. 제공 `about.html`을 복사하고 소개 문장 한 줄을 본인 별칭·소개로 바꾼다. 아래는 수정 전 전문이다. 같은 파일이 [examples/day2/about.html](examples/day2/about.html)에 있다.
 
 ```html
 <!doctype html>
@@ -418,7 +428,7 @@ branch 'about' set up to track 'origin/about'.
 
 1. GitHub 저장소 화면을 새로고침한다. 왼쪽 위 브랜치 드롭다운 `main ▾`을 누르면 `main`과 `about` 두 개가 보인다.
 2. `about`을 고르면 파일 목록에 `about.html`이 있다. 다시 `main`을 고르면 없다. **main에는 없고 about에만 있다.**
-3. 드롭다운 옆 **2 Branches**를 누르면 브랜치 목록 페이지가 열린다. 이 화면이 **캡처 3**이다.
+3. 브랜치 드롭다운의 **View all branches**로 전체 목록을 연다. 이 화면이 **캡처 3**이다.
 4. 저장소 화면 위에 노란 배너와 초록 **Compare & pull request** 버튼이 보여도 누르지 않는다. 합치는 것은 15단계에서 내 PC에서 한다.
 
 - `git push`만 치면 `fatal: The current branch about has no upstream branch.`가 나온다. 처음 올리는 브랜치는 `-u origin about`을 붙인다.
@@ -447,15 +457,15 @@ Fast-forward
 push 뒤에는 `911638a..c5fdc17  main -> main`이 보인다.
 
 1. GitHub 저장소 화면(`main`)을 새로고침하면 `about.html`이 보인다.
-2. 1분쯤 뒤 `https://student01.github.io/my-web/`을 새로고침한다. 카드 아래에 **소개 페이지 보기** 링크가 생긴다.
+2. Pages 배포 완료 뒤 `https://student01.github.io/my-web/`을 새로고침한다. 카드 아래에 **소개 페이지 보기** 링크가 생긴다.
 3. 링크를 누르면 `https://student01.github.io/my-web/about.html`에서 `소개` 카드가 열린다. 이 화면이 **캡처 4**다.
 
-- 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
+- 옛 화면이 그대로면 배포 상태를 확인한 뒤 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
 - `Fast-forward`는 main에 새 commit이 없어서 about의 commit을 그대로 이어 붙였다는 뜻이다.
 
 ### 16. 브랜치 정리하기 (선택)
 
-merge가 끝난 브랜치는 지워도 commit은 main에 남는다. 지우지 않아도 된다. 현재 폴더: `my-web`
+캡처 3을 저장하고 merge가 끝난 뒤의 수업 후 선택 작업이다. 브랜치를 지워도 commit은 main에 남는다. 지우지 않아도 된다. 현재 폴더: `my-web`
 
 ```bash
 git branch -d about
@@ -472,18 +482,20 @@ Deleted branch about (was c5fdc17).
  - [deleted]         about
 ```
 
-`git branch`에 `* main`만 남는다. GitHub에서는 브랜치 목록 페이지(**2 Branches**)에서 `about` 옆 휴지통 아이콘으로도 지울 수 있다.
+`git branch`에 `* main`만 남는다. GitHub에서는 브랜치 목록 페이지(**Branches**)에서 `about` 옆 휴지통 아이콘으로도 지울 수 있다.
 
 ### 17. 제출하기
 
-캡처 4장을 모아 제출한다.
+2주는 일반 주차와 달리 캡처 4장을 모아 제출한다.
 
 1. 저장소 `my-web`에 세 파일이 보이는 화면 (7단계)
 2. `https://student01.github.io/my-web/`이 열린 화면 (9단계)
 3. 브랜치 목록에 `about`이 보이는 화면 (14단계)
 4. 공개 페이지에서 **소개 페이지 보기**를 눌러 `about.html`이 열린 화면 (15단계)
 
-캡처에 이메일·실명이 보이지 않게 한다. 아이디는 보여도 된다.
+배포 지연 때는 로컬 화면·GitHub commit으로 우선 확인하고 공개 화면을 보완한다. 캡처에 이메일·실명이 보이지 않게 한다. 아이디는 보여도 된다.
+
+3주에는 day2의 네 파일을 main에서 이어 쓴다. 새 브랜치를 만들지 않고 시맨틱 HTML·정적 방명록을 수정하며 CSS·JS는 연결만 해제한다. 3주부터 파일 준비는 사전, 업로드는 수업 뒤 정리다.
 
 ## 다른 PC에서 이어 할 때
 

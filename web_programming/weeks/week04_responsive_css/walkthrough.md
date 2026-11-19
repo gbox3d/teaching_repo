@@ -1,248 +1,49 @@
-# 4주차 따라하기 — 부품을 비교하고 마지막에 조립
+# 4주차 따라하기 — 제공 CSS의 값 변경
 
-이번 주 실습은 파일을 만드는 것이 아니라 **값을 바꿔 보는 것**이다.
-이번 주부터 주마다 새 저장소를 만든다. 이번 주 저장소는 `web-week04`이고, 지난주 완성본에서 시작한다.
-비교 예제를 `web-week04/ex/`에 예제마다 폴더 하나로 저장하고, 값을 바꾼 뒤 화면이 어떻게 달라지는지 본다.
-`web-week04`의 `styles.css`는 2일차 끝에 부품에서 **조립**한다.
+각 차시는 강의·시연 60분과 학생 실습 30분이다. 아래 필수 순서만 실습 시간에 수행한다. 전문 재입력·전체 조립·다른 비교값 변경은 시연·복습용이다. 비교 예제 13개와 선택 부록 ex14는 모두 보존한다.
 
-`student01`은 연습용 아이디다. 명령과 주소에 있는 `student01`은 본인 GitHub 아이디로 바꾼다.
-명령은 VS Code의 터미널(**Terminal › New Terminal**, Windows는 PowerShell)에서 실행한다. macOS 터미널도 같은 명령이다.
-명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
+## 수업 전 준비
 
-비교 예제 14개(부록 포함)는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples/day1)(1일차 예제 폴더 ex01~ex06)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples/day2)(2일차 예제 폴더 ex07~ex14) 폴더에 있다.
-각 예제가 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
+3주차 `my-web` 결과를 `.git` 없이 새 `web-week04`에 복사한다. 저장소·Pages 설정과 비교 폴더 `ex/ex01`~`ex/ex14` 배부를 마친다. 강의자는 [제공 완성본](examples/day2/web-week04/)의 CSS 연결·카드 클래스를 반영하되 학생 소개·취미를 보존한다. 파일이 없는 학생은 제공본으로 시작한다. 파일별 Raw 다운로드와 Git 신규 설명은 수업 안에서 하지 않는다.
 
 ## 1일차
 
-### 1. web-week04 폴더 만들고 지난주 파일 넣기
+강의 첫 5분에 파일과 실행 상태를 확인한다. 선택자 15분, 박스모델 15분, max-width·margin 15분, 다른 비교 5분, 실습 안내 5분으로 강의·시연 60분을 구성한다.
 
-문서 폴더 등 원하는 위치에 새 폴더 `web-week04`를 만들고 VS Code **File › Open Folder**로 연다.
-이어서 지난주 완성본을 넣는다. 방법은 둘 중 하나다.
+1. 실습 0–10분: `ex/ex01/styles.css`의 `.red` 색을 `orange`로, `ex/ex03/styles.css`의 `.pad`를 `32px`로 바꾼다. ex01 2·3번 색과 ex03 2·5번 안쪽 여백이 바뀐다.
+2. 10–25분: 사이트 `styles.css`의 `h1 color`를 `#365314`, `.card padding`을 `20px`, `body max-width`를 `600px`로 바꾼다. 제공 CSS의 세 값만 편집한다.
+3. 25–30분: 저장·새로고침 후 제목 색·카드 여백·본문 폭과 세 페이지 CSS 연결을 확인한다. ex02·ex04·ex05·ex06은 강의자 시연이며 추가 실험은 선택이다.
 
-1. **내 3주차 저장소에서** — GitHub에서 내 3주차 저장소(`my-web`) 화면을 열고 **Code › Download ZIP**을 누른다. 압축을 풀면 `my-web-main` 폴더가 생긴다. 그 **안의** 파일과 `images/` 폴더를 `web-week04`로 옮긴다.
-2. **교재에서** — 1번을 못 했으면 [3주차 examples/day2/](../week03_semantic_html/examples/day2/)의 `index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`를 **Raw**로 받는다. `images/profile.png`는 파일 화면의 내려받기 단추로 받아 `web-week04/images/`에 넣는다.
-
-마지막으로 `web-week04` 안에 `ex` 폴더를 만든다. VS Code 탐색기에서 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week04`
-
-```bash
-mkdir ex
-```
-
-**예상 결과** — `web-week04` 안에 `index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`images/`와 나란히 빈 `ex/` 폴더가 보인다.
-
-- `my-web-main` 폴더째 넣지 않는다. 폴더가 한 겹 더 생기면 공개 주소가 달라진다. 파일만 옮긴다.
-- 폴더 이름은 `ex`다. `Ex`·`examples`로 만들면 공개 주소가 달라져 4단계에서 404가 난다.
-- 빈 폴더는 GitHub에 올라가지 않는다. 2단계에서 예제 폴더와 파일을 넣으면 함께 올라간다.
-
-### 2. 비교 예제 여섯 개 가져오기
-
-오늘 예제는 여섯 개이고, 예제마다 **폴더 하나**에 파일이 두 개 있다. 내 사이트와 같은 이름의 `index.html`(화면 — 번호 글과 형제 상자)과 `styles.css`(규칙)다. 이번 주에 비교하는 규칙은 모두 `styles.css`에 있다. 예제마다 주제 하나만 비교하고, 상자는 배경색으로만 구분한다.
-
-| 폴더 | 파일 | 비교하는 것(`styles.css`) |
-|---|---|---|
-| `ex01` | [index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) | 선택자 `p` / `.red` / `nav a` |
-| `ex02` | [index.html](examples/day1/ex02/index.html) · [styles.css](examples/day1/ex02/styles.css) | `display: block` / `inline` |
-| `ex03` | [index.html](examples/day1/ex03/index.html) · [styles.css](examples/day1/ex03/styles.css) | `padding` / `border` / `margin` |
-| `ex04` | [index.html](examples/day1/ex04/index.html) · [styles.css](examples/day1/ex04/styles.css) | `width` / `max-width` |
-| `ex05` | [index.html](examples/day1/ex05/index.html) · [styles.css](examples/day1/ex05/styles.css) | `margin-left`·`margin-right` 의 `auto` |
-| `ex06` | [index.html](examples/day1/ex06/index.html) · [styles.css](examples/day1/ex06/styles.css) | `text-align` |
-
-먼저 `ex` 안에 같은 이름의 폴더 여섯 개를 만든다. VS Code 탐색기에서 `ex`를 고르고 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week04`
-
-```bash
-mkdir ex/ex01
-mkdir ex/ex02
-mkdir ex/ex03
-mkdir ex/ex04
-mkdir ex/ex05
-mkdir ex/ex06
-```
-
-가져오는 방법은 둘 중 하나다.
-
-1. **Raw로 저장** — [교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples/day1)에서 `ex01` 폴더를 누르고, 파일을 하나씩 눌러 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 내 `web-week04/ex/ex01/`에 저장한다. 두 파일을 받았으면 `ex02`~`ex06`도 같은 방법으로 자기 폴더에 받는다. 파일 이름은 교재와 **같게** 둔다.
-2. **타이핑** — VS Code에서 `ex/ex01/` 안에 `index.html`과 `styles.css`를 새로 만들고 교재 화면을 보며 친다. 1일차 예제는 두 파일을 합쳐 28~44줄이다. 주석은 빼도 된다.
-
-**예상 결과** — `ex/` 안에 폴더 여섯 개가 있고, 폴더마다 파일 두 개가 있다.
-
-```text
-ex/
-  ex01/
-    index.html
-    styles.css
-  ex02/
-    index.html
-    styles.css
-  …
-  ex06/
-    index.html
-    styles.css
-```
-
-- 저장 창에서 폴더 이름을 먼저 본다. 여섯 폴더의 파일 이름이 같아서, 다른 폴더에 저장하면 그 폴더의 같은 이름 파일을 덮어쓴다. 덮어썼으면 그 폴더의 파일을 교재에서 다시 **Raw**로 받는다.
-- 저장한 파일 이름이 `index.html.txt`처럼 `.txt`로 끝나면 이름을 고친다. 브라우저가 붙인 것이다. 이름은 VS Code 탐색기에서 확인한다.
-- 예제 폴더의 `index.html`·`styles.css`는 맨 위 내 사이트 파일과 이름이 같지만 다른 파일이다. 편집기 위쪽 경로 줄(`ex › ex01 › styles.css`)로 구분한다. 같은 이름 파일을 여러 개 열면 탭 이름 옆에도 폴더 이름이 붙는다.
-- 여섯 폴더를 한 번에 다 받고 시작해도 되고, 하나씩 받아 실험하고 다음으로 가도 된다.
-
-`ex/ex01/index.html`을 Chrome으로 연다(VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**, macOS는 **Reveal in Finder** → 두 번 누르기). `styles.css`는 두 번 누르지 않는다. `index.html`이 불러온다.
-VS Code에서 `ex/ex01/index.html`도 열어 `<head>`의 이 줄을 찾는다.
-
-```html
-<link rel="stylesheet" href="styles.css">
-```
-
-이 한 줄이 같은 폴더의 `styles.css`를 불러온다. 그래서 두 파일이 한 폴더에 있어야 한다. 2일차 조립에서 내 사이트 세 페이지에 넣는 줄과 같다. 다른 예제를 볼 때는 그 폴더의 `index.html`을 연다.
-
-**예상 결과** — `ex/ex01/index.html`을 열면 여섯 줄이 보인다. 1번 파랑, 2·3번 빨강, 4번 파랑, 5번 초록, 6번 기본 링크색이다.
-
-### 3. 값 바꾸는 요령
-
-실험은 두 가지 방법으로 한다. 먼저 DevTools에서 시험하고, 마음에 드는 값을 파일에 옮긴다.
-
-**DevTools에서 먼저 시험** — F12 › **Elements**에서 상자를 고른다. 오른쪽 **Styles**에 그 상자에 적용된 규칙이 보인다. 값을 누르면 바로 고칠 수 있다.
-`ex/ex01/index.html`에서 2번 문단을 고르고 `.red`의 `red`를 `orange`로 바꾼다.
-
-**예상 결과** — 값을 바꾸는 순간 화면이 바뀐다. 2·3번이 주황이 된다. 새로고침하면 원래대로 돌아온다. DevTools에서 바꾼 것은 파일에 남지 않기 때문이다.
-
-**파일에 옮기기** — VS Code에서 같은 값을 고치고 저장한다. 규칙은 같은 폴더의 `styles.css`에 있다. 브라우저에서 **새로고침**(F5)한다.
-`ex/ex01/styles.css`에서 `/* p { color: gray; } */`의 주석 기호 `/*`·`*/`를 지우고 저장한다.
-
-**예상 결과** — 새로고침하면 1·4번이 회색이 된다. 2번은 빨강 그대로다.
-같은 선택자 `p`를 두 번 썼으니 뒤에 쓴 회색이 이기고, 2번은 클래스 `.red`가 태그 `p`를 이긴다.
-
-- 저장(Ctrl+S) → 새로고침(F5). 이 두 동작을 한 쌍으로 익힌다. 저장을 안 하면 화면이 안 바뀐다.
-- CSS는 틀려도 **오류 메시지가 없다.** 아무 일도 안 일어나면 DevTools Styles에서 내 규칙이 그 상자에 보이는지 본다. 안 보이면 선택자가 안 맞은 것이다.
-- 값을 원래대로 못 돌리겠으면 교재에서 그 예제 폴더의 파일을 다시 **Raw**로 받아 같은 폴더에 덮어쓴다.
-- 예제마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--선택자와-박스-60분)에 있다.
-
-### 4. 이번 주 저장소 만들어 올리기
-
-50분이 되면 올린다. 2주차에 배운 순서 그대로다.
-
-먼저 GitHub에서 새 저장소를 만든다. 이름은 `web-week04`, **Public**으로 하고 README는 추가하지 않는다.
-이어서 VS Code 터미널에서 친다. 현재 폴더: `web-week04`
-
-```bash
-git init
-git add .
-git commit -m "4주차 1일차"
-git branch -M main
-git remote add origin https://github.com/student01/web-week04.git
-git push -u origin main
-```
-
-저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
-
-**예상 결과** — GitHub의 `web-week04` 저장소 화면을 새로고침하면 세 페이지·`styles.css`·`app.js`·`images/`·`ex/`가 보인다.
-1~3분 뒤 `https://student01.github.io/web-week04/`을 열면 3주차의 꾸미지 않은 세 페이지가 보인다. `https://student01.github.io/web-week04/ex/ex01/`은 `ex/ex01/index.html`을 연 것으로, 로컬에서 보던 것과 같은 화면이다. 두 화면은 **확인용**이다.
-공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
-
-- 404가 나면 주소의 `web-week04/ex/ex01/`이 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다. `…/ex/`까지만 열면 `ex/`에 `index.html`이 없어서 늘 404다.
-- 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
-- push가 거부되거나 로그인 창이 안 뜨면 [2주차 막혔을 때 표](../week02_github_pages/lab.md#막혔을-때)를 본다.
+DevTools에서 바꾼 값은 새로고침하면 사라진다. 제출할 변화는 파일에 저장한다. CSS 오류는 JavaScript 예외처럼 멈추지 않으므로 Elements·Styles에서 적용된 규칙과 무시된 선언을 살핀다.
 
 ## 2일차
 
-### 5. flex 예제 일곱 개 가져오기
+강의 첫 5분에 준비를 확인한다. flex 부모·축 20분, gap·정렬 10분, media 15분, 전체 조립 시연 5분, 실습 안내 5분이다.
 
-같은 PC에 `web-week04` 폴더가 남아 있으면 **File › Open Folder**로 연다.
-없으면 저장소를 내려받은 뒤 **File › Open Folder**로 연다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
+1. 실습 0–10분: `ex/ex07/styles.css`의 `.column`을 `flex-direction: row`로 바꿔 4번의 가로 배치를 본다. `ex/ex08/styles.css`의 `.center`를 `justify-content: flex-end`로 바꿔 2번 오른쪽 정렬을 본다.
+2. 10–22분: 사이트 `nav gap`을 `24px`, media 경계를 `700px`로 바꾼다. media 안의 방향을 `row`로 비교한 뒤 `column`으로 복원한다. 기존 3줄(5줄 이내)만 수정한다.
+3. 22–30분: Chrome 기기 모드에서 1280px·375px로 세 페이지를 확인한다. 메뉴는 가로·세로로 바뀌고 가로 넘침이 없다. 375px 홈 화면을 캡처한다. 파일 주소 또는 localhost로 완료할 수 있다.
 
-```bash
-git clone https://github.com/student01/web-week04.git
-```
+완성 예시의 경계 600px과 실습의 700px은 375/1280px에서 같은 최종 메뉴 방향을 보인다. ex09~ex13 추가 실험과 ex14는 [예제 안내](examples/README.md)를 참고한다.
 
-오늘 예제는 일곱 개이고, 1일차와 같이 예제마다 폴더 하나에 `index.html`·`styles.css` 두 파일이 있다. 먼저 `ex` 안에 폴더 일곱 개를 만든다. 현재 폴더: `web-week04`
+## 조립 시연과 전문
 
-```bash
-mkdir ex/ex07
-mkdir ex/ex08
-mkdir ex/ex09
-mkdir ex/ex10
-mkdir ex/ex11
-mkdir ex/ex12
-mkdir ex/ex13
-```
+이하 코드는 제공 완성본 그대로이며 학생 변경값을 적용하기 전이다. 3주차 HTML에 CSS 링크 한 줄씩, 홈의 카드 클래스 세 곳을 더한 구조다. 이를 빈 파일부터 다시 입력하는 활동은 필수가 아니다.
 
-[교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css/examples/day2)에서 2단계의 **Raw** → 저장으로 폴더마다 두 파일을 같은 이름 폴더(`web-week04/ex/ex07/` 등)에 넣는다(열네 파일을 합치면 280줄 가까이 되어 타이핑은 시간 안에 못 끝낸다). 저장 창에서 폴더 이름을 먼저 본다. 다 못 받았으면 문항을 시작할 때 그 폴더의 파일을 받는다.
-
-| 폴더 | 파일 | 비교하는 것(`styles.css`) |
-|---|---|---|
-| `ex07` | [index.html](examples/day2/ex07/index.html) · [styles.css](examples/day2/ex07/styles.css) | `flex-direction` `row` / `row-reverse` / `column` / `column-reverse` |
-| `ex08` | [index.html](examples/day2/ex08/index.html) · [styles.css](examples/day2/ex08/styles.css) | `justify-content` 다섯 값 |
-| `ex09` | [index.html](examples/day2/ex09/index.html) · [styles.css](examples/day2/ex09/styles.css) | `align-items` 네 값 |
-| `ex10` | [index.html](examples/day2/ex10/index.html) · [styles.css](examples/day2/ex10/styles.css) | `flex-wrap` |
-| `ex11` | [index.html](examples/day2/ex11/index.html) · [styles.css](examples/day2/ex11/styles.css) | `gap` |
-| `ex12` | [index.html](examples/day2/ex12/index.html) · [styles.css](examples/day2/ex12/styles.css) | `flex: 1` |
-| `ex13` | [index.html](examples/day2/ex13/index.html) · [styles.css](examples/day2/ex13/styles.css) | `@media (max-width: 600px)` |
-
-`ex14`([index.html](examples/day2/ex14/index.html) · [styles.css](examples/day2/ex14/styles.css))는 부록이다. 시간이 남으면 `ex/ex14/` 폴더를 만들어 받아 열어 본다.
-
-**예상 결과** — `ex/`에 예제 폴더가 열세 개(부록까지 열네 개) 있고 폴더마다 두 파일이 있다. `ex/ex07/index.html`을 열면 회색 frame 다섯 개 안에 색 상자 셋이 보인다. 1번은 세로로 쌓여 있고 2번부터 flex로 배치된다(2·3번은 가로, 4·5번은 세로).
-
-- flex 예제는 같은 틀을 쓴다. 부모는 회색 `.frame`, 자식은 색 상자(`.c1`·`.c2`·`.c3`)다. `index.html`에서 frame에 붙인 클래스 하나로 형제를 만들고, 그 클래스의 규칙은 `styles.css`에 있다.
-- 예제마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--flex와-조립-60분)에 있다.
-
-### 6. 조립표
-
-이제 `web-week04` 맨 위의 `styles.css`를 부품에서 조립한다. 규칙마다 **어느 ex에서 본 것**인지 적어 두었다.
-규칙을 옮겨 적을 때 출처 ex 폴더의 `styles.css`를 옆에 열어 두고, 같은 속성이 거기서 어떻게 움직였는지 떠올린다.
-예제 폴더에도 같은 이름 파일(`styles.css`·`index.html`)이 있으니 조립하는 파일은 편집기 위쪽 경로 줄이 `web-week04 › styles.css`처럼 `ex` 없이 보이는지 확인하고 연다.
-
-| `styles.css` 규칙 | 어느 ex에서 본 것 |
+| 규칙 | 비교 예제 |
 |---|---|
-| `body { background-color; color; font-family; font-size }` | [ex01](examples/day1/ex01/styles.css) 태그 선택자. 색·글꼴 네 속성은 3주차 HTML에 없던 새 속성이다 |
-| `body { max-width: 640px; margin: 0 auto; padding: 16px }` | [ex04](examples/day1/ex04/styles.css) `max-width`, [ex05](examples/day1/ex05/styles.css) `margin: 0 auto`, [ex03](examples/day1/ex03/styles.css) `padding` |
-| `h1`·`h2` `{ color … }` | [ex01](examples/day1/ex01/styles.css) 태그 선택자 |
-| `nav { display: flex; gap: 16px; flex-wrap: wrap }` | [ex07](examples/day2/ex07/styles.css) flex는 부모에, [ex11](examples/day2/ex11/styles.css) `gap`, [ex10](examples/day2/ex10/styles.css) `flex-wrap` — 셋 다 부모에 |
-| `nav a { color }` | [ex01](examples/day1/ex01/styles.css) 자손 선택자 |
-| `.card { background-color; padding; margin: 12px 0; border }` | [ex01](examples/day1/ex01/styles.css) 클래스 선택자, [ex03](examples/day1/ex03/styles.css) 세 층 |
-| `input, textarea { width: 280px; max-width: 100% }` | [ex04](examples/day1/ex04/styles.css) 의 `width` 와 `max-width` 를 함께 쓴 것. `width: 280px` 은 평소 폭, `max-width: 100%` 는 부모보다 못 커지게 하는 상한. 쉼표 = 두 대상에 같은 규칙 |
-| `footer { text-align: center; … }` | [ex06](examples/day1/ex06/styles.css) |
-| `@media (max-width: 600px) { nav { flex-direction: column } }` | [ex13](examples/day2/ex13/styles.css) 조건 + [ex07](examples/day2/ex07/styles.css) `column` |
+| 색·선택자 | ex01 |
+| padding·border·margin | ex03 |
+| max-width·가운데 정렬 | ex04·ex05 |
+| footer text-align | ex06 |
+| nav의 flex·gap·wrap | ex07·ex11·ex10 |
+| media 안 column | ex13·ex07 |
 
-**예상 결과** — 표의 아홉 줄이 9단계 `styles.css`의 규칙 순서와 같다. 표에 없는 속성은 `styles.css`에도 없다.
+`h1`의 `word-break: keep-all`과 입력의 `box-sizing: border-box`는 제공하는 줄바꿈·폭 보정이다. 입력의 280px은 테두리까지 포함한다. 모든 완성본은 자체 CSS를 쓰고 W3.CSS는 7주에 도입한다.
 
-- `nav`의 `display: flex`·`gap`·`flex-wrap`은 셋 다 **부모** `nav`에 쓴다. `nav a`에 쓰면 아무 일도 없다(ex07·ex10·ex11).
-- `@media` 안의 `nav { flex-direction: column }`은 위의 `nav` 규칙과 같은 선택자다. 조건이 맞을 때만 뒤 규칙이 살아나 앞을 덮는다(ex13, ex01).
+### styles.css 전문
 
-### 7. 세 페이지 head에 link 줄 넣기
-
-`index.html`·`about.html`·`guestbook.html`의 `<title>` 바로 아래에 같은 한 줄을 넣는다. 3주차에 뺐던 줄을 되살리는 것이다. 비교 예제의 `index.html`이 `styles.css`를 불러오던 그 줄이다. 고치는 파일은 맨 위의 세 페이지다. 경로 줄이 `web-week04 › index.html`처럼 `ex` 없이 보이는지 확인한다.
-
-```html
-    <link rel="stylesheet" href="styles.css">
-```
-
-**예상 결과** — 저장하고 새로고침하면 `styles.css`에 남아 있던 2주차 규칙이 살아나 배경이 연한 파랑이 되고 header·main·footer가 화면 가운데로 모인다(2주차 `body { display: grid }`). 9단계에서 이 파일을 새로 쓰면 본문이 640px 안에 왼쪽 정렬로 돌아온다.
-연결이 됐는지는 F12 › **Elements**의 `<head>` 안에 `link` 줄이 보이는 것으로 확인한다.
-
-- 규칙을 아무리 잘 써도 **연결하지 않으면 아무 일도 일어나지 않는다.**
-- `href`의 파일 이름을 `style.css`(s 빠짐)로 적으면 파일을 찾지 못한다. 화면에는 아무 표시가 없고, F12 › Console에 `Failed to load resource` 줄이 하나 뜬다. CSS 문법 오류가 아니라 파일을 못 찾았다는 줄이다.
-- 세 페이지 모두 넣는다. 한 페이지만 안 꾸며지면 그 페이지의 `link` 줄을 본다.
-
-### 8. index.html에 class="card" 세 곳
-
-`index.html`에서 소개 문단 두 개와 취미 목록에 `class="card"`를 붙인다.
-
-```html
-      <p class="card">웹프로그래밍을 배우는 <strong>student01</strong>입니다.</p>
-      <p class="card">이 페이지는 수업 시간에 한 주씩 늘려 갑니다.</p>
-```
-
-```html
-      <ul class="card">
-```
-
-**예상 결과** — 2주차 `.card` 규칙이 아직 남아 있어 세 곳이 곧바로 둥근 흰 카드(그림자 있음)가 된다. 9단계에서 새 규칙으로 바꾸면 모서리가 각지고 그림자가 없어진다. 새 `.card`는 ex03에서 본 `padding`·`margin`·`border` 세 층뿐이다.
-
-- `.card`의 점은 CSS에서만 쓴다. HTML에는 `class="card"`라고 점 없이 적는다(ex01).
-- `about.html`·`guestbook.html`에는 붙이지 않는다. 카드는 `index.html`에만 둔다.
-
-### 9. styles.css 전문
-
-맨 위의 `styles.css`를 연다(경로 줄 `web-week04 › styles.css`). 2주차에 쓴 내용이 들어 있다. **전체를 지우고** 6단계 조립표 순서로 아래 규칙을 쓴다. 예제 폴더의 `styles.css`를 지우지 않게 경로 줄을 먼저 본다.
-같은 파일이 [examples/day2/web-week04/styles.css](examples/day2/web-week04/styles.css)에 있다.
+[실행 파일](examples/day2/web-week04/styles.css)과 같은 내용이다.
 
 ```css
 body {
@@ -258,6 +59,7 @@ body {
 h1 {
   color: #1f3a93;
   font-size: 28px;
+  word-break: keep-all;
 }
 
 h2 {
@@ -283,6 +85,7 @@ nav a {
 
 input,
 textarea {
+  box-sizing: border-box;
   width: 280px;
   max-width: 100%;
 }
@@ -300,26 +103,9 @@ footer {
 }
 ```
 
-**예상 결과** — 저장하고 `index.html`을 새로고침하면 다음이 한 번에 보인다.
+### index.html 전문
 
-1. 배경이 연한 파랑, 본문이 화면 가운데 640px 안에 모인다(`body`).
-2. 제목이 남색·파랑으로 바뀐다(`h1`·`h2`).
-3. 메뉴 세 개가 한 줄에 16px 간격으로 선다(`nav`).
-4. 문단 두 개와 취미 목록이 테두리 있는 흰 상자가 된다(`.card`).
-5. 맨 아래 한 줄이 회색·가운데로 간다(`footer`).
-
-- `margin: 0 auto`는 위아래 0, 좌우 `auto`다. `auto`가 남는 폭을 반씩 나눠 가운데로 간다(ex05). `width: 640px`로 쓰면 좁은 화면에서 삐져나간다.
-- `margin: 12px 0`은 위아래 12px, 좌우 0이다. `border: 1px solid #c3cbe6`은 두께·모양·색을 한 줄에 적은 것이다(ex03).
-- `input, textarea`의 `width: 280px`은 평소 폭, `max-width: 100%`는 부모보다 커지지 않는 상한이다. ex04의 2번(`width`)과 3번(`max-width`)을 한 상자에 합친 것이라 375에서도 삐져나가지 않는다.
-- `input, textarea`의 쉼표를 빠뜨리면 `input textarea`(input 안의 textarea)가 되어 아무것도 고르지 못한다.
-- 색은 `#`과 여섯 자리다. 다른 색을 써도 되지만, 글자색과 배경색이 너무 비슷하면 읽기 어렵다.
-- 상자가 안 보이면 8단계의 `class="card"`가 들어갔는지 본다. 화면 전체가 안 바뀌면 7단계의 `link` 줄을 본다.
-
-### 10. index.html·about.html·guestbook.html 전문
-
-7·8단계를 마친 세 페이지 전체다. 내 파일과 한 줄씩 비교한다. 3주차 파일에서 늘어난 것은 `link` 한 줄과 `index.html`의 `class="card"` 세 곳뿐이다.
-
-`index.html` — 같은 파일이 [examples/day2/web-week04/index.html](examples/day2/web-week04/index.html)에 있다.
+[실행 파일](examples/day2/web-week04/index.html)과 같은 내용이다.
 
 ```html
 <!doctype html>
@@ -358,7 +144,9 @@ footer {
 </html>
 ```
 
-`about.html` — 같은 파일이 [examples/day2/web-week04/about.html](examples/day2/web-week04/about.html)에 있다. `link` 한 줄만 늘었다.
+### about.html 전문
+
+[실행 파일](examples/day2/web-week04/about.html)과 같은 내용이다.
 
 ```html
 <!doctype html>
@@ -407,7 +195,9 @@ footer {
 </html>
 ```
 
-`guestbook.html` — 같은 파일이 [examples/day2/web-week04/guestbook.html](examples/day2/web-week04/guestbook.html)에 있다. `link` 한 줄만 늘었다.
+### guestbook.html 전문
+
+[실행 파일](examples/day2/web-week04/guestbook.html)과 같은 내용이다.
 
 ```html
 <!doctype html>
@@ -429,12 +219,6 @@ footer {
     </header>
     <main>
       <h2>한 줄 남기기</h2>
-      <h3>쓰는 순서</h3>
-      <ol>
-        <li>이름을 적는다.</li>
-        <li>메시지를 적는다.</li>
-        <li>남기기 버튼을 누른다.</li>
-      </ol>
       <form>
         <p>
           <label for="name">이름</label>
@@ -450,7 +234,7 @@ footer {
         </p>
         <button type="submit">남기기</button>
       </form>
-      <p>지금은 눌러도 주소창만 바뀐다. 화면에 띄우는 일은 7주에 한다.</p>
+      <p>입력 연습용입니다. 메시지는 저장되지 않습니다.</p>
     </main>
     <footer>
       <p>수업용 연습 페이지 · student01</p>
@@ -459,15 +243,9 @@ footer {
 </html>
 ```
 
-**예상 결과** — 세 페이지의 배경색·제목 색·메뉴 모양이 같다. 메뉴로 오가며 확인한다.
-`guestbook.html`의 이름·이메일 칸과 메시지 칸은 폭이 280px로 같다(`input, textarea`). `about.html`의 표는 아직 꾸미지 않아 3주차와 같은 모양이다.
+### app.js 전문
 
-- `images/profile.png`는 3주차 파일 그대로다. 이번 주에 손대지 않는다.
-
-### 11. app.js는 열지 않는다
-
-`app.js`는 이번 주에 **한 글자도 고치지 않는다.** 폴더에 그대로 있는지만 확인한다. 내용은 2주차와 같다.
-같은 파일이 [examples/day2/web-week04/app.js](examples/day2/web-week04/app.js)에 있다.
+[실행 파일](examples/day2/web-week04/app.js)과 같은 내용이다.
 
 ```js
 const countButton = document.querySelector('#count-button');
@@ -483,41 +261,12 @@ countButton.addEventListener('click', () => {
 console.info('my-web ready');
 ```
 
-**예상 결과** — 세 페이지 어디에도 `<script>` 줄이 없으므로 이 파일은 실행되지 않는다. 그래서 오류도 나지 않는다.
+`app.js`는 보존 파일이다. 세 HTML에 script 줄이 없어 실행되지 않는다. 5주차에 다시 작성한다. `images/profile.png`는 3주차와 같은 그림이며 alt도 유지한다.
 
-- 5주차에 이 파일을 비우고 다시 쓴다. 그때 `<script src="app.js" defer>` 줄을 되살린다.
-- 지우지 않는다. 지운 학생은 [examples/day2/web-week04/app.js](examples/day2/web-week04/app.js)를 **Raw**로 다시 받는다.
+## 폼과 이동 확인
 
-### 12. 1280·기기 모드 375 확인 → push → 캡처
+홈·내 정보·방명록 메뉴를 왕복한다. 방명록 label 세 개를 클릭해 해당 입력의 포커스를 확인한다. 이메일 `abc`는 브라우저가 제출을 막는다. 빈 이메일 또는 `student01@example.com`은 기본 GET으로 현재 문서를 다시 열고 입력은 초기화된다. 글 추가·저장 기능은 없다.
 
-먼저 로컬에서 두 폭을 본다. `index.html`을 연 Chrome에서 순서대로 한다.
+## 수업 뒤 업로드
 
-1. F12로 DevTools를 연다.
-2. **Ctrl+Shift+M**(macOS는 **⌘+⇧+M**)으로 기기 모드를 켠다.
-3. 위쪽 폭 칸에 `1280`을 치고 Enter, 다시 `375`를 치고 Enter를 누른다.
-
-**예상 결과** — 1280에서는 메뉴 세 개가 한 줄이고 본문이 가운데 640px 안에 있다.
-375에서는 메뉴가 `홈`·`내 정보`·`방명록` **세 줄로 세로로 선다.** 카드 테두리는 두 폭 모두 화면 안에 들어오고 가로 스크롤 막대는 생기지 않는다.
-
-- 375는 600보다 작으므로 `@media (max-width: 600px)` 안의 규칙이 산다. 1280에서는 죽어 있다(ex13).
-- 375에서도 메뉴가 가로 그대로면 `@media (max-width 600px)`처럼 콜론이 빠졌는지, 중괄호 `}`가 두 개 다 있는지 본다. 틀려도 오류 없이 덩어리 전체가 무시된다.
-
-두 폭이 맞으면 올린다. 2주차에 배운 순서 그대로다. 현재 폴더: `web-week04`
-
-```bash
-git add .
-git commit -m "4주차 2일차"
-git push
-```
-
-**예상 결과** — GitHub의 `web-week04` 저장소 화면에서 `ex/`에 예제 폴더가 열세 개(부록까지 열네 개) 보이고, `styles.css`를 누르면 9단계의 내용이 보인다.
-
-1. 1분쯤 뒤 `https://student01.github.io/web-week04/`을 새로고침한다.
-2. F12 → 기기 모드(**Ctrl+Shift+M**) → 폭 `375`.
-3. 메뉴가 세로로 서고 카드에 테두리가 보이면 **주소창과 폭 375 표시가 함께 보이게** 화면을 캡처한다. 이 한 장이 이번 주 제출물이다.
-4. 공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
-
-- 캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 아이디는 보여도 된다.
-- 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
-- 실험하다 예제 파일을 망쳤으면 교재의 같은 예제 폴더에서 다시 받는다. 증상별 확인 순서는 [실습지](lab.md#막혔을-때)의 막혔을 때 표에 있다.
-- 선택: Node.js가 있으면 정적 서버 [`server.mjs`](../../tools/static-server/README.md)로 `web-week04`를 `http://localhost:8000/`에서 열어 볼 수 있다. 설명은 5주차에 한다.
+준비한 저장소에 2주차의 저장·commit·push 순서로 업로드하고 Pages를 확인한다. 공개 주소는 `https://student01.github.io/web-week04/`이며 아이디를 본인 것으로 바꾼다. 업로드 문제는 로컬 캡처와 commit 기록을 남기고 다음 수업 첫 5분에 확인한다. 5주차 `web-week05` 준비 때는 `.git` 없이 결과 파일을 복사한다.

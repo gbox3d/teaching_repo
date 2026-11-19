@@ -58,6 +58,9 @@ node examples/simulator/server.mjs
 - Keep the entire lesson folder so the exercise links work.
 - Verify execution locally. GitHub Pages cannot run this Node server.
 
+Check @baseUrl in 00_about_help/requests.http, then **Send Request**.
+Use REST Client to check about/help GET 200 first. No API key is required.
+
 ---
 
 ## ex01: Read current state with GET

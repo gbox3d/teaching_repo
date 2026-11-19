@@ -47,11 +47,14 @@ function send(req, res, status, body, type = 'text/html; charset=utf-8', extra =
 }
 
 const escapeHtml = (s) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+const isPrivateName = (name) =>
+  ['.git', '.local', 'localfiles'].includes(name.toLowerCase()) ||
+  /^\.env(?:$|\.(?!example$))/i.test(name);
 
 // index.html 이 없는 폴더는 파일 목록을 보여 준다(비교 예제 폴더를 열 때 편하다).
 function listing(urlPath, dir) {
   const items = fs.readdirSync(dir, { withFileTypes: true })
-    .filter((d) => !d.name.startsWith('.'))
+    .filter((d) => !d.name.startsWith('.') && !isPrivateName(d.name))
     .sort((a, b) => Number(b.isDirectory()) - Number(a.isDirectory()) || a.name.localeCompare(b.name))
     .map((d) => {
       const name = d.name + (d.isDirectory() ? '/' : '');
@@ -72,6 +75,11 @@ const server = http.createServer((req, res) => {
     urlPath = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);   // "%20" → " ", 한글 이름도
   } catch {
     return send(req, res, 400, '400 Bad Request', 'text/plain; charset=utf-8');
+  }
+
+  // REST Client 설정과 강의자 로컬 자료는 화면 파일로 제공하지 않는다.
+  if (urlPath.split(/[\\/]/).some(isPrivateName)) {
+    return send(req, res, 403, '403 Forbidden', 'text/plain; charset=utf-8');
   }
 
   // 주소를 폴더 안의 파일 경로로 바꾼다. "../" 로 폴더 밖을 요청하면 막는다.
@@ -114,6 +122,7 @@ server.on('error', (err) => {
 });
 
 server.listen(port, host, () => {
+  const listeningPort = server.address().port;
   console.log(`폴더: ${root}`);
-  console.log(`주소: http://localhost:${port}/   (멈추기: Ctrl+C)`);
+  console.log(`주소: http://localhost:${listeningPort}/   (멈추기: Ctrl+C)`);
 });

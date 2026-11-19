@@ -1,50 +1,29 @@
-[15주 문제은행](../README.md)
+# w12_rest_get · GET 목록
 
-# w12_rest_get — GET으로 서버 방명록 읽기
-
-출처: [12주차 실습](../../../week12_fetch_json/lab.md) · 권장 12분 · 기말 E REST · 3점
-
-서버 설정은 강의자가 준비한다. 학생은 `app.js`의 TODO를 완성한다. 코드의 해답은 제공하지 않는다.
-
-## 시작 파일
-
-| 파일 | 상태 |
-|---|---|
-| `index.html`·`styles.css` | 화면·입력칸·버튼 제공 |
-| `config.example.js` | 강의자 제공 API 주소·공개 키·BOOK_ID로 변경 |
-| `view.js` | 화면 그리기 제공. 쓰기 문제에는 재조회 함수도 제공 |
-| `app.js` | 이 문제의 요청 구현이 비어 있음 |
-
-모든 파일을 같은 폴더에 두고 정적 서버로 연다. 로컬 연습 API는 [강의자 안내](../../../../tools/guestbook-api/README.md)를 따른다. 실제 시험은 개인별 시험 공간과 준비된 데이터를 사용한다.
+출처: [12주](../../../week12_fetch_json/lab.md) · 권장 8분 · E REST 3점.
 
 ## 할 일
 
-1. `loadMessages()`에서 자기 `BOOK_ID`의 목록을 GET으로 읽는다. URL은 `/rest/v1/guestbook?book_id=eq.번호&order=id.desc&limit=50`다.
-2. `apikey` 헤더를 넣고 `response.ok`가 아니면 실패로 처리한다.
-3. JSON 배열을 읽어 제공된 `showList(items)`에 넘긴다.
-4. 불러오기 성공과 요청 실패를 `#notice`에 알린다. 다시 누르면 재시도할 수 있어야 한다.
+app.js의 requestList() 안의 TODO와 임시 throw를 교체한다. apiTarget()이 반환한 자기 태그 URL에 apikey 헤더를 넣어 GET한다. response.ok를 확인하고 JSON 배열을 반환한다. 화면 그리기·실패 안내·재시도·설정 변경 처리는 제공 코드다.
 
 ## 확인할 것
 
-- [ ] 목록에 서버 글의 ID·별칭·메시지가 보인다.
-- [ ] Network에 자기 방명록 필터가 있는 GET과 200 응답이 보인다.
-- [ ] 공용 API가 있는 경우 다른 브라우저에서도 같은 글을 읽는다.
-- [ ] API 주소를 존재하지 않는 경로로 바꾸면 실패 안내가 보이고 Console에 처리하지 않은 오류가 없다.
+- 첫 시작본은 아직 GET이 구현되지 않아 목록 확인 실패를 표시한다.
+- 구현 뒤 about/help 200을 확인하고 목록 불러오기를 누르면 자기 글 ID·별칭·메시지가 나온다.
+- 목록이 없으면 등록된 글 없음이 보인다.
+- 틀린 공개 키나 Offline에서는 실패 안내가 나오고 다시 누르면 복구된다.
+- 200만 확인하지 않고 JSON 배열의 값과 화면을 비교한다.
 
-## 이 문제의 값
+## 제공 파일과 설정
 
-| 값 | 연습값 |
-|---|---|
-| API 주소 | 로컬 `http://127.0.0.1:8787`, 공용 실습은 강의자 제공 HTTPS 주소 |
-| 공개 키 | 로컬 `classroom-local`, 공용 실습은 강의자 제공 publishable key |
-| 방명록 번호 | `student01` (시험은 개인별 배부값) |
-| 별칭 | `연습별칭` |
-| 메시지 또는 수정 메시지 | `REST 연습 중입니다.` |
-| 대상 ID | 자기 방명록 GET 응답에서 확인한 ID; 수정·삭제 문제는 서로 다른 두 ID |
-| 편집 키 | 14주 문항에서만 강의자가 별도 배부; 파일에 기록하지 않음 |
+화면·W3.CSS·설정 패널은 제공 코드다. W3.CSS는 cdnjs 4.1.0 CDN이며 보조 CSS는 shared/examples.css다. 동작 코드는 app.js 하나이고 api-settings.js는 별도 제공 설정이다. 폴더를 통째로 복사하고 Node.js 24 정적 서버로 연다.
 
-시험에서는 위 값과 대상 글이 바뀐다. 시험값·편집 키·해답은 이 공개 문제은행에 넣지 않는다.
+API 설정을 펼쳐 주소·공개 키·자기 방명록 번호를 입력한다. 기본값은 로컬 127.0.0.1:8787·classroom-local·student01이다. 설정은 메모리에만 있으므로 새로고침 후 다시 입력한다. 공용 실습과 Pages는 강의자가 준비한 HTTPS API를 사용한다. 실제 키를 파일에 넣지 않는다.
 
-## 받기와 올리기
+## REST Client
 
-연습 폴더는 `web-week15/w12_rest_get/`다. add·commit·push 후 Pages에서 확인한다. 공개 페이지는 공용 HTTPS API를 사용해야 한다. 로컬 리허설 주소를 그대로 올려 다른 PC에서 동작한다고 판단하지 않는다.
+VS Code REST Client(humao.rest-client)를 설치한다. 같은 폴더의 .env.example을 .env로 복사하고 API_BASE_URL·API_PUBLIC_KEY·BOOK_ID를 설정한다. 브라우저는 .env를 읽지 않는다. [requests.http](requests.http)의 **Send Request**를 위에서부터 실행하여 about·help의 200을 먼저 확인한다. GET의 apikey, 쓰기의 Content-Type과 Prefer 헤더를 비교한다. 요청 위 주석의 상태와 응답을 확인한다. 편집 키는 password prompt에만 입력하고 실행 뒤 Clear Request History로 이력을 지운다.
+
+## 실행과 제출
+
+수업 전에 폴더·서버를 준비한다. 연습 주소는 http://localhost:8000/폴더이름/ 이다. 1일차 업로드는 수업 뒤 수행한다. 시험에서는 배부받은 exam/ 목차·개인별 태그·초기 글을 사용한다. 서버 구성과 장애 처리는 [실습지](../../lab.md)를 따른다.

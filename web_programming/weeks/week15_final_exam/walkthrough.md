@@ -4,19 +4,19 @@
 
 ## 1. 연습 폴더 준비
 
-현재 폴더: 새 `web-week15`. [정적 서버](../../tools/static-server/server.mjs)를 복사한다.
+수업 전 준비다. 현재 폴더: 새 `web-week15`. [정적 서버](../../tools/static-server/server.mjs)를 복사한다.
 
 ```powershell
 node server.mjs
 ```
 
-[문제은행](examples/README.md)에서 영역이 다른 세 문항을 선택해 폴더째 복사한다. 예를 들어 GET 문항은 `web-week15/w12_rest_get/`에 둔다. 브라우저 주소는 `http://localhost:8000/w12_rest_get/`다.
+[문제은행](examples/README.md)에서 w11 폼 저장과 REST 한 문항, 두 폴더를 폴더째 복사한다. 예를 들어 GET 문항은 `web-week15/w12_rest_get/`에 둔다. 브라우저 주소는 `http://localhost:8000/w12_rest_get/`다.
 
 ## 2. REST 설정 확인
 
-현재 폴더: 선택한 문제 폴더. `config.example.js`의 API 주소·공개 키·BOOK_ID를 강의자 배부값으로 바꾼다. API 주소가 localhost이면 같은 PC에서 [리허설 API](../../tools/guestbook-api/README.md)가 실행 중이어야 한다. 공용 실습은 강의자가 검증한 HTTPS 주소를 사용한다.
+현재 폴더: 선택한 문제 폴더. 화면의 API 설정을 펼쳐 API 주소·공개 키·방명록 번호를 강의자 배부값으로 바꾼다. 새로고침 후에는 다시 입력한다. API 주소가 localhost이면 같은 PC에서 [리허설 API](../../tools/guestbook-api/README.md)가 실행 중이어야 한다. 공용 실습은 강의자가 검증한 HTTPS 주소를 사용한다.
 
-문제 README의 시작 파일 → 할 일 → 확인할 것 → 이 문제의 값 순서로 읽는다. `view.js`의 제공 기능은 다시 작성하지 않는다. `app.js`의 TODO에 해당 요청만 구현한다. 이 따라하기에는 해답 코드가 없다.
+문제 README의 시작 파일 → 할 일 → 확인할 것 → 이 문제의 값 순서로 읽는다. app.js 안의 제공 화면·재조회 기능과 api-settings.js는 다시 작성하지 않는다. `app.js`의 TODO에 해당 요청만 구현한다. 이 따라하기에는 해답 코드가 없다.
 
 ## 3. 실제 결과 확인
 
@@ -28,9 +28,9 @@ node server.mjs
 
 키는 실행 화면에 입력하고 코드·URL·localStorage·캡처에 넣지 않는다. 화면에서 입력 칸이 비워졌는지 확인한 뒤 캡처한다.
 
-## 4. 연습 저장소 공개
+## 4. 수업 뒤 연습 저장소 공개
 
-현재 폴더: `web-week15` 맨 위.
+현재 폴더: 사전에 만든 `web-week15` 맨 위. 이미 연결한 저장소에서는 commit·push만 수행한다. 아래 초기 연결 명령은 사전 준비 때 한 번 사용한다.
 
 ```bash
 git init

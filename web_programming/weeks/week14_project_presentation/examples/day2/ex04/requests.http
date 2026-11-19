@@ -1,0 +1,20 @@
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+@bookId = {{$dotenv BOOK_ID}}
+@messageId = {{$dotenv MESSAGE_ID}}
+
+### 1. 접속 확인: 200과 소개 배열
+GET {{baseUrl}}/rest/v1/about
+apikey: {{apiKey}}
+
+### 2. 사용법 확인: 200과 단계 배열
+GET {{baseUrl}}/rest/v1/help?order=step.asc
+apikey: {{apiKey}}
+
+### 3. 자기 글 목록: 200, 여기서 ID를 보고 .env의 MESSAGE_ID 수정
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&select=id,name,message,created_at&order=id.desc&limit=50
+apikey: {{apiKey}}
+
+### 4. 변경 전 대상 확인: 200과 자기 글 1개
+GET {{baseUrl}}/rest/v1/guestbook?id=eq.{{messageId}}&book_id=eq.{{bookId}}
+apikey: {{apiKey}}

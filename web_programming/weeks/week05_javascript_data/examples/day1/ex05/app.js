@@ -7,3 +7,8 @@ console.log('1. + 로 잇기 :', '안녕하세요, ' + name + '님! 지금은 ' 
 console.log('2. 템플릿 문자열(백틱) :', `안녕하세요, ${name}님! 지금은 ${hour}시입니다.`);   // ` 로 감싼다
 console.log('3. 작은따옴표 안의 ${} :', '안녕하세요, ${name}님!');                         // ' 로 감싸면 ${} 가 글자 그대로
 console.log('4. ${} 안의 계산 :', `한 시간 뒤는 ${hour + 1}시입니다.`);                    // ${} 안은 계산된다
+
+// 제공 출력 코드: 학생은 위 name·hour 값만 수정한다.
+document.querySelector('#btn').addEventListener('click', function () {
+    document.querySelector('#result').textContent = `안녕하세요, ${name}님! 지금은 ${hour}시입니다.`;
+});

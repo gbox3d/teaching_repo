@@ -1,0 +1,194 @@
+{
+  "time": "2026-11-18T10:43:31.807Z",
+  "method": "isolated headless Chrome CDP, real local guestbook API, GET-only",
+  "results": [
+    {
+      "example": 1,
+      "status": "GET 200 · 1개",
+      "body": "[\n  {\n    \"name\": \"수업용 REST API\",\n    \"version\": \"v1\",\n    \"description\": \"REST API 접속과 데이터 처리를 연습합니다.\",\n    \"help_path\": \"/rest/v1/help\"\n  }\n]",
+      "css": 2,
+      "mobileWidth": 375,
+      "checks": "passed"
+    },
+    {
+      "example": 2,
+      "status": "GET 200 · 6개",
+      "body": "[\n  {\n    \"step\": 1,\n    \"method\": \"GET\",\n    \"path\": \"/rest/v1/about\",\n    \"description\": \"서버 소개와 API 버전을 확인합니다.\"\n  },\n  {\n    \"step\": 2,\n    \"method\": \"GET\",\n    \"path\": \"/rest/v1/help\",\n    \"description\": \"사용 가능한 요청을 확인합니다.\"\n  },\n  {\n    \"step\": 3,\n    \"method\": \"GET\",\n    \"path\": \"/rest/v1/guestbook?book_id=eq.student01\",\n    \"description\": \"태그별 방명록을 조회합니다.\"\n  },\n  {\n    \"step\": 4,\n    \"method\": \"POST\",\n    \"path\": \"/rest/v1/guestbook\",\n    \"description\": \"book_id, name, message를 JSON으로 보내 글을 저장합니다.\"\n  },\n  {\n    \"step\": 5,\n    \"method\": \"PATCH\",\n    \"path\": \"/rest/v1/guestbook?book_id=eq.student01&id=eq.123\",\n    \"description\": \"해당 방명록 편집 키로 선택한 글을 수정합니다.\"\n  },\n  {\n    \"step\": 6,\n    \"method\": \"DELETE\",\n    \"path\": \"/rest/v1/guestbook?book_id=eq.student01&id=eq.123\",\n    \"description\": \"해당 방명록 편집 키로 선택한 글을 삭제합니다.\"\n  }\n]",
+      "css": 2,
+      "mobileWidth": 375,
+      "checks": "passed"
+    },
+    {
+      "example": 3,
+      "status": "GET 200 · 1개",
+      "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"안내\",\n    \"message\": \"온라인 방명록에 오신 것을 환영합니다.\",\n    \"created_at\": \"2026-11-18T10:36:45.244Z\"\n  }\n]",
+      "css": 2,
+      "mobileWidth": 375,
+      "checks": "passed"
+    },
+    {
+      "example": 4,
+      "status": "GET 200 · 최근 글 1개",
+      "list": 1,
+      "css": 2,
+      "mobileWidth": 375,
+      "checks": "passed"
+    },
+    {
+      "example": 5,
+      "status": "Status 200 · ok true",
+      "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"안내\",\n    \"message\": \"온라인 방명록에 오신 것을 환영합니다.\",\n    \"created_at\": \"2026-11-18T10:36:45.244Z\"\n  }\n]",
+      "css": 2,
+      "mobileWidth": 375,
+      "checks": "passed"
+    },
+    {
+      "example": 6,
+      "status": "GET 200 · 최근 글 1개",
+      "list": 1,
+      "css": 2,
+      "mobileWidth": 375,
+      "checks": "passed"
+    },
+    {
+      "race": "old GET completes before/after new settings GET; old finally cannot enable button",
+      "checks": "passed"
+    },
+    {
+      "viewport": 375,
+      "width": 362,
+      "css": 2,
+      "checks": "passed"
+    },
+    {
+      "viewport": 1280,
+      "width": 1265,
+      "css": 2,
+      "checks": "passed"
+    },
+    {
+      "http": "day1/ex01",
+      "path": "/rest/v1/about",
+      "status": 200
+    },
+    {
+      "http": "day1/ex01",
+      "path": "/rest/v1/help",
+      "status": 200
+    },
+    {
+      "http": "day1/ex01",
+      "path": "/rest/v1/guestbook",
+      "status": 200
+    },
+    {
+      "http": "day1/ex02",
+      "path": "/rest/v1/about",
+      "status": 200
+    },
+    {
+      "http": "day1/ex02",
+      "path": "/rest/v1/help",
+      "status": 200
+    },
+    {
+      "http": "day1/ex02",
+      "path": "/rest/v1/guestbook",
+      "status": 200
+    },
+    {
+      "http": "day1/ex03",
+      "path": "/rest/v1/about",
+      "status": 200
+    },
+    {
+      "http": "day1/ex03",
+      "path": "/rest/v1/help",
+      "status": 200
+    },
+    {
+      "http": "day1/ex03",
+      "path": "/rest/v1/guestbook",
+      "status": 200
+    },
+    {
+      "http": "day1/ex03",
+      "path": "/rest/v1/guestbook",
+      "status": 200
+    },
+    {
+      "http": "day2/ex04",
+      "path": "/rest/v1/about",
+      "status": 200
+    },
+    {
+      "http": "day2/ex04",
+      "path": "/rest/v1/help",
+      "status": 200
+    },
+    {
+      "http": "day2/ex04",
+      "path": "/rest/v1/guestbook",
+      "status": 200
+    },
+    {
+      "http": "day2/ex05",
+      "path": "/rest/v1/about",
+      "status": 200
+    },
+    {
+      "http": "day2/ex05",
+      "path": "/rest/v1/help",
+      "status": 200
+    },
+    {
+      "http": "day2/ex05",
+      "path": "/rest/v1/guestbook",
+      "status": 200
+    },
+    {
+      "http": "day2/ex05",
+      "path": "/rest/v1/missing_table",
+      "status": 404
+    },
+    {
+      "http": "day2/ex05",
+      "path": "/rest/v1/guestbook",
+      "status": 400
+    },
+    {
+      "http": "day2/ex06",
+      "path": "/rest/v1/about",
+      "status": 200
+    },
+    {
+      "http": "day2/ex06",
+      "path": "/rest/v1/help",
+      "status": 200
+    },
+    {
+      "http": "day2/ex06",
+      "path": "/rest/v1/guestbook",
+      "status": 200
+    },
+    {
+      "http": "day2/web-week12",
+      "path": "/rest/v1/about",
+      "status": 200
+    },
+    {
+      "http": "day2/web-week12",
+      "path": "/rest/v1/help",
+      "status": 200
+    },
+    {
+      "http": "day2/web-week12",
+      "path": "/rest/v1/guestbook",
+      "status": 200
+    },
+    {
+      "localCopy": "week11-guestbook-items preserved on server read; malformed JSON recovery deletes own key only",
+      "checks": "passed"
+    }
+  ]
+}

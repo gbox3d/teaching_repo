@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>홈 · Hash SPA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+  <link rel="stylesheet" href="shared/examples.css">
+  <script src="api-settings.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body class="w3-light-grey">
+<header class="w3-container w3-teal"><h1>나의 웹 연습장</h1></header>
+<nav class="w3-bar w3-white w3-card" aria-label="주 메뉴">
+<a class="w3-bar-item w3-button w3-mobile" href="#home" data-route="home">홈</a>
+<a class="w3-bar-item w3-button w3-mobile" href="#about" data-route="about">내 정보</a>
+<a class="w3-bar-item w3-button w3-mobile" href="#guestbook" data-route="guestbook">방명록</a>
+</nav>
+<main class="teaching-example w3-content w3-padding">
+<section class="w3-white" id="home">
+<h2 tabindex="-1">홈</h2>
+<p>웹프로그래밍을 배우는 student01입니다.</p>
+<button id="home-count-button" class="w3-button w3-teal" type="button">횟수 증가</button>
+<p id="home-count" role="status">클릭 0회</p>
+</section>
+<section class="w3-white" id="about" hidden>
+<h2 tabindex="-1">내 정보</h2>
+<p>student01 · 웹 페이지 만들기</p>
+<p>관심 분야: 사진, 보드게임, 산책</p>
+</section>
+<section class="w3-white" id="guestbook" hidden>
+<h2 tabindex="-1">방명록</h2>
+
+      <details class="w3-margin-bottom">
+        <summary>API 설정</summary>
+        <form id="api-settings-form" autocomplete="off">
+          <p><label for="api-base-url">API 주소</label><input class="w3-input w3-border" id="api-base-url" type="url" required></p>
+          <p><label for="api-public-key">공개 키</label><input class="w3-input w3-border" id="api-public-key" type="password" autocomplete="off" required></p>
+          <p><label for="api-book-id">방명록 번호</label><input class="w3-input w3-border" id="api-book-id" pattern="[a-z0-9_-]{1,40}" required></p>
+          <button class="w3-button w3-teal" type="submit">설정 적용</button>
+          <p id="api-settings-notice" role="status">로컬 연습 설정</p>
+        </form>
+      </details>
+      <section class="w3-container w3-card w3-white w3-margin-top">
+        <h2>한 줄 남기기</h2>
+        <form id="guestbook-form">
+          <p><label for="name">이름(별칭)</label>
+            <input class="w3-input w3-border" id="name" maxlength="30" required></p>
+          <p><label for="message">메시지</label>
+            <textarea class="w3-input w3-border" id="message" rows="3" maxlength="500" required></textarea></p>
+          <p><button class="w3-button w3-teal" id="submit-button" type="submit">남기기</button></p>
+        </form>
+        <div class="w3-text-red" id="notice" role="status"></div>
+      </section>
+      <section class="w3-container w3-card w3-white w3-margin-top">
+        <h2>글 수정·삭제</h2>
+        <form id="key-form" autocomplete="off">
+          <label for="edit-key">편집 키</label>
+          <input class="w3-input w3-border" id="edit-key" type="password" autocomplete="off">
+          <button class="w3-button w3-teal" id="key-button" type="submit">키 적용</button>
+          <button class="w3-button w3-light-grey" id="clear-key" type="button">키 지우기</button>
+        </form>
+        <div id="edit-notice" role="status"></div>
+        <form id="edit-form">
+          <label for="edit-id">수정할 글 ID</label><input class="w3-input w3-border" id="edit-id" readonly>
+          <label for="edit-message">수정 메시지</label>
+          <textarea class="w3-input w3-border" id="edit-message" maxlength="500" required></textarea>
+          <button class="w3-button w3-teal" id="save-edit" type="submit">수정 저장</button>
+        </form>
+      </section>
+      <section class="w3-container w3-card w3-white w3-margin-top">
+        <h2>남긴 글</h2>
+        <p><button class="w3-button w3-teal" id="reload-button" type="button">새로 불러오기</button></p>
+        <div class="w3-text-grey" id="load-notice" role="status"></div>
+        <p id="empty" hidden>아직 남긴 글이 없습니다.</p>
+        <ul id="list" class="w3-ul" aria-live="polite"></ul>
+        <div id="count">최근 글 0개</div>
+      </section>
+    
+</section>
+<section class="w3-white" id="not-found" hidden>
+<h2 tabindex="-1">화면을 찾을 수 없습니다</h2>
+<p>주소를 확인하세요.</p><a href="#home">홈으로 이동</a>
+</section>
+</main>
+<footer class="w3-container w3-center w3-text-grey"><p>수업용 연습 페이지 · 별칭만 사용하세요.</p></footer>
+</body>
+</html>

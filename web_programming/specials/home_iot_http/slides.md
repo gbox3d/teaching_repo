@@ -58,6 +58,9 @@ node examples/simulator/server.mjs
 - 특강 폴더 전체가 있어야 예제 링크가 동작한다.
 - 실행 확인은 로컬 URL에서 한다. GitHub Pages는 Node 서버를 실행하지 않는다.
 
+00_about_help/requests.http에서 @baseUrl 확인 → **Send Request**.
+REST Client로 about·help GET 200을 먼저 확인한다. 인증 키는 필요 없다.
+
 ---
 
 ## ex01: GET으로 현재 상태 읽기

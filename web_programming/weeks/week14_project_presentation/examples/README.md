@@ -1,25 +1,19 @@
-# 14주차 예제 — REST 수정·삭제
+# 14주차 예제 안내
 
-각 비교 예제를 폴더째 복사한다. `config.example.js`는 세 공개 설정값만 담으며 HTML에서 직접 읽는다. 편집 키를 이 파일에 적지 않는다.
+1일차 DELETE, 2일차 PATCH를 다룬다. 양일 강의·시연 60분+학생 실습 30분이다. 비교 예제는 폴더째 배부하며 전체 재입력은 필수가 아니다.
 
-| 예제 | 보여 주는 것 | 바꿔 볼 것 |
+| 예제 | 구분 | 확인·학생 수정 |
 |---|---|---|
-| [day1/ex01](day1/ex01/index.html) | 배열 위치와 서버 ID | 배열 두 객체 순서 |
-| [day1/ex02](day1/ex02/index.html) | DELETE와 204 | 자기 글 ID, 자기 키 한 글자 |
-| [day2/ex03](day2/ex03/index.html) | PATCH와 JSON 본문 | 자기 글 메시지 |
-| [day2/ex04](day2/ex04/index.html) | ID별 GET 재조회 | 삭제 전·후 같은 ID |
+| [day1/ex01](day1/ex01/index.html) | 강의자 시연 | 배열 순서를 바꿔 인덱스와 서버 ID 비교 |
+| [day1/ex02](day1/ex02/index.html) | DELETE 비교·필수 수정 참고 | 대상 URL·method·헤더 3곳 |
+| [day2/ex03](day2/ex03/index.html) | PATCH 비교·필수 수정 참고 | 대상 URL·JSON 본문·같은 ID 재조회 3곳 |
+| [day2/ex04](day2/ex04/index.html) | 시연·선택 | 같은 ID의 변경 전·후 GET |
+| [web-week14](day2/web-week14/guestbook.html) | 제공 조립본·실습 결과 | guestbook.js에서 양일 지정한 3곳씩 수정 |
 
-## 만들기 파일
+각 REST 폴더의 README·requests.http·.env.example·.gitignore를 함께 사용한다. REST Client humao.rest-client에서 .env를 준비하고 **Send Request**로 about → help → GET → 변경 → 같은 ID GET을 진행한다. 실제 편집 키는 password 프롬프트로 입력한다. 브라우저의 API 설정과 .env는 별개다. 새로고침하면 브라우저 공용 설정을 다시 입력한다.
 
-[day2/web-week14](day2/web-week14/guestbook.html)은 13주 폼에 수정·삭제를 연결한 실행 참고본이다. 학습 순서는 비교 예제 → [실습지](../lab.md) → [따라하기](../walkthrough.md)다.
+## 제공 코드와 배포
 
-| 파일 | 역할 | 연결되는 예제 |
-|---|---|---|
-| `config.example.js` | API 주소·공개 키·방명록 ID | 모든 REST 예제 |
-| `guestbook.js` | GET·목록 표시 | 12주, ex04 |
-| `submit.js` | POST로 새 글 저장 | 13주 |
-| `actions.js` | 서버 ID·편집키·수정폼·재조회 | ex01, ex04 |
-| `delete.js` | DELETE·204·재조회 | ex02 |
-| `edit.js` | PATCH·JSON·재조회 | ex03, ex04 |
+api-settings.js는 설정 패널, guestbook.js는 GET·POST·PATCH·DELETE 전체 동작이다. 키·초기화·실패 복구·늦은 응답 보호는 제공 코드이며 평가 대상이 아니다. W3.CSS는 [CDN 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css), 추가 스타일은 각 폴더 shared/examples.css를 쓴다. 홈·내 정보는 기존 styles.css를 유지한다.
 
-이전 발표 수업의 부속 자료는 보존되어 있으나 이번 실습에 사용하지 않는다. 현재 사용할 파일은 위 표와 `guestbook.html`·`index.html`·`about.html`·`app.js`·`styles.css`·`images/profile.png`다.
+완성본 기본 배포 파일은 [완성본 README](day2/web-week14/README.md#기본-배포-파일)에 명시했다. 옛 다중 동작 JS와 config.example.js는 이동 안내만 남겼고 HTML에서 읽지 않는다. 이전 projects.html·projects.js·about.js와 프로젝트 데이터·그림·옛 캡처는 배포하지 않는다. day1/ex03 저장 예제는 11주 이동 안내로 남겼으며 현재 14주 실습이 아니다. day1/ex02/message.json도 이전 부속 파일로 배포에서 제외한다.

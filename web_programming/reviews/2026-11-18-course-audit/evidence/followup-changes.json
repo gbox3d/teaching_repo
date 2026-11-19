@@ -1,0 +1,97 @@
+{
+  "time": "2026-11-18T12:52:09.820Z",
+  "head": "5f701e7b69a0dfbe1367c7974deff2e8bcdacf39",
+  "comparedTo": "2026-11-18T11:46:52.107Z",
+  "sourceFiles": 894,
+  "changed": [
+    {
+      "file": "web_programming/AGENTS.md",
+      "sha256": "f35d323bf57c2e741009be25ffb0b39d482b539faf370af716b202030fbea916"
+    },
+    {
+      "file": "web_programming/README.md",
+      "sha256": "fccb505d220c44443b59ca7031873b6483ad141101618f6c483d93b5e8b8443f"
+    },
+    {
+      "file": "web_programming/weeks/README.md",
+      "sha256": "143c745f342cea3231252b05fe6856a5f634efde0a2ff3b358a5e24a5a89b864"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/README.md",
+      "sha256": "42f156e131e5a38d9f3ab8988028229e17599b502c4f810057f7d27263b707e1"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/slides.md",
+      "sha256": "5d5b265f0921adbb2d86aa967e14e0dc2ed70766a89d52225e5d650124562220"
+    },
+    {
+      "file": "web_programming/weeks/week07_form_input/slides_en.md",
+      "sha256": "7b6a148165250ad10894e05f1e7e2656416dc46b7ff5871885ffbb6b0f1c70f0"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/README.md",
+      "sha256": "2213d175fb2428e21b2857158a80451e3f67627a6148e03032280ee590207737"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/examples/README.md",
+      "sha256": "d823383952b6a486f42281942d3b181dc34a3bbb6ab131f525dd40a99896496b"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/slides.md",
+      "sha256": "c3ce52d04b50f1b4434315d6f6bb82c6e1f8f45e607871075dae2efd50cc70e1"
+    },
+    {
+      "file": "web_programming/weeks/week09_readme_presentation/slides_en.md",
+      "sha256": "a6e0d36e8f595ee7e754248bd7da9070e13afca2b69ff11a3f5045ad84f63169"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/README.md",
+      "sha256": "0aab78805691131cf41624ce6a9a7387e55b0e0536a93de0b85d19606c0bfa73"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/examples/README.md",
+      "sha256": "117d215b3c859b7824f0e619782c5bf0e3ad12e6536cc09c5fe6343776482abf"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/lab.md",
+      "sha256": "57d6e23d69fdbfc90a8abdca1b9257b454b85912185b0c018d80602d5ee5c5b6"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/slides.md",
+      "sha256": "181495c27ed9a2a572d01a25e73b7484a574eb0c8cd784343fd1af122019bebe"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/slides_en.md",
+      "sha256": "bbafea3482073cb0fb50a7d78d097702b46e19c4d7daab96dfbfa257bc0e4252"
+    },
+    {
+      "file": "web_programming/weeks/week10_array_list/walkthrough.md",
+      "sha256": "c51019ab486ea202711d7686cfc83a235694d22b9593dcac93f7438de7b47858"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/README.md",
+      "sha256": "d7a73efb042e99e410d7c789d69537056be2691595b56865fee67c10f58512ea"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/guestbook.html",
+      "sha256": "f5686fc1374470e07ddeaca6148b22aea26a7627682bd56b3a88f342b812a29d"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/guestbook.js",
+      "sha256": "135eafc7ea892e73e21e8e3ab0f671b7cc03419cbe5374825a4e5a16b056b578"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/screenshots/guestbook.png",
+      "sha256": "ad3582eba948b3e10dc89edbda94b4ae2090ff21a09fcb8085c5d892a12a4d07"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/screenshots/home.png",
+      "sha256": "b75999a21b88e836c67262b3fdff9c3458fde78e2f7a1ad9d6dcdedd1e2138d9"
+    },
+    {
+      "file": "web_programming/weeks/week15_final_exam/examples/w09_readme_links/shared/examples.css",
+      "sha256": "0c9215b397f4a92656f86f57fc804d82148b70df3ca3e09b30d0cbfd396c8bb3"
+    }
+  ],
+  "removed": []
+}

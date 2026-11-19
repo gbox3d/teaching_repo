@@ -14,8 +14,8 @@
 
 1주차는 연습용 폴더 `week01`에서 URL·요청과 응답·DevTools와 로컬 Git(`init → add → commit`)을 익히고,
 2주차에 `my-web`을 GitHub에 올려(push) Pages로 공개 주소를 만들고 브랜치와 merge까지 한다.
-3~7주차에는 그 저장소를 세 페이지 자기소개 사이트로 키운다 — 시맨틱 HTML과 form(3주), CSS와 반응형(4주),
-변수·`if`·함수(5주), DOM·이벤트(6주), CSS 응용(7주)을 다룬다. 7주차에는 반응형 메뉴와 타임라인을 만들고 그 배치를 방명록에 적용한다.
+3주차에는 `my-web`을 이어 쓰고 4~7주차에는 전 주의 완성 파일을 새 주차 저장소에 옮겨 세 페이지 자기소개 사이트로 키운다. 시맨틱 HTML과 form(3주), CSS와 반응형(4주),
+변수·`if`·함수(5주), DOM·이벤트(6주), CSS 응용(7주)을 다룬다. 7주차에는 반응형 메뉴와 최신순 타임라인을 방명록에 적용하고 9주 발표에 사용한다. 10주에는 배열 인덱스를 화면의 각 줄과 비교할 수 있도록 등록순 문자열 목록을 제공한다.
 10~14주차에는 방명록을 배열 목록(10주) → 객체와 `localStorage`(11주) → REST GET으로 서버 목록 읽기(12주) →
 POST로 온라인 저장(13주) → PATCH·DELETE로 수정·삭제(14주)로 넓힌다.
 8주 중간 개인 실기, 9주 1차 과제 발표, 15주 기말 개인 실기가 들어 있다. 14주는 구현 수업이며 레포트는 별도 과제로 안내한다.
@@ -23,13 +23,16 @@ POST로 온라인 저장(13주) → PATCH·DELETE로 수정·삭제(14주)로 �
 12~14주 공용 API는 강의자가 준비한다. 학생은 Supabase 계정·SQL·SDK 없이 `fetch`로 요청한다.
 서버 구축·로그인 구현은 정규 범위 밖이다. 방학 연구 특강에서는 Supabase 공용 API 구축과 Node.js 홈 IoT 제어를 실험한다.
 특강은 분량·차시 수를 제한하지 않으며, 구현·측정·검증을 단계별로 이어 간다. 지도와 신시사이저 실습 자료도 제공한다.
-11주차는 한 회 강의·시연 60분과 실습 30분으로 운영한다. 2일차 필수 실습은 문자열·JSON·폼 저장이며, 완성 방명록은 시연과 다음 주 준비 자료로 제공한다. 배열 심화는 별도 보강 특강이다.
+일반 27차시는 강의·시연 60분과 실습 30분이다. 8·15주 2차시의 실기와 9주 발표는 별도 시간표를 쓴다. 필수 수정·강의자 시연·선택 연습을 구분한다. 7주차에는 W3.CSS로 카드와 메뉴를 배치하고 방명록을 최신 글부터 읽는 피드로 구성한다. 11주차 2일차 필수 실습은 문자열·JSON·폼 저장이며, 완성 방명록은 시연과 다음 주 준비 자료로 제공한다.
+
+정규 과정은 세 HTML 페이지를 이어 쓴다. SPA 직접 구현은 14주 완성본을 출발점으로 선택 특강에서 다룬다. 배열 심화도 별도 보강 특강이다. [수업 구성과 30차시 선정안](reviews/2026-11-18-course-audit/winner.md)에 변경 근거와 평가 결과를 기록했다.
 
 ## 진입점
 
 - 15주 교재 색인: [`weeks/README.md`](weeks/README.md)
 - 선택 특강: [`specials/README.md`](specials/README.md)
 - 배열 심화 보강 특강: [`specials/array_advanced/`](specials/array_advanced/README.md)
+- 14주 이후 SPA 전환 특강: [`specials/hash_spa/`](specials/hash_spa/README.md)
 - 예제 공용 CSS: [`shared/README.md`](shared/README.md)
 - 수업용 정적 웹 서버(Node.js): [`tools/static-server/`](tools/static-server/README.md)
 - 강의자용 공용 방명록 API와 로컬 리허설: [`tools/guestbook-api/`](tools/guestbook-api/README.md)
@@ -52,17 +55,17 @@ POST로 온라인 저장(13주) → PATCH·DELETE로 수정·삭제(14주)로 �
 ## 운영 주의
 
 - **Git 설명은 2주차까지다(Pages 등록까지).** 3주차부터는 Git을 설명하지 않고 올리기 순서만 따른다([`weeks/README.md`](weeks/README.md#실습-루틴-3주차부터)).
-- **확인과 캡처의 표준은 GitHub Pages 공개 URL이다.** 그 주 저장소에 push → 공개 주소 새로고침 → 캡처 순서로 마친다.
-  반영은 1~3분 늦으므로, 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정한다.
+- 학생 실습 30분에는 로컬 동작 확인과 캡처를 마친다. 3주 이후 새 저장소와 파일은 사전에 준비하고, push와 Pages 확인은 수업 뒤 정리로 분리한다. Git을 배우는 1~2주와 시험은 해당 시간표를 따른다.
+- 공개 업로드 후 Pages 주소에서도 같은 동작을 확인한다. 배포 반영이 늦으면 로컬 화면과 GitHub **Commits** 탭을 증거로 남기고 다음 수업 준비 시간에 확인한다. 공용 API의 다른 브라우저 공유 확인은 로컬 모의 API 점검과 구분한다.
 - 3~10주차는 작업 중 미리 보기를 `file://`(파일 더블클릭)로 해도 된다. 이 구간에는 미리 보기에 서버가 필요한 기능이 없다.
-- 11주차의 30분 실습은 localhost에서 저장·새로고침·복원·삭제를 확인하고 캡처한다. 공개 업로드는 수업 후 정리로 분리한다. localhost와 공개 주소의 데이터는 origin이 달라 자동으로 공유되지 않는다.
-- 로컬 미리보기는 수업용 정적 서버 [`tools/static-server/server.mjs`](tools/static-server/README.md)로 한다(`node server.mjs` → `http://localhost:8000/`, 5주차에 처음 설명). `fetch`(12주차)처럼 `file://`로 안 되는 기능도 공개 주소와 같은 조건으로 미리 볼 수 있다.
-  Node가 없는 PC에서는 push → Pages 확인만으로 수업과 시험이 그대로 성립한다.
+- 11주차에는 같은 origin에서 저장·새로고침·복원·삭제를 확인한다. localhost와 공개 주소의 데이터는 자동으로 공유되지 않는다. 11주 필수 제출은 폼 복원이며 전체 방명록 저장을 구현했다고 가정하지 않는다.
+- 로컬 미리보기는 수업용 정적 서버 [`tools/static-server/server.mjs`](tools/static-server/README.md)로 한다(`node server.mjs` → `http://localhost:8000/`, 5주차에 처음 설명). 파일 상대 경로와 HTTP 요청을 확인하며, 11주 저장부터는 같은 localhost origin을 유지한다. Pages 게시 후에는 공개 HTTPS 주소에서도 확인한다.
+  30분 실습 전에 로컬 미리보기 환경을 준비한다. 환경 설치가 막히면 조교가 같은 동작을 확인할 대체 정적 서버를 미리 준비한다.
 - Git 인증은 **HTTPS + 브라우저 로그인**이 기본이다. 비밀번호나 토큰을 명령에 적지 않는다.
   공용 PC는 실습 끝에 자격 증명 관리자에서 `git:https://github.com`을 지운다(절차는 [`ta_setup_guide.md`](ta_setup_guide.md#공용-pc-운영)).
-- 학생 PC에는 Node.js LTS를 권장 설치한다(정적 서버용, npm 패키지는 쓰지 않는다). 설치가 막혀도 수업은 `file://`·공개 주소로 진행된다.
+- 학생 PC의 정적 서버 실행 기준은 Node.js 24 이상이다. 학생 예제에는 npm 패키지를 설치하지 않는다.
 - 정규 주차의 JavaScript는 클래식 `<script src="…" defer>`와 브라우저 기본 API를 사용한다. 11주차 저장 예제와 배열 심화 특강은 W3.CSS를 cdnjs CDN에서 불러오고, 추가 스타일은 `shared/examples.css`를 사용한다. 예제를 배포할 때 추가 CSS의 상대 경로를 유지한다. 연구 특강의 서버·제어 코드는 해당 자료의 구성을 따른다.
 - 공개 저장소·캡처·예제에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`·`student01@example.com`이다.
 - GitHub 화면과 무료 정책은 개강 전에 공식 문서와 새 실습 계정으로 다시 확인한다.
-- 12~14주 기본 예제의 `127.0.0.1:8787`은 로컬 리허설 주소다. GitHub Pages와 다른 기기에서 확인하려면 강의자가 검증한 HTTPS API 주소와 공개 키로 바꾼다. 공용 클라우드 주소는 아직 준비 전이다.
+- 12~14주 기본 예제의 `127.0.0.1:8787`은 로컬 리허설 주소다. 공용 Supabase API의 주소·공개 키·개인별 `book_id`는 강의자가 배부하며, GitHub Pages와 다른 기기에서는 공용 HTTPS API로 연결한다. [학생용 API 안내](tools/guestbook-api/student-guide.md)에 요청 형식과 운영 범위를 둔다.
 - 홈 IoT 특강은 학생 PC에서 Node.js 서버를 실행한다. 완료 확인은 `http://localhost:8014/`이며 GitHub Pages에서는 서버가 실행되지 않는다.

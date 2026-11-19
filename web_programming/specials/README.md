@@ -10,7 +10,7 @@
 - 정규 주차의 실습 점수·시험에 넣지 않는다. 운영 여부와 시기는 강의자가 정한다.
 - 결과물은 실행 코드, 재현 절차, 관찰 자료와 해석을 포함한다. 캡처만으로 끝내지 않는다.
 - 기존 지도·신시사이저 자료의 시간표는 도입 수업의 예시이며 특강 전체의 분량 상한이 아니다.
-- 공개 웹페이지 특강은 공개 주소에서 확인한다. 홈 IoT 시뮬레이터 특강은 학생 PC의 Node.js 서버와 `http://localhost:8014/`에서 실습·캡처한다.
+- 정적 웹페이지는 localhost에서 먼저 확인하고 공개 배포를 비교한다. 홈 IoT는 Node.js 서버 `http://localhost:8014/`, Kakao 지도·Canvas는 전용 Node.js 서버 `http://localhost:3000/`에서 실습한다.
 - 외부 서비스의 키는 공개해도 되는 것만 저장소에 둔다. 비밀 키·비밀번호·개인 위치 정보는 저장소·제출물·캡처에 넣지 않는다.
 - 공개 저장소와 캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다.
 
@@ -19,8 +19,9 @@
 | 주제 | 연구·실습 내용 | 전제 | 자료 |
 |---|---|---|---|
 | 배열 심화 | 삽입·삭제·순회·filter·map·reduce, 원본과 반환값 비교 | 10주 배열, 11주 객체 | [array_advanced](array_advanced/) |
+| MPA에서 hash SPA로 전환 | 화면 전환·hash 탐색·입력 유지·REST 방명록 통합 | 14주 CRUD | [hash_spa](hash_spa/) |
 | Supabase 공용 방명록 API 구축 | 프로젝트·DB·REST API 구축, 권한과 기기 간 저장 검증 | 12~14주 REST 호출, Node.js 실행 | [supabase_guestbook](supabase_guestbook/) |
-| Kakao 항공 지도와 Canvas 이미지 편집 | 지도 조회와 이미지 편집 | 별도 안내 | [kakao_aerial_map](kakao_aerial_map/) |
+| Kakao 항공 지도와 Canvas 이미지 편집 | 지도 조회·로컬 이미지·협업 API | 14주 이후, Node.js 실행 | [kakao_aerial_map](kakao_aerial_map/) |
 | 웹 신시사이저 만들어 보기 — 디스코 연주기 | 브라우저 음원 합성과 연주 화면 | 12주차(fetch)까지 권장 | [synthesizer](synthesizer/) |
 | HTTP로 홈 IoT 제어하기 | 장치 제어, 주기적 조회, 자동 제어와 통신 실패 실험 | 12~14주 REST 호출, Node.js 실행 | [home_iot_http](home_iot_http/) |
 

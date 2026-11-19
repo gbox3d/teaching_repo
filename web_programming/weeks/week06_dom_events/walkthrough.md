@@ -1,273 +1,32 @@
 [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
-# 6주차 따라하기 — 비교 예제로 원리를 보고 마지막에 조립
+# 6주차 따라하기
 
-이번 주는 새 저장소 `web-week06`을 만든다. 지난주 완성본을 넣고, 비교 예제는 그 안의 `ex/` 폴더에 저장한다. 값·줄을 바꾼 뒤 결과를 화면과 **F12 › Console**, **F12 › Elements**에서 본다.
-명령 앞에 **현재 폴더**를 적어 두었다. 다른 폴더에서 실행하면 결과가 다르다.
+강의·시연 60분과 실습 30분을 구분한다. [실습지](lab.md)의 필수 변경만 수업 중 작성한다. 아래 완성 코드는 비교용이며 전부 타이핑하는 과제가 아니다.
 
-비교 예제 6개는 교재 저장소의 [examples/day1](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day1)(1일차 예제 폴더 ex01~ex03)과 [examples/day2](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)(2일차 예제 폴더 ex04~ex06) 폴더에 있다.
-각 예제가 무엇을 비교하는지는 [예제 설명](examples/README.md)에, 바꿔 볼 값은 [실습지](lab.md)에 있다.
+## 사전 준비
+
+지난주 개인 홈·소개·방명록·CSS·JS·이미지를 web-week06에 복사한다. 강의자는 [완성 폴더](examples/day2/web-week06/)와 [변경표](examples/README.md)를 사용해 홈의 두 버튼·횟수 카드·다크 CSS를 배부한다. 개인 소개와 이미지는 그대로 둔다. 비교 예제 여섯 폴더는 개인 ex/ex01~ex06에 준비한다. 파일 다운로드와 저장소·remote 설정은 수업 전에 마친다.
+
+1차시용 ex03/app.start.js를 개인 ex03/app.js로 복사한다. 2차시용 web-week06/app.start.js를 개인 홈 app.js로 복사한다. 각 HTML은 app.js 하나만 연결한다. app.start.js를 script에 추가로 연결하지 않는다. 완성 예제는 교재에서 비교하고 개인 사본만 수정한다.
 
 ## 1일차
 
-### 1. web-week06 폴더 만들고 지난주 완성본 넣기
+첫 5분에 파일과 서버 상태를 확인한다. 강의에서는 ex01의 현재 DOM과 원본 HTML을 비교하고, ex02의 click 시점과 ex03의 함수 밖 count를 설명한다. 오류 시연 뒤 원본을 복구한다.
 
-저장소를 둘 위치(문서 폴더 등)에 새 폴더 `web-week06`을 만들고 VS Code **File › Open Folder**로 연다.
-
-지난주 완성본을 넣는다. 내 `web-week05` 저장소 GitHub 화면에서 **Code › Download ZIP**을 누르고, 압축을 푼 폴더에서 맨 위 파일(`index.html`·`about.html`·`guestbook.html`·`styles.css`·`app.js`·`server.mjs`)과 `images/`를 `web-week06`으로 옮긴다. 지난주 `ex/` 폴더는 옮기지 않는다.
-ZIP을 못 받았으면 교재 [5주차 `examples/day2/web-week05/`](../week05_javascript_data/examples/day2/web-week05/)의 파일을 2단계와 같은 **Raw** 방법으로 받고, [server.mjs](../../tools/static-server/server.mjs)도 같은 방법으로 받는다.
-
-이어서 `web-week06` 안에 `ex` 폴더를 만든다. 현재 폴더: `web-week06`
-
-```bash
-mkdir ex
-```
-
-**예상 결과** — VS Code 탐색기가 아래 모양이다.
-
-```text
-web-week06/
-  ex/            ← 아직 비어 있다
-  images/
-  about.html
-  app.js
-  guestbook.html
-  index.html
-  server.mjs
-  styles.css
-```
-
-- `index.html`을 두 번 눌러 열면 5주차 완성 화면(인사말 카드)이 보인다. 이번 주는 여기서 시작한다.
-- `index.html`·`styles.css`·`app.js`는 오늘 건드리지 않는다. 2일차 끝에 조립한다.
-
-### 2. 비교 예제 가져오기
-
-오늘 예제는 세 개이고, 예제마다 **폴더 하나**에 파일이 세 개 있다. 내 사이트와 같은 이름의 `index.html`(화면)·`styles.css`(모양)·`app.js`(동작)다. 이번 주에 배우는 원리는 모두 `app.js`에 있다. `styles.css`에는 글자 자리에 배경색을 칠하는 `.card` 규칙 하나만 있다.
-
-| 폴더 | 파일 | 비교하는 것(`app.js`) |
-|---|---|---|
-| `ex01` | [index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) · [app.js](examples/day1/ex01/app.js) | `document` / 찾은 요소 / JS 가 바꾼 글자 — 화면·Elements·페이지 소스에서 비교 |
-| `ex02` | [index.html](examples/day1/ex02/index.html) · [styles.css](examples/day1/ex02/styles.css) · [app.js](examples/day1/ex02/app.js) | 열 때 바꾸기 / 클릭할 때 바꾸기 |
-| `ex03` | [index.html](examples/day1/ex03/index.html) · [styles.css](examples/day1/ex03/styles.css) · [app.js](examples/day1/ex03/app.js) | 함수 밖의 `let count` / 함수 안의 `let inside` |
-
-먼저 `ex` 안에 같은 이름의 폴더 세 개를 만든다. VS Code 탐색기에서 `ex`를 고르고 **New Folder**를 눌러도 되고, 명령으로 만들어도 된다. 현재 폴더: `web-week06`
-
-```bash
-mkdir ex/ex01
-mkdir ex/ex02
-mkdir ex/ex03
-```
-
-[교재 저장소 examples/day1 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day1)에서 `ex01` 폴더를 누르고, 파일을 하나씩 눌러 오른쪽 위 **Raw**를 누른다. 코드만 보이는 화면에서 **Ctrl+S**(macOS는 ⌘+S)로 내 `web-week06/ex/ex01/`에 저장한다. 세 파일을 받았으면 `ex02`·`ex03`도 같은 방법으로 자기 폴더에 받는다. 파일 이름은 교재와 **같게** 둔다. Raw가 열리지 않을 때만 주석 줄까지 그대로 친다.
-
-**예상 결과** — `ex/` 안에 폴더 세 개가 있고, 폴더마다 파일 세 개가 있다.
-
-```text
-ex/
-  ex01/
-    app.js
-    index.html
-    styles.css
-  ex02/
-    app.js
-    index.html
-    styles.css
-  ex03/
-    app.js
-    index.html
-    styles.css
-```
-
-- 저장 창에서 폴더 이름을 먼저 본다. 세 폴더의 파일 이름이 같아서, 다른 폴더에 저장하면 그 폴더의 같은 이름 파일을 덮어쓴다. 덮어썼으면 그 폴더의 파일을 교재에서 다시 **Raw**로 받는다.
-- 저장한 파일 이름이 `.txt`로 끝나면 이름을 고친다. 이름은 VS Code 탐색기에서 확인한다.
-- 예제 폴더의 `index.html`·`styles.css`·`app.js`는 맨 위 내 사이트 파일과 이름이 같지만 다른 파일이다. 편집기 위쪽 경로 줄(`ex › ex01 › app.js`)로 구분한다. 같은 이름 파일을 여러 개 열면 탭 이름 옆에도 폴더 이름이 붙는다.
-
-### 3. 예제 폴더 열기와 Elements 탭
-
-`ex/ex01/index.html`을 Chrome으로 연다(VS Code 탐색기에서 오른쪽 클릭 › **Reveal in File Explorer**, macOS는 **Reveal in Finder** → 두 번 누르기). `styles.css`·`app.js`는 두 번 누르지 않는다. 두 파일은 `index.html`이 불러온다.
-
-VS Code에서 `ex/ex01/index.html`도 열어 이 두 줄을 찾는다.
-
-```html
-<link rel="stylesheet" href="styles.css">
-<script src="app.js" defer></script>
-```
-
-`<head>`의 두 줄이 같은 폴더의 `styles.css`와 `app.js`를 불러온다. 그래서 세 파일이 한 폴더에 있어야 한다. `defer`는 HTML을 끝까지 읽은 뒤에 `app.js`를 실행하라는 표시다(5주차 ex02). 그래서 `<head>`에 두어도 `app.js`가 아래쪽 `#message`를 찾을 수 있다. 내 사이트 `index.html`의 `<head>`와 같은 모양이다. 다른 예제를 볼 때는 그 폴더의 `index.html`을 연다.
-
-**예상 결과** — 배경색 상자 안의 글자가 `3. JavaScript 가 바꾼 글자`다. F12 › **Console**에 두 줄이 찍혀 있다.
-
-```text
-1. document : #document                          app.js:6
-2. message : <div id="message" class="card">…    app.js:7
-```
-
-이번 주에는 **Elements** 탭도 쓴다. DevTools 위쪽 탭에서 **Elements**를 누른다. 브라우저가 지금 보여 주는 요소 상자(DOM)가 들여쓰기로 보인다. `<body>` 앞의 ▶를 눌러 펼치고 `<div id="message" class="card">` 줄을 찾는다.
-
-**예상 결과** — Elements의 그 줄 글자는 `3. JavaScript 가 바꾼 글자`다. 페이지 소스 보기(**Ctrl+U**, macOS **⌘+Option+U**)의 같은 줄은 `원래 글자 — HTML 파일에 적힌 글자`다.
-
-- 페이지 소스는 **파일**이고, Elements는 브라우저가 그 파일을 읽어 만든 뒤 JavaScript가 바꾼 **DOM**이다. 화면은 DOM을 보여 준다.
-- Elements에서 줄 위에 마우스를 올리면 화면의 그 요소가 파랗게 표시된다. 화면과 줄을 맞춰 볼 때 쓴다.
-- Elements에서 고친 것은 파일에 저장되지 않는다. 새로고침하면 사라진다.
-
-### 4. 값 바꾸는 요령
-
-실험은 늘 같은 순서다. **VS Code에서 고치고 저장**(Ctrl+S, macOS는 ⌘+S) → **브라우저에서 새로고침**(F5, macOS는 ⌘+R) → **화면·Console·Elements**를 본다.
-바꾸기 전에 무엇이 달라질지 먼저 말해 보고 확인한다.
-
-**클릭해 보기** — `ex/ex03/index.html`을 Chrome으로 연다. **눌러 보기**를 세 번 누른다.
-
-**예상 결과** — 화면의 횟수가 `클릭 3회`가 되고, Console에 두 줄씩 세 번 찍힌다.
-
-```text
-1. 밖에 둔 count : 1     app.js:12
-2. 안에 둔 inside : 1    app.js:16
-1. 밖에 둔 count : 2     app.js:12
-2. 안에 둔 inside : 1    app.js:16
-1. 밖에 둔 count : 3     app.js:12
-2. 안에 둔 inside : 1    app.js:16
-```
-
-`+ 1` 하는 줄은 똑같은데 1번만 는다. `let count = 0;`은 함수 밖이라 열 때 한 번만 실행되고, `let inside = 0;`은 함수 안이라 누를 때마다 다시 실행된다.
-
-- 새로고침하면 `클릭 0회`로 돌아간다. 브라우저가 파일을 다시 읽어 DOM과 변수를 새로 만들기 때문이다.
-- 값을 원래대로 못 돌리겠으면 교재에서 그 예제 폴더의 파일을 다시 **Raw**로 받아 같은 폴더에 덮어쓴다.
-- 파일마다 무엇을 바꿔 볼지는 [1일차 실습](lab.md#1일차--dom-과-클릭-60분)에 있다.
-
-### 5. 이번 주 저장소 만들어 올리기
-
-1일차 50–60분에 한다. 세 예제에서 각각 값 하나 이상을 바꿔 봤으면 올린다.
-
-GitHub에서 **New repository**를 누르고 이름 `web-week06`, **Public**으로 만든다. README는 추가하지 않는다.
-터미널에서 2주차에 배운 순서 그대로 친다. 현재 폴더: `web-week06`
-
-```bash
-git init
-git add .
-git commit -m "6주차 1일차"
-git branch -M main
-git remote add origin https://github.com/student01/web-week06.git
-git push -u origin main
-```
-
-저장소 화면에서 **Settings › Pages › Branch: main, /(root) › Save**를 누른다.
-
-**예상 결과** — GitHub 저장소 화면을 새로고침하면 `ex/`·`images/`와 맨 위 파일들이 보인다.
-1~3분 뒤 `https://student01.github.io/web-week06/ex/ex01/`를 연다. ex01의 제목과 `3. JavaScript 가 바꾼 글자` 상자가 보인다. 이 화면은 **확인용**이다.
-공용 PC라면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com`을 지우고 나간다.
-
-- 404가 나면 주소의 `web-week06/ex/ex01/`이 저장소·폴더 이름과 글자 단위로 같은지, Pages를 켰는지 본다.
-- push가 거부되거나 로그인 창이 안 뜨면 [2주차 실습지의 막혔을 때](../week02_github_pages/lab.md#막혔을-때)를 본다.
+실습 첫 5분은 btn·count ID 대조다. 다음 15분에 [실습지 여섯 줄](lab.md#1일차)을 작성한다. 마지막 10분에는 세 번 클릭해서 3회, 새로고침해서 0회를 확인한다. Elements의 textContent는 바뀌어도 페이지 소스의 원래 HTML은 그대로다. Elements에서 임시로 바꾼 글자 역시 새로고침하면 사라진다.
 
 ## 2일차
 
-### 6. 폴더 열고 비교 예제 세 개 가져오기
+첫 5분에 제공 홈이 열리는지 확인한다. 강의에서는 ex04의 add·remove·toggle, ex05의 다크 CSS, ex06의 공유 countUp을 시연한다. 두 리스너의 틀과 기존 greet·hello는 제공한다.
 
-같은 PC에 `web-week06` 폴더가 남아 있으면 VS Code로 그대로 연다. 없으면 받는다. 현재 폴더: 저장소를 둘 위치(문서 폴더 등)
+실습 첫 5분에 배경 #222222를 #202938로, 글자 #eeeeee를 #f5f7ff로 바꾼다. 다음 10분에 인사 리스너의 countUp 한 줄, 다크 리스너의 toggle·countUp 두 줄을 넣는다. 다음 10분에 두 버튼과 두 화면 폭을 확인하고 마지막 5분에 캡처한다.
 
-```bash
-git clone https://github.com/student01/web-week06.git
-```
+body.dark의 color는 상속값이다. h1·h2·nav a·footer가 자기 color를 갖고 있으면 그 색이 먼저 쓰이므로 어두운 모드에서도 해당 선택자의 color를 지정한다. 제공 CSS는 제목·메뉴 #a7c5ff, 푸터 #c8d4eb를 사용한다. 버튼·횟수 카드만 보지 말고 제목·메뉴·푸터도 함께 확인한다.
 
-내려받은 `web-week06`을 **File › Open Folder**로 연다.
+## 완성 index.html
 
-오늘 예제도 세 개이고, 1일차와 같이 예제마다 **폴더 하나**에 `index.html`·`styles.css`·`app.js` 세 파일이 있다. 오늘은 `styles.css`도 원리의 반이다. ex04의 `.on`, ex05의 `body.dark` 규칙이 모양을 정하고, `app.js`는 class 이름만 붙였다 뗀다. ex06의 `styles.css`는 1일차처럼 횟수 자리에 배경색을 칠하는 `.card` 규칙 하나다.
-
-먼저 `ex` 안에 오늘 폴더 세 개를 만든다. 현재 폴더: `web-week06`
-
-```bash
-mkdir ex/ex04
-mkdir ex/ex05
-mkdir ex/ex06
-```
-
-[교재 저장소 examples/day2 폴더](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events/examples/day2)에서 1일차와 같은 **Raw** → 저장으로 폴더마다 세 파일을 자기 폴더(`web-week06/ex/ex04/` 등)에 넣는다.
-
-| 폴더 | 파일 | 비교하는 것 |
-|---|---|---|
-| `ex04` | [index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js) | `classList.add` / `remove` / `toggle` 세 버튼과 상자 하나 |
-| `ex05` | [index.html](examples/day2/ex05/index.html) · [styles.css](examples/day2/ex05/styles.css) · [app.js](examples/day2/ex05/app.js) | `body.dark` 규칙 / `body.dark .card` 규칙, 다크 모드 버튼 하나 |
-| `ex06` | [index.html](examples/day2/ex06/index.html) · [styles.css](examples/day2/ex06/styles.css) · [app.js](examples/day2/ex06/app.js) | A 버튼 / B 버튼이 같은 함수 `countUp()`을 부른다 |
-
-**예상 결과** — `ex/`에 1일차 폴더 세 개(`ex01`·`ex02`·`ex03`)와 오늘 폴더 세 개(`ex04`·`ex05`·`ex06`)가 있고, 폴더마다 파일 세 개가 있다.
-`ex/ex04/index.html`을 열고 **1. add**를 누르면 상자가 노랗게 된다. F12 › **Elements**의 `<div id="box">` 줄에 `class="on"`이 생긴다.
-
-- 오늘도 그 폴더의 `index.html`을 연다. `styles.css`와 `app.js`는 같은 폴더에서 `index.html`이 불러온다. `app.js`를 빠뜨리면 버튼이 동작하지 않고, `styles.css`를 빠뜨리면 class는 붙는데 색이 바뀌지 않는다.
-- `ex05`는 버튼을 누를 때 `<body>` 줄에 `class="dark"`가 붙었다 떨어진다. 색을 바꾸는 JS 줄은 없다. 색은 `styles.css`의 규칙이 정한다.
-- `ex06`은 A·B를 섞어 눌러도 횟수가 하나로 이어진다.
-- 저장 창이 1일차에 마지막으로 쓴 `ex03` 폴더에서 열릴 수 있다. 저장 창 위쪽 경로가 지금 받는 예제의 폴더(`web-week06 › ex › ex04` 등)인지 보고 저장한다. 폴더마다 파일 이름이 같아서 다른 폴더에 저장하면 그 폴더의 같은 이름 파일을 덮어쓴다.
-- 예제마다 무엇을 바꿔 볼지는 [2일차 실습](lab.md#2일차--class-와-함수-그리고-조립-60분)에 있다.
-
-### 7. 조립표
-
-29분부터 조립한다. 이제 `ex/`가 아니라 `web-week06` 맨 위의 `index.html`·`styles.css`·`app.js`를 연다. `ex/ex01/` 같은 예제 폴더에도 같은 이름의 파일이 있으니, 편집기 위쪽 경로 줄이 `web-week06 › app.js`처럼 `ex` 없이 보이는지 확인하고 고친다.
-조립하는 줄은 모두 비교 예제와 5주차 완성본에서 본 것이다.
-
-| 조립할 줄 | 출처 |
-|---|---|
-| `index.html`에 버튼 두 개(`#hello-button`·`#dark-button`)와 `#count` 카드 | [ex02](examples/day1/ex02/index.html) 누를 버튼, [ex03](examples/day1/ex03/index.html) 횟수 자리 |
-| `styles.css` 맨 아래 `body.dark, body.dark .card { … }` | [ex05](examples/day2/ex05/styles.css) 1·2번 규칙을 쉼표로 묶은 것 |
-| `app.js`의 `name`·`hour`·`greet`·`hello` | 5주차 완성본 그대로 |
-| `const greeting`·`countBox`·`helloButton`·`darkButton` | [ex01](examples/day1/ex01/app.js) 찾아서 `const`에 담기 |
-| `let count = 0;` | [ex03](examples/day1/ex03/app.js) 1번, 함수 밖 |
-| `function countUp() { … }` | [ex06](examples/day2/ex06/app.js) |
-| `` greeting.textContent = `${greet(name)} ${hello(hour)}`; `` | [ex02](examples/day1/ex02/app.js) 1번, 열 때 바꾸기 |
-| `helloButton.addEventListener('click', function () { … countUp(); });` | [ex02](examples/day1/ex02/app.js) 2번 + [ex06](examples/day2/ex06/app.js) |
-| `darkButton.addEventListener('click', function () { document.body.classList.toggle('dark'); countUp(); });` | [ex05](examples/day2/ex05/app.js) + [ex06](examples/day2/ex06/app.js) |
-
-옮겨 적을 때 출처 예제의 파일을 옆에 열어 두고, 같은 줄이 거기서 무엇을 했는지 떠올린다.
-
-### 8. index.html에 다섯 줄 넣기
-
-`web-week06/index.html`을 연다. `<main>` 첫 줄 `<div class="card" id="greeting">인사말을 준비 중입니다.</div>` **바로 아래**에 다섯 줄을 넣는다.
-
-```html
-      <div>
-        <button id="hello-button" type="button">인사 바꾸기</button>
-        <button id="dark-button" type="button">다크 모드</button>
-      </div>
-      <div class="card" id="count">클릭 0회</div>
-```
-
-- 버튼 두 개를 한 줄에 두려고 `<div>`로 감쌌다. 두 번째 줄은 횟수를 쓸 카드다. 4주차 `.card` 모양을 그대로 쓴다.
-- `id`는 `app.js`가 찾을 이름이다. `hello-button`·`dark-button`·`count`를 글자 단위로 같게 쓴다.
-- `type="button"`은 보통 버튼이라는 뜻이다. 폼 안에 두어도 폼을 보내지 않는다(폼은 7주차).
-
-### 9. styles.css 맨 아래에 규칙 하나 넣기
-
-`web-week06/styles.css`를 열고 맨 아래(`@media` 덩어리 다음)에 규칙 하나를 넣는다.
-
-```css
-body.dark,
-body.dark .card {
-  background-color: #222222;
-  color: #eeeeee;
-}
-```
-
-- ex05의 두 규칙(`body.dark`·`body.dark .card`)을 쉼표로 묶어 하나로 썼다. 쉼표로 묶으면 두 선택자에 같은 선언이 붙는다(4주차 `input, textarea`와 같다).
-- 이 규칙은 `<body>`에 `class="dark"`가 붙었을 때만 맞는다. 붙이는 일은 `app.js`가 한다.
-
-### 10. app.js 다시 쓰기
-
-`web-week06/app.js`를 열어 **전부 지운다**. 5주차 코드를 지우는 이유: 마지막 줄 구조가 바뀌고, 찾은 요소를 `const`에 담아 두 번 이상 쓰기 때문이다. 5주차의 `name`·`hour`·`greet`·`hello` 네 덩어리는 그대로 다시 쓴다.
-
-조립표 순서로 쓴다.
-
-1. 값 두 개 — `name`(본인 아이디), `hour`. 5주차와 같다.
-2. 찾아 두기 네 줄 — `#greeting`·`#count`·`#hello-button`·`#dark-button`을 `querySelector`로 찾아 `const`에 담는다(ex01).
-3. `let count = 0;` — 함수 밖에 둔다(ex03 1번).
-4. 함수 `greet`·`hello` — 5주차와 같다.
-5. 함수 `countUp` — 횟수를 1 늘리고 `#count`에 쓴다(ex06).
-6. 열 때 한 번 — 인사말 카드에 5주차 인사를 쓴다(ex02 1번).
-7. 인사 바꾸기 버튼 — 누르면 문장을 바꾸고 `countUp()`을 부른다(ex02 2번 + ex06).
-8. 다크 모드 버튼 — 누르면 `body`의 `dark`를 뒤집고 `countUp()`을 부른다(ex05 + ex06).
-
-**예상 결과** — 저장하고 `index.html`을 새로고침한다. 첫 카드에 5주차 인사가 보이고, **인사 바꾸기**를 누르면 `반갑습니다. 오늘도 좋은 하루 되세요.`로 바뀐다. 두 버튼 어느 쪽을 눌러도 `클릭 N회`가 하나씩 늘고, **다크 모드**는 누를 때마다 배경과 카드가 어둡게 ↔ 원래대로 바뀐다. Console에 빨간 줄이 없다.
-
-### 11. index.html 전문
-
-10단계까지 마친 `index.html` 전체다. 내 파일과 한 줄씩 비교한다. 5주차 파일에서 늘어난 것은 8단계의 다섯 줄뿐이다.
+다음은 제공 HTML 전체다. 지난주 #greeting 아래에 버튼 두 개와 #count가 추가되었다. 개인 본문은 유지한다.
 
 ```html
 <!doctype html>
@@ -313,11 +72,11 @@ body.dark .card {
 </html>
 ```
 
-같은 파일이 [examples/day2/web-week06/index.html](examples/day2/web-week06/index.html)에 있다.
+실제 파일: [index.html](examples/day2/web-week06/index.html).
 
-### 12. styles.css 전문
+## 완성 styles.css
 
-5주차 파일에서 늘어난 것은 맨 아래 규칙 하나뿐이다.
+다음은 제공 CSS 전체다. 실습에서는 다크 배경·글자 두 값을 바꾼다. 5주 CSS에 body.dark 규칙들을 추가했으며 W3.CSS는 다음 주에 도입한다.
 
 ```css
 body {
@@ -333,6 +92,7 @@ body {
 h1 {
   color: #1f3a93;
   font-size: 28px;
+  word-break: keep-all;
 }
 
 h2 {
@@ -358,6 +118,7 @@ nav a {
 
 input,
 textarea {
+  box-sizing: border-box;
   width: 280px;
   max-width: 100%;
 }
@@ -379,13 +140,23 @@ body.dark .card {
   background-color: #222222;
   color: #eeeeee;
 }
+
+body.dark h1,
+body.dark h2,
+body.dark nav a {
+  color: #a7c5ff;
+}
+
+body.dark footer {
+  color: #c8d4eb;
+}
 ```
 
-같은 파일이 [examples/day2/web-week06/styles.css](examples/day2/web-week06/styles.css)에 있다.
+실제 파일: [styles.css](examples/day2/web-week06/styles.css).
 
-### 13. app.js 전문
+## 완성 app.js
 
-1행의 `student01`만 본인 아이디로 다르고 나머지는 글자 단위로 같아야 한다.
+다음은 세 TODO를 연결한 전체 결과다. 5주 greet·hello는 유지하고 countUp은 두 버튼이 공유한다. name과 hour의 수업용 값 변경 외에 함수 전체를 다시 쓰지 않는다.
 
 ```js
 const name = 'student01';
@@ -426,43 +197,18 @@ darkButton.addEventListener('click', function () {
 });
 ```
 
-같은 파일이 [examples/day2/web-week06/app.js](examples/day2/web-week06/app.js)에 있다.
+실제 파일: [app.js](examples/day2/web-week06/app.js).
 
-- 3~6행은 찾은 요소를 `const`에 담아 둔다. 두 번 이상 쓰는 요소를 매번 다시 찾지 않는다(ex01).
-- 7행 `let count = 0;`은 함수 밖이다. 함수 안에 두면 늘 `클릭 1회`다(ex03).
-- 21~24행 `countUp`은 두 버튼이 같이 쓰는 일이다. 고칠 일이 생기면 여기 한 곳만 고친다(ex06).
-- 26행은 열 때 한 번 실행된다. 28~36행의 안쪽은 누를 때마다 실행된다(ex02).
-- 34행 `document.body`는 `<body>` 요소다. 찾지 않고 바로 쓴다(ex05).
+## 화면과 초기화 확인
 
-### 14. 375·1280 폭과 서버로 확인
+인사·다크·인사 순서로 클릭하면 3회이고 어두운 화면이다. 다크 버튼을 한 번 더 누르면 밝은 화면과 4회다. 새로고침하면 초기 인사·0회·밝은 화면이 된다. 두 버튼을 반복해도 한 번 클릭에 한 번만 증가해야 한다.
 
-DevTools의 기기 툴바(**Ctrl+Shift+M**, macOS **⌘+Shift+M**)를 켜고 폭을 375와 1280으로 바꿔 가며 **다크 모드**를 켜 본다.
+Chrome의 기기 툴바에서 375px와 1280px로 확인한다. 좁은 폭의 메뉴는 세로이고, 가로 스크롤 없이 글자·버튼을 읽을 수 있어야 한다. 홈·소개·방명록 링크를 왕복한다. 방명록은 입력 연습용이며 아직 저장하지 않는다. 잘못된 이메일은 브라우저가 제출을 막고, 유효한 입력은 같은 페이지에 기본 GET 탐색을 한다. name 속성이 없으므로 입력 내용이 URL에 실리지 않으며 목록이나 저장소에도 남지 않는다.
 
-**예상 결과** — 두 폭 모두 배경과 카드가 어두워진다. 375에서는 메뉴가 세로로 선다(4주차 `@media`).
-
-이어서 서버로 연다. 현재 폴더: `web-week06`
+localhost를 쓰면 미리 준비한 [server.mjs](../../tools/static-server/server.mjs)를 개인 web-week06 폴더에서 실행한다.
 
 ```bash
 node server.mjs
 ```
 
-주소창에 `http://localhost:8000/`을 친다. 두 번 눌러 연 것과 결과가 같으면 된 것이다. 확인이 끝나면 터미널에서 **Ctrl+C**로 서버를 멈춘다.
-쓰는 법은 [서버 사용 안내](../../tools/static-server/README.md)에 있다. Node가 없는 PC는 `index.html`을 두 번 눌러 연 것으로 대신한다.
-
-### 15. push와 캡처
-
-현재 폴더: `web-week06`
-
-```bash
-git add .
-git commit -m "6주차 2일차"
-git push
-```
-
-1~3분 뒤 `https://student01.github.io/web-week06/`을 연다. **인사 바꾸기**를 한 번 누르고 **다크 모드**를 켠다.
-
-**예상 결과** — 어두운 화면에 `반갑습니다. 오늘도 좋은 하루 되세요.`와 `클릭 2회`가 보인다. 주소창이 함께 보이게 캡처한다. 이 캡처 한 장이 제출이다.
-공용 PC라면 자격 증명을 지우고 나간다.
-
-- 옛 화면이 그대로면 1분 더 기다렸다가 **Ctrl+F5**(macOS는 ⌘+Shift+R)로 새로고침한다.
-- 막히면 [실습지의 막혔을 때](lab.md#막혔을-때)를 본다.
+`http://localhost:8000/`에서 확인한 뒤 Ctrl+C로 종료한다. 서버가 없는 PC는 파일 주소로 확인한다. 수업 뒤 업로드·공개 주소 확인은 [실습지](lab.md#수업-뒤-업로드)를 따른다.

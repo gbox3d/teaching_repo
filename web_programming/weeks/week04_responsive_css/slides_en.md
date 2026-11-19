@@ -8,23 +8,20 @@ footer: "CSS and Responsive UI · compare the parts one at a time, then assemble
 
 # CSS and Responsive UI
 
-Week 3's three pages are still unstyled. This week is CSS.
-New repository this week: `web-week04` → `https://student01.github.io/web-week04/`
+Prepare the `web-week04` folder and new repository before class.
+Start with Week 3 content and the provided CSS links and card classes.
 
-This week: **compare 13 parts one at a time** (plus one appendix), then **assemble** `styles.css` at the end.
-
-- One example = one topic. Siblings that differ in a single value sit side by side.
-- No other topic is mixed in; boxes differ **only by background color**.
-- The first sibling is the default; comments hold other values. You **change values** in the lab.
-- Building happens once, at the end of Day 2. We note which rule came from which example.
-
-Same approach as last year's class (dayNN/exNN comparison files → build at the end).
+- Keep all 13 comparisons and optional appendix ex14.
+- The instructor demonstrates the comparisons and full assembly.
+- Students edit only the required values in the supplied files.
+- Each day: 60 minutes lecture/demo, then 30 minutes lab.
+- Capture locally in class; upload after class. W3.CSS starts in Week 7.
 
 ---
 
 # Day 1 — Selectors and Boxes
 
-`30 min explanation & demo → 60 min lab`
+`60 min lecture & demo → 30 min lab`
 
 1. ex01 selectors — a rule applies only when it matches; when they overlap, the class wins
 2. ex02 display — whether an element takes a whole line is decided by display, not the tag
@@ -35,7 +32,7 @@ Same approach as last year's class (dayNN/exNN comparison files → build at the
 
 ---
 
-## Day 1 · 0–4 min — This Week: Parts First, Assembly Last
+## Day 1 · 0–5 min — This Week: Parts First, Assembly Last
 
 ```css
 selector {
@@ -48,9 +45,11 @@ selector {
 - **CSS gives no error message when it's wrong.** A non-matching selector or a missing semicolon is silently ignored.
 - So we put siblings side by side and compare **by eye**. A value that changes nothing is a result too.
 
+First 5 minutes: check the prepared files and running page.
+
 ---
 
-## Day 1 · 4–9 min — ex01 Selectors: Must Match; the Class Wins
+## Day 1 · 5–15 min — ex01 Selectors: Must Match; the Class Wins
 
 [examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css)
 Siblings: `p` / `p.red` / `div.red` / `p.Red` (typo) / `nav a` / `a` outside nav
@@ -65,11 +64,11 @@ nav a { color: green; }   /* descendant selector: a inside nav */
 - No. 2 is `p` and `.red` → red. No. 4 `class="Red"` is not `.red` → blue.
 - Try it: uncomment → only No. 1 and 4 turn gray; No. 2 stays red. Change No. 4 to `class="red"` → red.
 
-**A selector must match. A class picks more narrowly than a tag, so it is stronger. Only at equal strength does the later rule win.**
+**A selector must match. In this example, a class selector has higher specificity than a tag selector. Only at equal strength does the later rule win.**
 
 ---
 
-## Day 1 · 9–13 min — ex02 display: The Tag Doesn't Decide, display Does
+## Day 1 · 15–20 min — ex02 display: The Tag Doesn't Decide, display Does
 
 [examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [styles.css](examples/day1/ex02/styles.css)
 Siblings: 3 divs / 3 spans / span + `display: block` / div + `display: inline`
@@ -86,7 +85,7 @@ Siblings: 3 divs / 3 spans / span + `display: block` / div + `display: inline`
 
 ---
 
-## Day 1 · 13–18 min — ex03 Box Model: Three Layers
+## Day 1 · 20–35 min — ex03 Box Model: Three Layers
 
 [examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [styles.css](examples/day1/ex03/styles.css)
 Siblings: default / `padding` / `border` / `margin` / all three (sky-blue box inside a gray frame)
@@ -104,7 +103,7 @@ Siblings: default / `padding` / `border` / `margin` / all three (sky-blue box in
 
 ---
 
-## Day 1 · 18–22 min — ex04 width vs max-width: Which One Shrinks
+## Day 1 · 35–43 min — ex04 width vs max-width: Which One Shrinks
 
 [examples/day1/ex04/index.html](examples/day1/ex04/index.html) · [styles.css](examples/day1/ex04/styles.css)
 Siblings: default (parent width) / `width: 640px` / `max-width: 640px`
@@ -114,14 +113,14 @@ Siblings: default (parent width) / `width: 640px` / `max-width: 640px`
 .mw { max-width: 640px; }    /* at most 640px, shrinks with the window */
 ```
 
-- In a wide window No. 2 and 3 are both 640px. The difference shows only below 640px.
+- In a wide window No. 2 and 3 are both 640px. The difference appears when the parent has less than 640px available.
 - Try it: narrow the window to 400px → only No. 2 sticks out and a scrollbar appears.
 
 **`width` pins the width; `max-width` only sets a ceiling, so it shrinks with the window.**
 
 ---
 
-## Day 1 · 22–25 min — ex05 margin auto: Split the Leftover Width to Center
+## Day 1 · 43–50 min — ex05 margin auto: Split the Leftover Width to Center
 
 [examples/day1/ex05/index.html](examples/day1/ex05/index.html) · [styles.css](examples/day1/ex05/styles.css)
 Siblings: default / `margin-left: auto` / both sides `auto` / `margin: 0 auto`
@@ -139,7 +138,7 @@ Siblings: default / `margin-left: auto` / both sides `auto` / `margin: 0 auto`
 
 ---
 
-## Day 1 · 25–28 min — ex06 text-align: Where the Text Sits Inside a Box
+## Day 1 · 50–55 min — ex06 text-align: Where the Text Sits Inside a Box
 
 [examples/day1/ex06/index.html](examples/day1/ex06/index.html) · [styles.css](examples/day1/ex06/styles.css)
 Siblings: default (left) / `text-align: center` / `text-align: right`
@@ -156,23 +155,23 @@ Siblings: default (left) / `text-align: center` / `text-align: right`
 
 ---
 
-## Day 1 · 28–30 min — Try It Yourself
+## Day 1 · 55–60 min — Required Lab Edits
 
-[Day 1 lab](lab.md#1일차--선택자와-박스-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
+[Lab](lab.md#1일차--선택자와-박스-30분) · [Walkthrough](walkthrough.md#1일차)
 
-1. Put last week's files in a new folder `web-week04`, and save example folders ex01–ex06 (two files each) in `ex/`.
-2. Change at least one value per example and watch the screen.
-3. End: push to the `web-week04` repository and turn on Pages — steps are in the lab sheet
+1. 0–10 min: ex01 `.red` color → `orange`; ex03 `.pad` → `32px`.
+2. 10–25 min: site `h1 color` → `#365314`, `.card padding` → `20px`, `body max-width` → `600px`.
+3. 25–30 min: save, reload, and check the three pages.
 
-If nothing changes, check the **selector spelling** and **semicolons** first.
-
-**Explanation total: 4+5+4+5+4+3+3+2 = 30 min**
+ex02/04/05/06 are instructor demonstrations. Further edits are optional.
+Files and repository are prepared before class; upload after class.
+Lecture: preparation 5 + selectors 15 + box model 15 + width/margin 15 + comparison 5 + handoff 5 = 60 minutes.
 
 ---
 
 # Day 2 — flex, Then Assembly
 
-`30 min explanation & demo → 60 min lab`
+`60 min lecture & demo → 30 min lab`
 
 1. Five lines of flex principle — parent, main axis, cross axis
 2. ex07 · ex08 · ex09 — direction sets the main axis; justify is main axis, align is cross axis
@@ -182,7 +181,7 @@ If nothing changes, check the **selector spelling** and **semicolons** first.
 
 ---
 
-## Day 2 · 0–4 min — Five Lines of flex: Parent, Main Axis, Cross Axis
+## Day 2 · 0–10 min — Five Lines of flex: Parent, Main Axis, Cross Axis
 
 ```text
 parent (container) display: flex, flex-direction: row
@@ -199,9 +198,11 @@ parent (container) display: flex, flex-direction: row
 
 ex07–ex12 check these five lines one per example. Gray is the parent; colored boxes are the children.
 
+0–5 min: check files. 5–10 min: parent and axes.
+
 ---
 
-## Day 2 · 4–8 min — ex07 flex-direction: Sets the Main Axis
+## Day 2 · 10–15 min — ex07 flex-direction: Sets the Main Axis
 
 [examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [styles.css](examples/day2/ex07/styles.css)
 Siblings: no flex / `display: flex` (default row) / `row-reverse` / `column` / `column-reverse`
@@ -220,7 +221,7 @@ Siblings: no flex / `display: flex` (default row) / `row-reverse` / `column` / `
 
 ---
 
-## Day 2 · 8–12 min — ex08 justify-content: Leftover Space on the Main Axis
+## Day 2 · 15–25 min — ex08 justify-content: Leftover Space on the Main Axis
 
 [examples/day2/ex08/index.html](examples/day2/ex08/index.html) · [styles.css](examples/day2/ex08/styles.css)
 Siblings: flex-start / center / flex-end / space-between / space-around, comment space-evenly
@@ -239,7 +240,7 @@ Siblings: flex-start / center / flex-end / space-between / space-around, comment
 
 ---
 
-## Day 2 · 12–16 min — ex09 align-items: Position on the Cross Axis
+## Day 2 · 25–30 min — ex09 align-items: Position on the Cross Axis
 
 [examples/day2/ex09/index.html](examples/day2/ex09/index.html) · [styles.css](examples/day2/ex09/styles.css)
 Siblings: `stretch` (default) / `flex-start` / `center` / `flex-end` — frame 100px tall
@@ -258,7 +259,7 @@ Siblings: `stretch` (default) / `flex-start` / `center` / `flex-end` — frame 1
 
 ---
 
-## Day 2 · 16–18 min — ex10 flex-wrap: Wrap When They Don't Fit
+## Optional reference — ex10 flex-wrap: Wrap When They Don't Fit
 
 [examples/day2/ex10/index.html](examples/day2/ex10/index.html) · [styles.css](examples/day2/ex10/styles.css)
 Siblings: `nowrap` (default) / `wrap` — six 80px children in a 300px frame
@@ -273,9 +274,11 @@ Siblings: `nowrap` (default) / `wrap` — six 80px children in a 300px frame
 
 **Whether children wrap when they don't fit is decided by `flex-wrap`, on the parent.**
 
+Optional reading; no required lab edit.
+
 ---
 
-## Day 2 · 18–20 min — ex11 gap: Space Between Children
+## Day 2 · 30–35 min — ex11 gap: Space Between Children
 
 [examples/day2/ex11/index.html](examples/day2/ex11/index.html) · [styles.css](examples/day2/ex11/styles.css)
 Siblings: no gap / `gap: 16px` / `gap: 32px`
@@ -285,14 +288,14 @@ Siblings: no gap / `gap: 16px` / `gap: 32px`
 .gap32 { gap: 32px; }
 ```
 
-- Only the spaces between open up; the first and last box stay at the edges.
+- Only the spaces between open up; no gap is added before the first or after the last box.
 - Try it: move `gap16` from the frame to `상자 1`'s class → nothing happens.
 
 **A gap between children can't be set by one child, so `gap` goes on the parent.**
 
 ---
 
-## Day 2 · 20–23 min — ex12 flex: 1 — Takes the Leftover Space
+## Optional reference: ex12 flex: 1, Takes the Leftover Space
 
 [examples/day2/ex12/index.html](examples/day2/ex12/index.html) · [styles.css](examples/day2/ex12/styles.css)
 Siblings: default / middle only `flex: 1` / all three `flex: 1`, comment `flex: 2`
@@ -307,9 +310,11 @@ Siblings: default / middle only `flex: 1` / all three `flex: 1`, comment `flex: 
 
 **`flex: 1` makes the child take the leftover space. Several children split it by their numbers.**
 
+Optional reading; no required lab edit.
+
 ---
 
-## Day 2 · 23–26 min — ex13 @media: Conditional Rules
+## Day 2 · 35–50 min — ex13 @media: Conditional Rules
 
 [examples/day2/ex13/index.html](examples/day2/ex13/index.html) · [styles.css](examples/day2/ex13/styles.css)
 Siblings: a box with an `@media (max-width: 600px)` rule / a box without
@@ -322,28 +327,27 @@ Siblings: a box with an `@media (max-width: 600px)` rule / a box without
 ```
 
 - At ≤ 600px the inner rule lives; same selector twice → the later wins (ex01). Check at 375.
-- Try it: 600 → 900 → orange even in a normal window. Drop the colon → ignored, no error.
+- Try it: 600 → 900 → orange at an 800px viewport. Drop the colon → ignored, no error.
 
 **The inner rule lives only when the condition holds. Any property can change.**
 
 ---
 
-## Day 2 · 26–30 min — Assembly: web-week04 styles.css → Lab
+## Day 2 · 50–60 min — Assembly Demo and Lab Handoff
 
-```text
-body  { max-width: 640px; margin: 0 auto; padding: 16px }      ← ex04 + ex05 + ex03
-nav   { display: flex; gap: 16px; flex-wrap: wrap }            ← ex07 + ex11 + ex10 (all on the parent)
-.card { background-color; padding; margin: 12px 0; border }    ← ex01 class + ex03 three layers
-@media (max-width: 600px) { nav { flex-direction: column } }   ← ex13 + ex07
+50–55 min: demonstrate the supplied CSS assembly. 55–60 min: lab instructions.
+
+```css
+nav { display: flex; gap: 16px; flex-wrap: wrap; }
+@media (max-width: 600px) { nav { flex-direction: column; } }
 ```
 
-[Day 2 lab](lab.md#2일차--flex와-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css)
+1. Lab 0–10: ex07 `.column` direction → `row`; ex08 `.center` alignment → `flex-end`.
+2. 10–22: site `gap` → `24px`, breakpoint → `700px`; compare `row`, then restore `column` (3 existing lines, at most 5).
+3. 22–30: check 375/1280px; capture the 375px home page locally.
 
-1. Save the seven example folders ex07–ex13 in `ex/` and change values (until minute 35).
-2. Assemble: `styles.css` in the table order, the `link` line on all three pages, `class="card"` in three places in `index.html`.
-3. Check at 1280 and 375 (device mode) → push to `web-week04` → screenshot (steps: lab sheet)
-
-**Explanation total: 4+4+4+4+2+2+3+3+4 = 30 min**
+[Lab](lab.md#2일차--flex와-조립-30분) · [Walkthrough](walkthrough.md#2일차)
+Lecture: preparation 5 + parent/axes 20 + gap/alignment 10 + media 15 + assembly 5 + handoff 5 = 60 minutes. Upload after class.
 
 ---
 
@@ -361,31 +365,29 @@ Siblings: `static` (default) / `relative; top: 40px; left: 40px` / `absolute; ri
 - Not covered in class. If you finish early, open it and change the values.
 - In No. 2 A's original slot (the top) stays empty; in No. 3 B moves up into A's place because `absolute` took A out of the document flow.
 
-**Two ways to leave the document flow. `relative` keeps its slot; `absolute` doesn't.**
+**`relative` stays in document flow and keeps its original slot. `absolute` leaves the flow.**
 
 ---
 
 ## What to Submit
 
-Submit **one** screenshot at the end of Day 2.
+Submit one screenshot of the 375px home page during class.
 
-```text
-https://student01.github.io/web-week04/
-DevTools device mode 375px
-Menu: 홈 / 내 정보 / 방명록 (Home / About / Guestbook)   ← one per line, vertically
-Intro paragraphs · hobby list: white cards with a border
-Capture it with the address bar and the 375 width indicator visible
-```
+- A local file URL or localhost is accepted.
+- Show the address bar and the device width indicator.
+- Show the vertical menu and the bordered introduction/hobby cards.
+- Check 1280px separately; example files are for checking only.
 
-The 1280px screen and the experiment files in `ex/` are for checking only. Keep your real name, student ID, and real email out of the screenshot.
+After class, upload to the prepared `web-week04` repository and check Pages.
+Use aliases and fictional contact details.
 
 ---
 
 ## Next Week Preview
 
-So far only what the three pages **look like** has changed. Buttons and input fields still do nothing.
+The guestbook has no message list or storage yet. Native email validation blocks invalid email; a valid submit reloads the current page with GET and clears the inputs.
 
-Week 5 starts in a new repository, `web-week05`, from today's files.
-On top of them we empty `app.js` and rewrite it to start JavaScript.
-We bring back the `<script src="app.js" defer></script>` line and print values to the Console.
-`styles.css` stays as it is. The `.card` colors you chose today come back in Week 6's dark mode.
+Before Week 5, copy this result without `.git` into `web-week05`.
+Keep the CSS; rewrite `app.js` and reconnect it with `defer`.
+Use the supplied output button to see JavaScript results on screen.
+The `.card` colors return in Week 6 dark mode. W3.CSS starts in Week 7.

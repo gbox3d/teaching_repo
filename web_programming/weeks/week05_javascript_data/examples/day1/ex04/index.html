@@ -1,18 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex04 plus</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ex04 더하기와 문자열 연결</title>
     <script src="app.js" defer></script>
 </head>
 <body>
-    <h1>ex04 + 는 두 가지 일을 한다</h1>
-    <p>F12 › Console 에 1~5번이 찍힌다. 결과와 종류(typeof)를 본다.</p>
-    <div>
-        <input id="num1" value="1" size="4"> + <input id="num2" value="2" size="4">
-        <button id="btn-plain">6. 그냥 더하기</button>
-        <button id="btn-number">7. Number 로 바꿔 더하기</button>
-    </div>
+    <h1>ex04 더하기와 문자열 연결</h1>
+    <p><label for="num1">첫 번째 값</label> <input id="num1" value="1" size="4"></p>
+    <p><label for="num2">두 번째 값</label> <input id="num2" value="2" size="4"></p>
+    <button id="btn-plain">문자열 연결</button>
+    <button id="btn-number">숫자 덧셈</button>
+    <p id="result" aria-live="polite">출력 대기 중</p>
 </body>
 </html>

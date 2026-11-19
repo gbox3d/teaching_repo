@@ -21,6 +21,7 @@ Node.js로 가상 거실을 실행하고 브라우저의 fetch로 장치를 제�
 
 | 단계 | 다루는 내용 | 도달 기준 |
 |---|---|---|
+| 접속과 안내 | REST Client, about·help GET | 200과 안내 응답을 확인한 뒤 장치 요청으로 진행한다 |
 | 요청과 상태 | GET·PATCH, JSON, Network, 전등과 온도 | 요청 본문과 장치 상태의 관계를 설명한다 |
 | 센서 기반 판단 | 온도 조회, 조건식, 선풍기 제어 | 같은 온도에서도 기준에 따라 동작이 달라짐을 확인한다 |
 | 주기적 조회 | 완료 후 다음 요청 예약, 조회 간격 변경 | 요청이 겹치지 않는 것과 반응 지연을 관찰한다 |
@@ -49,6 +50,7 @@ node examples/simulator/server.mjs
 | 주소 | 용도 |
 |---|---|
 | / | 가상 거실, 수동 제어, 모의 온도 설정, 최근 PATCH 기록 |
+| /examples/00_about_help/ | 서버 소개·API 도움말 조회 |
 | /examples/ex01/ ~ ex03/ | 상태 읽기, 전등 제어, 버튼 한 번으로 온도 판단 |
 | /examples/student/ | 기초 제어 함수 TODO 작성 |
 | /examples/reference/ | 기초 요청을 연결한 실행 참고본 |
@@ -64,9 +66,12 @@ node examples/simulator/server.mjs
 ## HTTP API
 
 모든 주소는 현재 Node 서버 기준이다. PATCH의 헤더는 Content-Type: application/json이다.
+VS Code REST Client (`humao.rest-client`)로 각 예제의 `requests.http`를 먼저 연다. `@baseUrl`을 실행 중인 주소에 맞추고 about→help 순서로 **Send Request**를 누른다. 인증 키는 필요 없다. 브라우저는 같은 Node 서버의 상대 경로로 요청한다.
 
 | 메서드·주소 | 요청 본문 | 결과 |
 |---|---|---|
+| GET /api/about | 없음 | 서버 이름·version·help 경로 객체 |
+| GET /api/help | 없음 | 사용 가능한 요청 6개의 배열 |
 | GET /api/state | 없음 | 전체 상태와 최근 제어 기록 |
 | PATCH /api/devices/light | {"on":true,"brightness":40} | 전등 변경, 전체 상태 응답 |
 | PATCH /api/devices/fan | {"on":true} | 팬 변경, 전체 상태 응답 |

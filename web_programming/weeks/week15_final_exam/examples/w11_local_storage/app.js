@@ -2,57 +2,44 @@ const form = document.querySelector('#memo-form');
 const titleInput = document.querySelector('#title-input');
 const memoInput = document.querySelector('#memo-input');
 const notice = document.querySelector('#notice');
-const list = document.querySelector('#memos');
-const count = document.querySelector('#memo-count');
-const clearButton = document.querySelector('#clear-memos');
-// 할 일 3: 이 줄을 고쳐 저장된 목록으로 시작한다(저장된 값이 없으면 빈 배열).
-let items = [];
-
-function saveList() {
-  // 할 일 1: items 전체를 'memo-list' 키에 저장한다.
-}
-
-function showList() {
-  list.innerHTML = '';
-  for (let i = 0; i < items.length; i++) {
-    const li = document.createElement('li');
-    li.textContent = `${items[i].title}: ${items[i].memo}`;
-    const removeButton = document.createElement('button');
-    removeButton.textContent = '삭제';
-    removeButton.addEventListener('click', function () {
-      items.splice(i, 1);
-      // 할 일 2: 삭제한 뒤 저장한다.
-      showList();
-    });
-    li.append(removeButton);
-    list.append(li);
-  }
-  if (items.length === 0) {
-    count.textContent = '저장된 메모가 없습니다.';
-  } else {
-    count.textContent = `메모 ${items.length}개`;
-  }
-}
+const storedJson = document.querySelector('#stored-json');
+const key = 'week15-memo-form';
 
 form.addEventListener('submit', function (event) {
   event.preventDefault();
-  const title = titleInput.value.trim();
-  const memo = memoInput.value.trim();
-  if (title === '' || memo === '') {
-    notice.textContent = '제목과 내용을 모두 입력하세요.';
-    titleInput.focus();
-    return;
+  try {
+    const entry = { title: titleInput.value, memo: memoInput.value };
+    // TODO SAVE: entry를 JSON 문자열로 바꾸어 key에 저장한다.
+    storedJson.textContent = localStorage.getItem(key) ?? 'null';
+    notice.textContent = '저장 요청 처리';
+  } catch {
+    notice.textContent = '저장 실패';
   }
-  notice.textContent = '';
-  items.push({ title: title, memo: memo });
-  // 할 일 2: 추가한 뒤 저장한다.
-  showList();
-  form.reset();
-  titleInput.focus();
 });
 
-clearButton.addEventListener('click', function () {
-  // 할 일 4: 배열을 비우고, 'memo-list' 키 하나만 지우고, 목록을 다시 그린다.
+document.querySelector('#load-memo').addEventListener('click', function () {
+  try {
+    const text = localStorage.getItem(key);
+    if (text === null) {
+      notice.textContent = '저장된 값 없음';
+      storedJson.textContent = 'null';
+      return;
+    }
+    // TODO LOAD: text를 객체로 파싱하고 두 입력 칸의 value에 복원한다.
+    storedJson.textContent = text;
+    notice.textContent = '불러오기 요청 처리';
+  } catch {
+    notice.textContent = 'JSON 불러오기 실패 · 지우기로 복구';
+  }
 });
 
-showList();
+document.querySelector('#clear-memos').addEventListener('click', function () {
+  try {
+    // TODO REMOVE: key 한 개만 삭제한다.
+    form.reset();
+    storedJson.textContent = localStorage.getItem(key) ?? 'null';
+    notice.textContent = '지우기 요청 처리';
+  } catch {
+    notice.textContent = '지우기 실패';
+  }
+});

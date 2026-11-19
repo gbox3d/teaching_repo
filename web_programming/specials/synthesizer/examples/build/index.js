@@ -1,6 +1,6 @@
 // index.js — 디스코 연주기. 곡(JSON)을 불러와 16분음표 한 칸마다 소리 부품(synth.js)을 예약한다.
 import { midiToFreq, chordToMidis, createNoise, playTone, playKick, playSnare, playHat } from './synth.js';
-import { tagMelodies, tagColor } from './song.js';
+import { tagMelodies, tagColor, songToBars } from './song.js';
 
 // ex08 — 리듬은 배열이다. 한 마디 = 16칸(16분음표). 1 이면 그 칸에서 친다
 // bass 는 1 = 낮은 근음, 2 = 한 옥타브 위 근음(디스코 베이스의 '둥-둥' 오르내림)
@@ -35,6 +35,10 @@ let noise = null;
 let bars = [];         // 곡 전체 마디를 한 줄로 편 것 [{ section, chord, chords, melody, tag }]
 let cells = [];        // bars 와 같은 순서의 화면 칸
 let timer = null;
+let session = null;
+let frame = 0;
+let playVersion = 0;
+let loadVersion = 0;
 let nextTime = 0;      // 다음 칸을 칠 시각(ctx.currentTime 기준)
 let step = 0;          // 처음부터 몇 번째 칸인가
 const queue = [];      // 화면에 보여 줄 { step, time }
@@ -59,6 +63,7 @@ function checkPattern(name) {
 
 // 한 칸에서 칠 소리를 모두 예약한다
 function scheduleStep(n, time) {
+    const out = session;  // 정지할 때 이번 연주의 출력만 끊는다
     const bar = bars[Math.floor(n / 16) % bars.length];
     const i = n % 16;
     const p = PATTERNS[$('pattern').value];
@@ -106,7 +111,7 @@ function draw() {
     while (queue.length > 0 && queue[0].time <= ctx.currentTime) {
         show(queue.shift().step);
     }
-    if (timer) requestAnimationFrame(draw);
+    if (timer) frame = requestAnimationFrame(draw);
 }
 
 function show(n) {
@@ -118,6 +123,7 @@ function show(n) {
 }
 
 async function play() {
+    const version = ++playVersion;
     if (!ctx) {
         ctx = new AudioContext();
         const compressor = ctx.createDynamicsCompressor();   // 여러 소리가 겹쳐도 찢어지지 않게 눌러 준다
@@ -127,22 +133,33 @@ async function play() {
         noise = createNoise(ctx);
     }
     await ctx.resume();
-    if (timer || bars.length === 0) return;
+    if (version !== playVersion || timer || bars.length === 0) return;
     const problem = checkPattern($('pattern').value);
     if (problem) {
         $('message').innerText = problem;
         return;
     }
     $('message').innerText = '';
+    session = ctx.createGain();
+    session.connect(out);
     step = 0;
     nextTime = ctx.currentTime + 0.05;
     timer = setInterval(tick, 25);
-    requestAnimationFrame(draw);
+    frame = requestAnimationFrame(draw);
 }
 
 function stop() {
+    playVersion += 1;
     clearInterval(timer);
     timer = null;
+    cancelAnimationFrame(frame);
+    frame = 0;
+    if (session) {
+        const old = session;
+        old.gain.setTargetAtTime(0, ctx.currentTime, 0.02);
+        setTimeout(function () { old.disconnect(); }, 300);
+        session = null;
+    }
     queue.length = 0;
     document.querySelectorAll('.now, .step.on').forEach(function (el) { el.classList.remove('now', 'on'); });
     $('where').innerText = '정지';
@@ -150,53 +167,60 @@ function stop() {
 
 // ex09 — 곡 JSON 을 불러와 마디를 한 줄로 편다. 코드 이름이 틀리면 여기서 알려 준다
 async function loadSong(file) {
+    const version = ++loadVersion;
     stop();
-    $('message').innerText = '';
-    const response = await fetch(file);
-    if (!response.ok) throw new Error(`${file} 을 불러오지 못했습니다 (${response.status})`);
-    const song = await response.json();
-    const info = song.track_info;
-
     bars = [];
-    for (const section of song.sections) {
-        for (const bar of section.progression) {
-            bars.push({ section: section.section, chord: bar.chord, chords: bar.chord.trim().split(/\s+/).map(chordToMidis), melody: bar.melody || [] });   // 멜로디가 없는 마디는 빈 배열
-        }
-    }
+    $('play').disabled = true;
+    $('track').innerText = '불러오는 중';
+    $('message').innerText = '';
+    try {
+        const response = await fetch(file);
+        if (!response.ok) throw new Error(`${file} 을 불러오지 못했습니다 (${response.status})`);
+        const song = await response.json();
+        if (version !== loadVersion) return;
+        const info = song.track_info;
+        if (!info || !Number.isFinite(info.bpm) || info.bpm <= 0) throw new Error('track_info.bpm은 양수여야 합니다');
+        bars = songToBars(song).map(function (bar) {
+            return { ...bar, chords: bar.chord.trim().split(/\s+/).map(chordToMidis) };
+        });
 
-    const tags = tagMelodies(bars.map(function (bar) { return bar.melody; }));
-    bars.forEach(function (bar, k) { bar.tag = tags[k]; });
+        const tags = tagMelodies(bars.map(function (bar) { return bar.melody; }));
+        bars.forEach(function (bar, k) { bar.tag = tags[k]; });
 
-    $('track').innerText = `${info.title} — ${info.artist} · ${info.key} · ${info.time_signature} · ${info.bpm} BPM`;
-    $('bpm').value = info.bpm;                           // 80~140 밖이면 슬라이더가 끝값으로 맞춘다
-    $('bpm-value').innerText = $('bpm').value;
+        $('track').innerText = `${info.title} — ${info.artist} · ${info.key} · ${info.time_signature} · ${info.bpm} BPM`;
+        $('bpm').value = info.bpm;                           // 80~140 밖이면 슬라이더가 끝값으로 맞춘다
+        $('bpm-value').innerText = $('bpm').value;
 
-    // 악보: 구간마다 한 줄, 마디마다 한 칸
-    const sheet = $('sheet');
-    sheet.innerHTML = '';
-    cells = [];
-    for (const section of song.sections) {
-        const row = document.createElement('div');
-        row.className = 'row';
-        const name = document.createElement('h3');
-        name.textContent = section.section;
-        row.append(name);
-        for (const bar of section.progression) {
-            const cell = document.createElement('div');
-            cell.className = 'bar';
-            cell.textContent = bar.chord;
-            const tag = bars[cells.length].tag;                // cells 와 bars 는 같은 순서
-            if (tag) {
-                const mark = document.createElement('small');
-                mark.className = 'tag';
-                mark.textContent = `♪${tag.name}`;
-                mark.style.color = tagColor(tag);   // 같은 글자 = 같은 색
-                cell.append(mark);
+        // 악보: 구간마다 한 줄, 마디마다 한 칸
+        const sheet = $('sheet');
+        sheet.innerHTML = '';
+        cells = [];
+        for (const section of song.sections) {
+            const row = document.createElement('div');
+            row.className = 'row';
+            const name = document.createElement('h3');
+            name.textContent = section.section;
+            row.append(name);
+            for (const bar of section.progression) {
+                const cell = document.createElement('div');
+                cell.className = 'bar';
+                cell.textContent = bar.chord;
+                const tag = bars[cells.length].tag;                // cells 와 bars 는 같은 순서
+                if (tag) {
+                    const mark = document.createElement('small');
+                    mark.className = 'tag';
+                    mark.textContent = `♪${tag.name}`;
+                    mark.style.color = tagColor(tag);   // 같은 글자 = 같은 색
+                    cell.append(mark);
+                }
+                row.append(cell);
+                cells.push(cell);
             }
-            row.append(cell);
-            cells.push(cell);
+            sheet.append(row);
         }
-        sheet.append(row);
+        $('play').disabled = false;
+    } catch (error) {
+        if (version === loadVersion) showError(error);
     }
 }
 
@@ -207,12 +231,12 @@ export default async function main() {
         $('steps').append(el);
     }
 
-    $('play').addEventListener('click', play);
+    $('play').addEventListener('click', function () { play().catch(showError); });
     $('stop').addEventListener('click', stop);
     $('bpm').addEventListener('input', function () { $('bpm-value').innerText = $('bpm').value; });
     $('cutoff').addEventListener('input', function () { $('cutoff-value').innerText = $('cutoff').value; });
     $('song').addEventListener('change', function () {
-        loadSong($('song').value).catch(showError);
+        loadSong($('song').value);
     });
     $('pattern').addEventListener('change', function () {
         const problem = checkPattern($('pattern').value);
@@ -222,11 +246,7 @@ export default async function main() {
         }
     });
 
-    try {
-        await loadSong($('song').value);
-    } catch (error) {
-        showError(error);
-    }
+    await loadSong($('song').value);
 }
 
 // 곡을 불러오다 실패하면 옛 악보도 지운다. 고장 난 곡은 재생하지 않는다

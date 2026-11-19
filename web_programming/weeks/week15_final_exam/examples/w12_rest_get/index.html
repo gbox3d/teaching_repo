@@ -1,5 +1,11 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GET으로 서버 방명록 읽기</title><link rel="stylesheet" href="styles.css">
-<script src="config.example.js" defer></script><script src="view.js" defer></script><script src="app.js" defer></script></head>
-<body><h1>GET으로 서버 방명록 읽기</h1><button id="reload" type="button">목록 불러오기</button><div id="notice" role="status"></div><ul id="list"></ul></body></html>
+<title>GET으로 서버 방명록 읽기</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+<link rel="stylesheet" href="shared/examples.css">
+<script src="api-settings.js" defer></script><script src="app.js" defer></script></head>
+<body><main class="teaching-example"><h1>GET으로 서버 방명록 읽기</h1><details><summary>API 설정</summary>
+<form id="api-settings-form">
+<label for="api-base-url">API 주소</label><input class="w3-input w3-border" id="api-base-url" type="url" required>
+<label for="api-public-key">공개 키</label><input class="w3-input w3-border" id="api-public-key" type="password" autocomplete="off" required>
+<label for="api-book-id">방명록 번호</label><input class="w3-input w3-border" id="api-book-id" pattern="[a-z0-9_-]{1,40}" required>
+<button class="w3-button w3-teal" type="submit">설정 적용</button><p id="api-settings-notice" role="status"></p></form></details><button class="w3-button w3-teal" id="reload" type="button">목록 불러오기</button><p id="notice" role="status"></p><ul id="list"></ul></main></body></html>

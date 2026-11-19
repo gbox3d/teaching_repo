@@ -2,77 +2,45 @@
 
 # 4주차 — CSS와 반응형 UI
 
-이번 주는 부품을 하나씩 본다. 비교 예제 13개(부록 ex14 는 선택)를 열어 값을 바꿔 보고, 마지막에 `styles.css`를 그 부품으로 조립한다.
-작년 수업과 같은 방식이다. 예제 하나에 주제 하나. 값 하나만 다른 형제를 나란히 놓고 차이를 눈으로 본다. 다른 주제의 속성은 섞지 않고, 상자는 배경색으로만 구분한다.
-이번 주부터 주마다 새 저장소를 만든다. 이번 주 저장소는 `web-week04` 이고, 지난주 완성본에서 시작한다.
-
-## 이번 주 질문
-
-> 메뉴 세 개를 가로로 놓고, 좁은 화면에서는 세로로 세우려면 무엇을 알아야 하나?
-
-답은 속성 이름 몇 개가 아니다. 세 가지 원리다.
-`display: flex` 는 **부모**에 쓴다. `flex-direction` 이 **주축**을 정한다. `@media` 는 조건이 맞을 때만 뒤 규칙을 살린다.
-이 세 줄을 이해하면 조합은 스스로 만들 수 있다.
+3주차의 세 페이지에 자체 CSS를 연결한다. 비교 예제 13개와 선택 부록 ex14는 그대로 제공한다. 강의자가 비교와 조립을 시연하고 학생은 제공 파일의 지정된 값만 바꾼다. W3.CSS는 7주차에 도입한다.
 
 ## 학습 목표
 
-1. 선택자가 맞아야 규칙이 적용된다. 겹치면 클래스가 태그를 이기고, 같은 선택자를 두 번 쓰면 뒤가 이긴다.
-2. 줄을 차지하는지는 태그가 아니라 `display` 가 정한다. `padding`·`border`·`margin` 은 서로 다른 층이다.
-3. `max-width` 는 창이 좁으면 같이 줄고, `margin` 의 `auto` 는 남는 폭을 가져간다(양쪽이면 반씩 → 가운데). `text-align` 은 상자가 아니라 상자 안 글자를 옮긴다.
-4. flex 는 부모·주축·교차축으로 설명한다. `justify-content` 는 주축, `align-items` 는 교차축이다. `flex-wrap`·`gap` 은 부모에, `flex: 1` 은 자식에 쓴다.
-5. `@media (max-width: 600px)` 안의 규칙은 조건이 맞을 때만 살아나 앞 규칙을 덮는다.
+선택자와 박스모델을 읽고 색·여백·최대 폭을 바꾼다. flex의 부모·주축·교차축을 구분하고, 600px 이하에서 메뉴를 세로로 배치한다. `max-width`와 `margin: 0 auto`의 역할을 화면에서 확인한다.
 
-## 이번 주 결과물
+## 수업 전 준비
 
-```text
-[캡처 1] https://student01.github.io/web-week04/
-         DevTools 기기 모드 375px
-         메뉴 홈 / 내 정보 / 방명록 이 세로로 한 줄씩
-         소개 문단과 취미 목록이 테두리 있는 흰 카드
-         ← 주소창과 폭 375 표시가 함께 보이게 찍는다
-```
-
-- 제출은 이 캡처 **한 장**이다. 1280px 화면은 확인용이다.
-- 이번 주 저장소 `web-week04` 의 모양은 아래와 같다. 비교 예제는 `ex/` 안에 예제마다 폴더 하나(`index.html`·`styles.css`)로 저장하고 값을 바꾼 채로 올린다. 기록물·표는 없다. 산출물은 올린 파일과 화면이다.
-- `student01` 은 예시 아이디다. 본인 GitHub 아이디로 바꿔 읽는다.
-
-```text
-web-week04/
-  index.html  about.html  guestbook.html  styles.css  app.js  images/   ← 지난주 완성본에서 시작, 2일차에 조립
-  ex/ex01/ … ex/ex13/                                                  ← 비교 예제(폴더마다 index.html·styles.css, 값을 바꿔 보는 실험)
-```
+- 새 폴더와 저장소 `web-week04`는 수업 전에 준비한다. 3주차 `my-web` 파일을 `.git` 없이 복사한다. 받지 못한 학생에게는 [3주차 완성본](../week03_semantic_html/examples/day2/)을 배부한다.
+- 강의자는 이번 주 [제공 완성본](examples/day2/web-week04/)의 CSS·세 HTML을 배부한다. 학생의 소개·취미·가상 정보는 보존하고, CSS 연결과 홈의 `class="card"` 세 곳을 미리 반영한다. 전체 조립은 강의자 시연이다.
+- 비교 폴더 ex01~ex14도 `web-week04/ex/`에 미리 배부한다. 수업 중 파일별 Raw 다운로드·새 저장소 생성은 하지 않는다.
+- VS Code·Chrome과 파일 또는 준비된 localhost 주소를 확인한다. `app.js`는 보존하지만 HTML에서 연결하지 않는다.
+- 실명·학번·전화번호·실제 이메일 대신 별칭과 `student01@example.com`을 쓴다. Git 작업은 2주차에 배운 순서를 반복한다.
 
 ## 2일 수업 흐름
 
-| 일차 | 설명 30분 | 실습 60분 | 결과 |
+| 차시 | 강의·시연 60분 | 학생 실습 30분 | 확인 결과 |
 |---|---|---|---|
-| 1일차 | 이번 주 방식(예제 폴더 하나에 `index.html`·`styles.css`) → ex01 선택자 → ex02 display → ex03 박스모델 → ex04 width·max-width → ex05 margin auto → ex06 text-align | `web-week04` 폴더에 지난주 파일 넣기 → `ex/` 에 예제 폴더 여섯 개(파일 열두 개) 저장 → 값 바꿔 보기 → 새 저장소 `web-week04` 에 올리고 Pages 켜기 | 공개 주소와 `ex/` 예제 폴더 여섯 개(확인용) |
-| 2일차 | flex 원리 다섯 줄 → ex07 direction → ex08 justify → ex09 align → ex10 wrap → ex11 gap → ex12 flex: 1 → ex13 @media → 조립표 | 예제 폴더 일곱 개 값 바꿔 보기 → `styles.css` 조립 → 1280·375 확인 → 올리기 | 캡처 1 |
+| 4-1 | 준비 5, 선택자 15, 박스모델 15, max-width·margin 15, 비교 시연 5, 안내 5 | ex01·ex03 각 1값 10, 기존 CSS 색·여백·폭 3곳 15, 확인 5 | 기존 HTML을 꾸민 화면 |
+| 4-2 | 준비 5, flex 부모·축 20, gap·정렬 10, media 15, 조립 시연 5, 안내 5 | flex 방향·정렬 2값 10, nav·media 5줄 이내 12, 375/1280px 확인·캡처 8 | 좁은 폭에서 세로 메뉴 |
 
-각 수업은 `설명·시연 30분 + 실습 60분` 이다. 먼저 끝난 학생은 [실습지](lab.md)의 "먼저 끝났다면"을 한다.
+첫 5분에는 파일과 실행 상태만 확인한다. 학생은 [실습지](lab.md)의 필수 항목을 수행하고 로컬 화면으로 확인한다. 공개 업로드와 Pages 확인은 수업 뒤 정리다. 비교 예제 전부 수정과 CSS 전문 재입력은 필수가 아니다.
 
-## 준비
+## 결과물과 완료 기준
 
-- 지난주 완성본. 내 3주차 저장소(`my-web`) GitHub 화면 › **Code › Download ZIP** 으로 받는다. 못 받으면 교재 [3주차 examples/day2/](../week03_semantic_html/examples/day2/) 파일을 쓴다
-- VS Code, Chrome(DevTools), Git, GitHub 계정
-- 이번 주에 만드는 폴더는 `web-week04` 하나. 고치는 파일은 `styles.css` 와 세 페이지의 `link` 한 줄씩, `index.html` 의 `class="card"` 세 곳
-- `app.js` 는 열지 않는다. 5주차에 비우고 다시 쓴다
-- 공개 저장소·공개 페이지·캡처에 실명·학번·전화번호·실제 이메일을 넣지 않는다. 예시는 `student01`, `student01@example.com` 이다
+- 1일차는 ex01·ex03의 지정 값과 사이트 CSS의 색·여백·폭을 바꿔 본 화면을 확인한다.
+- 2일차는 1280px의 가로 메뉴와 375px의 세로 메뉴를 확인한다. 세 페이지 모두 가로 넘침이 없어야 한다.
+- 375px 홈 화면 캡처 한 장을 제출한다. 주소창과 기기 모드 폭이 보이게 찍는다. 파일 주소 또는 localhost도 인정한다.
+- 수업 뒤 `web-week04`에 업로드하고 `https://student01.github.io/web-week04/`를 확인한다. `student01`은 본인 아이디로 바꾼다.
 
-## 이번 주 용어
+```text
+web-week04/
+  index.html  about.html  guestbook.html  styles.css  app.js  images/
+  ex/ex01/ … ex/ex14/   ← 제공 비교 파일, 지정 항목만 수정
+```
 
-| 한국어 | English | 中文 |
-|---|---|---|
-| 선택자 | selector | 选择器 |
-| 규칙 | rule | 规则 |
-| 박스모델 | box model | 盒模型 |
-| 컨테이너 · 자식 | container · item | 容器 · 子项 |
-| 주축 | main axis | 主轴 |
-| 교차축 | cross axis | 交叉轴 |
-| 줄 넘김 | wrap | 换行 |
-| 화면 폭 조건 | media query | 媒体查询 |
+## 비교 예제와 시연 범위
 
-## 이번 주 비교 예제
+ex01·ex03은 1일차 필수, ex07·ex08은 2일차 필수 비교다. 나머지는 강의자 시연이고 추가 값 변경은 선택이다. ex14는 선택 부록이다.
 
 예제마다 폴더 하나에 내 사이트와 같은 이름의 두 파일(`index.html` 화면 · `styles.css` 규칙)을 둔다. `index.html` 을 열고, 규칙은 `styles.css` 에서 본다. `styles.css` 는 `index.html` 의 `<link rel="stylesheet" href="styles.css">` 한 줄이 불러온다.
 첫 형제는 기본값이다(ex13 만 1번이 `@media` 규칙이 있는 상자). 주석은 대안값이다. 주석을 풀거나 값을 바꾸고 저장 → 새로고침으로 차이를 본다.
@@ -92,33 +60,17 @@ web-week04/
 | [ex11/index.html](examples/day2/ex11/index.html) + [styles.css](examples/day2/ex11/styles.css) | gap 없음 / `gap: 16px` / `gap: 32px` | 자식과 자식 사이 간격. 사이는 자식 하나가 정할 수 없으니 부모에 쓴다 | `gap16` 을 frame 에서 빼서 자식에 붙여 보기(아무 일도 없다) |
 | [ex12/index.html](examples/day2/ex12/index.html) + [styles.css](examples/day2/ex12/styles.css) | 기본 / 가운데만 `flex: 1` / 셋 다 `flex: 1` | 주축의 남는 공간을 그 자식이 차지한다. 이 속성만 자식에 쓴다 | `flex: 2` 주석 풀기, 3번 가운데에만 `style="flex: 2"` |
 | [ex13/index.html](examples/day2/ex13/index.html) + [styles.css](examples/day2/ex13/styles.css) | `@media (max-width: 600px)` 규칙이 있는 상자 / 없는 상자 | 조건이 맞을 때만 안쪽 규칙이 살아난다. 같은 선택자 두 번 → 뒤가 이김(ex01) | `600px` → `900px`, 기기 모드 375 |
-| [ex14/index.html](examples/day2/ex14/index.html) + [styles.css](examples/day2/ex14/styles.css) (부록, 설명 없음) | `static` / `relative; top; left` / `absolute; right; bottom` | 문서 흐름에서 빼는 두 방법 | `top`·`left`·`right`·`bottom` 값 바꾸기 |
+| [ex14/index.html](examples/day2/ex14/index.html) + [styles.css](examples/day2/ex14/styles.css) (선택 부록) | `static` / `relative; top; left` / `absolute; right; bottom` | 흐름을 유지하는 relative와 흐름에서 빠지는 absolute | `top`·`left`·`right`·`bottom` 값 바꾸기 |
 
 ## 수업 자료
 
-- [슬라이드](slides.md) · 교재 사이트 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week04_responsive_css/index.html
-- [순서대로 따라하기](walkthrough.md)
-- [실습과 제출 안내](lab.md)
-- [예제 설명](examples/README.md) — 1일차 `day1/`(예제 폴더 `ex01/`~`ex06/`, 폴더마다 `index.html`·`styles.css`), 2일차 `day2/`(예제 폴더 `ex07/`~`ex14/` 와 조립 `web-week04/`)
-- 2일차 끝의 `web-week04`(조립 결과): [styles.css](examples/day2/web-week04/styles.css) · [index.html](examples/day2/web-week04/index.html) · [about.html](examples/day2/web-week04/about.html) · [guestbook.html](examples/day2/web-week04/guestbook.html) · [app.js](examples/day2/web-week04/app.js) · [images/profile.png](examples/day2/web-week04/images/profile.png)
-- 실습 페이지(GitHub 주소): https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css
+- [한글 슬라이드](slides.md) · [영문 슬라이드](slides_en.md)
+- [실습과 제출 안내](lab.md) · [따라하기와 전체 코드](walkthrough.md) · [예제 안내](examples/README.md)
+- 교재 덱: https://gbox3d.github.io/teaching_repo/webprg/decks/week04_responsive_css/index.html
 
-## 완료 기준
+## 다음 주 인계
 
-- [ ] GitHub 에 `web-week04` 저장소가 있고 Pages 가 켜져 있다.
-- [ ] `ex/` 에 예제 폴더가 있고, 각 예제에서 값을 하나 이상 바꿔 올렸다.
-- [ ] 세 페이지의 `<head>` 에 `<link rel="stylesheet" href="styles.css">` 가 있다.
-- [ ] 공개 주소 `https://student01.github.io/web-week04/` 에서 배경색·제목 색·메뉴 색이 보이고, 소개 문단과 취미 목록이 테두리 있는 흰 카드로 보인다.
-- [ ] 1280px 에서 메뉴 세 개가 가로 한 줄이고, 가로 스크롤 막대가 생기지 않는다.
-- [ ] DevTools 기기 모드 375px 에서 메뉴 세 개가 세로로 선다.
-- [ ] 375px 화면 캡처 1장을 제출한다.
-
-## 다음 수업 연결
-
-이번 주까지 세 페이지는 **보이는 것**만 바뀌었다. 버튼도 입력 칸도 아직 아무 동작을 하지 않는다.
-5주차에는 새 저장소 `web-week05` 를 만든다. 시작점은 이번 주 `web-week04` 의 파일이다.
-그 위에서 `app.js` 를 비우고 다시 써서 JavaScript 를 시작한다. `index.html` 에 `<script src="app.js" defer></script>` 줄을 되살린다.
-`styles.css` 는 그대로 가져간다. `.card` 의 색은 6주차 다크 모드에서 다시 쓴다. 결과는 새 공개 주소 `https://student01.github.io/web-week05/` 에서 확인한다.
+5주차는 이 결과를 `.git` 없이 새 `web-week05`에 복사하고 `styles.css`를 이어 쓴다. `app.js`를 다시 작성하여 제공 출력 버튼에서 결과를 확인한다. 4주차 방명록에는 글 추가·저장 기능이 없다. 이메일 기본 검사는 브라우저가 수행하고, 유효한 폼을 제출하면 현재 문서를 GET으로 다시 열어 입력이 초기화된다. 화면에 글을 추가하는 기능은 7주차에 다룬다.
 
 ## 공식 참고 자료
 

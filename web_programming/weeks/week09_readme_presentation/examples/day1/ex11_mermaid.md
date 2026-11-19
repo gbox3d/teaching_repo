@@ -18,3 +18,5 @@ flowchart LR
   home --> guestbook[방명록]
   about --> guestbook
 ```
+
+현재 VS Code 기본 미리 보기와 GitHub는 mermaid 코드 블록을 도표로 렌더한다. text 블록은 코드 그대로다. [VS Code 안내](https://code.visualstudio.com/docs/languages/markdown#_mermaid-diagram-rendering) · [GitHub 안내](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams)

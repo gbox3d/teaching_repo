@@ -3,58 +3,57 @@ marp: true
 theme: default
 paginate: true
 header: "Web Programming · Week 5"
-footer: "JavaScript Data and Functions · see the principle through comparison examples, then assemble at the end"
+footer: "JavaScript · 60 + 30"
 ---
 
 # JavaScript Data and Functions
 
-The pages you made through Week 4 changed only in **what you see**. This week is JavaScript.
+Keep Week 4's three pages and custom CSS; display a greeting on the home page.
 
-This week: look at **10 comparison examples** one at a time, then **assemble** `index.html` and `app.js` in a new repository, `web-week05`, built on last week's files.
+- Each session: 60 min lecture/demo + 30 min student lab
+- Day 1 required: four values in ex03/ex05 and one error repair
+- Day 2 required: one condition, one greeting return, one output line
+- Keep all ten comparison examples; other edits are demos or optional.
 
-- JavaScript runs **inside the browser**. It starts running the moment you open the page.
-- Comparison results show in **F12 › Console** (writing on screen is ex09).
-- One example = one idea. Siblings that do the same thing a different way sit side by side.
-- The lab is about **changing values** and watching. Guess what will change first, then check.
-
-Same order as last year's examples: a button and `console.log` → a counter → an adder page (two inputs and a button that adds two numbers).
+Buttons and screen output are supplied. Use the Console for execution order and errors.
 
 ---
 
-# Day 1 — Scripts and Values
+# Day 1: Scripts and Values
 
-`30 min explanation & demo → 60 min lab`
+| Lecture/demo | Time |
+|---|---|
+| Check prepared files and server | 0–5 min |
+| Execution order and defer | 5–15 min |
+| let/const | 15–30 min |
+| Numbers and strings | 30–45 min |
+| Template literals | 45–55 min |
+| Lab handoff | 55–60 min |
 
-1. ex01 — lines that run on open vs. lines that run on click
-2. ex02 — script position: runs the instant it's read; `defer` waits until reading is done
-3. ex03 — `let` · `const` · `var`: can you assign again?
-4. ex04 — `+` means add or join; an input's `value` is always a string
-5. ex05 — template strings: only `${}` inside backticks gets computed
+Then a 30-minute student lab. var and parseInt are optional comparisons.
 
 ---
 
-## Day 1 · 0–4 min — Where JS Runs: Screen and Console
+## Day 1, 0–5 min: Preparation Check
+
+Prepare Week 4 files, the new web-week05 repository, and ex01–ex10 before class.
+Node.js 24+ and server.mjs are also prepared in advance. No new Git instruction.
 
 ```text
-ex01/index.html ← the file you open: the screen with buttons and inputs
-ex01/app.js     ← the code, loaded by <script src="app.js" defer> in <head>
-Console         ← console.log(value) prints here. Errors: red line + file:line
-document        ← the whole page the browser has loaded
+ex/ex03/index.html  → open in the browser
+ex/ex03/app.js      → edit and save
+Screen button      → check the result
+F12 > Console      → logs, errors, file:line
 ```
 
-- Week 1's three languages: HTML is **content**, CSS is **appearance**, JS is **behavior**.
-- The code in `app.js` runs top to bottom, one line at a time.
-- Today's examples print every result to the Console with `console.log` (screen writing is ex09).
-- Console: right-click › Inspect, or F12 (laptop: Fn+F12; macOS: ⌘+Option(⌥)+I).
-
-**A syntax mistake or undefined name shows a red line. A wrong result alone (ex04's 12) stays silent — so read the values in the Console too.**
+HTML supplies content, CSS appearance, JavaScript behavior.
+Save and reload the page from the same folder.
 
 ---
 
-## Day 1 · 4–10 min — ex01: Run Now vs. Run on Click
+## Day 1, 5–10 min: ex01 Execution Order
 
-[examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [app.js](examples/day1/ex01/app.js)
-Siblings: Console A (on open) / B (every click) / C (right after A)
+[Run ex01](examples/day1/ex01/index.html) · [Notes](examples/day1/ex01/README.md)
 
 ```js
 console.log('A. 페이지를 열자마자 실행된다');
@@ -64,273 +63,267 @@ document.getElementById('btn').addEventListener('click', function () {
 console.log('C. A 바로 다음에 실행된다. B 보다 먼저');
 ```
 
-- On open: A → C; B on every click. Last year's `() => {}` means the same (comment).
-- Try it: click 3 times → only B grows. Move C inside `{ }` → C prints per click.
-
-**A script runs top to bottom, once. `addEventListener`'s code is only registered — it runs later, per click.**
+Excerpt only; screen output in the actual file is supplied support code.
+Initially A, C. Three clicks append B three times.
+Registering a click function does not execute it. Students write events in Week 6.
 
 ---
 
-## Day 1 · 10–16 min — ex02 Script Position: Read Now, defer Later
+## Day 1, 10–15 min: ex02 defer
 
-[examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [app.js](examples/day1/ex02/app.js)
-Siblings: 1. script in head / 2. script at end of body / 3. file in head with `defer`
+[Run ex02](examples/day1/ex02/index.html) · [Notes](examples/day1/ex02/README.md)
 
-```text
-head <script>        console.log('1. …', document.body);
-head                 <script src="app.js" defer></script>
-body                 <h1>…</h1> <p>…</p>
-body-end <script>    console.log('2. …', document.body);
+```html
+<script src="app.js" defer></script>
 ```
 
-- Console order: 1 (`null` = not there yet) → 2 → 3. The body isn't read yet at step 1.
-- Try it: remove `defer` → No. 3 prints `null` too, order 1→3→2. It runs the instant the head reads it.
+- Normal script in head: document.body is null before body is parsed.
+- Script at the end of body: body exists.
+- Deferred external script: runs after HTML parsing.
 
-**A script runs the instant the browser reads that line. `defer` waits until the HTML is fully read.**
+Output: `1: null → 2: body → 3: body`.
+Instructor removes defer: `1: null → 3: null → 2: body`.
+Restore defer afterwards. The output-button connection is supplied.
 
 ---
 
-## Day 1 · 16–21 min — ex03 let · const · var: Reassignable?
+## Day 1, 15–30 min: ex03 let/const
 
-[examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [app.js](examples/day1/ex03/app.js)
-Siblings: 1. `let` / 2. `const` / 3. `var` — each button adds 1
+[Run ex03](examples/day1/ex03/index.html) · [Notes](examples/day1/ex03/README.md)
 
 ```js
-const b = 0;    // can't be reassigned (let a, var c can)
-document.getElementById('btn-const').addEventListener('click', function () {
-    b = b + 1;  // this line runs on click, and execution stops right here
-});
+let a = 0;
+const b = 0;
+// Inside the click function
+b = b + 1;
 ```
 
-- No. 2 → `Uncaught TypeError: Assignment to constant variable.` `app.js:13`.
-- Try it: `const b` → `let b` → No. 2 counts up. No error on open.
+let permits reassignment. const does not.
+Clicking const produces `Assignment to constant variable.`
+The remaining statements in that callback do not run.
 
-**`let` and `var` can be reassigned; `const` can't. The error hits when that line runs; the lines below it never run.**
+Students set a=10 and b=20. Repair const to let, reload, click: 20→21.
+var is optional and excluded from required implementation and assessment.
 
 ---
 
-## Day 1 · 21–26 min — ex04 +: Add or Join?
+## Day 1, 30–45 min: ex04 Numbers and Strings
 
-[examples/day1/ex04/index.html](examples/day1/ex04/index.html) · [app.js](examples/day1/ex04/app.js)
-Siblings: `1 + 2` / `'1' + '2'` / `'1' + 2` / `Number('1') + 2` / `parseInt('12px') + 1` / inputs No. 6·7
+[Run ex04](examples/day1/ex04/index.html) · [Notes](examples/day1/ex04/README.md)
 
 ```js
-1 + 2                                     // number + number → adds
-'1' + 2                                   // one string is enough to join
-num1.value + num2.value                   // an input's value is always a string
-Number(num1.value) + Number(num2.value)   // convert to numbers, then add
+1 + 2                                    // 3
+'1' + 2                                  // '12'
+num1.value + num2.value                   // join strings
+Number(num1.value) + Number(num2.value)   // add numbers
 ```
 
-- Console: 3 · 12 · 12 · 3 · 13. Types: number · string · string · number · number.
-- Try it: fields 1·2 → No. 6 `12`, No. 7 `3`. No. 5 → `Number('12px')` → `NaN` (still a number).
+Inputs 1 and 2 produce 12 or 3; inputs 10 and 5 produce 105 or 15.
+An input value is a string. Convert with Number before addition.
 
-**`+` adds numbers, joins strings. An input's `value` is always a string.**
+parseInt('12px') returns 12; Number('12px') returns NaN.
+This comparison is optional, not required implementation or assessment.
 
 ---
 
-## Day 1 · 26–28 min — ex05 Template Strings: ${} Works Only in Backticks
+## Day 1, 45–55 min: ex05 Template Literals
 
-[examples/day1/ex05/index.html](examples/day1/ex05/index.html) · [app.js](examples/day1/ex05/app.js)
-Siblings: 1. `+` joins / 2. backticks / 3. `${}` in single quotes / 4. `${hour + 1}`
+[Run ex05](examples/day1/ex05/index.html) · [Notes](examples/day1/ex05/README.md)
 
 ```js
-'안녕하세요, ' + name + '님! 지금은 ' + hour + '시입니다.'   // 1
-`안녕하세요, ${name}님! 지금은 ${hour}시입니다.`   // wrapped in `
-'안녕하세요, ${name}님!'     // wrapped in ' → ${} stays literal text
-`한 시간 뒤는 ${hour + 1}시입니다.`   // inside ${} gets computed
+const name = 'student01';
+const hour = 9;
+`안녕하세요, ${name}님! 지금은 ${hour}시입니다.`
+'안녕하세요, ${name}님!'
+`한 시간 뒤는 ${hour + 1}시입니다.`
 ```
 
-- No. 1, 2 are the same sentence. In No. 3, `${name}` stays literal; No. 4 shows `10시`.
-- Try it: change the `'` in No. 3 to backticks (key below `Esc`). `₩` means switch to English input.
-
-**Only backticks (`` ` ``) compute what's inside `${}`. In quotes, it stays literal text.**
-
----
-
-## Day 1 · 28–30 min — Try It Yourself
-
-[Day 1 lab](lab.md#1일차--스크립트와-값-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
-
-1. Put last week's finished files in a new folder `web-week05`, make example folders `ex01`–`ex05` in `ex/`, and save each `index.html` and `app.js` as **Raw**.
-2. Open each example's `index.html`, change at least one value in its `app.js`, and watch how the Console changes.
-3. Minutes 50–60: create a new repository `web-week05`, push in the same order you learned in Week 2, turn on Pages, and open `…/web-week05/ex/ex01/`.
-
-If a result looks wrong, **open the Console first**. Follow the `file:line` to the right of the red line.
-
-**Explanation total: 4+6+6+5+5+2+2 = 30 min**
+Backticks evaluate ${}; single quotes keep it literal.
+Students set name=student02 and hour=15.
+Click the supplied output button: student02 and 15시. The Console's next hour is 16시.
 
 ---
 
-# Day 2 — Conditions and Functions, Then Assembly
+## Day 1, 55–60 min: Lab Handoff
 
-`30 min explanation & demo → 60 min lab`
+[Day 1 lab](lab.md#1일차-30분-실습) · [Walkthrough](walkthrough.md#1일차)
 
-1. Open it from a web server on your PC: file:// vs. http://localhost
-2. ex06 · ex07 — a comparison is `true`/`false`; `if` runs only the first match
-3. ex08 — `function`: define · call · `return`
-4. ex09 · ex10 — find first, then change; `new Date()` holds the current time
-5. Assembly — gather two lines of `index.html` and the `app.js` of `web-week05` from the ex files
+| 30-minute lab | Student work |
+|---|---|
+| 0–15 min | Four values: a/b in ex03, name/hour in ex05 |
+| 15–25 min | Run output buttons; repair const b to let b |
+| 25–30 min | Verify 11, 21 and student02, 15시 |
 
----
-
-## Day 2 · 0–4 min — A Web Server on Your PC: file:// vs. localhost
-
-Save [server.mjs](../../tools/static-server/server.mjs) in `web-week05` → `node server.mjs` → `http://localhost:8000/` · [How to use](../../tools/static-server/README.md)
-
-```text
-200 GET /
-200 GET /styles.css
-200 GET /app.js
-200 GET /images/profile.png
-404 GET /favicon.ico        ← tab-icon request. Fine if missing
-```
-
-- Double-click → `file:///…`. This week's files behave the same either way. Stop: Ctrl+C.
-- Later, `fetch` and `type="module"` need a server or a public address.
-
-**The browser gets the HTML, then requests each CSS, JS, and image file separately (Week 1).**
+Output support and button connections are supplied.
+Students do not modify every comparison example.
+Public upload is after-class cleanup.
 
 ---
 
-## Day 2 · 4–9 min — ex06 Comparisons: true or false
+# Day 2: Conditions and Functions
 
-[examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [app.js](examples/day2/ex06/app.js)
-Siblings: `1 == '1'` / `1 === '1'` / `12 >= 12` / `12 > 12` / `'10' > '9'` / `Number('10') > Number('9')`
+| Lecture/demo | Time |
+|---|---|
+| Check supplied starter | 0–5 min |
+| Comparisons and if | 5–20 min |
+| Functions, return, supplied date line | 20–40 min |
+| querySelector and textContent | 40–50 min |
+| Server requests | 50–55 min |
+| Lab handoff | 55–60 min |
+
+Then a 30-minute student lab. HTML wiring and function scaffolding are supplied.
+
+---
+
+## Day 2, 5–10 min: ex06 Comparisons
+
+[Run ex06](examples/day2/ex06/index.html) · [Notes](examples/day2/ex06/README.md)
 
 ```js
-1 == '1'                     // only checks the value, calls it equal
-1 === '1'                    // must match in type (number vs. string) too
-12 >= 12                     // greater than or equal
-'10' > '9'                   // strings compare from the first character: '1' < '9'
+1 === '1'   // false
+12 >= 12    // true
+12 > 12     // false
 ```
 
-- Results: true · false · true · false · false · true. A single `=` is assignment, not comparison.
-- Try it: No. 2 → `1 === 1`, No. 4 → `12 > 11` → which turn true?
+A comparison returns true or false. === requires matching type and value.
+Use hour >= 12 to include noon in the afternoon.
+A single = assigns: if (hour = 12) does not compare hours.
 
-**A comparison's result is `true`/`false`. `===` needs matching types too. Strings compare from the first character.**
+== and lexicographic string comparisons are demos/optional.
+== performs applicable type conversions; “checks only the value” is not a general rule.
 
 ---
 
-## Day 2 · 9–14 min — ex07 if / else: First Match Wins
+## Day 2, 10–20 min: ex07 if/else
 
-[examples/day2/ex07/index.html](examples/day2/ex07/index.html) · [app.js](examples/day2/ex07/app.js)
-Siblings: 1. `if` alone / 2. `if/else` / 3. `else if` (largest first) / 4. No. 3, reordered
+[Run ex07](examples/day2/ex07/index.html) · [Notes](examples/day2/ex07/README.md)
 
 ```js
 if (hour >= 12) {
-    m4 = '오후';     // 20 is true here too → the lines below are never checked
-} else if (hour >= 18) {
-    m4 = '저녁';     // this line can never be reached
+    m2 = '오후';
+} else {
+    m2 = '오전';
 }
 ```
 
-- At 20:00: No. 3 **저녁**, No. 4 **오후**. At 9:00: No. 1 `(담긴 것 없음)`; `else` needs all above false.
-- Try it: change the top `const hour = 20;` to 9 · 12 · 15 → when do the lines disagree?
+9 is morning; 12 and 15 are afternoon.
+An if chain executes the first true branch only.
 
-**Conditions are checked top-down; only the first true one runs, so order matters.**
+Demo: ex07 case 3 checks >=18 first and gives evening at 20.
+Case 4 checks >=12 first and gives afternoon even at 20.
 
 ---
 
-## Day 2 · 14–19 min — ex08 function: Define · Call · return
+## Day 2, 20–35 min: ex08 Functions and return
 
-[examples/day2/ex08/index.html](examples/day2/ex08/index.html) · [app.js](examples/day2/ex08/app.js)
-Siblings: 1. `greetLog`, no `return` / 2. `greet`, has `return` / 3. called with different values
+[Run ex08](examples/day2/ex08/index.html) · [Notes](examples/day2/ex08/README.md)
 
 ```js
-function greetLog(name) { console.log('안녕하세요, ' + name + '님!'); }  // no return
-function greet(name) { return `안녕하세요, ${name}님!`; }             // gives a value back
-const a = greetLog('student01');    // call: prints to the Console, a becomes undefined
-const b = greet('student01');       // call: nothing in the Console, b holds the sentence
+function greet(name) {
+  return `안녕하세요, ${name}님!`;
+}
+greet('student01');
 ```
 
-- Console No. 1 shows `undefined` ("nothing stored yet"); No. 2 shows the sentence. `name` is the value passed in at the call.
-- Try it: add a `return` to `greetLog`. Call `neverCalled();` → one line in the Console.
+Defining a function does not execute it. Call it with parentheses.
+The parameter name receives the value passed at the call.
+return sends a value back to the caller; without it the result is undefined.
 
-**Defining just gives a function a name. Calling it with parentheses is what runs it. No `return` means `undefined` comes back.**
+Students edit one return expression in greet in the supplied starter.
 
 ---
 
-## Day 2 · 19–24 min — ex09: Find, Then Change
+## Day 2, 35–40 min: ex10 Supplied Date Line
 
-[examples/day2/ex09/index.html](examples/day2/ex09/index.html) · [app.js](examples/day2/ex09/app.js)
-Siblings: 1. `getElementById`+`innerText` / 2. `querySelector`+`textContent` / 3. a tag / 4. `value`
+[Run ex10](examples/day2/ex10/index.html) · [Notes](examples/day2/ex10/README.md)
 
 ```js
-const out1 = document.getElementById('out1');   // find by id (no '#')
-const out2 = document.querySelector('#out2');   // find with a CSS selector
-out2.textContent = '2. textContent 로 바꿨다';
-out3.textContent = '<b>3. 굵게 될까?</b>';        // shown as literal text, not a tag
+const hour = new Date().getHours();
 ```
 
-- Click → No. 1, 2 both change (finding method differs). `#` means id (Week 4 ex01). No. 3: `<b>` stays literal; No. 4 uses `value`.
-- Try it: `.textContent` on missing `#out9` → `Cannot set properties of null`.
+Read the hour, from 0 to 23, when the page executes.
+Repeated output clicks show that same value; reload to read it again.
+Other Date methods are optional comparisons.
 
-**Find first, then change it. A missing element gives `null`, and `null` can't be changed.**
+During verification only, temporarily set hour to 9, then 15.
+Check morning/afternoon and restore the current-time expression.
 
 ---
 
-## Day 2 · 24–27 min — ex10 new Date(): The Current Moment
+## Day 2, 40–50 min: ex09 Elements and Text
 
-[examples/day2/ex10/index.html](examples/day2/ex10/index.html) · [app.js](examples/day2/ex10/app.js)
-Siblings: `getHours()` · `getMinutes()` · `getFullYear()` · `getMonth()` · `getMonth() + 1` · `getDay()`
+[Run ex09](examples/day2/ex09/index.html) · [Notes](examples/day2/ex09/README.md)
 
 ```js
-const now = new Date();     // a value holding the date and time when this line ran
-now.getHours()              // ask the value, "what hour is it?"
-now.getMonth()              // month — counted from 0 (January is 0)
-now.getMonth() + 1          // the month number people actually read
+document.querySelector('#greeting').textContent = message;
 ```
 
-- Opened at 8:47 on Sep 28: 8 · 47 · 2026 · 8 · 9 · 1. `getDay()` gives 0 = Sunday.
-- Try it: refresh → new reading. Add a `getSeconds()` line. The assembly's `new Date().getHours()` chains the two lines above.
+querySelector finds an element using a CSS selector; # means id.
+textContent writes text. Even `<b>` is displayed as literal characters.
+A missing id returns null, so textContent assignment fails.
 
-**`new Date()` holds the moment it ran. `.getHours()` is a question you ask that value.**
+Students edit one output expression in the supplied starter.
+getElementById and innerText are optional and excluded from required assessment.
 
 ---
 
-## Day 2 · 27–30 min — Assembly: web-week05 app.js → Lab
+## Day 2, 50–55 min: Supplied Server
+
+Node.js 24+ and [server.mjs](../../tools/static-server/server.mjs) are prepared before class.
+
+```bash
+node server.mjs
+```
+
+Open localhost:8000. HTML, CSS, JS, and images are separate requests.
+Missing files return 404. Favicon requests and request order can vary.
+
+This week's examples also run from file URLs. Inspect HTTP requests on localhost.
+Repair missing preparation first; implementing the server is not a student task.
+
+---
+
+## Day 2, 55–60 min: Three Edits
+
+[Day 2 lab](lab.md#2일차-30분-실습) · [Supplied starter](examples/day2/start/README.md)
+
+| 30-minute lab | Student work |
+|---|---|
+| 0–18 min | One greet return, one hello condition, one textContent output |
+| 18–25 min | Compare hour=9 and 15; restore current time |
+| 25–30 min | Verify on localhost and capture |
+
+HTML defer/greeting, date, function scaffolding, message, and logs are supplied.
+Do not rewrite the whole app.js.
+var, ==, parseInt, and other DOM methods are excluded from required assessment.
+
+---
+
+## Submission and After-Class Cleanup
+
+Make one screenshot during class.
 
 ```text
-<script src="app.js" defer>  <div class="card" id="greeting">  ← ex02 · ex09
-const name · const hour = new Date().getHours();  ← ex03 · ex10
-function greet(name) { return `안녕하세요, ${name}님!`; }  ← ex08 · ex05
-function hello(hour) { if (hour >= 12) … else … }  ← ex07 · ex06
-const message = `${greet(name)} ${hello(hour)}`;  ← ex05 · ex08
-console.log(hour); console.log(message);  ← ex01
-document.querySelector('#greeting').textContent = message;  ← ex09 No. 2
+URL: http://localhost:8000/
+Card: 안녕하세요, student01님! 좋은 아침입니다.
+Console: hour number / matching greeting; no errors
 ```
 
-[Day 2 lab](lab.md#2일차--조건과-함수-그리고-조립-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week05_javascript_data)
-
-1. Save example folders `ex06`–`ex10` in `ex/`, change values in `app.js` (until 33).
-2. Assemble: two lines in `index.html`; empty and rebuild `app.js` in table order.
-3. Check via the server → push (Week 2 steps) → capture card + Console at the public URL.
-
-**Explanation total: 4+5+5+5+5+3+3 = 30 min**
+The afternoon greeting after noon is also correct.
+If unfinished, submit ex01's A/C/B after a click as temporary evidence and finish during the next opening check.
+Upload publicly after class; verify the Pages URL afterwards.
+Keep real names, student IDs, and real email addresses out of public files and captures.
 
 ---
 
-## What to Submit
+## Handoff to Next Week
 
-Submit **one** screenshot at the end of Day 2.
+Prepare the Week 6 folder from this week's finished files before class.
 
-```text
-https://student01.github.io/web-week05/
-Card: 안녕하세요, student01님! 좋은 아침입니다. (Hello, student01! Good morning.)
-F12 Console: two console.log lines (hour as a number / message as a sentence)
-Capture it with the address bar, the card, and the Console all visible
-```
+- Keep three HTML pages, custom CSS, and the image.
+- Keep greet(name), hello(hour), and #greeting.
+- Keep the supplied server.mjs.
+- The static guestbook practices input and does not save messages.
 
-If you open it after 12:00, you'll see `좋은 오후입니다.` (Good afternoon.) instead. Either one is correct.
-If you couldn't finish Day 2, click the button in `…/web-week05/ex/ex01/` and submit a screenshot with A, C, B printed in the Console instead.
-Keep your real name, student ID, and real email out of the screenshot.
-
----
-
-## Next Week Preview
-
-Today's `app.js` runs **once**, when the page loads.
-
-Week 6 starts a new repository, `web-week06`, from today's finished files, and uses the `addEventListener` you saw in ex01 — code that runs on every click.
-It builds on today's `#greeting`, `greet(name)`, and `hello(hour)` to add a "Change Greeting" button and a click counter.
-Dark mode joins too, reusing the `.card` color you picked in Week 4.
+Week 6 adds click events, counts, and dark mode.
+Hand off the [finished files](examples/day2/web-week05/index.html), not the starter app.js.

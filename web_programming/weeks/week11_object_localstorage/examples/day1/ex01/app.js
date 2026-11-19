@@ -13,3 +13,16 @@ const name = '바다';
 const message = '잘 봤습니다';
 const item5 = { name: name, message: message, date: '2026. 11. 11.' };
 console.log('5. item5.name :', item5.name);
+
+// 제공 화면 코드: 실습에서는 위의 객체 값과 속성 이름을 바꾼다.
+const nameInput = document.querySelector('#name');
+const result = document.querySelector('#result');
+nameInput.value = item.name;
+function showResult() {
+    result.textContent = `item.name: ${item.name}\nitem.date: ${item.date}\nitem.nmae: ${item.nmae}\nitem5.name: ${item5.name}`;
+}
+document.querySelector('#apply-button').addEventListener('click', function () {
+    item.name = nameInput.value;
+    showResult();
+});
+showResult();

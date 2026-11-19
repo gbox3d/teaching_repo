@@ -47,6 +47,7 @@ async function loadMessages(book) {
     message.style.whiteSpace = 'pre-wrap';
     const selectButton = document.createElement('button');
     selectButton.type = 'button';
+    selectButton.className = 'w3-button w3-white w3-border';
     selectButton.textContent = '글 수정·삭제';
     selectButton.disabled = busy;
     selectButton.addEventListener('click', function () {

@@ -11,8 +11,8 @@ footer: "Midterm hands-on exam · practice with the problem bank, then the same 
 Practice with a **problem bank** built from what you **actually submitted** in Weeks 1–7, then take the exam on Day 2 with the same problems and new values.
 
 ```text
-Day 1  Practice with the bank, 60 min — the problems for the weeks we covered
-Day 2  Midterm exam — bank problems with changed values (time and count: class notice)
+Day 1  60 min lecture/demo + 30 min practice: two problems
+Day 2  30 min briefing + 60 min exam: four problems with new values
 ```
 
 - Exam problems have the **same text, tasks, and checks** as the bank problems; only the values differ.
@@ -23,7 +23,7 @@ Day 2  Midterm exam — bank problems with changed values (time and count: class
 
 # Day 1 — Practicing with the Problem Bank
 
-`30 min talk and demo → 60 min practice`
+`60 min lecture/demo → 30 min practice: two problems`
 
 1. This week: the bank and the exam — same problems, new values
 2. Reading one problem — w04_box_style
@@ -32,7 +32,7 @@ Day 2  Midterm exam — bank problems with changed values (time and count: class
 
 ---
 
-## Day 1 · 0–8 min — Bank and Exam: Same Problems, New Values
+## Day 1 · 0–15 min — Bank and Exam: Same Problems, New Values
 
 [Problem bank list](examples/README.md) — one problem per Weeks 1–7 submission, seven problems
 
@@ -41,16 +41,16 @@ Day 2  Midterm exam — bank problems with changed values (time and count: class
 | A HTML | [w01](examples/w01_first_page/README.md) first page · [w02](examples/w02_push_repo/README.md) edit and push · [w03](examples/w03_second_page/README.md) new page and link |
 | B CSS | [w04](examples/w04_box_style/README.md) styled box, centered text · [w05](examples/w05_box_position/README.md) box position in a frame |
 | C JavaScript·DOM | [w06](examples/w06_click_text/README.md) button changes text and count |
-| D Forms | [w07](examples/w07_form_line/README.md) read inputs, add one list line each time |
+| D W3.CSS | [w07](examples/w07_form_line/README.md) restyle the guestbook with a CDN and classes |
 
-- The range is **up to the week we covered in class**. The notice says how far.
+- Check the environment for 5 minutes, then read the scope and bank for 10 minutes.
 - The exam uses these bank problems with **changed values only**. Text, tasks, and checks stay the same.
 
 **Solve a bank problem and you have solved the exam problem once.**
 
 ---
 
-## Day 1 · 8–16 min — Reading One Problem: w04_box_style
+## Day 1 · 15–30 min — Reading One Problem: w04_box_style
 
 [w04_box_style problem](examples/w04_box_style/README.md) — six sections, every problem in the same order
 
@@ -70,7 +70,7 @@ Get and push    download with Raw into web-week08/w04_box_style/
 
 ---
 
-## Day 1 · 16–24 min — Checking: Open the Page and F12
+## Day 1 · 30–45 min — Checking: Open the Page and F12
 
 Double-click to open (`file://`), or [server.mjs](../../tools/static-server/server.mjs) → `node server.mjs` → `http://localhost:8000/<problem id>/`
 
@@ -81,36 +81,33 @@ Elements     tags, ids, href, Styles values, the box diagram (padding·border·c
 ```
 
 - Every check says where to look. Open that place and match every character.
-- Box problems (w04·w05): the Elements box diagram and the position on screen. Button and form problems (w06·w07): click and read the Console.
+- Box problems (w04·w05): inspect Elements. Button problem (w06): test clicks. W3.CSS problem (w07): check the CDN request and applied classes.
 - PCs without Node open the file by double-click. Only the Status numbers are missing then.
 
-**Checks are results you see on screen and in F12. Same result, any code shape.**
+Also check required properties/classes and files that must remain unchanged.
 
 ---
 
-## Day 1 · 24–30 min — Today's Order
+## Day 1 · 45–60 min — Today's Order
 
 [Day 1 lab](lab.md#1일차--문제-은행으로-연습하기-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week08_midterm)
 
-```text
-0–5    folder web-week08 · server.mjs · check the range in the bank list
-5–15   w01 first page        15–25  w04 styled box        25–35  w05 box position
-35–45  w03 new page and link   45–55  w02 edit and push (repository and push check)
-55–60  note the checks you missed · classes that learned JavaScript go on to w06·w07
-```
+The final 15 lecture minutes cover error cases (10) and practice instructions (5).
 
-- Download problem folders into `web-week08/<problem id>/` with **Raw**. Do not download `README.md`.
-- Ten minutes per problem. When time is up, note what is left and move on. This rehearses "skip when stuck".
+| Practice time | Activity |
+|---|---|
+| 0–10 min | One problem you need to review |
+| 10–20 min | w06 DOM or w07 W3.CSS |
+| 20–30 min | Repeat, capture, explain, and record unfinished checks |
 
-**No points today. The goal is to know where you got stuck.**
-
-**Talk total: 8+8+8+6 = 30 min**
+Prepare files and the repository before class; upload practice work after class.
+Remaining bank problems are optional. Lecture 60 min + required practice 30 min.
 
 ---
 
 # Day 2 — Midterm Exam
 
-`30 min talk and demo → exam (time in the notice)`
+`30 min rules/environment/submission briefing → 60 min exam`
 
 1. Exam rules — the class notice decides
 2. Reading order — mark where the values differ
@@ -122,7 +119,7 @@ Elements     tags, ids, href, Styles values, the box diagram (padding·border·c
 ## Day 2 · 0–8 min — Exam Rules: the Class Notice Decides
 
 ```text
-Problems  2–4 bank problems with changed values     Time    30–60 min (start and end in the notice)
+Problems  one each from A–D, four in total     Time    60 min (start and end in the notice)
 Range     up to the week covered in class            Submit  LMS answer box or repository web-week08/exam/
 ```
 
@@ -143,7 +140,7 @@ exam problem  box 320×200 · navy  · yellow     · 3px dashed white · padding
 ```
 
 1. Read the whole problem and mark the values that differ from the bank problem.
-2. If there are starter files, download them into the problem folder as on Day 1.
+2. Open files supplied during the briefing. Implementation runs from minute 3 to 45.
 3. Do the tasks one chunk at a time → save → reload → Console.
 4. Match the checks one by one. If one fails, go back to the task it points to.
 
@@ -153,7 +150,7 @@ exam problem  box 320×200 · navy  · yellow     · 3px dashed white · padding
 
 ## Day 2 · 16–24 min — What Goes in the Answer: Code, Screenshots, Explanation
 
-[Rubric](rubric.md) — results (checks) about 60% · evidence (screenshots) about 20% · explanation about 20%
+[Rubric](rubric.md): A HTML 4 · B CSS 4 · C DOM 5 · D W3.CSS 3 · E submission/Console 4
 
 ```text
 ① Code          the whole edited file, or code where the change is clear
@@ -165,7 +162,7 @@ exam problem  box 320×200 · navy  · yellow     · 3px dashed white · padding
 - One cause is deducted once. Attempts and explanations earn points even without a running result.
 - Example explanation: "In row direction, `justify-content` handles horizontal and `align-items` vertical."
 
-**We grade results, screenshots, and explanations, not code shape.**
+Within each A–D score: results 60% · screenshots 20% · explanation 20%.
 
 ---
 
@@ -174,7 +171,8 @@ exam problem  box 320×200 · navy  · yellow     · 3px dashed white · padding
 [Day 2 lab](lab.md#2일차--중간-실기-공지한-시간) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week08_midterm)
 
 ```text
-5 min before the end   check that every problem has code → screenshots → explanation
+45–55 min              repeat behavior, check Console/code/screenshots/explanation
+55–60 min              submit
 LMS method             paste in that order into the answer box and submit
 Repository method      git add . → git commit -m "midterm end" → git push → public URL · repo URL · Commits tab screenshot
 ```
@@ -198,7 +196,7 @@ Repository        ① public URL https://student01.github.io/web-week08/exam/
                   ③ one Commits tab screenshot — top commit's hash and time visible
 ```
 
-Day 1 practice folders are not submitted and are not graded.
+The two Day 1 practice problems are not graded.
 Keep real names, student IDs, and real emails out of screenshots. The deadline is the time in the notice.
 
 ---
@@ -209,4 +207,5 @@ Week 9 is the **Project 1 presentation**.
 
 Not this week's problem folders, but **your own site** built week by week in Weeks 3–7, shown at its public URL for two minutes.
 Page navigation → styled boxes → buttons and the form (for classes that learned them) → the GitHub **Commits** tab.
-The report is the first `README.md` on the repository front page: public URL, pages, features, screenshots, and what you learned.
+Continue the Week 7 site and add its README. Do not replace it with exam files.
+Classes of 31 or more use recorded demos and selected live presentations.

@@ -72,11 +72,17 @@ Canvas editor
 | 로컬 파일 선택 | 사람 전용 | 파일 picker를 직접 시작 |
 | 최종 다운로드 | 사람 전용 | 저장 버튼을 직접 누름 |
 
-공용 명령은 allowlist에 이름과 <code>reversible</code>을 공개한다. 명령은 앞 명령이 끝난 뒤 다음 명령을 시작하도록 직렬 실행된다. 성공과 거부·실패 모두 <code>actor</code>, <code>command</code>, <code>status</code>, 간결한 <code>summary</code>, ISO <code>timestamp</code>를 활동 기록에 남긴다.
+공용 명령은 allowlist에 이름과 <code>reversible</code>을 공개한다. reversible은 이전 값을 다시 적용할 수 있다는 표시다. undo는 텍스트·그리기만 취소하며 지도 이동이나 밝기·회전 값을 복원하지 않는다.
 
-공개 <code>window.aerialCanvasLab</code>의 actor는 항상 <code>ai</code>다. 호출자가 actor를 <code>human</code>으로 위장하거나 summary를 덮어쓸 options는 공개하지 않는다. 사람 UI만 내부 bridge를 통해 <code>human</code> 활동을 기록한다.
+명령은 앞 명령이 끝난 뒤 다음 명령을 시작하도록 직렬 실행된다. 성공과 거부·실패 모두 <code>actor</code>, <code>command</code>, <code>status</code>, 간결한 <code>summary</code>, ISO <code>timestamp</code>를 활동 기록에 남긴다.
+
+공개 <code>window.aerialCanvasLab</code>의 actor는 항상 <code>ai</code>다. 호출자가 actor를 <code>human</code>으로 위장하거나 summary를 덮어쓸 options는 공개하지 않는다. 사람 UI만 내부 bridge로 <code>human</code> 활동을 기록한다.
 
 사람 전용 capability는 공개 <code>execute()</code>로 호출하려 해도 <code>PROTECTED_COMMAND</code>로 거부된다. 다만 이것은 협력 페이지의 API 계약이지, 브라우저 전체 제어 권한을 이미 위임받은 자동화 도구를 격리하는 보안 sandbox는 아니다.
+
+## 시작 단계
+
+정규 14주 이후 선택 연구 수업이다. [접속·도움말](examples/00_connection/README.md)과 [relay 오류 요청](examples/01_relay_checks/README.md)을 먼저 수행하고 완성 앱을 읽는다. Node.js 24와 VS Code REST Client를 사용한다. 정적 미리보기와 GitHub Pages에는 Node relay가 없으므로 아래 전용 서버를 사용한다. 키 발급 전에는 로컬 이미지 편집부터 실습할 수 있다.
 
 ## 실행
 
@@ -120,7 +126,7 @@ npm start
 - GPS 위치는 메모리의 지도 이동에만 쓰고 서버나 파일에 자동 저장하지 않는다.
 - 지도 전환은 공식 <code>MapTypeId</code> 상수만 허용한다.
 
-## 왜 relay가 필요한가
+## relay와 Canvas 출처
 
 공식 JavaScript SDK의 <code>StaticMap</code>은 다음처럼 SKYVIEW 이미지 지도를 만든다.
 
@@ -215,7 +221,7 @@ const dataUrl = await lab.getImageDataUrl("jpeg");
 
 ## REST 정적 지도 API와 구분
 
-Kakao의 공식 REST <code>GET /v2/maps/staticmap</code>은 REST API 키로 PNG·JPEG 바이너리를 반환하는 별도 API다. 2026-08-26 기준 문서 파라미터에는 지도 유형 또는 SKYVIEW 선택 항목이 없다.
+Kakao의 공식 REST <code>GET /v2/maps/staticmap</code>은 REST API 키로 PNG·JPEG 바이너리를 반환하는 별도 API다. 2026-11-18 확인 기준 문서 파라미터에는 지도 유형 또는 SKYVIEW 선택 항목이 없다.
 
 현재 앱은 REST 정적 지도 API를 항공 지도 경로로 사용하지 않는다. JavaScript 키로 로드한 공식 Web SDK가 생성한 <code>StaticMap(SKYVIEW)</code> 단일 이미지 URL만 제한 relay한다.
 

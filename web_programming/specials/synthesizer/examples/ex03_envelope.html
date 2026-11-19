@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ex03 envelope</title>
+    <link rel="stylesheet" href="shared/examples.css">
 </head>
 <body>
-    <h1>ex03 엔벨로프: 소리 크기가 시간에 따라 어떻게 변하나</h1>
-    <p>같은 220Hz 사인파(파형을 정하지 않으면 sine)다. 크기를 바꾸는 방법만 다르다.</p>
+    <h1>ex03 엔벨로프</h1>
     <table border="1">
-        <tr><th>형제</th><th>attack(커지는 시간)</th><th>release(사라지는 시간)</th><th></th></tr>
+        <tr><th>예제</th><th>attack</th><th>release</th><th></th></tr>
         <tr><td>1. 켰다 끄기만</td><td>0</td><td>0</td><td><button id="b1">재생</button></td></tr>
         <tr><td>2. 짧게 — 뜯는 소리</td><td>0.005초</td><td>0.3초 (linear)</td><td><button id="b2">재생</button></td></tr>
         <tr><td>3. 길게 — 깔리는 소리</td><td>0.3초</td><td>0.8초</td><td><button id="b3">재생</button></td></tr>
         <tr><td>4. 천천히 커지기</td><td>1.2초</td><td>0.3초</td><td><button id="b4">재생</button></td></tr>
         <tr><td>5. 2번을 exponential 로</td><td>0.005초</td><td>0.3초 (exponential)</td><td><button id="b5">재생</button></td></tr>
     </table>
-    <canvas id="shape" width="480" height="100" style="background: #111"></canvas>
+    <canvas id="shape" width="480" height="100"></canvas>
 
     <script>
         let ctx = null;

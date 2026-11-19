@@ -69,8 +69,9 @@ HTML은 다음 순서로 JavaScript를 불러온다.
 | 06 통합 실험 | [06_http_lab/requests.http](06_http_lab/requests.http) | 조건을 바꾼 응답과 실제 데이터의 차이 | [06_http_lab](06_http_lab/index.html) |
 | 07 완성 방명록 | [07_guestbook_complete/requests.http](07_guestbook_complete/requests.http) | 등록·조회·수정·삭제 후 같은 ID 재조회 | [07_guestbook_complete](07_guestbook_complete/index.html) |
 
-각 폴더는 `index.html`, `app.js`, `config.example.js`, `styles.css`, `requests.http`, `.env.example`을 자체 보유한다.
-예를 들어 01은 [자신의 설정](01_about/config.example.js)과 [스타일](01_about/styles.css)을 읽는다. 상위 폴더의 파일에 의존하지 않는다.
+각 폴더는 `index.html`, `app.js`, `config.example.js`, `shared/examples.css`, `requests.http`, `.env.example`을 자체 보유한다.
+각 폴더의 README에 조작·응답·설정 방법을 둔다. W3.CSS는 cdnjs 4.1.0 CDN에서 읽으므로 인터넷 연결이 필요하다. 이전 `styles.css`는 추가 스타일 경로의 호환 파일이며 새 HTML은 `shared/examples.css`를 직접 연결한다.
+예를 들어 01은 [자신의 설정](01_about/config.example.js)과 [스타일](01_about/shared/examples.css)을 읽는다. 상위 폴더의 파일에 의존하지 않는다.
 06에는 [request.js](06_http_lab/request.js), [exercise.js](06_http_lab/exercise.js), [request.test.mjs](06_http_lab/request.test.mjs)가 더 있다.
 예제 목차는 이 README다. 원하는 폴더 하나만 복사하거나 Pages에 게시할 수 있다.
 
@@ -137,7 +138,7 @@ Network 캡처에 편집 키가 포함되지 않게 한다. 학생 로그인과 
 5. 방명록은 다른 기기에서도 같은 태그를 조회한다. 수정·삭제는 편집 키로 별도 검증한다.
 
 GitHub Pages가 정적 파일을 제공하므로 학생이 Node 서버를 실행할 필요가 없다.
-각 HTML은 같은 폴더의 `config.example.js`·`styles.css`를 읽는다. 다른 단계나 examples 루트의 파일은 필요 없다.
+각 HTML은 같은 폴더의 `config.example.js`·`shared/examples.css`를 읽는다. 다른 단계나 examples 루트의 파일은 필요 없다.
 학습용 `requests.http`·`.env.example`은 함께 배부할 수 있다. 06의 실행에는 `request.js`·`exercise.js`도 포함한다.
 `localhost`·`127.0.0.1` API 주소는 방문자 각자의 PC를 가리킨다. Pages용 설정에는 공용 HTTPS 주소를 유지한다.
 `.env`, `localfiles/`, `.local/`, DB 비밀번호, 편집 키 파일은 배포에 포함하지 않는다.

@@ -189,7 +189,7 @@ It checks that the container the official SDK built holds exactly one fully load
 
 ---
 
-## What If You Draw It Straight to Canvas?
+## Cross-Origin Images and Tainted Canvas
 
 The StaticMap image is a cross-origin resource from the Kakao origin.
 
@@ -228,7 +228,6 @@ This is not a general-purpose proxy.
 - Height 120–960
 - Map level 1–14
 - Exact HTTPS origin and path
-- Request Host matches same-origin Sec-Fetch-Site/Referer (and any forwarded Origin)
 - No username, password, port, or fragment
 - Decoded image, at most 2 million pixels
 - Response size matches the requested size
@@ -240,6 +239,7 @@ Query fields are never built or parsed.
 ## Server-Side Validation
 
 - GET only, exactly one source
+- Host, Sec-Fetch-Site, Referer and Origin checks
 - URL length, at most 2048
 - Exact origin and path
 - Only the fixed set of parameters, each once
@@ -322,7 +322,8 @@ map
   ready, busy, type
 
 workspace
-  sourceKind, transform, size, annotations
+  sourceKind, rotation, brightness, contrast
+  width, height, actionCount
 
 boundaries
   browserScreenAccess=false
@@ -413,10 +414,10 @@ What this implementation does:
 
 ---
 
-## 70-Minute Lab
+## Example Introductory Lab Schedule
 
 ~~~text
-Setup, 5 min
+Setup, 5 min: 00 about/help → 01 error requests
   → Location & human-only, 15 min
   → Single StaticMap relay, 15 min
   → Collaboration API, 20 min

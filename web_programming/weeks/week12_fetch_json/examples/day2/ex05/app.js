@@ -1,18 +1,31 @@
 const output = document.querySelector('#output');
-async function readStatus() {
+const button = document.querySelector('#run-button');
+const responseBody = document.querySelector('#response-body');
+
+let latestRequest = 0;
+
+async function readMessages() {
+  const requestId = ++latestRequest;
+  button.disabled = true;
+  output.textContent = '불러오는 중';
   try {
-    const path = '/rest/v1/guestbook';
-    // path를 '/rest/v1/missing_table'로 바꿔 실패 응답을 비교한다.
-    const response = await fetch(API_BASE_URL + path, {
+    const fields = document.querySelector('#request-fields').value;
+    const url = `${API_BASE_URL}/rest/v1/guestbook?book_id=eq.${encodeURIComponent(BOOK_ID)}&select=${fields}`;
+    const response = await fetch(url, {
       headers: { apikey: API_PUBLIC_KEY }
     });
-    output.textContent = `Status ${response.status} · ok ${response.ok}`;
-    if (!response.ok) return;
     const items = await response.json();
-    console.log(items);
+    if (requestId !== latestRequest) return false;
+    responseBody.textContent = JSON.stringify(items, null, 2);
+    output.textContent = `Status ${response.status} · ok ${response.ok}`;
   } catch (error) {
-    output.textContent = '서버에 연결하지 못했습니다.';
-    console.log(error.message);
+    if (requestId !== latestRequest) return false;
+    output.textContent = `요청 실패: ${error.message}. 주소와 연결을 확인하세요.`;
+  } finally {
+    if (requestId === latestRequest) button.disabled = false;
   }
 }
-readStatus();
+
+button.addEventListener('click', readMessages);
+setupApiSettings(readMessages);
+readMessages();

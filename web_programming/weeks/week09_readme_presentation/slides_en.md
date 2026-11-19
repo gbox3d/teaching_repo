@@ -8,10 +8,10 @@ footer: "Markdown and Project 1 Presentation · Day 1 Markdown comparison exampl
 
 # Markdown and Project 1 Presentation
 
-Day 1 spends the whole day on **Markdown's basic features**. Day 2 is the two-minute Project 1 talk.
+Day 1 has 60 minutes of lecture/demo and 30 minutes of README work. Day 2 is the two-minute Project 1 talk.
 
 ```text
-Day 1   heading · list · link · emphasis · image · source code · table · quote · SVG diagram · Mermaid
+Day 1   heading · list · link · image · code · table · supplied SVG text
         → README.md first draft introducing your Weeks 3–7 site
 Day 2   public URL → three pages → button·form → README·Commits tab (2 min)
 ```
@@ -23,19 +23,19 @@ Day 2   public URL → three pages → button·form → README·Commits tab (2 m
 
 # Day 1 — Markdown Basics and the README First Draft
 
-`30 min explanation·demo → 60 min lab`
+`60 min lecture/demo → 30 min lab`
 
 1. ex01 headings and preview · ex02 lists · ex03 links
-2. ex04 emphasis
+2. ex04 emphasis is optional
 3. ex05 images
 4. ex06 source code
-5. ex07 tables · ex08 quotes and rules
-6. ex09 SVG images · ex10 SVG diagrams · ex11 Mermaid
+5. ex07 tables; ex08 quotes/rules are optional
+6. ex10 supplied SVG text; coordinates and Mermaid are optional
 7. Assembly — `README.md` at the top of `web-week09`
 
 ---
 
-## Day 1 · 0–5 min — ex01 Headings: number of hashes and the space
+## ex01 Headings · part of the 15-minute heading/list/link block
 
 [examples/day1/ex01_heading.md](examples/day1/ex01_heading.md)
 
@@ -53,7 +53,7 @@ Source            Rendered
 
 ---
 
-## Day 1 · 5–8 min — ex02 Lists: bullets, numbers, nesting, checklists
+## Day 1 · Headings, lists and links — ex02 Lists: bullets, numbers, nesting, checklists
 
 [examples/day1/ex02_list.md](examples/day1/ex02_list.md)
 
@@ -72,7 +72,7 @@ Source            Rendered
 
 ---
 
-## Day 1 · 8–10 min — ex03 Links: brackets are the text, parentheses the destination
+## Day 1 · Headings, lists and links — ex03 Links: brackets are the text, parentheses the destination
 
 [examples/day1/ex03_link.md](examples/day1/ex03_link.md)
 
@@ -88,7 +88,7 @@ Source            Rendered
 
 ---
 
-## Day 1 · 10–12 min — ex04 Emphasis: bold, italic, strikethrough
+## Optional reference — ex04 Emphasis: bold, italic, strikethrough
 
 [examples/day1/ex04_emphasis.md](examples/day1/ex04_emphasis.md)
 
@@ -106,7 +106,7 @@ Source            Rendered
 
 ---
 
-## Day 1 · 12–15 min — ex05 Images: an exclamation mark before a link
+## ex05 Images · part of the 20-minute image/code/table block
 
 [examples/day1/ex05_image.md](examples/day1/ex05_image.md)
 
@@ -124,7 +124,7 @@ Source            Rendered
 
 ---
 
-## Day 1 · 15–18 min — ex06 Source code: backticks
+## Day 1 · Images, code and tables — ex06 Source code: backticks
 
 [examples/day1/ex06_code.md](examples/day1/ex06_code.md)
 
@@ -143,7 +143,7 @@ button.addEventListener('click', …);
 
 ---
 
-## Day 1 · 18–21 min — ex07 Tables · ex08 Quotes and rules
+## Day 1 · Required tables; optional quotes/rules — ex07 Tables · ex08 Quotes and rules
 
 [examples/day1/ex07_table.md](examples/day1/ex07_table.md) · [examples/day1/ex08_quote_rule.md](examples/day1/ex08_quote_rule.md)
 
@@ -161,7 +161,7 @@ button.addEventListener('click', …);
 
 ---
 
-## Day 1 · 21–25 min — ex09·ex10 SVG: images and diagrams written as text
+## Day 1 · Supplied SVG use 10 min — ex09·ex10 SVG: images and diagrams written as text
 
 [ex09_svg.md](examples/day1/ex09_svg.md) · [ex09_shapes.svg](examples/day1/ex09_shapes.svg) · [ex10_diagram.md](examples/day1/ex10_diagram.md) · [ex10_site_map.svg](examples/day1/ex10_site_map.svg)
 
@@ -173,7 +173,7 @@ button.addEventListener('click', …);
 ![사이트 구조](ex10_site_map.svg)        ← put it in the document like an image
 ```
 
-- The numbers are position and size. Edit the file and save, and the preview image changes.
+- Required: edit the text in the supplied ex10 SVG. Coordinates and shapes are optional.
 - GitHub removes `<svg>` written directly in a document (ex09 number 2). Add it **as a file**.
 - A white background rectangle keeps the text readable on GitHub's dark theme.
 
@@ -181,7 +181,7 @@ button.addEventListener('click', …);
 
 ---
 
-## Day 1 · 25–27 min — ex11 Mermaid: write only the connections
+## Optional reference — ex11 Mermaid: write only the connections
 
 [examples/day1/ex11_mermaid.md](examples/day1/ex11_mermaid.md)
 
@@ -194,13 +194,13 @@ flowchart LR
 ````
 
 - SVG sets positions by hand; with Mermaid you write **only connections** and GitHub lays them out.
-- VS Code's default preview may show this as code. Check it on GitHub after pushing.
+- Current VS Code preview renders Mermaid. If code appears, check the version and language identifier, then compare on GitHub.
 
 **SVG to set positions yourself, Mermaid to draw quickly.**
 
 ---
 
-## Day 1 · 27–30 min — Assembly: README first draft, then hand-off to the lab
+## Day 1 · Demo order 5 min + lab briefing 5 min — Assembly: README first draft, then hand-off to the lab
 
 ```text
 # site name · intro sentence (**bold**)      ← ex01 · ex04
@@ -211,27 +211,25 @@ flowchart LR
 ## 이번에 배운 것  - three lines             ← ex02
 ```
 
-[Day 1 lab](lab.md#1일차--마크다운-기본-기능과-readme-1차판-60분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation)
+[Day 1 lab](lab.md#1일차--readme-작성-실습-30분) · [Walkthrough](walkthrough.md#1일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation)
 
-Try values (until minute 35) → screenshots·diagram·README assembly (until minute 50) → new repository `web-week09` · Pages · one screenshot of the repository front page (submit).
+30-minute lab: title/URL/table 10 → screenshots/code/features/learning notes 10 → SVG text/preview 5 → checks 5. Fill README.start.md. Prepare before class; upload after class.
 
-**Explanation total: 5+3+2+2+3+3+3+4+2+3 = 30 min**
+**Lecture/demo: 5+15+20+10+5+5 = 60 min**
 
 ---
 
 # Day 2 — 2-Minute Talks
 
-`30 min briefing → 60 min talks`
+`5 min briefing → 75 min talks → 10 min feedback`
 
-1. Today's order and three tabs
-2. The 10-point rubric
-3. Watch one 2-minute demo
-4. If the public URL does not open
-5. Questions, then the talks begin
+Up to 30 students: 2-minute talk + 30-second transition each.
+For 31 or more: advance 2-minute videos, five sample talks and brief individual explanations.
+The following order/rubric/fallback slides are reference material introduced on Day 1.
 
 ---
 
-## Day 2 · 0–6 min — Today's Order and Three Tabs
+## Before the talk — Today's Order and Three Tabs
 
 ```text
 tab 1  https://student01.github.io/web-week09/
@@ -247,7 +245,7 @@ tab 3  https://github.com/student01/web-week09/commits  ← Commits tab
 
 ---
 
-## Day 2 · 6–12 min — The 10-Point Rubric
+## Advance briefing — The 10-Point Rubric
 
 | Talk 5 | Points |
 |---|---:|
@@ -262,7 +260,7 @@ Report 5 = **1 point for each of the 5 README sections** (public URL / pages / f
 
 ---
 
-## Day 2 · 12–18 min — Watch One 2-Minute Demo
+## Day 1 demonstration order — Watch One 2-Minute Demo
 
 ```text
 "student01의 웹 연습장입니다. 세 페이지가 있습니다."   (0:20)
@@ -270,7 +268,7 @@ Home → About Me → Guestbook → Home                    (0:50)
 click [인사 바꾸기] → sentence and click count change  (1:10)
 [남기기] twice in the guestbook → two lines in the list (1:30)
 empty name → [남기기] → notice sentence                (1:40)
-5 README sections → Commits tab briefly                (2:00)
+README/Commits (1:50) → one brief oral answer (2:00)
 ```
 
 - In the first 20 seconds say **what you made** in one sentence. Do not start with "I did HTML, I did CSS…".
@@ -280,7 +278,7 @@ empty name → [남기기] → notice sentence                (1:40)
 
 ---
 
-## Day 2 · 18–24 min — If the Public URL Does Not Open
+## Presentation fallback — If the Public URL Does Not Open
 
 | What happened | What to do |
 |---|---|
@@ -295,16 +293,16 @@ Do not spend talk time fixing things alone. Raise your hand.
 
 ---
 
-## Day 2 · 24–30 min — Questions, Then the Talks Begin
+## Day 2 · Talks 5–80 min; feedback 80–90 min
 
-[Day 2 lab](lab.md#2일차--2분-발표-60분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation)
+[Day 2 lab](lab.md#2일차--발표-평가-90분) · [Walkthrough](walkthrough.md#2일차) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week09_readme_presentation)
 
 - Questions we take now: order, time, how to submit, what to do if something fails.
-- During each talk there is one oral question, e.g. "Which file runs when you press this button?"
+- In the last 10 seconds there is one oral question, e.g. "Which file runs when you press this button?"
 - "Does the post disappear on reload?" → "Yes, it is still only on the screen. Keeping it comes in Week 11."
-- Listeners follow the rubric too. Fix things during the closing routine at minutes 55–60.
+- For 31 or more, follow the timed video plan and same rubric in the [brief](project_brief.md#발표-인원과-운영). Edit and upload after class.
 
-**Total explanation: 6+6+6+6+6 = 30 min**
+**At most 30 students × 2 min 30 sec = 75 min**
 
 ---
 
@@ -325,5 +323,5 @@ Keep your real name, student ID, and real email out of the screenshot. Your ID m
 
 Right now the guestbook piles posts up in a list, but **only on screen**: you cannot delete one line, and a reload loses everything.
 
-In Week 10 you start a new repository, `web-week10`, from this week's final files, keep posts in an **array**, redraw the list from it, and delete line by line.
-In Week 11 you keep that list in ② browser storage. Today's README is rewritten as the final version in Week 13.
+Keep your Home and About pages for Week 10. Its guestbook starter uses an **array** to show posts in insertion order and delete individual rows.
+Week 11 requires saving/restoring one form object. The full storage guestbook is a supplied demo. Update the README when features change.

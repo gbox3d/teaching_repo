@@ -9,7 +9,7 @@
 <body>
     <header>
         <h1>멜로디 조합기</h1>
-        <p>라이브러리의 멜로디 조각(♪A, ♪B …)을 골라 마디로 이어 붙인다. 저장한 파일은 <a href="index.html">디스코 연주기</a>에서도 열린다.</p>
+        <p><a href="index.html">디스코 연주기 →</a></p>
     </header>
 
     <main>
@@ -40,7 +40,7 @@
         </section>
 
         <section class="panel column">
-            <h2>라이브러리 <small>— 이름을 누르면 한 마디 미리 듣기, + 는 편곡 줄에 더하기(고른 마디 뒤, 없으면 맨 끝)</small></h2>
+            <h2>라이브러리</h2>
             <div id="library" class="library"></div>
         </section>
 
@@ -52,8 +52,8 @@
                 <label>코드 <input id="ed-chord" type="text" size="7"></label>
                 <label>멜로디 <select id="ed-melody"></select></label>
                 <label>옮김 <input id="ed-shift" type="number" min="-12" max="12" value="0"> 반음</label>
-                <button id="ed-left">◀</button>
-                <button id="ed-right">▶</button>
+                <button id="ed-left" aria-label="앞으로 이동">◀</button>
+                <button id="ed-right" aria-label="뒤로 이동">▶</button>
                 <button id="ed-copy">복제</button>
                 <button id="ed-delete">삭제</button>
                 <button id="ed-empty">+ 빈 마디</button>
@@ -61,15 +61,15 @@
             <p id="where">정지</p>
         </section>
 
-        <p id="message"></p>
+        <p id="message" role="status"></p>
     </main>
 
-    <footer>Web Audio API · 저장 파일 = 연주기 곡 JSON 과 같은 모양(구간 · 마디마다 코드와 멜로디) · 코드 'F G' 처럼 띄어 쓰면 마디를 반씩 나눈다</footer>
+    <footer>Web Audio API · <a href="README.md">사용 안내</a></footer>
 
     <script>
         if (location.protocol === 'file:') {
             document.getElementById('message').innerText =
-                '주소가 file:// 입니다. 조합기는 서버로 엽니다: 이 폴더에서 node server.mjs 를 띄우고 http://localhost:8000/compose.html 을 여세요.';
+                'HTTP 서버로 열어주세요. 실행 방법은 사용 안내에 있습니다.';
         }
     </script>
     <script type="module">

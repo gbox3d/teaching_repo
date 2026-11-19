@@ -15,3 +15,8 @@ const b = greet('student01');       // 호출: Console 에는 없고, b 에 문�
 console.log('1. return 없는 함수를 부른 결과 :', a);
 console.log('2. return 하는 함수를 부른 결과 :', b);
 console.log('3. 같은 함수, 다른 값 :', greet('student02'), '/', greet('student03'));
+
+// 제공 출력 코드: 비교 결과를 화면에서도 확인한다.
+document.querySelector('#btn').addEventListener('click', function () {
+    document.querySelector('#result').textContent = `1: ${a} / 2: ${b} / 3: ${greet('student02')} / ${greet('student03')}`;
+});

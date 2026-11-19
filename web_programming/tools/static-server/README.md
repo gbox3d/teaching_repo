@@ -5,7 +5,7 @@
 폴더 하나를 `http://localhost:8000/` 주소로 열어 주는 작은 웹 서버다. 파일은 [server.mjs](server.mjs) 하나뿐이고 Node.js 기본 모듈만 쓴다. `npm install`이 필요 없다.
 한 학기 내내 같은 파일을 쓴다. 매주 새로 만드는 저장소 폴더(`web-week05` 등)에 넣고 `node server.mjs` 한 줄로 띄운다.
 
-## 왜 서버로 여나
+## 로컬 파일과 정적 서버의 차이
 
 HTML 파일을 두 번 눌러 열면 주소가 `file:///…`로 시작한다. 이것은 웹 서버를 거치지 않고 파일을 바로 읽는 방식이다. 대부분의 예제는 이렇게 열어도 되지만, 몇 가지는 다르게 동작한다.
 
@@ -14,14 +14,14 @@ HTML 파일을 두 번 눌러 열면 주소가 `file:///…`로 시작한다. �
 | HTML·CSS·JS·그림 | 된다 | 된다 | 된다 |
 | `fetch('data.json')` | 막힌다 | 된다 | 된다 |
 | `<script type="module">` | 막힌다 | 된다 | 된다 |
-| 요청이 보이나 | 안 보인다 | 터미널에 한 줄씩 찍힌다 | F12 › Network |
+| HTTP 요청 확인 | HTTP 요청이 아님 | 터미널 로그와 F12 › Network | F12 › Network |
 | 주소 모양 | 폴더 경로 | 공개 주소와 같은 모양 | — |
 
-이 서버는 GitHub Pages가 하는 일(요청을 받아 파일을 돌려준다)을 내 PC에서 똑같이 한다. push 하기 전에 공개 주소와 같은 조건으로 미리 볼 수 있다.
+이 서버와 GitHub Pages는 요청한 파일을 제공한다. 로컬에서 파일 경로와 동작을 먼저 확인하고, push 뒤에는 Pages의 HTTPS 주소와 프로젝트 하위 경로에서도 확인한다.
 
 ## 준비
 
-- Node.js LTS. 터미널에서 `node -v`를 쳐서 `v18` 이상이 나오면 된다. 없으면 https://nodejs.org 에서 LTS를 설치한다.
+- 교재 실행 기준은 Node.js 24 이상이다. 터미널에서 `node -v`로 확인한다. 설치 경로는 [Node.js 공식 다운로드](https://nodejs.org/en/download)다.
 - [server.mjs](server.mjs)를 연다 → 오른쪽 위 **Raw** → **Ctrl+S**(macOS ⌘+S)로 그 주의 저장소 폴더에 `server.mjs` 이름으로 저장한다.
 
 ## 띄우기와 멈추기
@@ -79,17 +79,11 @@ $env:HOST="0.0.0.0"; node server.mjs
 
 휴대폰 브라우저에 `http://<PC의 IP 주소>:8000/`을 친다. PC의 IP는 Windows `ipconfig`, macOS **시스템 설정 › Wi-Fi › 세부사항**에서 본다. 공용 PC·공용 Wi-Fi에서는 쓰지 않는다.
 
-### 코드 고쳐 보기
+### 서버 코드의 수업 범위
 
-서버도 JavaScript다. 5주차에 배운 `if`·함수로 읽을 수 있다. 예를 들어 `/api/time` 주소에 지금 시각을 JSON으로 돌려주게 하려면, `http.createServer((req, res) => {` 바로 아래에 세 줄을 넣는다.
+정적 서버는 제공 도구이며 5주 학생 구현 과제가 아니다. 방명록 데이터 요청은 12~14주에 [준비된 API](../guestbook-api/README.md)를 사용하고, 서버 구축은 Supabase·홈 IoT 특강에서 다룬다.
 
-```js
-  if (req.url === '/api/time') {
-    return send(req, res, 200, JSON.stringify({ now: new Date().toISOString() }), 'application/json; charset=utf-8');
-  }
-```
-
-저장 → Ctrl+C → `node server.mjs`로 다시 띄운 뒤 `http://localhost:8000/api/time`을 연다. 이런 주소는 **내 PC 서버에만** 있다. GitHub Pages는 파일만 돌려주므로 공개 주소에서는 404다.
+이 도구는 `.env`를 자동으로 읽지 않는다. REST Client 설정 파일인 `.env`·`.env.*`와 `.git`·`.local`·`localfiles` 경로는 HTTP로 제공하지 않는다. 공개 설정 견본 `.env.example`은 받을 수 있다. 화면·API의 설정을 읽는 주체는 각 예제 README에서 구분한다.
 
 ## 막혔을 때
 
@@ -107,3 +101,5 @@ $env:HOST="0.0.0.0"; node server.mjs
 - 로그인, 글 저장, 데이터베이스는 없다. 파일을 **읽어서 돌려주기만** 한다(정적 서버).
 - `server.mjs` 폴더 밖의 파일은 주소에 `../`를 넣어도 내보내지 않는다.
 - 수업 밖 실제 서비스용이 아니다.
+
+조교가 서버 코드를 수정한 뒤에는 이 폴더에서 `node --test server.test.mjs`를 실행한다. 공개 파일·설정 견본의 조회와 로컬 비공개 경로 차단을 임시 파일로 검증한다.

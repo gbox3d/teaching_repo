@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>방명록 · MPA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+  <link rel="stylesheet" href="shared/examples.css">
+  <script src="guestbook.js" defer></script>
+</head>
+<body class="w3-light-grey">
+<header class="w3-container w3-teal"><h1>나의 웹 연습장</h1></header>
+<nav class="w3-bar w3-white w3-card" aria-label="주 메뉴">
+<a class="w3-bar-item w3-button w3-mobile" href="index.html">홈</a>
+<a class="w3-bar-item w3-button w3-mobile" href="about.html">내 정보</a>
+<a class="w3-bar-item w3-button w3-mobile" href="guestbook.html" aria-current="page">방명록</a>
+</nav>
+<main class="teaching-example w3-content w3-padding"><section class="w3-white">
+<h2 tabindex="-1">방명록</h2>
+<form id="guestbook-form">
+  <p><label for="name">이름(별칭)</label><input id="name" class="w3-input w3-border" maxlength="30" required></p>
+  <p><label for="message">메시지</label><textarea id="message" class="w3-input w3-border" rows="3" maxlength="500" required></textarea></p>
+  <button class="w3-button w3-teal" type="submit">미리 보기</button>
+</form>
+<p id="notice" role="status"></p>
+</section>
+</main>
+<footer class="w3-container w3-center w3-text-grey"><p>수업용 연습 페이지 · 별칭만 사용하세요.</p></footer>
+</body>
+</html>

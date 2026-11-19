@@ -1,0 +1,25 @@
+@baseUrl = http://localhost:8014
+
+### 접속 확인: 200, name/version/help 객체
+GET {{baseUrl}}/api/about
+
+### API 도움말: 200, 요청 안내 6개 배열
+GET {{baseUrl}}/api/help
+
+### 상태 조회: 200, light/fan/environment/revision/log
+GET {{baseUrl}}/api/state
+
+### 모의 온도 설정: 200, environment.temperature=29
+PATCH {{baseUrl}}/api/environment
+Content-Type: application/json
+
+{"temperature": 29}
+
+### 팬 작동: 200, fan.on=true (온도 자동 하강 없음)
+PATCH {{baseUrl}}/api/devices/fan
+Content-Type: application/json
+
+{"on": true}
+
+### 변경 후 상태 재조회: 200, light/fan/environment/revision/log
+GET {{baseUrl}}/api/state

@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ex08 pattern</title>
-    <style>
-        .row { display: flex; gap: 4px; align-items: center; margin: 4px 0; }   /* 칸을 줄 맞춰 늘어놓을 뿐(4주차 flex) */
-        .row b { width: 64px; }
-        .row input:nth-of-type(4n + 1) { outline: 2px solid #999; }   /* 박의 첫 칸 */
-    </style>
+    <link rel="stylesheet" href="shared/examples.css">
 </head>
 <body>
-    <h1>ex08 리듬은 배열이다: 한 마디 16칸 중 어디를 치나</h1>
+    <h1>ex08 리듬 배열</h1>
     <button id="disco">1. 디스코</button>
     <button id="rock">2. 록</button>
     <button id="clear">3. 비우기</button>
     <button id="play">▶ 재생</button>
     <button id="stop">■ 정지</button>
+    <p id="status" role="status">정지</p>
     <div id="grid"></div>
     <pre id="arrays"></pre>
 
@@ -48,6 +45,7 @@
             for (let i = 0; i < 16; i++) {
                 const box = document.createElement('input');
                 box.type = 'checkbox';
+                box.setAttribute('aria-label', `${name} ${i + 1}칸`);
                 box.addEventListener('change', function () {
                     pattern[name][i] = box.checked ? 1 : 0;
                     showArrays();
@@ -127,6 +125,7 @@
                 for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
             }
             if (timer) return;
+            document.getElementById('status').textContent = '재생 중';
             next = ctx.currentTime + 0.05;
             step = 0;
             timer = setInterval(function () {
@@ -140,6 +139,7 @@
         document.getElementById('stop').addEventListener('click', function () {
             clearInterval(timer);
             timer = null;
+            document.getElementById('status').textContent = '정지';
         });
     </script>
 </body>

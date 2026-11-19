@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:8014
+
+### 접속 확인: 200, name/version/help 객체
+GET {{baseUrl}}/api/about
+
+### API 도움말: 200, 요청 안내 6개 배열
+GET {{baseUrl}}/api/help
+
+### 상태 조회: 200, light/fan/environment/revision/log
+GET {{baseUrl}}/api/state

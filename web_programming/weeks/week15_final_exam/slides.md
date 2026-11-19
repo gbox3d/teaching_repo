@@ -15,8 +15,9 @@ footer: "Final practical exam · REST"
 
 ---
 
-# 1일차 · 0–5분 — 문제은행 구조
+# 1일차 · 0–5분 — 준비와 문제은행
 
+사전 배부 폴더·서버·편집기를 확인한다.
 A 화면 · B DOM · C 폼·목록 · D 브라우저 저장 · E REST
 
 [문제은행](examples/README.md)은 13문항이다.
@@ -25,7 +26,7 @@ POST 문항은 C 또는 E 한 곳에만 낸다.
 
 ---
 
-# 1일차 · 5–10분 — 문항 읽기
+# 1일차 · 5–15분 — 시험 환경
 
 시작 파일 → 할 일 → 확인할 것 → 이 문제의 값
 
@@ -36,10 +37,11 @@ POST 문항은 C 또는 E 한 곳에만 낸다.
 
 ---
 
-# 1일차 · 10–15분 — 서버 준비 확인
+# 1일차 · 15–25분 — 영역과 제공 코드
 
+w11은 폼 한 객체, w14는 PATCH 또는 DELETE 하나다.
 강의자가 API 주소·공개 키·개인별 방명록을 준비한다.
-학생은 설정 파일의 공개값만 바꾼다.
+학생은 제공 API 설정 패널에 값을 입력한다. 새로고침 후 재입력한다.
 
 편집 키는 실행 화면에만 입력한다.
 localhost는 현재 PC다. Pages에는 공용 HTTPS API가 필요하다.
@@ -47,8 +49,9 @@ localhost는 현재 PC다. Pages에는 공용 HTTPS API가 필요하다.
 
 ---
 
-# 1일차 · 15–20분 — 응답과 재조회
+# 1일차 · 25–40분 — 저장·REST 오류
 
+폼: JSON 저장 → 새로고침 → 불러오기 → 자기 키만 삭제
 GET: 배열을 화면에 표시
 POST: 201 뒤 GET으로 저장 확인
 PATCH: 변경 배열과 GET의 수정값 확인
@@ -58,22 +61,23 @@ DELETE: 204 뒤 GET으로 글이 없는지 확인
 
 ---
 
-# 1일차 · 20–25분 — 제공 코드와 내 코드
+# 1일차 · 40–55분 — 결과 재현 시연
 
-`view.js`: 화면 그리기, 쓰기 문항의 재조회 제공
-`app.js`: 이 문항의 요청 TODO
-`config.example.js`: 공개 설정
+`app.js`: 요청 하나의 TODO와 제공 화면·재조회 코드
+`api-settings.js`: 제공 실행 중 설정
+저장은 폼 한 객체, 수정·삭제는 둘 중 한 요청만 작성한다.
 
-[GET 시작 화면](examples/w12_rest_get/index.html) · [app.js](examples/w12_rest_get/app.js) · [view.js](examples/w12_rest_get/view.js)
-[설정](examples/w12_rest_get/config.example.js) · [CSS](examples/w12_rest_get/styles.css)
+[GET 시작 화면](examples/w12_rest_get/index.html) · [app.js](examples/w12_rest_get/app.js)
+[설정](examples/w12_rest_get/api-settings.js) · [CSS](examples/w12_rest_get/shared/examples.css) · [.http](examples/w12_rest_get/requests.http)
 
 ---
 
-# 1일차 · 25–30분 — 연습 연결
+# 1일차 · 55–60분 — 실습 안내
 
-영역이 다른 세 문항을 고른다. REST 문항을 한 개 이상 포함한다.
+폼 저장 10분 + REST 한 문항 12분 + 결과 확인 8분이다.
+파일은 수업 전 준비하고 1일차 업로드는 수업 뒤 진행한다.
 
-**설명 합계: 5 + 5 + 5 + 5 + 5 + 5 = 30분**
+**1일차: 강의·시연 60분 + 학생 실습 30분**
 [1일차 실습](lab.md#1일차-실습) · [따라하기](walkthrough.md)
 [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week15_final_exam)
 
@@ -135,8 +139,9 @@ POST·PATCH는 저장된 값을, DELETE는 대상의 부재를 확인한다.
 
 # 2일차 · 25–30분 — 시험 연결
 
-읽기 3분 → 구현 48분 → 올리기 5분 → 예비 4분
-구술에 쓴 1분은 해당 학생 마감에서 보정한다.
+읽기 3분 → 구현 40분 → 재조회·주소 확인 12분 → 제출 5분
+구술 1분은 학생 마감에서 보정한다.
+인원×1분과 이동 시간을 기준으로 감독 인원을 준비한다.
 
 **설명 합계: 5 + 5 + 5 + 5 + 5 + 5 = 30분**
 [2일차 시험](lab.md#2일차-시험) · [따라하기](walkthrough.md)

@@ -1,0 +1,70 @@
+{
+  "timestamp": "2026-11-18T11:09:30.077Z",
+  "scope": "Temporary local API; browser config response overridden only for rehearsal; no cloud writes",
+  "results": [
+    {
+      "requestFiles": 7,
+      "requests": 27
+    },
+    {
+      "folder": "01_about",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    },
+    {
+      "folder": "02_help",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    },
+    {
+      "folder": "03_guestbook_get",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    },
+    {
+      "folder": "04_guestbook_post",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    },
+    {
+      "folder": "05_guestbook_edit",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    },
+    {
+      "folder": "06_http_lab",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    },
+    {
+      "folder": "07_guestbook_complete",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    },
+    {
+      "functional": "7 example flows, empty list, text rendering, wrong/correct edit keys, key clearing, protected id, malformed JSON, middle delete, Offline/input preservation/recovery passed"
+    }
+  ],
+  "pageErrors": []
+}

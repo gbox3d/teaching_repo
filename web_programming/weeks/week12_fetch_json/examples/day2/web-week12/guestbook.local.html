@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>my-web · 방명록</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+    <script src="guestbook.local.js" defer></script>
+  </head>
+  <body class="w3-light-grey">
+    <header class="w3-container w3-teal w3-padding-16">
+      <h1>11주 로컬 방명록</h1>
+    </header>
+    <nav class="w3-bar w3-white w3-card" aria-label="주 메뉴">
+      <a class="w3-bar-item w3-button w3-mobile" href="index.html">홈</a>
+      <a class="w3-bar-item w3-button w3-mobile" href="about.html">내 정보</a>
+      <a class="w3-bar-item w3-button w3-mobile w3-teal" href="guestbook.html" aria-current="page">방명록</a>
+    </nav>
+    <main class="w3-content w3-padding">
+      <section class="w3-container w3-card w3-white w3-margin-top">
+        <h2>한 줄 남기기</h2>
+        <form id="guestbook-form">
+          <p>
+            <label for="name">이름</label>
+            <input id="name" class="w3-input w3-border" type="text">
+          </p>
+          <p>
+            <label for="message">메시지</label>
+            <textarea id="message" class="w3-input w3-border" rows="4"></textarea>
+          </p>
+          <p><button class="w3-button w3-teal" type="submit">남기기</button></p>
+        </form>
+        <p id="notice" class="w3-text-red" aria-live="polite"></p>
+      </section>
+      <section class="w3-container w3-card w3-white w3-margin-top">
+        <h2>남긴 글</h2>
+        <ul id="list" class="w3-ul" aria-live="polite"></ul>
+        <div id="count">아직 남긴 글이 없습니다.</div>
+        <p><button class="w3-button w3-teal" id="clear-button" type="button">전체 지우기</button></p>
+      </section>
+    </main>
+    <footer class="w3-container w3-center w3-text-grey w3-padding-16">
+      <p>수업용 연습 페이지 · student01</p>
+    </footer>
+  </body>
+</html>

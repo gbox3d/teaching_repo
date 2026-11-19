@@ -10,7 +10,7 @@ footer: "How the Web Runs and Git State"
 ## How the Web Runs and Git State
 
 **Twice a week × 90 min**<br>
-Each session: 30 min explanation & walkthrough + 60 min lab
+Each session: 60 min lecture & demonstration + 30 min individual lab
 
 Course site: https://gbox3d.github.io/teaching_repo/webprg/
 
@@ -33,12 +33,15 @@ Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/week
 
 <!-- _class: lead -->
 
-# Day 1 · 30 min explanation
-## What Does the Browser Receive to Build a Page?
+# Day 1 · 60 min lecture & demonstration
+## Three Files and Browser Requests
+
+0–10 min: check the provided files, VS Code, and browser.
+At 60–90 min, edit only the heading, intro paragraph, and background color.
 
 ---
 
-## Day 1 · 0–4 min — Reading a URL
+## Day 1 · 10–17 min — Reading a URL
 
 ```text
 https://gbox3d.github.io:443/teaching_repo/webprg/index.html
@@ -55,7 +58,7 @@ scheme        host       port            path
 
 ---
 
-## Day 1 · 4–9 min — Request and Response, 200 and 404
+## Day 1 · 17–25 min — Request and Response, 200 and 404
 
 ```text
 GET  /teaching_repo/webprg/              →  200  received the HTML
@@ -69,7 +72,7 @@ GET  /teaching_repo/webprg/nothing.html  →  404  no file at that address
 
 ---
 
-## Day 1 · 9–14 min — Three Files: HTML, CSS, JavaScript
+## Day 1 · 25–40 min — Three Files: HTML, CSS, JavaScript
 
 | File | Job | In today's example |
 |---|---|---|
@@ -83,7 +86,7 @@ GET  /teaching_repo/webprg/nothing.html  →  404  no file at that address
 
 ---
 
-## Day 1 · 14–21 min — Open and Edit in VS Code
+## Day 1 · 40–47 min — Open and Edit in VS Code
 
 ```html
 <link rel="stylesheet" href="styles.css">
@@ -91,14 +94,14 @@ GET  /teaching_repo/webprg/nothing.html  →  404  no file at that address
 ```
 
 - Seeing these two lines in `index.html`, the browser fetches `styles.css` and `app.js` next.
-- Use **File › Open Folder** to open the `week01` folder, then **New File** to create the three files.
+- **Instructor demo:** create the files. In the lab, copy the three provided files into `week01`.
 - Double-click `index.html` in the file explorer → the address bar shows `file:///…/week01/index.html`.
 - Change `<h1>` to your own intro and **save (Ctrl+S)** → **refresh (F5)** the browser.
 - If you don't save (a `●` on the tab title), refreshing won't change anything.
 
 ---
 
-## Day 1 · 21–27 min — Three DevTools Tabs (F12)
+## Day 1 · 47–55 min — Three DevTools Tabs (F12)
 
 - **Elements**: the current page's HTML. See where `<h1>` sits.
 - **Console**: messages left by JavaScript, plus red error lines.
@@ -112,22 +115,23 @@ assets/course.js        script       200
 nothing.html            document     404
 ```
 
-Try one error yourself: save with a typo, `href="style.css"` → refresh → the card style disappears
+Instructor demo (optional student practice): save with a typo, `href="style.css"` → refresh → the card style disappears
 → check the red line in Console → fix it back to `href="styles.css"` → refresh.
 
 ---
 
-## Day 1 · 27–30 min — Try It Yourself
+## Day 1 · 55–60 min — Try It Yourself
 
-[Day 1 lab](lab.md#1일차--세-파일로-내-소개-페이지-만들기-60분) · [Walkthrough](walkthrough.md#1일차)
+[Day 1 lab](lab.md#1일차--세-파일로-내-소개-페이지-만들기-30분) · [Walkthrough](walkthrough.md#1일차)
 Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week01_web_git
 
-1. Create the three files in a `week01` folder and open `index.html` in your browser.
-2. Change `<h1>` and the intro paragraph to your own info (use a class alias like `student01`), then save and refresh.
-3. On the course site, check `200` in the Network tab and `404` for a missing address.
-4. Break the `styles.css` filename once, then fix it back.
+1. Open the three provided files in `week01` (5 min).
+2. Edit `<h1>`, the intro paragraph, and the CSS `body` background color (15 min).
+3. Check Network status `200` and `404` on the course site (5 min).
+4. Check the button and save screenshot 1 (5 min).
 
-**Explanation total: 4+5+5+7+6+3 = 30 min**
+Lecture: setup 10 + URL/requests 15 + file roles 15 + demo 15 + briefing 5 = 60 min.
+CSS and JS are provided. Reproducing the filename error is optional.
 
 If you get stuck, compare the path and filename in the address bar character by character.
 
@@ -135,14 +139,15 @@ If you get stuck, compare the path and filename in the address bar character by 
 
 <!-- _class: lead -->
 
-# Day 2 · 30 min explanation
-## Git Records State Changes, Not Files
+# Day 2 · 60 min lecture & demonstration
+## Git Commits Record Selected File Contents
 
 ---
 
-## Day 2 · 0–3 min — Saving and Committing Are Different
+## Day 2 · 0–5 min — Setup, Saving, and Committing
 
-- **Saving (Ctrl+S)**: overwrites the file with its current content. The old content is gone.
+- Check `git --version`, the new practice folder, and the Day 1 files.
+- **Saving (Ctrl+S)**: updates the file on disk. It does not create Git history.
 - **Commit**: records "the state of the folder at this moment" together with a one-line description.
 - As records build up, you get a list of what changed and when.
 
@@ -156,7 +161,41 @@ Next week you push the same kind of repository to GitHub.
 
 ---
 
-## Day 2 · 3–8 min — `git init`: the Repository and Untracked Files
+## Day 2 · 5–12 min — Three Areas
+
+```text
+untracked ─┐
+           ├─ git add ─▶ staging area ─ git commit ─▶ repository(.git)
+modified ──┘             candidate for next commit      confirmed history
+ working tree
+```
+
+- **working tree**: the files in the folder you're editing now
+- **untracked**: a new file Git doesn't know about yet. `git add` registers it for the first time
+- **staging area**: holds only what you've chosen for the next commit
+- **repository**: where confirmed history from `git commit` piles up
+- The same file can have both staged and unstaged changes at once (next slide)
+
+---
+
+## Day 2 · 12–20 min — `git status` Tells You the Answer
+
+```text
+Changes to be committed:          ← staging area
+        modified:   index.html
+Changes not staged for commit:    ← working tree (tracked)
+        modified:   index.html
+Untracked files:                  ← working tree (not tracked)
+        notes.txt
+```
+
+- The same `index.html` can appear under **both** sections at once, because a commit records the content **at the moment of `git add`**, not the file itself.
+- The note under each heading tells you the command to undo that area. Before the first commit it's `git rm --cached`; after, it's `git restore --staged`.
+- Before typing a command, first check **which heading the file is under right now**. (No need to recreate this state on purpose in today's lab.)
+
+---
+
+## Day 2 · 20–25 min — `git init`: the Repository and Untracked Files
 
 ```bash
 git init           # creates .git/ in this folder = the repository itself
@@ -174,45 +213,11 @@ nothing added to commit but untracked files present
 
 - `.git/` is the entire history. Working files and history are **different things**.
 - Being inside the folder doesn't mean it's recorded. `index.html` is still **untracked**.
-- A commit works even without a name/email set. But your PC account name ends up in the record, so we set this at 18–22 min.
+- Before the first commit, check the name/email configuration shown at 25–30 min.
 
 ---
 
-## Day 2 · 8–13 min — Three Areas
-
-```text
-untracked ─┐
-           ├─ git add ─▶ staging area ─ git commit ─▶ repository(.git)
-modified ──┘             candidate for next commit      confirmed history
- working tree
-```
-
-- **working tree**: the files in the folder you're editing now
-- **untracked**: a new file Git doesn't know about yet. `git add` registers it for the first time
-- **staging area**: holds only what you've chosen for the next commit
-- **repository**: where confirmed history from `git commit` piles up
-- The same file can have both staged and unstaged changes at once (next slide)
-
----
-
-## Day 2 · 13–18 min — `git status` Tells You the Answer
-
-```text
-Changes to be committed:          ← staging area
-        modified:   index.html
-Changes not staged for commit:    ← working tree (tracked)
-        modified:   index.html
-Untracked files:                  ← working tree (not tracked)
-        notes.txt
-```
-
-- The same `index.html` can appear under **both** sections at once, because a commit records the content **at the moment of `git add`**, not the file itself.
-- The note under each heading tells you the command to undo that area. Before the first commit it's `git rm --cached`; after, it's `git restore --staged`.
-- Before typing a command, first check **which heading the file is under right now**. (No need to recreate this state on purpose in today's lab.)
-
----
-
-## Day 2 · 18–22 min — `git config`: Set Your Name for This Repository Only
+## Day 2 · 25–30 min — `git config`: Set Your Name for This Repository Only
 
 ```bash
 git config user.name "student01"
@@ -226,14 +231,14 @@ Your name and email address were configured automatically based
 on your username and hostname. Please check that they are accurate.
 ```
 
-- A commit **works** even without this. But your PC account name and machine name end up in the record instead.
+- Missing settings can cause a commit to fail or record an identity inferred from the PC.
 - **Without** `--global`, this applies only to the repository in this folder. Don't use `--global` on a shared PC.
 - It applies per repository, so **set it again** in next week's new folder too.
-- Your name stays in every commit's record. Use your class alias, not your real name.
+- Use a class alias and example email locally. Configure the public repository next week.
 
 ---
 
-## Day 2 · 22–25 min — `git add` and `git commit -m`
+## Day 2 · 30–45 min — `git add` and `git commit -m`
 
 ```bash
 git status
@@ -253,7 +258,7 @@ git commit -m "create the title"
 
 ---
 
-## Day 2 · 25–27 min — `git log --oneline`
+## Day 2 · 45–52 min — Errors and `git log --oneline`
 
 ```text
 2041aef (HEAD -> main) connect style and script
@@ -261,45 +266,47 @@ cfa0792 add intro paragraph and link
 708c9ec create the title
 ```
 
+- On failure, read the first `fatal:`/`error:` line and run `git status`.
 - The top line is the most recent. The first seven characters are the commit hash, and they differ per PC.
 - A good message: `add intro paragraph and link` — shows what changed in one line.
 - Messages to avoid: `update`, `final`, `fix1` — they give you no clue later.
 
 ---
 
-## Day 2 · 27–29 min — Viewing Changed Lines with `git diff` (optional)
+## Day 2 · 52–55 min — Error Recovery and `git diff` Demo
 
 ```bash
 git diff
 ```
 
 ```text
-       <h1>student01's Git Practice</h1>
-+      <p>A practice page built one commit at a time.</p>
+       <h1>student01의 Git 연습</h1>
++      <p>commit을 하나씩 쌓아 가며 만든 연습 페이지입니다.</p>
 +      <p><a href="https://gbox3d.github.io/teaching_repo/webprg/">…</a></p>
 ```
 
-- Lines starting with `+` are the lines **added** this time.
+- Error demo: missing `git add` → add and retry; unknown author → set local identity and retry.
+- Lines starting with `+` were added.
 - Today's lab only needs `status → add → commit → log`. Just look at `git diff`, no need to run it.
 
 ---
 
-## Day 2 · 29–30 min — Try It Yourself
+## Day 2 · 55–60 min — Try It Yourself
 
-[Day 2 lab](lab.md#2일차--git으로-commit-3개-남기기-60분) · [Walkthrough](walkthrough.md#2일차)
+[Day 2 lab](lab.md#2일차--git으로-commit-3개-남기기-30분) · [Walkthrough](walkthrough.md#2일차)
 Lab page: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week01_web_git
 
-1. In the `week01-practice` folder: `git init` → `git branch -M main` → `git config`.
-2. Commit ① the title → ② intro paragraph and link → ③ style and script connections.
-3. Each time: `git status` → `git add` → `git commit -m "..."` → `git log --oneline`.
+1. Initialize `week01-practice` and set a class alias/example email (5 min).
+2. Use the provided snippets: commit the title, then paragraph/link, then CSS/JS connections (20 min).
+3. Check 3 log entries, clean status, and the page; save screenshot 2 (5 min).
 
-**Explanation total: 3+5+5+5+4+3+2+2+1 = 30 min**
+Lecture: setup 5 + Git areas 15 + init/config 10 + add/commit 15 + errors/log 10 + briefing 5 = 60 min.
 
-At the end, capture the 3 commit lines and your practice page in one screenshot.
+HTML snippets, CSS, and JS are provided. `git diff` and a fourth commit are optional after the screenshot.
 
 ---
 
-## Week Summary
+## Two Session Results and Next Week
 
 ```text
 Web : URL → request → response (200 · 404) → index.html + styles.css + app.js → screen
@@ -308,4 +315,4 @@ Git : git init → git config → git status → git add → git commit -m → g
 
 - Submit: 2 screenshots (1 from Day 1 + 1 from Day 2). No other files are required.
 - If the page looks wrong, check the filename and address first; if a commit fails, check `git status` first.
-- Next week: add `push` to the `add → commit` you learned today, to make an address anyone can open.
+- Keep both folders. Next week, configure a new `my-web` repository and learn `push` and Pages.

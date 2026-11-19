@@ -33,3 +33,8 @@ console.log('1. if 만 :', m1);
 console.log('2. if / else :', m2);
 console.log('3. if / else if / else (큰 수부터) :', m3);
 console.log('4. 3번과 같은 조건, 순서만 거꾸로 :', m4);
+
+// 제공 출력 코드: 비교 결과를 화면에서도 확인한다.
+document.querySelector('#btn').addEventListener('click', function () {
+    document.querySelector('#result').textContent = `시각: ${hour} / 1: ${m1} / 2: ${m2} / 3: ${m3} / 4: ${m4}`;
+});

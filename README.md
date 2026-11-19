@@ -33,7 +33,7 @@
 
 ## 로컬 빌드
 
-Node.js 24 환경에서 의존성을 설치하고 정적 사이트를 생성·검사한다.
+Git으로 받은 저장소에서 Node.js 24와 Git을 사용해 의존성을 설치하고 정적 사이트를 생성·검사한다.
 
 ```bash
 npm ci
@@ -42,6 +42,7 @@ npm test
 ```
 
 생성 결과는 `dist/`에 저장된다. 교재별 폴더는 필요한 파일을 모두 포함하므로 해당 폴더만 별도 웹 서버에 배포할 수 있다.
+웹 슬라이드의 실행 예제에는 같은 단원의 공개 JS·CSS·이미지·요청 파일도 포함한다. Git 제외 파일과 실제 로컬 설정은 배포하지 않는다. README 링크는 저장소 문서를 연다. Node 서버가 필요한 IoT·지도 특강은 별도 서버를 실행한다.
 
 ```text
 dist/
@@ -72,7 +73,7 @@ dist/
 | 교재 | 기준 문서 | 현재 내용 |
 |---|---|---|
 | 모바일프로그래밍 | [`android_programming/README.md`](android_programming/README.md) | Android·Kotlin·XML View·LAN/TCP 시뮬레이터, 15주 + 연락처·BLE 특강 |
-| 웹프로그래밍 | [`web_programming/README.md`](web_programming/README.md) | Git·HTML·CSS·JavaScript·REST 방명록, 15주 자료와 배열 심화 보강·API 구축·홈 IoT 특강 |
+| 웹프로그래밍 | [`web_programming/README.md`](web_programming/README.md) | Git·HTML·CSS·JavaScript·REST 방명록, 15주 자료와 배열 심화·hash SPA·API 구축·홈 IoT 등 6개 특강 |
 | 오픈소스 AI 응용 | [`open_source_ai/README.md`](open_source_ai/README.md) | 오픈소스 협업·uv·Ollama·LangChain·RAG·LoRA·Streamlit 앱, 15주 자료와 선택 특강(60분 블록 × 3) |
 | 과목 공통 자산 | [`_shared/README.md`](_shared/README.md) | 공통 템플릿과 재사용 모듈의 승격 기준 |
 

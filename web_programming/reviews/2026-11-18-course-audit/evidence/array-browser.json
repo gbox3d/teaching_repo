@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-11-18T10:57:16.694Z",
+  "results": [
+    {
+      "example": "01_insert_delete",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    },
+    {
+      "example": "02_iteration",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    },
+    {
+      "example": "03_filter",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    },
+    {
+      "example": "04_map",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    },
+    {
+      "example": "05_reduce",
+      "widths": [
+        375,
+        1280
+      ],
+      "cdnLoaded": true
+    }
+  ],
+  "pageErrors": [],
+  "functional": "All README operation tables, repeated actions, empty/invalid values, reload, text rendering and reference comparisons passed"
+}

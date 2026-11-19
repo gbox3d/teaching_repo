@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ex04 chord</title>
+    <link rel="stylesheet" href="shared/examples.css">
 </head>
 <body>
     <h1>ex04 화음: 여러 음을 한꺼번에</h1>
-    <h2>1. 곡(only_you.json)에 나오는 코드 다섯 개</h2>
+    <h2>1. 코드 비교</h2>
     <button data-chord="Am">Am</button>
     <button data-chord="Dm">Dm</button>
     <button data-chord="G">G</button>
     <button data-chord="C">C</button>
     <button data-chord="F">F</button>
-    <h2>2. 장(밝다) vs 단(어둡다) — 가운데 음 하나만 반음 다르다</h2>
+    <h2>2. 장화음과 단화음</h2>
     <button data-chord="C">C</button>
     <button data-chord="Cm">Cm</button>
     <button data-chord="A">A</button>
     <button data-chord="Am">Am</button>
-    <p id="info">누른 코드가 여기에 나온다</p>
+    <p id="info">코드 선택 대기</p>
 
     <script>
         let ctx = null;

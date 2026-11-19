@@ -1,52 +1,32 @@
-[15주 문제은행](../README.md)
+# w14_rest_edit · PATCH 한 요청
 
-# w14_rest_edit — PATCH·DELETE로 서버 글 변경
-
-출처: [14주차 실습](../../../week14_project_presentation/lab.md) · 권장 14분 · 기말 E REST · 3점
-
-서버 설정은 강의자가 준비한다. 학생은 `app.js`의 TODO를 완성한다. 코드의 해답은 제공하지 않는다.
-
-## 시작 파일
-
-| 파일 | 상태 |
-|---|---|
-| `index.html`·`styles.css` | 화면·입력칸·버튼 제공 |
-| `config.example.js` | 강의자 제공 API 주소·공개 키·BOOK_ID로 변경 |
-| `view.js` | 화면 그리기 제공. 쓰기 문제에는 재조회 함수도 제공 |
-| `app.js` | 이 문제의 요청 구현이 비어 있음 |
-
-모든 파일을 같은 폴더에 두고 정적 서버로 연다. 로컬 연습 API는 [강의자 안내](../../../../tools/guestbook-api/README.md)를 따른다. 실제 시험은 개인별 시험 공간과 준비된 데이터를 사용한다.
+출처: [14주](../../../week14_project_presentation/lab.md) · 권장 8분 · E REST 3점.
 
 ## 할 일
 
-1. 강의자가 제공한 자기 공간의 연습 글 ID 두 개를 확인한다. 배열 위치를 ID로 쓰지 않는다.
-2. 첫 ID는 PATCH로 지정한 메시지로 바꾼다. `id`와 `book_id` 필터, 공개 키·편집 키·JSON 헤더를 넣는다.
-3. 두 번째 ID는 DELETE한다. 204 응답에 JSON 읽기를 시도하지 않는다.
-4. 각 요청 후 같은 ID를 GET해 수정값 또는 빈 배열을 확인한다.
-5. 자기 공간에서 틀린 키로 시도했을 때 글이 바뀌지 않은 사실을 확인하고 실패 안내를 보인다.
+공개 연습본에서는 requestPatch(url, publicKey, editKey, message)의 TODO와 임시 throw만 교체한다. url은 id와 book_id 필터가 포함된 제공 값이다. PATCH로 message JSON을 보내며 apikey·X-Edit-Key·Content-Type: application/json·Prefer: return=representation을 넣고 fetch의 Response를 반환한다.
+
+DELETE·응답 검사·같은 ID 재조회·입력 검증·키 지우기·버튼 복구는 제공 코드다. PATCH와 DELETE를 모두 작성하는 문항이 아니다. 실제 시험이 DELETE 변형이면 강의자는 PATCH 완성부와 DELETE 빈칸을 바꾼 시작본을 배부하며 학생 구현은 여전히 한 요청뿐이다.
 
 ## 확인할 것
 
-- [ ] PATCH한 글의 메시지가 새로고침 후에도 지정값이다.
-- [ ] DELETE한 ID만 사라지고 다른 글은 남는다.
-- [ ] 204 뒤 JSON 파싱 오류가 없다.
-- [ ] 틀린 키로는 글이 바뀌지 않고 성공 문구를 표시하지 않는다.
-- [ ] 코드·URL·캡처·localStorage에 편집 키가 없다.
+- 자기 태그에서 연습 글 세 개의 실제 서버 ID를 확인한다. 배열 위치를 ID로 쓰지 않는다.
+- 가운데 글에 PATCH를 구현하고 메시지를 수정한다. 반환 행 한 개와 같은 ID의 GET 결과가 일치해야 한다.
+- 별도 연습 글의 삭제 확인은 제공 DELETE로 수행한다. 다른 글이 남고 204에 JSON 파싱 오류가 없다.
+- 틀린 키로는 글이 바뀌지 않고 변경 미확인 안내가 나온다. DELETE는 204이어도 같은 ID가 남아 있으면 실패다.
+- 편집 키 입력은 요청할 때마다 비워지며 소스·URL·localStorage에 남지 않는다.
+- 시험 ID·태그·편집 키는 별도 배부한다. 다른 학생 데이터로 실습하지 않는다.
 
-## 이 문제의 값
+## 제공 파일과 설정
 
-| 값 | 연습값 |
-|---|---|
-| API 주소 | 로컬 `http://127.0.0.1:8787`, 공용 실습은 강의자 제공 HTTPS 주소 |
-| 공개 키 | 로컬 `classroom-local`, 공용 실습은 강의자 제공 publishable key |
-| 방명록 번호 | `student01` (시험은 개인별 배부값) |
-| 별칭 | `연습별칭` |
-| 메시지 또는 수정 메시지 | `REST 연습 중입니다.` |
-| 대상 ID | 자기 방명록 GET 응답에서 확인한 ID; 수정·삭제 문제는 서로 다른 두 ID |
-| 편집 키 | 14주 문항에서만 강의자가 별도 배부; 파일에 기록하지 않음 |
+화면·W3.CSS·설정 패널은 제공 코드다. W3.CSS는 cdnjs 4.1.0 CDN이며 보조 CSS는 shared/examples.css다. 동작 코드는 app.js 하나이고 api-settings.js는 별도 제공 설정이다. 폴더를 통째로 복사하고 Node.js 24 정적 서버로 연다.
 
-시험에서는 위 값과 대상 글이 바뀐다. 시험값·편집 키·해답은 이 공개 문제은행에 넣지 않는다.
+API 설정을 펼쳐 주소·공개 키·자기 방명록 번호를 입력한다. 기본값은 로컬 127.0.0.1:8787·classroom-local·student01이다. 설정은 메모리에만 있으므로 새로고침 후 다시 입력한다. 공용 실습과 Pages는 강의자가 준비한 HTTPS API를 사용한다. 실제 키를 파일에 넣지 않는다.
 
-## 받기와 올리기
+## REST Client
 
-연습 폴더는 `web-week15/w14_rest_edit/`다. add·commit·push 후 Pages에서 확인한다. 공개 페이지는 공용 HTTPS API를 사용해야 한다. 로컬 리허설 주소를 그대로 올려 다른 PC에서 동작한다고 판단하지 않는다.
+VS Code REST Client(humao.rest-client)를 설치한다. 같은 폴더의 .env.example을 .env로 복사하고 API_BASE_URL·API_PUBLIC_KEY·BOOK_ID를 설정한다. 브라우저는 .env를 읽지 않는다. [requests.http](requests.http)의 **Send Request**를 위에서부터 실행하여 about·help의 200을 먼저 확인한다. GET의 apikey, 쓰기의 Content-Type과 Prefer 헤더를 비교한다. 요청 위 주석의 상태와 응답을 확인한다. 편집 키는 password prompt에만 입력하고 실행 뒤 Clear Request History로 이력을 지운다.
+
+## 실행과 제출
+
+수업 전에 폴더·서버를 준비한다. 연습 주소는 http://localhost:8000/폴더이름/ 이다. 1일차 업로드는 수업 뒤 수행한다. 시험에서는 배부받은 exam/ 목차·개인별 태그·초기 글을 사용한다. 서버 구성과 장애 처리는 [실습지](../../lab.md)를 따른다.

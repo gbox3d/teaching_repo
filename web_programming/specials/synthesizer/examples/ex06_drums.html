@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ex06 drums</title>
+    <link rel="stylesheet" href="shared/examples.css">
 </head>
 <body>
-    <h1>ex06 북소리도 만든다: 높이가 떨어지는 사인파와 잡음</h1>
+    <h1>ex06 드럼</h1>
     <h2>킥(쿵)</h2>
     <button id="kick1">1. 사인파 50Hz 그대로</button>
     <button id="kick2">2. 150Hz → 45Hz 로 떨어뜨리기</button>
@@ -16,6 +17,8 @@
     <h2>하이햇(칙)</h2>
     <button id="hat1">5. 닫힘 — 0.05초</button>
     <button id="hat2">6. 열림 — 0.3초</button>
+
+    <p id="result" role="status">재생 대기</p>
 
     <script>
         let ctx = null;
@@ -80,6 +83,11 @@
         document.getElementById('snare2').addEventListener('click', function () { noiseHit(1200, 0.45, 0.18); body(); });
         document.getElementById('hat1').addEventListener('click', function () { noiseHit(7000, 0.12, 0.05); });
         document.getElementById('hat2').addEventListener('click', function () { noiseHit(7000, 0.16, 0.3); });
+        document.querySelectorAll('button').forEach(function (button) {
+            button.addEventListener('click', function () {
+                document.getElementById('result').textContent = `재생 · ${button.textContent}`;
+            });
+        });
     </script>
 </body>
 </html>

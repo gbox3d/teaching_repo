@@ -1,3 +1,5 @@
+* { box-sizing: border-box; }
+
 body {
     display: flex;
     flex-direction: column;
@@ -48,13 +50,15 @@ button {
 }
 
 .steps {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    width: 100%;
+    max-width: 412px;
     gap: 4px;
 }
 
 .step {
-    width: 22px;
-    height: 22px;
+    aspect-ratio: 1;
     border-radius: 4px;
     background-color: #2c2050;
 }
@@ -189,3 +193,10 @@ a {
         width: 100%;
     }
 }
+
+body { overflow-wrap: anywhere; }
+.panel > *, .editor > * { min-width: 0; max-width: 100%; }
+label { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+input, select { max-width: 100%; font: inherit; }
+input[type="file"] { width: 100%; }
+.bar { flex-shrink: 0; color: inherit; border: 0; font: inherit; }

@@ -1,0 +1,25 @@
+@baseUrl = http://localhost:8014
+
+### 접속 확인: 200, name/version/help 객체
+GET {{baseUrl}}/api/about
+
+### API 도움말: 200, 요청 안내 6개 배열
+GET {{baseUrl}}/api/help
+
+### 상태 조회: 200, light/fan/environment/revision/log
+GET {{baseUrl}}/api/state
+
+### 전등 제어: 200, light.on=true, brightness=40
+PATCH {{baseUrl}}/api/devices/light
+Content-Type: application/json
+
+{"on": true, "brightness": 40}
+
+### 잘못된 밝기: 400, 기존 전등 상태 유지
+PATCH {{baseUrl}}/api/devices/light
+Content-Type: application/json
+
+{"brightness": 101}
+
+### 변경 후 상태 재조회: 200, light/fan/environment/revision/log
+GET {{baseUrl}}/api/state

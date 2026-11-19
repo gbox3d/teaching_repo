@@ -1,36 +1,6 @@
 <!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>w11 메모장</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="app.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <h1>메모장</h1>
-    </header>
-    <main>
-      <form id="memo-form">
-        <p>
-          <label for="title-input">제목</label>
-          <input id="title-input" type="text">
-        </p>
-        <p>
-          <label for="memo-input">내용</label>
-          <input id="memo-input" type="text">
-        </p>
-        <button type="submit">추가</button>
-      </form>
-      <div id="notice"></div>
-      <h2>목록</h2>
-      <ul class="card" id="memos"></ul>
-      <div id="memo-count">저장된 메모가 없습니다.</div>
-      <div><button id="clear-memos" type="button">모두 지우기</button></div>
-    </main>
-    <footer>
-      <p>수업용 연습 페이지 · student01</p>
-    </footer>
-  </body>
-</html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>폼 저장과 복원</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+<link rel="stylesheet" href="shared/examples.css">
+<script src="app.js" defer></script></head>
+<body><main class="teaching-example"><h1>폼 저장과 복원</h1><form id="memo-form"><label for="title-input">제목</label><input class="w3-input w3-border" id="title-input"><label for="memo-input">내용</label><textarea class="w3-input w3-border" id="memo-input"></textarea><button class="w3-button w3-teal" type="submit">저장</button></form><button class="w3-button w3-white w3-border" id="load-memo" type="button">불러오기</button><button class="w3-button w3-white w3-border" id="clear-memos" type="button">지우기</button><p id="notice" role="status">대기 중</p><pre id="stored-json">null</pre></main></body></html>

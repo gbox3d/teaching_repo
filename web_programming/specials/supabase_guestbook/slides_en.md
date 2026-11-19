@@ -112,7 +112,7 @@ examples/
   README.md              example guide
   01_about/
     index.html · app.js
-    config.example.js · styles.css
+    config.example.js · shared/examples.css
     requests.http · .env.example
   02_help/ ... 07_guestbook_complete/
 ```

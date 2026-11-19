@@ -2,9 +2,9 @@
 
 실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week02_github_pages
 
-## 이번 주 질문
+## 이번 주 작업
 
-> 내 컴퓨터에만 있는 페이지를 GitHub에 올려 누구나 여는 주소를 만들고, 다른 내용은 브랜치로 따로 올릴 수 있을까?
+내 컴퓨터의 commit을 GitHub에 올리고 공개 주소를 만든다. 소개 페이지는 about 브랜치에서 작업한 뒤 main에 합친다.
 
 1주차에는 `index.html`·`styles.css`·`app.js` 세 파일을 만들고 내 컴퓨터에서 `git init → git add → git commit`까지 해 보았다.
 이번 주에는 그 저장소를 GitHub에 올리고(push) GitHub Pages로 공개 주소를 만든다.
@@ -12,8 +12,8 @@
 
 ## 학습 목표
 
-1. GitHub 계정과 빈 저장소 `my-web`을 만들고, 내 저장소에 `git remote add origin <HTTPS URL>`로 주소를 적는다.
-2. `git push -u origin main`으로 commit을 올리고, 처음 push 때 브라우저 로그인을 마친다.
+1. 사전 준비한 GitHub 계정에서 빈 저장소 `my-web`을 만들고, 내 저장소에 `git remote add origin <HTTPS URL>`로 주소를 적는다.
+2. `git push -u origin main`으로 commit을 올리고, 인증이 필요하면 브라우저 로그인을 마친다.
 3. 파일을 고쳐 `add → commit → push` 하면 GitHub 화면이 바뀌는 것을 확인한다.
 4. **Settings › Pages**에서 main 브랜치를 배포해 `https://<아이디>.github.io/my-web/`을 연다.
 5. `git branch about`·`git switch about`으로 브랜치를 만들어 `about.html`을 따로 push하고, main에서 `git merge about`으로 합쳐 공개 페이지에 반영한다.
@@ -31,20 +31,27 @@
 
 ## 2일 수업 흐름
 
-| 일차 | 설명·함께 따라하기 30분 | 천천히 연습하기 60분 | 결과 |
+| 일차 | 강의·시연 60분 | 개별 실습 30분 | 결과 |
 |---|---|---|---|
-| 1일차 | GitHub 계정·빈 저장소, remote와 `origin`, 첫 push와 브라우저 로그인, 고치고 push, Pages 켜기 | 세 파일 준비 → 빈 저장소 → push → 제목 고쳐 push → Pages → 공개 URL | 캡처 1·2 |
-| 2일차 | 브랜치는 따로 올리는 작업선, `branch`·`switch`, about.html commit, `push -u origin about`, `merge` → push, 브랜치 삭제 | about 브랜치 → about.html·링크 → push → GitHub에서 브랜치 비교 → merge → 공개 페이지 확인 | 캡처 3·4 |
+| 1일차 | 준비 5, GitHub·remote 15, 첫 push 15, Pages 15, 공개 경로 5, 안내 5 | `my-web` 준비 5, push 10, 제목 변경·push 5, Pages·캡처 10 | 캡처 1·2 |
+| 2일차 | 준비 5, branch·switch 15, 파일 추가 10, merge 15, Pages 비교 10, 안내 5 | about 브랜치 5, 제공 HTML의 소개·왕복 링크 10, commit·push·merge 10, 확인 5 | 캡처 3·4 |
 
-각 수업은 `설명·함께 따라하기 30분 + 실습 60분`이다. 먼저 끝난 학생은 실습지의 추가 과제를 해 보고,
-시간이 필요한 학생은 따라하기 문서의 단계를 하나씩 반복한다.
+Git과 Pages 자체가 학습 목표인 2주는 push·branch·merge를 수업 안에서 수행한다. 강의자는 먼저 완성 파일과 명령 결과를 시연하고, 학생은 뒤의 30분에 아래 필수 범위만 수행한다. 시간은 설계값이며 학생 실측값이 아니다.
 
-## 준비
+## 준비와 실습 범위
 
-- 새 폴더 `my-web`에 [따라하기 2단계](walkthrough.md#2-세-파일-만들기)의 세 파일을 만든다 (1주차 파일을 복사해 와도 되지만 `<h1>`은 `내 첫 페이지`로 둔다)
-- Git (`git --version`으로 확인), VS Code, 브라우저
-- 이메일 주소 (GitHub 계정 만들기와 확인 메일에 쓴다)
-- 공개 저장소와 공개 페이지에는 실명·학번·전화번호를 넣지 않는다. 예시 아이디는 `student01`, 저장소 이름은 `my-web`이다.
+사전 준비는 VS Code·Git·브라우저 설치와 GitHub 계정·이메일 확인, 1주 세 파일과 이번 주 제공 파일 확보다. 새 저장소 생성·첫 push·Pages 설정은 수업 안에서 한다. 강의 첫 5분에 파일과 로그인 가능 여부를 확인한다. 계정 문제는 강의자의 준비 지원으로 처리한다.
+
+| 구분 | 수행 범위 |
+|---|---|
+| 학생 필수 1일차 | 1주 파일 또는 배부한 세 파일을 `my-web`에 복사하고 로컬 commit, 빈 원격 저장소·push, 제목 한 줄 변경·push, Pages 확인 |
+| 학생 필수 2일차 | about 브랜치 생성, 제공 `about.html`의 소개 한 줄 수정·왕복 링크 확인, commit·push·merge, 두 페이지 확인 |
+| 강의자 시연 | 전체 HTML/CSS/JS 읽기, remote·인증·배포 지연, merge 전후 파일 비교 |
+| 선택·수업 뒤 연습 | 브랜치 삭제, clone·pull, SSH, 추가 페이지·CSS 변경 |
+
+세 파일과 소개 HTML을 처음부터 모두 타이핑하지 않는다. [따라하기](walkthrough.md)의 전문은 복구·비교용이다. 방문 횟수 JS와 기초 CSS는 제공 코드이며 이번 주 작성 대상이 아니다. W3.CSS는 7주에 소개한다.
+
+공개 저장소와 페이지에는 실명·학번·전화번호를 넣지 않는다. 예시 아이디는 `student01`, 저장소 이름은 `my-web`이다. commit 이메일에는 GitHub의 비공개 이메일 설정에서 확인한 noreply 주소를 쓸 수 있다.
 
 ## 이번 주 용어
 
@@ -69,9 +76,9 @@
 | `git remote -v` | 적어 둔 주소를 확인한다 |
 | `git add .` | 폴더 안에서 바뀐 파일을 모두 다음 commit에 넣는다 |
 | `git push -u origin main` | main 브랜치의 commit을 `origin`으로 올린다. `-u`는 다음부터 `git push`만 쳐도 되게 기억한다 |
-| 브라우저 로그인 | 처음 push 때 Git Credential Manager가 브라우저를 열어 GitHub 로그인을 받는다. 비밀번호나 토큰을 명령에 적지 않는다 |
+| 브라우저 로그인 | Git Credential Manager가 설정된 PC에서는 인증이 필요할 때 브라우저 로그인을 진행한다. 비밀번호나 토큰을 명령에 적지 않는다 |
 | GitHub Pages | 저장소의 HTML 파일을 그대로 웹 주소로 보여 주는 기능. 주소는 `https://<아이디>.github.io/<저장소>/` |
-| 브랜치(branch) | 다른 내용을 따로 올리는 작업선. `main`은 처음부터 있는 기본 브랜치 |
+| 브랜치(branch) | 다른 내용을 따로 올리는 작업선. 이번 실습은 `git branch -M main`으로 기본 브랜치 이름을 정한다 |
 | `git branch about` / `git switch about` | about 브랜치를 만든다 / about 브랜치로 옮겨 간다 |
 | `git branch` | 브랜치 목록. `*`가 지금 있는 브랜치 |
 | `git push -u origin about` | about 브랜치를 GitHub에 따로 올린다. main에는 아직 없다 |
@@ -95,24 +102,28 @@
 
 - [ ] GitHub 저장소 `my-web`에 `index.html`·`styles.css`·`app.js` 세 파일이 보인다.
 - [ ] `https://<아이디>.github.io/my-web/`에서 `내 첫 GitHub 페이지`가 열린다.
-- [ ] GitHub 브랜치 목록에 `about`이 보이고, about 브랜치에만 `about.html`이 있다.
+- [ ] merge 전에 main에는 `about.html`이 없고 about에는 있는 것을 비교하고 캡처 3을 저장했다.
 - [ ] main에 merge한 뒤 공개 페이지의 `소개 페이지 보기` 링크가 동작한다.
-- [ ] 캡처 4장을 제출한다.
+- [ ] 캡처 4장을 제출한다. 2주는 일반 주차와 달리 네 장을 유지한다. Pages가 실습 중 배포되지 않으면 로컬 화면과 GitHub commit 증거로 먼저 확인하고, 배포 뒤 공개 화면을 보완한다.
 
 ## 다음 수업 연결
 
-이제 `git add → commit → push` 한 번이면 공개 페이지가 바뀐다. 3주차부터는 이 `my-web` 저장소에 페이지를 늘려 가며
-시맨틱 HTML과 form을 배운다. 매주 결과는 같은 공개 주소 `https://<아이디>.github.io/my-web/`에서 확인한다.
+3주 시작 자료는 이번 주 `day2/`와 같은 `index.html`·`about.html`·`styles.css`·`app.js`다. main에 합친 상태와 왕복 링크를 보존한다. 3주에는 main에서 시맨틱 HTML과 정적 방명록 폼을 수정하며 새 브랜치 학습을 반복하지 않는다. CSS·JS 파일은 보존하고 HTML의 연결만 해제한다.
+
+3주부터 배부 파일·새 주차 폴더 준비는 수업 전에 마치고, 학생 실습 30분은 코드 수정·로컬 확인·캡처에 쓴다. GitHub 업로드는 수업 뒤 정리다. `my-web` 공개 주소는 유지한다.
 
 ## 공식 참고 자료
 
+2026-11-18에 공식 문서의 저장소 생성·GCM 인증·Pages 게시 원본을 확인했다. UI 문구는 언어·화면 버전에 따라 달라질 수 있다. Pages 반영에는 최대 10분이 걸릴 수 있으며 1분 완료를 보장하지 않는다.
+
+- [commit 이메일과 noreply 주소 설정 — GitHub Docs](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address)
 - [GitHub 계정 만들기 — GitHub Docs](https://docs.github.com/ko/get-started/start-your-journey/creating-an-account-on-github)
 - [새 리포지토리 만들기 — GitHub Docs](https://docs.github.com/ko/repositories/creating-and-managing-repositories/creating-a-new-repository)
 - [원격 리포지토리 정보 — GitHub Docs](https://docs.github.com/ko/get-started/git-basics/about-remote-repositories)
 - [원격 리포지토리 관리 — GitHub Docs](https://docs.github.com/ko/get-started/git-basics/managing-remote-repositories)
 - [Git에서 GitHub 자격 증명 캐싱 — GitHub Docs](https://docs.github.com/ko/get-started/git-basics/caching-your-github-credentials-in-git)
 - [GitHub Pages 사이트 만들기 — GitHub Docs](https://docs.github.com/ko/pages/getting-started-with-github-pages/creating-a-github-pages-site)
-- [GitHub Pages 사이트에 대한 게시 원본 구성 — GitHub Docs](https://docs.github.com/ko/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
+- [GitHub Pages 게시 원본 구성 — GitHub Docs](https://docs.github.com/ko/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 - [리포지토리의 브랜치 보기 — GitHub Docs](https://docs.github.com/ko/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/viewing-branches-in-your-repository)
 - [리포지토리 내에서 분기 관리(브랜치 삭제) — GitHub Docs](https://docs.github.com/ko/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository)
 - [비빠른 선행 오류 처리 — GitHub Docs](https://docs.github.com/ko/get-started/using-git/dealing-with-non-fast-forward-errors) (다른 PC에서 이어 할 때)

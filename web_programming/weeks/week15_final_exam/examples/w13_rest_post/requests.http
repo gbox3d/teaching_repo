@@ -1,0 +1,23 @@
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+@bookId = {{$dotenv BOOK_ID}}
+
+### 접속 확인: 200, 안내 배열
+GET {{baseUrl}}/rest/v1/about
+apikey: {{apiKey}}
+
+### 도움말: 200, 메서드·경로 배열
+GET {{baseUrl}}/rest/v1/help
+apikey: {{apiKey}}
+
+### 자기 목록: 200, 글 배열
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&order=id.desc&limit=50
+apikey: {{apiKey}}
+
+### 등록: 201, 생성한 id가 있는 배열. GET으로 다시 확인합니다.
+POST {{baseUrl}}/rest/v1/guestbook
+apikey: {{apiKey}}
+Content-Type: application/json
+Prefer: return=representation
+
+{"book_id":"{{bookId}}","name":"연습별칭","message":"REST 연습 중입니다."}

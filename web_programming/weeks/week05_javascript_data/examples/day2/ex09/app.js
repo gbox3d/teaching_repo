@@ -10,8 +10,8 @@ console.log(out1, out2);                      // 찾은 요소가 찍힌다
 console.log(document.querySelector('#out9')); // 없는 id → null. null 에 .textContent 를 쓰면 오류
 
 document.querySelector('#btn').addEventListener('click', function () {
-    out1.innerText = '1. innerText 로 바꿨다';
-    out2.textContent = '2. textContent 로 바꿨다';  // 글자만 바꿀 때는 innerText 와 결과가 같다
-    out3.textContent = '<b>3. 굵게 될까?</b>';      // 태그가 아니라 글자 그대로 보인다
-    inp.value = '4. value 로 바꿨다';               // 입력 칸 안의 글자는 value
+    out1.innerText = '1. innerText 변경 완료';
+    out2.textContent = '2. textContent 변경 완료';  // 글자만 바꿀 때는 innerText 와 결과가 같다
+    out3.textContent = '<b>3. 태그 문자</b>';      // 태그가 아니라 글자 그대로 보인다
+    inp.value = '4. value 변경 완료';               // 입력 칸 안의 글자는 value
 });

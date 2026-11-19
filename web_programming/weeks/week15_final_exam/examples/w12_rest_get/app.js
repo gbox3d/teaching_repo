@@ -1,7 +1,43 @@
+const notice = document.querySelector('#notice');
+const list = document.querySelector('#list');
+let settingsVersion = 0;
+let latestRead = 0;
+function apiTarget(id = '') {
+  const filter = id ? '&id=eq.' + encodeURIComponent(id) : '&order=id.desc&limit=50';
+  return API_BASE_URL + '/rest/v1/guestbook?book_id=eq.' + encodeURIComponent(BOOK_ID) + filter;
+}
+function showList(items) {
+  list.innerHTML = '';
+  for (let i = 0; i < items.length; i++) {
+    const li = document.createElement('li');
+    li.textContent = items[i].id + ' | ' + items[i].name + ': ' + items[i].message;
+    list.append(li);
+  }
+}
 async function loadMessages() {
-  // 할 일: 자기 BOOK_ID의 목록을 GET으로 요청한다.
-  // response.ok 확인 → JSON 배열 읽기 → 제공된 showList(items) 호출.
-  // 실패하면 notice에 안내하고 다시 누를 수 있게 한다.
-  notice.textContent = 'GET 코드를 작성하세요.';
+  const version = settingsVersion;
+  const request = ++latestRead;
+  try {
+    const items = await requestList();
+    if (version !== settingsVersion || request !== latestRead) return false;
+    showList(items);
+    notice.textContent = items.length ? '목록 확인 완료' : '등록된 글 없음';
+    return true;
+  } catch {
+    if (version === settingsVersion && request === latestRead) notice.textContent = '목록 확인 실패 · 연결과 설정 확인';
+    return false;
+  }
+}
+
+async function requestList() {
+  // TODO GET: apiTarget()에 apikey 헤더로 GET한다.
+  // response.ok 확인 뒤 JSON 배열을 반환한다.
+  throw new Error('GET 코드를 작성하세요.');
 }
 document.querySelector('#reload').addEventListener('click', loadMessages);
+setupApiSettings(async function () {
+  settingsVersion += 1;
+  list.innerHTML = '';
+  await loadMessages();
+});
+loadMessages();

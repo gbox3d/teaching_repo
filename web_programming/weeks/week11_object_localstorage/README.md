@@ -2,7 +2,7 @@
 
 # 11주차 — 객체와 localStorage
 
-이번 주는 객체를 읽고, 입력한 값을 브라우저에 저장했다가 불러오는 방법을 익힌다. 각 수업은 **강의·시연 60분 + 실습 30분**이다.
+파일 배부와 서버 준비는 수업 전에 마친다. 이번 주는 객체를 읽고, 입력한 값을 브라우저에 저장했다가 불러오는 방법을 익힌다. 각 수업은 **강의·시연 60분 + 실습 30분**이다.
 
 1일차 실습은 객체 예제 ex01~ex03, 2일차 실습은 문자열·JSON·폼 저장 예제 ex04~ex06으로 한정한다. 방명록 완성본은 강의자 시연과 12주차 준비 자료다. 수업 중 새 저장소 생성이나 방명록 전체 구현을 요구하지 않는다.
 
@@ -12,7 +12,7 @@
 2. 객체의 필드를 화면에 표시한다.
 3. `setItem`, `getItem`, `removeItem`으로 문자열을 저장·불러오기·삭제한다.
 4. `JSON.stringify`와 `JSON.parse`로 객체를 저장하고 복원한다.
-5. 새로고침한 뒤 이름·메시지 폼을 복원하고 저장된 JSON을 확인한다.
+5. 새로고침한 뒤 불러오기 버튼으로 이름·메시지 폼을 복원하고 저장된 JSON을 확인한다.
 
 ## 2일 수업 흐름
 
@@ -37,7 +37,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 - 2일차: [ex04 열기](http://localhost:8111/weeks/week11_object_localstorage/examples/day2/ex04/)
 - 스타일: [W3.CSS CDN 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css) · [추가 공용 스타일](../../shared/examples.css)
 
-예제마다 `index.html`은 화면, `app.js`는 동작이다. 2일차 ex04~ex07은 W3.CSS를 CDN에서 읽고 추가 공용 스타일 `shared/examples.css`를 불러온다. CDN 스타일을 읽으려면 인터넷 연결이 필요하다. 1일차 예제는 기존 구성을 유지한다. 설명과 조작 순서는 README에서 읽는다. [정적 서버 안내](../../tools/static-server/README.md)
+예제마다 `index.html`은 화면, `app.js`는 동작이다. ex01~ex07은 W3.CSS를 CDN에서 읽고 추가 공용 스타일 `shared/examples.css`를 불러온다. CDN 스타일을 읽으려면 인터넷 연결이 필요하다. 설명과 조작 순서는 README에서 읽는다. [정적 서버 안내](../../tools/static-server/README.md)
 
 저장 실습은 `file://` 대신 위의 localhost 주소에서 진행한다. 저장 공간은 브라우저의 origin(프로토콜·호스트·포트)별로 구분된다. 같은 origin의 폴더들은 저장 공간을 공유하고, 포트나 호스트가 다르면 별도 공간이다. [MDN localStorage](https://developer.mozilla.org/ko/docs/Web/API/Window/localStorage)
 
@@ -68,7 +68,9 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 [web-week11 완성 방명록](examples/day2/web-week11/README.md)은 객체 배열을 저장·복원하는 시연 자료다. 학생의 이번 주 필수 구현·제출에 포함하지 않는다. 전체 HTML·JS는 [따라하기 부록](walkthrough.md#부록-강의자용-방명록-완성본)에 있다.
 
-12주차에는 이 준비된 완성본을 출발점으로 공용 REST API의 JSON 배열을 읽는다. 학생이 11주차에 방명록 전체를 만들었다고 가정하지 않는다.
+12주차에는 이 제공 시연본을 출발점으로 공용 REST API의 JSON 배열을 읽는다. 로컬 저장본은 `guestbook.local.html`·`guestbook.local.js`로 보관하고, 서버 조회본은 `guestbook.html`·`guestbook.js`로 구분한다. 로컬 데이터는 서버로 자동 이전하거나 지우지 않는다. 학생이 11주차에 방명록 전체를 만들었다고 가정하지 않는다.
+
+시연본은 `week11-guestbook-items` 키를 사용한다. 손상 값 안내와 해당 키만 지우는 복구는 제공 코드이며, 학생이 다시 구현할 기능이 아니다.
 
 ## 별도 보강 자료
 

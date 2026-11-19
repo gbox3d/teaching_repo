@@ -10,18 +10,19 @@ footer: "Building a Web Synthesizer · Compare sound parts, then assemble a disc
 
 Today you make sound in the browser, and at the end you assemble a **disco player**.
 
-- How: hear each sound part in **9 comparison files**. Then read the player as those parts put together.
+- How: hear each sound part in **10 comparison files (ex10 optional)**. Then read the player as those parts put together.
 - **Earphones are required.** If the whole lab plays through speakers, nobody hears anything.
 - The lab is **changing values**. Say what will change first, then listen.
 - Result: one screenshot of the public address of a new repository `web-synth`, playing **your edited `my_song.json`**.
 
-Song data holds **chord progressions only**. No melody, lyrics or audio files, in the materials or the assignment.
+Optional after Week 12; outside regular exams; no time limit for vacation research.
+The player and ex10 include melody data. Use your own material for public work.
 
 ---
 
 # Part 1 — Making Sound
 
-`25 min explanation & demo`
+`25 min demo example; research may continue`
 
 1. Sound is air vibrating, and the browser makes that vibration
 2. ex01 — Waveforms: same pitch, different shape
@@ -82,7 +83,7 @@ function midiToFreq(midi) {
 ```
 
 - Buttons show frequencies: A3 `220.0` · A4 `440.0` · A5 `880.0`. Pressing one shows `MIDI 69 → 440.0 Hz` below.
-- Try changing: 440 on line 30 → 432 (all numbers change). A button's `data-midi`.
+- Try changing: 440 on `midiToFreq` → 432 (all numbers change). A button's `data-midi`.
 
 **Pitch = vibrations per second. Octave ×2, semitone ×2^(1/12). Computed from MIDI numbers.**
 
@@ -100,10 +101,10 @@ amp.gain.setValueAtTime(PEAK, t + attack + hold);     // hold
 amp.gain.exponentialRampToValueAtTime(0.0001, t + attack + hold + release);
 ```
 
-- No. 1 clicks at start and end. No. 2 plucks, No. 3 pads. The picture is the loudness change.
-- Try changing: alternate No. 2 and No. 5 (same numbers). attack · release on lines 50–54.
+- No. 1 can click at abrupt transitions. No. 2 plucks, No. 3 pads. The picture is the loudness change.
+- Try changing: alternate No. 2 and No. 5 (same numbers). attack · release on button-specific `play` calls.
 
-**The envelope (loudness over time) sets the sound's character. Start at 0 and end at 0, or it clicks.**
+**The envelope sets the sound's character. Smooth changes reduce clicks; exponential ramps use 0.0001 instead of zero.**
 
 ---
 
@@ -128,7 +129,7 @@ for (const midi of midis) note(midi);             // three at the same time → 
 ## Part 1 · 21–25 min — ex05 Filter: Cut the Highs, Get Darker
 
 [examples/ex05_filter.html](examples/ex05_filter.html)
-Siblings: sawtooth 220Hz + lowpass 1. none / 2. 3000 / 3. 800 / 4. 200 / 5. Q 15 / 6. sweep
+Siblings: sawtooth 220Hz + lowpass 1. 20000Hz / 2. 3000 / 3. 800 / 4. 200 / 5. Q 15 / 6. sweep
 
 ```js
 filter.type = 'lowpass';   // cuts above the cutoff, lets the low side through
@@ -148,7 +149,7 @@ filter.frequency.exponentialRampToValueAtTime(4000, ctx.currentTime + 2);
 
 # Part 2 — Rhythm and Song
 
-`25 min explanation & demo`
+`25 min demo example; research may continue`
 
 1. ex06 — Drums: a falling sine wave and noise
 2. ex07 — Timing: schedule on the audio clock, not a timer
@@ -180,7 +181,7 @@ filter.type = 'highpass';   // cuts below this pitch
 ## Part 2 · 5–10 min — ex07 Timing: Audio Clock, Not a Timer
 
 [examples/ex07_timing.html](examples/ex07_timing.html)
-Siblings: 1. 16 hits by setTimeout / 2. 16 hits on the audio clock — "바쁘게" (busy) box
+Siblings: 1. 16 hits by setTimeout / 2. 16 hits on the audio clock — CPU load box
 
 ```js
 return 60 / bpm / 4;                // beat = 60/BPM s, a 16th = 1/4 of it
@@ -189,10 +190,10 @@ while (next < ctx.currentTime + 0.1 && times.length < 16) {        // 2.
     click(next);                    // schedule it to sound at that time
 ```
 
-- 109 BPM → beat `0.550` s, step `0.138` s. Not busy: No. 1 139–144ms, No. 2 138ms.
-- Busy: No. 1 jumps 155–203ms, No. 2 stays 138ms. Try changing: BPM, busy box.
+- 109 BPM → one beat `0.550`s, one step `0.138`s. Mode 1 reports callback times; mode 2 reports scheduled times.
+- Compare with CPU load. Scheduled intervals do not measure speaker output; late scheduling can still delay sound.
 
-**JS timers run late when the browser is busy. Times set ahead on the audio clock are exact.**
+**JS timers run late when the browser is busy. Schedule future times on the audio clock.**
 
 ---
 
@@ -222,12 +223,13 @@ Siblings: open the same page 1. as `file:///…` / 2. as `http://localhost:8000/
 
 ```js
 const response = await fetch('ex09_song.json');   // 'request' a file in the same folder
+if (!response.ok) throw new Error(`HTTP ${response.status}`);
 const song = await response.json();               // text (JSON) → object
 document.getElementById('v1').innerText = song.track_info.title;
 ```
 
 - http: table `연습곡 / 109 / 2 / A / Am / 2` (practice song), bars `A:Am A:F A:C A:G B:Dm B:Am`.
-- file: `불러오지 못했다: Failed to fetch — …` (could not load), red CORS line in Console.
+- file: `불러오지 못했습니다: Failed to fetch` (could not load), red CORS line in Console.
 
 **A song is data. `fetch` a separate JSON, use it as an object. `file://` is blocked; use a server.**
 
@@ -246,7 +248,7 @@ PATTERNS ← ex08              secondsPerStep · tick ← ex07 · loadSong ← e
 
 [Lab](lab.md#실습-60분) · [Walkthrough](walkthrough.md) · [Lab page](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/specials/synthesizer)
 
-1. [server.mjs](../../tools/static-server/server.mjs) · the six player files in `web-synth` → `node server.mjs` → ▶
+1. Copy the whole `build` folder (9 runtime files) → [server instructions](walkthrough.md) → ▶
 2. Change ex03 · ex04 · ex08, listen → 2+ of `my_song.json` · `PATTERNS` · `playTone`
 3. Upload to a new `web-synth` repository as in Week 2 → screenshot the public address
 
@@ -256,7 +258,7 @@ PATTERNS ← ex08              secondsPerStep · tick ← ex07 · loadSong ← e
 
 ## Submitting
 
-After the special lecture, submit **one** screenshot.
+Record edited code, predictions, observations, URL, and a screenshot. This is outside regular assessment.
 
 ```text
 https://student01.github.io/web-synth/
@@ -265,7 +267,7 @@ Header: your edited title · BPM   (e.g., Friday Night — student01 · Am · 4/
 Sheet: current bar cell in pink, position line by the lights   (e.g., A · 2/12마디 · F = bar 2 of 12)
 ```
 
-- Sound is not captured. Only the screen conditions (your title · BPM, highlighted bar) are checked.
+- Screenshots do not capture sound. Record listening observations separately after listening.
 - Include the address bar. Don't show your real name, student ID or real email.
 
 ---
@@ -276,9 +278,9 @@ Where regular-course syntax is used inside the player.
 
 - `fetch` · JSON (Week 12) — `loadSong` gets the song file and uses it as an object (ex09).
 - Arrays (Week 10) — the 16 cells of `PATTERNS`, and `bars`, all bars in one row.
-- Objects (Week 11) — `song.track_info.title`, one bar `{ section, chord, midis }`.
+- Objects (Week 11) — `song.track_info.title`, one bar `{ section, chord, chords, melody }`.
 - `createElement` · `append` (Week 10) — the section rows and bar cells of the sheet.
 
-More to try: build a melody layer yourself (only melodies you wrote), add keyboard input to ex02 and play on top.
-Recording to an audio file is outside this special lecture.
+Optional: [ex10 melody](examples/ex10_melody.html), then arrange, export JSON, and reload in the composer.
+Keyboard performance and recording are unimplemented follow-up research options.
 The player's **멜로디 조합기 →** link opens [compose.html](examples/build/compose.html)·[compose.js](examples/build/compose.js): join melody pieces to arrange a song (optional).

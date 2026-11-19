@@ -14,13 +14,13 @@ footer: "DOM·이벤트 · 비교 예제로 원리를 보고 마지막에 조립
 
 - 브라우저는 HTML 파일을 읽어 **DOM**(요소 상자)을 만들고, JS 는 그 상자를 찾아서 바꿉니다.
 - 결과는 화면, **Console**, 그리고 새로 쓰는 **Elements** 탭에서 봅니다.
-- 예제 하나 = 개념 하나. 실습은 **값을 바꿔 보는 것**입니다.
+- 필수는 1차시 카운터 여섯 줄, 2차시 색 두 곳과 함수 연결 세 줄입니다. 비교 예제의 추가 수정은 선택입니다.
 
 ---
 
 # 1일차 — DOM 과 클릭
 
-`30분 설명·시연 → 60분 실습`
+`강의·시연 60분 → 학생 실습 30분`
 
 1. 예제 폴더 — `index.html`·`styles.css`·`app.js` 세 파일
 2. ex01 — HTML 파일과 DOM: Elements 와 페이지 소스
@@ -29,9 +29,9 @@ footer: "DOM·이벤트 · 비교 예제로 원리를 보고 마지막에 조립
 
 ---
 
-## 1일차 · 0–4분 — 예제 폴더 하나에 파일 세 개
+## 1일차 · 0–5분 — 예제 폴더 하나에 파일 세 개
 
-예제마다 폴더 하나. 내 사이트와 같은 이름의 세 파일입니다.
+사전에 준비한 폴더·서버를 첫 5분에 확인합니다. 예제마다 같은 이름의 세 파일을 둡니다.
 
 ```text
 ex01/
@@ -48,7 +48,7 @@ ex01/
 
 ---
 
-## 1일차 · 4–12분 — ex01 HTML 파일과 DOM
+## 1일차 · 5–20분 — ex01 HTML 파일과 DOM
 
 [examples/day1/ex01/index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) · [app.js](examples/day1/ex01/app.js)
 
@@ -70,7 +70,7 @@ message.textContent = '3. JavaScript 가 바꾼 글자';
 
 ---
 
-## 1일차 · 12–20분 — ex02 열 때 바꾸기 vs 클릭할 때 바꾸기
+## 1일차 · 20–35분 — ex02 열 때 바꾸기 vs 클릭할 때 바꾸기
 
 [examples/day1/ex02/index.html](examples/day1/ex02/index.html) · [styles.css](examples/day1/ex02/styles.css) · [app.js](examples/day1/ex02/app.js)
 
@@ -89,7 +89,7 @@ btn.addEventListener('click', function () {
 
 ---
 
-## 1일차 · 20–28분 — ex03 클릭 횟수: 변수는 함수 밖에
+## 1일차 · 35–50분 — ex03 클릭 횟수: 변수는 함수 밖에
 
 [examples/day1/ex03/index.html](examples/day1/ex03/index.html) · [styles.css](examples/day1/ex03/styles.css) · [app.js](examples/day1/ex03/app.js)
 
@@ -110,21 +110,25 @@ btn.addEventListener('click', function () {
 
 ---
 
-## 1일차 · 28–30분 — 이제 직접 해 보기
+## 1일차 · 50–60분 — 이제 직접 해 보기
 
-[1일차 실습](lab.md#1일차--dom-과-클릭-60분) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
+[1일차 실습](lab.md#1일차) · [따라하기](walkthrough.md#1일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
-1. 새 폴더 `web-week06` 에 지난주 완성본, `ex/` 에 예제 폴더 세 개.
-2. ex01~ex03 — 폴더마다 `index.html` 을 열고 `app.js` 값 바꿔 보기. 무엇이 달라질지 먼저 말해 봅니다.
-3. 새 저장소 `web-week06` 만들어 올리기 · Pages 켜기.
+50~55분은 잘못된 ID·함수 안 count 오류 시연, 55~60분은 실습 안내입니다.
 
-**설명 합계: 4+8+8+8+2 = 30분**
+1. 버튼 ID 대조 5분.
+2. [ex03 시작 틀](examples/day1/ex03/app.start.js)의 count·textContent 여섯 줄 작성 15분.
+3. 세 번 클릭해 3회, 새로고침해 0회 확인 10분.
+
+완성 예제의 inside와 console 로그는 시연 코드입니다. 파일·저장소는 사전 준비, 업로드는 수업 뒤입니다.
+
+**강의 5+15+15+15+5+5 = 60분, 실습 5+15+10 = 30분**
 
 ---
 
 # 2일차 — class 와 함수, 그리고 조립
 
-`30분 설명·시연 → 60분 실습`
+`강의·시연 60분 → 학생 실습 30분`
 
 1. ex04 — `classList.add / remove / toggle`
 2. ex05 — 다크 모드: `body.dark` 규칙과 `toggle('dark')`
@@ -134,7 +138,7 @@ btn.addEventListener('click', function () {
 
 ---
 
-## 2일차 · 0–7분 — ex04 classList: class 를 붙이고 떼기
+## 2일차 · 0–20분 — 준비 5분과 ex04 시연 15분
 
 [examples/day2/ex04/index.html](examples/day2/ex04/index.html) · [styles.css](examples/day2/ex04/styles.css) · [app.js](examples/day2/ex04/app.js)
 
@@ -155,7 +159,7 @@ box.classList.toggle('on');   // 3. 있으면 떼고, 없으면 붙인다
 
 ---
 
-## 2일차 · 7–14분 — ex05 다크 모드: body 에 class 하나
+## 2일차 · 20–35분 — ex05 다크 모드: body 에 class 하나
 
 [examples/day2/ex05/index.html](examples/day2/ex05/index.html) · [styles.css](examples/day2/ex05/styles.css) · [app.js](examples/day2/ex05/app.js)
 
@@ -173,11 +177,11 @@ darkButton.addEventListener('click', function () {
 - `document.body` 는 `<body>` 요소입니다. 찾지 않고 바로 씁니다.
 - 바꿔 보기: `styles.css` 의 2번 규칙을 지우면? 카드만 흰 채로 남습니다(4주차 `nav a` 같은 자손 선택자).
 
-**색은 CSS 에 미리 적어 두고, JS 는 `toggle('dark')` 한 줄이다.**
+홈의 h1·h2·nav a에는 `body.dark` 선택자로 `#a7c5ff`, footer에는 `#c8d4eb`를 지정합니다. 자체 color가 있으면 body 글자색을 그대로 상속하지 않습니다.
 
 ---
 
-## 2일차 · 14–20분 — ex06 함수 하나를 두 버튼에
+## 2일차 · 35–50분 — ex06 함수 하나를 두 버튼에
 
 [examples/day2/ex06/index.html](examples/day2/ex06/index.html) · [styles.css](examples/day2/ex06/styles.css) · [app.js](examples/day2/ex06/app.js)
 
@@ -197,19 +201,19 @@ countUp();
 
 ---
 
-## 2일차 · 20–25분 — 8주차 중간 실기 안내
+## 2일차 · 50–55분 — 8주차 중간 실기 안내
 
-- 8주차는 **중간 개인 실기**입니다. 1~7주 실습 제출을 정리한 **문제 은행**에서 **값을 바꿔** 출제합니다.
+- 8주차는 중간 개인 실기입니다. 1~7주 실습 제출을 정리한 문제 은행에서 값을 바꿔 출제합니다.
 - 문제 은행은 미리 공개되어 있습니다: [8주차 예제](../week08_midterm/examples/README.md). 문제마다 시작 파일·할 일·확인할 것이 있습니다.
 - 해답은 공개하지 않습니다. 매주 실습을 **직접** 해 본 것이 연습입니다.
-- 시험 중 교재 열람은 됩니다. 범위는 Pages·HTML·CSS·DOM·폼(7주차까지)입니다.
+- 시험 중 교재 열람은 됩니다. 범위는 Pages·HTML·CSS·DOM·W3.CSS(7주차까지)입니다.
 - 목록 추가·삭제는 10주차, 새로고침해도 남기기는 11주차입니다.
 
 **매주 실습이 곧 시험 준비다.**
 
 ---
 
-## 2일차 · 25–30분 — 조립: web-week06, 그리고 실습 인계
+## 2일차 · 55–60분 — 조립: web-week06, 그리고 실습 인계
 
 ```text
 index.html  버튼 두 개 · #count 카드             ← ex02 · ex03
@@ -222,18 +226,21 @@ app.js      const … = querySelector('#…') 네 줄   ← ex01
             dark 버튼: toggle('dark') + countUp() ← ex05 · ex06
 ```
 
-[2일차 실습](lab.md#2일차--class-와-함수-그리고-조립-60분) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
+[2일차 실습](lab.md#2일차) · [따라하기](walkthrough.md#2일차) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week06_dom_events)
 
-1. 예제 폴더 `ex04`~`ex06` 을 `ex/` 에 저장, 값 바꾸기(29분까지).
-2. 조립 → 375·1280 폭과 서버로 확인 → push → 다크 모드 캡처.
+1. 제공 CSS의 다크 배경·글자 두 값 변경 5분.
+2. [홈 시작 틀](examples/day2/web-week06/app.start.js)의 toggle·countUp 세 줄 연결 10분.
+3. 두 버튼과 375/1280px 확인 10분, 캡처 5분.
 
-**설명 합계: 7+7+6+5+5 = 30분**
+HTML·greet·hello·countUp·리스너 틀은 제공됩니다. app.js 전체를 다시 쓰지 않습니다.
+
+**강의 5+15+15+15+5+5 = 60분, 실습 5+10+10+5 = 30분**
 
 ---
 
 ## 제출하기
 
-2일차가 끝나면 캡처 **한 장**을 제출합니다.
+수업 안에서는 localhost 또는 파일 주소의 캡처 **한 장**을 제출합니다. 수업 뒤 commit·push하고 아래 공개 주소에서 확인합니다.
 
 ```text
 https://student01.github.io/web-week06/
@@ -251,5 +258,5 @@ https://student01.github.io/web-week06/
 
 오늘은 버튼을 눌렀을 때 **정해 둔 글자**를 띄웠습니다.
 
-7주차에는 새 저장소 `web-week07` 을 오늘 완성본에서 시작하고, 방명록 폼에 **사용자가 입력한 글자**를 읽어 화면에 띄웁니다.
-오늘 쓴 `addEventListener` 와 `textContent` 를 그대로 쓰고, `click` 대신 폼의 `submit` 을 듣습니다.
+7주차에는 오늘의 방명록 화면을 W3.CSS로 바꿉니다. CDN과 입력창·버튼·카드·메뉴 클래스를 배웁니다.
+폼 동작은 제공 코드로 확인합니다. JavaScript가 사용하는 id를 유지하고 class로 모양을 바꿉니다.

@@ -3,13 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ex01 · 보낼 객체를 JSON 글자로 만들기</title>
-  <script src="app.js" defer></script>
+  <title>ex01 · JSON 요청 본문</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+  <link rel="stylesheet" href="shared/examples.css">
+    <script src="app.js" defer></script>
 </head>
 <body>
-  <h1>보낼 객체를 JSON 글자로 만들기</h1>
-  <p>app.js에서 값을 바꾸고 화면과 Network 탭을 확인하세요.</p>
-  <pre id="output" role="status"></pre>
-  <ul id="list"></ul>
+  <main class="teaching-example">
+    <h1>JSON 요청 본문</h1>
+
+    <form id="example-form"><p><label for="message">메시지</label><input class="w3-input w3-border" id="message" value="첫 인사입니다." maxlength="500"></p><button class="w3-button w3-teal" type="submit">JSON 변환</button></form>
+    <pre id="output" role="status"></pre>
+
+  </main>
 </body>
 </html>

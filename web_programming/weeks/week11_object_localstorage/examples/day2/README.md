@@ -27,21 +27,23 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 ex04에서는 다음 세 동작을 구분한다.
 
 ```js
-localStorage.setItem('memo', '안녕하세요');
-const text = localStorage.getItem('memo');
-localStorage.removeItem('memo');
+localStorage.setItem('week11-ex04-text', '안녕하세요');
+const text = localStorage.getItem('week11-ex04-text');
+localStorage.removeItem('week11-ex04-text');
 ```
 
 ex05와 ex06에서는 객체를 문자열로 바꿔 저장하고 읽은 문자열을 다시 객체로 만든다.
 
 ```js
 const entry = { name: '하늘', message: '안녕하세요' };
-localStorage.setItem('entry', JSON.stringify(entry));
-const saved = localStorage.getItem('entry');
-const restored = saved === null ? null : JSON.parse(saved);
+localStorage.setItem('week11-ex06-entry', JSON.stringify(entry));
+const saved = localStorage.getItem('week11-ex06-entry');
+if (saved !== null) {
+    const restored = JSON.parse(saved);
+}
 ```
 
-`getItem()`은 키가 없으면 `null`, 빈 문자열을 저장했으면 `''`을 반환한다. JSON 문법이 잘못되면 `JSON.parse()`에서 예외가 발생한다.
+`getItem()`은 키가 없으면 `null`, 빈 문자열을 저장했으면 `''`을 반환한다. JSON 문법이 잘못되면 `JSON.parse()`에서 예외가 발생한다. 오류 처리와 형식 검사는 제공 코드이며 학생 재작성 범위가 아니다.
 
 ## 30분 실습
 
@@ -50,7 +52,7 @@ const restored = saved === null ? null : JSON.parse(saved);
 | 0–8분 | ex04 저장·불러오기·지우기 | 저장 값과 `null` 구분 |
 | 8–16분 | ex05 JSON 저장·원문·파싱 | 문자열과 객체 배열 구분 |
 | 16–27분 | ex06 폼 저장·새로고침·복원 | 이름·메시지와 저장 JSON 일치 |
-| 27–30분 | ex06 삭제 후 재저장·복원 확인 | 복원한 폼과 JSON 결과 캡처 |
+| 27–30분 | ex06 재저장·새로고침·복원과 캡처 | 복원한 폼과 JSON 결과 캡처 |
 
 실습 확인은 localhost 화면에서 마친다. 저장소 생성·업로드·Pages 배포는 30분 실습에 포함하지 않으며 필요하면 수업 전 준비 또는 수업 후 정리로 진행한다.
 

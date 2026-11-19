@@ -2,6 +2,14 @@
 
 <code>app</code>은 Kakao 지도 조회, 공식 SDK StaticMap 단일 이미지 relay, 로컬 이미지 편집, 사람·AI 공동 작업 API를 연결한 실행 예제다.
 
+## 단계별 실습
+
+1. [00 서버 접속·도움말](00_connection/README.md): REST Client로 200 응답을 확인한다.
+2. [01 relay 오류](01_relay_checks/README.md): 403·400·405와 요청 헤더를 비교한다.
+3. [완성 앱](app/index.html): 아래 Node 서버에서 열고 지도와 Canvas를 실습한다. 키가 없어도 로컬 이미지 편집을 먼저 할 수 있다.
+
+이 특강은 정규 14주 이후 선택 연구 수업이다. 서버·SDK·Canvas 편집기 전체를 학생이 한 차시에 작성하는 과제가 아니다. Node.js 24를 사용하며 정규 W3.CSS 방명록과 별개의 Canvas UI다.
+
 ## 실행
 
 ~~~powershell
@@ -16,7 +24,7 @@ npm start
 ~~~text
 <저장소 루트>
 ├─ config.json                         실제 값, Git 제외
-└─ teaching_materials\web_programming\specials\kakao_aerial_map\examples\app
+└─ web_programming\specials\kakao_aerial_map\examples\app
    └─ config.example.json              키 없는 예시
 ~~~
 
@@ -81,7 +89,7 @@ server.mjs
 
 브라우저 module은 URL query를 만들거나 의미를 해석하지 않는다. 공식 SDK가 생성한 URL을 exact origin·path로 검사해 전달한다. 서버가 다시 parameter allowlist를 검증한다.
 
-네트워크 GET은 동일한 SDK 생성 image resource에 대해 두 번 발생한다.
+네트워크 GET은 동일한 SDK 생성 image resource에 두 번 발생한다.
 
 1. SDK가 만든 cross-origin image element를 완전히 로드하고 단일 resource인지 확인하는 GET
 2. 검증된 같은 resource를 origin-clean Blob으로 받는 relay GET

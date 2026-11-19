@@ -19,3 +19,7 @@ const li3 = document.createElement('li');
 li3.textContent = '3. 나중에 붙인 줄';
 list.append(li3);
 console.log('3. 목록 :', list);
+
+document.querySelector('#append-first').addEventListener('click', function () {
+    list.append(li1);
+});

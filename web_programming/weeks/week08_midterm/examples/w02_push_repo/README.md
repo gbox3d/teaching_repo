@@ -20,14 +20,14 @@
    - `git add .`
    - `git commit -m "update note"`
    - `git push`
-4. GitHub 저장소 화면을 새로고침해 이 문제 폴더와 commit 메시지 `update note` 가 보이는지 본다. 1~3분 뒤 공개 주소에서도 바뀐 글자를 본다.
+4. GitHub 저장소 화면을 새로고침해 이 문제 폴더와 commit 메시지 `update note` 가 보이는지 본다. Pages 배포가 완료된 뒤 공개 주소에서도 바뀐 글자를 본다.
 
 ## 확인할 것
 
 - [ ] 내 PC 에서 `index.html` 을 열면 `두 번째 올리기 완료` 가 보인다. `아직 올리기 전입니다.` 는 남아 있지 않다.
 - [ ] 터미널에서 `git status` 가 `nothing to commit, working tree clean` 이고, `git log --oneline` 의 첫 줄에 `update note` 가 있다.
 - [ ] GitHub 저장소 화면에 이 문제 폴더가 있고, 파일 목록 위에 `update note` 가 보인다.
-- [ ] 공개 주소 `https://student01.github.io/web-week08/w02_push_repo/`(15주는 `web-week15`) 에서도 `두 번째 올리기 완료` 가 보인다. 1~3분 걸릴 수 있다.
+- [ ] 공개 주소 `https://student01.github.io/web-week08/w02_push_repo/`(15주는 `web-week15`) 에서도 `두 번째 올리기 완료` 가 보인다. 배포가 늦으면 로컬 캡처와 commit 기록을 먼저 남긴다.
 
 ## 힌트
 
@@ -54,3 +54,5 @@
 - `node server.mjs` 로 연 주소나 공개 주소에서는 `favicon.ico` 404 한 줄이 Console·Network 에 보여도 괜찮다(빨간 줄로 세지 않는다). 공개 주소에서 새로고침하면 Status 가 `304` 로 보일 수 있다. 이미 받은 파일을 다시 쓴다는 뜻이다.
 - 올린 뒤 공개 주소는 `https://student01.github.io/web-week08/w02_push_repo/`(15주에 풀었다면 `web-week15`)이다.
 - 해답은 공개하지 않는다. 위 "확인할 것"이 모두 맞으면 된 것이다.
+
+연습 파일은 수업 전에 준비한다. 1일차 공개 업로드는 수업 뒤에 한다. 시험의 제출 시간과 형식은 분반 공지를 따른다.

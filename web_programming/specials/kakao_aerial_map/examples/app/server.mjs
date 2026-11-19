@@ -146,7 +146,26 @@ const server = createServer((request, response) => {
     sendJson(response, 400, { error: 'Invalid request path.' });
     return;
   }
+  if (pathname === '/api/about' || pathname === '/api/help') {
+    if (request.method !== 'GET') {
+      sendJson(response, 405, { error: 'Method not allowed.' });
+      return;
+    }
+    sendJson(response, 200, pathname === '/api/about'
+      ? { name: 'Kakao aerial Canvas lab', version: 'v1', help: '/api/help' }
+      : [
+          { method: 'GET', path: '/api/about', description: 'Server information' },
+          { method: 'GET', path: '/api/help', description: 'Request information' },
+          { method: 'GET', path: '/runtime-config.json', description: 'Public SDK configuration' },
+          { method: 'GET', path: '/api/kakao-static-image', description: 'SDK image relay; same-origin headers and one source required' },
+        ]);
+    return;
+  }
   if (pathname === '/runtime-config.json') {
+    if (request.method !== 'GET') {
+      sendJson(response, 405, { error: 'Method not allowed.' });
+      return;
+    }
     try {
       sendJson(response, 200, readRuntimeConfig());
     } catch {

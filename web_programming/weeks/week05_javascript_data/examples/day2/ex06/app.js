@@ -7,3 +7,8 @@ console.log('3. 12 >= 12 →', 12 >= 12);          // 크거나 같다
 console.log('4. 12 > 12 →', 12 > 12);            // 크다(같으면 false)
 console.log("5. '10' > '9' →", '10' > '9');      // 문자열끼리는 첫 글자부터: '1' < '9'
 console.log("6. Number('10') > Number('9') →", Number('10') > Number('9'));  // 숫자로 바꾸면 10 > 9
+
+// 제공 출력 코드: 비교 결과를 화면에서도 확인한다.
+document.querySelector('#btn').addEventListener('click', function () {
+    document.querySelector('#result').textContent = `1 == '1': ${1 == '1'} / 1 === '1': ${1 === '1'} / 12 >= 12: ${12 >= 12} / 12 > 12: ${12 > 12} / '10' > '9': ${'10' > '9'} / 숫자 비교: ${Number('10') > Number('9')}`;
+});

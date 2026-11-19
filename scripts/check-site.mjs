@@ -4,11 +4,11 @@ import { fileURLToPath } from "node:url";
 import { runInNewContext } from "node:vm";
 import { isDeepStrictEqual } from "node:util";
 
-const EXPECTED_DECKS = 57;
-const EXPECTED_SLIDES = 1157;
+const EXPECTED_DECKS = 58;
+const EXPECTED_SLIDES = 1175;
 const EXPECTED = {
   android: { slug: "android", decks: 20, slides: 378, status: "published" },
-  web: { slug: "webprg", decks: 20, slides: 353, status: "published" },
+  web: { slug: "webprg", decks: 21, slides: 371, status: "published" },
   "open-source-ai": { slug: "open_source_ai", decks: 17, slides: 426, status: "published" },
 };
 const BLOB = "https://github.com/gbox3d/teaching_repo/blob/main";
@@ -492,6 +492,12 @@ async function main() {
 
   for (const filename of files) {
     const extension = path.extname(filename).toLowerCase();
+    const relative = path.relative(dist, filename);
+    const privatePath = relative.split(path.sep).some((part) =>
+      [".git", ".local", "localfiles", "config.json", "config.js"].includes(part.toLowerCase()) ||
+      /^\.env(?:$|\.(?!example$))/i.test(part),
+    );
+    check(!privatePath, `local configuration leaked: ${relative}`);
     check(extension !== ".md", `source Markdown leaked: ${path.relative(dist, filename)}`);
     if ([".html", ".css", ".js", ".json", ".svg"].includes(extension)) {
       const contents = await readFile(filename, "utf8");

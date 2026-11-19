@@ -8,195 +8,180 @@ footer: "REST API · GET"
 
 # REST API로 방명록 읽기
 
-11주: localStorage → 12주: 서버에 GET 요청
+11주 필수: 폼 한 객체 저장·복원. 객체 배열 방명록은 제공 시연본.
+12주: about → help → 자기 목록 GET.
 
-- 강의자가 공용 API를 준비한다.
-- 학생은 요청을 보내고 응답을 화면에 표시한다.
-- 결과: 서버 목록과 Network의 GET 200.
-- 매 수업: 설명 30분 + 실습 60분.
-
----
-
-## 1일차 · 0–4분 — 페이지와 API 서버
-
-- 정적 서버: HTML·CSS·JS 파일을 보낸다.
-- API 서버: 방명록 데이터를 JSON으로 보낸다.
-- 127.0.0.1:8787은 내 PC 연습 주소다.
-- Pages에서는 강의자가 제공한 HTTPS API를 쓴다.
-
-[정적 서버](../../tools/static-server/server.mjs) · [API 안내](../../tools/guestbook-api/README.md)
+- 양일 강의·시연 60분 + 실습 30분.
+- 준비는 사전, 업로드는 수업 뒤 정리.
+- 결과: 서버 목록과 Network GET 200 캡처.
 
 ---
 
-## 1일차 · 4–9분 — JSON 글자와 배열
+## 1일차 · 0~5분 · 실행 준비 확인
 
-[ex01](examples/day1/ex01/index.html) · [코드](examples/day1/ex01/app.js)
+- 정적 서버는 HTML·CSS·JS, API 서버는 JSON을 보낸다.
+- 로컬 기본값: 127.0.0.1:8787 / classroom-local / student01.
+- Pages는 배부받은 공용 HTTPS API를 패널에 입력한다.
+- 설정은 메모리에만 있다. 새로고침하면 다시 입력한다.
 
-JSON은 전송하는 글자다. parse 후 배열로 읽는다.
+[따라하기](walkthrough.md) · [API 준비](../../tools/guestbook-api/README.md)
+
+---
+
+## 1일차 · 5~15분 · URL과 헤더
+
+- URL은 요청할 서버와 경로를 가리킨다.
+- GET에는 JSON 요청 본문이 없다.
+- apikey 헤더는 공개 호출용 키다. 서버 비밀 키가 아니다.
+- BOOK_ID는 분류 태그이며 사용자 인증이 아니다.
+- 제공 패널을 재구현하지 않는다.
+
+---
+
+## 1일차 · 15~30분 · about와 help
+
+[ex01](examples/day1/ex01/README.md) → [ex02](examples/day1/ex02/README.md)
+
+1. REST Client 설치, .env.example을 .env로 복사한다.
+2. about의 **Send Request**: 200과 API 정보 배열.
+3. help의 **Send Request**: 200과 사용법 배열.
+4. 브라우저에서도 다시 요청을 눌러 결과를 대조한다.
+
+브라우저 패널과 .env는 별개다. 실제 값은 Git·ZIP에 넣지 않는다.
+
+---
+
+## 1일차 · 30~40분 · JSON 복습
+
+[11주 ex05](../week11_object_localstorage/examples/day2/ex05/README.md)
+
+- JSON은 전송·저장용 문자열 형식이다.
+- 객체·배열로 읽은 뒤 필드와 길이에 접근한다.
+- 응답 객체의 status와 본문의 name·message를 구분한다.
+- Network Response에서 배열의 대괄호와 객체의 필드를 찾는다.
+
+---
+
+## 1일차 · 40~55분 · GET과 await
+
+[ex03](examples/day1/ex03/README.md) · [코드](examples/day1/ex03/app.js)
 
 ```js
-const text = '[{"name":"student01","message":"안녕하세요"}]';
-const items = JSON.parse(text);
-console.log(items[0].message);
+    const response = await fetch(url, {
+      headers: { apikey: API_PUBLIC_KEY }
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const items = await response.json();
 ```
+
+async 함수에서 응답과 JSON 본문을 차례로 기다린다.
+book_id는 방명록 필터, limit은 최대 글 수다. 1·2·5를 비교한다.
 
 ---
 
-## 1일차 · 9–16분 — GET과 두 번의 await
+## 1일차 · 55~60분 · 30분 실습 인계
 
-[ex02](examples/day1/ex02/index.html) · [코드](examples/day1/ex02/app.js) · [설정](examples/day1/ex02/config.example.js)
+| 실습 시간 | 활동 |
+|---|---|
+| 0~5분 | 브라우저와 .env 설정 |
+| 5~13분 | about·help Send Request |
+| 13~23분 | BOOK_ID·limit 변경 |
+| 23~30분 | URL·200·응답 배열 확인 |
+
+강의 합계 5+10+15+10+15+5=60분. [실습지](lab.md)
+
+---
+
+## 2일차 · 0~5분 · 로컬 보관본과 서버
+
+- 10주 문자열 배열·목록, 11주 제공 객체 배열 방명록을 비교한다.
+- 11주 필수 폼 실습과 제공 시연본을 구분한다.
+- guestbook.local.html/js는 원래 저장 키를 유지한다.
+- guestbook.html은 서버 읽기 화면이다.
+- 로컬 글을 옮기거나 지우지 않는다.
+
+---
+
+## 2일차 · 5~20분 · 응답에서 showList로
+
+[ex04](examples/day2/ex04/README.md) · [완성본](examples/day2/web-week12/guestbook.js)
 
 ```js
-const response = await fetch(url, {
-  headers: { apikey: API_PUBLIC_KEY }
-});
-const items = await response.json();
+  list.replaceChildren();
+  for (let i = 0; i < items.length; i++) {
+    const li = document.createElement('li');
+    li.textContent = `${items[i].name}: ${items[i].message}`;
+    list.append(li);
+  }
 ```
 
-- fetch는 응답을 기다린다. 기본 메서드는 GET이다.
-- json()은 응답 본문을 읽고 배열·객체로 바꾼다.
-- await를 쓰는 함수 앞에는 async를 붙인다.
+다시 그리기 전에 비운다. textContent로 표시한다. []는 정상 빈 목록이다.
 
 ---
 
-## 1일차 · 16–22분 — Network에서 요청 읽기
+## 2일차 · 20~35분 · response.ok
 
-1. Network를 열고 새로고침한다.
-2. Fetch/XHR에서 guestbook 요청을 선택한다.
-3. Headers에서 URL·GET·상태 200을 확인한다.
-4. Response에서 글 배열을 읽는다.
+[ex05](examples/day2/ex05/README.md)
 
-apikey는 공개 키다. 서버 비밀 키를 넣지 않는다.
-이번 GET에는 JSON 요청 본문이 없다.
-
----
-
-## 1일차 · 22–27분 — 주소의 쿼리 문자열
-
-[ex03](examples/day1/ex03/index.html) · [코드](examples/day1/ex03/app.js) · [설정](examples/day1/ex03/config.example.js)
-
-```text
-/rest/v1/guestbook?book_id=eq.student01
-&select=id,name,message,created_at&order=id.desc&limit=2
-```
-
-실제 주소는 줄바꿈 없이 한 줄이다.
-- book_id: 읽을 방명록, select: 응답 항목.
-- order: 최신 번호부터, limit: 최대 개수.
-- 제공 URL에서 limit 하나를 바꿔 비교한다.
-
----
-
-## 1일차 · 27–30분 — 실습 연결
-
-- web-week12에 지난주 완성본을 이어 쓴다.
-- ex01~ex03에서 값을 하나씩 바꾼다.
-- 요청·응답·화면의 변화를 비교한다.
-
-**설명 합계: 4 + 5 + 7 + 6 + 5 + 3 = 30분**
-
-[1일차 실습](lab.md#1일차-실습) · [따라하기](walkthrough.md)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json
-
----
-
-## 2일차 · 0–5분 — 기존 목록 코드 재사용
-
-- 10주: 배열을 읽어 li를 만들었다.
-- 11주: localStorage에서 배열을 읽었다.
-- 12주: 서버 응답에서 배열을 읽는다.
-
-목록을 그리는 DOM 코드는 이어 쓴다.
-11주 localStorage와 서버의 글은 자동으로 합쳐지지 않는다.
-
----
-
-## 2일차 · 5–12분 — 서버 배열을 목록으로
-
-[ex04](examples/day2/ex04/index.html) · [코드](examples/day2/ex04/app.js) · [설정](examples/day2/ex04/config.example.js)
+- 정상 필드: 로컬 Status 200 · ok true.
+- 없는 필드: 로컬 Status 400 · ok false.
+- HTTP 오류에도 응답이 도착한다. 상태와 오류 JSON을 읽는다.
+- 정상 필드로 복구한다. API마다 오류 번호·본문은 다를 수 있다.
 
 ```js
-for (let i = 0; i < items.length; i++) {
-  const li = document.createElement('li');
-  li.textContent = `${items[i].name}: ${items[i].message}`;
-  list.append(li);
-}
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
 ```
-
-서버의 메시지도 textContent로 넣는다.
-빈 배열이면 반복하지 않아 빈 목록이 된다.
 
 ---
 
-## 2일차 · 12–18분 — HTTP 실패도 응답이다
+## 2일차 · 35~45분 · try/catch와 통신 실패
 
-[ex05](examples/day2/ex05/index.html) · [코드](examples/day2/ex05/app.js) · [설정](examples/day2/ex05/config.example.js)
+[ex06](examples/day2/ex06/README.md)
+
+1. 페이지를 먼저 연다.
+2. Network Offline → 다시 요청 → 실패 안내.
+3. No throttling → 다시 요청 → GET 200.
+
+연결 실패는 HTTP 오류와 다르다. catch에서 안내하고 finally에서
+버튼을 다시 활성화한다. 성공·실패 어느 쪽에서도 재시도가 가능하다.
+
+---
+
+## 2일차 · 45~55분 · 재시도와 조립
+
+- guestbook.js 하나에 GET·showList·실패 안내를 모은다.
+- api-settings.js를 먼저 읽는다. 패널은 제공 기능이다.
+- 모든 DOM·이벤트 준비 뒤 최초 GET을 실행한다.
 
 ```js
-if (!response.ok) {
-  throw new Error(`HTTP ${response.status}`);
-}
+reloadButton.addEventListener('click', loadMessages);
+setupApiSettings(loadMessages);
+loadMessages();
 ```
 
-없는 끝점에도 응답을 받을 수 있다.
-ok를 먼저 확인하고 성공한 JSON 목록만 그린다.
-실패 번호·오류 본문은 API별로 다를 수 있다.
+새로 불러오기를 반복해도 목록이 누적되지 않는다.
 
 ---
 
-## 2일차 · 18–23분 — 연결 실패 표시
+## 2일차 · 55~60분 · 30분 실습 인계
 
-[ex06](examples/day2/ex06/index.html) · [코드](examples/day2/ex06/app.js) · [설정](examples/day2/ex06/config.example.js)
+| 실습 시간 | 활동 |
+|---|---|
+| 0~12분 | URL·JSON·showList 세 곳 연결 |
+| 12~22분 | HTTP 오류·Offline·복구 |
+| 22~30분 | 375px·목록·GET 200 캡처 |
 
-```js
-try {
-  // 요청, 응답 검사, JSON 읽기
-} catch (error) {
-  loadNotice.textContent = '목록을 불러오지 못했습니다.';
-}
-```
-
-Network를 Offline으로 바꿔 보고 복구한다.
-이전 목록과 실패 안내를 구별한다.
+강의 합계 5+15+15+10+10+5=60분. [실습지](lab.md)
+로컬 리허설과 공용 서버의 두 브라우저 공유 확인을 구분한다.
 
 ---
 
-## 2일차 · 23–27분 — 기다리는 동안 버튼
+# 다음 주로 이어 쓰는 파일
 
-```js
-reloadButton.disabled = true;
-try {
-  // 목록 요청
-} catch (error) {
-  // 실패 안내
-} finally {
-  reloadButton.disabled = false;
-}
-```
+[방명록](examples/day2/web-week12/guestbook.html) · [GET 코드](examples/day2/web-week12/guestbook.js) · [제공 설정](examples/day2/web-week12/api-settings.js)
+[폴더 안내](examples/day2/web-week12/README.md) · [요청](examples/day2/web-week12/requests.http)
+[따라하기](walkthrough.md) · [실습지](lab.md)
 
-finally는 성공·실패 어느 쪽에서도 마무리한다.
-
----
-
-## 2일차 · 27–30분 — 방명록 읽기 조립
-
-- 설정 → GET → JSON 배열 → showList 순서다.
-- 새로 불러오기 버튼이 GET을 다시 보낸다.
-- 서버 목록과 GET 200을 캡처 한 장으로 확인한다.
-
-**설명 합계: 5 + 7 + 6 + 5 + 4 + 3 = 30분**
-
-[2일차 실습](lab.md#2일차-실습) · [따라하기](walkthrough.md)
-실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json
-
----
-
-# 만들기 파일
-
-[방명록](examples/day2/web-week12/guestbook.html) · [GET 코드](examples/day2/web-week12/guestbook.js) · [설정](examples/day2/web-week12/config.example.js)
-[홈](examples/day2/web-week12/index.html) · [내 정보](examples/day2/web-week12/about.html) · [홈 JS](examples/day2/web-week12/app.js)
-[CSS](examples/day2/web-week12/styles.css) · [프로필](examples/day2/web-week12/images/profile.png)
-
-[예제 설명](examples/README.md) · [실습](lab.md) · [따라하기](walkthrough.md)
-
-파일 이름과 script 순서를 유지한다. 설정값은 강의자 안내값을 쓴다.
+13주는 같은 폴더에 name·message·guestbook-form·notice 폼을 복원하고
+guestbook.js에 POST를 추가한다. 기존 로컬 저장본은 보관한다.
+공용 설정은 소스에 기록하지 않고 실행 중 입력한다.

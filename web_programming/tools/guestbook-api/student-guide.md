@@ -1,8 +1,8 @@
 # 학생용 공용 방명록 API 사용 안내
 
 강의자가 준비한 서버에 `fetch`로 글을 저장하고 읽는다. 학생은 Supabase 계정이나 SQL이 필요 없다.
-먼저 01에서 API 접속을 확인하고 02에서 사용 안내를 읽는다. 이후 03 조회, 04 저장, 05 수정·삭제, 06 통합 실험 순서로 진행한다. 07에는 완성 방명록을 따로 제공한다.
-정규 12주는 GET으로 목록을 읽고, 13주는 POST로 새 글을 저장한다. 화면은 학생이 만든 HTML·JavaScript가 담당한다.
+정규 12주는 about 접속·help 안내를 확인한 뒤 GET으로 목록을 읽고, 13주는 POST 저장, 14주는 PATCH·DELETE를 다룬다. 화면은 학생이 만든 HTML·JavaScript가 담당한다.
+아래 01~07은 Supabase 구축 특강의 예제 번호다. 01 접속, 02 안내, 03 조회, 04 저장, 05 수정·삭제, 06 통합 실험, 07 완성 방명록 순서다.
 
 강의자가 [about-help.sql](about-help.sql)을 공용 서버에 적용했으며 2026-11-14에 about·help GET 200과 응답 1행·6행을 확인했다.
 로컬 01·02 브라우저 화면의 조회도 확인했다. 학생이 SQL을 실행할 필요는 없다.
@@ -15,7 +15,9 @@
 https://esoqbcwgzjtwcqszwvin.supabase.co
 ```
 
-예제 폴더의 `config.example.js`에서 아래 세 값을 설정한다. 공개 키는 강의자가 배부한 값으로 바꾼다.
+정규 12~14주 브라우저 예제는 제공 설정 패널에서 API 주소·공개 키·방명록 번호를 입력하고 **설정 적용**을 누른다. 설정은 메모리에만 남으므로 새로고침 후 다시 입력한다. 실제 키를 코드에 작성할 필요가 없다.
+
+Supabase 구축 특강의 01~07은 예제 폴더의 `config.example.js`에서 아래 세 값을 설정한다. 공개 키는 강의자가 배부한 값으로 바꾼다. 두 예제 묶음의 설정 방식은 서로 다르므로 실행하는 폴더의 README를 따른다.
 `API_BASE_URL`에는 `/rest/v1/about` 같은 경로를 붙이지 않는다. 요청 코드가 뒤에 붙인다.
 
 ```js
@@ -33,7 +35,7 @@ const BOOK_ID = 'student01';
 각 단계의 `requests.http`를 먼저 실행한다. VS Code의 REST Client 확장을 설치하고 해당 폴더에 `.env`가 없으면 `.env.example`을 복사한다.
 `.env`에 배부받은 공개 키를 넣고 요청 위의 **Send Request**를 누른다. `.env`는 `.http`와 같은 폴더에 둔다.
 이 요청에는 Node 정적 서버가 필요 없다. 성공한 요청을 확인한 뒤 같은 폴더의 `index.html`과 `app.js`로 이동한다.
-브라우저는 `.env`를 읽지 않고 실행할 폴더 안의 `config.example.js`를 읽는다. 각 폴더의 설정은 독립적이다.
+브라우저는 `.env`를 읽지 않는다. 정규 예제는 설정 패널, 아래 특강 01~07은 `config.example.js`를 사용한다. 각 폴더의 설정은 독립적이다.
 
 | 단계 | 요청 파일 | API 요청과 응답 |
 |---|---|---|
@@ -84,7 +86,8 @@ checkApi();
 
 - [12주 GET 완성 예제](../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.html): 목록 조회와 새로 불러오기
 - [13주 POST 완성 예제](../../weeks/week13_release_security/examples/day2/web-week13/guestbook.html): 이름·메시지 입력과 서버 저장
-- [12주 조회 코드](../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.js), [13주 저장 코드](../../weeks/week13_release_security/examples/day2/web-week13/submit.js)
+- [14주 수정·삭제 완성 예제](../../weeks/week14_project_presentation/examples/day2/web-week14/guestbook.html): 서버 ID와 편집 키, 변경 후 재조회
+- [12주 조회 코드](../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.js), [13주 저장 포함 코드](../../weeks/week13_release_security/examples/day2/web-week13/guestbook.js)
 
 예제는 HTML·CSS·JavaScript로 된 정적 화면이다. 공용 Supabase API를 설정한 화면이 GitHub Pages에 게시되어 있으면
 강의자가 알려 준 HTTPS 화면 주소에 접속해 실습한다. 이 경우 Node.js 설치나 로컬 서버 실행은 필요 없다.

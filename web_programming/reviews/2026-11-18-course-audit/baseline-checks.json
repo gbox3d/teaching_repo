@@ -1,0 +1,11 @@
+{
+  "files": 657,
+  "html": 160,
+  "javascript": 173,
+  "syntax": [],
+  "missing": [],
+  "duplicateIds": [],
+  "manualChecks": [
+    "week06 ex04의 정규식 id 중복은 화면에 표시한 이스케이프 코드 조각이었다. 실제 HTML 요소 중복이 아님."
+  ]
+}

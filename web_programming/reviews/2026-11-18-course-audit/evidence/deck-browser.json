@@ -1,0 +1,308 @@
+{
+  "timestamp": "2026-11-18T11:24:45.342Z",
+  "scope": "Actual generated dist, Chrome desktop 1440x1000; each slide advanced through viewer",
+  "results": [
+    {
+      "chapter": "week01_web_git",
+      "lang": "ko",
+      "slides": 20,
+      "minFont": 26,
+      "failures": []
+    },
+    {
+      "chapter": "week01_web_git",
+      "lang": "en",
+      "slides": 20,
+      "minFont": 24,
+      "failures": []
+    },
+    {
+      "chapter": "week02_github_pages",
+      "lang": "ko",
+      "slides": 21,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week02_github_pages",
+      "lang": "en",
+      "slides": 21,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week03_semantic_html",
+      "lang": "ko",
+      "slides": 16,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week03_semantic_html",
+      "lang": "en",
+      "slides": 16,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week04_responsive_css",
+      "lang": "ko",
+      "slides": 23,
+      "minFont": 26,
+      "failures": []
+    },
+    {
+      "chapter": "week04_responsive_css",
+      "lang": "en",
+      "slides": 23,
+      "minFont": 25,
+      "failures": []
+    },
+    {
+      "chapter": "week05_javascript_data",
+      "lang": "ko",
+      "slides": 19,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week05_javascript_data",
+      "lang": "en",
+      "slides": 19,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week06_dom_events",
+      "lang": "ko",
+      "slides": 15,
+      "minFont": 21,
+      "failures": []
+    },
+    {
+      "chapter": "week06_dom_events",
+      "lang": "en",
+      "slides": 15,
+      "minFont": 21,
+      "failures": []
+    },
+    {
+      "chapter": "week07_form_input",
+      "lang": "ko",
+      "slides": 18,
+      "minFont": 27,
+      "failures": []
+    },
+    {
+      "chapter": "week07_form_input",
+      "lang": "en",
+      "slides": 18,
+      "minFont": 26,
+      "failures": []
+    },
+    {
+      "chapter": "week08_midterm",
+      "lang": "ko",
+      "slides": 13,
+      "minFont": 28,
+      "failures": []
+    },
+    {
+      "chapter": "week08_midterm",
+      "lang": "en",
+      "slides": 13,
+      "minFont": 26,
+      "failures": []
+    },
+    {
+      "chapter": "week09_readme_presentation",
+      "lang": "ko",
+      "slides": 20,
+      "minFont": 28,
+      "failures": []
+    },
+    {
+      "chapter": "week09_readme_presentation",
+      "lang": "en",
+      "slides": 20,
+      "minFont": 26,
+      "failures": []
+    },
+    {
+      "chapter": "week10_array_list",
+      "lang": "ko",
+      "slides": 16,
+      "minFont": 27,
+      "failures": []
+    },
+    {
+      "chapter": "week10_array_list",
+      "lang": "en",
+      "slides": 16,
+      "minFont": 26,
+      "failures": []
+    },
+    {
+      "chapter": "week11_object_localstorage",
+      "lang": "ko",
+      "slides": 16,
+      "minFont": 28,
+      "failures": []
+    },
+    {
+      "chapter": "week11_object_localstorage",
+      "lang": "en",
+      "slides": 16,
+      "minFont": 26,
+      "failures": []
+    },
+    {
+      "chapter": "week12_fetch_json",
+      "lang": "ko",
+      "slides": 14,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week12_fetch_json",
+      "lang": "en",
+      "slides": 14,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week13_release_security",
+      "lang": "ko",
+      "slides": 14,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week13_release_security",
+      "lang": "en",
+      "slides": 14,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week14_project_presentation",
+      "lang": "ko",
+      "slides": 13,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week14_project_presentation",
+      "lang": "en",
+      "slides": 13,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week15_final_exam",
+      "lang": "ko",
+      "slides": 13,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "week15_final_exam",
+      "lang": "en",
+      "slides": 13,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "array_advanced",
+      "lang": "ko",
+      "slides": 14,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "array_advanced",
+      "lang": "en",
+      "slides": 14,
+      "minFont": 28,
+      "failures": []
+    },
+    {
+      "chapter": "kakao_aerial_map",
+      "lang": "ko",
+      "slides": 30,
+      "minFont": 25,
+      "failures": []
+    },
+    {
+      "chapter": "kakao_aerial_map",
+      "lang": "en",
+      "slides": 30,
+      "minFont": 24,
+      "failures": []
+    },
+    {
+      "chapter": "supabase_guestbook",
+      "lang": "ko",
+      "slides": 16,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "supabase_guestbook",
+      "lang": "en",
+      "slides": 16,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "synthesizer",
+      "lang": "ko",
+      "slides": 16,
+      "minFont": 27,
+      "failures": []
+    },
+    {
+      "chapter": "synthesizer",
+      "lang": "en",
+      "slides": 16,
+      "minFont": 26,
+      "failures": []
+    },
+    {
+      "chapter": "home_iot_http",
+      "lang": "ko",
+      "slides": 26,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "home_iot_http",
+      "lang": "en",
+      "slides": 26,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "hash_spa",
+      "lang": "ko",
+      "slides": 18,
+      "minFont": 29,
+      "failures": []
+    },
+    {
+      "chapter": "hash_spa",
+      "lang": "en",
+      "slides": 18,
+      "minFont": 29,
+      "failures": []
+    }
+  ],
+  "screenshots": [
+    "deck-week02_github_pages-ko.png",
+    "deck-week07_form_input-ko.png",
+    "deck-week11_object_localstorage-ko.png",
+    "deck-week14_project_presentation-ko.png",
+    "deck-hash_spa-ko.png"
+  ],
+  "failures": []
+}

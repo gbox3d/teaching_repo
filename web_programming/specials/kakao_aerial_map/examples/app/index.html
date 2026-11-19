@@ -13,10 +13,6 @@
       <div>
         <p class="eyebrow">Kakao Maps Web SDK · Canvas API</p>
         <h1>항공사진 Canvas Lab</h1>
-        <p class="hero-copy">
-          사람과 AI가 같은 위치·항공뷰·편집 상태를 이해하고, 명시적으로 공유된
-          이미지 안에서 함께 작업합니다.
-        </p>
       </div>
       <p class="local-only">화면 읽기 없음 · 명시적 이미지 공유</p>
     </header>
@@ -90,7 +86,7 @@
 
         <div class="source-actions">
           <button id="static-image-button" type="button" disabled>
-            정적 항공뷰를 사람·AI 작업공간에 전달
+            정적 항공뷰 불러오기
           </button>
           <label class="file-button">
             항공사진 파일 열기
@@ -102,10 +98,6 @@
             />
           </label>
         </div>
-        <p class="hint">
-          Kakao SDK가 만든 SKYVIEW 정적 이미지 한 장만 로컬 백엔드를 통해
-          Canvas로 전달합니다. 브라우저 화면이나 다른 탭은 읽지 않습니다.
-        </p>
       </section>
 
       <section class="panel editor-panel" aria-labelledby="editor-title">
@@ -175,32 +167,21 @@
         </div>
 
         <p id="attribution-note" class="protected-note" hidden>
-          좌측 하단의 Kakao 출처 표지는 최종 합성 단계에서 원본 상태로 보존됩니다.
+          Kakao 출처 표지 보존
         </p>
 
         <div class="download-actions">
-          <button id="download-png" type="button" disabled>PNG 내려받기</button>
+          <button id="download-png" type="button" disabled>PNG 다운로드</button>
           <button id="download-jpeg" type="button" class="secondary" disabled>
-            JPEG 내려받기
+            JPEG 다운로드
           </button>
         </div>
-        <p class="hint">
-          출처·저작권 표시는 제거하거나 가리지 마세요. 원형 보존에는 PNG를 권장합니다.
-        </p>
       </section>
 
       <section class="panel collaboration-panel" aria-labelledby="collaboration-title">
         <div class="collaboration-intro">
           <p class="step">SHARED SPACE</p>
-          <h2 id="collaboration-title">사람과 AI의 공감 작업대</h2>
-          <p>
-            사람과 AI는 같은 상태와 허용된 명령을 사용합니다. AI의 요청과 이미지
-            열람은 기록으로 보이며, 민감한 선택은 사람에게 남겨 둡니다.
-          </p>
-          <p class="hint">
-            AI 진입점: <code>window.aerialCanvasLab</code> · <code>getState</code> ·
-            <code>execute</code> · <code>getImageBlob</code> · <code>getImageDataUrl</code>
-          </p>
+          <h2 id="collaboration-title">공동 작업</h2>
           <dl class="collaboration-boundaries">
             <div>
               <dt>함께 사용</dt>
@@ -215,10 +196,6 @@
               <dd>브라우저 화면·다른 탭·다른 프로그램</dd>
             </div>
           </dl>
-          <p class="hint">
-            이 구분은 공개 협업 API의 계약입니다. AI에 브라우저 전체 제어 권한을
-            위임하는 보안 격리 장치로 사용하지 않습니다.
-          </p>
         </div>
         <div class="collaboration-activity">
           <p id="collaboration-state" class="collaboration-state">
@@ -232,12 +209,7 @@
       </section>
     </main>
 
-    <footer>
-      <p>
-        Kakao Web SDK는 주소·지도·SKYVIEW 정적 이미지 생성에 사용합니다. 동적
-        타일을 수집하지 않으며 SDK가 만든 정적 이미지 한 장만 처리합니다.
-      </p>
-    </footer>
+    <footer><p>로컬 이미지 편집 · Kakao StaticMap</p></footer>
 
     <script type="module" src="./js/main.js"></script>
   </body>

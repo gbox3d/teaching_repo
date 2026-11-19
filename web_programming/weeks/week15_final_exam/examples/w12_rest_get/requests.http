@@ -1,0 +1,15 @@
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+@bookId = {{$dotenv BOOK_ID}}
+
+### 접속 확인: 200, 안내 배열
+GET {{baseUrl}}/rest/v1/about
+apikey: {{apiKey}}
+
+### 도움말: 200, 메서드·경로 배열
+GET {{baseUrl}}/rest/v1/help
+apikey: {{apiKey}}
+
+### 자기 목록: 200, 글 배열
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&order=id.desc&limit=50
+apikey: {{apiKey}}

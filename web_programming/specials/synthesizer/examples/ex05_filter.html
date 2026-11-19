@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ex05 filter</title>
+    <link rel="stylesheet" href="shared/examples.css">
 </head>
 <body>
     <h1>ex05 필터: 높은 성분을 깎는다</h1>
-    <p>모두 같은 sawtooth 220Hz 다. 소리가 지나가는 길에 lowpass 필터를 끼우고 기준(cutoff)만 바꾼다.</p>
-    <button data-cutoff="20000">1. 필터 없음(20000Hz)</button>
+    <button data-cutoff="20000">1. 20000Hz</button>
     <button data-cutoff="3000">2. 3000Hz</button>
     <button data-cutoff="800">3. 800Hz</button>
     <button data-cutoff="200">4. 200Hz</button>
     <button id="q">5. 800Hz + Q 15(공명)</button>
     <button id="sweep">6. 200 → 4000Hz 로 쓸기</button>
-    <p><canvas id="spectrum" width="480" height="120" style="background: #111"></canvas></p>
-    <p>그림: 왼쪽이 낮은 소리, 오른쪽이 높은 소리. 막대가 높을수록 그 높이의 성분이 많다.</p>
+    <p><canvas id="spectrum" width="480" height="120"></canvas></p>
 
     <script>
         let ctx = null;

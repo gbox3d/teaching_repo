@@ -1,7 +1,31 @@
 const output = document.querySelector('#output');
-const text = '[{"name":"student01","message":"안녕하세요"}]';
-const items = JSON.parse(text);
-output.textContent = items[0].message;
-console.log('JSON 글자:', text);
-console.log('자바스크립트 배열:', items);
-// text의 큰따옴표 하나를 작은따옴표로 바꾸고 Console을 확인한다.
+const button = document.querySelector('#run-button');
+const responseBody = document.querySelector('#response-body');
+
+let latestRequest = 0;
+
+async function readMessages() {
+  const requestId = ++latestRequest;
+  button.disabled = true;
+  output.textContent = '불러오는 중';
+  try {
+    const url = `${API_BASE_URL}/rest/v1/about`;
+    const response = await fetch(url, {
+      headers: { apikey: API_PUBLIC_KEY }
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const items = await response.json();
+    if (requestId !== latestRequest) return false;
+    responseBody.textContent = JSON.stringify(items, null, 2);
+    output.textContent = `GET ${response.status} · ${items.length}개`;
+  } catch (error) {
+    if (requestId !== latestRequest) return false;
+    output.textContent = `요청 실패: ${error.message}. 주소와 연결을 확인하세요.`;
+  } finally {
+    if (requestId === latestRequest) button.disabled = false;
+  }
+}
+
+button.addEventListener('click', readMessages);
+setupApiSettings(readMessages);
+readMessages();

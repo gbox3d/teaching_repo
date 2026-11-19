@@ -1,38 +1,29 @@
-# 12주차 예제 · REST API로 방명록 읽기
+# 12주차 예제 · about → help → GET
 
-## 목차
+[따라하기](../walkthrough.md)에서 서버를 실행한다. 각 폴더는 HTML·동작 JS·제공 `api-settings.js`·README·`requests.http`·`.env.example`·`.gitignore`를 포함한다. 폴더 전체를 복사하면 독립 실행할 수 있다. 공용 설정을 소스에 쓰지 않고 브라우저 패널 또는 별도 `.env`에서 입력한다.
 
-- [실행](#실행)
-- [비교 예제](#비교-예제)
-- [조립표](#조립표)
+| 예제 | 실행 화면 | 수업 역할 |
+|---|---|---|
+| [ex01 안내](day1/ex01/README.md) · [화면](day1/ex01/index.html) | about 200과 정보 배열 | 필수 접속 확인 |
+| [ex02 안내](day1/ex02/README.md) · [화면](day1/ex02/index.html) | help 200과 사용법 배열 | 필수 도움말 확인 |
+| [ex03 안내](day1/ex03/README.md) · [화면](day1/ex03/index.html) | GET 200과 자기 글 배열 | BOOK_ID·limit 비교 |
+| [ex04 안내](day2/ex04/README.md) · [화면](day2/ex04/index.html) | 응답 배열을 목록으로 표시 | 강의 시연·조립 재사용 |
+| [ex05 안내](day2/ex05/README.md) · [화면](day2/ex05/index.html) | 정상 200·없는 필드 오류 400 | 오류 비교 실습 |
+| [ex06 안내](day2/ex06/README.md) · [화면](day2/ex06/index.html) | Offline 실패와 복구 | 재시도 실습 |
+| [완성본 안내](day2/web-week12/README.md) · [방명록](day2/web-week12/guestbook.html) | 서버 글 목록과 새로 불러오기 | 제공 틀의 3곳 수정 |
 
-## 실행
+JSON 단독 비교는 [11주 ex05](../../week11_object_localstorage/examples/day2/ex05/)로 연결한다. 11주 필수 폼 저장과 제공 객체 배열 방명록을 구분한다. 완성본의 `guestbook.local.html`·`guestbook.local.js`는 제공 로컬 저장본이며 서버 글과 자동으로 합치지 않는다.
 
-[따라하기](../walkthrough.md)의 설정·서버 실행부터 진행한다.
-`config.example.js`는 공개 설정 파일이며 HTML이 직접 읽는다. 이름을 바꾸지 않는다.
-예제 폴더를 작업 저장소의 `ex/ex01/`처럼 복사해 `http://localhost:8000/ex/ex01/`로 연다.
-`ex01`은 API가 필요 없고, 나머지는 강의자 API 또는 로컬 연습 API가 필요하다.
+## 파일 인계
 
-## 비교 예제
-
-| 파일 | 열면 보이는 것 | 보여 주는 원리 | 바꿔 볼 값 |
-|---|---|---|---|
-| [ex01/index.html](day1/ex01/index.html) · [app.js](day1/ex01/app.js) | JSON.parse 뒤 배열의 첫 메시지를 본다 | JSON 글자와 배열 | 메시지와 큰따옴표 |
-| [ex02/index.html](day1/ex02/index.html) · [app.js](day1/ex02/app.js) · [설정](day1/ex02/config.example.js) | 응답 객체와 JSON 배열을 Console에서 구분한다 | GET 응답과 JSON 본문 | 본문의 message와 response.status 비교 |
-| [ex03/index.html](day1/ex03/index.html) · [app.js](day1/ex03/app.js) · [설정](day1/ex03/config.example.js) | limit 이하의 최신 글을 읽는다 | 쿼리 문자열 | limit 1·2·5 |
-| [ex04/index.html](day2/ex04/index.html) · [app.js](day2/ex04/app.js) · [설정](day2/ex04/config.example.js) | 서버 응답 항목마다 li를 붙인다 | 배열을 화면 목록으로 | name과 message 표시 순서 |
-| [ex05/index.html](day2/ex05/index.html) · [app.js](day2/ex05/app.js) · [설정](day2/ex05/config.example.js) | 잘못된 끝점의 status와 ok를 비교한다 | HTTP 실패 | guestbook → missing_table |
-| [ex06/index.html](day2/ex06/index.html) · [app.js](day2/ex06/app.js) · [설정](day2/ex06/config.example.js) | Offline 실패 뒤 다시 요청한다 | 연결 실패와 재시도 | Offline → No throttling |
-
-## 조립표
-
-최종 [web-week12/guestbook.html](day2/web-week12/guestbook.html)은 지난주 홈·내 정보 페이지와 같은 CSS를 쓴다.
-
-| 만들기 파일 | 가져오는 개념 |
+| 파일 | 역할 |
 |---|---|
-| [config.example.js](day2/web-week12/config.example.js) | 강의자 공개 설정 세 값 |
-| [guestbook.js](day2/web-week12/guestbook.js) | ex02 GET, ex03 쿼리, ex04 목록, ex05·ex06 오류·버튼 상태 |
-| [guestbook.html](day2/web-week12/guestbook.html) | 목록·새로 불러오기·상태 자리 |
+| `api-settings.js` | 메모리 설정·제공 폼 연결. 공통 정본의 폴더별 사본 |
+| `guestbook.js` | GET·showList·실패 안내·버튼 복구 |
+| `guestbook.html` | 기존 메뉴·서버 목록·설정 패널 |
+| `guestbook.local.html/js` | 11주 로컬 저장본 보존 |
+| `requests.http`·`.env.example` | REST Client 접속→도움말→목록 요청 |
 
-이름은 30자, 메시지는 500자 이내다. 화면에 넣을 때는 `textContent`를 쓴다.
-서버 목록과 11주 localStorage 목록은 자동으로 합쳐지지 않는다.
+모든 요청 위 **Send Request**로 실행한다. `apikey` 헤더는 `.env`의 공개 키를 읽는다. about·help·GET 모두 200과 JSON 배열을 기대하고 `[]`도 정상이다. 브라우저 패널은 `.env`와 별개이며 새로고침 후 재입력한다.
+
+W3.CSS 4.1.0은 `https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css`를 쓴다. 예제의 추가 스타일은 각 폴더 `shared/examples.css`의 배포 사본이며 원본은 `web_programming/shared/examples.css`다. 홈·내 정보는 기존 `styles.css`를 유지한다. 실제 `.env`는 Git·ZIP에서 제외한다.

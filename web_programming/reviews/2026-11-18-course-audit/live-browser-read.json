@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-11-18T10:52:55.492Z",
+  "scope": "Read-only GET from localhost HTTP to Supabase HTTPS in Chrome; no cloud writes",
+  "results": [
+    {
+      "path": "day1/ex01",
+      "status": 200,
+      "output": "GET 200 · 1개",
+      "layout": {
+        "width": 375,
+        "scrollWidth": 375
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "day1/ex02",
+      "status": 200,
+      "output": "GET 200 · 6개",
+      "layout": {
+        "width": 375,
+        "scrollWidth": 375
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "day2/ex05",
+      "status": 400,
+      "output": "Status 400 · ok false",
+      "layout": {
+        "width": 375,
+        "scrollWidth": 375
+      },
+      "pageErrors": []
+    }
+  ]
+}

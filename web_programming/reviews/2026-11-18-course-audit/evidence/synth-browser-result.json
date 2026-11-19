@@ -1,0 +1,256 @@
+{
+  "browser": "157.0.8103.38",
+  "viewports": [
+    {
+      "name": "ex01_wave.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "ex02_pitch.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "ex03_envelope.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "ex04_chord.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "ex05_filter.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "ex06_drums.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "ex07_timing.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "ex08_pattern.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "ex09_fetch_song.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "ex10_melody.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "build/index.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "build/compose.html",
+      "width": 375,
+      "body": 375,
+      "viewport": 375
+    },
+    {
+      "name": "ex01_wave.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    },
+    {
+      "name": "ex02_pitch.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    },
+    {
+      "name": "ex03_envelope.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    },
+    {
+      "name": "ex04_chord.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    },
+    {
+      "name": "ex05_filter.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    },
+    {
+      "name": "ex06_drums.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    },
+    {
+      "name": "ex07_timing.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    },
+    {
+      "name": "ex08_pattern.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    },
+    {
+      "name": "ex09_fetch_song.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    },
+    {
+      "name": "ex10_melody.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    },
+    {
+      "name": "build/index.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    },
+    {
+      "name": "build/compose.html",
+      "width": 1280,
+      "body": 1280,
+      "viewport": 1280
+    }
+  ],
+  "functions": [
+    {
+      "name": "ex01_wave.html",
+      "buttons": 4,
+      "starts": 4,
+      "states": [
+        "running"
+      ]
+    },
+    {
+      "name": "ex02_pitch.html",
+      "buttons": 11,
+      "starts": 11,
+      "states": [
+        "running"
+      ]
+    },
+    {
+      "name": "ex03_envelope.html",
+      "buttons": 5,
+      "starts": 5,
+      "states": [
+        "running"
+      ]
+    },
+    {
+      "name": "ex04_chord.html",
+      "buttons": 9,
+      "starts": 27,
+      "states": [
+        "running"
+      ]
+    },
+    {
+      "name": "ex05_filter.html",
+      "buttons": 6,
+      "starts": 6,
+      "states": [
+        "running"
+      ]
+    },
+    {
+      "name": "ex06_drums.html",
+      "buttons": 6,
+      "starts": 7,
+      "states": [
+        "running"
+      ]
+    },
+    {
+      "name": "ex07",
+      "result": "간격(ms): 138 138 138 138 138 138 138 138 138 138 138 138 138 138 138 — 가장 짧은 138, 가장 긴 138",
+      "invalidBpm": "blocked",
+      "duplicate": "disabled"
+    },
+    {
+      "name": "ex07 CPU load callback intervals",
+      "result": "간격(ms): 200 200 200 200 141 160 139 160 200 200 141 160 200 139 160 — 가장 짧은 139, 가장 긴 200"
+    },
+    {
+      "name": "ex08",
+      "presets": "clear/rock/disco",
+      "editing": true,
+      "replay": true
+    },
+    {
+      "name": "ex09",
+      "success": true,
+      "failure404Clears": true,
+      "recovery": true
+    },
+    {
+      "name": "ex10",
+      "modes": 3,
+      "notesPerMode": 30,
+      "explicitStop": true
+    },
+    {
+      "name": "player",
+      "cycles": 3,
+      "outputDisconnected": 3,
+      "states": [
+        "running"
+      ]
+    },
+    {
+      "name": "player JSON",
+      "latestRequestWins": true,
+      "invalidJsonClears": true,
+      "recovery": true
+    },
+    {
+      "name": "composer",
+      "editRestore": true,
+      "midiBoundRestore": true,
+      "copyMoveDelete": true,
+      "exportReload": true,
+      "invalidJsonPreserves": true,
+      "cycles": 3,
+      "outputDisconnected": 3
+    },
+    {
+      "name": "composer startup race",
+      "localFileWins": true
+    }
+  ],
+  "errors": []
+}

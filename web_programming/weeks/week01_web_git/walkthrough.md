@@ -1,6 +1,6 @@
 # 1주차 따라하기 — 세 파일 만들기와 첫 commit 세 개
 
-처음에는 그대로 따라 하고, 결과가 나오면 본인 소개 문구로 바꾼다.
+강의·시연 60분 뒤에 개별 실습 30분을 진행한다. 제공 코드를 이용하며 전체 파일을 타이핑하지 않는다.
 각 단계의 **예상 결과**가 화면에 보이면 다음 단계로 넘어간다.
 
 `student01`은 예시 별칭이다. 파일과 캡처에 실명·학번·전화번호를 넣지 않는다.
@@ -8,6 +8,8 @@
 2일차 명령은 VS Code의 터미널(**Terminal › New Terminal**, Windows는 PowerShell)에서 실행한다. macOS 터미널도 같은 명령이다.
 
 ## 1일차
+
+필수 30분은 1~4단계의 제공 파일 열기 5분, 5단계의 제목·문단·색 변경 15분, 7단계의 200·404 확인 5분, 9단계 캡처 5분이다. 6·8단계는 강의자 시연이며 직접 재현은 선택이다.
 
 ### 1. 연습 폴더 만들고 VS Code로 열기
 
@@ -18,10 +20,10 @@
 
 ### 2. 세 파일 만들기
 
-탐색기의 **New File** 아이콘으로 `index.html`, `styles.css`, `app.js`를 만들고 아래 내용을 그대로 넣는다.
+실습에서는 배부한 [day1](examples/day1) 폴더의 세 파일을 `week01`에 복사한다. 파일이 없으면 탐색기의 **New File**로 세 파일을 만들고 아래 제공 코드를 붙여 넣는다. 파일 생성 과정은 강의자가 시연한다.
 파일 이름은 한 글자도 다르면 안 된다. 붙여 넣은 뒤 `Ctrl+S`(macOS `⌘S`)로 저장한다.
 
-`index.html` — `<h1>`과 소개 문단은 5단계에서 내 소개로 고친다:
+`index.html` 제공본 — `<h1>`과 소개 문단은 5단계에서 내 소개로 고친다:
 
 ```html
 <!doctype html>
@@ -36,8 +38,8 @@
   <body>
     <main class="card">
       <p class="eyebrow">Week 01 · HTML · CSS · JavaScript</p>
-      <h1>여기에 내 소개 제목을 씁니다</h1>
-      <p>여기에 나를 소개하는 한 문장을 씁니다.</p>
+      <h1>안녕하세요, student01입니다</h1>
+      <p>웹프로그래밍 수업에서 만든 첫 페이지입니다.</p>
       <button id="count-button" type="button">눌러 보기</button>
       <p id="status">클릭 횟수: 0</p>
     </main>
@@ -59,6 +61,7 @@ body {
 }
 
 .card {
+  box-sizing: border-box;
   width: min(36rem, calc(100% - 2rem));
   padding: 2rem;
   border-radius: 1rem;
@@ -126,9 +129,10 @@ file:///Users/student01/Documents/week01/index.html      (macOS)
 ### 5. 내 소개로 고치고 저장하기
 
 1. `index.html`의 `<h1>`과 바로 아래 `<p>`를 본인 소개로 바꾼다. 실명 대신 `student01` 같은 수업용 별칭을 쓴다.
-2. `Ctrl+S`로 저장하고 브라우저에서 `F5`로 새로고침한다.
+2. `styles.css`의 `body`에 있는 `background: #eef2ff`를 `background: #fff7ed`처럼 다른 색으로 바꾼다. 버튼의 배경색은 그대로 둔다.
+3. `Ctrl+S`로 저장하고 브라우저에서 `F5`로 새로고침한다.
 
-전체 파일은 아래와 같다. 같은 파일이 [examples/day1/index.html](examples/day1/index.html)에 있다.
+아래는 `student01`을 사용한 전체 기준 파일이며 [examples/day1/index.html](examples/day1/index.html)과 같다. 제출 파일의 별칭·소개·배경색은 본인이 바꾼 값이다.
 
 ```html
 <!doctype html>
@@ -152,7 +156,7 @@ file:///Users/student01/Documents/week01/index.html      (macOS)
 </html>
 ```
 
-**예상 결과** — 카드의 제목과 문단이 내가 쓴 내용으로 바뀐다.
+**예상 결과** — 카드의 제목과 문단, 카드 바깥 배경색이 내가 바꾼 내용으로 보인다.
 그대로면 저장(탭의 ●)과 새로고침을 확인한다. 저장하지 않으면 브라우저는 옛 내용을 계속 보여 준다.
 
 ### 6. DevTools Elements와 Console 보기
@@ -213,6 +217,8 @@ Windows는 `Win + Shift + S`, macOS는 `⌘ + Shift + 4`로 화면을 캡처한�
 
 ## 2일차
 
+필수 30분은 10~12단계의 폴더 초기화·설정 5분, 13~15단계의 제공 코드와 commit 3회 20분, 16단계의 log·화면 확인과 캡처 5분이다. HTML 조각과 CSS·JS를 제공하므로 Git 기록에 시간을 쓴다.
+
 ### 10. 연습 폴더 만들고 터미널 열기
 
 1일차 폴더와 **별도의 새 폴더**에서 한다. 1일차 폴더에서 `git init`을 하지 않는다.
@@ -270,7 +276,7 @@ git config user.name
 **예상 결과** — 앞의 두 줄은 아무것도 출력하지 않고, 마지막 줄이 `student01`을 보여 준다.
 
 - `--global`을 붙이지 않았으므로 **이 저장소에만** 적용된다. 공용 PC에서 남의 설정을 바꾸지 않는다.
-- 이름은 commit마다 기록에 남는다. 실명 대신 수업용 별칭을 쓴다. 이메일은 다음 주 GitHub 가입에 쓸 주소면 된다.
+- 이름과 이메일은 commit마다 기록에 남는다. 이번 로컬 연습에서는 수업용 별칭과 예시 주소 `student01@example.com`을 쓴다. 다음 주 공개 저장소에는 GitHub가 제공하는 비공개 `noreply` 주소를 설정한다.
 - 이 설정은 **이 저장소에만** 적용된다. 다음 주 새 폴더에서도 `git init` 뒤에 같은 두 줄을 다시 친다.
 - `fatal: not in a git directory`가 나오면 11단계의 `git init`을 하지 않았거나 다른 폴더에 있는 것이다.
 
@@ -318,7 +324,7 @@ git log --oneline
 `(HEAD -> main)`은 지금 이 브랜치에 있다는 표시다.
 
 - commit 출력에 `Your name and email address were configured automatically …`가 보이면 12단계를 건너뛴 것이다.
-  commit은 되지만 **PC 계정 이름과 PC 이름**이 기록에 남는다. 12단계를 한 뒤 `git commit --amend --reset-author`를 치면 방금 commit의 이름이 바뀐다.
+  Git이 추정한 PC 계정 정보가 기록된 경우다. 강의자와 함께 12단계를 확인하고 `git commit --amend --reset-author --no-edit`로 방금 commit의 작성자를 수정한다. 설정이 없으면 `Author identity unknown`으로 commit이 실패하는 환경도 있다.
 - 이 파일을 브라우저로 열면 흰 배경에 제목만 보인다. 아직 CSS가 없으니 정상이다.
 
 ### 14. commit 2 — 소개 문단과 링크 추가
@@ -402,11 +408,12 @@ git status
 
 ```text
 [main 2041aef] 스타일과 스크립트 연결
- 3 files changed, 43 insertions(+)
+ 3 files changed, 44 insertions(+)
  create mode 100644 app.js
  create mode 100644 styles.css
 ```
 
+위의 파일·줄 수는 제공 기준 파일을 사용한 예시이며, 공백이나 코드 수정에 따라 달라질 수 있다.
 `git log --oneline`에 세 줄이 보이고 맨 윗줄이 `2041aef (HEAD -> main) 스타일과 스크립트 연결`이다.
 마지막 `git status`는 `nothing to commit, working tree clean`이다.
 

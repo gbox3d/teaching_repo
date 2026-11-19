@@ -13,112 +13,106 @@
 
 ## 필수 설치
 
-학생 실습에 필요한 것은 **Git · VS Code · Chrome** 셋이다.
-확인과 캡처의 표준이 GitHub Pages 공개 URL이므로, 학생 PC에 서버나 런타임을 설치하지 않아도 15주가 그대로 성립한다.
+일반 차시는 강의·시연 60분과 학생 실습 30분이다. 설치와 예제 폴더 배부는 수업 전에 마치고 강의 첫 5분에 실행 상태를 확인한다. Git 자체를 배우는 1~2주를 제외하면 새 저장소 준비와 업로드 시간을 학생 실습에 넣지 않는다.
 
-| 프로그램 | 공식 경로 | 비고 |
-|---|---|---|
-| [Git for Windows](https://git-scm.com/install/windows) | Git 공식 사이트 | 1주차부터 사용. HTTPS + 브라우저 로그인(Git Credential Manager 포함) |
-| [VS Code](https://code.visualstudio.com/docs/setup/windows) | VS Code 공식 사이트 | 코드 편집. **File › Open Folder**로 수업 폴더를 연다 |
-| [Chrome](https://www.google.com/chrome/) | Chrome 공식 사이트 | DevTools(Elements·Console·Network·Application)와 기기 모드 375px |
+| 프로그램 | 사용 시점과 확인 |
+|---|---|
+| [Git](https://git-scm.com/install/windows) | 1주부터 사용. Windows는 Git Credential Manager를 포함한 배포본과 HTTPS 브라우저 로그인을 확인 |
+| [VS Code](https://code.visualstudio.com/docs/setup/windows) | 코드 편집. File › Open Folder로 예제 폴더 열기 |
+| [Chrome](https://www.google.com/chrome/) | Elements·Console·Network·Application과 375px 기기 모드 |
+| [Node.js](https://nodejs.org/en/download) | 교재 실행 기준은 24 이상. 5주 전 정적 서버 실행 확인. 학생 예제의 npm 패키지 설치는 없음 |
+| [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) | 12주 전 VS Code에 humao.rest-client 설치. .http의 Send Request로 about·help 요청 확인 |
 
-브라우저를 Edge로 대체해야 하면 DevTools 탭 이름이 같은지 먼저 확인한다. 교재의 화면 이름은 Chrome 기준이다.
+브라우저를 Edge로 대체할 때는 DevTools 이름과 예제 동작을 먼저 확인한다. Node 설치가 막힌 실습실은 담당 조교가 승인된 대체 정적 서버를 미리 준비한다. 수업 도중 매번 push하고 배포를 기다리는 방식을 30분 실습의 기본 환경으로 삼지 않는다.
 
 ## 권장 설치
 
-| 프로그램 | 조건 |
-|---|---|
-| [Node.js LTS](https://nodejs.org/en/download) | 수업용 정적 서버 [`tools/static-server/server.mjs`](tools/static-server/README.md) 실행용(`node server.mjs` → `http://localhost:8000/`). 5주차부터 쓴다. npm 패키지는 설치하지 않는다 |
+Marp 확장은 조교가 슬라이드를 미리 볼 때 사용한다. 학생의 HTML·CSS·JavaScript 실습에 필수는 아니다. VS Code의 Markdown 미리보기는 별도 확장 없이 사용할 수 있다.
 
-**5주차 시작 전에 실습실 PC에서 `node -v`가 `v18` 이상으로 나오는지 확인한다.**
-막히면 설치 승인을 담당 교수에게 받는다. 설치가 막혀도 4~10주차 예제는 파일을 두 번 눌러(`file://`) 열 수 있고,
-12주차 `fetch`와 15주차 기말은 "한 번에 한 가지만 고쳐 push → Pages 확인"으로 진행한다(수정마다 1~3분 대기).
-Live Server 확장·`python3 -m http.server`도 같은 일을 하지만, 수업 자료는 `server.mjs` 기준으로 쓴다.
-
-11주차 저장 예제와 배열 심화 특강은 W3.CSS를 cdnjs CDN에서 불러오므로 인터넷 연결을 확인한다. 추가 스타일 파일 `web_programming/shared/examples.css`는 예제와 함께 준비한다. 저장소 루트에서 `node web_programming/tools/static-server/server.mjs web_programming 8111`로 실행한다. 11주차 실습 30분에는 저장·복원 확인만 진행하고, 설치·폴더 준비는 수업 전에 마친다.
+7주 전 cdnjs의 W3.CSS 4.1.0 연결을 확인한다. 라이브러리 파일은 별도로 설치하지 않는다. 7주 변환 이후와 9~14주 방명록은 같은 CDN을 사용한다. 11주 저장 기초와 배열 심화의 추가 스타일은 `web_programming/shared/examples.css`이므로 예제와 상대 경로를 유지해 배부한다.
 
 ## 필요할 때만 설치
 
-| 프로그램 | 설치 조건 |
+| 프로그램·준비 | 조건 |
 |---|---|
-| Node.js 24 | 조교의 교재 사이트 빌드(`npm run build`)용. 학생 PC는 위 LTS면 된다 |
-| Marp | 조교가 슬라이드 변환까지 담당하는 경우 |
-| 그 밖의 VS Code 확장 | 학기별 환경 기준표에 지정된 확장만 설치 |
+| 교재 빌드 의존성 | 조교가 저장소 루트에서 npm ci와 npm run build를 실행할 때만 설치 |
+| Marp 변환 도구 | PDF 등 별도 형식의 슬라이드를 생성할 때 |
+| 특강별 설정 | 지도 API 키, Supabase 새 프로젝트 등 해당 특강의 안내를 따름 |
 
 ## 별도 설치가 없는 서비스
 
-- GitHub와 GitHub Pages — 정규 15주에서 쓴다. 브라우저만 있으면 된다.
-- Supabase — 12~14주에는 강의자가 공용 API를 준비하고 학생은 주소·공개 키·실습 번호만 사용한다. 방학 연구 특강에서는 학생 또는 소그룹이 새 연습 프로젝트의 API를 구축한다.
-- Kakao Developers — 지도 선택 특강에서 사용한다. 계정과 키 운영은 담당 교수 안내를 따른다.
+- GitHub·GitHub Pages: 2주부터 브라우저로 설정한다.
+- Supabase: 정규 12~14주는 강의자가 API를 준비하므로 학생 계정·SQL·SDK가 필요 없다. 구축 특강에서는 학생 또는 소그룹 담당자가 새 프로젝트를 준비한다.
+- Kakao Developers: 지도 특강에서 계정·도메인·키 설정을 다룬다.
 
 ## 설치 확인
 
 ```powershell
 git --version
 code --version
+node --version
 ```
 
-Chrome 버전은 주소창에 `chrome://version`을 넣어 확인한다.
-정적 서버를 사용할 학생 PC에서는 `node --version`을 확인한다. Supabase·홈 IoT 연구 특강 PC와 조교 빌드 PC는 Node.js 24 이상을 확인한다.
+Chrome은 `chrome://version`에서 확인한다. REST Client는 .http 요청 위에 Send Request가 나타나는지 확인한다. 정확한 버전은 [학기별 환경 기준표](../environment_baseline_template.md)에 기록한다.
 
-새 실습 계정으로 **GitHub 가입 → 저장소 생성 → Settings › Pages(main · /(root)) → 공개 URL 열기**까지 한 번 통과해 두면
-2주차 수업에서 화면 이름이 바뀐 곳을 미리 찾을 수 있다.
+저장소 루트 `teaching_repo`에서 전체 웹 예제를 열 때는 다음 명령을 쓴다.
 
-정확한 Git·VS Code·Chrome 버전은 [학기별 환경 기준표](../environment_baseline_template.md)에서 담당 교수가 확정한다.
+```powershell
+node web_programming/tools/static-server/server.mjs web_programming 8111
+```
+
+`http://localhost:8111/`에서 해당 주 폴더를 연다. 학생의 단독 주차 폴더에는 [server.mjs](tools/static-server/server.mjs)를 배부하고 `node server.mjs`로 `http://localhost:8000/`을 연다. Node 서버는 파일을 제공하며 Supabase 데이터베이스를 실행하는 서버가 아니다.
+
+학기 전 실습 계정으로 GitHub 저장소 생성 → Settings › Pages의 main·/(root) → 실제 배포 주소 열기를 확인한다. 배포가 즉시 끝난다고 보장하지 않고 Pages·Actions의 배포 상태를 확인한다.
 
 ## 공용 PC 운영
 
-### 자격 증명 삭제 (매 실습 끝 5분)
+### 자격 증명 삭제
 
-공용 PC에 GitHub 로그인이 남으면 다음 사용자가 push할 때
-`remote: Permission to student01/my-web.git denied to <다른 아이디>` 오류가 난다. 학생이 직접 다음 순서로 지운다.
+공용 PC에서 업로드를 마친 뒤 GitHub 로그인과 저장된 Git 자격 증명을 정리한다.
 
-1. 시작 메뉴에서 **자격 증명 관리자**(Credential Manager)를 연다
-2. **Windows 자격 증명** 탭을 고른다
-3. 목록에서 `git:https://github.com`을 펼쳐 **제거**를 누른다
-4. 다음 학생이 처음 push할 때 브라우저 로그인 창이 다시 뜨면 정상이다
+1. Windows의 자격 증명 관리자를 연다.
+2. Windows 자격 증명에서 `git:https://github.com` 항목을 제거한다.
+3. 브라우저의 GitHub 계정도 로그아웃한다.
 
-로그오프 시 자동으로 지우는 배치 스크립트를 함께 쓸지는 담당 교수가 정한다.
+환경에 따라 GitHub 관련 항목 이름이 다를 수 있다. 반복적으로 다른 계정의 push 오류가 나면 [실습실 PC 로그인 정리 도구](../tools/github-classroom-pc-reset/README.md)의 절차를 따른다.
 
 ### Pages 반영 지연
 
-- push 뒤 공개 페이지 반영에 1~3분이 걸린다.
-- 5분 안에 안 보이면 로컬 화면 캡처와 GitHub **Commits** 탭 캡처를 같은 점수로 인정하고, 다음 수업 시작 5분에 다시 확인한다.
-- 조교는 실습 끝에 "push → 새로고침 → 캡처 → 자격 증명 삭제" 순서를 돌아다니며 확인한다. 4주차부터는 매주 새 저장소 `web-weekNN`이므로 1일차 끝(50–60분)에 저장소 만들기와 **Settings › Pages** 켜기까지 확인한다.
+수업 중에는 로컬 동작과 캡처를 확인한다. 3주 이후 push·Pages 확인은 수업 뒤 정리이며, 배포가 늦으면 로컬 결과와 Commits 탭을 남긴다. 다음 수업 준비 시간에 공개 주소를 다시 확인한다. 1~2주와 시험의 제출 형식은 해당 주차 안내를 따른다.
 
 ### clone·로그인이 막힌 학생
 
-교재의 지난주 완성본(4주차부터 `examples/day2/web-weekNN/`, 3주차까지는 `examples/day2/`)을 받아 그 폴더에서 작업하게 한다. 4주차부터는 매주 새 저장소라 실습 끝의 `git init` → `git remote add origin <URL>` → `git push -u origin main` 순서가 그대로 적용된다. 2일차에 clone이 막히면 1일차에 올린 저장소를 **Code › Download ZIP**으로 받아 작업하고, 끝에 조교와 함께 push한다.
+전 주 완성본 또는 강의자 배부 폴더로 시작한다. 교재 저장소 전체 ZIP에서 해당 예제 폴더를 복사하면 파일별 Raw 다운로드를 반복하지 않아도 된다. 공용 자산을 읽는 예제는 shared 폴더와 상대 경로도 유지한다. 로그인·저장소 복구는 수업 전후에 조교가 지원한다.
 
 ### 개인 노트북
 
-macOS·Linux 개인 노트북에서 `Username for 'https://github.com':`이 나오면 Git Credential Manager가 없는 경우다.
-표준 대응(Credential Manager 설치 안내 / SSH 키 / 실습실 PC 사용)은 담당 교수가 하나로 정한다.
+macOS·Linux도 같은 Node 정적 서버와 브라우저 예제를 쓴다. Git 인증 방식은 분반 공지로 통일한다. 학생별 계정·편집 키·실제 개인정보를 실습 화면이나 요청 이력 캡처에 남기지 않는다.
 
 ## 학기 중 점검 시기
 
 | 시기 | 점검 항목 |
 |---|---|
-| 개강 전 | Git·VS Code·Chrome 설치와 버전, 새 실습 계정으로 GitHub 가입 → 저장소 생성 → Pages 켜기 화면 재확인 |
-| 5주차 전 | 실습실 PC `node -v`(v18 이상). 막히면 Node.js LTS 설치 승인 요청 |
-| 매 실습 끝 | 학생이 push·Pages 확인·자격 증명 삭제를 마쳤는지 |
-| 12주차 전 | 공용 HTTPS API의 GET·POST 및 GitHub Pages에서 CORS 확인 |
-| 14주차 전 | 학생별 편집 키 배부, 다른 학생 키로 수정·삭제되지 않는지 확인 |
-| Supabase 연구 특강 전 | 프로젝트 생성 담당자 계정, 새 연습 프로젝트, Node.js 24 이상, SQL·편집 키 등록 절차 확인 |
-| 홈 IoT 특강 전 | 학생 PC의 Node.js 24 이상, 8014 포트, GET·PATCH와 화면 제어 확인 |
+| 개강 전 | Git·VS Code·Chrome, 배부 폴더, 실습 계정의 저장소·Pages 동작 |
+| 매 차시 전 | 시작 폴더, 오늘 필수 예제, localhost 실행, 링크·공용 자산 |
+| 5주 전 | Node.js 24 이상과 server.mjs 실행 |
+| 7주 전 | W3.CSS CDN, 변환 전 파일·제공 JS, 375px 폼 동작 |
+| 9주 전 | README 시작 틀·제공 SVG·캡처 폴더, 발표 인원·전환 시간 |
+| 11주 전 | 같은 origin의 폼 저장·복원, 예제별 저장 키, 강의자 시연본 구분 |
+| 12주 전 | REST Client, .env 견본, 공용 HTTPS API about·help·GET, 브라우저 CORS |
+| 13주 전 | 자기 태그의 POST·GET, 두 브라우저의 같은 서버 글 |
+| 14주 전 | 편집 키 배부, 올바른 키·틀린 키, PATCH·DELETE 뒤 대상 재조회 |
+| 8·15주 전 | 문제은행 범위·시작 파일, 실제 제한시간, 로컬 대체 환경·시험 전용 태그 |
+| 연구 특강 전 | 각 특강 README의 계정·포트·도메인·시작 파일과 실행 조건 |
 
 ## REST 방명록과 홈 IoT 준비
 
-공용 방명록은 [강의자 준비 안내](tools/guestbook-api/README.md)에 따라 준비한다.
-정규 수업의 학생은 Supabase에 가입하지 않는다. 기본 코드의 루프백 API는 로컬 리허설용이며,
-실제 공용 HTTPS 주소를 검증해 배부하기 전에는 다른 PC·휴대폰에서 공유를 확인할 수 없다.
-14주 편집 키는 공개 저장소나 캡처에 포함하지 않고 웹 화면에서 입력한다.
+공용 API는 [강의자 준비 안내](tools/guestbook-api/README.md)에 따라 점검한다. 학생에게 HTTPS API 주소·공개 키·book_id를 배부한다. book_id는 글을 구분하는 태그이며 로그인이나 비밀 값이 아니다. 14주 편집 키는 별도로 배부한다.
 
-[Supabase 연구 특강](specials/supabase_guestbook/README.md)은 서버 구축 과정을 직접 다룬다.
-학생 또는 소그룹의 프로젝트 담당자만 계정을 준비한다. 계정 준비가 막힌 학생은 강의자 시연과 제공 API로 요청 실험에 참여한다.
-정규 수업용 서버의 권한·데이터를 실험 중 변경하지 않도록 새 연습 프로젝트를 사용한다.
-두 연구 특강에는 고정 분량이나 총시간을 두지 않고 단계별 결과를 확인한다.
+정규 12~14주 브라우저 예제는 제공 설정 패널에서 주소·공개 키·태그를 적용한다. 설정과 편집 키는 메모리에만 두므로 새로고침 후 다시 입력한다. .http의 .env는 REST Client가 읽으며 브라우저 설정을 자동으로 바꾸지 않는다. 상세 연결은 해당 주 예제 README를 따른다.
 
-[홈 IoT 특강](specials/home_iot_http/README.md)은 Node.js 24 이상이 필수다.
-학생마다 `node examples/simulator/server.mjs`로 자기 시뮬레이터를 실행한다.
-설치할 npm 패키지나 실제 IoT 보드는 없다. Node.js 실행이 막힌 PC에서는 이 특강의 현장 실습을 진행할 수 없으므로 사전 점검한다.
+`http://127.0.0.1:8787`과 `classroom-local`은 선택 로컬 모의 API용 값이다. 이것으로 공용 서버나 다른 기기의 공유를 검증했다고 기록하지 않는다. 로컬 HTTP 화면에서 공용 HTTPS API를 호출할 수 있으며, Pages 화면과 공용 API는 모두 HTTPS를 사용한다.
+
+[Supabase 특강](specials/supabase_guestbook/README.md)은 새 연습 프로젝트의 서버 구축을 다룬다. [홈 IoT 특강](specials/home_iot_http/README.md)은 학생 PC에서 Node.js 서버를 실행한다. 홈 IoT는 실제 보드나 npm 패키지 없이 `node examples/simulator/server.mjs`와 `http://localhost:8014/`로 실습한다. GitHub Pages는 이 Node 서버를 실행하지 않는다.
+
+연구 특강의 전체 분량과 차시 수는 제한하지 않는다. 실습 준비와 API·정적 화면·시뮬레이터의 역할을 구분해 배부한다.

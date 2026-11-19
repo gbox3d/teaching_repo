@@ -1,0 +1,15 @@
+# 정적 JSON 파일 GET 연습입니다. REST CRUD API가 아닙니다.
+# examples를 서버 루트로 열었을 때의 주소. 인증/필수 헤더 없음.
+@baseUrl = http://localhost:8000
+
+### 연결 확인: 200, application/json, track_info와 sections
+GET {{baseUrl}}/ex09_song.json
+Accept: application/json
+
+### 연주기 데이터: 200, 8마디 연습곡
+GET {{baseUrl}}/build/my_song.json
+Accept: application/json
+
+### 오류 확인: 404, 응답 본문은 HTML일 수 있음
+GET {{baseUrl}}/missing-song.json
+Accept: application/json

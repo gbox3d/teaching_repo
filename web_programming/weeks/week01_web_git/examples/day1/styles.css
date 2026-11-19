@@ -9,6 +9,7 @@ body {
 }
 
 .card {
+  box-sizing: border-box;
   width: min(36rem, calc(100% - 2rem));
   padding: 2rem;
   border-radius: 1rem;

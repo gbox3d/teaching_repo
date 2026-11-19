@@ -57,3 +57,13 @@ body.dark .card {
   background-color: #222222;
   color: #eeeeee;
 }
+
+body.dark h1,
+body.dark h2,
+body.dark nav a {
+  color: #a7c5ff;
+}
+
+body.dark footer {
+  color: #c8d4eb;
+}

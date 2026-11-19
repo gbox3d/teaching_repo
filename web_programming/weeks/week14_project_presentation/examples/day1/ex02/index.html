@@ -1,4 +1,26 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DELETE와 빈 응답</title><script src="config.example.js" defer></script><script src="app.js" defer></script></head>
-<body><h1>DELETE와 빈 응답</h1><label for="id">내 연습 글 ID</label><input id="id" type="number" min="1"><label for="key">편집 키</label><input id="key" type="password" autocomplete="off"><button id="send" type="button">삭제 요청</button><div id="notice" role="status"></div><pre id="result"></pre></body></html>
+<html lang="ko"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DELETE와 결과 재조회</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+  <link rel="stylesheet" href="shared/examples.css">
+  <script src="api-settings.js" defer></script><script src="app.js" defer></script>
+</head><body><main class="teaching-example w3-container">
+<h1>DELETE와 결과 재조회</h1>
+      <details class="w3-margin-bottom">
+        <summary>API 설정</summary>
+        <form id="api-settings-form" autocomplete="off">
+          <p><label for="api-base-url">API 주소</label><input class="w3-input w3-border" id="api-base-url" type="url" required></p>
+          <p><label for="api-public-key">공개 키</label><input class="w3-input w3-border" id="api-public-key" type="password" autocomplete="off" required></p>
+          <p><label for="api-book-id">방명록 번호</label><input class="w3-input w3-border" id="api-book-id" pattern="[a-z0-9_-]{1,40}" required></p>
+          <button class="w3-button w3-teal" type="submit">설정 적용</button>
+          <p id="api-settings-notice" role="status">로컬 연습 설정</p>
+        </form>
+      </details>
+<form id="request-form" autocomplete="off">
+  <label for="id">내 연습 글 ID</label><input class="w3-input w3-border" id="id" type="number" min="1" step="1" required>
+  <label for="key">편집 키</label><input class="w3-input w3-border" id="key" type="password" autocomplete="off" required>
+
+  <button class="w3-button w3-teal" id="send" type="submit">삭제 요청</button>
+</form><div id="notice" role="status"></div><pre id="result"></pre>
+</main></body></html>

@@ -1,22 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex02 script position</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ex02 script 위치</title>
     <script>
-        // 1. head 안의 script: 아직 body 를 읽기 전이다 → document.body 가 없다(null)
         console.log('1. head 안 script :', document.body);
+        let scriptResults = '1: ' + document.body;
     </script>
-    <!-- 3. defer: 파일을 받아 두었다가 HTML 을 끝까지 읽은 뒤에 실행한다 -->
     <script src="app.js" defer></script>
 </head>
 <body>
     <h1>ex02 script 위치</h1>
-    <p>F12 › Console 에서 세 줄이 찍힌 <b>순서</b>와 <b>값</b>(null 인지)을 본다.</p>
+    <button id="btn">실행 순서 확인</button>
+    <p id="result" aria-live="polite">출력 대기 중</p>
     <script>
-        // 2. body 끝의 script: body 를 읽는 중이다 → document.body 가 있다
         console.log('2. body 끝 script :', document.body);
+        scriptResults += ' → 2: body';
+        // 제공 출력 코드: HTML을 모두 읽은 뒤 버튼을 연결한다.
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('#btn').addEventListener('click', function () {
+                document.querySelector('#result').textContent = scriptResults;
+            });
+        });
     </script>
 </body>
 </html>

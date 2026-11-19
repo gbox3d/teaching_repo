@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:3000
+
+### 서버 접속: 200, name·version·help
+GET {{baseUrl}}/api/about
+
+### 요청 도움말: 200, 네 항목의 배열
+GET {{baseUrl}}/api/help
+
+### 설정 상태: 200, setupRequired 확인. 응답의 공개 키를 제출 자료에 넣지 않습니다.
+GET {{baseUrl}}/runtime-config.json

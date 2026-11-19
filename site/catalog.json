@@ -288,74 +288,74 @@
       "description": "HTML·CSS·JavaScript로 사이트를 만들고, 브라우저 저장에서 공용 REST API의 방명록 읽기·저장·수정·삭제로 이어지는 15주 입문 과정입니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 5개 특강 · 353장",
+      "summary": "15개 주차 + 6개 특강 · 371장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
           "id": "week01_web_git",
           "label": "1주차",
           "title": "웹 실행 구조와 Git 상태",
-          "description": "브라우저에 보이는 한 화면은 어떤 파일들로 만들어지며, 내가 고친 파일을 Git에 어떻게 기록할까?",
+          "description": "HTML·CSS·JavaScript 파일의 역할과 브라우저 요청을 확인하고 수정 내용을 Git commit으로 기록합니다.",
           "type": "week",
           "en": {
             "label": "Week 1",
             "title": "How the Web Runs and Git State",
-            "description": "What files make up the one screen you see in a browser, and how do you record the files you changed with Git?"
+            "description": "Inspect HTML, CSS, JavaScript and browser requests, then record file changes as Git commits."
           }
         },
         {
           "id": "week02_github_pages",
           "label": "2주차",
           "title": "GitHub와 공개 배포",
-          "description": "내 컴퓨터에만 있는 페이지를 GitHub에 올려 누구나 여는 주소를 만들고, 다른 내용은 브랜치로 따로 올릴 수 있을까?",
+          "description": "GitHub에 페이지를 공개하고 브랜치에서 소개 페이지를 추가한 뒤 main으로 병합합니다.",
           "type": "week",
           "en": {
             "label": "Week 2",
             "title": "GitHub and Public Deployment",
-            "description": "Can you push a page that only lives on your computer to GitHub to create an address anyone can open, and publish different content separately with a branch?"
+            "description": "Publish a page on GitHub Pages, add an about page on a branch, and merge it into main."
           }
         },
         {
           "id": "week03_semantic_html",
           "label": "3주차",
           "title": "시맨틱 HTML과 form",
-          "description": "2주차에 공개한 `my-web`을 홈·내 정보·방명록 세 페이지로 늘리고, 이름과 메시지를 적는 입력 칸까지 만들 수 있을까?",
+          "description": "my-web을 홈·내 정보·방명록 세 페이지로 늘리고 시맨틱 구조와 표·입력 폼을 작성합니다.",
           "type": "week",
           "en": {
             "label": "Week 3",
             "title": "Semantic HTML and Forms",
-            "description": "Can you grow the `my-web` you published in Week 2 into three pages — home, about, and guestbook — and add input fields for a name and a message?"
+            "description": "Extend my-web into home, about and guestbook pages using semantic structure, tables and form fields."
           }
         },
         {
           "id": "week04_responsive_css",
           "label": "4주차",
           "title": "CSS와 반응형 UI",
-          "description": "메뉴 세 개를 가로로 놓고, 좁은 화면에서는 세로로 세우려면 무엇을 알아야 하나?",
+          "description": "선택자와 박스 모델로 화면을 꾸미고 flex와 미디어 쿼리로 메뉴를 화면 폭에 맞춥니다.",
           "type": "week",
           "en": {
             "label": "Week 4",
             "title": "CSS and Responsive UI",
-            "description": "What do you need to know to lay three menu items out in a row and stack them vertically on a narrow screen?"
+            "description": "Style pages with selectors and the box model, then adapt navigation using flex and media queries."
           }
         },
         {
           "id": "week05_javascript_data",
           "label": "5주차",
           "title": "JavaScript 데이터와 함수",
-          "description": "버튼을 누르면 글자가 바뀌고, 열 때마다 시각에 맞는 인사가 나오게 하려면 무엇을 알아야 하나?",
+          "description": "값과 조건·함수를 비교하고 querySelector와 textContent로 시각에 맞는 인사말을 표시합니다.",
           "type": "week",
           "en": {
             "label": "Week 5",
             "title": "JavaScript Data and Functions",
-            "description": "What do you need to know to make text change on a button click and show a greeting that fits the time each time the page opens?"
+            "description": "Compare values, conditions and functions, then display a time-based greeting with querySelector and textContent."
           }
         },
         {
           "id": "week06_dom_events",
           "label": "6주차",
           "title": "DOM과 클릭 이벤트",
-          "description": "5주차 ex09에서 본 \"먼저 찾고 그다음 바꾼다\"를 버튼과 함께 쓰려면 무엇이 더 필요할까?",
+          "description": "클릭 이벤트에서 횟수를 바꾸고 classList로 다크 모드를 전환합니다.",
           "type": "week",
           "formerIds": [
             "week06_dom_crud"
@@ -363,7 +363,7 @@
           "en": {
             "label": "Week 6",
             "title": "DOM and Click Events",
-            "description": "In Week 5, ex09 showed \"find it first, then change it.\" What more do you need to use that together with a button?"
+            "description": "Update a counter in click handlers and switch a dark theme with classList."
           }
         },
         {
@@ -385,19 +385,19 @@
           "id": "week08_midterm",
           "label": "8주차",
           "title": "중간 개인 실기",
-          "description": "1~7주 실습 제출을 수업에서 한 수준으로 정리한 문제 은행(힌트·확인할 것 포함)으로 연습하고, **값만 바뀐 같은 문제**를 혼자 시간 안에 풀 수 있을까?",
+          "description": "1~7주 공개 문제 은행으로 연습하고 같은 구조에서 값이 바뀐 문제를 60분 개인 실기로 수행합니다.",
           "type": "week",
           "en": {
             "label": "Week 8",
             "title": "Midterm Hands-on Exam",
-            "description": "Can you practice with a problem bank built from the Weeks 1–7 lab submissions at class level, with hints and checks, then solve the same problems with changed values on your own within the time limit?"
+            "description": "Practice with the public Weeks 1–7 problem bank, then complete equivalent tasks with changed values in a 60-minute individual exam."
           }
         },
         {
           "id": "week09_readme_presentation",
           "label": "9주차",
           "title": "마크다운과 1차 과제 발표",
-          "description": "README 와 GitHub 문서를 쓰는 마크다운의 기본 기능(소스 코드·그림·표·SVG 도표)을 하루 동안 익히고, 내 사이트를 **2분 안에** 공개 주소로 발표할 수 있을까?",
+          "description": "Markdown으로 사이트 README를 작성하고 제공 SVG를 수정합니다. 2분 시연과 발표 평가를 진행합니다.",
           "type": "week",
           "formerIds": [
             "week09_architecture_project"
@@ -405,14 +405,14 @@
           "en": {
             "label": "Week 9",
             "title": "Markdown and Project 1 Presentation",
-            "description": "Can you spend a day on Markdown basics (source code, images, tables, SVG diagrams) used for READMEs and GitHub documents, and then present your site at its public URL in 2 minutes?"
+            "description": "Write a site README in Markdown, edit a supplied SVG, and present a two-minute site demonstration."
           }
         },
         {
           "id": "week10_array_list",
           "label": "10주차",
           "title": "배열 데이터를 목록으로 그리기",
-          "description": "방명록에 두 번째 글을 남기면 앞 글이 사라진다. 남긴 글을 **쌓아서** 목록으로 보여 주고, 필요 없는 줄을 지울 수 있을까?",
+          "description": "문자열 배열을 for 문으로 목록에 표시하고 push·splice 뒤 showList로 다시 그립니다.",
           "type": "week",
           "formerIds": [
             "week10_supabase_data"
@@ -420,7 +420,7 @@
           "en": {
             "label": "Week 10",
             "title": "Drawing Array Data as a List",
-            "description": "Leave a second entry in the guestbook, and the first one disappears. Can you stack entries and show them as a list, and delete the lines you don't need?"
+            "description": "Render a string array with a for loop and redraw it with showList after push or splice."
           }
         },
         {
@@ -442,7 +442,7 @@
           "id": "week12_fetch_json",
           "label": "12주차",
           "title": "REST API로 방명록 읽기",
-          "description": "GET 요청으로 서버의 JSON 배열을 읽고 방명록 목록에 표시합니다. Network에서 응답과 오류를 확인합니다.",
+          "description": "about·help로 접속을 확인한 뒤 GET 응답을 목록에 표시하고 HTTP 오류와 통신 실패를 비교합니다.",
           "type": "week",
           "formerIds": [
             "week12_persistent_crud"
@@ -450,7 +450,7 @@
           "en": {
             "label": "Week 12",
             "title": "Reading a Guestbook through a REST API",
-            "description": "Read a server JSON array with GET, display the guestbook, and inspect responses and failures in Network."
+            "description": "Check about and help first, render GET responses as a list, and compare HTTP errors with connection failures."
           }
         },
         {
@@ -481,12 +481,12 @@
           "id": "week15_final_exam",
           "label": "15주차",
           "title": "기말 개인 실기",
-          "description": "1~14주 실습 제출을 모은 문제 은행으로 연습하고, **값만 바뀐 같은 문제**를 60분 안에 풀어 공개 주소로 제출할 수 있을까?",
+          "description": "폼 한 객체의 저장·복원과 REST 요청을 연습하고 A~E 영역의 60분 개인 실기를 수행합니다.",
           "type": "week",
           "en": {
             "label": "Week 15",
             "title": "Final Individual Exam",
-            "description": "Can you practice with a problem bank built from the lab submissions of Weeks 1–14, then solve the same problems with changed values in 60 minutes and submit them at a public URL?"
+            "description": "Practice saving and restoring one form object and sending REST requests, then complete a 60-minute individual exam across areas A–E."
           }
         },
         {
@@ -547,6 +547,18 @@
             "label": "Special",
             "title": "Controlling a Home IoT Simulator over HTTP",
             "description": "Use GET and PATCH in a Node.js virtual room, then compare polling intervals, automatic control, and communication failure and recovery."
+          }
+        },
+        {
+          "id": "hash_spa",
+          "label": "특강",
+          "title": "MPA에서 hash SPA로 전환",
+          "description": "14주 방명록을 바탕으로 화면 전환과 hash 탐색을 단계별로 구현하고 입력 유지·뒤로 가기·REST 동작을 확인합니다.",
+          "type": "special",
+          "en": {
+            "label": "Special",
+            "title": "Moving from MPA to a Hash SPA",
+            "description": "Build screen switching and hash navigation from the Week 14 guestbook, then verify retained input, browser history and REST behavior."
           }
         }
       ],

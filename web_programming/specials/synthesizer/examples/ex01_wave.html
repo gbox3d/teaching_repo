@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ex01 wave</title>
+    <link rel="stylesheet" href="shared/examples.css">
 </head>
 <body>
     <h1>ex01 파형: 같은 높이, 다른 모양</h1>
-    <p>이어폰을 끼고 차례로 누른다. 높이(220Hz)·길이(1초)·크기는 같고 <b>type</b> 만 다르다.</p>
     <button data-type="sine">1. sine</button>
     <button data-type="square">2. square</button>
     <button data-type="sawtooth">3. sawtooth</button>
     <button data-type="triangle">4. triangle</button>
-    <p>AudioContext 상태: <b id="state">아직 만들지 않음</b></p>
-    <canvas id="scope" width="480" height="120" style="background: #111"></canvas>
+    <p>AudioContext 상태: <b id="state">생성 대기</b></p>
+    <canvas id="scope" width="480" height="120"></canvas>
 
     <script>
         let ctx = null;          // 소리를 만드는 작업대. 버튼을 처음 누를 때 만든다

@@ -9,8 +9,10 @@ console.log("5. parseInt('12px') + 1 →", parseInt('12px') + 1, typeof (parseIn
 const num1 = document.getElementById('num1');   // 입력 칸(찾는 법은 ex09)
 const num2 = document.getElementById('num2');
 document.getElementById('btn-plain').addEventListener('click', function () {
+    document.querySelector('#result').textContent = num1.value + num2.value;
     console.log('6. 그냥 더하기 →', num1.value + num2.value);                    // 입력 칸의 value 는 늘 문자열
 });
 document.getElementById('btn-number').addEventListener('click', function () {
+    document.querySelector('#result').textContent = Number(num1.value) + Number(num2.value);
     console.log('7. Number 로 바꿔 더하기 →', Number(num1.value) + Number(num2.value));   // 숫자로 바꿔서 더한다
 });

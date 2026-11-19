@@ -6,7 +6,7 @@
 
 ## 준비
 
-교재 저장소를 내려받아 VS Code로 연다. 예제 HTML·JS뿐 아니라 `web_programming/shared`가 포함된 폴더 구조를 유지한다.
+수업 전에 교재 저장소를 내려받아 VS Code로 연다. 예제 HTML·JS뿐 아니라 `web_programming/shared`가 포함된 폴더 구조를 유지한다.
 
 ```text
 web_programming/
@@ -22,15 +22,15 @@ web_programming/
 node web_programming/tools/static-server/server.mjs web_programming 8111
 ```
 
-서버가 이미 실행 중이면 다시 실행하지 않는다. 2일차 ex04~ex07의 HTML은 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css), 추가 공용 스타일 `shared/examples.css`, 같은 폴더의 `app.js`를 읽는다. CDN 스타일에는 인터넷 연결이 필요하다. 1일차 예제는 기존 구성을 유지한다. 설명과 조작 순서는 README에서 확인한다. [서버 안내](../../tools/static-server/README.md)
+서버가 이미 실행 중이면 다시 실행하지 않는다. ex01~ex07의 HTML은 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css), 추가 공용 스타일 `shared/examples.css`, 같은 폴더의 `app.js`를 읽는다. CDN 스타일에는 인터넷 연결이 필요하다. 설명과 조작 순서는 README에서 확인한다. [서버 안내](../../tools/static-server/README.md)
 
 ## 1일차
 
-[ex01](http://localhost:8111/weeks/week11_object_localstorage/examples/day1/ex01/)을 열고 F12 › Console을 확인한다. 주소의 마지막 번호를 바꾸면 ex02·ex03이 열린다.
+[ex01](http://localhost:8111/weeks/week11_object_localstorage/examples/day1/ex01/)을 열고 이름 적용 버튼과 화면 결과를 확인한다. 전체 객체는 F12 › Console에서 추가로 확인한다. 주소의 마지막 번호를 바꾸면 ex02·ex03이 열린다.
 
 1. ex01의 `app.js`에서 객체의 `name`을 바꾸고 저장·새로고침한다. 전체 객체와 `item.name`의 값을 비교한다.
-2. ex02의 `items[0].name`을 `items[1].name`으로 바꾸고 읽는 객체가 달라지는지 확인한다.
-3. ex03에서 두 목록을 비교한다. 속성 이름을 잘못 쓰면 `undefined`가 표시되는지 확인하고 되돌린다.
+2. ex02의 마지막 화면 출력에 있는 `items[0].name`을 `items[1].name`으로 바꾼다. 새로고침 후 배열 결과 확인을 눌러 하늘이 바다로 바뀌는지 확인한다.
+3. ex03에서 두 목록을 비교하고 둘째 목록의 `items[i].name`을 `items[i].message`로 바꾼 뒤 되돌린다. 속성 이름을 잘못 쓰면 `undefined`가 표시되는지 확인하고 되돌린다.
 
 객체에서 필드를 읽는 방법을 설명할 수 있으면 1일차 확인을 마친다. 새 GitHub 저장소 생성·push·Pages 설정은 실습 시간에 넣지 않는다. [1일차 시간표](lab.md#1일차--객체와-점-표기-30분)
 
@@ -86,8 +86,10 @@ http://localhost:8111/weeks/week11_object_localstorage/examples/day2/web-week11/
 |---|---|
 | 객체 배열 | 이름·메시지·날짜를 묶어 목록에 표시 |
 | `saveList()` | 추가·한 줄 삭제 후 배열을 JSON으로 저장 |
-| 초기 목록 | 저장 값을 파싱하고 없으면 빈 배열로 시작 |
-| 전체 지우기 | 배열과 `guestbook` 키를 비운 뒤 화면 갱신 |
+| 초기 목록 | 저장 값을 파싱하고 없으면 빈 배열로 시작, 손상 값은 안내 |
+| 전체 지우기 | 배열과 `week11-guestbook-items` 키만 비운 뒤 화면 갱신 |
+
+손상 값 검사와 해당 키만 삭제하는 복구는 제공 코드다. 초기화 후에는 이름·메시지를 다시 입력하며 다른 예제 키는 유지한다.
 
 기본 예제와 이 시연의 저장 키는 서로 다르다. 학생에게는 예제에서 배운 저장·파싱이 목록 전체에 적용되는 점을 설명한다. 공개 업로드나 추가 구현을 이번 제출 조건으로 붙이지 않는다.
 
@@ -100,42 +102,42 @@ http://localhost:8111/weeks/week11_object_localstorage/examples/day2/web-week11/
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>my-web · 방명록</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
     <script src="guestbook.js" defer></script>
   </head>
-  <body>
-    <header>
+  <body class="w3-light-grey">
+    <header class="w3-container w3-teal w3-padding-16">
       <h1>방명록</h1>
-      <nav>
-        <a href="index.html">홈</a>
-        <a href="about.html">내 정보</a>
-        <a href="guestbook.html">방명록</a>
-      </nav>
     </header>
-    <main>
-      <h2>한 줄 남기기</h2>
-      <form id="guestbook-form">
-        <p>
-          <label for="name">이름</label>
-          <input id="name" type="text">
-        </p>
-        <p>
-          <label for="email">이메일</label>
-          <input id="email" type="email">
-        </p>
-        <p>
-          <label for="message">메시지</label>
-          <textarea id="message" rows="4"></textarea>
-        </p>
-        <button type="submit">남기기</button>
-      </form>
-      <div id="notice"></div>
-      <h3>남긴 글</h3>
-      <ul class="card" id="list"></ul>
-      <div id="count">아직 남긴 글이 없습니다.</div>
-      <div><button id="clear-button" type="button">전체 지우기</button></div>
+    <nav class="w3-bar w3-white w3-card" aria-label="주 메뉴">
+      <a class="w3-bar-item w3-button w3-mobile" href="index.html">홈</a>
+      <a class="w3-bar-item w3-button w3-mobile" href="about.html">내 정보</a>
+      <a class="w3-bar-item w3-button w3-mobile w3-teal" href="guestbook.html" aria-current="page">방명록</a>
+    </nav>
+    <main class="w3-content w3-padding">
+      <section class="w3-container w3-card w3-white w3-margin-top">
+        <h2>한 줄 남기기</h2>
+        <form id="guestbook-form">
+          <p>
+            <label for="name">이름</label>
+            <input id="name" class="w3-input w3-border" type="text">
+          </p>
+          <p>
+            <label for="message">메시지</label>
+            <textarea id="message" class="w3-input w3-border" rows="4"></textarea>
+          </p>
+          <p><button class="w3-button w3-teal" type="submit">남기기</button></p>
+        </form>
+        <p id="notice" class="w3-text-red" aria-live="polite"></p>
+      </section>
+      <section class="w3-container w3-card w3-white w3-margin-top">
+        <h2>남긴 글</h2>
+        <ul id="list" class="w3-ul" aria-live="polite"></ul>
+        <div id="count">아직 남긴 글이 없습니다.</div>
+        <p><button class="w3-button w3-teal" id="clear-button" type="button">전체 지우기</button></p>
+      </section>
     </main>
-    <footer>
+    <footer class="w3-container w3-center w3-text-grey w3-padding-16">
       <p>수업용 연습 페이지 · student01</p>
     </footer>
   </body>
@@ -152,10 +154,37 @@ const notice = document.querySelector('#notice');
 const list = document.querySelector('#list');
 const count = document.querySelector('#count');
 const clearButton = document.querySelector('#clear-button');
-let items = JSON.parse(localStorage.getItem('guestbook')) || [];
+const storageKey = 'week11-guestbook-items';
+let items = [];
+
+// 제공 코드: 저장 값이 손상되어도 화면과 초기화 버튼은 사용할 수 있다.
+function loadList() {
+  try {
+    const saved = localStorage.getItem(storageKey);
+    if (saved === null) return;
+    const restored = JSON.parse(saved);
+    if (!Array.isArray(restored)) throw new Error('배열 형식 오류');
+    for (let i = 0; i < restored.length; i++) {
+      const item = restored[i];
+      if (item === null || typeof item.name !== 'string' || typeof item.message !== 'string' || typeof item.date !== 'string') {
+        throw new Error('필드 형식 오류');
+      }
+    }
+    items = restored;
+  } catch {
+    notice.textContent = '저장 값을 불러올 수 없습니다. 전체 지우기를 눌러 이 방명록만 초기화하세요.';
+  }
+}
 
 function saveList() {
-  localStorage.setItem('guestbook', JSON.stringify(items));
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(items));
+    notice.textContent = '';
+    return true;
+  } catch {
+    notice.textContent = '저장하지 못했습니다. 브라우저 저장 권한이나 여유 공간을 확인하세요.';
+    return false;
+  }
 }
 
 function showList() {
@@ -166,8 +195,11 @@ function showList() {
     const removeButton = document.createElement('button');
     removeButton.textContent = '삭제';
     removeButton.addEventListener('click', function () {
-      items.splice(i, 1);
-      saveList();
+      const removed = items.splice(i, 1)[0];
+      if (!saveList()) {
+        items.splice(i, 0, removed);
+        return;
+      }
       showList();
     });
     li.append(removeButton);
@@ -192,17 +224,26 @@ form.addEventListener('submit', function (event) {
   notice.textContent = '';
   const today = new Date().toLocaleDateString();
   items.push({ name: name, message: message, date: today });
-  saveList();
+  if (!saveList()) {
+    items.pop();
+    return;
+  }
   showList();
   form.reset();
   nameInput.focus();
 });
 
 clearButton.addEventListener('click', function () {
-  items = [];
-  localStorage.removeItem('guestbook');
-  showList();
+  try {
+    localStorage.removeItem(storageKey);
+    items = [];
+    showList();
+    notice.textContent = '이 방명록의 저장 값 삭제 완료';
+  } catch {
+    notice.textContent = '저장 값을 지울 수 없습니다. 브라우저 저장 권한을 확인하세요.';
+  }
 });
 
+loadList();
 showList();
 ```

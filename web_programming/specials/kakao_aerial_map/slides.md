@@ -189,7 +189,7 @@ new kakao.maps.StaticMap(container, {
 
 ---
 
-## 직접 Canvas에 그리면?
+## 외부 이미지와 tainted Canvas
 
 StaticMap image는 Kakao origin의 cross-origin resource다.
 
@@ -228,7 +228,6 @@ SDK가 만든 단일 image URL
 - 높이 120~960
 - 지도 level 1~14
 - exact HTTPS origin과 path
-- 요청 Host와 same-origin Sec-Fetch-Site·Referer(및 전달된 Origin)
 - username·password·port·fragment 없음
 - decoded image 최대 200만 화소
 - 응답 크기와 요청 크기 일치
@@ -240,6 +239,7 @@ query field를 만들거나 해석하지 않는다.
 ## 서버 쪽 검증
 
 - GET, source 정확히 한 개
+- Host·Sec-Fetch-Site·Referer·Origin 검사
 - URL 길이 최대 2048
 - exact origin·path
 - 정해진 parameter만 한 번씩
@@ -322,7 +322,8 @@ map
   ready, busy, type
 
 workspace
-  sourceKind, transform, size, annotations
+  sourceKind, rotation, brightness, contrast
+  width, height, actionCount
 
 boundaries
   browserScreenAccess=false
@@ -413,10 +414,10 @@ human-only는 협업 API 계약이며, 브라우저 전체 제어를 위임받�
 
 ---
 
-## 70분 실습
+## 도입 실습 배분 예시
 
 ~~~text
-준비 5분
+준비 5분: 00 about/help → 01 오류 요청
   → 위치·human-only 15분
   → 단일 StaticMap relay 15분
   → 공동 작업 API 20분

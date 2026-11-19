@@ -18,6 +18,7 @@
 ## 단계 1: 요청과 상태
 
 현재 폴더: home_iot_http. node examples/simulator/server.mjs로 시작한다.
+먼저 [00 접속·도움말](examples/00_about_help/README.md)의 `.http`를 REST Client로 실행한다. `@baseUrl`을 확인하고 about·help 위 **Send Request**를 눌러 200과 안내 JSON을 기록한다. 키는 필요 없으며 장치 PATCH에는 `Content-Type: application/json`을 쓴다. 각 후속 폴더에도 해당 요청 파일이 있다.
 대시보드 http://localhost:8014/와 ex01·ex02를 나란히 연다.
 
 1. ex01에서 GET 응답의 light.brightness와 environment.temperature를 찾는다.

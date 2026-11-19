@@ -2,24 +2,26 @@
 
 실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week01_web_git
 
-1일차에는 세 파일로 내 소개 페이지를 만들고, 2일차에는 연습 폴더에 commit 세 개를 남긴다.
+각 차시는 강의·시연 60분과 개별 실습 30분이다. 1일차에는 제공한 세 파일에서 세 곳을 바꾸고, 2일차에는 연습 폴더에 commit 세 개를 남긴다.
 모든 단계와 전체 코드는 [따라하기](walkthrough.md)에 있다. `student01`은 예시 별칭이므로 본인 수업용 별칭으로 바꾼다.
 제출물은 **캡처 2장**이다. 보고서나 표는 제출하지 않는다.
 
-## 1일차 — 세 파일로 내 소개 페이지 만들기 (60분)
+## 1일차 — 세 파일로 내 소개 페이지 만들기 (30분)
 
-| 시간 | 할 일 |
+강의·시연 60분: 환경 10분 → URL·요청 15분 → HTML/CSS/JS 역할 15분 → 세 파일·DevTools 시연 15분 → 안내 5분.
+
+| 실습 시간 | 필수 작업 |
 |---|---|
-| 0–10분 | 폴더 `week01`을 만들어 VS Code로 열고 세 파일을 만든다 |
-| 10–20분 | `index.html`을 브라우저로 열어 버튼을 눌러 보고, 주소창의 `file:///…`을 읽는다 |
-| 20–30분 | `<h1>`과 소개 문단을 내 소개로 고치고 저장·새로고침한다 |
-| 30–40분 | DevTools **Elements**에서 `<h1>`, **Console**에서 `week01 ready`를 확인한다 |
-| 40–50분 | 교재 사이트에서 Network의 `200`과 없는 주소의 `404`를 본다 |
-| 50–60분 | `styles.css` 이름을 한 번 틀리게 했다가 되돌리고 캡처 1을 저장한다 |
+| 0–5분 | 배부한 세 파일을 `week01` 폴더에 복사하고 브라우저로 열기 |
+| 5–20분 | 제목·소개 문단·`body` 배경색 세 곳 변경, 저장·새로고침 |
+| 20–25분 | 교재 사이트 Network의 200과 없는 주소의 404 확인 |
+| 25–30분 | 버튼 동작을 확인하고 캡처 1 저장 |
+
+파일 생성, Elements·Console 관찰, CSS 이름 오류는 강의자 시연이다. 직접 재현은 선택이며 필수 실습과 제출에 추가하지 않는다. CSS 전체와 `app.js`는 제공한다.
 
 ### 1. 폴더와 세 파일
 
-`week01` 폴더를 만들어 VS Code로 열고 `index.html`·`styles.css`·`app.js`를 만든다.
+`week01` 폴더를 만들어 VS Code로 열고 배부한 `day1`의 `index.html`·`styles.css`·`app.js`를 복사한다. 배부 파일이 없으면 따라하기의 제공 코드를 붙여 넣는다.
 [따라하기 1~2단계](walkthrough.md#1-연습-폴더-만들고-vs-code로-열기)에 전체 코드가 있다.
 
 - 파일 이름은 한 글자도 다르면 안 된다. `styles.css`의 `s`를 빠뜨리지 않는다.
@@ -28,14 +30,14 @@
 
 ### 2. 브라우저로 열고 내 소개로 고치기
 
-`index.html`을 더블클릭해 열고 `<h1>`과 소개 문단을 본인 소개로 고친다.
+`index.html`을 더블클릭해 열고 `<h1>`과 소개 문단을 본인 소개로 고친다. `styles.css`의 `body`에 있는 `background: #eef2ff`도 `background: #fff7ed`처럼 다른 색으로 바꾼다. 변경은 세 곳이다.
 [따라하기 3~5단계](walkthrough.md#3-브라우저로-열어-보기)를 본다.
 
 - 주소창이 `file:///`로 시작하는지 본다. 내 PC의 파일을 그대로 여는 주소다.
 - 저장(`Ctrl+S`) 뒤 새로고침(`F5`)해야 화면이 바뀐다.
 - 실명·학번·전화번호는 쓰지 않는다. `student01` 같은 수업용 별칭을 쓴다.
 
-### 3. Elements와 Console
+### 3. Elements와 Console (강의자 시연)
 
 `F12`로 DevTools를 열고 두 탭을 본다. [따라하기 6단계](walkthrough.md#6-devtools-elements와-console-보기)를 본다.
 
@@ -58,7 +60,7 @@
 - `404`는 "그 주소에 파일이 없다"는 뜻이다. 화면에는 GitHub의 `404 File not found` 페이지가 나온다.
 - 목록에 `catalog.json`이나 `favicon.svg` 같은 줄도 보인다. 사이트가 스스로 더 받아 오는 파일이다.
 
-### 5. 오류 하나만 따라 해 보기
+### 5. CSS 이름 오류와 복구 (강의자 시연·선택)
 
 `index.html`의 `href="styles.css"`를 `style.css`로 한 번 바꿔 저장하고 새로고침한다.
 [따라하기 8단계](walkthrough.md#8-css-이름을-한-번-틀리게-해-보기)를 본다.
@@ -72,23 +74,26 @@
 ### 6. 오늘 확인할 것
 
 - [ ] 주소창이 `file:///…/week01/index.html`이다.
-- [ ] 제목과 소개 문단이 내 소개로 바뀌어 있다.
+- [ ] 제목과 소개 문단이 내 소개로 바뀌었고 `body` 배경색도 변경했다.
 - [ ] 버튼을 누르면 `클릭 횟수`가 올라간다.
 - [ ] 교재 사이트 Network에서 `200`을, 없는 주소에서 `404`를 보았다.
 - [ ] 캡처 1을 저장했다.
 
 `week01` 폴더는 2일차에도 쓴다. 지우지 않는다. 제출은 2일차 마지막에 한 번만 한다.
 
-## 2일차 — Git으로 commit 3개 남기기 (60분)
+## 2일차 — Git으로 commit 3개 남기기 (30분)
 
-| 시간 | 할 일 |
+강의·시연 60분: 환경 5분 → Git 세 영역 15분 → init·설정 10분 → add·commit 15분 → 오류·log 10분 → 안내 5분.
+
+| 실습 시간 | 필수 작업 |
 |---|---|
-| 0–10분 | 폴더 `week01-practice`를 만들어 VS Code로 열고 `git init` → `git branch -M main` |
-| 10–15분 | `git config user.name`·`user.email`을 이 저장소에 적는다 |
-| 15–28분 | commit 1 — 제목을 만들고 `status → add → commit → log` |
-| 28–40분 | commit 2 — 소개 문단·링크·버튼을 추가하고 같은 순서로 commit |
-| 40–52분 | commit 3 — `styles.css`·`app.js`를 복사하고 두 줄로 연결해 commit |
-| 52–60분 | `git log --oneline`의 3줄과 연습 페이지를 한 화면에 캡처한다 |
+| 0–5분 | 새 `week01-practice` 폴더 초기화, main 이름과 로컬 별칭·예시 이메일 설정 |
+| 5–12분 | 제공 HTML 뼈대의 제목 별칭 수정, commit 1 |
+| 12–18분 | 제공 문단·링크·버튼 조각 추가, commit 2 |
+| 18–25분 | 1일차 CSS·제공 JS 복사, 연결 두 줄 추가, commit 3 |
+| 25–30분 | 페이지·`git log --oneline` 3줄·`git status` 확인, 캡처 2 저장 |
+
+HTML 뼈대와 추가 조각은 [따라하기](walkthrough.md#13-commit-1--제목-만들기)에서 복사한다. CSS·JS를 다시 작성하지 않는다. `git diff`와 네 번째 commit은 선택이며 캡처 2 이후에 한다.
 
 ### 1. 저장소 만들기
 
@@ -101,10 +106,10 @@
 
 ### 2. 이름과 이메일
 
-`git config user.name "student01"`, `git config user.email "본인 이메일"`을 친다.
+`git config user.name "student01"`, `git config user.email "student01@example.com"`을 친다. 별칭은 본인 것으로 바꾸고, 이번 로컬 연습의 이메일은 예시 주소를 써도 된다.
 [따라하기 12단계](walkthrough.md#12-이-저장소에-이름과-이메일-적기)를 본다.
 
-- 적지 않아도 commit은 된다. 대신 Git이 **PC 계정 이름과 PC 이름**으로 자동으로 채워 기록에 남긴다. 그래서 첫 commit 전에 적는다.
+- 설정이 없으면 `Author identity unknown`으로 commit이 실패하거나 PC 계정 정보가 자동 기록될 수 있다. 첫 commit 전에 이름과 이메일을 확인한다.
 - `--global`을 붙이지 않는다. 이 저장소에만 적용된다.
 - 이름은 commit마다 기록에 남는다. 실명 대신 수업용 별칭을 쓴다.
 - 이 설정은 **저장소마다 따로** 적용된다. 다음 주 새 폴더에서도 첫 commit 전에 다시 친다.
@@ -155,7 +160,7 @@
 | 교재 사이트에서 `404 File not found` 화면이 나온다 | 없는 주소를 열었을 때의 정상 결과다. Console에는 `Failed to load resource: the server responded with a status of 404 ()`가 남는다 |
 | `fatal: not a git repository …` | 그 폴더에서 `git init`을 하지 않았거나 다른 폴더에 있다. 프롬프트의 폴더 이름을 보고 `week01-practice`에서 다시 한다 |
 | `fatal: not in a git directory` | `git config`를 `git init`보다 먼저 쳤다. 2일차 1번부터 다시 한다 |
-| commit은 됐는데 `Your name and email address were configured automatically …` 안내가 나온다 | 이름·이메일을 적지 않아 PC 계정 이름이 기록에 남은 것이다. 2일차 2번을 한 뒤 `git commit --amend --reset-author`를 한 번 친다 |
+| commit은 됐는데 `Your name and email address were configured automatically …` 안내가 나온다 | 이름·이메일을 적지 않아 PC 계정 이름이 기록에 남은 것이다. 2일차 2번을 한 뒤 강의자와 함께 `git commit --amend --reset-author --no-edit`를 한 번 친다 |
 | `Author identity unknown` / `*** Please tell me who you are.` | 이름·이메일이 없고 자동 추정도 막힌 PC다. 2일차 2번의 `git config user.name`·`user.email`을 `--global` 없이 치고 commit을 다시 한다 |
 | `nothing added to commit but untracked files present (use "git add" to track)` | `git add index.html`을 건너뛰었다. add 뒤에 commit한다 |
 | `fatal: pathspec 'inedx.html' did not match any files` | 파일 이름 오타이거나 파일을 아직 만들지 않았다. 탐색기의 실제 이름과 비교한다 |
@@ -179,9 +184,13 @@
 
 ## 먼저 끝났다면
 
-- 1일차: `styles.css`의 `background: #eef2ff`를 다른 색으로 바꿔 저장·새로고침한다. HTML을 고치지 않아도 화면이 바뀐다.
+- 1일차: CSS 파일 이름을 일부러 틀린 뒤 되돌려 본다. Console 오류와 카드 모양을 비교한다.
 - 1일차: Elements에서 `<h1>` 글자를 직접 고쳐 보고 새로고침한다. 파일은 그대로이므로 고친 내용이 사라진다.
 - 2일차: commit 전에 `git diff`를 쳐서 `+`로 시작하는 줄을 눈으로 본다.
 - 2일차: `styles.css`의 색을 바꾸고 네 번째 commit(`카드 색 바꾸기`)을 만들어 `git log --oneline`에 네 줄이 되는지 본다.
 
 추가 과제는 선택이며 채점하지 않는다.
+
+## 다음 주 인계
+
+소개 페이지와 Git 연습 폴더를 보관한다. 2주차에는 새 `my-web` 저장소에 제공 파일을 올리고 GitHub Pages로 공개한다. 로컬 연습의 `.git`을 복사하지 않으며 공개 저장소의 작성자 이메일은 GitHub의 비공개 `noreply` 주소로 설정할 수 있다.

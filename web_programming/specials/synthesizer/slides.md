@@ -10,18 +10,19 @@ footer: "웹 신시사이저 만들어 보기 · 소리 부품을 비교하고 �
 
 오늘은 브라우저로 소리를 만들고, 마지막에 **디스코 연주기**를 조립합니다.
 
-- 방식: 소리 부품을 **비교 파일 9개**로 하나씩 듣고, 연주기는 그 부품을 모은 것으로 읽습니다.
+- 방식: 소리 부품을 **비교 파일 10개(ex10은 선택)**로 하나씩 듣고, 연주기는 그 부품을 모은 것으로 읽습니다.
 - **이어폰 필수**입니다. 실습실 전체가 스피커로 소리를 내면 아무것도 들리지 않습니다.
 - 실습은 **값을 바꿔 보는 것**입니다. 무엇이 달라질지 먼저 말해 보고 듣습니다.
 - 결과물: 새 저장소 `web-synth` 의 공개 주소에서 **내가 고친 `my_song.json`** 을 재생하는 화면 캡처 1장.
 
-곡 데이터는 **코드 진행만** 담습니다. 멜로디 · 가사 · 음원은 교재에도 과제에도 넣지 않습니다.
+정규 12주차 이후 선택 특강 · 시험 제외 · 방학 연구 시간 제한 없음.
+기본은 코드 진행, ex10·연주기에는 멜로디도 있습니다. 공개 결과물은 직접 만든 자료를 사용합니다.
 
 ---
 
 # 1부 — 소리를 만든다
 
-`25분 설명·시연`
+`25분 설명·시연 예시 · 연구 분량 제한 없음`
 
 1. 소리는 공기의 떨림이고, 브라우저가 그 떨림을 만든다
 2. ex01 — 파형: 같은 높이, 다른 모양
@@ -82,7 +83,7 @@ function midiToFreq(midi) {
 ```
 
 - 단추에 진동수가 적힙니다: A3 `220.0` · A4 `440.0` · A5 `880.0`. 누르면 아래에 `MIDI 69 → 440.0 Hz`.
-- 바꿔 보기: 30행의 440 을 432 로 → 단추 숫자가 모두 바뀝니다. 버튼의 `data-midi` 값 바꾸기.
+- 바꿔 보기: `midiToFreq`의 440을 432로 → 단추 숫자가 모두 바뀝니다. 버튼의 `data-midi` 값 바꾸기.
 
 **음 높이 = 1초에 떨리는 횟수. 한 옥타브는 2배, 반음은 2^(1/12)배. MIDI 번호로 계산한다.**
 
@@ -100,10 +101,10 @@ amp.gain.setValueAtTime(PEAK, t + attack + hold);     // 유지
 amp.gain.exponentialRampToValueAtTime(0.0001, t + attack + hold + release);
 ```
 
-- 1번은 시작과 끝에 '딱'. 2번은 뜯는 소리, 3번은 깔리는 소리. 그림이 크기 변화입니다.
-- 바꿔 보기: 2번과 5번을 번갈아 듣기(숫자는 같다). 50~54행의 attack · release 숫자.
+- 1번은 급격한 크기 변화에서 클릭음이 생길 수 있습니다. 2번은 뜯는 소리, 3번은 깔리는 소리. 그림이 크기 변화입니다.
+- 바꿔 보기: 2번과 5번을 번갈아 듣기(숫자는 같다). 버튼별 `play` 호출의 attack·release 값.
 
-**엔벨로프(크기가 시간에 따라 변하는 모양)가 소리의 성격을 정한다. 0 에서 시작해 0 으로 끝나야 '딱' 소리가 없다.**
+**엔벨로프(크기가 시간에 따라 변하는 모양)가 소리의 성격을 정한다. 급격한 변화를 줄인다. 지수 보간에는 0 대신 0.0001을 쓴다.**
 
 ---
 
@@ -128,7 +129,7 @@ for (const midi of midis) note(midi);             // 같은 시각에 세 개 �
 ## 1부 · 21–25분 — ex05 필터: 높은 성분을 깎으면 어두워진다
 
 [examples/ex05_filter.html](examples/ex05_filter.html)
-형제: sawtooth 220Hz + lowpass 1. 없음 / 2. 3000 / 3. 800 / 4. 200 / 5. Q 15 / 6. 쓸기
+형제: sawtooth 220Hz + lowpass 1. 20000Hz / 2. 3000 / 3. 800 / 4. 200 / 5. Q 15 / 6. 쓸기
 
 ```js
 filter.type = 'lowpass';   // 기준보다 높은 쪽을 깎고 낮은 쪽은 통과시킨다
@@ -148,7 +149,7 @@ filter.frequency.exponentialRampToValueAtTime(4000, ctx.currentTime + 2);
 
 # 2부 — 리듬과 곡
 
-`25분 설명·시연`
+`25분 설명·시연 예시 · 연구 분량 제한 없음`
 
 1. ex06 — 북소리: 높이가 떨어지는 사인파와 잡음
 2. ex07 — 박자: 타이머가 아니라 오디오 시계에 예약한다
@@ -180,7 +181,7 @@ filter.type = 'highpass';   // 이 높이보다 낮은 쪽을 깎는다
 ## 2부 · 5–10분 — ex07 박자: 타이머가 아니라 오디오 시계에 예약한다
 
 [examples/ex07_timing.html](examples/ex07_timing.html)
-형제: 1. setTimeout 으로 16번 치기 / 2. 오디오 시계에 16번 예약하기 — "바쁘게" 체크 상자
+형제: 1. setTimeout 으로 16번 치기 / 2. 오디오 시계에 16번 예약하기 — CPU 부하 체크 상자
 
 ```js
 return 60 / bpm / 4;                // 한 박 = 60/BPM 초, 16분음표 = 그 4분의 1
@@ -189,10 +190,10 @@ while (next < ctx.currentTime + 0.1 && times.length < 16) {        // 2.
     click(next);                    // 그 시각에 나도록 예약한다
 ```
 
-- 109 BPM → 한 박 `0.550`초, 한 칸 `0.138`초. 안 바쁠 때 1번 139~144ms, 2번 138ms 고정.
-- 바쁘게를 켜면 1번은 155~203ms 로 들쭉날쭉, 2번은 그대로 138ms. 바꿔 보기: BPM 칸, 바쁘게 체크.
+- 109 BPM → 한 박 `0.550`초, 한 칸 `0.138`초. 1번은 호출 시각, 2번은 예약 시각의 간격입니다.
+- CPU 부하를 켜고 비교합니다. 예약 간격 표시는 실제 출력 측정이 아닙니다. 예약 자체가 늦으면 소리도 늦습니다.
 
-**JavaScript 타이머는 브라우저가 바쁘면 늦는다. 오디오 시계에 시각을 미리 적어 두면 정확하다.**
+**JavaScript 타이머는 브라우저가 바쁘면 늦는다. 오디오 시계에 미래 시각을 예약한다.**
 
 ---
 
@@ -222,12 +223,13 @@ if (pattern.kick[i]) kick(t);   ← i 번째 칸이 1 이면 그 시각에 예�
 
 ```js
 const response = await fetch('ex09_song.json');   // 같은 폴더의 파일을 '요청'한다
+if (!response.ok) throw new Error(`HTTP ${response.status}`);
 const song = await response.json();               // 글자(JSON) → 객체
 document.getElementById('v1').innerText = song.track_info.title;
 ```
 
 - http: 표 `연습곡 / 109 / 2 / A / Am / 2`, 펼치면 `A:Am A:F A:C A:G B:Dm B:Am`.
-- file: 화면 `불러오지 못했다: Failed to fetch — …`, Console 에 CORS 빨간 줄.
+- file: 화면 `불러오지 못했습니다: Failed to fetch`, Console 에 CORS 빨간 줄.
 
 **곡은 데이터다. 따로 둔 JSON 을 `fetch` 로 받아 객체로 쓴다. `file://` 은 막히니 서버로 연다.**
 
@@ -246,7 +248,7 @@ PATTERNS ← ex08              secondsPerStep · tick ← ex07 · loadSong ← e
 
 [실습](lab.md#실습-60분) · [따라하기](walkthrough.md) · [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/specials/synthesizer)
 
-1. `web-synth` 폴더에 [server.mjs](../../tools/static-server/server.mjs) · 연주기 여섯 파일 → `node server.mjs` → ▶
+1. `build` 폴더 전체(실행 파일 9개) 복사 → [따라하기](walkthrough.md)의 서버 명령 → ▶
 2. ex03 · ex04 · ex08 바꿔 듣기 → `my_song.json` · `PATTERNS` · `playTone` 중 둘 이상
 3. 새 저장소 `web-synth` 에 2주차에 배운 순서 그대로 올리기 → 공개 주소에서 캡처
 
@@ -256,7 +258,7 @@ PATTERNS ← ex08              secondsPerStep · tick ← ex07 · loadSong ← e
 
 ## 제출하기
 
-특강이 끝나면 캡처 **한 장**을 제출합니다.
+연구 기록에 수정한 코드·예상·관찰·실행 주소와 캡처를 남깁니다. 정규 평가에는 포함하지 않습니다.
 
 ```text
 https://student01.github.io/web-synth/
@@ -265,7 +267,7 @@ https://student01.github.io/web-synth/
 악보: 지금 마디 칸이 분홍색, 표시등 옆에 위치 줄   (예: A · 2/12마디 · F)
 ```
 
-- 소리는 캡처되지 않습니다. 화면 조건(내 제목 · BPM, 강조된 마디)만 봅니다.
+- 소리는 캡처되지 않습니다. 청취 결과는 직접 들은 내용으로 따로 기록합니다.
 - 주소창이 함께 보이게 찍습니다. 실명 · 학번 · 실제 이메일이 보이지 않게 합니다.
 
 ---
@@ -276,9 +278,9 @@ https://student01.github.io/web-synth/
 
 - `fetch` · JSON(12주차) — `loadSong` 이 곡 파일을 받아 객체로 씁니다(ex09).
 - 배열(10주차) — `PATTERNS` 의 16칸, 마디를 한 줄로 편 `bars`.
-- 객체(11주차) — `song.track_info.title`, 마디 하나 `{ section, chord, midis }`.
+- 객체(11주차) — `song.track_info.title`, 마디 하나 `{ section, chord, chords, melody }`.
 - `createElement` · `append`(10주차) — 악보의 구간 줄과 마디 칸.
 
-더 해 볼 것: 멜로디 층을 직접 만들기(내가 지은 멜로디만), ex02 에 키보드 입력을 더해 연주기 위에서 연주하기.
-녹음해서 음원 파일로 만드는 것은 이 특강의 범위 밖입니다.
+선택: [ex10 멜로디](examples/ex10_melody.html)의 시작·길이 비교 → 조합기에서 편곡·JSON 내보내기·다시 열기.
+키보드 연주·녹음은 미구현이며 후속 연구로 선택합니다.
 연주기의 **멜로디 조합기 →** 링크는 [compose.html](examples/build/compose.html)·[compose.js](examples/build/compose.js) 입니다. 멜로디 조각을 이어 붙여 편곡해 봅니다(선택).

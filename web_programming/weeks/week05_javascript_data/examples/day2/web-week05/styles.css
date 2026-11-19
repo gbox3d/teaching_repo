@@ -11,6 +11,7 @@ body {
 h1 {
   color: #1f3a93;
   font-size: 28px;
+  word-break: keep-all;
 }
 
 h2 {
@@ -36,6 +37,7 @@ nav a {
 
 input,
 textarea {
+  box-sizing: border-box;
   width: 280px;
   max-width: 100%;
 }

@@ -16,3 +16,8 @@ items.push({ name: '바다', message: '잘 봤습니다', date: today });
 console.log('3. items :', items);
 console.log('4. items[0].name :', items[0].name);   // 대괄호로 0번째 묶음, 점으로 그 이름
 console.log('5. items[1].date :', items[1].date);   // 1번째 묶음의 날짜
+
+// 제공 화면 코드: 아래 items[0].name의 인덱스를 1로 바꾸고 결과를 비교한다.
+document.querySelector('#show-button').addEventListener('click', function () {
+    document.querySelector('#result').textContent = `texts[0]: ${texts[0]}\n선택한 이름: ${items[0].name}\nitems[1].date: ${items[1].date}`;
+});

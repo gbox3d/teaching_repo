@@ -65,6 +65,11 @@ button,
   line-height: 1.65;
 }
 
+.collaboration-panel > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .collaboration-boundaries {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

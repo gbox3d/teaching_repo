@@ -1,20 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ex04 push add</title>
-    <script src="app.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ex04 배열과 화면에 추가</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+  <link rel="stylesheet" href="shared/examples.css">
+  <script src="app.js" defer></script>
 </head>
-<body>
-    <h1>ex04 누를 때마다 쌓기와 개수</h1>
-    <p>칸의 글을 바꿔 가며 [더하기]를 세 번 누른다. 목록의 줄, "N개", F12 › Console 1~3번을 비교한다. Console 입력 칸에 items 를 쳐서 화면의 줄과 비교한다.</p>
-    <div>
-        <label for="text">글</label>
-        <input id="text" value="student01: 안녕하세요">
-        <button id="add">더하기</button>
-    </div>
-    <ul id="list"></ul>
-    <div id="count">0개</div>
+<body class="teaching-example">
+  <h1>ex04 배열과 화면에 추가</h1>
+  <label for="text">글</label><input class="w3-input w3-border" id="text" value="student01: 안녕하세요"><button class="w3-button w3-teal" id="add">더하기</button><ul class="w3-ul example-output" id="list"></ul><p id="count" role="status">0개</p>
 </body>
 </html>

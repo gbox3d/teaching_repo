@@ -292,7 +292,7 @@ PATCH가 200과 빈 배열을 반환하거나 DELETE가 204를 반환해도 변�
 07은 방명록 사용 흐름을 확인하는 화면이다. HTTP 메서드·JSON 본문을 직접 바꾸는 실험은 06을 사용한다.
 
 실험 화면에서 API가 동작하면 정규 교재의 UI를 자신의 서버에 연결한다.
-각 완성본의 `config.example.js`를 7단계와 같은 공개 값으로 바꾼다.
+정규 12~14주 완성본은 화면의 **API 설정**을 펼쳐 7단계의 주소·공개 키·방명록 번호를 입력한다. 설정은 메모리에만 남으므로 새로고침 뒤 다시 입력한다. 특강 01~07의 `config.example.js` 방식과 구분한다.
 
 13주 화면을 확인할 때, 실행 중인 정적 서버를 Ctrl+C로 중지한 뒤 다음 명령을 실행한다.
 현재 폴더: 교재 저장소 최상위.
@@ -317,7 +317,7 @@ node web_programming/tools/static-server/server.mjs web_programming/weeks/week14
 
 특강 화면 또는 방명록 UI의 필요한 파일만 별도 학생 저장소에 올리고 GitHub Pages를 설정한다.
 01~07은 폴더 하나만 별도 저장소나 Pages 게시 폴더로 옮겨 사용할 수 있다.
-선택한 폴더의 `index.html`, `app.js`, `config.example.js`, `styles.css`를 함께 둔다. 06은 `request.js`·`exercise.js`도 포함한다.
+선택한 폴더의 `index.html`, `app.js`, `config.example.js`, `shared/examples.css`를 함께 둔다. 06은 `request.js`·`exercise.js`도 포함한다.
 HTML은 같은 폴더의 설정·스타일·앱 파일을 읽는다. 완성 방명록만 배포하려면 07 폴더를 선택한다.
 학습 자료로 `requests.http`·`.env.example`을 함께 배부할 수 있지만 실제 `.env`는 제외한다.
 GitHub Pages가 정적 파일을 제공하므로 Node 정적 서버나 로컬 API 서버를 실행할 필요가 없다.

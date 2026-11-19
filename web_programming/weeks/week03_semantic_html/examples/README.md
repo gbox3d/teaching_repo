@@ -1,104 +1,46 @@
 # 3주차 예제 — 세 페이지 자기소개 사이트
 
-2주차 `my-web`에서 이어지는 파일이다. 아래 파일은 해당 날짜 끝의 **`my-web` 전체 파일**이다.
-먼저 [따라하기](../walkthrough.md)를 순서대로 하고, 막히면 내 파일과 한 줄씩 비교한다.
-`student01`은 연습용 아이디다. 본인 아이디로 바꿔 쓴다.
+두 폴더는 각 차시의 완성 참고본이다. 강의자가 수업 전에 전체를 배부한다. 학생은 [실습지](../lab.md)의 30분 필수 수정만 하며, 전체 코드 조립은 강의자 시연과 복습에 쓴다. 파일별 Raw 다운로드는 수업 중 활동에 넣지 않는다.
 
-## 파일과 단계
+## 전체 파일과 역할
 
-| 예제 파일 | 따라하기 단계 | 내 `my-web` 폴더의 파일 |
+| 파일 | 역할·변경 | 수업에서의 사용 |
 |---|---|---|
-| [day1/index.html](day1/index.html) | [2~5단계](../walkthrough.md#2-indexhtml-비우고-뼈대-만들기) — 2주차 내용을 지우고 뼈대부터 다시 쓴다 | `index.html` |
-| [day1/images/profile.png](day1/images/profile.png) | [4단계](../walkthrough.md#4-프로필-그림과-nav-링크-넣기) — 내려받아 `images/`에 넣는다 | `images/profile.png` |
-| [day1/about.html](day1/about.html) | [6단계](../walkthrough.md#6-stylescss와-appjs는-그대로-둔다) — 1일차에는 2주차 그대로 둔다 | `about.html` |
-| [day1/styles.css](day1/styles.css) · [day1/app.js](day1/app.js) | [6단계](../walkthrough.md#6-stylescss와-appjs는-그대로-둔다) — 열지 않는다. 2주차와 같다 | `styles.css` · `app.js` |
-| [day2/about.html](day2/about.html) | [9단계](../walkthrough.md#9-abouthtml을-내-정보-표로-다시-쓰기) — 전체를 지우고 표로 다시 쓴다 | `about.html` |
-| [day2/guestbook.html](day2/guestbook.html) | [10단계](../walkthrough.md#10-guestbookhtml-만들기) — 새 파일 | `guestbook.html` |
-| [day2/index.html](day2/index.html) | [11단계](../walkthrough.md#11-세-페이지-nav-통일하기) — day1에서 `nav` 한 줄이 늘어난다 | `index.html` |
-| [day2/styles.css](day2/styles.css) · [day2/app.js](day2/app.js) | day1과 같다. 이번 주에는 고치지 않는다 | `styles.css` · `app.js` |
+| [day1/index.html](day1/index.html) | 제공 시맨틱 홈 뼈대, CSS·JS 연결 해제 | 필수: 제목·문단·alt·취미, 링크 2개 |
+| [day1/about.html](day1/about.html) | 2주차 소개 유지, CSS 연결 | 제공: 홈과 왕복 이동 |
+| [day1/styles.css](day1/styles.css) | 2주차 완료 CSS 보존 | 제공: 소개 카드에만 적용, 학생 수정 없음 |
+| [day1/app.js](day1/app.js) | 2주차 클릭 예제 보존 | 참고: 어떤 HTML에도 연결하지 않음 |
+| [day1/images/profile.png](day1/images/profile.png) | 400×400 제공 프로필 그림 | 필수: 경로·alt 확인 |
+| [day2/index.html](day2/index.html) | 홈 메뉴에 방명록 링크 한 줄 추가 | 제공 메뉴로 세 페이지 이동, 개인 내용 보존 |
+| [day2/about.html](day2/about.html) | 시맨틱 구조와 2열 4행 표, CSS 연결 해제 | 필수: 아이디·관심 분야 두 행 변경 |
+| [day2/guestbook.html](day2/guestbook.html) | 이름·이메일·메시지 입력과 제출 버튼 | 필수: label/입력 세 쌍 연결 |
+| [day2/styles.css](day2/styles.css) | day1과 같은 파일 | 보존, 세 HTML에서 연결하지 않음 |
+| [day2/app.js](day2/app.js) | day1과 같은 파일 | 보존, 세 HTML에서 연결하지 않음 |
+| [day2/images/profile.png](day2/images/profile.png) | day1과 같은 그림 | 홈에서 사용 |
 
-`day2/images/profile.png`도 `day1`과 같은 파일이다.
+CSS는 지난주 제공 파일의 좁은 화면 폭 보정을 포함한다. 3주차에 CSS 규칙을 새로 작성하거나 설명하지 않는다. JavaScript 파일은 보존 자료이므로 단독 실행하거나 3주차 HTML에 연결하지 않는다.
 
-## 1. 1일차 완성 — 자기소개 페이지
+## 1차시 실행
 
-`day1/index.html`을 브라우저로 열면 꾸미지 않은 화면이 위에서 아래로 쌓인다.
+`day1/index.html`을 브라우저로 연다. 홈의 제목·메뉴 두 개·소개·그림·문단·취미 목록이 위에서 아래로 보인다. `내 정보`를 누르면 지난주 카드 화면으로 이동하고, 돌아가기 링크로 홈에 온다.
 
-```text
-student01의 웹 연습장      ← header > h1
-홈  내 정보                ← header > nav > a 두 개
-소개                       ← main > h2
-[프로필 그림]              ← img src="images/profile.png" alt="…"
-웹프로그래밍을 배우는 student01입니다.   ← p + strong
-취미                       ← h2
-• 사진 찍기 • 보드게임 • 저녁 산책        ← ul > li 세 개
-수업용 연습 페이지 · student01            ← footer > p
-```
+제공 그림은 실제 학생의 사진이 아니라 사람 모양의 예시 그림이다. `alt`에는 그림의 의미를 적는다. 홈의 자기소개 문단과 취미는 사이트 콘텐츠이므로 화면에 남긴다. HTML 개념 설명과 따라하기 절차는 이 문서와 [따라하기](../walkthrough.md)에 둔다.
 
-- `<link rel="stylesheet">`와 `<script src="app.js" defer>` 두 줄이 없다. 그래서 2주차의 카드 모양이 사라진다.
-- `styles.css`·`app.js`는 폴더에 그대로 있다. 4·5주차에 비우고 다시 쓴다.
-- `day1/about.html`은 2주차 파일 그대로여서 혼자 카드 화면으로 보인다. 2일차에 다시 쓴다.
+## 2차시 실행과 기본 검사
 
-### 개념별 최소 코드
+`day2/index.html`부터 열고 세 페이지의 모든 메뉴를 확인한다. 내 정보 표는 제목 행을 포함하여 2열 4행이다. 방명록은 정적 폼이며 JavaScript가 연결되지 않는다.
 
-뼈대 네 개:
+| 관찰 | 예상 결과 |
+|---|---|
+| 이름·이메일·메시지 label 클릭 | 각각 `name`·`email`·`message`에 포커스 |
+| 이메일 `abc` 입력 후 남기기 | 브라우저 기본 검사가 제출을 막음 |
+| 빈 이메일 또는 가상 이메일로 남기기 | 현재 페이지로 기본 GET 제출, 입력 초기화, 목록 추가 없음 |
+| 새로고침 | 저장·복원 없음 |
 
-```html
-<body>
-  <header>…</header>
-  <main>…</main>
-  <footer>…</footer>
-</body>
-```
+`required`가 없으므로 빈 칸은 허용한다. `action`·`method`를 생략해도 제출 동작은 있으며, 이 폼에는 입력의 `name` 속성이 없어 값이 쿼리에 실리지 않는다. 주소 끝의 `?` 표시 여부만으로 성공을 판단하지 않는다. [정적 폼 설명](../README.md#정적-폼의-동작)을 참고한다.
 
-상대 경로 링크와 그림:
+`name`·`message` ID는 이후 방명록과 연결한다. 이메일은 입력 종류 비교용이며 이후 공용 API의 필드가 아니다. `ul`/`ol` 비교와 표 한 행 추가는 선택이다. W3.CSS는 7주차부터 사용한다.
 
-```html
-<a href="about.html">내 정보</a>
-<img src="images/profile.png" alt="student01의 프로필 그림" width="160">
-```
+## 다음 단계에 넘기는 파일
 
-`href`에 파일 이름만 적으면 같은 폴더의 파일을 연다. `img`의 경로가 틀리면 그림 대신 `alt` 글자가 보인다.
-
-## 2. 2일차 완성 — 내 정보 표와 방명록 form
-
-`day2/`는 day1에 `guestbook.html`이 추가되고, `about.html`이 다시 쓰이고, `index.html`의 `nav`에 한 줄이 늘어난 것이다.
-
-```html
-<a href="guestbook.html">방명록</a>
-```
-
-`day2/about.html`의 표:
-
-```text
-항목      내용            ← th 두 개 (굵게·가운데)
-아이디    student01       ← td 두 개
-이메일    student01@example.com
-관심 분야  웹 페이지 만들기
-```
-
-`day2/guestbook.html`의 입력 칸:
-
-```html
-<label for="name">이름</label>
-<input id="name" type="text">
-```
-
-- `label for`와 `input id`가 같아서 `이름`을 누르면 입력 칸에 커서가 들어간다.
-- `form`에 `action`·`method`가 없다. **남기기**를 누르면 주소창이 `guestbook.html?`로 바뀌고 화면은 그대로다.
-- 여기 쓴 `id`(`name`·`email`·`message`)는 7주차에 JavaScript가 그대로 쓴다. 철자를 바꾸지 않는다.
-
-## 3. 세 페이지와 메뉴
-
-| 페이지 | 제목(`h1`) | 안에 있는 것 |
-|---|---|---|
-| `index.html` | student01의 웹 연습장 | 그림, 소개 문단, 취미 `ul` |
-| `about.html` | 내 정보 | 2열 4행 `table` |
-| `guestbook.html` | 방명록 | 쓰는 순서 `ol`, 이름·이메일·메시지 `form` |
-
-세 페이지의 `nav`는 글자 단위로 같다. 한 페이지에서 메뉴를 고치면 나머지 두 페이지도 같이 고친다.
-
-## 공식 참고 자료
-
-- [HTML 문서와 웹사이트 구조 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Structuring_content/Structuring_documents)
-- [HTML 표 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Core/Structuring_content/HTML_table_basics)
-- [첫 HTML 폼 만들기 — MDN](https://developer.mozilla.org/ko/docs/Learn_web_development/Extensions/Forms/Your_first_form)
+수업 뒤 `my-web`에 결과를 업로드한다. 4주차 사전 준비에서 day2에 해당하는 세 HTML·그림·CSS·JS를 새 `web-week04`로 복사한다. `.git`은 제외한다. `styles.css`는 4주차 시작 틀로 바꾸고 세 HTML에 연결하며, `app.js`는 5주차까지 연결하지 않는다.

@@ -2,103 +2,65 @@
 
 # 13주차 · REST API로 방명록 저장하기
 
-## 목차
+12주 GET 목록에 POST를 연결한다. 11주 필수 실습은 폼 저장·복원이며 전체 저장 방명록은 제공 시연본이었다. 이번 주에는 그 방명록 화면과 12주 서버 조회 함수를 이어 쓴다.
 
-- [학습 목표](#학습-목표)
-- [이번 주 결과물](#이번-주-결과물)
-- [2일 수업 흐름](#2일-수업-흐름)
-- [준비](#준비)
-- [이번 주 용어](#이번-주-용어)
-- [비교 예제](#비교-예제)
-- [수업 자료](#수업-자료)
-- [완료 기준](#완료-기준)
-- [다음 수업 연결](#다음-수업-연결)
+## 학습 목표와 결과물
 
-12주에는 서버의 목록을 GET으로 읽었다. 이번 주에는 7주에 배운 폼 입력을 POST의 JSON 본문으로 보내고, 저장 후 GET으로 목록을 다시 읽는다. 저장한 글은 브라우저가 아니라 서버에 남는다.
-
-## 학습 목표
-
-1. GET과 POST가 서버에 요청하는 일이 어떻게 다른지 설명한다.
-2. method·headers·body를 지정하고 객체를 JSON.stringify로 바꿔 전송한다.
-3. 이름·메시지 입력을 POST에 연결하고 201 응답과 서버 id를 확인한다.
-4. 저장 중에는 버튼을 비활성화하고 성공·실패 안내를 구분한다.
-5. 저장 후 GET으로 다시 읽고 다른 기기에서도 글이 보이는지 확인한다.
-
-## 이번 주 결과물
-
-내 폼에서 저장한 글이 서버 목록에 보이고 Network에 POST 201과 GET 200이 이어진 화면을 캡처 한 장으로 제출한다.
-새 저장소 `web-week13`의 홈·내 정보·방명록 세 페이지를 이어 쓴다.
-이번 주에는 프로젝트 카드나 레포트를 만들지 않는다.
+`method`·`headers`·`body`의 역할을 읽고 폼 값을 `JSON.stringify`로 전송한다. POST 201의 서버 id와 뒤따르는 GET 200을 확인한다. 저장 중 중복 클릭, 실패한 입력 보존, 저장 성공과 목록 조회 실패를 구분한다. 결과물은 홈·내 정보·방명록 세 페이지와 POST 201 → GET 200 캡처다.
 
 ## 2일 수업 흐름
 
-| 일차 | 설명·시연 30분 | 실습 60분 |
+| 차시 | 강의·시연 60분 | 학생 실습 30분 |
 |---|---|---|
-| 1일차 | 객체를 JSON으로 → POST → 헤더 → 서버 입력 검사 | ex01~ex03에서 요청 본문과 응답 비교 |
-| 2일차 | submit → 저장 중 → 실패 안내 → POST 다음 GET | ex04~ex06 비교 후 기존 방명록에 폼 연결 |
+| 1차시 | 준비 5, POST 15, headers·body 15, 201·id 10, 입력 거절 10, 안내 5 | `.http` message 변경·POST 10, id 확인·GET 10, 빈값 거절 비교 10 |
+| 2차시 | 준비 5, 기존 submit 복습 10, POST 연결 15, 대기·실패 15, 재조회 10, 안내 5 | 폼 값·JSON·loadMessages 세 구역 15, 중복 클릭·실패 입력 보존 7, 다른 브라우저·캡처 8 |
 
-## 준비
+예제 전체를 학생이 다시 작성하지 않는다. ex01·ex04~ex06은 강의자 시연, ex02·ex03은 1차시 `.http` 실습의 비교본이다. 설정 패널과 방어 코드는 제공한다. 선택 연습은 저장 응답 손실·GET 지연 비교이며 정규 30분에 포함하지 않는다.
 
-- 지난주 완성본: [web-week12](../week12_fetch_json/examples/day2/web-week12/)
-- VS Code·Git·Chrome과 Node.js. [정적 서버](../../tools/static-server/README.md)를 작업 폴더에 둔다.
-- 강의자가 제공한 HTTPS API 주소·공개 키·방명록 번호. 학생은 Supabase 계정을 만들지 않는다.
-- [강의자 API 준비·로컬 연습 안내](../../tools/guestbook-api/README.md). 설정 예제의 `127.0.0.1:8787`은 로컬 연습 주소이며 이미 배포된 공용 주소가 아니다.
+## 사전 준비와 수업 뒤 정리
 
-`config.example.js`의 세 값을 수정하며 파일 이름은 그대로 쓴다. 공개 키는 학생별 편집 키나 서버 비밀 키와 다르다.
-로컬 연습은 정적 서버 `http://localhost:8000`과 API `http://127.0.0.1:8787`을 함께 실행한다.
-GitHub Pages에서는 강의자가 제공한 HTTPS API를 사용한다. 공용 API가 준비되기 전에는 로컬 화면·Network 캡처로 실습을 확인하고, 다른 기기 공유는 공용 API 설정 후 확인한다.
+수업 전에 [web-week12](../week12_fetch_json/examples/day2/web-week12/)와 이번 주 제공 폴더, Node.js·VS Code REST Client(`humao.rest-client`), 새 `web-week13` 저장소를 준비한다. 로컬 연습은 [정적 서버](../../tools/static-server/README.md)와 [API 서버](../../tools/guestbook-api/README.md)를 함께 실행한다. 첫 5분에는 파일과 서버만 확인한다.
 
-## 이번 주 용어
+화면의 API 설정에서 강의자 URL·공개 키·방명록 번호를 입력한다. 메모리 설정이므로 새로고침 뒤 다시 입력한다. 기본값은 로컬 연습용이며 배포된 공용 주소가 아니다. 각 REST 폴더의 `.env.example`을 `.env`로 복사해 REST Client도 별도로 설정한다. 실제 키를 추적 파일에 적지 않는다. 자세한 절차는 [따라하기](walkthrough.md)에 있다.
 
-| 한국어 | English | 中文 |
+실습 시간에는 localhost 동작과 캡처를 마친다. commit·push·Pages 확인은 수업 뒤 정리다. 공용 HTTPS API가 준비되면 별도 브라우저·기기의 공유를 확인한다. 같은 PC의 로컬 API 검증을 다른 기기·공용 서버 검증으로 기록하지 않는다.
+
+## 예제 구분
+
+| 예제 | 구분 | 관찰 결과 |
 |---|---|---|
-| HTTP 메서드 | HTTP method | HTTP 方法 |
-| 본문 | body | 正文 |
-| 콘텐츠 형식 | Content-Type | 内容类型 |
-| 생성 | POST | 创建 |
-| 직렬화 | JSON.stringify | 序列化 |
-| 비활성화 | disabled | 禁用 |
-| 식별 번호 | id | 标识符 |
-
-## 비교 예제
-
-각 예제는 `index.html`·`app.js`와 필요한 `config.example.js`로 구성된다.
-원리를 하나씩 확인하고 마지막에 [이번 주 완성본](examples/day2/web-week13/guestbook.html)을 조립한다.
-
-| 예제 | 주제 | 확인할 것 | 바꿔 볼 값 |
-|---|---|---|---|
-| [ex01](examples/day1/ex01/index.html) | JSON 본문 만들기 | 객체와 전송할 JSON 글자를 비교한다 | message 값 |
-| [ex02](examples/day1/ex02/index.html) | 고정값 POST | 버튼을 누를 때만 글 한 줄을 저장한다 | 보내는 메시지 |
-| [ex03](examples/day1/ex03/index.html) | 서버 입력 검사 | 빈 메시지는 서버가 거절한다 | 빈 문자열 → 문장 |
-| [ex04](examples/day2/ex04/index.html) | 폼 입력 POST | 입력한 문장을 JSON 본문에 넣는다 | 입력 내용과 앞뒤 공백 |
-| [ex05](examples/day2/ex05/index.html) | 저장 중 버튼 | 응답을 기다리는 동안 다시 누를 수 없다 | Slow 3G → No throttling |
-| [ex06](examples/day2/ex06/index.html) | 저장 후 재조회 | POST 성공 뒤 GET 결과를 표시한다 | Network의 POST·GET 순서 |
-
-## 수업 자료
-
-- [슬라이드](slides.md) · [영문 슬라이드](slides_en.md)
-- 교재 사이트: https://gbox3d.github.io/teaching_repo/webprg/decks/week13_release_security/index.html
-- [따라하기](walkthrough.md) · [실습지](lab.md) · [예제 설명](examples/README.md)
-- 강의 대본과 실습 해답은 강의자 별도 관리(비공개)다.
+| [ex01](examples/day1/ex01/README.md) | 시연 | 객체를 JSON 문자열로 변환, 서버 요청 없음 |
+| [ex02](examples/day1/ex02/README.md) | 필수 요청의 비교본 | 고정값 POST·201·id |
+| [ex03](examples/day1/ex03/README.md) | 필수 거절 비교 | 빈 메시지 400·정상 메시지 201 |
+| [ex04](examples/day2/ex04/README.md) | 시연 | trim한 폼 값을 JSON 본문에 연결 |
+| [ex05](examples/day2/ex05/README.md) | 시연 | 대기 중 버튼 잠금·실패 입력 보존 |
+| [ex06](examples/day2/ex06/README.md) | 시연 | POST 성공 뒤 GET 재조회 |
+| [완성 방명록](examples/day2/web-week13/README.md) | 2차시 필수 수정 3곳 | 폼 값·JSON 본문·재조회 |
 
 ## 완료 기준
 
-- [ ] 12주 GET 목록이 그대로 동작한다.
-- [ ] 이름과 메시지를 입력하면 POST 201 뒤 GET 200이 보인다.
-- [ ] 서버가 만든 id를 확인하고 새로고침해도 저장한 글이 보인다.
-- [ ] 저장 중에는 버튼이 비활성화되고, 실패하면 입력값을 보존한다.
-- [ ] 공용 HTTPS API를 사용하는 다른 브라우저·기기에서도 같은 글을 확인했다.
-- [ ] 캡처 한 장에 저장한 글과 POST 201·GET 200이 보인다.
+- 별칭과 메시지를 저장하고 POST 201의 id를 GET 200 목록에서 찾는다.
+- 공백만 입력하면 요청을 보내지 않고, `<b>글자</b>`는 HTML 효과 없이 글자 그대로 보인다.
+- 대기 중 중복 클릭을 막고 실패 입력과 재활성화된 버튼을 확인한다.
+- POST 응답이 불명확하면 GET으로 먼저 확인하며, GET 실패를 저장 실패로 판단해 재POST하지 않는다.
+- 같은 API·방명록 번호를 설정한 두 브라우저에서 글을 확인한다. 공용 API·다른 기기 검증 여부는 별도로 적는다.
 
-API에 처음 준비된 글 수는 환경에 따라 다르다. 특정 개수보다 요청·응답과 화면이 일치하는지 확인한다.
-실명·학번·실제 이메일을 사용하지 않고 수업용 별칭으로 실습한다.
+## 자료와 다음 수업
 
-## 다음 수업 연결
+[슬라이드](slides.md) · [영문 슬라이드](slides_en.md) · [실습지](lab.md) · [따라하기](walkthrough.md) · [예제 설명](examples/README.md)
 
-14주에는 서버 id로 글 하나를 지정해 PATCH로 수정하고 DELETE로 삭제한다. 레포트는 별도 과제로 안내한다.
+교재 사이트: https://gbox3d.github.io/teaching_repo/webprg/decks/week13_release_security/index.html
 
-## 공식 참고 자료
+14주는 같은 `guestbook.js`에 서버 id를 이용한 PATCH·DELETE 구역을 추가한다. 방명록 화면은 W3.CSS CDN 4.1.0과 폴더별 `shared/examples.css`를 함께 쓴다. 홈·내 정보의 기존 CSS는 이어 쓴다.
 
-- [MDN · Fetch API 사용](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
-- [MDN · HTTP 요청 메서드](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods)
-- [Supabase · Data REST API](https://supabase.com/docs/guides/api)
+## 용어와 공식 자료
+
+| 용어 | 뜻 |
+|---|---|
+| method | 요청할 동작(GET·POST) |
+| headers | 공개 키·본문 형식·응답 방식 |
+| body | JSON 문자열로 전송하는 글 |
+| id | 서버가 생성한 글 식별 번호 |
+| disabled | 요청을 기다리는 동안 버튼 비활성화 |
+
+[MDN Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) · [HTTP 메서드](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods) · [Supabase Data REST API](https://supabase.com/docs/guides/api)

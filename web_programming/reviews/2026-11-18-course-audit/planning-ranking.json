@@ -1,0 +1,110 @@
+{
+  "rubric": "brief.md",
+  "reviewers": [
+    "director",
+    "learning",
+    "technical"
+  ],
+  "rows": [
+    {
+      "candidate": "C01",
+      "scores": [
+        9.15,
+        8.95,
+        9.2
+      ],
+      "average": 9.1,
+      "min": 8.95,
+      "pass": true
+    },
+    {
+      "candidate": "C04",
+      "scores": [
+        9,
+        8.85,
+        8.8
+      ],
+      "average": 8.883333333333335,
+      "min": 8.8,
+      "pass": true
+    },
+    {
+      "candidate": "C09",
+      "scores": [
+        8.8,
+        8.5,
+        9
+      ],
+      "average": 8.766666666666667,
+      "min": 8.5,
+      "pass": true
+    },
+    {
+      "candidate": "C06",
+      "scores": [
+        8.9,
+        8.6,
+        8.7
+      ],
+      "average": 8.733333333333333,
+      "min": 8.6,
+      "pass": true
+    },
+    {
+      "candidate": "C02",
+      "scores": [
+        8.65,
+        8.45,
+        8.8
+      ],
+      "average": 8.633333333333335,
+      "min": 8.45,
+      "pass": true
+    },
+    {
+      "candidate": "C08",
+      "scores": [
+        8.55,
+        8.45,
+        8.3
+      ],
+      "average": 8.433333333333334,
+      "min": 8.3,
+      "pass": true
+    },
+    {
+      "candidate": "C03",
+      "scores": [
+        8.5,
+        8.35,
+        8.3
+      ],
+      "average": 8.383333333333335,
+      "min": 8.3,
+      "pass": true
+    },
+    {
+      "candidate": "C07",
+      "scores": [
+        8.25,
+        8.55,
+        8.3
+      ],
+      "average": 8.366666666666667,
+      "min": 8.25,
+      "pass": true
+    },
+    {
+      "candidate": "C05",
+      "scores": [
+        8.55,
+        8.3,
+        8.2
+      ],
+      "average": 8.35,
+      "min": 8.2,
+      "pass": true
+    }
+  ],
+  "winner": "C01"
+}

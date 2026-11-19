@@ -1,248 +1,57 @@
-# 4주차 실습 — 부품을 바꿔 보고 마지막에 조립하기
+# 4주차 실습 — CSS 값과 화면 변화
 
 실습 페이지: https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week04_responsive_css
 
-이번 주 실습은 파일을 새로 만드는 것이 아니라 **값을 바꿔 보는 것**이다.
-이번 주부터 주마다 새 저장소를 만든다. 이번 주 저장소는 `web-week04` 이고, 지난주 완성본에서 시작한다.
-비교 예제 13개(부록 ex14 는 선택)를 `web-week04/ex/` 에 저장하고(예제마다 폴더 하나에 `index.html`·`styles.css`), 값 하나를 바꾼 뒤 화면이 어떻게 달라지는지 본다.
-2일차 끝에 그 부품으로 `web-week04` 의 `styles.css` 를 조립한다. 채점 대상은 2일차 캡처 1장이다.
-`student01` 은 예시 아이디이므로 본인 아이디로 바꾼다. `app.js` 는 이번 주에 열지 않는다.
+각 차시는 강의·시연 60분 뒤 학생 실습 30분이다. 비교 예제 13개와 선택 ex14를 모두 제공하지만 필수 수정은 아래 표의 항목뿐이다. 전체 예제의 비교 원리와 추가 실험은 [예제 안내](examples/README.md)에 있다.
 
-예제 폴더를 만들고 파일을 받는 법, 값을 바꾸는 요령은 [따라하기 1일차](walkthrough.md#1일차)에 있다.
-"바꿔 보기"는 **무엇이 달라질지 먼저 말해 보고** 저장 → 새로고침으로 확인한다.
+## 사전 준비
 
-## 1일차 — 선택자와 박스 (60분)
+수업 전에 `web-week04` 폴더·새 저장소와 제공 파일을 준비한다. 3주차 `.git`은 복사하지 않는다. 자신의 소개·취미는 유지하고 [제공 HTML·CSS](examples/day2/web-week04/)의 연결·카드 클래스를 미리 반영한다. 비교 폴더는 `ex/`에 배부된 상태로 시작한다. 수업 중 Raw 다운로드와 Git 신규 설명은 없다. `app.js`는 연결하지 않는다.
 
-| 시간 | 할 일 |
-|---|---|
-| 0–5분 | 새 폴더 `web-week04` 를 만들어 **File › Open Folder** 로 연다. 지난주 완성본을 넣는다: 내 3주차 저장소 GitHub 화면 › **Code › Download ZIP**, 못 하면 교재 [3주차 examples/day2/](../week03_semantic_html/examples/day2/) 를 **Raw** 로. `ex` 폴더와 그 안에 `ex01`~`ex06` 폴더를 만든다. 예제 파일은 문항마다 교재 [`examples/day1/`](examples/day1/) 의 같은 이름 폴더에서 받는다 |
-| 5–13분 | ex01 선택자 — 저장하고 값 바꿔 보기 |
-| 13–20분 | ex02 display |
-| 20–28분 | ex03 박스모델 |
-| 28–35분 | ex04 width·max-width |
-| 35–41분 | ex05 margin auto |
-| 41–47분 | ex06 text-align |
-| 47–50분 | 확인: `ex/` 안에 예제 폴더 여섯 개가 있고 폴더마다 두 파일이 있는지, 각 예제에서 값 하나 이상을 바꿨는지 |
-| 50–60분 | [이번 주 저장소 만들어 올리기](#이번-주-저장소-만들어-올리기): GitHub 에 새 저장소 `web-week04` → 터미널 여섯 줄 → **Settings › Pages** → 공개 주소 확인 → 공용 PC면 자격 증명 삭제 |
+## 1일차 — 선택자와 박스 (30분)
 
-1일차 예제는 폴더마다 따로 연다. 문항의 폴더에서 `index.html` 을 Chrome 으로 열고, 고친 뒤 저장 → 새로고침으로 본다. 규칙(선택자·속성·값과 주석)은 같은 폴더의 `styles.css` 에, 번호 글과 상자의 `class="…"` 는 `index.html` 에 있다. 아래 문항마다 고칠 파일을 적었다.
+| 실습 시간 | 필수 수정 | 확인 결과 |
+|---|---|---|
+| 0–10분 | ex01 CSS의 `.red` 색 `red` → `orange`, ex03 CSS의 `.pad` 값 `16px` → `32px` | ex01의 2·3번만 주황, ex03의 2·5번 안쪽 여백 증가 |
+| 10–25분 | 사이트 `styles.css`의 `h1 color` → `#365314`, `.card padding` → `20px`, `body max-width` → `600px` | 제목 색·카드 안쪽 여백·넓은 화면의 본문 폭 변화 |
+| 25–30분 | 저장·새로고침, 세 페이지 CSS 연결 확인 | 변경한 파일과 화면 확인 |
 
-### 1. ex01 선택자 (`p` · `.red` · `nav a`)
+고치는 파일은 `ex/ex01/styles.css`, `ex/ex03/styles.css`, 사이트 맨 위의 `styles.css`다. 예제 폴더와 사이트에 같은 파일명이 있으므로 VS Code 경로를 확인한다. 색은 읽기 쉬운 다른 값으로 바꿔도 된다.
 
-교재 [index.html](examples/day1/ex01/index.html) · [styles.css](examples/day1/ex01/styles.css) 를 **Raw** 로 받아 `ex/ex01/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex01/index.html` 을 연다. 받는 법은 [따라하기 1일차](walkthrough.md#1일차)의 2단계에 있다.
+ex02·ex04·ex05·ex06은 강의자 시연이다. ex04의 고정 `width: 640px` 상자가 375px에서 넘치는 것은 비교 목적이다. 완성 사이트에는 이 고정 폭을 사용하지 않는다.
 
-- 바꿔 보기: `styles.css` 의 주석 `/* p { color: gray; } */` 를 푼다. 1번만 바뀌나, 2번도 바뀌나? 파랑 규칙이 위에 있는데 왜 그런가?
-- 바꿔 보기: `index.html` 4번의 `class="Red"` 를 `class="red"` 로 고친다. 고치기 전에는 왜 파랑이었나?
-- 바꿔 보기: `styles.css` 에서 `.red` 규칙을 `p { color: blue; }` 보다 **위로** 옮긴다. 2번 색이 바뀌는가?
-- 흔한 실수: 선택자가 안 맞으면 오류 없이 그 규칙만 조용히 버려진다. `.Red` 와 `.red` 는 다른 이름이다.
+## 2일차 — flex와 조립 (30분)
 
-### 2. ex02 display (`display: block` · `display: inline`)
+| 실습 시간 | 필수 수정 | 확인 결과 |
+|---|---|---|
+| 0–10분 | ex07 CSS의 `.column` 방향 `column` → `row`, ex08 CSS의 `.center` 정렬 `center` → `flex-end` | ex07 4번 가로 배치, ex08 2번 오른쪽 정렬 |
+| 10–22분 | 사이트 `nav gap` → `24px`, media 경계 `600px` → `700px`, media 안 `column` → `row`로 비교한 뒤 `column` 복원 | 기존 세 줄의 값만 변경, 375px에서 세로 메뉴 |
+| 22–30분 | 1280px·375px에서 홈·내 정보·방명록 확인, 375px 홈 캡처 | 넓은 화면 가로·좁은 화면 세로 메뉴, 가로 넘침 없음 |
 
-교재 [index.html](examples/day1/ex02/index.html) · [styles.css](examples/day1/ex02/styles.css) 를 **Raw** 로 받아 `ex/ex02/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex02/index.html` 을 연다.
+nav·media 수정은 기존 3줄(5줄 이내)이다. 완성본의 경계 600px과 실습값 700px은 모두 375/1280px에서 같은 최종 메뉴 방향을 보인다. ex09~ex13의 추가 값 변경과 전체 CSS 조립은 시연·선택 활동이다.
 
-- 바꿔 보기: `styles.css` 에서 `.as-block` 의 `block` 을 `inline` 으로, `.as-inline` 의 `inline` 을 `block` 으로 바꾼다. 3번·4번이 각각 어느 모양이 되나?
-- 바꿔 보기: `index.html` 에서 1번 `div` 세 개의 class 에 `as-inline` 을 더한다(`class="c1 as-inline"`). `div` 인데도 옆으로 붙는가?
-- 흔한 실수: "div 는 세로, span 은 가로"라고 정리하면 3번·4번을 설명할 수 없다. 줄을 차지하는지는 `display` 값이 정한다.
+## 방명록 확인
 
-### 3. ex03 박스모델 (`padding` · `border` · `margin`)
-
-교재 [index.html](examples/day1/ex03/index.html) · [styles.css](examples/day1/ex03/styles.css) 를 **Raw** 로 받아 `ex/ex03/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex03/index.html` 을 연다. 고치는 파일은 `ex/ex03/styles.css` 다.
-
-- 바꿔 보기: `.pad` 의 `16px` 을 `0` → `32px` 로 바꾼다. 하늘색이 어디까지 칠해지나?
-- 바꿔 보기: `.mg` 의 `16px` 을 `0` → `32px` 로 바꾼다. 회색 frame 안에서 벌어지는 자리는 하늘색인가, 회색인가?
-- 바꿔 보기: 5번 상자를 F12 › **Elements** 에서 고르고 **Styles** 맨 아래 상자 그림의 네 값을 읽는다.
-- 흔한 실수: `padding` 과 `margin` 을 같은 것으로 본다. 배경이 칠해지는 쪽이 `padding` 이다.
-
-### 4. ex04 width (`width` · `max-width`)
-
-교재 [index.html](examples/day1/ex04/index.html) · [styles.css](examples/day1/ex04/styles.css) 를 **Raw** 로 받아 `ex/ex04/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex04/index.html` 을 연다. 고치는 파일은 `ex/ex04/styles.css` 다.
-
-- 바꿔 보기: 창 폭을 400px 까지 천천히 줄인다. 세 상자 중 어느 것만 삐져나가나? 가로 스크롤 막대는 언제 생기나?
-- 바꿔 보기: `.mw` 의 `640px` 을 `300px` 로 바꾼다. 창이 넓을 때와 좁을 때 각각 어떻게 되나?
-- 바꿔 보기: `.w` 의 `width` 를 `max-width` 로 바꾼다. 좁은 창에서 2번이 3번과 같아지는가?
-- 흔한 실수: 본문 폭을 `width: 640px` 로 정하면 폰 화면에서 삐져나간다. `max-width` 는 창이 좁으면 같이 줄어든다.
-
-### 5. ex05 margin auto (`margin-left` · `margin-right` · `margin: 0 auto`)
-
-교재 [index.html](examples/day1/ex05/index.html) · [styles.css](examples/day1/ex05/styles.css) 를 **Raw** 로 받아 `ex/ex05/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex05/index.html` 을 연다. 고치는 파일은 `ex/ex05/styles.css` 다.
-
-- 바꿔 보기: `.both-auto` 의 `margin-right: auto` 한 줄을 지운다. 3번 상자가 어느 쪽에 붙나? 2번과 같아지는가?
-- 바꿔 보기: `.box` 의 `max-width: 300px` 를 지운다. 네 상자가 어떻게 되나? 왜 가운데로 갈 수 없나?
-- 바꿔 보기: `.left-auto` 의 `margin-left` 를 `margin-right` 로 바꾼다. 2번이 어느 쪽에 붙나?
-- 흔한 실수: 폭이 창 전체인 상자에 `margin: 0 auto` 를 쓴다. 남는 폭이 없어 아무 일도 없다. `max-width` 로 상자를 먼저 좁힌다.
-
-### 6. ex06 text-align (`text-align`)
-
-교재 [index.html](examples/day1/ex06/index.html) · [styles.css](examples/day1/ex06/styles.css) 를 **Raw** 로 받아 `ex/ex06/` 에 저장하고(따라하기 2단계에서 받았으면 건너뛴다) `ex/ex06/index.html` 을 연다.
-
-- 바꿔 보기: `styles.css` 에서 `.right` 의 `right` 를 `center` 로 바꾼다. 3번이 어떻게 되나?
-- 바꿔 보기: `index.html` 에서 1번 상자에 `class="box right"` 를 준다. 하늘색 상자 폭은 그대로인가, 글자만 움직이나?
-- 흔한 실수: 상자를 가운데로 옮기려고 `text-align: center` 를 쓴다. 움직이는 것은 상자 안 글자뿐이다. 상자 자체는 ex05 의 `margin: 0 auto` 로 옮긴다.
-
-### 이번 주 저장소 만들어 올리기
-
-50분이 되면 문항을 멈추고 올린다. 2주차에 배운 순서 그대로다.
-
-1. GitHub 에서 새 저장소 `web-week04` 를 만든다. **Public**, README 는 추가하지 않는다.
-2. VS Code 터미널에서 친다. 현재 폴더: `web-week04`
-
-```bash
-git init
-git add .
-git commit -m "4주차 1일차"
-git branch -M main
-git remote add origin https://github.com/student01/web-week04.git
-git push -u origin main
-```
-
-3. 저장소 **Settings › Pages › Branch: main, /(root) › Save**.
-4. 1~3분 뒤 `https://student01.github.io/web-week04/` 과 `https://student01.github.io/web-week04/ex/ex01/` 을 연다. 둘째 주소는 `ex/ex01/index.html` 을 연다(`…/ex/` 까지만 열면 그 폴더에 `index.html` 이 없어 404 다).
-5. 공용 PC면 **자격 증명 관리자 › Windows 자격 증명**에서 `git:https://github.com` 을 지운다.
-
-오늘 올린 것은 확인용이다. 두 주소가 열리면 된 것이다. 제출은 2일차에 캡처 한 장만 한다.
-
-## 2일차 — flex와 조립 (60분)
-
-| 시간 | 할 일 |
-|---|---|
-| 0–5분 | 같은 PC에 `web-week04` 폴더가 남아 있으면 **File › Open Folder** 로 연다. 없으면 `git clone https://github.com/student01/web-week04.git` 뒤 **File › Open Folder**. `ex/` 안에 `ex07`~`ex13` 폴더를 만든다. 예제 파일은 문항마다 교재 [`examples/day2/`](examples/day2/) 의 같은 이름 폴더에서 받는다 |
-| 5–10분 | ex07 flex-direction |
-| 10–15분 | ex08 justify-content |
-| 15–20분 | ex09 align-items |
-| 20–24분 | ex10 flex-wrap |
-| 24–27분 | ex11 gap |
-| 27–31분 | ex12 flex: 1 |
-| 31–35분 | ex13 @media |
-| 35–50분 | 조립: `styles.css` 규칙을 조립표 순서로 쓰기, 세 페이지 `link` 줄, `index.html` 의 `class="card"` 세 곳 |
-| 50–55분 | 1280 과 기기 모드 375 에서 확인 |
-| 55–60분 | 올리기(2주차 순서 그대로): `git add .` → `git commit -m "4주차 2일차"` → `git push` → 공개 주소 `https://student01.github.io/web-week04/` 새로고침 → 375 **캡처 1장** → 공용 PC면 자격 증명 삭제 |
-
-팁: 실험하다 예제 파일을 망쳤으면 교재의 같은 예제 폴더에서 그 파일을 **Raw** 로 다시 받아 같은 폴더에 덮어쓴다.
-
-flex 는 세 낱말로 읽는다. **부모**(`display: flex` 를 쓰는 곳, 회색 frame), **주축**(`flex-direction` 이 정하는 방향), **교차축**(주축과 직각). `justify-content` 는 주축, `align-items` 는 교차축이다. 자식이 가로로 서면(row) 주축은 가로, 교차축은 세로다.
-일곱 예제를 받는 법은 [따라하기 2일차](walkthrough.md#2일차)에 있다. 1일차처럼 문항의 폴더에서 `index.html` 을 열고, 규칙은 `styles.css`, 상자의 `class="…"` 와 자식 수는 `index.html` 에서 고친다.
-예제마다 첫 번째 바꿔 보기만 하고 다음 예제로 넘어가도 된다. 둘째·셋째는 조립이 끝난 뒤 한다.
-
-### 7. ex07 flex-direction (`display: flex` · `flex-direction`)
-
-교재 [index.html](examples/day2/ex07/index.html) · [styles.css](examples/day2/ex07/styles.css) 를 **Raw** 로 받아 `ex/ex07/` 에 저장하고(따라하기 5단계에서 받았으면 건너뛴다) `ex/ex07/index.html` 을 연다.
-
-- 바꿔 보기: `index.html` 에서 1번 frame 의 class 에 `flex` 를 더한다(`class="frame flex"`). 세 상자가 어떻게 서나? 2번과 같아지는가?
-- 바꿔 보기: `index.html` 에서 2번 frame 의 `상자 1` 에 class `flex` 를 더한다(`class="c1 flex"`). 세 상자의 배치가 달라지나?
-- 바꿔 보기: 3번 `row-reverse` 에서 상자는 어느 쪽 끝에서 시작하나? 회색(남는 공간)은 어느 쪽에 있나?
-- 흔한 실수: `display: flex` 를 자식에 준다. 아무 일도 없다. 부모에 쓴다.
-
-### 8. ex08 justify-content (`justify-content`)
-
-교재 [index.html](examples/day2/ex08/index.html) · [styles.css](examples/day2/ex08/styles.css) 를 **Raw** 로 받아 `ex/ex08/` 에 저장하고(따라하기 5단계에서 받았으면 건너뛴다) `ex/ex08/index.html` 을 연다.
-
-- 바꿔 보기: 4번 `space-between` 과 5번 `space-around` 에서 양 끝 여백을 비교한다. 어느 쪽이 벽에 붙나?
-- 바꿔 보기: `styles.css` 의 마지막 주석 `.evenly` 를 풀고 `index.html` 5번 frame 의 class 를 `evenly` 로 바꾼다. `space-around` 와 무엇이 다른가?
-- 바꿔 보기: `index.html` 의 2번 frame 에 `<div class="c1">상자 4</div>` 를 하나 더 넣는다. 가운데 모임이 어떻게 되나?
-- 흔한 실수: `justify-content` 를 자식에 쓴다. 아무 일도 없다. 남는 공간은 부모(frame)의 것이다.
-
-### 9. ex09 align-items (`align-items`)
-
-교재 [index.html](examples/day2/ex09/index.html) · [styles.css](examples/day2/ex09/styles.css) 를 **Raw** 로 받아 `ex/ex09/` 에 저장하고(따라하기 5단계에서 받았으면 건너뛴다) `ex/ex09/index.html` 을 연다.
-
-- 바꿔 보기: `styles.css` 에서 `.frame` 의 `height: 100px` 를 지운다. 네 frame 이 어떻게 되나? 왜 차이가 사라지나?
-- 바꿔 보기: `index.html` 에서 1번 frame 의 `상자 1` 에 `style="height: 40px"` 를 준다. `stretch` 인데 그 상자만 안 늘어나는 이유는?
-- 바꿔 보기: `index.html` 3번 frame 의 class 에서 `center` 를 지운다(기본값 `stretch` 로). 다시 넣으면 세로 가운데가 되는가? 그 한 줄이 부모에 있는지 자식에 있는지 본다.
-- 흔한 실수: `align-items: center` 를 자식에 쓴다. 부모에 쓴다.
-
-### 10. ex10 flex-wrap (`flex-wrap`)
-
-교재 [index.html](examples/day2/ex10/index.html) · [styles.css](examples/day2/ex10/styles.css) 를 **Raw** 로 받아 `ex/ex10/` 에 저장하고(따라하기 5단계에서 받았으면 건너뛴다) `ex/ex10/index.html` 을 연다.
-
-- 바꿔 보기: `index.html` 에서 1번 frame 의 자식을 6개에서 3개로 줄인다. 줄어듦이 사라지나? 왜 그런가?
-- 바꿔 보기: `styles.css` 에서 `.box` 의 `80px` 을 `140px` 로 바꾼다. 2번 frame 의 한 줄에 몇 개씩 들어가나?
-- 흔한 실수: `flex-wrap` 을 자식에 쓴다. 아무 일도 없다. 부모에 쓴다.
-
-### 11. ex11 gap (`gap`)
-
-교재 [index.html](examples/day2/ex11/index.html) · [styles.css](examples/day2/ex11/styles.css) 를 **Raw** 로 받아 `ex/ex11/` 에 저장하고(따라하기 5단계에서 받았으면 건너뛴다) `ex/ex11/index.html` 을 연다.
-
-- 바꿔 보기: `styles.css` 에서 `.gap16` 의 `16px` 을 `0` → `48px` 로 바꾼다. 맨 앞·맨 뒤에도 틈이 생기나?
-- 바꿔 보기: `index.html` 에서 2번 frame 의 `gap16` 을 빼서 `상자 1` 의 class 에 붙인다(`class="c1 gap16"`). 간격이 생기나?
-- 흔한 실수: `gap` 을 자식(`nav a`)에 쓴다. 아무 일도 없다. 사이 간격은 부모에 쓴다.
-
-### 12. ex12 flex: 1 (`flex`)
-
-교재 [index.html](examples/day2/ex12/index.html) · [styles.css](examples/day2/ex12/styles.css) 를 **Raw** 로 받아 `ex/ex12/` 에 저장하고(따라하기 5단계에서 받았으면 건너뛴다) `ex/ex12/index.html` 을 연다.
-
-- 바꿔 보기: `styles.css` 에서 `.grow` 안의 주석 `/* flex: 2; */` 를 푼다. 3번 frame 의 세 상자 폭이 어떻게 되나? 2번은?
-- 바꿔 보기: `index.html` 에서 3번 frame 의 가운데 `<div>` 에만 `style="flex: 2"` 를 준다. 세 폭의 비율이 어떻게 되나?
-- 바꿔 보기: `index.html` 에서 1번 frame 의 `상자 3` 에 class `grow` 를 더한다. 어느 상자가 늘어나나?
-- 흔한 실수: `flex: 1` 을 부모에 쓴다. 이것은 자식에 쓰는 속성이다. "남는 공간을 이 자식이 차지한다"는 뜻이다.
-
-### 13. ex13 @media (`@media (max-width: 600px)`)
-
-교재 [index.html](examples/day2/ex13/index.html) · [styles.css](examples/day2/ex13/styles.css) 를 **Raw** 로 받아 `ex/ex13/` 에 저장하고(따라하기 5단계에서 받았으면 건너뛴다) `ex/ex13/index.html` 을 연다. 고치는 파일은 `ex/ex13/styles.css` 다.
-
-- 바꿔 보기: F12 › 기기 모드(**Ctrl+Shift+M**, macOS **⌘+⇧+M**) 에서 폭을 `375` 로 한다. 1번·2번 중 어느 것이 주황이 되나?
-- 바꿔 보기: `600px` 을 `900px` 으로 바꾼다. 기기 모드 폭 `800` 에서 무엇이 달라지나?
-- 바꿔 보기: `@media` 덩어리를 `.with-media` 규칙보다 **위로** 옮긴다. 375 에서도 주황이 되나? ex01 의 "뒤가 이긴다"와 연결해 본다.
-- 흔한 실수: `(max-width 600px)` 처럼 콜론을 빠뜨린다. 오류 없이 덩어리 전체가 무시된다.
-
-### 14. 조립 — `styles.css` (`link` · `class="card"`)
-
-`web-week04` 맨 위의 `styles.css` 를 비우고, 아래 조립표 순서로 규칙을 쓴다. 예제 폴더(`ex/ex01/` 등)에도 같은 이름의 `styles.css`·`index.html` 이 있다. 편집기 위쪽 경로 줄이 `web-week04 › styles.css` 처럼 `ex` 없이 보이는지 먼저 확인한다. 예제 폴더의 파일은 조립에 쓰지 않는다. 규칙마다 "어느 ex 에서 본 것"인지 적혀 있다. 전문과 세 페이지 코드는 [따라하기 2일차](walkthrough.md#2일차)에 있다.
-
-| `styles.css` 규칙 | 어느 ex 에서 본 것 |
-|---|---|
-| `body { background-color; color; font-family; font-size }` | ex01 태그 선택자. 색·글꼴은 3주차 HTML 에 없던 새 속성 4개 |
-| `body { max-width: 640px; margin: 0 auto; padding: 16px }` | ex04 (`max-width`), ex05 (`margin: 0 auto`), ex03 (`padding`) |
-| `h1`·`h2` `{ color … }` | ex01 태그 선택자 |
-| `nav { display: flex; gap: 16px; flex-wrap: wrap }` | ex07 (flex 는 부모에), ex11 (`gap`), ex10 (`flex-wrap`) — 셋 다 부모에 |
-| `nav a { color }` | ex01 자손 선택자 |
-| `.card { background-color; padding; margin: 12px 0; border }` | ex01 클래스 선택자, ex03 세 층 |
-| `input, textarea { width: 280px; max-width: 100% }` | ex04 의 `width` 와 `max-width` 를 함께 쓴 것. `width: 280px` 은 평소 폭, `max-width: 100%` 는 부모보다 못 커지게 하는 상한. 쉼표 = 두 대상에 같은 규칙 |
-| `footer { text-align: center; … }` | ex06 |
-| `@media (max-width: 600px) { nav { flex-direction: column } }` | ex13 (조건) + ex07 (`column`) |
-
-- 세 페이지(`index.html`·`about.html`·`guestbook.html`)의 `<head>` 에 `<link rel="stylesheet" href="styles.css">` 가 있어야 규칙이 적용된다. 없는 페이지는 3주차 화면 그대로다.
-- `index.html` 의 소개 문단 두 개와 취미 `ul` 에 `class="card"` 를 붙인다. HTML 은 점 없이 `card`, CSS 는 점을 붙여 `.card`.
-- 바꿔 보기: 조립이 끝나면 `nav` 의 `gap` 을 `32px` 로, `body` 의 `max-width` 를 `480px` 로 바꿔 본다. 어느 ex 의 결과와 같은가? 확인 뒤 원래 값으로 돌린다.
-- 흔한 실수: `nav` 규칙을 빠뜨리고 `@media` 만 쓴다. `flex-direction` 은 `display: flex` 인 부모에서만 뜻이 있다.
-
-확인: 1280 에서 메뉴 세 개가 가로 한 줄, 기기 모드 375 에서 세로 세 줄. 두 폭 모두 가로 스크롤 막대가 없어야 한다.
-
-## 막혔을 때
-
-| 증상 | 확인할 것 |
-|---|---|
-| 공개 주소에 방금 올린 내용이 안 보인다 | Pages 반영은 보통 1~3분 걸린다. 5분 안에 안 보이면 로컬 화면 캡처와 GitHub `web-week04` 저장소의 **Commits** 탭 캡처를 같은 점수로 인정한다. 다음 수업 시작 5분에 다시 확인해도 된다. 새 저장소라 **Settings › Pages** 에서 Branch 가 `main` 으로 저장됐는지도 본다 |
-| push 가 거부되거나 로그인 창이 안 뜬다 | [2주차 막혔을 때 표](../week02_github_pages/lab.md#막혔을-때)를 본다. 올리는 순서는 2주차와 같다 |
-| 규칙을 썼는데 아무 반응이 없고 오류도 없다 | **CSS 는 오류 메시지가 없다.** 틀린 줄이나 덩어리는 조용히 무시되고 나머지는 그대로 적용된다. F12 › **Elements** 에서 그 요소를 고르고 **Styles** 에 규칙이 보이는지, 취소선이 그어져 있는지 본다 |
-| 예제를 열었는데 배경색·배치가 하나도 없고 번호 글과 상자 글자만 보인다 | `styles.css` 가 그 `index.html` 과 같은 폴더(`ex/ex01/` 등)에 있는지, 이름 철자가 맞는지 본다. F12 › Console 에 `styles.css` 의 `Failed to load resource` 줄이 있으면 그 폴더에 없는 것이다. CSS 문법 오류가 아니라 파일을 못 찾은 것이라 이 줄은 뜬다 |
-| `display: flex` 를 줬는데 자식이 한 줄로 안 선다 | `display: flex` 를 자식(색 상자·`nav a`)에 줬는지 본다. 자식에 주면 아무 일도 없다. 부모(`.frame`·`nav`)에 쓴다 |
-| `gap` 을 줬는데 간격이 안 생긴다 | `gap` 을 `nav a` 에 줬는지 본다. 아무 일도 없다. `gap` 은 부모 `nav` 에 쓴다 |
-| 한 규칙만 통째로 안 먹는다 | 클래스 오타·대소문자를 본다. `.Red`·`.Card`·`.cards` 는 다른 선택자다. HTML 의 `class="…"` 와 CSS 의 `.…` 를 나란히 비교한다 |
-| 375 에서도 메뉴가 가로다 | `@media (max-width: 600px)` 의 **콜론**을 본다. `(max-width 600px)` 로 적으면 오류 없이 덩어리 통째로 무시된다. 그 다음 `nav` 에 `display: flex` 가 있는지, 기기 모드 폭이 600 이하인지 본다 |
-| 두 줄이 한꺼번에 안 먹는다 | 바로 위 줄 끝의 세미콜론을 본다. `color: #17213a` 뒤에 `;` 가 없으면 그 줄과 다음 줄이 함께 무시된다 |
-| 규칙을 더했는데 그 아래 규칙들이 전부 이상해졌다 | 중괄호 짝을 본다. `}` 를 빠뜨리면 다음 규칙이 앞 규칙 안으로 들어간 것으로 읽힌다. VS Code 에서 `{` 에 커서를 두면 짝이 되는 `}` 가 함께 표시된다 |
-| 화면 아래에 가로 스크롤 막대가 생긴다 | `width: 640px` 으로 적지 않았는지 본다. ex04 의 2번이 그 모습이다. `max-width` 로 고친다 |
-| 꾸미기가 하나도 안 먹고 3주차 화면 그대로다 | `<head>` 에 `link` 줄이 있는지, `href` 가 `styles.css` 인지 본다. `style.css`(s 빠짐)는 다른 이름이다. F12 › **Network** 에서 새로고침하면 그 줄이 빨간 **404** 로 보인다 |
-| 공개 주소 `…/web-week04/ex/ex01/` 이 404 다 | ① 주소가 `ex/` 에서 끝나지 않고 `ex/ex01/` 까지 있는지 본다(`ex/` 바로 아래에는 `index.html` 이 없어서 `…/ex/` 만 열면 늘 404 다. `ex/` 에 `index.html` 을 만들거나 옮기지 않는다) ② 폴더 이름이 `ex`·`ex01` 인지(`Ex`·`examples` 는 다른 이름), `ex01` 안의 파일 이름이 `index.html` 인지 ③ GitHub 의 `web-week04` 저장소 화면에 `ex/ex01/` 폴더와 그 파일이 보이는지 본다. 안 보이면 아직 올리지 않은 것이다 |
-
-한 번에 한 곳만 고치고 다시 새로고침한다. 해결되지 않으면 화면을 그대로 보여 주고 도움을 받는다.
+이름·이메일·메시지 label을 클릭하면 입력에 포커스가 간다. 이메일에 `abc`를 넣고 남기기를 누르면 브라우저가 제출을 막는다. 이메일을 비우거나 `student01@example.com`으로 바꾸고 제출하면 현재 문서가 다시 열리고 입력은 초기화된다. 이름·메시지를 목록에 추가하거나 저장하는 JavaScript는 아직 연결하지 않는다.
 
 ## 제출 — 캡처 한 장
 
-`https://student01.github.io/web-week04/` (본인 아이디) 을 열고 F12 → 기기 모드(**Ctrl+Shift+M**) → 폭 `375` 로 맞춘 화면을 캡처한다.
+파일 또는 localhost에서 홈을 열고 Chrome 기기 모드(**Ctrl+Shift+M**, macOS **⌘+⇧+M**)의 폭을 `375`로 설정한다. 주소창과 폭 표시, 세로 메뉴, 테두리 있는 소개·취미 카드가 함께 보이는 화면 한 장을 제출한다. 1280px 화면과 비교 예제 파일은 확인용이다. 제출 위치·마감은 수업 공지를 따른다.
 
-- 메뉴 `홈`·`내 정보`·`방명록` 이 **세로로 한 줄씩** 보인다.
-- 소개 문단과 취미 목록이 테두리 있는 흰 카드로 보인다.
-- **주소창과 폭 375 표시가 함께 보이게** 찍는다.
+## 수업 뒤 업로드
 
-1일차에 올린 것과 `ex/` 실험 파일은 확인용이며 따로 제출하지 않는다.
-캡처에 실명·학번·실제 이메일이 보이지 않게 한다. 제출 위치와 마감은 수업 공지를 따른다.
+2주차에 배운 저장·commit·push 순서로 준비된 `web-week04` 저장소에 올린다. Pages 주소 `https://student01.github.io/web-week04/`를 확인한다. 새 저장소 생성·Pages 설정은 사전 준비이며 수업 시간에는 새로 설명하지 않는다. 반영 지연·계정 문제는 로컬 캡처와 commit 기록을 남기고 다음 차시 첫 확인 시간에 처리한다.
+
+## 막혔을 때
+
+| 증상 | 확인 |
+|---|---|
+| CSS 변화 없음 | 저장·새로고침, 편집 중인 폴더, `link`의 `styles.css` 철자, 선택자 대소문자 확인 |
+| 규칙 일부 무시 | DevTools Elements·Styles에서 취소선, 세미콜론·중괄호·속성값 확인 |
+| 375px 메뉴가 가로 | `nav`의 `display: flex`, media 조건의 콜론, 안쪽 `flex-direction: column` 확인 |
+| 사이트 가로 넘침 | `body`의 고정 width 사용 여부와 `max-width`, 입력의 `box-sizing` 확인 |
+| 공개 주소·push 문제 | [2주차 문제 해결](../week02_github_pages/lab.md#막혔을-때), 사전 준비된 저장소 이름·Pages 설정 확인 |
 
 ## 먼저 끝났다면
 
-- ex08: 주석 `.evenly` 를 풀어 `space-evenly` 를 써 본다. `space-around` 와 양 끝 여백을 비교한다.
-- ex12: `/* flex: 2; */` 주석을 풀고 2번·3번 frame 의 폭 비율을 본다.
-- ex14: `ex/ex14/` 폴더를 만들어 교재 [index.html](examples/day2/ex14/index.html) · [styles.css](examples/day2/ex14/styles.css) 를 받고, `index.html` 을 열어 `styles.css` 의 `top`·`left`·`right`·`bottom` 값을 바꿔 본다. 부록이며 설명하지 않는다.
-- 선택: 정적 서버 [`server.mjs`](../../tools/static-server/README.md) 를 `web-week04` 에 받아 `http://localhost:8000/` 으로 열어 본다. 설명은 5주차에 한다.
-
-추가 과제는 선택 사항이며 채점하지 않는다.
+[예제 안내](examples/README.md)의 다른 비교값을 바꾼다. ex08의 `space-evenly`, ex12의 `flex: 2`, 선택 부록 ex14의 `relative`·`absolute`는 추가 연습이다. `relative`는 원래 자리를 유지하고 `absolute`는 문서 흐름에서 빠진다. 선택 활동은 필수 캡처의 조건에 넣지 않는다.
