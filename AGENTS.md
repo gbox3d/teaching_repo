@@ -9,7 +9,7 @@
 | 위치 | 내용 | 따를 지침 |
 |---|---|---|
 | `android_programming/` | 모바일프로그래밍 15주, 옛 11~15주 보존 특강(`specials/legacy_week11~15_*`), 특강용 BLE 자료(`bleuno/`) | [android_programming/AGENTS.md](android_programming/AGENTS.md) |
-| `web_programming/` | 웹프로그래밍 15주, 특강 6개, 공용 자산(`shared/`), 수업 도구(`tools/`), 개편 기록(`reviews/`) | [web_programming/AGENTS.md](web_programming/AGENTS.md) |
+| `web_programming/` | 웹프로그래밍 15주, 특강 6개, 공용 자산(`shared/`), 수업 도구(`tools/`), 로컬 개편 기록(`reviews/`, Git 제외) | [web_programming/AGENTS.md](web_programming/AGENTS.md) |
 | `open_source_ai/` | 오픈소스 AI 응용 15주, 특강(`specials/`) | [open_source_ai/AGENTS.md](open_source_ai/AGENTS.md) |
 | `tools/wleno/` | LAN 시뮬레이터 WlEno와 Android AAR Gradle 프로젝트(`android/`). Android 11~15주와 오픈소스 AI 10~13주가 함께 쓴다 | Android 지침과 오픈소스 AI 지침 둘 다 |
 | `tools/bleuno-control/` | WlEno를 TCP로 제어·평가하는 Python 패키지(uv 프로젝트). 오픈소스 AI 10~13주가 쓴다 | 오픈소스 AI 지침(Android 지침도 범위에 넣는다) |

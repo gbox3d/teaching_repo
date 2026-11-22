@@ -14,7 +14,7 @@
 2. [weeks/README.md](weeks/README.md): 30차시 운영 기준, 3주차부터의 실습 루틴, 주차 폴더 구성, 문법·API를 처음 쓰는 주와 학기 범위 밖 문법, 실습 페이지 링크 규칙.
 3. 작업할 주차·특강의 `README.md`와 `lab.md`. 특강 공통 운영은 [specials/README.md](specials/README.md), 공용 스타일과 제공 설정은 [shared/README.md](shared/README.md).
 4. 저장소 `_forAI/`의 `inventory.md`, `memo.md`(웹 REST와 Supabase 운영), `plan.md`(웹프로그래밍 후속 작업). `_forAI`와 이 파일·`weeks/README.md`가 다르면 이 파일을 따르고 다른 점을 보고에 적는다.
-5. 수업 구성의 근거가 필요할 때 [2026-11-18 전체 개편 기록](reviews/2026-11-18-course-audit/README.md)을 본다. [선정안](reviews/2026-11-18-course-audit/winner.md), [주차 인계와 예외](reviews/2026-11-18-course-audit/implementation.md), [12~14주 API 설정 계약](reviews/2026-11-18-course-audit/api-settings-contract.md), [결과와 검증 한계](reviews/2026-11-18-course-audit/final.md), 주차별 `weekNN.md`, 특강별 `special-NAME.md`가 있다.
+5. 수업 구성은 [주차별 교재](weeks/README.md)에서 확인한다. 이 PC에 개편 검토 기록이 있으면 `reviews/`에서 참고할 수 있다.
 
 ## 수업 구성
 
@@ -44,7 +44,7 @@
 | `shared/` | `api-settings.js`(12~14주 설정 패널 정본) |
 | `tools/static-server/` | 수업용 정적 서버 `server.mjs`와 시험 `server.test.mjs` |
 | `tools/guestbook-api/` | 로컬 모의 API `server.mjs`(127.0.0.1:8787), Supabase 구축용 `schema.sql`·`about-help.sql`·`provision.mjs`, 학생 안내 `student-guide.md` |
-| `reviews/<날짜>-<주제>/` | 개편 기록과 증거. 사이트 빌드가 복사하지 않는다 |
+| `reviews/<날짜>-<주제>/` | 로컬 개편 기록과 검토 자료. 루트 `.gitignore`에서 제외한다 |
 
 이름 규칙은 다음과 같다.
 
@@ -65,7 +65,7 @@
 - 11주차는 문자열 저장 → JSON → 폼 저장 순서다. 11주 전체 저장 방명록은 제공 시연본이며 기말 필수 저장 문항은 폼 한 객체 저장 수준이다.
 - 동작 JavaScript는 페이지당 하나로 조립하고, 설정 파일 같은 제공 기능은 별도 파일로 표시한다. 초기 데이터 조회는 필요한 함수·이벤트·설정의 초기화 뒤에 실행한다.
 - REST API 예제에는 VS Code REST Client용 `.http` 요청을 함께 제공한다. 첫 호출은 서비스의 공개 문서와 간단한 GET으로 확인한다. 수업용 방명록은 about·help로 접속·사용법을 확인하는 요청을 제공한다. 실제 인증 정보는 추적 파일에 넣지 않는다.
-- 12주 필수 실습은 API 키 없이 Promise 실행 순서, `.then()` 체인, `async`/`await`, 오류 처리를 다룬다. JSONPlaceholder와 Open-Meteo 예제에는 공개 키 설정 패널을 넣지 않는다. 12주의 선택 방명록과 13주 방명록에는 수업용 Supabase 주소를 제공한다. 학생은 배부받은 공개 키와 방명록 번호로 POST하고 제공된 조회 함수로 글을 확인한다. 로컬 모의 API는 강의자 리허설용이다. 제공 설정 패널의 요소와 실행 순서는 [API 설정 계약](reviews/2026-11-18-course-audit/api-settings-contract.md)을 따른다.
+- 12주 필수 실습은 API 키 없이 Promise 실행 순서, `.then()` 체인, `async`/`await`, 오류 처리를 다룬다. JSONPlaceholder와 Open-Meteo 예제에는 공개 키 설정 패널을 넣지 않는다. 12주의 선택 방명록과 13주 방명록에는 수업용 Supabase 주소를 제공한다. 학생은 배부받은 공개 키와 방명록 번호로 POST하고 제공된 조회 함수로 글을 확인한다. 로컬 모의 API는 강의자 리허설용이다. 제공 설정 패널은 [공용 설정 안내](shared/README.md)를 따른다.
 
 ## 함께 고칠 곳
 
@@ -82,7 +82,7 @@
 | 9주 `day2/web-week09/` | 15주 `examples/w09_readme_links/`. 두 폴더에 함께 있는 파일은 해시가 같다. `w09_readme_links`에는 `guestbook.before.html`과 `images/site-map.svg`를 두지 않는다 |
 | 11주 `day2/web-week11/guestbook.js` | 12주 `day2/web-week12/guestbook.local.js`(현재 같다)와 11주 `walkthrough.md`의 코드 전문 |
 | 7주 피드 CSS | 7주 완성 피드와 그 화면을 이어 쓰는 9주 발표·15주 README 문항에서 같은 배치를 확인한다 |
-| `shared/api-settings.js` | 방명록 설정 패널을 쓰는 예제의 사본 전부와 [API 설정 계약](reviews/2026-11-18-course-audit/api-settings-contract.md) |
+| `shared/api-settings.js` | 방명록 설정 패널을 쓰는 예제의 사본 전부와 [공용 설정 안내](shared/README.md) |
 | 8주 문제 `w01`~`w07` | 15주 `examples/README.md` 문제은행 표와 `rubric.md` |
 | 공통 운영 규칙(시간, 도입 주차, CDN, 업로드 시점) | [README.md](README.md), [weeks/README.md](weeks/README.md), [specials/README.md](specials/README.md), [ta_setup_guide.md](ta_setup_guide.md), 이 파일 |
 | 방명록 API 계약(경로, 헤더, 상태 코드) | `tools/guestbook-api/`의 `server.mjs`·`schema.sql`·`about-help.sql`·`student-guide.md`, 12~14주 `requests.http`, `specials/supabase_guestbook/` |
@@ -126,7 +126,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 ## 결정 사항
 
 **SPA: 정규 과정은 세 HTML 페이지를 유지하고 SPA는 14주 뒤 선택 특강 `specials/hash_spa/`에서 다룬다**
-- 근거: 정규 11~14주의 저장·REST 작성량과 선수학습을 늘리지 않는다. 9개 독립안 비교에서 선정한 C01의 결정이다([선정안](reviews/2026-11-18-course-audit/winner.md#spa-결정)).
+- 근거: 정규 11~14주의 저장·REST 작성량과 선수학습을 늘리지 않는다. 9개 독립안을 비교해 이 구성을 선정했다.
 - 대안: 9주에 작은 SPA 전환을 넣는 C02 등 정규 중간 전환안. 학생 수정 범위, 11→12주 인계, 기말 문항 연결에서 C01보다 낮게 평가됐다.
 - 재검토: 실제 수업에서 학생 완료 시간을 측정한 뒤 정규 편입 여부를 다시 본다. SPA 특강은 정규 시험에 내지 않는다.
 
@@ -174,7 +174,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 4. 같이 고쳐야 하지만 범위 밖이라 남긴 곳(다른 주차, 비공개 대본·해답, `_forAI/`).
 5. 발견했지만 고치지 않은 문제.
 
-주차 여러 개를 고치는 개편은 `reviews/<날짜>-<주제>/`에 주차별 보고서를 남긴다(예: [2026-11-18 개편](reviews/2026-11-18-course-audit/README.md)).
+여러 주차를 고칠 때 작성하는 검토 보고서는 `reviews/<날짜>-<주제>/`에 로컬로 보관한다. 이 폴더는 커밋·푸시 대상에서 제외한다.
 
 ## 비공개 짝 저장소와의 경계
 

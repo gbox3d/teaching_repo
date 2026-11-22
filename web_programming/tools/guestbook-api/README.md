@@ -153,7 +153,7 @@ SQL과 Supabase 게이트웨이의 실제 동작은 별도 공용 프로젝트�
 격리 Chrome의 로컬 01·02 화면에서도 실제 Supabase HTTPS 응답 200, JSON 1행·6행, 도움말 목록 6개를 확인했다.
 이 브라우저 검증은 `127.0.0.1` 임시 포트에서 수행했으며 CORS·버튼 복구가 정상이고 페이지 오류는 없었다.
 독립 폴더로 나눈 뒤에도 `http://localhost:8000/01_about/`와 `/02_help/`에서 각 폴더 설정·스타일을 읽고 실제 HTTPS API GET 200, 페이지 오류 없음을 확인했다.
-2026-11-18에는 정규 12주 예제의 localhost HTTP 화면에서 Supabase HTTPS about·help GET 200과 없는 필드 GET 400을 확인했다. [브라우저 읽기 기록](../../reviews/2026-11-18-course-audit/live-browser-read.json)에 범위를 남겼다.
+2026-11-18에는 정규 12주 예제의 localhost HTTP 화면에서 Supabase HTTPS about·help GET 200과 없는 필드 GET 400을 확인했다.
 공용 서버 PATCH·DELETE 권한, 다른 기기와 GitHub Pages에서의 접속, 잘못된 입력과 보호 열 변경 거부는 아직 검증하지 않았다.
 로컬 자동 시험 통과를 이 항목들의 공용 서버 검증 완료로 표시하지 않는다.
 
