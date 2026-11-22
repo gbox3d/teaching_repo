@@ -1,6 +1,5 @@
 const notice = document.querySelector('#notice');
 const list = document.querySelector('#list');
-let settingsVersion = 0;
 let latestRead = 0;
 function apiTarget(id = '') {
   const filter = id ? '&id=eq.' + encodeURIComponent(id) : '&order=id.desc&limit=50';
@@ -15,16 +14,15 @@ function showList(items) {
   }
 }
 async function loadMessages() {
-  const version = settingsVersion;
   const request = ++latestRead;
   try {
     const items = await requestList();
-    if (version !== settingsVersion || request !== latestRead) return false;
+    if (request !== latestRead) return false;
     showList(items);
     notice.textContent = items.length ? '목록 확인 완료' : '등록된 글 없음';
     return true;
   } catch {
-    if (version === settingsVersion && request === latestRead) notice.textContent = '목록 확인 실패 · 연결과 설정 확인';
+    if (request === latestRead) notice.textContent = '목록 확인 실패 · 연결과 설정 확인';
     return false;
   }
 }
@@ -35,9 +33,4 @@ async function requestList() {
   throw new Error('GET 코드를 작성하세요.');
 }
 document.querySelector('#reload').addEventListener('click', loadMessages);
-setupApiSettings(async function () {
-  settingsVersion += 1;
-  list.innerHTML = '';
-  await loadMessages();
-});
 loadMessages();

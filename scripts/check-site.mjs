@@ -5,10 +5,10 @@ import { runInNewContext } from "node:vm";
 import { isDeepStrictEqual } from "node:util";
 
 const EXPECTED_DECKS = 59;
-const EXPECTED_SLIDES = 1181;
+const EXPECTED_SLIDES = 1185;
 const EXPECTED = {
   android: { slug: "android", decks: 20, slides: 378, status: "published" },
-  web: { slug: "webprg", decks: 21, slides: 371, status: "published" },
+  web: { slug: "webprg", decks: 21, slides: 375, status: "published" },
   "open-source-ai": { slug: "open_source_ai", decks: 18, slides: 432, status: "published" },
 };
 const BLOB = "https://github.com/gbox3d/teaching_repo/blob/main";

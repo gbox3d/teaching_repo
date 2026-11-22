@@ -4,4 +4,4 @@
 
 [app.js](app.js)에서 `setTimeout`이 기다릴 시간을 1000에서 3000으로 바꾼다. 세 번째 줄만 늦어진다. `resolve(message)`로 넘긴 문자열은 `then`에 등록한 함수의 인자로 들어간다.
 
-다음 [ex02](../ex02/README.md)에서는 `fetch`가 반환한 Promise의 결과를 읽는다. 첫 HTTP 요청은 [ex02의 requests.http](../ex02/requests.http)에서 실행한다.
+다음 [ex01b](../ex01b_wait/README.md)에서는 Promise를 돌려주는 `wait` 함수로 1초씩 두 번 기다린다.

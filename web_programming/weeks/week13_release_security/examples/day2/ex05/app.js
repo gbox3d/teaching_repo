@@ -2,12 +2,6 @@ const output = document.querySelector('#output');
 const button = document.querySelector('#send-button');
 const form = document.querySelector('#example-form');
 const messageInput = document.querySelector('#message');
-const applyButton = document.querySelector('#api-settings-form button');
-
-setupApiSettings(function () {
-  button.disabled = false;
-  output.textContent = '';
-});
 
 form.addEventListener('submit', async function (event) {
   event.preventDefault();
@@ -18,7 +12,6 @@ form.addEventListener('submit', async function (event) {
     return;
   }
   button.disabled = true;
-  applyButton.disabled = true;
   output.textContent = '저장 중';
   const entry = { book_id: BOOK_ID, name: 'student01', message: message };
   try {
@@ -41,7 +34,6 @@ form.addEventListener('submit', async function (event) {
   } catch {
     output.textContent = '저장 결과를 확인할 수 없습니다. GET으로 목록을 조회하세요.';
   } finally {
-    applyButton.disabled = false;
     button.disabled = false;
   }
 });

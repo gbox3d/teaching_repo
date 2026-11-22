@@ -36,11 +36,12 @@ The public key permits API calls. The edit key controls changes.
 BOOK_ID groups messages; it is not editing authorization.
 
 ```js
-headers: { apikey: publicKey, 'X-Edit-Key': editKey }
+headers: { apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey }
 ```
 
-Settings and key handling are provided. Clear key also clears memory.
-Changing API settings clears selected ID, forms and edit key.
+The settings file and key handling are provided. The edit key's Clear key also clears memory.
+Enter the public key at the first-visit prompt; it stays in localStorage. The edit key is never stored.
+If the public key is wrong, press Clear public key and enter it again.
 
 ---
 
@@ -72,7 +73,7 @@ Inspect Method, Status and Response in Network.
 # Day 1 · 45–55 min: GET the same ID
 
 ```js
-const remaining = await readMessage(url, publicKey);
+const remaining = await readMessage(url);
 ```
 
 Check an empty result and ensure other records remain.
@@ -136,23 +137,23 @@ After a network error, GET before repeating a write.
 # Day 2 · 40–45 min: Verify the saved message
 
 ```js
-const saved = await readMessage(url, publicKey);
+const saved = await readMessage(url);
 ```
 
 The same ID must contain the submitted message.
 Distinguish verification failure from a rejected write.
-Provided guards keep late responses from changing the current form/status.
+Provided guards keep a late GET response from overwriting the newer list.
 
 ---
 
 # Day 2 · 45–55 min: CRUD in one file
 
 guestbook.js contains GET, POST, DELETE and PATCH sections.
-api-settings.js is provided separately.
-Initialize DOM references, functions and events before setup and first GET.
+config.example.js is provided separately; change only BOOK_ID.
+Initialize DOM references, functions and events before the first GET.
 
 [Page](examples/day2/web-week14/guestbook.html) · [Behavior](examples/day2/web-week14/guestbook.js)
-[Settings](examples/day2/web-week14/api-settings.js)
+[Settings](examples/day2/web-week14/config.example.js)
 [Home](examples/day2/web-week14/index.html) · [About](examples/day2/web-week14/about.html)
 
 ---
@@ -161,5 +162,5 @@ Initialize DOM references, functions and events before setup and first GET.
 
 Lecture/demo: 5 + 15 + 10 + 15 + 10 + 5 = 60 min.
 Lab 30 min: three PATCH edits 12 → three records and error recovery 13 → clear key/capture 5.
-Complete localhost checks first. Public API, Pages and other-browser checks follow class.
+Complete localhost checks first. After class, enter the public key when Pages or another browser first prompts, then check.
 [Lab](lab.md#2일차-실습) · [Walkthrough](walkthrough.md)

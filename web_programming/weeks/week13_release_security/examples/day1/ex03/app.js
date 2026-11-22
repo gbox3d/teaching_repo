@@ -2,11 +2,6 @@ const output = document.querySelector('#output');
 const button = document.querySelector('#run-button');
 const messageInput = document.querySelector('#message');
 
-setupApiSettings(function () {
-  button.disabled = false;
-  output.textContent = '';
-});
-
 button.addEventListener('click', async function () {
   const entry = { book_id: BOOK_ID, name: 'student01', message: messageInput.value };
   try {

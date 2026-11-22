@@ -54,7 +54,7 @@ Installed and GET verified on 2026-11-14: about returns 1 row, help returns 6.
 4. Inspect status and JSON, then open index.html and app.js.
 
 Keep .env beside the .http file. No Node server is needed for these requests.
-Browsers read config.example.js in the same folder instead.
+Browsers read config.example.js and the public key in localStorage instead.
 [REST Client usage](https://github.com/Huachao/vscode-restclient#usage) · [Setup](examples/README.md#rest-client로-요청부터-확인하기)
 
 ---
@@ -68,8 +68,10 @@ GET /rest/v1/about
 apikey: <public key supplied by the instructor>
 ```
 
+On first load, the page asks for the public key. Enter the key supplied by the instructor.
 Click the connection button. Expect 200 and an array with one object.
 Read name, version, description and help_path.
+For a 401, press the clear-key button under the title and enter the key again.
 For a 404, ask whether the metadata SQL was applied.
 
 ---
@@ -117,7 +119,7 @@ examples/
   02_help/ ... 07_guestbook_complete/
 ```
 
-Each page loads its own configuration and W3.CSS from the CDN.
+Each page loads its own configuration file and W3.CSS from the CDN. Folders on the same origin share the public key in localStorage.
 Run or publish one folder independently. Exclude .env from deployment.
 
 ---
@@ -178,7 +180,7 @@ PATCH requires book_id and id filters plus X-Edit-Key.
 {"message":"An updated entry"}
 ```
 
-Enter the edit key when sending; keep it out of public settings.
+Enter the edit key when sending; keep it out of config files and localStorage.
 A 200 with [] changed no rows. GET the same ID to verify the update.
 
 ---
@@ -215,7 +217,8 @@ Keep [request tests](https://github.com/gbox3d/teaching_repo/blob/main/web_progr
 
 # GitHub Pages and verification status
 
-Publish the HTML, JavaScript and configuration files from one example folder.
+Publish the HTML, JavaScript and configuration files from one example folder. They contain no public key.
+The published address asks for the public key on first load; without it, reads fail with 401.
 Pages serves files; the browser calls the Supabase HTTPS API.
 No Node server or student account is required. Exclude .env and edit-key files.
 

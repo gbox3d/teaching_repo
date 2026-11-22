@@ -50,7 +50,7 @@ Supabase SDK를 설치하지 않고 브라우저의 `fetch`로 GET·POST·PATCH�
 | 로컬 선행 연습 | Node.js와 교재 파일 | 요청 문법과 화면 실행 확인. 클라우드 구축·기기 간 공유 검증은 미완료로 기록 |
 
 권장 선수 내용은 정규 12~14주의 `fetch`, JSON, 폼, 서버 `id`, PATCH·DELETE다.
-Node.js 24 이상, VS Code, Git, Chrome의 Network 탭을 준비한다.
+Node.js 24 이상, VS Code, Git, Chrome 개발자 도구의 Network 탭과 Console을 준비한다.
 계정이 없는 학생에게 유료 계정이나 프로젝트 생성을 요구하지 않는다. 강의자 시연과 공용 API 실습으로 계속 참여할 수 있다.
 
 Supabase의 무료 범위·활성 프로젝트 제한·휴면 정책은 수업 시작 시 [공식 요금제](https://supabase.com/pricing)에서 확인한다.
@@ -74,6 +74,10 @@ examples 루트에는 예제 안내 README만 두고, 각 폴더에 설정·화�
 Node 정적 서버는 로컬 미리보기용이며 GitHub Pages에서는 실행하지 않는다.
 GitHub Pages가 화면 파일을 제공하고 브라우저의 `fetch`가 Supabase에 직접 요청한다.
 배포 방법과 다른 기기 확인은 [따라하기 11단계](walkthrough.md#11-다른-기기와-권한-검증)를 따른다.
+
+공개 키는 `config.example.js`에 적지 않는다. 예제 화면을 처음 열면 공개 키를 묻는 창이 뜨고, 넣은 키는 이 브라우저의 localStorage에 `API_PUBLIC_KEY`로 저장된다. 같은 주소의 01~07이 이 값을 함께 쓴다.
+키를 잘못 넣었거나 학기에 키가 바뀌면 화면 제목 아래 **공개 키 지우기**를 누르고 새 키를 넣는다. 저장소 파일은 고치지 않는다.
+다시 묻는 주소, 401 대처, 로컬 리허설의 키 전환은 [공개 키 입력과 지우기](examples/README.md#공개-키-입력과-지우기)에 있다.
 
 ## 학습 목표
 
@@ -119,10 +123,15 @@ VS Code REST Client에서 같은 폴더의 `.env.example`을 `.env`로 복사하
 | 보호된 열 | id·book_id·created_at은 학생 클라이언트가 수정할 수 없음 |
 
 `private` 스키마는 Data API의 Exposed schemas에 추가하지 않는다.
-공개 설정에는 API 주소·publishable key·방명록 번호만 넣는다. secret key·service_role key·DB 비밀번호를 사용하지 않는다.
-편집 키는 실행 화면에 입력해 메모리에서만 사용하며 소스·GitHub·실험 기록에 적지 않는다.
+`config.example.js`에는 API 주소와 방명록 번호만 넣고, publishable key는 브라우저 localStorage에 저장한다. secret key·service_role key·DB 비밀번호를 사용하지 않는다.
+편집 키는 실행 화면에 입력해 메모리에서만 사용한다. localStorage에 저장하지 않고 소스·GitHub·실험 기록에도 적지 않는다.
 `.local/`의 키 파일은 Git 제외 규칙과 별도로 자료 배포 ZIP에서도 제외한다.
 실험의 이름·메시지는 별칭과 연습 문장만 사용한다.
+
+저장해 둔 값을 브라우저에서 꺼내 요청마다 헤더에 붙이는 흐름은 로그인 기능과 같은 원리다. 로그인을 붙이면 서버가 로그인한 사람에게 토큰을 주고, 브라우저는 그 토큰을 저장해 두었다가 요청마다 `Authorization` 헤더에 붙인다.
+**공개 키 지우기**는 로그아웃과 같은 원리다. 저장한 값을 지우면 다음 요청에 붙일 값이 없어 다시 입력해야 한다.
+공개 키는 모든 사용자에게 같은 값이라 누가 요청했는지 구분하지 못한다. 로그인 토큰은 사람마다 다르고 일정 시간이 지나면 만료된다.
+localStorage는 같은 주소에서 실행되는 모든 스크립트가 읽을 수 있다. 그래서 편집 키나 비밀번호처럼 남이 알면 안 되는 값은 저장하지 않는다.
 
 ## 연구 주제
 
@@ -144,7 +153,7 @@ VS Code REST Client에서 같은 폴더의 `.env.example`을 `.env`로 복사하
 | 비교 실험·연구 기록 | [lab.md](lab.md) |
 | 한·영 슬라이드 | [slides.md](slides.md) · [slides_en.md](slides_en.md) |
 | 단계별 실습 목차 | [examples/README.md](examples/README.md) · [01 접속 확인](examples/01_about/index.html) |
-| 폴더별 공개 설정 | [01의 config.example.js](examples/01_about/config.example.js). 다른 폴더도 각자 같은 이름의 파일 사용 |
+| 폴더별 주소·방명록 번호 설정 | [01의 config.example.js](examples/01_about/config.example.js). 다른 폴더도 각자 같은 이름의 파일 사용. 공개 키는 브라우저 localStorage에서 읽음 |
 | 통합 요청·실행 코드 | [request.js](examples/06_http_lab/request.js) · [app.js](examples/06_http_lab/app.js) |
 | 학생 확장 코드 | [exercise.js](examples/06_http_lab/exercise.js) |
 | 완성 방명록 | [07 화면](examples/07_guestbook_complete/index.html) · [앱 코드](examples/07_guestbook_complete/app.js) · [요청 파일](examples/07_guestbook_complete/requests.http) |
@@ -174,7 +183,7 @@ SQL·키 생성 스크립트를 특강 폴더에 복제하지 않는다. 정본 
 ## 운영 상태
 
 2026-11-14 기준 공용 Supabase 서버가 준비되어 있으며 GET·POST를 확인했다.
-현재 특강 예제의 공개 설정도 이 공용 HTTPS API에 연결되어 있다.
+현재 특강 예제의 `config.example.js`도 이 공용 HTTPS API 주소를 가리킨다.
 2026-11-14에 `/rest/v1/about`·`/rest/v1/help` 설치와 GET을 확인했다. 로컬 01·02 화면에서도 실제 공용 API 응답 200과 1행·6행을 확인했다.
 이 실험 화면의 GitHub Pages 실배포와 공용 서버 PATCH·DELETE는 아직 검증하지 않았다.
 배포 후 CORS·다른 기기 동작과 편집 권한은 별도로 확인한다. 로컬 성공을 해당 검증의 완료로 표시하지 않는다.

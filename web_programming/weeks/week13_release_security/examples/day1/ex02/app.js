@@ -1,11 +1,6 @@
 const output = document.querySelector('#output');
 const button = document.querySelector('#run-button');
 
-setupApiSettings(function () {
-  button.disabled = false;
-  output.textContent = '';
-});
-
 button.addEventListener('click', async function () {
   const entry = { book_id: BOOK_ID, name: 'student01', message: 'POST 연습입니다.' };
   try {

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>홈 · Hash SPA</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-  <script src="api-settings.js" defer></script>
+  <script src="config.example.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body class="w3-light-grey">
@@ -29,17 +29,8 @@
 </section>
 <section class="w3-white w3-padding" id="guestbook" hidden>
 <h2 tabindex="-1">방명록</h2>
+<p><button class="w3-button w3-small w3-border" id="key-clear-button" type="button">공개 키 지우기</button></p>
 
-      <details class="w3-margin-bottom">
-        <summary>API 설정</summary>
-        <form id="api-settings-form" autocomplete="off">
-          <p><label for="api-base-url">API 주소</label> <input id="api-base-url" type="url" required></p>
-          <p><label for="api-public-key">공개 키</label> <input id="api-public-key" type="password" autocomplete="off" required></p>
-          <p><label for="api-book-id">방명록 번호</label> <input id="api-book-id" pattern="[a-z0-9_-]{1,40}" required></p>
-          <button class="w3-button w3-teal" type="submit">설정 적용</button>
-          <p id="api-settings-notice" role="status">로컬 연습 설정</p>
-        </form>
-      </details>
       <section class="w3-container w3-card w3-white w3-margin-top">
         <h2>한 줄 남기기</h2>
         <form id="guestbook-form">

@@ -97,11 +97,12 @@ Practice: 10 + 10 + 10 = 30 minutes.
 
 ## Day 2 · 0–5 min · Prepare the message form
 
-- Open **API 설정** in the completed guestbook and apply your publishable key and book id.
+- In the completed guestbook's `config.example.js`, change `BOOK_ID` to your book id.
+- When the page first opens, enter the publishable key from the instructor in the prompt (stored in week 11 localStorage). If the key is wrong, click **공개 키 지우기** and enter it again.
 - Use an alias and a message of at most 500 characters.
 - Do not include email in the POST body.
 
-Settings, request guards, button state and failure handling are supplied.
+The config file, request guards, button state and failure handling are supplied.
 Students edit only form values, the JSON body and the reload call.
 
 ---
@@ -163,7 +164,7 @@ await loadMessages(); // Student edit 3
 
 The supplied `loadMessages()` function shows the new message.
 If GET fails after POST returns 201, click **새로 불러오기** to retry the GET.
-Open a second browser with the same book id and find the saved message.
+In a second browser, enter the publishable key in the prompt, then find the saved message.
 
 ---
 
@@ -183,11 +184,11 @@ Practice: 15 + 7 + 8 = 30 minutes.
 # Assembly files and week 14 handoff
 
 [Guestbook](examples/day2/web-week13/guestbook.html) · [Combined GET/POST](examples/day2/web-week13/guestbook.js)
-[Supplied settings](examples/day2/web-week13/api-settings.js) · [REST Client](examples/day2/web-week13/requests.http)
+[Config file](examples/day2/web-week13/config.example.js) · [REST Client](examples/day2/web-week13/requests.http)
 [Home](examples/day2/web-week13/index.html) · [About](examples/day2/web-week13/about.html)
 
-The page loads `api-settings.js` and `guestbook.js` in that order with `defer`.
-In the completed guestbook, **설정 적용** sends the first GET. **남기기** sends a POST followed by GET.
+The page loads `config.example.js` and `guestbook.js` in that order with `defer`.
+The completed guestbook sends the first GET when the page opens. **남기기** sends a POST followed by GET.
 In week 14, use the saved `id` to update and delete that message.
 
 [Examples](examples/README.md) · [Practice](lab.md) · [Walkthrough](walkthrough.md)

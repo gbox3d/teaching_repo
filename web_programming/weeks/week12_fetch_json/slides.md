@@ -8,7 +8,7 @@ footer: "fetch · Promise · async/await"
 
 # Promise와 async/await로 배우는 fetch
 
-먼저 타이머로 코드의 실행 순서를 확인한다.
+먼저 타이머로 실행 순서와 `async` 함수를 익힌다.
 JSONPlaceholder에서 할 일 한 건을 읽고, 같은 방식으로 서울과 부산의 기온을 조회한다.
 
 각 차시 강의·시연 60분, 실습 30분. [예제 목록](examples/README.md)
@@ -21,11 +21,11 @@ JSONPlaceholder에서 할 일 한 건을 읽고, 같은 방식으로 서울과 �
 
 버튼을 누르기 전에 로그 세 줄의 순서를 적는다. 버튼을 누르고 타이머가 끝날 때까지 어떤 줄이 먼저 보이는지 관찰한다.
 
-이 예제는 브라우저만 쓴다. 뒤의 공개 API 예제도 키 없이 바로 실행한다.
+ex01~ex01d는 브라우저 타이머만 쓴다. 뒤의 공개 API 예제도 키 없이 바로 실행한다.
 
 ---
 
-## 1일차 · 5~15분 · 타이머를 기다리는 동안
+## 1일차 · 5~12분 · 타이머를 기다리는 동안
 
 1. **타이머 시작**을 누르면 첫 줄이 보인다.
 2. 타이머를 예약한 뒤 다음 줄이 바로 실행된다.
@@ -41,19 +41,92 @@ const timer = new Promise(function (resolve) {
 
 ---
 
-## 1일차 · 15~30분 · Promise의 결과 받기
+## 1일차 · 12~16분 · Promise를 돌려주는 wait 함수
 
-| 상태 | 의미 |
-|---|---|
-| pending | 결과를 기다리는 중 |
-| fulfilled | 작업이 성공해 값이 정해짐 |
-| rejected | 작업이 실패해 이유가 정해짐 |
+[ex01b 화면](examples/day1/ex01b_wait/index.html) · [코드](examples/day1/ex01b_wait/app.js)
 
-ex01에서 타이머가 `resolve`를 호출하면 대기하던 Promise가 성공한다. `.then()`에 등록한 함수가 그 값을 받는다. 실패는 `.catch()`에서 처리할 수 있다.
+```js
+function wait(ms) {
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      resolve();
+    }, ms);
+  });
+}
+```
+
+`wait(1000)`을 호출하면 대기 중인 Promise를 바로 받는다. 약 1초 뒤 `resolve()`가 실행되면 그 Promise가 성공한다. ex01c와 ex01d도 이 함수를 쓴다.
 
 ---
 
-## 1일차 · 30~40분 · 응답에서 할 일 제목까지
+## 1일차 · 16~20분 · Promise를 돌려주는 wait 함수
+
+| 상태 | 의미 | ex01b에서 |
+|---|---|---|
+| pending | 결과를 기다리는 중 | `wait(1000)`을 호출한 직후 |
+| fulfilled | 작업이 성공해 값이 정해짐 | 약 1초 뒤 `resolve()`가 실행된 뒤 |
+| rejected | 작업이 실패해 이유가 정해짐 | 이 예제에는 없음. ex01d의 실패 타이머 |
+
+첫 `.then()`이 `return wait(1000);`으로 다음 Promise를 넘기면 두 번째 `.then()`은 그 Promise가 성공한 뒤 실행된다. `return`을 빼면 3번 줄이 언제 나오는지는 선택 관찰로 확인한다.
+
+---
+
+## 1일차 · 20~30분 · async 함수와 await
+
+[ex01c 화면](examples/day1/ex01c_async_await/index.html) · [코드](examples/day1/ex01c_async_await/app.js)
+
+```js
+button.addEventListener('click', async function () {
+  output.textContent = '1. 시작\n';
+  await wait(1000);
+  output.textContent += '2. 1초 지남\n';
+  await wait(1000);
+  output.textContent += '3. 2초 지남\n';
+});
+```
+
+`await`는 이 `async` 함수만 멈춘다. Promise가 성공하면 다음 줄로 넘어간다. 기다리는 동안에도 **클릭**을 누르면 클릭 수가 올라간다. ex01b의 두 `.then()`과 같은 순서다.
+
+---
+
+## 1일차 · 30~34분 · async 함수가 돌려주는 값
+
+[ex01d 화면](examples/day1/ex01d_async_return/index.html) · [코드](examples/day1/ex01d_async_return/app.js)
+
+```js
+async function makeMessage() {
+  await wait(1000);
+  return '1초 타이머 완료';
+}
+
+messageButton.addEventListener('click', async function () {
+  const promise = makeMessage();
+  console.log(promise);
+  output.textContent += '2. 다음 줄 먼저 실행\n';
+  const message = await promise;
+  output.textContent += `3. 받은 값: ${message}\n`;
+});
+```
+
+`makeMessage()`는 끝나기 전에 Promise를 돌려준다. Console에 찍힌 Promise는 대기 중이고, 약 1초 뒤 `await promise`가 `return` 값을 받는다.
+
+---
+
+## 1일차 · 34~38분 · async 함수가 돌려주는 값
+
+| async 함수의 규칙 | ex01d에서 볼 곳 |
+|---|---|
+| 호출하면 바로 Promise를 받는다 | `makeMessage()` 다음 줄이 먼저 실행 |
+| `return` 값은 성공 값이 된다 | `await promise`가 받은 문자열 |
+| `throw`는 실패 이유가 된다 | **실패 타이머**의 `error.message` |
+| `await`는 `async` 함수 안에서만 쓴다 | 클릭 리스너의 `async function` |
+| `await`는 그 함수만 멈춘다 | ex01c에서 기다리는 동안의 클릭 수 |
+
+`<script src="app.js" defer>`로 읽는 파일에서는 함수 밖에 `await`를 쓸 수 없다. 그래서 클릭 리스너 함수에 `async`를 붙인다.
+
+---
+
+## 1일차 · 38~48분 · 응답에서 할 일 제목까지
 
 [ex02 화면](examples/day1/ex02/index.html) · [REST Client 요청](examples/day1/ex02/requests.http)
 
@@ -68,11 +141,11 @@ fetch(url)
   });
 ```
 
-첫 콜백은 HTTP 응답을 받는다. JSON을 읽는 Promise를 반환하면 다음 콜백은 할 일 객체를 받는다.
+첫 콜백은 HTTP 응답을 받는다. JSON을 읽는 Promise를 반환하면 다음 콜백은 할 일 객체를 받는다. ex01b의 `return wait(1000);`과 같은 모양이다.
 
 ---
 
-## 1일차 · 40~55분 · 같은 요청에 await 쓰기
+## 1일차 · 48~55분 · 같은 요청에 await 쓰기
 
 [ex03 화면](examples/day1/ex03/index.html) · [코드](examples/day1/ex03/app.js)
 
@@ -83,7 +156,7 @@ const todo = await response.json();
 output.textContent = todo.title;
 ```
 
-`await`는 이 `async` 함수가 다음 줄로 넘어가는 시점을 늦춘다. 브라우저는 그동안 입력을 처리한다. `async` 함수를 호출하면 호출자는 Promise를 받는다.
+ex01c의 두 `await wait(1000);` 자리에 `await fetch(url)`과 `await response.json()`이 들어간 모양이다. 브라우저는 기다리는 동안에도 입력을 처리한다.
 
 ---
 
@@ -91,11 +164,11 @@ output.textContent = todo.title;
 
 | 실습 시간 | 학생 활동 |
 |---|---|
-| 0~8분 | ex01 로그 순서 예측과 확인 |
+| 0~8분 | ex01c 사본에 `await wait(1000);`과 출력 한 줄을 더해 ‘4. 3초 지남’ 표시, 기다리는 동안 **클릭** 확인 |
 | 8~18분 | ex02 **Send Request**와 화면의 제목 대조 |
 | 18~30분 | ex02 사본의 `.then()`을 `try/catch`와 두 `await`로 고쳐 실행하고 ex03과 대조 |
 
-`return response.json()`에서 `return`을 빼면 다음 콜백이 받는 값이 무엇인지 적는다. [실습지](lab.md)
+선택 관찰은 ex01b에서 `return`을 뺀 뒤 3번 줄이 나오는 때와 ex01d의 **실패 타이머**다. [실습지](lab.md)
 
 ---
 
@@ -172,4 +245,4 @@ ex06은 선택한 도시의 좌표로 URL을 만든다. 요청을 보내기 전 
 
 13주에는 수업용 Supabase에 JSON을 POST하고 새로 생긴 글 번호를 읽는다. 목록을 읽는 함수는 13주 시작 코드에 들어 있다.
 
-미리 해 볼 학생은 [선택 방명록](examples/day2/web-week12/guestbook.html)에서 공개 키와 방명록 번호를 입력한다. [접속 확인·도움말·목록 요청](examples/day2/web-week12/requests.http) · [설정 방법](examples/day2/web-week12/README.md)
+미리 해 볼 학생은 선택 방명록 폴더의 `config.example.js`에서 `BOOK_ID`를 배정받은 방명록 번호로 바꾼다. [선택 방명록](examples/day2/web-week12/guestbook.html)을 처음 열면 공개 키를 묻는 창이 뜬다. 배부받은 키를 넣으면 이 브라우저에 저장된다. 잘못 넣었으면 **공개 키 지우기**를 누르고 다시 넣는다. [접속 확인·도움말·목록 요청](examples/day2/web-week12/requests.http) · [설정 방법](examples/day2/web-week12/README.md)

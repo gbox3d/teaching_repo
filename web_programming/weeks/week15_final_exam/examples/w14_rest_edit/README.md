@@ -4,7 +4,7 @@
 
 ## 할 일
 
-공개 연습본에서는 requestPatch(url, publicKey, editKey, message)의 TODO와 임시 throw만 교체한다. url은 id와 book_id 필터가 포함된 제공 값이다. PATCH로 message JSON을 보내며 apikey·X-Edit-Key·Content-Type: application/json·Prefer: return=representation을 넣고 fetch의 Response를 반환한다.
+공개 연습본에서는 requestPatch(url, editKey, message)의 TODO와 임시 throw만 교체한다. url은 id와 book_id 필터가 포함된 제공 값이고 apikey 값은 config.example.js의 API_PUBLIC_KEY다. PATCH로 message JSON을 보내며 apikey·X-Edit-Key·Content-Type: application/json·Prefer: return=representation을 넣고 fetch의 Response를 반환한다.
 
 DELETE·응답 검사·같은 ID 재조회·입력 검증·키 지우기·버튼 복구는 제공 코드다. PATCH와 DELETE를 모두 작성하는 문항이 아니다. 실제 시험이 DELETE 변형이면 강의자는 PATCH 완성부와 DELETE 빈칸을 바꾼 시작본을 배부하며 학생 구현은 여전히 한 요청뿐이다.
 
@@ -19,9 +19,11 @@ DELETE·응답 검사·같은 ID 재조회·입력 검증·키 지우기·버튼
 
 ## 제공 파일과 설정
 
-화면·W3.CSS·설정 패널은 제공 코드다. 화면 스타일은 W3.CSS 4.1.0 CDN에서 읽는다. 동작 코드는 app.js 하나이고 api-settings.js는 별도 제공 설정이다. 폴더를 통째로 복사하고 Node.js 24 정적 서버로 연다.
+화면과 W3.CSS는 제공 코드다. 화면 스타일은 W3.CSS 4.1.0 CDN에서 읽는다. 동작 코드는 app.js 하나이고 config.example.js는 별도 제공 설정이다. 폴더를 통째로 복사하고 Node.js 24 정적 서버로 연다.
 
-API 설정을 펼쳐 주소·공개 키·자기 방명록 번호를 입력한다. 기본값은 로컬 127.0.0.1:8787·classroom-local·student01이다. 설정은 메모리에만 있으므로 새로고침 후 다시 입력한다. 공용 실습과 Pages는 강의자가 준비한 HTTPS API를 사용한다. 실제 키를 파일에 넣지 않는다.
+config.example.js가 수업용 서버 주소 API_BASE_URL과 방명록 번호 BOOK_ID를 정하고, 공개 키 API_PUBLIC_KEY는 이 브라우저의 localStorage에서 읽는다. `const BOOK_ID = 'student01';`의 student01을 배정받은 자기 방명록 번호로 바꾼다. 바꾸지 않으면 student01 방명록에서 글을 찾는다. 처음 열면 공개 키를 묻는 창이 뜬다. 강의자가 배부한 공개 키를 입력하면 이 브라우저의 localStorage에 저장되고, 같은 주소에서 연 다른 문항도 그 키를 함께 쓴다.
+
+localStorage는 주소(출처)마다 따로다. 다른 브라우저, 포트가 다른 localhost, GitHub Pages 주소에서는 처음 열 때 다시 묻는다. 창을 취소하거나 빈 칸으로 두면 키가 저장되지 않는다. 공개 키가 없거나 틀리면 서버가 HTTP 401을 돌려주고 목록 확인 실패나 변경 미확인이 보인다. 키 없이 새로고침하면 다시 묻는다. 잘못 넣었거나 학기마다 키가 바뀌면 화면 제목 아래의 [공개 키 지우기]를 누르고 새 키를 입력한다. 편집 키는 이 창에 넣지 않는다. 로컬 모의 API 리허설은 [공용 설정 안내](../../../../shared/README.md)를 따른다. 실제 키를 파일에 넣지 않는다.
 
 ## REST Client
 

@@ -17,10 +17,7 @@ function showList(items) {
 }
 
 // GET 요청
-let latestRequest = 0;
-
 async function loadMessages() {
-  const requestId = ++latestRequest;
   loadNotice.textContent = '불러오는 중';
   reloadButton.disabled = true;
   try {
@@ -30,21 +27,19 @@ async function loadMessages() {
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const items = await response.json();
-    if (requestId !== latestRequest) return false;
     showList(items);
     loadNotice.textContent = '불러오기 완료';
     return true;
   } catch (error) {
-    if (requestId !== latestRequest) return false;
     list.replaceChildren();
     empty.hidden = true;
     countBox.textContent = '조회 결과 없음';
     loadNotice.textContent = `조회 실패: ${error.message}. 주소와 연결을 확인하세요.`;
     return false;
   } finally {
-    if (requestId === latestRequest) reloadButton.disabled = false;
+    reloadButton.disabled = false;
   }
 }
 
 reloadButton.addEventListener('click', loadMessages);
-setupApiSettings(loadMessages);
+loadMessages();

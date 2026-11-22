@@ -15,16 +15,18 @@
 https://esoqbcwgzjtwcqszwvin.supabase.co
 ```
 
-12주 [선택 방명록](../../weeks/week12_fetch_json/examples/day2/web-week12/README.md)은 위 주소가 채워진 상태로 열린다. 강의자가 배부한 공개 키를 넣고 **설정 적용**을 누르면 첫 GET을 보낸다. 방명록을 조회하는 단계부터는 배정받은 방명록 번호를 사용한다. 새로고침하면 공개 키를 다시 입력한다. 13주 [첫 POST 예제](../../weeks/week13_release_security/examples/day1/ex02/README.md)도 같은 주소·공개 키·방명록 번호를 쓴다. 14주 설정 패널에 로컬 주소가 보이면 위 수업 주소를 입력한다.
-
-Supabase 구축 특강의 01~07은 예제 폴더의 `config.example.js`에서 아래 세 값을 설정한다. 공개 키는 강의자가 배부한 값으로 바꾼다. 두 예제 묶음의 설정 방식은 서로 다르므로 실행하는 폴더의 README를 따른다.
-`API_BASE_URL`에는 `/rest/v1/about` 같은 경로를 붙이지 않는다. 요청 코드가 뒤에 붙인다.
+12주 [선택 방명록](../../weeks/week12_fetch_json/examples/day2/web-week12/README.md), 13주 [첫 POST 예제](../../weeks/week13_release_security/examples/day1/ex02/README.md), 14주 예제는 폴더의 `config.example.js`에서 `API_BASE_URL`·`API_PUBLIC_KEY`·`BOOK_ID` 세 값을 읽는다. 파일 내용은 12주 선택 방명록의 정본과 같고 위 주소가 들어 있다. 학생은 `BOOK_ID`만 배정받은 방명록 번호로 바꾼다. 바꾸지 않으면 `student01` 방명록을 읽고 그곳에 글을 저장한다.
 
 ```js
-const API_BASE_URL = 'https://esoqbcwgzjtwcqszwvin.supabase.co';
-const API_PUBLIC_KEY = '강의자가_배부한_publishable_key';
 const BOOK_ID = 'student01';
 ```
+
+공개 키는 파일에 적지 않는다. 예제를 처음 열면 ‘배부받은 공개 키를 입력하세요.’라고 묻는 창이 뜬다. 강의자가 배부한 공개 키를 넣고 확인을 누르면 그 브라우저의 localStorage에 저장된다. 12주 선택 방명록은 페이지가 열릴 때 첫 GET을 보낸다. 새로고침해도 저장한 키와 서버에 남긴 글이 그대로 있다. 취소를 누르거나 빈 칸으로 확인하면 키를 저장하지 않는다. 이때 서버가 HTTP 401을 돌려주고 화면에 조회·저장 실패가 보이며, 새로고침하면 다시 묻는다.
+
+localStorage는 화면 주소(출처)마다 따로 저장된다. 같은 주소에서 연 다른 예제는 저장한 키를 함께 쓰고 다시 묻지 않는다. 다른 브라우저, 포트가 다른 `localhost`, GitHub Pages 주소, 휴대폰에서는 처음 열 때 한 번 묻는다. 키를 잘못 넣었거나 학기가 바뀌어 키가 바뀌면 제목 아래의 **공개 키 지우기**를 누르고 새 키를 넣는다. 휴대폰에서도 같다.
+
+Supabase 구축 특강의 01~07은 폴더마다 자체 `config.example.js`를 두며, 공개 키는 같은 이름(`API_PUBLIC_KEY`)으로 localStorage에서 읽는다. 정규 예제의 사본과 파일 내용이 다르므로 실행하는 폴더의 README를 따른다.
+`API_BASE_URL`에는 `/rest/v1/about` 같은 경로를 붙이지 않는다. 요청 코드가 뒤에 붙인다.
 
 `BOOK_ID`는 글을 묶는 태그다. 강의자가 지정한 값을 사용한다.
 2026-11-13에 등록을 확인한 태그는 `student01`, `student02`다. 등록되지 않은 태그로는 글을 저장할 수 없다.
@@ -43,7 +45,7 @@ const BOOK_ID = 'student01';
 각 단계의 `requests.http`를 먼저 실행한다. VS Code의 REST Client 확장을 설치하고 해당 폴더에 `.env`가 없으면 `.env.example`을 복사한다.
 `.env`에 배부받은 공개 키를 넣고 요청 위의 **Send Request**를 누른다. `.env`는 `.http`와 같은 폴더에 둔다.
 이 요청에는 Node 정적 서버가 필요 없다. 성공한 요청을 확인한 뒤 같은 폴더의 `index.html`과 `app.js`로 이동한다.
-브라우저는 `.env`를 읽지 않는다. 정규 예제는 설정 패널, 아래 특강 01~07은 `config.example.js`를 사용한다. 각 폴더의 설정은 독립적이다.
+브라우저는 `.env`를 읽지 않는다. 브라우저 예제는 같은 폴더의 `config.example.js`와 localStorage에 저장한 공개 키를 사용한다. 주소와 방명록 번호는 폴더마다 따로 두고, 공개 키는 같은 화면 주소(출처)에서 연 예제끼리 함께 쓴다.
 
 | 단계 | 요청 파일 | API 요청과 응답 |
 |---|---|---|
@@ -98,7 +100,7 @@ checkApi();
 - [12주 조회 코드](../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.js), [13주 저장 포함 코드](../../weeks/week13_release_security/examples/day2/web-week13/guestbook.js)
 
 예제는 HTML·CSS·JavaScript로 된 정적 화면이다. 공용 Supabase API를 설정한 화면이 GitHub Pages에 게시되어 있으면
-강의자가 알려 준 HTTPS 화면 주소에 접속해 실습한다. 이 경우 Node.js 설치나 로컬 서버 실행은 필요 없다.
+강의자가 알려 준 HTTPS 화면 주소에 접속해 실습한다. 이 경우 Node.js 설치나 로컬 서버 실행은 필요 없고, 그 주소에서 처음 열 때 묻는 창에 공개 키를 한 번 넣는다.
 
 자신의 PC에서 파일을 수정하며 미리 볼 때는 저장소를 내려받고 Node.js 24 이상을 설치한다.
 실행할 폴더의 브라우저용 설정을 확인하고 저장소 최상위 폴더의 터미널에서 다음 명령을 실행한다.
@@ -202,8 +204,8 @@ async function writeGuestbook(name, message) {
 
 ## 6. 두 화면에서 같은 데이터 확인하기
 
-두 학생이 각자 예제를 실행하고 같은 `BOOK_ID`를 설정한다. 한 학생이 글을 저장한 뒤 다른 학생이 목록을 다시 조회한다.
-두 번째 화면의 JavaScript가 GET을 보내면 같은 글을 확인할 수 있다. 다른 기기에서도 같은 방식으로 동작한다.
+두 학생이 각자 브라우저에 공개 키를 저장하고 같은 `BOOK_ID`로 예제를 실행한다. 한 학생이 글을 저장한 뒤 다른 학생이 목록을 다시 조회한다.
+두 번째 화면의 JavaScript가 GET을 보내면 같은 글을 확인할 수 있다. 다른 기기에서도 그 브라우저에 공개 키를 한 번 저장하면 같은 방식으로 동작한다.
 서버 저장만으로 다른 화면이 자동 갱신되지는 않는다. 이 예제는 버튼을 누르거나 저장한 뒤 GET을 다시 보낸다.
 
 태그는 조회 필터이며 접근 권한을 나누지 않는다. 다른 등록 태그의 글도 읽거나 새로 쓸 수 있다.
@@ -213,7 +215,7 @@ async function writeGuestbook(name, message) {
 ## 7. 수정·삭제와 API 문법 자료
 
 14주 PATCH·DELETE에는 강의자가 별도 배부하는 해당 방명록의 편집 키가 필요하다.
-편집 키를 공개 설정 파일에 넣지 않는다. 요청 형식은 [공용 API 요청과 응답](README.md#요청과-응답)을 따른다.
+편집 키는 공개 설정 파일과 localStorage에 넣지 않는다. 요청 형식은 [공용 API 요청과 응답](README.md#요청과-응답)을 따른다.
 05~07의 `.http` 요청은 자신이 만든 글 ID와 편집 키를 전송 시 입력 창에서 받는다. 편집 키 입력은 마스킹된다.
 후속 GET에서도 방금 변경 요청한 글 ID를 입력해 같은 대상을 확인한다.
 REST Client 요청 이력에는 헤더·본문이 남는다. 키가 든 이력·전체 요청 캡처는 공유하지 않고 실습 후 **Rest Client: Clear Request History**를 실행한다.

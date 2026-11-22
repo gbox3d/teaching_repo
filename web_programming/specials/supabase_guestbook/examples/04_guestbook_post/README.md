@@ -4,7 +4,9 @@
 
 ## 설정과 실행
 
-브라우저는 이 폴더의 config.example.js에서 API_BASE_URL·API_PUBLIC_KEY·BOOK_ID를 읽는다. 새 프로젝트를 구축했다면 세 값을 자신의 서버로 바꾼다. 공개 publishable key만 사용하고 DB 비밀번호·service_role·편집 키를 이 파일에 넣지 않는다. 정규 12~14주의 실행 중 설정 패널과는 다른 방식이다.
+브라우저는 이 폴더의 config.example.js에서 API_BASE_URL·BOOK_ID를 읽는다. 새 프로젝트를 구축했다면 이 두 값을 자신의 값으로 바꾼다. 공개 키·DB 비밀번호·service_role·편집 키는 이 파일에 적지 않는다. 정규 12~14주 예제는 12주 선택 방명록 정본을 복사한 config.example.js를 쓰며, 공개 키는 두 예제 묶음 모두 브라우저 localStorage의 API_PUBLIC_KEY에서 읽는다.
+
+화면을 처음 열면 공개 키를 묻는 창에 배부받은 키를 넣는다. 키를 잘못 넣었거나 새 프로젝트의 publishable key로 바꿀 때는 제목 아래 **공개 키 지우기**를 누르고 새 키를 넣는다. 자세한 내용은 [공개 키 입력과 지우기](../README.md#공개-키-입력과-지우기)에 있다.
 
 저장소 루트에서 다음 명령을 실행한다.
 

@@ -1,16 +1,9 @@
 const output = document.querySelector('#output');
-const button = document.querySelector('#send-button');
 const form = document.querySelector('#example-form');
 const messageInput = document.querySelector('#message');
 
-setupApiSettings(function () {
-  button.disabled = false;
-  output.textContent = '';
-});
-
 form.addEventListener('submit', async function (event) {
   event.preventDefault();
-  if (button.disabled) return;
   const message = messageInput.value.trim();
   if (message === '') {
     output.textContent = '메시지를 입력하세요.';

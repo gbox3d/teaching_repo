@@ -39,7 +39,9 @@ The page and support code are supplied. Complete the request TODO.
 
 w11 saves one form object; w14 implements PATCH or DELETE, not both.
 The instructor prepares the API and individual test guestbooks.
-Enter values in the supplied API settings panel. Refresh resets the panel.
+Set `BOOK_ID` in `config.example.js` to your own guestbook ID.
+Enter the public key when the page first asks; it survives a refresh.
+Cancel gives 401; for a wrong key, press [공개 키 지우기] (clear key) and re-enter.
 Enter an edit key at runtime. Never commit it.
 
 localhost means this PC. Pages needs the shared HTTPS API.
@@ -61,11 +63,11 @@ Do not parse a 204 response as JSON.
 # Day 1 · 40–55 min — Reproduce the result
 
 app.js: one request TODO, with supplied rendering and read-back code.
-api-settings.js: supplied runtime settings.
+config.example.js: API address, BOOK_ID, the key prompt and [공개 키 지우기].
 The storage task saves one form object. PATCH or DELETE is one request task.
 
 [GET page](examples/w12_rest_get/index.html)
-[Code](examples/w12_rest_get/app.js) · [Settings](examples/w12_rest_get/api-settings.js)
+[Code](examples/w12_rest_get/app.js) · [Settings](examples/w12_rest_get/config.example.js)
 [.http](examples/w12_rest_get/requests.http)
 
 ---
@@ -113,6 +115,7 @@ GET the same ID. Check the saved value or absence.
 
 Tell the supervisor when the API is unavailable.
 Use an equivalent local API with the same initial data.
+Change the address line in config.example.js, then press [공개 키 지우기] and enter that server’s key.
 Compensate for outage time.
 
 If no equivalent environment exists, defer REST assessment.

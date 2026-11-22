@@ -37,11 +37,12 @@ console.log(items[0].id); // 41
 BOOK_ID는 글 구분값이다. 실행 중 편집 키를 입력한다.
 
 ```js
-headers: { apikey: publicKey, 'X-Edit-Key': editKey }
+headers: { apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey }
 ```
 
-설정 패널·키 처리는 제공한다. 키 지우기는 메모리도 비운다.
-API 설정 변경 시 대상 ID·폼·키를 다시 입력한다.
+설정 파일·키 처리는 제공한다. 편집 키의 [키 지우기]는 메모리도 비운다.
+공개 키는 처음 열 때 묻는 창에 넣어 localStorage에 둔다. 편집 키는 저장하지 않는다.
+공개 키를 잘못 넣었으면 [공개 키 지우기]를 누르고 다시 넣는다.
 
 ---
 
@@ -73,7 +74,7 @@ Network에서 Method·Status·Response를 본다.
 # 1일차 · 45–55분: 같은 ID 재조회
 
 ```js
-const remaining = await readMessage(url, publicKey);
+const remaining = await readMessage(url);
 ```
 
 배열이 비었는지, 다른 글이 남았는지 확인한다.
@@ -138,23 +139,23 @@ const changed = await response.json();
 # 2일차 · 40–45분: 저장 메시지 재조회
 
 ```js
-const saved = await readMessage(url, publicKey);
+const saved = await readMessage(url);
 ```
 
 같은 ID의 메시지가 입력과 일치해야 수정 확인 완료다.
 재조회 실패는 쓰기 실패와 구분한다.
-늦은 응답이 새 설정의 안내·폼을 덮지 않도록 제공 코드가 확인한다.
+늦은 조회 응답이 최신 목록을 덮지 않도록 제공 코드가 확인한다.
 
 ---
 
 # 2일차 · 45–55분: 한 파일에서 CRUD
 
 guestbook.js에 GET·POST·DELETE·PATCH 구역을 둔다.
-api-settings.js는 별도 제공한다.
-모든 함수·이벤트 초기화 뒤 파일 끝에서 설정과 최초 GET을 실행한다.
+config.example.js는 별도 제공하며 BOOK_ID만 바꾼다.
+모든 함수·이벤트 초기화 뒤 파일 끝에서 최초 GET을 실행한다.
 
 [방명록](examples/day2/web-week14/guestbook.html) · [동작](examples/day2/web-week14/guestbook.js)
-[설정](examples/day2/web-week14/api-settings.js)
+[설정](examples/day2/web-week14/config.example.js)
 [홈](examples/day2/web-week14/index.html) · [내 정보](examples/day2/web-week14/about.html)
 
 ---
@@ -164,5 +165,5 @@ api-settings.js는 별도 제공한다.
 강의·시연: 5 + 15 + 10 + 15 + 10 + 5 = 60분
 
 학생 실습 30분: PATCH 3곳 12 → 세 글 검증·실패 복구 13 → 키 지우고 캡처 5
-localhost 확인을 먼저 끝내고 수업 뒤 공용 API·Pages·다른 브라우저를 확인한다.
+localhost 확인을 먼저 끝내고 수업 뒤 Pages·다른 브라우저에서는 처음 묻는 창에 공개 키를 넣고 확인한다.
 [실습지](lab.md#2일차-실습) · [따라하기](walkthrough.md)

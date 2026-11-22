@@ -39,7 +39,7 @@ The workshop has no fixed total duration or session limit.
 |---|---|
 | Student changes | Visibility condition, hash, event wiring, unique IDs |
 | Instructor demo | Document requests, unknown routes, focus, CRUD failures |
-| Supplied | Week 14 REST, API settings, stale-response protection |
+| Supplied | Week 14 REST, config.example.js, stale-response protection |
 | Optional | Compare refresh-on-entry policies |
 
 A first 01–03 session may use 60 minutes of lecture/demo + 30 minutes of lab.
@@ -174,7 +174,7 @@ Registering handlers on each transition can repeat a single action.
 | Guestbook | guestbook-form, name, message, notice, list, count |
 | Home | home-count, home-count-button, homeCount, homeCountBox |
 | Behavior | One app.js file |
-| Supplied settings | Separate api-settings.js |
+| Supplied settings | Separate config.example.js |
 
 Replace the 03 preview code with week 14 CRUD.
 
@@ -182,14 +182,13 @@ Replace the 03 preview code with week 14 CRUD.
 
 ## Run the first GET after initialization
 
-Load api-settings.js, then app.js, with defer.
+Load config.example.js, then app.js, with defer.
 
-Prepare DOM references, functions, and listeners → showRoute()
-→ setupApiSettings(...) → loadMessages()
+Prepare DOM references, functions, and listeners → showRoute() → loadMessages()
 
 Keep GET, POST, PATCH, and DELETE in named sections of app.js.
 Do not fetch before edit DOM and functions are ready.
-Applying settings clears the key, selected row, and draft before fetching.
+config.example.js sets the URL and BOOK_ID and asks for the public key first if none is stored.
 
 ---
 
@@ -204,7 +203,7 @@ Click Send Request above each request in requests.http.
 about 200 → help 200 → GET 200 → POST 201
 
 Copy the POST ID into MESSAGE_ID in .env.
-Configure the browser API panel separately.
+REST Client reads .env on its own and does not use the public key stored in the browser.
 
 ---
 
@@ -227,10 +226,11 @@ Keep real keys and server secrets out of tracked files.
 |---|---|---|
 | Hash navigation | Preserved | None |
 | Reload list button | Preserved | Runs |
-| Apply settings | Draft and edit key reset | Runs |
-| Browser reload | Reset | Runs with local defaults |
+| Browser reload | Reset | Runs with config.example.js |
+| Prompt canceled or left empty | Public key not saved | Runs, then HTTP 401 |
+| Clear public key button | Key removed, page reloads | Runs after asking again |
 
-Re-enter public settings and the edit key. Server rows persist separately.
+With a saved public key, enter only the edit key again after a reload. The public key and server rows persist.
 After an uncertain POST failure, fetch before retrying.
 
 ---
@@ -243,6 +243,7 @@ After an uncertain POST failure, fetch before retrying.
 ```
 
 Reload the same real HTML path.
+A new host, port, browser, or device asks for the public key once.
 Do not invent a missing `/<repository>/guestbook` path.
 Test empty/unknown hashes, direct entry, Back, and Forward.
 Also test 375px, 1280px, and keyboard navigation.

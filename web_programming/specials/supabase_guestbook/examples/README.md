@@ -32,19 +32,19 @@ REST Client의 성공은 브라우저 CORS 검증 결과와 별개다.
 편집 키 입력은 마스킹된다. 편집 키를 `.env`·`.http`·소스 파일에 옮겨 적지 않는다.
 마스킹은 입력 창에만 적용된다. REST Client는 헤더·본문을 요청 이력에 저장하므로 편집 키가 든 이력이나 전체 요청 캡처를 공유하지 않는다.
 실습 후 명령 팔레트에서 **Rest Client: Clear Request History**로 이력을 지운다. [요청 이력 안내](https://github.com/Huachao/vscode-restclient#request-history)
-`.env`는 Git 제외 대상이며 Pages 게시 파일에도 포함하지 않는다. 브라우저는 같은 폴더의 `config.example.js`를 읽는다.
+`.env`는 Git 제외 대상이며 Pages 게시 파일에도 포함하지 않는다. 브라우저는 `.env` 대신 같은 폴더의 `config.example.js`와 localStorage의 공개 키를 읽는다.
 
 출처: [REST Client 사용법](https://github.com/Huachao/vscode-restclient#usage), [환경 변수](https://github.com/Huachao/vscode-restclient#system-variables), [요청 시 입력 변수](https://github.com/Huachao/vscode-restclient#prompt-variables).
 
 ## 설정을 읽는 순서
 
-| 실행 방식 | 설정 파일 | 값을 읽는 주체 |
+| 실행 방식 | 설정 위치 | 값을 읽는 주체 |
 |---|---|---|
 | VS Code의 `requests.http` | 같은 폴더의 `.env` | REST Client가 `{{$dotenv API_BASE_URL}}` 등의 변수를 치환 |
-| 브라우저의 `index.html` | 같은 폴더의 `config.example.js` | HTML이 설정 스크립트를 먼저 실행 |
+| 브라우저의 `index.html` | 같은 폴더의 `config.example.js`(주소·`BOOK_ID`)와 화면 주소의 localStorage(공개 키) | HTML이 설정 스크립트를 먼저 실행하고, 설정 스크립트가 localStorage의 `API_PUBLIC_KEY`를 읽음 |
 
 `.env.example`은 복사해서 사용하는 설정 견본이며 `.env` 자체가 실행되는 것은 아니다.
-이 예제의 Node 정적 서버는 `.env`를 자동으로 읽지 않는다. `.env`를 바꿔도 브라우저 설정은 바뀌지 않는다.
+이 예제의 Node 정적 서버는 `.env`를 자동으로 읽지 않는다. 공개 키는 브라우저가 localStorage에서, REST Client가 `.env`에서 따로 읽으므로 한쪽을 바꿔도 다른 쪽은 바뀌지 않는다.
 
 HTML은 다음 순서로 JavaScript를 불러온다.
 
@@ -55,6 +55,7 @@ HTML은 다음 순서로 JavaScript를 불러온다.
 
 `defer`가 있는 일반 스크립트는 HTML 해석이 끝난 뒤 작성 순서대로 실행된다.
 먼저 설정 파일이 `API_BASE_URL`, `API_PUBLIC_KEY`, `BOOK_ID`를 선언하고, 뒤의 `app.js`가 같은 페이지의 상수를 참조한다.
+`API_PUBLIC_KEY`는 설정 파일이 실행될 때 localStorage에서 읽은 값이다. 키를 묻는 창에 넣은 값은 설정 파일이 저장한 직후 읽으므로 그 페이지의 요청에 바로 들어간다.
 `app.js`가 설정 파일을 직접 읽거나 import하는 구조는 아니다. `config.example.js`라는 파일 이름에 자동 로딩 기능이 있는 것도 아니다.
 
 ## 단계별 폴더
@@ -86,7 +87,7 @@ HTML은 다음 순서로 JavaScript를 불러온다.
 
 로컬 화면을 HTTP로 열어도 공용 API에는 HTTPS로 요청한다. 페이지 주소는 HTTP로 유지되고 데이터 요청만 HTTPS를 쓴다.
 GitHub Pages에서는 화면과 API 모두 HTTPS를 쓴다.
-현재 각 폴더의 `config.example.js`는 위 공용 Supabase 주소와 publishable key로 설정되어 있다.
+현재 각 폴더의 `config.example.js`는 위 공용 Supabase 주소를 가리킨다. publishable key는 파일에 없고 처음 열 때 [입력해 브라우저에 저장](#공개-키-입력과-지우기)한 값을 읽는다.
 공용 API를 사용하면 `tools/guestbook-api/server.mjs`를 실행할 필요가 없다.
 HTTP 메서드·HTTP 상태라는 용어는 HTTPS 요청에도 그대로 사용한다.
 2026-11-14에 `http://localhost:8000/01_about/`와 `/02_help/` 화면에서 실제 Supabase HTTPS GET 200과 페이지 오류 없음을 확인했다.
@@ -102,13 +103,21 @@ node web_programming/tools/static-server/server.mjs web_programming/specials/sup
 브라우저에서 `http://localhost:8000/`을 열면 자동 폴더 목록이 나온다.
 01을 바로 열 주소는 `http://localhost:8000/01_about/`, 완성 방명록은 `http://localhost:8000/07_guestbook_complete/`이다.
 위 Node 명령은 화면 파일만 제공한다. API 요청은 실행한 폴더의 설정에 지정한 서버로 보낸다.
-브라우저 설정 형식은 다음과 같다. 공개 키는 자리표시자 대신 강의자가 배부한 값을 사용한다.
 
-```js
-const API_BASE_URL = 'https://esoqbcwgzjtwcqszwvin.supabase.co';
-const API_PUBLIC_KEY = '강의자가_배부한_publishable_key';
-const BOOK_ID = 'student01';
-```
+## 공개 키 입력과 지우기
+
+공개 키는 `config.example.js`에 적지 않는다. 설정 파일의 `const API_PUBLIC_KEY = localStorage.getItem("API_PUBLIC_KEY") || "";` 줄이 이 브라우저에 저장한 값을 읽는다.
+localStorage에 키가 없으면 예제 화면을 처음 열 때 `공개 키(publishable key)를 입력하세요.`라고 묻는 창이 뜬다.
+강의자가 배부한 공개 키를 넣으면 설정 파일이 앞뒤 공백을 지우고 localStorage의 `API_PUBLIC_KEY`에 저장한다.
+localStorage는 화면 주소의 출처(프로토콜·호스트·포트)마다 따로 저장된다. 같은 주소의 01~07이 이 값을 함께 쓰므로 다음부터는 묻지 않는다.
+
+- 창을 취소하거나 빈 칸으로 두면 키를 저장하지 않는다. 요청은 HTTP 401로 실패하고, 새로고침하면 다시 묻는다.
+- 틀린 키를 넣으면 그 값이 저장되어 다시 묻지 않는다. 키를 잘못 넣었거나 학기에 키가 바뀌면 화면 제목 아래 **공개 키 지우기**를 누른다. 저장한 키를 지우고 새로고침하므로 묻는 창에 새 키를 넣는다. 저장소 파일은 고치지 않는다.
+- 휴대폰도 같은 창에 키를 넣고, 바꿀 때는 같은 버튼을 쓴다.
+- 다른 브라우저, 포트가 다른 `localhost`, `127.0.0.1`과 `localhost`처럼 이름이 다른 주소, GitHub Pages 주소, 휴대폰에서는 처음 한 번 묻는다.
+- 자기 새 프로젝트로 연결하는 담당자는 `config.example.js`의 `API_BASE_URL`·`BOOK_ID`를 자기 값으로 바꾸고, **공개 키 지우기**를 누른 뒤 자기 프로젝트의 publishable key(`sb_publishable_...`)를 넣는다.
+- 편집 키는 묻는 창에도 localStorage에도 파일에도 두지 않는다. 05~07 화면의 편집 키 입력 칸에 넣어 메모리에서만 쓴다.
+- 주소·`BOOK_ID`는 REST Client가 `.env`에서, 브라우저가 `config.example.js`에서 따로 읽는다. 공개 키도 REST Client가 `.env`에서, 브라우저가 localStorage에서 따로 읽으므로 `requests.http`용 키는 같은 폴더의 `.env`에 넣는다.
 
 ## 실험 순서
 
@@ -132,12 +141,13 @@ Network 캡처에 편집 키가 포함되지 않게 한다. 학생 로그인과 
 ## GitHub Pages에서 사용하기
 
 1. 게시할 예제 폴더 하나를 고른다. 완성 방명록만 필요하면 `07_guestbook_complete`를 사용한다.
-2. 선택한 폴더의 HTML·JavaScript·설정을 함께 게시한다. 그 폴더 설정의 API 주소가 공용 `https://` 주소인지, 공개 키와 BOOK_ID가 맞는지 확인한다.
+2. 선택한 폴더의 HTML·JavaScript·설정을 함께 게시한다. 그 폴더 설정의 API 주소가 공용 `https://` 주소인지, BOOK_ID가 맞는지 확인한다. 게시 파일에는 공개 키가 없다.
 3. 해당 폴더가 Pages 게시 결과에 포함되도록 게시 대상을 정하고 **Settings → Pages → Enforce HTTPS**를 확인한다.
-4. 발급된 HTTPS 화면 주소에서 선택한 예제를 연다. Network에서 공용 API 주소와 응답을 확인한다.
-5. 방명록은 다른 기기에서도 같은 태그를 조회한다. 수정·삭제는 편집 키로 별도 검증한다.
+4. 발급된 HTTPS 화면 주소에서 선택한 예제를 연다. 처음 열면 공개 키를 묻는 창이 뜨므로 배부받은 키를 넣고, Network에서 공용 API 주소와 응답을 확인한다.
+5. 방명록은 다른 기기에서도 같은 태그를 조회한다. 기기·브라우저마다 처음 한 번 공개 키를 묻는다. 수정·삭제는 편집 키로 별도 검증한다.
 
 GitHub Pages가 정적 파일을 제공하므로 학생이 Node 서버를 실행할 필요가 없다.
+Pages 주소에는 로컬 미리보기에서 저장한 키가 없다. 묻는 창에 키를 입력하지 않은 방문자는 401로 조회가 실패한다.
 각 HTML은 같은 폴더의 `config.example.js`와 W3.CSS CDN을 읽는다. 다른 단계나 examples 루트의 파일은 필요 없다.
 학습용 `requests.http`·`.env.example`은 함께 배부할 수 있다. 06의 실행에는 `request.js`·`exercise.js`도 포함한다.
 `localhost`·`127.0.0.1` API 주소는 방문자 각자의 PC를 가리킨다. Pages용 설정에는 공용 HTTPS 주소를 유지한다.
@@ -148,17 +158,13 @@ Pages 실배포와 공용 PATCH·DELETE는 아직 검증하지 않았다.
 
 ## 선택 사항: 로컬 API 리허설
 
-모의 API로 바꿀 때만 실습할 폴더의 브라우저 설정을 다음처럼 수정한다. REST Client는 같은 폴더의 `.env`도 같은 서버로 설정한다.
-
-```js
-const API_BASE_URL = 'http://127.0.0.1:8787';
-const API_PUBLIC_KEY = 'classroom-local';
-const BOOK_ID = 'student01';
-```
+모의 API로 바꿀 때만 실습할 폴더의 `config.example.js`에서 `API_BASE_URL`을 `http://127.0.0.1:8787`로 바꾼다. 그 화면에서 **공개 키 지우기**를 누르고 묻는 창에 `classroom-local`을 넣는다. REST Client는 같은 폴더의 `.env`도 같은 서버로 설정한다.
+저장한 키는 같은 주소의 다른 폴더도 함께 쓴다. 리허설 중에는 주소를 바꾸지 않은 폴더의 공용 API 요청이 401로 실패한다.
 
 화면 미리보기와 별도 터미널에서 `node web_programming/tools/guestbook-api/server.mjs`를 실행한다.
 로컬도 `/rest/v1/about`·`/rest/v1/help`부터 같은 순서로 진행한다. 로컬 API에는 SQL을 실행하지 않는다.
-이때만 화면과 API를 모두 내 PC의 HTTP 주소로 사용한다. 리허설 후 공용 설정으로 되돌린다.
+이때만 화면과 API를 모두 내 PC의 HTTP 주소로 사용한다. 리허설 후 주소를 공용 HTTPS 주소로 되돌리고, **공개 키 지우기**를 누른 뒤 배부받은 공개 키를 다시 넣는다.
+키를 되돌리지 않으면 01~07의 공용 API 요청이 401로 실패한다.
 로컬 성공을 실제 Supabase SQL·게이트웨이·다른 기기 검증 완료로 표시하지 않는다.
 
 ## 학생 확장 과제와 검증

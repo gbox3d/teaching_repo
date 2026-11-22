@@ -4,9 +4,8 @@ const loadNotice = document.querySelector('#load-notice');
 const reloadButton = document.querySelector('#reload-button');
 const button = document.querySelector('#run-button');
 
-// 제공 코드: 대기 중 중복 요청과 설정 변경 후의 오래된 응답을 막는다.
+// 제공 코드: 대기 중 중복 요청과 먼저 보낸 조회의 늦은 응답을 막는다.
 let saving = false;
-let settingsVersion = 0;
 let requestId = 0;
 
 // 제공된 GET: 저장 결과는 이 목록에서 확인한다.
@@ -42,10 +41,9 @@ async function loadMessages() {
 
 button.addEventListener('click', async function (event) {
   event.preventDefault();
-  if (saving || !API_PUBLIC_KEY) return;
+  if (saving) return;
   const message = 'POST 연습입니다.';
 
-  const requestVersion = settingsVersion;
   saving = true;
   button.disabled = true;
   output.textContent = '저장 중';
@@ -59,14 +57,12 @@ button.addEventListener('click', async function (event) {
       },
       body: JSON.stringify({ book_id: BOOK_ID, name: 'student01', message: message })
     });
-    if (requestVersion !== settingsVersion) return;
     if (!response.ok) {
       output.textContent = `저장 거절: HTTP ${response.status} · ok ${response.ok}`;
       return;
     }
     let saved;
     try { saved = await response.json(); } catch { saved = null; }
-    if (requestVersion !== settingsVersion) return;
     if (Array.isArray(saved) && saved[0]?.id) {
       output.textContent = `저장 완료 · HTTP ${response.status} · 글 번호 ${saved[0].id}`;
     } else {
@@ -74,7 +70,7 @@ button.addEventListener('click', async function (event) {
     }
     await loadMessages();
   } catch (error) {
-    if (requestVersion === settingsVersion) output.textContent = '저장 결과 확인 실패. 다시 저장하기 전에 새로 불러오기로 확인하세요.';
+    output.textContent = '저장 결과 확인 실패. 다시 저장하기 전에 새로 불러오기로 확인하세요.';
   } finally {
     saving = false;
     button.disabled = false;
@@ -82,10 +78,4 @@ button.addEventListener('click', async function (event) {
 });
 
 reloadButton.addEventListener('click', loadMessages);
-setupApiSettings(function () {
-  settingsVersion++;
-  button.disabled = saving;
-  list.replaceChildren();
-  output.textContent = saving ? '설정 변경 완료 · 이전 저장 결과는 이전 설정의 목록에서 확인하세요.' : '';
-  return loadMessages();
-});
+loadMessages();

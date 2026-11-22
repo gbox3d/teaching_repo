@@ -2,13 +2,13 @@
 
 ## 수업 전 파일 준비
 
-새 web-week14 저장소와 [13주 완성본](../week13_release_security/examples/day2/web-week13/)을 준비한다. [이번 주 제공본](examples/day2/web-week14/README.md)의 기본 배포 파일을 복사한다. settings·폼·키·초기화·오류 복구는 제공하고 학생은 각 차시 3곳만 수정한다. 강의·시연 60분 뒤 학생 실습 30분이며 업로드는 수업 뒤 정리한다.
+새 web-week14 저장소와 [13주 완성본](../week13_release_security/examples/day2/web-week13/)을 준비한다. [이번 주 제공본](examples/day2/web-week14/README.md)의 기본 배포 파일을 복사한다. 설정 파일·폼·키·초기화·오류 복구는 제공하고 학생은 각 차시 3곳만 수정한다. 강의·시연 60분 뒤 학생 실습 30분이며 업로드는 수업 뒤 정리한다.
 
-학생 폴더에서 [정적 서버](../../tools/static-server/README.md)를 실행한다. API는 [별도 로컬 API](../../tools/guestbook-api/README.md)를 실행하거나 강의자가 준비한 HTTPS API를 쓴다. 화면 서버와 데이터 서버는 서로 다르다.
+학생 폴더에서 [정적 서버](../../tools/static-server/README.md)를 실행한다. API는 config.example.js에 적힌 수업용 서버를 쓴다. 강의자가 [로컬 모의 API](../../tools/guestbook-api/README.md)로 리허설할 때는 config.example.js의 주소를 `http://127.0.0.1:8787`로 바꾸고 [공개 키 지우기]를 누른 뒤 다시 묻는 창에 `classroom-local`을 넣는다. 리허설이 끝나면 주소를 수업용 서버로 되돌리고 [공개 키 지우기]를 누른 뒤 배부받은 공개 키를 다시 넣는다. 화면 서버와 데이터 서버는 서로 다르다.
 
 ## 설정과 요청 확인
 
-브라우저 API 설정 패널에 주소·공개 키·방명록 번호를 입력하고 적용한다. 제공 api-settings.js는 로컬 기본값으로 시작한다. 공용 설정은 메모리에만 있으므로 새로고침 뒤 다시 입력한다. 설정 적용은 선택 ID·새 글 폼·편집 폼·편집 키를 지운다.
+config.example.js의 `const BOOK_ID = 'student01';`에서 student01을 배정받은 방명록 번호로 바꾼다. 바꾸지 않으면 글이 student01 방명록에 저장된다. 공개 키는 파일에 적지 않는다. 예제를 처음 열면 '배부받은 공개 키를 입력하세요.' 창이 뜬다. 이 창에는 편집 키가 아니라 강의자가 배부한 공개 키를 넣는다. 키는 이 브라우저의 localStorage에 저장되고 같은 주소에서 연 다른 예제도 함께 쓴다. 창을 취소하거나 빈 칸으로 두면 키가 저장되지 않아 서버가 HTTP 401을 돌려주고 화면에 조회·저장 실패가 보인다. 새로고침하면 다시 묻는다. 키를 잘못 넣었거나 강의자가 키를 바꾸면 제목 아래 [공개 키 지우기]를 누른다. 버튼이 저장한 키를 지우고 새로고침하면 다시 묻는 창에 새 키를 넣는다. localStorage는 주소(출처)마다 따로다. 다른 브라우저, 포트가 다른 localhost, GitHub Pages 주소, 휴대폰에서는 처음 한 번 묻는다. 편집 키는 localStorage에도 파일에도 두지 않고 화면 입력 칸으로 받아 메모리에서만 쓴다.
 
 REST Client의 .env.example을 .env로 복사하고 API_BASE_URL·API_PUBLIC_KEY·BOOK_ID를 설정한다. .env는 Git과 배포 ZIP에서 제외한다. 브라우저 설정과 .env는 별개다. requests.http의 **Send Request**로 about → help → 목록 → 대상 GET을 실행한다. 자기 글 ID를 MESSAGE_ID에 넣고 PATCH·DELETE 뒤 같은 ID를 다시 조회한다. 편집 키는 마스킹되는 password 프롬프트로 입력한다.
 
@@ -18,11 +18,11 @@ ex01에서 인덱스와 ID를 비교한 뒤 ex02 시연을 본다. 제공 guestb
 
 ## 2일차 PATCH 수정
 
-ex03에서 JSON 본문을 보고 ex04에서 같은 ID를 다시 읽는다. guestbook.js의 updateMessage에서 ① 대상 URL, ② JSON.stringify({ message: message }) 본문, ③ readMessage(url, publicKey) 재조회를 확인·수정한다. 응답 배열 검증과 메시지 비교는 제공한다. PATCH 200 []는 성공으로 표시하지 않는다.
+ex03에서 JSON 본문을 보고 ex04에서 같은 ID를 다시 읽는다. guestbook.js의 updateMessage에서 ① 대상 URL, ② JSON.stringify({ message: message }) 본문, ③ readMessage(url) 재조회를 확인·수정한다. 응답 배열 검증과 메시지 비교는 제공한다. PATCH 200 []는 성공으로 표시하지 않는다.
 
 ## 완성본 전문
 
-아래 세 파일은 실행 파일과 같다. 제공 HTML은 W3.CSS를 CDN에서 불러오고 설정 파일과 동작 파일을 defer로 읽는다. guestbook.js 끝에서 DOM·함수·이벤트를 준비한 뒤 설정 등록과 최초 GET을 실행한다.
+아래 두 파일은 실행 파일과 같다. config.example.js는 앞의 설정 단계에서 BOOK_ID만 바꾸므로 싣지 않는다. 제공 HTML은 W3.CSS를 CDN에서 불러오고 설정 파일과 동작 파일을 defer로 읽는다. 제목 아래 [공개 키 지우기] 버튼은 HTML에 두고 클릭 동작은 config.example.js가 붙인다. guestbook.js 끝에서 DOM·함수·이벤트를 준비한 뒤 최초 GET을 실행한다.
 
 ### guestbook.html
 
@@ -34,12 +34,13 @@ ex03에서 JSON 본문을 보고 ex04에서 같은 ID를 다시 읽는다. guest
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>온라인 방명록</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-    <script src="api-settings.js" defer></script>
+    <script src="config.example.js" defer></script>
     <script src="guestbook.js" defer></script>
   </head>
   <body class="w3-light-grey">
     <header class="w3-container w3-teal w3-padding-16">
       <h1>온라인 방명록</h1>
+      <p><button class="w3-button w3-small w3-border" id="key-clear-button" type="button">공개 키 지우기</button></p>
     </header>
     <nav class="w3-bar w3-white w3-card" aria-label="주 메뉴">
       <a class="w3-bar-item w3-button w3-mobile" href="index.html">홈</a>
@@ -47,16 +48,6 @@ ex03에서 JSON 본문을 보고 ex04에서 같은 ID를 다시 읽는다. guest
       <a class="w3-bar-item w3-button w3-mobile w3-teal" href="guestbook.html" aria-current="page">방명록</a>
     </nav>
     <main class="w3-content w3-padding">
-      <details class="w3-margin-bottom">
-        <summary>API 설정</summary>
-        <form id="api-settings-form" autocomplete="off">
-          <p><label for="api-base-url">API 주소</label> <input id="api-base-url" type="url" required></p>
-          <p><label for="api-public-key">공개 키</label> <input id="api-public-key" type="password" autocomplete="off" required></p>
-          <p><label for="api-book-id">방명록 번호</label> <input id="api-book-id" pattern="[a-z0-9_-]{1,40}" required></p>
-          <button class="w3-button w3-teal" type="submit">설정 적용</button>
-          <p id="api-settings-notice" role="status">로컬 연습 설정</p>
-        </form>
-      </details>
       <section class="w3-container w3-card w3-white w3-margin-top">
         <h2>한 줄 남기기</h2>
         <form id="guestbook-form">
@@ -98,48 +89,6 @@ ex03에서 JSON 본문을 보고 ex04에서 같은 ID를 다시 읽는다. guest
 </html>
 ```
 
-### api-settings.js
-
-```js
-// 제공 코드: 입력한 설정은 현재 페이지의 메모리에서만 사용한다.
-let API_BASE_URL = 'http://127.0.0.1:8787';
-let API_PUBLIC_KEY = 'classroom-local';
-let BOOK_ID = 'student01';
-
-function setupApiSettings(onApply) {
-  const form = document.querySelector('#api-settings-form');
-  const baseInput = document.querySelector('#api-base-url');
-  const keyInput = document.querySelector('#api-public-key');
-  const bookInput = document.querySelector('#api-book-id');
-  const notice = document.querySelector('#api-settings-notice');
-  baseInput.value = API_BASE_URL;
-  keyInput.value = API_PUBLIC_KEY;
-  bookInput.value = BOOK_ID;
-
-  form.addEventListener('submit', async function (event) {
-    event.preventDefault();
-    const baseUrl = baseInput.value.trim().replace(/\/+$/, '');
-    const publicKey = keyInput.value.trim();
-    const bookId = bookInput.value.trim();
-    if (!/^https?:\/\//.test(baseUrl) || publicKey === '' || !/^[a-z0-9_-]{1,40}$/.test(bookId)) {
-      notice.textContent = 'API 주소, 공개 키, 방명록 번호를 확인하세요.';
-      return;
-    }
-    API_BASE_URL = baseUrl;
-    API_PUBLIC_KEY = publicKey;
-    BOOK_ID = bookId;
-    notice.textContent = '설정 적용 완료 · 새로고침 후 재입력';
-    const button = form.querySelector('button[type="submit"]');
-    button.disabled = true;
-    try {
-      await onApply();
-    } finally {
-      button.disabled = false;
-    }
-  });
-}
-```
-
 ### guestbook.js
 
 ```js
@@ -153,8 +102,7 @@ const nameInput = document.querySelector('#name');
 const messageInput = document.querySelector('#message');
 const submitButton = document.querySelector('#submit-button');
 const notice = document.querySelector('#notice');
-// 제공 코드: 설정 변경과 겹친 이전 응답을 현재 목록에 표시하지 않는다.
-let settingsVersion = 0;
+// 제공 코드: 먼저 보낸 조회의 늦은 응답은 현재 목록에 표시하지 않는다.
 let latestRequest = 0;
 let saving = false;
 let editing = false;
@@ -217,7 +165,6 @@ async function submitMessage(event) {
     notice.textContent = '이름과 메시지를 입력하세요.';
     return;
   }
-  const requestVersion = settingsVersion;
   saving = true;
   submitButton.disabled = true;
   notice.textContent = '저장 중';
@@ -232,7 +179,6 @@ async function submitMessage(event) {
       // 13주 복습: 폼 값을 JSON 요청 본문에 넣는다.
       body: JSON.stringify({ book_id: BOOK_ID, name: name, message: message })
     });
-    if (requestVersion !== settingsVersion) return;
     if (!response.ok) {
       notice.textContent = `저장 거절: HTTP ${response.status}. 입력값과 설정을 확인하세요.`;
       return;
@@ -240,7 +186,6 @@ async function submitMessage(event) {
     // HTTP 성공과 응답 본문 해석, 다음 GET의 실패를 구분한다.
     let saved;
     try { saved = await response.json(); } catch { saved = null; }
-    if (requestVersion !== settingsVersion) return;
     if (Array.isArray(saved) && saved[0]?.id) {
       notice.textContent = `저장 완료 · 글 번호 ${saved[0].id}`;
       // 대기 중 사용자가 새로 쓴 입력은 지우지 않는다.
@@ -252,7 +197,6 @@ async function submitMessage(event) {
     // 13주 복습: POST 성공 뒤 서버 목록을 다시 읽는다.
     await loadMessages();
   } catch (error) {
-    if (requestVersion !== settingsVersion) return;
     notice.textContent = '저장 결과를 확인하지 못했습니다. 다시 저장하기 전에 새로 불러오기로 확인하세요.';
   } finally {
     saving = false;
@@ -288,9 +232,9 @@ function messageUrl(id) {
   return `${API_BASE_URL}/rest/v1/guestbook?id=eq.${encodeURIComponent(id)}&book_id=eq.${encodeURIComponent(BOOK_ID)}`;
 }
 
-// 제공 코드: 요청 시작 때 고정한 URL·공개 키로 같은 대상을 확인한다.
-async function readMessage(url, publicKey) {
-  const response = await fetch(url, { headers: { apikey: publicKey } });
+// 제공 코드: 변경 요청과 같은 URL로 대상을 다시 읽는다.
+async function readMessage(url) {
+  const response = await fetch(url, { headers: { apikey: API_PUBLIC_KEY } });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const items = await response.json();
   if (!Array.isArray(items)) throw new Error('JSON 배열이 아닙니다');
@@ -305,8 +249,6 @@ async function deleteMessage(id, button) {
     return;
   }
   if (!confirm(`글 ${id}번을 삭제하시겠습니까?`)) return;
-  const requestVersion = settingsVersion;
-  const publicKey = API_PUBLIC_KEY;
   // 1일차 수정 1: 배열 위치가 아닌 서버 ID를 URL에 넣는다.
   const url = messageUrl(id);
   editing = true;
@@ -318,20 +260,16 @@ async function deleteMessage(id, button) {
       // 1일차 수정 2: 삭제 메서드를 지정한다.
       method: 'DELETE',
       // 1일차 수정 3: 공개 키와 편집 키를 헤더에 넣는다.
-      headers: { apikey: publicKey, 'X-Edit-Key': editKey }
+      headers: { apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey }
     });
-    if (requestVersion !== settingsVersion) return;
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     // 204에는 본문이 없다. 같은 ID의 GET으로 실제 삭제를 확인한다.
-    const remaining = await readMessage(url, publicKey);
-    if (requestVersion !== settingsVersion) return;
+    const remaining = await readMessage(url);
     if (remaining.length !== 0) throw new Error('편집 키와 글 번호를 확인하세요.');
     if (editId.value === String(id)) editForm.reset();
     const loaded = await loadMessages();
-    if (requestVersion !== settingsVersion) return;
     editNotice.textContent = loaded ? '삭제 확인 완료' : '삭제 확인 완료 · 목록을 다시 불러오세요.';
   } catch (error) {
-    if (requestVersion !== settingsVersion) return;
     editNotice.textContent = `삭제 확인 실패: ${error.message}. 다시 요청하기 전에 조회하세요.`;
   } finally {
     editing = false;
@@ -350,8 +288,6 @@ async function updateMessage(event) {
     editNotice.textContent = '편집 키, 수정할 글, 메시지를 확인하세요.';
     return;
   }
-  const requestVersion = settingsVersion;
-  const publicKey = API_PUBLIC_KEY;
   // 2일차 수정 1: 선택한 서버 ID와 방명록 번호로 대상을 지정한다.
   const url = messageUrl(id);
   editing = true;
@@ -361,32 +297,27 @@ async function updateMessage(event) {
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
-        apikey: publicKey, 'X-Edit-Key': editKey,
+        apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey,
         'Content-Type': 'application/json', Prefer: 'return=representation'
       },
       // 2일차 수정 2: 수정 메시지만 JSON 본문에 넣는다.
       body: JSON.stringify({ message: message })
     });
-    if (requestVersion !== settingsVersion) return;
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const changed = await response.json();
-    if (requestVersion !== settingsVersion) return;
     if (!Array.isArray(changed) || changed.length !== 1 || String(changed[0].id) !== id) {
       throw new Error('편집 키와 글 번호를 확인하세요.');
     }
     // 2일차 수정 3: 같은 ID를 다시 읽고 메시지를 비교한다.
-    const saved = await readMessage(url, publicKey);
-    if (requestVersion !== settingsVersion) return;
+    const saved = await readMessage(url);
     if (saved.length !== 1 || String(saved[0].id) !== id || saved[0].message !== message) {
       throw new Error('저장한 글을 다시 확인하지 못했습니다.');
     }
     // 대기 중 선택하거나 새로 입력한 내용은 지우지 않는다.
     if (editId.value === id && editMessage.value.trim() === message) editForm.reset();
     const loaded = await loadMessages();
-    if (requestVersion !== settingsVersion) return;
     editNotice.textContent = loaded ? '수정 확인 완료' : '수정 확인 완료 · 목록을 다시 불러오세요.';
   } catch (error) {
-    if (requestVersion !== settingsVersion) return;
     editNotice.textContent = `수정 확인 실패: ${error.message}. 다시 요청하기 전에 조회하세요.`;
   } finally {
     editing = false;
@@ -413,22 +344,12 @@ reloadButton.addEventListener('click', loadMessages);
 form.addEventListener('submit', submitMessage);
 editForm.addEventListener('submit', updateMessage);
 
-// 모든 DOM·함수·이벤트 준비 뒤 설정과 최초 GET을 실행한다.
-setupApiSettings(function () {
-  settingsVersion++;
-  clearEditKey();
-  editForm.reset();
-  form.reset();
-  showList([]);
-  notice.textContent = saving ? '설정 변경 완료 · 이전 저장 결과는 이전 설정에서 조회하세요.' : '';
-  editNotice.textContent = '설정 변경 완료 · 편집 키를 다시 입력하세요.';
-  return loadMessages();
-});
+// 모든 DOM·함수·이벤트 준비 뒤 최초 GET을 실행한다.
 loadMessages();
 ```
 
 ## 동작 확인과 수업 뒤 정리
 
-글 세 개의 가운데 삭제, 남은 글 수정, 틀린 키의 변경 없음, 통신 실패 뒤 조회 복구를 확인한다. 키 지우기는 메모리와 입력 칸을 함께 비운다. 설정 변경 중 이전 요청이 완료되더라도 새 폼·안내를 바꾸지 않는다. 진행 중 요청은 서버에서 끝날 수 있으므로 원래 설정으로 돌아가 GET으로 확인한다.
+글 세 개의 가운데 삭제, 남은 글 수정, 틀린 키의 변경 없음, 통신 실패 뒤 조회 복구를 확인한다. 편집 키의 [키 지우기]는 메모리와 입력 칸을 함께 비운다. 새로고침해도 저장한 공개 키와 서버의 글은 남고 편집 키만 다시 입력한다.
 
-키를 지우고 [실습지](lab.md)의 캡처를 만든다. 수업 뒤 add·commit·push하고 공용 HTTPS API가 준비된 경우 Pages·다른 브라우저에서 확인한다. 로컬 리허설 결과를 공용 API나 다른 기기 검증으로 기록하지 않는다. 레포트 검사는 포함하지 않는다.
+편집 키를 지우고 [실습지](lab.md)의 캡처를 만든다. 수업 뒤 add·commit·push하고 Pages 주소와 다른 브라우저에서 처음 묻는 창에 공개 키를 넣은 뒤 같은 글이 보이는지 확인한다. 로컬 리허설 결과를 공용 API나 다른 기기 검증으로 기록하지 않는다. 레포트 검사는 포함하지 않는다.

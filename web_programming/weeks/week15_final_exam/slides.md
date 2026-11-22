@@ -41,7 +41,9 @@ POST 문항은 C 또는 E 한 곳에만 낸다.
 
 w11은 폼 한 객체, w14는 PATCH 또는 DELETE 하나다.
 강의자가 API 주소·공개 키·개인별 방명록을 준비한다.
-학생은 제공 API 설정 패널에 값을 입력한다. 새로고침 후 재입력한다.
+학생은 `config.example.js`의 `BOOK_ID`를 자기 방명록 번호로 바꾼다.
+처음 열 때 묻는 창에 공개 키를 넣으면 새로고침해도 남는다.
+취소하면 401, 틀렸으면 [공개 키 지우기] 뒤 다시 넣는다.
 
 편집 키는 실행 화면에만 입력한다.
 localhost는 현재 PC다. Pages에는 공용 HTTPS API가 필요하다.
@@ -64,11 +66,11 @@ DELETE: 204 뒤 GET으로 글이 없는지 확인
 # 1일차 · 40–55분 — 결과 재현 시연
 
 `app.js`: 요청 하나의 TODO와 제공 화면·재조회 코드
-`api-settings.js`: 제공 실행 중 설정
+`config.example.js`: API 주소·`BOOK_ID` 설정, 공개 키 입력 창·[공개 키 지우기] 연결
 저장은 폼 한 객체, 수정·삭제는 둘 중 한 요청만 작성한다.
 
 [GET 시작 화면](examples/w12_rest_get/index.html) · [app.js](examples/w12_rest_get/app.js)
-[설정](examples/w12_rest_get/api-settings.js) · [.http](examples/w12_rest_get/requests.http)
+[설정](examples/w12_rest_get/config.example.js) · [.http](examples/w12_rest_get/requests.http)
 
 ---
 
@@ -119,6 +121,7 @@ HTTP 상태 번호만으로 수정·삭제를 단정하지 않는다.
 
 API가 응답하지 않으면 감독에게 알린다.
 동일 계약과 초기 데이터의 대체 서버로 진행한다.
+`config.example.js`의 주소 한 줄을 바꾸고 [공개 키 지우기] 뒤 그 서버의 키를 넣는다.
 서버 장애 시간은 보정한다.
 
 대체 환경이 없으면 REST 영역 평가를 보류한다.

@@ -97,11 +97,12 @@ POST는 글을 실제로 추가하므로 한 번 전송한 뒤 결과를 확인�
 
 ## 2일차 · 0–5분 · 글쓰기 폼 준비
 
-- 완성 방명록의 **API 설정**에 공개 키·방명록 번호를 입력해 적용한다.
+- 완성 방명록 `config.example.js`의 `BOOK_ID`를 내 방명록 번호로 바꾼다.
+- 처음 열 때 묻는 창에 배부받은 공개 키를 넣는다(11주 localStorage에 저장). 틀리면 **공개 키 지우기**를 누르고 다시 넣는다.
 - 이름은 별칭, 메시지는 500자 이내로 입력한다.
 - 이메일은 POST 본문에 넣지 않는다.
 
-설정 패널·요청 번호 검사·버튼 잠금·실패 처리는 제공 코드다.
+설정 파일·요청 번호 검사·버튼 잠금·실패 처리는 제공 코드다.
 학생은 폼 값·JSON 본문·재조회 호출 세 구역만 수정한다.
 
 ---
@@ -163,7 +164,7 @@ await loadMessages(); // 학생 수정 3
 
 제공된 `loadMessages()`로 방금 쓴 글을 확인한다.
 POST 201 뒤 조회가 실패하면 **새로 불러오기**로 GET만 다시 보낸다.
-두 번째 브라우저에서 같은 방명록 번호로 저장한 문장을 찾는다.
+두 번째 브라우저에서는 묻는 창에 공개 키를 넣은 뒤 저장한 문장을 찾는다.
 
 ---
 
@@ -183,11 +184,11 @@ POST 201 뒤 조회가 실패하면 **새로 불러오기**로 GET만 다시 보
 # 만들기 파일과 14주 인계
 
 [방명록](examples/day2/web-week13/guestbook.html) · [GET·POST 통합 JS](examples/day2/web-week13/guestbook.js)
-[제공 설정](examples/day2/web-week13/api-settings.js) · [REST Client](examples/day2/web-week13/requests.http)
+[설정 파일](examples/day2/web-week13/config.example.js) · [REST Client](examples/day2/web-week13/requests.http)
 [홈](examples/day2/web-week13/index.html) · [내 정보](examples/day2/web-week13/about.html)
 
-HTML은 `api-settings.js`, `guestbook.js` 순서로 읽는다. 두 파일 모두 `defer`를 쓴다.
-완성 방명록에서 **설정 적용**을 누르면 첫 GET, **남기기**를 누르면 POST와 GET을 보낸다.
+HTML은 `config.example.js`, `guestbook.js` 순서로 읽는다. 두 파일 모두 `defer`를 쓴다.
+완성 방명록은 페이지를 열 때 첫 GET을, **남기기**를 누르면 POST와 GET을 보낸다.
 14주에는 저장한 글의 `id`로 수정과 삭제를 요청한다.
 
 [예제 안내](examples/README.md) · [실습](lab.md) · [따라하기](walkthrough.md)

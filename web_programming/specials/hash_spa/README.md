@@ -18,7 +18,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 첫 주소는 http://localhost:8111/specials/hash_spa/examples/01_mpa/index.html 이다. 각 예제는 자기 폴더의 HTML과 JS를 함께 복사하면 별도로 실행할 수 있다. `examples/` 루트에는 안내 README만 둔다.
 
-모든 화면은 [W3.CSS 4.1.0 CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 읽는다. CDN을 읽으려면 인터넷 연결이 필요하다. 04의 REST 실행은 [해당 README](examples/04_rest_guestbook/README.md)를 따른다.
+모든 화면은 [W3.CSS 4.1.0 CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 읽는다. CDN을 읽으려면 인터넷 연결이 필요하다. 04의 REST 실행은 [해당 README](examples/04_rest_guestbook/README.md)를 따른다. 04는 처음 열 때 배부받은 공개 키를 묻는다.
 
 ## 단계와 수업 자료
 
@@ -27,7 +27,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 | [01 MPA](examples/01_mpa/README.md) | 실제 세 파일 링크를 따라 이동 | 14주 세 페이지와 비교 | HTML 문서 재요청, 각 파일 직접 진입 |
 | [02 두 화면](examples/02_two_screens/README.md) | `showScreen`의 표시 조건 | 포커스·현재 메뉴 갱신 | 한 DOM, 카운터 유지, 주소는 그대로 |
 | [03 세 hash 화면](examples/03_hash_routes/README.md) | hash 읽기·표시 조건·이벤트 연결 | 미등록 경로·접근성 처리 | 직접 주소·뒤로/앞으로·입력 유지 |
-| [04 CRUD 통합](examples/04_rest_guestbook/README.md) | section 조립·ID 충돌 확인 | 14주 REST·API 설정·오류 처리 | 전환 중 입력 유지, 서버 CRUD 재조회 |
+| [04 CRUD 통합](examples/04_rest_guestbook/README.md) | section 조립·ID 충돌 확인 | 14주 REST·`config.example.js`·오류 처리 | 전환 중 입력 유지, 서버 CRUD 재조회 |
 
 [한글 슬라이드](slides.md) · [영문 슬라이드](slides_en.md) · [실습지](lab.md) · [따라하기](walkthrough.md) · [예제 목록](examples/README.md)
 
@@ -39,4 +39,4 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 GitHub Pages의 예시 주소는 `https://<아이디>.github.io/<저장소>/index.html#guestbook`이다. `index.html`은 실제 파일이며 hash는 서버 요청에 포함되지 않는다. 주소를 `/<저장소>/guestbook`으로 바꾸지 않는다. 루트와 저장소 하위 경로에서 직접 진입·새로고침이 모두 되어야 한다.
 
-화면을 바꿀 때 section을 숨기므로 입력·홈 횟수는 유지된다. 새로고침은 문서를 다시 실행하므로 입력·횟수·설정·편집 키가 초기화된다. 서버 글은 GET으로 다시 확인한다. 설정과 키를 소스·주소·브라우저 저장소에 기록하지 않는다.
+화면을 바꿀 때 section을 숨기므로 입력·홈 횟수는 유지된다. 새로고침은 문서를 다시 실행하므로 입력·횟수·편집 키가 초기화된다. 서버에 저장한 글과 이 브라우저의 localStorage에 저장한 공개 키는 새로고침해도 남는다. 서버 글은 GET으로 다시 확인한다. 편집 키는 소스·주소·브라우저 저장소에 기록하지 않는다.

@@ -105,7 +105,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 9 | 마크다운과 1차 과제 발표 | 표·그림·소스 코드·SVG 도표가 들어간 저장소 `README.md` 1차판과 2분 시연(방명록 목록에 두 줄 남기기 포함) | [`week09_readme_presentation`](week09_readme_presentation/) |
 | 10 | 배열 데이터를 목록으로 그리기 | 글을 배열에 모아 목록을 다시 그려, 3개를 쌓고 1개를 지운 뒤 "2개"가 표시된 방명록 | [`week10_array_list`](week10_array_list/) |
 | 11 | 객체와 localStorage | 강의 60분·실습 30분, ex06 폼의 새로고침 후 복원과 저장 JSON | [`week11_object_localstorage`](week11_object_localstorage/) |
-| 12 | Promise와 async/await로 배우는 fetch | 같은 GET을 `.then()`과 `await`로 작성하고 선택한 도시의 현재 기온 표시 | [`week12_fetch_json`](week12_fetch_json/) |
+| 12 | Promise와 async/await로 배우는 fetch | 타이머와 GET 요청을 `.then()`과 `await` 두 방식으로 기다리고 선택한 도시의 현재 기온 표시 | [`week12_fetch_json`](week12_fetch_json/) |
 | 13 | REST API로 방명록 저장하기 | POST 201 뒤 다른 브라우저에도 보이는 글 | [`week13_release_security`](week13_release_security/) |
 | 14 | REST API로 방명록 수정·삭제하기 | 서버 id로 지정한 글의 수정·삭제와 재조회 | [`week14_project_presentation`](week14_project_presentation/) |
 | 15 | 기말 개인 실기 | 1일차 [1~14주 누적 문제 은행](week15_final_exam/examples/README.md) 연습, 2일차 기말 실기 — `web-week15/exam/` 공개 주소 · 저장소 주소 · Commits 탭 캡처 | [`week15_final_exam`](week15_final_exam/) |
@@ -150,7 +150,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 객체 `{ name: …, message: …, date: … }`, 점 표기 | 11주 1일차 | 필드·배열 인덱스 직접 수정 |
 | `JSON.stringify` / `JSON.parse`, `localStorage.setItem / getItem / removeItem` | 11주 2일차 | 정식 항목 |
 | `||`(if 안의 "또는", 값 자리의 `JSON.parse(…) || []`) | 11주 방명록 완성본 | 강의자 시연 참고. ex06 폼 예제는 `null`을 명시적으로 검사한다 |
-| Promise 상태·`.then()`·`.catch()`, `async function`·`await` | 12주 1일차 | 같은 GET에서 응답과 JSON 본문을 순서대로 기다리는 두 방법 |
+| Promise 상태·`.then()`·`.catch()`, `async function`·`await` | 12주 1일차 | 타이머 Promise를 `.then()`과 `await`로 기다리는 비교, `async` 함수 안의 `return`(성공 값)·`throw`(실패 이유), 같은 GET에서 응답과 JSON 본문을 순서대로 기다리는 두 방법 |
 | `response.ok`, `try / catch / finally` | 12주 1·2일차 | HTTP 오류와 통신 실패 비교, 실패 후 다시 조회 |
 | POST, `headers`, `body`, `JSON.stringify` 요청 본문 | 13주 1일차 | 정식 항목 |
 | PATCH·DELETE, 서버 `id`, 편집 키 헤더, 204의 빈 본문 | 14주 | 정식 항목 |

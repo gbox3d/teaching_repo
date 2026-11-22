@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>온라인 방명록</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-    <script src="api-settings.js" defer></script>
+    <script src="config.example.js" defer></script>
     <script src="guestbook.js" defer></script>
   </head>
   <body class="w3-light-grey">
     <header class="w3-container w3-teal w3-padding-16">
       <h1>온라인 방명록</h1>
+      <p><button class="w3-button w3-small w3-border" id="key-clear-button" type="button">공개 키 지우기</button></p>
     </header>
     <nav class="w3-bar w3-white w3-card" aria-label="주 메뉴">
       <a class="w3-bar-item w3-button w3-mobile" href="index.html">홈</a>
@@ -18,16 +19,6 @@
       <a class="w3-bar-item w3-button w3-mobile w3-teal" href="guestbook.html" aria-current="page">방명록</a>
     </nav>
     <main class="w3-content w3-padding">
-      <details class="w3-margin-bottom" open>
-        <summary>API 설정</summary>
-        <form id="api-settings-form" autocomplete="off">
-          <p><label for="api-base-url">API 주소</label><input id="api-base-url" type="url" value="https://esoqbcwgzjtwcqszwvin.supabase.co" required></p>
-          <p><label for="api-public-key">공개 키</label><input id="api-public-key" type="password" autocomplete="off" required></p>
-          <p><label for="api-book-id">방명록 번호</label><input id="api-book-id" pattern="[a-z0-9_-]{1,40}" required></p>
-          <button class="w3-button w3-teal" type="submit">설정 적용</button>
-          <p id="api-settings-notice" role="status">배부받은 공개 키를 입력하고 설정을 적용하세요.</p>
-        </form>
-      </details>
       <section class="w3-container w3-card w3-white w3-margin-top">
         <h2>한 줄 남기기</h2>
         <form id="guestbook-form">
@@ -35,13 +26,13 @@
             <input class="w3-input w3-border" id="name" maxlength="30" required></p>
           <p><label for="message">메시지</label>
             <textarea class="w3-input w3-border" id="message" rows="3" maxlength="500" required></textarea></p>
-          <p><button class="w3-button w3-teal" id="submit-button" type="submit" disabled>남기기</button></p>
+          <p><button class="w3-button w3-teal" id="submit-button" type="submit">남기기</button></p>
         </form>
         <div class="w3-text-red" id="notice" role="status"></div>
       </section>
       <section class="w3-container w3-card w3-white w3-margin-top">
         <h2>남긴 글</h2>
-        <p><button class="w3-button w3-teal" id="reload-button" type="button" disabled>새로 불러오기</button></p>
+        <p><button class="w3-button w3-teal" id="reload-button" type="button">새로 불러오기</button></p>
         <div class="w3-text-grey" id="load-notice" role="status"></div>
         <p id="empty" hidden>아직 남긴 글이 없습니다.</p>
         <ul id="list" class="w3-ul w3-responsive" aria-live="polite"></ul>

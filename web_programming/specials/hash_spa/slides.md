@@ -39,7 +39,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 |---|---|
 | 학생 수정 | section 표시 조건·hash·이벤트 연결·ID 구별 |
 | 강의자 시연 | MPA 요청·미등록 주소·포커스·CRUD 실패 |
-| 제공 | 14주 REST·API 설정·이전 요청 응답 보호 |
+| 제공 | 14주 REST·config.example.js·이전 요청 응답 보호 |
 | 선택 | 방명록 진입 때 재조회 정책 비교 |
 
 01~03은 60분 설명·시연+30분 실습 운영 예다.
@@ -174,7 +174,7 @@ hidden은 화면을 숨기며 DOM을 제거하지 않는다.
 | 방명록 | guestbook-form, name, message, notice, list, count |
 | 홈 | home-count, home-count-button, homeCount, homeCountBox |
 | 동작 | app.js 한 파일 |
-| 제공 설정 | api-settings.js 별도 |
+| 제공 설정 | config.example.js 별도 |
 
 03 미리 보기 코드를 14주 CRUD로 교체한다.
 
@@ -182,14 +182,13 @@ hidden은 화면을 숨기며 DOM을 제거하지 않는다.
 
 ## 모든 준비 뒤 최초 GET
 
-api-settings.js → app.js 순서로 defer 로딩한다.
+config.example.js → app.js 순서로 defer 로딩한다.
 
-DOM·함수·이벤트 준비 → showRoute()
-→ setupApiSettings(...) → loadMessages()
+DOM·함수·이벤트 준비 → showRoute() → loadMessages()
 
 GET·POST·PATCH·DELETE는 app.js의 구역으로 구별한다.
 편집 DOM과 함수가 준비되기 전에 조회를 시작하지 않는다.
-설정 적용은 키·선택 글·초안을 초기화한 뒤 조회한다.
+config.example.js가 주소·BOOK_ID를 정하고 저장한 공개 키가 없으면 먼저 묻는다.
 
 ---
 
@@ -204,7 +203,7 @@ requests.http의 각 요청 위 Send Request를 누른다.
 about 200 → help 200 → GET 200 → POST 201
 
 POST ID를 .env의 MESSAGE_ID에 적는다.
-브라우저 API 설정은 별도로 입력한다.
+REST Client는 .env를 따로 읽고 브라우저에 저장한 공개 키는 쓰지 않는다.
 
 ---
 
@@ -227,10 +226,11 @@ PATCH 200 []는 변경 없음이다. 204에 json()을 호출하지 않는다.
 |---|---|---|
 | hash 이동 | 유지 | 없음 |
 | 새로 불러오기 | 유지 | 실행 |
-| 설정 적용 | 초안·편집 키 초기화 | 실행 |
-| 새로고침 | 초기화 | 로컬 기본 설정으로 실행 |
+| 새로고침 | 초기화 | config.example.js 설정으로 실행 |
+| 묻는 창 취소·빈 칸 | 공개 키 저장 안 함 | 실행 뒤 HTTP 401 |
+| 공개 키 지우기 | 키 삭제 뒤 새로고침 | 다시 물은 뒤 실행 |
 
-공용 설정과 키는 다시 입력한다. 서버 글은 별도로 남는다.
+공개 키를 저장했으면 새로고침 뒤 편집 키만 다시 입력한다. 공개 키와 서버 글은 남는다.
 POST 통신 실패는 재전송보다 조회를 먼저 한다.
 
 ---
@@ -243,6 +243,7 @@ POST 통신 실패는 재전송보다 조회를 먼저 한다.
 ```
 
 같은 실제 파일 경로를 새로고침한다.
+호스트·포트·브라우저·기기가 바뀌면 처음 한 번 공개 키를 다시 묻는다.
 `/<저장소>/guestbook` 같은 없는 경로를 만들지 않는다.
 빈 hash·없는 hash·직접 주소·뒤로/앞으로를 모두 확인한다.
 375px·1280px와 키보드 조작도 확인한다.

@@ -30,6 +30,8 @@
 [학생용 공용 방명록 API 사용 안내](student-guide.md)에 접속 주소, 설정 세 값, GET·POST 문법과 `fetch` 예제를 모았다.
 이 안내와 프로젝트의 publishable key, 개인별 `BOOK_ID`를 배부한다. 현재 공용 서버에서 등록을 확인한 태그는 `student01`, `student02`다.
 추가 태그는 아래 등록 절차를 거친 뒤 배부한다.
+학생은 예제를 처음 열 때 묻는 창에 공개 키를 넣고, 키는 그 브라우저의 localStorage에 저장된다. 학기마다 키를 바꾸면 새 키만 다시 배부하고 저장소의 `config.example.js`는 고치지 않는다.
+새 키를 받은 학생은 화면의 **공개 키 지우기**를 누른 뒤 새 키를 넣는다.
 특강 예제는 [01~07 폴더별 안내](../../specials/supabase_guestbook/examples/README.md)를 따른다. examples 루트에는 README만 둔다.
 각 폴더는 자체 `config.example.js`를 포함해 개별 배포할 수 있다. W3.CSS는 고정 CDN에서 읽는다.
 완성 화면은 [07 방명록](../../specials/supabase_guestbook/examples/07_guestbook_complete/index.html), 요청 문법은 [07 requests.http](../../specials/supabase_guestbook/examples/07_guestbook_complete/requests.http)에서 확인한다.
@@ -66,14 +68,8 @@ node server.mjs
 `web_programming/tools/static-server/server.mjs`로 `http://localhost:8000/`에 연다.
 두 서버의 역할은 각각 데이터 처리와 화면 파일 제공이다.
 로컬 HTTP 화면에서 공용 Supabase HTTPS API를 호출할 수도 있다. 이 경우 화면 주소는 HTTP로 유지되고 API 요청만 HTTPS를 사용한다.
-12주 선택 방명록과 13주 방명록에는 수업용 HTTPS 주소가 들어 있다. 강의자가 로컬 모의 API로 리허설할 때는 **API 설정**에 아래 연습값을 입력한다. 설정은 현재 페이지의 메모리에만 남으며 새로고침하면 다시 입력한다.
-Supabase 특강 예제는 `config.example.js`의 현재 공용 HTTPS 주소를 사용하므로 로컬 연습 때만 아래 값으로 바꾼다. `.http`는 각 폴더의 `.env`를 별도로 읽는다.
-
-```js
-const API_BASE_URL = 'http://127.0.0.1:8787';
-const API_PUBLIC_KEY = 'classroom-local';
-const BOOK_ID = 'student01';
-```
+정규 예제와 Supabase 특강 예제의 `config.example.js`에는 수업용 HTTPS 주소가 들어 있다. 강의자가 로컬 모의 API로 리허설할 때는 그 폴더의 `config.example.js`에서 주소를 `http://127.0.0.1:8787`로 바꾸고, 화면의 **공개 키 지우기**를 누른 뒤 다시 묻는 창에 연습 키 `classroom-local`을 넣는다.
+리허설이 끝나면 주소를 되돌리고 **공개 키 지우기**를 누른 뒤 배부받은 공개 키를 넣는다. `.http`는 각 폴더의 `.env`를 별도로 읽는다.
 
 첫 실행에 `student01`부터 `student30`까지 각 한 개의 안내 글이 생긴다.
 글은 `.local/local-data.json`에 저장되어 서버를 다시 시작해도 남는다.
@@ -99,8 +95,8 @@ node --test server.test.mjs
    ```
 
 4. 생성된 `.local/cloud-books.sql`을 SQL Editor에서 실행한다. 키의 해시만 DB에 저장된다.
-5. 프로젝트 URL과 **publishable key**, 개인별 `BOOK_ID`를 학생에게 배부한다. 정규 예제는 화면의 **API 설정**에 입력한다. Supabase 특강 예제는 `config.example.js`의 세 값을 바꾸고, REST Client는 `.env`를 설정한다.
-6. 14주에는 `.local/cloud-edit-keys.json`의 해당 번호 키만 따로 배부한다. 학생은 웹 화면의 편집 키 칸에 입력한다. 키는 JavaScript 메모리에서만 사용하고 소스 파일에 적지 않는다.
+5. 프로젝트 URL과 **publishable key**, 개인별 `BOOK_ID`를 학생에게 배부한다. 학생은 예제를 처음 열 때 묻는 창에 공개 키를 넣고, `config.example.js`의 `BOOK_ID`를 배정받은 번호로 바꾼다. 새 프로젝트를 만든 Supabase 특강 예제는 `config.example.js`의 주소도 바꾼다. REST Client는 `.env`를 설정한다.
+6. 14주에는 `.local/cloud-edit-keys.json`의 해당 번호 키만 따로 배부한다. 학생은 웹 화면의 편집 키 칸에 입력한다. 키는 JavaScript 메모리에서만 사용하고 소스 파일이나 localStorage에 두지 않는다.
 7. 아래 검증을 완료한 뒤 수업 주소로 공지한다.
 
 `private` 스키마는 Data API의 Exposed schemas에 추가하지 않는다.
@@ -140,7 +136,7 @@ POST·PATCH에는 `Content-Type: application/json`, PATCH·DELETE에는 `X-Edit-
 SQL과 Supabase 게이트웨이의 실제 동작은 별도 공용 프로젝트에서 다음과 같이 확인한다.
 
 1. 12주 선택 방명록에서 GET으로 student01 목록을 확인한다. Network에서 HTTPS 주소와 200을 확인한다.
-2. 13주 예제로 테스트 글을 POST한다. 201 응답의 `id`를 기록하고 다른 기기에서 GET으로 같은 글을 확인한다.
+2. 13주 예제로 테스트 글을 POST한다. 201 응답의 `id`를 기록하고, 다른 기기의 브라우저에 공개 키를 저장한 뒤 GET으로 같은 글을 확인한다.
 3. 14주 예제에서 student02의 편집 키로 그 글을 수정·삭제한다. 다시 읽어 원래 글이 남는지 확인한다.
 4. student01의 키로 수정하고 GET으로 변경을 확인한다. 이어 삭제하고 GET으로 사라졌는지 확인한다.
 5. localhost와 GitHub Pages 양쪽에서 CORS 사전 요청과 실제 요청이 성공하는지 확인한다. 특히 `X-Edit-Key` 헤더를 포함한 PATCH·DELETE를 확인한다.

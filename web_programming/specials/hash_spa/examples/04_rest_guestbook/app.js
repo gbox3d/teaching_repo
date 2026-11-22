@@ -16,8 +16,7 @@ const nameInput = document.querySelector('#name');
 const messageInput = document.querySelector('#message');
 const submitButton = document.querySelector('#submit-button');
 const notice = document.querySelector('#notice');
-// 제공 코드: 설정 변경과 겹친 이전 응답을 현재 목록에 표시하지 않는다.
-let settingsVersion = 0;
+// 제공 코드: 먼저 보낸 조회의 늦은 응답은 현재 목록에 표시하지 않는다.
 let latestRequest = 0;
 let saving = false;
 let editing = false;
@@ -80,7 +79,6 @@ async function submitMessage(event) {
     notice.textContent = '이름과 메시지를 입력하세요.';
     return;
   }
-  const requestVersion = settingsVersion;
   saving = true;
   submitButton.disabled = true;
   notice.textContent = '저장 중';
@@ -95,7 +93,6 @@ async function submitMessage(event) {
       // 13주 복습: 폼 값을 JSON 요청 본문에 넣는다.
       body: JSON.stringify({ book_id: BOOK_ID, name: name, message: message })
     });
-    if (requestVersion !== settingsVersion) return;
     if (!response.ok) {
       notice.textContent = `저장 거절: HTTP ${response.status}. 입력값과 설정을 확인하세요.`;
       return;
@@ -103,7 +100,6 @@ async function submitMessage(event) {
     // HTTP 성공과 응답 본문 해석, 다음 GET의 실패를 구분한다.
     let saved;
     try { saved = await response.json(); } catch { saved = null; }
-    if (requestVersion !== settingsVersion) return;
     if (Array.isArray(saved) && saved[0]?.id) {
       notice.textContent = `저장 완료 · 글 번호 ${saved[0].id}`;
       // 대기 중 사용자가 새로 쓴 입력은 지우지 않는다.
@@ -115,7 +111,6 @@ async function submitMessage(event) {
     // 13주 복습: POST 성공 뒤 서버 목록을 다시 읽는다.
     await loadMessages();
   } catch (error) {
-    if (requestVersion !== settingsVersion) return;
     notice.textContent = '저장 결과를 확인하지 못했습니다. 다시 저장하기 전에 새로 불러오기로 확인하세요.';
   } finally {
     saving = false;
@@ -151,9 +146,9 @@ function messageUrl(id) {
   return `${API_BASE_URL}/rest/v1/guestbook?id=eq.${encodeURIComponent(id)}&book_id=eq.${encodeURIComponent(BOOK_ID)}`;
 }
 
-// 제공 코드: 요청 시작 때 고정한 URL·공개 키로 같은 대상을 확인한다.
-async function readMessage(url, publicKey) {
-  const response = await fetch(url, { headers: { apikey: publicKey } });
+// 제공 코드: 변경 요청과 같은 URL로 대상을 다시 읽는다.
+async function readMessage(url) {
+  const response = await fetch(url, { headers: { apikey: API_PUBLIC_KEY } });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const items = await response.json();
   if (!Array.isArray(items)) throw new Error('JSON 배열이 아닙니다');
@@ -168,8 +163,6 @@ async function deleteMessage(id, button) {
     return;
   }
   if (!confirm(`글 ${id}번을 삭제하시겠습니까?`)) return;
-  const requestVersion = settingsVersion;
-  const publicKey = API_PUBLIC_KEY;
   // 1일차 수정 1: 배열 위치가 아닌 서버 ID를 URL에 넣는다.
   const url = messageUrl(id);
   editing = true;
@@ -181,20 +174,16 @@ async function deleteMessage(id, button) {
       // 1일차 수정 2: 삭제 메서드를 지정한다.
       method: 'DELETE',
       // 1일차 수정 3: 공개 키와 편집 키를 헤더에 넣는다.
-      headers: { apikey: publicKey, 'X-Edit-Key': editKey }
+      headers: { apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey }
     });
-    if (requestVersion !== settingsVersion) return;
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     // 204에는 본문이 없다. 같은 ID의 GET으로 실제 삭제를 확인한다.
-    const remaining = await readMessage(url, publicKey);
-    if (requestVersion !== settingsVersion) return;
+    const remaining = await readMessage(url);
     if (remaining.length !== 0) throw new Error('편집 키와 글 번호를 확인하세요.');
     if (editId.value === String(id)) editForm.reset();
     const loaded = await loadMessages();
-    if (requestVersion !== settingsVersion) return;
     editNotice.textContent = loaded ? '삭제 확인 완료' : '삭제 확인 완료 · 목록을 다시 불러오세요.';
   } catch (error) {
-    if (requestVersion !== settingsVersion) return;
     editNotice.textContent = `삭제 확인 실패: ${error.message}. 다시 요청하기 전에 조회하세요.`;
   } finally {
     editing = false;
@@ -213,8 +202,6 @@ async function updateMessage(event) {
     editNotice.textContent = '편집 키, 수정할 글, 메시지를 확인하세요.';
     return;
   }
-  const requestVersion = settingsVersion;
-  const publicKey = API_PUBLIC_KEY;
   // 2일차 수정 1: 선택한 서버 ID와 방명록 번호로 대상을 지정한다.
   const url = messageUrl(id);
   editing = true;
@@ -224,32 +211,27 @@ async function updateMessage(event) {
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
-        apikey: publicKey, 'X-Edit-Key': editKey,
+        apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey,
         'Content-Type': 'application/json', Prefer: 'return=representation'
       },
       // 2일차 수정 2: 수정 메시지만 JSON 본문에 넣는다.
       body: JSON.stringify({ message: message })
     });
-    if (requestVersion !== settingsVersion) return;
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const changed = await response.json();
-    if (requestVersion !== settingsVersion) return;
     if (!Array.isArray(changed) || changed.length !== 1 || String(changed[0].id) !== id) {
       throw new Error('편집 키와 글 번호를 확인하세요.');
     }
     // 2일차 수정 3: 같은 ID를 다시 읽고 메시지를 비교한다.
-    const saved = await readMessage(url, publicKey);
-    if (requestVersion !== settingsVersion) return;
+    const saved = await readMessage(url);
     if (saved.length !== 1 || String(saved[0].id) !== id || saved[0].message !== message) {
       throw new Error('저장한 글을 다시 확인하지 못했습니다.');
     }
     // 대기 중 선택하거나 새로 입력한 내용은 지우지 않는다.
     if (editId.value === id && editMessage.value.trim() === message) editForm.reset();
     const loaded = await loadMessages();
-    if (requestVersion !== settingsVersion) return;
     editNotice.textContent = loaded ? '수정 확인 완료' : '수정 확인 완료 · 목록을 다시 불러오세요.';
   } catch (error) {
-    if (requestVersion !== settingsVersion) return;
     editNotice.textContent = `수정 확인 실패: ${error.message}. 다시 요청하기 전에 조회하세요.`;
   } finally {
     editing = false;
@@ -299,15 +281,5 @@ window.addEventListener('hashchange', showRoute);
 window.addEventListener('load', showRoute, { once: true });
 showRoute();
 
-// 모든 DOM·함수·이벤트 준비 뒤 설정과 최초 GET을 실행한다.
-setupApiSettings(function () {
-  settingsVersion++;
-  clearEditKey();
-  editForm.reset();
-  form.reset();
-  showList([]);
-  notice.textContent = saving ? '설정 변경 완료 · 이전 저장 결과는 이전 설정에서 조회하세요.' : '';
-  editNotice.textContent = '설정 변경 완료 · 편집 키를 다시 입력하세요.';
-  return loadMessages();
-});
+// 모든 DOM·함수·이벤트 준비 뒤 최초 GET을 실행한다.
 loadMessages();

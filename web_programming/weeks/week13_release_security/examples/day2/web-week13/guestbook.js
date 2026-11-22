@@ -8,8 +8,7 @@ const nameInput = document.querySelector('#name');
 const messageInput = document.querySelector('#message');
 const submitButton = document.querySelector('#submit-button');
 const notice = document.querySelector('#notice');
-// 제공 코드: 설정 변경과 겹친 이전 응답을 현재 목록에 표시하지 않는다.
-let settingsVersion = 0;
+// 제공 코드: 먼저 보낸 조회의 늦은 응답은 현재 목록에 표시하지 않는다.
 let latestRequest = 0;
 let saving = false;
 
@@ -55,7 +54,7 @@ async function loadMessages() {
 // POST 요청: 학생 수정은 폼 값, JSON 본문, 재조회 호출이다.
 async function submitMessage(event) {
   event.preventDefault();
-  if (saving || !API_PUBLIC_KEY) return;
+  if (saving) return;
   // 학생 수정 1: 폼의 값을 읽고 앞뒤 공백을 제거한다.
   const name = nameInput.value.trim();
   const message = messageInput.value.trim();
@@ -63,7 +62,6 @@ async function submitMessage(event) {
     notice.textContent = '이름과 메시지를 입력하세요.';
     return;
   }
-  const requestVersion = settingsVersion;
   saving = true;
   submitButton.disabled = true;
   notice.textContent = '저장 중';
@@ -78,7 +76,6 @@ async function submitMessage(event) {
       // 학생 수정 2: 폼 값을 JSON 요청 본문에 넣는다.
       body: JSON.stringify({ book_id: BOOK_ID, name: name, message: message })
     });
-    if (requestVersion !== settingsVersion) return;
     if (!response.ok) {
       notice.textContent = `저장 거절: HTTP ${response.status}. 입력값과 설정을 확인하세요.`;
       return;
@@ -86,7 +83,6 @@ async function submitMessage(event) {
     // HTTP 성공과 응답 본문 해석, 다음 GET의 실패를 구분한다.
     let saved;
     try { saved = await response.json(); } catch { saved = null; }
-    if (requestVersion !== settingsVersion) return;
     if (Array.isArray(saved) && saved[0]?.id) {
       notice.textContent = `저장 완료 · 글 번호 ${saved[0].id}`;
       // 대기 중 사용자가 새로 쓴 입력은 지우지 않는다.
@@ -98,7 +94,6 @@ async function submitMessage(event) {
     // 학생 수정 3: POST 성공 뒤 서버 목록을 다시 읽는다.
     await loadMessages();
   } catch (error) {
-    if (requestVersion !== settingsVersion) return;
     notice.textContent = '저장 결과를 확인하지 못했습니다. 다시 저장하기 전에 새로 불러오기로 확인하세요.';
   } finally {
     saving = false;
@@ -106,13 +101,7 @@ async function submitMessage(event) {
   }
 }
 
-// 공개 키를 적용하면 첫 목록을 읽는다.
+// 이벤트를 연결한 뒤 첫 목록을 읽는다.
 reloadButton.addEventListener('click', loadMessages);
 form.addEventListener('submit', submitMessage);
-setupApiSettings(function () {
-  settingsVersion++;
-  submitButton.disabled = saving;
-  showList([]);
-  notice.textContent = saving ? '설정 변경 완료 · 이전 저장 결과는 이전 설정의 목록에서 확인하세요.' : '';
-  return loadMessages();
-});
+loadMessages();

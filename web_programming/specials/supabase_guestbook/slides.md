@@ -54,7 +54,7 @@ Node 정적 서버는 로컬 미리보기용이다.
 4. 상태 번호·JSON을 확인한 뒤 index.html·app.js를 읽는다.
 
 .env는 .http와 같은 폴더에 둔다. Node 서버는 필요 없다.
-브라우저는 같은 폴더의 config.example.js를 따로 읽는다.
+브라우저는 .env 대신 config.example.js와 localStorage의 공개 키를 읽는다.
 [REST Client 사용법](https://github.com/Huachao/vscode-restclient#usage) · [설정 절차](examples/README.md#rest-client로-요청부터-확인하기)
 
 ---
@@ -68,8 +68,10 @@ GET /rest/v1/about
 apikey: <강의자가 배부한 공개 키>
 ```
 
+처음 열면 공개 키를 묻는 창이 뜬다. 배부받은 키를 넣는다.
 접속 확인 버튼을 누른다. 응답은 200과 객체 한 개의 배열이다.
 name · version · description · help_path를 읽는다.
+401이면 제목 아래 공개 키 지우기를 누르고 키를 다시 넣는다.
 404라면 강의자에게 안내 SQL 적용 여부를 확인한다.
 
 ---
@@ -117,7 +119,7 @@ examples/
   02_help/ ... 07_guestbook_complete/
 ```
 
-각 단계는 같은 폴더의 설정을 읽는다.
+각 단계는 같은 폴더의 설정 파일을 읽는다. 공개 키는 같은 주소의 localStorage 값을 함께 쓴다.
 폴더 하나만 로컬에서 열거나 Pages에 게시할 수 있다. .env는 제외한다.
 
 ---
@@ -178,7 +180,7 @@ PATCH에는 book_id·id 조건과 X-Edit-Key가 필요하다.
 {"message":"수정한 글"}
 ```
 
-편집 키는 요청할 때 입력한다. 공개 설정에 저장하지 않는다.
+편집 키는 요청할 때 입력한다. 설정 파일·localStorage에 저장하지 않는다.
 200이어도 빈 배열이면 바뀐 글이 없다. 같은 ID를 GET해 확인한다.
 
 ---
@@ -215,7 +217,8 @@ POST·PATCH는 본문 예시를 넣고 한 조건만 수정한다.
 
 # GitHub Pages와 확인 범위
 
-원하는 예제 폴더 하나의 HTML·JS·설정을 함께 게시한다.
+원하는 예제 폴더 하나의 HTML·JS·설정을 함께 게시한다. 게시 파일에는 공개 키가 없다.
+게시 주소를 처음 열면 공개 키를 묻는다. 입력하지 않으면 401로 실패한다.
 Pages가 화면을 제공하고 브라우저가 Supabase HTTPS API를 호출한다.
 Node 서버·학생 계정은 필요 없다. .env·편집 키 파일은 게시하지 않는다.
 
