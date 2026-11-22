@@ -1,17 +1,17 @@
-# 12~14주 제공 API 설정 계약
+# 방명록 예제의 API 설정
 
-정본은 `web_programming/shared/api-settings.js`다. 각 REST 예제 폴더에 같은 파일을 `api-settings.js`로 복사한다. HTML은 이 파일 다음에 `app.js` 또는 `guestbook.js`를 `defer`로 읽는다. 독립 배포 시 두 파일과 HTML을 함께 복사한다.
+정본은 `web_programming/shared/api-settings.js`다. 방명록의 설정 패널을 쓰는 폴더에 같은 파일을 `api-settings.js`로 복사한다. HTML은 이 파일 다음에 `app.js` 또는 `guestbook.js`를 `defer`로 읽는다. 독립 배포 시 두 파일과 HTML을 함께 복사한다.
 
 ## 변수와 함수
 
 | 이름 | 기본값·역할 |
 |---|---|
-| `API_BASE_URL` | `http://127.0.0.1:8787`, 끝의 `/` 없이 사용 |
-| `API_PUBLIC_KEY` | `classroom-local`, 모든 요청의 `apikey` 헤더 |
+| `API_BASE_URL` | 12주 선택 방명록과 13주 방명록은 주소 입력란의 수업용 HTTPS 기본값, 주소가 지정되지 않은 예제는 리허설용 `http://127.0.0.1:8787` |
+| `API_PUBLIC_KEY` | 12주 선택 방명록과 13주 방명록은 배부받은 공개 키 입력, 리허설 기본값은 `classroom-local`. 요청의 `apikey` 헤더에 사용 |
 | `BOOK_ID` | `student01`, 요청의 `book_id` 필터·POST 본문 |
 | `setupApiSettings(onApply)` | 폼 기본값과 submit 리스너 등록. 적용 후 콜백 실행 |
 
-세 변수는 `let`으로 선언한다. 완성본의 `guestbook.js`는 모든 DOM 변수·함수·이벤트 초기화 뒤 `setupApiSettings(loadMessages);`와 `loadMessages();`를 차례로 실행한다. 설정 적용도 GET을 수행하며 입력 폼·편집 키 같은 주차별 상태 초기화가 필요하면 콜백에서 먼저 처리한다.
+12주 선택 방명록은 `setupApiSettings(loadMessages);`로 폼을 준비한 뒤 학생이 설정을 적용하면 첫 GET을 보낸다. 13주 REST 예제는 설정 적용 뒤에 저장 버튼이나 폼을 쓴다. 리허설 기본값을 쓰는 14주 완성본은 초기화 뒤 바로 목록을 조회한다. 설정을 바꾸면 적용 콜백에서 다시 조회한다.
 
 ## HTML 계약
 
@@ -28,13 +28,13 @@
 
 ## 저장과 배포
 
-공용 URL·공개 키·book_id는 브라우저 패널에 실행 중 입력하고 메모리에서만 사용한다. 새로고침하면 로컬 기본값으로 돌아가므로 공용 값은 다시 입력한다. localStorage/sessionStorage·쿠키·주소 쿼리·추적 파일에 설정을 저장하지 않는다. 공개 키는 공개 호출용이며 서버 비밀 키를 입력하는 곳이 아니다. 편집 키는 이 설정과 별도로 14주 입력에서 메모리만 사용한다.
+12주 선택 방명록과 13주 방명록 HTML의 주소 입력란과 `.env.example`에 수업용 기본 주소를 제공한다. 실행 중 입력한 공개 키와 방명록 번호는 브라우저 메모리에만 두며 새로고침하면 해당 예제의 초기값으로 돌아간다. 편집 키는 별도로 14주 입력에서 메모리만 사용한다.
 
 기존 `config.example.js`는 이동 안내 주석만 유지하고 HTML에서 읽지 않는다. 학생은 설정 패널을 재구현하지 않으며 요청 URL·헤더·본문·응답 처리만 수정한다.
 
 ## REST Client 계약
 
-각 폴더의 `.env.example`을 `.env`로 복사한다. `API_BASE_URL`, `API_PUBLIC_KEY`, `BOOK_ID`를 `{{$dotenv API_BASE_URL}}` 형식으로 요청에서 읽는다. `.env`는 gitignore 대상이며 ZIP에 포함하지 않는다. 독립 학생 저장소에도 `.gitignore`의 `.env` 제외 규칙을 배부한다. 편집 키는 `.http`의 `# @prompt password`로 입력하고 `{{password}}`로 참조한다. REST Client에서 마스킹되는 예약 프롬프트 이름을 사용하며 설명에 편집 키라고 표시한다. 브라우저 패널과 REST Client의 `.env`는 서로 별개이며 둘 다 설정해야 한다. about → help → GET → 해당 주 쓰기 순서로 각 요청 위 Send Request를 누른다.
+각 폴더의 `.env.example`을 `.env`로 복사한다. `API_BASE_URL`, `API_PUBLIC_KEY`, `BOOK_ID`를 `{{$dotenv API_BASE_URL}}` 형식으로 요청에서 읽는다. 교재 루트 `.gitignore`에서 `.env`를 제외하고 ZIP에는 `.env.example`만 담는다. 별도 학생 저장소도 그 저장소 루트에 같은 환경 파일 제외 규칙을 둔다. 편집 키는 `.http`의 `# @prompt password`로 입력하고 `{{password}}`로 참조한다. REST Client에서 마스킹되는 예약 프롬프트 이름을 사용하며 설명에 편집 키라고 표시한다. 브라우저 패널과 REST Client의 `.env`는 서로 별개이며 둘 다 설정해야 한다. 12주 선택 방명록은 about → help → 목록 GET, 13주는 POST → 저장 결과 확인 순서로 해당 요청 위 **Send Request**를 누른다.
 
 ## 요청 순서 보호
 

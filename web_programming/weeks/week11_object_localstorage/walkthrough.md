@@ -6,11 +6,10 @@
 
 ## 준비
 
-수업 전에 교재 저장소를 내려받아 VS Code로 연다. 예제 HTML·JS뿐 아니라 `web_programming/shared`가 포함된 폴더 구조를 유지한다.
+수업 전에 교재 저장소를 내려받아 VS Code로 연다.
 
 ```text
 web_programming/
-  shared/examples.css
   weeks/week11_object_localstorage/examples/
     day1/ex01/ ~ ex03/
     day2/ex04/ ~ ex06/
@@ -22,7 +21,7 @@ web_programming/
 node web_programming/tools/static-server/server.mjs web_programming 8111
 ```
 
-서버가 이미 실행 중이면 다시 실행하지 않는다. ex01~ex07의 HTML은 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css), 추가 공용 스타일 `shared/examples.css`, 같은 폴더의 `app.js`를 읽는다. CDN 스타일에는 인터넷 연결이 필요하다. 설명과 조작 순서는 README에서 확인한다. [서버 안내](../../tools/static-server/README.md)
+서버가 이미 실행 중이면 다시 실행하지 않는다. ex01~ex07의 HTML은 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)과 같은 폴더의 `app.js`를 읽는다. CDN 스타일에는 인터넷 연결이 필요하다. 설명과 조작 순서는 README에서 확인한다. [서버 안내](../../tools/static-server/README.md)
 
 ## 1일차
 
@@ -76,7 +75,7 @@ Application › Local Storage에서 현재 origin을 선택하면 다음 키가 
 
 ## 부록: 강의자용 방명록 완성본
 
-아래 완성본은 객체 배열의 저장·복원을 보여 주는 시연 자료다. **학생이 30분 실습에서 직접 완성할 대상이 아니다.** 12주차 시작 전에 [web-week11 폴더](examples/day2/web-week11/)를 준비 자료로 제공한다.
+아래 완성본은 객체 배열의 저장·복원을 보여 주는 시연 자료다. **학생이 30분 실습에서 직접 완성할 대상이 아니다.** 12주 선택 방명록은 [web-week11 폴더](examples/day2/web-week11/)의 화면을 이어 쓴다.
 
 ```text
 http://localhost:8111/weeks/week11_object_localstorage/examples/day2/web-week11/guestbook.html
@@ -132,7 +131,7 @@ http://localhost:8111/weeks/week11_object_localstorage/examples/day2/web-week11/
       </section>
       <section class="w3-container w3-card w3-white w3-margin-top">
         <h2>남긴 글</h2>
-        <ul id="list" class="w3-ul" aria-live="polite"></ul>
+        <ul id="list" class="w3-ul w3-responsive" aria-live="polite"></ul>
         <div id="count">아직 남긴 글이 없습니다.</div>
         <p><button class="w3-button w3-teal" id="clear-button" type="button">전체 지우기</button></p>
       </section>

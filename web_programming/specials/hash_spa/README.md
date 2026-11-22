@@ -16,9 +16,9 @@ Node.js 24 이상, VS Code, Chrome을 준비한다. 저장소 루트에서 정�
 node web_programming/tools/static-server/server.mjs web_programming 8111
 ```
 
-첫 주소는 http://localhost:8111/specials/hash_spa/examples/01_mpa/index.html 이다. 각 예제는 자기 폴더의 HTML·JS·`shared/examples.css`를 함께 복사하면 별도로 실행할 수 있다. `examples/` 루트에는 안내 README만 둔다.
+첫 주소는 http://localhost:8111/specials/hash_spa/examples/01_mpa/index.html 이다. 각 예제는 자기 폴더의 HTML과 JS를 함께 복사하면 별도로 실행할 수 있다. `examples/` 루트에는 안내 README만 둔다.
 
-모든 화면은 [W3.CSS 4.1.0 CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 읽는다. 인터넷 연결이 필요하며 추가 스타일 경로는 예제별 `shared/examples.css`다. 04의 REST 실행은 [해당 README](examples/04_rest_guestbook/README.md)를 따른다.
+모든 화면은 [W3.CSS 4.1.0 CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 읽는다. CDN을 읽으려면 인터넷 연결이 필요하다. 04의 REST 실행은 [해당 README](examples/04_rest_guestbook/README.md)를 따른다.
 
 ## 단계와 수업 자료
 

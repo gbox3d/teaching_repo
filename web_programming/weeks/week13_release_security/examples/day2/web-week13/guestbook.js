@@ -55,7 +55,7 @@ async function loadMessages() {
 // POST 요청: 학생 수정은 폼 값, JSON 본문, 재조회 호출이다.
 async function submitMessage(event) {
   event.preventDefault();
-  if (saving) return;
+  if (saving || !API_PUBLIC_KEY) return;
   // 학생 수정 1: 폼의 값을 읽고 앞뒤 공백을 제거한다.
   const name = nameInput.value.trim();
   const message = messageInput.value.trim();
@@ -106,13 +106,13 @@ async function submitMessage(event) {
   }
 }
 
-// 이벤트와 설정을 준비한 뒤 최초 GET을 실행한다.
+// 공개 키를 적용하면 첫 목록을 읽는다.
 reloadButton.addEventListener('click', loadMessages);
 form.addEventListener('submit', submitMessage);
 setupApiSettings(function () {
   settingsVersion++;
+  submitButton.disabled = saving;
   showList([]);
   notice.textContent = saving ? '설정 변경 완료 · 이전 저장 결과는 이전 설정의 목록에서 확인하세요.' : '';
   return loadMessages();
 });
-loadMessages();

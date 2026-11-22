@@ -28,7 +28,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 01 MPA → 02 two views → 03 three hashes → 04 REST integration
 
-Load W3.CSS 4.1.0 from the CDN and each example’s shared/examples.css.
+Load W3.CSS 4.1.0 from the CDN.
 The workshop has no fixed total duration or session limit.
 
 ---

@@ -1,32 +1,20 @@
-# VS Code REST Client(humao.rest-client). .env.example을 .env로 복사합니다.
+# VS Code REST Client · 이 폴더의 .env에 수업용 공개 키와 방명록 번호를 넣으세요.
 @baseUrl = {{$dotenv API_BASE_URL}}
 @apiKey = {{$dotenv API_PUBLIC_KEY}}
 @bookId = {{$dotenv BOOK_ID}}
 
-### 1. 접속 확인: 200 + API 정보 배열
-GET {{baseUrl}}/rest/v1/about
-apikey: {{apiKey}}
-
-### 2. 도움말: 200 + 요청 사용법 배열
-GET {{baseUrl}}/rest/v1/help?order=step.asc
-apikey: {{apiKey}}
-
-### 3. 저장: 201 + 서버가 만든 id를 포함한 배열
+### 1. 서버 거절 · 별칭이 비어 있어 400과 오류 정보
 POST {{baseUrl}}/rest/v1/guestbook
 apikey: {{apiKey}}
 Content-Type: application/json
 Prefer: return=representation
 
-{"book_id":"{{bookId}}","name":"student01","message":"REST Client 저장 연습"}
+{
+  "book_id": "{{bookId}}",
+  "name": "",
+  "message": "입력 중인 메시지입니다."
+}
 
-### 4. 재조회: 200 + 저장한 글 배열. 응답을 못 받으면 재POST 전에 조회합니다.
+### 2. 저장 결과를 모를 때 조회 · 200과 현재 글 목록
 GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&select=id,name,message,created_at&order=id.desc&limit=50
 apikey: {{apiKey}}
-
-### 5. 입력 거절 비교: 400 + 오류 안내. message를 문장으로 바꾸면 저장됩니다.
-POST {{baseUrl}}/rest/v1/guestbook
-apikey: {{apiKey}}
-Content-Type: application/json
-Prefer: return=representation
-
-{"book_id":"{{bookId}}","name":"student01","message":""}

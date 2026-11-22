@@ -19,7 +19,7 @@ footer: "원본 · 반환값 · 콜백 · 객체 참조"
 
 ---
 
-## 실행 준비와 공용 CSS
+## 예제 실행
 
 배열·객체·함수·DOM 이벤트를 알고 시작한다. 화살표 함수는 필요 없다.
 저장소 루트에서 실행한다.
@@ -31,7 +31,6 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 주소: http://localhost:8111/specials/array_advanced/examples/01_insert_delete/
 
 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css) 로딩에는 인터넷 연결이 필요하다.
-예제와 공용 추가 스타일 web_programming/shared/examples.css의 상대 위치를 유지한다.
 
 ---
 

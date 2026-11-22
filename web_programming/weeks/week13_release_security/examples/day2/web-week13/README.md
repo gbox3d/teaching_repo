@@ -1,37 +1,22 @@
 # 13주차 온라인 방명록
 
-12주 GET 목록에 7주 폼과 POST를 연결한 제공 완성본이다. 1차시는 REST Client 요청의 message와 응답 id, 2차시는 `guestbook.js`의 폼 값·JSON 본문·재조회 호출 세 구역만 학생이 수정한다. 설정 패널과 방어 코드는 제공한다.
+제공된 목록에 글쓰기 폼을 연결한 완성본이다. [실습 화면](guestbook.html)의 API 설정에서 수업용 공개 키와 배정받은 방명록 번호를 입력하고 설정 적용을 누른다. 별칭과 메시지를 입력해 **남기기**을 누른다. Network에서 POST `201`의 글 번호를 읽고 이어진 GET `200`에서 같은 번호를 찾는다. 다른 브라우저에서도 같은 방명록 번호로 조회한다.
 
-## 실행과 설정
+## 학생이 연결할 부분
 
-폴더 전체를 정적 서버로 열고 [guestbook.html](guestbook.html)로 이동한다. `file://`로 열지 않는다. 로컬 연습에서는 별도 터미널에서 교재의 `tools/guestbook-api/server.mjs`를 실행한다. 기본 API는 `http://127.0.0.1:8787`, 가상 공개 키는 `classroom-local`, 방명록 번호는 `student01`이다.
-
-공용 API를 쓰면 화면의 **API 설정**을 열어 강의자가 안내한 HTTPS 주소·공개 키·방명록 번호를 입력하고 **설정 적용**을 누른다. 적용 즉시 새 목록을 조회한다. 설정은 메모리에만 있으므로 새로고침 후에는 다시 입력한다. 서버 비밀 키와 편집 키를 이 패널에 입력하지 않는다. `config.example.js`는 이전 파일의 이동 안내이며 HTML에서 읽지 않는다.
+[guestbook.js](guestbook.js)에서 폼 값을 읽는 두 줄, `JSON.stringify`로 요청 본문을 만드는 줄, 저장 뒤 `loadMessages()`를 호출하는 줄을 찾는다. 저장 실패 뒤 입력이 남는지, 저장에 성공한 뒤 목록만 실패했을 때 **새로 불러오기**로 조회를 재시도할 수 있는지 확인한다.
 
 ## REST Client
 
-VS Code REST Client 확장(`humao.rest-client`)을 설치한다. 같은 폴더의 `.env.example`을 `.env`로 복사해 `API_BASE_URL`·`API_PUBLIC_KEY`·`BOOK_ID`를 적는다. 브라우저 설정과 `.env`는 별개다. `.gitignore`의 `.env` 제외 규칙도 학생 저장소에 함께 복사한다. 실제 키를 `requests.http`나 추적 파일에 넣지 않는다.
+VS Code REST Client(`humao.rest-client`)에서는 이 폴더의 [.env.example](.env.example)을 `.env`로 복사한다. 기본 수업 주소(`API_BASE_URL`)는 그대로 두고 `API_PUBLIC_KEY`에 수업용 공개 키, `BOOK_ID`에 배정받은 방명록 번호를 넣는다. [requests.http](requests.http)에 별칭과 문장을 적은 뒤 POST의 **Send Request**를 누른다. 응답 배열에는 서버가 정한 `id`가 들어 있다. GET의 **Send Request**로 같은 글을 확인한다. 저장 응답을 놓친 경우에도 GET으로 먼저 확인한다.
 
-[requests.http](requests.http)의 각 요청 위 **Send Request**를 about → help → POST → GET 순서로 누른다. about·help는 200과 정보 배열, POST는 201과 생성된 id를 포함한 배열, GET은 200과 목록 배열을 기대한다. 모든 요청은 `apikey`, POST는 `Content-Type: application/json`과 `Prefer: return=representation` 헤더를 쓴다. 마지막 빈 메시지 요청은 400을 기대하며 정상 문장으로 바꾸면 글이 실제로 저장된다.
-
-POST 응답을 받지 못했다면 저장됐을 수도 있다. 같은 요청을 바로 반복하지 말고 **새로 불러오기** 또는 `.http`의 GET으로 먼저 확인한다. POST 성공과 뒤따르는 GET 실패를 구분한다. 다른 브라우저에서 같은 로컬 API·방명록 번호를 조회하는 검사는 같은 PC의 서버 공유 확인이다. 다른 기기의 공유 확인에는 강의자가 제공한 공용 HTTPS API가 필요하다.
-
-## 제공 코드와 스타일
-
-설정 패널·중복 요청 방지·실패 안내·이전 설정의 늦은 응답 무시는 제공 코드다. 설정이 바뀌면 이전 요청 결과를 새 목록이나 저장 안내에 섞지 않는다. 실패한 입력을 보존하며 요청이 끝나면 저장 버튼을 다시 활성화한다. 버튼 잠금은 화면의 중복 클릭을 줄이며 서버의 중복 저장 자체를 보장하지 않는다.
-
-[W3.CSS CDN 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)과 폴더 안 `shared/examples.css`를 사용한다. CDN 스타일을 읽을 때 인터넷 연결이 필요하다. HTML·동작 JS·`api-settings.js`·`shared/`를 함께 복사해야 독립 실행된다.
-
-## 파일과 인계
+## 파일과 다음 주
 
 | 파일 | 역할 |
 |---|---|
-| `guestbook.html` | 7주와 같은 폼 ID·메뉴와 12주 GET 목록 |
-| `guestbook.js` | GET·POST 함수 구역, 이벤트 연결, 맨 끝의 최초 GET |
-| `api-settings.js` | 실행 중 API 설정을 메모리에 적용하는 제공 파일 |
-| `submit.js`·`config.example.js` | 이동 안내만 남긴 이전 파일; HTML에서는 읽지 않음 |
-| `index.html`·`about.html`·`app.js`·`styles.css`·`images/` | 이전 주차 홈·내 정보 자료 |
-| `screenshots/home.png`·`guestbook.png`·`guestbook-375.png` | 2026-11-18 로컬 브라우저 확인 화면 |
-| `images/project1.png`~`project3.png`·`screenshots/projects.png` | 이전 프로젝트 단계 참고 자산; 이번 주 필수 산출물 아님 |
+| [guestbook.html](guestbook.html) | 별칭·메시지 폼과 서버 글 목록 |
+| [guestbook.js](guestbook.js) | 폼 제출, POST, 저장 뒤 목록 조회 |
+| [api-settings.js](api-settings.js) | 현재 페이지에만 적용하는 API 설정 |
+| [홈](index.html)·[내 정보](about.html) | 이전 주차에서 이어 쓴 두 페이지 |
 
-`styles.css`는 홈·내 정보의 기존 CSS다. 14주에는 이 `guestbook.js`의 GET·POST 구역 뒤에 PATCH·DELETE를 이어 붙이며 초기 조회를 맨 끝에 둔다. 서버의 목록과 11주 localStorage 목록은 자동으로 합쳐지지 않는다.
+14주에는 같은 방명록에 글 번호를 이용한 수정과 삭제를 추가한다.

@@ -17,6 +17,5 @@
 브라우저 너비를 1280px과 375px로 바꾸어 메뉴와 입력 칸을 확인한다. 카드는 두 화면에서 모두 위아래로 배치된다. `id`와 JavaScript를 바꾸지 않아도 입력 결과가 같다.
 
 - CDN: `https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css`
-- 추가 CSS: `shared/examples.css`의 `example-output`이 긴 미리보기를 줄바꿈한다. 폴더를 복사할 때 `shared/`를 함께 가져온다. 제공 CSS는 수정하지 않는다.
 
 CDN을 읽으려면 인터넷 연결이 필요하다. 라이브러리 로컬 사본은 사용하지 않는다.

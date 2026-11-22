@@ -59,8 +59,8 @@ Supabase의 무료 범위·활성 프로젝트 제한·휴면 정책은 수업 �
 ## 화면 주소와 API 주소
 
 실험 화면은 HTML·CSS·JavaScript로 이루어져 있다. 01~07 각 폴더의 `config.example.js`는 공용 Supabase HTTPS API를 가리킨다.
-examples 루트에는 예제 안내 README만 두고, 각 폴더가 자신의 설정·스타일·화면·요청 파일을 가진다.
-7주에서 소개한 [W3.CSS CDN 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 사용하며 추가 스타일은 각 폴더의 `shared/examples.css`에 둔다. CDN 연결에는 인터넷이 필요하다. 조작 설명은 각 예제의 README에서 읽는다.
+examples 루트에는 예제 안내 README만 두고, 각 폴더에 설정·화면·요청 파일을 둔다.
+7주에서 소개한 [W3.CSS CDN 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 사용한다. CDN 연결에는 인터넷이 필요하다. 조작 설명은 각 예제의 README에서 읽는다.
 화면을 연 주소와 데이터 요청 주소는 다음처럼 구분한다.
 
 | 대상 | 주소 | 역할 |

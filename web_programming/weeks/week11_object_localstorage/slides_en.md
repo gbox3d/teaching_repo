@@ -10,7 +10,7 @@ footer: "Objects and localStorage · 60-minute lecture · 30-minute lab"
 
 In Week 10, each guestbook line was **one lump of text**, and the list disappeared on reload.
 
-Each class has a **60-minute lecture and demo plus a 30-minute lab**. Day 2 requires ex04–ex06 only. The completed guestbook is an instructor demo and Week 12 starter.
+Each class has a **60-minute lecture and demo plus a 30-minute lab**. Day 2 requires ex04–ex06 only. The completed guestbook is an instructor demo and an optional Week 12 guestbook example.
 
 - Day 1: turn each line into an **object** with a name, a message, and a date.
 - Day 2: save the name/message and restore the form after reloading.
@@ -22,7 +22,7 @@ Each class has a **60-minute lecture and demo plus a 30-minute lab**. Day 2 requ
 
 `60-minute lecture and demo → 30-minute lab`
 
-1. Repository folders, shared CSS, and the static server
+1. Repository folders and the static server
 2. ex01 — objects `{ }` and dot notation (today's syntax)
 3. ex02 — objects inside an array · the date template line
 4. ex03 — an object as one list line
@@ -35,12 +35,11 @@ Prepare the files and server before class. Keep the repository's `web_programmin
 
 ```text
 web_programming/
-  shared/examples.css
   weeks/week11_object_localstorage/examples/
 ```
 
 - Serve `web_programming` on port `8111`.
-- ex01–ex07 load W3.CSS 4.1.0 from a CDN and `shared/examples.css`. The CDN needs internet access.
+- ex01–ex07 load W3.CSS 4.1.0 from the CDN. The CDN needs internet access.
 - Use Apply Name in ex01 and Check Array Result in ex02. The Console is an extra check; ex03 compares two lists.
 
 Command and URLs: [Walkthrough](walkthrough.md#준비)
@@ -250,9 +249,9 @@ Public deployment is after-class work. Use sample names and messages.
 
 ## Next week and separate materials
 
-The [completed guestbook](examples/day2/web-week11/README.md) is an instructor demo and Week 12 starter. Students do not need to build it in this week's lab.
+The [completed guestbook](examples/day2/web-week11/README.md) is an instructor demo and an optional Week 12 guestbook example. Students do not need to build it in this week's lab.
 
-Week 12 preserves the local version as `guestbook.local.html` and `guestbook.local.js`, separate from the server list. Local entries are not moved or deleted.
+In Week 12, use a public weather API to learn Promises and async/await. The optional guestbook includes this week's local version.
 
 The demo uses `week11-guestbook-items`. Damaged data triggers a notice; Delete All removes only this key. Recovery is provided code, outside student implementation.
 

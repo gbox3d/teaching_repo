@@ -1,6 +1,6 @@
 # w12_rest_get · GET 목록
 
-출처: [12주](../../../week12_fetch_json/lab.md) · 권장 8분 · E REST 3점.
+관련 수업: [12주 비동기 GET](../../../week12_fetch_json/lab.md) · [13주 방명록 조회와 저장](../../../week13_release_security/lab.md) · 권장 8분 · E REST 3점.
 
 ## 할 일
 
@@ -16,7 +16,7 @@ app.js의 requestList() 안의 TODO와 임시 throw를 교체한다. apiTarget()
 
 ## 제공 파일과 설정
 
-화면·W3.CSS·설정 패널은 제공 코드다. W3.CSS는 cdnjs 4.1.0 CDN이며 보조 CSS는 shared/examples.css다. 동작 코드는 app.js 하나이고 api-settings.js는 별도 제공 설정이다. 폴더를 통째로 복사하고 Node.js 24 정적 서버로 연다.
+화면·W3.CSS·설정 패널은 제공 코드다. 화면 스타일은 W3.CSS 4.1.0 CDN에서 읽는다. 동작 코드는 app.js 하나이고 api-settings.js는 별도 제공 설정이다. 폴더를 통째로 복사하고 Node.js 24 정적 서버로 연다.
 
 API 설정을 펼쳐 주소·공개 키·자기 방명록 번호를 입력한다. 기본값은 로컬 127.0.0.1:8787·classroom-local·student01이다. 설정은 메모리에만 있으므로 새로고침 후 다시 입력한다. 공용 실습과 Pages는 강의자가 준비한 HTTPS API를 사용한다. 실제 키를 파일에 넣지 않는다.
 

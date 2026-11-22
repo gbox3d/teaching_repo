@@ -12,4 +12,4 @@
 
 ## 파일
 
-`index.html`은 `home.js`, `guestbook.html`은 `guestbook.js`를 읽는다. 소개에는 동작 JS가 없다. 각 페이지는 동작 파일 하나 이하를 쓴다. 세 HTML은 고정 CDN `https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css`와 `shared/examples.css`를 읽는다.
+`index.html`은 `home.js`, `guestbook.html`은 `guestbook.js`를 읽는다. 소개에는 동작 JS가 없다. 각 페이지는 동작 파일 하나 이하를 쓴다. 세 HTML은 고정 CDN `https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css`를 읽는다.

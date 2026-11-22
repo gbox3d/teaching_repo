@@ -12,6 +12,5 @@
 입력 요소의 `class`를 지우고 다시 실행해 모양과 동작을 비교한다. JavaScript가 사용하는 `id`는 유지한다. 빈칸 검사는 2일차 방명록의 제공 코드에서 확인한다.
 
 - CDN: `https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css`
-- 추가 CSS: `shared/examples.css`의 `example-output`이 긴 미리보기를 줄바꿈한다. 폴더를 복사할 때 `shared/`를 함께 가져온다. 제공 CSS는 수정하지 않는다.
 
 CDN을 읽으려면 인터넷 연결이 필요하다. 라이브러리 로컬 사본은 사용하지 않는다.

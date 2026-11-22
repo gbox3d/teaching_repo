@@ -5,25 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>02 · API 사용법 조회</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-  <link rel="stylesheet" href="shared/examples.css">
   <script src="config.example.js" defer></script>
   <script src="app.js" defer></script>
 </head>
-<body>
+<body class="w3-content w3-padding">
   <header><p>02 · GET /rest/v1/help</p><h1>API 사용법 조회</h1>
     </header>
   <main>
-    <section class="w3-card w3-white">
+    <section class="w3-card w3-container w3-margin-bottom">
       <h2>요청과 사용법 목록</h2>
-      <p id="api-address"></p>
+      <p id="api-address" class="w3-responsive"></p>
       <button class="w3-button w3-white w3-border" id="load" type="button">사용법 조회</button>
       <p id="notice" role="status">요청 대기</p>
-      <ol id="help-list"></ol>
+      <ol id="help-list" class="w3-responsive"></ol>
     </section>
-    <section class="w3-card w3-white">
+    <section class="w3-card w3-container w3-margin-bottom">
       <h2>JSON 응답</h2>
       <p id="response-status">응답 대기</p>
-      <pre id="response-body">응답 없음</pre>
+      <pre id="response-body" class="w3-responsive">응답 없음</pre>
 
     </section>
   </main>

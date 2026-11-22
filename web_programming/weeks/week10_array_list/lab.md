@@ -46,7 +46,7 @@
 | 마지막에 undefined 또는 빈 줄 | `<`를 `<=`로 쓰지 않았는지 |
 | TypeError: Assignment to constant variable | 반복 변수 i는 let |
 | Identifier 'list' has already been declared | 제공 DOM 선택 줄을 중복 추가했는지 |
-| 스타일이 없다 | CDN 연결과 shared/examples.css 경로 |
+| 스타일이 없다 | W3.CSS CDN 연결 상태 |
 | 시작 화면만 고쳤는데 완성 페이지는 그대로 | guestbook.start.js와 guestbook.js 구분 |
 
 ## 선택 연습

@@ -22,7 +22,7 @@ ex03에서 JSON 본문을 보고 ex04에서 같은 ID를 다시 읽는다. guest
 
 ## 완성본 전문
 
-아래 세 파일은 실행 파일과 같다. 학생이 전부 입력하는 분량이 아니다. HTML은 설정 파일과 동작 파일만 defer로 읽는다. guestbook.js 끝에서 모든 DOM·함수·이벤트를 준비한 뒤 설정 등록과 최초 GET을 실행한다. shared/examples.css도 함께 복사한다.
+아래 세 파일은 실행 파일과 같다. 제공 HTML은 W3.CSS를 CDN에서 불러오고 설정 파일과 동작 파일을 defer로 읽는다. guestbook.js 끝에서 DOM·함수·이벤트를 준비한 뒤 설정 등록과 최초 GET을 실행한다.
 
 ### guestbook.html
 
@@ -34,7 +34,6 @@ ex03에서 JSON 본문을 보고 ex04에서 같은 ID를 다시 읽는다. guest
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>온라인 방명록</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-    <link rel="stylesheet" href="shared/examples.css">
     <script src="api-settings.js" defer></script>
     <script src="guestbook.js" defer></script>
   </head>
@@ -47,13 +46,13 @@ ex03에서 JSON 본문을 보고 ex04에서 같은 ID를 다시 읽는다. guest
       <a class="w3-bar-item w3-button w3-mobile" href="about.html">내 정보</a>
       <a class="w3-bar-item w3-button w3-mobile w3-teal" href="guestbook.html" aria-current="page">방명록</a>
     </nav>
-    <main class="teaching-example w3-content w3-padding">
+    <main class="w3-content w3-padding">
       <details class="w3-margin-bottom">
         <summary>API 설정</summary>
         <form id="api-settings-form" autocomplete="off">
-          <p><label for="api-base-url">API 주소</label><input class="w3-input w3-border" id="api-base-url" type="url" required></p>
-          <p><label for="api-public-key">공개 키</label><input class="w3-input w3-border" id="api-public-key" type="password" autocomplete="off" required></p>
-          <p><label for="api-book-id">방명록 번호</label><input class="w3-input w3-border" id="api-book-id" pattern="[a-z0-9_-]{1,40}" required></p>
+          <p><label for="api-base-url">API 주소</label> <input id="api-base-url" type="url" required></p>
+          <p><label for="api-public-key">공개 키</label> <input id="api-public-key" type="password" autocomplete="off" required></p>
+          <p><label for="api-book-id">방명록 번호</label> <input id="api-book-id" pattern="[a-z0-9_-]{1,40}" required></p>
           <button class="w3-button w3-teal" type="submit">설정 적용</button>
           <p id="api-settings-notice" role="status">로컬 연습 설정</p>
         </form>
@@ -90,7 +89,7 @@ ex03에서 JSON 본문을 보고 ex04에서 같은 ID를 다시 읽는다. guest
         <p><button class="w3-button w3-teal" id="reload-button" type="button">새로 불러오기</button></p>
         <div class="w3-text-grey" id="load-notice" role="status"></div>
         <p id="empty" hidden>아직 남긴 글이 없습니다.</p>
-        <ul id="list" class="w3-ul" aria-live="polite"></ul>
+        <ul id="list" class="w3-ul w3-responsive" aria-live="polite"></ul>
         <div id="count">최근 글 0개</div>
       </section>
     </main>

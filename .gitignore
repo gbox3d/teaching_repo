@@ -19,6 +19,8 @@ config.js
 .env
 .env.*
 !.env.example
+localfiles/
+/web_programming/**/.local/
 
 # ------------------------------------------------------------
 # 2. 원고에서 재생성되는 렌더링 산출물 (Marp·Chrome)
@@ -60,6 +62,3 @@ Desktop.ini
 *.bak
 *.orig
 ~$*
-
-# 강의자 로컬 비공개 파일
-localfiles/

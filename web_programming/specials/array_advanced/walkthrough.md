@@ -4,8 +4,8 @@
 
 ## 1. 파일과 서버 준비
 
-저장소를 내려받아 VS Code에서 `teaching_repo` 폴더를 연다. `web_programming/specials/array_advanced/examples/`와 `web_programming/shared/`가 함께 있는지 확인한다.
-화면은 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 사용하므로 인터넷 연결이 필요하다. 공용 추가 스타일 `shared/examples.css`도 함께 준비하고 상대 위치를 유지한다.
+저장소를 내려받아 VS Code에서 `teaching_repo` 폴더를 연다. `web_programming/specials/array_advanced/examples/`에서 실습할 폴더를 찾는다.
+화면은 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 사용하므로 인터넷 연결이 필요하다.
 
 저장소 루트의 터미널에서 실행한다.
 
@@ -13,7 +13,7 @@
 node web_programming/tools/static-server/server.mjs web_programming 8111
 ```
 
-예상 결과: 터미널에 서버 주소가 표시된다. 브라우저에서 http://localhost:8111/specials/array_advanced/examples/01_insert_delete/ 를 연다. 화면 모양이 없으면 F12 → Network에서 CDN 연결과 `examples.css` 요청의 404 여부를 확인한다.
+예상 결과: 터미널에 서버 주소가 표시된다. 브라우저에서 http://localhost:8111/specials/array_advanced/examples/01_insert_delete/ 를 연다. 화면 모양이 없으면 F12 → Network에서 `w3.min.css` 요청의 상태를 확인한다.
 
 ## 2. 삽입과 삭제
 

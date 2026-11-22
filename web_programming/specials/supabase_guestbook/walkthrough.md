@@ -317,8 +317,8 @@ node web_programming/tools/static-server/server.mjs web_programming/weeks/week14
 
 특강 화면 또는 방명록 UI의 필요한 파일만 별도 학생 저장소에 올리고 GitHub Pages를 설정한다.
 01~07은 폴더 하나만 별도 저장소나 Pages 게시 폴더로 옮겨 사용할 수 있다.
-선택한 폴더의 `index.html`, `app.js`, `config.example.js`, `shared/examples.css`를 함께 둔다. 06은 `request.js`·`exercise.js`도 포함한다.
-HTML은 같은 폴더의 설정·스타일·앱 파일을 읽는다. 완성 방명록만 배포하려면 07 폴더를 선택한다.
+선택한 폴더의 `index.html`, `app.js`, `config.example.js`를 함께 둔다. 06은 `request.js`·`exercise.js`도 포함한다.
+HTML은 같은 폴더의 설정과 앱 파일을 읽는다. 완성 방명록만 배포하려면 07 폴더를 선택한다.
 학습 자료로 `requests.http`·`.env.example`을 함께 배부할 수 있지만 실제 `.env`는 제외한다.
 GitHub Pages가 정적 파일을 제공하므로 Node 정적 서버나 로컬 API 서버를 실행할 필요가 없다.
 

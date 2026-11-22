@@ -8,9 +8,9 @@ footer: "REST API · POST"
 
 # REST API로 방명록 저장하기
 
-12주 GET → 13주 POST → GET 재조회
+공개 API에서 익힌 `fetch` → 수업 방명록에 POST → 저장한 글 확인
 
-- 7주 폼과 12주 목록 함수를 이어 쓴다.
+- 7주 폼에 글쓰기 요청을 연결한다. 목록 함수는 제공한다.
 - 서버가 만든 id와 201 응답을 확인한다.
 - 매 차시 강의·시연 60분 + 학생 실습 30분.
 - 파일·저장소는 사전 준비, 업로드는 수업 뒤 정리.
@@ -19,18 +19,15 @@ footer: "REST API · POST"
 
 ## 1일차 · 0–5분 · 준비와 요청 흐름
 
-- 정적 서버·API·제공 폴더를 확인한다.
-- GET은 서버 목록을 읽고 POST는 새 글을 만든다.
-- 같은 주소도 method에 따라 요청하는 일이 다르다.
-
-API 설정 패널은 제공 코드다. 새로고침하면 로컬 기본값으로 돌아간다.
-공용 값은 실행 중 다시 입력한다.
+- ex02의 `.env.example`을 `.env`로 복사해 `API_PUBLIC_KEY`·`BOOK_ID`를 채운다.
+- `POST /rest/v1/guestbook`의 본문에서 내 방명록 번호와 메시지를 찾는다.
+- **Send Request**를 한 번 누르면 수업 방명록에 글 한 건이 생긴다.
 
 ---
 
 ## 1일차 · 5–20분 · POST와 JSON
 
-[ex01 시연](examples/day1/ex01/README.md) · [ex02 비교본](examples/day1/ex02/README.md)
+[ex02 첫 POST](examples/day1/ex02/README.md) · [ex01 JSON 선택 복습](examples/day1/ex01/README.md)
 
 ```js
 const item = {
@@ -39,8 +36,8 @@ const item = {
 const body = JSON.stringify(item);
 ```
 
-객체를 JSON 문자열로 바꿔 보낸다.
-id와 created_at은 서버가 만든다. ex01은 변환만 하며 저장하지 않는다.
+`body`에 담는 값은 방명록 번호·별칭·메시지다.
+글 번호(`id`)와 작성 시각(`created_at`)은 서버가 채운다.
 
 ---
 
@@ -66,13 +63,9 @@ apikey는 공개 호출용 키다. Prefer는 저장된 행을 응답으로 요�
 
 ## 1일차 · 35–45분 · 201과 서버 id
 
-- Payload: 보낸 book_id·name·message.
-- Response: 서버가 추가한 id·created_at.
-- 201: 새 글 생성 성공. 이어지는 GET 200에서 같은 id를 찾는다.
-
-REST Client는 `.env.example`을 `.env`로 복사해 설정한다.
-about → help → POST → GET의 **Send Request**를 차례로 누른다.
-브라우저 설정과 `.env`는 별개다. 실제 키를 추적 파일에 적지 않는다.
+- 요청 본문에는 `book_id`, `name`, `message`가 들어 있다.
+- `201 Created` 응답 배열에서 서버가 추가한 `id`를 찾는다.
+- 같은 파일에서 GET의 **Send Request**를 누른다. `200 OK` 목록에서 방금 받은 `id`와 메시지를 확인한다.
 
 ---
 
@@ -102,9 +95,9 @@ POST는 글을 실제로 추가하므로 한 번 전송한 뒤 결과를 확인�
 
 ---
 
-## 2일차 · 0–5분 · 폼과 서버 준비
+## 2일차 · 0–5분 · 글쓰기 폼 준비
 
-- 12주 GET 목록과 API 설정을 확인한다.
+- 완성 방명록의 **API 설정**에 공개 키·방명록 번호를 입력해 적용한다.
 - 이름은 별칭, 메시지는 500자 이내로 입력한다.
 - 이메일은 POST 본문에 넣지 않는다.
 
@@ -113,21 +106,20 @@ POST는 글을 실제로 추가하므로 한 번 전송한 뒤 결과를 확인�
 
 ---
 
-## 2일차 · 5–15분 · submit 복습
+## 2일차 · 5–15분 · 폼에서 요청 본문 만들기
 
 [ex04 시연](examples/day2/ex04/README.md)
 
 ```js
 form.addEventListener('submit', async function (event) {
   event.preventDefault();
-  const name = nameInput.value.trim();
   const message = messageInput.value.trim();
   // 검사 후 POST 요청
 });
 ```
 
-7주의 submit → preventDefault → value.trim을 이어 쓴다.
-공백만 입력하면 요청을 보내지 않는다.
+ex02에서는 정해진 문장을 보냈다. ex04에서는 폼에 입력한 메시지를 본문에 넣는다.
+공백만 입력하면 제출을 멈춘다.
 
 ---
 
@@ -154,13 +146,9 @@ body: JSON.stringify({ book_id: BOOK_ID, name: name, message: message })
 
 [ex05 시연](examples/day2/ex05/README.md)
 
-- 요청 중: 중복 submit 차단, 저장 버튼 비활성화.
-- 성공 확인: 저장 안내. 실패: 입력 보존.
-- finally: 저장 버튼 재활성화.
-- 응답 불명확: 다시 POST하기 전에 GET으로 확인.
-
-Slow 3G·Offline을 비교하고 No throttling으로 복구한다.
-설정이 바뀌면 이전 POST 결과가 새 안내나 폼을 바꾸지 않는다.
+- 느린 연결에서 저장 버튼을 연달아 누른다. Network에 POST 한 건이 보여야 한다.
+- Offline에서 보내면 입력이 남는다. `finally`에서 저장 버튼을 다시 활성화한다.
+- 연결을 복구한다. 저장 응답을 못 받았으면 GET으로 먼저 확인한다.
 
 ---
 
@@ -173,9 +161,9 @@ notice.textContent = `저장 완료 · 글 번호 ${saved[0].id}`;
 await loadMessages(); // 학생 수정 3
 ```
 
-POST 성공 안내와 GET 실패 안내는 별개다. GET 실패 때 조회만 재시도한다.
-두 브라우저에 같은 API·방명록 번호를 적용해 같은 글을 확인한다.
-같은 PC의 로컬 확인과 공용 HTTPS API·다른 기기 확인을 구분한다.
+제공된 `loadMessages()`로 방금 쓴 글을 확인한다.
+POST 201 뒤 조회가 실패하면 **새로 불러오기**로 GET만 다시 보낸다.
+두 번째 브라우저에서 같은 방명록 번호로 저장한 문장을 찾는다.
 
 ---
 
@@ -198,8 +186,8 @@ POST 성공 안내와 GET 실패 안내는 별개다. GET 실패 때 조회만 �
 [제공 설정](examples/day2/web-week13/api-settings.js) · [REST Client](examples/day2/web-week13/requests.http)
 [홈](examples/day2/web-week13/index.html) · [내 정보](examples/day2/web-week13/about.html)
 
-HTML: api-settings.js → guestbook.js, 모두 defer.
-이벤트·설정을 초기화한 뒤 파일 맨 끝에서 최초 GET을 실행한다.
-submit.js는 연결하지 않는다. 14주 PATCH·DELETE도 같은 파일에 이어 쓴다.
+HTML은 `api-settings.js`, `guestbook.js` 순서로 읽는다. 두 파일 모두 `defer`를 쓴다.
+완성 방명록에서 **설정 적용**을 누르면 첫 GET, **남기기**를 누르면 POST와 GET을 보낸다.
+14주에는 저장한 글의 `id`로 수정과 삭제를 요청한다.
 
 [예제 안내](examples/README.md) · [실습](lab.md) · [따라하기](walkthrough.md)

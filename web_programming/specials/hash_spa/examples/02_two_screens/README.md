@@ -12,4 +12,4 @@
 
 ## 파일과 예상 결과
 
-`index.html`, `app.js`, `shared/examples.css`를 함께 준비한다. CDN은 `https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css`다. 표시된 section은 항상 하나다. 키보드로 버튼에 이동하여 Enter를 누르면 해당 제목이 포커스를 받는다.
+`index.html`, `app.js`를 함께 준비한다. CDN은 `https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css`다. 표시된 section은 항상 하나다. 키보드로 버튼에 이동하여 Enter를 누르면 해당 제목이 포커스를 받는다.

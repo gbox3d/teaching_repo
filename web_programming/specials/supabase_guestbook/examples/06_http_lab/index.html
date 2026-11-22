@@ -5,40 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>06 · REST 통합 실험</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-  <link rel="stylesheet" href="shared/examples.css">
   <script src="config.example.js" defer></script>
   <script src="request.js" defer></script>
   <script src="exercise.js" defer></script>
   <script src="app.js" defer></script>
 </head>
-<body>
+<body class="w3-content w3-padding">
   <header><p>06 · SUPABASE REST API</p><h1>REST 통합 실험</h1>
     </header>
   <main>
-    <section class="w3-card w3-white" aria-labelledby="request-title">
+    <section class="w3-card w3-container w3-margin-bottom" aria-labelledby="request-title">
       <h2 id="request-title">요청 설정</h2>
-      <p id="api-address"></p>
+      <p id="api-address" class="w3-responsive"></p>
       <form id="request-form">
-        <div class="row">
-          <label>메서드<select class="w3-input w3-border" id="method"><option>GET</option><option>POST</option><option>PATCH</option><option>DELETE</option></select></label>
-          <label>방명록 번호<input class="w3-input w3-border" id="book" required pattern="[a-z0-9_-]{1,40}" maxlength="40"></label>
-          <label>글 ID<input class="w3-input w3-border" id="id" type="number" min="1" step="1" placeholder="GET 전체 목록은 비워 두세요."></label>
-        </div>
+        <label>메서드<select class="w3-input w3-border" id="method"><option>GET</option><option>POST</option><option>PATCH</option><option>DELETE</option></select></label>
+        <label>방명록 번호<input class="w3-input w3-border" id="book" required pattern="[a-z0-9_-]{1,40}" maxlength="40"></label>
+        <label>글 ID<input class="w3-input w3-border" id="id" type="number" min="1" step="1" placeholder="GET 전체 목록은 비워 두세요."></label>
         <label for="edit-key">편집 키 (PATCH·DELETE에 사용)</label>
         <input class="w3-input w3-border" id="edit-key" type="password" autocomplete="off" aria-describedby="key-help">
         <p id="key-help">요청마다 편집 키 재입력</p>
         <label for="body">JSON 본문 (POST·PATCH에 사용)</label>
         <textarea class="w3-input w3-border" id="body" rows="7" spellcheck="false"></textarea>
-        <div class="buttons"><button class="w3-button w3-white w3-border" id="sample" type="button">본문 예시 넣기</button><button class="w3-button w3-teal" id="send" type="submit">요청 보내기</button></div>
+        <div class="w3-section"><button class="w3-button w3-white w3-border" id="sample" type="button">본문 예시 넣기</button><button class="w3-button w3-teal" id="send" type="submit">요청 보내기</button></div>
       </form>
       <p id="notice" role="status">요청 대기</p>
     </section>
-    <section class="w3-card w3-white" aria-labelledby="response-title">
+    <section class="w3-card w3-container w3-margin-bottom" aria-labelledby="response-title">
       <h2 id="response-title">요청과 응답</h2>
 
-      <h3>요청 요약</h3><pre id="request-summary">아직 보낸 요청이 없습니다.</pre>
+      <h3>요청 요약</h3><pre id="request-summary" class="w3-responsive">아직 보낸 요청이 없습니다.</pre>
       <h3>응답 상태</h3><p id="response-status">응답 대기</p>
-      <h3>응답 본문</h3><pre id="response-body">응답 없음</pre>
+      <h3>응답 본문</h3><pre id="response-body" class="w3-responsive">응답 없음</pre>
       <h3>연구 과제</h3><p id="observation">GET으로 초기 상태를 확인하세요.</p>
     </section>
   </main>

@@ -13,21 +13,9 @@
 
 ## 파일 준비와 실행
 
-교재 실행 기준은 Node.js 24 이상이다. 편집기와 브라우저를 준비하며 별도 패키지 설치는 필요 없다. 저장소 전체를 내려받는 방법을 권장한다.
+한 예제 폴더의 `index.html`과 `app.js`를 함께 복사해 브라우저에서 연다. 화면은 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 사용한다.
 
-예제 화면은 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)과 공용 추가 스타일 `shared/examples.css`를 읽는다. CDN 로딩에는 인터넷 연결이 필요하다. 일부만 복사할 때도 아래 폴더 관계를 유지하고 `shared/examples.css`를 함께 준비한다.
-
-```text
-teaching_repo/
-  web_programming/
-    shared/
-      examples.css
-    tools/static-server/server.mjs
-    specials/array_advanced/
-      examples/01_insert_delete/ ... 05_reduce/
-```
-
-현재 폴더: 저장소 루트 `teaching_repo`
+수업용 정적 서버를 쓰려면 Node.js 24 이상에서 저장소 루트의 터미널을 열고 실행한다.
 
 ```bash
 node web_programming/tools/static-server/server.mjs web_programming 8111

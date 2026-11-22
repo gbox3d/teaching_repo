@@ -10,7 +10,7 @@
 node web_programming/tools/static-server/server.mjs web_programming 8111
 ```
 
-예제는 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)과 공용 추가 스타일 `web_programming/shared/examples.css`를 읽는다. CDN 로딩에는 인터넷 연결이 필요하다. 예제와 `examples.css`의 상대 위치를 유지하고 [파일 준비 안내](../README.md#파일-준비와-실행)를 따른다.
+각 예제에는 `index.html`과 `app.js`가 있다. 두 파일을 같은 폴더에 두고 HTML을 연다. [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css) 연결에는 인터넷이 필요하다.
 
 | 순서 | 폴더와 설명 | 실행 주소 | 확인할 결과 |
 |---|---|---|---|

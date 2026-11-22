@@ -441,16 +441,16 @@
         {
           "id": "week12_fetch_json",
           "label": "12주차",
-          "title": "REST API로 방명록 읽기",
-          "description": "about·help로 접속을 확인한 뒤 GET 응답을 목록에 표시하고 HTTP 오류와 통신 실패를 비교합니다.",
+          "title": "Promise와 async/await로 배우는 fetch",
+          "description": "같은 GET 요청을 Promise 체인과 async/await로 작성하고, 키 없는 공개 API로 도시별 기온을 조회합니다.",
           "type": "week",
           "formerIds": [
             "week12_persistent_crud"
           ],
           "en": {
             "label": "Week 12",
-            "title": "Reading a Guestbook through a REST API",
-            "description": "Check about and help first, render GET responses as a list, and compare HTTP errors with connection failures."
+            "title": "Fetch with Promises and async/await",
+            "description": "Write the same GET request with a Promise chain and async/await, then fetch city temperatures from a public API without a key."
           }
         },
         {

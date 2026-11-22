@@ -25,10 +25,10 @@
 | [about.html](about.html) | 예시 자기소개 |
 | [styles.css](styles.css) | 홈·내 정보의 스타일 |
 
-방명록은 [W3.CSS CDN 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 사용하므로 스타일을 읽을 때 인터넷 연결이 필요하다. 방명록의 추가 CSS는 없으며, `styles.css`는 홈·내 정보에서 사용한다. 기본 저장 예제의 공용 CSS 구조와는 별개다. `screenshots/`는 이전 주차 화면 자료다.
+방명록은 [W3.CSS CDN 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 사용하므로 스타일을 읽을 때 인터넷 연결이 필요하다. `styles.css`는 홈·내 정보에서 사용한다. `screenshots/`는 이전 주차 화면 자료다.
 
 ## 다음 주 준비
 
-12주차에는 이 제공 시연본을 `web-week12` 시작 자료로 사용한다. 로컬 버전은 `guestbook.local.html`·`guestbook.local.js`로 보관하고 HTML의 script 경로도 바꾼다. 서버 목록은 `guestbook.html`·`guestbook.js`로 분리한다. 로컬 데이터를 서버로 옮기거나 지우지 않는다.
+12주 선택 방명록 `web-week12`는 이 시연본에서 출발한다. 로컬 버전은 `guestbook.local.html`·`guestbook.local.js`로 보관하고 HTML의 script 경로도 바꾼다. 서버 목록은 `guestbook.html`·`guestbook.js`로 분리한다. 로컬 데이터를 서버로 옮기거나 지우지 않는다.
 
 저장 값은 같은 브라우저 프로필의 같은 origin(프로토콜·호스트·포트)에서만 보인다. localhost에서 공개 HTTPS 사이트로 옮기면 이름·메시지를 새로 입력해야 한다. 다음 주 API 실행 설정은 별도 제공 패널에서 입력하며 새로고침 후 다시 입력한다.

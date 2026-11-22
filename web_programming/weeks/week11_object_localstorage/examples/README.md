@@ -6,18 +6,16 @@
 
 ```text
 web_programming/
-  shared/
-    examples.css
   weeks/week11_object_localstorage/examples/
     day1/ex01/ ~ ex03/     객체·배열·목록
     day2/ex04/ ~ ex06/     문자열·JSON·폼 저장
-    day2/web-week11/       강의자 시연·12주차 준비 자료
+    day2/web-week11/       강의자 시연·12주 선택 방명록 자료
     day2/ex07/             탭 동기화 참고
 ```
 
 ## 실행
 
-교재를 받을 때 `shared`를 포함한 `web_programming` 구조를 유지한다. ex01~ex07의 HTML은 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)과 추가 공용 스타일 `shared/examples.css`를 읽고, 같은 폴더의 `app.js`를 실행한다. CDN 스타일에는 인터넷 연결이 필요하다. HTML·JS만 따로 복사하면 추가 공용 스타일의 경로가 끊긴다.
+ex01~ex07의 HTML은 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)에서 스타일을 읽고, 같은 폴더의 `app.js`를 실행한다. CDN 스타일에는 인터넷 연결이 필요하다.
 
 `teaching_repo` 폴더에서 실행한다.
 
@@ -50,7 +48,7 @@ ex06에서 저장 → 새로고침 → 불러오기 순서로 입력을 복원�
 
 ## 강의자용 완성 방명록
 
-[`day2/web-week11/`](day2/web-week11/)은 객체 배열의 저장·복원을 보여 주는 완성본이다. 이번 주 학생 필수 구현 대상은 아니며 12주차 준비 자료로 제공한다.
+[`day2/web-week11/`](day2/web-week11/)은 객체 배열의 저장·복원을 보여 주는 완성본이다. 이번 주 학생 필수 구현 대상은 아니며 12주 선택 방명록에 이어 쓴다.
 
 - [guestbook.html](day2/web-week11/guestbook.html) · [guestbook.js](day2/web-week11/guestbook.js)
 - [완성본 안내](day2/web-week11/README.md) · [전체 코드 부록](../walkthrough.md#부록-강의자용-방명록-완성본)

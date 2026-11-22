@@ -48,4 +48,3 @@ async function loadMessages() {
 
 reloadButton.addEventListener('click', loadMessages);
 setupApiSettings(loadMessages);
-loadMessages();

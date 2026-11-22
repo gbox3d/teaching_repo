@@ -10,7 +10,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 [실습 화면 열기](http://localhost:8111/weeks/week11_object_localstorage/examples/day2/ex06/)
 
-이 예제는 [W3.CSS CDN 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)과 [추가 공용 스타일](../../../../../shared/README.md)의 `shared/examples.css`를 사용한다. CDN 스타일을 읽으려면 인터넷 연결이 필요하다. 예제와 `web_programming/shared/`의 상대 위치를 유지한다.
+화면 스타일은 [W3.CSS 4.1.0 CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)에서 읽는다.
 
 저장 키는 `week11-ex06-entry`다. 이름·메시지 입력값을 객체 하나로 묶어 저장한다.
 

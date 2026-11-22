@@ -112,12 +112,12 @@ examples/
   README.md              example guide
   01_about/
     index.html · app.js
-    config.example.js · shared/examples.css
+    config.example.js
     requests.http · .env.example
   02_help/ ... 07_guestbook_complete/
 ```
 
-Each step reads its own configuration and styles.
+Each page loads its own configuration and W3.CSS from the CDN.
 Run or publish one folder independently. Exclude .env from deployment.
 
 ---
@@ -215,7 +215,7 @@ Keep [request tests](https://github.com/gbox3d/teaching_repo/blob/main/web_progr
 
 # GitHub Pages and verification status
 
-Publish the HTML, JavaScript, configuration and CSS from one example folder.
+Publish the HTML, JavaScript and configuration files from one example folder.
 Pages serves files; the browser calls the Supabase HTTPS API.
 No Node server or student account is required. Exclude .env and edit-key files.
 

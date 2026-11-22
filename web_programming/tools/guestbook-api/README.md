@@ -13,7 +13,7 @@
 
 ## 수업과 서버의 역할
 
-12주는 about·help로 접속을 확인한 뒤 GET으로 읽고, 13주는 POST로 저장하고, 14주는 PATCH·DELETE로 고친다.
+12주에는 공개 API로 비동기 GET을 익힌다. 방명록 연결을 미리 실습할 때 about·help와 GET을 사용한다. 13주는 POST로 글을 저장하고 14주는 PATCH·DELETE로 글을 고친다.
 강의자가 서버와 방명록 번호를 준비한다. 학생은 Supabase 가입이나 SQL 작성 없이
 브라우저의 `fetch`와 화면 구현을 연습한다. SDK나 npm 패키지는 필요 없다.
 
@@ -31,7 +31,7 @@
 이 안내와 프로젝트의 publishable key, 개인별 `BOOK_ID`를 배부한다. 현재 공용 서버에서 등록을 확인한 태그는 `student01`, `student02`다.
 추가 태그는 아래 등록 절차를 거친 뒤 배부한다.
 특강 예제는 [01~07 폴더별 안내](../../specials/supabase_guestbook/examples/README.md)를 따른다. examples 루트에는 README만 둔다.
-각 폴더는 자체 `config.example.js`·`shared/examples.css`를 가지므로 하나만 별도로 배포할 수 있다. W3.CSS는 고정 CDN에서 읽는다.
+각 폴더는 자체 `config.example.js`를 포함해 개별 배포할 수 있다. W3.CSS는 고정 CDN에서 읽는다.
 완성 화면은 [07 방명록](../../specials/supabase_guestbook/examples/07_guestbook_complete/index.html), 요청 문법은 [07 requests.http](../../specials/supabase_guestbook/examples/07_guestbook_complete/requests.http)에서 확인한다.
 
 강의자는 [프로젝트 Data API](https://supabase.com/dashboard/project/esoqbcwgzjtwcqszwvin/integrations/data_api/overview)에서
@@ -66,7 +66,7 @@ node server.mjs
 `web_programming/tools/static-server/server.mjs`로 `http://localhost:8000/`에 연다.
 두 서버의 역할은 각각 데이터 처리와 화면 파일 제공이다.
 로컬 HTTP 화면에서 공용 Supabase HTTPS API를 호출할 수도 있다. 이 경우 화면 주소는 HTTP로 유지되고 API 요청만 HTTPS를 사용한다.
-정규 12~14주 예제는 아래 로컬 연습값으로 시작한다. 화면의 **API 설정**을 펼쳐 공용 주소·공개 키·방명록 번호를 적용한다. 설정은 현재 페이지의 메모리에만 남으며 새로고침하면 다시 입력한다.
+12주 선택 방명록과 13주 방명록에는 수업용 HTTPS 주소가 들어 있다. 강의자가 로컬 모의 API로 리허설할 때는 **API 설정**에 아래 연습값을 입력한다. 설정은 현재 페이지의 메모리에만 남으며 새로고침하면 다시 입력한다.
 Supabase 특강 예제는 `config.example.js`의 현재 공용 HTTPS 주소를 사용하므로 로컬 연습 때만 아래 값으로 바꾼다. `.http`는 각 폴더의 `.env`를 별도로 읽는다.
 
 ```js
@@ -139,7 +139,7 @@ POST·PATCH에는 `Content-Type: application/json`, PATCH·DELETE에는 `X-Edit-
 로컬 자동 시험은 저장·조회·재시작 후 유지·잘못된 입력·다른 학생 키의 수정/삭제 거부를 검사한다.
 SQL과 Supabase 게이트웨이의 실제 동작은 별도 공용 프로젝트에서 다음과 같이 확인한다.
 
-1. 12주 예제의 GET으로 student01 목록을 확인한다. Network에서 HTTPS 주소와 200을 확인한다.
+1. 12주 선택 방명록에서 GET으로 student01 목록을 확인한다. Network에서 HTTPS 주소와 200을 확인한다.
 2. 13주 예제로 테스트 글을 POST한다. 201 응답의 `id`를 기록하고 다른 기기에서 GET으로 같은 글을 확인한다.
 3. 14주 예제에서 student02의 편집 키로 그 글을 수정·삭제한다. 다시 읽어 원래 글이 남는지 확인한다.
 4. student01의 키로 수정하고 GET으로 변경을 확인한다. 이어 삭제하고 GET으로 사라졌는지 확인한다.

@@ -2,7 +2,7 @@
 
 # 11주차 실습 — 객체 확인과 폼 저장
 
-양일 모두 강의·시연 60분 뒤 실습 30분을 진행한다. 수업 전에 교재를 `shared` 폴더와 함께 받아 정적 서버를 준비한다. 새 저장소 생성, 방명록 전체 구현, 공개 업로드는 수업 중 필수 작업이 아니다.
+양일 모두 강의·시연 60분 뒤 실습 30분을 진행한다. 수업 전에 교재를 내려받아 정적 서버를 준비한다. 새 저장소 생성, 방명록 전체 구현, 공개 업로드는 수업 중 필수 작업이 아니다.
 
 ## 실행 준비
 
@@ -12,7 +12,7 @@
 node web_programming/tools/static-server/server.mjs web_programming 8111
 ```
 
-1일차는 [ex01](http://localhost:8111/weeks/week11_object_localstorage/examples/day1/ex01/), 2일차는 [ex04](http://localhost:8111/weeks/week11_object_localstorage/examples/day2/ex04/)부터 연다. `app.js`를 고친 뒤 저장하고 브라우저를 새로고침한다. 공용 CSS 경로를 유지하기 위해 예제 폴더만 따로 옮기지 않는다.
+1일차는 [ex01](http://localhost:8111/weeks/week11_object_localstorage/examples/day1/ex01/), 2일차는 [ex04](http://localhost:8111/weeks/week11_object_localstorage/examples/day2/ex04/)부터 연다. `app.js`를 고친 뒤 저장하고 브라우저를 새로고침한다.
 
 ## 1일차 — 객체와 점 표기 (30분)
 
@@ -99,7 +99,7 @@ ex06에서 새로고침 후 불러온 화면을 캡처한다. 다음 내용이 �
 | 증상 | 확인할 것 |
 |---|---|
 | 버튼을 눌러도 반응이 없다 | Console의 오류와 `app.js` 경로를 확인한다 |
-| 스타일이 적용되지 않는다 | W3.CSS CDN 연결을 위한 인터넷 상태와 `shared/examples.css` 경로를 확인한다. 서버 루트는 `web_programming`이다 |
+| 스타일이 적용되지 않는다 | 브라우저 Network에서 W3.CSS CDN 연결 상태를 확인한다 |
 | 저장한 값이 없다고 나온다 | 저장·불러오기의 키, 브라우저, 프로토콜·호스트·포트가 같은지 확인한다 |
 | 새로고침 후 입력이 비었다 | ex06은 자동 복원이 아니다. 불러오기 버튼을 누른다 |
 | JSON 복원 실패가 표시된다 | 해당 예제의 지우기를 누르고 다시 저장한다. 다른 예제의 키는 건드리지 않는다 |
@@ -110,4 +110,4 @@ ex06에서 새로고침 후 불러온 화면을 캡처한다. 다음 내용이 �
 
 공개 업로드나 개인 저장소 정리는 수업 후 필요에 따라 진행한다. 저장된 값은 origin별이므로 localhost에서 남긴 데이터가 공개 사이트로 자동 이전되지는 않는다.
 
-[완성 방명록](examples/day2/web-week11/README.md)은 강의자 시연·12주차 준비 자료이며 이번 제출에 포함하지 않는다. [배열 심화 특강](../../specials/array_advanced/README.md)과 [고급 저장 참고](examples/day2/README.md#고급-저장-참고)는 정규 30분 실습 범위 밖이다.
+[완성 방명록](examples/day2/web-week11/README.md)은 강의자 시연·12주 선택 방명록 자료이며 이번 제출에 포함하지 않는다. [배열 심화 특강](../../specials/array_advanced/README.md)과 [고급 저장 참고](examples/day2/README.md#고급-저장-참고)는 정규 30분 실습 범위 밖이다.

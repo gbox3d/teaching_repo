@@ -44,4 +44,4 @@ darkButton.addEventListener('click', function () {
 
 ## 10주차 제공 파일
 
-방명록은 W3.CSS cdnjs 4.1.0과 shared/examples.css를 사용합니다. 독립 복사할 때 shared 폴더를 포함합니다. guestbook.start.html·guestbook.start.js는 네 줄을 작성하는 시작 틀이며 guestbook.html·guestbook.js는 완성본입니다.
+방명록은 W3.CSS 4.1.0을 CDN에서 읽습니다. guestbook.start.html·guestbook.start.js는 네 줄을 작성하는 시작 틀이며 guestbook.html·guestbook.js는 완성본입니다.

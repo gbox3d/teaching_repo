@@ -49,7 +49,7 @@ W3.CSS는 다음 주소를 `<head>`에 연결한다. 라이브러리 파일을 �
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
 ```
 
-ex02~ex05와 완성본 방명록은 긴 입력이 화면을 넘치지 않도록 제공된 `shared/examples.css`의 `example-output`을 사용한다. ex03b의 `shared/examples.css`에서 타임라인의 여백을 바꾼다. 2일차 방명록의 같은 이름 파일에는 [공통 스타일](../../shared/examples.css)과 피드 전용 배치가 함께 들어 있다. ex04는 변환 전 비교를 위해 `../web-week07/styles.css`도 읽고, W3.CSS 예제와 완성본 방명록은 위 CDN을 읽는다. 완성본의 홈·소개 페이지는 기존 `styles.css`를 사용한다.
+ex02·ex03의 입력과 미리보기는 W3.CSS 클래스로 꾸민다. ex03b에서는 `shared/examples.css`를 열어 타임라인의 여백을 바꾼다. 2일차 방명록은 같은 이름의 파일에서 피드 배치를 확인한다. ex04는 변환 전 비교를 위해 `../web-week07/styles.css`도 읽고, W3.CSS 예제와 완성본 방명록은 위 CDN을 읽는다. 완성본의 홈·소개 페이지는 기존 `styles.css`를 사용한다.
 
 ## 예제와 변경 범위
 

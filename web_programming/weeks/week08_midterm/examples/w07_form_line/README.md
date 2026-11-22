@@ -10,9 +10,8 @@
 
 | 파일 | 상태 |
 |---|---|
-| index.html | 폼·안내·목록이 있다. W3.CSS 연결과 클래스는 비어 있다 |
+| index.html | 폼·안내·목록이 있다. CDN 연결과 카드·입력·목록 클래스는 학생이 추가한다 |
 | app.js | 입력 검사·글 추가·폼 초기화가 동작한다. 수정하지 않는다 |
-| shared/examples.css | 긴 입력의 줄바꿈을 제공한다. 수정하지 않는다 |
 
 ## 할 일
 
@@ -20,7 +19,7 @@
 2. 페이지를 가운데에 놓고 좌우 여백을 준다. 폼에는 흰색 카드와 안쪽 여백을 적용한다.
 3. 이름과 메시지 입력을 부모 영역의 너비에 맞추고 테두리를 적용한다.
 4. 남기기 버튼에 W3.CSS 버튼 모양과 청록색 배경을 적용한다.
-5. 남긴 글 목록에 W3.CSS 목록 스타일을 적용한다. 기존 id·label·script 연결과 example-output 클래스는 유지한다.
+5. 남긴 글 목록에 W3.CSS 목록 스타일을 적용한다. 기존 id·label·script 연결과 긴 글을 스크롤하는 w3-responsive 클래스는 유지한다.
 
 CDN 주소: https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css
 
@@ -53,7 +52,7 @@ CDN 주소: https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css
 
 ## 받기와 올리기
 
-index.html·app.js·shared/examples.css를 하위 폴더 구조까지 같은 w07_form_line 폴더에 준비한다. [정적 서버](../../../../tools/static-server/README.md)를 부모 폴더에서 실행하면 http://localhost:8000/w07_form_line/ 으로 연다. CDN 연결을 위해 인터넷이 필요하다.
+index.html과 app.js를 같은 w07_form_line 폴더에 준비한다. [정적 서버](../../../../tools/static-server/README.md)를 부모 폴더에서 실행하면 http://localhost:8000/w07_form_line/ 으로 연다. CDN 연결을 위해 인터넷이 필요하다.
 
 제출 방식은 분반 공지를 따른다. 공개 주소를 제출할 때는 web-week08 또는 web-week15 저장소의 w07_form_line 폴더에 올린다. 화면과 주소창이 보이는 캡처를 남긴다.
 

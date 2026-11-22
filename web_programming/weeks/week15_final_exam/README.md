@@ -21,7 +21,7 @@
 ## 준비
 
 - VS Code·Chrome·Git·Node.js 24와 [정적 서버](../../tools/static-server/README.md)를 준비한다.
-- 새 저장소 `web-week15`·Pages·문항 폴더·서버는 수업 전에 준비한다. 1일차 업로드는 수업 뒤 진행한다.
+- 새 저장소 `web-week15`·Pages·문항 폴더·서버는 수업 전에 준비한다. REST 문항의 `.env`를 만들기 전에 [학생 저장소의 제외 규칙](../../tools/guestbook-api/student-guide.md#1-접속-주소와-설정)을 적용한다. 1일차 업로드는 수업 뒤 진행한다.
 - REST 연습은 [공용 API 안내](../../tools/guestbook-api/README.md)의 로컬 서버 또는 강의자가 제공한 HTTPS 서버를 사용한다.
 - 시험 시작 전에 개인별 시험 방명록 번호와 초기 데이터를 확인한다. 편집 키는 별도 배부받고 실행 화면에만 입력한다.
 - 허용 자료·실제 배점·제출 경로는 강의자 공지를 따른다.

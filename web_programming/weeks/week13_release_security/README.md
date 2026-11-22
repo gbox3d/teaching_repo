@@ -2,7 +2,7 @@
 
 # 13주차 · REST API로 방명록 저장하기
 
-12주 GET 목록에 POST를 연결한다. 11주 필수 실습은 폼 저장·복원이며 전체 저장 방명록은 제공 시연본이었다. 이번 주에는 그 방명록 화면과 12주 서버 조회 함수를 이어 쓴다.
+12주에는 공개 API를 호출해 응답을 기다리고 JSON을 읽었다. 이번 주에는 수업용 Supabase API에 `POST /rest/v1/guestbook`을 보내 내 방명록에 새 글을 남긴다. 저장 응답에서 글 번호(`id`)를 읽고 제공된 조회 함수 `loadMessages()`로 목록에서 그 글을 확인한다.
 
 ## 학습 목표와 결과물
 
@@ -13,24 +13,22 @@
 | 차시 | 강의·시연 60분 | 학생 실습 30분 |
 |---|---|---|
 | 1차시 | 준비 5, POST 15, headers·body 15, 201·id 10, 입력 거절 10, 안내 5 | `.http` message 변경·POST 10, id 확인·GET 10, 빈값 거절 비교 10 |
-| 2차시 | 준비 5, 기존 submit 복습 10, POST 연결 15, 대기·실패 15, 재조회 10, 안내 5 | 폼 값·JSON·loadMessages 세 구역 15, 중복 클릭·실패 입력 보존 7, 다른 브라우저·캡처 8 |
+| 2차시 | 준비 5, 폼에서 요청 본문 만들기 10, POST 연결 15, 대기·실패 15, 재조회 10, 안내 5 | 폼 값·JSON·loadMessages 세 구역 15, 중복 클릭·실패 입력 보존 7, 다른 브라우저·캡처 8 |
 
-예제 전체를 학생이 다시 작성하지 않는다. ex01·ex04~ex06은 강의자 시연, ex02·ex03은 1차시 `.http` 실습의 비교본이다. 설정 패널과 방어 코드는 제공한다. 선택 연습은 저장 응답 손실·GET 지연 비교이며 정규 30분에 포함하지 않는다.
+첫 필수 예제는 [ex02의 POST 요청](examples/day1/ex02/requests.http)이다. ex01은 객체를 JSON으로 바꾸는 과정이 낯설 때 펴 보는 선택 복습이다. 2차시에는 ex04~ex06을 시연한 뒤 완성 방명록에서 폼과 저장 요청을 연결한다.
 
 ## 사전 준비와 수업 뒤 정리
 
-수업 전에 [web-week12](../week12_fetch_json/examples/day2/web-week12/)와 이번 주 제공 폴더, Node.js·VS Code REST Client(`humao.rest-client`), 새 `web-week13` 저장소를 준비한다. 로컬 연습은 [정적 서버](../../tools/static-server/README.md)와 [API 서버](../../tools/guestbook-api/README.md)를 함께 실행한다. 첫 5분에는 파일과 서버만 확인한다.
+수업 전에 예제와 `web-week13` 저장소를 준비한다. 별도 저장소에는 [학생용 API 안내](../../tools/guestbook-api/student-guide.md#1-접속-주소와-설정)에 따라 루트 `.gitignore`를 설정한다. 수업 API 주소는 `https://esoqbcwgzjtwcqszwvin.supabase.co`다. VS Code REST Client(`humao.rest-client`)에서는 각 예제의 `.env.example`을 `.env`로 복사한다. 기본 주소는 그대로 두고 `API_PUBLIC_KEY`에 배부받은 공개 키, `BOOK_ID`에 내 방명록 번호를 적는다. 12주 선택 방명록 예제를 해 본 학생은 그 예제의 `.env`를 복사해도 된다. [따라하기](walkthrough.md)
 
-화면의 API 설정에서 강의자 URL·공개 키·방명록 번호를 입력한다. 메모리 설정이므로 새로고침 뒤 다시 입력한다. 기본값은 로컬 연습용이며 배포된 공용 주소가 아니다. 각 REST 폴더의 `.env.example`을 `.env`로 복사해 REST Client도 별도로 설정한다. 실제 키를 추적 파일에 적지 않는다. 자세한 절차는 [따라하기](walkthrough.md)에 있다.
-
-실습 시간에는 localhost 동작과 캡처를 마친다. commit·push·Pages 확인은 수업 뒤 정리다. 공용 HTTPS API가 준비되면 별도 브라우저·기기의 공유를 확인한다. 같은 PC의 로컬 API 검증을 다른 기기·공용 서버 검증으로 기록하지 않는다.
+브라우저에서는 예제를 열고 **API 설정**에 배부받은 공개 키와 방명록 번호를 입력한 뒤 **설정 적용**을 누른다. 새로고침하면 키와 번호를 다시 입력한다. `commit`·`push`·Pages 확인은 수업 뒤에 진행한다.
 
 ## 예제 구분
 
 | 예제 | 구분 | 관찰 결과 |
 |---|---|---|
-| [ex01](examples/day1/ex01/README.md) | 시연 | 객체를 JSON 문자열로 변환, 서버 요청 없음 |
-| [ex02](examples/day1/ex02/README.md) | 필수 요청의 비교본 | 고정값 POST·201·id |
+| [ex01](examples/day1/ex01/README.md) | 선택 복습 | 객체를 JSON 문자열로 변환 |
+| [ex02](examples/day1/ex02/README.md) | 첫 필수 요청 | 고정 본문의 POST·201·id |
 | [ex03](examples/day1/ex03/README.md) | 필수 거절 비교 | 빈 메시지 400·정상 메시지 201 |
 | [ex04](examples/day2/ex04/README.md) | 시연 | trim한 폼 값을 JSON 본문에 연결 |
 | [ex05](examples/day2/ex05/README.md) | 시연 | 대기 중 버튼 잠금·실패 입력 보존 |
@@ -43,7 +41,7 @@
 - 공백만 입력하면 요청을 보내지 않고, `<b>글자</b>`는 HTML 효과 없이 글자 그대로 보인다.
 - 대기 중 중복 클릭을 막고 실패 입력과 재활성화된 버튼을 확인한다.
 - POST 응답이 불명확하면 GET으로 먼저 확인하며, GET 실패를 저장 실패로 판단해 재POST하지 않는다.
-- 같은 API·방명록 번호를 설정한 두 브라우저에서 글을 확인한다. 공용 API·다른 기기 검증 여부는 별도로 적는다.
+- 두 번째 브라우저에 같은 방명록 번호를 입력해 방금 저장한 글을 확인한다.
 
 ## 자료와 다음 수업
 
@@ -51,7 +49,7 @@
 
 교재 사이트: https://gbox3d.github.io/teaching_repo/webprg/decks/week13_release_security/index.html
 
-14주는 같은 `guestbook.js`에 서버 id를 이용한 PATCH·DELETE 구역을 추가한다. 방명록 화면은 W3.CSS CDN 4.1.0과 폴더별 `shared/examples.css`를 함께 쓴다. 홈·내 정보의 기존 CSS는 이어 쓴다.
+14주는 같은 `guestbook.js`에 서버 id를 이용한 PATCH·DELETE 구역을 추가한다. 방명록은 W3.CSS CDN 4.1.0을 사용한다.
 
 ## 용어와 공식 자료
 

@@ -4,7 +4,7 @@
 
 ## 준비
 
-저장소 루트에서 서버를 실행한다. 예제와 `web_programming/shared/examples.css`의 상대 위치를 유지한다. [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css) 로딩에는 인터넷 연결이 필요하다.
+저장소 루트에서 서버를 실행한다. [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css) 로딩에는 인터넷 연결이 필요하다.
 
 ```bash
 node web_programming/tools/static-server/server.mjs web_programming 8111

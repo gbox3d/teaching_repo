@@ -5,29 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>03 · 방명록 목록 조회</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-  <link rel="stylesheet" href="shared/examples.css">
   <script src="config.example.js" defer></script>
   <script src="app.js" defer></script>
 </head>
-<body>
+<body class="w3-content w3-padding">
   <header><p>03 · GET /rest/v1/guestbook</p><h1>방명록 목록 조회</h1>
     </header>
   <main>
-    <section class="w3-card w3-white">
+    <section class="w3-card w3-container w3-margin-bottom">
       <h2>조회 조건과 목록</h2>
       <form id="read-form">
         <label for="book">방명록 태그</label>
         <input class="w3-input w3-border" id="book" required pattern="[a-z0-9_-]{1,40}" maxlength="40">
-        <div class="buttons"><button class="w3-button w3-teal" id="load" type="submit">목록 조회</button></div>
+        <div class="w3-section"><button class="w3-button w3-teal" id="load" type="submit">목록 조회</button></div>
       </form>
       <p id="notice" role="status">요청 대기</p>
-      <ul id="messages"></ul>
+      <ul id="messages" class="w3-responsive"></ul>
     </section>
-    <section class="w3-card w3-white">
+    <section class="w3-card w3-container w3-margin-bottom">
       <h2>요청과 응답</h2>
-      <p id="api-address"></p>
+      <p id="api-address" class="w3-responsive"></p>
       <p id="response-status">응답 대기</p>
-      <pre id="response-body">응답 없음</pre>
+      <pre id="response-body" class="w3-responsive">응답 없음</pre>
 
     </section>
   </main>

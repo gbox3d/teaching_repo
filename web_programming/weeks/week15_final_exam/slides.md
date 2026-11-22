@@ -68,7 +68,7 @@ DELETE: 204 뒤 GET으로 글이 없는지 확인
 저장은 폼 한 객체, 수정·삭제는 둘 중 한 요청만 작성한다.
 
 [GET 시작 화면](examples/w12_rest_get/index.html) · [app.js](examples/w12_rest_get/app.js)
-[설정](examples/w12_rest_get/api-settings.js) · [CSS](examples/w12_rest_get/shared/examples.css) · [.http](examples/w12_rest_get/requests.http)
+[설정](examples/w12_rest_get/api-settings.js) · [.http](examples/w12_rest_get/requests.http)
 
 ---
 

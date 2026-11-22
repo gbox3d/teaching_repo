@@ -112,12 +112,12 @@ examples/
   README.md              예제 목차
   01_about/
     index.html · app.js
-    config.example.js · shared/examples.css
+    config.example.js
     requests.http · .env.example
   02_help/ ... 07_guestbook_complete/
 ```
 
-각 단계는 자신의 설정과 스타일을 읽는다.
+각 단계는 같은 폴더의 설정을 읽는다.
 폴더 하나만 로컬에서 열거나 Pages에 게시할 수 있다. .env는 제외한다.
 
 ---
@@ -215,7 +215,7 @@ POST·PATCH는 본문 예시를 넣고 한 조건만 수정한다.
 
 # GitHub Pages와 확인 범위
 
-원하는 예제 폴더 하나의 HTML·JS·설정·CSS를 함께 게시한다.
+원하는 예제 폴더 하나의 HTML·JS·설정을 함께 게시한다.
 Pages가 화면을 제공하고 브라우저가 Supabase HTTPS API를 호출한다.
 Node 서버·학생 계정은 필요 없다. .env·편집 키 파일은 게시하지 않는다.
 

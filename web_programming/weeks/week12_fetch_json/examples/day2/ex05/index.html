@@ -3,32 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ex05 · HTTP 실패와 response.ok</title>
+  <title>ex05 · 위도와 HTTP 응답</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-  <link rel="stylesheet" href="shared/examples.css">
-  <script src="api-settings.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body class="w3-light-grey">
-<main class="teaching-example w3-content w3-padding">
-  <h1>HTTP 실패와 response.ok</h1>
-  <details class="w3-margin-bottom">
-  <summary>API 설정</summary>
-  <form id="api-settings-form" autocomplete="off">
-    <p><label for="api-base-url">API 주소</label>
-      <input class="w3-input w3-border" id="api-base-url" type="url" required></p>
-    <p><label for="api-public-key">공개 키</label>
-      <input class="w3-input w3-border" id="api-public-key" type="password" autocomplete="off" required></p>
-    <p><label for="api-book-id">방명록 번호</label>
-      <input class="w3-input w3-border" id="api-book-id" pattern="[a-z0-9_-]{1,40}" required></p>
-    <button class="w3-button w3-teal" type="submit">설정 적용</button>
-    <p id="api-settings-notice" role="status">로컬 연습 설정</p>
-  </form>
-</details>
-  <p><label for="request-fields">조회 필드</label><select class="w3-select w3-border" id="request-fields"><option value="id,name,message,created_at">정상 필드</option><option value="missing_column">없는 필드</option></select></p>
-  <button class="w3-button w3-teal" id="run-button" type="button">다시 요청</button>
-  <p id="output" role="status">대기 중</p>
-  <pre id="response-body" class="w3-code"></pre>
-</main>
+  <main class="w3-content w3-padding">
+    <h1>위도와 HTTP 응답</h1>
+    <p><label for="latitude">위도</label>
+      <select class="w3-select w3-border" id="latitude">
+        <option value="37.5665">37.5665 (서울)</option>
+        <option value="999">999 (범위 초과)</option>
+      </select></p>
+    <button class="w3-button w3-teal" id="run-button" type="button">기온 조회</button>
+    <p id="output" role="status">대기 중</p>
+    <p><small><a href="https://open-meteo.com/">Weather data by Open-Meteo</a></small></p>
+  </main>
 </body>
 </html>

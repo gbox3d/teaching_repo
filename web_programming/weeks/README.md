@@ -75,7 +75,7 @@ git push -u origin main
 - 예제는 개념별 폴더의 `index.html`과 `app.js`로 구성한다. 번호는 한 주 안에서 이어 센다. 새 예제의 스타일은 공용 CSS로 분리하며 배포 시 공용 자산과 상대 경로를 유지한다.
 - 만들기는 마지막 하나, `day2/web-weekNN/`뿐이다. 폴더 이름이 그 주 저장소 이름과 같다. 2일차 끝의 `web-weekNN` 저장소 맨 위 전체이고 다음 주의 시작점이다.
 - 3주차까지는 `dayN/`이 그날 수업이 끝났을 때의 **`my-web` 전체 파일**이다(그 주에 바뀌지 않은 파일도 포함).
-- 만들기 파일은 학생 수정 구역과 제공 구역을 나눈다. JavaScript는 클래식 `<script src="app.js" defer>`와 브라우저 기본 API를 사용한다. 페이지 동작은 JS 하나로 조립하고 설정 등 제공 기능을 따로 연결할 때는 로딩 순서를 설명한다. W3.CSS는 cdnjs CDN을 사용하고 추가 스타일만 `shared/examples.css`로 제공한다.
+- 만들기 파일은 학생 수정 구역과 제공 구역을 나눈다. JavaScript는 클래식 `<script src="app.js" defer>`와 브라우저 기본 API를 사용한다. 페이지 동작은 JS 하나로 조립하고 설정 등 제공 기능을 따로 연결할 때는 로딩 순서를 설명한다. W3.CSS를 쓰는 예제는 cdnjs CDN과 W3.CSS 기본 클래스로 작성한다. 추가 CSS는 이교수님이 해당 실습에 직접 지시한 경우에만 쓴다.
 - 모든 `dayN/index.html`(4주차부터는 `day2/web-weekNN/index.html`)은 브라우저 Console 오류 0으로 열린다. 비교 파일의 오류는 주석을 풀거나 버튼을 눌러 일부러 낼 때만 난다.
 
 시험·과제 주차는 같은 파일 세트에 다음을 더한다. 8·9·15주도 `README.md`·`slides.md`·`walkthrough.md`·`lab.md`를 두며, `lab.md`에는 1일차 연습·준비와 2일차 평가 시간표를 둔다. 14주는 다른 구현 주차처럼 2일간 실습한다.
@@ -105,7 +105,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 9 | 마크다운과 1차 과제 발표 | 표·그림·소스 코드·SVG 도표가 들어간 저장소 `README.md` 1차판과 2분 시연(방명록 목록에 두 줄 남기기 포함) | [`week09_readme_presentation`](week09_readme_presentation/) |
 | 10 | 배열 데이터를 목록으로 그리기 | 글을 배열에 모아 목록을 다시 그려, 3개를 쌓고 1개를 지운 뒤 "2개"가 표시된 방명록 | [`week10_array_list`](week10_array_list/) |
 | 11 | 객체와 localStorage | 강의 60분·실습 30분, ex06 폼의 새로고침 후 복원과 저장 JSON | [`week11_object_localstorage`](week11_object_localstorage/) |
-| 12 | REST API로 방명록 읽기 | 서버의 방명록 목록과 Network GET 200 | [`week12_fetch_json`](week12_fetch_json/) |
+| 12 | Promise와 async/await로 배우는 fetch | 같은 GET을 `.then()`과 `await`로 작성하고 선택한 도시의 현재 기온 표시 | [`week12_fetch_json`](week12_fetch_json/) |
 | 13 | REST API로 방명록 저장하기 | POST 201 뒤 다른 브라우저에도 보이는 글 | [`week13_release_security`](week13_release_security/) |
 | 14 | REST API로 방명록 수정·삭제하기 | 서버 id로 지정한 글의 수정·삭제와 재조회 | [`week14_project_presentation`](week14_project_presentation/) |
 | 15 | 기말 개인 실기 | 1일차 [1~14주 누적 문제 은행](week15_final_exam/examples/README.md) 연습, 2일차 기말 실기 — `web-week15/exam/` 공개 주소 · 저장소 주소 · Commits 탭 캡처 | [`week15_final_exam`](week15_final_exam/) |
@@ -127,7 +127,7 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 - 예제는 한 번에 한 개념만 보여 주는 최소 코드로 만든다.
 - `lab.md`에는 정답 전체 대신 완료 조건과 단계별 힌트를 둔다. "막혔을 때" 항목은 실제로 재현해 본 Console·터미널 문구를 그대로 적는다.
 - **표준 API·표준 용어만 쓴다**: `document.querySelector`, `textContent`, `addEventListener`, `classList`, `createElement`/`append`, `localStorage`, `JSON`, `fetch`/`await`. 클릭·제출 리스너 안에서 화면을 직접 바꾼다. 목록을 다시 그리는 함수 이름은 `showList()`로 통일한다.
-- **학기 범위 밖**: 번들러, npm 패키지, 서버 DB 구축·로그인 구현, 화살표 함수, `map`·`filter`·`forEach`, 클래스, 구조 분해, spread, `git rebase`. 강의자가 준비한 서버를 REST로 호출하는 내용은 12~14주 정규 범위다.
+- **학기 범위 밖**: 번들러, npm 패키지, 서버 DB 구축·로그인 구현, 화살표 함수, `map`·`filter`·`forEach`, 클래스, 구조 분해, spread, `git rebase`. 12주는 공개 API의 GET과 Promise, 13·14주는 강의자가 운영하는 방명록 API 호출을 다룬다.
 - 표준 입문 교재에 없는 설계 틀과 용어는 들여오지 않는다. 금지 목록은 강의자 설계 문서가 관리하며, 주차 검사 스크립트가 공개·비공개 문서를 모두 검사한다.
 - 문법·API는 처음 필요한 주에 도입한다. 배열·반복처럼 중심 학습 내용은 해당 차시 강의·실습 시간을 확보하고, 제공 보조 코드는 직접 구현 평가에서 제외한다.
 
@@ -150,8 +150,8 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 객체 `{ name: …, message: …, date: … }`, 점 표기 | 11주 1일차 | 필드·배열 인덱스 직접 수정 |
 | `JSON.stringify` / `JSON.parse`, `localStorage.setItem / getItem / removeItem` | 11주 2일차 | 정식 항목 |
 | `||`(if 안의 "또는", 값 자리의 `JSON.parse(…) || []`) | 11주 방명록 완성본 | 강의자 시연 참고. ex06 폼 예제는 `null`을 명시적으로 검사한다 |
-| `async function`·`await fetch(url)`·`await response.json()` | 12주 1일차 | 복붙 틀 |
-| `try / catch`, `response.ok` | 12주 2일차 | 정식 항목 |
+| Promise 상태·`.then()`·`.catch()`, `async function`·`await` | 12주 1일차 | 같은 GET에서 응답과 JSON 본문을 순서대로 기다리는 두 방법 |
+| `response.ok`, `try / catch / finally` | 12주 1·2일차 | HTTP 오류와 통신 실패 비교, 실패 후 다시 조회 |
 | POST, `headers`, `body`, `JSON.stringify` 요청 본문 | 13주 1일차 | 정식 항목 |
 | PATCH·DELETE, 서버 `id`, 편집 키 헤더, 204의 빈 본문 | 14주 | 정식 항목 |
 

@@ -14,7 +14,7 @@
 | C 폼·목록 4점 | [w10_list_delete](w10_list_delete/) | 10주 |
 | C 폼·목록 또는 E REST | [w13_rest_post](w13_rest_post/) | 13주 |
 | D 브라우저 저장 2점 | [w11_local_storage](w11_local_storage/) | 11주 |
-| E REST 3점 | [w12_rest_get](w12_rest_get/) · [w14_rest_edit](w14_rest_edit/) | 12·14주 |
+| E REST 3점 | [w12_rest_get](w12_rest_get/) · [w14_rest_edit](w14_rest_edit/) | 12주 비동기 GET·13주 방명록 조회·14주 편집 |
 
 시험은 A~E에서 한 문제씩 총 다섯 문제다. `w13_rest_post`를 C에 넣으면 E는 GET 또는 PATCH/DELETE 중 한 요청로 정하며, 같은 문항을 두 번 내지 않는다. w11은 폼 한 객체, w14는 PATCH 또는 DELETE 하나다. 재조회와 나머지 요청은 제공한다. 값만 바꿔 출제하고 해답은 비공개로 둔다. REST 문항의 서버·개인별 시험 공간·데이터·편집키는 강의자가 준비한다.
 

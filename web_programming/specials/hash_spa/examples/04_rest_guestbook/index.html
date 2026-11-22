@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>홈 · Hash SPA</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-  <link rel="stylesheet" href="shared/examples.css">
   <script src="api-settings.js" defer></script>
   <script src="app.js" defer></script>
 </head>
@@ -16,27 +15,27 @@
 <a class="w3-bar-item w3-button w3-mobile" href="#about" data-route="about">내 정보</a>
 <a class="w3-bar-item w3-button w3-mobile" href="#guestbook" data-route="guestbook">방명록</a>
 </nav>
-<main class="teaching-example w3-content w3-padding">
-<section class="w3-white" id="home">
+<main class="w3-content w3-padding">
+<section class="w3-white w3-padding" id="home">
 <h2 tabindex="-1">홈</h2>
 <p>웹프로그래밍을 배우는 student01입니다.</p>
 <button id="home-count-button" class="w3-button w3-teal" type="button">횟수 증가</button>
 <p id="home-count" role="status">클릭 0회</p>
 </section>
-<section class="w3-white" id="about" hidden>
+<section class="w3-white w3-padding" id="about" hidden>
 <h2 tabindex="-1">내 정보</h2>
 <p>student01 · 웹 페이지 만들기</p>
 <p>관심 분야: 사진, 보드게임, 산책</p>
 </section>
-<section class="w3-white" id="guestbook" hidden>
+<section class="w3-white w3-padding" id="guestbook" hidden>
 <h2 tabindex="-1">방명록</h2>
 
       <details class="w3-margin-bottom">
         <summary>API 설정</summary>
         <form id="api-settings-form" autocomplete="off">
-          <p><label for="api-base-url">API 주소</label><input class="w3-input w3-border" id="api-base-url" type="url" required></p>
-          <p><label for="api-public-key">공개 키</label><input class="w3-input w3-border" id="api-public-key" type="password" autocomplete="off" required></p>
-          <p><label for="api-book-id">방명록 번호</label><input class="w3-input w3-border" id="api-book-id" pattern="[a-z0-9_-]{1,40}" required></p>
+          <p><label for="api-base-url">API 주소</label> <input id="api-base-url" type="url" required></p>
+          <p><label for="api-public-key">공개 키</label> <input id="api-public-key" type="password" autocomplete="off" required></p>
+          <p><label for="api-book-id">방명록 번호</label> <input id="api-book-id" pattern="[a-z0-9_-]{1,40}" required></p>
           <button class="w3-button w3-teal" type="submit">설정 적용</button>
           <p id="api-settings-notice" role="status">로컬 연습 설정</p>
         </form>
@@ -73,12 +72,12 @@
         <p><button class="w3-button w3-teal" id="reload-button" type="button">새로 불러오기</button></p>
         <div class="w3-text-grey" id="load-notice" role="status"></div>
         <p id="empty" hidden>아직 남긴 글이 없습니다.</p>
-        <ul id="list" class="w3-ul" aria-live="polite"></ul>
+        <ul id="list" class="w3-ul w3-responsive" aria-live="polite"></ul>
         <div id="count">최근 글 0개</div>
       </section>
     
 </section>
-<section class="w3-white" id="not-found" hidden>
+<section class="w3-white w3-padding" id="not-found" hidden>
 <h2 tabindex="-1">화면을 찾을 수 없습니다</h2>
 <p>주소를 확인하세요.</p><a href="#home">홈으로 이동</a>
 </section>

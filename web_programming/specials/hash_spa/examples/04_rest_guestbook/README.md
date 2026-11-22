@@ -18,7 +18,7 @@ node web_programming/tools/guestbook-api/server.mjs
 
 ## REST Client 준비
 
-VS Code 확장 `humao.rest-client`를 설치한다. `.env.example`을 같은 폴더의 `.env`로 복사하고 `API_BASE_URL`, `API_PUBLIC_KEY`, `BOOK_ID`를 배부값으로 설정한다. `.gitignore`도 함께 복사하여 실제 `.env`가 추적되지 않게 한다. 브라우저 설정과 REST Client 설정은 별개다.
+VS Code 확장 `humao.rest-client`를 설치한다. 별도 Git 저장소에서 실습할 때는 먼저 저장소 최상위의 `.gitignore`에 `.env` 한 줄을 추가한다. `.env.example`을 같은 폴더의 `.env`로 복사하고 `API_BASE_URL`, `API_PUBLIC_KEY`, `BOOK_ID`를 배부값으로 설정한다. 브라우저 설정과 REST Client 설정은 별개다.
 
 [requests.http](requests.http)를 열고 각 요청 위 **Send Request**를 누른다. 접속 확인→도움말→GET을 먼저 보낸다. POST가 반환한 ID를 `.env`의 `MESSAGE_ID`에 적은 뒤 해당 ID 조회·수정·재조회·삭제·재조회 순으로 진행한다.
 
@@ -49,4 +49,4 @@ VS Code 확장 `humao.rest-client`를 설치한다. `.env.example`을 같은 폴
 
 ## 파일 배포
 
-`index.html`, `app.js`, `api-settings.js`, `shared/examples.css`, `README.md`, `requests.http`, `.env.example`, `.gitignore`가 한 묶음이다. 실제 `.env`와 편집 키는 제외한다. CSS는 `https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css`와 로컬 `shared/examples.css`다.
+`index.html`, `app.js`, `api-settings.js`, `README.md`, `requests.http`, `.env.example`을 배포한다. 실제 `.env`와 편집 키는 제외한다. CSS는 `https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css`에서 읽는다.

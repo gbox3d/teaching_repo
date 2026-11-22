@@ -14,6 +14,6 @@
 node web_programming/tools/static-server/server.mjs web_programming/weeks/week10_array_list/examples 8000
 ```
 
-이 폴더 전체를 복사하면 독립 실행할 수 있다. W3.CSS는 cdnjs 4.1.0 CDN, 추가 스타일은 shared/examples.css다. CDN에는 인터넷 연결이 필요하다. 화면에서 결과를 먼저 확인하고 Console의 items는 보조 관찰에 쓴다. ex03에는 items 배열이 없다.
+이 폴더 전체를 복사하면 독립 실행할 수 있다. 화면 스타일은 [W3.CSS 4.1.0 CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)에서 읽는다. 화면에서 결과를 먼저 확인하고 Console의 items는 보조 관찰에 쓴다. ex03에는 items 배열이 없다.
 
 [전체 실습](../../../lab.md)

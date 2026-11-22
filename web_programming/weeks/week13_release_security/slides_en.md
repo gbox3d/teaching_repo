@@ -8,29 +8,26 @@ footer: "REST API · POST"
 
 # Save guestbook messages with POST
 
-Week 12 GET → Week 13 POST → GET again
+From public API reads to writing a guestbook entry and checking the result
 
-- Reuse the week 7 form and week 12 list function.
+- Connect the week 7 form to a POST request. The list function is supplied.
 - Read status 201 and the server-generated id.
 - Each session: 60 minutes of lecture/demo + 30 minutes of practice.
-- Prepare files and the repository before class; upload after class.
+- Prepare the files and repository before class. Upload after class.
 
 ---
 
 ## Day 1 · 0–5 min · Check the starting point
 
-- Check the static server, API and supplied folder.
-- GET reads a list; POST creates a message.
-- An endpoint can accept different methods.
-
-The API settings panel is supplied code. Reloading restores local defaults.
-Re-enter shared API settings at runtime.
+- In example 02, copy `.env.example` to `.env`. Fill in `API_PUBLIC_KEY` and `BOOK_ID`.
+- Find your book id and message in the body of `POST /rest/v1/guestbook`.
+- Click **Send Request** once to add a message to the class guestbook.
 
 ---
 
 ## Day 1 · 5–20 min · POST and JSON
 
-[Example 01 demo](examples/day1/ex01/README.md) · [Example 02](examples/day1/ex02/README.md)
+[First POST in example 02](examples/day1/ex02/README.md) · [Optional JSON review](examples/day1/ex01/README.md)
 
 ```js
 const item = {
@@ -39,8 +36,8 @@ const item = {
 const body = JSON.stringify(item);
 ```
 
-Serialize the object before sending it.
-The server creates id and created_at. Example 01 sends no request.
+The request body contains the book id, alias and message.
+The server assigns the message number (`id`) and creation time (`created_at`).
 
 ---
 
@@ -66,13 +63,9 @@ apikey identifies public access. Prefer asks for the inserted row.
 
 ## Day 1 · 35–45 min · Status 201 and id
 
-- Payload: book_id, name and message sent by the page.
-- Response: id and created_at added by the server.
-- 201: created. Find the same id in the next GET 200 response.
-
-Copy `.env.example` to `.env` for REST Client settings.
-Use **Send Request** in order: about → help → POST → GET.
-Browser settings and `.env` are separate. Keep actual keys out of tracked files.
+- The request body contains `book_id`, `name` and `message`.
+- Find the server-assigned `id` in the `201 Created` response array.
+- Click **Send Request** above the GET in the same file. Find that `id` and your message in the `200 OK` list.
 
 ---
 
@@ -102,9 +95,9 @@ Practice: 10 + 10 + 10 = 30 minutes.
 
 ---
 
-## Day 2 · 0–5 min · Check the form and server
+## Day 2 · 0–5 min · Prepare the message form
 
-- Check the week 12 GET list and API settings.
+- Open **API 설정** in the completed guestbook and apply your publishable key and book id.
 - Use an alias and a message of at most 500 characters.
 - Do not include email in the POST body.
 
@@ -113,21 +106,20 @@ Students edit only form values, the JSON body and the reload call.
 
 ---
 
-## Day 2 · 5–15 min · Review submit
+## Day 2 · 5–15 min · Build the request body from the form
 
 [Example 04 demo](examples/day2/ex04/README.md)
 
 ```js
 form.addEventListener('submit', async function (event) {
   event.preventDefault();
-  const name = nameInput.value.trim();
   const message = messageInput.value.trim();
   // Validate, then POST.
 });
 ```
 
-Reuse submit → preventDefault → value.trim from week 7.
-Whitespace-only input sends no POST.
+Example 02 sent a fixed message. Example 04 sends the message entered in the form.
+Stop submission if either field contains only whitespace.
 
 ---
 
@@ -154,13 +146,9 @@ Student edit 1 reads form values; edit 2 builds the JSON body.
 
 [Example 05 demo](examples/day2/ex05/README.md)
 
-- Pending: guard duplicate submits and disable the button.
-- Confirmed success: show saved. Failure: preserve input.
-- finally: enable the button again.
-- Uncertain response: GET the list before another POST.
-
-Compare Slow 3G and Offline, then restore No throttling.
-An old POST response cannot clear the form after settings change.
+- On a slow connection, click Save twice. Look for a single POST in Network.
+- Submit while Offline. The input stays in the form and `finally` re-enables the button.
+- Restore the connection. If the save response did not arrive, check the list with GET first.
 
 ---
 
@@ -173,9 +161,9 @@ notice.textContent = `Saved · id ${saved[0].id}`;
 await loadMessages(); // Student edit 3
 ```
 
-Saving and loading have separate status messages. Retry GET if loading fails.
-Use the same API and book id in a second browser.
-Distinguish same-PC local checks from shared HTTPS API/device checks.
+The supplied `loadMessages()` function shows the new message.
+If GET fails after POST returns 201, click **새로 불러오기** to retry the GET.
+Open a second browser with the same book id and find the saved message.
 
 ---
 
@@ -198,8 +186,8 @@ Practice: 15 + 7 + 8 = 30 minutes.
 [Supplied settings](examples/day2/web-week13/api-settings.js) · [REST Client](examples/day2/web-week13/requests.http)
 [Home](examples/day2/web-week13/index.html) · [About](examples/day2/web-week13/about.html)
 
-HTML: api-settings.js → guestbook.js, both with defer.
-Initialize events and settings before the final initial GET call.
-Do not load submit.js. Add week 14 PATCH/DELETE sections to the same file.
+The page loads `api-settings.js` and `guestbook.js` in that order with `defer`.
+In the completed guestbook, **설정 적용** sends the first GET. **남기기** sends a POST followed by GET.
+In week 14, use the saved `id` to update and delete that message.
 
 [Examples](examples/README.md) · [Practice](lab.md) · [Walkthrough](walkthrough.md)

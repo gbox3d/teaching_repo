@@ -22,6 +22,6 @@ VS Code REST Client (humao.rest-client)를 설치한다. 같은 폴더의 .env.e
 
 ## 화면과 배포
 
-7주에서 배운 W3.CSS를 cdnjs 4.1.0 고정 CDN으로 읽고 이 폴더의 shared/examples.css를 추가한다. CDN에는 인터넷 연결이 필요하다. 이 폴더 전체의 상대 위치를 유지하면 독립적으로 배포할 수 있다. styles.css는 이전 배부 경로의 호환 파일이다. 긴 설명은 이 문서에서 읽고 화면에서 입력·응답을 확인한다.
+이 폴더를 그대로 배포한다. 스타일은 [W3.CSS 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 CDN에서 읽는다.
 
 [전체 설정·HTTPS·배포 안내](../README.md) · [연구 실습](../../lab.md)

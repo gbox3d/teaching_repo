@@ -21,7 +21,7 @@
 | [VS Code](https://code.visualstudio.com/docs/setup/windows) | 코드 편집. File › Open Folder로 예제 폴더 열기 |
 | [Chrome](https://www.google.com/chrome/) | Elements·Console·Network·Application과 375px 기기 모드 |
 | [Node.js](https://nodejs.org/en/download) | 교재 실행 기준은 24 이상. 5주 전 정적 서버 실행 확인. 학생 예제의 npm 패키지 설치는 없음 |
-| [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) | 12주 전 VS Code에 humao.rest-client 설치. .http의 Send Request로 about·help 요청 확인 |
+| [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) | 12주 전 VS Code에 humao.rest-client 설치. .http의 Send Request로 JSONPlaceholder 할 일과 Open-Meteo 기온 확인 |
 
 브라우저를 Edge로 대체할 때는 DevTools 이름과 예제 동작을 먼저 확인한다. Node 설치가 막힌 실습실은 담당 조교가 승인된 대체 정적 서버를 미리 준비한다. 수업 도중 매번 push하고 배포를 기다리는 방식을 30분 실습의 기본 환경으로 삼지 않는다.
 
@@ -29,7 +29,7 @@
 
 Marp 확장은 조교가 슬라이드를 미리 볼 때 사용한다. 학생의 HTML·CSS·JavaScript 실습에 필수는 아니다. VS Code의 Markdown 미리보기는 별도 확장 없이 사용할 수 있다.
 
-7주 전 cdnjs의 W3.CSS 4.1.0 연결을 확인한다. 라이브러리 파일은 별도로 설치하지 않는다. 7주 변환 이후와 9~14주 방명록은 같은 CDN을 사용한다. 11주 저장 기초와 배열 심화의 추가 스타일은 `web_programming/shared/examples.css`이므로 예제와 상대 경로를 유지해 배부한다.
+7주 전 cdnjs의 W3.CSS 4.1.0 연결을 확인한다. 라이브러리 파일은 별도로 설치하지 않는다. 7주 변환 이후와 9~14주 방명록은 같은 CDN을 사용한다. 11주 저장 기초와 배열 심화도 같은 CDN을 사용한다.
 
 ## 필요할 때만 설치
 
@@ -42,7 +42,7 @@ Marp 확장은 조교가 슬라이드를 미리 볼 때 사용한다. 학생의 
 ## 별도 설치가 없는 서비스
 
 - GitHub·GitHub Pages: 2주부터 브라우저로 설정한다.
-- Supabase: 정규 12~14주는 강의자가 API를 준비하므로 학생 계정·SQL·SDK가 필요 없다. 구축 특강에서는 학생 또는 소그룹 담당자가 새 프로젝트를 준비한다.
+- Supabase: 13·14주 방명록은 강의자가 API를 준비하므로 학생 계정·SQL·SDK가 필요 없다. 구축 특강에서는 학생 또는 소그룹 담당자가 새 프로젝트를 준비한다.
 - Kakao Developers: 지도 특강에서 계정·도메인·키 설정을 다룬다.
 
 ## 설치 확인
@@ -99,8 +99,8 @@ macOS·Linux도 같은 Node 정적 서버와 브라우저 예제를 쓴다. Git 
 | 7주 전 | W3.CSS CDN, 변환 전 파일·제공 JS, 375px 폼 동작 |
 | 9주 전 | README 시작 틀·제공 SVG·캡처 폴더, 발표 인원·전환 시간 |
 | 11주 전 | 같은 origin의 폼 저장·복원, 예제별 저장 키, 강의자 시연본 구분 |
-| 12주 전 | REST Client, .env 견본, 공용 HTTPS API about·help·GET, 브라우저 CORS |
-| 13주 전 | 자기 태그의 POST·GET, 두 브라우저의 같은 서버 글 |
+| 12주 전 | REST Client, JSONPlaceholder와 Open-Meteo의 GET, 브라우저에서 응답 읽기 |
+| 13주 전 | 수업용 주소·공개 키·태그 배부, POST·GET, 두 브라우저의 같은 글 |
 | 14주 전 | 편집 키 배부, 올바른 키·틀린 키, PATCH·DELETE 뒤 대상 재조회 |
 | 8·15주 전 | 문제은행 범위·시작 파일, 실제 제한시간, 로컬 대체 환경·시험 전용 태그 |
 | 연구 특강 전 | 각 특강 README의 계정·포트·도메인·시작 파일과 실행 조건 |
@@ -109,7 +109,7 @@ macOS·Linux도 같은 Node 정적 서버와 브라우저 예제를 쓴다. Git 
 
 공용 API는 [강의자 준비 안내](tools/guestbook-api/README.md)에 따라 점검한다. 학생에게 HTTPS API 주소·공개 키·book_id를 배부한다. book_id는 글을 구분하는 태그이며 로그인이나 비밀 값이 아니다. 14주 편집 키는 별도로 배부한다.
 
-정규 12~14주 브라우저 예제는 제공 설정 패널에서 주소·공개 키·태그를 적용한다. 설정과 편집 키는 메모리에만 두므로 새로고침 후 다시 입력한다. .http의 .env는 REST Client가 읽으며 브라우저 설정을 자동으로 바꾸지 않는다. 상세 연결은 해당 주 예제 README를 따른다.
+12주 선택 방명록과 13·14주 방명록 예제는 제공 설정 패널에서 주소·공개 키·태그를 적용한다. 설정과 편집 키는 메모리에만 두므로 새로고침 후 다시 입력한다. .http의 .env는 REST Client가 읽으며 브라우저 설정을 자동으로 바꾸지 않는다. 상세 연결은 해당 주 예제 README를 따른다.
 
 `http://127.0.0.1:8787`과 `classroom-local`은 선택 로컬 모의 API용 값이다. 이것으로 공용 서버나 다른 기기의 공유를 검증했다고 기록하지 않는다. 로컬 HTTP 화면에서 공용 HTTPS API를 호출할 수 있으며, Pages 화면과 공용 API는 모두 HTTPS를 사용한다.
 

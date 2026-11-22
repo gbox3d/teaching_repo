@@ -5,23 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>05 · 방명록 수정과 삭제</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-  <link rel="stylesheet" href="shared/examples.css">
   <script src="config.example.js" defer></script>
   <script src="app.js" defer></script>
 </head>
-<body>
+<body class="w3-content w3-padding">
   <header>
     <p>05 · PATCH / DELETE</p>
     <h1>방명록 수정과 삭제</h1>
 
   </header>
   <main>
-    <section class="w3-card w3-white" aria-labelledby="edit-title">
+    <section class="w3-card w3-container w3-margin-bottom" aria-labelledby="edit-title">
       <h2 id="edit-title">변경할 글</h2>
-      <p id="api-address"></p>
+      <p id="api-address" class="w3-responsive"></p>
       <label for="book">방명록 태그</label>
       <input class="w3-input w3-border" id="book" pattern="[a-z0-9_-]{1,40}" maxlength="40" required>
-      <div class="buttons"><button class="w3-button w3-white w3-border" id="load" type="button">목록 조회</button></div>
+      <div class="w3-section"><button class="w3-button w3-white w3-border" id="load" type="button">목록 조회</button></div>
       <label for="id">글 ID</label>
       <input class="w3-input w3-border" id="id" type="text" inputmode="numeric" pattern="[1-9][0-9]*" placeholder="목록에서 선택하거나 글 ID를 입력하세요.">
       <label for="name">별칭</label>
@@ -31,18 +30,18 @@
       <label for="edit-key">편집 키</label>
       <input class="w3-input w3-border" id="edit-key" type="password" autocomplete="off" aria-describedby="key-help">
       <p id="key-help">요청마다 편집 키 재입력</p>
-      <div class="buttons">
+      <div class="w3-section">
         <button class="w3-button w3-white w3-border" id="patch" type="button">선택한 글 수정</button>
         <button class="w3-button w3-white w3-border" id="delete" type="button">선택한 글 삭제</button>
       </div>
       <p id="notice" role="status">요청 대기</p>
       <h3>변경 요청 응답</h3>
-      <pre id="response-body">응답 없음</pre>
+      <pre id="response-body" class="w3-responsive">응답 없음</pre>
     </section>
-    <section class="w3-card w3-white" aria-labelledby="list-title">
+    <section class="w3-card w3-container w3-margin-bottom" aria-labelledby="list-title">
       <h2 id="list-title">글 목록</h2>
 
-      <ul id="messages"></ul>
+      <ul id="messages" class="w3-responsive"></ul>
     </section>
   </main>
   <footer>

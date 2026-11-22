@@ -42,7 +42,7 @@ async function loadMessages() {
 
 button.addEventListener('click', async function (event) {
   event.preventDefault();
-  if (saving) return;
+  if (saving || !API_PUBLIC_KEY) return;
   const message = 'POST 연습입니다.';
 
   const requestVersion = settingsVersion;
@@ -69,7 +69,6 @@ button.addEventListener('click', async function (event) {
     if (requestVersion !== settingsVersion) return;
     if (Array.isArray(saved) && saved[0]?.id) {
       output.textContent = `저장 완료 · HTTP ${response.status} · 글 번호 ${saved[0].id}`;
-
     } else {
       output.textContent = '저장 응답 수신 · 글 번호 확인 실패. 목록을 확인하고 다시 저장하지 마세요.';
     }
@@ -85,8 +84,8 @@ button.addEventListener('click', async function (event) {
 reloadButton.addEventListener('click', loadMessages);
 setupApiSettings(function () {
   settingsVersion++;
+  button.disabled = saving;
   list.replaceChildren();
   output.textContent = saving ? '설정 변경 완료 · 이전 저장 결과는 이전 설정의 목록에서 확인하세요.' : '';
   return loadMessages();
 });
-loadMessages();

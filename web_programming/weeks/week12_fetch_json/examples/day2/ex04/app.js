@@ -1,37 +1,16 @@
 const output = document.querySelector('#output');
 const button = document.querySelector('#run-button');
-const list = document.querySelector('#list');
+const url = 'https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m';
 
-let latestRequest = 0;
-
-async function readMessages() {
-  const requestId = ++latestRequest;
-  button.disabled = true;
-  output.textContent = '불러오는 중';
+async function readWeather() {
   try {
-    const url = `${API_BASE_URL}/rest/v1/guestbook?book_id=eq.${encodeURIComponent(BOOK_ID)}&select=id,name,message,created_at&order=id.desc&limit=50`;
-    const response = await fetch(url, {
-      headers: { apikey: API_PUBLIC_KEY }
-    });
+    const response = await fetch(url);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const items = await response.json();
-    if (requestId !== latestRequest) return false;
-    list.replaceChildren();
-    for (let i = 0; i < items.length; i++) {
-      const li = document.createElement('li');
-      li.textContent = `${items[i].name}: ${items[i].message}`;
-      list.append(li);
-    }
-    output.textContent = `GET ${response.status} · 최근 글 ${items.length}개`;
+    const weather = await response.json();
+    output.textContent = `서울 ${weather.current.temperature_2m}${weather.current_units.temperature_2m}`;
   } catch (error) {
-    if (requestId !== latestRequest) return false;
-    list.replaceChildren();
-    output.textContent = `조회 실패: ${error.message}. 연결을 확인하고 다시 요청하세요.`;
-  } finally {
-    if (requestId === latestRequest) button.disabled = false;
+    output.textContent = `조회 실패 · ${error.message}`;
   }
 }
 
-button.addEventListener('click', readMessages);
-setupApiSettings(readMessages);
-readMessages();
+button.addEventListener('click', readWeather);

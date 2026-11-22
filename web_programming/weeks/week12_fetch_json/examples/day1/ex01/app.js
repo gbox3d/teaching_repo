@@ -1,31 +1,19 @@
-const output = document.querySelector('#output');
 const button = document.querySelector('#run-button');
-const responseBody = document.querySelector('#response-body');
+const output = document.querySelector('#output');
 
-let latestRequest = 0;
-
-async function readMessages() {
-  const requestId = ++latestRequest;
+button.addEventListener('click', function () {
   button.disabled = true;
-  output.textContent = '불러오는 중';
-  try {
-    const url = `${API_BASE_URL}/rest/v1/about`;
-    const response = await fetch(url, {
-      headers: { apikey: API_PUBLIC_KEY }
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const items = await response.json();
-    if (requestId !== latestRequest) return false;
-    responseBody.textContent = JSON.stringify(items, null, 2);
-    output.textContent = `GET ${response.status} · ${items.length}개`;
-  } catch (error) {
-    if (requestId !== latestRequest) return false;
-    output.textContent = `요청 실패: ${error.message}. 주소와 연결을 확인하세요.`;
-  } finally {
-    if (requestId === latestRequest) button.disabled = false;
-  }
-}
+  output.textContent = '1. 타이머 시작\n';
 
-button.addEventListener('click', readMessages);
-setupApiSettings(readMessages);
-readMessages();
+  const timer = new Promise(function (resolve) {
+    setTimeout(function () {
+      resolve('3. 타이머 완료');
+    }, 1000);
+  });
+
+  timer.then(function (message) {
+    output.textContent += message;
+    button.disabled = false;
+  });
+  output.textContent += '2. 다음 줄 실행\n';
+});

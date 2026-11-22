@@ -3,32 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ex03 · 방명록 GET과 쿼리 문자열</title>
+  <title>할 일 조회 · async/await</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-  <link rel="stylesheet" href="shared/examples.css">
-  <script src="api-settings.js" defer></script>
   <script src="app.js" defer></script>
 </head>
-<body class="w3-light-grey">
-<main class="teaching-example w3-content w3-padding">
-  <h1>방명록 GET과 쿼리 문자열</h1>
-  <details class="w3-margin-bottom">
-  <summary>API 설정</summary>
-  <form id="api-settings-form" autocomplete="off">
-    <p><label for="api-base-url">API 주소</label>
-      <input class="w3-input w3-border" id="api-base-url" type="url" required></p>
-    <p><label for="api-public-key">공개 키</label>
-      <input class="w3-input w3-border" id="api-public-key" type="password" autocomplete="off" required></p>
-    <p><label for="api-book-id">방명록 번호</label>
-      <input class="w3-input w3-border" id="api-book-id" pattern="[a-z0-9_-]{1,40}" required></p>
-    <button class="w3-button w3-teal" type="submit">설정 적용</button>
-    <p id="api-settings-notice" role="status">로컬 연습 설정</p>
-  </form>
-</details>
-  <p><label for="limit">최대 글 수</label><input class="w3-input w3-border" id="limit" type="number" min="1" max="100" value="2"></p>
-  <button class="w3-button w3-teal" id="run-button" type="button">다시 요청</button>
-  <p id="output" role="status">대기 중</p>
-  <pre id="response-body" class="w3-code"></pre>
-</main>
+<body>
+  <main class="w3-content w3-padding">
+    <h1>할 일 조회 · async/await</h1>
+    <button class="w3-button w3-teal" id="run-button" type="button">할 일 불러오기</button>
+    <p id="output" role="status">대기 중</p>
+  </main>
 </body>
 </html>

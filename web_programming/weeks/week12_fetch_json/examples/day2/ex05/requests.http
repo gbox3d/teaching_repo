@@ -1,24 +1,7 @@
-# VS Code REST Client(humao.rest-client). .env.example을 .env로 복사합니다.
-@baseUrl = {{$dotenv API_BASE_URL}}
-@apiKey = {{$dotenv API_PUBLIC_KEY}}
-@bookId = {{$dotenv BOOK_ID}}
+@baseUrl = https://api.open-meteo.com
 
-### 1. 접속 확인: 200 + API 정보 배열
-GET {{baseUrl}}/rest/v1/about
-apikey: {{apiKey}}
+### 서울 현재 기온 · 200과 current.temperature_2m
+GET {{baseUrl}}/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m
 
-### 2. 도움말: 200 + 단계별 사용법 배열
-GET {{baseUrl}}/rest/v1/help?order=step.asc
-apikey: {{apiKey}}
-
-### 3. 자기 목록: 200 + 글 배열. []도 정상 응답입니다.
-GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&select=id,name,message,created_at&order=id.desc&limit=50
-apikey: {{apiKey}}
-
-### 4. 의도한 HTTP 오류: 로컬 서버 404 + message 객체
-GET {{baseUrl}}/rest/v1/missing_table
-apikey: {{apiKey}}
-
-### 5. 브라우저와 같은 HTTP 오류: 400 + message 객체
-GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&select=missing_column
-apikey: {{apiKey}}
+### 범위를 벗어난 위도 · 400과 error, reason
+GET {{baseUrl}}/v1/forecast?latitude=999&longitude=126.9780&current=temperature_2m

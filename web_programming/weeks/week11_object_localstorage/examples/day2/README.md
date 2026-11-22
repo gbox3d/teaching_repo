@@ -12,7 +12,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 브라우저에서 [ex04 문자열 저장](http://localhost:8111/weeks/week11_object_localstorage/examples/day2/ex04/)을 연다. 주소 끝의 `ex04`를 `ex05` 또는 `ex06`으로 바꾼다. 서버는 파일을 제공하고 실습 데이터는 브라우저에 저장한다.
 
-예제는 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)과 [추가 공용 CSS](../../../../shared/README.md)를 사용한다. CDN 스타일에는 인터넷 연결이 필요하다. `web_programming`을 서버 루트로 삼고 `shared/examples.css`와 예제의 상대 위치를 유지한다. 별도 배포 시 필요한 파일과 경로 조정은 공용 CSS 안내를 따른다.
+화면 스타일은 [W3.CSS 4.1.0 CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)에서 읽는다.
 
 `file://` 대신 localhost 또는 HTTPS 주소로 연다. 저장 공간은 브라우저와 origin(프로토콜·호스트·포트)별로 구분된다. 같은 origin의 폴더들은 저장 공간을 공유한다. 포트를 바꾸거나 공개 주소로 옮기면 기존 값은 보이지 않는다. [MDN localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 

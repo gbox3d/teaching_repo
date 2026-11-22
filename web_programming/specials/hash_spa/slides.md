@@ -28,7 +28,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 01 MPA → 02 두 화면 → 03 세 hash → 04 REST 통합
 
-W3.CSS 4.1.0 CDN과 예제별 shared/examples.css를 읽는다.
+화면 스타일은 W3.CSS 4.1.0 CDN에서 읽는다.
 특강 차시 수와 실험 시간을 제한하지 않는다.
 
 ---

@@ -37,7 +37,7 @@ node web_programming/tools/static-server/server.mjs web_programming/weeks/week10
 | 구분 | 범위 |
 |---|---|
 | 필수 작성 | ex01 문자열 2값, ex02 for와 본문 5줄, 방명록 등록 2줄·삭제 2줄 |
-| 제공 | HTML·W3.CSS·보조 CSS, DOM 선택, 버튼·이벤트 틀, 폼 검증, showList·빈 상태·개수, 시작 시 호출 |
+| 제공 | HTML·W3.CSS, DOM 선택, 버튼·이벤트 틀, 폼 검증, showList·빈 상태·개수, 시작 시 호출 |
 | 시연·선택 | ex03~07의 코드 변형, Console에서 배열 관찰, 전체 지우기 |
 | 별도 보강 | [배열 심화](../../specials/array_advanced/README.md)의 삽입·삭제·forEach·filter·map·reduce |
 

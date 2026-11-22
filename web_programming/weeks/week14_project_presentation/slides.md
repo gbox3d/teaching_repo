@@ -154,7 +154,7 @@ api-settings.js는 별도 제공한다.
 모든 함수·이벤트 초기화 뒤 파일 끝에서 설정과 최초 GET을 실행한다.
 
 [방명록](examples/day2/web-week14/guestbook.html) · [동작](examples/day2/web-week14/guestbook.js)
-[설정](examples/day2/web-week14/api-settings.js) · [CSS](examples/day2/web-week14/shared/examples.css)
+[설정](examples/day2/web-week14/api-settings.js)
 [홈](examples/day2/web-week14/index.html) · [내 정보](examples/day2/web-week14/about.html)
 
 ---

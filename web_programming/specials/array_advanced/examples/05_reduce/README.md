@@ -11,7 +11,6 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 [실습 화면 열기](http://localhost:8111/specials/array_advanced/examples/05_reduce/)
 
 이 예제는 [W3.CSS CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)을 사용하므로 인터넷 연결이 필요하다.
-[공용 추가 스타일](../../../../shared/README.md)인 `web_programming/shared/examples.css`를 함께 준비하고 예제와의 상대 위치를 유지한다.
 
 저장소나 서버 없이 메모리의 학생 배열로 계산한다.
 

@@ -9,6 +9,11 @@ function setupApiSettings(onApply) {
   const keyInput = document.querySelector('#api-public-key');
   const bookInput = document.querySelector('#api-book-id');
   const notice = document.querySelector('#api-settings-notice');
+  // 수업 주소가 지정된 페이지는 배부받은 공개 키로 시작한다.
+  if (baseInput.defaultValue) {
+    API_BASE_URL = baseInput.defaultValue;
+    API_PUBLIC_KEY = keyInput.defaultValue;
+  }
   baseInput.value = API_BASE_URL;
   keyInput.value = API_PUBLIC_KEY;
   bookInput.value = BOOK_ID;

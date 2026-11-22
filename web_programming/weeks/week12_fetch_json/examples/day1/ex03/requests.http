@@ -1,20 +1,5 @@
-# VS Code REST Client(humao.rest-client). .env.example을 .env로 복사합니다.
-@baseUrl = {{$dotenv API_BASE_URL}}
-@apiKey = {{$dotenv API_PUBLIC_KEY}}
-@bookId = {{$dotenv BOOK_ID}}
+@baseUrl = https://jsonplaceholder.typicode.com
 
-### 1. 접속 확인: 200 + API 정보 배열
-GET {{baseUrl}}/rest/v1/about
-apikey: {{apiKey}}
-
-### 2. 도움말: 200 + 단계별 사용법 배열
-GET {{baseUrl}}/rest/v1/help?order=step.asc
-apikey: {{apiKey}}
-
-### 3. 자기 목록: 200 + 글 배열. []도 정상 응답입니다.
-GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&select=id,name,message,created_at&order=id.desc&limit=50
-apikey: {{apiKey}}
-
-### 4. limit 비교: 최대 2개. 서버 글이 적으면 2개보다 적습니다.
-GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&select=id,name,message,created_at&order=id.desc&limit=2
-apikey: {{apiKey}}
+### async/await 화면과 같은 요청 · 200 OK, id 1과 title이 담긴 객체
+GET {{baseUrl}}/todos/1
+Accept: application/json

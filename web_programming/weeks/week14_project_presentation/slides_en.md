@@ -152,7 +152,7 @@ api-settings.js is provided separately.
 Initialize DOM references, functions and events before setup and first GET.
 
 [Page](examples/day2/web-week14/guestbook.html) · [Behavior](examples/day2/web-week14/guestbook.js)
-[Settings](examples/day2/web-week14/api-settings.js) · [CSS](examples/day2/web-week14/shared/examples.css)
+[Settings](examples/day2/web-week14/api-settings.js)
 [Home](examples/day2/web-week14/index.html) · [About](examples/day2/web-week14/about.html)
 
 ---

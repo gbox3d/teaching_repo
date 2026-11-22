@@ -1,7 +1,7 @@
 # 학생용 공용 방명록 API 사용 안내
 
 강의자가 준비한 서버에 `fetch`로 글을 저장하고 읽는다. 학생은 Supabase 계정이나 SQL이 필요 없다.
-정규 12주는 about 접속·help 안내를 확인한 뒤 GET으로 목록을 읽고, 13주는 POST 저장, 14주는 PATCH·DELETE를 다룬다. 화면은 학생이 만든 HTML·JavaScript가 담당한다.
+12주 필수 예제는 키 없이 날씨와 할 일을 조회한다. 이 안내는 12주 선택 방명록과 13주 글 등록, 14주 수정·삭제에 사용한다. 화면은 학생이 만든 HTML·JavaScript가 담당한다.
 아래 01~07은 Supabase 구축 특강의 예제 번호다. 01 접속, 02 안내, 03 조회, 04 저장, 05 수정·삭제, 06 통합 실험, 07 완성 방명록 순서다.
 
 강의자가 [about-help.sql](about-help.sql)을 공용 서버에 적용했으며 2026-11-14에 about·help GET 200과 응답 1행·6행을 확인했다.
@@ -15,7 +15,7 @@
 https://esoqbcwgzjtwcqszwvin.supabase.co
 ```
 
-정규 12~14주 브라우저 예제는 제공 설정 패널에서 API 주소·공개 키·방명록 번호를 입력하고 **설정 적용**을 누른다. 설정은 메모리에만 남으므로 새로고침 후 다시 입력한다. 실제 키를 코드에 작성할 필요가 없다.
+12주 [선택 방명록](../../weeks/week12_fetch_json/examples/day2/web-week12/README.md)은 위 주소가 채워진 상태로 열린다. 강의자가 배부한 공개 키를 넣고 **설정 적용**을 누르면 첫 GET을 보낸다. 방명록을 조회하는 단계부터는 배정받은 방명록 번호를 사용한다. 새로고침하면 공개 키를 다시 입력한다. 13주 [첫 POST 예제](../../weeks/week13_release_security/examples/day1/ex02/README.md)도 같은 주소·공개 키·방명록 번호를 쓴다. 14주 설정 패널에 로컬 주소가 보이면 위 수업 주소를 입력한다.
 
 Supabase 구축 특강의 01~07은 예제 폴더의 `config.example.js`에서 아래 세 값을 설정한다. 공개 키는 강의자가 배부한 값으로 바꾼다. 두 예제 묶음의 설정 방식은 서로 다르므로 실행하는 폴더의 README를 따른다.
 `API_BASE_URL`에는 `/rest/v1/about` 같은 경로를 붙이지 않는다. 요청 코드가 뒤에 붙인다.
@@ -29,6 +29,14 @@ const BOOK_ID = 'student01';
 `BOOK_ID`는 글을 묶는 태그다. 강의자가 지정한 값을 사용한다.
 2026-11-13에 등록을 확인한 태그는 `student01`, `student02`다. 등록되지 않은 태그로는 글을 저장할 수 없다.
 조회·저장에는 위 공개 키만 필요하다. 학생 로그인이나 편집 키는 사용하지 않는다.
+
+예제 폴더만 새 Git 저장소로 복사하면 교재 루트의 설정은 따라오지 않는다. 이때는 `.env`를 만들기 전에 새 저장소 루트의 `.gitignore`에 아래 세 줄을 추가한다.
+
+```gitignore
+.env
+.env.*
+!.env.example
+```
 
 ## 2. 접속 확인과 사용 안내
 
@@ -84,7 +92,7 @@ checkApi();
 
 정규 주차의 완성 화면과 연결 코드는 다음 자료에서 확인한다.
 
-- [12주 GET 완성 예제](../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.html): 목록 조회와 새로 불러오기
+- [12주 선택 방명록 GET](../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.html): 목록 조회와 새로 불러오기
 - [13주 POST 완성 예제](../../weeks/week13_release_security/examples/day2/web-week13/guestbook.html): 이름·메시지 입력과 서버 저장
 - [14주 수정·삭제 완성 예제](../../weeks/week14_project_presentation/examples/day2/web-week14/guestbook.html): 서버 ID와 편집 키, 변경 후 재조회
 - [12주 조회 코드](../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.js), [13주 저장 포함 코드](../../weeks/week13_release_security/examples/day2/web-week13/guestbook.js)
@@ -129,7 +137,7 @@ apikey: 강의자가 배부한 publishable key
 
 브라우저 주소창에는 `apikey` 헤더를 넣을 수 없으므로 주소만 열어서는 정상 조회되지 않는다.
 아래는 요청 부분을 분리한 함수 예다. 위 설정을 먼저 읽은 JavaScript 파일에서 사용한다.
-화면에 목록을 표시하는 코드는 12주 완성 예제에서 확인한다.
+화면에 목록을 표시하는 코드는 [12주 선택 방명록](../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.js)에서 확인한다.
 
 ```js
 async function readGuestbook() {

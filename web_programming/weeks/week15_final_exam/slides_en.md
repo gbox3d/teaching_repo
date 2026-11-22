@@ -66,7 +66,7 @@ The storage task saves one form object. PATCH or DELETE is one request task.
 
 [GET page](examples/w12_rest_get/index.html)
 [Code](examples/w12_rest_get/app.js) · [Settings](examples/w12_rest_get/api-settings.js)
-[CSS](examples/w12_rest_get/shared/examples.css) · [.http](examples/w12_rest_get/requests.http)
+[.http](examples/w12_rest_get/requests.http)
 
 ---
 

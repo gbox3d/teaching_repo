@@ -19,7 +19,7 @@ Compare insertion, deletion, iteration, selection, transformation, and accumulat
 
 ---
 
-## Preparation and shared CSS
+## Run the examples
 
 Prerequisites: arrays, objects, functions, and DOM events. No arrow syntax needed.
 Run from the repository root.
@@ -31,7 +31,6 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 Open http://localhost:8111/specials/array_advanced/examples/01_insert_delete/
 
 An internet connection is required to load [W3.CSS from the CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css).
-Keep the examples and the additional web_programming/shared/examples.css in their relative locations.
 
 ---
 

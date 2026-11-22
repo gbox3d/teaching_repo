@@ -21,4 +21,4 @@
 
 `index.html#guestbook`을 루트와 `/내프로젝트/index.html#guestbook` 아래에서 각각 연다. 파일 경로는 서버가, hash는 브라우저 코드가 처리한다. 선택 연구는 입력과 홈 횟수가 새로고침에서 사라지는 이유를 11주 폼 저장과 비교하는 것이다.
 
-`index.html`, `app.js`, `shared/examples.css`를 함께 복사한다. CDN은 `https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css`다. 로컬 실행 명령은 [특강 README](../../README.md)에 있다.
+`index.html`, `app.js`를 함께 복사한다. CDN은 `https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css`다. 로컬 실행 명령은 [특강 README](../../README.md)에 있다.

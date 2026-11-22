@@ -42,9 +42,8 @@ async function loadMessages(book) {
     const item = document.createElement('li');
     const heading = document.createElement('strong');
     heading.textContent = `${row.name} · #${row.id}`;
-    const message = document.createElement('p');
+    const message = document.createElement('pre');
     message.textContent = row.message;
-    message.style.whiteSpace = 'pre-wrap';
     const selectButton = document.createElement('button');
     selectButton.type = 'button';
     selectButton.className = 'w3-button w3-white w3-border';

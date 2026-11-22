@@ -4,4 +4,4 @@
 
 필수 수정은 `app.js` 마지막 화면 출력의 `items[0].name`을 `items[1].name`으로 바꾸는 것이다. 저장·새로고침한 뒤 버튼을 눌러 이름이 하늘에서 바다로 바뀌는지 확인한다. 날짜 한 줄과 화면 출력·버튼 연결은 제공 코드다.
 
-스타일은 [W3.CSS 4.1.0](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)과 `../../../../../shared/examples.css`다. 교재 폴더 구조를 유지하고 [주차 실행 안내](../../../README.md#준비와-실행)를 따른다.
+화면 스타일은 [W3.CSS 4.1.0 CDN](https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css)에서 읽는다.

@@ -42,7 +42,7 @@ W3.CSS는 CDN의 고정 버전을 사용한다.
 
 W3.CSS 로컬 사본은 없다. ex01의 `before.html`에는 CDN 연결이 없다. ex04는 비교용 기존 `../web-week07/styles.css`를 사용한다. 완성본의 홈·소개 페이지도 기존 `styles.css`를 사용하고, 방명록만 W3.CSS를 사용한다.
 
-ex02·ex03과 2일차 예제는 각 폴더의 `shared/examples.css`에 있는 `example-output`으로 긴 입력을 줄바꿈한다. 2일차 파일에는 방명록 폼과 피드용 규칙도 있다. 해당 폴더를 복사할 때 `shared/`를 함께 가져온다. [공통 CSS](../../../shared/examples.css)
+ex02·ex03은 W3.CSS 클래스로 입력과 미리보기를 표시한다. 2일차 방명록을 옮길 때는 피드 배치를 담은 `shared/`를 함께 복사한다.
 
 ex03b에서 여백을 수정할 파일은 `day1/ex03b_list/shared/examples.css`다. `.post`의 `padding-block`을 `0.5rem`에서 `1rem`으로 바꾸면 각 글의 위아래 여백이 늘어난다. 새로고침하고 375px와 1280px에서 구분선의 간격과 긴 본문의 줄 수를 비교한다.
 
