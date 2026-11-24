@@ -1,0 +1,6 @@
+# 학습·변환 산출물과 내려받은 도구는 커밋하지 않는다(용량이 크고 PC마다 다시 만든다).
+adapters/
+models/
+outputs/
+*.gguf
+finetune/tools/llama.cpp/

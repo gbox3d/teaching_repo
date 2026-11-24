@@ -6,8 +6,8 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 
 const EXPECTED_NODE_MAJOR = 24;
-const EXPECTED_DECKS = 59;
-const EXPECTED_SLIDES = 1185;
+const EXPECTED_DECKS = 60;
+const EXPECTED_SLIDES = 1218;
 const REPOSITORY_BLOB_URL = "https://github.com/gbox3d/teaching_repo/blob/main";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");

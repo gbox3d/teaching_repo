@@ -1,0 +1,2 @@
+FROM ./models/wku-lora.gguf
+PARAMETER temperature 0

@@ -1,0 +1,24 @@
+[project]
+name = "osa-special-chatbot-rag"
+version = "0.1.0"
+description = "기말 챗봇 개선 특강: 내 평가 문항, 임베딩 RAG, 학습 예시 만들기, 추론 점검"
+requires-python = ">=3.12"
+dependencies = ["osa-week14-wku-chatbot"]
+
+# 14주차 명령(ex01~ex03, evaluate)도 같은 가상 환경에 설치되므로 이 특강은 ex04부터 쓴다.
+[project.scripts]
+ex04 = "ex04_my_eval:main"
+ex05 = "ex05_search:main"
+ex06 = "ex06_make_sft:main"
+ex07 = "ex07_inspect:main"
+
+[build-system]
+requires = ["uv_build>=0.8,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = ["rag_bot", "lab_shared", "ex04_my_eval", "ex05_search", "ex06_make_sft", "ex07_inspect"]
+
+[tool.uv.sources]
+# 14주차의 채점기·기준 봇·참고 자료를 복사하지 않고 그대로 쓴다. 저장소 전체를 clone해야 이 경로가 이어진다.
+osa-week14-wku-chatbot = { path = "../../../weeks/week14_chatbot_project/examples", editable = true }

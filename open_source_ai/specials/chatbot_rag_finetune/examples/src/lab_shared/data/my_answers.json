@@ -1,0 +1,336 @@
+[
+  {
+    "id": "mine-01",
+    "expected": [
+      [
+        "전북특별자치도"
+      ]
+    ],
+    "sources": [
+      "wku-location"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-location"
+    ]
+  },
+  {
+    "id": "mine-02",
+    "expected": [
+      [
+        "학술탐구"
+      ],
+      [
+        "덕성함양"
+      ],
+      [
+        "사회봉사"
+      ]
+    ],
+    "sources": [
+      "wku-values"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-values",
+      "wku-values",
+      "wku-values"
+    ]
+  },
+  {
+    "id": "mine-03",
+    "expected": [
+      [
+        "원불교"
+      ]
+    ],
+    "sources": [
+      "wku-values"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-values"
+    ]
+  },
+  {
+    "id": "mine-04",
+    "expected": [
+      [
+        "과학"
+      ],
+      [
+        "도학"
+      ]
+    ],
+    "sources": [
+      "wku-values"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-values",
+      "wku-values"
+    ]
+  },
+  {
+    "id": "mine-05",
+    "expected": [
+      [
+        "전인교육"
+      ]
+    ],
+    "sources": [
+      "wku-values"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-values"
+    ]
+  },
+  {
+    "id": "mine-06",
+    "expected": [
+      [
+        "1951",
+        "1951년"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
+  },
+  {
+    "id": "mine-07",
+    "expected": [
+      [
+        "1953",
+        "1953년"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
+  },
+  {
+    "id": "mine-08",
+    "expected": [
+      [
+        "1967",
+        "1967년"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
+  },
+  {
+    "id": "mine-09",
+    "expected": [
+      [
+        "1971년 12월 31일",
+        "1971-12-31",
+        "1971.12.31"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
+  },
+  {
+    "id": "mine-10",
+    "expected": [
+      [
+        "https://www.wku.ac.kr/",
+        "https://www.wku.ac.kr",
+        "www.wku.ac.kr",
+        "www.wku.ac.kr/"
+      ]
+    ],
+    "sources": [
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-services"
+    ]
+  },
+  {
+    "id": "mine-11",
+    "expected": [
+      [
+        "https://intra.wku.ac.kr/",
+        "https://intra.wku.ac.kr",
+        "intra.wku.ac.kr",
+        "intra.wku.ac.kr/"
+      ]
+    ],
+    "sources": [
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-services"
+    ]
+  },
+  {
+    "id": "mine-12",
+    "expected": [
+      [
+        "학습 플랫폼"
+      ]
+    ],
+    "sources": [
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-services"
+    ]
+  },
+  {
+    "id": "mine-13",
+    "expected": [
+      [
+        "063-850-5114",
+        "0638505114",
+        "(063)850-5114",
+        "063)850-5114",
+        "063.850.5114"
+      ],
+      [
+        "https://intra.wku.ac.kr/",
+        "https://intra.wku.ac.kr",
+        "intra.wku.ac.kr",
+        "intra.wku.ac.kr/"
+      ]
+    ],
+    "sources": [
+      "wku-location",
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-location",
+      "wku-services"
+    ]
+  },
+  {
+    "id": "mine-14",
+    "expected": [
+      [
+        "1953",
+        "1953년"
+      ],
+      [
+        "1967",
+        "1967년"
+      ],
+      [
+        "원불교"
+      ]
+    ],
+    "sources": [
+      "wku-history",
+      "wku-values"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history",
+      "wku-history",
+      "wku-values"
+    ]
+  },
+  {
+    "id": "mine-15",
+    "expected": [
+      [
+        "전북특별자치도"
+      ],
+      [
+        "백목련"
+      ],
+      [
+        "https://www.wku.ac.kr/",
+        "https://www.wku.ac.kr",
+        "www.wku.ac.kr",
+        "www.wku.ac.kr/"
+      ]
+    ],
+    "sources": [
+      "wku-location",
+      "wku-symbols",
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-location",
+      "wku-symbols",
+      "wku-services"
+    ]
+  },
+  {
+    "id": "mine-16",
+    "expected": [
+      [
+        "1951",
+        "1951년"
+      ],
+      [
+        "황금색",
+        "금색"
+      ]
+    ],
+    "sources": [
+      "wku-history",
+      "wku-symbols"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history",
+      "wku-symbols"
+    ]
+  },
+  {
+    "id": "mine-17",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "mine-18",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "mine-19",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "mine-20",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  }
+]

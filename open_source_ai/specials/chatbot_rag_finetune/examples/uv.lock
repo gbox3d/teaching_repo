@@ -1,0 +1,19 @@
+version = 1
+revision = 3
+requires-python = ">=3.12"
+
+[[package]]
+name = "osa-special-chatbot-rag"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "osa-week14-wku-chatbot" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "osa-week14-wku-chatbot", editable = "../../../weeks/week14_chatbot_project/examples" }]
+
+[[package]]
+name = "osa-week14-wku-chatbot"
+version = "0.1.0"
+source = { editable = "../../../weeks/week14_chatbot_project/examples" }

@@ -26,6 +26,7 @@ open_source_ai/
 ├─ weeks/weekNN_<주제>/     정규 15주
 └─ specials/
    ├─ huggingface_hub/, pytorch_basics/    사이트에 올린 선택 특강
+   ├─ chatbot_rag_finetune/               사이트에 올린 기말 챗봇 개선 특강(평가·RAG·파인튜닝·추론 버그 잡기, 4교시)
    ├─ reasoning_tips/                     팁엔트릭엔 추론, 독립 복습 자료
    └─ project_delivery/                    이전 10~13주차 원고 보존(사이트 미등록)
 ```
@@ -44,6 +45,7 @@ open_source_ai/
 - 5·6·7·9~14주차 `examples/`는 아래 '예제 코드'의 5주차 규격을 따르는 uv 프로젝트 하나다(`.python-version` 3.12, `uv.lock` 포함). `examples/`에서 `uv sync` 후 `uv run exNN`으로 실행한다. 9주차 Streamlit 앱은 예외로 `uv run streamlit run src/<예제>/app.py`를 쓴다(아래 '예제 코드').
 - 1~4·8주차는 교시 폴더별 파일·템플릿 구조이고, 15주차 `examples/`에는 안내 README만 있다. 이 주차들을 크게 고칠 때는 5주차 규격으로 옮긴다.
 - 10~13주차는 `[tool.uv.sources]`의 상대 경로로 저장소의 `tools/bleuno-control`을 쓴다. 저장소 전체를 복제해야 실행되며 주차 폴더만 떼어 내면 경로가 끊긴다. 13주차는 12주차 `examples/models/`의 학습 결과를 그대로 읽는다(`src/shared`의 `MODELS_DIR`).
+- 특강 `chatbot_rag_finetune`은 uv 프로젝트가 둘이다. `examples/`(명령 `ex04`~`ex07`)는 14주차 예제 프로젝트를 `[tool.uv.sources]`의 상대 경로로 설치하고, `finetune/`(명령 `prepare`·`ft01`·`ft02`)은 7주차와 같은 torch·transformers·peft 버전을 쓴다. `ex06`의 학습 예시는 특강 루트의 `outputs/sft/`에 생기고, 학습·변환 산출물과 `finetune/tools/llama.cpp/`는 특강 루트의 `.gitignore`로 막는다.
 - 시뮬레이터 `tools/wleno`는 uv 프로젝트가 아니다. Python 3.10 이상의 표준 라이브러리로 실행되고 창은 Tkinter를 쓴다. 수업 문서는 저장소 루트에서 `python tools/wleno/main.py --bind 127.0.0.1`로 켜게 한다(TCP 8266, HTTP 8080).
 
 주차 폴더 이름 `weekNN_<영문 주제>`가 콘텐츠 ID다. `site/catalog.json`의 chapter `id`와 비공개 대본·해답 폴더도 같은 이름을 쓴다. 이름을 바꾸면 catalog의 `formerIds`에 옛 이름을 넣어 옛 슬라이드 주소를 살린다(2026-11-13 10~15주차 폴더 이름 변경 사례).
@@ -73,7 +75,7 @@ open_source_ai/
 - 5주차 `week05_langchain_basics/examples`를 예제 구조의 기준으로 삼는다(2026-10-29 사용자 지시). 주차의 `examples/`에 uv 프로젝트 하나와 `pyproject.toml`·`.python-version`·`uv.lock`을 두고, 예제별 `src/exNN_<주제>/__init__.py`의 `main()`을 `uv run exNN`으로 실행한다. 공용 코드는 `src/shared/`에 한 번만 두며 예제끼리 직접 import하지 않는다. `period1`~`period3`에는 해당 교시의 소스와 실행 순서를 안내하는 README만 둔다. 문서·평가셋·환경 설정·산출물은 한 프로젝트에서 이어 쓰며 교시마다 복사하거나 다시 생성하게 하지 않는다. 새 예제와 구조 개편에 이 기준을 적용한다.
 - 9주차 Streamlit 화면 예제는 `examples/`에서 `uv run streamlit run src/<예제>/app.py`로 직접 실행한다. 슬라이드와 실습지에도 학생이 수정할 `app.py` 경로를 명령에 표시한다.
 - 예제에 명령행 옵션(argparse)·`.env` 설정 계층·결과 JSON 저장·직접 만든 예외 클래스 같은 실무 앱 구조를 넣지 않는다(2026-11-05 사용자 지시, "커맨드라인 파라미터 남발 금지"). 바꿔 볼 값은 파일 맨 위의 대문자 상수(`TOP_K`, `CHUNK_SIZE` 등)로 두고 학생이 값을 고쳐 같은 명령을 다시 실행해 비교한다. 자료는 작위적인 수업 규칙 문서 대신 학생이 흥미를 느끼는 공유 저작물(예: 6주차 그리스·로마 신화 요약)을 교재용으로 새로 써서 `src/shared/data/`에 둔다. 저작권이 있는 소설 원문은 공개 교재에 넣지 않는다.
-- `uv.lock`은 3·4주차 일부 교시와 5·6·7·9~14주차에 커밋되어 있다. 의존성을 바꿀 때만 `uv lock`으로 갱신하고, 검증할 때는 `--frozen`이나 `--locked`로 lock을 바꾸지 않는다.
+- `uv.lock`은 3·4주차 일부 교시와 5·6·7·9~14주차, 특강 `chatbot_rag_finetune`의 `examples/`·`finetune/`에 커밋되어 있다. 의존성을 바꿀 때만 `uv lock`으로 갱신하고, 검증할 때는 `--frozen`이나 `--locked`로 lock을 바꾸지 않는다.
 - 코드 변경 시 README·실습지·따라하기·슬라이드의 실행 및 입력 안내도 맞춘다. 실제 입력, 응답, 다음 입력, 종료 흐름을 검증하고 확인하지 못한 실행 결과는 단정하지 않는다.
 
 ### LangChain 터미널 예제와 추론 복습
@@ -101,9 +103,15 @@ open_source_ai/
 | 시뮬레이터 실행 명령 | 10주차 6개 파일(README, `examples/README.md`, lab, walkthrough, slides 한영), 11주차 4개 파일(README, `examples/README.md`, lab, walkthrough), 12주차 `examples/period1/README.md`. `git grep -n "wleno/main.py" -- open_source_ai`로 찾는다 |
 | `tools/bleuno-control`의 함수·검증·평가·학습, `tools.json`, `control_cases.json` | 10~13주차 문서와 `src/shared`, `materials_plan.md` 10절, `weeks/README.md` 기본값 표, `ta_setup_guide.md` 10~13주차 표 |
 | `tools/wleno`의 명령·응답·포트 | Android 11~15주차(`android_programming/iot_sim/lab.md`, `tools/wleno/android/`)도 같은 시뮬레이터를 쓴다. 혼자 바꾸지 않고 Android 담당 작업과 맞춘다 |
-| 생성 모델 기본값 | 기본값이 둘로 갈려 있다. 4~7·9~11·14주차는 `qwen3.5:2b`, 1~3주차와 8주차 `period3/config.py`·두 `broken_project/report.py`·두 `make_broken_repo.ps1`은 초판 흐름의 `qwen3:8b`다(8주차 README·lab·slides는 `qwen3.5:2b`). 바꿀 때 같이 볼 곳: 각 주차 예제 상수, 5·6·9주차 `src/shared`와 8주차의 `OLLAMA_MODEL` 기본값, 4주차 `examples/period3/Modelfile`, 14주차 `examples/tests/test_evaluation.py`의 모델 이름 단언, `tools/bleuno-control/src/bleuno_control/models.py` 기본 인수, `weeks/README.md` 기본값 표, `ta_setup_guide.md`. 찾기: `git grep -n --untracked -e "qwen3.5:2b" -e "qwen3:8b" -- open_source_ai ':!open_source_ai/specials/project_delivery'` |
+| 생성 모델 기본값 | 기본값이 둘로 갈려 있다. 4~7·9~11·14주차와 특강 `chatbot_rag_finetune`의 `rag_bot`은 `qwen3.5:2b`, 1~3주차와 8주차 `period3/config.py`·두 `broken_project/report.py`·두 `make_broken_repo.ps1`은 초판 흐름의 `qwen3:8b`다(8주차 README·lab·slides는 `qwen3.5:2b`). 바꿀 때 같이 볼 곳: 각 주차 예제 상수, 5·6·9주차 `src/shared`와 8주차의 `OLLAMA_MODEL` 기본값, 4주차 `examples/period3/Modelfile`, 14주차 `examples/tests/test_evaluation.py`의 모델 이름 단언, `tools/bleuno-control/src/bleuno_control/models.py` 기본 인수, `weeks/README.md` 기본값 표, `ta_setup_guide.md`. 찾기: `git grep -n --untracked -e "qwen3.5:2b" -e "qwen3:8b" -- open_source_ai ':!open_source_ai/specials/project_delivery'` |
 | 12주차 학습 데이터·저장 이름 | 13주차 `src/shared`의 `MODELS_DIR`와 모델 파일 이름, `ta_setup_guide.md` 10~13주차 표 |
 | 14·15주차 평가 규칙 | 정본은 `evaluation_spec.md`다. `examples/src/shared/evaluation.py`, `examples/tests/test_evaluation.py`, `report_template.md`, 15주차 `assignment_rubric.md`·`final_review_rubric.md`·`presentation_rubric.md` |
+| 14주차 `student_bot`의 응답 계약·시스템 지시·요청 방식 | 특강 `chatbot_rag_finetune/examples/src/rag_bot`(같은 계약과 시스템 지시의 사본, 검색만 다르다), 특강 `examples/tests/test_rag_examples.py` |
+| 14주차 `shared/worker.py`의 워커 통신 규칙 | 특강 `examples/src/lab_shared/worker.py`(같은 규칙을 따르고 실행할 봇 이름을 받는다), 특강 `examples/tests/test_lab_shared.py` |
+| 14주차 `shared/evaluation.py`의 시간 제한·함수, `shared/data`(참고 자료 `corpus.json`, 공개 20문항) | 특강 `ex04`~`ex07`과 `examples/tests/`, `lab_shared/data/README.md`, 특강 `walkthrough.md`·`lab.md`·`slides.md`·`slides_en.md`·`period2` 안내의 문서 수(5개)·`n/16`·준비 질문 120초·3–6분 예시 |
+| 특강 `rag_bot`의 상수 이름(`MODEL`·`TOP_K`·`MIN_SCORE` 등)과 요청 값(`"think": False`, `"num_predict": 512`), `answer()`·`rank()`·`retrieve()`·`messages()`, `SYSTEM_PROMPT` | 특강 `examples/debugging.md`의 버그 심기 표, `ex05_search`·`ex06_make_sft`, 특강 `walkthrough.md`·`lab.md`·`slides.md`·`slides_en.md`, `period2`~`period4` 안내 |
+| 특강 `ex04`·`ex07`의 상수(`BOT`, `QUESTION_SET`, `RESPONSE_WIDTH`, `SHOW_PROMPT` 등)와 출력 형식(실패 종류 표, [1]~[6] 구역) | 특강 `period1`·`period4` 안내, `examples/debugging.md`, `lab.md`·`slides.md`·`slides_en.md`의 1·4교시, `tests/test_ex04_my_eval.py`·`test_ex07_inspect.py` |
+| 특강 `finetune/src`의 상수(`STEPS`, `MAX_LENGTH`, `DTYPE` 등)와 명령 | 특강 `walkthrough.md`의 '7주차와 다른 값' 표, `period3` 안내, `slides.md`·`slides_en.md` |
 
 사이트 빌드는 슬라이드의 상대 `.md` 링크를 GitHub 주소로 바꾸기만 하고 대상이 있는지 보지 않는다. README·lab·walkthrough의 링크는 자동 검사가 없다. 바꾼 링크는 대상 파일과 앵커를 직접 확인한다.
 
@@ -120,6 +128,7 @@ python -m compileall -q open_source_ai tools/bleuno-control tools/wleno
 python -B -m unittest discover -s tools/wleno/tests
 uv run --frozen --directory tools/bleuno-control python -B -m unittest discover -s tests
 uv run --frozen --directory open_source_ai/weeks/week14_chatbot_project/examples python -B -m unittest discover -s tests
+uv run --frozen --directory open_source_ai/specials/chatbot_rag_finetune/examples python -B -m unittest discover -s tests
 
 # 3. 사이트(Node.js 24 이상). 슬라이드·catalog를 바꿨을 때
 npm run build
@@ -132,6 +141,7 @@ npm test
 | WlEno 시험 | 35개 OK |
 | `bleuno-control` 시험 | 15개 OK |
 | 14주차 채점 도구 시험 | 28개 OK(2026-11-19 평가셋 v1.1 뒤) |
+| 특강 `chatbot_rag_finetune` 시험 | 89개 OK(2026-11-24) |
 | `npm run build` | 이 과목의 덱·장 수가 `scripts/check-site.mjs`의 `EXPECTED["open-source-ai"]`와 맞고 영문판도 같은 수여야 한다. `영문판 장수가 한국어판과 다릅니다` 경고가 이 과목에 없어야 한다(경고만 내고 빌드는 계속된다) |
 | `npm test` | 사이트 검사, 슬라이드 맞춤 시험, 실습 시험 모두 통과 |
 
@@ -157,7 +167,7 @@ npm test
 - 10~13주차 문서에 연결·해제가 LED를 초기화한다는 옛 시뮬레이터 동작을 다시 쓰지 않는다. 시뮬레이터의 `ok` 응답만으로 제어 성공을 판정하지 않는다.
 - 이전 10~13주차 원고(`specials/project_delivery/`)의 설정 방식과 제출 조건을 새 정규 과제에 적용하지 않는다.
 - 기말 성적을 성능 80%·보고서 20% 같은 통합 비율로 바꾸지 않는다.
-- 공용 교재에 학교명·분반·학수번호·실제 날짜·성적 비율·LMS 이름을 넣지 않는다. 루브릭은 100점 상대 배점만 둔다. 14·15주차의 원광대학교 소개 챗봇은 사용자 지시에 따른 예외다.
+- 공용 교재에 학교명·분반·학수번호·실제 날짜·성적 비율·LMS 이름을 넣지 않는다. 루브릭은 100점 상대 배점만 둔다. 14·15주차의 원광대학교 소개 챗봇과 이 챗봇을 다루는 특강 `chatbot_rag_finetune`은 사용자 지시에 따른 예외다.
 - 전역 `pip install`과 수업 시간 중 모델 다운로드를 안내하지 않는다.
 - `.env`, 토큰, 학습 산출물(`models/`, `adapters/`, `outputs/`), 7주차 GGUF 변환 때 주차 폴더 아래에 clone하는 `tools/llama.cpp/`를 커밋하지 않는다.
 - 8주차 `examples/mock_exam/broken_project`와 `examples/period1/broken_project`의 `pyproject.toml`은 모의 실기용으로 일부러 깨뜨린 파일이다. 고치지 않는다.

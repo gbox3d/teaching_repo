@@ -575,7 +575,7 @@
       "description": "Ollama·LangChain·RAG·LoRA·Streamlit에서 초소형 모델의 시뮬레이터 제어와 챗봇 성능 평가로 이어지는 15주 과정입니다.",
       "status": "published",
       "accent": "#bc8cff",
-      "summary": "15개 주차 · 특강 2개 · 복습 자료 1개 · 432장",
+      "summary": "15개 주차 · 특강 3개 · 복습 자료 1개 · 465장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/open_source_ai",
       "chapters": [
         {
@@ -798,6 +798,18 @@
             "label": "Special",
             "title": "PyTorch Tensors and a Small Regression Model",
             "description": "An optional special on tensor operations, persistence, and regression on small data."
+          }
+        },
+        {
+          "id": "chatbot_rag_finetune",
+          "label": "특강",
+          "title": "기말 챗봇 개선: 평가·RAG·파인튜닝",
+          "description": "내 평가 문항, 임베딩 RAG, 0.5B LoRA 학습·등록, 추론 버그 잡기로 원광대학교 소개 챗봇을 스스로 채점하며 고치는 4교시 특강입니다.",
+          "type": "special",
+          "en": {
+            "label": "Special",
+            "title": "Improving the Final Chatbot: Evaluation, RAG, and Fine-Tuning",
+            "description": "A four-block special on self-scoring and improving the WKU introduction chatbot with your own evaluation questions, embedding RAG, 0.5B LoRA training and registration, and inference debugging."
           }
         },
         {

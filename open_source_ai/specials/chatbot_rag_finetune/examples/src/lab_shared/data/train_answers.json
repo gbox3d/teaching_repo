@@ -1,0 +1,610 @@
+[
+  {
+    "id": "train-01",
+    "expected": [
+      [
+        "익산시",
+        "익산"
+      ]
+    ],
+    "sources": [
+      "wku-location"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-location"
+    ]
+  },
+  {
+    "id": "train-02",
+    "expected": [
+      [
+        "전북특별자치도"
+      ]
+    ],
+    "sources": [
+      "wku-location"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-location"
+    ]
+  },
+  {
+    "id": "train-03",
+    "expected": [
+      [
+        "익산대로 460"
+      ]
+    ],
+    "sources": [
+      "wku-location"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-location"
+    ]
+  },
+  {
+    "id": "train-04",
+    "expected": [
+      [
+        "54538"
+      ]
+    ],
+    "sources": [
+      "wku-location"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-location"
+    ]
+  },
+  {
+    "id": "train-05",
+    "expected": [
+      [
+        "063-850-5114",
+        "0638505114",
+        "(063)850-5114",
+        "063)850-5114",
+        "063.850.5114"
+      ]
+    ],
+    "sources": [
+      "wku-location"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-location"
+    ]
+  },
+  {
+    "id": "train-06",
+    "expected": [
+      [
+        "지덕겸수",
+        "知德兼修",
+        "지덕겸수(知德兼修)",
+        "知德兼修(지덕겸수)"
+      ],
+      [
+        "도의실천",
+        "道義實踐",
+        "도의실천(道義實踐)",
+        "道義實踐(도의실천)"
+      ]
+    ],
+    "sources": [
+      "wku-values"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-values",
+      "wku-values"
+    ]
+  },
+  {
+    "id": "train-07",
+    "expected": [
+      [
+        "학술탐구"
+      ],
+      [
+        "덕성함양"
+      ],
+      [
+        "사회봉사"
+      ]
+    ],
+    "sources": [
+      "wku-values"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-values",
+      "wku-values",
+      "wku-values"
+    ]
+  },
+  {
+    "id": "train-08",
+    "expected": [
+      [
+        "원불교"
+      ]
+    ],
+    "sources": [
+      "wku-values"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-values"
+    ]
+  },
+  {
+    "id": "train-09",
+    "expected": [
+      [
+        "황금색",
+        "금색"
+      ]
+    ],
+    "sources": [
+      "wku-symbols"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-symbols"
+    ]
+  },
+  {
+    "id": "train-10",
+    "expected": [
+      [
+        "봉황"
+      ]
+    ],
+    "sources": [
+      "wku-symbols"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-symbols"
+    ]
+  },
+  {
+    "id": "train-11",
+    "expected": [
+      [
+        "은행나무"
+      ]
+    ],
+    "sources": [
+      "wku-symbols"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-symbols"
+    ]
+  },
+  {
+    "id": "train-12",
+    "expected": [
+      [
+        "백목련"
+      ]
+    ],
+    "sources": [
+      "wku-symbols"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-symbols"
+    ]
+  },
+  {
+    "id": "train-13",
+    "expected": [
+      [
+        "유일학림"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
+  },
+  {
+    "id": "train-14",
+    "expected": [
+      [
+        "1946",
+        "1946년"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
+  },
+  {
+    "id": "train-15",
+    "expected": [
+      [
+        "1951",
+        "1951년"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
+  },
+  {
+    "id": "train-16",
+    "expected": [
+      [
+        "1953",
+        "1953년"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
+  },
+  {
+    "id": "train-17",
+    "expected": [
+      [
+        "1971",
+        "1971년"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
+  },
+  {
+    "id": "train-18",
+    "expected": [
+      [
+        "1967",
+        "1967년"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
+  },
+  {
+    "id": "train-19",
+    "expected": [
+      [
+        "https://www.wku.ac.kr/",
+        "https://www.wku.ac.kr",
+        "www.wku.ac.kr",
+        "www.wku.ac.kr/"
+      ]
+    ],
+    "sources": [
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-services"
+    ]
+  },
+  {
+    "id": "train-20",
+    "expected": [
+      [
+        "https://intra.wku.ac.kr/",
+        "https://intra.wku.ac.kr",
+        "intra.wku.ac.kr",
+        "intra.wku.ac.kr/"
+      ]
+    ],
+    "sources": [
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-services"
+    ]
+  },
+  {
+    "id": "train-21",
+    "expected": [
+      [
+        "https://lxp.wku.ac.kr/",
+        "https://lxp.wku.ac.kr",
+        "lxp.wku.ac.kr",
+        "lxp.wku.ac.kr/"
+      ]
+    ],
+    "sources": [
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-services"
+    ]
+  },
+  {
+    "id": "train-22",
+    "expected": [
+      [
+        "https://elibrary.wku.ac.kr/",
+        "https://elibrary.wku.ac.kr",
+        "elibrary.wku.ac.kr",
+        "elibrary.wku.ac.kr/"
+      ]
+    ],
+    "sources": [
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-services"
+    ]
+  },
+  {
+    "id": "train-23",
+    "expected": [
+      [
+        "지덕겸수",
+        "知德兼修",
+        "지덕겸수(知德兼修)",
+        "知德兼修(지덕겸수)"
+      ]
+    ],
+    "sources": [
+      "wku-values"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-values"
+    ]
+  },
+  {
+    "id": "train-24",
+    "expected": [
+      [
+        "1971",
+        "1971년"
+      ]
+    ],
+    "sources": [
+      "wku-history"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history"
+    ]
+  },
+  {
+    "id": "train-25",
+    "expected": [
+      [
+        "황금색",
+        "금색"
+      ],
+      [
+        "https://elibrary.wku.ac.kr/",
+        "https://elibrary.wku.ac.kr",
+        "elibrary.wku.ac.kr",
+        "elibrary.wku.ac.kr/"
+      ]
+    ],
+    "sources": [
+      "wku-symbols",
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-symbols",
+      "wku-services"
+    ]
+  },
+  {
+    "id": "train-26",
+    "expected": [
+      [
+        "1946",
+        "1946년"
+      ],
+      [
+        "봉황"
+      ]
+    ],
+    "sources": [
+      "wku-history",
+      "wku-symbols"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history",
+      "wku-symbols"
+    ]
+  },
+  {
+    "id": "train-27",
+    "expected": [
+      [
+        "54538"
+      ],
+      [
+        "063-850-5114",
+        "0638505114",
+        "(063)850-5114",
+        "063)850-5114",
+        "063.850.5114"
+      ],
+      [
+        "https://www.wku.ac.kr/",
+        "https://www.wku.ac.kr",
+        "www.wku.ac.kr",
+        "www.wku.ac.kr/"
+      ]
+    ],
+    "sources": [
+      "wku-location",
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-location",
+      "wku-location",
+      "wku-services"
+    ]
+  },
+  {
+    "id": "train-28",
+    "expected": [
+      [
+        "1953",
+        "1953년"
+      ],
+      [
+        "익산대로 460"
+      ],
+      [
+        "https://intra.wku.ac.kr/",
+        "https://intra.wku.ac.kr",
+        "intra.wku.ac.kr",
+        "intra.wku.ac.kr/"
+      ]
+    ],
+    "sources": [
+      "wku-history",
+      "wku-location",
+      "wku-services"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-history",
+      "wku-location",
+      "wku-services"
+    ]
+  },
+  {
+    "id": "train-29",
+    "expected": [
+      [
+        "익산시",
+        "익산"
+      ],
+      [
+        "원불교"
+      ]
+    ],
+    "sources": [
+      "wku-location",
+      "wku-values"
+    ],
+    "abstain": false,
+    "fact_sources": [
+      "wku-location",
+      "wku-values"
+    ]
+  },
+  {
+    "id": "train-30",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "train-31",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "train-32",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "train-33",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "train-34",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "train-35",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "train-36",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "train-37",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "train-38",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "train-39",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  },
+  {
+    "id": "train-40",
+    "expected": [],
+    "sources": [],
+    "abstain": true,
+    "fact_sources": []
+  }
+]

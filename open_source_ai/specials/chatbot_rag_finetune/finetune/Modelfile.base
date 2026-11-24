@@ -1,0 +1,2 @@
+FROM ./models/wku-base.gguf
+PARAMETER temperature 0

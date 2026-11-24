@@ -1,0 +1,33 @@
+[project]
+name = "osa-special-chatbot-finetune"
+version = "0.1.0"
+description = "7주차 기준 Qwen2.5-0.5B-Instruct LoRA 학습과 병합(원광대 챗봇용)"
+requires-python = ">=3.12,<3.14"
+# 7주차 uv.lock과 같은 버전을 쓴다.
+dependencies = [
+  "torch>=2.6,<3",
+  "transformers==4.57.6",
+  "peft==0.18.1",
+  "accelerate==1.15.0",
+]
+
+[project.scripts]
+prepare = "shared:prepare"
+ft01 = "ft01_train:main"
+ft02 = "ft02_merge:main"
+
+[build-system]
+requires = ["uv_build>=0.8,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = ["ft01_train", "ft02_merge", "shared"]
+
+# CUDA용 PyTorch 설치 파일의 저장소. 7주차와 같은 cu128이다.
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cuda", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]

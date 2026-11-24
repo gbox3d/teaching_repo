@@ -1,0 +1,102 @@
+[
+  {
+    "id": "mine-01",
+    "category": "fact",
+    "question": "원광대학교는 어느 광역자치단체에 있나요? 이름만 답해 주세요."
+  },
+  {
+    "id": "mine-02",
+    "category": "fact",
+    "question": "학교 소개 발표에서 원광대학교 교육목표를 하나씩 설명하려 합니다. 교육목표 이름만 각각 적어 주세요."
+  },
+  {
+    "id": "mine-03",
+    "category": "fact",
+    "question": "원광대학교 건학정신은 어느 종교의 개교정신을 바탕으로 하나요? 종교 이름만 답해 주세요."
+  },
+  {
+    "id": "mine-04",
+    "category": "fact",
+    "question": "원광대학교 건학정신에서 함께 배운다고 한 두 가지는 무엇인가요? 각각 적어 주세요."
+  },
+  {
+    "id": "mine-05",
+    "category": "fact",
+    "question": "원광대학교 건학정신이 지향하는 교육을 한 단어로 알려 주세요."
+  },
+  {
+    "id": "mine-06",
+    "category": "fact",
+    "question": "원광초급대학이 1961년에 세워졌다고 들었습니다. 실제 설립 연도만 알려 주세요."
+  },
+  {
+    "id": "mine-07",
+    "category": "fact",
+    "question": "원광대학교 연혁에서 원광대학이 설립된 해를 숫자로만 적어 주세요."
+  },
+  {
+    "id": "mine-08",
+    "category": "fact",
+    "question": "원광대학교 대학원 석사과정은 언제 설치되었나요?"
+  },
+  {
+    "id": "mine-09",
+    "category": "fact",
+    "question": "원광대학교 연혁에 기록된 종합대학교 승격 날짜를 연월일까지 알려 주세요."
+  },
+  {
+    "id": "mine-10",
+    "category": "fact",
+    "question": "원광대학교 홈페이지에 들어가려면 주소창에 무엇을 입력해야 하나요?"
+  },
+  {
+    "id": "mine-11",
+    "category": "fact",
+    "question": "원광대학교 홈페이지는 웹정보서비스를 어느 주소로 연결하나요?"
+  },
+  {
+    "id": "mine-12",
+    "category": "fact",
+    "question": "원광대학교 WAFFLE-i는 어떤 종류의 서비스인가요? 종류만 짧게 답해 주세요."
+  },
+  {
+    "id": "mine-13",
+    "category": "composite",
+    "question": "전화로 문의하거나 웹정보서비스에 직접 들어가 보려 합니다. 원광대학교 대표전화와 웹정보서비스 주소를 각각 알려 주세요."
+  },
+  {
+    "id": "mine-14",
+    "category": "composite",
+    "question": "원광대학 설립 연도와 대학원 석사과정 설치 연도, 그리고 건학정신의 바탕이 된 종교를 각각 알려 주세요."
+  },
+  {
+    "id": "mine-15",
+    "category": "composite",
+    "question": "학교 소개 영상 자막에 원광대학교가 있는 광역자치단체, 교화, 공식 홈페이지 주소를 넣으려 합니다. 세 가지를 각각 알려 주세요."
+  },
+  {
+    "id": "mine-16",
+    "category": "composite",
+    "question": "신입생 퀴즈에 원광초급대학 설립 연도와 원광대학교 교색을 문제로 내려 합니다. 두 정답을 알려 주세요."
+  },
+  {
+    "id": "mine-17",
+    "category": "unknown",
+    "question": "제가 이번 학기에 받는 장학금이 얼마인지 알려 주세요."
+  },
+  {
+    "id": "mine-18",
+    "category": "unknown",
+    "question": "원광대학교 개교기념일은 몇 월 며칠인가요?"
+  },
+  {
+    "id": "mine-19",
+    "category": "unknown",
+    "question": "다음 학년도 원광대학교 신입생 모집 인원은 모두 몇 명인가요?"
+  },
+  {
+    "id": "mine-20",
+    "category": "unknown",
+    "question": "원광대학교 대학원에 박사과정이 처음 설치된 해는 언제인가요?"
+  }
+]
