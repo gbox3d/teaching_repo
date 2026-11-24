@@ -1,0 +1,17 @@
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+@bookId = {{$dotenv BOOK_ID}}
+
+### Update · 메시지 수정 · 200, 수정된 행 한 개
+# @prompt entryId 앞 단계에서 조회한 글 번호를 입력하세요.
+PATCH {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{entryId}}
+apikey: {{apiKey}}
+Content-Type: application/json
+Prefer: return=representation
+
+{ "message": "일요일 모임" }
+
+### 결과 확인 · 200, 같은 번호와 바뀐 메시지
+# @prompt entryId 방금 수정한 글 번호를 입력하세요.
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{entryId}}
+apikey: {{apiKey}}

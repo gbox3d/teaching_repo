@@ -26,10 +26,8 @@ Prefer: return=representation
 
 ### 수정: 본인이 POST한 연습 글만 지정합니다. 예상: 200 + 변경한 글 배열
 # @prompt entryId 본인이 만든 연습 글 ID를 입력하세요.
-# @prompt password 해당 방명록의 편집 키를 입력하세요.
 PATCH {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{entryId}}
 apikey: {{apiKey}}
-X-Edit-Key: {{password}}
 Content-Type: application/json
 Prefer: return=representation
 
@@ -42,10 +40,8 @@ apikey: {{apiKey}}
 
 ### 삭제: 본인이 POST한 연습 글만 지정합니다. 예상: 204 + 빈 본문
 # @prompt entryId 삭제할 연습 글 ID를 입력하세요.
-# @prompt password 해당 방명록의 편집 키를 입력하세요.
 DELETE {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{entryId}}
 apikey: {{apiKey}}
-X-Edit-Key: {{password}}
 
 ### 삭제 후 대상 조회: 204여도 글이 남을 수 있습니다. 같은 ID의 GET 응답이 []인지 확인합니다.
 # @prompt entryId 방금 삭제 요청한 연습 글 ID를 입력하세요.

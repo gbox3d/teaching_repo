@@ -1,0 +1,10 @@
+@baseUrl = https://api.open-meteo.com
+
+### 서울 현재 기온 · 200과 current.temperature_2m
+GET {{baseUrl}}/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m
+
+### 전주 현재 기온 · 200과 current.temperature_2m
+GET {{baseUrl}}/v1/forecast?latitude=35.8248&longitude=127.1480&current=temperature_2m
+
+### 익산 현재 기온 · 200과 current.temperature_2m
+GET {{baseUrl}}/v1/forecast?latitude=35.9439&longitude=126.9544&current=temperature_2m

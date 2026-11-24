@@ -3,7 +3,6 @@ const methodInput = document.querySelector('#method');
 const bookInput = document.querySelector('#book');
 const idInput = document.querySelector('#id');
 const bodyInput = document.querySelector('#body');
-const keyInput = document.querySelector('#edit-key');
 const sendButton = document.querySelector('#send');
 const notice = document.querySelector('#notice');
 bookInput.value = BOOK_ID;
@@ -23,8 +22,6 @@ document.querySelector('#sample').addEventListener('click', function () {
 form.addEventListener('submit', async function (event) {
   event.preventDefault();
   const method = methodInput.value;
-  const editKey = keyInput.value;
-  keyInput.value = '';
   sendButton.disabled = true;
   notice.textContent = '요청 중';
   document.querySelector('#request-summary').textContent = '아직 요청을 보내지 않았습니다.';
@@ -32,7 +29,7 @@ form.addEventListener('submit', async function (event) {
   document.querySelector('#response-body').textContent = '';
   document.querySelector('#observation').textContent = '응답을 받은 뒤 결과를 확인하세요.';
   try {
-    const request = buildRequest(method, bookInput.value, idInput.value, bodyInput.value, editKey);
+    const request = buildRequest(method, bookInput.value, idInput.value, bodyInput.value);
     document.querySelector('#request-summary').textContent = `${method} ${request.url}\n헤더 이름: ${Object.keys(request.options.headers).join(', ')}`;
     const response = await fetch(request.url, request.options);
     const text = await response.text();

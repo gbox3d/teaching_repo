@@ -7,9 +7,17 @@ function apiTarget(id = '') {
 }
 function showList(items) {
   list.innerHTML = '';
-  for (let i = 0; i < items.length; i++) {
+  for (const item of items) {
     const li = document.createElement('li');
-    li.textContent = items[i].id + ' | ' + items[i].name + ': ' + items[i].message;
+    li.textContent = item.id + ' | ' + item.name + ': ' + item.message;
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'w3-button w3-small w3-border w3-margin-left';
+    remove.textContent = '삭제';
+    remove.addEventListener('click', function () {
+      if (confirm('글 ' + item.id + '번을 삭제하시겠습니까?')) changeMessage('DELETE', String(item.id));
+    });
+    li.append(remove);
     list.append(li);
   }
 }
@@ -32,38 +40,33 @@ async function loadMessages() {
   }
 }
 
-async function requestPatch(url, editKey, message) {
+async function requestPatch(url, message) {
   // TODO PATCH: url에 message를 JSON 본문으로 보낸다.
-  // apikey·X-Edit-Key·Content-Type·Prefer 헤더를 넣고 Response를 반환한다.
+  // apikey·Content-Type·Prefer 헤더를 넣고 Response를 반환한다.
   throw new Error('PATCH 코드를 작성하세요.');
 }
 // 제공 코드: DELETE는 이번 공개 연습 문항의 구현 대상이 아니다.
-async function requestDelete(url, editKey) {
-  return fetch(url, { method: 'DELETE', headers: { apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey } });
+async function requestDelete(url) {
+  return fetch(url, { method: 'DELETE', headers: { apikey: API_PUBLIC_KEY } });
 }
 let changing = false;
-async function changeMessage(method) {
+async function changeMessage(method, id) {
   if (changing) return;
-  const id = document.querySelector('#id').value;
-  const input = document.querySelector('#key');
-  const editKey = input.value.trim();
   const message = document.querySelector('#message').value.trim();
-  input.value = '';
-  if (!/^[1-9][0-9]*$/.test(id) || !editKey || (method === 'PATCH' && !message)) {
-    notice.textContent = 'ID·편집 키·수정 메시지를 확인하세요.';
+  if (!/^[1-9][0-9]*$/.test(id) || (method === 'PATCH' && !message)) {
+    notice.textContent = '글 번호와 수정 메시지를 확인하세요.';
     return;
   }
   const url = apiTarget(id);
   const patch = document.querySelector('#patch');
-  const remove = document.querySelector('#delete');
   changing = true;
-  patch.disabled = remove.disabled = true;
+  patch.disabled = true;
   try {
     const before = await readItems(url);
     if (before.length !== 1) throw new Error('대상 글 없음');
     const response = method === 'PATCH'
-      ? await requestPatch(url, editKey, message)
-      : await requestDelete(url, editKey);
+      ? await requestPatch(url, message)
+      : await requestDelete(url);
     if (!response.ok) throw new Error('HTTP ' + response.status);
     if (method === 'PATCH') {
       const rows = await response.json();
@@ -74,13 +77,12 @@ async function changeMessage(method) {
     if (!changed) throw new Error('변경 확인 실패');
     await loadMessages();
   } catch {
-    notice.textContent = '변경 미확인 · ID·편집 키·목록 확인';
+    notice.textContent = '변경 미확인 · 태그·글 번호·목록 확인';
   } finally {
     changing = false;
-    patch.disabled = remove.disabled = false;
+    patch.disabled = false;
   }
 }
-document.querySelector('#patch').addEventListener('click', function () { changeMessage('PATCH'); });
-document.querySelector('#delete').addEventListener('click', function () { changeMessage('DELETE'); });
+document.querySelector('#patch').addEventListener('click', function () { changeMessage('PATCH', document.querySelector('#id').value); });
 document.querySelector('#reload').addEventListener('click', loadMessages);
 loadMessages();

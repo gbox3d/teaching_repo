@@ -8,237 +8,227 @@ footer: "Build a shared guestbook API with Supabase"
 
 # Build a shared guestbook API with Supabase
 
-A research workshop with one example folder per step.
+Post an entry in one browser. Find it in another, then track the same entry through an edit and a deletion.
 
-01 Connect → 02 Read help → 03 Read entries → 04 Post
-05 Edit → 06 Compare → 07 Complete guestbook
-
-Send requests.http first, then study the browser implementation.
-Students use the prepared shared API without a Supabase account.
-
----
-
-# Page address and API address
-
-| Target | Address and purpose |
+| Instructor | Students |
 |---|---|
-| Local page | http://localhost:8000/ · preview static files |
-| Shared API | Supabase HTTPS URL · metadata and guestbook data |
-| Pages site | Published HTTPS URL · share the interface |
-| Optional local API | http://127.0.0.1:8787 · local rehearsal |
+| Set up the guestbook and distribute its URL, publishable key and assigned tags. | Write under your tag and record the entry ID returned by the server. |
 
-A local HTTP page can call the shared HTTPS API.
-The Node static server is for local preview only.
+01 Connect → 02 Help → 03 Read → 04 Post → 05 Edit/delete → 06 HTTP console → 07 Guestbook
 
 ---
 
-# Before class · Instructor SQL setup
+# The page address and the data address
 
-Run [about-help.sql](../../tools/guestbook-api/about-help.sql) once in the existing shared project.
-For a new project, run it after [schema.sql](../../tools/guestbook-api/schema.sql).
+| Location | Purpose |
+|---|---|
+| `http://localhost:8000/` | Open the example HTML and JavaScript on your computer. |
+| Your GitHub Pages HTTPS URL | Open the published interface on another device. |
+| `https://esoqbcwgzjtwcqszwvin.supabase.co` | The course API base URL. Both pages send their requests here. |
 
-- Add read-only about and help views.
-- Keep the existing guestbook table.
-- Students do not need accounts or SQL access.
+The guestbook path is `/rest/v1/guestbook`. A local HTTP page can call the shared HTTPS API.
 
-Shared guestbook GET and POST have been checked.
-Installed and GET verified on 2026-11-14: about returns 1 row, help returns 6.
-
----
-
-# Start with VS Code REST Client
-
-1. Copy the step folder's .env.example to .env.
-2. Set the public key and, for guestbook steps, BOOK_ID.
-3. Click Send Request in requests.http in the same folder.
-4. Inspect status and JSON, then open index.html and app.js.
-
-Keep .env beside the .http file. No Node server is needed for these requests.
-Browsers read config.example.js and the public key in localStorage instead.
-[REST Client usage](https://github.com/Huachao/vscode-restclient#usage) · [Setup](examples/README.md#rest-client로-요청부터-확인하기)
+The instructor's optional rehearsal API runs at `http://127.0.0.1:8787`.
 
 ---
 
-# 01_about · Check API connectivity
+# Instructor setup for a new or existing project
 
-[requests.http](examples/01_about/requests.http) → [Browser page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/01_about/index.html)
+| Project | Files to run in the Supabase SQL Editor |
+|---|---|
+| New project | Run [schema.sql](../../tools/guestbook-api/schema.sql), then [about-help.sql](../../tools/guestbook-api/about-help.sql). The schema registers tags `student01` through `student30`. |
+| Earlier course guestbook | Run [enable-public-crud.sql](../../tools/guestbook-api/enable-public-crud.sql) once. It preserves entries and tags and updates the edit/delete policies and the help view. |
+
+Students share one **publishable key** and can use it to edit or delete entries under any tag. Each student uses an alias and practice text under their assigned tag. No student account is required.
+
+---
+
+# Set up REST Client and the browser
+
+| Tool | What to configure in the example folder |
+|---|---|
+| VS Code REST Client (`humao.rest-client`) | Copy `.env.example` to `.env`. Set `API_BASE_URL` and `API_PUBLIC_KEY`. For guestbook requests, set `BOOK_ID` too. |
+| Browser | Check the URL and tag in `config.example.js`. Enter the public key at the first prompt. It is saved in localStorage for that origin. |
+
+In `requests.http`, click **Send Request** above a request. Compare its status and body with the results from the corresponding page.
+
+[REST Client setup](examples/README.md#rest-client로-요청부터-확인하기)
+
+---
+
+# 01 · Connect to the API
 
 ```http
-GET /rest/v1/about
-apikey: <public key supplied by the instructor>
+GET {{baseUrl}}/rest/v1/about
+apikey: {{apiKey}}
 ```
 
-On first load, the page asks for the public key. Enter the key supplied by the instructor.
-Click the connection button. Expect 200 and an array with one object.
-Read name, version, description and help_path.
-For a 401, press the clear-key button under the title and enter the key again.
-For a 404, ask whether the metadata SQL was applied.
+Click **접속 확인** (Check connection). Expect `200` and an array with one object. Find `v1` in `version` and `/rest/v1/help` in `help_path`.
 
----
-
-# 01 · Map the request to code
-
-Read [01_about/app.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/01_about/app.js).
-
-| In the request | In JavaScript |
+| Response | Where to look |
 |---|---|
-| GET path | /rest/v1/about after API_BASE_URL |
-| apikey header | API_PUBLIC_KEY in headers |
-| HTTP status | response.status and response.ok |
-| JSON response | response.json() |
+| 401 | In the browser, click **공개 키 지우기** and re-enter the key. In REST Client, check `.env`. |
+| 404 | Check the project URL and the instructor's installation of the `about` view. |
 
-This step does not create or edit entries.
-Check the browser request after REST Client succeeds.
+[01 Connection page](examples/01_about/index.html) · [requests.http](examples/01_about/requests.http)
 
 ---
 
-# 02_help · Read the API guide
+# 01 · Send the same GET in JavaScript
 
-[requests.http](examples/02_help/requests.http) → [Browser page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/02_help/index.html)
+```js
+const url = `${API_BASE_URL}/rest/v1/about`;
+const response = await fetch(url, {
+  headers: { apikey: API_PUBLIC_KEY }
+});
+```
+
+1. Read `response.status` and compare it with the status in REST Client.
+2. If `response.ok` is true, read the array with `await response.json()`.
+3. Expand the array and read the name and version in its first object.
+
+[01 Connection code](examples/01_about/app.js)
+
+---
+
+# 02 · Find a request in the help response
 
 ```http
-GET /rest/v1/help?order=step.asc
-apikey: <public key supplied by the instructor>
+GET {{baseUrl}}/rest/v1/help?order=step.asc
+apikey: {{apiKey}}
 ```
 
-Read six rows with step, method, path and description.
-order=step.asc sorts the guide by step number.
-The course adds these GET-only about and help APIs.
+Click **사용법 조회** (Load help). Read the `method`, `path` and `description` for each of the six rows, ordered by step.
+
+- Rows 1 and 2 read the instructor's `about` and `help` views.
+- Rows 3–6 cover POST, GET, PATCH and DELETE for entries. Locate both `book_id` and `id` in the edit and delete paths.
+
+[02 Help page](examples/02_help/index.html) · [requests.http](examples/02_help/requests.http)
 
 ---
 
-# Run one independent folder
+# Files in an example folder
 
-```text
-examples/
-  README.md              example guide
-  01_about/
-    index.html · app.js
-    config.example.js
-    requests.http · .env.example
-  02_help/ ... 07_guestbook_complete/
-```
+| File | What you use it for |
+|---|---|
+| `requests.http`, `.env.example` | Send requests from VS Code and read the status and body. |
+| `index.html` | Display fields and buttons, and load W3.CSS from the CDN. |
+| `config.example.js` | Set the browser's URL, tag and public key. |
+| `app.js` | Send requests on button clicks and display the responses. |
 
-Each page loads its own configuration file and W3.CSS from the CDN. Folders on the same origin share the public key in localStorage.
-Run or publish one folder independently. Exclude .env from deployment.
+Each of the seven folders runs independently. Open a page on a local static server or publish it to Pages. Exclude the local `.env` file from deployment.
+
+[Running the examples](examples/README.md)
 
 ---
 
-# 03_guestbook_get · Read by tag
-
-[requests.http](examples/03_guestbook_get/requests.http) → [Read page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/03_guestbook_get/index.html)
+# 03 · Read the entries under your tag
 
 ```http
-GET /rest/v1/guestbook?book_id=eq.student01
-apikey: <public key supplied by the instructor>
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&order=id.desc&limit=50
+apikey: {{apiKey}}
 ```
 
-book_id groups entries; eq. means equals.
-Read the array. An empty guestbook correctly returns [].
-A tag is a filter, not a permission boundary.
+`book_id=eq.student01` selects entries tagged `student01`. `order=id.desc` puts the highest ID first. `limit=50` returns up to 50 entries.
+
+Click **목록 조회** (Load list). Match each row's ID, alias and message to the JSON. A successful read with no matching entries returns `200 []`.
+
+[03 Read page](examples/03_guestbook_get/index.html) · [requests.http](examples/03_guestbook_get/requests.http)
 
 ---
 
-# 03 · Response and query options
+# Find the same entry in two browsers
 
-| Option | Purpose |
-|---|---|
-| select=id,name,message,created_at | Choose response columns |
-| order=id.desc | Sort by descending entry ID |
-| limit=50 | Read at most 50 entries |
+1. In browser A, set your tag in example 03 and click **목록 조회**.
+2. In browser B, open 03 with the same API URL, key and tag. For a phone, use a reachable Pages address.
+3. Record the visible IDs, or `[]` if the list is empty. In the next step, browser A will post an entry and browser B will read the list again.
 
-Each object in the JSON array is one entry.
-Connect the response to its display in the [read code](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/03_guestbook_get/app.js).
-Read the same tag in two pages and compare the server data.
+Enter the public key separately in each browser. The server-assigned `id` identifies the same entry in both lists.
+
+[03 Read code](examples/03_guestbook_get/app.js) · [Research lab](lab.md)
 
 ---
 
-# 04_guestbook_post · Save an entry
+# 04 · Save an entry and find its new ID
 
-[requests.http](examples/04_guestbook_post/requests.http) → [Post page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/04_guestbook_post/index.html)
+Click **새 글 저장** (Save new entry) in browser A. The page sends a JSON body like this to `POST /rest/v1/guestbook`.
 
 ```json
-{"book_id":"student01","name":"alias","message":"First post"}
+{"book_id":"student01","name":"연습생","message":"첫 관찰"}
 ```
 
-POST /rest/v1/guestbook
-apikey · Content-Type: application/json · Prefer: return=representation
+Include `apikey` and `Content-Type: application/json`. The header `Prefer: return=representation` asks the server to return the inserted row.
 
-Record the new ID from the 201 array, then GET it again.
-The server creates id and created_at. Repeating POST creates another entry.
+Record `id` from the first object in the `201` array. In browser B, click **목록 조회** and find that ID and message.
 
----
-
-# 05_guestbook_edit · Update an entry
-
-[requests.http](examples/05_guestbook_edit/requests.http) → [Edit page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/05_guestbook_edit/index.html)
-
-Select an entry you created or enter its ID.
-PATCH requires book_id and id filters plus X-Edit-Key.
-
-```json
-{"message":"An updated entry"}
-```
-
-Enter the edit key when sending; keep it out of config files and localStorage.
-A 200 with [] changed no rows. GET the same ID to verify the update.
+[04 Post page](examples/04_guestbook_post/index.html) · [requests.http](examples/04_guestbook_post/requests.http)
 
 ---
 
-# 05 · Delete and an empty response
+# 05 · Edit an entry from the list
 
-Send DELETE with book_id and id filters plus the edit key.
+Click **목록 조회** in A. Click the button showing the ID of the entry you just posted (for example, **글 42 선택**). The alias and message fill the form.
 
-- A 204 response has no body.
-- Do not call response.json() on an empty body.
-- GET the same ID to verify that the entry is absent.
-- Check that other entries remain unchanged.
+Set the message to `두 번째 관찰` and click **선택한 글 수정** (Update selected entry). The page sends both fields as JSON and reads the entry again.
 
-The .http file prompts for entryId and password.
-Input is masked, but request history remains. Follow the [history instructions](examples/README.md#rest-client로-요청부터-확인하기).
+| What to check | Expected result |
+|---|---|
+| PATCH URL | The current `book_id` and the selected `id` |
+| PATCH response | `200` and one updated row. An empty array means no rows changed. |
+| GET with both filters | The original ID and your new message, `두 번째 관찰` |
 
----
-
-# 06_http_lab · Change one condition
-
-[requests.http](examples/06_http_lab/requests.http) → [Combined page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/06_http_lab/index.html)
-
-Complete 01–05 before changing methods, IDs and JSON directly.
-Insert a sample body for POST/PATCH, then change one field.
-
-- Correct key versus another guestbook's key
-- Existing ID versus absent ID
-- Allowed message versus protected book_id
-
-Extend response interpretation in [exercise.js](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/06_http_lab/exercise.js).
-Keep [request tests](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/06_http_lab/request.test.mjs) separate from cloud verification.
+[05 Edit page](examples/05_guestbook_edit/index.html) · [requests.http](examples/05_guestbook_edit/requests.http)
 
 ---
 
-# GitHub Pages and verification status
+# 05 · Delete one entry from the list
 
-Publish the HTML, JavaScript and configuration files from one example folder. They contain no public key.
-The published address asks for the public key on first load; without it, reads fail with 401.
-Pages serves files; the browser calls the Supabase HTTPS API.
-No Node server or student account is required. Exclude .env and edit-key files.
+Use example 04 to prepare three practice entries under your tag. In 05, click **목록 조회** and record their IDs. Here they are **43, 42 and 41**.
 
-Checked: shared guestbook GET/POST, metadata GET and local pages 01/02.
-Pending: Pages deployment and cloud PATCH/DELETE.
+| After clicking **삭제** (Delete) beside 42 | Request and result |
+|---|---|
+| Cancel the dialog | No DELETE is sent. All three entries remain. |
+| Click again, check the tag and ID 42, then confirm | DELETE returns `204` with an empty body. |
+| GET with the same tag and ID | Expect `200 []`. IDs 43 and 41 still appear in the refreshed list. |
 
-REST Client success does not verify browser CORS.
+In `requests.http`, enter the same ID at the `entryId` prompts. Skip JSON parsing for the empty DELETE body.
+
+---
+
+# 06 · Change one condition in the HTTP console
+
+Use the entry deleted in 05. Set the method, tag and ID yourself and click **요청 보내기** (Send request).
+
+| Experiment | Predict, then check |
+|---|---|
+| GET the deleted ID | `200 []` |
+| PATCH the same ID using **본문 예시 넣기** (Insert sample body) | `200 []`. No rows change. |
+| GET an ID that still exists under your tag | `200` and one matching entry |
+
+`buildRequest(method, book, id, bodyText)` assembles the URL and options. Explain what the empty array means in the [response exercise](examples/06_http_lab/exercise.js).
+
+[06 HTTP console](examples/06_http_lab/index.html) · [requests.http](examples/06_http_lab/requests.http) · [Request tests](examples/06_http_lab/request.test.mjs)
+
+---
+
+# Check cross-device storage on GitHub Pages
+
+1. Publish an example folder to Pages. Open its **HTTPS page URL** on two devices and enter the course public key on each one.
+2. Use the same tag on both. Post an entry on device A, refresh the list on B and compare the ID.
+3. Edit it on B and read it again on A. Record which device sent each request, which device checked the result, the tag, the ID and the HTTP status.
+
+Record the local rehearsal separately from observations on the shared Supabase project. Run a request in REST Client and repeat it in the published browser interface.
+
 [Pages guide](examples/README.md#github-pages에서-사용하기)
 
 ---
 
-# 07_guestbook_complete · Complete guestbook
+# 07 · Repeat the experiment in the complete guestbook
 
-[requests.http](examples/07_guestbook_complete/requests.http) → [Guestbook page source](https://github.com/gbox3d/teaching_repo/blob/main/web_programming/specials/supabase_guestbook/examples/07_guestbook_complete/index.html)
+1. Use **글 등록** (Post) to create three practice entries. Click **목록 새로고침** (Refresh list) and record their IDs.
+2. Click **수정** (Edit) in the middle row. Change the message, click **수정 저장** (Save changes) and check the new message under the same ID.
+3. Click **삭제** in the middle row and cancel once. Click again and confirm. Refresh the other device's list and check that the two neighboring IDs remain.
 
-Use the entry list and posting form in one interface.
-Select an entry, enter its edit key, then verify edits/deletion with a GET by ID.
-07 is the complete guestbook; 06 is for changing raw request conditions.
-There is no fixed session or content limit. Record results and pending checks.
+[07 Complete guestbook](examples/07_guestbook_complete/index.html) · [requests.http](examples/07_guestbook_complete/requests.http) · [Walkthrough](walkthrough.md) · [Research lab](lab.md)
 
-[Week 12 GET](../../weeks/week12_fetch_json/README.md) · [Week 13 POST](../../weeks/week13_release_security/README.md) · [Week 14 edit/delete](../../weeks/week14_project_presentation/README.md)
-[Walkthrough](walkthrough.md) · [Research lab](lab.md) · [Examples](examples/README.md)
-[Supabase Data REST API](https://supabase.com/docs/guides/api)
+[Week 12 GET](../../weeks/week12_fetch_json/README.md) · [Week 13 CRUD](../../weeks/week13_guestbook_crud/README.md) · [Week 14 edit/delete](../../weeks/week14_project_presentation/README.md)

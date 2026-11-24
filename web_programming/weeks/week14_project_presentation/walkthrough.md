@@ -2,19 +2,19 @@
 
 ## 수업 전 파일 준비
 
-새 web-week14 저장소와 [13주 완성본](../week13_release_security/examples/day2/web-week13/)을 준비한다. [이번 주 제공본](examples/day2/web-week14/README.md)의 기본 배포 파일을 복사한다. 설정 파일·폼·키·초기화·오류 복구는 제공하고 학생은 각 차시 3곳만 수정한다. 강의·시연 60분 뒤 학생 실습 30분이며 업로드는 수업 뒤 정리한다.
+새 web-week14 저장소와 [13주 완성본](../week13_guestbook_crud/examples/day2/web-week13/)을 준비한다. [이번 주 제공본](examples/day2/web-week14/README.md)의 기본 배포 파일을 복사한다. 설정 파일·폼·초기화·오류 복구는 제공하고 학생은 각 차시 3곳만 수정한다. 강의·시연 60분 뒤 학생 실습 30분이며 업로드는 수업 뒤 정리한다.
 
 학생 폴더에서 [정적 서버](../../tools/static-server/README.md)를 실행한다. API는 config.example.js에 적힌 수업용 서버를 쓴다. 강의자가 [로컬 모의 API](../../tools/guestbook-api/README.md)로 리허설할 때는 config.example.js의 주소를 `http://127.0.0.1:8787`로 바꾸고 [공개 키 지우기]를 누른 뒤 다시 묻는 창에 `classroom-local`을 넣는다. 리허설이 끝나면 주소를 수업용 서버로 되돌리고 [공개 키 지우기]를 누른 뒤 배부받은 공개 키를 다시 넣는다. 화면 서버와 데이터 서버는 서로 다르다.
 
 ## 설정과 요청 확인
 
-config.example.js의 `const BOOK_ID = 'student01';`에서 student01을 배정받은 방명록 번호로 바꾼다. 바꾸지 않으면 글이 student01 방명록에 저장된다. 공개 키는 파일에 적지 않는다. 예제를 처음 열면 '배부받은 공개 키를 입력하세요.' 창이 뜬다. 이 창에는 편집 키가 아니라 강의자가 배부한 공개 키를 넣는다. 키는 이 브라우저의 localStorage에 저장되고 같은 주소에서 연 다른 예제도 함께 쓴다. 창을 취소하거나 빈 칸으로 두면 키가 저장되지 않아 서버가 HTTP 401을 돌려주고 화면에 조회·저장 실패가 보인다. 새로고침하면 다시 묻는다. 키를 잘못 넣었거나 강의자가 키를 바꾸면 제목 아래 [공개 키 지우기]를 누른다. 버튼이 저장한 키를 지우고 새로고침하면 다시 묻는 창에 새 키를 넣는다. localStorage는 주소(출처)마다 따로다. 다른 브라우저, 포트가 다른 localhost, GitHub Pages 주소, 휴대폰에서는 처음 한 번 묻는다. 편집 키는 localStorage에도 파일에도 두지 않고 화면 입력 칸으로 받아 메모리에서만 쓴다.
+config.example.js의 `const BOOK_ID = 'student01';`에서 student01을 배정받은 방명록 번호로 바꾼다. 바꾸지 않으면 글이 student01 방명록에 저장된다. 공개 키는 파일에 적지 않는다. 예제를 처음 열면 '배부받은 공개 키를 입력하세요.' 창이 뜬다. 키는 이 브라우저의 localStorage에 저장되고 같은 주소에서 연 다른 예제도 함께 쓴다. 창을 취소하거나 빈 칸으로 두면 키가 저장되지 않아 서버가 HTTP 401을 돌려주고 화면에 조회·저장 실패가 보인다. 새로고침하면 다시 묻는다. 키를 잘못 넣었거나 강의자가 키를 바꾸면 제목 아래 [공개 키 지우기]를 누른다. 버튼이 저장한 키를 지우고 새로고침하면 다시 묻는 창에 새 키를 넣는다. localStorage는 주소(출처)마다 따로다. 다른 브라우저, 포트가 다른 localhost, GitHub Pages 주소, 휴대폰에서는 처음 한 번 묻는다.
 
-REST Client의 .env.example을 .env로 복사하고 API_BASE_URL·API_PUBLIC_KEY·BOOK_ID를 설정한다. .env는 Git과 배포 ZIP에서 제외한다. 브라우저 설정과 .env는 별개다. requests.http의 **Send Request**로 about → help → 목록 → 대상 GET을 실행한다. 자기 글 ID를 MESSAGE_ID에 넣고 PATCH·DELETE 뒤 같은 ID를 다시 조회한다. 편집 키는 마스킹되는 password 프롬프트로 입력한다.
+REST Client의 .env.example을 .env로 복사하고 API_BASE_URL·API_PUBLIC_KEY·BOOK_ID를 설정한다. .env는 Git과 배포 ZIP에서 제외한다. 브라우저 설정과 .env는 별개다. requests.http의 **Send Request**로 about → help → 목록 → 대상 GET을 실행한다. 자기 글 ID를 MESSAGE_ID에 넣고 PATCH·DELETE 뒤 같은 ID를 다시 조회한다.
 
 ## 1일차 DELETE 수정
 
-ex01에서 인덱스와 ID를 비교한 뒤 ex02 시연을 본다. 제공 guestbook.js의 deleteMessage에서 ① messageUrl(id) 대상, ② DELETE method, ③ apikey·X-Edit-Key 헤더를 확인·수정한다. readMessage와 204 이후 재조회는 제공한다. 자기 연습 글을 세 개 만들고 가운데 ID만 삭제한다. 틀린 키로 남은 글을 삭제하려 해도 GET에서 원본이 남아야 한다.
+ex01에서 인덱스와 ID를 비교한 뒤 ex02 시연을 본다. 제공 guestbook.js의 deleteMessage에서 ① messageUrl(id) 대상, ② DELETE method, ③ apikey 헤더를 확인·수정한다. readMessage와 204 이후 재조회는 제공한다. 자기 연습 글을 세 개 만들고 가운데 ID만 삭제한다. 목록을 새로 읽어 나머지 두 글이 남았는지 확인한다.
 
 ## 2일차 PATCH 수정
 
@@ -61,12 +61,6 @@ ex03에서 JSON 본문을 보고 ex04에서 같은 ID를 다시 읽는다. guest
       </section>
       <section class="w3-container w3-card w3-white w3-margin-top">
         <h2>글 수정·삭제</h2>
-        <form id="key-form" autocomplete="off">
-          <label for="edit-key">편집 키</label>
-          <input class="w3-input w3-border" id="edit-key" type="password" autocomplete="off">
-          <button class="w3-button w3-teal" id="key-button" type="submit">키 적용</button>
-          <button class="w3-button w3-light-grey" id="clear-key" type="button">키 지우기</button>
-        </form>
         <div id="edit-notice" role="status"></div>
         <form id="edit-form">
           <label for="edit-id">수정할 글 ID</label><input class="w3-input w3-border" id="edit-id" readonly>
@@ -106,12 +100,10 @@ const notice = document.querySelector('#notice');
 let latestRequest = 0;
 let saving = false;
 let editing = false;
-let editKey = '';
 const editNotice = document.querySelector('#edit-notice');
 const editForm = document.querySelector('#edit-form');
 const editId = document.querySelector('#edit-id');
 const editMessage = document.querySelector('#edit-message');
-const keyInput = document.querySelector('#edit-key');
 const saveEditButton = document.querySelector('#save-edit');
 
 // GET 응답 표시: 12주 목록 함수
@@ -119,7 +111,7 @@ function showList(items) {
   list.replaceChildren();
   for (let i = 0; i < items.length; i++) {
     const li = document.createElement('li');
-    li.textContent = `${items[i].name}: ${items[i].message}`;
+    li.textContent = `#${items[i].id} ${items[i].name}: ${items[i].message}`;
     li.append(createEditButtons(items[i]));
     list.append(li);
   }
@@ -205,7 +197,7 @@ async function submitMessage(event) {
 }
 
 
-// 제공 코드: 서버 ID 선택, 편집 키와 폼을 연결한다.
+// 제공 코드: 목록에서 고른 글을 수정 폼에 표시한다.
 function createEditButtons(item) {
   const box = document.createElement('div');
   const editButton = document.createElement('button');
@@ -244,10 +236,6 @@ async function readMessage(url) {
 // DELETE 요청: 1일차 학생 수정 3곳(대상 URL, method, 헤더).
 async function deleteMessage(id, button) {
   if (editing) return;
-  if (editKey === '') {
-    editNotice.textContent = '편집 키를 먼저 입력하세요.';
-    return;
-  }
   if (!confirm(`글 ${id}번을 삭제하시겠습니까?`)) return;
   // 1일차 수정 1: 배열 위치가 아닌 서버 ID를 URL에 넣는다.
   const url = messageUrl(id);
@@ -259,13 +247,13 @@ async function deleteMessage(id, button) {
     const response = await fetch(url, {
       // 1일차 수정 2: 삭제 메서드를 지정한다.
       method: 'DELETE',
-      // 1일차 수정 3: 공개 키와 편집 키를 헤더에 넣는다.
-      headers: { apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey }
+      // 1일차 수정 3: 공개 키를 헤더에 넣는다.
+      headers: { apikey: API_PUBLIC_KEY }
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     // 204에는 본문이 없다. 같은 ID의 GET으로 실제 삭제를 확인한다.
     const remaining = await readMessage(url);
-    if (remaining.length !== 0) throw new Error('편집 키와 글 번호를 확인하세요.');
+    if (remaining.length !== 0) throw new Error('방명록 태그와 글 번호를 확인하세요.');
     if (editId.value === String(id)) editForm.reset();
     const loaded = await loadMessages();
     editNotice.textContent = loaded ? '삭제 확인 완료' : '삭제 확인 완료 · 목록을 다시 불러오세요.';
@@ -284,8 +272,8 @@ async function updateMessage(event) {
   if (editing) return;
   const id = editId.value;
   const message = editMessage.value.trim();
-  if (editKey === '' || id === '' || message === '') {
-    editNotice.textContent = '편집 키, 수정할 글, 메시지를 확인하세요.';
+  if (id === '' || message === '') {
+    editNotice.textContent = '수정할 글, 메시지를 확인하세요.';
     return;
   }
   // 2일차 수정 1: 선택한 서버 ID와 방명록 번호로 대상을 지정한다.
@@ -297,7 +285,7 @@ async function updateMessage(event) {
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
-        apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey,
+        apikey: API_PUBLIC_KEY,
         'Content-Type': 'application/json', Prefer: 'return=representation'
       },
       // 2일차 수정 2: 수정 메시지만 JSON 본문에 넣는다.
@@ -306,7 +294,7 @@ async function updateMessage(event) {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const changed = await response.json();
     if (!Array.isArray(changed) || changed.length !== 1 || String(changed[0].id) !== id) {
-      throw new Error('편집 키와 글 번호를 확인하세요.');
+      throw new Error('방명록 태그와 글 번호를 확인하세요.');
     }
     // 2일차 수정 3: 같은 ID를 다시 읽고 메시지를 비교한다.
     const saved = await readMessage(url);
@@ -325,21 +313,6 @@ async function updateMessage(event) {
   }
 }
 
-// 제공 코드: 키는 메모리에서만 사용하고 입력 칸은 바로 비운다.
-function clearEditKey() {
-  editKey = '';
-  keyInput.value = '';
-}
-document.querySelector('#key-form').addEventListener('submit', function (event) {
-  event.preventDefault();
-  editKey = keyInput.value.trim();
-  keyInput.value = '';
-  editNotice.textContent = editKey === '' ? '편집 키를 입력하세요.' : '편집 키 적용 완료';
-});
-document.querySelector('#clear-key').addEventListener('click', function () {
-  clearEditKey();
-  editNotice.textContent = '편집 키 삭제 완료';
-});
 reloadButton.addEventListener('click', loadMessages);
 form.addEventListener('submit', submitMessage);
 editForm.addEventListener('submit', updateMessage);
@@ -350,6 +323,6 @@ loadMessages();
 
 ## 동작 확인과 수업 뒤 정리
 
-글 세 개의 가운데 삭제, 남은 글 수정, 틀린 키의 변경 없음, 통신 실패 뒤 조회 복구를 확인한다. 편집 키의 [키 지우기]는 메모리와 입력 칸을 함께 비운다. 새로고침해도 저장한 공개 키와 서버의 글은 남고 편집 키만 다시 입력한다.
+글 세 개의 가운데 삭제, 남은 글 수정, 없는 번호의 빈 응답, 통신 실패 뒤 조회 복구를 확인한다. 새로고침 후에도 저장한 글을 다시 조회할 수 있다.
 
-편집 키를 지우고 [실습지](lab.md)의 캡처를 만든다. 수업 뒤 add·commit·push하고 Pages 주소와 다른 브라우저에서 처음 묻는 창에 공개 키를 넣은 뒤 같은 글이 보이는지 확인한다. 로컬 리허설 결과를 공용 API나 다른 기기 검증으로 기록하지 않는다. 레포트 검사는 포함하지 않는다.
+[실습지](lab.md)의 캡처를 만든다. 수업 뒤 add·commit·push하고 Pages 주소와 다른 브라우저에서 처음 묻는 창에 공개 키를 넣은 뒤 같은 글이 보이는지 확인한다. 로컬 리허설 결과를 공용 API나 다른 기기 검증으로 기록하지 않는다. 레포트 검사는 포함하지 않는다.

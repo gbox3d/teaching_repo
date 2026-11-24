@@ -42,7 +42,7 @@ The instructor prepares the API and individual test guestbooks.
 Set `BOOK_ID` in `config.example.js` to your own guestbook ID.
 Enter the public key when the page first asks; it survives a refresh.
 Cancel gives 401; for a wrong key, press [공개 키 지우기] (clear key) and re-enter.
-Enter an edit key at runtime. Never commit it.
+Include your book tag and the server ID in the request.
 
 localhost means this PC. Pages needs the shared HTTPS API.
 
@@ -88,7 +88,7 @@ web-week15/exam/ contains an index and A–E folders.
 Check your assigned test guestbook and initial records.
 
 Do not use practice data or another student’s test data.
-Keep the edit key out of source code.
+Read the same tag and entry ID to verify the result.
 
 ---
 
@@ -105,7 +105,7 @@ Total 20 is a proposal. The class announcement is authoritative.
 # Day 2 · 10–15 min — Verify changes
 
 HTTP success does not prove a row changed.
-A rejected key may give PATCH 200 [] or DELETE 204.
+When no record matches, PATCH may return 200 [] and DELETE may return 204.
 
 GET the same ID. Check the saved value or absence.
 
@@ -127,7 +127,7 @@ If no equivalent environment exists, defer REST assessment.
 Submit public URL, repository URL and a Commits screenshot.
 Explain one line of your own code.
 
-Do not submit edit keys. The instructor keeps their own copy.
+Record your exam book tag so that the instructor can check the result.
 Reproduction uses a copy of the submitted server data.
 
 ---

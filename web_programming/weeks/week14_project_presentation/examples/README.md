@@ -10,7 +10,7 @@
 | [day2/ex04](day2/ex04/index.html) | 시연·선택 | 같은 ID의 변경 전·후 GET |
 | [web-week14](day2/web-week14/guestbook.html) | 제공 조립본·실습 결과 | guestbook.js에서 양일 지정한 3곳씩 수정 |
 
-각 REST 폴더에는 `README.md`, `requests.http`, `.env.example`이 있다. 예제만 새 Git 저장소에 복사했다면 그 저장소 최상위의 `.gitignore`에 `.env` 한 줄을 추가한다. REST Client humao.rest-client에서 .env를 준비하고 **Send Request**로 about → help → GET → 변경 → 같은 ID GET을 진행한다. 실제 편집 키는 password 프롬프트로 입력한다. 브라우저가 읽는 config.example.js와 .env는 별개다. 공개 키는 예제를 여는 주소마다 처음 한 번 묻는 창에 넣으며 새로고침해도 남는다. 잘못 넣었으면 제목 아래 [공개 키 지우기]를 누르고 다시 넣는다.
+각 REST 폴더에는 `README.md`, `requests.http`, `.env.example`이 있다. 예제만 새 Git 저장소에 복사했다면 그 저장소 최상위의 `.gitignore`에 `.env` 한 줄을 추가한다. REST Client humao.rest-client에서 .env를 준비하고 **Send Request**로 about → help → GET → 변경 → 같은 ID GET을 진행한다. 브라우저가 읽는 config.example.js와 .env는 별개다. 공개 키는 예제를 여는 주소마다 처음 한 번 묻는 창에 넣으며 새로고침해도 남는다. 잘못 넣었으면 제목 아래 [공개 키 지우기]를 누르고 다시 넣는다.
 
 ## 제공 코드와 배포
 

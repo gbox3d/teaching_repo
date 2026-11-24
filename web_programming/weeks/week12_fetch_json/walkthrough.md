@@ -8,9 +8,9 @@
 node web_programming/tools/static-server/server.mjs web_programming/weeks/week12_fetch_json/examples 8000
 ```
 
-첫 예제는 `http://localhost:8000/day1/ex01/`, 도시별 날씨는 `http://localhost:8000/day2/ex06/`다. 타이머는 브라우저에서 실행하고 데이터는 두 공개 API에서 읽는다.
+첫 예제는 `http://localhost:8000/day1/ex01/`, 나라별 공휴일은 `http://localhost:8000/day2/ex06/`다. 타이머는 브라우저에서 실행하고, 조회 결과는 공개 API에서 읽는다.
 
-VS Code에서는 REST Client(`humao.rest-client`)를 설치한다. ex02~ex06의 `requests.http`를 열고 요청 줄 위의 **Send Request**를 누른다. 요청 파일의 기본 주소는 JSONPlaceholder(`https://jsonplaceholder.typicode.com`) 또는 Open-Meteo(`https://api.open-meteo.com`)다. 필수 예제는 추가 헤더나 `.env` 설정 없이 실행한다.
+VS Code에서는 REST Client(`humao.rest-client`)를 설치한다. ex02~ex06의 `requests.http`를 열고 요청 줄 위의 **Send Request**를 누른다. 예제마다 `@baseUrl`에 서비스의 기본 주소가 설정되어 있다. 필수 예제는 추가 헤더나 `.env` 설정 없이 실행한다.
 
 ## 2. 타이머와 Promise의 실행 순서
 
@@ -158,81 +158,26 @@ ex02 폴더를 복사한다. 사본의 클릭 콜백을 `async function`으로 �
 
 `.then()` 콜백이 `response.json()`을 반환하면 다음 콜백은 본문을 읽을 때까지 기다린다. ex01b의 `return wait(1000);`과 같은 모양이다. `return`을 빼면 콜백의 반환값은 `undefined`다. ex03의 두 `await`는 ex01c의 `await wait(1000);` 두 줄과 같은 자리에서 HTTP 응답과 본문을 기다리고, 다음 줄에서 기다린 값을 쓴다. 브라우저는 기다리는 동안에도 다른 입력을 처리한다. `async` 함수의 반환값은 항상 Promise다.
 
-## 7. 서울 기온과 오류 응답
+## 7. 환율과 HTTP 상태 읽기
 
-[ex04 요청](examples/day2/ex04/requests.http)의 좌표는 서울의 위도 37.5665와 경도 126.9780이다. **Send Request**를 눌러 `current.temperature_2m`과 `current_units.temperature_2m`을 확인하고 [기온 화면](examples/day2/ex04/index.html)과 비교한다.
+[ex04 요청](examples/day2/ex04/requests.http)은 Frankfurter에서 1달러당 원화 기준 환율을 가져온다. **Send Request**를 눌러 `date`와 `rates.KRW`를 찾는다. [환율 화면](examples/day2/ex04/index.html)에서 **환율 조회**를 누르고 기준일과 환율을 대조한다.
 
-[ex05](examples/day2/ex05/index.html)에서 정상 위도와 잘못된 위도 `999`를 각각 조회한다. 정상 응답의 `response.ok`는 true다. 잘못된 위도에는 응답 상태 400과 오류 이유가 온다. 이때도 서버가 응답했으므로 `await fetch(url)`은 Response를 돌려준다. 개발자 도구 Network를 **Offline**으로 바꾸고 다시 요청하면 응답 자체를 받지 못해 `catch`가 실행된다. 확인 후 **No throttling**으로 되돌린다.
+[ex05](examples/day2/ex05/index.html)에서 **카드 한 장 뽑기**와 **없는 카드 요청**을 눌러 Tarot API의 `200`과 `404` 응답을 비교한다. `200`의 본문에는 `cards[0].name`과 `cards[0].meaning_up`이 있다. `404`여도 서버가 응답했으므로 `await fetch(url)`은 Response를 돌려준다. 코드에서 `response.ok`가 `false`이면 본문을 읽기 전에 반환한다.
 
-## 8. 도시별 날씨 완성본
+개발자 도구 Network에서 Disable cache를 체크하고 Offline으로 바꾸어 다시 요청한다. HTTP 응답을 받기 전에 `fetch()`가 실패해 `catch`가 실행된다. 확인 후 No throttling으로 되돌린다.
 
-[ex06](examples/day2/ex06/index.html)에서 서울 또는 부산을 고르고 **기온 조회**를 누른다. `#city`의 값으로 좌표를 고르고, 요청이 끝날 때까지 도시 선택과 조회 버튼을 잠근다. `finally`에서 두 요소를 다시 활성화하므로 조회에 실패해도 같은 도시로 다시 시도할 수 있다.
+## 8. 나라별 공휴일 목록
 
-### index.html
+[ex06](examples/day2/ex06/index.html)에서 나라를 골라 **공휴일 조회**를 누른다. [요청 파일](examples/day2/ex06/requests.http)의 `@year`를 화면에 표시된 연도로 맞추고 응답을 확인한다.
 
-```html
-<!doctype html>
-<html lang="ko">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ex06 · 도시별 현재 기온</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
-  <script src="app.js" defer></script>
-</head>
-<body class="w3-light-grey">
-  <main class="w3-content w3-padding">
-    <h1>도시별 현재 기온</h1>
-    <p><label for="city">도시</label>
-      <select class="w3-select w3-border" id="city">
-        <option value="seoul">서울</option>
-        <option value="busan">부산</option>
-      </select></p>
-    <button class="w3-button w3-teal" id="run-button" type="button">기온 조회</button>
-    <p id="output" role="status">대기 중</p>
-    <p><small><a href="https://open-meteo.com/">Weather data by Open-Meteo</a></small></p>
-  </main>
-</body>
-</html>
-```
+[app.js](examples/day2/ex06/app.js)는 선택한 나라 코드와 브라우저의 올해 연도로 `/api/v4/Holidays/{나라 코드}/{연도}` 경로를 만든다. `await response.json()`이 돌려준 배열에서 전국 공휴일을 골라 `date`와 `name`을 목록에 표시한다. 다른 나라를 조회하면 목록이 새 결과로 바뀐다.
 
-### app.js
-
-```js
-const output = document.querySelector('#output');
-const button = document.querySelector('#run-button');
-const citySelect = document.querySelector('#city');
-const cities = {
-  seoul: { name: '서울', latitude: 37.5665, longitude: 126.9780 },
-  busan: { name: '부산', latitude: 35.1796, longitude: 129.0756 }
-};
-
-async function readWeather() {
-  const city = cities[citySelect.value];
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.latitude}&longitude=${city.longitude}&current=temperature_2m`;
-  button.disabled = true;
-  citySelect.disabled = true;
-  output.textContent = '조회 중';
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const weather = await response.json();
-    output.textContent = `${city.name} ${weather.current.temperature_2m}${weather.current_units.temperature_2m}`;
-  } catch (error) {
-    output.textContent = `조회 실패 · ${error.message}. 연결을 확인하고 다시 조회하세요.`;
-  } finally {
-    button.disabled = false;
-    citySelect.disabled = false;
-  }
-}
-
-button.addEventListener('click', readWeather);
-```
+Network에서 Disable cache를 체크하고 Offline으로 바꾼 뒤 같은 나라를 조회한다. 요청이 끝나면 `finally`가 나라 선택과 버튼을 다시 활성화한다. No throttling으로 돌아가 다시 조회한다.
 
 ## 9. 확인과 제출
 
-1차시 실습은 ex01c 사본에 3초 줄 더하기·클릭 확인 8분, REST Client와 `.then()`으로 제목 읽기 10분, `async/await`로 직접 고쳐 실행하기 12분이다. 2차시 실습은 서울 기온 대조 8분, 위도 오류 비교 8분, 도시별 조회와 통신 복구 14분이다.
+1차시 실습은 ex01c 사본에 3초 줄 더하기·클릭 확인 8분, REST Client와 `.then()`으로 제목 읽기 10분, `async/await`로 직접 고쳐 실행하기 12분이다. 2차시 실습은 환율 응답 대조 8분, `200`과 `404` 비교 8분, 공휴일 목록 조회와 통신 복구 14분이다.
 
-선택한 도시·기온·단위와 Network의 GET 200을 캡처한다. 서울과 부산의 기온이 같아도 요청 URL의 좌표로 도시를 구분할 수 있다. 접속을 복구한 뒤 버튼을 눌러 새 응답을 받는다. [실습지](lab.md)
+선택한 나라의 공휴일 목록과 Network의 GET `200`을 한 화면에 담는다. 접속을 복구한 뒤 버튼을 눌러 새 응답을 받는다. [실습지](lab.md)
 
-13주에는 강의자가 운영하는 방명록 API에 글을 쓴다. 미리 방명록 목록을 읽어 보려면 선택 방명록 폴더의 `config.example.js`에서 `BOOK_ID`를 배정받은 방명록 번호로 바꾼다. 방명록 화면을 처음 열면 공개 키를 묻는 창이 뜬다. 배부받은 Supabase 공개 키를 넣고 확인을 누른다. [선택 방명록 설정](examples/day2/web-week12/README.md)
+[통합 예제 홈](examples/day2/web-week12/index.html)을 열면 `weather.js`가 서울 기온을 바로 조회한다. 도시를 바꾸고 **기온 조회**를 누르면 선택한 곳의 현재 기온이 표시된다. 방명록 메뉴에서 남긴 글은 `localStorage`에 저장된다. [서버 글 조회](examples/day2/web-week12/guestbook.html)는 선택 GET 실습이며, 서버에 글을 쓰는 POST는 13주에 다룬다. [통합 예제 실행 안내](examples/day2/web-week12/README.md)

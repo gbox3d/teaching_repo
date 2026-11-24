@@ -68,7 +68,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 [web-week11 완성 방명록](examples/day2/web-week11/README.md)은 객체 배열을 저장·복원하는 시연 자료다. 학생의 이번 주 필수 구현·제출에 포함하지 않는다. 전체 HTML·JS는 [따라하기 부록](walkthrough.md#부록-강의자용-방명록-완성본)에 있다.
 
-12주에는 공개 날씨 API로 비동기 GET을 배운다. 방명록에도 적용해 보고 싶을 때 이 시연본을 이어 쓴다. 로컬 저장본은 `guestbook.local.html`·`guestbook.local.js`로 보관하고, 서버 조회본은 `guestbook.html`·`guestbook.js`로 구분한다. 로컬 데이터는 서버로 자동 이전하거나 지우지 않는다. 학생이 11주차에 방명록 전체를 만들었다고 가정하지 않는다.
+12주에는 공개 API로 비동기 GET을 배운다. 방명록에도 적용해 보고 싶을 때 이 시연본을 이어 쓴다. 로컬 저장본은 `guestbook.local.html`·`guestbook.local.js`로 보관하고, 서버 조회본은 `guestbook.html`·`guestbook.js`로 구분한다. 로컬 데이터는 서버로 자동 이전하거나 지우지 않는다. 학생이 11주차에 방명록 전체를 만들었다고 가정하지 않는다.
 
 시연본은 `week11-guestbook-items` 키를 사용한다. 손상 값 안내와 해당 키만 지우는 복구는 제공 코드이며, 학생이 다시 구현할 기능이 아니다.
 

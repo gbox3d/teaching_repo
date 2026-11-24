@@ -4,7 +4,7 @@
 
 ## 설정과 실행
 
-브라우저는 이 폴더의 config.example.js에서 API_BASE_URL·BOOK_ID를 읽는다. 새 프로젝트를 구축했다면 이 두 값을 자신의 값으로 바꾼다. 공개 키·DB 비밀번호·service_role·편집 키는 이 파일에 적지 않는다. 정규 12~14주 예제는 12주 선택 방명록 정본을 복사한 config.example.js를 쓰며, 공개 키는 두 예제 묶음 모두 브라우저 localStorage의 API_PUBLIC_KEY에서 읽는다.
+브라우저는 이 폴더의 `config.example.js`에서 `API_BASE_URL`과 `BOOK_ID`를 읽는다. 자기 프로젝트를 사용하면 프로젝트 URL과 등록된 태그를 넣는다.
 
 화면을 처음 열면 공개 키를 묻는 창에 배부받은 키를 넣는다. 키를 잘못 넣었거나 새 프로젝트의 publishable key로 바꿀 때는 제목 아래 **공개 키 지우기**를 누르고 새 키를 넣는다. 자세한 내용은 [공개 키 입력과 지우기](../README.md#공개-키-입력과-지우기)에 있다.
 
@@ -20,7 +20,7 @@ node web_programming/tools/static-server/server.mjs web_programming/specials/sup
 
 VS Code REST Client (humao.rest-client)를 설치한다. 같은 폴더의 .env.example을 .env로 복사하고 API_BASE_URL·API_PUBLIC_KEY·BOOK_ID를 설정한다. 브라우저는 .env를 읽지 않는다. [requests.http](requests.http)의 **Send Request**를 누르고 주석의 상태 번호·응답을 확인한다. 처음에는 [01 접속](../01_about/README.md)과 [02 도움말](../02_help/README.md)을 먼저 수행한다.
 
-모든 요청의 apikey 헤더, POST·PATCH의 Content-Type: application/json을 구분한다. 편집 요청은 password prompt에 편집 키를 넣으며 요청마다 다시 입력한다. 실제 키를 요청 파일에 적지 않는다. 실행 후 REST Client의 Clear Request History로 키가 담긴 이력을 정리한다.
+공개 키는 `apikey` 헤더로 보낸다. JSON 본문을 보내는 요청에는 `Content-Type: application/json`을 추가한다.
 
 ## 화면과 배포
 

@@ -28,10 +28,8 @@ GET {{baseUrl}}/rest/v1/guestbook?id=eq.{{messageId}}&book_id=eq.{{bookId}}
 apikey: {{apiKey}}
 
 ### 6. 글 수정: 200과 변경 배열, []이면 변경 없음
-# @prompt password 편집 키를 입력하세요.
 PATCH {{baseUrl}}/rest/v1/guestbook?id=eq.{{messageId}}&book_id=eq.{{bookId}}
 apikey: {{apiKey}}
-X-Edit-Key: {{password}}
 Content-Type: application/json
 Prefer: return=representation
 
@@ -42,10 +40,8 @@ GET {{baseUrl}}/rest/v1/guestbook?id=eq.{{messageId}}&book_id=eq.{{bookId}}
 apikey: {{apiKey}}
 
 ### 8. 글 삭제: 204와 빈 본문
-# @prompt password 편집 키를 입력하세요.
 DELETE {{baseUrl}}/rest/v1/guestbook?id=eq.{{messageId}}&book_id=eq.{{bookId}}
 apikey: {{apiKey}}
-X-Edit-Key: {{password}}
 
 ### 9. 삭제 후 같은 ID 확인: 200 []
 GET {{baseUrl}}/rest/v1/guestbook?id=eq.{{messageId}}&book_id=eq.{{bookId}}

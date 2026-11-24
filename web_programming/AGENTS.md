@@ -20,7 +20,7 @@
 
 15주, 주 2회, 회당 90분이다. 일반 27차시는 강의·시연 60분과 학생 실습 30분이고, 8·15주 2차시는 안내 30분과 실기 60분, 9주 2차시는 안내 5분·발표 75분·피드백 10분이다. 1~6주는 자체 CSS를 쓰고 7주부터 W3.CSS 4.1.0을 cdnjs CDN으로 읽는다.
 
-방명록 하나를 주차마다 넓힌다. 3주 폼에서 시작해 7주에 W3.CSS로 바꾸고 최신 글이 위에 오는 피드를 붙인다. 10주 배열 목록, 11주 객체·JSON·폼 저장, 12주 공개 API GET·Promise, 13주 방명록 POST, 14주 PATCH·DELETE를 거쳐 15주 기말 실기로 끝난다. 4주부터 매주 새 저장소 `web-weekNN`을 쓰며, 방명록을 이어 가는 주에는 `examples/day2/web-weekNN/`을 다음 주 시작점으로 쓴다. 12주 필수 결과물은 날씨 조회 화면이며 방명록은 선택 연결 예제로 제공한다.
+방명록 하나를 주차마다 넓힌다. 3주 폼에서 시작해 7주에 W3.CSS로 바꾸고 최신 글이 위에 오는 피드를 붙인다. 10주 배열 목록, 11주 객체·JSON·폼 저장, 12주 공개 API GET·Promise, 13주 방명록 CRUD, 14주 수정·삭제 결과 확인을 거쳐 15주 기말 실기로 끝난다. 4주부터 매주 새 저장소 `web-weekNN`을 쓰며, 방명록을 이어 가는 주에는 `examples/day2/web-weekNN/`을 다음 주 시작점으로 쓴다. 12주 필수 결과물은 나라별 공휴일 조회 화면이다. `web-week12`는 홈의 기온 조회와 브라우저 방명록을 담은 통합 예제이며, 서버 방명록 조회도 선택 실습으로 제공한다.
 
 ## 폴더와 파일의 역할
 
@@ -38,17 +38,17 @@
 | `exam_structure.md`, `rubric.md`, `project_brief.md`, `demo_outline.md` | 평가 문서. 8주(`exam_structure`·`rubric`), 9주(`project_brief`·`rubric`), 14주(`project_brief`·`rubric`·`demo_outline`, 별도 과제 안내), 15주(`rubric`) |
 | `weeks/week08_midterm/examples/w01_*`~`w07_*` | 1~7주 문제은행. 15주도 이 폴더를 다시 쓴다 |
 | `weeks/week15_final_exam/examples/w09_*`~`w14_*` | 9~14주 문제은행. `w12_fetch_cards`·`w13_text_safe`·`w14_readme_images`는 옛 주소를 위한 이동 안내만 남은 폴더다 |
-| REST 예제 폴더 | API를 호출하는 폴더에는 `requests.http`와 `README.md`를 둔다. 12주 필수 예제는 키 없는 URL을 요청 파일에 적는다. 수업용 방명록에는 `config.example.js`(12주 선택 방명록의 정본과 그 사본)와 `.env.example`도 둔다. 웹 교재의 Git 제외 규칙은 저장소 루트 `.gitignore` 한 곳에서 관리한다 |
+| REST 예제 폴더 | API를 호출하는 폴더에는 `requests.http`와 `README.md`를 둔다. 12주 필수 예제는 키 없는 URL을 요청 파일에 적는다. 13주는 `config.example.json`·`load-config.js`·`.env.example`을 둔다. 12주 선택 방명록, 14·15주와 hash SPA 특강 04는 `config.example.js`와 `.env.example`을 쓴다. Git 제외 규칙은 저장소 루트 `.gitignore`에서 관리한다 |
 | 주석만 남은 `submit.js`·`edit.js` 등 | 13·14주에서 동작을 옮긴 뒤 옛 경로에 남긴 이동 안내. HTML에서 읽지 않는다. 14주 `day1/ex01`의 `config.example.js`도 서버를 부르지 않는 예제라 주석만 남긴 안내다 |
 | `specials/NAME/` | README·slides·slides_en·walkthrough·lab·examples(`kakao_aerial_map`에는 walkthrough가 없다) |
 | `shared/` | `README.md`(W3.CSS CDN 연결, 정규 REST 예제의 설정 안내) |
 | `tools/static-server/` | 수업용 정적 서버 `server.mjs`와 시험 `server.test.mjs` |
-| `tools/guestbook-api/` | 로컬 모의 API `server.mjs`(127.0.0.1:8787), Supabase 구축용 `schema.sql`·`about-help.sql`·`provision.mjs`, 학생 안내 `student-guide.md` |
+| `tools/guestbook-api/` | 로컬 모의 API `server.mjs`(127.0.0.1:8787), Supabase 구축용 `schema.sql`·`about-help.sql`, 기존 프로젝트 전환용 `enable-public-crud.sql`, 학생 안내 `student-guide.md` |
 | `reviews/<날짜>-<주제>/` | 로컬 개편 기록과 검토 자료. 루트 `.gitignore`에서 제외한다 |
 
 이름 규칙은 다음과 같다.
 
-- 주차 폴더 이름은 주제가 바뀌어도 링크를 지키려고 그대로 둔다. 예: `week07_form_input`은 CSS 응용, `week13_release_security`는 POST, `week14_project_presentation`은 PATCH·DELETE 수업이다.
+- 13주차 방명록 CRUD의 폴더와 덱 ID는 `week13_guestbook_crud`이다. 새 자료는 이 이름으로 연결한다. 7주 CSS 응용과 14주 PATCH·DELETE는 기존 폴더 `week07_form_input`, `week14_project_presentation`을 사용한다.
 - 예제 번호는 한 주 안에서 이어 센다(1일차 `ex01`~, 2일차는 그다음 번호부터). 문제 폴더는 `wNN_주제`이고 NN은 출처 주차다.
 - 예시 계정은 `student01`, 이메일은 `student01@example.com`, 저장소는 3주까지 `my-web`, 4주부터 `web-weekNN`이다.
 
@@ -65,7 +65,7 @@
 - 11주차는 문자열 저장 → JSON → 폼 저장 순서다. 11주 전체 저장 방명록은 제공 시연본이며 기말 필수 저장 문항은 폼 한 객체 저장 수준이다.
 - 동작 JavaScript는 페이지당 하나로 조립하고, 설정 파일 같은 제공 기능은 별도 파일로 표시한다. 초기 데이터 조회는 필요한 함수·이벤트·설정의 초기화 뒤에 실행한다.
 - REST API 예제에는 VS Code REST Client용 `.http` 요청을 함께 제공한다. 첫 호출은 서비스의 공개 문서와 간단한 GET으로 확인한다. 수업용 방명록은 about·help로 접속·사용법을 확인하는 요청을 제공한다. 실제 인증 정보는 추적 파일에 넣지 않는다.
-- 12주 필수 실습은 API 키 없이 Promise 실행 순서, `.then()` 체인, `async`/`await`, 오류 처리를 다룬다. JSONPlaceholder와 Open-Meteo 예제에는 `config.example.js`와 공개 키를 두지 않는다. 12주 선택 방명록, 13·14주 방명록, 15주 REST 문항, hash SPA 특강 04는 `config.example.js`로 수업용 Supabase 주소를 제공한다. 학생은 `BOOK_ID`를 배정받은 방명록 번호로 바꾸고, 처음 열 때 묻는 창에 배부받은 공개 키를 넣는다. 13주에는 POST한 뒤 제공된 조회 함수로 글을 확인한다. 로컬 모의 API는 강의자 리허설용이다. 설정 방법은 [공용 설정 안내](shared/README.md)를 따른다. 화면에는 설정 패널을 두지 않고 **공개 키 지우기** 버튼 하나만 둔다.
+- 12주 필수 실습은 API 키 없이 Promise 실행 순서, `.then()` 체인, `async`/`await`, 오류 처리를 다룬다. 할 일·환율·타로 카드·공휴일·날씨 조회는 공개 GET API를 사용한다. 13주는 같은 폴더의 `config.json`에서 주소·공개 키·방명록 번호를 읽고 생성(Create·POST) → 조회(Read·GET) → 수정(Update·PATCH) → 삭제(Delete·DELETE) 순서로 실습한다. 생성 응답에서 받은 글 번호를 마지막 요청까지 사용한다. 목록의 각 글 옆에 삭제 버튼을 두고, 누른 글의 `book_id`와 `id`로 DELETE를 보낸다. 12주 선택 방명록, 14·15주와 hash SPA 특강 04는 `config.example.js`의 방명록 번호를 바꾸고 처음 열 때 묻는 창에 공개 키를 넣는다. 로컬 모의 API는 강의자 리허설용이다. [공용 설정 안내](shared/README.md)
 
 ## 함께 고칠 곳
 
@@ -77,12 +77,14 @@
 | 덱 추가·삭제 | 위 항목과 `EXPECTED_DECKS`, `catalog.json`의 `chapters`, [specials/README.md](specials/README.md) 또는 [weeks/README.md](weeks/README.md) 목록 |
 | 완성 파일(`web-weekNN/`, 3주까지 `dayN/`) | `walkthrough.md`가 인용한 코드(전문을 싣는 주는 전문, 구역만 싣는 주는 그 구역을 글자 단위로 같게), `examples/README.md`의 조립표, `lab.md`의 수정 구역, 다음 주차의 같은 파일 |
 | 주차의 시간표·필수 범위 | 그 주 `README.md`·`lab.md`·`walkthrough.md`·`slides.md`·`slides_en.md`·`examples/README.md` 여섯 곳 |
-| 홈 파일(`index.html`·`about.html`·`app.js`·`styles.css`·`images/profile.png`) | 이후 주차 완성본의 같은 파일. 6→7→9→10주와 11→12→13→14주는 현재 해시가 같다. 10→11주는 `styles.css`만 두 줄(`word-break: keep-all`, 입력의 `box-sizing`) 다르다. 두 줄을 되살릴지는 결정 대기(`_forAI/plan.md`)이므로 그 전에는 11~14주 `styles.css`를 서로 같게 유지하고 임의로 고치지 않는다 |
+| 홈 파일(`index.html`·`about.html`·`app.js`·`styles.css`·`images/profile.png`) | 이후 주차 완성본에 같은 파일을 넘길 때 함께 확인한다. 12·13주 홈과 내 정보는 W3.CSS CDN을 사용한다. 12주 홈은 도시별 날씨를 조회한다 |
+| 12주 `web-week12/weather.js` | 홈의 도시 선택과 `weather.http`의 도시·좌표가 일치해야 한다. 홈을 열 때 한 번 조회한다 |
 | 7주 `day2/web-week07/`의 9개 파일 | 9주 `day2/web-week09/`의 같은 이름 파일(현재 모두 같다) |
 | 9주 `day2/web-week09/` | 15주 `examples/w09_readme_links/`. 두 폴더에 함께 있는 파일은 해시가 같다. `w09_readme_links`에는 `guestbook.before.html`과 `images/site-map.svg`를 두지 않는다 |
 | 11주 `day2/web-week11/guestbook.js` | 12주 `day2/web-week12/guestbook.local.js`(현재 같다)와 11주 `walkthrough.md`의 코드 전문 |
 | 7주 피드 CSS | 7주 완성 피드와 그 화면을 이어 쓰는 9주 발표·15주 README 문항에서 같은 배치를 확인한다 |
-| 정본 `weeks/week12_fetch_json/examples/day2/web-week12/config.example.js` | 방명록 API를 부르는 예제 폴더의 `config.example.js` 사본 전부(14주 `day1/ex01` 제외), 각 화면 HTML의 `id="key-clear-button"` 버튼 한 줄(정본이 이 버튼에 동작을 붙인다), [공용 설정 안내](shared/README.md) |
+| 정본 `weeks/week12_fetch_json/examples/day2/web-week12/config.example.js` | 14·15주와 hash SPA 특강 04의 `config.example.js` 사본(14주 `day1/ex01` 제외), 각 화면의 `id="key-clear-button"` 버튼, [공용 설정 안내](shared/README.md) |
+| 13주 `load-config.js`·`config.example.json` | 13주 기본 예제 네 폴더와 완성 방명록의 사본, 각 화면의 `id="config-status"`, [공용 설정 안내](shared/README.md) |
 | 8주 문제 `w01`~`w07` | 15주 `examples/README.md` 문제은행 표와 `rubric.md` |
 | 공통 운영 규칙(시간, 도입 주차, CDN, 업로드 시점) | [README.md](README.md), [weeks/README.md](weeks/README.md), [specials/README.md](specials/README.md), [ta_setup_guide.md](ta_setup_guide.md), 이 파일 |
 | 방명록 API 계약(경로, 헤더, 상태 코드) | `tools/guestbook-api/`의 `server.mjs`·`schema.sql`·`about-help.sql`·`student-guide.md`, 12~14주 `requests.http`, `specials/supabase_guestbook/` |
@@ -99,8 +101,12 @@
 # 실습 서버·도구 시험. 정적 서버·방명록 API·홈 IoT·Supabase 06 시험 26개와 지도 시험 25개가 모두 통과해야 한다
 npm run test:labs
 
-# 정규 REST 예제의 config.example.js 사본. Supabase 특강과 14주 day1/ex01은 대상이 아니다. 해시가 한 줄(한 종류)만 나와야 한다
-git ls-files -co --exclude-standard -- 'web_programming/weeks/*config.example.js' 'web_programming/specials/hash_spa/*config.example.js' ':(exclude)web_programming/weeks/week14_project_presentation/examples/day1/ex01/config.example.js' | xargs git hash-object | sort | uniq -c
+# config.example.js 사본 중 13주와 14주 첫 예제를 제외한다. 해시는 한 종류여야 한다
+git ls-files -co --exclude-standard -- 'web_programming/weeks/*config.example.js' 'web_programming/specials/hash_spa/*config.example.js' ':(exclude)web_programming/weeks/week13_guestbook_crud/**' ':(exclude)web_programming/weeks/week14_project_presentation/examples/day1/ex01/config.example.js' | xargs git hash-object | sort | uniq -c
+
+# 13주 JSON 견본과 로더는 각각 한 종류여야 한다
+git ls-files -co --exclude-standard -- 'web_programming/weeks/week13_guestbook_crud/*config.example.json' | xargs git hash-object | sort | uniq -c
+git ls-files -co --exclude-standard -- 'web_programming/weeks/week13_guestbook_crud/*load-config.js' | xargs git hash-object | sort | uniq -c
 
 # W3.CSS 주소는 4.1.0 한 종류만 나와야 한다
 git grep --untracked -ohE 'w3-css/[0-9.]+/w3(\.min)?\.css' -- web_programming | sort | uniq -c
@@ -118,7 +124,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 전체 빌드·시험은 다음과 같다.
 
 - `npm run build`와 `npm test`: 원고·예제·사이트 색인을 바꿨으면 실행한다. 2026-11-22 기준 전체는 59개 덱, 1185장(`scripts/check-site.mjs`의 `EXPECTED_DECKS`·`EXPECTED_SLIDES`)이고, 웹은 21개 덱, 언어별 375장이다. 빌드는 `dist/`를 다시 쓰므로 같은 작업 폴더에서 여러 에이전트가 동시에 실행하지 않는다.
-- 수업용 방명록 예제를 로컬 모의 API로 확인할 때: `node web_programming/tools/guestbook-api/server.mjs`(127.0.0.1:8787, 데이터와 편집 키는 Git 제외 폴더 `tools/guestbook-api/.local/`에 생긴다).
+- 수업용 방명록 예제를 로컬 모의 API로 확인할 때: `node web_programming/tools/guestbook-api/server.mjs`(127.0.0.1:8787, 데이터는 Git 제외 폴더 `tools/guestbook-api/.local/`에 생긴다).
 - 홈 IoT 특강: `node web_programming/specials/home_iot_http/examples/simulator/server.mjs`(localhost:8014). 지도 특강: `npm --prefix web_programming/specials/kakao_aerial_map/examples/app start`(localhost:3000, 실제 지도에는 키 설정이 필요하다).
 
 한국어 문서는 `korean-copy-style` 문서 규칙(해라체, 질문형 제목 금지, 꾸밈말 제거)을 따르고, 그 검사기가 있는 환경이면 바꾼 문서에 돌린다. 새 파일은 LF로 저장한다(`.gitattributes`가 `eol=lf`). `git diff --check`로 줄 끝 공백을 확인한다.
@@ -133,25 +139,29 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 **12주는 키 없는 공개 API로 비동기 코드를 배우고, 13·14주는 강의자가 준비한 방명록에서 쓴다**
 - 근거: 학생에게 Supabase 계정·SQL·SDK·로그인 구현을 요구하지 않고 HTTP 요청과 응답에 집중한다. 서버 구축은 `specials/supabase_guestbook/` 연구 특강의 몫이다.
 - 대안: 학생이 각자 서버를 만드는 안. 정규 시간 안에 계정·권한 설정까지 넣어야 한다.
-- 재검토: 학기마다 공용 API 운영 준비(태그 등록·키 배부, `_forAI/plan.md`)를 확인할 때.
+- 재검토: 학기마다 공용 API 운영 준비(태그 등록·공용 공개 키 배부, `_forAI/plan.md`)를 확인할 때.
 
-**API 주소와 방명록 번호는 예제 폴더의 `config.example.js`에 둔다. 공개 키는 처음 열 때 `prompt`로 물어 브라우저의 localStorage에 저장하고, 화면에는 설정 패널 없이 키 지우기 버튼 하나만 둔다**
+**12주 선택 방명록·14주 이후의 REST 예제는 주소와 방명록 번호를 `config.example.js`에 두고 공개 키를 브라우저에 저장한다**
 - 근거: 학생 코드에서 요청 흐름(이벤트 → `await fetch` → 화면 반영)이 그대로 보여야 한다. 2026-11-18 C01의 설정 패널(`shared/api-settings.js`)은 제출 이벤트를 제공 코드가 받고 전역 값을 실행 중에 바꿔, 호출부마다 설정 변경에 대비하는 코드를 만들었다. 새로고침하면 설정이 사라져 13주의 '서버에 저장한 글은 새로고침 뒤에도 남는다'를 거꾸로 보여 줬다. 공개 키를 파일 대신 localStorage에 두면 학기마다 키를 바꿔도 저장소의 사본을 고치지 않는다. 키를 묻는 창과 **공개 키 지우기** 버튼은 개발자 도구 없이 쓸 수 있어 휴대폰에서도 같은 순서로 키를 넣고 바꾼다. 묻기·저장·지우기는 제공 코드인 `config.example.js`가 맡아 학생 코드에 섞이지 않는다.
 - 대안: 설정 패널(2026-11-22 이교수님 지시로 삭제). 공개 키를 `config.example.js`에 적는 방식은 키를 바꿀 때마다 사본을 모두 고쳐야 한다. 개발자 도구 Console에서 저장 명령을 치는 방식은 휴대폰에서 쓰기 어렵고 키를 바꿀 때마다 명령을 다시 쳐야 한다.
 - 재검토: 첫 운영에서 키를 묻는 창을 취소하거나 키를 잘못 넣어 HTTP 401로 막힌 경우를 본 뒤.
 
+**13주는 예제 폴더의 `config.json`에서 주소·공개 키·방명록 번호를 읽는다**
+- 근거: 값 세 개를 한 파일에서 관리하고, 설정을 읽은 뒤 방명록 요청을 시작한다. 공용 교재에는 키를 비운 JSON 견본을 올린다.
+- 재검토: 14주 이후에도 같은 설정이 필요할 때.
+
 그 밖에 되돌리지 않는 결정은 다음과 같다.
 
-- 기존 링크를 지키려고 주차 폴더 이름과 덱 ID를 바꾸지 않는다.
+- 13주차는 이전에 배포한 슬라이드 주소로 접속해도 새 덱이 열린다. 다른 주차는 기존 폴더 이름과 덱 ID를 유지한다.
 - 14주를 레포트 검사 주차로, 13주를 릴리스·보안 독립 주제로 되돌리지 않는다. 레포트는 별도 과제로 공지한다.
 - 배열 심화(`filter`·`map`·`reduce` 등)는 `specials/array_advanced/` 보강 특강에 두고 정규 시험에 넣지 않는다. 11주 `ex08` 이후 예제를 다시 만들지 않는다.
 - 7주 2일차 예제는 `ex04`·`ex05`와 `web-week07`이다. 옛 `ex06`~`ex08`은 교재에서 빠졌다. 이교수님이 직접 수정하고 보존을 요청한 7주 타임라인·방명록 피드와 이를 이어 쓰는 9·15주 자료의 기존 CSS는 보존한다.
 
 ## 하지 말 것
 
-- 실제 `.env`, 편집 키, Supabase secret key, DB 비밀번호, `localfiles/`, `.local/`을 추적 파일·ZIP·캡처에 넣지 않는다. 브라우저용 publishable key만 공개 설정으로 쓸 수 있다.
-- 공개 키는 파일에 적지 않는다. 처음 열 때 `prompt`로 받아 브라우저 localStorage의 `API_PUBLIC_KEY`에 저장해 읽고, **공개 키 지우기** 버튼으로 지운 뒤 다시 받는다. 편집 키는 localStorage에도 저장하지 않고 메모리에서만 쓴다. REST Client용 실제 `.env`는 Git에서 제외한다.
-- `book_id`를 학생 인증으로, 편집 키를 개인 작성자 인증으로 설명하지 않는다. 편집 키는 해당 방명록 전체의 수정·삭제 권한이다.
+- 실제 `config.json`과 `.env`, Supabase secret key, DB 비밀번호, `localfiles/`, `.local/`을 추적 파일·ZIP·캡처에 넣지 않는다. 브라우저용 publishable key만 공개 설정으로 쓸 수 있다.
+- 13주에서는 Git에서 제외한 `config.json`의 `API_PUBLIC_KEY`에 브라우저용 공개 키를 넣는다. 12주 선택 방명록, 14·15주와 hash SPA 특강 04는 처음 열 때 공개 키를 받아 localStorage에 저장하며 **공개 키 지우기**로 바꾼다.
+- `book_id`는 수업용 글을 구분하는 태그다. 공용 공개 키가 있으면 모든 태그의 글을 작성·조회·수정·삭제할 수 있다. 실습에서는 자기 태그에 쓴 글을 사용한다.
 - PATCH 200의 빈 배열이나 DELETE 204만으로 변경 성공을 판정하지 않는다. 같은 `id`로 다시 GET해 확인하고, 204 응답에 JSON 파싱을 하지 않는다.
 - 공용 Supabase의 실제 글을 지시 없이 추가·수정·삭제하지 않는다.
 - 시험 시작 파일의 빈 구현에 해답을 채우지 않는다. 실제 출제 값과 정답은 공개 저장소에 두지 않는다.

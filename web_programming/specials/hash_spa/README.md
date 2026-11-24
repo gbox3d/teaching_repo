@@ -39,4 +39,4 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 GitHub Pages의 예시 주소는 `https://<아이디>.github.io/<저장소>/index.html#guestbook`이다. `index.html`은 실제 파일이며 hash는 서버 요청에 포함되지 않는다. 주소를 `/<저장소>/guestbook`으로 바꾸지 않는다. 루트와 저장소 하위 경로에서 직접 진입·새로고침이 모두 되어야 한다.
 
-화면을 바꿀 때 section을 숨기므로 입력·홈 횟수는 유지된다. 새로고침은 문서를 다시 실행하므로 입력·횟수·편집 키가 초기화된다. 서버에 저장한 글과 이 브라우저의 localStorage에 저장한 공개 키는 새로고침해도 남는다. 서버 글은 GET으로 다시 확인한다. 편집 키는 소스·주소·브라우저 저장소에 기록하지 않는다.
+화면을 바꿀 때 section을 숨기므로 입력·홈 횟수는 유지된다. 새로고침은 문서를 다시 실행하므로 입력과 횟수가 초기화된다. 서버에 저장한 글과 이 브라우저의 localStorage에 저장한 공개 키는 새로고침해도 남는다. 서버 글은 GET으로 다시 확인한다.

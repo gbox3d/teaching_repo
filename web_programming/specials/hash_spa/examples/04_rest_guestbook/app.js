@@ -20,12 +20,10 @@ const notice = document.querySelector('#notice');
 let latestRequest = 0;
 let saving = false;
 let editing = false;
-let editKey = '';
 const editNotice = document.querySelector('#edit-notice');
 const editForm = document.querySelector('#edit-form');
 const editId = document.querySelector('#edit-id');
 const editMessage = document.querySelector('#edit-message');
-const keyInput = document.querySelector('#edit-key');
 const saveEditButton = document.querySelector('#save-edit');
 
 // GET 응답 표시: 12주 목록 함수
@@ -33,7 +31,7 @@ function showList(items) {
   list.replaceChildren();
   for (let i = 0; i < items.length; i++) {
     const li = document.createElement('li');
-    li.textContent = `${items[i].name}: ${items[i].message}`;
+    li.textContent = `#${items[i].id} ${items[i].name}: ${items[i].message}`;
     li.append(createEditButtons(items[i]));
     list.append(li);
   }
@@ -119,7 +117,7 @@ async function submitMessage(event) {
 }
 
 
-// 제공 코드: 서버 ID 선택, 편집 키와 폼을 연결한다.
+// 제공 코드: 목록에서 고른 글을 수정 폼에 표시한다.
 function createEditButtons(item) {
   const box = document.createElement('div');
   const editButton = document.createElement('button');
@@ -158,10 +156,6 @@ async function readMessage(url) {
 // DELETE 요청: 1일차 학생 수정 3곳(대상 URL, method, 헤더).
 async function deleteMessage(id, button) {
   if (editing) return;
-  if (editKey === '') {
-    editNotice.textContent = '편집 키를 먼저 입력하세요.';
-    return;
-  }
   if (!confirm(`글 ${id}번을 삭제하시겠습니까?`)) return;
   // 1일차 수정 1: 배열 위치가 아닌 서버 ID를 URL에 넣는다.
   const url = messageUrl(id);
@@ -173,13 +167,13 @@ async function deleteMessage(id, button) {
     const response = await fetch(url, {
       // 1일차 수정 2: 삭제 메서드를 지정한다.
       method: 'DELETE',
-      // 1일차 수정 3: 공개 키와 편집 키를 헤더에 넣는다.
-      headers: { apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey }
+      // 1일차 수정 3: 공개 키를 헤더에 넣는다.
+      headers: { apikey: API_PUBLIC_KEY }
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     // 204에는 본문이 없다. 같은 ID의 GET으로 실제 삭제를 확인한다.
     const remaining = await readMessage(url);
-    if (remaining.length !== 0) throw new Error('편집 키와 글 번호를 확인하세요.');
+    if (remaining.length !== 0) throw new Error('방명록 태그와 글 번호를 확인하세요.');
     if (editId.value === String(id)) editForm.reset();
     const loaded = await loadMessages();
     editNotice.textContent = loaded ? '삭제 확인 완료' : '삭제 확인 완료 · 목록을 다시 불러오세요.';
@@ -198,8 +192,8 @@ async function updateMessage(event) {
   if (editing) return;
   const id = editId.value;
   const message = editMessage.value.trim();
-  if (editKey === '' || id === '' || message === '') {
-    editNotice.textContent = '편집 키, 수정할 글, 메시지를 확인하세요.';
+  if (id === '' || message === '') {
+    editNotice.textContent = '수정할 글, 메시지를 확인하세요.';
     return;
   }
   // 2일차 수정 1: 선택한 서버 ID와 방명록 번호로 대상을 지정한다.
@@ -211,7 +205,7 @@ async function updateMessage(event) {
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
-        apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey,
+        apikey: API_PUBLIC_KEY,
         'Content-Type': 'application/json', Prefer: 'return=representation'
       },
       // 2일차 수정 2: 수정 메시지만 JSON 본문에 넣는다.
@@ -220,7 +214,7 @@ async function updateMessage(event) {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const changed = await response.json();
     if (!Array.isArray(changed) || changed.length !== 1 || String(changed[0].id) !== id) {
-      throw new Error('편집 키와 글 번호를 확인하세요.');
+      throw new Error('방명록 태그와 글 번호를 확인하세요.');
     }
     // 2일차 수정 3: 같은 ID를 다시 읽고 메시지를 비교한다.
     const saved = await readMessage(url);
@@ -239,21 +233,6 @@ async function updateMessage(event) {
   }
 }
 
-// 제공 코드: 키는 메모리에서만 사용하고 입력 칸은 바로 비운다.
-function clearEditKey() {
-  editKey = '';
-  keyInput.value = '';
-}
-document.querySelector('#key-form').addEventListener('submit', function (event) {
-  event.preventDefault();
-  editKey = keyInput.value.trim();
-  keyInput.value = '';
-  editNotice.textContent = editKey === '' ? '편집 키를 입력하세요.' : '편집 키 적용 완료';
-});
-document.querySelector('#clear-key').addEventListener('click', function () {
-  clearEditKey();
-  editNotice.textContent = '편집 키 삭제 완료';
-});
 reloadButton.addEventListener('click', loadMessages);
 form.addEventListener('submit', submitMessage);
 editForm.addEventListener('submit', updateMessage);

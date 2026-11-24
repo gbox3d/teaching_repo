@@ -22,9 +22,7 @@
         <label>메서드<select class="w3-input w3-border" id="method"><option>GET</option><option>POST</option><option>PATCH</option><option>DELETE</option></select></label>
         <label>방명록 번호<input class="w3-input w3-border" id="book" required pattern="[a-z0-9_-]{1,40}" maxlength="40"></label>
         <label>글 ID<input class="w3-input w3-border" id="id" type="number" min="1" step="1" placeholder="GET 전체 목록은 비워 두세요."></label>
-        <label for="edit-key">편집 키 (PATCH·DELETE에 사용)</label>
-        <input class="w3-input w3-border" id="edit-key" type="password" autocomplete="off" aria-describedby="key-help">
-        <p id="key-help">요청마다 편집 키 재입력</p>
+
         <label for="body">JSON 본문 (POST·PATCH에 사용)</label>
         <textarea class="w3-input w3-border" id="body" rows="7" spellcheck="false"></textarea>
         <div class="w3-section"><button class="w3-button w3-white w3-border" id="sample" type="button">본문 예시 넣기</button><button class="w3-button w3-teal" id="send" type="submit">요청 보내기</button></div>

@@ -9,7 +9,7 @@ footer: "fetch · Promise · async/await"
 # Fetch with Promises and async/await
 
 Start with timers to see which lines run first and how `async` functions work.
-Read a to-do from JSONPlaceholder, then fetch the current temperature for Seoul and Busan.
+Read a to-do from JSONPlaceholder, then practice reading responses and handling errors with exchange-rate, tarot card, and public-holiday APIs.
 
 Each session has 60 minutes of lecture and demos and 30 minutes of practice. [Examples](examples/README.md)
 
@@ -172,60 +172,59 @@ Optional observations: when line 3 appears after removing `return` in example 01
 
 ---
 
-## Day 2 · 0–5 min · Request Seoul weather
+## Day 2 · 0–5 min · Request an exchange rate
 
-[Example 04](examples/day2/ex04/index.html) · [Seoul request](examples/day2/ex04/requests.http)
+[Example 04](examples/day2/ex04/index.html) · [Exchange-rate request](examples/day2/ex04/requests.http)
 
-Send Seoul's latitude and longitude to `GET /v1/forecast`. The parameter `current=temperature_2m` requests current air temperature two metres above ground.
+In `GET /v1/latest?base=USD&symbols=KRW`, `USD` is the base currency and `KRW` is the target currency.
 
-Click **Send Request** and locate `current` and `current_units`.
+Click **Send Request** and locate `date` and `rates`.
 
 ---
 
-## Day 2 · 5–20 min · Read the temperature and unit
+## Day 2 · 5–20 min · Read a nested exchange-rate field
 
 | Response field | Value to display |
 |---|---|
-| `weather.current.temperature_2m` | Current temperature |
-| `weather.current_units.temperature_2m` | Unit of temperature |
+| `date` | Reference date |
+| `rates.KRW` | Reference rate in Korean won per US dollar |
 
-Find both fields in the [example 04 code](examples/day2/ex04/app.js) and compare them with the response. The temperature can change between requests.
+Find the lines that read both fields and compare them with the response. [Example 04 code](examples/day2/ex04/app.js)
 
 ---
 
-## Day 2 · 20–35 min · Invalid latitude and HTTP responses
+## Day 2 · 20–35 min · Compare 200 and 404 responses
 
 [Example 05](examples/day2/ex05/index.html) · [Both requests](examples/day2/ex05/requests.http)
 
-| Latitude | HTTP status | `response.ok` |
+| Lookup | HTTP status | `response.ok` |
 |---|---|---|
-| Seoul, 37.5665 | 200 | true |
-| 999 | 400 | false |
+| Random card `random?n=1` | 200 | true |
+| `zzmissing` | 404 | false |
 
-The server sent an HTTP response even for 400, so the Promise from `fetch()` fulfills. Read the status and the error body's `reason` field to find the invalid value.
+When the server sends `404`, `fetch()` still fulfills with a Response. Check `response.ok` before reading the body. For `200`, read the name and meaning from `cards[0]`.
 
 ---
 
 ## Day 2 · 35–45 min · Connection failure and catch
 
-[Example 06 weather page](examples/day2/ex06/index.html) · [Code](examples/day2/ex06/app.js)
+[Example 06 holidays page](examples/day2/ex06/index.html) · [Code](examples/day2/ex06/app.js)
 
-1. With the page open, set Network in DevTools to **Offline**.
-2. Click **기온 조회**. The request rejects before receiving an HTTP response and execution moves to `catch`.
-3. Restore **No throttling** and request the same city again.
+1. With the page open, check **Disable cache** in DevTools Network and select **Offline**.
+2. Click **공휴일 조회**. The request rejects before receiving an HTTP response and execution moves to `catch`.
+3. Restore **No throttling** and request the same country again.
 
-To handle an HTTP 400 in `catch` as well, check `response.ok` and throw an error.
+To handle HTTP errors in `catch`, check `response.ok` and throw an error.
 
 ---
 
-## Day 2 · 45–55 min · Select a city and retry
+## Day 2 · 45–55 min · Render a public-holiday array
 
-| City | Latitude | Longitude |
-|---|---|---|
-| Seoul | 37.5665 | 126.9780 |
-| Busan | 35.1796 | 129.0756 |
+| URL path | Values |
+|---|---|
+| `/api/v4/Holidays/{countryCode}/{year}` | The current year and one of `KR`, `JP`, or `US` |
 
-Example 06 builds a URL with the selected coordinates. It disables the button while the request is pending and re-enables it in `finally`. Choose a city for each request. [Requests for both cities](examples/day2/ex06/requests.http)
+Example 06 loops over the response array and displays `date` and `name` for nationwide public holidays. It replaces the list with the new results and re-enables the request button in `finally`. [Requests by country](examples/day2/ex06/requests.http)
 
 ---
 
@@ -233,16 +232,16 @@ Example 06 builds a URL with the selected coordinates. It disables the button wh
 
 | Practice time | Activity |
 |---|---|
-| 0–8 min | Compare Seoul's temperature and unit with the response |
-| 8–16 min | Compare the HTTP statuses for Seoul's latitude and 999 |
-| 16–30 min | Switch cities, try Offline, restore the network and retry |
+| 0–8 min | Compare the reference date and rate with the response |
+| 8–16 min | Request a random card and an unknown card to compare `200` and `404` |
+| 16–30 min | View holidays by country, try Offline, and retry after reconnecting |
 
-Submit the [city weather page](examples/day2/ex06/index.html). Capture the temperature and the GET 200 in Network together. [Practice sheet](lab.md)
+Submit the [public-holiday list](examples/day2/ex06/index.html). Capture the list and the GET `200` in Network together. [Practice sheet](lab.md)
 
 ---
 
-# Next week · Write a guestbook entry
+# Week 12 site and Week 13 guestbook
 
-In week 13, POST JSON to the class Supabase project and read the new entry's id. The starter code includes the list-reading function.
+[Open the home page](examples/day2/web-week12/index.html) to check current temperatures for Seoul, Jeonju, and Iksan. The Guestbook menu opens the page that saves entries in your browser.
 
-For an optional preview, change `BOOK_ID` in the guestbook folder's `config.example.js` to your assigned book id. The first time you open the [guestbook](examples/day2/web-week12/guestbook.html), a dialog asks for the publishable key. Enter the key you received and this browser keeps it. If you entered it wrong, click **공개 키 지우기** and enter it again. [Connection check, help and list requests](examples/day2/web-week12/requests.http) · [Settings](examples/day2/web-week12/README.md)
+[Read server entries](examples/day2/web-week12/guestbook.html) in an optional GET exercise with a publishable key. In Week 13, POST JSON to the class Supabase project. [Site instructions](examples/day2/web-week12/README.md)

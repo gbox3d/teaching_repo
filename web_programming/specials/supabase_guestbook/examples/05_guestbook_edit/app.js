@@ -2,7 +2,6 @@ const bookInput = document.querySelector('#book');
 const idInput = document.querySelector('#id');
 const nameInput = document.querySelector('#name');
 const messageInput = document.querySelector('#message');
-const keyInput = document.querySelector('#edit-key');
 const notice = document.querySelector('#notice');
 const responseBody = document.querySelector('#response-body');
 const list = document.querySelector('#messages');
@@ -19,7 +18,7 @@ function setBusy(value) {
 }
 
 async function loadMessages(book) {
-  const url = new URL('/rest/v1/guestbook', API_BASE_URL);
+  const url = new URL('rest/v1/guestbook', API_BASE_URL);
   url.searchParams.set('book_id', `eq.${book}`);
   url.searchParams.set('order', 'id.desc');
   url.searchParams.set('limit', '50');
@@ -41,10 +40,21 @@ async function loadMessages(book) {
       idInput.value = row.id;
       nameInput.value = row.name;
       messageInput.value = row.message;
-      keyInput.value = '';
+
       notice.textContent = `선택한 글 ID: ${row.id}`;
     });
-    item.append(text, select);
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'w3-button w3-white w3-border w3-margin-left';
+    remove.textContent = '삭제';
+    remove.setAttribute('aria-label', `글 ${row.id} 삭제`);
+    remove.disabled = busy;
+    remove.addEventListener('click', function () {
+      if (window.confirm(`${book} 방명록의 글 ${row.id}번을 삭제하시겠습니까?`)) {
+        changeMessage('DELETE', book, String(row.id));
+      }
+    });
+    item.append(text, select, remove);
     list.append(item);
   }
   if (rows.length === 0) {
@@ -69,10 +79,8 @@ document.querySelector('#load').addEventListener('click', async function () {
   }
 });
 
-async function changeMessage(method) {
-  if (!bookInput.reportValidity()) return;
-  const book = bookInput.value;
-  const id = idInput.value;
+async function changeMessage(method, book, id) {
+  if (busy) return;
   if (!/^[1-9][0-9]*$/.test(id)) {
     notice.textContent = '변경할 글 ID를 양의 정수로 입력하세요.';
     return;
@@ -83,17 +91,11 @@ async function changeMessage(method) {
     notice.textContent = '별칭은 1~30자, 메시지는 1~500자로 입력하세요. 공백만 입력할 수 없습니다.';
     return;
   }
-  const editKey = keyInput.value;
-  keyInput.value = '';
-  if (!editKey) {
-    notice.textContent = '해당 방명록의 편집 키를 입력하세요.';
-    return;
-  }
 
-  const url = new URL('/rest/v1/guestbook', API_BASE_URL);
+  const url = new URL('rest/v1/guestbook', API_BASE_URL);
   url.searchParams.set('book_id', `eq.${book}`);
   url.searchParams.set('id', `eq.${id}`);
-  const options = { method, headers: { apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey } };
+  const options = { method, headers: { apikey: API_PUBLIC_KEY } };
   if (method === 'PATCH') {
     options.headers['Content-Type'] = 'application/json';
     options.headers.Prefer = 'return=representation';
@@ -120,11 +122,16 @@ async function changeMessage(method) {
     if (method === 'PATCH') {
       result = changed.length === 1 && remaining.length === 1 && remaining[0].name === name && remaining[0].message === message
         ? '수정 후 GET으로 저장된 값을 확인했습니다.'
-        : '수정 결과가 일치하지 않습니다. 글 ID와 해당 방명록의 편집 키를 확인하세요.';
+        : '수정 결과가 일치하지 않습니다. 방명록 태그와 글 ID를 확인하세요.';
     } else {
+      if (remaining.length === 0 && bookInput.value === book && idInput.value === id) {
+        idInput.value = '';
+        nameInput.value = '';
+        messageInput.value = '';
+      }
       result = remaining.length === 0
         ? 'GET 재조회 결과 해당 글이 없습니다.'
-        : '글이 남아 있습니다. 해당 방명록의 편집 키를 확인하세요.';
+        : '글이 남아 있습니다. 목록을 다시 조회하세요.';
     }
     await loadMessages(book);
     notice.textContent = result;
@@ -137,5 +144,12 @@ async function changeMessage(method) {
   }
 }
 
-document.querySelector('#patch').addEventListener('click', () => changeMessage('PATCH'));
-document.querySelector('#delete').addEventListener('click', () => changeMessage('DELETE'));
+document.querySelector('#patch').addEventListener('click', function () {
+  if (bookInput.reportValidity()) changeMessage('PATCH', bookInput.value, idInput.value);
+});
+bookInput.addEventListener('input', function () {
+  list.replaceChildren();
+  idInput.value = '';
+  nameInput.value = '';
+  messageInput.value = '';
+});

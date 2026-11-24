@@ -1,7 +1,11 @@
-@baseUrl = https://api.open-meteo.com
+@baseUrl = https://nagerholidays.com
+@year = 2026
 
-### 서울 현재 기온 · 200과 current.temperature_2m
-GET {{baseUrl}}/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m
+### 한국 공휴일 · 200과 date, name을 담은 배열
+GET {{baseUrl}}/api/v4/Holidays/KR/{{year}}
 
-### 부산 현재 기온 · 200과 current.temperature_2m
-GET {{baseUrl}}/v1/forecast?latitude=35.1796&longitude=129.0756&current=temperature_2m
+### 일본 공휴일 · 200과 date, name을 담은 배열
+GET {{baseUrl}}/api/v4/Holidays/JP/{{year}}
+
+### 미국 공휴일 · 200과 date, name을 담은 배열
+GET {{baseUrl}}/api/v4/Holidays/US/{{year}}

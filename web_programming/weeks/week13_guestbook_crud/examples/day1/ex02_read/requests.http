@@ -1,0 +1,7 @@
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+@bookId = {{$dotenv BOOK_ID}}
+
+### Read · 내 태그의 목록 조회 · 200, 방금 생성한 글 번호 확인
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&select=id,name,message&order=id.desc
+apikey: {{apiKey}}

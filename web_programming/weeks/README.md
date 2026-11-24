@@ -105,8 +105,8 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | 9 | 마크다운과 1차 과제 발표 | 표·그림·소스 코드·SVG 도표가 들어간 저장소 `README.md` 1차판과 2분 시연(방명록 목록에 두 줄 남기기 포함) | [`week09_readme_presentation`](week09_readme_presentation/) |
 | 10 | 배열 데이터를 목록으로 그리기 | 글을 배열에 모아 목록을 다시 그려, 3개를 쌓고 1개를 지운 뒤 "2개"가 표시된 방명록 | [`week10_array_list`](week10_array_list/) |
 | 11 | 객체와 localStorage | 강의 60분·실습 30분, ex06 폼의 새로고침 후 복원과 저장 JSON | [`week11_object_localstorage`](week11_object_localstorage/) |
-| 12 | Promise와 async/await로 배우는 fetch | 타이머와 GET 요청을 `.then()`과 `await` 두 방식으로 기다리고 선택한 도시의 현재 기온 표시 | [`week12_fetch_json`](week12_fetch_json/) |
-| 13 | REST API로 방명록 저장하기 | POST 201 뒤 다른 브라우저에도 보이는 글 | [`week13_release_security`](week13_release_security/) |
+| 12 | Promise와 async/await로 배우는 fetch | 타이머와 GET 요청을 `.then()`과 `await` 두 방식으로 기다리고 선택한 나라의 공휴일 목록 표시 | [`week12_fetch_json`](week12_fetch_json/) |
+| 13 | REST 방명록 CRUD | 글 하나를 생성·조회·수정·삭제하고 같은 번호로 결과 확인 | [`week13_guestbook_crud`](week13_guestbook_crud/) |
 | 14 | REST API로 방명록 수정·삭제하기 | 서버 id로 지정한 글의 수정·삭제와 재조회 | [`week14_project_presentation`](week14_project_presentation/) |
 | 15 | 기말 개인 실기 | 1일차 [1~14주 누적 문제 은행](week15_final_exam/examples/README.md) 연습, 2일차 기말 실기 — `web-week15/exam/` 공개 주소 · 저장소 주소 · Commits 탭 캡처 | [`week15_final_exam`](week15_final_exam/) |
 
@@ -153,7 +153,8 @@ PT 원고는 내용 변경 이력을 추적하기 위해 Markdown으로 관리�
 | Promise 상태·`.then()`·`.catch()`, `async function`·`await` | 12주 1일차 | 타이머 Promise를 `.then()`과 `await`로 기다리는 비교, `async` 함수 안의 `return`(성공 값)·`throw`(실패 이유), 같은 GET에서 응답과 JSON 본문을 순서대로 기다리는 두 방법 |
 | `response.ok`, `try / catch / finally` | 12주 1·2일차 | HTTP 오류와 통신 실패 비교, 실패 후 다시 조회 |
 | POST, `headers`, `body`, `JSON.stringify` 요청 본문 | 13주 1일차 | 정식 항목 |
-| PATCH·DELETE, 서버 `id`, 편집 키 헤더, 204의 빈 본문 | 14주 | 정식 항목 |
+| PATCH·DELETE, `book_id`와 서버 `id`, 204의 빈 본문 | 13주 2일차 | 글을 수정하고 목록에서 해당 글의 삭제 버튼을 누른 뒤 같은 번호로 재조회 |
+| 수정·삭제 결과 확인 | 14주 | 존재하는 글과 삭제된 글에 같은 요청을 보내 응답과 재조회 결과 비교 |
 
 - **개인정보**: 예시 아이디는 `student01`, 이메일은 `student01@example.com`, 저장소는 3주차까지 `my-web`, 4주차부터 `web-week04`·`web-week05`…, 공개 주소는 `https://student01.github.io/web-week05/`이다. 공개 저장소·캡처·예제에 실명·학번·전화번호·실제 이메일을 넣지 않는다.
 - 시험 주(8·15주) 폴더에는 문제 은행(문제 문장·시작 파일)과 채점표만 두고, 시험에 내는 값과 해답은 별도 비공개 공간에서 관리한다.

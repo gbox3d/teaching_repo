@@ -3,21 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ex06 · 도시별 현재 기온</title>
+  <title>ex06 · 나라별 공휴일</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
   <script src="app.js" defer></script>
 </head>
 <body class="w3-light-grey">
   <main class="w3-content w3-padding">
-    <h1>도시별 현재 기온</h1>
-    <p><label for="city">도시</label>
-      <select class="w3-select w3-border" id="city">
-        <option value="seoul">서울</option>
-        <option value="busan">부산</option>
-      </select></p>
-    <button class="w3-button w3-teal" id="run-button" type="button">기온 조회</button>
+    <h1>나라별 공휴일</h1>
+    <p>
+      <label for="country">나라</label>
+      <select class="w3-select w3-border" id="country">
+        <option value="KR">한국</option>
+        <option value="JP">일본</option>
+        <option value="US">미국</option>
+      </select>
+    </p>
+    <button class="w3-button w3-teal" id="run-button" type="button">공휴일 조회</button>
     <p id="output" role="status">대기 중</p>
-    <p><small><a href="https://open-meteo.com/">Weather data by Open-Meteo</a></small></p>
+    <ul class="w3-ul w3-white" id="holidays"></ul>
   </main>
 </body>
 </html>

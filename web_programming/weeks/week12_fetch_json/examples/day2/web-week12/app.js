@@ -31,6 +31,12 @@ helloButton.addEventListener('click', function () {
 });
 
 darkButton.addEventListener('click', function () {
-  document.body.classList.toggle('dark');
+  const dark = document.body.classList.toggle('w3-dark-grey');
+  document.body.classList.toggle('w3-light-grey', !dark);
+  const cards = document.querySelectorAll('main .w3-card');
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].classList.toggle('w3-white', !dark);
+  }
+  darkButton.setAttribute('aria-pressed', dark);
   countUp();
 });

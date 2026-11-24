@@ -22,7 +22,7 @@
 정규 12~14주에는 강의자가 준비한 API를 `fetch`로 호출한다.
 이 특강의 화면 실습은 `01_about` 접속 확인부터 시작해 `02_help` 안내 조회, 방명록 읽기·저장 순서로 진행한다. 완성 화면은 `07_guestbook_complete`에 따로 둔다.
 이 특강에서는 그 API를 새 Supabase 프로젝트에 직접 만들고 요청 결과와 실제 데이터 변화를 대조한다.
-학생 개인 또는 소그룹이 테이블·공개 API·편집 권한을 준비하고, 기존 방명록 화면을 자신의 서버에 연결한다.
+강의자가 수업용 테이블과 공개 API를 준비하고 학생은 방명록 화면에서 요청을 보낸다. 방학 연구수업에서는 원하는 조가 새 프로젝트를 직접 구축할 수 있다.
 
 방학 연구수업으로 운영한다. 전체 분량이나 회차를 고정하지 않고 각 단계의 도달 기준을 확인한 뒤 다음 단계로 넘어간다.
 기본 구축이 끝난 조는 권한·응답·동시 편집 같은 비교 실험을 이어 간다. 정규 주차 실습 점수·시험·레포트 검사와는 별도로 운영한다.
@@ -32,10 +32,10 @@ Supabase SDK를 설치하지 않고 브라우저의 `fetch`로 GET·POST·PATCH�
 
 ## 시작 전 서버 준비
 
-강의자가 기존 공용 Supabase 프로젝트의 SQL Editor에서 [about-help.sql](../../tools/guestbook-api/about-help.sql)을 한 번 실행한다.
-기존 방명록 테이블은 그대로 두고 읽기 전용 `about`·`help` 안내 뷰를 추가한다. 기존 프로젝트에 schema.sql을 다시 실행하지 않는다.
-새 연구 프로젝트는 [schema.sql](../../tools/guestbook-api/schema.sql) 다음에 about-help.sql을 실행하고 방명록 번호를 등록한다.
-학생은 이 준비가 끝난 API 주소와 공개 키를 받아 사용한다. 공용 API를 호출하는 데 학생 계정이나 SQL 작업은 필요 없다.
+- 새 프로젝트에서는 [schema.sql](../../tools/guestbook-api/schema.sql)을 실행한다. 테이블과 `student01`~`student30` 태그 30개가 생긴다. 이어서 [about-help.sql](../../tools/guestbook-api/about-help.sql)을 실행해 접속 확인과 도움말 경로를 추가한다.
+- 기존 수업 프로젝트에서는 [enable-public-crud.sql](../../tools/guestbook-api/enable-public-crud.sql)을 SQL Editor에서 한 번 실행한다. 기존 글과 태그를 유지하면서 공개 수정·삭제 정책과 도움말을 갱신한다.
+
+학생에게는 API 주소·publishable key·실습 태그를 배부한다.
 
 실제 경로는 `GET /rest/v1/about`과 `GET /rest/v1/help`다. 둘 다 `apikey` 헤더가 필요하며 GET만 사용한다.
 이 수업이 추가하는 안내 API이므로 Supabase의 모든 프로젝트에 기본으로 존재하지는 않는다.
@@ -45,8 +45,8 @@ Supabase SDK를 설치하지 않고 브라우저의 `fetch`로 GET·POST·PATCH�
 
 | 방식 | 준비 | 수행 범위 |
 |---|---|---|
-| 개인·소그룹 구축 | Supabase 계정과 실습 전용 새 프로젝트, 그룹별 교재 체크아웃 | SQL 적용·방명록 등록·공개 키 설정·API 검증·연구 실험 |
-| 강의자 시연과 공용 실습 | 강의자가 제공한 API 주소·공개 키·실습 방명록·편집 키 | 준비 과정을 관찰하고 같은 요청·응답 실험 수행 |
+| 개인·소그룹 구축 | 실습 전용 새 Supabase 프로젝트 | SQL 적용·태그 확인·API 요청 검증 |
+| 강의자 시연과 공용 실습 | API 주소·공개 키·실습 태그 | 계정 없이 준비된 API로 요청·응답 실험 |
 | 로컬 선행 연습 | Node.js와 교재 파일 | 요청 문법과 화면 실행 확인. 클라우드 구축·기기 간 공유 검증은 미완료로 기록 |
 
 권장 선수 내용은 정규 12~14주의 `fetch`, JSON, 폼, 서버 `id`, PATCH·DELETE다.
@@ -83,10 +83,10 @@ GitHub Pages가 화면 파일을 제공하고 브라우저의 `fetch`가 Supabas
 
 1. 브라우저, REST API, 테이블, RLS 정책이 맡은 일을 요청 하나에 연결해 설명한다.
 2. 정본 SQL을 읽고 새 연습 프로젝트에 테이블·정책·열 권한을 적용한다.
-3. 실습 번호별 편집 키를 생성하고 DB에는 키의 해시만 등록한다.
+3. 기본 태그 30개를 확인하고 배정받은 하나를 `BOOK_ID`로 사용한다.
 4. 프로젝트 URL·publishable key·방명록 번호로 기존 `fetch` 예제를 연결한다.
 5. GET·POST·PATCH·DELETE의 상태 코드·응답 본문·후속 GET 결과를 각각 확인한다.
-6. 다른 방명록 키, 잘못된 공개 키, 보호된 열 변경 시도를 비교해 허용 범위를 검증한다.
+6. 태그와 글 번호가 일치할 때와 일치하지 않을 때의 결과를 비교한다.
 7. 로컬 재현 결과와 실제 클라우드·다른 기기 검증 결과를 구분해 기록한다.
 
 ## 단계별 도달 기준
@@ -97,12 +97,12 @@ GitHub Pages가 화면 파일을 제공하고 브라우저의 `fetch`가 Supabas
 | [02_help](examples/02_help/index.html) | API 사용 안내 읽기 | step·method·path·description 여섯 행을 순서대로 확인 |
 | [03_guestbook_get](examples/03_guestbook_get/index.html) | 태그별 글 조회 | book_id 필터와 응답 배열의 관계 설명 |
 | [04_guestbook_post](examples/04_guestbook_post/index.html) | 이름·메시지 저장 | 201의 새 id를 GET으로 재확인 |
-| [05_guestbook_edit](examples/05_guestbook_edit/index.html) | 글 하나 수정·삭제 | 편집 키를 사용하고 후속 GET으로 실제 변경 확인 |
-| [06_http_lab](examples/06_http_lab/index.html) | 메서드·헤더·본문 비교 실험 | 한 조건을 바꾼 요청·예상·실제 결과 기록 |
+| [05_guestbook_edit](examples/05_guestbook_edit/index.html) | 글 하나 수정·삭제 | 목록 행에서 삭제하고 같은 ID의 GET으로 결과 확인 |
+| [06_http_lab](examples/06_http_lab/index.html) | HTTP 콘솔에서 요청 구성 | 메서드·태그·글 번호·본문 중 한 조건을 바꿔 응답 비교 |
 | [07_guestbook_complete](examples/07_guestbook_complete/index.html) | 완성 방명록 사용 | 폼·목록·선택한 글의 수정·삭제를 한 화면에서 확인 |
 
 일정은 단계별 진행 상태로 정한다. 단계마다 화면을 캡처할 수 있지만 캡처 한 장을 전체 완료 조건으로 삼지 않는다.
-자체 서버 구축 연구는 [따라하기](walkthrough.md)의 새 프로젝트·SQL·방명록 등록 절차를 사용한다.
+자체 프로젝트를 구축하는 조는 [따라하기](walkthrough.md)에서 SQL 실행과 기본 태그 확인 절차를 따른다.
 각 폴더는 `requests.http`의 요청부터 확인한 뒤 `index.html`과 `app.js`를 읽는다.
 VS Code REST Client에서 같은 폴더의 `.env.example`을 `.env`로 복사하고 공개 키를 넣은 뒤 **Send Request**를 누른다.
 처음에는 01·02만 열고 접속과 응답을 확인한 뒤 다음 폴더로 이동한다. 자세한 설정은 [예제 안내](examples/README.md)를 따른다.
@@ -114,30 +114,24 @@ VS Code REST Client에서 같은 폴더의 `.env.example`을 `.env`로 복사하
 | 대상 | 역할과 허용 범위 |
 |---|---|
 | public.guestbook | id·book_id·name·message·created_at을 저장하는 공개 글 테이블 |
-| private.classroom_books | 방명록 번호와 편집 키 해시를 저장하는 비공개 등록 테이블 |
-| publishable key | 공개 클라이언트가 API에 접근할 때 사용. 개인 로그인이나 편집자 신원 인증이 아님 |
-| book_id | 글을 묶는 방명록 번호. URL에서 값을 바꾸는 것만으로 편집 권한을 얻지 못함 |
-| X-Edit-Key | 해당 방명록 전체를 수정·삭제하는 편집 키. 작성자 개인의 소유권을 뜻하지 않음 |
-| GET·POST | 공개 읽기와 새 글 추가. 다른 등록 방명록에도 조회·추가 가능 |
-| PATCH·DELETE | 해당 방명록 편집 키가 일치하는 행에만 적용 |
+| private.classroom_books | 등록된 방명록 태그 목록. 신규 설치 시 `student01`~`student30` 포함 |
+| publishable key | 같은 수업 프로젝트에 접속할 때 쓰는 공용 `apikey` 헤더 값 |
+| book_id | 글을 모아 볼 때 사용하는 태그 |
+| GET·POST | 글 목록 조회와 새 글 저장 |
+| PATCH·DELETE | 공개 키로 모든 태그의 글을 수정·삭제할 수 있다. 예제는 `book_id`와 `id`로 대상 한 건을 지정한다. |
 | 보호된 열 | id·book_id·created_at은 학생 클라이언트가 수정할 수 없음 |
 
 `private` 스키마는 Data API의 Exposed schemas에 추가하지 않는다.
 `config.example.js`에는 API 주소와 방명록 번호만 넣고, publishable key는 브라우저 localStorage에 저장한다. secret key·service_role key·DB 비밀번호를 사용하지 않는다.
-편집 키는 실행 화면에 입력해 메모리에서만 사용한다. localStorage에 저장하지 않고 소스·GitHub·실험 기록에도 적지 않는다.
-`.local/`의 키 파일은 Git 제외 규칙과 별도로 자료 배포 ZIP에서도 제외한다.
 실험의 이름·메시지는 별칭과 연습 문장만 사용한다.
 
-저장해 둔 값을 브라우저에서 꺼내 요청마다 헤더에 붙이는 흐름은 로그인 기능과 같은 원리다. 로그인을 붙이면 서버가 로그인한 사람에게 토큰을 주고, 브라우저는 그 토큰을 저장해 두었다가 요청마다 `Authorization` 헤더에 붙인다.
-**공개 키 지우기**는 로그아웃과 같은 원리다. 저장한 값을 지우면 다음 요청에 붙일 값이 없어 다시 입력해야 한다.
-공개 키는 모든 사용자에게 같은 값이라 누가 요청했는지 구분하지 못한다. 로그인 토큰은 사람마다 다르고 일정 시간이 지나면 만료된다.
-localStorage는 같은 주소에서 실행되는 모든 스크립트가 읽을 수 있다. 그래서 편집 키나 비밀번호처럼 남이 알면 안 되는 값은 저장하지 않는다.
+브라우저는 저장한 publishable key를 요청마다 `apikey` 헤더에 넣는다. **공개 키 지우기**를 누르면 다음 실행에서 새 값을 입력할 수 있다.
 
 ## 연구 주제
 
-- 공개 조회·추가와 편집 권한을 분리했을 때 허용되는 요청을 비교한다.
+- 같은 글 번호에 원래 태그와 다른 태그를 지정하고 응답을 비교한다.
 - 같은 200 또는 204 응답이어도 데이터가 바뀌지 않는 경우를 조사한다.
-- URL의 book_id 조건과 서버 RLS 권한 검사가 맡은 일을 구별한다.
+- URL의 `book_id` 필터와 데이터베이스가 허용하는 수정 열을 구별한다.
 - 화면의 입력 길이 제한을 바꾸어도 서버 제약이 유지되는지 검사한다.
 - 두 브라우저에서 같은 글을 연속 수정하고 마지막 저장 결과를 설명한다.
 - 서버가 응답하지 않는 상황에서 재전송 전에 GET으로 확인해야 하는 이유를 관찰한다.
@@ -160,19 +154,19 @@ localStorage는 같은 주소에서 실행되는 모든 스크립트가 읽을 �
 | 서버 준비와 운영 기준 | [tools/guestbook-api/README.md](../../tools/guestbook-api/README.md) |
 | 테이블·정책 정본 | [schema.sql](../../tools/guestbook-api/schema.sql) |
 | 안내 API 추가 SQL | [about-help.sql](../../tools/guestbook-api/about-help.sql) |
-| 편집 키·등록 SQL 생성 정본 | [provision.mjs](../../tools/guestbook-api/provision.mjs) |
-| GET·POST 방명록 완성본 | [13주 예제](../../weeks/week13_release_security/examples/day2/web-week13/guestbook.html) |
+| 기존 수업 프로젝트 갱신 | [enable-public-crud.sql](../../tools/guestbook-api/enable-public-crud.sql) |
+| 방명록 CRUD 완성본 | [13주 예제](../../weeks/week13_guestbook_crud/examples/day2/web-week13/guestbook.html) |
 | PATCH·DELETE 방명록 완성본 | [14주 예제](../../weeks/week14_project_presentation/examples/day2/web-week14/guestbook.html) |
 
-SQL·키 생성 스크립트를 특강 폴더에 복제하지 않는다. 정본 변경 시 연구 결과에 사용한 커밋과 실행 날짜를 함께 기록한다.
+연구 결과에는 실행한 SQL의 교재 커밋과 날짜를 기록한다.
 교재 사이트: https://gbox3d.github.io/teaching_repo/webprg/decks/supabase_guestbook/index.html
 
 ## 기록과 완료 기준
 
 - [ ] 어떤 환경에서 실행했는지 로컬·공용 서버·자체 클라우드로 구분했다.
-- [ ] API를 직접 만든 경우 새 프로젝트와 정본 SQL·방명록 등록 과정을 확인했다.
+- [ ] 직접 구축한 프로젝트에서 기본 태그 30개를 확인했다.
 - [ ] 요청별 상태 코드·본문·후속 GET 결과를 기록했다.
-- [ ] 올바른 편집 키와 다른 방명록 키를 비교했다.
+- [ ] 같은 글 번호로 태그를 바꾸어 조회 결과를 비교했다.
 - [ ] 보호된 열이 바뀌지 않는지 확인했다.
 - [ ] 공용 HTTPS API를 다른 기기에서 확인했거나 아직 확인하지 못한 항목을 표시했다.
 - [ ] 키 원문과 개인정보를 제외하고 재현 절차·관찰·해석·남은 질문을 남겼다.
@@ -186,7 +180,7 @@ SQL·키 생성 스크립트를 특강 폴더에 복제하지 않는다. 정본 
 현재 특강 예제의 `config.example.js`도 이 공용 HTTPS API 주소를 가리킨다.
 2026-11-14에 `/rest/v1/about`·`/rest/v1/help` 설치와 GET을 확인했다. 로컬 01·02 화면에서도 실제 공용 API 응답 200과 1행·6행을 확인했다.
 이 실험 화면의 GitHub Pages 실배포와 공용 서버 PATCH·DELETE는 아직 검증하지 않았다.
-배포 후 CORS·다른 기기 동작과 편집 권한은 별도로 확인한다. 로컬 성공을 해당 검증의 완료로 표시하지 않는다.
+배포 후 다른 기기에서 공용 API의 조회·수정·삭제 결과를 확인한다.
 
 연구수업 종료 시 남길 프로젝트와 글, 다음 모임의 담당자, 공개 쓰기 운영 여부를 정한다.
 프로젝트나 데이터를 정리하는 작업은 소유자가 범위를 확인한 뒤 별도로 수행한다.

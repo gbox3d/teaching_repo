@@ -1,6 +1,6 @@
 [실습 페이지](https://github.com/gbox3d/teaching_repo/tree/main/web_programming/weeks/week12_fetch_json)
 
-# 12주차 실습 · 할 일과 날씨를 비동기로 읽기
+# 12주차 실습 · 공개 API를 비동기로 읽기
 
 각 차시의 실습 시간은 30분이다. 예제 화면과 VS Code REST Client(`humao.rest-client`)를 준비한다. 공개 API 요청은 예제 폴더의 `requests.http`에 들어 있다. 기본 URL로 바로 요청하며 별도 헤더와 키 설정은 없다.
 
@@ -29,14 +29,14 @@
 
 | 시간 | 할 일 | 확인할 결과 |
 |---|---|---|
-| 0~8분 | [ex04 요청](examples/day2/ex04/requests.http)을 보낸 뒤 서울 기온 화면과 JSON을 대조한다 | `current.temperature_2m`이 기온이고 `current_units.temperature_2m`이 단위다 |
-| 8~16분 | [ex05 요청](examples/day2/ex05/requests.http)에서 서울의 위도와 `999`를 각각 보낸다 | 두 요청 모두 응답을 받는다. 서울은 200, 범위를 벗어난 위도는 400이다 |
-| 16~30분 | [ex06](examples/day2/ex06/index.html)에서 서울·부산을 번갈아 조회한다. 페이지를 열어 둔 채 Network를 Offline으로 바꾸고 다시 조회한다. 연결을 복구하고 같은 도시로 재시도한다 | 도시 선택에 따라 좌표가 달라지고, 요청이 성공하거나 실패한 뒤 버튼을 다시 누를 수 있다 |
+| 0~8분 | [ex04 요청](examples/day2/ex04/requests.http)을 보낸 뒤 환율 화면과 JSON을 대조한다 | `date`는 기준일이고 `rates.KRW`는 1달러에 해당하는 원화 기준 환율이다 |
+| 8~16분 | [ex05 요청](examples/day2/ex05/requests.http)에서 임의 카드와 없는 카드 ID `zzmissing`을 각각 조회한다 | `200`과 `404` 모두 HTTP 응답으로 도착한다. `response.ok`는 각각 `true`, `false`다 |
+| 16~30분 | [ex06](examples/day2/ex06/index.html)에서 한국·일본·미국의 공휴일을 조회한다. 페이지를 열어 둔 채 Network의 Disable cache를 체크하고 Offline으로 바꾸어 다시 조회한다. 연결을 복구하고 같은 나라로 재시도한다 | 나라를 바꾸면 목록이 교체된다. 요청을 마치면 성공·실패와 관계없이 조회 버튼을 다시 누를 수 있다 |
 
 ## 확인과 제출
 
-1. 도시 하나를 선택해 조회하고 화면의 도시·기온·단위와 Network의 GET 200을 캡처한다. 서울·부산은 같은 기온일 수도 있으므로 요청 URL의 좌표로 구분한다.
-2. 위도 오류(HTTP 400)와 Offline 실패 때 서버의 HTTP 응답을 받은 쪽을 고르고, `response.ok` 검사와 `catch`가 각각 언제 실행되는지 적는다.
+1. 나라 하나를 선택해 조회하고 공휴일의 날짜·이름과 Network의 GET `200`을 캡처한다. 요청 URL에서 연도와 나라 코드를 찾는다.
+2. ex05의 `404`와 Offline 실패 중 HTTP 응답을 받은 쪽을 고르고, `response.ok` 검사와 `catch`가 각각 언제 실행되는지 적는다.
 3. 개발자 도구의 네트워크 설정을 **No throttling**으로 되돌린다. 재시도 뒤 새 결과가 보이는지 확인한다.
 
-필수 실습은 ex06에서 끝난다. 수업 방명록으로 같은 GET을 연습하려면 [선택 예제](examples/day2/web-week12/README.md)를 사용한다. 이 예제에 필요한 공개 키와 방명록 번호는 강의자가 배부한다. 방명록 번호는 그 폴더 `config.example.js`의 `BOOK_ID`에 적는다. 공개 키는 방명록 화면을 처음 열 때 뜨는 창에 넣는다. 잘못 넣었으면 **공개 키 지우기**를 누르고 다시 넣는다.
+필수 실습은 ex06에서 끝난다. [통합 예제 홈](examples/day2/web-week12/index.html)을 열면 서울 기온을 바로 조회하며 전주와 익산도 선택할 수 있다. 방명록에 남긴 글은 브라우저에 저장된다. 수업 서버의 글 목록 GET을 연습하려면 [선택 실습 안내](examples/day2/web-week12/README.md#선택-실습-서버-글-조회)를 읽는다. 서버에 글을 쓰는 POST는 13주에 다룬다.

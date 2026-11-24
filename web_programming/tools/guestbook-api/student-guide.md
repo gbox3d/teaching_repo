@@ -1,7 +1,7 @@
 # 학생용 공용 방명록 API 사용 안내
 
 강의자가 준비한 서버에 `fetch`로 글을 저장하고 읽는다. 학생은 Supabase 계정이나 SQL이 필요 없다.
-12주 필수 예제는 키 없이 날씨와 할 일을 조회한다. 이 안내는 12주 선택 방명록과 13주 글 등록, 14주 수정·삭제에 사용한다. 화면은 학생이 만든 HTML·JavaScript가 담당한다.
+12주 필수 예제는 키 없이 공개 API에 GET 요청을 보낸다. 이 안내는 12주 선택 방명록과 13주 방명록 CRUD, 14주 수정·삭제에 사용한다. 화면은 학생이 만든 HTML·JavaScript가 담당한다.
 아래 01~07은 Supabase 구축 특강의 예제 번호다. 01 접속, 02 안내, 03 조회, 04 저장, 05 수정·삭제, 06 통합 실험, 07 완성 방명록 순서다.
 
 강의자가 [about-help.sql](about-help.sql)을 공용 서버에 적용했으며 2026-11-14에 about·help GET 200과 응답 1행·6행을 확인했다.
@@ -15,13 +15,15 @@
 https://esoqbcwgzjtwcqszwvin.supabase.co
 ```
 
-12주 [선택 방명록](../../weeks/week12_fetch_json/examples/day2/web-week12/README.md), 13주 [첫 POST 예제](../../weeks/week13_release_security/examples/day1/ex02/README.md), 14주 예제는 폴더의 `config.example.js`에서 `API_BASE_URL`·`API_PUBLIC_KEY`·`BOOK_ID` 세 값을 읽는다. 파일 내용은 12주 선택 방명록의 정본과 같고 위 주소가 들어 있다. 학생은 `BOOK_ID`만 배정받은 방명록 번호로 바꾼다. 바꾸지 않으면 `student01` 방명록을 읽고 그곳에 글을 저장한다.
+13주 [글 생성 예제](../../weeks/week13_guestbook_crud/examples/day1/ex01_create/README.md)는 `config.example.json`을 같은 폴더의 `config.json`으로 복사한다. `API_BASE_URL`에 위 주소, `API_PUBLIC_KEY`에 배부받은 publishable key, `BOOK_ID`에 배정받은 번호를 넣는다. 브라우저에서 읽는 JSON에는 공개 키만 사용한다. 로컬 정적 서버에서 예제를 연다.
+
+12주 [선택 방명록](../../weeks/week12_fetch_json/examples/day2/web-week12/README.md)과 14주 예제에서는 `config.example.js`의 `BOOK_ID`를 배정받은 방명록 번호로 바꾼다. 같은 파일에 수업 API 주소가 들어 있다.
 
 ```js
 const BOOK_ID = 'student01';
 ```
 
-공개 키는 파일에 적지 않는다. 예제를 처음 열면 ‘배부받은 공개 키를 입력하세요.’라고 묻는 창이 뜬다. 강의자가 배부한 공개 키를 넣고 확인을 누르면 그 브라우저의 localStorage에 저장된다. 12주 선택 방명록은 페이지가 열릴 때 첫 GET을 보낸다. 새로고침해도 저장한 키와 서버에 남긴 글이 그대로 있다. 취소를 누르거나 빈 칸으로 확인하면 키를 저장하지 않는다. 이때 서버가 HTTP 401을 돌려주고 화면에 조회·저장 실패가 보이며, 새로고침하면 다시 묻는다.
+12주 선택 방명록과 14주 예제를 처음 열면 공개 키를 묻는 창이 뜬다. 배부받은 키를 넣으면 브라우저의 localStorage에 저장된다. 12주 선택 방명록은 페이지가 열릴 때 첫 GET을 보낸다. 취소를 누르거나 빈 칸으로 확인하면 서버가 HTTP 401을 돌려주고, 새로고침하면 다시 묻는다.
 
 localStorage는 화면 주소(출처)마다 따로 저장된다. 같은 주소에서 연 다른 예제는 저장한 키를 함께 쓰고 다시 묻지 않는다. 다른 브라우저, 포트가 다른 `localhost`, GitHub Pages 주소, 휴대폰에서는 처음 열 때 한 번 묻는다. 키를 잘못 넣었거나 학기가 바뀌어 키가 바뀌면 제목 아래의 **공개 키 지우기**를 누르고 새 키를 넣는다. 휴대폰에서도 같다.
 
@@ -30,11 +32,12 @@ Supabase 구축 특강의 01~07은 폴더마다 자체 `config.example.js`를 �
 
 `BOOK_ID`는 글을 묶는 태그다. 강의자가 지정한 값을 사용한다.
 2026-11-13에 등록을 확인한 태그는 `student01`, `student02`다. 등록되지 않은 태그로는 글을 저장할 수 없다.
-조회·저장에는 위 공개 키만 필요하다. 학생 로그인이나 편집 키는 사용하지 않는다.
+생성·조회·수정·삭제 모두 같은 공개 키를 쓴다.
 
-예제 폴더만 새 Git 저장소로 복사하면 교재 루트의 설정은 따라오지 않는다. 이때는 `.env`를 만들기 전에 새 저장소 루트의 `.gitignore`에 아래 세 줄을 추가한다.
+예제를 새 Git 저장소로 복사할 때는 그 저장소 루트의 `.gitignore`에 아래 규칙을 추가한다.
 
 ```gitignore
+config.json
 .env
 .env.*
 !.env.example
@@ -45,7 +48,7 @@ Supabase 구축 특강의 01~07은 폴더마다 자체 `config.example.js`를 �
 각 단계의 `requests.http`를 먼저 실행한다. VS Code의 REST Client 확장을 설치하고 해당 폴더에 `.env`가 없으면 `.env.example`을 복사한다.
 `.env`에 배부받은 공개 키를 넣고 요청 위의 **Send Request**를 누른다. `.env`는 `.http`와 같은 폴더에 둔다.
 이 요청에는 Node 정적 서버가 필요 없다. 성공한 요청을 확인한 뒤 같은 폴더의 `index.html`과 `app.js`로 이동한다.
-브라우저는 `.env`를 읽지 않는다. 브라우저 예제는 같은 폴더의 `config.example.js`와 localStorage에 저장한 공개 키를 사용한다. 주소와 방명록 번호는 폴더마다 따로 두고, 공개 키는 같은 화면 주소(출처)에서 연 예제끼리 함께 쓴다.
+브라우저는 같은 폴더의 `config.json`(13주) 또는 `config.example.js`를 읽는다. REST Client의 `.env`는 별도로 설정한다.
 
 | 단계 | 요청 파일 | API 요청과 응답 |
 |---|---|---|
@@ -95,9 +98,9 @@ checkApi();
 정규 주차의 완성 화면과 연결 코드는 다음 자료에서 확인한다.
 
 - [12주 선택 방명록 GET](../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.html): 목록 조회와 새로 불러오기
-- [13주 POST 완성 예제](../../weeks/week13_release_security/examples/day2/web-week13/guestbook.html): 이름·메시지 입력과 서버 저장
-- [14주 수정·삭제 완성 예제](../../weeks/week14_project_presentation/examples/day2/web-week14/guestbook.html): 서버 ID와 편집 키, 변경 후 재조회
-- [12주 조회 코드](../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.js), [13주 저장 포함 코드](../../weeks/week13_release_security/examples/day2/web-week13/guestbook.js)
+- [13주 완성 방명록](../../weeks/week13_guestbook_crud/examples/day2/web-week13/guestbook.html): 글 생성, 조회, 내용 수정, 삭제
+- [14주 수정·삭제 완성 예제](../../weeks/week14_project_presentation/examples/day2/web-week14/guestbook.html): 태그와 글 번호, 변경 후 재조회
+- [12주 조회 코드](../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.js), [13주 CRUD 코드](../../weeks/week13_guestbook_crud/examples/day2/web-week13/guestbook.js)
 
 예제는 HTML·CSS·JavaScript로 된 정적 화면이다. 공용 Supabase API를 설정한 화면이 GitHub Pages에 게시되어 있으면
 강의자가 알려 준 HTTPS 화면 주소에 접속해 실습한다. 이 경우 Node.js 설치나 로컬 서버 실행은 필요 없고, 그 주소에서 처음 열 때 묻는 창에 공개 키를 한 번 넣는다.
@@ -112,7 +115,7 @@ node web_programming/tools/static-server/server.mjs web_programming/specials/sup
 브라우저에서 `http://localhost:8000/`을 열면 자동 폴더 목록이 나온다. 첫 단계는 `http://localhost:8000/01_about/`, 완성 방명록은 `http://localhost:8000/07_guestbook_complete/`이다.
 `localhost:8000`은 각자 PC에서 실행한 화면 주소이고, 데이터는 위 Supabase HTTPS 주소에 저장된다.
 다른 학생에게 `localhost` 주소를 보내도 내 PC 화면에 접속되지는 않는다. 각자 같은 예제를 실행한다.
-정규 완성본을 열 때는 명령의 예제 폴더를 `web_programming/weeks/week13_release_security/examples/day2/web-week13` 또는 12주 폴더로 바꾸고 `/guestbook.html`을 연다.
+정규 완성본을 열 때는 명령의 예제 폴더를 `web_programming/weeks/week13_guestbook_crud/examples/day2/web-week13` 또는 12주 폴더로 바꾸고 `/guestbook.html`을 연다.
 실행 중인 서버를 `Ctrl+C`로 종료한 뒤 새 명령을 실행한다.
 
 로컬의 HTTP 화면과 GitHub Pages의 HTTPS 화면은 모두 같은 Supabase HTTPS API를 사용한다. 로컬 페이지 주소는 HTTP로 유지되고 데이터 요청만 HTTPS를 쓴다.
@@ -204,22 +207,21 @@ async function writeGuestbook(name, message) {
 
 ## 6. 두 화면에서 같은 데이터 확인하기
 
-두 학생이 각자 브라우저에 공개 키를 저장하고 같은 `BOOK_ID`로 예제를 실행한다. 한 학생이 글을 저장한 뒤 다른 학생이 목록을 다시 조회한다.
+두 학생이 같은 공개 키와 `BOOK_ID`로 예제를 실행한다. 한 학생이 글을 저장한 뒤 다른 학생이 목록을 다시 조회한다.
 두 번째 화면의 JavaScript가 GET을 보내면 같은 글을 확인할 수 있다. 다른 기기에서도 그 브라우저에 공개 키를 한 번 저장하면 같은 방식으로 동작한다.
 서버 저장만으로 다른 화면이 자동 갱신되지는 않는다. 이 예제는 버튼을 누르거나 저장한 뒤 GET을 다시 보낸다.
 
-태그는 조회 필터이며 접근 권한을 나누지 않는다. 다른 등록 태그의 글도 읽거나 새로 쓸 수 있다.
+태그는 조회 필터이며 접근 권한을 나누지 않는다. 공용 키를 가진 사람은 다른 등록 태그의 글도 읽고 수정·삭제할 수 있다.
 수업용 공개 데이터이므로 이름에는 별칭을 쓰고 메시지에 개인정보를 넣지 않는다.
 오류가 나면 개발자 도구의 Network에서 요청 주소·상태 번호·응답을 확인한다. 공개 키, 등록된 태그, 입력 길이를 먼저 점검한다.
 
 ## 7. 수정·삭제와 API 문법 자료
 
-14주 PATCH·DELETE에는 강의자가 별도 배부하는 해당 방명록의 편집 키가 필요하다.
-편집 키는 공개 설정 파일과 localStorage에 넣지 않는다. 요청 형식은 [공용 API 요청과 응답](README.md#요청과-응답)을 따른다.
-05~07의 `.http` 요청은 자신이 만든 글 ID와 편집 키를 전송 시 입력 창에서 받는다. 편집 키 입력은 마스킹된다.
-후속 GET에서도 방금 변경 요청한 글 ID를 입력해 같은 대상을 확인한다.
-REST Client 요청 이력에는 헤더·본문이 남는다. 키가 든 이력·전체 요청 캡처는 공유하지 않고 실습 후 **Rest Client: Clear Request History**를 실행한다.
-REST Client 성공과 브라우저 CORS 성공은 별도로 확인한다. `.env`는 Git·Pages 게시 파일에 포함하지 않는다.
+13·14주에는 수정·삭제도 같은 공개 키로 실행한다. [수정 예제](../../weeks/week13_guestbook_crud/examples/day2/ex03_update/requests.http)와 [삭제 예제](../../weeks/week13_guestbook_crud/examples/day2/ex04_delete/requests.http)에서 연습할 글의 태그와 번호를 지정한다.
+
+`PATCH`는 바꿀 이름이나 메시지를 JSON으로 보낸다. `Prefer: return=representation`을 쓰면 수정한 행이 돌아온다. `DELETE`는 응답이 `204`이며 본문이 비어 있다. 같은 태그와 번호로 GET을 보내 수정된 문장 또는 삭제 후 빈 배열 `[]`을 확인한다. [공용 API 요청과 응답](README.md#요청과-응답)
+
+REST Client 성공과 브라우저 CORS 성공은 별도로 확인한다. 실제 `config.json`과 `.env`는 Git과 교재 사이트 배포에서 제외한다.
 
 - [Supabase Data REST API](https://supabase.com/docs/guides/api): 데이터베이스에서 생성되는 REST API와 접속 주소 설명
 - [PostgREST 14 Tables and Views](https://docs.postgrest.org/en/v14/references/api/tables_views.html): `eq`, `select`, `order`, `limit`, GET·POST 요청 문법

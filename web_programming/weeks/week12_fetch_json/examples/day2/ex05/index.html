@@ -3,21 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ex05 · 위도와 HTTP 응답</title>
+  <title>ex05 · HTTP 200과 404</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
   <script src="app.js" defer></script>
 </head>
 <body class="w3-light-grey">
   <main class="w3-content w3-padding">
-    <h1>위도와 HTTP 응답</h1>
-    <p><label for="latitude">위도</label>
-      <select class="w3-select w3-border" id="latitude">
-        <option value="37.5665">37.5665 (서울)</option>
-        <option value="999">999 (범위 초과)</option>
-      </select></p>
-    <button class="w3-button w3-teal" id="run-button" type="button">기온 조회</button>
+    <h1>타로 카드와 HTTP 응답</h1>
+    <button class="w3-button w3-teal" id="draw-button" type="button">카드 한 장 뽑기</button>
+    <button class="w3-button w3-border" id="missing-button" type="button">없는 카드 요청</button>
     <p id="output" role="status">대기 중</p>
-    <p><small><a href="https://open-meteo.com/">Weather data by Open-Meteo</a></small></p>
+    <section class="w3-container w3-white" id="card" hidden>
+      <h2 id="card-name"></h2>
+      <p>정방향 해석</p>
+      <p id="card-meaning"></p>
+    </section>
+    <p><small><a href="https://github.com/ekelen/tarot-api">Tarot API</a></small></p>
   </main>
 </body>
 </html>

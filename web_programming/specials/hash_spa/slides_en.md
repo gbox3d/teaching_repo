@@ -215,7 +215,7 @@ REST Client reads .env on its own and does not use the public key stored in the 
 | DELETE | 204 with no body, then same-ID GET returning [] |
 
 PATCH 200 [] means no change. Do not call json() on a 204 response.
-Use the masked # @prompt password input for the edit key.
+Use both the book tag and entry ID in PATCH and DELETE requests.
 Keep real keys and server secrets out of tracked files.
 
 ---
@@ -230,7 +230,7 @@ Keep real keys and server secrets out of tracked files.
 | Prompt canceled or left empty | Public key not saved | Runs, then HTTP 401 |
 | Clear public key button | Key removed, page reloads | Runs after asking again |
 
-With a saved public key, enter only the edit key again after a reload. The public key and server rows persist.
+The saved public key and server entries persist after a reload.
 After an uncertain POST failure, fetch before retrying.
 
 ---
@@ -256,7 +256,7 @@ Record predictions, observed results, and screen/request evidence.
 
 Compare MPA Document requests with hash transitions.
 Verify ten transitions, draft retention, single events, and CRUD IDs.
-Test wrong keys, network failure, and recovery by fetching.
+Test missing IDs, network failure, and recovery by fetching.
 
 Separate local rehearsal from public API, Pages, and cross-device tests.
 Optional: change the fetch-on-entry policy and compare request counts.

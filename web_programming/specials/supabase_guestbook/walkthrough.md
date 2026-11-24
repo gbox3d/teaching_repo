@@ -7,7 +7,7 @@
 - [2. 화면 실행과 로컬 리허설](#2-화면-실행과-로컬-리허설)
 - [3. 새 Supabase 프로젝트](#3-새-supabase-프로젝트)
 - [4. 정본 SQL 읽기와 적용](#4-정본-sql-읽기와-적용)
-- [5. 방명록 번호와 편집 키 등록](#5-방명록-번호와-편집-키-등록)
+- [5. 수업용 방명록 태그 확인](#5-수업용-방명록-태그-확인)
 - [6. 프로젝트 URL과 공개 키](#6-프로젝트-url과-공개-키)
 - [7. 실험 화면의 클라우드 설정](#7-실험-화면의-클라우드-설정)
 - [8. 접속 확인부터 방명록 저장까지](#8-접속-확인부터-방명록-저장까지)
@@ -25,11 +25,10 @@
 
 01·02 예제는 `/rest/v1/about`·`/rest/v1/help`를 읽는다. 2026-11-14에 공용 프로젝트 설치와 두 GET의 200 응답을 확인했다.
 about은 version이 v1인 한 행, help는 단계 1~6의 여섯 행을 반환한다. 로컬 01·02 브라우저 화면에서도 같은 응답을 확인했다.
-강의자가 기존 프로젝트의 SQL Editor에서 [about-help.sql](../../tools/guestbook-api/about-help.sql)을 한 번 실행한다.
-이 SQL은 안내용 읽기 전용 뷰를 추가하며 기존 방명록을 바꾸지 않는다. 기존 프로젝트에 schema.sql을 다시 실행하지 않는다.
+- 새 프로젝트에서는 [schema.sql](../../tools/guestbook-api/schema.sql)을 실행한다. 테이블과 `student01`~`student30` 태그 30개가 생긴다. 이어서 [about-help.sql](../../tools/guestbook-api/about-help.sql)을 실행해 접속 확인과 도움말 경로를 추가한다.
+- 기존 수업 프로젝트에서는 [enable-public-crud.sql](../../tools/guestbook-api/enable-public-crud.sql)을 SQL Editor에서 한 번 실행한다. 기존 글과 태그를 유지하면서 공개 수정·삭제 정책과 도움말을 갱신한다.
 
-새 프로젝트를 만드는 조는 4단계에서 schema.sql 다음에 about-help.sql을 실행한다.
-공용 API를 사용하는 학생은 계정 생성·SQL 실행 없이 준비된 주소와 공개 키를 받는다.
+공용 API를 사용하는 학생에게는 프로젝트 URL·공개 키·실습 태그만 배부한다.
 안내 API도 `apikey` 헤더가 필요하며 GET 전용이다. URL 주소창만 열어서는 이 헤더가 전달되지 않는다.
 
 ## 1. 작업 환경과 담당자
@@ -49,7 +48,6 @@ node --version
 
 이후 명령의 현재 폴더는 모두 이 교재 저장소 최상위다. Node.js 24 이상을 사용한다.
 `npm install`이나 Supabase SDK 설치는 필요 없다.
-조별로 별도 체크아웃을 사용하면 정본 도구가 생성하는 `.local/` 파일이 섞이지 않는다.
 
 VS Code에서 REST Client 확장을 준비한다. 각 단계에 `.env`가 없으면 해당 폴더의 `.env.example`을 `.env`로 복사하고 공개 키를 설정한다.
 `.env`는 `requests.http`와 같은 폴더에 둔다. 01 요청의 **Send Request**를 눌러 상태 번호와 JSON을 확인하고 다음 절의 브라우저 화면으로 이동한다.
@@ -122,11 +120,11 @@ VS Code에서 [tools/guestbook-api/schema.sql](../../tools/guestbook-api/schema.
 
 | 블록 | 확인할 내용 |
 |---|---|
-| private 스키마·classroom_books | 방명록 번호와 편집 키 해시를 보관 |
+| private.classroom_books | 기본 태그 `student01`~`student30` 보관 |
 | public.guestbook | 공개 글의 열과 이름·메시지 길이 제한 |
-| private.can_edit_book | X-Edit-Key를 SHA-256 해시로 바꾸어 등록값과 비교 |
+| guestbook.book_id 외래 키 | 등록된 태그로만 글 저장 |
 | grant·revoke | 조회·추가·수정·삭제 명령과 수정 가능한 열 범위 |
-| RLS 정책 | 조회·추가는 공개, 수정·삭제는 방명록 편집 키로 제한 |
+| RLS 정책 | 수업 프로젝트의 공용 `anon` 역할에 조회·추가·수정·삭제 허용 |
 
 프로젝트 담당자가 새 프로젝트의 SQL Editor에 정본 파일 전체를 붙여 넣고 한 번 실행한다.
 이어서 [about-help.sql](../../tools/guestbook-api/about-help.sql)을 실행해 01·02에서 읽을 안내 API를 추가한다.
@@ -136,39 +134,24 @@ VS Code에서 [tools/guestbook-api/schema.sql](../../tools/guestbook-api/schema.
 확인할 결과:
 
 - `public.guestbook`에 id·book_id·name·message·created_at 열이 있다.
-- `private.classroom_books`에는 book_id·edit_key_hash 열이 있고 RLS가 켜져 있다. 클라이언트용 허용 정책은 만들지 않는다.
+- `private.classroom_books`에 30개의 `book_id`가 있고 RLS가 켜져 있다.
 - `guestbook`에 RLS가 켜져 있고 조회·추가·수정·삭제 정책이 있다.
 - Data API의 Exposed schemas에 `private`를 추가하지 않았다.
 
 Table Editor나 SQL Editor의 관리자 화면은 브라우저의 공개 API와 권한이 다르다.
 관리자 화면에서 행이 수정된 사실만으로 학생 API 권한이 올바르다고 판단하지 않는다.
 
-## 5. 방명록 번호와 편집 키 등록
+## 5. 수업용 방명록 태그 확인
 
-두 방명록을 등록하면 서로 다른 키를 비교할 수 있다.
-현재 폴더: 교재 저장소 최상위.
+SQL Editor에서 다음 쿼리를 실행한다.
 
-```powershell
-node web_programming/tools/guestbook-api/provision.mjs student01 student02
+```sql
+select book_id
+from private.classroom_books
+order by book_id;
 ```
 
-[provision.mjs](../../tools/guestbook-api/provision.mjs)는 Node.js 표준 모듈만 사용한다.
-스크립트가 있는 폴더 아래에 다음 두 파일이 생긴다. 터미널의 현재 폴더에 생기는 파일이 아니다.
-
-| 생성 파일 | 사용하는 곳 |
-|---|---|
-| `web_programming/tools/guestbook-api/.local/cloud-books.sql` | 새 프로젝트 SQL Editor에서 실행할 번호·해시 등록 SQL |
-| `web_programming/tools/guestbook-api/.local/cloud-edit-keys.json` | 프로젝트 담당자가 별도로 보관·배부하는 편집 키 원문 |
-
-SQL 파일을 열어 book_id와 해시만 들어 있는지 확인한 뒤, 같은 프로젝트 SQL Editor에서 한 번 실행한다.
-키 JSON 파일은 SQL Editor에 붙여 넣지 않는다.
-두 방명록 등록은 글을 생성하는 작업이 아니다. 아직 `guestbook`이 비어 있어도 정상이다.
-
-생성기는 기존 배부 파일이 있으면 중단한다. 기존 파일을 지우고 다시 실행하면 이전에 배부한 키와 DB 해시가 달라질 수 있다.
-다른 프로젝트를 추가로 연구할 때는 별도 체크아웃과 담당자를 사용한다. 키 변경·재배부 실험은 별도 계획으로 수행한다.
-
-`.local/`은 Git에서 제외되지만 ZIP 도구가 자동으로 제외해 주는 것은 아니다.
-예제 배포에는 필요한 화면 파일만 선택하고 `.local/`은 포함하지 않는다.
+새 프로젝트에서 `student01`부터 `student30`까지 30행이 나오면 학생에게 하나씩 배정한다. 기존 프로젝트에서는 조회된 태그 중 하나를 사용한다. 태그는 글을 묶는 값이다. 아직 쓴 글이 없으면 해당 태그의 방명록 GET 결과는 `[]`이다.
 
 ## 6. 프로젝트 URL과 공개 키
 
@@ -186,21 +169,17 @@ SQL 파일을 열어 book_id와 해시만 들어 있는지 확인한 뒤, 같은
 서버 secret key·service_role key·데이터베이스 비밀번호는 이 예제에 필요 없다.
 publishable key는 파일에 적지 않는다. 7단계에서 화면이 묻는 창에 넣으면 localStorage에 저장되고, 예제가 페이지를 열 때 그 값을 읽어 요청마다 `apikey` 헤더에 붙인다.
 
-저장해 둔 값을 브라우저에서 꺼내 요청마다 헤더에 붙이는 흐름은 로그인 기능과 같은 원리다. 로그인을 붙이면 서버가 로그인한 사람에게 토큰을 주고, 브라우저는 그 토큰을 저장해 두었다가 요청마다 `Authorization` 헤더에 붙인다.
-**공개 키 지우기**는 로그아웃과 같은 원리다. 저장한 값을 지우면 다음 요청에 붙일 값이 없어 다시 입력해야 한다.
-공개 키는 모든 사용자에게 같은 값이라 누가 요청했는지 구분하지 못한다. 로그인 토큰은 사람마다 다르고 일정 시간이 지나면 만료된다.
-localStorage는 같은 주소에서 실행되는 모든 스크립트가 읽을 수 있다. 그래서 편집 키나 비밀번호처럼 남이 알면 안 되는 값은 저장하지 않는다.
+이 프로젝트의 공개 키는 수업 참여자가 함께 쓴다. **공개 키 지우기**를 누르면 예제에 저장한 값을 다시 입력할 수 있다.
 
 ## 7. 실험 화면의 클라우드 설정
 
-자신의 새 프로젝트로 연결할 때는 사용할 폴더의 `config.example.js`에서 `API_BASE_URL`을 6단계의 프로젝트 URL로 바꾸고, `BOOK_ID`를 5단계에서 등록한 방명록 번호로 맞춘다. 예: [01의 설정](examples/01_about/config.example.js).
+사용할 폴더의 `config.example.js`에 6단계의 프로젝트 URL과 5단계에서 확인한 `BOOK_ID`를 넣는다. [01의 설정](examples/01_about/config.example.js)
 01~07은 각자 설정을 가진 독립 폴더다. 여러 폴더를 같은 서버로 연결할 때는 사용할 폴더마다 주소와 번호를 맞춘다.
 강의자 공용 API를 그대로 사용하면 현재 설정을 유지한다.
 파일 이름은 그대로 두며 `config.js`로 이름을 바꾸지 않는다.
 
 자기 프로젝트의 publishable key는 파일에 적지 않는다. 화면 제목 아래 **공개 키 지우기**를 누르고, 묻는 창에 6단계에서 확인한 자기 프로젝트의 키(`sb_publishable_...`)를 넣는다.
 같은 주소의 01~07은 이 저장값을 함께 쓰므로, 공용 API를 쓰는 폴더로 돌아갈 때는 다시 **공개 키 지우기**를 누르고 배부받은 키를 넣는다.
-편집 키는 이 파일에도 localStorage에도 두지 않는다. 수정·삭제 실험 때 화면의 편집 키 칸에 입력하고 메모리에서만 쓴다.
 
 정적 서버가 실행 중이면 브라우저를 새로고침한다.
 Network에서 요청 주소가 `127.0.0.1:8787` 대신 자신의 HTTPS 프로젝트인지 확인한다.
@@ -254,61 +233,48 @@ POST의 본문에는 다음 필드만 사용한다. 실명 대신 별칭을 쓴�
 다시 GET해 같은 id·메시지를 찾는다. 화면에 로컬로 덧붙인 글과 서버 저장을 구별하는 단계다.
 
 POST를 student02로 보내고 GET의 방명록 조건도 student02로 바꾸어 본다.
-이번 공개 방명록에서는 다른 등록 방명록의 조회·추가도 허용된다. 편집 키는 이 두 동작의 사용자 인증 수단이 아니다.
+공개 키를 가진 사람은 다른 등록 태그의 글도 조회·저장·수정·삭제할 수 있다. 실습에서는 배정받은 태그와 직접 만든 글을 사용한다.
 
 ## 9. 수정·삭제와 통합 실험
 
 ### 05_guestbook_edit · 글 하나 수정·삭제
 
 [05_guestbook_edit/index.html](examples/05_guestbook_edit/index.html)을 연다. 앞 단계에서 조회·저장한 경험을 이어서 사용한다.
-먼저 [05 requests.http](examples/05_guestbook_edit/requests.http)를 실행한다. 요청할 때 입력 창에 자신이 만든 글 ID와 해당 방명록 편집 키를 넣는다.
-편집 키 입력은 마스킹되며 `.env`나 요청 파일에 키를 저장하지 않는다.
-REST Client의 요청 이력에는 헤더·본문이 남는다. 키가 든 이력·전체 요청 캡처를 공유하지 않고 실습 후 **Rest Client: Clear Request History**를 실행한다.
-다음 순서로 조건을 한 번에 하나씩 바꾼다.
+[05 requests.http](examples/05_guestbook_edit/requests.http)에서는 변경하려는 글의 ID를 `entryId`에 입력한다. 브라우저에서는 다음 순서로 같은 요청을 보낸다.
 
-1. 04에서 student01에 실험용 글을 만들고 서버 id를 기록한다.
-2. 해당 번호의 편집 키를 화면에 입력한다. 키는 설정 파일·localStorage·JSON 본문에 넣지 않는다.
-3. 메시지를 새 문장으로 바꾸어 수정 요청을 보낸다. 응답 배열의 항목과 후속 GET의 메시지를 모두 확인한다.
-4. 04에서 다른 실험용 글을 하나 더 만든다. 05의 DELETE로 그 id만 지정해 삭제한다.
-5. DELETE의 204 응답에는 JSON 본문이 없음을 확인한다. `response.json()`을 호출하지 않는다.
-6. GET으로 삭제한 id가 사라지고 다른 글은 남아 있는지 확인한다.
+1. 04에서 같은 태그로 실험용 글 두 개를 만든 뒤 05에서 목록을 조회한다.
+2. 첫 번째 글의 ID를 선택하고 이름·메시지를 바꾼 뒤 **선택한 글 수정**을 누른다. PATCH 200의 배열과 후속 GET에 새 값이 있는지 확인한다.
+3. 두 번째 글이 있는 행에서 **삭제**를 누른다. 확인창에 나온 태그와 글 번호를 읽고 삭제한다.
+4. DELETE 204에는 응답 본문이 없다. 같은 태그와 글 번호로 GET을 보내 `[]`를 확인하고, 목록에서 첫 번째 글이 남아 있는지 살펴본다.
 
-수정·삭제 URL에는 `book_id=eq.student01`과 `id=eq.<대상 번호>`를 모두 지정한다.
-편집 키는 `X-Edit-Key` 헤더로 보낸다. PATCH에는 JSON 본문과 `Prefer: return=representation`을 사용한다.
-실험 화면의 키 입력 칸은 요청 직전 비워지므로 다음 수정·삭제 요청에는 키를 다시 입력한다.
-`.http`의 후속 GET도 방금 수정·삭제한 글 ID를 입력해 대상 하나를 확인한다.
-
-PATCH가 200과 빈 배열을 반환하거나 DELETE가 204를 반환해도 변경된 행이 없을 수 있다.
-잘못된 편집 키나 없는 id를 넣은 경우의 실제 상태와 본문을 기록하고, 후속 GET으로 데이터가 그대로인지 확인한다.
-공개 키 오류, 열 권한 오류, RLS에 따른 빈 결과를 같은 오류로 취급하지 않는다.
+변경 URL에는 `book_id=eq.student01`과 `id=eq.<글 번호>`를 함께 넣는다. 조건에 맞는 행이 없어도 PATCH는 200과 `[]`, DELETE는 204를 반환할 수 있다.
 
 ### 06_http_lab · 요청 조건 비교
 
-[06_http_lab/index.html](examples/06_http_lab/index.html)은 메서드·글 ID·본문을 직접 바꾸는 통합 실험 화면이다.
+[06_http_lab/index.html](examples/06_http_lab/index.html)은 메서드·태그·글 번호·JSON 본문을 직접 지정해 요청하는 HTTP 콘솔이다.
 같은 비교 요청의 출발점은 [06 requests.http](examples/06_http_lab/requests.http)다.
 01~05를 확인한 뒤 사용한다. POST·PATCH는 **본문 예시 넣기**로 JSON을 준비하고 한 조건만 바꾼다.
-다른 방명록 편집 키·없는 id·보호된 열을 비교하고 후속 GET으로 실제 상태를 확인한다.
+`request.js`의 `buildRequest(method, book, id, bodyText)`가 요청을 만든다. 없는 ID, 다른 태그, 수정할 수 없는 열을 지정해 응답과 후속 GET을 비교한다.
 세부 과제는 [실습지](lab.md), 실행 순서는 [예제 설명](examples/README.md#실험-순서)을 따른다.
 
 ## 10. 완성 방명록과 정규 예제 연결
 
 [07_guestbook_complete](examples/07_guestbook_complete/index.html)는 목록·등록 폼·수정·삭제를 한 화면에 모은 완성 방명록이다.
 [07 requests.http](examples/07_guestbook_complete/requests.http)로 요청을 확인하고 `http://localhost:8000/07_guestbook_complete/`을 연다.
-태그를 정해 글을 등록한 뒤 목록의 **글 수정·삭제**에서 대상 글을 선택한다. 별칭·메시지와 편집 키를 입력해 수정하거나 삭제한다.
-변경 후에는 같은 ID를 GET으로 확인하고 목록을 갱신한다. 편집 키는 요청 전에 입력 칸을 비운다.
+태그를 정해 글을 등록한다. 행의 **수정**을 누르고 별칭·메시지를 바꿔 **수정 저장**을 누른다. 삭제할 때는 해당 행의 **삭제**를 누르고 확인창에서 글 번호를 확인한다. 같은 ID의 GET과 새 목록에서 결과를 확인한다.
 07은 방명록 사용 흐름을 확인하는 화면이다. HTTP 메서드·JSON 본문을 직접 바꾸는 실험은 06을 사용한다.
 
 실험 화면에서 API가 동작하면 정규 교재의 UI를 자신의 서버에 연결한다.
-정규 12~14주 완성본도 같은 폴더의 `config.example.js`에서 주소와 `BOOK_ID`를 읽고, 공개 키는 같은 이름(`API_PUBLIC_KEY`)의 localStorage 값을 읽는다. 그 파일의 `API_BASE_URL`과 `BOOK_ID`를 7단계 값으로 바꾼다. 아래 명령처럼 같은 `http://localhost:8000`에서 열면 7단계에서 저장한 키를 그대로 쓴다.
+13주 완성본에서는 `guestbook.html` 옆의 `config.example.json`을 `config.json`으로 복사하고 7단계의 주소·공개 키·태그를 넣는다. 12주 선택 예제와 14주 완성본은 `config.example.js`의 `API_BASE_URL`과 `BOOK_ID`를 사용한다. 같은 `http://localhost:8000`에서 열면 이 두 예제는 7단계에서 브라우저에 저장한 공개 키를 함께 쓴다.
 
 13주 화면을 확인할 때, 실행 중인 정적 서버를 Ctrl+C로 중지한 뒤 다음 명령을 실행한다.
 현재 폴더: 교재 저장소 최상위.
 
 ```powershell
-node web_programming/tools/static-server/server.mjs web_programming/weeks/week13_release_security/examples/day2/web-week13 8000
+node web_programming/tools/static-server/server.mjs web_programming/weeks/week13_guestbook_crud/examples/day2/web-week13 8000
 ```
 
-`http://localhost:8000/guestbook.html`에서 폼으로 글을 남기고 POST 다음 GET을 확인한다.
+`http://localhost:8000/guestbook.html`에서 글 한 건을 저장하고 목록에서 글 번호를 찾는다. 그 글의 내용을 수정하고 같은 글 번호로 삭제한다.
 
 14주 화면은 다음과 같이 실행한다.
 
@@ -316,7 +282,7 @@ node web_programming/tools/static-server/server.mjs web_programming/weeks/week13
 node web_programming/tools/static-server/server.mjs web_programming/weeks/week14_project_presentation/examples/day2/web-week14 8000
 ```
 
-같은 주소에서 편집 키를 입력하고 글 하나를 수정·삭제한다.
+같은 태그에서 실험용 글 하나를 수정하고 그 행의 삭제 버튼으로 지운다.
 서버 id로 지정한 글만 바뀌는지 새로고침 후 확인한다.
 실험 도구와 방명록 UI가 같은 API 계약을 사용한다는 것을 비교한다.
 
@@ -332,7 +298,7 @@ GitHub Pages가 정적 파일을 제공하므로 Node 정적 서버나 로컬 AP
 배포 후 발급된 HTTPS 페이지 주소로 접속한다. 브라우저는 화면 파일을 Pages에서 받고 데이터는 Supabase HTTPS API에 요청한다.
 `config.example.js`에는 HTTPS API 주소와 `BOOK_ID`만 둔다. 로컬 리허설 주소가 남아 있지 않은지 확인한다.
 게시 파일에는 공개 키가 없다. 게시한 주소를 처음 열면 공개 키를 묻는 창이 뜨고, 키를 넣어야 목록이 보인다. 키를 입력하지 않은 방문자는 401로 조회가 실패한다.
-`localhost`·`127.0.0.1`은 방문자 각자의 기기이므로 공용 API 주소로 사용할 수 없다. 편집 키 파일은 복사하지 않는다.
+`localhost`·`127.0.0.1`은 방문자 기기를 가리킨다. 게시할 설정에는 공용 HTTPS API 주소를 넣는다.
 정적 호스팅의 동작은 [GitHub Pages 안내](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)를 참고한다.
 
 공용 API의 GET·POST 확인과 이 화면의 Pages 배포 검증은 별개다. 다음 항목은 실제 배포한 뒤 확인한다.
@@ -344,13 +310,11 @@ REST Client에서 성공해도 브라우저의 CORS 검증이 끝난 것은 아�
 
 - 같은 방명록의 서버 id·메시지가 보이는지.
 - 한 기기에서 추가한 글이 다른 기기의 GET에 나타나는지.
-- 올바른 키로 수정·삭제한 결과가 다른 기기에도 보이는지.
-- 다른 방명록 키와 키 없음으로 수정·삭제했을 때 대상 글이 유지되는지.
-- 올바른 키를 사용해도 id·book_id·created_at 변경이 거부되는지.
+- 한 기기에서 수정·삭제한 결과가 다른 기기의 새로고침한 목록에도 보이는지.
+- 같은 글 번호에 다른 태그를 지정하면 GET에서 빈 배열이 돌아오는지.
+- PATCH로 id·book_id·created_at을 바꾸려고 할 때 서버가 거절하는지.
 - localhost와 GitHub Pages 양쪽에서 CORS 사전 요청과 실제 요청이 성공하는지.
 
-Network의 Request Headers에는 실행 중인 편집 키가 보일 수 있다.
-기록에는 키 이름과 사용 조건만 적고 값은 포함하지 않는다. 화면 캡처 전에 해당 값을 가린다.
 
 ## 12. 기록과 다음 모임 준비
 
@@ -362,5 +326,5 @@ git rev-parse --short HEAD
 ```
 
 실험 결과를 공유하기 전에 수정한 공개 파일과 Git 상태를 확인한다.
-키 파일을 제외한 소스 변경은 별도 브랜치나 개인 실습 저장소에서 관리한다.
+공개할 소스 파일과 실습용 `.env`를 구분해 게시 대상을 확인한다.
 프로젝트와 데이터의 보존·쓰기 권한 변경·종료 여부는 담당자와 강의자가 별도로 정한다.

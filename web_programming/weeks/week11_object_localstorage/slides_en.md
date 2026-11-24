@@ -251,7 +251,7 @@ Public deployment is after-class work. Use sample names and messages.
 
 The [completed guestbook](examples/day2/web-week11/README.md) is an instructor demo and an optional Week 12 guestbook example. Students do not need to build it in this week's lab.
 
-In Week 12, use a public weather API to learn Promises and async/await. The optional guestbook includes this week's local version.
+In Week 12, use public APIs to learn Promises and async/await. The optional guestbook includes this week's local version.
 
 The demo uses `week11-guestbook-items`. Damaged data triggers a notice; Delete All removes only this key. Recovery is provided code, outside student implementation.
 

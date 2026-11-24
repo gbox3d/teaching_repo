@@ -1,6 +1,6 @@
 # w13_rest_post · POST 한 요청
 
-출처: [13주](../../../week13_release_security/lab.md) · 권장 8분 · C 폼·목록 4점 또는 E REST 3점. C와 E에 중복 출제하지 않는다.
+출처: [13주](../../../week13_guestbook_crud/lab.md) · 권장 8분 · C 폼·목록 4점 또는 E REST 3점. C와 E에 중복 출제하지 않는다.
 
 ## 할 일
 
@@ -26,7 +26,7 @@ localStorage는 주소(출처)마다 따로다. 다른 브라우저, 포트가 �
 
 ## REST Client
 
-VS Code REST Client(humao.rest-client)를 설치한다. 같은 폴더의 .env.example을 .env로 복사하고 API_BASE_URL·API_PUBLIC_KEY·BOOK_ID를 설정한다. 브라우저는 .env를 읽지 않는다. [requests.http](requests.http)의 **Send Request**를 위에서부터 실행하여 about·help의 200을 먼저 확인한다. GET의 apikey, 쓰기의 Content-Type과 Prefer 헤더를 비교한다. 요청 위 주석의 상태와 응답을 확인한다. 편집 키는 password prompt에만 입력하고 실행 뒤 Clear Request History로 이력을 지운다.
+VS Code REST Client(humao.rest-client)를 설치한다. 같은 폴더의 .env.example을 .env로 복사하고 API_BASE_URL·API_PUBLIC_KEY·BOOK_ID를 설정한다. 브라우저는 .env를 읽지 않는다. [requests.http](requests.http)의 **Send Request**를 위에서부터 실행하여 about·help의 200을 먼저 확인한다. GET의 apikey, 쓰기의 Content-Type과 Prefer 헤더를 비교한다. 요청 위 주석의 상태와 응답을 확인한다.
 
 ## 실행과 제출
 

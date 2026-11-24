@@ -2,14 +2,13 @@
 
 01 접속 확인부터 시작해 02 안내 읽기, 03 방명록 조회, 04 저장 순서로 진행한다.
 각 폴더의 `requests.http`로 요청·응답을 먼저 확인하고, 같은 폴더의 `index.html`과 `app.js`에서 브라우저 구현을 읽는다.
-05 수정·삭제와 06 통합 실험은 앞 단계가 동작한 뒤 수행한다. 07은 글 등록·조회·수정·삭제를 모은 완성 방명록이다.
+05는 글 수정과 목록 행 삭제, 06은 HTTP 콘솔, 07은 등록·조회·수정·삭제가 한 화면에 있는 완성 방명록이다.
 examples 루트에는 이 README만 두고 실행 예제는 01~07 폴더 안에 둔다.
 
 ## 시작 전 강의자 준비
 
-기존 Supabase 프로젝트의 SQL Editor에서 [about-help.sql](../../../tools/guestbook-api/about-help.sql)을 한 번 실행한다.
-새 프로젝트는 [schema.sql](../../../tools/guestbook-api/schema.sql) 다음에 about-help.sql을 실행하고 방명록 번호를 등록한다.
-안내 SQL은 읽기 전용 `about`·`help` 뷰를 추가하며 기존 방명록을 바꾸지 않는다. 기존 서버에 schema.sql을 다시 실행하지 않는다.
+- 새 프로젝트에서는 [schema.sql](../../../tools/guestbook-api/schema.sql)을 실행한다. 테이블과 `student01`~`student30` 태그 30개가 생긴다. 이어서 [about-help.sql](../../../tools/guestbook-api/about-help.sql)을 실행해 접속 확인과 도움말 경로를 추가한다.
+- 기존 수업 프로젝트에서는 [enable-public-crud.sql](../../../tools/guestbook-api/enable-public-crud.sql)을 SQL Editor에서 한 번 실행한다. 기존 글과 태그를 유지하면서 공개 수정·삭제 정책과 도움말을 갱신한다.
 
 공용 서버의 방명록 GET·POST를 확인했으며, 2026-11-14에 `/rest/v1/about`·`/rest/v1/help` 설치와 GET 200도 확인했다.
 about은 v1 안내 한 행, help는 단계 1~6의 여섯 행을 반환한다.
@@ -28,10 +27,7 @@ about은 v1 안내 한 행, help는 단계 1~6의 여섯 행을 반환한다.
 `.http` 요청에는 Node 정적 서버가 필요 없다. 브라우저 화면을 열 때만 아래 미리보기 서버나 GitHub Pages를 사용한다.
 REST Client의 성공은 브라우저 CORS 검증 결과와 별개다.
 
-05~07의 변경 요청은 전송 시 `entryId` 입력 창에 자신이 만든 글 ID를, `password` 입력 창에 해당 방명록 편집 키를 넣는다.
-편집 키 입력은 마스킹된다. 편집 키를 `.env`·`.http`·소스 파일에 옮겨 적지 않는다.
-마스킹은 입력 창에만 적용된다. REST Client는 헤더·본문을 요청 이력에 저장하므로 편집 키가 든 이력이나 전체 요청 캡처를 공유하지 않는다.
-실습 후 명령 팔레트에서 **Rest Client: Clear Request History**로 이력을 지운다. [요청 이력 안내](https://github.com/Huachao/vscode-restclient#request-history)
+05~07에서 수정·삭제 요청을 보낼 때 `entryId` 입력 창에 실험용 글의 서버 ID를 넣는다. 후속 GET도 같은 태그와 ID로 보낸다.
 `.env`는 Git 제외 대상이며 Pages 게시 파일에도 포함하지 않는다. 브라우저는 `.env` 대신 같은 폴더의 `config.example.js`와 localStorage의 공개 키를 읽는다.
 
 출처: [REST Client 사용법](https://github.com/Huachao/vscode-restclient#usage), [환경 변수](https://github.com/Huachao/vscode-restclient#system-variables), [요청 시 입력 변수](https://github.com/Huachao/vscode-restclient#prompt-variables).
@@ -116,7 +112,6 @@ localStorage는 화면 주소의 출처(프로토콜·호스트·포트)마다 �
 - 휴대폰도 같은 창에 키를 넣고, 바꿀 때는 같은 버튼을 쓴다.
 - 다른 브라우저, 포트가 다른 `localhost`, `127.0.0.1`과 `localhost`처럼 이름이 다른 주소, GitHub Pages 주소, 휴대폰에서는 처음 한 번 묻는다.
 - 자기 새 프로젝트로 연결하는 담당자는 `config.example.js`의 `API_BASE_URL`·`BOOK_ID`를 자기 값으로 바꾸고, **공개 키 지우기**를 누른 뒤 자기 프로젝트의 publishable key(`sb_publishable_...`)를 넣는다.
-- 편집 키는 묻는 창에도 localStorage에도 파일에도 두지 않는다. 05~07 화면의 편집 키 입력 칸에 넣어 메모리에서만 쓴다.
 - 주소·`BOOK_ID`는 REST Client가 `.env`에서, 브라우저가 `config.example.js`에서 따로 읽는다. 공개 키도 REST Client가 `.env`에서, 브라우저가 localStorage에서 따로 읽으므로 `requests.http`용 키는 같은 폴더의 `.env`에 넣는다.
 
 ## 실험 순서
@@ -125,18 +120,17 @@ localStorage는 화면 주소의 출처(프로토콜·호스트·포트)마다 �
 2. **02_help**: 사용법 조회 버튼으로 `GET /rest/v1/help?order=step.asc`를 보낸다. 여섯 행에서 다음 요청의 method와 path를 찾는다.
 3. **03_guestbook_get**: 배부받은 방명록 태그로 목록을 읽는다. `book_id=eq.student01`은 같은 태그의 글을 고르는 조건이다. 글이 없으면 `[]`이 정상이다.
 4. **04_guestbook_post**: 별칭·메시지를 입력해 저장한다. 201 응답의 새 id를 기록하고 GET으로 같은 글을 확인한다.
-5. **05_guestbook_edit**: 목록에서 글을 선택하거나 직접 만든 글 ID를 입력한다. 해당 방명록 편집 키로 메시지를 수정하고 대상 ID의 GET 결과를 확인한다. 삭제도 GET으로 실제 부재를 확인한다.
-6. **06_http_lab**: 메서드·본문을 직접 바꾼다. POST·PATCH는 **본문 예시 넣기**를 누른 뒤 한 조건만 수정한다. 다른 편집 키·없는 ID·입력 길이 제한을 비교한다.
-7. **07_guestbook_complete**: 태그를 정하고 별칭·메시지를 등록한다. 목록의 **글 수정·삭제**에서 대상 글을 선택하고 편집 키로 수정하거나 삭제한다. 변경 뒤 같은 ID의 GET과 목록 갱신을 확인한다.
+5. **05_guestbook_edit**에서 글 ID를 선택해 이름·메시지를 수정한다. 삭제할 때는 목록 행의 **삭제**와 확인창을 차례로 누른다.
+6. **06_http_lab** HTTP 콘솔에서 메서드·태그·글 번호·본문을 바꾼다. POST·PATCH는 **본문 예시 넣기**를 누른 뒤 한 조건만 바꿔 본다.
+7. **07_guestbook_complete**에서 글을 등록한다. 글이 보이면 그 행의 **수정** 또는 **삭제**를 누른다. 수정은 **수정 저장**, 삭제는 글 번호 확인을 거친다.
 
 about·help는 이 교재가 추가한 GET 전용 안내 API이며 두 요청에도 `apikey` 헤더가 필요하다.
 POST는 book_id·name·message만 보낸다. id와 created_at은 서버가 만든다. 같은 POST를 반복하면 새 글이 더 생긴다.
 PATCH 200의 배열이 비어 있거나 DELETE가 204여도 변경된 행이 없을 수 있다. 후속 GET으로 판단한다.
-204에는 JSON 본문이 없다. 수정·삭제 요청 뒤에는 다음 요청을 위해 편집 키를 다시 입력한다.
+DELETE 204에는 JSON 본문이 없다.
 05~07의 `.http` 후속 GET은 방금 수정·삭제한 글 ID를 다시 입력해 같은 대상을 조회한다.
 
-태그는 분류·조회 조건이다. 다른 등록 방명록의 조회·추가도 공개 허용되며 편집 키는 해당 방명록의 수정·삭제를 제한한다.
-Network 캡처에 편집 키가 포함되지 않게 한다. 학생 로그인과 편집 키의 역할은 [학생용 API 안내](../../../tools/guestbook-api/student-guide.md)를 따른다.
+공개 키로 모든 태그의 글을 조회·저장·수정·삭제할 수 있다. 태그는 학생별 글을 묶는 값이며, 수정·삭제 예제에서는 글 번호를 함께 지정한다. [학생용 API 안내](../../../tools/guestbook-api/student-guide.md)
 
 ## GitHub Pages에서 사용하기
 
@@ -144,14 +138,14 @@ Network 캡처에 편집 키가 포함되지 않게 한다. 학생 로그인과 
 2. 선택한 폴더의 HTML·JavaScript·설정을 함께 게시한다. 그 폴더 설정의 API 주소가 공용 `https://` 주소인지, BOOK_ID가 맞는지 확인한다. 게시 파일에는 공개 키가 없다.
 3. 해당 폴더가 Pages 게시 결과에 포함되도록 게시 대상을 정하고 **Settings → Pages → Enforce HTTPS**를 확인한다.
 4. 발급된 HTTPS 화면 주소에서 선택한 예제를 연다. 처음 열면 공개 키를 묻는 창이 뜨므로 배부받은 키를 넣고, Network에서 공용 API 주소와 응답을 확인한다.
-5. 방명록은 다른 기기에서도 같은 태그를 조회한다. 기기·브라우저마다 처음 한 번 공개 키를 묻는다. 수정·삭제는 편집 키로 별도 검증한다.
+5. 다른 기기에서도 공개 키를 입력하고 같은 태그로 조회한다. 실험 글을 만들고 수정·삭제한 결과가 다른 기기의 목록에 반영되는지 확인한다.
 
 GitHub Pages가 정적 파일을 제공하므로 학생이 Node 서버를 실행할 필요가 없다.
 Pages 주소에는 로컬 미리보기에서 저장한 키가 없다. 묻는 창에 키를 입력하지 않은 방문자는 401로 조회가 실패한다.
 각 HTML은 같은 폴더의 `config.example.js`와 W3.CSS CDN을 읽는다. 다른 단계나 examples 루트의 파일은 필요 없다.
 학습용 `requests.http`·`.env.example`은 함께 배부할 수 있다. 06의 실행에는 `request.js`·`exercise.js`도 포함한다.
 `localhost`·`127.0.0.1` API 주소는 방문자 각자의 PC를 가리킨다. Pages용 설정에는 공용 HTTPS 주소를 유지한다.
-`.env`, `localfiles/`, `.local/`, DB 비밀번호, 편집 키 파일은 배포에 포함하지 않는다.
+`.env`, `localfiles/`, DB 비밀번호는 게시 파일에서 제외한다.
 
 공용 방명록 GET·POST와 안내 API GET을 확인했다. 로컬 01·02 브라우저 화면에서도 실제 공용 API 응답 200과 1행·6행을 확인했다.
 Pages 실배포와 공용 PATCH·DELETE는 아직 검증하지 않았다.
@@ -180,7 +174,7 @@ node --test web_programming/specials/supabase_guestbook/examples/06_http_lab/req
 ```
 
 이 검사는 통합 요청 구성과 화면 처리만 확인한다. 실제 Supabase 검증은 [서버 안내](../../../tools/guestbook-api/README.md#공용-서버-검증)를 따른다.
-정규 수업 화면은 [12주 GET](../../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.html)·[13주 POST](../../../weeks/week13_release_security/examples/day2/web-week13/guestbook.html)·[14주 수정·삭제](../../../weeks/week14_project_presentation/examples/day2/web-week14/guestbook.html)에 연결한다.
+정규 수업 화면은 [12주 GET](../../../weeks/week12_fetch_json/examples/day2/web-week12/guestbook.html)·[13주 방명록 CRUD](../../../weeks/week13_guestbook_crud/examples/day2/web-week13/guestbook.html)·[14주 수정·삭제](../../../weeks/week14_project_presentation/examples/day2/web-week14/guestbook.html)에 연결한다.
 
 근거: [GitHub Pages 정적 호스팅](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages),
 [GitHub Pages HTTPS 설정](https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https),

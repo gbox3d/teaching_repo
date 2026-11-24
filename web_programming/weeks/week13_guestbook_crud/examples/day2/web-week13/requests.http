@@ -1,0 +1,44 @@
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+@bookId = {{$dotenv BOOK_ID}}
+
+### 접속 확인 · 200, API 소개
+GET {{baseUrl}}/rest/v1/about
+apikey: {{apiKey}}
+
+### 도움말 · 200, 지원하는 요청 목록
+GET {{baseUrl}}/rest/v1/help?order=step.asc
+apikey: {{apiKey}}
+
+### 1. Create · 글 저장 · 201, 생성된 글의 id
+# @name saved
+POST {{baseUrl}}/rest/v1/guestbook
+apikey: {{apiKey}}
+Content-Type: application/json
+Prefer: return=representation
+
+{ "book_id": "{{bookId}}", "name": "연습생", "message": "토요일 모임" }
+
+### 2. Read · 목록 보기 · 200, 내 태그의 글
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&select=id,name,message&order=id.desc&limit=50
+apikey: {{apiKey}}
+
+### 3. Update · 같은 글 수정 · 200, 수정된 행
+PATCH {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{saved.response.body.$[0].id}}
+apikey: {{apiKey}}
+Content-Type: application/json
+Prefer: return=representation
+
+{ "message": "일요일 모임" }
+
+### 수정 확인 · 200, 같은 글 번호와 수정된 내용
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{saved.response.body.$[0].id}}
+apikey: {{apiKey}}
+
+### 4. Delete · 같은 글 삭제 · 204, 응답 본문 없음
+DELETE {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{saved.response.body.$[0].id}}
+apikey: {{apiKey}}
+
+### 삭제 확인 · 200, 빈 배열
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{saved.response.body.$[0].id}}
+apikey: {{apiKey}}

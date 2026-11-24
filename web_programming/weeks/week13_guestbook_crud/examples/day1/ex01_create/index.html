@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>방명록 글 저장</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+  <script src="load-config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="w3-content w3-padding">
+    <h1>방명록 글 저장</h1>
+    <p id="config-status" role="status"></p>
+    <form id="entry-form">
+      <p><label for="name">별칭</label>
+        <input class="w3-input w3-border" id="name" maxlength="30" required></p>
+      <p><label for="message">메시지</label>
+        <textarea class="w3-input w3-border" id="message" maxlength="500" rows="3" required></textarea></p>
+      <button class="w3-button w3-teal" id="save" type="submit" disabled>저장</button>
+    </form>
+    <p id="status" role="status"></p>
+  </main>
+</body>
+</html>

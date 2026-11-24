@@ -1,9 +1,11 @@
-# 위도와 HTTP 응답
+# 타로 카드로 HTTP 200과 404 비교
 
-[실습 화면](index.html)에서 위도를 선택하고 **기온 조회**를 누른다. 서울 위도 `37.5665`에서는 `HTTP 200 · ok true`와 기온이 나온다. 위도를 `999`로 바꾸면 `HTTP 400 · ok false`와 오류 이유가 나온다. 두 요청은 위도만 다르다.
+[실습 화면](index.html)에서 **카드 한 장 뽑기**를 누르면 `HTTP 200 · ok true`와 카드 이름·정방향 해석이 나온다. **없는 카드 요청**을 누르면 `HTTP 404 · ok false`가 나온다.
 
-[app.js](app.js)에서 `fetch`는 400에도 응답을 돌려주므로 `response.ok`로 분기한다. 오류 JSON의 `reason`에서 위도 허용 범위를 확인한다. 개발자 도구의 Network를 **Offline**으로 바꾸고 다시 조회하면 응답을 받지 못해 `catch`로 이동한다. 확인 후 **No throttling**으로 복구한다.
+[app.js](app.js)는 `response.status`와 `response.ok`를 먼저 표시한다. `ok`가 true일 때 `cards[0].name`과 `cards[0].meaning_up`을 읽는다.
 
-VS Code의 REST Client(`humao.rest-client`)로 [requests.http](requests.http)를 연다. `@baseUrl`은 `https://api.open-meteo.com`이다. API 키, `.env`, 별도 요청 헤더는 필요 없다. 두 요청 위의 **Send Request**를 차례로 눌러 성공 JSON의 `current.temperature_2m`과 오류 JSON의 `error`, `reason`을 비교한다.
+개발자 도구를 열어 둔 상태에서 Network의 **Disable cache**를 켜고 Offline으로 바꾼다. **카드 한 장 뽑기**를 누르면 HTTP 응답 없이 `catch`에서 요청 실패를 표시한다. 확인 후 No throttling으로 복구한다.
 
-[Open-Meteo API 문서](https://open-meteo.com/en/docs)
+VS Code REST Client(`humao.rest-client`)에서 [requests.http](requests.http)를 연다. `@baseUrl`은 `https://tarotapi.dev`다. API 키, `.env`, 추가 요청 헤더 없이 각 GET 위 **Send Request**를 누른다. `200 OK`의 카드 배열과 `404 Not Found` 상태를 확인한다.
+
+[Tarot API 문서](https://github.com/ekelen/tarot-api)

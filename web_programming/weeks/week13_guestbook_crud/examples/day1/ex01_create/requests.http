@@ -1,0 +1,23 @@
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+@bookId = {{$dotenv BOOK_ID}}
+
+### 접속 준비 · 서버 소개 · 200, name과 version
+GET {{baseUrl}}/rest/v1/about
+apikey: {{apiKey}}
+
+### 접속 준비 · 도움말 · 200, 사용 가능한 요청 목록
+GET {{baseUrl}}/rest/v1/help?order=step.asc
+apikey: {{apiKey}}
+
+### Create · 글 저장 · 201, 새 id
+POST {{baseUrl}}/rest/v1/guestbook
+apikey: {{apiKey}}
+Content-Type: application/json
+Prefer: return=representation
+
+{
+  "book_id": "{{bookId}}",
+  "name": "연습생",
+  "message": "토요일 모임"
+}

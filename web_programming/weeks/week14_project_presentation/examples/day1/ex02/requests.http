@@ -20,10 +20,8 @@ GET {{baseUrl}}/rest/v1/guestbook?id=eq.{{messageId}}&book_id=eq.{{bookId}}
 apikey: {{apiKey}}
 
 ### 삭제: 204와 빈 본문만으로 성공을 단정하지 않는다.
-# @prompt password 편집 키를 입력하세요.
 DELETE {{baseUrl}}/rest/v1/guestbook?id=eq.{{messageId}}&book_id=eq.{{bookId}}
 apikey: {{apiKey}}
-X-Edit-Key: {{password}}
 
 ### 삭제 후 같은 ID 재조회: 200 []이면 대상 없음
 GET {{baseUrl}}/rest/v1/guestbook?id=eq.{{messageId}}&book_id=eq.{{bookId}}

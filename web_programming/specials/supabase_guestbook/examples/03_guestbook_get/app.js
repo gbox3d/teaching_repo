@@ -17,7 +17,7 @@ form.addEventListener('submit', async function (event) {
   try {
     const book = bookInput.value;
     if (!/^[a-z0-9_-]{1,40}$/.test(book)) throw new Error('방명록 태그를 확인하세요.');
-    const url = new URL('/rest/v1/guestbook', API_BASE_URL);
+    const url = new URL('rest/v1/guestbook', API_BASE_URL);
     url.searchParams.set('book_id', `eq.${book}`);
     url.searchParams.set('order', 'id.desc');
     url.searchParams.set('limit', '50');

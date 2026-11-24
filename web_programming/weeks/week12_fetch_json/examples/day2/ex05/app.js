@@ -1,22 +1,36 @@
 const output = document.querySelector('#output');
-const button = document.querySelector('#run-button');
-const latitudeSelect = document.querySelector('#latitude');
+const drawButton = document.querySelector('#draw-button');
+const missingButton = document.querySelector('#missing-button');
+const card = document.querySelector('#card');
+const cardName = document.querySelector('#card-name');
+const cardMeaning = document.querySelector('#card-meaning');
 
-async function readWeather() {
-  const latitude = latitudeSelect.value;
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=126.9780&current=temperature_2m`;
+async function readCard(path) {
+  const url = `https://tarotapi.dev/api/v1/cards/${path}`;
+  drawButton.disabled = true;
+  missingButton.disabled = true;
+  card.hidden = true;
+  output.textContent = '조회 중';
   try {
-    const response = await fetch(url);
-    const weather = await response.json();
-    const status = `HTTP ${response.status} · ok ${response.ok}`;
-    if (response.ok) {
-      output.textContent = `${status} · 서울 ${weather.current.temperature_2m}${weather.current_units.temperature_2m}`;
-    } else {
-      output.textContent = `${status} · ${weather.reason}`;
-    }
+    const response = await fetch(url, { cache: 'no-store' });
+    output.textContent = `HTTP ${response.status} · ok ${response.ok}`;
+    if (!response.ok) return;
+    const data = await response.json();
+    cardName.textContent = data.cards[0].name;
+    cardMeaning.textContent = data.cards[0].meaning_up;
+    card.hidden = false;
   } catch (error) {
     output.textContent = `요청 실패 · ${error.message}`;
+  } finally {
+    drawButton.disabled = false;
+    missingButton.disabled = false;
   }
 }
 
-button.addEventListener('click', readWeather);
+drawButton.addEventListener('click', function () {
+  readCard('random?n=1');
+});
+
+missingButton.addEventListener('click', function () {
+  readCard('zzmissing');
+});

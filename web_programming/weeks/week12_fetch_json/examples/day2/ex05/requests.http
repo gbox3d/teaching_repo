@@ -1,7 +1,7 @@
-@baseUrl = https://api.open-meteo.com
+@baseUrl = https://tarotapi.dev
 
-### 서울 현재 기온 · 200과 current.temperature_2m
-GET {{baseUrl}}/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m
+### 무작위 카드 한 장 · 200과 cards[0].name, cards[0].meaning_up
+GET {{baseUrl}}/api/v1/cards/random?n=1
 
-### 범위를 벗어난 위도 · 400과 error, reason
-GET {{baseUrl}}/v1/forecast?latitude=999&longitude=126.9780&current=temperature_2m
+### 없는 카드 요청 · 404
+GET {{baseUrl}}/api/v1/cards/zzmissing

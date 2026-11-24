@@ -4,7 +4,6 @@ const messageInput = document.querySelector('#message');
 const editPanel = document.querySelector('#edit-panel');
 const editName = document.querySelector('#edit-name');
 const editMessage = document.querySelector('#edit-message');
-const editKeyInput = document.querySelector('#edit-key');
 const notice = document.querySelector('#notice');
 const list = document.querySelector('#messages');
 const listSummary = document.querySelector('#list-summary');
@@ -24,12 +23,12 @@ function clearSelection() {
   editPanel.hidden = true;
   editName.value = '';
   editMessage.value = '';
-  editKeyInput.value = '';
+
   document.querySelector('#selection').textContent = '';
 }
 
 async function loadMessages(book) {
-  const url = new URL('/rest/v1/guestbook', API_BASE_URL);
+  const url = new URL('rest/v1/guestbook', API_BASE_URL);
   url.searchParams.set('book_id', `eq.${book}`);
   url.searchParams.set('order', 'id.desc');
   url.searchParams.set('limit', '50');
@@ -47,20 +46,32 @@ async function loadMessages(book) {
     const selectButton = document.createElement('button');
     selectButton.type = 'button';
     selectButton.className = 'w3-button w3-white w3-border';
-    selectButton.textContent = '글 수정·삭제';
+    selectButton.textContent = '수정';
+    selectButton.setAttribute('aria-label', `글 ${row.id} 수정`);
     selectButton.disabled = busy;
     selectButton.addEventListener('click', function () {
       if (busy) return;
       selected = { book, id: String(row.id) };
       editName.value = row.name;
       editMessage.value = row.message;
-      editKeyInput.value = '';
+
       editPanel.hidden = false;
       document.querySelector('#selection').textContent = `${book} · 글 #${row.id}`;
       notice.textContent = '편집할 글을 선택했습니다.';
       editName.focus();
     });
-    item.append(heading, message, selectButton);
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'w3-button w3-white w3-border w3-margin-left';
+    remove.textContent = '삭제';
+    remove.setAttribute('aria-label', `글 ${row.id} 삭제`);
+    remove.disabled = busy;
+    remove.addEventListener('click', function () {
+      if (window.confirm(`${book} 방명록의 글 ${row.id}번을 삭제하시겠습니까?`)) {
+        changeMessage('DELETE', book, String(row.id));
+      }
+    });
+    item.append(heading, message, selectButton, remove);
     list.append(item);
   }
   if (rows.length === 0) {
@@ -71,7 +82,7 @@ async function loadMessages(book) {
 }
 
 async function readOne(book, id) {
-  const url = new URL('/rest/v1/guestbook', API_BASE_URL);
+  const url = new URL('rest/v1/guestbook', API_BASE_URL);
   url.searchParams.set('book_id', `eq.${book}`);
   url.searchParams.set('id', `eq.${id}`);
   const response = await fetch(url, { headers: { apikey: API_PUBLIC_KEY } });
@@ -154,25 +165,18 @@ document.querySelector('#write-form').addEventListener('submit', async function 
   }
 });
 
-async function changeSelected(method) {
-  if (busy || !selected) return;
-  const { book, id } = selected;
+async function changeMessage(method, book, id) {
+  if (busy) return;
   const name = editName.value;
   const message = editMessage.value;
   if (method === 'PATCH' && (!name.trim() || !message.trim() || [...name].length > 30 || [...message].length > 500)) {
     notice.textContent = '별칭은 1~30자, 메시지는 1~500자로 입력하세요. 공백만 입력할 수 없습니다.';
     return;
   }
-  const editKey = editKeyInput.value;
-  editKeyInput.value = '';
-  if (!editKey) {
-    notice.textContent = '해당 방명록의 편집 키를 입력하세요.';
-    return;
-  }
-  const url = new URL('/rest/v1/guestbook', API_BASE_URL);
+  const url = new URL('rest/v1/guestbook', API_BASE_URL);
   url.searchParams.set('book_id', `eq.${book}`);
   url.searchParams.set('id', `eq.${id}`);
-  const options = { method, headers: { apikey: API_PUBLIC_KEY, 'X-Edit-Key': editKey } };
+  const options = { method, headers: { apikey: API_PUBLIC_KEY } };
   if (method === 'PATCH') {
     options.headers['Content-Type'] = 'application/json';
     options.headers.Prefer = 'return=representation';
@@ -189,12 +193,12 @@ async function changeSelected(method) {
     const rows = await readOne(book, id);
     if (method === 'PATCH') {
       verified = changed.length === 1 && rows.length === 1 && rows[0].name === name && rows[0].message === message;
-      if (!verified) throw new Error('수정되지 않았습니다. 글과 해당 방명록의 편집 키를 확인하세요.');
+      if (!verified) throw new Error('수정된 글을 확인할 수 없습니다. 방명록 태그와 글 번호를 확인하세요.');
     } else {
       verified = rows.length === 0;
-      if (!verified) throw new Error('글이 남아 있습니다. 해당 방명록의 편집 키를 확인하세요.');
+      if (!verified) throw new Error('글이 남아 있습니다. 목록을 다시 조회하세요.');
     }
-    clearSelection();
+    if (selected && selected.book === book && selected.id === id) clearSelection();
     await loadMessages(book);
     notice.textContent = method === 'PATCH' ? '글 수정 완료' : '삭제 후 해당 글이 없는 것을 확인했습니다.';
   } catch (error) {
@@ -208,9 +212,8 @@ async function changeSelected(method) {
 
 document.querySelector('#edit-form').addEventListener('submit', function (event) {
   event.preventDefault();
-  changeSelected('PATCH');
+  if (selected) changeMessage('PATCH', selected.book, selected.id);
 });
-document.querySelector('#delete').addEventListener('click', () => changeSelected('DELETE'));
 document.querySelector('#cancel-edit').addEventListener('click', function () {
   if (busy) return;
   clearSelection();

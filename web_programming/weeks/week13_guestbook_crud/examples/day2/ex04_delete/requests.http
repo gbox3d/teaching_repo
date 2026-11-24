@@ -1,0 +1,13 @@
+@baseUrl = {{$dotenv API_BASE_URL}}
+@apiKey = {{$dotenv API_PUBLIC_KEY}}
+@bookId = {{$dotenv BOOK_ID}}
+
+### Delete · 앞에서 수정한 글 한 개 삭제 · 204, 빈 본문
+# @prompt entryId 앞 단계에서 수정한 글 번호를 입력하세요.
+DELETE {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{entryId}}
+apikey: {{apiKey}}
+
+### 결과 확인 · 200, 글이 사라졌으면 []
+# @prompt entryId 방금 삭제 요청한 글 번호를 입력하세요.
+GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&id=eq.{{entryId}}
+apikey: {{apiKey}}

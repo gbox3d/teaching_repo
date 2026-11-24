@@ -14,12 +14,10 @@ apikey: {{apiKey}}
 GET {{baseUrl}}/rest/v1/guestbook?book_id=eq.{{bookId}}&order=id.desc&limit=50
 apikey: {{apiKey}}
 
-### 수정: 200, 변경된 한 행. []이면 권한·ID 확인
+### 수정: 200, 변경된 한 행. []이면 태그·ID 확인
 # @prompt entryId 자기 GET 목록의 ID
-# @prompt password 자기 편집 키
 PATCH {{baseUrl}}/rest/v1/guestbook?id=eq.{{entryId}}&book_id=eq.{{bookId}}
 apikey: {{apiKey}}
-X-Edit-Key: {{password}}
 Content-Type: application/json
 Prefer: return=representation
 
@@ -32,7 +30,5 @@ apikey: {{apiKey}}
 
 ### 삭제: 204, 본문 없음. 위 같은 ID 조회로 부재 확인
 # @prompt entryId 삭제할 자기 글 ID
-# @prompt password 자기 편집 키
 DELETE {{baseUrl}}/rest/v1/guestbook?id=eq.{{entryId}}&book_id=eq.{{bookId}}
 apikey: {{apiKey}}
-X-Edit-Key: {{password}}

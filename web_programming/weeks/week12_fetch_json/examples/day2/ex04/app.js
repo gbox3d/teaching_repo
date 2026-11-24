@@ -1,16 +1,17 @@
 const output = document.querySelector('#output');
 const button = document.querySelector('#run-button');
-const url = 'https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m';
+const url = 'https://api.frankfurter.dev/v1/latest?base=USD&symbols=KRW';
 
-async function readWeather() {
+async function readRate() {
   try {
+    output.textContent = '조회 중';
     const response = await fetch(url);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const weather = await response.json();
-    output.textContent = `서울 ${weather.current.temperature_2m}${weather.current_units.temperature_2m}`;
+    const data = await response.json();
+    output.textContent = `1 USD = ${data.rates.KRW} KRW · 기준일 ${data.date}`;
   } catch (error) {
     output.textContent = `조회 실패 · ${error.message}`;
   }
 }
 
-button.addEventListener('click', readWeather);
+button.addEventListener('click', readRate);

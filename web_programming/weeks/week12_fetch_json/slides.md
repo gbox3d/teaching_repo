@@ -9,7 +9,7 @@ footer: "fetch · Promise · async/await"
 # Promise와 async/await로 배우는 fetch
 
 먼저 타이머로 실행 순서와 `async` 함수를 익힌다.
-JSONPlaceholder에서 할 일 한 건을 읽고, 같은 방식으로 서울과 부산의 기온을 조회한다.
+JSONPlaceholder에서 할 일 한 건을 읽은 뒤 환율·타로 카드·공휴일 API로 응답 읽기와 오류 처리를 연습한다.
 
 각 차시 강의·시연 60분, 실습 30분. [예제 목록](examples/README.md)
 
@@ -172,60 +172,59 @@ ex01c의 두 `await wait(1000);` 자리에 `await fetch(url)`과 `await response
 
 ---
 
-## 2일차 · 0~5분 · 서울 날씨 요청
+## 2일차 · 0~5분 · 달러 기준 환율 요청
 
-[ex04 화면](examples/day2/ex04/index.html) · [서울 기온 요청](examples/day2/ex04/requests.http)
+[ex04 화면](examples/day2/ex04/index.html) · [환율 요청](examples/day2/ex04/requests.http)
 
-`GET /v1/forecast`에 서울의 위도와 경도를 붙인다. `current=temperature_2m`은 현재 지상 2m 기온을 요청한다.
+`GET /v1/latest?base=USD&symbols=KRW`에서 기준 통화는 `USD`, 조회할 통화는 `KRW`다.
 
-**Send Request**를 눌러 `current`와 `current_units`를 찾는다.
+**Send Request**를 눌러 `date`와 `rates`를 찾는다.
 
 ---
 
-## 2일차 · 5~20분 · 기온과 단위 읽기
+## 2일차 · 5~20분 · 중첩 객체에서 환율 읽기
 
 | 응답 필드 | 화면에 표시할 값 |
 |---|---|
-| `weather.current.temperature_2m` | 현재 기온 |
-| `weather.current_units.temperature_2m` | 기온의 단위 |
+| `date` | 기준일 |
+| `rates.KRW` | 1달러에 해당하는 원화 기준 환율 |
 
-[ex04 코드](examples/day2/ex04/app.js)에서 두 값을 찾아 실제 응답과 대조한다. API를 호출하는 시각에 따라 기온은 달라진다.
+[ex04 코드](examples/day2/ex04/app.js)에서 두 값을 읽는 줄을 찾아 실제 응답과 대조한다.
 
 ---
 
-## 2일차 · 20~35분 · 위도 오류와 HTTP 응답
+## 2일차 · 20~35분 · 200과 404 응답 구분
 
 [ex05 화면](examples/day2/ex05/index.html) · [두 요청](examples/day2/ex05/requests.http)
 
-| 위도 | HTTP 상태 | `response.ok` |
+| 조회 대상 | HTTP 상태 | `response.ok` |
 |---|---|---|
-| 서울 37.5665 | 200 | true |
-| 999 | 400 | false |
+| 임의 카드 `random?n=1` | 200 | true |
+| `zzmissing` | 404 | false |
 
-400이어도 서버가 응답했으므로 `fetch()`의 Promise는 성공한다. 상태와 오류 본문의 `reason`을 읽으면 요청의 어느 값이 잘못됐는지 알 수 있다.
+서버가 `404`를 보내도 `fetch()`는 Response를 돌려준다. 본문을 읽기 전에 `response.ok`를 확인한다. `200`이면 `cards[0]`의 이름과 뜻을 읽는다.
 
 ---
 
 ## 2일차 · 35~45분 · 통신 실패와 catch
 
-[ex06 날씨 실습](examples/day2/ex06/index.html) · [코드](examples/day2/ex06/app.js)
+[ex06 공휴일 실습](examples/day2/ex06/index.html) · [코드](examples/day2/ex06/app.js)
 
-1. 페이지를 열어 둔 상태에서 개발자 도구 Network를 **Offline**으로 바꾼다.
-2. **기온 조회**를 누른다. HTTP 응답을 받기 전에 `fetch()`가 실패해 `catch`가 실행된다.
-3. **No throttling**으로 되돌린 뒤 같은 도시를 다시 조회한다.
+1. 페이지를 열어 둔 상태에서 개발자 도구 Network의 Disable cache를 체크하고 Offline으로 바꾼다.
+2. **공휴일 조회**를 누른다. HTTP 응답을 받기 전에 `fetch()`가 실패해 `catch`가 실행된다.
+3. **No throttling**으로 되돌린 뒤 같은 나라를 다시 조회한다.
 
-HTTP 400도 `catch`에서 처리하려면 코드에서 `response.ok`를 검사해 오류를 던진다.
+HTTP 오류도 `catch`에서 처리하려면 `response.ok`를 검사한 뒤 `throw`한다.
 
 ---
 
-## 2일차 · 45~55분 · 도시 선택과 재시도
+## 2일차 · 45~55분 · 공휴일 배열에서 목록 만들기
 
-| 도시 | 위도 | 경도 |
-|---|---|---|
-| 서울 | 37.5665 | 126.9780 |
-| 부산 | 35.1796 | 129.0756 |
+| URL의 경로 | 넣을 값 |
+|---|---|
+| `/api/v4/Holidays/{나라 코드}/{연도}` | 올해 연도, `KR`·`JP`·`US` 중 하나 |
 
-ex06은 선택한 도시의 좌표로 URL을 만든다. 요청을 보내기 전 버튼을 잠그고, `finally`에서 다시 활성화한다. 버튼을 누를 때마다 도시를 고를 수 있다. [도시별 요청](examples/day2/ex06/requests.http)
+ex06은 응답 배열에서 전국 공휴일을 골라 `date`와 `name`을 목록에 표시한다. 새 결과로 목록을 교체하며, `finally`에서 조회 버튼을 다시 활성화한다. [나라별 요청](examples/day2/ex06/requests.http)
 
 ---
 
@@ -233,16 +232,16 @@ ex06은 선택한 도시의 좌표로 URL을 만든다. 요청을 보내기 전 
 
 | 실습 시간 | 학생 활동 |
 |---|---|
-| 0~8분 | 서울 기온과 단위를 응답과 대조 |
-| 8~16분 | 서울 위도와 999의 HTTP 상태 비교 |
-| 16~30분 | 서울·부산 조회, Offline 실패 뒤 재시도 |
+| 0~8분 | 환율 화면의 기준일과 값을 응답과 대조 |
+| 8~16분 | 임의 카드와 없는 카드를 조회해 `200`과 `404` 비교 |
+| 16~30분 | 나라별 공휴일 조회, Offline 실패 뒤 재시도 |
 
-필수 결과물은 [도시별 날씨](examples/day2/ex06/index.html)다. 기온 화면과 Network의 GET 200을 함께 캡처한다. [실습지](lab.md)
+필수 결과물은 [나라별 공휴일 목록](examples/day2/ex06/index.html)이다. 목록과 Network의 GET `200`을 함께 캡처한다. [실습지](lab.md)
 
 ---
 
-# 다음 주 · 수업 방명록에 글 쓰기
+# 12주 통합 예제와 13주 방명록
 
-13주에는 수업용 Supabase에 JSON을 POST하고 새로 생긴 글 번호를 읽는다. 목록을 읽는 함수는 13주 시작 코드에 들어 있다.
+[통합 예제 홈](examples/day2/web-week12/index.html)에서 서울·전주·익산 기온을 조회한다. 방명록 메뉴에서 남긴 글은 브라우저에 저장된다.
 
-미리 해 볼 학생은 선택 방명록 폴더의 `config.example.js`에서 `BOOK_ID`를 배정받은 방명록 번호로 바꾼다. [선택 방명록](examples/day2/web-week12/guestbook.html)을 처음 열면 공개 키를 묻는 창이 뜬다. 배부받은 키를 넣으면 이 브라우저에 저장된다. 잘못 넣었으면 **공개 키 지우기**를 누르고 다시 넣는다. [접속 확인·도움말·목록 요청](examples/day2/web-week12/requests.http) · [설정 방법](examples/day2/web-week12/README.md)
+[서버 글 조회](examples/day2/web-week12/guestbook.html)는 공개 키를 써서 기존 글을 읽는 선택 실습이다. 13주에는 수업용 Supabase에 JSON을 POST한다. [통합 예제 실행 안내](examples/day2/web-week12/README.md)

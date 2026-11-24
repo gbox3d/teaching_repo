@@ -1,4 +1,4 @@
-@baseUrl = https://api.open-meteo.com
+@baseUrl = https://api.frankfurter.dev
 
-### 서울 현재 기온 · 200과 current.temperature_2m
-GET {{baseUrl}}/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m
+### 달러 기준 원화 환율 · 200과 date, rates.KRW
+GET {{baseUrl}}/v1/latest?base=USD&symbols=KRW

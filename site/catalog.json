@@ -442,7 +442,7 @@
           "id": "week12_fetch_json",
           "label": "12주차",
           "title": "Promise와 async/await로 배우는 fetch",
-          "description": "타이머와 GET 요청을 Promise 체인과 async/await 두 방식으로 기다리고, 키 없는 공개 API로 도시별 기온을 조회합니다.",
+          "description": "타이머와 GET 요청을 Promise 체인과 async/await 두 방식으로 기다리고, 키 없는 공개 API로 환율·타로 카드·공휴일을 조회합니다.",
           "type": "week",
           "formerIds": [
             "week12_persistent_crud"
@@ -450,31 +450,34 @@
           "en": {
             "label": "Week 12",
             "title": "Fetch with Promises and async/await",
-            "description": "Wait for timers and the same GET request with a Promise chain and async/await, then fetch city temperatures from a public API without a key."
+            "description": "Wait for timers and the same GET request with a Promise chain and async/await, then fetch exchange rates, tarot cards, and public holidays without an API key."
           }
         },
         {
-          "id": "week13_release_security",
+          "id": "week13_guestbook_crud",
           "label": "13주차",
-          "title": "REST API로 방명록 저장하기",
-          "description": "폼의 이름과 메시지를 POST로 저장하고 다시 조회해 다른 브라우저에서도 같은 글을 확인합니다.",
+          "title": "REST 방명록 CRUD",
+          "description": "글 한 건을 저장하고, 그 글을 조회하고 수정한 뒤 같은 글 번호로 삭제합니다.",
           "type": "week",
+          "formerIds": [
+            "week13_release_security"
+          ],
           "en": {
             "label": "Week 13",
-            "title": "Saving Guestbook Entries through a REST API",
-            "description": "POST form data as JSON, reload the list, and check the saved entry in another browser."
+            "title": "Guestbook CRUD with REST",
+            "description": "Create an entry, read it back, update its message, and delete it using the same ID."
           }
         },
         {
           "id": "week14_project_presentation",
           "label": "14주차",
           "title": "REST API로 방명록 수정·삭제하기",
-          "description": "서버 id와 편집 키로 PATCH·DELETE를 보내고 재조회해 지정한 글의 변경을 확인합니다.",
+          "description": "글 세 개 중 가운데 글을 삭제하고 남은 글을 수정합니다. 같은 글 번호로 다시 조회해 결과를 확인합니다.",
           "type": "week",
           "en": {
             "label": "Week 14",
             "title": "Editing and Deleting Guestbook Entries through REST",
-            "description": "Use server IDs and an edit key for PATCH and DELETE, then read again to verify the changes."
+            "description": "Delete the middle of three entries, edit a remaining entry, and read each ID again to verify the result."
           }
         },
         {

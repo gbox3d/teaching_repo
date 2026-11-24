@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>온라인 방명록</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+    <script src="load-config.js" defer></script>
+    <script src="guestbook.js" defer></script>
+  </head>
+  <body class="w3-light-grey">
+    <header class="w3-container w3-teal w3-padding-16"><h1>온라인 방명록</h1></header>
+    <nav class="w3-bar w3-white w3-card" aria-label="주 메뉴">
+      <a class="w3-bar-item w3-button w3-mobile" href="index.html">홈</a>
+      <a class="w3-bar-item w3-button w3-mobile" href="about.html">내 정보</a>
+      <a class="w3-bar-item w3-button w3-mobile w3-teal" href="guestbook.html" aria-current="page">방명록</a>
+    </nav>
+    <main class="w3-content w3-padding">
+      <p id="config-status" role="status">설정 확인 중</p>
+      <p id="notice" role="status"></p>
+      <fieldset id="actions" class="w3-border-0" aria-label="방명록" disabled>
+        <section class="w3-container w3-card w3-white">
+          <h2>글 쓰기</h2>
+          <form id="guestbook-form">
+            <p><label for="name">별칭</label>
+              <input class="w3-input w3-border" id="name" maxlength="30" required></p>
+            <p><label for="message">내용</label>
+              <textarea class="w3-input w3-border" id="message" rows="2" maxlength="500" required></textarea></p>
+            <p><button class="w3-button w3-teal" id="submit-button" type="submit">저장</button></p>
+          </form>
+        </section>
+        <section class="w3-container w3-card w3-white w3-margin-top">
+          <h2>글 목록</h2>
+          <button class="w3-button w3-teal" id="reload-button" type="button">목록 보기</button>
+          <p id="load-notice" role="status"></p>
+          <p><label for="edit-message">수정할 내용</label>
+            <textarea class="w3-input w3-border" id="edit-message" rows="2" maxlength="500"></textarea></p>
+          <ul id="list" class="w3-ul w3-responsive"></ul>
+        </section>
+      </fieldset>
+    </main>
+    <footer class="w3-container w3-center w3-padding-16"><p>수업용 연습 페이지</p></footer>
+  </body>
+</html>

@@ -21,7 +21,7 @@
 | [VS Code](https://code.visualstudio.com/docs/setup/windows) | 코드 편집. File › Open Folder로 예제 폴더 열기 |
 | [Chrome](https://www.google.com/chrome/) | Elements·Console·Network·Application과 375px 기기 모드 |
 | [Node.js](https://nodejs.org/en/download) | 교재 실행 기준은 24 이상. 5주 전 정적 서버 실행 확인. 학생 예제의 npm 패키지 설치는 없음 |
-| [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) | 12주 전 VS Code에 humao.rest-client 설치. .http의 Send Request로 JSONPlaceholder 할 일과 Open-Meteo 기온 확인 |
+| [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) | 12주 전 VS Code에 humao.rest-client 설치. .http의 Send Request로 JSONPlaceholder 할 일과 Frankfurter 환율 확인 |
 
 브라우저를 Edge로 대체할 때는 DevTools 이름과 예제 동작을 먼저 확인한다. Node 설치가 막힌 실습실은 담당 조교가 승인된 대체 정적 서버를 미리 준비한다. 수업 도중 매번 push하고 배포를 기다리는 방식을 30분 실습의 기본 환경으로 삼지 않는다.
 
@@ -87,7 +87,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 ### 개인 노트북
 
-macOS·Linux도 같은 Node 정적 서버와 브라우저 예제를 쓴다. Git 인증 방식은 분반 공지로 통일한다. 학생별 계정·편집 키·실제 개인정보를 실습 화면이나 요청 이력 캡처에 남기지 않는다.
+macOS·Linux도 같은 Node 정적 서버와 브라우저 예제를 쓴다. Git 인증 방식은 분반 공지로 통일한다. 학생 개인정보를 실습 화면이나 요청 이력 캡처에 남기지 않는다.
 
 ## 학기 중 점검 시기
 
@@ -99,17 +99,19 @@ macOS·Linux도 같은 Node 정적 서버와 브라우저 예제를 쓴다. Git 
 | 7주 전 | W3.CSS CDN, 변환 전 파일·제공 JS, 375px 폼 동작 |
 | 9주 전 | README 시작 틀·제공 SVG·캡처 폴더, 발표 인원·전환 시간 |
 | 11주 전 | 같은 origin의 폼 저장·복원, 예제별 저장 키, 강의자 시연본 구분 |
-| 12주 전 | REST Client, JSONPlaceholder와 Open-Meteo의 GET, 브라우저에서 응답 읽기 |
-| 13주 전 | 수업용 주소·공개 키·태그 배부, POST·GET, 두 브라우저의 같은 글 |
-| 14주 전 | 편집 키 배부, 올바른 키·틀린 키, PATCH·DELETE 뒤 대상 재조회 |
+| 12주 전 | REST Client, 할 일·환율·타로 카드·공휴일 GET, 브라우저에서 응답 읽기 |
+| 13주 전 | 수업용 주소·공개 키·학생별 태그 배부, 생성·조회·수정·삭제 확인 |
+| 14주 전 | 가운데 글의 삭제 버튼으로 삭제한 뒤 같은 번호를 재조회하고 양옆 글 확인 |
 | 8·15주 전 | 문제은행 범위·시작 파일, 실제 제한시간, 로컬 대체 환경·시험 전용 태그 |
 | 연구 특강 전 | 각 특강 README의 계정·포트·도메인·시작 파일과 실행 조건 |
 
 ## REST 방명록과 홈 IoT 준비
 
-공용 API는 [강의자 준비 안내](tools/guestbook-api/README.md)에 따라 점검한다. 학생에게 HTTPS API 주소·공개 키·book_id를 배부한다. book_id는 글을 구분하는 태그이며 로그인이나 비밀 값이 아니다. 14주 편집 키는 별도로 배부한다.
+공용 API는 [강의자 준비 안내](tools/guestbook-api/README.md)에 따라 점검한다. 학생에게 HTTPS API 주소·공개 키·book_id를 배부한다. `book_id`로 학생별 글을 모아 본다. 공개 키로 모든 태그의 글을 수정·삭제할 수 있으므로 학생에게 자기 태그의 실습 글을 사용하도록 안내한다.
 
-12주 선택 방명록과 13·14주 방명록 예제는 폴더의 config.example.js에서 주소와 태그(BOOK_ID)를 읽고, 공개 키는 브라우저 localStorage에서 읽는다. 학생은 BOOK_ID를 배정받은 태그로 바꾸고, 예제를 처음 열 때 묻는 창에 배부받은 공개 키를 넣는다. localStorage는 화면 주소(출처)마다 따로 저장되므로 다른 브라우저·포트·Pages 주소·휴대폰에서는 처음 열 때 한 번 묻는다. 창을 취소하거나 빈 칸으로 확인하면 키를 저장하지 않아 HTTP 401로 조회·저장이 실패하고, 새로고침하면 다시 묻는다. 키를 잘못 넣었거나 학기가 바뀌어 키가 바뀌면 화면의 **공개 키 지우기**를 누르고 새 키를 넣는다. 편집 키는 화면 입력칸으로 받아 메모리에서만 쓴다. .http의 .env는 REST Client가 읽으며 브라우저 설정을 자동으로 바꾸지 않는다. 상세 연결은 해당 주 예제 README를 따른다.
+13주 예제는 `config.example.json`을 같은 폴더의 `config.json`으로 복사해 주소·공개 키·방명록 번호를 입력한다. 로컬 정적 서버에서 파일이 먼저 읽히고 저장 버튼이 활성화되는지 확인한다. 교재 사이트는 빈 키가 든 견본만 배포한다. [13주 설정](weeks/week13_guestbook_crud/README.md)
+
+12주 선택 방명록과 14주 예제는 `config.example.js`의 `BOOK_ID`를 배정받은 번호로 바꾸고, 처음 열 때 묻는 창에 공개 키를 넣는다. 키가 바뀌면 화면의 **공개 키 지우기**를 누르고 새 키를 넣는다. REST Client는 같은 폴더의 `.env`를 읽는다.
 
 `http://127.0.0.1:8787`과 `classroom-local`은 선택 로컬 모의 API용 값이다. 이것으로 공용 서버나 다른 기기의 공유를 검증했다고 기록하지 않는다. 로컬 HTTP 화면에서 공용 HTTPS API를 호출할 수 있으며, Pages 화면과 공용 API는 모두 HTTPS를 사용한다.
 
