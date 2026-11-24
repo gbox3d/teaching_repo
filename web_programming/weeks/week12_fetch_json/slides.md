@@ -130,6 +130,8 @@ messageButton.addEventListener('click', async function () {
 
 [ex02 화면](examples/day1/ex02/index.html) · [REST Client 요청](examples/day1/ex02/requests.http)
 
+GET [https://jsonplaceholder.typicode.com/todos/1](https://jsonplaceholder.typicode.com/todos/1)
+
 ```js
 fetch(url)
   .then(function (response) {
@@ -148,6 +150,8 @@ fetch(url)
 ## 1일차 · 48~55분 · 같은 요청에 await 쓰기
 
 [ex03 화면](examples/day1/ex03/index.html) · [코드](examples/day1/ex03/app.js)
+
+GET [https://jsonplaceholder.typicode.com/todos/1](https://jsonplaceholder.typicode.com/todos/1)
 
 ```js
 const response = await fetch(url);
@@ -176,7 +180,9 @@ ex01c의 두 `await wait(1000);` 자리에 `await fetch(url)`과 `await response
 
 [ex04 화면](examples/day2/ex04/index.html) · [환율 요청](examples/day2/ex04/requests.http)
 
-`GET /v1/latest?base=USD&symbols=KRW`에서 기준 통화는 `USD`, 조회할 통화는 `KRW`다.
+GET [https://api.frankfurter.dev/v1/latest?base=USD&symbols=KRW](https://api.frankfurter.dev/v1/latest?base=USD&symbols=KRW)
+
+기준 통화는 `USD`, 조회할 통화는 `KRW`다.
 
 **Send Request**를 눌러 `date`와 `rates`를 찾는다.
 
@@ -197,10 +203,10 @@ ex01c의 두 `await wait(1000);` 자리에 `await fetch(url)`과 `await response
 
 [ex05 화면](examples/day2/ex05/index.html) · [두 요청](examples/day2/ex05/requests.http)
 
-| 조회 대상 | HTTP 상태 | `response.ok` |
+| GET 주소 | HTTP 상태 | `response.ok` |
 |---|---|---|
-| 임의 카드 `random?n=1` | 200 | true |
-| `zzmissing` | 404 | false |
+| [https://tarotapi.dev/api/v1/cards/random?n=1](https://tarotapi.dev/api/v1/cards/random?n=1) | 200 | true |
+| [https://tarotapi.dev/api/v1/cards/zzmissing](https://tarotapi.dev/api/v1/cards/zzmissing) | 404 | false |
 
 서버가 `404`를 보내도 `fetch()`는 Response를 돌려준다. 본문을 읽기 전에 `response.ok`를 확인한다. `200`이면 `cards[0]`의 이름과 뜻을 읽는다.
 
@@ -220,9 +226,13 @@ HTTP 오류도 `catch`에서 처리하려면 `response.ok`를 검사한 뒤 `thr
 
 ## 2일차 · 45~55분 · 공휴일 배열에서 목록 만들기
 
-| URL의 경로 | 넣을 값 |
+| 나라 | 2026년 GET 주소 |
 |---|---|
-| `/api/v4/Holidays/{나라 코드}/{연도}` | 올해 연도, `KR`·`JP`·`US` 중 하나 |
+| 한국 | [https://nagerholidays.com/api/v4/Holidays/KR/2026](https://nagerholidays.com/api/v4/Holidays/KR/2026) |
+| 일본 | [https://nagerholidays.com/api/v4/Holidays/JP/2026](https://nagerholidays.com/api/v4/Holidays/JP/2026) |
+| 미국 | [https://nagerholidays.com/api/v4/Holidays/US/2026](https://nagerholidays.com/api/v4/Holidays/US/2026) |
+
+브라우저 예제는 올해 연도를 URL 끝에 넣는다.
 
 ex06은 응답 배열에서 전국 공휴일을 골라 `date`와 `name`을 목록에 표시한다. 새 결과로 목록을 교체하며, `finally`에서 조회 버튼을 다시 활성화한다. [나라별 요청](examples/day2/ex06/requests.http)
 
@@ -240,8 +250,31 @@ ex06은 응답 배열에서 전국 공휴일을 골라 `date`와 `name`을 목�
 
 ---
 
+## 선택 실습 · 세 도시의 현재 기온
+
+도시 주소를 열고 `current.temperature_2m`(기온)과 `current_units.temperature_2m`(단위)을 찾는다. 예제 화면에서 같은 도시의 **기온 조회** 결과와 비교한다.
+
+**서울**\
+[https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m](https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m)
+
+**전주**\
+[https://api.open-meteo.com/v1/forecast?latitude=35.8248&longitude=127.1480&current=temperature_2m](https://api.open-meteo.com/v1/forecast?latitude=35.8248&longitude=127.1480&current=temperature_2m)
+
+**익산**\
+[https://api.open-meteo.com/v1/forecast?latitude=35.9439&longitude=126.9544&current=temperature_2m](https://api.open-meteo.com/v1/forecast?latitude=35.9439&longitude=126.9544&current=temperature_2m)
+
+[ex07 날씨 화면](examples/day2/ex07/index.html) · [세 도시의 REST Client 요청](examples/day2/ex07/requests.http)
+
+---
+
 # 12주 통합 예제와 13주 방명록
 
-[통합 예제 홈](examples/day2/web-week12/index.html)에서 서울·전주·익산 기온을 조회한다. 방명록 메뉴에서 남긴 글은 브라우저에 저장된다.
+[통합 예제 홈](examples/day2/web-week12/index.html)은 날씨를 조회하고 방명록 메뉴는 글을 브라우저에 저장한다.
 
-[서버 글 조회](examples/day2/web-week12/guestbook.html)는 공개 키를 써서 기존 글을 읽는 선택 실습이다. 13주에는 수업용 Supabase에 JSON을 POST한다. [통합 예제 실행 안내](examples/day2/web-week12/README.md)
+[서버 글 조회](examples/day2/web-week12/guestbook.html)는 다른 선택 실습이다. 공개 키를 `apikey` 헤더에 넣어 [REST Client 요청](examples/day2/web-week12/requests.http)을 보낸다. 아래는 `student01`의 예시다.
+
+- [https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/about](https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/about)
+- [https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/help?order=step.asc](https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/help?order=step.asc)
+- [https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/guestbook?book_id=eq.student01&select=id,name,message,created_at&order=id.desc&limit=50](https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/guestbook?book_id=eq.student01&select=id,name,message,created_at&order=id.desc&limit=50)
+
+13주에는 같은 서버에 글을 저장하고 수정·삭제한다. [통합 예제 실행 안내](examples/day2/web-week12/README.md)

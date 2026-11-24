@@ -39,4 +39,4 @@
 2. ex05의 `404`와 Offline 실패 중 HTTP 응답을 받은 쪽을 고르고, `response.ok` 검사와 `catch`가 각각 언제 실행되는지 적는다.
 3. 개발자 도구의 네트워크 설정을 **No throttling**으로 되돌린다. 재시도 뒤 새 결과가 보이는지 확인한다.
 
-필수 실습은 ex06에서 끝난다. [통합 예제 홈](examples/day2/web-week12/index.html)을 열면 서울 기온을 바로 조회하며 전주와 익산도 선택할 수 있다. 방명록에 남긴 글은 브라우저에 저장된다. 수업 서버의 글 목록 GET을 연습하려면 [선택 실습 안내](examples/day2/web-week12/README.md#선택-실습-서버-글-조회)를 읽는다. 서버에 글을 쓰는 POST는 13주에 다룬다.
+필수 실습은 ex06에서 끝난다. 선택 실습인 [ex07 도시별 기온](examples/day2/ex07/index.html)에서 서울·전주·익산 중 하나를 조회하고, [같은 도시의 GET 응답](examples/day2/ex07/requests.http)에서 기온과 단위를 찾는다. [통합 예제 홈](examples/day2/web-week12/index.html)에서도 같은 기온을 조회할 수 있다. 방명록에 남긴 글은 브라우저에 저장된다. 수업 서버의 글 목록 GET을 연습하려면 [선택 실습 안내](examples/day2/web-week12/README.md#선택-실습-서버-글-조회)를 읽는다. 서버에 글을 쓰는 POST는 13주에 다룬다.

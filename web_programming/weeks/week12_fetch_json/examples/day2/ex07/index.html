@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ex07 · 지역별 현재 기온</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/w3-css/4.1.0/w3.min.css">
+  <script src="app.js" defer></script>
+</head>
+<body class="w3-light-grey">
+  <main class="w3-content w3-padding">
+    <h1>지역별 현재 기온</h1>
+    <p>
+      <label for="city">지역</label>
+      <select class="w3-select w3-border" id="city">
+        <option value="seoul">서울</option>
+        <option value="jeonju">전주</option>
+        <option value="iksan">익산</option>
+      </select>
+    </p>
+    <button class="w3-button w3-teal" id="run-button" type="button">기온 조회</button>
+    <p id="output" role="status">대기 중</p>
+    <p><small>날씨 데이터 · <a href="https://open-meteo.com/">Open-Meteo</a></small></p>
+  </main>
+</body>
+</html>

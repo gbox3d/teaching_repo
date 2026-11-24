@@ -31,8 +31,9 @@
 | [ex04 기준 환율](examples/day2/ex04/README.md) | Frankfurter 응답의 `date`와 `rates.KRW` |
 | [ex05 타로 카드 조회](examples/day2/ex05/README.md) | Tarot API의 `200`과 `404`, `response.ok` 분기 |
 | [ex06 나라별 공휴일](examples/day2/ex06/README.md) | Nager.Date 배열을 목록으로 바꾸고 통신 실패 뒤 재시도 |
+| [ex07 도시별 현재 기온](examples/day2/ex07/README.md) (선택) | 서울·전주·익산의 좌표로 Open-Meteo에 요청하고 기온과 단위 읽기 |
 
-VS Code REST Client(`humao.rest-client`)에서는 ex02~ex06의 `requests.http`에 있는 **Send Request**를 누른다. 공개 API에 키나 별도 인증 헤더 없이 GET을 보낸다. [따라하기](walkthrough.md) · [실습지](lab.md)
+VS Code REST Client(`humao.rest-client`)에서는 ex02~ex07의 `requests.http`에 있는 **Send Request**를 누른다. 공개 API에 키나 별도 인증 헤더 없이 GET을 보낸다. [따라하기](walkthrough.md) · [실습지](lab.md)
 
 ## 결과물과 다음 수업
 

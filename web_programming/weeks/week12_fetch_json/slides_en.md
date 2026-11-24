@@ -130,6 +130,8 @@ A file loaded with `<script src="app.js" defer>` cannot use `await` outside a fu
 
 [Example 02](examples/day1/ex02/index.html) · [REST Client request](examples/day1/ex02/requests.http)
 
+GET [https://jsonplaceholder.typicode.com/todos/1](https://jsonplaceholder.typicode.com/todos/1)
+
 ```js
 fetch(url)
   .then(function (response) {
@@ -148,6 +150,8 @@ The first callback receives the HTTP response. Returning the Promise from `respo
 ## Day 1 · 48–55 min · Await the same request
 
 [Example 03](examples/day1/ex03/index.html) · [Code](examples/day1/ex03/app.js)
+
+GET [https://jsonplaceholder.typicode.com/todos/1](https://jsonplaceholder.typicode.com/todos/1)
 
 ```js
 const response = await fetch(url);
@@ -176,7 +180,9 @@ Optional observations: when line 3 appears after removing `return` in example 01
 
 [Example 04](examples/day2/ex04/index.html) · [Exchange-rate request](examples/day2/ex04/requests.http)
 
-In `GET /v1/latest?base=USD&symbols=KRW`, `USD` is the base currency and `KRW` is the target currency.
+GET [https://api.frankfurter.dev/v1/latest?base=USD&symbols=KRW](https://api.frankfurter.dev/v1/latest?base=USD&symbols=KRW)
+
+`USD` is the base currency and `KRW` is the target currency.
 
 Click **Send Request** and locate `date` and `rates`.
 
@@ -197,10 +203,10 @@ Find the lines that read both fields and compare them with the response. [Exampl
 
 [Example 05](examples/day2/ex05/index.html) · [Both requests](examples/day2/ex05/requests.http)
 
-| Lookup | HTTP status | `response.ok` |
+| GET URL | HTTP status | `response.ok` |
 |---|---|---|
-| Random card `random?n=1` | 200 | true |
-| `zzmissing` | 404 | false |
+| [https://tarotapi.dev/api/v1/cards/random?n=1](https://tarotapi.dev/api/v1/cards/random?n=1) | 200 | true |
+| [https://tarotapi.dev/api/v1/cards/zzmissing](https://tarotapi.dev/api/v1/cards/zzmissing) | 404 | false |
 
 When the server sends `404`, `fetch()` still fulfills with a Response. Check `response.ok` before reading the body. For `200`, read the name and meaning from `cards[0]`.
 
@@ -220,9 +226,13 @@ To handle HTTP errors in `catch`, check `response.ok` and throw an error.
 
 ## Day 2 · 45–55 min · Render a public-holiday array
 
-| URL path | Values |
+| Country | GET URL for 2026 |
 |---|---|
-| `/api/v4/Holidays/{countryCode}/{year}` | The current year and one of `KR`, `JP`, or `US` |
+| South Korea | [https://nagerholidays.com/api/v4/Holidays/KR/2026](https://nagerholidays.com/api/v4/Holidays/KR/2026) |
+| Japan | [https://nagerholidays.com/api/v4/Holidays/JP/2026](https://nagerholidays.com/api/v4/Holidays/JP/2026) |
+| United States | [https://nagerholidays.com/api/v4/Holidays/US/2026](https://nagerholidays.com/api/v4/Holidays/US/2026) |
+
+The browser example appends the current year to the URL.
 
 Example 06 loops over the response array and displays `date` and `name` for nationwide public holidays. It replaces the list with the new results and re-enables the request button in `finally`. [Requests by country](examples/day2/ex06/requests.http)
 
@@ -240,8 +250,31 @@ Submit the [public-holiday list](examples/day2/ex06/index.html). Capture the lis
 
 ---
 
+## Optional practice · Current temperature in three cities
+
+Open a city’s URL. Find the temperature in `current.temperature_2m` and its unit in `current_units.temperature_2m`. Compare them with **기온 조회** for the same city.
+
+**Seoul**\
+[https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m](https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m)
+
+**Jeonju**\
+[https://api.open-meteo.com/v1/forecast?latitude=35.8248&longitude=127.1480&current=temperature_2m](https://api.open-meteo.com/v1/forecast?latitude=35.8248&longitude=127.1480&current=temperature_2m)
+
+**Iksan**\
+[https://api.open-meteo.com/v1/forecast?latitude=35.9439&longitude=126.9544&current=temperature_2m](https://api.open-meteo.com/v1/forecast?latitude=35.9439&longitude=126.9544&current=temperature_2m)
+
+[Example 07 weather page](examples/day2/ex07/index.html) · [REST Client requests for all three cities](examples/day2/ex07/requests.http)
+
+---
+
 # Week 12 site and Week 13 guestbook
 
-[Open the home page](examples/day2/web-week12/index.html) to check current temperatures for Seoul, Jeonju, and Iksan. The Guestbook menu opens the page that saves entries in your browser.
+The [course site home page](examples/day2/web-week12/index.html) displays the weather. Its Guestbook menu saves entries in the browser.
 
-[Read server entries](examples/day2/web-week12/guestbook.html) in an optional GET exercise with a publishable key. In Week 13, POST JSON to the class Supabase project. [Site instructions](examples/day2/web-week12/README.md)
+[Read server entries](examples/day2/web-week12/guestbook.html) is a separate optional exercise. Use the public key in the `apikey` header in the [REST Client requests](examples/day2/web-week12/requests.http). The example below uses `student01`.
+
+- [https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/about](https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/about)
+- [https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/help?order=step.asc](https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/help?order=step.asc)
+- [https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/guestbook?book_id=eq.student01&select=id,name,message,created_at&order=id.desc&limit=50](https://esoqbcwgzjtwcqszwvin.supabase.co/rest/v1/guestbook?book_id=eq.student01&select=id,name,message,created_at&order=id.desc&limit=50)
+
+In Week 13, create, edit, and delete an entry on the same server. [Site instructions](examples/day2/web-week12/README.md)

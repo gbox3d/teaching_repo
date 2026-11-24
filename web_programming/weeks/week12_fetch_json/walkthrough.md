@@ -10,7 +10,7 @@ node web_programming/tools/static-server/server.mjs web_programming/weeks/week12
 
 첫 예제는 `http://localhost:8000/day1/ex01/`, 나라별 공휴일은 `http://localhost:8000/day2/ex06/`다. 타이머는 브라우저에서 실행하고, 조회 결과는 공개 API에서 읽는다.
 
-VS Code에서는 REST Client(`humao.rest-client`)를 설치한다. ex02~ex06의 `requests.http`를 열고 요청 줄 위의 **Send Request**를 누른다. 예제마다 `@baseUrl`에 서비스의 기본 주소가 설정되어 있다. 필수 예제는 추가 헤더나 `.env` 설정 없이 실행한다.
+VS Code에서는 REST Client(`humao.rest-client`)를 설치한다. ex02~ex07의 `requests.http`를 열고 요청 줄 위의 **Send Request**를 누른다. 예제마다 `@baseUrl`에 서비스의 기본 주소가 설정되어 있다. 필수 예제는 추가 헤더나 `.env` 설정 없이 실행한다.
 
 ## 2. 타이머와 Promise의 실행 순서
 
@@ -180,4 +180,8 @@ Network에서 Disable cache를 체크하고 Offline으로 바꾼 뒤 같은 나�
 
 선택한 나라의 공휴일 목록과 Network의 GET `200`을 한 화면에 담는다. 접속을 복구한 뒤 버튼을 눌러 새 응답을 받는다. [실습지](lab.md)
 
-[통합 예제 홈](examples/day2/web-week12/index.html)을 열면 `weather.js`가 서울 기온을 바로 조회한다. 도시를 바꾸고 **기온 조회**를 누르면 선택한 곳의 현재 기온이 표시된다. 방명록 메뉴에서 남긴 글은 `localStorage`에 저장된다. [서버 글 조회](examples/day2/web-week12/guestbook.html)는 선택 GET 실습이며, 서버에 글을 쓰는 POST는 13주에 다룬다. [통합 예제 실행 안내](examples/day2/web-week12/README.md)
+## 선택 실습 · 도시별 현재 기온
+
+[ex07 도시별 현재 기온](examples/day2/ex07/index.html)을 열면 서울 기온이 표시된다. 전주나 익산을 고르고 **기온 조회**를 누른다. [요청 파일](examples/day2/ex07/requests.http)에서 같은 도시의 GET을 보내고, `current.temperature_2m`에서 기온을, `current_units.temperature_2m`에서 단위를 읽는다.
+
+[통합 예제 홈](examples/day2/web-week12/index.html)의 `weather.js`도 같은 요청으로 기온을 표시한다. 방명록 메뉴에서 남긴 글은 `localStorage`에 저장된다. [서버 글 조회](examples/day2/web-week12/guestbook.html)는 선택 GET 실습이며, 서버에 글을 쓰는 POST는 13주에 다룬다. [통합 예제 실행 안내](examples/day2/web-week12/README.md)

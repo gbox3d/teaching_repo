@@ -64,7 +64,7 @@
 - 7주차 CSS 응용에서는 W3.CSS로 반응형 메뉴와 카드, 최신 글이 위에 오는 피드를 구성해 방명록에 적용한다. 7주의 최신순 피드와 제공 JS를 9주까지 이어 쓴다. 10주부터는 같은 W3.CSS CDN·폼 ID를 쓰고, 배열 인덱스와 화면의 줄을 비교하도록 등록순으로 그리는 문자열 목록 틀을 제공한다.
 - 11주차는 문자열 저장 → JSON → 폼 저장 순서다. 11주 전체 저장 방명록은 제공 시연본이며 기말 필수 저장 문항은 폼 한 객체 저장 수준이다.
 - 동작 JavaScript는 페이지당 하나로 조립하고, 설정 파일 같은 제공 기능은 별도 파일로 표시한다. 초기 데이터 조회는 필요한 함수·이벤트·설정의 초기화 뒤에 실행한다.
-- REST API 예제에는 VS Code REST Client용 `.http` 요청을 함께 제공한다. 첫 호출은 서비스의 공개 문서와 간단한 GET으로 확인한다. 수업용 방명록은 about·help로 접속·사용법을 확인하는 요청을 제공한다. 실제 인증 정보는 추적 파일에 넣지 않는다.
+- REST API 예제에는 VS Code REST Client용 `.http` 요청을 함께 제공한다. 슬라이드에는 예제에 쓰는 API의 전체 요청 주소(프로토콜·호스트·경로·쿼리)를 표시한다. 키 없이 조회하는 GET은 그 주소로 바로 연결한다. 첫 호출은 서비스의 공개 문서와 간단한 GET으로 확인한다. 수업용 방명록은 about·help로 접속·사용법을 확인하는 요청을 제공한다. 실제 인증 정보는 추적 파일에 넣지 않는다.
 - 12주 필수 실습은 API 키 없이 Promise 실행 순서, `.then()` 체인, `async`/`await`, 오류 처리를 다룬다. 할 일·환율·타로 카드·공휴일·날씨 조회는 공개 GET API를 사용한다. 13주는 같은 폴더의 `config.json`에서 주소·공개 키·방명록 번호를 읽고 생성(Create·POST) → 조회(Read·GET) → 수정(Update·PATCH) → 삭제(Delete·DELETE) 순서로 실습한다. 생성 응답에서 받은 글 번호를 마지막 요청까지 사용한다. 목록의 각 글 옆에 삭제 버튼을 두고, 누른 글의 `book_id`와 `id`로 DELETE를 보낸다. 12주 선택 방명록, 14·15주와 hash SPA 특강 04는 `config.example.js`의 방명록 번호를 바꾸고 처음 열 때 묻는 창에 공개 키를 넣는다. 로컬 모의 API는 강의자 리허설용이다. [공용 설정 안내](shared/README.md)
 
 ## 함께 고칠 곳
@@ -73,7 +73,7 @@
 
 | 고친 것 | 함께 고칠 곳 |
 |---|---|
-| `slides.md` | `slides_en.md`의 같은 장. 장 수를 바꾸면 `site/catalog.json`의 `web` 요약(`· 375장`), 두 빌드 스크립트의 `EXPECTED_SLIDES`, `check-site.mjs`의 `EXPECTED.web` |
+| `slides.md` | `slides_en.md`의 같은 장. 장 수를 바꾸면 `site/catalog.json`의 `web` 요약에 적힌 장 수, 두 빌드 스크립트의 `EXPECTED_SLIDES`, `check-site.mjs`의 `EXPECTED.web` |
 | 덱 추가·삭제 | 위 항목과 `EXPECTED_DECKS`, `catalog.json`의 `chapters`, [specials/README.md](specials/README.md) 또는 [weeks/README.md](weeks/README.md) 목록 |
 | 완성 파일(`web-weekNN/`, 3주까지 `dayN/`) | `walkthrough.md`가 인용한 코드(전문을 싣는 주는 전문, 구역만 싣는 주는 그 구역을 글자 단위로 같게), `examples/README.md`의 조립표, `lab.md`의 수정 구역, 다음 주차의 같은 파일 |
 | 주차의 시간표·필수 범위 | 그 주 `README.md`·`lab.md`·`walkthrough.md`·`slides.md`·`slides_en.md`·`examples/README.md` 여섯 곳 |
@@ -123,7 +123,7 @@ node web_programming/tools/static-server/server.mjs web_programming 8111
 
 전체 빌드·시험은 다음과 같다.
 
-- `npm run build`와 `npm test`: 원고·예제·사이트 색인을 바꿨으면 실행한다. 2026-11-22 기준 전체는 59개 덱, 1185장(`scripts/check-site.mjs`의 `EXPECTED_DECKS`·`EXPECTED_SLIDES`)이고, 웹은 21개 덱, 언어별 375장이다. 빌드는 `dist/`를 다시 쓰므로 같은 작업 폴더에서 여러 에이전트가 동시에 실행하지 않는다.
+- `npm run build`와 `npm test`: 원고·예제·사이트 색인을 바꿨으면 실행한다. 전체 덱·슬라이드 수와 웹 교재의 언어별 장 수는 `scripts/check-site.mjs`의 `EXPECTED_DECKS`·`EXPECTED_SLIDES`·`EXPECTED.web`을 기준으로 검사한다. 빌드는 `dist/`를 다시 쓰므로 같은 작업 폴더에서 여러 에이전트가 동시에 실행하지 않는다.
 - 수업용 방명록 예제를 로컬 모의 API로 확인할 때: `node web_programming/tools/guestbook-api/server.mjs`(127.0.0.1:8787, 데이터는 Git 제외 폴더 `tools/guestbook-api/.local/`에 생긴다).
 - 홈 IoT 특강: `node web_programming/specials/home_iot_http/examples/simulator/server.mjs`(localhost:8014). 지도 특강: `npm --prefix web_programming/specials/kakao_aerial_map/examples/app start`(localhost:3000, 실제 지도에는 키 설정이 필요하다).
 

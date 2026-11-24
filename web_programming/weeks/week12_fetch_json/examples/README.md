@@ -13,8 +13,9 @@
 | [ex04 Frankfurter](day2/ex04/README.md) | 2차시 필수 | [기준 환율](day2/ex04/index.html) | 고정 GET과 중첩 객체에서 기준일·환율 읽기 |
 | [ex05 Tarot API](day2/ex05/README.md) | 2차시 필수 | [타로 카드 조회](day2/ex05/index.html) | `200`과 `404`, 본문을 읽기 전 `response.ok` 검사 |
 | [ex06 Nager.Date](day2/ex06/README.md) | 2차시 필수 | [나라별 공휴일](day2/ex06/index.html) | 경로에 연도·나라 코드 넣기, 배열로 목록 그리기, 실패 뒤 재시도 |
+| [ex07 Open-Meteo](day2/ex07/README.md) | 2차시 선택 | [도시별 현재 기온](day2/ex07/index.html) | [도시별 GET](day2/ex07/requests.http)에서 좌표를 비교하고 응답에서 기온과 단위 읽기 |
 | [web-week12 통합 예제](day2/web-week12/README.md) | 완성 사이트 | [홈의 현재 기온](day2/web-week12/index.html) | 홈의 날씨 GET과 브라우저 방명록 저장 |
 
-ex01~ex01d는 브라우저 타이머만 사용한다. ex02~ex06은 각 폴더의 `requests.http`에서 **Send Request**를 눌러 서버 응답도 확인할 수 있다. 공개 API의 기본 주소는 요청 파일에 적혀 있다. 별도 헤더나 키 입력 없이 실행한다. [실습지](../lab.md) · [따라하기](../walkthrough.md)
+ex01~ex01d는 브라우저 타이머만 사용한다. ex02~ex07은 각 폴더의 `requests.http`에서 **Send Request**를 눌러 서버 응답도 확인할 수 있다. 공개 API의 기본 주소는 요청 파일에 적혀 있다. 별도 헤더나 키 입력 없이 실행한다. [실습지](../lab.md) · [따라하기](../walkthrough.md)
 
 통합 예제의 [weather.http](day2/web-week12/weather.http)는 키 없이 실행되는 날씨 GET이다. [requests.http](day2/web-week12/requests.http)는 강의자가 제공하는 방명록 API의 접속 확인·도움말·목록 GET을 알아보는 선택 실습에 사용한다.

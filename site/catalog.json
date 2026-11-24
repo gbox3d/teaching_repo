@@ -288,7 +288,7 @@
       "description": "HTML·CSS·JavaScript로 사이트를 만들고, 브라우저 저장에서 공용 REST API의 방명록 읽기·저장·수정·삭제로 이어지는 15주 입문 과정입니다.",
       "status": "published",
       "accent": "#62a8ff",
-      "summary": "15개 주차 + 6개 특강 · 375장",
+      "summary": "15개 주차 + 6개 특강 · 376장",
       "sourceUrl": "https://github.com/gbox3d/teaching_repo/tree/main/web_programming",
       "chapters": [
         {
