@@ -14,21 +14,30 @@
 
 ## 준비와 프로젝트 구조
 
-Python 3.12, uv, Ollama와 `qwen3.5:2b`를 수업 전에 준비한다. [실습지](lab.md)의 프로젝트 생성 연습을 마친 뒤 `teaching_repo` 전체를 clone한 경로에서 실습한다. `examples`만 복사하면 상대 경로로 참조하는 공용 라이브러리가 빠진다.
+Python 3.12와 uv를 준비한다. Ollama와 `qwen3.5:2b`는 `ex02`·`ex03`에만 필요하다. 시작 경로는 두 가지다.
 
-한 주차의 `examples/`가 uv 프로젝트 하나다. 각 예제는 `src/`의 패키지이며 `main()`에서 시작한다. `[project.scripts]`는 `ex01`~`ex03` 명령과 함수를 연결하고, `[build-system]`의 `uv_build`는 패키지를 설치한다. scripts를 바꾸면 `uv sync`를 다시 실행한다. `period1`~`period3`에는 실행 순서를 안내하는 README만 둔다.
+| 사용할 자료 | 터미널을 열 위치 |
+|---|---|
+| [실습 ZIP 0.1.0](https://github.com/gbox3d/teaching_repo/releases/download/wleno-v0.1.0/week10-simulator-lab-0.1.0.zip) | 압축을 푼 `week10-simulator-lab/` |
+| `teaching_repo` 전체 checkout | `open_source_ai/weeks/week10_simulator_control/examples/` |
 
-주차 `shared`는 저장소의 `tools/bleuno-control`에 있는 `bleuno_control`을 import한다. 이 의존성은 `[tool.uv.sources]`의 상대 path로 연결한다. TCP 통신 코드를 각 예제에 복사하지 않고, 모델·도구 설명처럼 비교할 값은 해당 소스의 상수에서 바꾼다.
+해당 폴더에서 `uv sync --locked`를 실행한다. ZIP에는 `wleno` 0.1.0 wheel이 들어 있고, checkout은 `tools/`의 로컬 소스를 설치한다. checkout의 `examples/`만 복사하면 이 상대 경로가 끊긴다. ZIP을 사용할 때는 [배포본 설치 안내](distribution/README.md)를 따른다.
+
+한 주차의 예제는 uv 프로젝트 하나다. 각 예제는 `src/`의 패키지이며 `main()`에서 시작한다. `[project.scripts]`는 `ex01`~`ex03` 명령과 함수를 연결하고, `[build-system]`의 `uv_build`는 패키지를 설치한다. scripts를 바꾸면 `uv sync --locked`를 다시 실행한다. checkout의 `period1`~`period3`에는 실행 순서를 안내하는 README만 둔다.
+
+각 예제는 `from wleno.control import Board`로 제어 API를 가져온다. 주차 `shared`에는 모델 이름과 `predict()`를 둔다. `wleno` 패키지 하나에 시뮬레이터와 제어 API가 함께 들어 있다. TCP 통신 코드를 각 예제에 복사하지 않고, 모델·도구 설명처럼 비교할 값은 해당 소스의 상수에서 바꾼다. 프로젝트 생성 연습은 [실습지](lab.md)를 따른다. 새 프로젝트에 패키지만 설치할 때는 `uv add wleno`를 사용한다. 버전 0.1.0 wheel을 직접 지정하는 방법도 [배포 안내](distribution/README.md#새-프로젝트에서-패키지만-설치)에 있다.
 
 ## 시뮬레이터와 제어 범위
 
-저장소 루트의 별도 터미널에서 실행한다.
+설치한 프로젝트 폴더에서 터미널 A를 열어 실행한다. 터미널 B도 같은 폴더에 두고 `uv run ex01`~`uv run ex03`을 실행한다.
 
 ```powershell
-python tools/wleno/main.py --bind 127.0.0.1
+uv run wleno --bind 127.0.0.1
 ```
 
 창 없는 검증에는 같은 명령 끝에 `--no-window`를 붙인다. 명령은 TCP 8266, 실제 상태 조회는 HTTP 8080의 `GET /state`를 사용한다. 브라우저에서 `http://127.0.0.1:8080/state`를 열어 새로 고침할 수 있다.
+
+전체 checkout에서는 기존처럼 저장소 루트에서 `python tools/wleno/main.py --bind 127.0.0.1`로 직접 실행해도 된다. 두 실행 방법을 동시에 사용하지 않는다.
 
 | Python 함수 | 허용 입력 | 확인할 결과 |
 |---|---|---|

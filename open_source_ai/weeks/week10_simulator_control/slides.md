@@ -37,26 +37,28 @@ LED를 켜는 동작과 검증 기준은 같다.
 
 ## 6–9분 · 한 프로젝트와 공용 라이브러리
 
-Python 3.12로 `uv init --package --python 3.12 --vcs none`.
-실습은 `teaching_repo` 전체 clone에서 진행한다.
+Python 3.12와 uv를 준비한다.
+[실습 ZIP](https://github.com/gbox3d/teaching_repo/releases/download/wleno-v0.1.0/week10-simulator-lab-0.1.0.zip)을 풀고 `week10-simulator-lab/`에서 `uv sync --locked`를 실행한다.
+전체 checkout은 10주차 `examples/`에서 같은 명령을 실행한다.
 
-`main()`을 scripts가 `ex01`~`ex03`으로 연결한다.
-`uv_build`로 설치하고 scripts 수정 뒤 `uv sync`한다.
+새 프로젝트에 패키지만 설치: `uv add wleno`.
+예제는 `from wleno.control import Board`로 API를 가져온다.
 
-주차 `shared`가 상대 path 의존성 `bleuno_control`을 import한다.
+scripts가 각 `main()`을 `ex01`~`ex03` 명령으로 연결한다.
 
 ---
 
 ## 9–12분 · 시뮬레이터와 두 통신 경로
 
-저장소 루트의 별도 터미널:
+설치한 프로젝트 폴더의 터미널 A:
 
 ```powershell
-python tools/wleno/main.py --bind 127.0.0.1
+uv run wleno --bind 127.0.0.1
 ```
 
 TCP 8266: 명령 전송. HTTP 8080: `GET /state`.
 창 없는 검증에는 `--no-window`를 추가한다.
+터미널 B도 같은 폴더에서 연다. ex01은 Ollama 없이 실행한다.
 
 ---
 
@@ -128,12 +130,13 @@ Python이 인수를 검증하고 허용된 함수를 실행한다.
 
 ## 6–9분 · Ollama의 같은 모델 연결
 
-모델은 `qwen3.5:2b`를 사용한다.
-`models.ollama_predict`에서 도구 호출을 요청한다.
+ex02·ex03에만 Ollama와 `qwen3.5:2b`가 필요하다.
+주차 `shared.predict()`가 `ollama_predict()`를 호출한다.
 
-`uv run ex02`
+`uv run ex02`에서 `0번 LED를 켜 주세요`를 직접 입력한다.
 
-출력의 함수 이름과 인수를 먼저 읽는다.
+자유롭게 입력한 문장을 모델에 보낸다. `/bye`로 종료한다.
+출력의 함수 이름과 인수를 읽는다.
 실제 상태까지 대조한 뒤 다음 입력을 한다.
 
 ---
@@ -194,13 +197,18 @@ Python이 인수를 검증하고 허용된 함수를 실행한다.
 
 ## 0–3분 · 고정된 16문항
 
-공용 `control_cases.json`을 사용한다.
+`uv run ex03`은 `control_cases.json`의 16문항을 자동 평가한다.
+한글 8·영어 8문항, 호출 10·무호출 6문항이다.
 
-한글 8문항, 영어 8문항.
-호출 10문항, 무호출 6문항.
+```json
+{
+  "query": "0번 LED를 켜 주세요",
+  "calls": [{"name": "turn_on", "arguments": {"index": 0}}]
+}
+```
 
-같은 입력·기대값을 유지한다.
-출력에 맞춰 정답을 바꾸지 않는다.
+`query`만 모델에 보낸다. `calls`는 채점용 정답이다.
+정답을 모델에 보내거나 출력에 맞춰 바꾸지 않는다.
 
 ---
 

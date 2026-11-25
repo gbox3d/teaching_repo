@@ -2,7 +2,9 @@
 
 WlEno는 Python으로 실행하는 PC 시뮬레이터다. Android 앱은 TCP로 LED와 온습도를 제어하고, VS Code REST Client나 AI 프로그램은 HTTP API로 같은 상태를 읽고 바꾼다. Tkinter 창에는 LED 4개, 내장 LED 깜빡임, 온습도, 입력 버튼과 연결 상태를 표시한다.
 
-Python 3.10 이상을 준비하고 저장소 루트에서 다음 명령을 실행한다. 추가 pip 패키지나 가상환경은 필요 없다.
+10주차 AI 실습은 [ZIP 설치 안내](../../open_source_ai/weeks/week10_simulator_control/distribution/README.md)를 따른다. ZIP에서 `uv sync --locked`를 실행한 뒤 `uv run wleno --bind 127.0.0.1`로 켠다. 새 프로젝트에 패키지만 추가할 때는 `uv add wleno`를 사용한다. 같은 안내에 버전 0.1.0 wheel을 직접 설치하는 방법도 있다. 패키지의 제어 API는 `from wleno.control import Board`다.
+
+저장소 소스를 직접 실행할 때는 Python 3.10 이상을 준비하고 저장소 루트에서 다음 명령을 실행한다. 이 실행 경로에는 추가 pip 패키지나 가상환경이 필요 없다.
 
 ```powershell
 cd tools/wleno

@@ -1,4 +1,6 @@
-from shared import Board, chat, predict
+from wleno.control import Board, chat
+
+from shared import predict
 
 
 def main():

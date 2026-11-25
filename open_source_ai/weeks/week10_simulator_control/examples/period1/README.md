@@ -2,7 +2,7 @@
 
 [실습지](../../lab.md)의 1교시를 따른다. 설명·시연 20분 뒤 실습 30분, 휴식 10분이다. 실행 위치는 이 폴더의 상위 `examples/`다. 교시마다 프로젝트나 자료를 복사하지 않는다.
 
-읽을 코드: [ex01_manual](../src/ex01_manual/__init__.py) · [shared](../src/shared/__init__.py)
+읽을 코드: [ex01_manual](../src/ex01_manual/__init__.py) · [Board 제어 API 원본](../../../../../tools/bleuno-control/src/bleuno_control/__init__.py)
 
 ```powershell
 uv run ex01

@@ -37,26 +37,28 @@ Reject `True` and `False` for numeric arguments.
 
 ## 6–9 min · One project and a shared library
 
-Create a Python 3.12 package with `uv init --package --python 3.12 --vcs none`.
-Use a full clone of `teaching_repo` for the lab.
+Prepare Python 3.12 and uv.
+Unzip the [student lab](https://github.com/gbox3d/teaching_repo/releases/download/wleno-v0.1.0/week10-simulator-lab-0.1.0.zip) and run `uv sync --locked` in `week10-simulator-lab/`.
+In a full checkout, run it in Week 10's `examples/` directory.
 
-Scripts connect `ex01`–`ex03` to package `main()` functions.
-`uv_build` installs them. Run `uv sync` after script changes.
+To install only the package in a new project: `uv add wleno`.
+Examples import the API with `from wleno.control import Board`.
 
-Weekly `shared` imports the relative path dependency `bleuno_control`.
+Scripts connect each `main()` to an `ex01`–`ex03` command.
 
 ---
 
 ## 9–12 min · Simulator and two connections
 
-In a separate terminal at the repository root:
+In terminal A, inside the installed project:
 
 ```powershell
-python tools/wleno/main.py --bind 127.0.0.1
+uv run wleno --bind 127.0.0.1
 ```
 
 TCP 8266 sends commands. HTTP 8080 serves `GET /state`.
 Add `--no-window` for checks without a window.
+Open terminal B in the same folder. ex01 needs no Ollama.
 
 ---
 
@@ -128,11 +130,12 @@ Do not expose sensor mutation with `POST /set`.
 
 ## 6–9 min · Connect the same Ollama model
 
-Use `qwen3.5:2b`.
-`models.ollama_predict` requests tool calls from Ollama.
+Only ex02 and ex03 need Ollama and `qwen3.5:2b`.
+Weekly `shared.predict()` calls `ollama_predict()`.
 
-`uv run ex02`
+Run `uv run ex02` and enter `Turn on LED 0.`.
 
+The model receives your free-form input. Exit with `/bye`.
 Read the proposed function name and arguments.
 Compare the actual state before the next request.
 
@@ -194,13 +197,18 @@ Lab: 30 minutes. Break: 10 minutes.
 
 ## 0–3 min · A fixed set of 16 cases
 
-Use the shared `control_cases.json`.
+`uv run ex03` evaluates all 16 cases in `control_cases.json`.
+8 Korean and 8 English cases; 10 call and 6 no-call cases.
 
-8 Korean cases and 8 English cases.
-10 call cases and 6 no-call cases.
+```json
+{
+  "query": "0번 LED를 켜 주세요",
+  "calls": [{"name": "turn_on", "arguments": {"index": 0}}]
+}
+```
 
-Keep inputs and expected outputs fixed.
-Do not change answers to match model outputs.
+Send only `query` to the model. `calls` is the expected answer.
+Never send the answer or change it to match the model's output.
 
 ---
 

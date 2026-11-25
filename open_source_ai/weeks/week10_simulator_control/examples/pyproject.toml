@@ -2,7 +2,7 @@
 name = "osa-week10-control"
 version = "0.1.0"
 requires-python = ">=3.12"
-dependencies = ["bleuno-control"]
+dependencies = ["wleno==0.1.0"]
 
 [project.scripts]
 ex01 = "ex01_manual:main"
@@ -17,4 +17,4 @@ build-backend = "uv_build"
 module-name = ["ex01_manual","ex02_tools","ex03_check","shared"]
 
 [tool.uv.sources]
-bleuno-control = { path = "../../../../tools/bleuno-control", editable = true }
+wleno = { path = "../../../../tools", editable = true }

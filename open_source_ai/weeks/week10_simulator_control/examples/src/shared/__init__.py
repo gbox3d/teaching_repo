@@ -1,6 +1,4 @@
-from bleuno_control import Board, chat, load_cases
-from bleuno_control.models import ollama_predict
-from bleuno_control.evaluation import evaluate
+from wleno.control.models import ollama_predict
 
 MODEL = "qwen3.5:2b"
 

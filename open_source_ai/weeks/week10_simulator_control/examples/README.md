@@ -1,6 +1,6 @@
 # 10주차 실행 예제
 
-전체 `teaching_repo`를 clone한 뒤 이 `examples/`에서 세 교시를 이어간다. `examples`만 복사하지 않는다. `period1`~`period3`은 안내 README이며 실행 위치는 여기다.
+전체 `teaching_repo` checkout에서는 이 `examples/`가 실행 위치다. 저장소 없이 시작하려면 [실습 ZIP 설치 안내](../distribution/README.md)를 따라 압축을 푼 `week10-simulator-lab/`을 사용한다. 두 경로의 실행 명령은 같다. checkout의 `examples/`만 복사하지 않는다. `period1`~`period3`은 checkout에서 읽는 안내 README다.
 
 | 교시 | 안내 | 소스 | 실행 |
 |---|---|---|---|
@@ -13,27 +13,28 @@
 ## 설치와 실행
 
 ```powershell
-uv sync
-uv run ex01
+uv sync --locked
 ```
 
-Python 3.12를 사용한다. 각 패키지의 `main()`을 `[project.scripts]`가 명령으로 연결한다. `[build-system]`의 `uv_build`가 `src/` 패키지를 설치하며 scripts 수정 뒤에는 `uv sync`를 다시 실행한다. 프로젝트 생성 연습은 [실습지](../lab.md)의 수업 전 준비에 있다.
+Python 3.12를 사용한다. `wleno` 0.1.0 하나로 시뮬레이터와 제어 API를 설치한다. 각 패키지의 `main()`을 `[project.scripts]`가 명령으로 연결한다. `[build-system]`의 `uv_build`가 `src/` 패키지를 설치하며 scripts 수정 뒤에는 `uv sync --locked`를 다시 실행한다. 프로젝트 생성 연습은 [실습지](../lab.md)의 수업 전 준비에 있다.
 
-시뮬레이터는 저장소 루트의 별도 터미널에서 켜 둔다.
+터미널 A를 같은 프로젝트 폴더에서 열어 시뮬레이터를 켜 둔다.
 
 ```powershell
-python tools/wleno/main.py --bind 127.0.0.1
+uv run wleno --bind 127.0.0.1
 ```
 
-창 없는 검증에는 `--no-window`를 추가한다. 대화 예제는 빈 줄을 건너뛰고 `/bye`로 종료한다. 입력 반복과 대화 이력 유지는 구분한다.
+터미널 B도 같은 폴더에서 열어 `uv run ex01`을 실행한다. 창 없는 검증에는 터미널 A의 명령에 `--no-window`를 추가한다. 대화 예제는 빈 줄을 건너뛰고 `/bye`로 종료한다. ex01은 Ollama 없이 실행하며, ex02·ex03은 Ollama와 `qwen3.5:2b`가 필요하다. 입력 반복과 대화 이력 유지는 구분한다.
 
 ## 공용 코드와 평가 자료
 
-주차 [shared](src/shared/__init__.py)는 공용 [bleuno_control](../../../../tools/bleuno-control/src/bleuno_control/__init__.py)을 import한다. `Board`는 연결·제어·상태 읽기, `chat`은 반복 입력, `load_cases`는 고정 평가셋 로드를 담당한다. 모델 호출은 `models.ollama_predict`·`models.needle_predictor`, 평가는 `evaluation.evaluate`에서 읽는다. 각 예제끼리 직접 import하지 않는다.
+각 예제는 `wleno.control`에서 필요한 공용 API를 직접 import한다. `Board`는 연결·제어·상태 읽기, `chat`은 반복 입력, `load_cases`는 고정 평가셋 로드를 담당한다. 주차 [shared](src/shared/__init__.py)에는 모델 이름과 `predict()`만 둔다. 모델 호출은 `wleno.control.models.ollama_predict`, 평가는 `wleno.control.evaluation.evaluate`에서 읽는다. 각 예제끼리 직접 import하지 않는다. 제어 코드의 원본은 [공용 제어 라이브러리](../../../../tools/bleuno-control/src/bleuno_control/__init__.py)에 있다.
 
-`[tool.uv.sources]`의 상대 경로 `../../../../tools/bleuno-control`은 이 프로젝트에서 공용 라이브러리를 찾는 기준이다. 문서 링크의 상대 경로와 설정 파일의 경로를 혼동하지 않는다.
+checkout의 `[tool.uv.sources]`는 `../../../../tools`를 가리킨다. 배포 ZIP은 `wheels/wleno-0.1.0-py3-none-any.whl`을 가리키도록 구성되어 있다. 새 프로젝트에 패키지만 설치할 때는 `uv add wleno`를 사용한다. 버전 0.1.0 wheel을 직접 지정할 수도 있다. 두 설치 경로는 [패키지 설치 안내](../distribution/README.md#새-프로젝트에서-패키지만-설치)를 따른다.
 
 공용 [control_cases.json](../../../../tools/bleuno-control/src/bleuno_control/data/control_cases.json)은 한글 8·영어 8, 호출 10·무호출 6의 16문항이다. 예열 1회는 집계에서 제외한다. 문항마다 LED를 `[0, 64, 128, 255]`로 복원하며 모델 추론 시간과 준비 시간을 분리한다. 지표 정의는 [실습지](../lab.md#고정-평가셋과-측정-기준)를 따른다.
+
+ex02는 사용자가 입력한 문장을 모델에 보낸다. ex03은 파일의 `query`만 모델에 보내고 `calls`는 채점할 정답으로 보관한다. 예를 들어 `query`가 `0번 LED를 켜 주세요`이면 기대 호출은 `[{"name": "turn_on", "arguments": {"index": 0}}]`이다. 정답 호출을 모델 입력에 포함하지 않는다.
 
 ## 실행 결과 확인
 

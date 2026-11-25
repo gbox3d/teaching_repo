@@ -44,9 +44,9 @@ open_source_ai/
 
 - 5·6·7·9~14주차 `examples/`는 아래 '예제 코드'의 5주차 규격을 따르는 uv 프로젝트 하나다(`.python-version` 3.12, `uv.lock` 포함). `examples/`에서 `uv sync` 후 `uv run exNN`으로 실행한다. 9주차 Streamlit 앱은 예외로 `uv run streamlit run src/<예제>/app.py`를 쓴다(아래 '예제 코드').
 - 1~4·8주차는 교시 폴더별 파일·템플릿 구조이고, 15주차 `examples/`에는 안내 README만 있다. 이 주차들을 크게 고칠 때는 5주차 규격으로 옮긴다.
-- 10~13주차는 `[tool.uv.sources]`의 상대 경로로 저장소의 `tools/bleuno-control`을 쓴다. 저장소 전체를 복제해야 실행되며 주차 폴더만 떼어 내면 경로가 끊긴다. 13주차는 12주차 `examples/models/`의 학습 결과를 그대로 읽는다(`src/shared`의 `MODELS_DIR`).
+- 10주차 학생용 ZIP에는 예제 소스와 `wleno` wheel이 함께 있다. 압축을 푼 폴더에서 `uv sync --locked`로 설치한다. 저장소에서 개발할 때는 10주차가 `../../../../tools`의 `wleno`를, 11~13주차가 `../../../../tools/bleuno-control`을 참조한다. 두 배포 경로는 같은 제어 함수와 평가 문항을 사용한다. 13주차는 12주차 `examples/models/`의 학습 결과를 읽는다.
 - 특강 `chatbot_rag_finetune`은 uv 프로젝트가 둘이다. `examples/`(명령 `ex04`~`ex07`)는 14주차 예제 프로젝트를 `[tool.uv.sources]`의 상대 경로로 설치하고, `finetune/`(명령 `prepare`·`ft01`·`ft02`)은 7주차와 같은 torch·transformers·peft 버전을 쓴다. `ex06`의 학습 예시는 특강 루트의 `outputs/sft/`에 생기고, 학습·변환 산출물과 `finetune/tools/llama.cpp/`는 특강 루트의 `.gitignore`로 막는다.
-- 시뮬레이터 `tools/wleno`는 uv 프로젝트가 아니다. Python 3.10 이상의 표준 라이브러리로 실행되고 창은 Tkinter를 쓴다. 수업 문서는 저장소 루트에서 `python tools/wleno/main.py --bind 127.0.0.1`로 켜게 한다(TCP 8266, HTTP 8080).
+- 10주차 설치판에서는 `uv run wleno --bind 127.0.0.1`로 시뮬레이터를 실행하고 `from wleno.control import Board`로 연결한다. 저장소 루트에서는 기존 명령 `python tools/wleno/main.py --bind 127.0.0.1`도 쓸 수 있다. 기본 TCP 포트는 8266, HTTP 포트는 8080이다. 창을 쓰려면 Tkinter가 필요하다.
 
 주차 폴더 이름 `weekNN_<영문 주제>`가 콘텐츠 ID다. `site/catalog.json`의 chapter `id`와 비공개 대본·해답 폴더도 같은 이름을 쓴다. 이름을 바꾸면 catalog의 `formerIds`에 옛 이름을 넣어 옛 슬라이드 주소를 살린다(2026-11-13 10~15주차 폴더 이름 변경 사례).
 

@@ -1,16 +1,16 @@
 # 10주차 따라하기
 
-준비와 실습 시간표는 [실습지](lab.md)를 따른다. `teaching_repo` 전체를 clone하고 두 터미널을 사용한다. A는 저장소 루트의 시뮬레이터, B는 `open_source_ai/weeks/week10_simulator_control/examples`의 실행 명령이다.
+준비와 실습 시간표는 [실습지](lab.md)를 따른다. [배포 ZIP](distribution/README.md)의 `week10-simulator-lab/` 또는 전체 checkout의 `open_source_ai/weeks/week10_simulator_control/examples/`에서 두 터미널을 연다. A는 시뮬레이터, B는 ex01~ex03 실행용이다.
 
 ## 준비 확인
 
-터미널 A에서 `python tools/wleno/main.py --bind 127.0.0.1`을 실행한다. 창 없이 확인할 때는 `--no-window`를 추가한다. 터미널 B에서 `uv sync`를 실행하고 Ollama의 `qwen3.5:2b`가 준비됐는지 확인한다. 브라우저에서는 `http://127.0.0.1:8080/state`를 연다.
+프로젝트 폴더에서 `uv sync --locked`로 설치하고 터미널 A에서 `uv run wleno --bind 127.0.0.1`을 실행한다. 창 없이 확인할 때는 `--no-window`를 추가한다. ex01은 Ollama 없이 실행한다. ex02·ex03은 Ollama와 `qwen3.5:2b`를 준비한다. 브라우저에서는 `http://127.0.0.1:8080/state`를 연다.
 
 ## 1교시 · 수동 명령
 
 `uv run ex01`을 실행한다. `on 0`, `pwm 1 128`, `off 0`, `sensor`를 차례로 입력한다. 종료는 `/bye`다. 매번 `/state`를 새로 고침한다. 빈 줄은 명령을 보내지 않아야 한다. 번호 4와 밝기 256을 요청했을 때 상태가 바뀌지 않는지 확인한다.
 
-`ex01_manual`이 입력을 네 제어 함수로 연결하는 부분과 `shared`의 `bleuno_control` import를 읽는다. 연결 직후 `hello`와 중간 이벤트를 제외하는 이유를 설명한다. 종료 전에 상태를 기록하고 종료 뒤에도 LED 상태가 유지되는지 확인한다.
+`ex01_manual`의 `from wleno.control import Board`와 입력을 네 제어 함수로 연결하는 부분을 읽는다. 연결 직후 `hello`와 중간 이벤트를 제외하는 이유를 설명한다. 종료 전에 상태를 기록하고 종료 뒤에도 LED 상태가 유지되는지 확인한다.
 
 ## 2교시 · 자연어 명령
 
@@ -28,8 +28,8 @@
 
 | 증상 | 확인 순서 |
 |---|---|
-| 공용 라이브러리를 찾지 못함 | 전체 clone 여부, `tools/bleuno-control`, 상대 source path, `uv sync` |
-| 명령을 찾지 못함 | `examples/` 위치, scripts 연결, `uv sync` |
+| 공용 라이브러리를 찾지 못함 | ZIP의 `wheels/` 또는 전체 checkout의 `tools/`, source 경로, `uv sync --locked` |
+| 명령을 찾지 못함 | `pyproject.toml`이 있는 위치, scripts 연결, `uv sync --locked` |
 | TCP 연결 실패 | 터미널 A 실행 상태, 127.0.0.1:8266 |
 | 상태 페이지 접속 실패 | 시뮬레이터 실행 상태, 127.0.0.1:8080/state |
 | LED가 모두 꺼짐 | 새 연결·해제 여부, 종료 전 상태를 읽었는지 |

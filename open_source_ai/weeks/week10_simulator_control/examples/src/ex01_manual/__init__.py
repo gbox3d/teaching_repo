@@ -1,4 +1,4 @@
-from shared import Board
+from wleno.control import Board
 
 
 def main():
