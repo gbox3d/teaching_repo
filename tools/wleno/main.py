@@ -14,8 +14,12 @@ import threading
 import time
 import unicodedata
 
-from protocol import WlenoProtocol
-from session import BoardSession
+if __package__:
+    from .protocol import WlenoProtocol
+    from .session import BoardSession
+else:  # Direct source checkout: python tools/wleno/main.py
+    from protocol import WlenoProtocol
+    from session import BoardSession
 
 
 SERVICE_TYPES = (("tcp", "tcp", "TcpServer"), ("udp", "udp", "UdpServer"),
@@ -91,6 +95,8 @@ class Application:
                 if getattr(self.args, "no_" + name):
                     continue
                 phase = "%s 서비스 준비" % name.upper()
+                if __package__:
+                    module_name = f"{__package__}.{module_name}"
                 cls = getattr(importlib.import_module(module_name), class_name)
                 host = self.args.http_bind if name == "http" else self.args.bind
                 self.services[name] = cls(self.protocol, host, getattr(self.args, name), log=self.log)
@@ -367,7 +373,7 @@ def port_number(value):
 
 
 def parse_args(argv=None):
-    parser = argparse.ArgumentParser(description="WlEno 시뮬레이터", prog="main.py")
+    parser = argparse.ArgumentParser(description="WlEno 시뮬레이터", prog="wleno" if __package__ else "main.py")
     parser.add_argument("--name", default="WlEno_SIM1", help="장치 이름 (기본 WlEno_SIM1)")
     parser.add_argument("--bind", default="0.0.0.0", help="TCP·UDP 바인드 주소")
     parser.add_argument("--http-bind", default="127.0.0.1", help="HTTP API 바인드 주소")

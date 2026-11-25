@@ -1,0 +1,51 @@
+[project]
+name = "wleno"
+version = "0.1.0"
+description = "WlEno teaching board simulator and Python control library"
+requires-python = ">=3.10"
+license = "LicenseRef-Proprietary"
+license-files = ["LICENSE"]
+
+[project.readme]
+content-type = "text/markdown"
+text = '''
+WlEno는 LED와 온습도 센서를 갖춘 가상 보드다. Python 3.10 이상에서 uv 프로젝트를 열고 시뮬레이터를 실행한다.
+
+```shell
+uv add wleno
+uv run wleno --bind 127.0.0.1
+```
+
+창 없이 실행하려면 마지막 명령에 `--no-window`를 붙인다. 시뮬레이터를 실행한 상태에서 같은 프로젝트의 Python 코드로 보드 상태를 읽을 수 있다.
+
+```python
+from wleno.control import Board
+
+with Board() as board:
+    print(board.state())
+```
+
+[10주차 실습 ZIP 설치 안내](https://github.com/gbox3d/teaching_repo/blob/main/open_source_ai/weeks/week10_simulator_control/distribution/README.md)
+'''
+
+[project.scripts]
+wleno = "wleno.main:main"
+
+[project.optional-dependencies]
+needle = ["cactus-compute==4.2.0"]
+train = ["cactus-compute[train]==4.2.0"]
+
+[project.urls]
+Source = "https://github.com/gbox3d/teaching_repo/tree/main/tools/wleno"
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["wleno", "wleno.control"]
+package-dir = { wleno = "wleno", "wleno.control" = "bleuno-control/src/bleuno_control" }
+include-package-data = false
+
+[tool.setuptools.package-data]
+"wleno.control" = ["data/*.json"]

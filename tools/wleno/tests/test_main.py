@@ -1,6 +1,7 @@
 """Application boundaries: optional adapters, atomic startup, and a usable offline UI."""
 
 from contextlib import redirect_stdout
+import gc
 import io
 from pathlib import Path
 import subprocess
@@ -143,9 +144,12 @@ class ApplicationTests(unittest.TestCase):
         try:
             probe = tk.Tk()
             probe.withdraw()
+            probe.update_idletasks()
             probe.destroy()
         except tk.TclError as error:
             self.skipTest("Tk display unavailable: %s" % error)
+        # Release Tk objects on the main thread before later tests start network workers.
+        self.addCleanup(gc.collect)
         app = main.Application(main.parse_args(["--no-tcp", "--no-udp", "--no-http"]))
         with redirect_stdout(io.StringIO()), patch.dict(sys.modules, {"tcp": None, "udp": None, "http_api": None}):
             try:
@@ -171,8 +175,8 @@ class ApplicationTests(unittest.TestCase):
 
 
 class CommandLineTests(unittest.TestCase):
-    def run_python(self, *args):
-        return subprocess.run([sys.executable, "-S", "-B", *args], cwd=HERE,
+    def run_python(self, *args, cwd=HERE):
+        return subprocess.run([sys.executable, "-S", "-B", *args], cwd=cwd,
                               capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=10)
 
     def test_help_and_invalid_arguments(self):
@@ -190,10 +194,11 @@ class CommandLineTests(unittest.TestCase):
     def test_headless_http_mutation_never_imports_tk_or_tcp_or_udp(self):
         source = '''
 import json, sys
+from importlib import import_module
 from urllib.request import Request, urlopen
 sys.modules.update(tkinter=None, tcp=None, udp=None)
-from main import Application, parse_args
-app = Application(parse_args(["--no-window", "--no-tcp", "--no-udp", "--http", "0"]))
+module = import_module(sys.argv[1])
+app = module.Application(module.parse_args(["--no-window", "--no-tcp", "--no-udp", "--http", "0"]))
 try:
     app.start()
     url = "http://127.0.0.1:%s" % app.services["http"].port
@@ -205,8 +210,10 @@ try:
 finally:
     app.close()
 '''
-        result = self.run_python("-c", source)
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        for name, directory in (("main", HERE), ("wleno.main", HERE.parent)):
+            with self.subTest(module=name):
+                result = self.run_python("-c", source, name, cwd=directory)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
 if __name__ == "__main__":

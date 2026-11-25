@@ -1,0 +1,28 @@
+name: Publish wleno to PyPI
+
+on: workflow_dispatch
+
+jobs:
+  publish:
+    if: github.ref_type == 'tag' && startsWith(github.ref_name, 'wleno-v')
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Download the wheel and source archive from this release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#wleno-v}"
+          gh release download "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --dir dist \
+            --pattern "wleno-${version}-py3-none-any.whl" --pattern "wleno-${version}.tar.gz"
+          test -f "dist/wleno-${version}-py3-none-any.whl"
+          test -f "dist/wleno-${version}.tar.gz"
+
+      - name: Upload both distributions with PyPI Trusted Publishing
+        run: |
+          python3 -m venv "$RUNNER_TEMP/publisher"
+          "$RUNNER_TEMP/publisher/bin/python" -m pip install uv==0.11.24
+          "$RUNNER_TEMP/publisher/bin/uv" publish --trusted-publishing always dist/*

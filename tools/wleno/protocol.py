@@ -4,8 +4,12 @@ from dataclasses import dataclass
 import json
 import re
 
-from session import SessionClosed
-from simulator import LED_COUNT
+if __package__:
+    from .session import SessionClosed
+    from .simulator import LED_COUNT
+else:
+    from session import SessionClosed
+    from simulator import LED_COUNT
 
 
 APP_NAME = "WlEno"

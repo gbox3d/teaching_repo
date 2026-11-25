@@ -4,7 +4,10 @@ from collections import deque
 from dataclasses import dataclass
 from threading import Lock
 
-import simulator
+if __package__:
+    from . import simulator
+else:
+    import simulator
 
 
 class SessionClosed(RuntimeError):
