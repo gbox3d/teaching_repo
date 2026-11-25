@@ -37,9 +37,10 @@ LED를 켜는 동작과 검증 기준은 같다.
 
 ## 6–9분 · 한 프로젝트와 공용 라이브러리
 
-Python 3.12와 uv를 준비한다.
+Python 3.12와 uv를 준비한다. 첫 설치에는 인터넷이 필요하다.
 [실습 ZIP](https://github.com/gbox3d/teaching_repo/releases/download/wleno-v0.1.0/week10-simulator-lab-0.1.0.zip)을 풀고 `week10-simulator-lab/`에서 `uv sync --locked`를 실행한다.
 전체 checkout은 10주차 `examples/`에서 같은 명령을 실행한다.
+두 경로 모두 PyPI의 `wleno==0.1.0`을 설치한다.
 
 새 프로젝트에 패키지만 설치: `uv add wleno`.
 예제는 `from wleno.control import Board`로 API를 가져온다.

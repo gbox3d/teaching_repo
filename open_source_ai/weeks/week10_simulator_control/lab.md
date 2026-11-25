@@ -29,7 +29,7 @@ uv run wleno --bind 127.0.0.1
 
 창 없이 확인할 때만 `--no-window`를 추가한다. 시뮬레이터는 켜 둔다. 터미널 B도 같은 프로젝트 폴더에서 연다. 이후 세 교시의 `uv run ex01`~`uv run ex03`은 모두 터미널 B에서 실행한다. `period1`~`period3`로 이동하지 않는다.
 
-각 예제는 `wleno.control`에서 공용 API를 직접 import하고, 주차 `shared`에는 모델 이름과 `predict()`를 둔다. ZIP은 동봉 wheel을, checkout은 `tools/`의 로컬 소스를 사용한다. checkout의 `examples/`만 복사하면 상대 source path가 끊긴다. 기존 직접 실행을 사용할 때는 저장소 루트에서 `python tools/wleno/main.py --bind 127.0.0.1`로 켜도 된다.
+각 예제는 `wleno.control`에서 공용 API를 직접 import하고, 주차 `shared`에는 모델 이름과 `predict()`를 둔다. ZIP과 checkout 모두 `pyproject.toml`의 `wleno==0.1.0`을 PyPI에서 설치하므로 첫 설치에는 인터넷 연결이 필요하다. 기존 직접 실행을 사용할 때는 저장소 루트에서 `python tools/wleno/main.py --bind 127.0.0.1`로 켜도 된다.
 
 브라우저에서 `http://127.0.0.1:8080/state`를 연다. TCP 8266은 명령을 보내는 연결이고 HTTP 8080은 상태를 읽는 주소다. 연결 직후의 `hello`와 중간 이벤트는 명령 응답에서 제외한다. TCP 연결을 새로 만들거나 끊어도 LED 상태는 유지된다. 제어 전후 상태를 확인한다.
 

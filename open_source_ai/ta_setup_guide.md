@@ -175,7 +175,7 @@ ollama list
 ## 10~13주차 제어 실습 준비
 
 2026-11-13 개편 예제는 주차별 `examples/` 하나에서 실행한다. Python 3.12와 `uv.lock`을 제공한다.
-10주차는 [학생용 ZIP](https://github.com/gbox3d/teaching_repo/releases/download/wleno-v0.1.0/week10-simulator-lab-0.1.0.zip)의 압축을 풀고 `week10-simulator-lab`에서 `uv sync --locked`를 실행하면 시뮬레이터와 제어 라이브러리가 함께 설치된다. 11~13주차는 공용 코드 `tools/bleuno-control`과 앞 주차의 자료를 참조하므로 저장소 전체를 복제한다.
+10주차는 [학생용 ZIP](https://github.com/gbox3d/teaching_repo/releases/download/wleno-v0.1.0/week10-simulator-lab-0.1.0.zip)의 압축을 풀고 `week10-simulator-lab`에서 `uv sync --locked`를 실행한다. 수업 전에 각 PC에서 PyPI의 `wleno`를 내려받아 시뮬레이터와 제어 라이브러리를 준비한다. 11~13주차는 공용 코드 `tools/bleuno-control`과 앞 주차의 자료를 참조하므로 저장소 전체를 복제한다.
 
 | 주차 | 수업 전 준비 | 확인할 안내 |
 |---|---|---|

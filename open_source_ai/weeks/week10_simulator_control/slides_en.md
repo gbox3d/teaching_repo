@@ -37,9 +37,10 @@ Reject `True` and `False` for numeric arguments.
 
 ## 6–9 min · One project and a shared library
 
-Prepare Python 3.12 and uv.
+Prepare Python 3.12 and uv. The first installation needs internet access.
 Unzip the [student lab](https://github.com/gbox3d/teaching_repo/releases/download/wleno-v0.1.0/week10-simulator-lab-0.1.0.zip) and run `uv sync --locked` in `week10-simulator-lab/`.
 In a full checkout, run it in Week 10's `examples/` directory.
+Both install `wleno==0.1.0` from PyPI.
 
 To install only the package in a new project: `uv add wleno`.
 Examples import the API with `from wleno.control import Board`.

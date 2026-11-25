@@ -4,7 +4,7 @@
 
 ## 준비 확인
 
-프로젝트 폴더에서 `uv sync --locked`로 설치하고 터미널 A에서 `uv run wleno --bind 127.0.0.1`을 실행한다. 창 없이 확인할 때는 `--no-window`를 추가한다. ex01은 Ollama 없이 실행한다. ex02·ex03은 Ollama와 `qwen3.5:2b`를 준비한다. 브라우저에서는 `http://127.0.0.1:8080/state`를 연다.
+프로젝트 폴더에서 `uv sync --locked`로 설치하고 터미널 A에서 `uv run wleno --bind 127.0.0.1`을 실행한다. ZIP과 checkout 모두 PyPI의 `wleno==0.1.0`을 사용하므로 첫 설치에는 인터넷 연결이 필요하다. 창 없이 확인할 때는 `--no-window`를 추가한다. ex01은 Ollama 없이 실행한다. ex02·ex03은 Ollama와 `qwen3.5:2b`를 준비한다. 브라우저에서는 `http://127.0.0.1:8080/state`를 연다.
 
 ## 1교시 · 수동 명령
 
@@ -28,7 +28,7 @@
 
 | 증상 | 확인 순서 |
 |---|---|
-| 공용 라이브러리를 찾지 못함 | ZIP의 `wheels/` 또는 전체 checkout의 `tools/`, source 경로, `uv sync --locked` |
+| 공용 라이브러리를 찾지 못함 | 인터넷 연결, `pyproject.toml`의 `wleno==0.1.0`, `uv sync --locked` 설치 결과 |
 | 명령을 찾지 못함 | `pyproject.toml`이 있는 위치, scripts 연결, `uv sync --locked` |
 | TCP 연결 실패 | 터미널 A 실행 상태, 127.0.0.1:8266 |
 | 상태 페이지 접속 실패 | 시뮬레이터 실행 상태, 127.0.0.1:8080/state |

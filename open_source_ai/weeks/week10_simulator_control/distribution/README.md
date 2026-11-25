@@ -5,14 +5,14 @@ Python 수동 명령으로 LED를 제어한 뒤 Ollama의 함수 호출 제안�
 ## 다운로드와 설치
 
 1. [릴리스의 실습 ZIP](https://github.com/gbox3d/teaching_repo/releases/download/wleno-v0.1.0/week10-simulator-lab-0.1.0.zip)을 내려받아 압축을 푼다.
-2. `week10-simulator-lab` 폴더를 연다. `pyproject.toml`, `uv.lock`, `src/`, `wheels/`가 보이는 위치다.
+2. `week10-simulator-lab` 폴더를 연다. `pyproject.toml`, `uv.lock`, `src/`가 보이는 위치다.
 3. Python 3.12와 uv를 준비하고 이 폴더의 터미널에서 실행한다.
 
 ```powershell
 uv sync --locked
 ```
 
-ZIP의 `wheels/wleno-0.1.0-py3-none-any.whl`을 사용한다. `wheels/`와 프로젝트 파일은 함께 보관한다. 첫 설치 때 Python 3.12가 없거나 빌드 도구 `uv_build`가 캐시에 없으면 uv가 인터넷에서 내려받는다. [uv 설치 안내](https://github.com/gbox3d/teaching_repo/blob/main/open_source_ai/uv_guide.md)
+`pyproject.toml`에 지정된 `wleno==0.1.0`을 PyPI에서 설치하므로 첫 설치에는 인터넷 연결이 필요하다. uv는 필요한 Python 3.12와 빌드 도구도 준비한다. 저장소 checkout에서도 같은 명령으로 설치한다. [uv 설치 안내](https://github.com/gbox3d/teaching_repo/blob/main/open_source_ai/uv_guide.md)
 
 ## 터미널 A · 시뮬레이터
 
@@ -60,7 +60,7 @@ ex01을 끝낸 뒤 `uv run ex02`, 이어서 `uv run ex03`을 실행한다. ex02�
 | `src/ex02_tools/__init__.py` | 자연어 대화 |
 | `src/ex03_check/__init__.py` | 고정 평가 실행 |
 | `src/shared/__init__.py` | 모델 이름과 `predict()` |
-| `pyproject.toml` | `ex01`~`ex03`의 `main()` 연결과 동봉 wheel 지정 |
+| `pyproject.toml` | `ex01`~`ex03`의 `main()` 연결과 `wleno==0.1.0` 의존성 |
 
 제어 API는 `from wleno.control import Board`로 가져온다. 다음은 호출 형식이다. 터미널 A의 시뮬레이터가 실행 중이어야 한다.
 
@@ -76,7 +76,7 @@ with Board() as board:
 
 ## 새 프로젝트에서 패키지만 설치
 
-이 ZIP은 이미 wheel을 지정하므로 위의 `uv sync --locked`만 실행하면 된다. 새 프로젝트를 따로 만들고 PyPI에서 패키지를 설치할 때는 다음과 같이 실행한다.
+이 ZIP에는 의존성이 지정되어 있으므로 위의 `uv sync --locked`만 실행하면 된다. 새 프로젝트를 따로 만들고 PyPI에서 패키지를 설치할 때는 다음과 같이 실행한다.
 
 ```powershell
 uv init --package --python 3.12 --vcs none my-wleno-lab
@@ -84,16 +84,10 @@ cd my-wleno-lab
 uv add wleno
 ```
 
-이 버전의 wheel을 직접 설치하려면 같은 프로젝트에서 다음 명령을 대신 사용한다.
-
-```powershell
-uv add https://github.com/gbox3d/teaching_repo/releases/download/wleno-v0.1.0/wleno-0.1.0-py3-none-any.whl
-```
-
-설치한 프로젝트에서 `uv run wleno --bind 127.0.0.1`로 실행할 수 있다. `uv add wleno`는 PyPI에 등록된 패키지를 찾고, URL 설치는 지정한 0.1.0 wheel을 가져온다. PyPI에서 찾지 못하면 wheel 설치 경로를 사용한다. `ex01`~`ex03`은 실습 ZIP에 포함된 명령이므로 패키지만 설치한 새 프로젝트에는 생기지 않는다.
+설치한 프로젝트에서 `uv run wleno --bind 127.0.0.1`로 실행할 수 있다. `ex01`~`ex03`은 실습 ZIP에 포함된 명령이므로 패키지만 설치한 새 프로젝트에는 생기지 않는다.
 
 ## 교재와 도움말
 
 [10주차 교재](https://github.com/gbox3d/teaching_repo/blob/wleno-v0.1.0/open_source_ai/weeks/week10_simulator_control/README.md) · [실습지](https://github.com/gbox3d/teaching_repo/blob/wleno-v0.1.0/open_source_ai/weeks/week10_simulator_control/lab.md) · [시뮬레이터 안내](https://github.com/gbox3d/teaching_repo/blob/wleno-v0.1.0/tools/wleno/README.md)
 
-연결 오류가 나면 터미널 A의 실행 상태를 먼저 확인한다. 설치 오류가 나면 `pyproject.toml`이 있는 폴더인지, `wheels/`가 함께 있는지 확인한다. 모델 호출 오류는 Ollama 실행 상태와 `ollama list`를 확인한다. 시뮬레이터 옵션은 `uv run wleno --help`로 읽는다.
+연결 오류가 나면 터미널 A의 실행 상태를 먼저 확인한다. 설치 오류가 나면 `pyproject.toml`과 `uv.lock`이 있는 폴더인지, 인터넷에 연결되어 있는지 확인한다. 모델 호출 오류는 Ollama 실행 상태와 `ollama list`를 확인한다. 시뮬레이터 옵션은 `uv run wleno --help`로 읽는다.

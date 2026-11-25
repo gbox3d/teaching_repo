@@ -15,6 +15,3 @@ build-backend = "uv_build"
 
 [tool.uv.build-backend]
 module-name = ["ex01_manual","ex02_tools","ex03_check","shared"]
-
-[tool.uv.sources]
-wleno = { path = "../../../../tools", editable = true }

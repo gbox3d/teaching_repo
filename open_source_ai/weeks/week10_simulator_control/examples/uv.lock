@@ -11,16 +11,13 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "wleno", editable = "../../../../tools" }]
+requires-dist = [{ name = "wleno", specifier = "==0.1.0" }]
 
 [[package]]
 name = "wleno"
 version = "0.1.0"
-source = { editable = "../../../../tools" }
-
-[package.metadata]
-requires-dist = [
-    { name = "cactus-compute", marker = "extra == 'needle'", specifier = "==4.2.0" },
-    { name = "cactus-compute", extras = ["train"], marker = "extra == 'train'", specifier = "==4.2.0" },
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/6d/f6/0629ebbc2de26bb3a8833cc3f32fc7965998be096be7929741d4416dd8c1/wleno-0.1.0.tar.gz", hash = "sha256:3c45a5588c111a25b9ccad7c7340a8a14cf821350b4036a549caca1328b93938", size = 23908, upload-time = "2026-11-25T06:40:28.816Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1e/b0/b7235479e32d81134b8e390d4c2b4ef55f3adf659c3305c3d2c8e0cf3db7/wleno-0.1.0-py3-none-any.whl", hash = "sha256:91f70c17173a50f1f50bdf2ddc67012dbcb39620e2347e0bb0393d6cfbd602f7", size = 28152, upload-time = "2026-11-25T06:40:27.879Z" },
 ]
-provides-extras = ["needle", "train"]

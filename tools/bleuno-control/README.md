@@ -4,7 +4,7 @@
 시뮬레이터 본체는 [WlEno](../wleno/README.md)이다.
 이 폴더는 표준 라이브러리로 제어하고, Needle 추론·학습은 선택 의존성으로 제공한다.
 
-10주차는 시뮬레이터와 이 제어 코드를 함께 담은 `wleno` 기본 패키지를 사용한다. [실습 ZIP과 패키지 설치 안내](../../open_source_ai/weeks/week10_simulator_control/distribution/README.md)를 따라 설치하고 `from wleno.control import Board`로 가져온다. 새 프로젝트에서는 `uv add wleno`를 사용한다. `uv add 'wleno[needle]'`과 `uv add 'wleno[train]'`은 후속 주차의 Needle 추론·학습에 필요한 선택 의존성이다. 10주차에는 추가하지 않는다.
+10주차는 시뮬레이터와 이 제어 코드를 함께 담은 `wleno` 기본 패키지를 사용한다. [실습 ZIP과 패키지 설치 안내](../../open_source_ai/weeks/week10_simulator_control/distribution/README.md)를 따라 ZIP과 저장소 checkout 모두 `uv sync --locked`로 PyPI의 `wleno==0.1.0`을 설치한다. 첫 설치에는 인터넷 연결이 필요하다. API는 `from wleno.control import Board`로 가져온다. 새 프로젝트에서는 `uv add wleno`를 사용한다. `uv add 'wleno[needle]'`과 `uv add 'wleno[train]'`은 후속 주차의 Needle 추론·학습에 필요한 선택 의존성이다. 10주차에는 추가하지 않는다.
 
 기존 11~13주차 프로젝트는 `bleuno_control` import와 이 폴더를 가리키는 로컬 설치 경로를 유지한다.
 
