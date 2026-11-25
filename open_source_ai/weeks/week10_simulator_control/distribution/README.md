@@ -12,7 +12,7 @@ Python 수동 명령으로 LED를 제어한 뒤 Ollama의 함수 호출 제안�
 uv sync --locked
 ```
 
-ZIP의 `wheels/wleno-0.1.0-py3-none-any.whl`을 사용하므로 전체 교재 저장소는 필요 없다. `wheels/`와 프로젝트 파일은 함께 보관한다. uv는 lock에 지정된 나머지 의존성도 설치하므로 첫 설치에는 인터넷 연결이 필요하다. uv 설치가 필요하면 [uv 안내](https://github.com/gbox3d/teaching_repo/blob/main/open_source_ai/uv_guide.md)를 따른다.
+ZIP의 `wheels/wleno-0.1.0-py3-none-any.whl`을 사용한다. `wheels/`와 프로젝트 파일은 함께 보관한다. 첫 설치 때 Python 3.12가 없거나 빌드 도구 `uv_build`가 캐시에 없으면 uv가 인터넷에서 내려받는다. [uv 설치 안내](https://github.com/gbox3d/teaching_repo/blob/main/open_source_ai/uv_guide.md)
 
 ## 터미널 A · 시뮬레이터
 
