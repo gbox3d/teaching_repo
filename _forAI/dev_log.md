@@ -14,7 +14,8 @@
 - 상태: `git fetch --prune` 뒤 로컬 main과 `origin/main`이 같았다(`d0ad054`). 커밋 안 된 변경은 2026-11-23에 고친 `_forAI` 5개 문서뿐이었다. 그사이 다른 세션이 커밋 7개를 올려(아래 항목), 그 문서들이 `8cc49ea`를 현재로 적고 있었다.
 - 고친 것: README 스냅샷(60개 덱·1,219장, 과목별 변경), inventory(13주 폴더와 설정 파일, `config.example.js` 사본 9개, 서버 준비 SQL, `wleno` 패키지·게시 워크플로, 10주 PyPI 설치, 특강 `chatbot_rag_finetune`), memo(두 설정 방식, 편집 키 폐지 뒤의 권한, `wleno` 배포), plan(웹 1~4·10·12·13·16번 갱신, 18·19번 추가, 오픈소스 AI 7·8번, 공용 10번 브랜치 정리, 구조 결정과 위험).
 - 확인: 릴리스 `wleno-v0.1.0`과 PyPI `wleno` 0.1.0 게시, `d0ad054`의 Pages 워크플로 성공을 GitHub에서 봤다. 작업 트리 CRLF 0개. 로컬 빌드와 시험은 다시 돌리지 않았다(교재 파일을 바꾸지 않았다).
-- 정리하지 않은 것: Git 제외 폴더 `dist/`(빌드 산출물)와 `output/`(강의 영상 작업 산출물)은 그대로 두었다. 합쳐진 원격 브랜치 삭제는 사용자 결정으로 남겼다(plan 공용 10번).
+- 정리하지 않은 것: Git 제외 폴더 `dist/`(빌드 산출물)와 `output/`(강의 영상 작업 산출물)은 그대로 두었다.
+- 브랜치 정리(사용자 지시): main에 합쳐진 것을 확인하고 열린 PR이 없는 것을 본 뒤 `dev/android/blueno`(로컬·원격, `4bd8fcf`)와 원격 `docs/week01-git-status-slides`(`974d11d`)를 지웠다. main에 없는 커밋이 있는 `fix/github-classroom-reset-windows`는 남겼다(plan 공용 10번).
 
 ### 2026-11-24~25 — 다른 세션의 커밋(기록 보충)
 

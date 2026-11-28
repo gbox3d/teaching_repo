@@ -74,7 +74,7 @@
 7. WlEno 2.0.0(`543ab2e`)은 2026-11-12 결정(연결·해제 때 LED 끄기)을 '상태 유지'로 바꿨는데 그 결정의 출처가 저장소에 없다. 사용자에게 확인해 `tools/wleno/README.md`나 과목 지침의 결정 사항에 근거를 남긴다.
 8. push 뒤 Pages에서 옛 주소 리다이렉트(`formerIds`)가 실제로 열리는지 본다. 웹 13주의 옛 `week13_release_security` 주소(`bd02eaa`)도 대상이다. 2026-11-23에는 첫 화면과 12·13주 새 예제 파일의 HTTP 200만 확인했다.
 9. 홈 IoT 시뮬레이터 `server.mjs`의 경로 비교가 드라이브 문자 대소문자를 구분해, 셸 경로가 `c:\…`이면 시험 하나가 404로 실패한다(memo의 저장소 공통 교훈). 비교 전에 두 경로를 같은 방식으로 정규화할지 정한다.
-10. 원격 브랜치를 정리할지 정한다. `dev/android/blueno`(로컬·원격)와 `docs/week01-git-status-slides`는 main에 모두 합쳐졌다. `fix/github-classroom-reset-windows`에는 main에 없는 커밋 1개(2026-11-06 Windows 판 재작성, 실기 검증 전)가 남아 있다(2026-11-28 확인).
+10. 원격 브랜치 `fix/github-classroom-reset-windows`를 어떻게 할지 정한다. main에 없는 커밋 1개(2026-11-06 Windows 판 재작성, 실기 검증 전)가 남아 있다. 실기 검증 뒤 합치거나 버린다. main에 합쳐진 `dev/android/blueno`(로컬·원격)와 `docs/week01-git-status-slides`는 2026-11-28에 지웠다.
 
 ### 기존 과목의 대기 작업
 
