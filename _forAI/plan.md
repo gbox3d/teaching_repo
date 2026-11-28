@@ -4,7 +4,6 @@
 
 - [Current goal](#current-goal)
 - [Near-term work](#near-term-work)
-- [미커밋 변경 처리](#미커밋-변경-처리)
 - [웹프로그래밍 후속 작업](#웹프로그래밍-후속-작업)
 - [Android 후속 작업](#android-후속-작업)
 - [오픈소스 AI 후속 작업](#오픈소스-ai-후속-작업)
@@ -15,36 +14,33 @@
 
 ## Current goal
 
-- 2026-11-18 작업 트리의 커밋 안 된 변경(웹 C01 개편, WlEno 2.0.0과 두 과목의 반영, 에이전트 지침, `_forAI` 갱신)을 검토하고 커밋 여부와 묶음을 정한다. 결정은 사용자가 한다.
-- 웹: C01 개편(15주와 특강 6개, 일반 차시 60+30, hash SPA 특강)을 수업에 연결한다. 공용 수정·삭제 권한, Pages 실배포, 비공개 평가 자료 정합성은 후속 확인한다.
+- 웹: C01 개편(15주와 특강 6개, 일반 차시 60+30, hash SPA 특강), 2026-11-22 설정 방식 변경(`config.example.js` + 공개 키 localStorage, 설정 패널 삭제), 12주 타이머 예제, 2026-11-25 12주 공개 API·13주 CRUD 개편과 편집 키 폐지(`bd02eaa`)를 수업에 연결한다. 13·14주 화면이 처음부터 수업용 서버로 PATCH·DELETE를 보내므로 공용 서버의 공개 CRUD 정책 적용을 수업 전에 확인한다. Pages 화면 조회와 비공개 평가 자료 정합성도 후속 확인한다.
 - Android: 정규 11~15주(RoomControl + WlEno + AAR)를 예제 빌드, AAR 재빌드, 실기기·학교 Wi-Fi 연결로 검증한다. BLE·SmartIO 11~15주는 보존 특강으로 유지한다.
 - 오픈소스 AI: 2026-11-13에 개편한 10~15주(시뮬레이터 제어·챗봇 성능 평가)를 포함한 15주 교재를 실습실 Windows·GPU에서 재현 검증해 개강 최소 2주 전 배포 가능 상태로 만든다.
 
 ## Near-term work
 
-### 미커밋 변경 처리
-
-1. 변경을 만든 세션과 근거를 확인한다. 웹 C01 개편분과 WlEno 2.0.0 재작성은 작성 세션이 기록에 없다. WlEno 2.0.0은 2026-11-12 결정(연결·해제 때 LED 끄기)을 바꾸는데 그 결정 출처가 저장소에 없다.
-2. 커밋 묶음을 정한다. 도구와 문서가 따로 커밋되면 서로 어긋나므로 다음처럼 묶는 것을 제안한다.
-   - WlEno 묶음: `tools/wleno`(수정 3, 삭제 3, 새 파일 17), `tools/bleuno-control`(수정 3), Android 범위 수정 27개, 오픈소스 AI 수정 32개, `android_programming/AGENTS.md`·`CLAUDE.md`, `open_source_ai/AGENTS.md`·`CLAUDE.md`
-   - 웹 묶음: `web_programming`(수정 380, 삭제 24, 새 파일 341. `AGENTS.md`·`CLAUDE.md` 포함)과 루트 `README.md`·`package.json`·`scripts/render-site.mjs`·`scripts/check-site.mjs`·`site/catalog.json`. 루트 상수(58개 덱·1,175장)는 hash SPA 특강이 있어야 맞으므로 웹 묶음과 함께 커밋한다.
-   - 문서 묶음: 루트 `AGENTS.md`·`CLAUDE.md`, `_forAI` 5개 문서
-3. 커밋 전에 공개 저장소 규칙 위반을 고친다. `web_programming/reviews/2026-11-18-course-audit/`의 작업 PC 절대 경로(week01.md 71행, week03.md 68행, week04.md 86행, week05.md 65행, week06.md 54행, week14.md 75행, planning-review-technical.md 74·77행, `evidence/synth-*.mjs` 3개의 import 경로), final.md 58행의 세션 상태 문장, 개편 기록 여러 곳의 사용자 호칭, `web_programming/specials/synthesizer/walkthrough.md` 22행의 작업 PC 모양 예시 경로(`<내 폴더>/web-synth` 같은 자리표시자로 바꾼다)가 대상이다.
-4. 커밋 전에 `android_programming/iot_sim/lab.md` 41행 "연결·해제 때 시뮬레이터는 LED를 끈다."를 WlEno 2.0.0 동작(상태 유지)에 맞춘다. 같은 문서 4절 표와 모순된다.
-5. 커밋한 뒤 `git diff --cached --check`와 `git ls-files --eol`로 CRLF가 남지 않았는지 확인하고, push 뒤 Pages에서 58개 덱과 옛 주소 리다이렉트(`formerIds`)가 열리는지 본다.
-
 ### 웹프로그래밍 후속 작업
 
-1. 공용 Supabase에서 연습 글을 대상으로 올바른 편집 키·다른 키·키 없음의 PATCH·DELETE를 비교하고 같은 ID의 GET으로 실제 변경을 판정한다. id·book_id·created_at 보호 열 거부도 확인한다.
-2. 독립 폴더 하나, 우선 Supabase 07 완성 방명록을 Pages에 게시하고 HTTPS 화면에서 API 요청·CORS·다른 기기 공유를 확인한다. 교재 슬라이드 사이트 배포를 예제 앱 배포로 간주하지 않는다.
-3. 수업 인원에 맞게 추가 방명록 태그 등록·키 배부를 준비한다. 공용 확인 태그는 student01·student02이며 로컬 student01~30을 그대로 공용 등록 완료로 표시하지 않는다. 기존 편집 키를 덮어쓰지 않는 절차를 정한다.
-4. 비공개 대본·해답·평가 자료를 C01 개편 전체에 맞춘다. 1~15주 60+30 시간표, 15주 13문항 문제은행, 12~14주 설정 패널의 제공 범위가 기준이다. 기존 개편 안내와 과거 자료는 보존하고 레포트 일정·배점은 학교별 별도 공지로 관리한다.
+1. (수업 전 필수) 공용 Supabase 프로젝트에 `enable-public-crud.sql`을 실행했는지 SQL Editor에서 확인한다. 연습 글을 대상으로 공개 키·키 없음의 PATCH·DELETE를 비교하고 같은 ID의 GET으로 실제 변경을 판정한다. id·book_id·created_at 보호 열 거부와 PATCH·DELETE의 CORS 사전 요청도 확인한다. 13·14주 예제는 기본값이 수업용 서버다.
+2. 독립 폴더 하나, 우선 Supabase 07 완성 방명록을 Pages에 게시하고 HTTPS 화면에서 공개 키 묻는 창·**공개 키 지우기**·API 요청·CORS·다른 기기(휴대폰 포함) 공유를 확인한다. 13주 `config.json`은 사이트 빌드가 복사하지 않으므로 Pages에서 13주 예제를 어떻게 보여 줄지도 정한다. 교재 슬라이드 사이트 배포를 예제 앱 배포로 간주하지 않는다.
+3. 수업 인원에 맞게 방명록 태그를 등록하고 공용 공개 키를 배부할 준비를 한다. 기존 공용 프로젝트의 등록 태그를 `select book_id from private.classroom_books`로 확인하고, 모자라면 `book_id`만 insert한다. 로컬 student01~30을 그대로 공용 등록 완료로 표시하지 않는다.
+4. 비공개 대본·해답·평가 자료를 C01 개편, 2026-11-22 변경, 2026-11-25 `bd02eaa`(12주 2일차 공개 API, 13주 CRUD 네 예제와 `config.json`, 14주 수정·삭제 결과 확인, 편집 키 폐지)에 맞춘다. 1~15주 60+30 시간표, 15주 13문항 문제은행, 12주 1차시 새 구간(타이머 준비 5·타이머를 기다리는 동안 7·wait 함수 8·async 함수와 await 10·async 함수가 돌려주는 값 8·응답에서 할 일 제목까지 10·같은 요청에 await 7·안내 5, 실습 0~8분은 ex01c 사본에 '4. 3초 지남' 더하기), 12~15주·hash SPA·Supabase 특강의 공개 키 입력 절차(묻는 창, **공개 키 지우기**. 옛 설정 패널·Console 안내를 지운다)가 기준이다. 15주 채점·감독 안내에는 연습 때 저장한 키가 남으면 **공개 키 지우기** 뒤 시험용 키를 넣는 절차를 넣는다. 기존 개편 안내와 과거 자료는 보존하고 레포트 일정·배점은 학교별 별도 공지로 관리한다.
 5. 정규 수업을 리허설한다. 일반 차시 강의·시연 60분 + 실습 30분, 9주 발표 75분(30명 기준, 31명 이상은 사전 영상)이 실제로 맞는지 본다. 연구 특강은 학생의 단계별 진행으로 조정하고, IoT의 모의 온도·메모리 상태·통신 실패 실험 범위를 실제 장치 성능 평가와 구분한다.
 6. 11~14주 완성본 `styles.css`에 10주까지 있던 두 줄(h1 `word-break: keep-all`, 입력 `box-sizing: border-box`)을 되살릴지 정한다. 6→7→9→10주와 11→12→13→14주는 홈 파일 해시가 같고 10→11주에서만 다르다. 정하기 전에는 11~14주 `styles.css`를 서로 같게 둔다.
 7. 첫 운영에서 잰다: 11주 폼 복원부터 15주 독립 작성까지의 완료 시간과 오류 유형, 9주 발표 인원별 전환 시간, 기말 API 대체 서버와 감독 운영. 에이전트 수행 시간으로 대신하지 않는다.
 8. 7주 타임라인(`day1/ex03b_list`와 방명록 피드) 후속 변경의 학습·기능 독립 심사를 받는다. 2026-11-18 최종 점수는 20:36:44 기준본에 한정되고 이 변경은 덱 넘침 재검사만 받았다.
 9. 외부 환경을 검증한다: VS Code REST Client 확장 UI 직접 조작, Kakao 지도 실제 연결, 신시사이저 청취.
-10. 작은 교재 오류를 고친다. `weeks/week15_final_exam/examples/README.md` 19행 "한 요청로", 작업 트리의 빈 폴더(7주 `day2/ex06~ex08`, 15주 `w12_fetch_cards/data`, `w14_readme_images/images`·`screenshots`), `weeks/README.md` 주차 폴더 구성 표에 `slides_en.md`가 없는 것이 대상이다.
+10. 작은 교재 오류를 고친다. `weeks/week15_final_exam/examples/README.md` 19행 "한 요청로", 12주 `ex01/README.md` 5행의 "`resolve(message)`로 넘긴 문자열"(코드는 `resolve('3. 타이머 완료')`), `weeks/README.md` 152행 표의 `||`가 칸 구분으로 읽히는 것(`\|\|`), `weeks/README.md` 주차 폴더 구성 표에 `slides_en.md`가 없는 것, `specials/synthesizer/walkthrough.md` 22행의 작업 PC 모양 예시 경로(`<내 폴더>/web-synth` 같은 자리표시자로 바꾼다)가 대상이다.
+11. REST Client 기본값을 맞출지 정한다. 14주 4개, 15주 REST 문항 3개, hash SPA 04의 `.env.example`은 로컬 모의 API(`127.0.0.1:8787`, `classroom-local`)를 가리키고, 브라우저 기본값(`config.example.js`)은 수업용 서버다. 그대로면 REST Client로 읽은 글 ID가 화면 쪽 서버에 없을 수 있다.
+12. 조회 실패 문구 "`조회 실패: ${error.message}. 새로 불러오기를 누르세요.`"는 401(키 미입력·오류)일 때 맞지 않는다. 14주 `web-week14/guestbook.js`와 walkthrough 인용, hash SPA 04 `app.js` 세 곳을 함께 고칠지 정한다(13주 두 곳은 `bd02eaa`에서 없어졌다). 12주 선택 방명록의 "주소와 연결을 확인하세요."도 같다.
+13. 12주 완성본의 `screenshots/guestbook.png`에 옛 "API 설정" 줄이 찍혀 있다(13주 캡처는 `bd02eaa`에서 옛 폴더와 함께 지워졌다). 참조하는 문서는 없다. 다시 찍거나 지운다. 14주 캡처도 함께 본다.
+14. 입력 `pattern="[a-z0-9_-]{1,40}"`은 HTML 표준이 쓰는 `v` 플래그에서 문법 오류라 브라우저가 검사를 건너뛴다(Supabase 특강 04·07 등). `[a-z0-9_\-]{1,40}`로 고칠지 정한다.
+15. 사이트 데이터가 차단된 브라우저처럼 localStorage 접근이 예외를 던지면 `config.example.js`가 중간에 멈춰 뒤의 `app.js`가 `ReferenceError`로 멈춘다. 드문 경우라 그대로 두었다. 첫 운영에서 나오면 정본에 예외 처리를 넣는다.
+16. 학기 말 공개 키 교체 절차를 정한다. 편집 키가 없어진 뒤(`bd02eaa`)에는 키를 바꾸는 것이 지난 학기 사용자의 수정·삭제를 막는 유일한 방법이다. Supabase 공식 문서에는 publishable key의 삭제·교체가 적혀 있지 않다(2026-11-22 확인). 대시보드 Settings > API Keys에서 새로 만들기·삭제가 되는지 확인하고, 안 되면 RLS 정책을 닫는 SQL을 학기 말 절차로 둔다. 2026-11-22 이전 커밋에는 키 값이 남아 있다.
+17. 12주 README에 '이번 주 용어' 표가 없고, 12주 `examples/README.md`에 W3.CSS CDN 주소 안내가 없다(과목 지침과 다르다). 12주 README 2차시 행의 구간 이름(환율 요청 준비·응답 필드 읽기…)이 slides 2일차 장 제목(달러 기준 환율 요청·중첩 객체에서 환율 읽기…)과 다르다.
+18. 13→14주 설정 방식을 하나로 할지 정한다. 13주 완성본은 `config.json`을 읽고 14주 완성본은 `config.example.js`와 묻는 창을 쓴다. 학생이 13주 결과를 14주 시작점으로 이어 쓰면 설정 파일과 키 입력 방식이 바뀐다. 과목 지침의 13주 결정 기록은 "14주 이후에도 같은 설정이 필요할 때" 다시 본다고 적었다.
+19. 공용 공개 키로 누구나 모든 태그의 글을 지울 수 있다. 수업 중 장난이나 실수로 다른 학생의 글이 지워졌을 때의 복구 방법(Supabase 백업, 강의자 재등록)과 수업 안내 문구를 정한다.
 
 ### Android 후속 작업
 
@@ -58,12 +54,14 @@
 
 ### 오픈소스 AI 후속 작업
 
-1. 10~13주 시뮬레이터 실행 명령 `python tools/wleno/main.py`가 uv만 준비한 실습실 PC에서 실행되는지 확인한다. `ta_setup_guide.md`는 Python을 uv로만 준비하게 하고 `python` 명령과 Tkinter를 요구하지 않는다. 안 되면 조교 설치 목록에 Python 3.10 이상·Tkinter를 넣거나 `uv run --no-project --python 3.12 tools/wleno/main.py`를 대안으로 검증한다(2026-11-18에는 `--help`만 확인).
+1. 11·12주 시뮬레이터 실행 명령 `python tools/wleno/main.py`가 uv만 준비한 실습실 PC에서 실행되는지 확인한다. `ta_setup_guide.md`는 Python을 uv로만 준비하게 하고 `python` 명령과 Tkinter를 요구하지 않는다. 10주는 `d0ad054`에서 `uv run wleno`로 바꿨으므로, 11~13주도 PyPI의 `wleno`로 옮길지 함께 정한다(지금은 `tools/bleuno-control` 상대 경로).
 2. 12주 `examples/period1/README.md`의 WlEno 시작 명령에 `--bind 127.0.0.1`을 붙여 10·11주와 맞출지 정한다. 지금 명령은 TCP·UDP를 모든 주소에 연다.
-3. `tools/bleuno-control`의 Ollama 시스템 프롬프트가 미커밋으로 바뀌었다(두 문장 추가). `tools/bleuno-control/README.md`의 "2026-11-13 실행 기록" 표는 이전 프롬프트로 잰 값이므로 다시 재거나 표에 측정 시점의 프롬프트를 밝힌다.
+3. `tools/bleuno-control`의 Ollama 시스템 프롬프트가 `543ab2e`에서 바뀌었다(두 문장 추가). `tools/bleuno-control/README.md`의 "2026-11-13 실행 기록" 표는 이전 프롬프트로 잰 값이므로 다시 재거나 표에 측정 시점의 프롬프트를 밝힌다.
 4. 생성 모델 기본값을 정리할지 정한다. 4~7·9~11·14주차는 `qwen3.5:2b`, 1~3주차와 8주차 일부 예제·`ta_setup_guide.md`는 `qwen3:8b`다. 8주차는 한 주 안에서 섞인다. README는 "모의 A의 `.env`에도 `OLLAMA_MODEL=qwen3.5:2b`"라고 쓰지만 두 `make_broken_repo.ps1`은 `OLLAMA_MODEL=qwen3:8b`를 쓴다. 바꿀 곳 목록은 `open_source_ai/AGENTS.md`의 '생성 모델 기본값' 행에 있다.
 5. 문서의 낡은 구조 서술을 고친다. `weeks/README.md` 주차 폴더 구성 표의 walkthrough 목록(실제 1·3·4·5·6·7·9·10·11·12·13주차)과 39행 "uv.lock은 환경 기준표 확정 후 생성", `materials_plan.md` 3절 폴더 구조(walkthrough·평가 문서 위치, `slides_en.md`, 14주차 `evaluation_spec.md`·`report_template.md` 누락)가 대상이다.
 6. `_forAI/dev_log.md`에는 2026-09-04~11-12의 오픈소스 AI 커밋 23개(10-29 과정 순서 개편, 11-05 6주차 RAG, 11-12 7주차 LoRA 등)의 기록이 없다. 필요하면 `git log --since='2026-09-04 00:00' --until='2026-11-13 00:00' -- open_source_ai`로 보충한다.
+7. 실습실 Windows PC에서 10주 학생용 ZIP(`week10-simulator-lab-0.1.0.zip`)을 받아 `uv sync --locked` → `uv run wleno --bind 127.0.0.1` → `uv run ex01`~`ex03`을 재현한다. 학교망에서 PyPI 접속이 막힐 때의 대체 경로도 정한다.
+8. 특강 `chatbot_rag_finetune`을 실습실 GPU에서 재현한다. 과목 지침에는 시험 89개 통과만 적혀 있다. 임베딩 RAG, LoRA 학습·병합, GGUF 변환·Ollama 등록의 시간·VRAM은 기록이 없다.
 
 ### 공용 도구·사이트·문서 작업
 
@@ -73,6 +71,10 @@
 4. Markdown 문서의 상대 링크·`#앵커` 검사 스크립트를 저장소에 둘지 정한다. 지금은 빌드된 덱 HTML만 `check-site.mjs`가 검사한다.
 5. 세 과목 `weeks/README.md`의 주차 폴더 구성 표에 `slides_en.md`를 넣는다.
 6. 여러 에이전트 운영 기준의 "3번 반복"을 확인한다. 루트 `AGENTS.md`는 "다시 작업 최대 3번"(총 4회차)으로 적었다. 사용자의 뜻이 총 3회차라면 고친다.
+7. WlEno 2.0.0(`543ab2e`)은 2026-11-12 결정(연결·해제 때 LED 끄기)을 '상태 유지'로 바꿨는데 그 결정의 출처가 저장소에 없다. 사용자에게 확인해 `tools/wleno/README.md`나 과목 지침의 결정 사항에 근거를 남긴다.
+8. push 뒤 Pages에서 옛 주소 리다이렉트(`formerIds`)가 실제로 열리는지 본다. 웹 13주의 옛 `week13_release_security` 주소(`bd02eaa`)도 대상이다. 2026-11-23에는 첫 화면과 12·13주 새 예제 파일의 HTTP 200만 확인했다.
+9. 홈 IoT 시뮬레이터 `server.mjs`의 경로 비교가 드라이브 문자 대소문자를 구분해, 셸 경로가 `c:\…`이면 시험 하나가 404로 실패한다(memo의 저장소 공통 교훈). 비교 전에 두 경로를 같은 방식으로 정규화할지 정한다.
+10. 원격 브랜치를 정리할지 정한다. `dev/android/blueno`(로컬·원격)와 `docs/week01-git-status-slides`는 main에 모두 합쳐졌다. `fix/github-classroom-reset-windows`에는 main에 없는 커밋 1개(2026-11-06 Windows 판 재작성, 실기 검증 전)가 남아 있다(2026-11-28 확인).
 
 ### 기존 과목의 대기 작업
 
@@ -99,12 +101,14 @@
 ## Structure decisions
 
 - 저장소 공통 작업 규칙과 여러 에이전트 운영 방식은 루트 `AGENTS.md`, 과목 규칙은 과목 `AGENTS.md`에 둔다. 각 폴더의 `CLAUDE.md`는 `@AGENTS.md` 한 줄이다(2026-11-18).
-- 웹 주차 폴더 이름은 기존 링크를 위해 유지한다. 12주 GET→13주 POST→14주 PATCH·DELETE→15주 복습·개인 실기로 이어지며 레포트는 별도다.
-- 웹 일반 27차시는 강의·시연 60분 + 실습 30분이다. SPA는 정규 과정에 넣지 않고 14주 뒤 선택 특강 `specials/hash_spa/`에서 다루며 정규 시험에 내지 않는다. 12~14주 API 설정은 제공 코드 `shared/api-settings.js` 패널로 받아 메모리에만 둔다(C01 개편, 미커밋).
+- 웹 주차 폴더 이름은 기존 링크를 위해 유지한다. 13주만 `week13_guestbook_crud`로 바꾸고 옛 주소는 `formerIds`로 넘긴다(`bd02eaa`). 12주 타이머·공개 API GET → 13주 방명록 CRUD → 14주 수정·삭제 결과 확인 → 15주 복습·개인 실기로 이어지며 레포트는 별도다.
+- 웹 일반 27차시는 강의·시연 60분 + 실습 30분이다. SPA는 정규 과정에 넣지 않고 14주 뒤 선택 특강 `specials/hash_spa/`에서 다루며 정규 시험에 내지 않는다. 13주는 Git 제외 `config.json`에서 주소·공개 키·`BOOK_ID`를 읽는다(`bd02eaa`). 그 밖의 REST 예제는 주소와 `BOOK_ID`를 `config.example.js`에 두고, 공개 키는 처음 열 때 `prompt`로 받아 localStorage에 저장하며 화면에는 **공개 키 지우기** 버튼만 둔다(2026-11-22, `8cc49ea`). 결정 기록은 `web_programming/AGENTS.md`에 있다. C01의 설정 패널 `shared/api-settings.js`는 삭제했다.
+- 수업용 방명록에는 편집 키가 없다. 공용 공개 키 하나로 모든 태그의 글을 생성·조회·수정·삭제하고, `book_id`는 학생별 글을 찾는 태그다(`bd02eaa`).
+- 12주 1일차는 타이머로 Promise·`async` 함수·`await`를 먼저 익힌 뒤 fetch로 넘어간다. 끼운 예제는 7주 `ex03b_list` 선례대로 `ex01b`·`ex01c`·`ex01d`로 이름 붙여 ex02~ex06의 번호와 링크를 유지한다.
 - Supabase 특강 예제는 README만 있는 루트와 독립 폴더 01~07을 쓴다. 각 폴더의 .http·.env.example과 브라우저용 config.example.js를 함께 유지한다. 06 요청 실험과 07 완성 UI를 합치지 않는다.
 - 정규 학생은 강의자 API를 사용하고, 방학 연구 특강의 담당자는 새 프로젝트를 직접 구축한다. 계정 없는 참여자는 강의자 시연과 공용 API 실습을 사용한다.
 - Android 정규 11~15주는 RoomControl + WlEno + AAR 한 개다(커밋 `738c81f`). 학생은 연결 화면과 제어 화면만 작성하고 소켓·스레드·검색은 AAR이 맡는다. 옛 11~15주는 `specials/legacy_week11~15`에 보존하고 새 수업에 맞춰 고치지 않는다.
-- `tools/wleno`와 `tools/bleuno-control`은 Android와 오픈소스 AI가 함께 쓰는 공용 도구다. 한 과목 작업에서 동작을 바꾸지 않고 두 과목 문서를 같이 고친다.
+- `tools/wleno`와 `tools/bleuno-control`은 Android와 오픈소스 AI가 함께 쓰는 공용 도구다. 한 과목 작업에서 동작을 바꾸지 않고 두 과목 문서를 같이 고친다. 두 폴더는 `tools/pyproject.toml`로 PyPI 패키지 `wleno`가 되며, `wleno-v<버전>` 릴리스에 올린 파일을 `publish-wleno.yml`(수동 실행, Trusted Publishing)이 게시한다(`b3f25da`).
 - 오픈소스 AI 응용은 `materials/` 챕터 구조 대신 다른 과목과 같은 `weeks/weekNN_slug/` 구조를 쓴다.
 - 오픈소스 AI 수업 시간 구조는 60분 블록 × 3(설명 20 + 실습 30 + 휴식 10)이며 자료는 "교시" 단위로 쓴다. 분반별 요일 배치는 학교 문서가 정한다.
 - 강의 대본·해답은 비공개 짝 저장소에 같은 주차 폴더 이름으로 둔다.
@@ -113,10 +117,11 @@
 
 ## Risks
 
-- 2026-11-18 커밋 안 된 변경(수정 450, 삭제 27, 새 파일 358)은 작업 PC 한 곳에만 있다. 커밋·push 전까지 잃을 수 있다.
-- 공용 방명록의 조회·추가는 공개 허용이다. book_id를 개인 접근 제한이나 학생 인증으로 해석하면 안 된다. 편집 키도 작성자 개인이 아닌 방명록 전체의 편집 권한이다.
-- 공용 PATCH·DELETE와 Pages 실배포는 아직 검증하지 않았다. 로컬 자동 시험·REST Client 성공·localhost 브라우저 성공을 이 검증의 완료로 합치지 않는다.
-- 실제 .env·localfiles·.local·편집 키가 소스·ZIP·Pages·요청 이력 캡처에 포함되지 않게 확인한다. 브라우저가 읽는 publishable key와 비밀 키를 구분한다. 웹 빌드는 `examples/`의 추적 안 된 새 파일도 사이트로 복사한다.
+- 공용 방명록은 공개 키만 있으면 모든 태그의 글을 생성·조회·수정·삭제할 수 있다(`bd02eaa`). book_id를 개인 접근 제한이나 학생 인증으로 해석하면 안 된다. 키가 수업 밖으로 퍼지면 누구나 글을 지울 수 있다.
+- 공용 PATCH·DELETE와 Pages 화면에서의 조회는 아직 검증하지 않았다. 공용 프로젝트에 `enable-public-crud.sql`을 실행했는지도 기록이 없다. 13·14주 화면은 처음부터 수업용 서버를 부른다. 로컬 자동 시험·REST Client 성공·localhost 브라우저 성공을 이 검증의 완료로 합치지 않는다.
+- 공개 키를 묻는 창을 학생이 취소하거나 키를 잘못 넣으면 401이 난다. 화면의 "새로 불러오기"로는 풀리지 않고 새로고침이나 **공개 키 지우기**가 필요하다. 첫 운영에서 막힘을 본다.
+- `wleno` 0.1.0은 PyPI에 올린 판이 고정돼 있다. 저장소의 `tools/wleno`·`tools/bleuno-control`만 고치면 10주(PyPI 판)와 11~13주·Android(저장소 코드)의 동작이 갈린다.
+- 실제 .env·config.json·localfiles·.local이 소스·ZIP·Pages·요청 이력 캡처에 포함되지 않게 확인한다. 브라우저가 읽는 publishable key와 비밀 키를 구분한다. 웹 빌드는 `examples/`의 추적 안 된 새 파일도 사이트로 복사한다.
 - 로컬 정적 서버, 홈 IoT Node 서버, WlEno는 현재 터미널의 프로세스다. 포트가 계속 열려 있거나 다음 세션에서도 살아 있다고 가정하지 않는다.
 - 공개 자료와 비공개 평가 자료의 개편 진행 상태가 다르다(웹 C01, Android 11~15주, 오픈소스 AI 10~15주). 과거 실측 수치와 해답을 새 교재 결과로 표시하지 않는다.
 - 모델 태그 변동: `qwen3.5:2b`, `qwen3:8b`, `bge-m3`, `Qwen/Qwen2.5-0.5B-Instruct` 등은 교재 작성 시점 기준이며 제공자가 같은 태그를 다른 빌드로 옮길 수 있다. 실제로 `qwen3:4b`가 생각 전용 빌드로 바뀐 적이 있다. 환경 기준표에서 확정한다.
